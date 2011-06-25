@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ElementRealizers.cs" />
     <Compile Include="FromToReader.cs" />
     <Compile Include="Debugger.cs" />
     <Compile Include="GrShell.cs" />

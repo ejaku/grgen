@@ -1353,10 +1353,11 @@ namespace de.unika.ipd.grGen.libGr
                 color, borderColor, shape);
         }
 
-        private void DumpEdge(IEdge edge, GrColor textColor, GrColor color, IDumper dumper, DumpInfo dumpInfo)
+        private void DumpEdge(IEdge edge, GrColor textColor, GrColor color, GrLineStyle style,
+            int thickness, IDumper dumper, DumpInfo dumpInfo)
         {
             dumper.DumpEdge(edge.Source, edge.Target, GetElemLabel(edge, dumpInfo), DumpAttributes(edge),
-                textColor, color, GrLineStyle.Default);
+                textColor, color, style, thickness);
         }
 
         /// <summary>
@@ -1388,6 +1389,9 @@ namespace de.unika.ipd.grGen.libGr
                 GrColor vnodeBorderColor = dumpInfo.GetNodeDumpTypeBorderColor(GrElemDumpType.VirtualMatch);
                 GrColor vnodeTextColor = dumpInfo.GetNodeDumpTypeTextColor(GrElemDumpType.VirtualMatch);
                 GrColor vedgeTextColor = dumpInfo.GetEdgeDumpTypeTextColor(GrElemDumpType.VirtualMatch);
+                GrNodeShape vnodeShape = dumpInfo.GetNodeDumpTypeShape(GrElemDumpType.VirtualMatch);
+                GrLineStyle vedgeLineStyle = dumpInfo.GetEdgeDumpTypeLineStyle(GrElemDumpType.VirtualMatch);
+                int vedgeThickness = dumpInfo.GetEdgeDumpTypeThickness(GrElemDumpType.VirtualMatch);
 
                 multiMatchedNodes = new Set<INode>();
                 multiMatchedEdges = new Set<IEdge>();
@@ -1401,12 +1405,12 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     VirtualNode virtNode = new VirtualNode(-i - 1);
                     dumper.DumpNode(virtNode, String.Format("{0}. match of {1}", i + 1, matches.Producer.Name),
-                        null, vnodeTextColor, vnodeColor, vnodeBorderColor, GrNodeShape.Default);
+                        null, vnodeTextColor, vnodeColor, vnodeBorderColor, vnodeShape);
                     int j = 1;
                     foreach(INode node in match.Nodes)
                     {
-                        dumper.DumpEdge(virtNode, node, String.Format("node {0}", j++), null, vedgeTextColor, vedgeColor,
-                            GrLineStyle.Default);
+                        dumper.DumpEdge(virtNode, node, String.Format("node {0}", j++), null, 
+                            vedgeTextColor, vedgeColor, vedgeLineStyle, vedgeThickness);
 
                         if(matchedNodes.Contains(node)) multiMatchedNodes.Add(node);
                         else matchedNodes.Add(node);
@@ -1437,7 +1441,8 @@ namespace de.unika.ipd.grGen.libGr
                         DumpNode(node, dumpInfo.GetNodeDumpTypeTextColor(dumpType),
                             dumpInfo.GetNodeDumpTypeColor(dumpType),
                             dumpInfo.GetNodeDumpTypeBorderColor(dumpType),
-                            GrNodeShape.Default, dumper, dumpInfo);
+                            dumpInfo.GetNodeDumpTypeShape(dumpType),
+                            dumper, dumpInfo);
                     }
 
                     // Now add the matched edges (possibly including "Not matched" nodes)
@@ -1445,16 +1450,20 @@ namespace de.unika.ipd.grGen.libGr
                     foreach(IEdge edge in matchedEdges)
                     {
                         if(!matchedNodes.Contains(edge.Source))
-                            DumpNode(edge.Source, dumpInfo.GetNodeTypeTextColor(edge.Source.Type),
+                            DumpNode(edge.Source,
+                                dumpInfo.GetNodeTypeTextColor(edge.Source.Type),
                                 dumpInfo.GetNodeTypeColor(edge.Source.Type),
                                 dumpInfo.GetNodeTypeBorderColor(edge.Source.Type),
-                                dumpInfo.GetNodeTypeShape(edge.Source.Type), dumper, dumpInfo);
+                                dumpInfo.GetNodeTypeShape(edge.Source.Type),
+                                dumper, dumpInfo);
 
                         if(!matchedNodes.Contains(edge.Target))
-                            DumpNode(edge.Target, dumpInfo.GetNodeTypeTextColor(edge.Target.Type),
+                            DumpNode(edge.Target,
+                                dumpInfo.GetNodeTypeTextColor(edge.Target.Type),
                                 dumpInfo.GetNodeTypeColor(edge.Target.Type),
                                 dumpInfo.GetNodeTypeBorderColor(edge.Target.Type),
-                                dumpInfo.GetNodeTypeShape(edge.Target.Type), dumper, dumpInfo);
+                                dumpInfo.GetNodeTypeShape(edge.Target.Type),
+                                dumper, dumpInfo);
 
                         GrElemDumpType dumpType;
                         if(multiMatchedEdges.Contains(edge))
@@ -1463,7 +1472,10 @@ namespace de.unika.ipd.grGen.libGr
                             dumpType = GrElemDumpType.SingleMatched;
 
                         DumpEdge(edge, dumpInfo.GetEdgeDumpTypeTextColor(dumpType),
-                            dumpInfo.GetEdgeDumpTypeColor(dumpType), dumper, dumpInfo);
+                            dumpInfo.GetEdgeDumpTypeColor(dumpType),
+                            dumpInfo.GetEdgeDumpTypeLineStyle(dumpType),
+                            dumpInfo.GetEdgeDumpTypeThickness(dumpType),
+                            dumper, dumpInfo);
                     }
                     return;
                 }
@@ -1481,6 +1493,8 @@ namespace de.unika.ipd.grGen.libGr
 
                 GrColor color;
                 GrColor textColor;
+                GrLineStyle style;
+                int thickness;
                 if(dc.MatchedEdges != null && dc.MatchedEdges.Contains(edge))
                 {
                     GrElemDumpType dumpType;
@@ -1490,14 +1504,18 @@ namespace de.unika.ipd.grGen.libGr
                         dumpType = GrElemDumpType.SingleMatched;
                     color = dc.DumpInfo.GetEdgeDumpTypeColor(dumpType);
                     textColor = dc.DumpInfo.GetEdgeDumpTypeTextColor(dumpType);
+                    style = dc.DumpInfo.GetEdgeDumpTypeLineStyle(dumpType);
+                    thickness = dc.DumpInfo.GetEdgeDumpTypeThickness(dumpType);
                 }
                 else
                 {
                     color = dc.DumpInfo.GetEdgeTypeColor(edge.Type);
                     textColor = dc.DumpInfo.GetEdgeTypeTextColor(edge.Type);
+                    style = dc.DumpInfo.GetEdgeTypeLineStyle(edge.Type);
+                    thickness = dc.DumpInfo.GetEdgeTypeThickness(edge.Type);
                 }
 
-                DumpEdge(edge, textColor, color, dc.Dumper, dc.DumpInfo);
+                DumpEdge(edge, textColor, color, style, thickness, dc.Dumper, dc.DumpInfo);
             }
         }
 
@@ -1515,7 +1533,7 @@ namespace de.unika.ipd.grGen.libGr
                 color = dc.DumpInfo.GetNodeDumpTypeColor(dumpType);
                 borderColor = dc.DumpInfo.GetNodeDumpTypeBorderColor(dumpType);
                 textColor = dc.DumpInfo.GetNodeDumpTypeTextColor(dumpType);
-                shape = GrNodeShape.Default;
+                shape = dc.DumpInfo.GetNodeDumpTypeShape(dumpType);
             }
             else
             {

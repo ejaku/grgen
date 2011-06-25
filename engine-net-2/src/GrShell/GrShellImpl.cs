@@ -205,6 +205,7 @@ namespace de.unika.ipd.grGen.grShell
         }
     }
 
+
     public class GrShellImpl
     {
         public class ClonedGraphStack : Stack<ShellGraph>
@@ -261,7 +262,11 @@ namespace de.unika.ipd.grGen.grShell
 
         bool silence = false; // node/edge created successfully messages
         bool cancelSequence = false;
+
+        public ElementRealizers realizers = new ElementRealizers();
+
         Debugger debugger = null;
+
         bool pendingDebugEnable = false;
         String debugLayout = "Orthogonal";
         public bool nonDebugNonGuiExitOnError = false;
@@ -3098,6 +3103,33 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        private ElementMode? ParseElementMode(String modeName)
+        {
+            ElementMode mode;
+
+            if(modeName == null)
+                goto showavail;
+
+            try
+            {
+                mode = (ElementMode)Enum.Parse(typeof(ElementMode), modeName, true);
+            }
+            catch(ArgumentException)
+            {
+                errOut.Write("Unknown mode: " + modeName);
+                goto showavail;
+            }
+            return mode;
+
+showavail:
+            debugOut.WriteLine("\nAvailable modes are:");
+            foreach(String name in Enum.GetNames(typeof(ElementMode)))
+                debugOut.WriteLine(" - {0}", name);
+            debugOut.WriteLine();
+            return null;
+        }
+
+
         #region "dump" commands
         public void DumpGraph(String filename)
         {
@@ -3159,8 +3191,40 @@ showavail:
             return shape;
 
 showavail:
-            debugOut.WriteLine("\nAvailable node shapes are:", shapeName);
+            debugOut.WriteLine("\nAvailable node shapes are:");
             foreach(String name in Enum.GetNames(typeof(GrNodeShape)))
+                debugOut.WriteLine(" - {0}", name);
+            debugOut.WriteLine();
+            return null;
+        }
+
+        private GrLineStyle? ParseGrLineStyle(String styleName)
+        {
+            GrLineStyle style;
+
+            if(styleName == null)
+                goto showavail;
+
+            try
+            {
+                style = (GrLineStyle)Enum.Parse(typeof(GrLineStyle), styleName, true);
+            }
+            catch(ArgumentException)
+            {
+                errOut.Write("Unknown edge style: " + styleName);
+                goto showavail;
+            }
+            if(style == GrLineStyle.Invisible)
+            {
+                errOut.Write("Edge style invisible not available");
+                return null;
+            }
+
+            return style;
+
+showavail:
+            debugOut.WriteLine("\nAvailable line styles are:");
+            foreach(String name in Enum.GetNames(typeof(GrLineStyle)))
                 debugOut.WriteLine(" - {0}", name);
             debugOut.WriteLine();
             return null;
@@ -3264,6 +3328,66 @@ showavail:
             return true;
         }
 
+        public bool SetDebugNodeModeColor(String modeName, String colorName)
+        {
+            ElementMode? mode = ParseElementMode(modeName);
+            if(mode == null) return false;
+            GrColor? color = ParseGrColor(colorName);
+            if(color == null) return false;
+
+            realizers.ChangeNodeColor((ElementMode)mode, (GrColor)color);
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
+        }
+
+        public bool SetDebugNodeModeBorderColor(String modeName, String colorName)
+        {
+            ElementMode? mode = ParseElementMode(modeName);
+            if(mode == null) return false;
+            GrColor? color = ParseGrColor(colorName);
+            if(color == null) return false;
+
+            realizers.ChangeNodeBorderColor((ElementMode)mode, (GrColor)color);
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
+        }
+
+        public bool SetDebugNodeModeTextColor(String modeName, String colorName)
+        {
+            ElementMode? mode = ParseElementMode(modeName);
+            if(mode == null) return false;
+            GrColor? color = ParseGrColor(colorName);
+            if(color == null) return false;
+
+            realizers.ChangeNodeTextColor((ElementMode)mode, (GrColor)color);
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
+        }
+
+        public bool SetDebugNodeModeShape(String modeName, String shapeName)
+        {
+            ElementMode? mode = ParseElementMode(modeName);
+            if(mode == null) return false;
+            GrNodeShape? shape = ParseGrNodeShape(shapeName);
+            if(shape == null) return false;
+
+            realizers.ChangeNodeShape((ElementMode)mode, (GrNodeShape)shape);
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
+        }
+
         public bool SetDumpEdgeTypeColor(EdgeType type, String colorName, bool only)
         {
             if(type == null) return false;
@@ -3274,6 +3398,112 @@ showavail:
         {
             if(type == null) return false;
             return SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetEdgeTypeTextColor);
+        }
+
+        public bool SetDumpEdgeTypeThickness(EdgeType type, int thickness, bool only)
+        {
+            if(type == null) return false;
+            if(thickness < 1 || thickness > 5)
+            {
+                errOut.WriteLine("Edge thickness must be in [1..5]");
+                return false;
+            }
+
+            if(only)
+                curShellGraph.DumpInfo.SetEdgeTypeThickness(type, thickness);
+            else
+            {
+                foreach(EdgeType subType in type.SubOrSameTypes)
+                    curShellGraph.DumpInfo.SetEdgeTypeThickness(subType, thickness);
+            }
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
+        }
+
+        public bool SetDumpEdgeTypeLineStyle(EdgeType type, String styleName, bool only)
+        {
+            if(type == null) return false;
+            GrLineStyle? style = ParseGrLineStyle(styleName);
+            if(style == null) return false;
+
+            if(only)
+                curShellGraph.DumpInfo.SetEdgeTypeLineStyle(type, (GrLineStyle)style);
+            else
+            {
+                foreach(EdgeType subType in type.SubOrSameTypes)
+                    curShellGraph.DumpInfo.SetEdgeTypeLineStyle(subType, (GrLineStyle)style);
+            }
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
+        }
+
+        public bool SetDebugEdgeModeColor(String modeName, String colorName)
+        {
+            ElementMode? mode = ParseElementMode(modeName);
+            if(mode == null) return false;
+            GrColor? color = ParseGrColor(colorName);
+            if(color == null) return false;
+
+            realizers.ChangeEdgeColor((ElementMode)mode, (GrColor)color);
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
+        }
+
+        public bool SetDebugEdgeModeTextColor(String modeName, String colorName)
+        {
+            ElementMode? mode = ParseElementMode(modeName);
+            if(mode == null) return false;
+            GrColor? color = ParseGrColor(colorName);
+            if(color == null) return false;
+
+            realizers.ChangeEdgeTextColor((ElementMode)mode, (GrColor)color);
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
+        }
+
+        public bool SetDebugEdgeModeThickness(String modeName, int thickness)
+        {
+            ElementMode? mode = ParseElementMode(modeName);
+            if(mode == null) return false;
+            if(thickness < 1 || thickness > 5)
+            {
+                errOut.WriteLine("Edge thickness must be in [1..5]");
+                return false;
+            }
+
+            realizers.ChangeEdgeThickness((ElementMode)mode, thickness);
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
+        }
+
+        public bool SetDebugEdgeModeStyle(String modeName, String styleName)
+        {
+            ElementMode? mode = ParseElementMode(modeName);
+            if(mode == null) return false;
+            GrLineStyle? style = ParseGrLineStyle(styleName);
+            if(style == null) return false;
+
+            realizers.ChangeEdgeStyle((ElementMode)mode, (GrLineStyle)style);
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
         }
 
         public bool AddDumpExcludeNodeType(NodeType nodeType, bool only)
@@ -3342,6 +3572,7 @@ showavail:
             if(!GraphExists()) return;
 
             curShellGraph.DumpInfo.Reset();
+            realizers.ReSetElementRealizers();
 
             if(InDebugMode)
                 debugger.UpdateYCompDisplay();

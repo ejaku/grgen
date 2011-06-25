@@ -1,0 +1,17 @@
+new graph Debugging
+
+debug set node mode matched color grey
+debug set node mode created color green
+debug set node mode deleted color red
+debug set node mode retyped color blue
+
+debug set edge mode matched color grey
+debug set edge mode created color green
+debug set edge mode deleted color red
+debug set edge mode retyped color blue
+
+xgrs init
+
+debug xgrs r
+
+quit

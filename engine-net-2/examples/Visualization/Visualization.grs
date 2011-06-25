@@ -1,0 +1,158 @@
+new graph Visualization
+
+dump set node NBlack color black
+dump set node NGrey color  grey
+dump set node NLightGrey color lightgrey
+dump set node NWhite color white
+dump set node NRed color red
+dump set node NBlue color blue
+dump set node NGreen color green
+dump set node NCyan color cyan
+dump set node NYellow color yellow
+dump set node NLightRed color lightred
+dump set node NLightBlue color lightblue
+dump set node NLightGreen color lightgreen
+dump set node NLightPurple color lightpurple
+dump set node NLightCyan color lightcyan
+dump set node NLightYellow color lightyellow
+dump set node NDarkRed color darkred
+dump set node NDarkbBlue color darkblue
+dump set node NDarkGreen color darkgreen
+dump set node NDarkMagenta color darkmagenta
+dump set node NDarkCyan color darkcyan
+dump set node NDarkYellow color darkyellow
+dump set node NPurple color purple
+dump set node NBrown color brown
+dump set node NGold color gold
+dump set node NLilac color lilac
+dump set node NTurquoise color turquoise
+dump set node NAquamarine color aquamarine
+dump set node NKhaki color khaki
+dump set node NPink color pink
+dump set node NOrange color orange
+dump set node NOrchid color orchid
+dump set node NYellowGreen color yellowgreen
+
+dump set node NRed shape box
+dump set node NBlue shape triangle
+dump set node NGreen shape circle
+dump set node NCyan shape ellipse
+dump set node NPink shape rhomb
+dump set node NYellow shape hexagon
+dump set node NOrange shape trapeze
+dump set node NGold shape uptrapeze
+dump set node NLilac shape lparallelogram
+dump set node NOrchid shape rparallelogram
+
+dump set edge EBlack color black
+dump set edge EGrey color  grey
+dump set edge ELightGrey color lightgrey
+dump set edge EWhite color white
+dump set edge ERed color red
+dump set edge EBlue color blue
+dump set edge EGreen color green
+dump set edge ECyan color cyan
+dump set edge EYellow color yellow
+dump set edge ELightRed color lightred
+dump set edge ELightBlue color lightblue
+dump set edge ELightGreen color lightgreen
+dump set edge ELightPurple color lightpurple
+dump set edge ELightCyan color lightcyan
+dump set edge ELightYellow color lightyellow
+dump set edge EDarkRed color darkred
+dump set edge EDarkbBlue color darkblue
+dump set edge EDarkGreen color darkgreen
+dump set edge EDarkMagenta color darkmagenta
+dump set edge EDarkCyan color darkcyan
+dump set edge EDarkYellow color darkyellow
+dump set edge EPurple color purple
+dump set edge EBrown color brown
+dump set edge EGold color gold
+dump set edge ELilac color lilac
+dump set edge ETurquoise color turquoise
+dump set edge EAquamarine color aquamarine
+dump set edge EKhaki color khaki
+dump set edge EPink color pink
+dump set edge EOrange color orange
+dump set edge EOrchid color orchid
+dump set edge EYellowGreen color yellowgreen
+
+dump set edge ERed thickness 1
+dump set edge EBlue thickness 2
+dump set edge EGreen thickness 3
+dump set edge ECyan thickness 4
+dump set edge EPink thickness 5
+
+dump set edge EYellow linestyle continuous
+dump set edge EOrange linestyle dotted
+dump set edge EGold linestyle dashed
+
+debug enable
+
+new n0:NBlack
+new n1:NGrey
+new n2:NLightGrey
+new n3:NWhite
+new n4:NRed
+new n5:NBlue
+new n6:NGreen
+new n7:NCyan
+new n8:NYellow
+new n9:NLightRed
+new na:NLightBlue
+new nb:NLightGreen
+new nc:NLightPurple
+new nd:NLightCyan
+new ne:NLightYellow
+new nf:NDarkRed
+new n10:NDarkbBlue
+new n11:NDarkGreen
+new n12:NDarkMagenta
+new n13:NDarkCyan
+new n14:NDarkYellow
+new n15:NPurple
+new n16:NBrown
+new n17:NGold
+new n18:NLilac
+new n19:NTurquoise
+new n1a:NAquamarine
+new n1b:NKhaki
+new n1c:NPink
+new n1d:NOrange
+new n1e:NOrchid
+new n1f:NYellowGreen
+
+new n0 -:EBlack-> n0
+new n1 -:EGrey-> n1
+new n2 -:ELightGrey-> n2
+new n3 -:EWhite-> n3
+new n4 -:ERed-> n4
+new n5 -:EBlue-> n5
+new n6 -:EGreen-> n6
+new n7 -:ECyan-> n7
+new n8 -:EYellow-> n8
+new n9 -:ELightRed-> n9
+new na -:ELightBlue-> na
+new nb -:ELightGreen-> nb
+new nc -:ELightPurple-> nc
+new nd -:ELightCyan-> nd
+new ne -:ELightYellow-> ne
+new nf -:EDarkRed-> nf
+new n10 -:EDarkbBlue-> n10
+new n11 -:EDarkGreen-> n11
+new n12 -:EDarkMagenta-> n12
+new n13 -:EDarkCyan-> n13
+new n14 -:EDarkYellow-> n14
+new n15 -:EPurple-> n15
+new n16 -:EBrown-> n16
+new n17 -:EGold-> n17
+new n18 -:ELilac-> n18
+new n19 -:ETurquoise-> n19
+new n1a -:EAquamarine-> n1a
+new n1b -:EKhaki-> n1b
+new n1c -:EPink-> n1c
+new n1d -:EOrange-> n1d
+new n1e -:EOrchid-> n1e
+new n1f -:EYellowGreen-> n1f
+
+quit

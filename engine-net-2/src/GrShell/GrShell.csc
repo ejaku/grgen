@@ -299,6 +299,7 @@ TOKEN: {
 |   < LAYOUT: "layout" >
 |   < LS: "ls" >
 |   < MAP: "map" >
+|   < MODE: "mode" >
 |   < NEW: "new" >
 |   < NODE: "node" >
 |   < NODES: "nodes" >
@@ -332,10 +333,12 @@ TOKEN: {
 |   < START: "start" >
 |   < STRICT: "strict" >
 |   < STOP: "stop" >
+|   < LINESTYLE: "linestyle" >
 |   < SUB: "sub" >
 |   < SUPER: "super" >
 |   < SYNC: "sync" >
 |   < TEXTCOLOR: "textcolor" >
+|   < THICKNESS: "thickness" >
 |   < TO: "to" >
 |   < TRUE: "true" >
 |   < TYPE: "type" >
@@ -1778,6 +1781,7 @@ void DebugCommand():
 			impl.DebugLayout();
 		}
 	|
+		LOOKAHEAD(2)
 		"set" "layout"
 		(
 			"option" str=WordOrText() str2=AnyString() LineEnd()
@@ -1795,6 +1799,11 @@ void DebugCommand():
 		{
 			impl.GetDebugLayoutOptions();
 		}
+	|
+		LOOKAHEAD(2)
+		"set" "node" DebugSetNode()
+	|
+		"set" "edge" DebugSetEdge()
 	}
 	catch(ParseException ex)
 	{
@@ -1805,6 +1814,64 @@ void DebugCommand():
 	}
 }
 
+void DebugSetNode():
+{
+	String mode = null, colorName = null, shapeName = null;
+}
+{
+	"mode" mode=WordOrText()
+	(
+		"color" (colorName=WordOrText())? LineEnd()
+		{
+			noError = impl.SetDebugNodeModeColor(mode, colorName);
+		}
+	|
+		"bordercolor" (colorName=WordOrText())? LineEnd()
+		{
+			noError = impl.SetDebugNodeModeBorderColor(mode, colorName);
+		}
+	|
+		"shape" (shapeName=WordOrText())? LineEnd()
+		{
+			noError = impl.SetDebugNodeModeShape(mode, shapeName);
+		}
+	|
+		"textcolor" (colorName=WordOrText())? LineEnd()
+		{
+			noError = impl.SetDebugNodeModeTextColor(mode, colorName);
+		}
+	)
+}
+
+void DebugSetEdge():
+{
+	String mode = null, colorName = null, styleName = null;
+	int thickness = 0;
+}
+{
+	"mode" mode=WordOrText()
+	(
+		"color" (colorName=WordOrText())? LineEnd()
+		{
+			noError = impl.SetDebugEdgeModeColor(mode, colorName);
+		}
+	|
+		"textcolor" (colorName=WordOrText())? LineEnd()
+		{
+			noError = impl.SetDebugEdgeModeTextColor(mode, colorName);
+		}
+	|
+		"thickness" (thickness=Number())? LineEnd()
+		{
+			noError = impl.SetDebugEdgeModeThickness(mode, thickness);
+		}
+	|
+		"linestyle" (styleName=WordOrText())? LineEnd()
+		{
+			noError = impl.SetDebugEdgeModeStyle(mode, styleName);
+		}
+	)
+}
 
 /////////////////////
 // "dump" commands //
@@ -1841,14 +1908,21 @@ void DumpCommand():
 }
 
 void DumpSet():
+{ }
+{
+	"node" DumpSetNode()
+|
+	"edge" DumpSetEdge()
+}
+
+void DumpSetNode():
 {
 	NodeType nodeType;
-	EdgeType edgeType;
 	String colorName = null, shapeName = null, labelStr = null;
-	bool labels = false, only = false;
+	bool only = false;
 }
 {
-	"node" ("only" { only=true; })? nodeType=NodeType()
+	("only" { only=true; })? nodeType=NodeType()
 	(
 		"color" (colorName=WordOrText())? LineEnd()
 		{
@@ -1875,8 +1949,17 @@ void DumpSet():
 			noError = impl.SetDumpLabel(nodeType, labelStr, only);
 		}
 	)
-|
-	"edge" ("only" { only=true; })? edgeType=EdgeType()
+}
+
+void DumpSetEdge():
+{
+	EdgeType edgeType;
+	String colorName = null, styleName = null, labelStr = null;
+	bool only = false;
+	int thickness = 0;
+}
+{
+	("only" { only=true; })? edgeType=EdgeType()
 	(
 		"color" (colorName=WordOrText())? LineEnd()
 		{
@@ -1888,6 +1971,16 @@ void DumpSet():
 			noError = impl.SetDumpEdgeTypeTextColor(edgeType, colorName, only);
 		}
 	|
+		"thickness" (thickness=Number())? LineEnd()
+		{
+			noError = impl.SetDumpEdgeTypeThickness(edgeType, thickness, only);
+		}
+	|
+		"linestyle" (styleName=WordOrText())? LineEnd()
+		{
+			noError = impl.SetDumpEdgeTypeLineStyle(edgeType, styleName, only);
+		}
+	|
 		"labels" ("on" | "off" { labelStr = ""; } | labelStr=WordOrText()) LineEnd()
 		{
 			noError = impl.SetDumpLabel(edgeType, labelStr, only);
@@ -1896,6 +1989,14 @@ void DumpSet():
 }
 
 void DumpAdd():
+{ }
+{
+	"node" DumpAddNode()
+|
+	"edge" DumpAddEdge()
+}
+
+void DumpAddNode():
 {
 	NodeType nodeType, adjNodeType = impl.CurrentGraph.Model.NodeModel.RootType;
 	EdgeType edgeType = impl.CurrentGraph.Model.EdgeModel.RootType;
@@ -1904,7 +2005,7 @@ void DumpAdd():
 	GroupMode groupMode;
 }
 {
-	"node" ("only" { only=true; })? nodeType=NodeType()
+	("only" { only=true; })? nodeType=NodeType()
 	(
 		"exclude" LineEnd()
 		{
@@ -1956,8 +2057,16 @@ void DumpAdd():
 		    noError = impl.AddDumpInfoTag(nodeType, attrName, only, true);
 	    }
     )
-|
-	"edge" ("only" { only=true; })? edgeType=EdgeType()
+}
+
+void DumpAddEdge():
+{
+	EdgeType edgeType = impl.CurrentGraph.Model.EdgeModel.RootType;
+	String attrName;
+	bool only = false;
+}
+{
+	("only" { only=true; })? edgeType=EdgeType()
 	(
 	    "exclude" LineEnd()
 	    {

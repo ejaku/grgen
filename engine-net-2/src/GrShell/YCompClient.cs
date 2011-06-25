@@ -21,66 +21,110 @@ namespace de.unika.ipd.grGen.grShell
     public delegate void ConnectionLostHandler();
 
     /// <summary>
-    /// Defines the appearace of a node class (e.g. normal, matched, new, deleted)
+    /// The stream over which the client communicates with yComp
     /// </summary>
-    class NodeRealizer : IEquatable<NodeRealizer>
+    class YCompStream
     {
-        public String Name;
-        public GrColor Color;
-        public GrColor BorderColor;
-        public GrColor TextColor;
-        public GrNodeShape Shape;
+        NetworkStream stream;
+        byte[] readBuffer = new byte[4096];
+        bool closing = false;
 
-        public NodeRealizer(String name, GrColor color, GrColor borderColor, GrColor textColor, GrNodeShape shape)
+        public event ConnectionLostHandler OnConnectionLost;
+
+#if DUMP_COMMANDS_TO_YCOMP
+        StreamWriter dumpWriter;
+#endif
+
+        public YCompStream(TcpClient client)
         {
-            Name = name;
-            Color = color;
-            BorderColor = borderColor;
-            TextColor = textColor;
-            Shape = shape;
+            stream = client.GetStream();
+
+#if DUMP_COMMANDS_TO_YCOMP
+            dumpWriter = new StreamWriter("ycomp_dump.txt");
+#endif
         }
 
-        public override int GetHashCode()
+        public void Write(String message)
         {
-            return Color.GetHashCode() ^ BorderColor.GetHashCode() ^ Shape.GetHashCode() ^ TextColor.GetHashCode();
+            try
+            {
+#if DUMP_COMMANDS_TO_YCOMP
+                dumpWriter.Write(message);
+                dumpWriter.Flush();
+#endif
+                byte[] data = Encoding.ASCII.GetBytes(message);
+                stream.Write(data, 0, data.Length);
+            }
+            catch(Exception)
+            {
+                stream = null;
+                if(closing) return;
+#if DUMP_COMMANDS_TO_YCOMP
+                dumpWriter.Write("connection lost!\n");
+                dumpWriter.Flush();
+#endif
+                ConnectionLostHandler handler = OnConnectionLost;
+                if(handler != null) handler();
+            }
         }
 
-        public bool Equals(NodeRealizer other)
+#if DUMP_COMMANDS_TO_YCOMP
+        public void Dump(String message)
         {
-            return Color == other.Color && BorderColor == other.BorderColor && Shape == other.Shape && TextColor == other.TextColor;
+            dumpWriter.Write(message);
+            dumpWriter.Flush();
         }
+#endif
+
+        /// <summary>
+        /// Reads up to 4096 bytes from the stream
+        /// </summary>
+        /// <returns>The read bytes converted to a String using ASCII encoding</returns>
+        public String Read()
+        {
+            try
+            {
+                int bytesRead = stream.Read(readBuffer, 0, 4096);
+                return Encoding.ASCII.GetString(readBuffer, 0, bytesRead);
+            }
+            catch(Exception)
+            {
+                stream = null;
+                ConnectionLostHandler handler = OnConnectionLost;
+                if(handler != null) handler();
+                return null;
+            }
+        }
+
+        public bool Ready
+        {
+            get
+            {
+                if(stream == null)
+                {
+                    ConnectionLostHandler handler = OnConnectionLost;
+                    if(handler != null) handler();
+                    return false;
+                }
+
+                try
+                {
+                    return stream.DataAvailable;
+                }
+                catch(Exception)
+                {
+                    stream = null;
+                    ConnectionLostHandler handler = OnConnectionLost;
+                    if(handler != null) handler();
+                    return false;
+                }
+            }
+        }
+
+        public bool IsStreamOpen { get { return stream != null; } }
+        public bool Closing { get { return closing; } set { closing = value; } }
     }
 
-    /// <summary>
-    /// Defines the appearace of an edge class (e.g. normal, matched, new, deleted)
-    /// </summary>
-    class EdgeRealizer : IEquatable<EdgeRealizer>
-    {
-        public String Name;
-        public GrColor Color;
-        public GrColor TextColor;
-        public GrLineStyle LineStyle;
-        public int LineWidth;
-
-        public EdgeRealizer(String name, GrColor color, GrColor textColor, int lineWidth, GrLineStyle lineStyle)
-        {
-            Name = name;
-            Color = color;
-            TextColor = textColor;
-            LineWidth = lineWidth;
-            LineStyle = lineStyle;
-        }
-
-        public override int GetHashCode()
-        {
-            return Color.GetHashCode() ^ TextColor.GetHashCode() ^ LineStyle.GetHashCode() ^ LineWidth.GetHashCode();
-        }
-
-        public bool Equals(EdgeRealizer other)
-        {
-            return Color == other.Color && TextColor == other.TextColor && LineStyle == other.LineStyle && LineWidth == other.LineWidth;
-        }
-    }
 
     /// <summary>
     /// Class communicating with yComp over a socket via the GrGen-yComp protocol,
@@ -89,10 +133,10 @@ namespace de.unika.ipd.grGen.grShell
     public class YCompClient
     {
         TcpClient ycompClient;
-        YCompStream ycompStream;
+        internal YCompStream ycompStream;
+
         IGraph graph;
-        String nodeRealizer = null;
-        String edgeRealizer = null;
+        
         DumpInfo dumpInfo;
 
         bool isDirty = false;
@@ -100,26 +144,13 @@ namespace de.unika.ipd.grGen.grShell
 
         Dictionary<IEdge, bool> hiddenEdges = new Dictionary<IEdge,bool>();
 
-        Dictionary<NodeRealizer, NodeRealizer> nodeRealizers = new Dictionary<NodeRealizer, NodeRealizer>();
-        int nextNodeRealizerID = 5;
+        String nodeRealizerOverride = null;
+        String edgeRealizerOverride = null;
 
-        Dictionary<EdgeRealizer, EdgeRealizer> edgeRealizers = new Dictionary<EdgeRealizer, EdgeRealizer>();
-        int nextEdgeRealizerID = 5;
-
-        public readonly String NormalNodeRealizer, MatchedNodeRealizer, NewNodeRealizer, DeletedNodeRealizer, RetypedNodeRealizer;
-        public readonly String NormalEdgeRealizer, MatchedEdgeRealizer, NewEdgeRealizer, DeletedEdgeRealizer, RetypedEdgeRealizer;
+        private ElementRealizers realizers;
 
         private static Dictionary<String, bool> availableLayouts;
 
-        public static IEnumerable<String> AvailableLayouts
-        {
-            get { return availableLayouts.Keys; }
-        }
-
-        public static bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
-        {
-            return availableLayouts.ContainsKey(layoutName);
-        }
 
         static YCompClient()
         {
@@ -135,129 +166,11 @@ namespace de.unika.ipd.grGen.grShell
             availableLayouts.Add("Compilergraph", true);
         }
 
-        public event ConnectionLostHandler OnConnectionLost
-        { add { ycompStream.OnConnectionLost += value; } remove { ycompStream.OnConnectionLost -= value; } }
-
-
-        /// <summary>
-        /// If non-null, overrides the type dependend node realizer
-        /// </summary>
-        public String NodeRealizer { get { return nodeRealizer; } set { nodeRealizer = value; } }
-
-        /// <summary>
-        /// If non-null, overrides the type dependend edge realizer
-        /// </summary>
-        public String EdgeRealizer { get { return edgeRealizer; } set { edgeRealizer = value; } }
-
-        public IGraph Graph { get { return graph; } }
-
-        class YCompStream
-        {
-            NetworkStream stream;
-            byte[] readBuffer = new byte[4096];
-            bool closing = false;
-
-            public event ConnectionLostHandler OnConnectionLost;
-
-#if DUMP_COMMANDS_TO_YCOMP
-            StreamWriter dumpWriter;
-#endif
-
-            public YCompStream(TcpClient client)
-            {
-                stream = client.GetStream();
-
-#if DUMP_COMMANDS_TO_YCOMP
-                dumpWriter = new StreamWriter("ycomp_dump.txt");
-#endif
-            }
-
-            public void Write(String message)
-            {
-                try
-                {
-#if DUMP_COMMANDS_TO_YCOMP
-                    dumpWriter.Write(message);
-                    dumpWriter.Flush();
-#endif
-                    byte[] data = Encoding.ASCII.GetBytes(message);
-                    stream.Write(data, 0, data.Length);
-                }
-                catch(Exception)
-                {
-                    stream = null;
-                    if(closing) return;
-#if DUMP_COMMANDS_TO_YCOMP
-                    dumpWriter.Write("connection lost!\n");
-                    dumpWriter.Flush();
-#endif
-                    ConnectionLostHandler handler = OnConnectionLost;
-                    if(handler != null) handler();
-                }
-            }
-
-#if DUMP_COMMANDS_TO_YCOMP
-            public void Dump(String message)
-            {
-                    dumpWriter.Write(message);
-                    dumpWriter.Flush();
-            }
-#endif
-
-            /// <summary>
-            /// Reads up to 4096 bytes from the stream
-            /// </summary>
-            /// <returns>The read bytes converted to a String using ASCII encoding</returns>
-            public String Read()
-            {
-                try
-                {
-                    int bytesRead = stream.Read(readBuffer, 0, 4096);
-                    return Encoding.ASCII.GetString(readBuffer, 0, bytesRead);
-                }
-                catch(Exception)
-                {
-                    stream = null;
-                    ConnectionLostHandler handler = OnConnectionLost;
-                    if(handler != null) handler();
-                    return null;
-                }
-            }
-
-            public bool Ready
-            {
-                get
-                {
-                    if(stream == null)
-                    {
-                        ConnectionLostHandler handler = OnConnectionLost;
-                        if(handler != null) handler();
-                        return false;
-                    }
-
-                    try
-                    {
-                        return stream.DataAvailable;
-                    }
-                    catch(Exception)
-                    {
-                        stream = null;
-                        ConnectionLostHandler handler = OnConnectionLost;
-                        if(handler != null) handler();
-                        return false;
-                    }
-                }
-            }
-
-            public bool IsStreamOpen { get { return stream != null; } }
-            public bool Closing { get { return closing; } set { closing = value; } }
-        }
-
         /// <summary>
         /// Creates a new YCompClient instance and connects to the local YComp server.
         /// If it is not available a SocketException is thrown
         /// </summary>
-        public YCompClient(IGraph graph, String layoutModule, int connectionTimeout, int port, DumpInfo dumpInfo)
+        public YCompClient(IGraph graph, String layoutModule, int connectionTimeout, int port, DumpInfo dumpInfo, ElementRealizers realizers)
         {
             this.graph = graph;
             this.dumpInfo = dumpInfo;
@@ -284,32 +197,41 @@ namespace de.unika.ipd.grGen.grShell
 
             SetLayout(layoutModule);
 
-            NormalNodeRealizer = GetNodeRealizer(GrColor.Yellow, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
-            MatchedNodeRealizer = GetNodeRealizer(GrColor.Khaki, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
-            NewNodeRealizer = GetNodeRealizer(GrColor.LightRed, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
-            DeletedNodeRealizer = GetNodeRealizer(GrColor.LightGrey, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
-            RetypedNodeRealizer = GetNodeRealizer(GrColor.Cyan, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
-
-            NormalEdgeRealizer = GetEdgeRealizer(GrColor.DarkYellow, GrColor.Black, 1, GrLineStyle.Solid);
-            MatchedEdgeRealizer = GetEdgeRealizer(GrColor.Khaki, GrColor.Black, 2, GrLineStyle.Solid);
-            NewEdgeRealizer = GetEdgeRealizer(GrColor.LightRed, GrColor.Black, 2, GrLineStyle.Solid);
-            DeletedEdgeRealizer = GetEdgeRealizer(GrColor.LightGrey, GrColor.Black, 2, GrLineStyle.Solid);
-            RetypedEdgeRealizer = GetEdgeRealizer(GrColor.Cyan, GrColor.Black, 2, GrLineStyle.Solid);
-
             dumpInfo.OnNodeTypeAppearanceChanged += new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
             dumpInfo.OnEdgeTypeAppearanceChanged += new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
             dumpInfo.OnTypeInfotagsChanged += new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
 
+            this.realizers = realizers;
+            realizers.RegisterYComp(this);
+
             // TODO: Add group related events
         }
 
-        /// <summary>
-        /// Creates a new YCompClient instance and connects to the local YComp server.
-        /// If it is not available a SocketException is thrown
-        /// </summary>
-        public YCompClient(IGraph graph, String layoutModule, int connectionTimeout, int port)
-            : this(graph, layoutModule, connectionTimeout, port, new DumpInfo(graph.GetElementName)) { }
 
+        public static IEnumerable<String> AvailableLayouts
+        {
+            get { return availableLayouts.Keys; }
+        }
+
+        public static bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
+        {
+            return availableLayouts.ContainsKey(layoutName);
+        }
+
+        /// <summary>
+        /// If non-null, overrides the type dependend node realizer (setter used from debugger for added nodes, other realizers are given directly at methods called by debugger)
+        /// </summary>
+        public String NodeRealizerOverride { get { return nodeRealizerOverride; } set { nodeRealizerOverride = value; } }
+
+        /// <summary>
+        /// If non-null, overrides the type dependend edge realizer (setter used from debugger for added edges, other realizers are given directly at methods called by debugger)
+        /// </summary>
+        public String EdgeRealizerOverride { get { return edgeRealizerOverride; } set { edgeRealizerOverride = value; } }
+
+        public IGraph Graph { get { return graph; } }
+
+        public event ConnectionLostHandler OnConnectionLost
+        { add { ycompStream.OnConnectionLost += value; } remove { ycompStream.OnConnectionLost -= value; } }
 
         public bool CommandAvailable { get { return ycompStream.Ready; } }
         public bool ConnectionLost { get { return !ycompStream.IsStreamOpen; } }
@@ -413,7 +335,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(IsNodeExcluded(node)) return;
 
-            String nrName = nodeRealizer ?? GetNodeRealizer(node.Type);
+            String nrName = nodeRealizerOverride ?? realizers.GetNodeRealizer(node.Type, dumpInfo);
 
             String name = graph.GetElementName(node);
             if(dumpInfo.GetGroupNodeType(node.Type) != null)
@@ -436,7 +358,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(IsEdgeExcluded(edge)) return;
 
-            String edgeRealizerName = edgeRealizer ?? GetEdgeRealizer(edge.Type);
+            String edgeRealizerName = edgeRealizerOverride ?? realizers.GetEdgeRealizer(edge.Type, dumpInfo);
 
             String edgeName = graph.GetElementName(edge);
             String srcName = graph.GetElementName(edge.Source);
@@ -524,7 +446,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(IsNodeExcluded(node)) return;
 
-            if(realizer == null) realizer = GetNodeRealizer(node.Type);
+            if(realizer == null) realizer = realizers.GetNodeRealizer(node.Type, dumpInfo);
             String name = graph.GetElementName(node);
             ycompStream.Write("changeNode \"n" + name + "\" \"" + realizer + "\"\n");
             isDirty = true;
@@ -539,7 +461,7 @@ namespace de.unika.ipd.grGen.grShell
             if(IsEdgeExcluded(edge)) return;
             if(hiddenEdges.ContainsKey(edge)) return;
 
-            if(realizer == null) realizer = GetEdgeRealizer(edge.Type);
+            if(realizer == null) realizer = realizers.GetEdgeRealizer(edge.Type, dumpInfo);
             String name = graph.GetElementName(edge);
             ycompStream.Write("changeEdge \"e" + name + "\" \"" + realizer + "\"\n");
             isDirty = true;
@@ -629,15 +551,15 @@ namespace de.unika.ipd.grGen.grShell
 
             if(isNode)
             {
-                String oldNr = GetNodeRealizer((NodeType) oldType);
-                String newNr = GetNodeRealizer((NodeType) newType);
+                String oldNr = realizers.GetNodeRealizer((NodeType)oldType, dumpInfo);
+                String newNr = realizers.GetNodeRealizer((NodeType)newType, dumpInfo);
                 if(oldNr != newNr)
                     ChangeNode((INode) oldElem, newNr);
             }
             else
             {
-                String oldEr = GetEdgeRealizer((EdgeType) oldType);
-                String newEr = GetEdgeRealizer((EdgeType) newType);
+                String oldEr = realizers.GetEdgeRealizer((EdgeType)oldType, dumpInfo);
+                String newEr = realizers.GetEdgeRealizer((EdgeType)newType, dumpInfo);
                 if(oldEr != newEr)
                     ChangeEdge((IEdge) oldElem, newEr);
             }
@@ -707,6 +629,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void Close()
         {
+            realizers.UnregisterYComp();
+            
             if(ycompStream.IsStreamOpen)
             {
                 ycompStream.Closing = true;     // don't care if exit doesn't work
@@ -723,7 +647,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(dumpInfo.IsExcludedNodeType(type)) return;
 
-            String nr = GetNodeRealizer(type);
+            String nr = realizers.GetNodeRealizer(type, dumpInfo);
             foreach(INode node in graph.GetExactNodes(type))
                 ChangeNode(node, nr);
             isDirty = true;
@@ -733,7 +657,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(dumpInfo.IsExcludedEdgeType(type)) return;
 
-            String er = GetEdgeRealizer(type);
+            String er = realizers.GetEdgeRealizer(type, dumpInfo);
             foreach(IEdge edge in graph.GetExactEdges(type))
                 ChangeEdge(edge, er);
             isDirty = true;
@@ -903,54 +827,6 @@ namespace de.unika.ipd.grGen.grShell
             sb.Replace("\n", "\\n");
             sb.Replace("\"", "&quot;");
             return sb.ToString();
-        }
-
-        private String GetNodeRealizer(NodeType type)
-        {
-            return GetNodeRealizer(dumpInfo.GetNodeTypeColor(type), dumpInfo.GetNodeTypeBorderColor(type),
-                dumpInfo.GetNodeTypeTextColor(type), dumpInfo.GetNodeTypeShape(type));
-        }
-
-        private String GetEdgeRealizer(EdgeType type)
-        {
-            return GetEdgeRealizer(dumpInfo.GetEdgeTypeColor(type), dumpInfo.GetEdgeTypeTextColor(type), 1, GrLineStyle.Solid);
-        }
-
-        private String GetNodeRealizer(GrColor nodeColor, GrColor borderColor, GrColor textColor, GrNodeShape shape)
-        {
-            NodeRealizer newNr = new NodeRealizer("nr" + nextNodeRealizerID, nodeColor, borderColor, textColor, shape);
-
-            NodeRealizer nr;
-            if (!nodeRealizers.TryGetValue(newNr, out nr))
-            {
-                ycompStream.Write("addNodeRealizer \"" + newNr.Name + "\" \""
-                    + VCGDumper.GetColor(borderColor) + "\" \""
-                    + VCGDumper.GetColor(nodeColor) + "\" \""
-                    + VCGDumper.GetColor(textColor) + "\" \""
-                    + VCGDumper.GetNodeShape(shape) + "\"\n");
-                nodeRealizers.Add(newNr, newNr);
-                nextNodeRealizerID++;
-                nr = newNr;
-            }
-            return nr.Name;
-        }
-
-        private String GetEdgeRealizer(GrColor edgeColor, GrColor textColor, int lineWidth, GrLineStyle lineStyle)
-        {
-            EdgeRealizer newEr = new EdgeRealizer("er" + nextEdgeRealizerID, edgeColor, textColor, lineWidth, lineStyle);
-
-            EdgeRealizer er;
-            if (!edgeRealizers.TryGetValue(newEr, out er))
-            {
-                ycompStream.Write("addEdgeRealizer \"" + newEr.Name + "\" \""
-                    + VCGDumper.GetColor(newEr.Color) + "\" \""
-                    + VCGDumper.GetColor(newEr.TextColor) + "\" \""
-                    + lineWidth + "\" \"continuous\"\n");
-                edgeRealizers.Add(newEr, newEr);
-                nextEdgeRealizerID++;
-                er = newEr;
-            }
-            return er.Name;
         }
 
         bool IsEdgeExcluded(IEdge edge)

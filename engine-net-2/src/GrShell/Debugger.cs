@@ -77,6 +77,7 @@ namespace de.unika.ipd.grGen.grShell
     {
         GrShellImpl grShellImpl;
         ShellGraph shellGraph;
+        ElementRealizers realizers;
 
         Process viewerProcess = null;
         YCompClient ycompClient = null;
@@ -166,6 +167,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             this.grShellImpl = grShellImpl;
             this.shellGraph = grShellImpl.CurrentShellGraph;
+            this.realizers = grShellImpl.realizers;
 
             this.context = new PrintSequenceContext(grShellImpl.Workaround);
 
@@ -186,7 +188,8 @@ namespace de.unika.ipd.grGen.grShell
 
             try
             {
-                ycompClient = new YCompClient(shellGraph.Graph, debugLayout, 20000, ycompPort, shellGraph.DumpInfo);
+                ycompClient = new YCompClient(shellGraph.Graph, debugLayout, 20000, ycompPort, 
+                    shellGraph.DumpInfo, realizers);
             }
             catch(Exception ex)
             {
@@ -429,12 +432,12 @@ namespace de.unika.ipd.grGen.grShell
         {
             if (seq.NonRandomAll(rule))
             {
-                MarkMatches(seq.Matches[rule], ycompClient.MatchedNodeRealizer, ycompClient.MatchedEdgeRealizer);
+                MarkMatches(seq.Matches[rule], realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
                 AnnotateMatches(seq.Matches[rule], true);
             }
             else
             {
-                MarkMatch(seq.Matches[rule].GetMatch(match), ycompClient.MatchedNodeRealizer, ycompClient.MatchedEdgeRealizer);
+                MarkMatch(seq.Matches[rule].GetMatch(match), realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
                 AnnotateMatch(seq.Matches[rule].GetMatch(match), true);
             }
         }
@@ -491,7 +494,7 @@ namespace de.unika.ipd.grGen.grShell
                 MarkMatch(matches.GetMatch(matchToApply), null, null);
                 AnnotateMatch(matches.GetMatch(matchToApply), false);
                 matchToApply = newMatchToRewrite;
-                MarkMatch(matches.GetMatch(matchToApply), ycompClient.MatchedNodeRealizer, ycompClient.MatchedEdgeRealizer);
+                MarkMatch(matches.GetMatch(matchToApply), realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
                 AnnotateMatch(matches.GetMatch(matchToApply), true);
                 ycompClient.UpdateDisplay();
                 ycompClient.Sync();
@@ -1684,7 +1687,7 @@ namespace de.unika.ipd.grGen.grShell
 
             curRulePattern = matches.Producer.RulePattern;
 
-            MarkMatches(matches, ycompClient.MatchedNodeRealizer, ycompClient.MatchedEdgeRealizer);
+            MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
             AnnotateMatches(matches, true);
 
             ycompClient.UpdateDisplay();
@@ -1695,8 +1698,8 @@ namespace de.unika.ipd.grGen.grShell
             MarkMatches(matches, null, null);
 
             recordMode = true;
-            ycompClient.NodeRealizer = ycompClient.NewNodeRealizer;
-            ycompClient.EdgeRealizer = ycompClient.NewEdgeRealizer;
+            ycompClient.NodeRealizerOverride = realizers.NewNodeRealizer;
+            ycompClient.EdgeRealizerOverride = realizers.NewEdgeRealizer;
             nextAddedNodeIndex = 0;
             nextAddedEdgeIndex = 0;
         }
@@ -2035,7 +2038,7 @@ namespace de.unika.ipd.grGen.grShell
             else
             {
                 annotatedNodes.Remove(node);
-                ycompClient.ChangeNode(node, ycompClient.DeletedNodeRealizer);
+                ycompClient.ChangeNode(node, realizers.DeletedNodeRealizer);
 
                 String name = ycompClient.Graph.GetElementName(node);
                 ycompClient.RenameNode(name, "zombie_" + name);
@@ -2053,7 +2056,7 @@ namespace de.unika.ipd.grGen.grShell
             else
             {
                 annotatedEdges.Remove(edge);
-                ycompClient.ChangeEdge(edge, ycompClient.DeletedEdgeRealizer);
+                ycompClient.ChangeEdge(edge, realizers.DeletedEdgeRealizer);
 
                 String name = ycompClient.Graph.GetElementName(edge);
                 ycompClient.RenameEdge(name, "zombie_" + name);
@@ -2094,7 +2097,7 @@ namespace de.unika.ipd.grGen.grShell
                     annotatedNodes[newNode] = name;
                     ycompClient.AnnotateElement(newElem, name);
                 }
-                ycompClient.ChangeNode(newNode, ycompClient.RetypedNodeRealizer);
+                ycompClient.ChangeNode(newNode, realizers.RetypedNodeRealizer);
                 retypedNodes[newNode] = true;
             }
             else
@@ -2108,7 +2111,7 @@ namespace de.unika.ipd.grGen.grShell
                     annotatedEdges[newEdge] = name;
                     ycompClient.AnnotateElement(newElem, name);
                 }
-                ycompClient.ChangeEdge(newEdge, ycompClient.RetypedEdgeRealizer);
+                ycompClient.ChangeEdge(newEdge, realizers.RetypedEdgeRealizer);
                 retypedEdges[newEdge] = true;
             }
         }
@@ -2148,8 +2151,8 @@ namespace de.unika.ipd.grGen.grShell
             foreach(IEdge edge in annotatedEdges.Keys)
                 ycompClient.AnnotateElement(edge, null);
 
-            ycompClient.NodeRealizer = null;
-            ycompClient.EdgeRealizer = null;
+            ycompClient.NodeRealizerOverride = null;
+            ycompClient.EdgeRealizerOverride = null;
 
             addedNodes.Clear();
             addedEdges.Clear();

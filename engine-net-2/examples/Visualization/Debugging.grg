@@ -1,0 +1,17 @@
+rule init
+{
+	modify {
+		n:Node --> . --> . --> n;
+	}
+}
+
+rule r
+{
+	n:Node --> m:Node --> l:Node --> n;	
+	
+	modify {
+		delete(n);
+		:Node<m>;
+		l --> :Node;
+	}
+}

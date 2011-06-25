@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.libGr
         static private string[] colors = { "black", "blue", "green", "cyan", "red", "purple", "khaki", "darkgrey",
             "lightgrey", "lightblue", "lightgreen", "lightcyan", "lightred", "lightmagenta", "yellow", "white",
             "darkblue", "darkred", "darkgreen", "darkyellow", "darkmagenta", "darkcyan", "gold", "lilac",
-            "turqouise", "aquamarine", "khaki", "pink", "orange", "orchid"
+            "turquoise", "aquamarine", "khaki", "pink", "orange", "orchid", "lightyellow", "yellowgreen"
         };
         static private string[] lineStyles = { "continuous", "dotted", "dashed", "invisible" };
         static private string[] nodeShapes = { "box", "triangle", "circle", "ellipse", "rhomb", "hexagon",
@@ -252,11 +252,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="textColor">The color of the text</param>
         /// <param name="edgeColor">The color of the edge</param>
         /// <param name="lineStyle">The linestyle of the edge</param>
+        /// <param name="thickness">The thickness of the edge (1-5)</param>
         ///
         /// TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
         ///
         public void DumpEdge(INode srcNode, INode tgtNode, String label, IEnumerable<String> attributes,
-            GrColor textColor, GrColor edgeColor, GrLineStyle lineStyle)
+            GrColor textColor, GrColor edgeColor, GrLineStyle lineStyle, int thickness)
         {
             Indent();
             sw.Write("edge:{{sourcename:\"n{0}\" targetname:\"n{1}\"", srcNode.GetHashCode(), tgtNode.GetHashCode());
@@ -285,6 +286,7 @@ namespace de.unika.ipd.grGen.libGr
             if(textColor != GrColor.Default) sw.Write(" textcolor:" + GetColor(textColor));
             if(edgeColor != GrColor.Default) sw.Write(" color:" + GetColor(edgeColor));
             if(lineStyle != GrLineStyle.Default) sw.Write(" linestyle:" + GetLineStyle(lineStyle));
+            if(thickness != 1) sw.Write(" thickness:" + thickness);
             sw.WriteLine('}');
         }
 

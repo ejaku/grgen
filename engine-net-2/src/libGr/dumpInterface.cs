@@ -17,7 +17,7 @@ namespace de.unika.ipd.grGen.libGr
         Black, Blue, Green, Cyan, Red, Purple, Brown, Grey,
         LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yellow, White,
         DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac,
-        Turqouise, Aquamarine, Khaki, Pink, Orange, Orchid
+        Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid, LightYellow, YellowGreen
     }
 
     public enum GrElemDumpType
@@ -31,7 +31,7 @@ namespace de.unika.ipd.grGen.libGr
     public enum GrLineStyle
     {
         Default = -1,
-        Solid, Dotted, Dashed, Invisible,
+        Continuous, Dotted, Dashed, Invisible,
         MaxStyle = Invisible
     }
 
@@ -69,8 +69,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="textColor">The color of the text</param>
         /// <param name="edgeColor">The color of the edge</param>
         /// <param name="lineStyle">The linestyle of the edge</param>
+        /// <param name="thickness">The thickness of the edge</param>
         void DumpEdge(INode srcNode, INode tgtNode, String label, IEnumerable<String> attributes,
-            GrColor textColor, GrColor edgeColor, GrLineStyle lineStyle);
+            GrColor textColor, GrColor edgeColor, GrLineStyle lineStyle, int thickness);
 
         /// <summary>
         /// Creates a new sub-graph
@@ -276,9 +277,12 @@ namespace de.unika.ipd.grGen.libGr
 
         GrColor[] nodeColors = new GrColor[4];
         GrColor[] nodeBorderColors = new GrColor[4];
-        GrColor[] edgeColors = new GrColor[4];
         GrColor[] nodeTextColors = new GrColor[4];
+        GrNodeShape[] nodeShapes = new GrNodeShape[4];
+        GrColor[] edgeColors = new GrColor[4];
         GrColor[] edgeTextColors = new GrColor[4];
+        GrLineStyle[] edgeLineStyles = new GrLineStyle[4];
+        int[] edgeThicknesses = new int[4];
 
         Dictionary<NodeType, bool> excludedNodeTypes = new Dictionary<NodeType, bool>();
         Dictionary<EdgeType, bool> excludedEdgeTypes = new Dictionary<EdgeType, bool>();
@@ -290,6 +294,8 @@ namespace de.unika.ipd.grGen.libGr
         Dictionary<NodeType, GrNodeShape> nodeTypeShapes = new Dictionary<NodeType, GrNodeShape>();
         Dictionary<EdgeType, GrColor> edgeTypeColors = new Dictionary<EdgeType, GrColor>();
         Dictionary<EdgeType, GrColor> edgeTypeTextColors = new Dictionary<EdgeType, GrColor>();
+        Dictionary<EdgeType, GrLineStyle> edgeTypeLineStyles = new Dictionary<EdgeType, GrLineStyle>();
+        Dictionary<EdgeType, int> edgeTypeThicknesses = new Dictionary<EdgeType, int>();
         Dictionary<GrGenType, String> elemTypeLabel = new Dictionary<GrGenType, String>();
         Dictionary<GrGenType, List<InfoTag>> infoTags = new Dictionary<GrGenType, List<InfoTag>>();
 
@@ -303,6 +309,8 @@ namespace de.unika.ipd.grGen.libGr
         public IEnumerable<KeyValuePair<NodeType, GrNodeShape>> NodeTypeShapes { get { return nodeTypeShapes; } }
         public IEnumerable<KeyValuePair<EdgeType, GrColor>> EdgeTypeColors { get { return edgeTypeColors; } }
         public IEnumerable<KeyValuePair<EdgeType, GrColor>> EdgeTypeTextColors { get { return edgeTypeTextColors; } }
+        public IEnumerable<KeyValuePair<EdgeType, GrLineStyle>> EdgeTypeLineStyles { get { return edgeTypeLineStyles; } }
+        public IEnumerable<KeyValuePair<EdgeType, int>> EdgeTypeThicknesses { get { return edgeTypeThicknesses; } }
 
         public IEnumerable<KeyValuePair<GrGenType, List<InfoTag>>> InfoTags { get { return infoTags; } }
 
@@ -472,6 +480,22 @@ namespace de.unika.ipd.grGen.libGr
             return col;
         }
 
+        public GrLineStyle GetEdgeTypeLineStyle(EdgeType edgeType)
+        {
+            GrLineStyle style;
+            if(!edgeTypeLineStyles.TryGetValue(edgeType, out style))
+                return GetEdgeDumpTypeLineStyle(GrElemDumpType.Normal);
+            return style;
+        }
+
+        public int GetEdgeTypeThickness(EdgeType edgeType)
+        {
+            int thickness;
+            if(!edgeTypeThicknesses.TryGetValue(edgeType, out thickness))
+                return GetEdgeDumpTypeThickness(GrElemDumpType.Normal);
+            return thickness;
+        }
+
         public void SetNodeTypeColor(NodeType nodeType, GrColor color)
         {
             nodeTypeColors[nodeType] = color;               // overwrites existing mapping
@@ -508,9 +532,26 @@ namespace de.unika.ipd.grGen.libGr
             EdgeTypeAppearanceChanged(edgeType);
         }
 
+        public void SetEdgeTypeLineStyle(EdgeType edgeType, GrLineStyle style)
+        {
+            edgeTypeLineStyles[edgeType] = style;           // overwrites existing mapping
+            EdgeTypeAppearanceChanged(edgeType);
+        }
+
+        public void SetEdgeTypeThickness(EdgeType edgeType, int thickness)
+        {
+            edgeTypeThicknesses[edgeType] = thickness;      // overwrites existing mapping
+            EdgeTypeAppearanceChanged(edgeType);
+        }
+
         public void SetNodeDumpTypeColor(GrElemDumpType type, GrColor color)
         {
             nodeColors[(int) type] = color;
+        }
+
+        public void SetNodeDumpTypeShape(GrElemDumpType type, GrNodeShape shape)
+        {
+            nodeShapes[(int) type] = shape;
         }
 
         public void SetEdgeDumpTypeColor(GrElemDumpType type, GrColor color)
@@ -533,9 +574,24 @@ namespace de.unika.ipd.grGen.libGr
             edgeTextColors[(int) type] = color;
         }
 
+        public void SetEdgeDumpTypeLineStyle(GrElemDumpType type, GrLineStyle style)
+        {
+            edgeLineStyles[(int) type] = style;
+        }
+
+        public void SetEdgeDumpTypeThickness(GrElemDumpType type, int thickness)
+        {
+            edgeThicknesses[(int) type] = thickness;
+        }
+
         public GrColor GetNodeDumpTypeColor(GrElemDumpType type)
         {
             return nodeColors[(int) type];
+        }
+
+        public GrNodeShape GetNodeDumpTypeShape(GrElemDumpType type)
+        {
+            return nodeShapes[(int) type];
         }
 
         public GrColor GetEdgeDumpTypeColor(GrElemDumpType type)
@@ -556,6 +612,16 @@ namespace de.unika.ipd.grGen.libGr
         public GrColor GetEdgeDumpTypeTextColor(GrElemDumpType type)
         {
             return edgeTextColors[(int) type];
+        }
+
+        public GrLineStyle GetEdgeDumpTypeLineStyle(GrElemDumpType type)
+        {
+            return edgeLineStyles[(int) type];
+        }
+
+        public int GetEdgeDumpTypeThickness(GrElemDumpType type)
+        {
+            return edgeThicknesses[(int) type];
         }
 
         /// <summary>
@@ -642,6 +708,21 @@ namespace de.unika.ipd.grGen.libGr
             edgeTextColors[1] = GrColor.Default;
             edgeTextColors[2] = GrColor.Default;
             edgeTextColors[3] = GrColor.Default;
+
+            edgeLineStyles[0] = GrLineStyle.Default;
+            edgeLineStyles[1] = GrLineStyle.Default;
+            edgeLineStyles[2] = GrLineStyle.Default;
+            edgeLineStyles[3] = GrLineStyle.Default;
+
+            edgeThicknesses[0] = 1;
+            edgeThicknesses[1] = 1;
+            edgeThicknesses[2] = 1;
+            edgeThicknesses[3] = 1;
+
+            nodeShapes[0] = GrNodeShape.Default;
+            nodeShapes[1] = GrNodeShape.Default;
+            nodeShapes[2] = GrNodeShape.Default;
+            nodeShapes[3] = GrNodeShape.Default;
         }
 
         public void Reset()
@@ -682,6 +763,12 @@ namespace de.unika.ipd.grGen.libGr
             foreach(EdgeType type in edgeTypeTextColors.Keys)
                 changedEdgeTypes[type] = true;
             edgeTypeTextColors.Clear();
+            foreach(EdgeType type in edgeTypeLineStyles.Keys)
+                changedEdgeTypes[type] = true;
+            edgeTypeLineStyles.Clear();
+            foreach(EdgeType type in edgeTypeThicknesses.Keys)
+                changedEdgeTypes[type] = true;
+            edgeTypeThicknesses.Clear();
 
             // Announce changed edge types
             foreach(EdgeType type in changedEdgeTypes.Keys)
