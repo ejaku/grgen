@@ -786,7 +786,7 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.SetResultVar(de.unika.ipd.grGen.libGr.Sequence,System.String)">
             <summary>
             Returns string containing a C# assignment to set the result variable of the sequence given
-            to the value as computed by the C# expression in the string given 
+            to the value as computed by the C# expression in the string given
             (every sequence part writes a success-value which is read by other parts determining execution flow)
             </summary>
         </member>
@@ -1048,7 +1048,7 @@
             Generates match objects of independents (one pre-allocated is part of action class)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateTasksMemoryPool(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateTasksMemoryPool(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,System.Boolean,System.Boolean)">
             <summary>
             Generates memory pooling code for matching tasks of class given by it's name
             </summary>
@@ -1655,7 +1655,7 @@
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.NamedGraph">
             <summary>
-            Set it if a named graph is available, so that 
+            Set it if a named graph is available, so that
             - the nameof operator can return the persistent name instead of a hash code
             - a retyped element can keep its name
             </summary>
@@ -1699,7 +1699,7 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN">
             <summary>
-            This element has already been matched within an pattern 
+            This element has already been matched within an pattern
             of this neg level during the current matching process.
             This mask must be shifted left by the current neg level.
             </summary>
@@ -2187,12 +2187,12 @@
             An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
             It is returned by IAction.Match() and given to the OnMatched, OnFinishing and OnFinished event.
             Generic to be instantiated with the exact interface and the exact implementation type of the match object
-            Every generated Action contains a LGSPMatchesList, 
+            Every generated Action contains a LGSPMatchesList,
             the matches contain one LGSPMatchesList per iterated pattern.
             A matches list stores the matches found by the last application of the action,
             the matches objects within the list are recycled by the next application of the action,
             only their content gets updated.
-            The purpose of this list is to act as a memory manager 
+            The purpose of this list is to act as a memory manager
             to save new/garbage collection cycles and improve cache footprint.
             Additionally this list is used for storing the results of an iteration in the matches objects, Producer being null in this case.
             Then it is just used as a container for already allocated elements.
@@ -2248,7 +2248,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetNextUnfilledPosition">
             <summary>
-            returns an empty match object from the matches list 
+            returns an empty match object from the matches list
             to be filled by the matching action with the found nodes, edges and subpatterns.
             unless PositionWasFilledFixIt is called you always get the same element
             </summary>
@@ -2281,8 +2281,8 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.last">
             <summary>
-            logically last element of list, not necessarily physically the last element 
-            as previously generated matches are kept and recycled 
+            logically last element of list, not necessarily physically the last element
+            as previously generated matches are kept and recycled
             denotes the next point of logical insertion i.e. physical update
             </summary>
         </member>
@@ -2335,7 +2335,7 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPAction.ReturnArray">
             <summary>
-            Performance optimization: saves us usage of new in the old style/unspecific modify/apply methods 
+            Performance optimization: saves us usage of new in the old style/unspecific modify/apply methods
             of the action interface implementation for returning an array.
             </summary>
         </member>
@@ -2488,7 +2488,7 @@
             <summary>
             Searches for the subpattern as specified by RulePattern.
             Takes care of search state as given by found partial matches, negLevel to search at
-            and maximum number of matches to search for (zero = find all matches) 
+            and maximum number of matches to search for (zero = find all matches)
             (and open tasks via this).
             </summary>
         </member>
@@ -2500,7 +2500,7 @@
         <member name="T:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer">
             <summary>
             Class analyzing the pattern graphs of the matching patterns to generate code for,
-            storing computed nesting and inter-pattern-relationships locally in the pattern graphs, 
+            storing computed nesting and inter-pattern-relationships locally in the pattern graphs,
             ready to be used by the (local intra-pattern) code generator
             (to generate code more easily, to generate better code).
             </summary>
@@ -2530,8 +2530,8 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
-            Insert names of independents nested within the pattern graph 
-            to the matcher generation skeleton data structure pattern graph 
+            Insert names of independents nested within the pattern graph
+            to the matcher generation skeleton data structure pattern graph
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.CalculateNeededElements(de.unika.ipd.grGen.lgsp.PatternGraph)">
@@ -2543,8 +2543,8 @@
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.ComputePatternGraphsOnPathFromEnclosingPatternpath(de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
             <summary>
             Computes whether the pattern graphs are on a path from some enclosing
-            negative/independent with a patternpath modifier. 
-            They need to check the patternpath stack filled with the already matched entities 
+            negative/independent with a patternpath modifier.
+            They need to check the patternpath stack filled with the already matched entities
             on the subpattern usage/derivation path to this pattern.
             It stores information to the pattern graph and its children.
             Returns whether a change occured, to be used for a fixpoint iteration.
@@ -2552,7 +2552,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.ComputePatternGraphsOnPathToEnclosedPatternpath(de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
-            Computes the pattern graphs which are on a path to some enclosed negative/independent 
+            Computes the pattern graphs which are on a path to some enclosed negative/independent
             with a patternpath modifier. They need to fill the patternpath check stack.
             It stores information to the pattern graph and its children.
             First pass, computes local information neglecting subpattern usage.
@@ -2560,7 +2560,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.AddSubpatternInformationToPatternpathInformation(de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
-            Computes the pattern graphs which are on a path to some enclosed negative/independent 
+            Computes the pattern graphs which are on a path to some enclosed negative/independent
             with a patternpath modifier; stores information to the pattern graph and its children.
             Second pass, adds global information from subpattern usage.
             </summary>
@@ -2611,7 +2611,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.NamesOfEntities">
             <summary>
-            class determining names of entities in generated source code from pattern element entities 
+            class determining names of entities in generated source code from pattern element entities
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.CandidateVariable(System.String)">
@@ -2629,7 +2629,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.Variable(System.String)">
             <summary>
-            Returns name of non-graph-element variable 
+            Returns name of non-graph-element variable
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.TypeOfVariableContainingType(System.Boolean)">
@@ -2719,7 +2719,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.PatternpathMatch(System.String)">
             <summary>
-            Returns name of the search program variable which will be filled 
+            Returns name of the search program variable which will be filled
             if the pattern was matched and is needed in patternpath/global isomorphy checks
             </summary>
         </member>
@@ -2832,7 +2832,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.FixDirectorySeparators(System.String)">
             <summary>
-            Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system 
+            Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system
             </summary>
             <param name="path">The original path string potentially with wrong chars</param>
             <returns>The corrected path string</returns>
@@ -3005,7 +3005,7 @@
             <summary>
             move outwards from check succeeded operation until check partial match by independent is found
             appending restore isomorphy for isomorphy written on the way
-            and final jump to operation right after the independent failed operation of the check partial match by independent 
+            and final jump to operation right after the independent failed operation of the check partial match by independent
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveOutwardsAppendingRemoveIsomorphy(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchProgramOperation@,System.String[],de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
@@ -3458,6 +3458,12 @@
             eagerly, i.e. as long as a successor exists, even in case of a cycles in the graph.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.isIterationBreaking">
+            <summary>
+            If this pattern graph is a negative or independent nested inside an iterated,
+            it breaks the iterated instead of only the current iterated case (if true).
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.nodes">
             <summary>
             An array of all pattern nodes.
@@ -3577,7 +3583,7 @@
             Tells whether a non local def entity (node, edge, variable) is existing in this pattern graph
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.Iterated[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],de.unika.ipd.grGen.lgsp.PatternYielding[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[],System.Boolean[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.Iterated[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],de.unika.ipd.grGen.lgsp.PatternYielding[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[],System.Boolean[])">
             <summary>
             Constructs a PatternGraph object.
             </summary>
@@ -3587,6 +3593,8 @@
             should be isomorphy locked, i.e. not again matchable, even in negatives/independents,
             which are normally hom to all. This allows to match paths without a specified end,
             eagerly, i.e. as long as a successor exists, even in case of a cycles in the graph.</param>
+            <param name="isIterationBreaking"> If this pattern graph is a negative or independent nested inside an iterated,
+            it breaks the iterated instead of only the current iterated case (if true).</param>
             <param name="nodes">An array of all pattern nodes.</param>
             <param name="edges">An array of all pattern edges.</param>
             <param name="variables">An array of all pattern variables.</param>
@@ -4698,7 +4706,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ExpressionOrYielding">
             <summary>
-            Base class of expressions and yieldings 
+            Base class of expressions and yieldings
             which allows to emit code and to iterate over the contained children
             </summary>
         </member>
@@ -5162,7 +5170,7 @@
         <member name="T:de.unika.ipd.grGen.expression.YieldAssignmentIndexed">
             <summary>
             Class representing a yielding indexed assignment executed after the match was found
-            writing a value computed from the right expression 
+            writing a value computed from the right expression
             into the position at the given index of the left def variable of type array (TODO: extend to map)
             </summary>
         </member>
@@ -5226,7 +5234,7 @@
         <member name="T:de.unika.ipd.grGen.expression.IteratedAccumulationYield">
             <summary>
             Class representing an iterated accumulation yield executed after the match was found
-            accumulating the values matched by a nested iterated with a chosen operator 
+            accumulating the values matched by a nested iterated with a chosen operator
             writing the accumulated value into the target def variable
             </summary>
         </member>

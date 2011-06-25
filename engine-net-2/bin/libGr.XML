@@ -92,7 +92,7 @@
             <param name="borderColor">The color of the node border</param>
             <param name="nodeShape">The shape of the node</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IDumper.DumpEdge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String,System.Collections.Generic.IEnumerable{System.String},de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrLineStyle)">
+        <member name="M:de.unika.ipd.grGen.libGr.IDumper.DumpEdge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String,System.Collections.Generic.IEnumerable{System.String},de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrLineStyle,System.Int32)">
             <summary>
             Dump an edge
             </summary>
@@ -103,6 +103,7 @@
             <param name="textColor">The color of the text</param>
             <param name="edgeColor">The color of the edge</param>
             <param name="lineStyle">The linestyle of the edge</param>
+            <param name="thickness">The thickness of the edge</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IDumper.StartSubgraph(de.unika.ipd.grGen.libGr.INode,System.String,System.Collections.Generic.IEnumerable{System.String},de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor)">
             <summary>
@@ -173,33 +174,34 @@
             <exception cref="T:System.IO.IOException">Thrown when the destination cannot be created.</exception>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.VCGDumper.DumpNode(de.unika.ipd.grGen.libGr.INode,System.String,System.Collections.Generic.IEnumerable{System.String},de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrNodeShape)">
-            <summary>
-            Dump a node to the VCG graph.
-            </summary>
-            <param name="node">The node to be dumped.</param>
-            <param name="label">The label to use for the node.</param>
-            <param name="attributes">An enumerable of attribute strings.</param>
-            <param name="textColor">The color of the text.</param>
-            <param name="nodeColor">The color of the node border.</param>
-            <param name="borderColor">The color of the node.</param>
-            <param name="nodeShape">The shape of the node.</param>
+             <summary>
+             Dump a node to the VCG graph.
+             </summary>
+             <param name="node">The node to be dumped.</param>
+             <param name="label">The label to use for the node.</param>
+             <param name="attributes">An enumerable of attribute strings.</param>
+             <param name="textColor">The color of the text.</param>
+             <param name="nodeColor">The color of the node border.</param>
+             <param name="borderColor">The color of the node.</param>
+             <param name="nodeShape">The shape of the node.</param>
             
-            TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
+             TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
             
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.VCGDumper.DumpEdge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String,System.Collections.Generic.IEnumerable{System.String},de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrLineStyle)">
-            <summary>
-            Dump an edge to the VCG graph
-            </summary>
-            <param name="srcNode">The source node of the edge</param>
-            <param name="tgtNode">The target node of the edge</param>
-            <param name="label">The label of the edge, may be null</param>
-            <param name="attributes">An enumerable of attribute strings</param>
-            <param name="textColor">The color of the text</param>
-            <param name="edgeColor">The color of the edge</param>
-            <param name="lineStyle">The linestyle of the edge</param>
+        <member name="M:de.unika.ipd.grGen.libGr.VCGDumper.DumpEdge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String,System.Collections.Generic.IEnumerable{System.String},de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrLineStyle,System.Int32)">
+             <summary>
+             Dump an edge to the VCG graph
+             </summary>
+             <param name="srcNode">The source node of the edge</param>
+             <param name="tgtNode">The target node of the edge</param>
+             <param name="label">The label of the edge, may be null</param>
+             <param name="attributes">An enumerable of attribute strings</param>
+             <param name="textColor">The color of the text</param>
+             <param name="edgeColor">The color of the edge</param>
+             <param name="lineStyle">The linestyle of the edge</param>
+             <param name="thickness">The thickness of the edge (1-5)</param>
             
-            TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
+             TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
             
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.VCGDumper.StartSubgraph(de.unika.ipd.grGen.libGr.INode,System.String,System.Collections.Generic.IEnumerable{System.String},de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor)">
@@ -232,7 +234,7 @@
         <member name="T:de.unika.ipd.grGen.libGr.InvocationParameterBindings">
             <summary>
             An object representing a rule or sequence invocation.
-            It tells from where (which variables/constants) to get the input values 
+            It tells from where (which variables/constants) to get the input values
             and where (which variables) to store the output values.
             </summary>
         </member>
@@ -271,7 +273,7 @@
         <member name="T:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings">
             <summary>
             An object representing a rule invocation.
-            It tells from where (which variables/constants) to get the input values 
+            It tells from where (which variables/constants) to get the input values
             and where (which variables) to store the output values.
             </summary>
         </member>
@@ -292,7 +294,7 @@
         <member name="T:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings">
             <summary>
             An object representing a sequence invocation.
-            It tells from where (which variables/constants) to get the input values 
+            It tells from where (which variables/constants) to get the input values
             and where (which variables) to store the output values.
             </summary>
         </member>
@@ -346,7 +348,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SymbolTable">
             <summary>
-            class of symbol table containing the variables declared in the sequence 
+            class of symbol table containing the variables declared in the sequence
             variables might be implicitely(graph-global) or explicitely(sequence-local) declared
             </summary>
         </member>
@@ -489,7 +491,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment">
             <summary>
-            Environment for sequence exection giving access to graph element names and user interface 
+            Environment for sequence exection giving access to graph element names and user interface
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.GetNamedGraph">
@@ -1058,7 +1060,7 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraph.Recorder">
             <summary>
-            The recorder of the graph. 
+            The recorder of the graph.
             Might be null (is set if a named graph is available, then the persistent names are taken from the named graph).
             </summary>
         </member>
@@ -1149,7 +1151,7 @@
             Fired before an attribute of a node is changed.
             Note for LGSPBackend:
             Because graph elements of the LGSPBackend don't know their graph a call to
-            LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+            LGSPGraphElement.SetAttribute will not fire this event. If you use this function
             and want the event to be fired, you have to fire it yourself
             using ChangingNodeAttributes.
             </summary>
@@ -1159,7 +1161,7 @@
             Fired before an attribute of an edge is changed.
             Note for LGSPBackend:
             Because graph elements of the LGSPBackend don't know their graph a call to
-            LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+            LGSPGraphElement.SetAttribute will not fire this event. If you use this function
             and want the event to be fired, you have to fire it yourself
             using ChangingEdgeAttributes.
             </summary>
@@ -1879,7 +1881,7 @@
             Fired before an attribute of a node is changed.
             Note for LGSPBackend:
             Because graph elements of the LGSPBackend don't know their graph a call to
-            LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+            LGSPGraphElement.SetAttribute will not fire this event. If you use this function
             and want the event to be fired, you have to fire it yourself
             using ChangingNodeAttributes.
             </summary>
@@ -1889,7 +1891,7 @@
             Fired before an attribute of an edge is changed.
             Note for LGSPBackend:
             Because graph elements of the LGSPBackend don't know their graph a call to
-            LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+            LGSPGraphElement.SetAttribute will not fire this event. If you use this function
             and want the event to be fired, you have to fire it yourself
             using ChangingEdgeAttributes.
             </summary>
@@ -2013,7 +2015,7 @@
             <summary>
             Create a recorder
             </summary>
-            <param name="graph">The graph whose changes are to be recorded; 
+            <param name="graph">The graph whose changes are to be recorded;
             should be a NamedGraph for things to run smoothly (same holds for Porter methods)</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.Recorder.StartRecording(System.String)">
@@ -4855,7 +4857,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.Incoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns the incoming edges of given type to the given node, with a source node of given type. 
+            Returns the incoming edges of given type to the given node, with a source node of given type.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.DumpAttributes(de.unika.ipd.grGen.libGr.IGraphElement)">
@@ -4982,7 +4984,7 @@
             Fired before an attribute of a node is changed.
             Note for LGSPBackend:
             Because graph elements of the LGSPBackend don't know their graph a call to
-            LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+            LGSPGraphElement.SetAttribute will not fire this event. If you use this function
             and want the event to be fired, you have to fire it yourself
             using ChangingNodeAttributes.
             </summary>
@@ -4992,7 +4994,7 @@
             Fired before an attribute of an edge is changed.
             Note for LGSPBackend:
             Because graph elements of the LGSPBackend don't know their graph a call to
-            LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+            LGSPGraphElement.SetAttribute will not fire this event. If you use this function
             and want the event to be fired, you have to fire it yourself
             using ChangingEdgeAttributes.
             </summary>
@@ -5158,7 +5160,7 @@
         <member name="T:de.unika.ipd.grGen.libGr.SequenceType">
             <summary>
             Specifies the actual subtype used for a Sequence.
-            A new sequence type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator, 
+            A new sequence type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator,
             SequenceChecker and Sequence (add the corresponding class down below), the Debugger
             </summary>
         </member>
@@ -5697,7 +5699,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceVariable">
             <summary>
-            A variable declared/used within a sequence, 
+            A variable declared/used within a sequence,
             might be a sequence-local variable or a reference to a graph-global variable.
             It is first stored within the symbol table belonging to the sequence on sequence parsing,
             after parsing only on the heap, with references from the sequence AST pointing to it.
@@ -6056,7 +6058,7 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.MatchOfEnclosingPattern">
             <summary>
-            The match of the enclosing pattern if this is the pattern of 
+            The match of the enclosing pattern if this is the pattern of
             a subpattern, alternative, iterated or independent; otherwise null
             </summary>
         </member>
@@ -6377,7 +6379,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GetListType(System.Type,System.Type@)">
             <summary>
-            The value type of the List is returned 
+            The value type of the List is returned
             </summary>
             <param name="arrayType">The List type</param>
             <param name="valueType">The value type of the dictionary</param>
@@ -6667,7 +6669,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Range``2(System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
-            Creates a new dictionary representing a set, 
+            Creates a new dictionary representing a set,
             containing all values from the given dictionary representing a map <paramref name="map"/>.
             </summary>
             <param name="map">A dictionary representing a map.</param>

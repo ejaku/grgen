@@ -1,4 +1,5 @@
 OK     should_pass/MaybeNull.grg
+OK     should_pass/ProgramGraphs.grg
 OK     should_pass/abstract_replace_parameter.grg
 OK     should_pass/alternative_001.grg
 OK     should_pass/alternative_002.grg
@@ -98,6 +99,8 @@ OK     should_pass/basic_070.grg
 OK     should_pass/basic_100.grg
 OK     should_pass/basic_300.grg
 OK     should_pass/basic_400.grg
+OK     should_pass/break.grg
+OK     should_pass/cast.grg
 OK     should_pass/cast_001.grg
 OK     should_pass/cast_002.grg
 OK     should_pass/cast_003.grg
@@ -114,6 +117,14 @@ OK     should_pass/dangle_007.grg
 OK     should_pass/defVar_001.grg
 OK     should_pass/defVar_002.grg
 OK     should_pass/defVar_003.grg
+OK     should_pass/defYield_001.grg
+OK     should_pass/defYield_002.grg
+OK     should_pass/defYield_003.grg
+OK     should_pass/defYield_003e.grg
+OK     should_pass/defYield_003x.grg
+OK     should_pass/defYield_003xe.grg
+OK     should_pass/defYield_004.grg
+OK     should_pass/defYield_004e.grg
 OK     should_pass/deleteInAlternative.grg
 OK     should_pass/deleteInAlternative_e.grg
 OK     should_pass/deleteInOptional.grg
@@ -153,6 +164,7 @@ OK     should_pass/emit_003.grg
 OK     should_pass/emit_005.grg
 OK     should_pass/emit_007.grg
 OK     should_pass/emit_011.grg
+OK     should_pass/emithere_001.grg
 OK     should_pass/empty_001.grg
 OK     should_pass/enum_001.grg
 OK     should_pass/enum_002.grg
@@ -290,6 +302,7 @@ OK     should_pass/iterated_004.grg
 OK     should_pass/iterated_005.grg
 OK     should_pass/iterated_006.grg
 OK     should_pass/iterated_007.grg
+OK     should_pass/iterated_in_negative.grg
 OK     should_pass/iterated_repl.grg
 OK     should_pass/iterated_replParameter.grg
 ERROR  should_pass/iterated_repl_2.grg
@@ -342,6 +355,7 @@ OK     should_pass/pattern_013.grg
 OK     should_pass/pattern_014.grg
 OK     should_pass/pattern_015.grg
 OK     should_pass/pattern_016.grg
+OK     should_pass/pattern_empty.grg
 OK     should_pass/pieter.grg
 OK     should_pass/pow.grg
 OK     should_pass/randompeek.grg
@@ -388,6 +402,7 @@ OK     should_pass/reuse_006.grg
 OK     should_pass/reuse_007.grg
 OK     should_pass/reuse_008.grg
 OK     should_pass/rewriteparametereval.grg
+OK     should_pass/rule_empty.grg
 OK     should_pass/same_node_name_as_model_name.grg
 OK     should_pass/sequence_nary_operators.grg
 OK     should_pass/sequence_some_from_set.grg
@@ -417,6 +432,7 @@ OK     should_pass/to_008.grg
 OK     should_pass/to_009.grg
 OK     should_pass/typeof_001.grg
 OK     should_pass/typeof_002.grg
+OK     should_pass/typeof_element_not_in_pattern.grg
 OK     should_pass/unary_001.grg
 OK     should_pass/visit_001.grg
 OK     should_pass/visit_002.grg
@@ -646,6 +662,26 @@ ERROR  should_fail/dangle_011.grg
 ERROR  should_fail/dangle_012.grg
 ERROR  should_fail/dangle_013.grg
 ERROR  should_fail/dangle_014.grg
+ERROR  should_fail/defYield_001.grg
+ERROR  should_fail/defYield_002.grg
+ERROR  should_fail/defYield_003.grg
+ERROR  should_fail/defYield_003e.grg
+ERROR  should_fail/defYield_004.grg
+ERROR  should_fail/defYield_004e.grg
+ERROR  should_fail/defYield_005.grg
+ERROR  should_fail/defYield_005e.grg
+ERROR  should_fail/defYield_005i.grg
+ERROR  should_fail/defYield_005ie.grg
+ERROR  should_fail/defYield_006.grg
+ERROR  should_fail/defYield_006i.grg
+ERROR  should_fail/defYield_007a.grg
+ERROR  should_fail/defYield_007b.grg
+ERROR  should_fail/defYield_007c.grg
+ERROR  should_fail/defYield_008a.grg
+ERROR  should_fail/defYield_008b.grg
+ERROR  should_fail/defYield_008c.grg
+ERROR  should_fail/defYield_009a.grg
+ERROR  should_fail/defYield_009b.grg
 ERROR  should_fail/delretypesame_001.grg
 ERROR  should_fail/delretypesame_001_e.grg
 ERROR  should_fail/delretypesame_001b.grg
