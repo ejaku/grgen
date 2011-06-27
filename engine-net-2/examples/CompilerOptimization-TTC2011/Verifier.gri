@@ -68,19 +68,39 @@ test checkPhiArity
 	negative {
 		phi:Phi -:Dataflow-> block:Block;
 
-		iterated {
+		c:CheckPhiArity(phi, block);		
+	}
+}
+
+pattern CheckPhiArity(phi:Phi, block:Block)
+{
+	alternative {
+		rec {
 			phi -phiEdge:Dataflow->;
 			block -blockEdge:Controlflow->;
 
 			if { phiEdge.position == blockEdge.position; }
+			
+			c:CheckPhiArity(phi, block);
 		}
-
-		alternative {
-			Phi {
-				phi -:Dataflow->;
-			}
-			Block {
-				block -:Controlflow->;
+		base {
+			// only fails if there is an edge with a position without counterpart
+			// does not fail if there are edges which have more than one counterpart
+			alternative {
+				Phi {
+					phi -phiEdge:Dataflow->;
+					negative {
+						block -blockEdge:Controlflow->;
+						if { phiEdge.position == blockEdge.position; }
+					}
+				}
+				Block {
+					block -blockEdge:Controlflow->;
+					negative {
+						phi -phiEdge:Dataflow->;
+						if { phiEdge.position == blockEdge.position; }
+					}
+				}
 			}
 		}
 	}
