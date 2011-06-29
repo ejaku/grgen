@@ -233,6 +233,7 @@ namespace de.unika.ipd.grGen.libGr
             case "EInteger": xmitypename = "int"; break;
             case "EInt": xmitypename = "int"; break;
             case "EBigInteger": xmitypename = "int"; break;
+            case "EIntegerObject": xmitypename = "int"; break;
             case "EFloat": xmitypename = "float"; break;
             case "EDouble": xmitypename = "double"; break;
             case "UnlimitedNatural": xmitypename = "int"; break;
