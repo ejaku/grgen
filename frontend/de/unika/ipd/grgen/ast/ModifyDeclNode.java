@@ -158,6 +158,24 @@ public class ModifyDeclNode extends RhsDeclNode {
 				right.addDeletedElement(e);
 			}
 		}
+		
+		// add elements only mentioned in typeof to the pattern
+		for (Node n : right.getNodes()) {
+			if (n.inheritsType()) {
+				Node node = (Node)n.getTypeof();
+				if(!deleteSet.contains(node)) {
+					graph.addNodeIfNotYetContained(right, node);
+				}
+			}
+		}
+		for (Edge e : right.getEdges()) {
+			if (e.inheritsType()) {
+				Edge edge = (Edge)e.getTypeof();
+				if(!deleteSet.contains(edge)) {
+					graph.addEdgeIfNotYetContained(right, edge);
+				}
+			}
+		}
 
 		for(SubpatternUsage sub : left.getSubpatternUsages()) {
 			boolean subHasDepModify = false;

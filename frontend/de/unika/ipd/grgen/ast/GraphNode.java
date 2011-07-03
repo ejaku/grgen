@@ -399,19 +399,11 @@ public class GraphNode extends BaseNode {
 		}
 		addNeededEntities(gr, needs);
 
-		// add elements only mentioned in typeof to the pattern
+		// don't add elements only mentioned in typeof here to the pattern, it prevents them from being deleted
+		// in general we must be cautious with adding stuff to rhs because of that problem
+		
 		Set<Node> nodesToAdd = new HashSet<Node>();
 		Set<Edge> edgesToAdd = new HashSet<Edge>();
-		for (GraphEntity n : gr.getNodes()) {
-			if (n.inheritsType()) {
-				nodesToAdd.add((Node)n.getTypeof());
-			}
-		}
-		for (GraphEntity e : gr.getEdges()) {
-			if (e.inheritsType()) {
-				edgesToAdd.add((Edge)e.getTypeof());
-			}
-		}
 
 		// add elements which we could not be added before because their container was iterated over
 		for(Node n : nodesToAdd)

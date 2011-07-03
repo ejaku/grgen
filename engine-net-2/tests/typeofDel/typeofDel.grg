@@ -1,0 +1,24 @@
+using typeofModel;
+
+rule Init
+{
+	modify {
+		a:A -:EB-> a;
+		:B;
+	}
+}
+
+rule Del {
+    :A -e:EA->;
+	b:B;
+    
+    modify {
+        b -:typeof(e)-> b;
+        delete( e );
+    }
+}
+
+test Check {
+	:A;
+	b:B -e:EA-> b;
+}

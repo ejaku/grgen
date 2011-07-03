@@ -1,0 +1,23 @@
+new graph typeofDel/typeofDel
+
+show num nodes "A"
+show num nodes "B"
+show num edges "EA"
+show num edges "EB"
+xgrs Init
+xgrs Check
+show num nodes "A"
+show num nodes "B"
+show num edges "EA"
+show num edges "EB"
+xgrs Del
+show num nodes "A"
+show num nodes "B"
+show num edges "EA"
+show num edges "EB"
+xgrs Check
+show num nodes "A"
+show num nodes "B"
+show num edges "EA"
+show num edges "EB"
+quit
