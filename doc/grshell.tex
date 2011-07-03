@@ -213,6 +213,16 @@ It's also possible to specify a rule set file as \emph{Filename}.
 In this case the necessary assemblies will be created on the fly.
 
 \begin{rail}
+  'new' 'add' 'reference' Filename
+\end{rail}\ixkeyw{new}\ixkeyw{add}\ixkeyw{reference}
+Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+
+\begin{rail}
+  'new' 'set' 'keepdebug' ('on'|'off')
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{on}\ixkeyw{off}
+Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols, maps to the \texttt{-keep} and the \texttt{-debug} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+
+\begin{rail}
   'open' 'graph' Filename Text
 \end{rail}\ixkeyw{open}\ixkeyw{graph}
 Opens the graph \emph{Text} stored in the backend.

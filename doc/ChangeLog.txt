@@ -1,4 +1,54 @@
-﻿v3.0beta2 (2011-05-19)
+﻿v3.0beta3 (2011-07-04)
+ LHS retyping:
+  - allowed retype operator on lhs, x:T<y> tries to cast y to T, 
+    if successful x allows to access y as T (attributes!), otherwise matching fails for this y
+
+ Totally homomorphic matching:
+  - with syntax independent(name) pattern elements may be requested to be matched homomorphic to any other element
+  - isomorphy exceptions may be specified with syntax independent(name\name)
+    or independent(name\(name+name+...+name))
+  - this allows to match the already matched target node of a use-def backlink in a program graph,
+    but is potentially dangerous as conflicting rewrites may be specified
+
+ Iteration breaking:
+  - iterated { X; break negative { Y; } }
+    if the negative matches, not only the current iteration instance is prevented from matching, 
+    but the entire iterated is failing to match
+  - iterated { X; break independent { Y; } }
+    if the independent does not match, not only the current iteration instance is prevented from matching,
+    but the entire iterated is failing to match
+  - this allows to check that "every pattern X must also satisfy Y" holds on single-rule level
+
+ Visualization and Debugging:
+  - added debug set node|edge mode matched|created|deleted|retyped command
+     it allows to configure the same visualization options as the dump set node|edge command,
+     but for the debugging visualization effects instead of for the types
+     (so one can configure a debugging display which is better visible with regard to the normal graph display)
+  - added ability to configure linestyle continuous|dotted|dashed in dump set edge command
+  - added ability to configure thickness 1|2|3|4|5 in dump set edge command
+  - added missing .vcg colors lightyellow and yellowgreen to color enum/parsing, fixed turqouise -> turquoise
+
+ Improved External Function Handling:
+  - allowed to give assembly references as parameters to the grgen compiler (grgen -r <name>.dll), 
+    so one can access external assemblies in the user defined function/class implementation
+  - allowed to add/register assembly references in grshell used at the invocations of the compiler:
+    new add reference "<path to dll>"
+  - and a keepdebug flag for improved debugging:
+    new set keepdebug on|off
+
+ Syntactical convenience: in case a top level rewrite part is missing a default empty modify is assumed
+
+ Improved Import: EMF/ecore/XMI adapted to TTC live contest input
+
+ Bugfixes:
+  - fixed issue when parsing (pat1 | ... | patn) construct
+  - fixed compilation error for iterated in negative/independent
+  - bugfix for elements to be deleted but referenced in a typeof
+
+ Syntax highlighting: adapted to latest changes
+
+ 
+v3.0beta2 (2011-05-19)
  Solutions of Transformation Tool Contest 2011 tasks added to examples:
   - HelloWorld! in examples\HelloWorld-TTC2011
   - ProgramUnderstanding in examples\Reengineering-TTC-2011
@@ -18,6 +68,7 @@
       for typeof and emithere
   - unsigned shift right >>> semantics fixed, and now correctly explained in manual
 
+  
 v3.0beta (2011-04-17)
  Local variables, ordered evaluation, and yielding outwards:
   - added def entity declarations, which on RHS do not get created, on LHS do not get matched,

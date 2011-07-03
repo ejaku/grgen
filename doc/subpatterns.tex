@@ -3,7 +3,7 @@
 
 The extension of the rule set language described in the chapter \ref{chaprulelang} by nested patterns and subpatterns greatly enhances the flexibility and expressiveness of pattern matching and rewriting.
 The following patterns to match a simplified abstract syntax tree give a rough picture of the language of nested and subpatterns:
-  \begin{example}
+  \begin{example} \label{ex:proggraph}
     \begin{grgen}
 test method
 {
@@ -255,6 +255,40 @@ test variableMaybeInitialized
   \end{grgen}
 \end{example}
 
+\subsection{Iteration breaking} 
+If an application condition inside an iteration block fails, then that potential match of the iterated pattern is thrown away and matching continues trying to find further matches.
+Sometimes a different behaviour is wanted, with an application condition terminating the iteration and causing it to fail.
+This would allow to check with a single rule that "every pattern X must also satisfy Y" holds.
+This behaviour is supported with the \indexmain{break}\texttt{break} keyword prepended to an application condition, transforming it into an iteration breaking condition.
+
+\begin{example}
+If the \texttt{negative} matches, not only the current iteration instance is prevented from matching, but the entire \texttt{iterated} (and thus the \texttt{test}) is failing to match:
+  \begin{grgen}
+test forEachXMustNotBeTheCaseY
+{
+  iterated {
+    <X>;
+    break negative { 
+      <Y>;
+    }
+  }
+}
+  \end{grgen}
+
+If the \texttt{independent} does not match, not only the current iteration instance is prevented from matching, but the entire \texttt{iterated} (and thus the \texttt{test}) is failing to match:
+  \begin{grgen}
+test forEachXMustBeTheCaseY
+{
+  iterated {
+    <X>;
+    break independent { 
+      <Y>;
+    }
+  }
+}
+  \end{grgen}
+\end{example}
+
 \begin{note}
 Pattern cardinality constructs are match/rewrite-all enumeration blockers.
 For every pattern instance, the iterated/... yields only one match, even if in all mode (used in/from all-bracketed rules).
@@ -314,6 +348,31 @@ test variableMaybeInitialized
   \end{grgen}
 \end{example}
 
+\begin{example} \label{ex:retypelhs}
+When working with the subtyping hierarchy one may be interested in matching in a first step an abstract base class,
+specifying the rewriting behaviour for this base class once,
+and in a refinement step in an alternative the different possible subtypes, 
+then being able to access their specific attributes and being able of giving different additional rewrite parts.
+	\begin{grgen}
+test refineFeature
+{
+  f:Feature; // match abstract base class Feature
+
+  alternative {
+    Variable {
+      v:Variable<f>; // try to cast to concrete Variable, if succeeds we can access the Variable attributes
+    }
+    Method {
+      m:Method<f>; // try to cast to a concrete Method, if succeeds we can access the Method attributes
+    }
+  }
+  
+  modify {
+    // do stuff common to a Feature here
+  }
+}
+	\end{grgen}
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Subpattern Declaration and Subpattern Entity Declaration}
@@ -500,7 +559,7 @@ This does not hold for the application conditions, which are pure conditions, bu
 \end{rail}\ixnterm{NestedRewriting}\ixkeyw{replace}\ixkeyw{modify}
 
 Syntactically the rewrite is specified by a modify or replace clause nested directly within the scope of each nested pattern;
-in addition to the rewrite clause nested within the top level pattern, which must be present even if the top level pattern is empty. 
+in addition to the rewrite clause nested within the top level pattern.
 Semantically for every instance of a pattern piece matched its dependent rewrite is applied. 
 So in the same manner the complete pattern is assembled from pattern pieces, the complete rewrite gets assembled from rewrite pieces
 (or operationally: rewriting is done along the match tree by rewriting one pattern piece after the other).
@@ -567,14 +626,20 @@ rule methodWithTwoOrThreeParameters(m:Method)
       }
     }
 
-  modify {
-  }
+  //modify { can be omitted - see below
+  //}
 }
   \end{grgen}
 \end{example}
 
+\begin{note} \label{omitmodify}
+In case you got a \texttt{rule} or \texttt{pattern} with an empty \texttt{modify} clause, with all the real work going on in an \texttt{alternative} or an \texttt{iterated}, you can omit the empty \texttt{modify} clause.
+This is a small syntactic convenience reducing noise which is strictly restricted to the top level pattern --- omitting rewrite parts of nested patterns specifies the entire pattern to be match-only (like a \texttt{test}; this must be consistent for all nested patterns).
+\end{note}
+
 \begin{example}
 This is an example which shows how to decide with an alternative on the target type of a retyping depending on the context.
+Please note the omitted rewrite (cf. \ref{omitmodify}).
 
   \begin{grgen}
 rule alternativeRelabeling
@@ -599,9 +664,6 @@ rule alternativeRelabeling
       }
     }
   } 
-
-  modify {
-  }
 }
   \end{grgen}
 \end{example}
@@ -1112,7 +1174,7 @@ test sumOfWeight(start:Node) : (int,int)
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Regular Expression Syntax and Patternpath Locking}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}
+\section{Regular Expression Syntax and Locking}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}
 
 In addition to the already introduced syntax for the nested patterns with the keywords 
 \texttt{negative}, \texttt{independent}, \texttt{alternative}, \texttt{iterated}, \texttt{multiple} and \texttt{optional},
@@ -1175,8 +1237,18 @@ pattern Expression(root:Expr)
     \end{grgen}
   \end{example}\label{introexampleregexp}
 
+\subsubsection*{Isomorphy locking} \label{locking}
+When matching a program graph as in the introductory example \ref{ex:proggraph} one might be satisfied with matching a tree structure.
+But on other occasions one wants to match \emph{backlinks} and especially the targets of the backlinks, too, 
+from \emph{uses} nested somewhere in the syntax graph to \emph{definitions} whose nodes were already matched earlier in the subpattern derivation (subpatterns can be seen as an equivalent of grammar rules known from parser generators).
+Unfortunately these elements are already matched and thus isormorphy locked following the default semantics of isomorphic matching.
+And unfortunately these elements can't be declared \texttt{hom}omorphic as they are unknown in the nested subpattern.
+Handing them in as parameters and then declaring them \texttt{hom}omorphic is only possible if they are of a statically fixed number (as the number of parameters is fixed at compile time), which is normally not the case for e.g. the attributes of a class in a syntax graph.
+In order to handle this case the \texttt{independent} \emph{operator} (cf. \ref{rule:homspec}) was added to the rule language
+--- when you declare the backlink target node \texttt{n} as \texttt{independent(n)} it can be matched once again.
+Thus it is possible to match e.g. a class attribute definition node which was already matched when collecting the attributes of the class again later on in a subpattern when matching an expression containing a usage of that attribute, allowing to e.g. add further edges to it.
 
-\subsubsection*{Patternpath locking}
+\subsubsection*{Patternpath locking} 
 As stated in the sections on the negative and independent constructs (\ref{nac}, \ref{pac}), they get matched homomorphically to all already matched elements. By referencing an element from outside you can isomorphy lock that element to prevent it to get matched again.
 
 Maybe you want to lock all elements from the directly enclosing pattern, in this case you can just insert \texttt{pattern;} in the position of a graphlet into the NAC or PAC.

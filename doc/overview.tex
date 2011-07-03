@@ -493,7 +493,7 @@ You'll find the tools in the \texttt{bin} subdirectory of your \GrG\ installatio
 %\pagebreak
 
 %-----------------------------------------------------------------------------------------------
-\subsection{\texttt{\indexed{GrGen.exe}}}
+\subsection{\texttt{\indexed{GrGen.exe}}} \label{grgenoptions}
 
 \parpic[l] {
 \includegraphics[width=48pt]{fig/grgen-256.png}
@@ -504,7 +504,8 @@ The compiled assemblies form a specific graph rewriting system together with the
 
 \begin{description}
   \item[Usage] \begin{tabular*}{\linewidth}{@{}l@{}l}\texttt{[mono] GrGen.exe } & \texttt{[-keep [<dest-dir>]] [-use <existing-dir>] [-debug]}\\
-        &\texttt{[-b <backend-dll>] [-o <output-dir>] <rule-set>}\end{tabular*}
+        &\texttt{[-b <backend-dll>] [-o <output-dir>] [-r <assembly-path>]}\\
+        &\texttt{<rule-set>}\end{tabular*}
     \emph{rule-set} is a file containing a rule set specification according to Chapter~\ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.
 By default \GrG\ tries to write the compiled assemblies into the same directory as the rule set file. This can be changed by the optional parameter \emph{output-dir}.
   \item[Options] \mbox{}
@@ -520,6 +521,7 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
       \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.\\
       \texttt{-debug} & Compile the assemblies with debug information.\\
       \texttt{-b} & Use the backend library \emph{backend-dll} (default is LGSPBackend).\\
+      \texttt{-r} & Link the assembly \emph{assembly-path} as reference to the compilation result.\\
       \texttt{-o} & Store generated assemblies in \emph{output-dir}.
     \end{tabularx}
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above). Java Runtime Environment 1.5 (or above).
@@ -614,12 +616,19 @@ In contrast to systems like Fujaba\cite{fujaba,fuj}, our strongest competitor re
 our pattern matching algorithm is fully automatic and does not need to be tuned nor to be implemented in parts by hand.
 According to \indexed{Varr\'o's benchmark}\cite{varro_bench}, it is at least one order of magnitude faster than any other tool known to us.
 
+\item[Understandability and Learnability]
+was taken care by evaluating for each language construct several options,
+prefering constructs already known from programming languages ---
+the ones which seemed most clean and intuitive while satisfying the other constraints were chosen.
+This can be noted in comparison with the languages of the (otherwise well-engineered) graph rewrite/database system GReTL \cite{GReTL},
+which may be pleasing to someone from the realm of formal specification, but are not to the mind of a programmer which just wants to process his graphs on a higher level of abstraction, with declarative pattern matching and rewriting, on a visualization of the network of objects, instead of low level pointer structure fiddling, chasing objects by following references in the debugger.
+As we know that even the best designed language is not self explaining we put an emphasize on the user manual currently read by you.
+
 \item[Development Convenience]
 is gained by interactive and graphical debugging of the rule application, capable of visualizing the matched pattern, the rewrite which will be applied, and the currently active rule out of the rewrite sequence.
 A further point easening development is the application programming interface of the generated code,
 which offers access to named, statically typed entities, catching most errors before runtime and allowing the code completion mechanisms of modern IDEs to excel.
 In addition a generic interface operating on name strings and .NET objects is available for applications where the rules may change at runtime (as e.g. the \GrShell).
-Another important factor regarding development convenience is currently read by you.
 There's one convenience not offered you might expect: a visual rule language and an editor.
 This brings a clear benefit -- graph transformation specifications to be processed by \GrG\ can be easily generated --
 but especially is a good deal cheaper to implement. Given the limited resources of an university project this is an important point,
@@ -634,7 +643,7 @@ with the \newterm{double-pushout approach} (DPO, for explanation see~\cite{dpoap
 The semantics of the recursive rules introduced in version 2.0 are given in \cite{Jak:08},
 utilizing pair star graph grammars on the meta level to assemble the rules of the object level.
 The formal semantics are not as complete as for the graph programming language GP\cite{gp} though, mainly due to the large amount of features
--- the convenience at using the language had priority over the convenience at reasoning formally about the language.
+--- the convenience at using the language had priority over the convenience at reasoning formally about the language.
 
 \item[Platform Independence]
 is achived by using languages compiled to byte code for virtual machines backed by large, standardized libraries, specifically: Java and C\#.

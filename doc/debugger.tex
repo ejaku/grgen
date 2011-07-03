@@ -28,23 +28,29 @@ Dumps the current graph in \indexed{VCG} format into the file \emph{Filename}.\\
 
 The following commands control the style of the VCG output. This affects \texttt{dump graph}, \texttt{show graph}, and \texttt{enable debug}.
 \begin{rail}
-  'dump' 'set' 'node' (() | 'only') NodeType \\ (('color' | 'textcolor' | 'bordercolor') Color | 'shape' Text | 'labels' ('on' | 'off' | Text)) ;
-\end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{node}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{bordercolor}\ixkeyw{shape}\ixkeyw{labels}\ixkeyw{on}\ixkeyw{off}
+  'dump' 'set' 'node' (() | 'only') NodeType DumpNodeContinuation;
+DumpNodeContinuation:
+ (('color' | 'textcolor' | 'bordercolor') Color | 'shape' Text | 'labels' ('on' | 'off' | Text)) ;
+\end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{node}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{bordercolor}\ixkeyw{shape}\ixkeyw{labels}\ixkeyw{on}\ixkeyw{off}\ixnterm{DumpNodeContinuation}
 Sets the \indexed{color}, text color, border color, the shape or the label of the nodes of type \emph{NodeType} and all of its subtypes.
 The keyword \texttt{only} excludes the subtypes. The available colors are specified at the begin of this chapter.
 The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhomb}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}.
 Those are shape names of \yComp\ (for a VCG definition see~\cite{vcg}).
-The following colors are supported: \texttt{Black}, \texttt{Blue}, \texttt{Green}, \texttt{Cyan}, \texttt{Red}, \texttt{Purple}, \texttt{Brown}, \texttt{Grey}, \texttt{LightGrey}, \texttt{LightBlue}, \texttt{LightGreen}, \texttt{LightCyan}, \texttt{LightRed}, \texttt{LightPurple}, \texttt{Yel\-low}, \texttt{White}, \texttt{DarkBlue}, \texttt{DarkRed}, \texttt{Dark\-Green}, \texttt{DarkYellow}, \texttt{DarkMagenta}, \texttt{DarkCyan}, \texttt{Gold}, \texttt{Lilac}, \texttt{Turquoise}, \texttt{Aquamarine}, \texttt{Khaki}, \texttt{Pink}, \texttt{Orange}, \texttt{Orchid}.
+The following colors are supported: \texttt{Black}, \texttt{Blue}, \texttt{Green}, \texttt{Cyan}, \texttt{Red}, \texttt{Purple}, \texttt{Brown}, \texttt{Grey}, \texttt{LightGrey}, \texttt{LightBlue}, \texttt{LightGreen}, \texttt{LightCyan}, \texttt{LightRed}, \texttt{LightPurple}, \texttt{Yel\-low} (default), \texttt{White}, \texttt{DarkBlue}, \texttt{DarkRed}, \texttt{Dark\-Green}, \texttt{DarkYellow}, \texttt{DarkMagenta}, \texttt{DarkCyan}, \texttt{Gold}, \texttt{Lilac}, \texttt{Turquoise}, \texttt{Aquamarine}, \texttt{Khaki}, \texttt{Pink}, \texttt{Orange}, \texttt{Orchid}, \texttt{LightYellow}, \texttt{YellowGreen}.
 These are the same color identifiers as in \indexed{VCG}/\yComp\ files (for a VCG definition see~\cite{vcg}).
 
 The default labeling is set to \texttt{on} with \texttt{Name:Type}, it can be overwritten by an specified label string (e.g. the source code line originating the node in a program graph) or switched off.
 
 \begin{rail}
-  'dump' 'set' 'edge' (() | 'only') EdgeType \\ (('color' | 'textcolor') Color | 'labels' ('on' | 'off' | Text));
-\end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{edge}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{labels}\ixkeyw{on}\ixkeyw{off}
-Sets the color, text color or label of the edges of type \emph{EdgeType} and all of its subtypes.
-The keyword \texttt{only} excludes the subtypes. The available colors are specified at the begin of this chapter.
+  'dump' 'set' 'edge' (() | 'only') EdgeType DumpEdgeContinuation;
+DumpEdgeContinuation:
+  (('color' | 'textcolor') Color | 'linestyle' (Text) | 'thickness' (Number) | 'labels' ('on' | 'off' | Text));
+\end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{edge}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{labels}\ixkeyw{on}\ixkeyw{off}\ixkeyw{linestyle}\ixkeyw{thickness}\ixnterm{DumpEdgeContinuation}
+Sets the color, text color, the linestyle, the thickness of the line, or the label of the edges of type \emph{EdgeType} and all of its subtypes.
+The keyword \texttt{only} excludes the subtypes. The available colors are specified above.
 The default labeling is set to \texttt{on} with \texttt{Name:Type}, it can be overwritten by an specified label string or switched off.
+The following linestyles are supported: \texttt{continuous} (default), \texttt{dotted}, \texttt{dashed}.
+The following thicknesses are supported: \texttt{1} (default), \texttt{2}, \texttt{3}, \texttt{4}, \texttt{5}.
 
 \begin{rail}
   'dump' 'add' (('node' ('only')? NodeType)|('edge' ('only')? EdgeType)) 'exclude' ;
@@ -114,18 +120,19 @@ should be tried first.
 The following example shows several of the layout options employed to considerably increase the readability of a program graph (as given in \texttt{examples/JavaProgramGraphs-GraBaTs08}):
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{fig/screen-overview}
+  \includegraphics[width=0.99\textwidth]{fig/screen-overview}
   \caption{Overview of the initial program graph }
   \label{figprogramgraph1}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth]{fig/screen-detail}
+  \includegraphics[width=0.99\textwidth]{fig/screen-detail}
   \caption{Some details of the ``Node'' class of the initial program graph}
   \label{figprogramgraph2}
 \end{figure}
 
+\pagebreak 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Debugging Related Commands}
@@ -156,6 +163,16 @@ Prints a list of the available layout options of the layout algorithm.
   'debug' 'layout';
 \end{rail}\ixkeyw{debug}\ixkeyw{layout}
 Forces re-layout of the graph shown in yComp (same as pressing the play button within yComp).
+
+\begin{rail}
+  'debug' 'set' 'node' 'mode' Text DumpNodeContinuation ;
+\end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{mode}
+\begin{rail}
+  'debug' 'set' 'edge' 'mode' Text DumpEdgeContinuation ;
+\end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{mode}
+Configures the display of the visual debug states for the nodes/edges.
+The following modes are supported: \texttt{matched}, \texttt{created}, \texttt{deleted}, \texttt{retyped}.
+Change this if you e.g. want the matched elements to be marked more visibly, or added/deleted elements to be colored green/red.
 
 \begin{rail}
   GraphRewriteSequence: 'debug' 'xgrs' SimpleRewriteSequence ;
@@ -204,6 +221,8 @@ The breakpoint and choicepoint commands of the debugger allow to toggle them at 
 The user input commands \texttt{\$\%(type)} define choice points which can't be toggled off.
 
 Further commands allow to print the variables at a given situation, the sequence call stack, or a full state dump of the call stack and the variables.
+
+\pagebreak
 
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|}

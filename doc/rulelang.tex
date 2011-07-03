@@ -438,7 +438,7 @@ See Chapter~\ref{cha:xgrs} for further information on graph rewrite sequences.
 \begin{rail}
   PatternStatement:
     Graphlet ';' |
-    'hom' '(' (Ident + ',') ')' ';' |
+    HomomorphySpecification ';' |
     ('exact' | 'induced') '(' (Ident+',') ')' |
     'if' lbrace (BooleanExpr ';' +) rbrace |
     NestedPattern |
@@ -448,13 +448,7 @@ See Chapter~\ref{cha:xgrs} for further information on graph rewrite sequences.
 The semantics of the various pattern statements are given below:
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Graphlets specify connected subgraphs. See Section~\ref{rulebb} for a detailed explanation of graphlets.
-  \item[Isomorphic/Homomorphic Matching] \indexmain{isomorphic matching}\indexmain{homomorphic matching}The \texttt{hom} operator specifies the nodes or edges that may be matched homomorphically.
-  In contrast to the default isomorphic matching, the specified graph elements \emph{may} be mapped to the same graph element in the host graph. Note that the graph elements must have a common subtype.
-  Several homomorphically matched graph elements will be mapped to a graph element of a common subtype.
-  In Example~\ref{ex:rule:SomeRule} nodes \texttt{n1} and \texttt{n2} may be the same node. This is possible because they are of the same type (\texttt{NodeTypeA}).
-  Inside a NAC the \texttt{hom} operator may only operate on graph elements that are either defined or used in the NAC.
-  Nested \texttt{negative}/\texttt{independent} blocks inherit the \texttt{hom} declarations of their nesting pattern.
-  In contrast to previous versions \texttt{hom} delarations are non-transitive, i.e \texttt{hom(a,b)} and \texttt{hom(b,c)} don't cause \texttt{hom(a,c)} unless specified.
+  \item[Isomorphic/Homomorphic Matching] See Subsection \ref{rule:homspec} for a discussion of this.
   \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule. The pattern can only match if the \emph{BooleanExpression} (see chapter \ref{cha:typeexpr}) is evaluated to \texttt{true}.
   \item[Pattern Modifiers] Additionally to modifiers that apply to a pattern as a whole, you may also specify pattern modifiers for a specific set of nodes. Accordingly the list of identifiers for a pattern modifier must not contain any edge identifier. See Section~\ref{sct:patternmodifier} for an explanation of the \texttt{exact} and \texttt{induced} modifiers.
   \item[NestedPattern] will be explained in \ref{nac},\ref{pac},\ref{cardinality},\ref{alternative}.
@@ -462,7 +456,6 @@ The semantics of the various pattern statements are given below:
 \end{description}
 
 Keep in mind that using type constraints or the \texttt{typeof} operator might be helpful. See Section~\ref{typeexpressions} for further information.
-
 
 \begin{rail}
   ReturnStatement: 'return' '(' ((Ident|Expression)+',') ')' ';' ;
@@ -487,6 +480,36 @@ rule numberNode(var id:int) : (int)
 }
 \end{grgen}
 \end{note}
+
+
+\subsection{Isomorphic and Homomorphic Matching}\label{rule:homspec}\indexmain{isomorphic matching}\indexmain{homomorphic matching}
+
+\begin{rail}
+  HomomorphySpecification:
+    'hom' '(' (Ident + ',') ')' ';' |
+    'independent' '(' Ident (backslash ( '(' (TypeExpr + '+')  ')' | TypeExpr ))? ')' ';'
+    ;
+\end{rail}\ixkeyw{hom}\ixkeyw{independent}\ixnterm{HomomorphySpecification}
+
+The matching of pattern elements to host graph elements in GrGen.NET is isomorphic (injective) by default, 
+i.e. two pattern elements can \emph{not} be bound to the same host graph element.
+The \texttt{hom} operator specifies the nodes or edges that may be matched homomorphically.
+In contrast to the default isomorphic matching, the specified graph elements \emph{may} be mapped to the same graph element in the host graph. Note that the graph elements must have a common subtype.
+Several homomorphically matched graph elements will be mapped to a graph element of a common subtype.
+In Example~\ref{ex:rule:SomeRule} nodes \texttt{n1} and \texttt{n2} may be the same node. This is possible because they are of the same type (\texttt{NodeTypeA}).
+Inside a NAC the \texttt{hom} operator may only operate on graph elements that are either defined or used in the NAC.
+Nested \texttt{negative}/\texttt{independent} blocks inherit the \texttt{hom} declarations of their nesting pattern.
+In contrast to previous versions \texttt{hom} delarations are non-transitive, i.e \texttt{hom(a,b)} and \texttt{hom(b,c)} don't cause \texttt{hom(a,c)} unless specified.
+
+The \texttt{independent} operator specifies the node or edge given within the parentheses to be homomorphic to all the other pattern elements.
+With the constraint clause following, exceptions can be given defining the pattern elements it must be distinct to.
+Thus we got a mode of specification requesting homomorphic matching with additional isomorphy exceptions in contrast to the default mode,
+requesting isomorphic matching with additional homomorphy exception.
+It is recommended to \emph{not} use the \texttt{independent} operator, it it potentially dangerous allowing to carry out conflicting rewrites, with an element \texttt{a} to be deleted, element \texttt{b} to be kept, and element \texttt{c} to be retyped, all mapping to the same graph element (you will experience funny effects and/or crashes in this case; the \texttt{hom} operator offers some static checks against this).
+The operator is available as a last resort for some situations in matching complex structures with iterated and subpatterns, 
+in which it is unfeasible or not possible to explicitely give elements the pattern element may be homomorphic to,
+because they were matched in a pattern at an arbitrary distance in the derivation path which only dynamically called the pattern of interest,
+i.e. they can't be referenced by name, cf. \ref{locking}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -829,7 +852,10 @@ Remember that we have several subtypes of \texttt{street}. By the aid of the \te
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Retyping and Copying}
 
-In the following section we'll have a look at a language construct which retypes an element to another type keeping incident elements (either to a type statically given or the runtime type of another element), and at the copy operator which allows to create a new element of the runtime type of another matched element, transferring the attribute values.
+In the following section we'll have a look at a language construct which retypes an element to another type
+(either to a type statically given or the runtime type of another element),
+changing the accessible attributes while keeping incident elements.
+And at the copy operator which allows to create a new element of the runtime type of another matched element, transferring the attribute values.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Retyping} \label{sec:retype}
@@ -846,10 +872,10 @@ Syntactically it is specified by giving the original node enclosed in left and r
 \centering
 \begin{tabularx}{\linewidth}{lllX}
   \textbf{Pattern (LHS)} & \textbf{Replace (RHS)} & \textbf{$r: L \longrightarrow R$} & \textbf{Meaning} \\ \hline
-  \texttt{x:N1;} & \texttt{y:N2<x>;}          & $r:\lhs.x \mapsto \rhs.x$ & Preserve \texttt{x}, then retype \texttt{x} from \texttt{N1} to \texttt{N2} and bind name \texttt{y} to retyped version of \texttt{x}.\\
-  \texttt{e:E1;} & \texttt{f:E2<e>;}          & $r:\lhs.e \mapsto \rhs.e$ & Preserve \texttt{e}, then retype \texttt{e} from \texttt{E1} to \texttt{E2} and bind name \texttt{f} to the retyped version of \texttt{e}.\\
+  \texttt{x:N1;} & \texttt{y:N2<x>;}          & $r:\lhs.x \mapsto \rhs.x$ & Match \texttt{x}, then retype \texttt{x} from \texttt{N1} to \texttt{N2} and bind name \texttt{y} to retyped version of \texttt{x}.\\
+  \texttt{e:E1;} & \texttt{f:E2<e>;}          & $r:\lhs.e \mapsto \rhs.e$ & Match \texttt{e}, then retype \texttt{e} from \texttt{E1} to \texttt{E2} and bind name \texttt{f} to the retyped version of \texttt{e}.\\
 \end{tabularx}
-\caption{Retyping of preserved nodes and edges}
+\caption{Retyping of matched nodes and edges}
 \label{rule:retyping_graphlets}
 \end{table}
 
@@ -866,7 +892,7 @@ Furthermore the source and destination types need \emph{not} to be on a path in 
 However, if source and destination type have one ore more common super types, then the respective attribute values are adopted by the retyped version of the respective node (or edge).
 The edge specification as well as \emph{ReplaceNode} supports retyping.
 In Example~\ref{ex:rule:SomeRule} node \texttt{n5} is a retyped node stemming from node \texttt{n1}.
-Note, that---conceptually---the retyping is performed \emph{after} the SPO conform rewrite.
+Note, that---conceptually---the retyping is performed \emph{after} the SPO conforming rewrite.
 
 \begin{example}
 The following rule will promote the matched city \texttt{x} from a \texttt{City} to a \texttt{Metropolis} keeping all its incident edges/streets,
@@ -881,6 +907,16 @@ rule oneway {
 }
 \end{grgen}
 \end{example}
+
+The retyping clause \texttt{new:type<old>} can be used on the LHS, too.
+When it appears on the left hand side, the node(/edge) \texttt{old} is not changed in any way,
+instead a further node(/edge) \texttt{new} is made available for querying,
+being identical to \texttt{old} regarding the object reference,
+but additionally giving access to the attributes known to the \texttt{type} -- if matching was successful.
+The construct tries to cast \texttt{old} to \texttt{new}, 
+if successful \texttt{new} allows to access \texttt{old} as \texttt{type},
+otherwise matching fails for this \texttt{old} (and binding another graph element to \texttt{old} is tried out).
+Please have a look at example \ref{ex:retypelhs} for more on this.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Copy} \label{sec:copy}
