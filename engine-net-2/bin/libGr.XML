@@ -2579,24 +2579,28 @@
             <param name="parameters">Backend specific parameters.</param>
             <returns>The new IGraph backend instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.IGraph@,de.unika.ipd.grGen.libGr.BaseActions@)">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},de.unika.ipd.grGen.libGr.IGraph@,de.unika.ipd.grGen.libGr.BaseActions@)">
             <summary>
             Creates a new IGraph and BaseActions backend instance from the specified specification file.
             If neccessary, any processing steps are performed automatically.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
             <param name="graphName">Name of the new graph.</param>
+            <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
+            <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="newGraph">Returns the new graph.</param>
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.Exception">Thrown when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String})">
             <summary>
             Creates a new IGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="gmFilename">Filename of the model specification file (.gm).</param>
             <param name="graphName">Name of the new graph.</param>
+            <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
+            <param name="externalAssemblies">List of external assemblies to reference.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new IGraph backend instance.</returns>
@@ -2611,7 +2615,7 @@
             <param name="parameters">Backend specific parameters</param>
             <returns>The IGraph backend instance</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.ProcessSpecification(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags)">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.ProcessSpecification(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
             <summary>
             Processes the given rule specification file and generates a model and actions library.
             </summary>
@@ -2619,6 +2623,7 @@
             <param name="destDir">The directory, where the generated libraries are to be placed.</param>
             <param name="intermediateDir">A directory, where intermediate files can be placed.</param>
             <param name="flags">Specifies how the specification is to be processed.</param>
+            <param name="externalAssemblies">External assemblies to reference</param>
             <exception cref="T:System.Exception">Thrown, when an error occurred.</exception>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IBackend.ProcessSpecification(System.String)">
