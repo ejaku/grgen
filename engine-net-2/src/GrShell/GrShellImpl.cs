@@ -274,6 +274,9 @@ namespace de.unika.ipd.grGen.grShell
         public TextWriter errOut = System.Console.Error;
         public IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
 
+        List<String> newGraphExternalAssembliesReferenced = new List<String>();
+        bool newGraphKeepDebug = false;
+
         /// <summary>
         /// Maps layouts to layout option names to their values.
         /// This only reflects the settings made by the user and may even contain illegal entries,
@@ -1229,6 +1232,19 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
+        public bool NewGraphAddReference(String externalAssemblyReference)
+        {
+            if(!newGraphExternalAssembliesReferenced.Contains(externalAssemblyReference))
+                newGraphExternalAssembliesReferenced.Add(externalAssemblyReference);
+            return true;
+        }
+
+        public bool NewGraphSetKeepDebug(bool keepDebug)
+        {
+            newGraphKeepDebug = keepDebug;
+            return true;
+        }
+
         public bool NewGraph(String specFilename, String graphName)
         {
             if(!BackendExists()) return false;
@@ -1285,7 +1301,9 @@ namespace de.unika.ipd.grGen.grShell
                     IGraph graph;
                     try
                     {
-                        graph = curGraphBackend.CreateFromSpec(specFilename, graphName);
+                        graph = curGraphBackend.CreateFromSpec(specFilename, graphName, 
+                            newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles, 
+                            newGraphExternalAssembliesReferenced);
                     }
                     catch(Exception e)
                     {
@@ -1311,7 +1329,10 @@ namespace de.unika.ipd.grGen.grShell
                     BaseActions actions;
                     try
                     {
-                        curGraphBackend.CreateFromSpec(specFilename, graphName, out graph, out actions);
+                        curGraphBackend.CreateFromSpec(specFilename, graphName, 
+                            newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles, 
+                            newGraphExternalAssembliesReferenced,
+                            out graph, out actions);
                     }
                     catch(Exception e)
                     {

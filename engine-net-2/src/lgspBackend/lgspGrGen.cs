@@ -74,7 +74,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        bool ProcessModel(String modelFilename, String modelStubFilename, String destDir, 
+        bool ProcessModel(String modelFilename, String modelStubFilename, String destDir, String[] externalAssemblies, 
                 out Assembly modelAssembly, out String modelAssemblyName)
         {
             String modelName = Path.GetFileNameWithoutExtension(modelFilename);
@@ -85,9 +85,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             CSharpCodeProvider compiler = new CSharpCodeProvider();
             CompilerParameters compParams = new CompilerParameters();
+
             compParams.ReferencedAssemblies.Add("System.dll");
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
+            compParams.ReferencedAssemblies.AddRange(externalAssemblies);
 
             compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
             compParams.OutputAssembly = destDir  + "lgsp-" + modelName + ".dll";
@@ -648,9 +650,10 @@ namespace de.unika.ipd.grGen.lgsp
             return noError && doneFound;
         }
 
+
         enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
 
-        ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir)
+        ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, String[] externalAssemblies)
         {
             Console.WriteLine("Building libraries...");
 
@@ -727,7 +730,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             Assembly modelAssembly;
             String modelAssemblyName;
-            if(!ProcessModel(modelFilename, modelStubFilename, destDir, out modelAssembly, out modelAssemblyName))
+            if(!ProcessModel(modelFilename, modelStubFilename, destDir, externalAssemblies, out modelAssembly, out modelAssemblyName))
                 return ErrorType.GrGenNetError;
 
             IGraphModel model = GetGraphModel(modelAssembly);
@@ -1096,13 +1099,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="destDir">The directory, where the generated libraries are to be placed.</param>
         /// <param name="intermediateDir">A directory, where intermediate files can be placed.</param>
         /// <param name="flags">Specifies how the specification is to be processed.</param>
+        /// <param name="externalAssemblies">External assemblies to reference</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        public static void ProcessSpecification(String specPath, String destDir, String intermediateDir, ProcessSpecFlags flags)
+        public static void ProcessSpecification(String specPath, String destDir, String intermediateDir, ProcessSpecFlags flags, params String[] externalAssemblies)
         {
             ErrorType ret;
             try
             {
-                ret = new LGSPGrGen(flags).ProcessSpecificationImpl(specPath, destDir, intermediateDir);
+                ret = new LGSPGrGen(flags).ProcessSpecificationImpl(specPath, destDir, intermediateDir, externalAssemblies);
             }
             catch(Exception ex)
             {
@@ -1128,7 +1132,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// Processes the given rule specification file and generates a model and actions library in the same directory as the specification file.
         /// </summary>
         /// <param name="specPath">The path to the rule specification file (.grg).</param>
-        public static void ProcessSpecification(String specPath)
+        /// <param name="flags">Specifies how the specification is to be processed.</param>
+        /// <param name="externalAssemblies">External assemblies to reference</param>
+        public static void ProcessSpecification(String specPath, ProcessSpecFlags flags, params String[] externalAssemblies)
         {
             specPath = FixDirectorySeparators(specPath);
 
@@ -1162,7 +1168,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             try
             {
-                ProcessSpecification(specPath, specDir, dirname, ProcessSpecFlags.UseNoExistingFiles);
+                ProcessSpecification(specPath, specDir, dirname, flags, externalAssemblies);
             }
             finally
             {

@@ -1517,7 +1517,7 @@ namespace spBench
 
             try
             {
-                new LGSPBackend().CreateFromSpec(grgFile, "spBenchGraph", out graph, out actions);
+                new LGSPBackend().CreateFromSpec(grgFile, "spBenchGraph", ProcessSpecFlags.UseNoExistingFiles, new List<String>(), out graph, out actions);
             }
             catch(Exception ex)
             {

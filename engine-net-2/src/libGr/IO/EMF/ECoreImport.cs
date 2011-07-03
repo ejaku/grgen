@@ -160,7 +160,7 @@ namespace de.unika.ipd.grGen.libGr
 
             IGraph graph;
             BaseActions actions;
-            backend.CreateFromSpec(grgFilename, "defaultname", out graph, out actions);
+            backend.CreateFromSpec(grgFilename, "defaultname", ProcessSpecFlags.UseNoExistingFiles, new List<String>(), out graph, out actions);
             graph.Actions = actions;
             return graph;
         }
@@ -227,16 +227,27 @@ namespace de.unika.ipd.grGen.libGr
             case "String": xmitypename = "string"; break;
             case "EChar": xmitypename = "string"; break;
             case "EString": xmitypename = "string"; break;
+            case "ECharacterObject": xmitypename = "string"; break;
             case "Boolean": xmitypename = "boolean"; break;
             case "EBoolean": xmitypename = "boolean"; break;
+            case "EBooleanObject": xmitypename = "boolean"; break;
             case "Integer": xmitypename = "int"; break;
             case "EInteger": xmitypename = "int"; break;
             case "EInt": xmitypename = "int"; break;
             case "EBigInteger": xmitypename = "int"; break;
             case "EIntegerObject": xmitypename = "int"; break;
-            case "EFloat": xmitypename = "float"; break;
-            case "EDouble": xmitypename = "double"; break;
+            case "EBigDecimal": xmitypename = "int"; break;
             case "UnlimitedNatural": xmitypename = "int"; break;
+            case "EShort": xmitypename = "int"; break;
+            case "EShortObject": xmitypename = "int"; break;
+            case "EFloat": xmitypename = "float"; break;
+            case "EFloatObject": xmitypename = "float"; break;
+            case "EDouble": xmitypename = "double"; break;
+            case "EDoubleObject": xmitypename = "double"; break;
+            case "EByte": xmitypename = "byte"; break; // nyi
+            case "EByteObject": xmitypename = "byte"; break; // nyi
+            case "ELong": xmitypename = "long"; break; // nyi
+            case "ELongObject": xmitypename = "long"; break; // nyi
             default:
                 {
                     XmlElement packageNode = package;
@@ -520,7 +531,7 @@ namespace de.unika.ipd.grGen.libGr
                 int index;
                 if(part.Length == 0)
                 {
-                    curPos = curPos.children[0];
+                    continue;
                 }
                 else if(part.StartsWith("@"))
                 {

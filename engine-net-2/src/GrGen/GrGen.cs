@@ -8,6 +8,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 
@@ -76,6 +77,7 @@ namespace de.unika.ipd.grGen.grGen
             String destDir = null;
             ProcessSpecFlags flags = ProcessSpecFlags.UseNoExistingFiles;
             IBackend backend = null;
+            List<String> externalAssemblies = new List<String>();
 
             for(int i = 0; i < args.Length; i++)
             {
@@ -111,6 +113,16 @@ namespace de.unika.ipd.grGen.grGen
                             if(backend == null)
                                 return 1;
                             Console.WriteLine("Using backend \"" + backend.Name + "\".");
+                            break;
+
+                        case "-r":
+                            if (i + 1 >= args.Length)
+                            {
+                                Console.Error.WriteLine("Missing parameter for -r option!");
+                                specFile = null;         // show usage
+                                break;
+                            }
+                            externalAssemblies.Add(args[++i]);
                             break;
 
                         case "-keep":
@@ -183,6 +195,12 @@ namespace de.unika.ipd.grGen.grGen
                             flags |= ProcessSpecFlags.NoPerformanceInfoUpdates;
                             break;
 
+                        case "-mission":
+                            Console.WriteLine("The Graph Rewrite Generator GrGen.NET:");
+                            Console.WriteLine("One tool to rule them all, one tool to find them.");
+                            Console.WriteLine("One tool to bring them all, and in the darkness bind them.");
+                            return 0;
+
                         default:
                             Console.Error.WriteLine("Illegal option: " + args[i]);
                             specFile = null;
@@ -205,7 +223,8 @@ namespace de.unika.ipd.grGen.grGen
                       "Usage: GrGen [OPTIONS] <grg-file>[.grg]\n"
                     + "Options:\n"
                     + "  -o <output-dir>       Output directory for the generated assemblies\n"
-                    + "  -b <backend-dll>      Use the specified backend library (default: LGSPBackend)\n"
+                    + "  -b <backend-dll>      Use the specified backend library\n"
+                    + "                        (default: LGSPBackend)\n"
                     + "  -keep [<gen-dir>]     Don't delete generated files making it possible\n"
                     + "                        to use the files in a C# project directly.\n"
                     + "                        This way you can also debug non-matching rules.\n"
@@ -214,7 +233,10 @@ namespace de.unika.ipd.grGen.grGen
                     + "                        using the -keep option in the specified directory\n"
                     + "  -usefull <exist-dir>  Use all old C# files generated using the -keep option\n"
                     + "                        in the specified directory\n"
-                    + "  -debug                Compiles the assemblies with debug information\n\n"
+                    + "  -debug                Compiles the assemblies with debug information\n"
+                    + "  -r <assembly-path>    Assembly path to reference, i.e. link into\n"
+                    + "                        the generated assembly\n"
+                    + "  -mission              Uncovers the tool's evil mission\n\n"
                     + "Optimizing options:\n"
                     + "  -noevents             Do not fire any events in the generated code.\n"
                     + "  -noperfinfo           Do not try to update the performance info object\n"
@@ -282,7 +304,7 @@ namespace de.unika.ipd.grGen.grGen
             int ret = 0;
             try
             {
-                backend.ProcessSpecification(specFile, destDir, dirname, flags);
+                backend.ProcessSpecification(specFile, destDir, dirname, flags, externalAssemblies.ToArray());
             }
             catch(Exception ex)
             {

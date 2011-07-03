@@ -295,6 +295,7 @@ TOKEN: {
 |   < INFOTAG: "infotag" >
 |   < IO: "io" >
 |   < IS: "is" >
+|   < KEEPDEBUG: "keepdebug" >
 |   < LABELS: "labels" >
 |   < LAYOUT: "layout" >
 |   < LS: "ls" >
@@ -318,6 +319,7 @@ TOKEN: {
 |   < RANDOMSEED: "randomseed" >
 |   < RECORD: "record" >
 |   < REDIRECT: "redirect" >
+|   < REFERENCE: "reference" >
 |   < REM: "rem" >
 |   < REPLAY: "replay" >
 |   < RESET: "reset" >
@@ -1328,10 +1330,10 @@ void ShellCommand():
 
 void NewCommand():
 {
-	String modelFilename, graphName = "DefaultGraph";
+	String modelFilename, referencePath, graphName = "DefaultGraph";
 	INode srcNode, tgtNode;
 	ElementDef elemDef;
-	bool directed;
+	bool directed, keepdebug;
 }
 {
 	try
@@ -1339,6 +1341,16 @@ void NewCommand():
 		"graph" modelFilename=Filename() (graphName=WordOrText())? LineEnd()
 		{
 			noError = impl.NewGraph(modelFilename, graphName);
+		}
+	|
+		"add" "reference" referencePath=Filename() LineEnd()
+		{
+			noError = impl.NewGraphAddReference(referencePath);
+		}
+	|
+		"set" "keepdebug" ("on" { keepdebug = true; } | "off" { keepdebug = false; }) LineEnd()
+		{
+			noError = impl.NewGraphSetKeepDebug(keepdebug);
 		}
 	|
 		LOOKAHEAD(3)

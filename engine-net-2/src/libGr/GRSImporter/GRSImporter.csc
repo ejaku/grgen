@@ -636,7 +636,7 @@ bool ParseGraphBuildingScript() :
 					{
 						IGraph implementingGraph;
 						BaseActions actions;
-						backend.CreateFromSpec(modelFilename, graphName, out implementingGraph, out actions);
+						backend.CreateFromSpec(modelFilename, graphName, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), out implementingGraph, out actions);
 						implementingGraph.Actions = actions;
 						graph = new NamedGraph(implementingGraph);
 					}

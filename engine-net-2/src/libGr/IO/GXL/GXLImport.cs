@@ -129,7 +129,7 @@ namespace de.unika.ipd.grGen.libGr
             if(modelfilename.EndsWith(".grg"))
             {
                 BaseActions actions;
-                backend.CreateFromSpec(modelfilename, graphname, out graph, out actions);
+                backend.CreateFromSpec(modelfilename, graphname, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), out graph, out actions);
                 graph.Actions = actions;
             }
             else
