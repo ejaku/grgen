@@ -274,8 +274,17 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public enum AttributeKind
     {
+        /// <summary>The attribute is a byte (signed).</summary>
+        ByteAttr,
+
+        /// <summary>The attribute is a short.</summary>
+        ShortAttr,
+
         /// <summary>The attribute is an integer.</summary>
         IntegerAttr,
+
+        /// <summary>The attribute is a long.</summary>
+        LongAttr,
 
         /// <summary>The attribute is a boolean.</summary>
         BooleanAttr,
@@ -397,7 +406,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             switch(attrKind)
             {
+                case AttributeKind.ByteAttr: return "byte";
+                case AttributeKind.ShortAttr: return "short";
                 case AttributeKind.IntegerAttr: return "int";
+                case AttributeKind.LongAttr: return "long";
                 case AttributeKind.BooleanAttr: return "boolean";
                 case AttributeKind.StringAttr: return "string";
                 case AttributeKind.FloatAttr: return "float";
@@ -416,7 +428,7 @@ namespace de.unika.ipd.grGen.libGr
             switch(Kind)
             {
                 case AttributeKind.EnumAttr: return EnumType.Name;
-                case AttributeKind.SetAttr: return "set<"+ValueType.GetKindName()+">";
+                case AttributeKind.SetAttr: return "set<" + ValueType.GetKindName() + ">";
                 case AttributeKind.ArrayAttr: return "array<" + ValueType.GetKindName() + ">";
                 case AttributeKind.MapAttr: return "map<" + KeyType.GetKindName() + "," + ValueType.GetKindName() + ">";
                 case AttributeKind.NodeAttr: return TypeName;

@@ -31,7 +31,13 @@ public class IntConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type) {
 		Integer value = (Integer) getValue();
 
-		if (type.isEqual(BasicTypeNode.floatType)) {
+		if (type.isEqual(BasicTypeNode.byteType)) {
+			return new ByteConstNode(getCoords(), (byte)(int)value);
+		} else if (type.isEqual(BasicTypeNode.shortType)) {
+			return new ShortConstNode(getCoords(), (short)(int)value);
+		} else if (type.isEqual(BasicTypeNode.longType)) {
+			return new LongConstNode(getCoords(), value);
+		} else if (type.isEqual(BasicTypeNode.floatType)) {
 			return new FloatConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.doubleType)) {
 			return new DoubleConstNode(getCoords(), value);

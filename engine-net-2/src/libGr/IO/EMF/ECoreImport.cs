@@ -234,20 +234,20 @@ namespace de.unika.ipd.grGen.libGr
             case "Integer": xmitypename = "int"; break;
             case "EInteger": xmitypename = "int"; break;
             case "EInt": xmitypename = "int"; break;
-            case "EBigInteger": xmitypename = "int"; break;
             case "EIntegerObject": xmitypename = "int"; break;
-            case "EBigDecimal": xmitypename = "int"; break;
-            case "UnlimitedNatural": xmitypename = "int"; break;
-            case "EShort": xmitypename = "int"; break;
-            case "EShortObject": xmitypename = "int"; break;
+            case "EBigInteger": xmitypename = "long"; break;
+            case "EBigDecimal": xmitypename = "long"; break;
+            case "UnlimitedNatural": xmitypename = "long"; break;
+            case "EShort": xmitypename = "short"; break;
+            case "EShortObject": xmitypename = "short"; break;
             case "EFloat": xmitypename = "float"; break;
             case "EFloatObject": xmitypename = "float"; break;
             case "EDouble": xmitypename = "double"; break;
             case "EDoubleObject": xmitypename = "double"; break;
-            case "EByte": xmitypename = "byte"; break; // nyi
-            case "EByteObject": xmitypename = "byte"; break; // nyi
-            case "ELong": xmitypename = "long"; break; // nyi
-            case "ELongObject": xmitypename = "long"; break; // nyi
+            case "EByte": xmitypename = "byte"; break;
+            case "EByteObject": xmitypename = "byte"; break;
+            case "ELong": xmitypename = "long"; break;
+            case "ELongObject": xmitypename = "long"; break;
             default:
                 {
                     XmlElement packageNode = package;
@@ -767,18 +767,39 @@ namespace de.unika.ipd.grGen.libGr
                     break;
                 }
 
+                case AttributeKind.ByteAttr:
+                {
+                    sbyte val;
+                    if (!SByte.TryParse(attrval, out val))
+                        throw new Exception("Attribute \"" + attrname + "\" must be an signed byte!");
+                    value = val;
+                    break;
+                }
+
+                case AttributeKind.ShortAttr:
+                {
+                    short val;
+                    if (!Int16.TryParse(attrval, out val))
+                        throw new Exception("Attribute \"" + attrname + "\" must be a short!");
+                    value = val;
+                    break;
+                }
+
                 case AttributeKind.IntegerAttr:
                 {
                     int val;
-                    if(!Int32.TryParse(attrval, out val))
-                    {
-                        Int64 largerVal; // we map BigInt to Int32 as of now, handle that gracefully, TODO: remove after type long was added to GrGen.NET
-                        if(!Int64.TryParse(attrval, out largerVal))
-                            val = -2147483648; // might be DecimalValue, may be not representable with integers, but for TTC reengineering case we need to import it (although a java program for sure does not need it, gna)
-                            //throw new Exception("Attribute \"" + attrname + "\" must be an integer!");
-                        else
-                            val = 2147483647;
-                    }
+                    if (!Int32.TryParse(attrval, out val))
+                        throw new Exception("Attribute \"" + attrname + "\" must be an int!");
+                    value = val;
+                    break;
+                }
+
+                case AttributeKind.LongAttr:
+                {
+                    long val;
+                    if(!Int64.TryParse(attrval, out val))
+                        val = Int64.MinValue; // might be DecimalValue, may be not representable with long, but for TTC reengineering case we need to import it (although a java program for sure does not need it, gna)
+                        //throw new Exception("Attribute \"" + attrname + "\" must be a long!");
                     value = val;
                     break;
                 }
@@ -811,6 +832,7 @@ namespace de.unika.ipd.grGen.libGr
 
                 case AttributeKind.SetAttr:
                 case AttributeKind.MapAttr:
+                case AttributeKind.ArrayAttr:
                 default:
                     throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\"");
             }

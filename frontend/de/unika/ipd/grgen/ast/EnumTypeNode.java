@@ -57,7 +57,10 @@ public class EnumTypeNode extends CompoundTypeNode {
 								);
 
 		//the compatibility of the this enum type
+		addCompatibility(this, BasicTypeNode.byteType);
+		addCompatibility(this, BasicTypeNode.shortType);
 		addCompatibility(this, BasicTypeNode.intType);
+		addCompatibility(this, BasicTypeNode.longType);
 		addCompatibility(this, BasicTypeNode.floatType);
 		addCompatibility(this, BasicTypeNode.doubleType);
 		addCompatibility(this, BasicTypeNode.stringType);

@@ -96,7 +96,10 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.BooleanAttr: return "DM_bool";
                 case AttributeKind.DoubleAttr: return "DM_double";
                 case AttributeKind.FloatAttr: return "DM_float";
+                case AttributeKind.ByteAttr: return "DM_byte";
+                case AttributeKind.ShortAttr: return "DM_short";
                 case AttributeKind.IntegerAttr: return "DM_int";
+                case AttributeKind.LongAttr: return "DM_long";
                 case AttributeKind.StringAttr: return "DM_string";
                 case AttributeKind.EnumAttr: return "DM_enum_" + enumAttrType.Name;
                 default:
@@ -249,8 +252,11 @@ namespace de.unika.ipd.grGen.libGr
                 new Attr("name", "string", modelnodeid));
 
             WriteGXLNode(GetDomainID(AttributeKind.BooleanAttr), "Bool");
+            WriteGXLNode(GetDomainID(AttributeKind.ByteAttr), "Int");
+            WriteGXLNode(GetDomainID(AttributeKind.ShortAttr), "Int");
             WriteGXLNode(GetDomainID(AttributeKind.IntegerAttr), "Int");
-            WriteGXLNode(GetDomainID(AttributeKind.FloatAttr),   "Float");
+            WriteGXLNode(GetDomainID(AttributeKind.LongAttr), "Int");
+            WriteGXLNode(GetDomainID(AttributeKind.FloatAttr), "Float");
             WriteGXLNode(GetDomainID(AttributeKind.DoubleAttr),  "Float");
             WriteGXLNode(GetDomainID(AttributeKind.StringAttr),  "String");
 
@@ -327,10 +333,14 @@ namespace de.unika.ipd.grGen.libGr
 
                     case AttributeKind.DoubleAttr:
                     case AttributeKind.FloatAttr:
-                        valType = "float";
+                        valType = "double";
                         break;
 
-                    case AttributeKind.IntegerAttr: valType = "int"; break;
+                    case AttributeKind.ByteAttr:
+                    case AttributeKind.ShortAttr:
+                    case AttributeKind.IntegerAttr:
+                    case AttributeKind.LongAttr:
+                        valType = "int"; break;
 
                     // TODO: This does not allow differentiating between empty and null strings
                     case AttributeKind.StringAttr: valType = "string"; break;

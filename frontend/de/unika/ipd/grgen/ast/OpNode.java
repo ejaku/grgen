@@ -79,6 +79,8 @@ public abstract class OpNode extends ExprNode
 			ExprNode op = children.get(i);
 			TypeNode type = op.getType();
 			if(type instanceof InheritanceTypeNode) type = OperatorSignature.TYPE;
+			if(type instanceof ByteTypeNode || type instanceof ShortTypeNode)
+				if(n<3) type = BasicTypeNode.intType;
 			argTypes[i] = type;
 		}
 

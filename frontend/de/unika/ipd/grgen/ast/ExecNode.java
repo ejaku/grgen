@@ -65,10 +65,13 @@ public class ExecNode extends BaseNode {
 				else
 					sb.append("\"" + value + "\"");
 			}
-			else if(type instanceof IntTypeNode || type instanceof DoubleTypeNode)
+			else if(type instanceof IntTypeNode || type instanceof DoubleTypeNode
+					|| type instanceof ByteTypeNode || type instanceof ShortTypeNode)
 				sb.append(value);
 			else if(type instanceof FloatTypeNode)
 				sb.append(value + "f");
+			else if(type instanceof LongTypeNode)
+				sb.append(value + "l");
 			else if(type instanceof BooleanTypeNode)
 				sb.append(((Boolean) value).booleanValue() ? "true" : "false");
 			else if(type instanceof NullTypeNode)

@@ -104,31 +104,18 @@ public class OperatorSignature extends FunctionSignature {
 		names.put(new Integer(ERROR), "Error");
 	}
 
-	/** Just a short form for the string type. */
+	/** Just short forms for less verbose coding. */
 	static final TypeNode STRING = BasicTypeNode.stringType;
-
-	/** Just a short form for the boolean type. */
 	static final TypeNode BOOLEAN = BasicTypeNode.booleanType;
-
-	/** Just a short form for the int type. */
+	static final TypeNode BYTE = BasicTypeNode.byteType;
+	static final TypeNode SHORT = BasicTypeNode.shortType;
 	static final TypeNode INT = BasicTypeNode.intType;
-
-	/** Just a short form for the float type. */
+	static final TypeNode LONG = BasicTypeNode.longType;
 	static final TypeNode FLOAT = BasicTypeNode.floatType;
-
-	/** Just a short form for the double type. */
 	static final TypeNode DOUBLE = BasicTypeNode.doubleType;
-
-	/** Just a short form for the object type. */
 	static final TypeNode OBJECT = BasicTypeNode.objectType;
-
-	/** Just a short form for the null type. */
 	static final TypeNode NULL = BasicTypeNode.nullType;
-
-	/** Just a short form for the enum type. */
 	static final TypeNode ENUM = BasicTypeNode.enumItemType;
-
-	/** Just a short form for the type type. */
 	static final TypeNode TYPE = BasicTypeNode.typeType;
 
 	/**
@@ -413,6 +400,48 @@ public class OperatorSignature extends FunctionSignature {
 		}
 	};
 
+	private static final Evaluator longEvaluator = new Evaluator() {
+		protected ExprNode eval(Coords coords, OperatorSignature op,
+				ExprNode[] e) throws NotEvaluatableException {
+
+			long a0, a1;
+
+			try {
+				a0 = (Long) getArgValue(e, op, 0);
+				a1 = 0;
+				if (getArity(op.getOpId()) > 1)
+					a1 = (Long) getArgValue(e, op, 1);
+			} catch (ValueException x) {
+				throw new NotEvaluatableException(coords);
+			}
+
+			switch (op.id) {
+				case EQ:      return new BoolConstNode(coords, a0 == a1);
+				case NE:      return new BoolConstNode(coords, a0 != a1);
+				case LT:      return new BoolConstNode(coords, a0 < a1);
+				case LE:      return new BoolConstNode(coords, a0 <= a1);
+				case GT:      return new BoolConstNode(coords, a0 > a1);
+				case GE:      return new BoolConstNode(coords, a0 >= a1);
+
+				case ADD:     return new LongConstNode(coords, a0 + a1);
+				case SUB:     return new LongConstNode(coords, a0 - a1);
+				case MUL:     return new LongConstNode(coords, a0 * a1);
+				case DIV:     return new LongConstNode(coords, a0 / a1);
+				case MOD:     return new LongConstNode(coords, a0 % a1);
+				case SHL:     return new LongConstNode(coords, a0 << a1);
+				case SHR:     return new LongConstNode(coords, a0 >> a1);
+				case BIT_SHR: return new LongConstNode(coords, a0 >>> a1);
+				case BIT_OR:  return new LongConstNode(coords, a0 | a1);
+				case BIT_AND: return new LongConstNode(coords, a0 & a1);
+				case BIT_XOR: return new LongConstNode(coords, a0 ^ a1);
+				case BIT_NOT: return new LongConstNode(coords, ~a0);
+				case NEG:     return new LongConstNode(coords, -a0);
+
+				default:      throw new NotEvaluatableException(coords);
+			}
+		}
+	};
+
 	private static final Evaluator floatEvaluator = new Evaluator() {
 		protected ExprNode eval(Coords coords, OperatorSignature op,
 				ExprNode[] e) throws NotEvaluatableException {
@@ -655,6 +684,14 @@ public class OperatorSignature extends FunctionSignature {
 		makeBinOp(LE, BOOLEAN, INT, INT, intEvaluator);
 		makeBinOp(LT, BOOLEAN, INT, INT, intEvaluator);
 
+		// Long comparison
+		makeBinOp(EQ, BOOLEAN, LONG, LONG, longEvaluator);
+		makeBinOp(NE, BOOLEAN, LONG, LONG, longEvaluator);
+		makeBinOp(GE, BOOLEAN, LONG, LONG, longEvaluator);
+		makeBinOp(GT, BOOLEAN, LONG, LONG, longEvaluator);
+		makeBinOp(LE, BOOLEAN, LONG, LONG, longEvaluator);
+		makeBinOp(LT, BOOLEAN, LONG, LONG, longEvaluator);
+
 		// Float comparison
 		makeBinOp(EQ, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
 		makeBinOp(NE, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
@@ -684,7 +721,7 @@ public class OperatorSignature extends FunctionSignature {
 		makeBinOp(EQ, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
 		makeBinOp(NE, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
 
-		// Integer arithmetic
+		// Integer arithmetic (byte and short are casted to integer)
 		makeBinOp(ADD, INT, INT, INT, intEvaluator);
 		makeBinOp(SUB, INT, INT, INT, intEvaluator);
 		makeBinOp(MUL, INT, INT, INT, intEvaluator);
@@ -700,6 +737,22 @@ public class OperatorSignature extends FunctionSignature {
 		makeUnOp(NEG, INT, INT, intEvaluator);
 		makeUnOp(BIT_NOT, INT, INT, intEvaluator);
 
+		// Long arithmetic
+		makeBinOp(ADD, LONG, LONG, LONG, longEvaluator);
+		makeBinOp(SUB, LONG, LONG, LONG, longEvaluator);
+		makeBinOp(MUL, LONG, LONG, LONG, longEvaluator);
+		makeBinOp(DIV, LONG, LONG, LONG, longEvaluator);
+		makeBinOp(MOD, LONG, LONG, LONG, longEvaluator);
+		makeBinOp(SHL, LONG, LONG, INT, longEvaluator);
+		makeBinOp(SHR, LONG, LONG, INT, longEvaluator);
+		makeBinOp(BIT_SHR, LONG, LONG, INT, longEvaluator);
+		makeBinOp(BIT_OR, LONG, LONG, LONG, longEvaluator);
+		makeBinOp(BIT_AND, LONG, LONG, LONG, longEvaluator);
+		makeBinOp(BIT_XOR, LONG, LONG, LONG, longEvaluator);
+
+		makeUnOp(NEG, LONG, LONG, longEvaluator);
+		makeUnOp(BIT_NOT, LONG, LONG, longEvaluator);
+		
 		// Float arithmetic
 		makeBinOp(ADD, FLOAT, FLOAT, FLOAT, floatEvaluator);
 		makeBinOp(SUB, FLOAT, FLOAT, FLOAT, floatEvaluator);
@@ -720,8 +773,6 @@ public class OperatorSignature extends FunctionSignature {
 
 		// "String arithmetic"
 		makeBinOp(ADD, STRING, STRING, STRING, stringEvaluator);
-		makeBinOp(ADD, STRING, STRING, INT, stringEvaluator);
-		makeBinOp(ADD, STRING, STRING, BOOLEAN, stringEvaluator);
 
 		// Type comparison
 		makeBinOp(EQ, BOOLEAN, TYPE, TYPE, typeEvaluator);
@@ -732,22 +783,18 @@ public class OperatorSignature extends FunctionSignature {
 		makeBinOp(LT, BOOLEAN, TYPE, TYPE, typeEvaluator);
 
 		// And of course the ternary COND operator
+		makeOp(COND, BYTE, new TypeNode[] { BOOLEAN, BYTE, BYTE }, condEvaluator);
+		makeOp(COND, SHORT, new TypeNode[] { BOOLEAN, SHORT, SHORT }, condEvaluator);
 		makeOp(COND, INT, new TypeNode[] { BOOLEAN, INT, INT }, condEvaluator);
-		makeOp(COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING },
-				condEvaluator);
-		makeOp(COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN },
-				condEvaluator);
+		makeOp(COND, LONG, new TypeNode[] { BOOLEAN, LONG, LONG }, condEvaluator);
+		makeOp(COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT }, condEvaluator);
+		makeOp(COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, condEvaluator);
+		makeOp(COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING }, condEvaluator);
+		makeOp(COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN }, condEvaluator);
 
-		makeOp(COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT },
-				condEvaluator);
-		makeOp(COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE },
-				condEvaluator);
+		makeOp(COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, condEvaluator);
 
-		makeOp(COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT },
-				condEvaluator);
-
-		// makeOp(COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM },
-		// condEvaluator);
+		// makeOp(COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM }, condEvaluator);
 
 	}
 

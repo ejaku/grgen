@@ -353,8 +353,14 @@ TOKEN: {
 
 TOKEN: {
 	< NUMBER: ("-")? (["0"-"9"])+ >
+|	< NUMBER_BYTE: ("-")? (["0"-"9"])+ ("y"|"Y") >
+|	< NUMBER_SHORT: ("-")? (["0"-"9"])+ ("s"|"S") >
+|	< NUMBER_LONG: ("-")? (["0"-"9"])+ ("l"|"L") >
 |
 	< HEXNUMBER: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ >
+|	< HEXNUMBER_BYTE: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("y"|"Y") >
+|	< HEXNUMBER_SHORT: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("s"|"S") >
+|	< HEXNUMBER_LONG: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("l"|"L") >
 }
 
 TOKEN: {
@@ -537,7 +543,10 @@ String AttributeValue():
 			return "@(" + elemName + ")";
 		}
 	|
-		(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<HEXNUMBER> | tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL>)
+		(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>
+		| tok=<NUMBER> | tok=<NUMBER_BYTE> | tok=<NUMBER_SHORT> | tok=<NUMBER_LONG> 
+		| tok=<HEXNUMBER> | tok=<HEXNUMBER_BYTE> | tok=<HEXNUMBER_SHORT> | tok=<HEXNUMBER_LONG>
+		| tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL>)
 		{
 			return tok.image;
 		}
@@ -831,12 +840,21 @@ ShellGraph Graph():
 object SimpleConstant():
 {
 	object constant = null;
-	int number;
+	Token tok;
 	string type, value;
 }
 {
 	(
-		number=Number() { constant = (int) number; }
+	  (
+		tok=<NUMBER> { constant = Convert.ToInt32(tok.image); }
+		| tok=<NUMBER_BYTE> { constant = Convert.ToSByte(impl.RemoveTypeSuffix(tok.image)); }
+		| tok=<NUMBER_SHORT> { constant = Convert.ToInt16(impl.RemoveTypeSuffix(tok.image)); }
+		| tok=<NUMBER_LONG> { constant = Convert.ToInt64(impl.RemoveTypeSuffix(tok.image)); }
+		| tok=<HEXNUMBER> { constant = Int32.Parse(tok.image.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber); }
+		| tok=<HEXNUMBER_BYTE> { constant = SByte.Parse(impl.RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
+		| tok=<HEXNUMBER_SHORT> { constant = Int16.Parse(impl.RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
+		| tok=<HEXNUMBER_LONG> { constant = Int64.Parse(impl.RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
+	  )
 	|
 		constant=FloatNumber()
 	|

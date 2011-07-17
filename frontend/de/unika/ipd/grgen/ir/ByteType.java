@@ -5,26 +5,24 @@
  * www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-
 package de.unika.ipd.grgen.ir;
 
-public class ArrayType extends Type {
-	Type valueType;
+import de.unika.ipd.grgen.ast.BasicTypeNode;
 
-	public ArrayType(Type valueType) {
-		super("array type", null);
-		this.valueType = valueType;
-	}
-
-	public Type getValueType() {
-		return valueType;
+/**
+ * A byte type.
+ */
+public class ByteType extends PrimitiveType {
+	public ByteType(Ident ident) {
+		super("byte type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
-		return IS_ARRAY;
+		return IS_BYTE;
+	}
+
+	public static Type getType() {
+		return BasicTypeNode.byteType.checkIR(Type.class);
 	}
 }

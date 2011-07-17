@@ -38,8 +38,14 @@ public class EnumConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type) {
 		int value = ((Integer) getValue()).intValue();
 
-		if (type.isEqual(BasicTypeNode.intType)) {
+		if (type.isEqual(BasicTypeNode.byteType)) {
+			return new ByteConstNode(getCoords(), (byte)value);
+		} else if (type.isEqual(BasicTypeNode.shortType)) {
+			return new ShortConstNode(getCoords(), (short)value);
+		} else if (type.isEqual(BasicTypeNode.intType)) {
 			return new IntConstNode(getCoords(), value);
+		} else if (type.isEqual(BasicTypeNode.longType)) {
+			return new LongConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.floatType)) {
 			return new FloatConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.doubleType)) {

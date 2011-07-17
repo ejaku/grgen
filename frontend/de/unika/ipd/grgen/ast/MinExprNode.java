@@ -53,8 +53,20 @@ public class MinExprNode extends ExprNode {
 
 	@Override
 	protected boolean checkLocal() {
+		if(leftExpr.getType().isEqual(BasicTypeNode.byteType)
+				&& rightExpr.getType().isEqual(BasicTypeNode.byteType)) {
+			return true;
+		}
+		if(leftExpr.getType().isEqual(BasicTypeNode.shortType)
+				&& rightExpr.getType().isEqual(BasicTypeNode.shortType)) {
+			return true;
+		}
 		if(leftExpr.getType().isEqual(BasicTypeNode.intType)
 				&& rightExpr.getType().isEqual(BasicTypeNode.intType)) {
+			return true;
+		}
+		if(leftExpr.getType().isEqual(BasicTypeNode.longType)
+				&& rightExpr.getType().isEqual(BasicTypeNode.longType)) {
 			return true;
 		}
 		if(leftExpr.getType().isEqual(BasicTypeNode.floatType)
@@ -65,7 +77,7 @@ public class MinExprNode extends ExprNode {
 				&& rightExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
-		reportError("valid types for min(.,.) are: (int,int),(float,float),(double,double)");
+		reportError("valid types for min(.,.) are: (byte,byte),(short,short),(int,int),(long,long),(float,float),(double,double)");
 		return false;
 	}
 

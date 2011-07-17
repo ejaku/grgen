@@ -100,7 +100,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             switch (typeName)
             {
+                case "SByte": return "byte";
+                case "Int16": return "short";
                 case "Int32": return "int";
+                case "Int64": return "long";
                 case "Boolean": return "boolean";
                 case "Single": return "float";
                 case "Double": return "double";
@@ -117,8 +120,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             switch(attributeType.Kind)
             {
+            case AttributeKind.ByteAttr:
+                return "byte";
+            case AttributeKind.ShortAttr:
+                return "short";
             case AttributeKind.IntegerAttr:
                 return "int";
+            case AttributeKind.LongAttr:
+                return "long";
             case AttributeKind.BooleanAttr:
                 return "boolean";
             case AttributeKind.StringAttr:
@@ -150,7 +159,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             switch (typeName)
             {
+                case "SByte": return "0";
+                case "Int16": return "0";
                 case "Int32": return "0";
+                case "Int64": return "0L";
                 case "Boolean": return "false";
                 case "Single": return "0.0f";
                 case "Double": return "0.0";
@@ -159,7 +171,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             switch (typeName)
             {
+                case "byte": return "0";
+                case "short": return "0";
                 case "int": return "0";
+                case "long": return "0L";
                 case "bool": return "false";
                 case "float": return "0.0f";
                 case "double": return "0.0";
@@ -260,7 +275,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             switch(type.Name)
             {
+            case "SByte": return "sbyte";
+            case "Int16": return "short";
             case "Int32": return "int";
+            case "Int64": return "long";
             case "Boolean": return "bool";
             case "Single": return "float";
             case "Double": return "double";
@@ -278,7 +296,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if (type == "Node") return "GRGEN_LIBGR.INode";
             if (type == "AEdge" || type == "Edge" || type == "UEdge") return "GRGEN_LIBGR.IEdge";
-            if (type == "int" || type == "bool" || type == "string" || type == "float" || type == "double" || type == "object") return type;
+            if (type == "short" || type == "int" || type == "long" || type == "bool" || type == "string" || type == "float" || type == "double" || type == "object") return type;
+            if (type == "byte") return "sbyte";
             if (type == "boolean") return "bool";
             if (type.StartsWith("set<") || type.StartsWith("map<")) return "Dictionary<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + "," + XgrsTypeToCSharpType(ExtractDst(type), model) + ">";
             if (type.StartsWith("array<")) return "List<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
@@ -314,9 +333,13 @@ namespace de.unika.ipd.grGen.lgsp
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
 
-            if(xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "string" || xgrsTypeSameOrSub == "float" || xgrsTypeSameOrSub == "double" || xgrsTypeSameOrSub == "object")
+            if(xgrsTypeSameOrSub == "short" || xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "long" 
+                || xgrsTypeSameOrSub == "float" || xgrsTypeSameOrSub == "double"
+                || xgrsTypeSameOrSub == "string" || xgrsTypeSameOrSub == "object")
                 return xgrsTypeSameOrSub==xgrsTypeBase;
-            if(xgrsTypeSameOrSub == "bool" || xgrsTypeSameOrSub == "boolean")
+            if (xgrsTypeSameOrSub == "byte" || xgrsTypeSameOrSub == "sbyte")
+                return xgrsTypeBase == "byte" || xgrsTypeBase == "sbyte";
+            if (xgrsTypeSameOrSub == "bool" || xgrsTypeSameOrSub == "boolean")
                 return xgrsTypeBase=="bool" || xgrsTypeBase=="boolean";
 
             foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)

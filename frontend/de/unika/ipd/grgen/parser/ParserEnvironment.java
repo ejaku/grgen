@@ -104,7 +104,10 @@ public abstract class ParserEnvironment extends Base {
 
 		// Add some keywords to the symbol table
 		for(int i = 0; i < symTabs.length; i++) {
+			symTabs[i].enterKeyword("byte");
+			symTabs[i].enterKeyword("short");
 			symTabs[i].enterKeyword("int");
+			symTabs[i].enterKeyword("long");
 			symTabs[i].enterKeyword("string");
 			symTabs[i].enterKeyword("boolean");
 			symTabs[i].enterKeyword("float");
@@ -139,7 +142,10 @@ public abstract class ParserEnvironment extends Base {
 		stdModelChilds.addChild(directedEdgeRoot);
 		stdModelChilds.addChild(undirectedEdgeRoot);
 
+		stdModelChilds.addChild(predefineType("byte", BasicTypeNode.byteType));
+		stdModelChilds.addChild(predefineType("short", BasicTypeNode.shortType));
 		stdModelChilds.addChild(predefineType("int", BasicTypeNode.intType));
+		stdModelChilds.addChild(predefineType("long", BasicTypeNode.longType));
 		stdModelChilds.addChild(predefineType("string", BasicTypeNode.stringType));
 		stdModelChilds.addChild(predefineType("boolean", BasicTypeNode.booleanType));
 		stdModelChilds.addChild(predefineType("float", BasicTypeNode.floatType));

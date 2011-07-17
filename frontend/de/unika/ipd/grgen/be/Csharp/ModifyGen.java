@@ -26,75 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.unika.ipd.grgen.ir.Alternative;
-import de.unika.ipd.grgen.ir.AlternativeReplacement;
-import de.unika.ipd.grgen.ir.ArrayAddItem;
-import de.unika.ipd.grgen.ir.ArrayInit;
-import de.unika.ipd.grgen.ir.ArrayRemoveItem;
-import de.unika.ipd.grgen.ir.ArrayType;
-import de.unika.ipd.grgen.ir.ArrayVarAddItem;
-import de.unika.ipd.grgen.ir.ArrayVarRemoveItem;
-import de.unika.ipd.grgen.ir.Assignment;
-import de.unika.ipd.grgen.ir.AssignmentIndexed;
-import de.unika.ipd.grgen.ir.AssignmentGraphEntity;
-import de.unika.ipd.grgen.ir.AssignmentIdentical;
-import de.unika.ipd.grgen.ir.AssignmentVar;
-import de.unika.ipd.grgen.ir.AssignmentVarIndexed;
-import de.unika.ipd.grgen.ir.AssignmentVisited;
-import de.unika.ipd.grgen.ir.BooleanType;
-import de.unika.ipd.grgen.ir.CompoundAssignment;
-import de.unika.ipd.grgen.ir.CompoundAssignmentChanged;
-import de.unika.ipd.grgen.ir.CompoundAssignmentChangedVar;
-import de.unika.ipd.grgen.ir.CompoundAssignmentChangedVisited;
-import de.unika.ipd.grgen.ir.CompoundAssignmentVar;
-import de.unika.ipd.grgen.ir.CompoundAssignmentVarChanged;
-import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVar;
-import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVisited;
-import de.unika.ipd.grgen.ir.DoubleType;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Emit;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EnumType;
-import de.unika.ipd.grgen.ir.EvalStatement;
-import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.ExternalType;
-import de.unika.ipd.grgen.ir.FloatType;
-import de.unika.ipd.grgen.ir.GraphEntity;
-import de.unika.ipd.grgen.ir.GraphEntityExpression;
-import de.unika.ipd.grgen.ir.ImperativeStmt;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.IntType;
-import de.unika.ipd.grgen.ir.IteratedReplacement;
-import de.unika.ipd.grgen.ir.MapAddItem;
-import de.unika.ipd.grgen.ir.MapInit;
-import de.unika.ipd.grgen.ir.MapRemoveItem;
-import de.unika.ipd.grgen.ir.MapVarAddItem;
-import de.unika.ipd.grgen.ir.MapVarRemoveItem;
-import de.unika.ipd.grgen.ir.ObjectType;
-import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.OrderedReplacement;
-import de.unika.ipd.grgen.ir.SetAddItem;
-import de.unika.ipd.grgen.ir.SetInit;
-import de.unika.ipd.grgen.ir.SetRemoveItem;
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.RetypedEdge;
-import de.unika.ipd.grgen.ir.RetypedNode;
-import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.SetVarAddItem;
-import de.unika.ipd.grgen.ir.SetVarRemoveItem;
-import de.unika.ipd.grgen.ir.StringType;
-import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
-import de.unika.ipd.grgen.ir.SubpatternUsage;
-import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.MapType;
-import de.unika.ipd.grgen.ir.SetType;
-import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.Visited;
-import de.unika.ipd.grgen.ir.VoidType;
+import de.unika.ipd.grgen.ir.*;
 
 
 public class ModifyGen extends CSharpBase {
@@ -1085,11 +1017,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, var.initialization, state);
 				sb.append(";\n");
 			} else {
-				if(var.getType() instanceof IntType || var.getType() instanceof DoubleType
-						|| var.getType() instanceof EnumType) {
+				if(var.getType() instanceof ByteType || var.getType() instanceof ShortType || var.getType() instanceof IntType 
+						|| var.getType() instanceof EnumType || var.getType() instanceof DoubleType) {
 					sb.append("0;\n");
 				} else if(var.getType() instanceof FloatType) {
 					sb.append("0f;\n");
+				} else if(var.getType() instanceof LongType) {
+					sb.append("0l;\n");
 				} else if(var.getType() instanceof BooleanType) {
 					sb.append("false;\n");
 				} else if(var.getType() instanceof StringType || var.getType() instanceof ObjectType 
@@ -1896,10 +1830,25 @@ public class ModifyGen extends CSharpBase {
 				varType = defined.contains("bool") ? "" : "bool ";
 				defined.add("bool");
 				break;
+			case Type.IS_BYTE:
+				varName = "tempvar_sbyte";
+				varType = defined.contains("sbyte") ? "" : "sbyte ";
+				defined.add("sbyte");
+				break;
+			case Type.IS_SHORT:
+				varName = "tempvar_short";
+				varType = defined.contains("short") ? "" : "short ";
+				defined.add("short");
+				break;
 			case Type.IS_INTEGER:
 				varName = "tempvar_int";
 				varType = defined.contains("int") ? "" : "int ";
 				defined.add("int");
+				break;
+			case Type.IS_LONG:
+				varName = "tempvar_long";
+				varType = defined.contains("long") ? "" : "long ";
+				defined.add("long");
 				break;
 			case Type.IS_FLOAT:
 				varName = "tempvar_float";
@@ -2630,8 +2579,17 @@ public class ModifyGen extends CSharpBase {
 				case Type.IS_BOOLEAN:
 					varTypeName = "bool";
 					break;
+				case Type.IS_BYTE:
+					varTypeName = "sbyte";
+					break;
+				case Type.IS_SHORT:
+					varTypeName = "short";
+					break;
 				case Type.IS_INTEGER:
 					varTypeName = "int";
+					break;
+				case Type.IS_LONG:
+					varTypeName = "long";
 					break;
 				case Type.IS_FLOAT:
 					varTypeName = "float";

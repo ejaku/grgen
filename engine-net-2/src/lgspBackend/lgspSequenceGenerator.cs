@@ -1368,6 +1368,18 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, ((double)seqConstToVar.Constant).ToString(System.Globalization.CultureInfo.InvariantCulture)));
                     }
+                    else if(seqConstToVar.Constant is sbyte)
+                    {
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, "(sbyte)("+seqConstToVar.Constant.ToString()+")"));
+                    }
+                    else if(seqConstToVar.Constant is short)
+                    {
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, "(short)(" + seqConstToVar.Constant.ToString() + ")"));
+                    }
+                    else if(seqConstToVar.Constant is long)
+                    {
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, "(long)(" + seqConstToVar.Constant.ToString() + ")"));
+                    }
                     else
                     {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, seqConstToVar.Constant.ToString()));
@@ -1792,6 +1804,12 @@ namespace de.unika.ipd.grGen.lgsp
                         parameters += "," + ((float)arg).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f";
                     else if (arg is double)
                         parameters += "," + ((double)arg).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    else if (arg is sbyte)
+                        parameters += ", (sbyte)(" + arg.ToString() + ")";
+                    else if (arg is short)
+                        parameters += ", (short)(" + arg.ToString() + ")";
+                    else if (arg is long)
+                        parameters += ", (long)(" + arg.ToString() + ")";
                     else // e.g. int
                         parameters += "," + arg.ToString();
                     // TODO: abolish constants as parameters or extend to set/map?

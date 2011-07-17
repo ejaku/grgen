@@ -6,6 +6,7 @@
  */
 
 /**
+ * @author Edgar Jakumeit
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
@@ -13,35 +14,42 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * An single precision floating point constant.
+ * A short constant.
  */
-public class FloatConstNode extends ConstNode
+public class ShortConstNode extends ConstNode
 {
-	public FloatConstNode(Coords coords, double v) {
-		super(coords, "float", new Float(v));
+	public ShortConstNode(Coords coords, short v) {
+		super(coords, "short", new Short(v));
 	}
 
 	@Override
 	public TypeNode getType() {
-		return BasicTypeNode.floatType;
+		return BasicTypeNode.shortType;
 	}
 
 	@Override
 	protected ConstNode doCastTo(TypeNode type) {
-		Float value = (Float) getValue();
+		Short value = (Short) getValue();
 
 		if (type.isEqual(BasicTypeNode.byteType)) {
-			return new ByteConstNode(getCoords(), (byte)(float)value);
-		} else if (type.isEqual(BasicTypeNode.shortType)) {
-			return new ShortConstNode(getCoords(), (short)(float)value);
+			return new ByteConstNode(getCoords(), (byte)(short)value);
 		} else if (type.isEqual(BasicTypeNode.intType)) {
-			return new IntConstNode(getCoords(), (int)(float)value);
+			return new IntConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.longType)) {
-			return new LongConstNode(getCoords(), (long)(float)value);
+			return new LongConstNode(getCoords(), value);
+		} else if (type.isEqual(BasicTypeNode.floatType)) {
+			return new FloatConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.doubleType)) {
 			return new DoubleConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), value.toString());
 		} else throw new UnsupportedOperationException();
+	}
+	
+	public static String removeSuffix(String shortLiteral) {
+		if(shortLiteral.endsWith("s") || shortLiteral.endsWith("S"))
+			return shortLiteral.substring(0, shortLiteral.length()-1);
+		else
+			return shortLiteral;
 	}
 }

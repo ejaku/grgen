@@ -31,35 +31,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import de.unika.ipd.grgen.ir.ArrayInit;
-import de.unika.ipd.grgen.ir.ArrayItem;
-import de.unika.ipd.grgen.ir.ArrayType;
-import de.unika.ipd.grgen.ir.BooleanType;
-import de.unika.ipd.grgen.ir.ConnAssert;
-import de.unika.ipd.grgen.ir.DoubleType;
-import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EnumItem;
-import de.unika.ipd.grgen.ir.EnumType;
-import de.unika.ipd.grgen.ir.ExternalFunction;
-import de.unika.ipd.grgen.ir.ExternalType;
-import de.unika.ipd.grgen.ir.FloatType;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.IntType;
-import de.unika.ipd.grgen.ir.MapInit;
-import de.unika.ipd.grgen.ir.MapItem;
-import de.unika.ipd.grgen.ir.MapType;
-import de.unika.ipd.grgen.ir.SetInit;
-import de.unika.ipd.grgen.ir.SetItem;
-import de.unika.ipd.grgen.ir.SetType;
-import de.unika.ipd.grgen.ir.MemberInit;
-import de.unika.ipd.grgen.ir.Model;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.ObjectType;
-import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.StringType;
-import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.VoidType;
+import de.unika.ipd.grgen.ir.*;
 
 public class ModelGen extends CSharpBase {
 	private final int MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING = 20;
@@ -556,10 +528,13 @@ public class ModelGen extends CSharpBase {
 
 				String attrName = formatIdentifiable(member);
 				sb.append(indentString + varName + ".@" + attrName + " = ");
-				if(t instanceof IntType || t instanceof DoubleType || t instanceof EnumType) {
+				if(t instanceof ByteType || t instanceof ShortType || t instanceof IntType 
+						|| t instanceof EnumType || t instanceof DoubleType ) {
 					sb.append("0;\n");
 				} else if(t instanceof FloatType) {
 					sb.append("0f;\n");
+				} else if(t instanceof LongType) {
+					sb.append("0l;\n");
 				} else if(t instanceof BooleanType) {
 					sb.append("false;\n");
 				} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalType) {
@@ -1294,8 +1269,14 @@ array_init_loop:
 	}
 
 	private String getAttributeKind(Type t) {
-		if (t instanceof IntType)
+		if (t instanceof ByteType)
+			return "GRGEN_LIBGR.AttributeKind.ByteAttr";
+		else if (t instanceof ShortType)
+			return "GRGEN_LIBGR.AttributeKind.ShortAttr";
+		else if (t instanceof IntType)
 			return "GRGEN_LIBGR.AttributeKind.IntegerAttr";
+		else if (t instanceof LongType)
+			return "GRGEN_LIBGR.AttributeKind.LongAttr";
 		else if (t instanceof FloatType)
 			return "GRGEN_LIBGR.AttributeKind.FloatAttr";
 		else if (t instanceof DoubleType)

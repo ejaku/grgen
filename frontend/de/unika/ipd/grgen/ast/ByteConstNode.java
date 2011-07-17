@@ -6,6 +6,7 @@
  */
 
 /**
+ * @author Edgar Jakumeit
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
@@ -13,35 +14,42 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * An single precision floating point constant.
+ * A byte constant.
  */
-public class FloatConstNode extends ConstNode
+public class ByteConstNode extends ConstNode
 {
-	public FloatConstNode(Coords coords, double v) {
-		super(coords, "float", new Float(v));
+	public ByteConstNode(Coords coords, byte v) {
+		super(coords, "byte", new Byte(v));
 	}
 
 	@Override
 	public TypeNode getType() {
-		return BasicTypeNode.floatType;
+		return BasicTypeNode.byteType;
 	}
 
 	@Override
 	protected ConstNode doCastTo(TypeNode type) {
-		Float value = (Float) getValue();
+		Byte value = (Byte) getValue();
 
-		if (type.isEqual(BasicTypeNode.byteType)) {
-			return new ByteConstNode(getCoords(), (byte)(float)value);
-		} else if (type.isEqual(BasicTypeNode.shortType)) {
-			return new ShortConstNode(getCoords(), (short)(float)value);
+		if (type.isEqual(BasicTypeNode.shortType)) {
+			return new ShortConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.intType)) {
-			return new IntConstNode(getCoords(), (int)(float)value);
+			return new IntConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.longType)) {
-			return new LongConstNode(getCoords(), (long)(float)value);
+			return new LongConstNode(getCoords(), value);
+		} else if (type.isEqual(BasicTypeNode.floatType)) {
+			return new FloatConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.doubleType)) {
 			return new DoubleConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), value.toString());
 		} else throw new UnsupportedOperationException();
+	}
+	
+	public static String removeSuffix(String byteLiteral) {
+		if(byteLiteral.endsWith("y") || byteLiteral.endsWith("Y"))
+			return byteLiteral.substring(0, byteLiteral.length()-1);
+		else
+			return byteLiteral;
 	}
 }

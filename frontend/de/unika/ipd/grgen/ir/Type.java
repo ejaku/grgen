@@ -41,17 +41,21 @@ public abstract class Type extends Identifiable {
 	};
 
 	public static final int IS_UNKNOWN = 0;
-	public static final int IS_INTEGER = 1;
-	public static final int IS_FLOAT = 2;
-	public static final int IS_DOUBLE = 3;
-	public static final int IS_BOOLEAN = 4;
-	public static final int IS_STRING  = 5;
-	public static final int IS_TYPE  = 6;
-	public static final int IS_OBJECT = 7;
-	public static final int IS_SET = 8;
-	public static final int IS_MAP = 9;
-	public static final int IS_UNTYPED_EXEC_VAR_TYPE = 10;
-	public static final int IS_EXTERNAL_TYPE = 11;
+	public static final int IS_BYTE = 1;
+	public static final int IS_SHORT = 2;
+	public static final int IS_INTEGER = 3;
+	public static final int IS_LONG = 4;
+	public static final int IS_FLOAT = 5;
+	public static final int IS_DOUBLE = 6;
+	public static final int IS_BOOLEAN = 7;
+	public static final int IS_STRING  = 8;
+	public static final int IS_TYPE  = 9;
+	public static final int IS_OBJECT = 10;
+	public static final int IS_ARRAY = 11;
+	public static final int IS_SET = 12;
+	public static final int IS_MAP = 13;
+	public static final int IS_UNTYPED_EXEC_VAR_TYPE = 14;
+	public static final int IS_EXTERNAL_TYPE = 15;
 
 	/**
 	 * Make a new type.

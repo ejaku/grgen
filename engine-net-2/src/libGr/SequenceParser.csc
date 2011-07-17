@@ -196,8 +196,14 @@ TOKEN: {
 	< #EXPONENT: ["e", "E"] (["+", "-"])? (["0"-"9"])+ >
 |
 	< NUMBER: ("-")? (["0"-"9"])+ >
+|	< NUMBER_BYTE: ("-")? (["0"-"9"])+ ("y"|"Y") >
+|	< NUMBER_SHORT: ("-")? (["0"-"9"])+ ("s"|"S") >
+|	< NUMBER_LONG: ("-")? (["0"-"9"])+ ("l"|"L") >
 |
 	< HEXNUMBER: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ >
+|	< HEXNUMBER_BYTE: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("y"|"Y") >
+|	< HEXNUMBER_SHORT: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("s"|"S") >
+|	< HEXNUMBER_LONG: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("l"|"L") >
 |
 	< DOUBLEQUOTEDTEXT : "\"" (~["\"", "\n", "\r"])* "\"" >
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
@@ -329,12 +335,21 @@ void RuleParameter(List<SequenceVariable> paramVars, List<Object> paramConsts):
 object SimpleConstant():
 {
 	object constant = null;
-	int number;
+	Token tok;
 	string type, value;
 }
 {
 	(
-		number=Number() { constant = (int) number; }
+	  (
+		tok=<NUMBER> { constant = Convert.ToInt32(tok.image); }
+		| tok=<NUMBER_BYTE> { constant = Convert.ToSByte(RemoveTypeSuffix(tok.image)); }
+		| tok=<NUMBER_SHORT> { constant = Convert.ToInt16(RemoveTypeSuffix(tok.image)); }
+		| tok=<NUMBER_LONG> { constant = Convert.ToInt64(RemoveTypeSuffix(tok.image)); }
+		| tok=<HEXNUMBER> { constant = Int32.Parse(tok.image.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber); }
+		| tok=<HEXNUMBER_BYTE> { constant = SByte.Parse(RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
+		| tok=<HEXNUMBER_SHORT> { constant = Int16.Parse(RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
+		| tok=<HEXNUMBER_LONG> { constant = Int64.Parse(RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
+	  )
 	|
 		constant=FloatNumber()
 	|
@@ -1119,6 +1134,17 @@ bool IsSequenceName(String ruleOrSequenceName)
 				return true;
 		return false;
 	}
+}
+
+CSHARPCODE
+String RemoveTypeSuffix(String value)
+{
+	if (value.EndsWith("y") || value.EndsWith("Y")
+		|| value.EndsWith("s") || value.EndsWith("S")
+		|| value.EndsWith("l") || value.EndsWith("L"))
+		return value.Substring(0, value.Length - 1);
+	else
+		return value;
 }
 
 TOKEN: { < ERROR: ~[] > }

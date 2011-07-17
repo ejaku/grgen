@@ -6,6 +6,7 @@
  */
 
 /**
+ * @author Edgar Jakumeit
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
@@ -13,35 +14,42 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * An single precision floating point constant.
+ * A long constant.
  */
-public class FloatConstNode extends ConstNode
+public class LongConstNode extends ConstNode
 {
-	public FloatConstNode(Coords coords, double v) {
-		super(coords, "float", new Float(v));
+	public LongConstNode(Coords coords, long v) {
+		super(coords, "long", new Long(v));
 	}
 
 	@Override
 	public TypeNode getType() {
-		return BasicTypeNode.floatType;
+		return BasicTypeNode.longType;
 	}
 
 	@Override
 	protected ConstNode doCastTo(TypeNode type) {
-		Float value = (Float) getValue();
+		Long value = (Long) getValue();
 
 		if (type.isEqual(BasicTypeNode.byteType)) {
-			return new ByteConstNode(getCoords(), (byte)(float)value);
+			return new ByteConstNode(getCoords(), (byte)(long)value);
 		} else if (type.isEqual(BasicTypeNode.shortType)) {
-			return new ShortConstNode(getCoords(), (short)(float)value);
+			return new ShortConstNode(getCoords(), (short)(long)value);
 		} else if (type.isEqual(BasicTypeNode.intType)) {
-			return new IntConstNode(getCoords(), (int)(float)value);
-		} else if (type.isEqual(BasicTypeNode.longType)) {
-			return new LongConstNode(getCoords(), (long)(float)value);
+			return new IntConstNode(getCoords(), (int)(long)value);
+		} else if (type.isEqual(BasicTypeNode.floatType)) {
+			return new FloatConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.doubleType)) {
 			return new DoubleConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), value.toString());
 		} else throw new UnsupportedOperationException();
+	}
+	
+	public static String removeSuffix(String longLiteral) {
+		if(longLiteral.endsWith("l") || longLiteral.endsWith("L"))
+			return longLiteral.substring(0, longLiteral.length()-1);
+		else
+			return longLiteral;
 	}
 }

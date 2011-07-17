@@ -272,8 +272,14 @@ namespace de.unika.ipd.grGen.libGr
         {
             switch(type.Kind)
             {
+            case AttributeKind.ByteAttr:
+                return ((sbyte)value).ToString()+"Y";
+            case AttributeKind.ShortAttr:
+                return ((short)value).ToString()+"S";
             case AttributeKind.IntegerAttr:
                 return ((int)value).ToString();
+            case AttributeKind.LongAttr:
+                return ((long)value).ToString()+"L";
             case AttributeKind.BooleanAttr:
                 return ((bool)value).ToString();
             case AttributeKind.StringAttr:

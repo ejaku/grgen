@@ -18,7 +18,10 @@ options {
 }
 
 tokens {
+	NUM_BYTE;
+	NUM_SHORT;
 	NUM_INTEGER;
+	NUM_LONG;
 	NUM_FLOAT;
 	NUM_DOUBLE;
 }
@@ -1620,7 +1623,10 @@ simpleSequence[ExecNode xg]
 	;
 
 xgrsConstant[ExecNode xg]
-	: i=NUM_INTEGER	{ xg.append(i.getText()); }
+	: b=NUM_BYTE { xg.append(b.getText()); }
+	| sh=NUM_SHORT { xg.append(sh.getText()); }
+	| i=NUM_INTEGER { xg.append(i.getText()); }
+	| l=NUM_LONG { xg.append(l.getText()); }
 	| f=NUM_FLOAT { xg.append(f.getText()); }
 	| d=NUM_DOUBLE { xg.append(d.getText()); }
 	| s=STRING_LITERAL { xg.append(s.getText()); }
@@ -1672,8 +1678,14 @@ ruleParam[CollectNode<BaseNode> parameters]
 	| exp=constant { parameters.addChild(exp); }
 	| MINUS
 		(
-			i=NUM_INTEGER
+			b=NUM_BYTE
+				{ parameters.addChild(new ByteConstNode(getCoords(i), Byte.parseByte("-" + ByteConstNode.removeSuffix(b.getText()), 10))); }
+		|	sh=NUM_SHORT
+				{ parameters.addChild(new ShortConstNode(getCoords(i), Short.parseShort("-" + ShortConstNode.removeSuffix(sh.getText()), 10))); }
+		|	i=NUM_INTEGER
 				{ parameters.addChild(new IntConstNode(getCoords(i), Integer.parseInt("-" + i.getText(), 10))); }
+		|	l=NUM_LONG
+				{ parameters.addChild(new LongConstNode(getCoords(i), Long.parseLong("-" + LongConstNode.removeSuffix(l.getText()), 10))); }
 		|	f=NUM_FLOAT
 				{ parameters.addChild(new FloatConstNode(getCoords(f), Float.parseFloat("-" + f.getText()))); }
 		| 	d=NUM_DOUBLE
@@ -2714,10 +2726,22 @@ initMapOrSetOrArrayExpr returns [ ExprNode res = env.initExprNode() ]
 	;
 	
 constant returns [ ExprNode res = env.initExprNode() ]
-	: i=NUM_INTEGER
+	: b=NUM_BYTE
+		{ res = new ByteConstNode(getCoords(b), Byte.parseByte(ByteConstNode.removeSuffix(b.getText()), 10)); }
+	| sh=NUM_SHORT
+		{ res = new ShortConstNode(getCoords(sh), Short.parseShort(ShortConstNode.removeSuffix(sh.getText()), 10)); }
+	| i=NUM_INTEGER
 		{ res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10)); }
-	| h=NUM_HEX
-		{ res = new IntConstNode(getCoords(h), Integer.parseInt(h.getText().substring(2), 16)); }
+	| l=NUM_LONG
+		{ res = new LongConstNode(getCoords(l), Long.parseLong(LongConstNode.removeSuffix(l.getText()), 10)); }
+	| hb=NUM_HEX_BYTE
+		{ res = new ByteConstNode(getCoords(hb), Byte.parseByte(ByteConstNode.removeSuffix(hb.getText().substring(2)), 16)); }
+	| hsh=NUM_HEX_SHORT
+		{ res = new ShortConstNode(getCoords(hsh), Short.parseShort(ShortConstNode.removeSuffix(hsh.getText().substring(2)), 16)); }
+	| hi=NUM_HEX
+		{ res = new IntConstNode(getCoords(hi), Integer.parseInt(hi.getText().substring(2), 16)); }
+	| hl=NUM_HEX_LONG
+		{ res = new LongConstNode(getCoords(hl), Long.parseLong(LongConstNode.removeSuffix(hl.getText().substring(2)), 16)); }
 	| f=NUM_FLOAT
 		{ res = new FloatConstNode(getCoords(f), Float.parseFloat(f.getText())); }
 	| d=NUM_DOUBLE
@@ -2949,7 +2973,10 @@ ML_COMMENT
 	:   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
 	;
 
+fragment NUM_BYTE: ;
+fragment NUM_SHORT: ;
 fragment NUM_INTEGER: ;
+fragment NUM_LONG: ;
 fragment NUM_FLOAT: ;
 fragment NUM_DOUBLE: ;
 NUMBER
@@ -2958,12 +2985,24 @@ NUMBER
      (   ('f'|'F')    { $type = NUM_FLOAT; }
        | ('d'|'D')?   { $type = NUM_DOUBLE; }
      )
+   | ('y'|'Y') { $type = NUM_BYTE; }
+   | ('s'|'S') { $type = NUM_SHORT; }
    | { $type = NUM_INTEGER; }
+   | ('l'|'L') { $type = NUM_LONG; }
    )
    ;
 
+
+fragment NUM_HEX_BYTE: ;
+fragment NUM_HEX_SHORT: ;
+fragment NUM_HEX_LONG: ;
 NUM_HEX
 	: '0' 'x' ('0'..'9' | 'a' .. 'f' | 'A' .. 'F')+
+	( ('y'|'Y') { $type = NUM_HEX_BYTE; }
+	| ('s'|'S') { $type = NUM_HEX_SHORT; }
+	| { $type = NUM_HEX; }
+	| ('l'|'L') { $type = NUM_HEX_LONG; }
+	)
 	;
 
 fragment

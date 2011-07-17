@@ -393,7 +393,7 @@ namespace de.unika.ipd.grGen.libGr
                         break;
 
                     case "Float":
-                        idmap[id] = new Thing(id, ThingKind.Domain, "float");
+                        idmap[id] = new Thing(id, ThingKind.Domain, "double");
                         break;
 
                     case "String":
@@ -687,11 +687,38 @@ namespace de.unika.ipd.grGen.libGr
                         break;
                     }
 
+                    case AttributeKind.ByteAttr:
+                    {
+                        sbyte val;
+                        if(!SByte.TryParse(attrval, out val))
+                            throw new Exception("Attribute \"" + attrname + "\" must be a byte (signed)!");
+                        value = val;
+                        break;
+                    }
+
+                    case AttributeKind.ShortAttr:
+                    {
+                        short val;
+                        if (!Int16.TryParse(attrval, out val))
+                            throw new Exception("Attribute \"" + attrname + "\" must be a short!");
+                        value = val;
+                        break;
+                    }
+
                     case AttributeKind.IntegerAttr:
                     {
                         int val;
-                        if(!Int32.TryParse(attrval, out val))
+                        if (!Int32.TryParse(attrval, out val))
                             throw new Exception("Attribute \"" + attrname + "\" must be an integer!");
+                        value = val;
+                        break;
+                    }
+
+                    case AttributeKind.LongAttr:
+                    {
+                        long val;
+                        if (!Int64.TryParse(attrval, out val))
+                            throw new Exception("Attribute \"" + attrname + "\" must be a long!");
                         value = val;
                         break;
                     }
@@ -728,7 +755,7 @@ namespace de.unika.ipd.grGen.libGr
                     case AttributeKind.MapAttr:
                     case AttributeKind.ArrayAttr:
                     default:
-                        throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\"");
+                        throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\""); // TODO: support set=SetAttr and seq=ArrayAttr, here and in export
                 }
 
                 elem.SetAttribute(attrname, value);

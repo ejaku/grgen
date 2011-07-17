@@ -278,11 +278,29 @@ PARSER_BEGIN(GRSImporter)
                 else
                     throw new Exception("Unknown boolean literal");
                 break;
+            case AttributeKind.ByteAttr:
+                if(valueString.StartsWith("0x"))
+                    value = SByte.Parse(RemoveTypeSuffix(valueString.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber);
+				else
+					value = SByte.Parse(RemoveTypeSuffix(valueString));
+                break;
+            case AttributeKind.ShortAttr:
+                if(valueString.StartsWith("0x"))
+                    value = Int16.Parse(RemoveTypeSuffix(valueString.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber);
+				else
+					value = Int16.Parse(RemoveTypeSuffix(valueString));
+                break;
             case AttributeKind.IntegerAttr:
                 if(valueString.StartsWith("0x"))
                     value = Int32.Parse(valueString.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber);
 				else
 					value = Int32.Parse(valueString);
+                break;
+            case AttributeKind.LongAttr:
+                if(valueString.StartsWith("0x"))
+                    value = Int64.Parse(RemoveTypeSuffix(valueString.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber);
+				else
+					value = Int64.Parse(RemoveTypeSuffix(valueString));
                 break;
             case AttributeKind.StringAttr:
                 value = valueString;
@@ -325,6 +343,16 @@ PARSER_BEGIN(GRSImporter)
             }
             return value;
         }
+		
+		private String RemoveTypeSuffix(String value)
+		{
+			if(value.EndsWith("y") || value.EndsWith("Y")
+				|| value.EndsWith("s") || value.EndsWith("S")
+				|| value.EndsWith("l") || value.EndsWith("L"))
+				return value.Substring(0, value.Length-1);
+			else
+				return value;
+		}
 
 		private object ParseAttributeValue(AttributeType attrType, String valueString) // not set/map/array
         {
@@ -455,9 +483,15 @@ TOKEN: {
 }
 
 TOKEN: {
-	< NUMBER: (["0"-"9"])+ >
+	< NUMBER: ("-")? (["0"-"9"])+ >
+|	< NUMBER_BYTE: ("-")? (["0"-"9"])+ ("y"|"Y") >
+|	< NUMBER_SHORT: ("-")? (["0"-"9"])+ ("s"|"S") >
+|	< NUMBER_LONG: ("-")? (["0"-"9"])+ ("l"|"L") >
 |
 	< HEXNUMBER: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ >
+|	< HEXNUMBER_BYTE: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("y"|"Y") >
+|	< HEXNUMBER_SHORT: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("s"|"S") >
+|	< HEXNUMBER_LONG: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("l"|"L") >
 }
 
 TOKEN: {
@@ -540,7 +574,10 @@ String AttributeValue():
 			return enumName + "::" + enumValue;
 		}
 	|
-		(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<HEXNUMBER> | tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL> )
+		( tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>
+		| tok=<NUMBER> | tok=<NUMBER_BYTE> | tok=<NUMBER_SHORT> | tok=<NUMBER_LONG> 
+		| tok=<HEXNUMBER> | tok=<HEXNUMBER_BYTE> | tok=<HEXNUMBER_SHORT> | tok=<HEXNUMBER_LONG>
+		| tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL> )
 		{
 			return tok.image;		
 		}

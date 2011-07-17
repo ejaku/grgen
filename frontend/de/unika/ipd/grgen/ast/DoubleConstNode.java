@@ -30,8 +30,14 @@ public class DoubleConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type) {
 		Double value = (Double) getValue();
 
-		if (type.isEqual(BasicTypeNode.intType)){
-			return new IntConstNode(getCoords(), (int)(double) value);
+		if (type.isEqual(BasicTypeNode.byteType)) {
+			return new ByteConstNode(getCoords(), (byte)(double)value);
+		} else if (type.isEqual(BasicTypeNode.shortType)) {
+			return new ShortConstNode(getCoords(), (short)(double)value);
+		} else if (type.isEqual(BasicTypeNode.intType)) {
+			return new IntConstNode(getCoords(), (int)(double)value);
+		} else if (type.isEqual(BasicTypeNode.longType)) {
+			return new LongConstNode(getCoords(), (long)(double)value);
 		} else if (type.isEqual(BasicTypeNode.floatType)) {
 			return new FloatConstNode(getCoords(), (float)(double) value);
 		} else if (type.isEqual(BasicTypeNode.stringType)) {

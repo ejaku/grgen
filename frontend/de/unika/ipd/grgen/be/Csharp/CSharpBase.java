@@ -23,72 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import de.unika.ipd.grgen.ir.ArrayIndexOfExpr;
-import de.unika.ipd.grgen.ir.ArrayInit;
-import de.unika.ipd.grgen.ir.ArrayItem;
-import de.unika.ipd.grgen.ir.ArrayLastIndexOfExpr;
-import de.unika.ipd.grgen.ir.ArrayPeekExpr;
-import de.unika.ipd.grgen.ir.ArraySizeExpr;
-import de.unika.ipd.grgen.ir.ArraySubarrayExpr;
-import de.unika.ipd.grgen.ir.ArrayType;
-import de.unika.ipd.grgen.ir.BooleanType;
-import de.unika.ipd.grgen.ir.Cast;
-import de.unika.ipd.grgen.ir.Constant;
-import de.unika.ipd.grgen.ir.DoubleType;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EnumExpression;
-import de.unika.ipd.grgen.ir.EnumType;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.ExternalType;
-import de.unika.ipd.grgen.ir.FloatType;
-import de.unika.ipd.grgen.ir.ExternalFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.GraphEntity;
-import de.unika.ipd.grgen.ir.GraphEntityExpression;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.IncidentEdgeExpr;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.IntType;
-import de.unika.ipd.grgen.ir.IndexedAccessExpr;
-import de.unika.ipd.grgen.ir.MapInit;
-import de.unika.ipd.grgen.ir.MapItem;
-import de.unika.ipd.grgen.ir.MapDomainExpr;
-import de.unika.ipd.grgen.ir.MapRangeExpr;
-import de.unika.ipd.grgen.ir.MapSizeExpr;
-import de.unika.ipd.grgen.ir.MapPeekExpr;
-import de.unika.ipd.grgen.ir.MaxExpr;
-import de.unika.ipd.grgen.ir.MinExpr;
-import de.unika.ipd.grgen.ir.PowExpr;
-import de.unika.ipd.grgen.ir.SetInit;
-import de.unika.ipd.grgen.ir.SetItem;
-import de.unika.ipd.grgen.ir.SetSizeExpr;
-import de.unika.ipd.grgen.ir.SetPeekExpr;
-import de.unika.ipd.grgen.ir.MapType;
-import de.unika.ipd.grgen.ir.SetType;
-import de.unika.ipd.grgen.ir.MemberExpression;
-import de.unika.ipd.grgen.ir.Nameof;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.ObjectType;
-import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.RandomExpr;
-import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.StringIndexOf;
-import de.unika.ipd.grgen.ir.StringLastIndexOf;
-import de.unika.ipd.grgen.ir.StringLength;
-import de.unika.ipd.grgen.ir.StringReplace;
-import de.unika.ipd.grgen.ir.StringSubstring;
-import de.unika.ipd.grgen.ir.StringType;
-import de.unika.ipd.grgen.ir.SubpatternUsage;
-import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.Typeof;
-import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.VariableExpression;
-import de.unika.ipd.grgen.ir.Visited;
-import de.unika.ipd.grgen.ir.VoidType;
+import de.unika.ipd.grgen.ir.*;
 
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
@@ -320,8 +255,14 @@ public abstract class CSharpBase {
 	}
 
 	public String formatAttributeType(Type t) {
+		if (t instanceof ByteType)
+			return "sbyte";
+		if (t instanceof ShortType)
+			return "short";
 		if (t instanceof IntType)
 			return "int";
+		if (t instanceof LongType)
+			return "long";
 		else if (t instanceof BooleanType)
 			return "bool";
 		else if (t instanceof FloatType)
@@ -1070,28 +1011,33 @@ public abstract class CSharpBase {
 	{
 		Type type = constant.getType();
 
+		//emit C-code for constants
 		switch (type.classify()) {
-			case Type.IS_STRING: //emit C-code for string constants
+			case Type.IS_STRING: 
 				Object value = constant.getValue();
 				if(value == null)
 					return "null";
 				else
 					return "\"" + constant.getValue() + "\"";
-			case Type.IS_BOOLEAN: //emit C-code for boolean constans
+			case Type.IS_BOOLEAN:
 				Boolean bool_const = (Boolean) constant.getValue();
 				if(bool_const.booleanValue())
 					return "true"; /* true-value */
 				else
 					return "false"; /* false-value */
-			case Type.IS_INTEGER: //emit C-code for integer constants
-			case Type.IS_DOUBLE: //emit C-code for double constants
+			case Type.IS_BYTE:
+			case Type.IS_SHORT:
+			case Type.IS_INTEGER: /* this also applys to enum constants */
+			case Type.IS_DOUBLE:
 				return constant.getValue().toString();
-			case Type.IS_FLOAT: //emit C-code for float constants
-				return constant.getValue().toString() + "f"; /* this also applys to enum constants */
-			case Type.IS_TYPE: //emit code for type constants
+			case Type.IS_LONG:
+				return constant.getValue().toString() + "l";
+			case Type.IS_FLOAT:
+				return constant.getValue().toString() + "f";
+			case Type.IS_TYPE:
 				InheritanceType it = (InheritanceType) constant.getValue();
 				return formatTypeClassRef(it) + ".typeVar";
-			case Type.IS_OBJECT: // If value is not null throw Exc
+			case Type.IS_OBJECT:
 				if(constant.getValue() == null) {
 					return "null";
 				}
@@ -1108,7 +1054,10 @@ public abstract class CSharpBase {
 
 		switch(type.classify()) {
 			case Type.IS_STRING: typeName = "string"; break;
+			case Type.IS_BYTE: typeName = "sbyte"; break;
+			case Type.IS_SHORT: typeName = "short"; break;
 			case Type.IS_INTEGER: typeName = "int"; break;
+			case Type.IS_LONG: typeName = "long"; break;
 			case Type.IS_FLOAT: typeName = "float"; break;
 			case Type.IS_DOUBLE: typeName = "double"; break;
 			case Type.IS_BOOLEAN: typeName = "bool"; break;

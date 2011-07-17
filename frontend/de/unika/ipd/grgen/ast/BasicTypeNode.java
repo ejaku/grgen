@@ -24,7 +24,10 @@ import java.util.Vector;
 public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode stringType = new StringTypeNode();
 	public static final BasicTypeNode typeType = new TypeTypeNode();
+	public static final BasicTypeNode byteType = new ByteTypeNode();
+	public static final BasicTypeNode shortType = new ShortTypeNode();
 	public static final BasicTypeNode intType = new IntTypeNode();
+	public static final BasicTypeNode longType = new LongTypeNode();
 	public static final BasicTypeNode doubleType = new DoubleTypeNode();
 	public static final BasicTypeNode floatType = new FloatTypeNode();
 	public static final BasicTypeNode booleanType = new BooleanTypeNode();
@@ -53,32 +56,10 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	static {
 		setName(BasicTypeNode.class, "basic type");
 
-		//no explicit cast required
-		addCompatibility(enumItemType, intType);
-		addCompatibility(enumItemType, floatType);
-		addCompatibility(enumItemType, doubleType);
-		addCompatibility(enumItemType, stringType);
-
-		addCompatibility(booleanType, stringType);
-
-		addCompatibility(intType, floatType);
-		addCompatibility(intType, doubleType);
-		addCompatibility(intType, stringType);
-
-		addCompatibility(floatType, doubleType);
-		addCompatibility(floatType, stringType);
-
-		addCompatibility(doubleType, stringType);
-
-		addCompatibility(objectType, stringType);
-
-		//require explicit cast
-		addCastability(floatType, intType);
-
-		addCastability(doubleType, intType);
-		addCastability(doubleType, floatType);
-
+		valueMap.put(byteType, Byte.class);
+		valueMap.put(shortType, Short.class);
 		valueMap.put(intType, Integer.class);
+		valueMap.put(longType, Long.class);
 		valueMap.put(floatType, Float.class);
 		valueMap.put(doubleType, Double.class);
 		valueMap.put(booleanType, Boolean.class);
@@ -86,17 +67,82 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		valueMap.put(enumItemType, Integer.class);
 		valueMap.put(objectType, ObjectTypeNode.Value.class);
 		valueMap.put(nullType, NullConstNode.Value.class);
+		
+		//////////////////////////////////////////////////////////
+		//implicit casts; upcasts for arithmetic, and everything to string (easy emitting)
+		//////////////////////////////////////////////////////////
+		
+		addCompatibility(enumItemType, byteType);
+		addCompatibility(enumItemType, shortType);
+		addCompatibility(enumItemType, intType);
+		addCompatibility(enumItemType, longType);
+		addCompatibility(enumItemType, floatType);
+		addCompatibility(enumItemType, doubleType);
 
-//		addCompatibility(voidType, intType);
-//		addCompatibility(voidType, booleanType);
+		addCompatibility(byteType, shortType);
+		addCompatibility(byteType, intType);
+		addCompatibility(byteType, longType);
+		addCompatibility(byteType, floatType);
+		addCompatibility(byteType, doubleType);
+
+		addCompatibility(shortType, intType);
+		addCompatibility(shortType, longType);
+		addCompatibility(shortType, floatType);
+		addCompatibility(shortType, doubleType);
+
+		addCompatibility(intType, longType);
+		addCompatibility(intType, floatType);
+		addCompatibility(intType, doubleType);
+
+		addCompatibility(longType, floatType);
+		addCompatibility(longType, doubleType);
+
+		addCompatibility(floatType, doubleType);
+
+		addCompatibility(enumItemType, stringType);
+		addCompatibility(byteType, stringType);
+		addCompatibility(shortType, stringType);
+		addCompatibility(intType, stringType);
+		addCompatibility(longType, stringType);
+		addCompatibility(floatType, stringType);
+		addCompatibility(doubleType, stringType);
+		addCompatibility(booleanType, stringType);
+		addCompatibility(objectType, stringType);
 		addCompatibility(voidType, stringType);
 
+		//////////////////////////////////////////////////////////
+		//explicit casts; downcasts for arithmetic, everything into an object
+		//////////////////////////////////////////////////////////
+
+		addCastability(shortType, byteType);
+
+		addCastability(intType, byteType);
+		addCastability(intType, shortType);
+
+		addCastability(longType, byteType);
+		addCastability(longType, shortType);
+		addCastability(longType, intType);
+
+		addCastability(floatType, byteType);
+		addCastability(floatType, shortType);
+		addCastability(floatType, intType);
+		addCastability(floatType, longType);
+
+		addCastability(doubleType, byteType);
+		addCastability(doubleType, shortType);
+		addCastability(doubleType, intType);
+		addCastability(doubleType, longType);
+		addCastability(doubleType, floatType);
+
 		addCastability(enumItemType, objectType);
-		addCastability(booleanType, objectType);
-		addCastability(stringType, objectType);
+		addCastability(byteType, objectType);
+		addCastability(shortType, objectType);
 		addCastability(intType, objectType);
+		addCastability(longType, objectType);
 		addCastability(floatType, objectType);
 		addCastability(doubleType, objectType);
+		addCastability(booleanType, objectType);
+		addCastability(stringType, objectType);
 	}
 
 	/** returns children of this node */

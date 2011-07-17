@@ -1601,12 +1601,56 @@ namespace de.unika.ipd.grGen.grShell
                     value = val;
                     break;
                 }
+                case AttributeKind.ByteAttr:
+                {
+                    sbyte val;
+                    if (valueString.StartsWith("0x"))
+                    {
+                        if (!SByte.TryParse(RemoveTypeSuffix(valueString.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber,
+                            System.Globalization.CultureInfo.InvariantCulture, out val))
+                        {
+                            errOut.WriteLine("Attribute {0} must be a byte (signed)!", attribute);
+                            throw new Exception("Unknown byte literal" + valueString);
+                        }
+                        value = val;
+                        break;
+                    }
+                    if (!SByte.TryParse(RemoveTypeSuffix(valueString), out val))
+                    {
+                        errOut.WriteLine("Attribute {0} must be a byte (signed)!", attribute);
+                        throw new Exception("Unknown byte literal" + valueString);
+                    }
+                    value = val;
+                    break;
+                }
+                case AttributeKind.ShortAttr:
+                {
+                    short val;
+                    if (valueString.StartsWith("0x"))
+                    {
+                        if (!Int16.TryParse(RemoveTypeSuffix(valueString.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber,
+                            System.Globalization.CultureInfo.InvariantCulture, out val))
+                        {
+                            errOut.WriteLine("Attribute {0} must be a short!", attribute);
+                            throw new Exception("Unknown short literal" + valueString);
+                        }
+                        value = val;
+                        break;
+                    }
+                    if (!Int16.TryParse(RemoveTypeSuffix(valueString), out val))
+                    {
+                        errOut.WriteLine("Attribute {0} must be a short!", attribute);
+                        throw new Exception("Unknown short literal" + valueString);
+                    }
+                    value = val;
+                    break;
+                }
                 case AttributeKind.IntegerAttr:
                 {
                     int val;
-                    if(valueString.StartsWith("0x"))
+                    if (valueString.StartsWith("0x"))
                     {
-                        if(!Int32.TryParse(valueString.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber,
+                        if (!Int32.TryParse(valueString.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber,
                             System.Globalization.CultureInfo.InvariantCulture, out val))
                         {
                             errOut.WriteLine("Attribute {0} must be an integer!", attribute);
@@ -1615,10 +1659,32 @@ namespace de.unika.ipd.grGen.grShell
                         value = val;
                         break;
                     }
-                    if(!Int32.TryParse(valueString, out val))
+                    if (!Int32.TryParse(valueString, out val))
                     {
                         errOut.WriteLine("Attribute {0} must be an integer!", attribute);
                         throw new Exception("Unknown integer literal" + valueString);
+                    }
+                    value = val;
+                    break;
+                }
+                case AttributeKind.LongAttr:
+                {
+                    long val;
+                    if(valueString.StartsWith("0x"))
+                    {
+                        if(!Int64.TryParse(RemoveTypeSuffix(valueString.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber,
+                            System.Globalization.CultureInfo.InvariantCulture, out val))
+                        {
+                            errOut.WriteLine("Attribute {0} must be a long!", attribute);
+                            throw new Exception("Unknown long literal" + valueString);
+                        }
+                        value = val;
+                        break;
+                    }
+                    if(!Int64.TryParse(RemoveTypeSuffix(valueString), out val))
+                    {
+                        errOut.WriteLine("Attribute {0} must be a long!", attribute);
+                        throw new Exception("Unknown long literal" + valueString);
                     }
                     value = val;
                     break;
@@ -1696,6 +1762,16 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
             return value;
+        }
+
+        internal String RemoveTypeSuffix(String value)
+        {
+            if (value.EndsWith("y") || value.EndsWith("Y")
+                || value.EndsWith("s") || value.EndsWith("S")
+                || value.EndsWith("l") || value.EndsWith("L"))
+                return value.Substring(0, value.Length - 1);
+            else
+                return value;
         }
 
         private object ParseAttributeValue(AttributeType attrType, String valueString, String attribute) // not set/map
@@ -2318,7 +2394,10 @@ namespace de.unika.ipd.grGen.grShell
                 String kind;
                 switch(attrType.Kind)
                 {
+                    case AttributeKind.ByteAttr: kind = "byte"; break;
+                    case AttributeKind.ShortAttr: kind = "short"; break;
                     case AttributeKind.IntegerAttr: kind = "int"; break;
+                    case AttributeKind.LongAttr: kind = "long"; break;
                     case AttributeKind.BooleanAttr: kind = "boolean"; break;
                     case AttributeKind.StringAttr: kind = "string"; break;
                     case AttributeKind.EnumAttr: kind = attrType.EnumType.Name; break;

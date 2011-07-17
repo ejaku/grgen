@@ -102,7 +102,10 @@ namespace de.unika.ipd.grGen.libGr
             switch (typeName)
             {
                 case "boolean": return typeof(bool);
+                case "byte": return typeof(sbyte);
+                case "short": return typeof(short);
                 case "int": return typeof(int);
+                case "long": return typeof(long);
                 case "float": return typeof(float);
                 case "double": return typeof(double);
                 case "string": return typeof(string);
@@ -1309,7 +1312,10 @@ namespace de.unika.ipd.grGen.libGr
                 Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1");
                 switch(value.GetType().Name)
                 {
+                    case "SByte": type = "sbyte"; break;
+                    case "Int16": type = "short"; break;
                     case "Int32": type = "int"; break;
+                    case "Int64": type = "long"; break;
                     case "Boolean": type = "bool"; break;
                     case "String": type = "string"; break;
                     case "Single": type = "float"; break;
@@ -1342,7 +1348,10 @@ namespace de.unika.ipd.grGen.libGr
             Debug.Assert(attrType.Kind != AttributeKind.SetAttr && attrType.Kind != AttributeKind.MapAttr);
             switch (attrType.Kind)
             {
+                case AttributeKind.ByteAttr: type = "sbyte"; break;
+                case AttributeKind.ShortAttr: type = "short"; break;
                 case AttributeKind.IntegerAttr: type = "int"; break;
+                case AttributeKind.LongAttr: type = "long"; break;
                 case AttributeKind.BooleanAttr: type = "bool"; break;
                 case AttributeKind.StringAttr: type = "string"; break;
                 case AttributeKind.EnumAttr: type = attrType.EnumType.Name; break;
