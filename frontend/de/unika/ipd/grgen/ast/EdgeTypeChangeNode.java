@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.RetypedEdge;
 
 /**
- *
+ * An edge which is created by retyping, with the old edge
  */
 public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	static {

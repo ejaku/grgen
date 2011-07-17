@@ -10,6 +10,10 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Retyped;
 
@@ -17,6 +21,9 @@ public class RetypedNode extends Node implements Retyped {
 
 	/**  The original entity if this is a retyped entity */
 	protected Node oldNode = null;
+	
+	/** A list of nodes to be additionally merged into the retyped node  */
+	private final List<Node> mergees = new LinkedList<Node>();
 
 	public RetypedNode(Ident ident, NodeType type, Annotations annots,
 			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
@@ -41,11 +48,23 @@ public class RetypedNode extends Node implements Retyped {
 		this.oldNode = old;
 	}
 
-	public boolean changesType() {
-		return false;
-	}
-
 	public boolean isRetyped() {
 		return true;
+	}
+
+	public void addMergee(Node mergee) {
+		mergees.add(mergee);
+	}
+	
+	public List<Node> getMergees() {
+		return Collections.unmodifiableList(mergees);
+	}
+	
+	public int getCombinedDependencyLevel() {
+		int depLevel = oldNode.getDependencyLevel();
+		for(Node mergee : mergees) {
+			depLevel = Math.max(depLevel, mergee.getDependencyLevel());
+		}
+		return depLevel;
 	}
 }

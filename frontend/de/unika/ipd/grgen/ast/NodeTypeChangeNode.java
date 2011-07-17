@@ -16,6 +16,7 @@ import java.util.LinkedHashSet;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.IR;
@@ -24,7 +25,7 @@ import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.RetypedNode;
 
 /**
- *
+ * A node which is created by retyping, with the old node (old nodes in case of a merge)
  */
 public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	static {
@@ -33,11 +34,15 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 
 	private BaseNode oldUnresolved;
 	private NodeDeclNode old = null;
+	private CollectNode<IdentNode> mergeesUnresolved;
+	private CollectNode<NodeDeclNode> mergees;
 
-	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid, PatternGraphNode directlyNestingLHSGraph) {
+	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid, CollectNode<IdentNode> mergees, PatternGraphNode directlyNestingLHSGraph) {
 		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.oldUnresolved = oldid;
 		becomeParent(this.oldUnresolved);
+		this.mergeesUnresolved = mergees;
+		becomeParent(this.mergeesUnresolved);
 	}
 
 	/** returns children of this node */
@@ -48,6 +53,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
 		children.add(constraints);
 		children.add(getValidVersion(oldUnresolved, old));
+		children.add(getValidVersion(mergeesUnresolved, mergees));
 		return children;
 	}
 
@@ -59,11 +65,14 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		childrenNames.add("type");
 		childrenNames.add("constraints");
 		childrenNames.add("old");
+		childrenNames.add("mergees");
 		return childrenNames;
 	}
 
 	private static final DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
-
+	private static final CollectResolver<NodeDeclNode> mergeesResolver = new CollectResolver<NodeDeclNode>(
+    		new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class));
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
@@ -72,8 +81,9 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		old = nodeResolver.resolve(oldUnresolved, this);
 		if(old != null)
 			old.retypedElem = this;
+		mergees = mergeesResolver.resolve(mergeesUnresolved, this);
 
-		return successfullyResolved && old != null;
+		return successfullyResolved && old != null && mergees != null;
 	}
 
 	/**
@@ -117,6 +127,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 				res = false;
 			}
 		}
+		
+		// TODO: do the same for mergees
 
 		// Collect all outer Alternative cases
 		Collection<BaseNode> cases= new LinkedHashSet<BaseNode>();
@@ -153,6 +165,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 			}
 		}
 
+		// TODO: do the same for mergees
+		
 		return res;
 	}
 
@@ -179,6 +193,10 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		if (inheritsType()) {
 			assert !isCopy;
 			res.setTypeof(typeNodeDecl.checkIR(Node.class), false);
+		}
+		
+		for(NodeDeclNode mergee : mergees.getChildren()) {
+			res.addMergee(mergee.checkIR(Node.class));
 		}
 
 		return res;

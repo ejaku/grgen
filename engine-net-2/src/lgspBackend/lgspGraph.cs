@@ -126,7 +126,11 @@ namespace de.unika.ipd.grGen.lgsp
         public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> atNegLevelMatchedElements;
         public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> atNegLevelMatchedElementsGlobal;
 
+        public string[] nameOfSingleElementAdded = new string[1];
+
         protected static String GetNextGraphName() { return "lgspGraph_" + graphID++; }
+
+
 
         /// <summary>
         /// Constructs an LGSPGraph object with the given model and an automatically generated name.
@@ -996,7 +1000,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             return Retype((LGSPEdge) edge, newEdgeType);
         }
-
+        
         /// <summary>
         /// Replaces a given node by another one.
         /// All incident edges and variables are transferred to the new node.
@@ -1178,6 +1182,138 @@ namespace de.unika.ipd.grGen.lgsp
             CheckInOutRinglistsBroken(newEdge.lgspSource);
             CheckInOutRinglistsBroken(newEdge.lgspTarget);
 #endif
+        }
+
+        /// <summary>
+        /// Merges the source node into the target node,
+        /// i.e. all edges incident to the source node are redirected to the target node, then the source node is deleted.
+        /// </summary>
+        /// <param name="target">The node which remains after the merge.</param>
+        /// <param name="source">The node to be merged.</param>
+        /// <param name="sourceName">The name of the node to be merged (used for debug display of redirected edges).</param>
+        public void Merge(LGSPNode target, LGSPNode source, string sourceName)
+        {
+            if (source == target)
+                return;
+
+            while(source.lgspOuthead!=null)
+            {
+                if(source.lgspOuthead.Target==source)
+                    RedirectSourceAndTarget(source.lgspOuthead, target, target, sourceName, sourceName);
+                else
+                    RedirectSource(source.lgspOuthead, target, sourceName);
+            }
+            while (source.lgspInhead != null)
+            {
+                RedirectTarget(source.lgspInhead, target, sourceName);
+            }
+
+            Remove(source);
+        }
+
+        /// <summary>
+        /// Merges the source node into the target node,
+        /// i.e. all edges incident to the source node are redirected to the target node, then the source node is deleted.
+        /// </summary>
+        /// <param name="target">The node which remains after the merge.</param>
+        /// <param name="source">The node to be merged.</param>
+        /// <param name="sourceName">The name of the node to be merged (used for debug display of redirected edges).</param>
+        public override void Merge(INode target, INode source, string sourceName)
+        {
+            Merge((LGSPNode)target, (LGSPNode)source, sourceName);
+        }
+
+        /// <summary>
+        /// Changes the source node of the edge from the old source to the given new source.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newSource">The new source node of the edge.</param>
+        /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        public void RedirectSource(LGSPEdge edge, LGSPNode newSource, string oldSourceName)
+        {
+            RemovingEdge(edge);
+            edge.lgspSource.RemoveOutgoing(edge);
+            newSource.AddOutgoing(edge);
+            edge.lgspSource = newSource;
+            nameOfSingleElementAdded[0] = "redirected from " + oldSourceName + " --> .";
+            SettingAddedEdgeNames(nameOfSingleElementAdded);
+            EdgeAdded(edge);
+        }
+
+        /// <summary>
+        /// Changes the source node of the edge from the old source to the given new source.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newSource">The new source node of the edge.</param>
+        /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        public override void RedirectSource(IEdge edge, INode newSource, string oldSourceName)
+        {
+            RedirectSource((LGSPEdge)edge, (LGSPNode)newSource, oldSourceName);
+        }
+        
+        /// <summary>
+        /// Changes the target node of the edge from the old target to the given new target.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newTarget">The new target node of the edge.</param>
+        /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        public void RedirectTarget(LGSPEdge edge, LGSPNode newTarget, string oldTargetName)
+        {
+            RemovingEdge(edge);
+            edge.lgspTarget.RemoveIncoming(edge);
+            newTarget.AddIncoming(edge);
+            edge.lgspTarget = newTarget;
+            nameOfSingleElementAdded[0] = "redirected from . --> " + oldTargetName;
+            SettingAddedEdgeNames(nameOfSingleElementAdded);
+            EdgeAdded(edge);
+        }
+
+        /// <summary>
+        /// Changes the target node of the edge from the old target to the given new target.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newTarget">The new target node of the edge.</param>
+        /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        public override void RedirectTarget(IEdge edge, INode newTarget, string oldTargetName)
+        {
+            RedirectTarget((LGSPEdge)edge, (LGSPNode)newTarget, oldTargetName);
+        }
+
+        /// <summary>
+        /// Changes the source of the edge from the old source to the given new source,
+        /// and changes the target node of the edge from the old target to the given new target.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newSource">The new source node of the edge.</param>
+        /// <param name="newTarget">The new target node of the edge.</param>
+        /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        public void RedirectSourceAndTarget(LGSPEdge edge, LGSPNode newSource, LGSPNode newTarget, string oldSourceName, string oldTargetName)
+        {
+            RemovingEdge(edge);
+            edge.lgspSource.RemoveOutgoing(edge);
+            newSource.AddOutgoing(edge);
+            edge.lgspSource = newSource;
+            edge.lgspTarget.RemoveIncoming(edge);
+            newTarget.AddIncoming(edge);
+            edge.lgspTarget = newTarget;
+            nameOfSingleElementAdded[0] = "redirected from " + oldSourceName + " --> " + oldTargetName;
+            SettingAddedEdgeNames(nameOfSingleElementAdded);
+            EdgeAdded(edge);
+        }
+
+        /// <summary>
+        /// Changes the source of the edge from the old source to the given new source,
+        /// and changes the target node of the edge from the old target to the given new target.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newSource">The new source node of the edge.</param>
+        /// <param name="newTarget">The new target node of the edge.</param>
+        /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        public override void RedirectSourceAndTarget(IEdge edge, INode newSource, INode newTarget, string oldSourceName, string oldTargetName)
+        {
+            RedirectSourceAndTarget((LGSPEdge)edge, (LGSPNode)newSource, (LGSPNode)newTarget, oldSourceName, oldTargetName);
         }
 
         #region Visited flags management

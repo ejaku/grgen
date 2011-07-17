@@ -1230,6 +1230,7 @@ public class ModifyGen extends CSharpBase {
 	{
 		for(Edge edge : task.right.getEdges()) {
 			if(!edge.changesType(task.right)) continue;
+			
 			String new_type;
 			RetypedEdge redge = edge.getRetypedEdge(task.right);
 
@@ -1259,6 +1260,7 @@ public class ModifyGen extends CSharpBase {
 	{
 		for(Node node : task.right.getNodes()) {
 			if(!node.changesType(task.right)) continue;
+			
 			String new_type;
 			RetypedNode rnode = node.getRetypedNode(task.right);
 
@@ -1275,6 +1277,11 @@ public class ModifyGen extends CSharpBase {
 			nodesNeededAsElements.add(node);
 			sb.append("\t\t\tGRGEN_LGSP.LGSPNode " + formatEntity(rnode) + " = graph.Retype("
 					+ formatEntity(node) + ", " + new_type + ");\n");
+			for(Node mergee : rnode.getMergees()) {
+				nodesNeededAsElements.add(mergee);
+				sb.append("\t\t\tgraph.Merge("
+						+ formatEntity(rnode) + ", " + formatEntity(mergee) + ", \"" + formatIdentifiable(mergee) + "\");\n");
+			}
 			if(state.nodesNeededAsAttributes().contains(rnode) && state.accessViaInterface().contains(rnode)) {
 				sb.append("\t\t\t"
 						+ formatVarDeclWithCast(formatElementInterfaceRef(rnode.getType()), "i" + formatEntity(rnode))

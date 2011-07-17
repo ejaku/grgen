@@ -1,0 +1,40 @@
+new graph retype/retypeMerge
+
+xgrs init
+show num nodes
+show num edges
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+xgrs merge
+show num nodes
+show num edges
+show num nodes only "A"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+xgrs check
+show num nodes
+show num edges
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+xgrs merge2
+show num nodes
+show num edges
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+xgrs merge3
+show num nodes
+show num edges
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+xgrs merge4
+show num nodes
+show num edges
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+quit

@@ -245,6 +245,42 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IEdge Retype(IEdge edge, EdgeType newEdgeType);
 
         /// <summary>
+        /// Merges the source node into the target node,
+        /// i.e. all edges incident to the source node are redirected to the target node, then the source node is deleted.
+        /// </summary>
+        /// <param name="target">The node which remains after the merge.</param>
+        /// <param name="source">The node to be merged.</param>
+        /// <param name="sourceName">The name of the node to be merged (used for debug display of redirected edges).</param>
+        public abstract void Merge(INode target, INode source, string sourceName);
+
+        /// <summary>
+        /// Changes the source node of the edge from the old source to the given new source.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newSource">The new source node of the edge.</param>
+        /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        public abstract void RedirectSource(IEdge edge, INode newSource, string oldSourceName);
+
+        /// <summary>
+        /// Changes the target node of the edge from the old target to the given new target.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newTarget">The new target node of the edge.</param>
+        /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        public abstract void RedirectTarget(IEdge edge, INode newTarget, string oldTargetName);
+
+        /// <summary>
+        /// Changes the source of the edge from the old source to the given new source,
+        /// and changes the target node of the edge from the old target to the given new target.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newSource">The new source node of the edge.</param>
+        /// <param name="newTarget">The new target node of the edge.</param>
+        /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        public abstract void RedirectSourceAndTarget(IEdge edge, INode newSource, INode newTarget, string oldSourceName, string oldTargetName);
+
+        /// <summary>
         /// Mature a graph.
         /// This method should be invoked after adding all nodes and edges to the graph.
         /// The backend may implement analyses on the graph to speed up matching etc.

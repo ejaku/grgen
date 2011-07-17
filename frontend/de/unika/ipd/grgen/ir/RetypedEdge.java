@@ -41,10 +41,6 @@ public class RetypedEdge extends Edge implements Retyped {
 		this.oldEdge = old;
 	}
 
-	public boolean changesType() {
-		return false;
-	}
-
 	public boolean isRetyped() {
 		return true;
 	}

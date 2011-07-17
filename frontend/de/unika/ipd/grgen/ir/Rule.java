@@ -360,7 +360,7 @@ public class Rule extends MatchingAction {
 					}
 				}
 				if(node instanceof RetypedNode) {
-					if(node.getDependencyLevel()<=((RetypedNode)node).oldNode.getDependencyLevel()) {
+					if(node.getDependencyLevel()<=((RetypedNode)node).getCombinedDependencyLevel()) {
 						node.incrementDependencyLevel();
 						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
 						somethingChanged = true;

@@ -741,6 +741,18 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Retypes an edge by creating a new edge of the given type.
+        /// Source and target node as well as all attributes from common super classes are kept.
+        /// </summary>
+        /// <param name="edge">The edge to be retyped.</param>
+        /// <param name="newEdgeType">The new type for the edge.</param>
+        /// <returns>The new edge object representing the retyped edge.</returns>
+        public IEdge Retype(IEdge edge, EdgeType newEdgeType)
+        {
+            return graph.Retype(edge, newEdgeType);
+        }
+
+        /// <summary>
         /// An element gets retyped, i.e. a new element created from an old element;
         /// give the new element the name of the old element, step 1.
         /// (high level retyping is low level delete and create, reconnecting incident stuff and copying attributes)
@@ -774,15 +786,51 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Retypes an edge by creating a new edge of the given type.
-        /// Source and target node as well as all attributes from common super classes are kept.
+        /// Merges the source node into the target node,
+        /// i.e. all edges incident to the source node are redirected to the target node, then the source node is deleted.
         /// </summary>
-        /// <param name="edge">The edge to be retyped.</param>
-        /// <param name="newEdgeType">The new type for the edge.</param>
-        /// <returns>The new edge object representing the retyped edge.</returns>
-        public IEdge Retype(IEdge edge, EdgeType newEdgeType)
+        /// <param name="target">The node which remains after the merge.</param>
+        /// <param name="source">The node to be merged.</param>
+        /// <param name="sourceName">The name of the node to be merged (used for debug display of redirected edges).</param>
+        public void Merge(INode target, INode source, string sourceName)
         {
-            return graph.Retype(edge, newEdgeType);
+            graph.Merge(target, source, sourceName);
+        }
+
+        /// <summary>
+        /// Changes the source node of the edge from the old source to the given new source.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newSource">The new source node of the edge.</param>
+        /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        public void RedirectSource(IEdge edge, INode newSource, string oldSourceName)
+        {
+            graph.RedirectSource(edge, newSource, oldSourceName);
+        }
+
+        /// <summary>
+        /// Changes the target node of the edge from the old target to the given new target.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newTarget">The new target node of the edge.</param>
+        /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        public void RedirectTarget(IEdge edge, INode newTarget, string oldTargetName)
+        {
+            graph.RedirectTarget(edge, newTarget, oldTargetName);
+        }
+
+        /// <summary>
+        /// Changes the source of the edge from the old source to the given new source,
+        /// and changes the target node of the edge from the old target to the given new target.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newSource">The new source node of the edge.</param>
+        /// <param name="newTarget">The new target node of the edge.</param>
+        /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        public void RedirectSourceAndTarget(IEdge edge, INode newSource, INode newTarget, string oldSourceName, string oldTargetName)
+        {
+            graph.RedirectSourceAndTarget(edge, newSource, newTarget, oldSourceName, oldTargetName);
         }
 
         /// <summary>

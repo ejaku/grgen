@@ -1,0 +1,14 @@
+node class A
+{
+	a:int = 42;
+}
+
+node class B
+{
+	b:string = "foo";
+}
+
+node class C
+{
+	c:boolean = true;
+}

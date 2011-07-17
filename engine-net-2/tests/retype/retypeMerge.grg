@@ -1,0 +1,57 @@
+using retypeMerge;
+
+rule init
+{
+	modify {
+		n0:A --> :A --> :A --> n0;
+		n1:B --> n0;
+		n1 --> n1;
+		n1 --> :C --> n2:A --> n1;
+		n2 --> n2;
+	}
+}
+
+rule merge
+{
+	n1:B --> n0:A;
+	
+	modify {
+		m:A<n0,n1>;
+	}
+}
+
+test check
+{
+	n0:A --> :A --> :A --> n0;
+	n0 --> n0;
+	n0 --> n0;
+	n0 --> :C --> n2:A --> n0;
+	n2 --> n2;
+}
+
+rule merge2
+{
+	n0:A --> c:C;
+	
+	modify {
+		m:A<n0,c>;
+	}
+}
+
+rule merge3
+{
+	a0:A <-- n0:A --> a1:A;
+	
+	modify {
+		m:A<n0,a0,a1>;
+	}
+}
+
+rule merge4
+{
+	n0:A; a0:A;
+	
+	modify {
+		m:C<n0,a0>;
+	}
+}

@@ -583,6 +583,8 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		boolean hasAnnots = false;
 		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
 		CollectNode<ExprNode> subpatternReplConn = new CollectNode<ExprNode>();
+		curId = env.getDummyIdent();
+		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
 		BaseNode n = null;
 	}
 
@@ -597,9 +599,9 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				{
 					n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				}
-			| LT oldid=entIdentUse GT
+			| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT
 				{
-					n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+					n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 				}
 			| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
 				{
@@ -615,12 +617,12 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		| // node typeof declaration
 			TYPEOF LPAREN type=entIdentUse RPAREN
 			( constr=typeConstraint )?
-			( LT oldid=entIdentUse GT )?
+			( LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT )?
 			{
 				if(oldid==null) {
 					n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				} else {
-					n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+					n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 				}
 			}
 			firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
@@ -644,9 +646,9 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 					{
 						n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 					}
-				| LT oldid=entIdentUse GT
+				| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT
 					{
-						n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+						n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 					}
 				| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
 					{
@@ -663,12 +665,12 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 				TYPEOF LPAREN type=entIdentUse RPAREN
 				( constr=typeConstraint )?
-				( LT oldid=entIdentUse GT )?
+				( LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT )?
 				{
 					if(oldid==null) {
 						n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 					} else {
-						n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+						n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 					}
 				}
 				firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
@@ -853,6 +855,8 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 	@init{
 		type = env.getNodeRoot();
 		constr = TypeExprNode.getEmpty();
+		curId = env.getDummyIdent();
+		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
 	}
 
 	:	( type=typeIdentUse
@@ -863,9 +867,9 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 			{
 				res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 			}
-		| LT oldid=entIdentUse GT
+		| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT
 			{
-				res = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+				res = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
 		| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
 			{
@@ -886,6 +890,8 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
 	@init{
 		constr = TypeExprNode.getEmpty();
+		curId = env.getDummyIdent();
+		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
 	}
 
 	: id=entIdentDecl COLON
@@ -897,9 +903,9 @@ nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Bas
 			{
 				res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 			}
-		| LT oldid=entIdentUse GT
+		| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT 
 			{
-				res = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+				res = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
 		| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
 			{
