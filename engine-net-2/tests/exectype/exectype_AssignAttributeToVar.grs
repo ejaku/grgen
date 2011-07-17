@@ -2,7 +2,10 @@ new graph "exectype/exectype"
 new x:A
 show var x
 x.f
+x.by
+x.sh
 x.i
+x.l
 x.b
 x.st
 x.s
@@ -10,9 +13,12 @@ x.m
 x.a
 x.fl
 x.d
-xgrs f:foo=x.f && i:int=x.i && b:boolean=x.b && st:string=x.st && s:set<foo>=x.s && m:map<int,string>=x.m && a:array<foo>=x.a && fl:float=x.fl && d:double=x.d \
+xgrs f:foo=x.f && by:byte=x.by && sh:short=x.sh && i:int=x.i && l:long=x.l && b:boolean=x.b && st:string=x.st && s:set<foo>=x.s && m:map<int,string>=x.m && a:array<foo>=x.a && fl:float=x.fl && d:double=x.d \
 	&& emit("value of variable f 5 6 7 8 9 ") && emit(f) && emit("\n") \
+	&& emit("value of variable by 5 6 7 8 9 ") && emit(by) && emit("\n") \
+	&& emit("value of variable sh 5 6 7 8 9 ") && emit(sh) && emit("\n") \
 	&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n") \
+	&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n") \
 	&& emit("value of variable b 5 6 7 8 9 ") && emit(b) && emit("\n") \
 	&& emit("value of variable st 5 6 7 8 9 ") && emit(st) && emit("\n") \
 	&& emit("value of variable s 5 6 7 8 9 ") && emit(s) && emit("\n") \

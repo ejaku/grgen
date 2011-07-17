@@ -1,0 +1,16 @@
+new graph "arith/arith"
+
+new n:N
+
+n.by
+n.sh
+n.i
+n.l
+
+xgrs compute
+
+n.tgt1
+n.tgt2
+n.tgt3
+
+quit

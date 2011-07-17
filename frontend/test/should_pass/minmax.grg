@@ -1,30 +1,48 @@
 using attrib_model_001;
 
 rule r {
+	nby : NBYTE;
+	nsh : NSHORT;
 	ni : NINT;
+	nl : NLONG;
 	nf : NFLOAT;
 	nd : NDOUBLE;
+	-eby:EBYTE->;
+	-esh:ESHORT->;
 	-ei:EINT->;
+	-el:ELONG->;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
 
 	if {
+		nby.a == (byte)min(eby.a, nby.a);
+		nsh.a == (short)min(esh.a, nsh.a);
 		ni.a == min(ei.a, ni.a);
+		nl.a == min(el.a, nl.a);
 		nf.a == min(ef.a, nf.a);
 		nd.a == min(ed.a, nd.a);
 
+		nby.a == (byte)max(eby.a, nby.a);
+		nsh.a == (short)max(esh.a, nsh.a);
 		ni.a == max(ei.a, ni.a);
+		nl.a == max(el.a, nl.a);
 		nf.a == max(ef.a, nf.a);
 		nd.a == max(ed.a, nd.a);
 	}
 
 	modify {
 		eval {
+			nby.a = (byte)min(eby.a, nby.a);
+			nsh.a = (short)min(esh.a, nsh.a);
 			ni.a = min(ei.a, ni.a);
+			nl.a = min(el.a, nl.a);
 			nf.a = min(ef.a, nf.a);
 			nd.a = min(ed.a, nd.a);
 
+			nby.a = (byte)max(eby.a, nby.a);
+			nsh.a = (short)max(esh.a, nsh.a);
 			ni.a = max(ei.a, ni.a);
+			nl.a = max(el.a, nl.a);
 			nf.a = max(ef.a, nf.a);
 			nd.a = max(ed.a, nd.a);
 		}

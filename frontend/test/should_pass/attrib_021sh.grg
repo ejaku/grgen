@@ -1,0 +1,37 @@
+using attrib_model_001;
+
+rule r {
+	nsh : NSHORT;
+	-esh:ESHORT->;
+
+	modify {
+		eval {
+			nsh.a = 1s;
+			esh.a = (short)2;
+
+			nsh.a = (short)+nsh.a;
+			nsh.a = (short)-nsh.a;
+			nsh.a = (short)~nsh.a;
+			nsh.a = (short)(+nsh.a + esh.a);
+			nsh.a = (short)(-nsh.a + esh.a);
+			nsh.a = (short)(~nsh.a + esh.a);
+			nsh.a = (short)(nsh.a + +esh.a);
+			nsh.a = (short)(nsh.a + -esh.a);
+			nsh.a = (short)(nsh.a + ~esh.a);
+
+			nsh.a = (short)+ + nsh.a;
+			nsh.a = (short)- - nsh.a;
+			nsh.a = (short)+ + + nsh.a;
+			nsh.a = (short)- - - nsh.a;
+
+			nsh.a = (short)~nsh.a;
+			nsh.a = (short)~~nsh.a;
+			nsh.a = (short)~~~nsh.a;
+			nsh.a = (short)~~~~nsh.a;
+			nsh.a = (short)~ ~ ~~ nsh.a;
+
+			nsh.a = (short)+ + + + - +-+- - - + +-+- +- nsh.a;
+		}
+	}
+}
+

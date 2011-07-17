@@ -13,54 +13,71 @@ rule r
 	p2:p();
 
 	modify {
+		def var aby:byte = 42Y;
+		def var ash:short = 42S;
 		def var ai:int = 42;
+		def var al:long = 42L;
 		def var ab:boolean = true;
 		def var as:string = "1337 0wn4g3 f0r ze lulz";
 		def var af:float = 42.42424242f;
 		def var ad:double = 42.42424242424242;
 		def var ao:object = null;
 
-		p1(ni.a, ef.a, yield ai, yield ab, yield as, yield af, yield ad, yield ao);
-		p2(ai, af, yield ai, yield ab, yield as, yield af, yield ad, yield ao);
+		p1(ni.a, ef.a, yield aby, yield ash, yield ai, yield al, yield ab, yield as, yield af, yield ad, yield ao);
+		p2(ai, af, yield aby, yield ash, yield ai, yield al, yield ab, yield as, yield af, yield ad, yield ao);
 	}
 }
 
-pattern p modify(var in1:int, var in2:float, def var ai:int, def var ab:boolean, def var as:string,
-									 def var af:float, def var ad:double, def var ao:object)
+pattern p modify(var in1:int, var in2:float, 
+					def var aby:byte, def var ash:short, def var ai:int, def var al:long,
+					def var ab:boolean, def var as:string,
+					def var af:float, def var ad:double, def var ao:object)
 {
 	ni:NINT;
+	nl:NLONG;
 	nb:NBOOL;
 	ns:NSTRING;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
 	-eo:EOBJECT->;
+	-eby:EBYTE->;
+	-esh:ESHORT->;
 
 	modify {
 		evalhere {
 			ni.a = ai;
+			nl.a = al;
 			nb.a = ab;
 			ns.a = as;
 			ef.a = af;
 			ed.a = ad;
 			eo.a = ao;
+			eby.a = aby;
+			esh.a = ash;
 		}
 
 		eval {
 			yield ai = ni.a;
+			yield al = nl.a;
 			yield ab = nb.a;
 			yield as = ns.a;
 			yield af = ef.a;
 			yield ad = ed.a;
 			yield ao = eo.a;
+			yield aby = eby.a;
+			yield ash = esh.a;
 		}
 
 		eval {
 			yield ai = ai + ni.a;
+			yield al = al + nl.a;
 			yield ab = ab | nb.a;
 			yield as = as + ns.a;
 			yield af = af + ef.a;
 			yield ad = ad + ed.a;
 			yield ao = ao==null ? eo.a : ao;
+			yield aby = (byte)(aby + eby.a);
+			yield ash = (short)(ash + esh.a);
 		}
 	}
 }

@@ -1,0 +1,16 @@
+using attrib_model_001;
+
+rule r {
+	nl : NLONG;
+	nb : NBOOL;
+	nf : NFLOAT;
+	nd : NDOUBLE;
+	ns : NSTRING;
+
+	modify {
+		eval {
+			nl.a = nf.a;
+		}
+	}
+}
+

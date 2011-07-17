@@ -3,20 +3,20 @@ new graph "porter/porter"
 # begin of graph "DefaultGraph" saved by GrsExport
 
 new :Node($ = "node0")
-new :N2a($ = "node1", foo = 42)
+new :N2a($ = "node1", f = 42y, fo = 42s, foo = 42, fooo = 42l)
 new :N2b($ = "node2", bar = "Weltherrschaft!")
 new :N3($ = "node3", bla = 42)
-new :N4($ = "node4", foo = 3, bar = "n3", bla = 2.718281828, huh = True, lal = Bla::Reh)
-new :N4($ = "node5", foo = 2, bar = "n2", bla = 4, huh = False, lal = Bla::Reh)
-new :N4($ = "node6", foo = 1, bar = "n1", bla = 3.141592654, huh = True, lal = Bla::Lamm)
+new :N4($ = "node4", f = 3y, fo = 3s, foo = 3, fooo = 3l, bar = "n3", bla = 2.718281828, huh = True, lal = Bla::Reh)
+new :N4($ = "node5", f = 2y, fo = 2s, foo = 2, fooo = 2l, bar = "n2", bla = 4, huh = False, lal = Bla::Reh)
+new :N4($ = "node6", f = 1y, fo = 1s, foo = 1, fooo = 1l, bar = "n1", bla = 3.141592654, huh = True, lal = Bla::Lamm)
 # total number of nodes: 7
 
 new @("node3") - :E2b($ = "edge7", bar = "haha") -> @("node2")
 new @("node3") - :E3($ = "edge8", bla = 42f) -> @("node3")
-new @("node3") - :E2a($ = "edge9", foo = 42) -> @("node1")
-new @("node4") - :E4($ = "edgeA", foo = 31, bar = "n3->n1", bla = 3.141593f, huh = True, lal = Bla::Reh) -> @("node6")
-new @("node5") - :E4($ = "edgeB", foo = 23, bar = "n2->n3", bla = 23f, huh = False, lal = Bla::Reh) -> @("node4")
-new @("node6") - :E4($ = "edgeC", foo = 0xC, bar = "n1->n2", bla = 12f, huh = True, lal = Bla::Hurz) -> @("node5")
+new @("node3") - :E2a($ = "edge9", f = 42y, fo = 42s, foo = 42, fooo = 42l) -> @("node1")
+new @("node4") - :E4($ = "edgeA", f = 31y, fo = 31s, foo = 31, fooo = 31l, bar = "n3->n1", bla = 3.141593f, huh = True, lal = Bla::Reh) -> @("node6")
+new @("node5") - :E4($ = "edgeB", f = 23y, fo = 23s, foo = 23, fooo = 23l, bar = "n2->n3", bla = 23f, huh = False, lal = Bla::Reh) -> @("node4")
+new @("node6") - :E4($ = "edgeC", f = 0xCy, fo = 0xCs, foo = 0xC, fooo = 0xCl, bar = "n1->n2", bla = 12f, huh = True, lal = Bla::Hurz) -> @("node5")
 new @("node6") - :Edge($ = "edgeD") -> @("node0")
 # total number of edges: 7
 

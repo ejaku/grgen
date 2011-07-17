@@ -1,6 +1,6 @@
 using attrib_model_001;
 
-rule r (ni : NINT, nb : NBOOL, nf : NFLOAT, nd : NDOUBLE, ns : NSTRING) : (NINT, NINT, NSTRING) {
+rule r (nby : NBYTE, nsh : NSHORT, ni : NINT, nl : NLONG, nb : NBOOL, nf : NFLOAT, nd : NDOUBLE, ns : NSTRING) : (NINT, NINT, NSTRING) {
 	zi : NINT;
 
 	replace {

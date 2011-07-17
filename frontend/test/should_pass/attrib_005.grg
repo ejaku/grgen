@@ -1,24 +1,36 @@
 using attrib_model_001;
 
 rule r {
+	nby : NBYTE;
+	nsh : NSHORT;
 	ni : NINT;
+	nl : NLONG;
 	nb : NBOOL;
 	nf : NFLOAT;
 	nd : NDOUBLE;
 	ns : NSTRING;
+	-eby:EBYTE->;
+	-esh:ESHORT->;
 	-ei:EINT->;
+	-el:ELONG->;
 	-eb:EBOOL->;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
 	-es:ESTRING->;
 	if {
+		nby.a == 42;
+		nsh.a == 42;
 		ni.a == 42;
+		nl.a == 42;
 		nb.a == true;
 		nf.a == 4.2;
 		nd.a == 4.2;
 		ns.a == "Hello";
 
+		eby.a == 42;
+		esh.a == 42;
 		ei.a == 42;
+		el.a == 42;
 		eb.a == true;
 		ef.a == 4.2;
 		ed.a == 4.2;
@@ -27,13 +39,21 @@ rule r {
 
 	modify {
 		eval {
+			nby.a = 24y;
+			nsh.a = 24s;
 			ni.a = 24;
+			nl.a = 24l;
 			nb.a = false;
+			nf.a = 2.4f;
 			nd.a = 2.4;
 			ns.a = "Bye";
 
+			eby.a = 24y;
+			esh.a = 24s;
 			ei.a = 24;
+			el.a = 24l;
 			eb.a = false;
+			ef.a = 2.4f;
 			ed.a = 2.4;
 			es.a = "Bye";
 		}

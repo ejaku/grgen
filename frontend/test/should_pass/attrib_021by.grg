@@ -1,0 +1,37 @@
+using attrib_model_001;
+
+rule r {
+	nby : NBYTE;
+	-eby:EBYTE->;
+
+	modify {
+		eval {
+			nby.a = 1y;
+			eby.a = (byte)2;
+
+			nby.a = (byte)+nby.a;
+			nby.a = (byte)-nby.a;
+			nby.a = (byte)~nby.a;
+			nby.a = (byte)(+nby.a + eby.a);
+			nby.a = (byte)(-nby.a + eby.a);
+			nby.a = (byte)(~nby.a + eby.a);
+			nby.a = (byte)(nby.a + +eby.a);
+			nby.a = (byte)(nby.a + -eby.a);
+			nby.a = (byte)(nby.a + ~eby.a);
+
+			nby.a = (byte)+ + nby.a;
+			nby.a = (byte)- - nby.a;
+			nby.a = (byte)+ + + nby.a;
+			nby.a = (byte)- - - nby.a;
+
+			nby.a = (byte)~nby.a;
+			nby.a = (byte)~~nby.a;
+			nby.a = (byte)~~~nby.a;
+			nby.a = (byte)~~~~nby.a;
+			nby.a = (byte)~ ~ ~~ nby.a;
+
+			nby.a = (byte)+ + + + - +-+- - - + +-+- +- nby.a;
+		}
+	}
+}
+

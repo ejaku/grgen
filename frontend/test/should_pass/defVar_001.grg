@@ -3,7 +3,10 @@ using attrib_model_001;
 rule r
 {
 	modify {
+		def var aby:byte;
+		def var ash:short;
 		def var ai:int;
+		def var al:long;
 		def var ab:boolean;
 		def var as:string;
 		def var af:float;
@@ -15,7 +18,10 @@ rule r
 pattern p
 {
 	modify {
+		def var aby:byte;
+		def var ash:short;
 		def var ai:int;
+		def var al:long;
 		def var ab:boolean;
 		def var as:string;
 		def var af:float;
@@ -30,7 +36,10 @@ rule ra
 	{
 		case {
 			modify {
+				def var aby:byte;
+				def var ash:short;
 				def var ai:int;
+				def var al:long;
 				def var ab:boolean;
 				def var as:string;
 				def var af:float;
@@ -50,7 +59,10 @@ pattern pa
 	{
 		.;
 		modify {
+			def var aby:byte;
+			def var ash:short;
 			def var ai:int;
+			def var al:long;
 			def var ab:boolean;
 			def var as:string;
 			def var af:float;

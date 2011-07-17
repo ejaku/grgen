@@ -1,4 +1,4 @@
-new graph "porter/portersetmap"
+new graph "porter/portersetmaparray"
 
 xgrs (n,e)=createTestGraph2
 
@@ -7,55 +7,79 @@ show num edges only E2
 
 xgrs [checkForTestGraph2]
 
+n.aby
+n.ash
 n.a
+n.al
 n.b
 n.c
+n.cf
 n.d
 n.e
 n.empty
 
+e.aby
+e.ash
 e.a
+e.al
 e.b
 e.c
+e.cf
 e.d
 e.e
 e.empty
 
 export porter/testgraphmap.grs
 
+n.aby
+n.ash
 n.a
+n.al
 n.b
 n.c
+n.cf
 n.d
 n.e
 n.empty
 
+e.aby
+e.ash
 e.a
+e.al
 e.b
 e.c
+e.cf
 e.d
 e.e
 e.empty
 
-import porter/testgraphmap.grs porter/portersetmap.gm
+import porter/testgraphmap.grs porter/portersetmaparray.gm
 
 show num nodes only N2
 show num edges only E2
 
-select actions porter/lgsp-portersetmapActions.dll
+select actions porter/lgsp-portersetmaparrayActions.dll
 
 xgrs (n,e)=[checkForTestGraph2]
 
+n.aby
+n.ash
 n.a
+n.al
 n.b
 n.c
+n.cf
 n.d
 n.e
 n.empty
 
+e.aby
+e.ash
 e.a
+e.al
 e.b
 e.c
+e.cf
 e.d
 e.e
 e.empty

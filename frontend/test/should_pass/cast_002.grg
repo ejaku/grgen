@@ -2,7 +2,10 @@
 using attrib_model_001, enum_model_001;
 
 rule r {
+	nby: NBYTE;
+	nsh: NSHORT;
 	ni: NINT;
+	nl: NLONG;
 	nf: NFLOAT;
 	nd: NDOUBLE;
 	ns: NSTRING;
@@ -21,8 +24,59 @@ rule r {
 			ns.a = ns.a + (string) nb.a;
 
 
+			//from byte
+			nby.a = (byte) nby.a;
+			nsh.a = (short) nby.a;
+			ni.a = (int) nby.a;
+			nl.a = (long) nby.a;
+			nb.a = ni.a == (int) nby.a;
+			ni.a = ni.a + (int) nby.a;
+			ni.a = - (int) nby.a;
+
+			nf.a = (float) nby.a;
+			nb.a = nf.a == (float) nby.a;
+			nf.a = nf.a + (float) nby.a;
+			nf.a = - (float) nby.a;
+
+			nd.a = (double) nby.a;
+			nb.a = nd.a == (double) nby.a;
+			nd.a = nd.a + (double) nby.a;
+			nd.a = - (double) nby.a;
+
+			ns.a = (string) nby.a;
+			nb.a = ns.a == (string) nby.a;
+			ns.a = ns.a + (string) nby.a;
+
+
+			//from short
+			nby.a = (byte) nsh.a;
+			nsh.a = (short) nsh.a;
+			ni.a = (int) nsh.a;
+			nl.a = (long) nsh.a;
+			nb.a = ni.a == (int) nsh.a;
+			ni.a = ni.a + (int) nsh.a;
+			ni.a = - (int) nsh.a;
+
+			nf.a = (float) nsh.a;
+			nb.a = nf.a == (float) nsh.a;
+			nf.a = nf.a + (float) nsh.a;
+			nf.a = - (float) nsh.a;
+
+			nd.a = (double) nsh.a;
+			nb.a = nd.a == (double) nsh.a;
+			nd.a = nd.a + (double) nsh.a;
+			nd.a = - (double) nsh.a;
+
+			ns.a = (string) nsh.a;
+			nb.a = ns.a == (string) nsh.a;
+			ns.a = ns.a + (string) nsh.a;
+
+
 			//from int
+			nby.a = (byte) ni.a;
+			nsh.a = (short) ni.a;
 			ni.a = (int) ni.a;
+			nl.a = (long) ni.a;
 			nb.a = ni.a == (int) ni.a;
 			ni.a = ni.a + (int) ni.a;
 			ni.a = - (int) ni.a;
@@ -42,8 +96,35 @@ rule r {
 			ns.a = ns.a + (string) ni.a;
 
 
+			//from long
+			nby.a = (byte) nl.a;
+			nsh.a = (short) nl.a;
+			ni.a = (int) nl.a;
+			nl.a = (long) nl.a;
+			nb.a = ni.a == (int) nl.a;
+			ni.a = ni.a + (int) nl.a;
+			ni.a = - (int) nl.a;
+
+			nf.a = (float) nl.a;
+			nb.a = nf.a == (float) nl.a;
+			nf.a = nf.a + (float) nl.a;
+			nf.a = - (float) nl.a;
+
+			nd.a = (double) nl.a;
+			nb.a = nd.a == (double) nl.a;
+			nd.a = nd.a + (double) nl.a;
+			nd.a = - (double) nl.a;
+
+			ns.a = (string) nl.a;
+			nb.a = ns.a == (string) nl.a;
+			ns.a = ns.a + (string) nl.a;
+
+
 			//from float
+			nby.a = (byte) nf.a;
+			nsh.a = (short) nf.a;
 			ni.a = (int) nf.a;
+			nl.a = (long) nf.a;
 			nb.a = ni.a == (int) nf.a;
 			ni.a = ni.a + (int) nf.a;
 			ni.a = - (int) nf.a;
@@ -64,7 +145,10 @@ rule r {
 
 
 			//from double
+			nby.a = (byte) nd.a;
+			nsh.a = (short) nd.a;
 			ni.a = (int) nd.a;
+			nl.a = (long) nd.a;
 			nb.a = ni.a == (int) nd.a;
 			ni.a = ni.a + (int) nd.a;
 			ni.a = - (int) nd.a;

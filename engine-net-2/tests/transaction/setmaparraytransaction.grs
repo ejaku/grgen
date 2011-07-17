@@ -1,4 +1,4 @@
-new graph "transaction/setmaptransaction"
+new graph "transaction/setmaparraytransaction"
 
 new n1:N
 new n2:N
@@ -6,11 +6,15 @@ n1.setVal
 n2.setVal
 n1.mapVal
 n2.mapVal
+n1.arrayVal
+n2.arrayVal
 xgrs < transform1* && fail > 
 n1.setVal
 n2.setVal
 n1.mapVal
 n2.mapVal
+n1.arrayVal
+n2.arrayVal
 
 clear graph
 
@@ -20,11 +24,15 @@ n1.setVal
 n2.setVal
 n1.mapVal
 n2.mapVal
+n1.arrayVal
+n2.arrayVal
 xgrs transform1* && fail 
 n1.setVal
 n2.setVal
 n1.mapVal
 n2.mapVal
+n1.arrayVal
+n2.arrayVal
 
 clear graph
 
@@ -34,11 +42,15 @@ n1.setVal
 n2.setVal
 n1.mapVal
 n2.mapVal
+n1.arrayVal
+n2.arrayVal
 xgrs < transform2* && fail > 
 n1.setVal
 n2.setVal
 n1.mapVal
 n2.mapVal
+n1.arrayVal
+n2.arrayVal
 
 clear graph
 
@@ -48,10 +60,14 @@ n1.setVal
 n2.setVal
 n1.mapVal
 n2.mapVal
+n1.arrayVal
+n2.arrayVal
 xgrs transform2* && fail 
 n1.setVal
 n2.setVal
 n1.mapVal
 n2.mapVal
+n1.arrayVal
+n2.arrayVal
 
 quit

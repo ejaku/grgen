@@ -1,4 +1,4 @@
-using portersetmap;
+using portersetmaparray;
 
 rule createTestGraph : (N1,E1)
 {
@@ -6,16 +6,24 @@ rule createTestGraph : (N1,E1)
 		n:N1 -e:E1-> n;
 		
 		eval {
+			n.aby = set<byte>{ 1y,2y,3y };
+			n.ash = set<short>{ 1s,2s,3s };
 			n.a = set<int>{ 1,2,3 };
+			n.al = set<long>{ 1l,2l,3l };
 			n.b = set<string>{ "n1","n2","n3" };
 			n.c = set<double>{ 3.141592654, 2.0, 1.0 };
+			n.cf = set<float>{ 3.141593f, 2.0f, 1.0f };
 			n.d = set<boolean>{true,false};
 			n.e = set<FooBar>{FooBar::foo,FooBar::bar};
 			// n.empty untouched empty 
 
+			e.aby = set<byte>{ 1y,2y,3y };
+			e.ash = set<short>{ 1s,2s,3s };
 			e.a = set<int>{ 1,2,3 };
+			e.al = set<long>{ 1l,2l,3l };
 			e.b = set<string>{ "n1","n2","n3" };
 			e.c = set<double>{ 3.141592654, 2.0, 1.0 };
+			e.cf = set<float>{ 3.141593f, 2.0f, 1.0f };
 			e.d = set<boolean>{true,false};	
 			e.e = set<FooBar>{FooBar::foo,FooBar::bar};
 			// e.empty untouched empty 			
@@ -31,16 +39,24 @@ rule createTestGraph2 : (N2,E2)
 		n:N2 -e:E2-> n;
 		
 		eval {
+			n.aby = map<byte,string>{ 1y->"n1",2y->"n2",3y->"n3" };
+			n.ash = map<short,string>{ 1s->"n1",2s->"n2",3s->"n3" };
 			n.a = map<int,string>{ 1->"n1",2->"n2",3->"n3" };
+			n.al = map<long,string>{ 1l->"n1",2l->"n2",3l->"n3" };
 			n.b = map<string,double>{ "n1"->3.141592654,"n2"->2.0,"n3"->1.0 };
 			n.c = map<double,boolean>{ 3.141592654->true, 2.0->false, 1.0->false };
+			n.cf = map<float,boolean>{ 3.141593f->true, 2.0f->false, 1.0f->false };
 			n.d = map<boolean,FooBar>{true->FooBar::foo,false->FooBar::bar};
 			n.e = map<FooBar,int>{FooBar::foo->1,FooBar::bar->2};
 			// n.empty untouched empty 
 
+			e.aby = map<byte,string>{ 1y->"n1",2y->"n2",3y->"n3" };
+			e.ash = map<short,string>{ 1s->"n1",2s->"n2",3s->"n3" };
 			e.a = map<int,string>{ 1->"n1",2->"n2",3->"n3" };
+			e.al = map<long,string>{ 1l->"n1",2l->"n2",3l->"n3" };
 			e.b = map<string,double>{ "n1"->3.141592654,"n2"->2.0,"n3"->1.0 };
 			e.c = map<double,boolean>{ 3.141592654->true, 2.0->false, 1.0->false };
+			e.cf = map<float,boolean>{ 3.141593f->true, 2.0f->false, 1.0f->false };
 			e.d = map<boolean,FooBar>{true->FooBar::foo,false->FooBar::bar};
 			e.e = map<FooBar,int>{FooBar::foo->1,FooBar::bar->2};
 			// e.empty untouched empty 			
@@ -56,16 +72,24 @@ rule createTestGraph3 : (N3,E3)
 		n:N3 -e:E3-> n;
 		
 		eval {
+			n.aby = array<byte>[ 1y,2y,3y ];
+			n.ash = array<short>[ 1s,2s,3s ];
 			n.a = array<int>[ 1,2,3 ];
+			n.al = array<long>[ 1l,2l,3l ];
 			n.b = array<string>[ "n1","n2","n3" ];
 			n.c = array<double>[ 3.141592654, 2.0, 1.0 ];
+			n.cf = array<float>[ 3.141593f, 2.0f, 1.0f ];
 			n.d = array<boolean>[true,false];
 			n.e = array<FooBar>[FooBar::foo,FooBar::bar];
 			// n.empty untouched empty 
 
+			e.aby = array<byte>[ 1y,2y,3y ];
+			e.ash = array<short>[ 1s,2s,3s ];
 			e.a = array<int>[ 1,2,3 ];
+			e.al = array<long>[ 1l,2l,3l ];
 			e.b = array<string>[ "n1","n2","n3" ];
 			e.c = array<double>[ 3.141592654, 2.0, 1.0 ];
+			e.cf = array<float>[ 3.141593f, 2.0f, 1.0f ];
 			e.d = array<boolean>[true,false];	
 			e.e = array<FooBar>[FooBar::foo,FooBar::bar];
 			// e.empty untouched empty 			
@@ -81,16 +105,24 @@ test checkForTestGraph : (N1,E1)
 	return(n,e);
 	
 	if {
+		n.aby == set<byte>{ 1y,2y,3y };
+		n.ash == set<short>{ 1s,2s,3s };
 		n.a == set<int>{ 1,2,3 };
+		n.al == set<long>{ 1l,2l,3l };
 		n.b == set<string>{ "n1","n2","n3" };
 		n.c == set<double>{ 3.141592654, 2.0, 1.0 };
+		n.cf == set<float>{ 3.141593f, 2.0f, 1.0f };
 		n.d == set<boolean>{true,false};
 		n.e == set<FooBar>{FooBar::foo,FooBar::bar};
 		n.empty.size()==0;
 
+		e.aby == set<byte>{ 1y,2y,3y };
+		e.ash == set<short>{ 1s,2s,3s };
 		e.a == set<int>{ 1,2,3 };
+		e.al == set<long>{ 1l,2l,3l };
 		e.b == set<string>{ "n1","n2","n3" };
 		e.c == set<double>{ 3.141592654, 2.0, 1.0 };
+		e.cf == set<float>{ 3.141593f, 2.0f, 1.0f };
 		e.d == set<boolean>{true,false};
 		e.e == set<FooBar>{FooBar::foo,FooBar::bar};
 		e.empty.size()==0;
@@ -103,16 +135,24 @@ test checkForTestGraph2 : (N2,E2)
 	return(n,e);
 	
 	if {
+		n.aby == map<byte,string>{ 1y->"n1",2y->"n2",3y->"n3" };
+		n.ash == map<short,string>{ 1s->"n1",2s->"n2",3s->"n3" };
 		n.a == map<int,string>{ 1->"n1",2->"n2",3->"n3" };
+		n.al == map<long,string>{ 1l->"n1",2l->"n2",3l->"n3" };
 		n.b == map<string,double>{ "n1"->3.141592654,"n2"->2.0,"n3"->1.0 };
 		n.c == map<double,boolean>{ 3.141592654->true, 2.0->false, 1.0->false };
+		n.cf == map<float,boolean>{ 3.141593f->true, 2.0f->false, 1.0f->false };
 		n.d == map<boolean,FooBar>{true->FooBar::foo,false->FooBar::bar};
 		n.e == map<FooBar,int>{FooBar::foo->1,FooBar::bar->2};
 		n.empty.size()==0; 
 
+		e.aby == map<byte,string>{ 1y->"n1",2y->"n2",3y->"n3" };
+		e.ash == map<short,string>{ 1s->"n1",2s->"n2",3s->"n3" };
 		e.a == map<int,string>{ 1->"n1",2->"n2",3->"n3" };
+		e.al == map<long,string>{ 1l->"n1",2l->"n2",3l->"n3" };
 		e.b == map<string,double>{ "n1"->3.141592654,"n2"->2.0,"n3"->1.0 };
 		e.c == map<double,boolean>{ 3.141592654->true, 2.0->false, 1.0->false };
+		e.cf == map<float,boolean>{ 3.141593f->true, 2.0f->false, 1.0f->false };
 		e.d == map<boolean,FooBar>{true->FooBar::foo,false->FooBar::bar};
 		e.e == map<FooBar,int>{FooBar::foo->1,FooBar::bar->2};
 		e.empty.size()==0; 			
@@ -125,16 +165,24 @@ test checkForTestGraph3 : (N3,E3)
 	return(n,e);
 	
 	if {
+		n.aby == array<byte>[ 1y,2y,3y ];
+		n.ash == array<short>[ 1s,2s,3s ];
 		n.a == array<int>[ 1,2,3 ];
+		n.al == array<long>[ 1l,2l,3l ];
 		n.b == array<string>[ "n1","n2","n3" ];
 		n.c == array<double>[ 3.141592654, 2.0, 1.0 ];
+		n.cf == array<float>[ 3.141593f, 2.0f, 1.0f ];
 		n.d == array<boolean>[true,false];
 		n.e == array<FooBar>[FooBar::foo,FooBar::bar];
 		n.empty.size()==0;
 
+		e.aby == array<byte>[ 1y,2y,3y ];
+		e.ash == array<short>[ 1s,2s,3s ];
 		e.a == array<int>[ 1,2,3 ];
+		e.al == array<long>[ 1l,2l,3l ];
 		e.b == array<string>[ "n1","n2","n3" ];
 		e.c == array<double>[ 3.141592654, 2.0, 1.0 ];
+		e.cf == array<float>[ 3.141593f, 2.0f, 1.0f ];
 		e.d == array<boolean>[true,false];
 		e.e == array<FooBar>[FooBar::foo,FooBar::bar];
 		e.empty.size()==0;

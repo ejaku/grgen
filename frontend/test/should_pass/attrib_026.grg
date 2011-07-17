@@ -1,12 +1,18 @@
 using attrib_model_001;
 
 rule r {
+	nby : NBYTE;
+	nsh : NSHORT;
 	ni : NINT;
+	nl : NLONG;
 	nb : NBOOL;
 	nf : NFLOAT;
 	nd : NDOUBLE;
 	ns : NSTRING;
+	-eby:EBYTE->;
+	-esh:ESHORT->;
 	-ei:EINT->;
+	-el:ELONG->;
 	-eb:EBOOL->;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
@@ -14,19 +20,45 @@ rule r {
 
 	modify {
 		eval {
+			nby.a = 1Y;
+			nsh.a = 1S;
 			ni.a = 1;
+			nl.a = 1L;
 			nb.a = true;
+			nf.a = 1.0f;
 			nd.a = 1.0;
 			ns.a = "";
 
+			eby.a = 2Y;
+			esh.a = 2S;
 			ei.a = 2;
+			el.a = 2L;
 			eb.a = false;
+			ef.a = 2.0f;
 			ed.a = 2.0;
 			es.a = "Hi!";
 
+			nby.a = nby.a;
+			nsh.a = nby.a;
+			ni.a = nby.a;
+			nl.a = nby.a;
+			nf.a = nby.a;
+			nd.a = nby.a;
+
+			nsh.a = nsh.a;
+			ni.a = nsh.a;
+			nl.a = nsh.a;
+			nf.a = nsh.a;
+			nd.a = nsh.a;
+
 			ni.a = ni.a;
+			nl.a = ni.a;
 			nf.a = ni.a;
 			nd.a = ni.a;
+
+			nl.a = nl.a;
+			nf.a = nl.a;
+			nd.a = nl.a;
 
 			nb.a = nb.a;
 
@@ -35,6 +67,13 @@ rule r {
 
 			nd.a = nd.a;
 
+			ns.a = nby.a;
+			ns.a = nsh.a;
+			ns.a = ni.a;
+			ns.a = nl.a;
+			ns.a = nb.a;
+			ns.a = nf.a;
+			ns.a = nd.a;
 			ns.a = ns.a;
 		}
 	}

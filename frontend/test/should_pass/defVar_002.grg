@@ -3,45 +3,60 @@ using attrib_model_001;
 rule r
 {
 	ni:NINT;
+	nl:NLONG;
 	nb:NBOOL;
 	ns:NSTRING;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
 	-eo:EOBJECT->;
+	-eby:EBYTE->;
+	-esh:ESHORT->;
 
 	modify {
 		def var ai:int = 42;
+		def var al:long = 42l;
 		def var ab:boolean = true;
 		def var as:string = "1337 0wn4g3 f0r ze lulz";
 		def var af:float = 42.42424242f;
 		def var ad:double = 42.42424242424242;
 		def var ao:object = null;
+		def var aby:byte = 42y;
+		def var ash:short = 42s;
 
 		evalhere {
 			ni.a = ai;
+			nl.a = al;
 			nb.a = ab;
 			ns.a = as;
 			ef.a = af;
 			ed.a = ad;
 			eo.a = ao;
+			eby.a = aby;
+			esh.a = ash;
 		}
 
 		eval {
 			yield ai = ni.a;
+			yield al = nl.a;
 			yield ab = nb.a;
 			yield as = ns.a;
 			yield af = ef.a;
 			yield ad = ed.a;
 			yield ao = eo.a;
+			yield aby = eby.a;
+			yield ash = esh.a;
 		}
 
 		eval {
 			yield ai = ai + ni.a;
+			yield al = al + nl.a;
 			yield ab = ab | nb.a;
 			yield as = as + ns.a;
 			yield af = af + ef.a;
 			yield ad = ad + ed.a;
 			yield ao = ao==null ? eo.a : ao;
+			yield aby = (byte)(aby + eby.a);
+			yield ash = (short)(ash + esh.a);
 		}
 	}
 }
@@ -49,45 +64,60 @@ rule r
 pattern p
 {
 	ni:NINT;
+	nl:NLONG;
 	nb:NBOOL;
 	ns:NSTRING;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
 	-eo:EOBJECT->;
+	-eby:EBYTE->;
+	-esh:ESHORT->;
 
 	modify {
 		def var ai:int = 42;
+		def var al:long = 42l;
 		def var ab:boolean = true;
 		def var as:string = "1337 0wn4g3 f0r ze lulz";
 		def var af:float = 42.42424242f;
 		def var ad:double = 42.42424242424242;
 		def var ao:object = null;
+		def var aby:byte = 42y;
+		def var ash:short = 42s;
 
 		evalhere {
 			ni.a = ai;
+			nl.a = al;
 			nb.a = ab;
 			ns.a = as;
 			ef.a = af;
 			ed.a = ad;
 			eo.a = ao;
+			eby.a = aby;
+			esh.a = ash;
 		}
 
 		eval {
 			yield ai = ni.a;
+			yield al = nl.a;
 			yield ab = nb.a;
 			yield as = ns.a;
 			yield af = ef.a;
 			yield ad = ed.a;
 			yield ao = eo.a;
+			yield aby = eby.a;
+			yield ash = esh.a;
 		}
 
 		eval {
 			yield ai = ai + ni.a;
+			yield al = al + nl.a;
 			yield ab = ab | nb.a;
 			yield as = as + ns.a;
 			yield af = af + ef.a;
 			yield ad = ad + ed.a;
 			yield ao = ao==null ? eo.a : ao;
+			yield aby = (byte)(aby + eby.a);
+			yield ash = (short)(ash + esh.a);
 		}
 	}
 }
@@ -98,45 +128,60 @@ rule ra
 	{
 		case {
 			ni:NINT;
+			nl:NLONG;
 			nb:NBOOL;
 			ns:NSTRING;
 			-ef:EFLOAT->;
 			-ed:EDOUBLE->;
 			-eo:EOBJECT->;
+			-eby:EBYTE->;
+			-esh:ESHORT->;
 
 			modify {
 				def var ai:int = 42;
+				def var al:long = 42l;
 				def var ab:boolean = true;
 				def var as:string = "1337 0wn4g3 f0r ze lulz";
 				def var af:float = 42.42424242f;
 				def var ad:double = 42.42424242424242;
 				def var ao:object = null;
+				def var aby:byte = 42y;
+				def var ash:short = 42s;
 
 				evalhere {
 					ni.a = ai;
+					nl.a = al;
 					nb.a = ab;
 					ns.a = as;
 					ef.a = af;
 					ed.a = ad;
 					eo.a = ao;
+					eby.a = aby;
+					esh.a = ash;
 				}
 
 				eval {
 					yield ai = ni.a;
+					yield al = nl.a;
 					yield ab = nb.a;
 					yield as = ns.a;
 					yield af = ef.a;
 					yield ad = ed.a;
 					yield ao = eo.a;
+					yield aby = eby.a;
+					yield ash = esh.a;
 				}
 
 				eval {
 					yield ai = ai + ni.a;
+					yield al = al + nl.a;
 					yield ab = ab | nb.a;
 					yield as = as + ns.a;
 					yield af = af + ef.a;
 					yield ad = ad + ed.a;
 					yield ao = ao==null ? eo.a : ao;
+					yield aby = (byte)(aby + eby.a);
+					yield ash = (short)(ash + esh.a);
 				}
 			}
 		}
@@ -149,11 +194,14 @@ rule ra
 rule ran
 {
 	ni:NINT;
+	nl:NLONG;
 	nb:NBOOL;
 	ns:NSTRING;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
 	-eo:EOBJECT->;
+	-eby:EBYTE->;
+	-esh:ESHORT->;
 
 	alternative
 	{
@@ -162,29 +210,38 @@ rule ran
 			modify {
 				evalhere {
 					ni.a = ai;
+					nl.a = al;
 					nb.a = ab;
 					ns.a = as;
 					ef.a = af;
 					ed.a = ad;
 					eo.a = ao;
+					eby.a = aby;
+					esh.a = ash;
 				}
 
 				eval {
 					yield ai = ni.a;
+					yield al = nl.a;
 					yield ab = nb.a;
 					yield as = ns.a;
 					yield af = ef.a;
 					yield ad = ed.a;
 					yield ao = eo.a;
+					yield aby = eby.a;
+					yield ash = esh.a;
 				}
 
 				eval {
 					yield ai = ai + ni.a;
+					yield al = al + nl.a;
 					yield ab = ab | nb.a;
 					yield as = as + ns.a;
 					yield af = af + ef.a;
 					yield ad = ad + ed.a;
 					yield ao = ao==null ? eo.a : ao;
+					yield aby = (byte)(aby + eby.a);
+					yield ash = (short)(ash + esh.a);
 				}
 			}
 		}
@@ -192,11 +249,14 @@ rule ran
 
 	modify {
 		def var ai:int = 42;
+		def var al:long = 42l;
 		def var ab:boolean = true;
 		def var as:string = "1337 0wn4g3 f0r ze lulz";
 		def var af:float = 42.42424242f;
 		def var ad:double = 42.42424242424242;
 		def var ao:object = null;
+		def var aby:byte = 42y;
+		def var ash:short = 42s;
 	}
 }
 
@@ -205,45 +265,60 @@ pattern pa
 	iterated
 	{
 		ni:NINT;
+		nl:NLONG;
 		nb:NBOOL;
 		ns:NSTRING;
 		-ef:EFLOAT->;
 		-ed:EDOUBLE->;
 		-eo:EOBJECT->;
+		-eby:EBYTE->;
+		-esh:ESHORT->;
 
 		modify {
 			def var ai:int = 42;
+			def var al:long = 42l;
 			def var ab:boolean = true;
 			def var as:string = "1337 0wn4g3 f0r ze lulz";
 			def var af:float = 42.42424242f;
 			def var ad:double = 42.42424242424242;
 			def var ao:object = null;
+			def var aby:byte = 42y;
+			def var ash:short = 42s;
 
 			evalhere {
 				ni.a = ai;
+				nl.a = al;
 				nb.a = ab;
 				ns.a = as;
 				ef.a = af;
 				ed.a = ad;
 				eo.a = ao;
+				eby.a = aby;
+				esh.a = ash;
 			}
 
 			eval {
 				yield ai = ni.a;
+				yield al = nl.a;
 				yield ab = nb.a;
 				yield as = ns.a;
 				yield af = ef.a;
 				yield ad = ed.a;
 				yield ao = eo.a;
+				yield aby = eby.a;
+				yield ash = esh.a;
 			}
 
 			eval {
 				yield ai = ai + ni.a;
+				yield al = al + nl.a;
 				yield ab = ab | nb.a;
 				yield as = as + ns.a;
 				yield af = af + ef.a;
 				yield ad = ad + ed.a;
 				yield ao = ao==null ? eo.a : ao;
+				yield aby = (byte)(aby + eby.a);
+				yield ash = (short)(ash + esh.a);
 			}
 		}
 	}
@@ -255,11 +330,14 @@ pattern pa
 pattern pan
 {
 	ni:NINT;
+	nl:NLONG;
 	nb:NBOOL;
 	ns:NSTRING;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
 	-eo:EOBJECT->;
+	-eby:EBYTE->;
+	-esh:ESHORT->;
 
 	iterated
 	{
@@ -268,39 +346,51 @@ pattern pan
 		modify {
 			evalhere {
 				ni.a = ai;
+				nl.a = al;
 				nb.a = ab;
 				ns.a = as;
 				ef.a = af;
 				ed.a = ad;
 				eo.a = ao;
+				eby.a = aby;
+				esh.a = ash;
 			}
 
 			eval {
 				yield ai = ni.a;
+				yield al = nl.a;
 				yield ab = nb.a;
 				yield as = ns.a;
 				yield af = ef.a;
 				yield ad = ed.a;
 				yield ao = eo.a;
+				yield aby = eby.a;
+				yield ash = esh.a;
 			}
 
 			eval {
 				yield ai = ai + ni.a;
+				yield al = al + nl.a;
 				yield ab = ab | nb.a;
 				yield as = as + ns.a;
 				yield af = af + ef.a;
 				yield ad = ad + ed.a;
 				yield ao = ao==null ? eo.a : ao;
+				yield aby = (byte)(aby + eby.a);
+				yield ash = (short)(ash + esh.a);
 			}
 		}
 	}
 
 	modify {
 		def var ai:int = 42;
+		def var al:long = 42l;
 		def var ab:boolean = true;
 		def var as:string = "1337 0wn4g3 f0r ze lulz";
 		def var af:float = 42.42424242f;
 		def var ad:double = 42.42424242424242;
 		def var ao:object = null;
+		def var aby:byte = 42y;
+		def var ash:short = 42s;
 	}
 }

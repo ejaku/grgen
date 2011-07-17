@@ -2,39 +2,55 @@
 "{foo}".
 "{foo->bar}".
 "{foo->bar}".
+"[foo]".
+"[foo]".
 2
 0
 "{foo}".
 "{foo}".
 "{foo->bar}".
 "{foo->bar}".
+"[foo]".
+"[foo]".
 "{foo}".
 "{foo}".
 "{foo->bar}".
 "{foo->bar}".
+"[foo]".
+"[foo]".
 2
 2
 "{bar}".
 "{bar}".
 "{bar->foo}".
 "{bar->foo}".
+"[foo, bar]".
+"[foo, bar]".
 "{foo}".
 "{foo}".
 "{foo->bar}".
 "{foo->bar}".
+"[foo]".
+"[foo]".
 2
 0
 "{foo}".
 "{foo}".
 "{foo->bar}".
 "{foo->bar}".
+"[foo]".
+"[foo]".
 "{foo}".
 "{foo}".
 "{foo->bar}".
 "{foo->bar}".
+"[foo]".
+"[foo]".
 2
 2
 "{haha, hoho, huhu}".
 "{haha, hoho, huhu}".
 "{hui->buh}".
 "{hui->buh}".
+"[haha, hoho, huhu]".
+"[haha, hoho, huhu]".

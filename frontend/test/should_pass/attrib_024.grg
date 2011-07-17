@@ -1,28 +1,15 @@
 using attrib_model_001;
 
 rule r {
-	ni : NINT;
-	nb : NBOOL;
-	nf : NFLOAT;
 	nd : NDOUBLE;
-	ns : NSTRING;
-	-ei:EINT->;
-	-eb:EBOOL->;
-	-ef:EFLOAT->;
+	ni : NINT;
 	-ed:EDOUBLE->;
-	-es:ESTRING->;
 
 	modify {
 		eval {
-			ni.a = 1;
-			nb.a = true;
 			nd.a = 1.0;
-			ns.a = "";
-
-			ei.a = 2;
-			eb.a = false;
+			ni.a = 1;
 			ed.a = 2.0;
-			es.a = "Hi!";
 
 			nd.a = +nd.a;
 			nd.a = -nd.a;

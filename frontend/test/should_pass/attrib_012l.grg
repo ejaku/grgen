@@ -1,0 +1,23 @@
+using attrib_model_001;
+
+rule r {
+	nl : NLONG;
+	nb : NBOOL;
+	-el:ELONG->;
+	-eb:EBOOL->;
+
+	modify {
+		eval {
+			nl.a = 1;
+			el.a = 2;
+
+			nb.a = nl.a == el.a;
+			nb.a = nl.a != el.a;
+			nb.a = nl.a <  el.a;
+			nb.a = nl.a >  el.a;
+			nb.a = nl.a <= el.a;
+			nb.a = nl.a >= el.a;
+		}
+	}
+}
+

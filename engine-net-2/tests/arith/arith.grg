@@ -1,0 +1,14 @@
+using arith;
+
+rule compute
+{
+	n:N;
+	
+	modify {
+		eval {
+			n.tgt1 = (short)(n.by + n.by);
+			n.tgt2 = n.sh + n.sh;
+			n.tgt3 = n.l + n.i;
+		}
+	}
+}

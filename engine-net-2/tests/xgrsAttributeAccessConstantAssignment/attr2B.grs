@@ -5,7 +5,10 @@ n = @("$0")
 show n.m
 show n.me
 show n.str
+show n.by
+show n.sh
 show n.i
+show n.l
 show n.j
 show n.d
 show n.f

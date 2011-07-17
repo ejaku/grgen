@@ -8,7 +8,10 @@ node class N1;
 
 node class N2a extends N1
 {
+	f : byte;
+	fo : short;
 	foo : int;
+	fooo : long;
 }
 
 node class N2b extends N1
@@ -33,7 +36,10 @@ edge class E1;
 
 edge class E2a extends E1
 {
+	f : byte;
+	fo : short;
 	foo : int;
+	fooo : long;
 }
 
 edge class E2b extends E1

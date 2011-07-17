@@ -395,10 +395,13 @@ rule ArrayPartial3(n:AA)
 rule AssignConstToVar
 {
 	modify {
-		exec(x:int=3 && y:string="fool" && z:foo=foo::Bar
+		exec(xby:byte=3Y && xsh:short=3S && x:int=3 && xl:long=3L && y:string="fool" && z:foo=foo::Bar
 			&& u:double=3.141592654 && l:float=3.141f && v:boolean=true
 			&& w:set<int>=set<int>{} && k:map<A,H>=map<A,H>{} && m:array<int>=array<int>[]
+			&& emit("value of variable xby 5 6 7 8 9 ") && emit(xby) && emit("\n")
+			&& emit("value of variable xsh 5 6 7 8 9 ") && emit(xsh) && emit("\n")
 			&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n")
+			&& emit("value of variable xl 5 6 7 8 9 ") && emit(xl) && emit("\n")
 			&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
 			&& emit("value of variable z 5 6 7 8 9 ") && emit(z) && emit("\n")
 			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
@@ -414,10 +417,13 @@ rule AssignConstToVar
 rule AssignConstToVarUntyped
 {
 	modify {
-		exec(x=3 && y="fool" && z=foo::Bar
+		exec(xby=3Y && xsh=3S && x=3 && xl=3L && y="fool" && z=foo::Bar
 			&& u=3.141592654 && l=3.141f && v=true
 			&& w=set<int>{} && k=map<A,H>{} && m=array<int>[]
+			&& emit("value of variable xby 5 6 7 8 9 ") && emit(xby) && emit("\n")
+			&& emit("value of variable xsh 5 6 7 8 9 ") && emit(xsh) && emit("\n")
 			&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n")
+			&& emit("value of variable xl 5 6 7 8 9 ") && emit(xl) && emit("\n")
 			&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
 			&& emit("value of variable z 5 6 7 8 9 ") && emit(z) && emit("\n")
 			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
@@ -433,11 +439,14 @@ rule AssignConstToVarUntyped
 rule AssignAttributeToVar(x:A)
 {
 	modify {
-		exec(f:foo=x.f && i:int=x.i && b:boolean=x.b && st:string=x.st
+		exec(f:foo=x.f && by:byte=x.by && sh:short=x.sh && i:int=x.i && l:long=x.l && b:boolean=x.b && st:string=x.st
 			&& s:set<foo>=x.s && m:map<int,string>=x.m && a:array<foo>=x.a
 			&& fl:float=x.fl && d:double=x.d
 			&& emit("value of variable f 5 6 7 8 9 ") && emit(f) && emit("\n")
+			&& emit("value of variable by 5 6 7 8 9 ") && emit(by) && emit("\n")
+			&& emit("value of variable sh 5 6 7 8 9 ") && emit(sh) && emit("\n")
 			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
+			&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n")
 			&& emit("value of variable b 5 6 7 8 9 ") && emit(b) && emit("\n")
 			&& emit("value of variable st 5 6 7 8 9 ") && emit(st) && emit("\n")
 			&& emit("value of variable s 5 6 7 8 9 ") && emit(s) && emit("\n")
@@ -452,9 +461,12 @@ rule AssignAttributeToVar(x:A)
 rule AssignAttributeToVarUntyped(x:A)
 {
 	modify {
-		exec(y=x && f=y.f && i=y.i && b=y.b && st=y.st && s=y.s && m=y.m && a=y.a && fl=y.fl && d=y.d
+		exec(y=x && f=y.f && by=y.by && sh=y.sh && i=y.i && l=y.l && b=y.b && st=y.st && s=y.s && m=y.m && a=y.a && fl=y.fl && d=y.d
 			&& emit("value of variable f 5 6 7 8 9 ") && emit(f) && emit("\n")
+			&& emit("value of variable by 5 6 7 8 9 ") && emit(by) && emit("\n")
+			&& emit("value of variable sh 5 6 7 8 9 ") && emit(sh) && emit("\n")
 			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
+			&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n")
 			&& emit("value of variable b 5 6 7 8 9 ") && emit(b) && emit("\n")
 			&& emit("value of variable st 5 6 7 8 9 ") && emit(st) && emit("\n")
 			&& emit("value of variable s 5 6 7 8 9 ") && emit(s) && emit("\n")
@@ -582,12 +594,15 @@ rule AssignVarToVarUntyped(n:A,m:AA)
 rule AssignVarToAttribute(x:A)
 {
 	modify {
-		exec(f:foo=foo::Bla && i:int=42 && b:boolean=true && st:string="Gnampf!"
+		exec(f:foo=foo::Bla && by:byte=42y && sh:short=42s && i:int=42 && l:long=42l && b:boolean=true && st:string="Gnampf!"
 			&& s:set<foo>=set<foo>{} && m:map<int,string>=map<int,string>{} && a:array<foo>=array<foo>[]
 			&& fl:float=3.141f && d:double=3.141592654
 			&& s.add(f) && m.add(i,st) && a.add(f)
 			&& emit("value of variable f 5 6 7 8 9 ") && emit(f) && emit("\n")
+			&& emit("value of variable by 5 6 7 8 9 ") && emit(by) && emit("\n")
+			&& emit("value of variable sh 5 6 7 8 9 ") && emit(sh) && emit("\n")
 			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
+			&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n")
 			&& emit("value of variable b 5 6 7 8 9 ") && emit(b) && emit("\n")
 			&& emit("value of variable st 5 6 7 8 9 ") && emit(st) && emit("\n")
 			&& emit("value of variable s 5 6 7 8 9 ") && emit(s) && emit("\n")
@@ -595,7 +610,7 @@ rule AssignVarToAttribute(x:A)
 			&& emit("value of variable a 5 6 7 8 9 ") && emit(a) && emit("\n")
 			&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n")
 			&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n")
-			&& x.f=f && x.i=i && x.b=b && x.st=st && x.s=s && x.m=m && x.a=a && x.fl=fl && x.d=d
+			&& x.f=f && x.by=by && x.sh=sh && x.i=i && x.l=l && x.b=b && x.st=st && x.s=s && x.m=m && x.a=a && x.fl=fl && x.d=d
 		);
 	}
 }
@@ -603,12 +618,15 @@ rule AssignVarToAttribute(x:A)
 rule AssignVarToAttributeUntyped(x:A)
 {
 	modify {
-		exec(y=x && f=foo::Bla && i=42 && b=true && st="Gnampf!"
+		exec(y=x && f=foo::Bla && by=42y && sh=42s && i=42 && l=42l && b=true && st="Gnampf!"
 			&& s=set<foo>{} && m=map<int,string>{} && a=array<foo>[]
 			&& fl=3.141f && d=3.141592654
 			&& s.add(f) && m.add(i,st) && a.add(f)
 			&& emit("value of variable f 5 6 7 8 9 ") && emit(f) && emit("\n")
+			&& emit("value of variable by 5 6 7 8 9 ") && emit(by) && emit("\n")
+			&& emit("value of variable sh 5 6 7 8 9 ") && emit(sh) && emit("\n")
 			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
+			&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n")
 			&& emit("value of variable b 5 6 7 8 9 ") && emit(b) && emit("\n")
 			&& emit("value of variable st 5 6 7 8 9 ") && emit(st) && emit("\n")
 			&& emit("value of variable s 5 6 7 8 9 ") && emit(s) && emit("\n")
@@ -616,7 +634,7 @@ rule AssignVarToAttributeUntyped(x:A)
 			&& emit("value of variable a 5 6 7 8 9 ") && emit(a) && emit("\n")
 			&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n")
 			&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n")
-			&& y.f=f && y.i=i && y.b=b && y.st=st && y.s=s && y.m=m && y.a=a && y.fl=fl && y.d=d
+			&& y.f=f && y.by=by && y.sh=sh && y.i=i && y.l=l && y.b=b && y.st=st && y.s=s && y.m=m && y.a=a && y.fl=fl && y.d=d
 		);
 	}
 }

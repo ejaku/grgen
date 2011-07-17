@@ -1,7 +1,7 @@
 using porter;
 
-// note: double is mapped to float in exporting gxl 
-// (gxl does not know the distinction float/double and does not specify what their atomic type Float means)
+// note: double is mapped to float and long, short, byte are mapped to int in exporting gxl 
+// (gxl does not know the distinction float/double, byte/short/int/long and does not specify what their atomic types mean)
 
 rule createTestGraph
 {
@@ -10,43 +10,67 @@ rule createTestGraph
 		n4:N3 -e4:E2a-> n5:N2a; n4 -e5:E2b-> n6:N2b; n4 -e6:E3-> n4;
 		
 		eval {
+			n1.f = 1y;
+			n1.fo = 1s;
 			n1.foo = 1;
+			n1.fooo = 1l;
 			n1.bar = "n1";
 			n1.bla = 3.141592654;
 			n1.huh = true;
 			n1.lal = Bla::Lamm;
 
+			e1.f = 0xCY;
+			e1.fo = 0xCS;
 			e1.foo = 0xC;
+			e1.fooo = 0xCL;
 			e1.bar = "n1->n2";
 			e1.bla = 12.0f;
 			e1.huh = true;
 			e1.lal = Bla::Hurz;
 			
+			n2.f = 2y;
+			n2.fo = 2s;
 			n2.foo = 2;
+			n2.fooo = 2l;
 			n2.bar = "n2";
 			n2.bla = 4.0;
 			n2.huh = false;
 
+			e2.f = 23y;
+			e2.fo = 23s;
 			e2.foo = 23;
+			e2.fooo = 23l;
 			e2.bar = "n2->n3";
 			e2.bla = 23.0f;
 			e2.huh = false;
 
+			n3.f = 3y;
+			n3.fo = 3s;
 			n3.foo = 3;
+			n3.fooo = 3l;
 			n3.bar = "n3";
 			n3.bla = 2.718281828;
 			n3.huh = true;
 			
+			e3.f = 31y;
+			e3.fo = 31s;
 			e3.foo = 31;
+			e3.fooo = 31l;
 			e3.bar = "n3->n1";
 			e3.bla = 3.141593f;
 			e3.huh = true;
 
 			n4.bla = 42.0;
 			
+			e4.f = 42Y;
+			e4.fo = 42S;
 			e4.foo = 42;
+			e4.fooo = 42L;
 
+			n5.f = 42Y;
+			n5.fo = 42S;
 			n5.foo = 42;
+			n5.fooo = 42L;
 
 			e5.bar = "haha";
 
@@ -63,43 +87,67 @@ test checkForTestGraph
 	n4:N3 -e4:E2a-> n5:N2a; n4 -e5:E2b-> n6:N2b; n4 -e6:E3-> n4;
 	
 	if {
+		n1.f == 1y &&
+		n1.fo == 1s &&
 		n1.foo == 1 &&
+		n1.fooo == 1l &&
 		n1.bar == "n1" &&
 		n1.bla == 3.141592654 &&
 		n1.huh == true &&
 		n1.lal == Bla::Lamm &&
 
+		e1.f == 0xCy &&
+		e1.fo == 0xCs &&
 		e1.foo == 0xC &&
+		e1.fooo == 0xCl &&
 		e1.bar == "n1->n2" &&
 		e1.bla == 12.0f &&
 		e1.huh == true &&
 		e1.lal == Bla::Hurz &&
 		
+		n2.f == 2Y &&
+		n2.fo == 2S &&
 		n2.foo == 2 &&
+		n2.fooo == 2L &&
 		n2.bar == "n2" &&
 		n2.bla == 4.0 &&
 		n2.huh == false &&
 
+		e2.f == 23Y &&
+		e2.fo == 23S &&
 		e2.foo == 23 &&
+		e2.fooo == 23L &&
 		e2.bar == "n2->n3" &&
 		e2.bla == 23.0f &&
 		e2.huh == false &&
 
+		n3.f == 3y &&
+		n3.fo == 3s &&
 		n3.foo == 3 &&
+		n3.fooo == 3l &&
 		n3.bar == "n3" &&
 		n3.bla == 2.718281828 &&
 		n3.huh == true &&
 		
+		e3.f == 31Y &&
+		e3.fo == 31S &&
 		e3.foo == 31 &&
+		e3.fooo == 31L &&
 		e3.bar == "n3->n1" &&
 		e3.bla == 3.141593f &&
 		e3.huh == true &&
 
 		n4.bla == 42.0 &&
 		
+		e4.f == 42y &&
+		e4.fo == 42s &&
 		e4.foo == 42 &&
+		e4.fooo == 42l &&
 
+		n5.f == 42y &&
+		n5.fo == 42s &&
 		n5.foo == 42 &&
+		n5.fooo == 42l &&
 
 		e5.bar == "haha" &&
 
@@ -115,43 +163,67 @@ rule printNames
 	n4:N3 -e4:E2a-> n5:N2a; n4 -e5:E2b-> n6:N2b; n4 -e6:E3-> n4;
 	
 	if {
+		n1.f == 1y &&
+		n1.fo == 1s &&
 		n1.foo == 1 &&
+		n1.fooo == 1l &&
 		n1.bar == "n1" &&
 		n1.bla == 3.141592654 &&
 		n1.huh == true &&
 		n1.lal == Bla::Lamm &&
 
+		e1.f == 0xCy &&
+		e1.fo == 0xCs &&
 		e1.foo == 0xC &&
+		e1.fooo == 0xCl &&
 		e1.bar == "n1->n2" &&
 		e1.bla == 12.0f &&
 		e1.huh == true &&
 		e1.lal == Bla::Hurz &&
 		
+		n2.f == 2Y &&
+		n2.fo == 2S &&
 		n2.foo == 2 &&
+		n2.fooo == 2L &&
 		n2.bar == "n2" &&
 		n2.bla == 4.0 &&
 		n2.huh == false &&
 
+		e2.f == 23Y &&
+		e2.fo == 23S &&
 		e2.foo == 23 &&
+		e2.fooo == 23L &&
 		e2.bar == "n2->n3" &&
 		e2.bla == 23.0f &&
 		e2.huh == false &&
 
+		n3.f == 3y &&
+		n3.fo == 3s &&
 		n3.foo == 3 &&
+		n3.fooo == 3l &&
 		n3.bar == "n3" &&
 		n3.bla == 2.718281828 &&
 		n3.huh == true &&
 		
+		e3.f == 31Y &&
+		e3.fo == 31S &&
 		e3.foo == 31 &&
+		e3.fooo == 31L &&
 		e3.bar == "n3->n1" &&
 		e3.bla == 3.141593f &&
 		e3.huh == true &&
 
 		n4.bla == 42.0 &&
 		
+		e4.f == 42y &&
+		e4.fo == 42s &&
 		e4.foo == 42 &&
+		e4.fooo == 42l &&
 
+		n5.f == 42y &&
+		n5.fo == 42s &&
 		n5.foo == 42 &&
+		n5.fooo == 42l &&
 
 		e5.bar == "haha" &&
 

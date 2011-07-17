@@ -1,20 +1,29 @@
 using attrib_model_001;
 
 rule r {
+	nby : NBYTE;
+	nsh : NSHORT;
 	ni : NINT;
+	nl : NLONG;
 	nb : NBOOL;
 	nf : NFLOAT;
 	nd : NDOUBLE;
 	ns : NSTRING;
 	no : NOBJECT;
+	-eby:EBYTE->;
+	-esh:ESHORT->;
 	-ei:EINT->;
+	-el:ELONG->;
 	-eb:EBOOL->;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
 	-es:ESTRING->;
 	-eo:EOBJECT->;
 	if {
+		nby.a == eby.a;
+		nsh.a == esh.a;
 		ni.a == ei.a;
+		nl.a == el.a;
 		nb.a == eb.a;
 		nf.a == ef.a;
 		nd.a == ed.a;
@@ -26,25 +35,37 @@ rule r {
 		eval {
 			no.a = eo.a;
 
+			nby.a = eby.a;
+			nsh.a = esh.a;
 			ni.a = ei.a;
+			nl.a = el.a;
 			nb.a = eb.a;
 			nf.a = ef.a;
 			nd.a = ed.a;
 			ns.a = es.a;
 
+			eby.a = nby.a;
+			esh.a = nsh.a;
 			ei.a = ni.a;
+			el.a = nl.a;
 			eb.a = nb.a;
 			ef.a = nf.a;
 			ed.a = nd.a;
 			es.a = ns.a;
 
+			eby.a = eby.a;
+			esh.a = esh.a;
 			ei.a = ei.a;
+			el.a = el.a;
 			eb.a = eb.a;
 			ef.a = ef.a;
 			ed.a = ed.a;
 			es.a = es.a;
 
+			nby.a = nby.a;
+			nsh.a = nsh.a;
 			ni.a = ni.a;
+			nl.a = nl.a;
 			nb.a = nb.a;
 			nf.a = nf.a;
 			nd.a = nd.a;

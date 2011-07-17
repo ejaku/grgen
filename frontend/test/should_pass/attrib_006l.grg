@@ -1,0 +1,26 @@
+using attrib_model_001;
+
+rule r {
+	nl : NLONG;
+	-el:ELONG->;
+
+	modify {
+		eval {
+			nl.a = 1;
+			el.a = 2;
+
+			nl.a = nl.a | el.a;
+			nl.a = nl.a ^ el.a;
+			nl.a = nl.a & el.a;
+			nl.a = nl.a << (int)el.a;
+			nl.a = nl.a >> (int)el.a;
+			nl.a = nl.a >>> (int)el.a;
+			nl.a = nl.a + el.a;
+			nl.a = nl.a - el.a;
+			nl.a = nl.a * el.a;
+			nl.a = nl.a / el.a;
+			nl.a = nl.a % el.a;
+		}
+	}
+}
+

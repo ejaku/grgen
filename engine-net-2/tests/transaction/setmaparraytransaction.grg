@@ -1,9 +1,10 @@
-using setmaptransaction;
+using setmaparraytransaction;
 
 rule transform1 {
 	a:N;
 	if{ "foo" in a.setVal; }
 	if{ "foo" in a.mapVal; }
+	if{ "foo" in a.arrayVal; }
 	
 	modify {
 		eval {
@@ -11,6 +12,7 @@ rule transform1 {
 			a.setVal = a.setVal | { "bar" };
 			a.mapVal = a.mapVal \ { "foo" };
 			a.mapVal = a.mapVal | { "bar"->"foo" };
+			a.arrayVal = a.arrayVal + [ "bar" ];
 		}
 	}
 }
@@ -19,11 +21,13 @@ rule transform2 {
 	a:N;
 	if{ "foo" in a.setVal; }
 	if{ "foo" in a.mapVal; }
+	if{ "foo" in a.arrayVal; }
 	
 	modify {
 		eval {
 			a.setVal = a.setVal2;
 			a.mapVal = a.mapVal2;
+			a.arrayVal = a.arrayVal2;
 		}
 	}
 }

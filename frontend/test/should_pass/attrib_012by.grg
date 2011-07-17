@@ -1,0 +1,23 @@
+using attrib_model_001;
+
+rule r {
+	nby : NBYTE;
+	nb : NBOOL;
+	-eby:EBYTE->;
+	-eb:EBOOL->;
+
+	modify {
+		eval {
+			nby.a = 1y;
+			eby.a = (byte)2;
+
+			nb.a = nby.a == eby.a;
+			nb.a = nby.a != eby.a;
+			nb.a = nby.a <  eby.a;
+			nb.a = nby.a >  eby.a;
+			nb.a = nby.a <= eby.a;
+			nb.a = nby.a >= eby.a;
+		}
+	}
+}
+

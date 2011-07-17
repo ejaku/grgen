@@ -3,14 +3,20 @@ using attrib_model_001, enum_model_001;
 
 rule r {
 	k: A;
+	nby: NBYTE;
+	nsh: NSHORT;
 	ni: NINT;
+	nl: NLONG;
 	nf: NFLOAT;
 	nd: NDOUBLE;
 	ns: NSTRING;
 
 	replace {
 		eval {
+			nby.a = (byte) k.e;
+			nsh.a = (short) k.e;
 			ni.a = (int) k.e;
+			nl.a = (long) k.e;
 			nf.a = (float) k.e;
 			nd.a = (double) k.e;
 			ns.a = (string) k.e;

@@ -1,5 +1,17 @@
+node class NBYTE {
+	a : byte;
+}
+
+node class NSHORT {
+	a : short;
+}
+
 node class NINT {
 	a : int;
+}
+
+node class NLONG {
+	a : long;
 }
 
 node class NBOOL {
@@ -22,8 +34,20 @@ node class NSTRING {
 	a : string;
 }
 
+edge class EBYTE {
+	a : byte;
+}
+
+edge class ESHORT {
+	a : short;
+}
+
 edge class EINT {
 	a : int;
+}
+
+edge class ELONG {
+	a : long;
 }
 
 edge class EBOOL {

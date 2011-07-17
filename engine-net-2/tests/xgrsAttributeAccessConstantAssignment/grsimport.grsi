@@ -1,2 +1,2 @@
 new graph "xgrsAttributeAccessConstantAssignment/map1" "DefaultGraph"
-new :A($ = "$0", m = map<string,int>{"Hallo"->42}, me = map<Bla,float>{Bla::foo->3.141593f}, str = "Hallo Welt", i = 42, j = 0x11, d = 3.141592654, f = 3.141593f, b = True, e = Bla::bar)
+new :A($ = "$0", m = map<string,int>{"Hallo"->42}, me = map<Bla,float>{Bla::foo->3.141593f}, str = "Hallo Welt", by = 42Y, sh = 42S, i = 42, l = 42L, j = 0x11, d = 3.141592654, f = 3.141593f, b = True, e = Bla::bar)

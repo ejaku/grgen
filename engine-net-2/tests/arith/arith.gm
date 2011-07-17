@@ -1,0 +1,11 @@
+node class N
+{
+	by : byte = 127Y;
+	sh : short = 32767S;
+	i : int = 2147483647;
+	l : long = 2147483648L;
+	
+	tgt1 : short;
+	tgt2 : int;
+	tgt3 : long;
+}

@@ -1,0 +1,19 @@
+using attrib_model_001;
+
+rule r {
+	nby : NBYTE;
+	nsh : NSHORT;
+	ni : NINT;
+	nl : NLONG;
+	nb : NBOOL;
+	nf : NFLOAT;
+	nd : NDOUBLE;
+	ns : NSTRING;
+
+	modify {
+		eval {
+			nby.a = nsh.a;
+		}
+	}
+}
+

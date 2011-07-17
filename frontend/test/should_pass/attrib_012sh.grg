@@ -1,0 +1,23 @@
+using attrib_model_001;
+
+rule r {
+	nsh : NSHORT;
+	nb : NBOOL;
+	-esh:ESHORT->;
+	-eb:EBOOL->;
+
+	modify {
+		eval {
+			nsh.a = 1s;
+			esh.a = (short)2;
+
+			nb.a = nsh.a == esh.a;
+			nb.a = nsh.a != esh.a;
+			nb.a = nsh.a <  esh.a;
+			nb.a = nsh.a >  esh.a;
+			nb.a = nsh.a <= esh.a;
+			nb.a = nsh.a >= esh.a;
+		}
+	}
+}
+

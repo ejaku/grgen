@@ -1,5 +1,8 @@
 node class A {
+	by : byte = (byte)42;
+	sh : short = (short)42;
 	i1 : int = 42;
+	l : long = 0xdeadbeefl;
 	f  : float = 42.815f;
 	s  : string = "hello world";
 	i2 : int = i1 * (int)f;

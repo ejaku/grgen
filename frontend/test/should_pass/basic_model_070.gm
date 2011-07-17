@@ -8,8 +8,17 @@ node class N {
 	const f1 : float;
 	const f2 : float = 3.14f;
 	
+	const by1 : byte;
+	const by2 : byte = 9y;
+
+	const sh1 : short;
+	const sh2 : short = 9s;
+
 	const i1 : int;
 	const i2 : int = 9;
+
+	const l1 : long;
+	const l2 : long = 9l;
 	
 	const o1 : object;
 	const o2 : object = null;
@@ -37,8 +46,17 @@ edge class E {
 	const f1 : float;
 	const f2 : float = 3.14f;
 	
+	const by1 : byte;
+	const by2 : byte = 9y;
+
+	const sh1 : short;
+	const sh2 : short = 9s;
+
 	const i1 : int;
 	const i2 : int = 9;
+
+	const l1 : long;
+	const l2 : long = 9l;
 	
 	const o1 : object;
 	const o2 : object = null;

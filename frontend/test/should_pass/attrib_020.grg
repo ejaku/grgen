@@ -1,12 +1,18 @@
 using attrib_model_001;
 
 rule r {
+	nby : NBYTE;
+	nsh : NSHORT;
 	ni : NINT;
+	nl : NLONG;
 	nb : NBOOL;
 	nf : NFLOAT;
 	nd : NDOUBLE;
 	ns : NSTRING;
+	-eby:EBYTE->;
+	-esh:ESHORT->;
 	-ei:EINT->;
+	-el:ELONG->;
 	-eb:EBOOL->;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
@@ -14,17 +20,28 @@ rule r {
 
 	modify {
 		eval {
+			nby.a = 1Y;
+			nsh.a = 1S;
 			ni.a = 1;
+			nl.a = 1L;
 			nb.a = true;
+			nf.a = 1.0f;
 			nd.a = 1.0;
 			ns.a = "";
 
+			eby.a = 2Y;
+			esh.a = 2S;
 			ei.a = 2;
+			el.a = 2L;
 			eb.a = false;
+			ef.a = 2.0f;
 			ed.a = 2.0;
 			es.a = "Hi!";
 
+			nby.a = ns.a == es.a ? nby.a : eby.a;
+			nsh.a = ns.a == es.a ? nsh.a : esh.a;
 			ni.a = ns.a == es.a ? ni.a : ei.a;
+			nl.a = ns.a == es.a ? nl.a : el.a;
 			nb.a = ns.a == es.a ? nb.a : eb.a;
 			nf.a = ns.a == es.a ? nf.a : ef.a;
 			nd.a = ns.a == es.a ? nd.a : ed.a;

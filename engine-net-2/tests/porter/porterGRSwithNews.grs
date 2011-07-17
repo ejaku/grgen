@@ -3,20 +3,20 @@ new graph "porter/porter"
 # begin of graph "DefaultGraph" saved by GrsExport
 
 new :Node($ = "$0")
-new :N2a($ = "$1", foo = 42)
+new :N2a($ = "$1", f = 42y, fo = 42s, foo = 42, fooo = 42l)
 new :N2b($ = "$2", bar = "Weltherrschaft!")
 new :N3($ = "$3", bla = 42)
-new :N4($ = "$4", foo = 3, bar = "n3", bla = 2.718281828, huh = True, lal = Bla::Reh)
-new :N4($ = "$5", foo = 2, bar = "n2", bla = 4, huh = False, lal = Bla::Reh)
-new :N4($ = "$6", foo = 1, bar = "n1", bla = 3.141592654, huh = True, lal = Bla::Lamm)
+new :N4($ = "$4", f = 3y, fo = 3s, foo = 3, fooo = 3l, bar = "n3", bla = 2.718281828, huh = True, lal = Bla::Reh)
+new :N4($ = "$5", f = 2y, fo = 2s, foo = 2, fooo = 2l, bar = "n2", bla = 4, huh = False, lal = Bla::Reh)
+new :N4($ = "$6", f = 1y, fo = 1s, foo = 1, fooo = 1l, bar = "n1", bla = 3.141592654, huh = True, lal = Bla::Lamm)
 # total number of nodes: 7
 
 new @("$3") - :E2b($ = "$7", bar = "haha") -> @("$2")
 new @("$3") - :E3($ = "$8", bla = 42f) -> @("$3")
-new @("$3") - :E2a($ = "$9", foo = 42) -> @("$1")
-new @("$4") - :E4($ = "$A", foo = 31, bar = "n3->n1", bla = 3.141593f, huh = True, lal = Bla::Reh) -> @("$6")
-new @("$5") - :E4($ = "$B", foo = 23, bar = "n2->n3", bla = 23f, huh = False, lal = Bla::Reh) -> @("$4")
-new @("$6") - :E4($ = "$C", foo = 0xC, bar = "n1->n2", bla = 12f, huh = True, lal = Bla::Hurz) -> @("$5")
+new @("$3") - :E2a($ = "$9", f = 42y, fo = 42s, foo = 42, fooo = 42l) -> @("$1")
+new @("$4") - :E4($ = "$A", f = 31y, fo = 31s, foo = 31, fooo = 31l, bar = "n3->n1", bla = 3.141593f, huh = True, lal = Bla::Reh) -> @("$6")
+new @("$5") - :E4($ = "$B", f = 23y, fo = 23s, foo = 23, fooo = 23l, bar = "n2->n3", bla = 23f, huh = False, lal = Bla::Reh) -> @("$4")
+new @("$6") - :E4($ = "$C", f = 0xCy, fo = 0xCs, foo = 0xC, fooo = 0xCl, bar = "n1->n2", bla = 12f, huh = True, lal = Bla::Hurz) -> @("$5")
 new @("$6") - :Edge($ = "$D") -> @("$0")
 # total number of edges: 7
 

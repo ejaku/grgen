@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:A=varia ;> f:foo=x.f && i:int=x.i && st:string=x.st && s:set<foo>=x.s && m1:map<int,string>=x.m);
+		exec(x:A=varia ;> f:foo=x.f && by:byte=x.by && sh:short=x.sh && i:int=x.i && l:long=x.l && st:string=x.st && s:set<foo>=x.s && m1:map<int,string>=x.m);
 	}
 }

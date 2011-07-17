@@ -1,6 +1,6 @@
 using set_map_array_node_req, set_map_array_node_edge;
 
-rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:Lol, ref ss:set<int>, ref m:map<string, boolean>)
+rule r(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s:string, var f:float, var d:double, var e:Lol, ref ss:set<int>, ref m:map<string, boolean>)
 {
 	iterated {
 		.;
@@ -8,7 +8,10 @@ rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:
 		modify {
 			eval {
 				b = true;
+				by = 40y;
+				sh = 41s;
 				i = 42;
+				l = 43l;
 				s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
 				f = 3.141f;
 				d = 3.141592654;
@@ -24,7 +27,10 @@ rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:
 			modify {
 				eval {
 					b = true;
+					by = 40y;
+					sh = 41s;
 					i = 42;
+					l = 43l;
 					s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
 					f = 3.141f;
 					d = 3.141592654;
@@ -40,7 +46,10 @@ rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:
 
 		eval {
 			b = true;
+			by = 40y;
+			sh = 41s;
 			i = 42;
+			l = 43l;
 			s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
 			f = 3.141f;
 			d = 3.141592654;
@@ -49,7 +58,10 @@ rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:
 			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
 
 			b = true || (i==42 ? true : false);
+			by = (byte)(0y + 0x4ey);
+			sh = (short)(1s + 0x4eads);
 			i = 42 + 0x4eadbeef;
+			l = 43l + 0x4eadbeefdeadbeefl;
 			s = "Kültür" + "de Luxe";
 			f = 3.141f - 1.0f;
 			d = 3.141592654 - f;
@@ -60,7 +72,7 @@ rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:
 	}
 }
 
-pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:Lol, ref ss:set<int>, ref m:map<string, boolean>)
+pattern p(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s:string, var f:float, var d:double, var e:Lol, ref ss:set<int>, ref m:map<string, boolean>)
 {
 	iterated {
 		.;
@@ -68,7 +80,10 @@ pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var
 		modify {
 			eval {
 				b = true;
+				by = 40y;
+				sh = 41s;
 				i = 42;
+				l = 43l;
 				s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
 				f = 3.141f;
 				d = 3.141592654;
@@ -84,7 +99,10 @@ pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var
 			modify {
 				eval {
 					b = true;
+					by = 40y;
+					sh = 41s;
 					i = 42;
+					l = 43l;
 					s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
 					f = 3.141f;
 					d = 3.141592654;
@@ -100,7 +118,10 @@ pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var
 
 		eval {
 			b = true;
+			by = 40y;
+			sh = 41s;
 			i = 42;
+			l = 43;
 			s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
 			f = 3.141f;
 			d = 3.141592654;
@@ -109,7 +130,10 @@ pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var
 			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
 
 			b = true || (i==42 ? true : false);
+			by = (byte)(0y + 0x4e);
+			sh = (short)(1s + 0x4ead);
 			i = 42 + 0x4eadbeef;
+			l = 43l + 0x4eadbeefdeadbeefl;
 			s = "Kültür" + "de Luxe";
 			f = 3.141f - 1.0f;
 			d = 3.141592654 - f;
