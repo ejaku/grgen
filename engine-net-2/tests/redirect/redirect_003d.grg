@@ -1,0 +1,14 @@
+using redirect;
+
+rule r {
+	-e:Edge-> y:A;
+	x:B;
+
+	modify {
+		-e->! x;
+	}
+}
+
+test check {
+	-e:Edge-> x:B;
+}

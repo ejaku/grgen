@@ -1,0 +1,9 @@
+rule r {
+	z:Node -e:Edge-> y:Node;
+	x:Node;
+
+	modify {
+		z -e->! x;
+	}
+}
+

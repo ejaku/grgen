@@ -1,0 +1,18 @@
+new graph redirect/redirect_002
+
+new n1:A
+new n2:B
+new n3:B
+new n1 -e:Edge-> n2
+show var e
+
+xgrs r
+xgrs check
+
+show num nodes
+show num nodes only A
+show num nodes only B
+show num edges
+show var e
+
+quit
