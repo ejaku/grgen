@@ -98,7 +98,7 @@ They allow you to put work you can't do while executing the rule proper (e.g. be
 Or to just split the work into several parts, reusing already available functionality, see \ref{sub:mergesplit} for a discussion on this topic.
 \end{note}
 
-\begin{note}
+\begin{warning}
 And again --- the embedded sequences are executed \emph{after} the rule containing them;
 thus rule execution is split into two parts, a declartive of parts a) and b), and an imperative.
 The declarative is split into two subparts:
@@ -112,7 +112,7 @@ using further own sequences, even calling itself recursively with them.
 First all sequences from a called rule are executed, before the current sequences is continued or other sequences of its parent rule get executed (depth first).
 
 Note: all changes from such dynamically nested sequences are rolled back if a transaction/a backtrack enclosing a parent rule is to be rolled back (but no pending sequences of a parent of this parent).
-\end{note}
+\end{warning}
 
 \begin{example}
 	The exec from \texttt{Subpattern sub} gets executed after the exec from \texttt{rule caller} was executed.
@@ -288,9 +288,9 @@ Handing in the storage to the rule, and using the set \texttt{add} method as int
 The for loop could be replaced by employing the storage access in the rule construct, cf. \ref{sub:storageaccess}; this would be especially benefitial if the rule \texttt{r} inside the for loop would have to change the storage \texttt{x}, which would corrupt the iteration/enumeration variable.
 \end{example}
 
-\begin{note}
+\begin{warning}
 The set/map/array over which the for loop iterates must stay untouched during iteration.
-\end{note}
+\end{warning}
 
 
 %-----------------------------------------------------------------------------------------------
@@ -496,6 +496,7 @@ to store elements collected in one run and reuse them as input in another run, i
 \end{description}
 
 \noindent In the following we'll employ them to merge and split nodes, emulate node replacement grammars, copy substructures and compute flow equations over the graph structure with sets in the nodes.
+Further examples can be found in \cite{CompilerOptimization} employing two storagesets switched in between for computing a wavefront running over a compiler graph and \cite{ProgramUnderstanding} using the nested and subpatterns for extracting a state machine model from a program graph.
 
 \begin{note}
 You should use the means to build complex transformations in the order given, first try to solve the problem with nested and subpatterns, if they don't get the job done (often because of the isomorphy constraint locking of already matched elements) or feel awkward then embedded graph rewrite sequences, and if these are still inadequate then storages and storagemaps; i.e. from declarative-local to imperative-global. This helps in keeping the code readable and easily adaptable. And don't forget the last resort if you must solve a task so complex that rules, control and storages are not sufficient: adding helper nodes, edges, or attributes to the graph model and the graph itself (with the visited flags being a light version of this tactic). Note: storages and storagemaps might be useful when you are experiencing performance problems, replacing a search in the graph by a lookup in a dictionary. But beware of elements already deleted from the graph still hanging out in your storage because you forgot to remove them.
@@ -508,7 +509,11 @@ Splitting a node \texttt{m} off from a node \texttt{n} means creating a node \te
 In both cases there are a lot of different ways how to handle the operation exactly:
 Maybe only incoming or only outgoing edges, or only edges of a certain type \texttt{T} or only edges not of type \texttt{T}; maybe the node \texttt{n} is to be retyped, maybe the edges are to be retyped.
 But common is the transferring of edges; this can be handled succintly by an \texttt{iterated} statement and the \texttt{copy} operator.
-In case the node opposite to an edge may be incident to several such edges, one must use an \texttt{exec} instead, as every iteration locks the matched entities, so they can't get matched twice. Not needing the opposite node one could simply leave it unmentioned in the pattern, only referencing node \texttt{n} or \texttt{m} and the edge, but unfortunately we need the opposite node so we can connect the edge copy to it.
+In case the node opposite to an edge may be incident to several such edges, one must use an \texttt{exec} instead (or the \texttt{independent} operator \ref{rule:homspec}), as every iteration locks the matched entities, so they can't get matched twice. Not needing the opposite node one could simply leave it unmentioned in the pattern, only referencing node \texttt{n} or \texttt{m} and the edge, but unfortunately we need the opposite node so we can connect the edge copy to it.
+
+\begin{note}
+In case a simple node merging without edge retyping is sufficient the retype'n'merge clause introduced in \ref{sec:merge} offers a much simpler alternative for merging.
+\end{note}
 
 Now we'll have a look at an example for node merging: T1-T2 analysis from compiler construction is used to find out whether a control flow graph of a subroutine is reducible, i.e. all loops are natural loops. All loops being natural loops is a very useful property for many analyses and optimizations. The analysis is split into two steps, T1 removes reflexive edges, T2 merges a control flow successor into its predecessor iff there is only one predecessor available. These two steps are iterated until the entire graph is collapsed into one node which means the control flow is reducible, or execution gets stuck before, in which case the control flow graph is irreducible.
 The analysis is defined on simple graphs, i.e. if two control flow edges between two basic block nodes appear because of merging they are seen as one, i.e. they are automatically fused into one. As \GrG~is built on multigraphs we have to explicitely do the edge fusion in a further step T3.

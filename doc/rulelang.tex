@@ -6,7 +6,7 @@ Rule files refer to zero
 \footnote{Omitting a graph meta model means that \GrG\ uses a \indexed{default graph model}.
 The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.}
 or more \indexed{graph model}s and specify a set of rewrite rules.
-The rule language covers the pattern specification and the replace/modify specification.
+The rule language covers the pattern specification and the rewrite specification in the form of the \texttt{replace} or the \texttt{modify} block.
 Attributes of graph elements can be re-evaluated during an application of a rule.
 The following rewrite rule mentioned in Geiß et al.~\cite{GBGHS:06} gives a rough picture of the language:
 %\begin{figure}[tb]
@@ -38,8 +38,9 @@ rule SomeRule {
 \end{grgen}
 \end{example}
 %\end{figure}
-In this chapter we use excerpts of Example~\ref{ex:rule:SomeRule} (\texttt{SomeRule}) for illustration purposes.
-The nested negative which specify a pattern which must not be available in the host graph are described in the following Chapter~\ref{cha:nestedsub}
+In this chapter we explain the basics of Example~\ref{ex:rule:SomeRule} (\texttt{SomeRule}),
+the more advanced constructs are illustrated in chapter \ref{chapadvanced}.
+The nested \texttt{negative}s which specify a pattern which must not be available in the host graph are described in Chapter~\ref{cha:nestedsub}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,35 +110,29 @@ We may safely reuse the variable name \texttt{e1} in the replace part.
 \begin{rail}
 GraphletNode: (Ident |
     '.' |
-    (() | IdentDecl) ':' (( NodeType (() | TypeConstraint | StorageAccess | Retyping)) | CopyOperator));
+    (() | IdentDecl) ':' ( NodeType | AdvancedNodeTypeConstructs));
 \end{rail}\ixnterm{GraphletNode}
-Specifies a node\indexmain{node (graphlet)} of type \emph{NodeType},
-maybe constrained in type with a \emph{TypeConstraint}\indexmain{type constraint} (see Section~\ref{sec:typeconstr}, \emph{TypeConstraint}),
-maybe bound by a storage access (see \ref{sub:storageaccess}, \emph{StorageAccess}),
-maybe retyped with a \emph{Reytping}\indexmain{retype} (see Section~\ref{sec:retype}, \emph{Retyping}).
-Or a node having the same type and bearing the same attributes as another matched node (see Section~\ref{sec:copy}, \emph{CopyOperator}).
+Specifies a node\indexmain{node (graphlet)} of type \emph{NodeType}; the alternative advanced node constructs are explained in chapter \ref{chapadvanced}.
 The \texttt{.}\ is an anonymous node of the base type \texttt{Node}; remember that every node type has \texttt{Node} as super type.
-Type constraints are allowed in the pattern part only.
-The CopyOperator and the Retyping clause are allowed in the replace/modify part only.
+
 \begin{center}
   \begin{tabularx}{\linewidth}{lX}
     \textbf{Graphlet} & \textbf{Meaning}\\ \hline
     \texttt{x:NodeType;} & The name \texttt{x} is bound to a node of type \texttt{NodeType} or one of its subtypes. \\
     \texttt{ :NodeType;} & \texttt{\$1:NodeType} \\
     \texttt{.;} & \texttt{\$1:Node} \\
-    \texttt{x;} & The node, \texttt{x} is bound to.
+    \texttt{x;} & The node to which \texttt{x} is bound to.
   \end{tabularx}
 \end{center}
 
 \begin{rail}
-  GraphletEdge: '-' EdgeRefinement '->'  | '<-' EdgeRefinement '-'  | '<-' EdgeRefinement '->' | '?-' EdgeRefinement '-?' ;
-  EdgeRefinement: () | Ident | (() | IdentDecl) ':' ( EdgeType (() | TypeConstraint | StorageAccess | Retyping) | CopyOperator);
+  GraphletEdge: '-' EdgeRefinement '->'  | '<-' EdgeRefinement '-'  | '<-' EdgeRefinement '->' | '?-' EdgeRefinement '-?' | Redirect;
+  EdgeRefinement: () | Ident | (() | IdentDecl) ':' ( EdgeType | AdvancedEdgeTypeConstructs);
 \end{rail}\ixnterm{GraphletEdge}\ixnterm{EdgeRefinement}
 A \emph{GraphletEdge} specifies an edge\indexmain{edge (graphlet)}.
 Anonymous edges are specified by an empty \emph{EdgeRefinement} clause, i.\,e.\ \texttt{-->}, \texttt{<--}, \texttt{<-->}, \texttt{--}, \texttt{?--?} or \texttt{-:T->}, \texttt{<-:T-}, \dots\ for an edge type \texttt{T}, respectively.
 A non-empty \emph{EdgeRefinement} clause allows for detailed edge type specification.
-Type constraints\indexmain{type constraint} are allowed in the pattern part only (see Section~\ref{sec:typeconstr}, \emph{TypeConstraint}); the same holds for the storage access (see \ref{sub:storageaccess}, \emph{StorageAccess}).
-The CopyOperator and the Retyping clause are allowed in the replace/modify part only (see Section~\ref{sec:copy}, \emph{CopyOperator}, see Section~\ref{sec:retype}, \emph{Retyping}).
+The alternative advanced edge constructs as well as the \emph{Redirect} clause are explained in chapter \ref{chapadvanced}.
 
 The different kind of arrow tips distinguish between \indexed{directed}, \indexed{undirected}, and \indexed{arbitrary} edges (see also Section~\ref{sct:basetypes}).
 The arrows \texttt{-->} and \texttt{<--} are used for directed edges with a defined source and target.
@@ -158,7 +153,8 @@ If an edge type is specified (through the \emph{EdgeRefinement} clause), this ty
 		\texttt{ -e-> ;} & The edge, \texttt{e} is bound to.
 	\end{tabularx}
 \end{center}
-As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes. Beware of accidentally ``\indexed{redirecting}''\footnote{You cannot directly express the redirection of edges. This a direct consequence of the \indexedsee{SPO}{single-pushout approach}\indexmain{single-pushout approach} approach. Redirection of edges can be ``simulated'' by either deleting and re-inserting an edge, or more indirect by re-typing of nodes.} an edge:
+As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes.
+Accidentally ``\indexed{redirecting}'' an edge is prevented by compiler checks (you must explicitely use the \emph{Redirect} clause to achieve this):
 The graphlets
 \begin{grgenlet}
 -e:Edge-> .;
@@ -279,10 +275,10 @@ And some illegal graphlets:\\
 \end{example}
 \end{figure}
 
-\begin{note}
+\begin{warning}
 	Although both, the pattern part and the replace/modify part use graphlets, there are subtle differences between them.
-	These concern the \emph{TypeConstraint} and \emph{StorageAccess} clauses (only LHS), the \emph{Retyping} clause and the \emph{CopyOperator} (only RHS), and the allowed arrow tips for edges.
-\end{note}
+	Most of the differences can be seen in chapter \ref{chapadvanced} where the advanced constructs are explained .
+\end{warning}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -295,20 +291,21 @@ The structure of a \indexed{rule set} file is as follows:
 \end{rail}\ixkeyw{using}\ixkeyw{include}\ixnterm{RuleSet}\ixnterm{FileHeader}
 
 A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}, rewrite sequence definitions in \ref{sec:sequencedefinition}).
+As a hint regarding the syntax diagrams: please note that the bottom rail in the \emph{RuleSet} diagram departs before the end and joins in after the \emph{FileHeader}, i.e. it denotes a looping back edge (a fast forward edge would have split and join points at the same positions but of the opposite direction).
 Additionally you may include further rule set files (without \texttt{using} directives, we prefer to suffix them with \texttt{.gri} in this case).
 In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations.
 There is (unfortunately) no built-in conflict resolution mechanism for models like packages or namespaces.
 If necessary you must use prefixes as you might do in C.
 
 \begin{rail}
-  TestDeclaration: (() | 'exact' | 'induced') 'test' ActionSignature lbrace Pattern rbrace ;
-  RuleDeclaration: (() | 'exact' | 'induced' | 'dpo' | 'dangling' | 'identification' ) 'rule' ActionSignature lbrace Pattern Replace rbrace ;
+  TestDeclaration: TestModifier 'test' ActionSignature lbrace Pattern rbrace ;
+  RuleDeclaration: RuleModifier 'rule' ActionSignature lbrace Pattern Replace rbrace ;
 \end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixkeyw{dangling}\ixkeyw{identification}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
 Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}.
 It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{sec:replacemodify}).
 A \newterm{test} has no rewrite specification.
 It's intended to check whether (and maybe how many times) a pattern occurs (see example \ref{ex:rulelang:testrule}).
-For an explanation of the \texttt{exact}, \texttt{induced}, \texttt{dangling}, \texttt{identification}, and \texttt{dpo} pattern modifiers see Section~\ref{sct:patternmodifier}.
+For an explanation of the available modifiers see Section~\ref{sct:patternmodifier}.
 \begin{example}
 \label{ex:rulelang:testrule}
 We define a test \texttt{SomeCond}
@@ -424,7 +421,7 @@ Names defined for graph elements may be used by other pattern statements as well
 Like all identifier definitions, such names may be used before their \indexed{declaration}.
 See Section~\ref{rulebb} for a detailed explanation of names and graphlets.
 \begin{figure}[htbp]
-\begin{note}
+\begin{warning}
 \label{note:indeterminism}
 The \indexed{application} of a rule is not deterministic\indexmain{non-determinism}\indexmainsee{determinism}{non-determinism} (remember the example of the introduction in Section~\ref{ov:example}); in particular there may be more than one subgraph that matches the pattern.
 Whereas the \GrShell\ selects one of them arbitrarily (without further abilities to control the selection), the underlying \LibGr\indexmain{libGr} provides a mechanism to deal with such ambiguities.
@@ -432,7 +429,7 @@ Whereas the \GrShell\ selects one of them arbitrarily (without further abilities
 Also notice that graph rewrite \emph{sequences}\indexmain{graph rewrite sequence} introduce a further variant of non-determinism on rule application level:
 The \indexed{\texttt{\$<op>}} flag marks the operator \texttt{<op>} as commutative, i.e.\ the execution order of its operands (rules) is non-deterministic.
 See Chapter~\ref{cha:xgrs} for further information on graph rewrite sequences.
-\end{note}
+\end{warning}
 \end{figure}
 
 \begin{rail}
@@ -487,7 +484,7 @@ rule numberNode(var id:int) : (int)
 \begin{rail}
   HomomorphySpecification:
     'hom' '(' (Ident + ',') ')' ';' |
-    'independent' '(' Ident (backslash ( '(' (TypeExpr + '+')  ')' | TypeExpr ))? ')' ';'
+    'independent' '(' Ident (TypeConstraint)? ')' ';'
     ;
 \end{rail}\ixkeyw{hom}\ixkeyw{independent}\ixnterm{HomomorphySpecification}
 
@@ -497,13 +494,13 @@ The \texttt{hom} operator specifies the nodes or edges that may be matched homom
 In contrast to the default isomorphic matching, the specified graph elements \emph{may} be mapped to the same graph element in the host graph. Note that the graph elements must have a common subtype.
 Several homomorphically matched graph elements will be mapped to a graph element of a common subtype.
 In Example~\ref{ex:rule:SomeRule} nodes \texttt{n1} and \texttt{n2} may be the same node. This is possible because they are of the same type (\texttt{NodeTypeA}).
-Inside a NAC the \texttt{hom} operator may only operate on graph elements that are either defined or used in the NAC.
+Inside a NAC/PAC the \texttt{hom} operator may only operate on graph elements that are either defined or used in the NAC/PAC (cf. \ref{nac}/\ref{pac}).
 Nested \texttt{negative}/\texttt{independent} blocks inherit the \texttt{hom} declarations of their nesting pattern.
-In contrast to previous versions \texttt{hom} delarations are non-transitive, i.e \texttt{hom(a,b)} and \texttt{hom(b,c)} don't cause \texttt{hom(a,c)} unless specified.
+In contrast to previous versions of GrGen \texttt{hom} delarations are non-transitive, i.e \texttt{hom(a,b)} and \texttt{hom(b,c)} don't cause \texttt{hom(a,c)} unless specified.
 
 The \texttt{independent} operator specifies the node or edge given within the parentheses to be homomorphic to all the other pattern elements.
 With the constraint clause following, exceptions can be given defining the pattern elements it must be distinct to.
-Thus we got a mode of specification requesting homomorphic matching with additional isomorphy exceptions in contrast to the default mode,
+Thus we got a specification mode requesting homomorphic matching with additional isomorphy exceptions in contrast to the default mode,
 requesting isomorphic matching with additional homomorphy exception.
 It is recommended to \emph{not} use the \texttt{independent} operator, it it potentially dangerous allowing to carry out conflicting rewrites, with an element \texttt{a} to be deleted, element \texttt{b} to be kept, and element \texttt{c} to be retyped, all mapping to the same graph element (you will experience funny effects and/or crashes in this case; the \texttt{hom} operator offers some static checks against this).
 The operator is available as a last resort for some situations in matching complex structures with iterated and subpatterns, 
@@ -648,7 +645,7 @@ The semantics of the various replace statements are given below:
 Several evaluation parts are allowed within the replace part.
 Multiple evaluation statements will be internally concatenated, preserving their order.
 Evaluation statements have \indexedsee{imperative}{attribute evaluation} semantics.
-In particular, \GrG\ does not care about data dependencies.
+In particular, \GrG\ does not care about data dependencies (you must care for them!).
 Evaluation takes place before any graph element gets deleted and after all the new elements have been created.
 You may read (and write, although this is pointless) attributes of graph elements to be deleted.
 Assignment is carried out using value semantics, even for entities of \verb#set<K># and \verb#map<K,V># or \texttt{string} type.
@@ -676,299 +673,4 @@ modify {
 \end{grgen}
 This toy example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
 \end{example}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Rule and Pattern Modifiers}\indexmain{modifier}
-\label{sct:patternmodifier}
-By default \GrG\ performs rewriting according to \indexmain{SPO} semantics as explained in Section~\ref{rule:morphismr}.
-This behaviour can be changed with \newterm{pattern modifiers} and \newterm{rule modifiers}.
-Such modifiers add certain conditions to the applicability of a pattern.
-The idea is to match only parts of the host graph that look more or less exactly like the pattern.
-The level of ``exactness'' depends on the choosen modifier.
-A pattern modifier in front of the \texttt{rule}/\texttt{test}-keyword is equivalent to one modifier-statement inside the pattern containing all the specified nodes (including anonymous nodes).
-Table \ref{tbl:rules:patternmodifiers} lists the pattern modifiers with their semantics, table \ref{tbl:rules:rulemodifiers} lists the rule only modifiers with their semantics.
-Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
-
-\begin{table}[htbp]
-    \begin{tabularx}{\linewidth}{l|X}
-        \bf Modifier & \bf Meaning \\\hline
-        \texttt{exact} & Switches to the most restricitive mode. An exactly-matched node is matched, if all its incident edges in the host graph are specified in the pattern.\\
-        \texttt{induced} & Switches to the induced-mode, where nodes contained in the same \texttt{induced} statement require their induced subgraph within the host graph to be specified, in order to be matched. In particular this means that in general \texttt{induced(a,b,c)} differs from \texttt{induced(a,b); induced(b,c)}.\\
-    \end{tabularx}
-    \caption{Semantics of pattern modifiers}
-    \label{tbl:rules:patternmodifiers}
-\end{table}
-
-\begin{table}[htbp]
-    \begin{tabularx}{\linewidth}{l|X}
-        \bf Modifier & \bf Meaning \\\hline
-        \texttt{dpo} & Switches to DPO semantics \indexmainsee{DPO}{double-pushout approach}. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur by all means. To ensure this the dangling condition (see \texttt{dangling} below) and the identification condition (see \texttt{identification} below) get enforced (i.e. \texttt{dpo = dangling + identification}). In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such (can't be used with a \texttt{test}) nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
-		\texttt{dangling} & Ensures the dangling condition \indexmain{dangling condition}. This modifier affects only nodes that are to be deleted during the rewrite. Nodes going to be deleted due to the rewrite part have to be specified exactly (with all their incident edges, \texttt{exact} semantics) in order to be matched. As with \texttt{dpo}, this modifier applies only to rules.\\
-		\texttt{identification} & Ensures the identification condition \indexmain{identification condition}. This modifier affects only nodes that are to be deleted during the rewrite. If you specify two pattern graph elements to be homomorphically matched but only one of them is subject to deletion during rewrite, those pattern graph elements will never actually be matched to the same host graph element. As with \texttt{dpo}, this modifier applies only to rules.\\
-    \end{tabularx}
-    \caption{Semantics of rule only modifiers}
-    \label{tbl:rules:rulemodifiers}
-\end{table}
-
-\begin{note}
-    Internally all the modifier-annotated rules are resolved into equivalent rules in standard SPO semantics.
-    The semantics of the modifiers is mostly implemented by NACs.
-    In particular you might want to use such modifiers in order to avoid writing a bunch of NACs yourself.
-    The number of internally created NACs is bounded by $\mathcal{O}(n)$ for \texttt{exact} and \texttt{dpo} and by $\mathcal{O}(n^2)$ for \texttt{induced} respectively, where $n$ is the number of specified nodes.
-\end{note}
-
-\begin{figure}[htbp]
-\begin{example}
-    \label{ex:rules:modifiers}
-    \begin{center}
-        \begin{tabularx}{\linewidth}{llX}
-            \bf Host Graph & \bf Pattern / Rule & \bf Effect \\\hline
-            & & \\
-            \begin{tabular}[c]{@{}l}\begin{tikzpicture}
-                \tikzstyle{every node}=[circle]
-                \node[draw] (n1) at (0,0) {};
-                \node[draw] (n2) at (2,0) {};
-
-                \draw[-latex] (n1) .. controls +(+1,+0.5) .. (n2) {};
-                \draw[-latex] (n1) .. controls +(+1,-0.5) .. (n2) {};
-            \end{tikzpicture}\end{tabular} &
-                \begin{tabular}[c]{@{}l}\texttt{\{ .\ --> .; \}}\end{tabular} &
-                Produces no match for \texttt{exact} nor \texttt{induced}\\
-            & & \\
-            \begin{tabular}[c]{@{}l}\begin{tikzpicture}
-                \tikzstyle{every node}=[circle]
-                \node[draw] (n1) at (0,0) {};
-                \node[draw] (n2) at (2,0) {};
-                \node[draw] (n3) at (1,-1) {};
-
-                \draw[-latex] (n1) -- (n2) {};
-                \draw[-latex] (n1) -- (n3) {};
-                \draw[-latex] (n3) -- (n2) {};
-            \end{tikzpicture}\end{tabular} &
-                \begin{tabular}[c]{@{}l}\texttt{\{ x:node --> y:node; \}}\end{tabular} &
-                Produces three matches for \texttt{induced(x,y)} but no match for \texttt{exact(x,y)}\\
-            & & \\
-            \begin{tabular}[c]{@{}l}\begin{tikzpicture}
-                \tikzstyle{every node}=[circle]
-                \node[draw] (n1) at (0,0) {};
-
-                \draw[-latex] (n1) .. controls +(+1,+0.5) and +(0,-1) .. (n1) {};
-            \end{tikzpicture}\end{tabular} &
-                \begin{tabular}[c]{@{}l}\texttt{\{ x:node; induced(x); \}}\end{tabular} &
-                Produces no match\\
-            & & \\
-            \begin{tabular}[c]{@{}l}\begin{tikzpicture}
-                \tikzstyle{every node}=[circle]
-                \node[draw] (n1) at (0,0) {};
-                \node[draw] (n2) at (1,0) {};
-                \node[draw] (n3) at (2,0) {};
-                \node[draw] (n4) at (1,-1) {};
-    	c
-                \draw[-latex] (n1) -- (n2) {};
-                \draw[-latex] (n2) -- (n3) {};
-                \draw[-latex] (n2) -- (n4) node[midway,right] {$e$};
-            \end{tikzpicture}\end{tabular} &
-                \begin{tabular}[c]{@{}l}\texttt{pattern\{ --> x:node --> ; \}}\\\texttt{modify\{ delete(x); \}}\end{tabular} &
-                Produces no match in DPO-mode because of edge \texttt{e}\\
-        \end{tabularx}
-    \end{center}
-\end{example}
-\end{figure}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Static Type Constraint and Exact Dynamic Type}
-
-In the following section we'll have a look at a language construct to statically constrain the types to match by excluding forbidden types and at a language construct which allows to require an element to be typed the same as another element or to create an element with the same exact dynamic type as another element.
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Static Type Constraint}
-\label{sec:typeconstr}
-A static type constraint given at a node or edge declaration limits the types on which the pattern element will match.
-
-\begin{rail}
-  TypeConstraint: backslash ( '(' (TypeExpr + '+')  ')' | TypeExpr );
-\end{rail}\ixnterm{TypeConstraint}
-A \indexed{type constraint} is used to exclude parts of the \indexed{type hierarchy}. The operator \texttt{+} is used to create a union of its operand types. So the following pattern statements are identical:\\
-\begin{center}
-\begin{tabular}[c]{|ll|ll|}\hline
-\begin{tabular}{l}\texttt{x:T \char"5C\ (T1 + $\cdots$ + T$n$);}\\\end{tabular} &&&
-  \begin{tabular}{l}\texttt{x:T;} \\ \texttt{if \{!(\emph{typeof}(x) >= T1) \&\& $\cdots$} \\ \texttt{\ \ \ \ \&\& !(\emph{typeof}(x) >= T$n$)\}}\\\end{tabular} \\\hline
-\end{tabular}
-\end{center}
-
-\begin{example}
-\begin{tabularx}{\linewidth}{cX}
-  \begin{tikzpicture}[baseline=(T.base)] \tt
-    \begin{scope}[minimum size=0.5cm]
-      \tikzstyle{every node}=[draw]
-      \node (T)     at (1   ,4) {\texttt{T}};
-      \node (T1)     at (1   ,3) {\texttt{T1}};
-      \node (T2)     at (0   ,2) {\texttt{T2}};
-      \node (T4)     at (0   ,1) {\texttt{T4}};
-      \node (T3)     at (2   ,2) {\texttt{T3}};
-    \end{scope}
-    \draw[thick,-open triangle 45]  (T1) -> (T)  ;
-    \draw[thick,-open triangle 45]  (T2) -> (T1)  ;
-    \draw[thick,-open triangle 45]  (T3) -> (T1)  ;
-    \draw[thick,-open triangle 45]  (T4) -> (T2)  ;
-  \end{tikzpicture} &
-  \parbox{\linewidth}{The type constraint \texttt{T\char"5C (T2+T3)} applied to the type hierarchy on the left side yields only the types \texttt{T} and \texttt{T1} as valid.}
-\end{tabularx}
-\end{example}
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Exact Dynamic Type}\indexmainsee{exact dynamic type}{dynamic type}\indexmain{dynamic type}\label{sec:typeof}
-
-\begin{rail}
-  Type: TypeIdent | 'typeof' '(' NodeOrEdge ')' ;
-\end{rail}\ixkeyw{typeof}\ixnterm{Type}
-The type of a graph element may be given by a type identifier,
-or a typeof denoting the exact dynamic type of a matched graph element.
-The element declaration \texttt{el:typeof(x)} introduces a graph element of the type the host graph element \texttt{x} is actually bound to.
-It may appear in the pattern or in the rewrite part.
-If it is given in the pattern, the element to match must be of the same exact dynamic type as the element referenced in the \texttt{typeof}, otherwise matching will fail.
-If is is given in the rewrite part, the element to create is created with the same exact dynamic type as the element referenced in the \texttt{typeof}; have a look at the next section for the big brother of this language construct, the \texttt{copy} operator, which is only applicable in the rewrite part.
-
-\begin{example}
-The following rule will add a reverse edge to a one-way street.
-\begin{grgen}
-rule oneway {
-    a:Node -x:street-> y:Node;
-    negative {
-        y -:typeof(x)-> a;
-    }
-    replace {
-        a -x-> y;
-        y -:typeof(x)-> a;
-    }
-}
-\end{grgen}
-Remember that we have several subtypes of \texttt{street}. By the aid of the \texttt{typeof} operator, the reverse edge will be automatically typed correctly (the same type as the one-way edge). This behavior is not possible without the \texttt{typeof} operator.
-\end{example}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Retyping and Copying}
-
-In the following section we'll have a look at a language construct which retypes an element to another type
-(either to a type statically given or the runtime type of another element),
-changing the accessible attributes while keeping incident elements.
-And at the copy operator which allows to create a new element of the runtime type of another matched element, transferring the attribute values.
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Retyping} \label{sec:retype}
-In addition to graph rewriting, \GrG\ allows graph relabeling\cite{Relabelling}, too; we prefer to call it retyping.
-Nodes as well as edges may be retyped to a different type; attributes common to the initial and final type are kept.
-The target type does not need to be a subtype or supertype of the original type.
-Retyping is useful for rewriting a node but keeping its incident edges; without it you'd need to remember and restore those.
-Syntactically it is specified by giving the original node enclosed in left and right angles.
-\begin{rail}
-  Retyping: '<' Ident '>';
-\end{rail}\ixnterm{Retyping}
-
-\begin{table}[htbp]
-\centering
-\begin{tabularx}{\linewidth}{lllX}
-  \textbf{Pattern (LHS)} & \textbf{Replace (RHS)} & \textbf{$r: L \longrightarrow R$} & \textbf{Meaning} \\ \hline
-  \texttt{x:N1;} & \texttt{y:N2<x>;}          & $r:\lhs.x \mapsto \rhs.x$ & Match \texttt{x}, then retype \texttt{x} from \texttt{N1} to \texttt{N2} and bind name \texttt{y} to retyped version of \texttt{x}.\\
-  \texttt{e:E1;} & \texttt{f:E2<e>;}          & $r:\lhs.e \mapsto \rhs.e$ & Match \texttt{e}, then retype \texttt{e} from \texttt{E1} to \texttt{E2} and bind name \texttt{f} to the retyped version of \texttt{e}.\\
-\end{tabularx}
-\caption{Retyping of matched nodes and edges}
-\label{rule:retyping_graphlets}
-\end{table}
-
-\indexmain{retyping}Retyping enables us to keep all adjacent nodes and all attributes stemming from common super types of a graph element while changing its type (table~\ref{rule:retyping_graphlets} shows how retyping can be expressed both for nodes and edges).
-Retyping differs from a \indexedsee{type cast}{retyping}: During replacement both of the graph elements are alive.
-  Specifically both of them are available for evaluation, a respective evaluation could, e.g., look like this:
-  \begin{grgenlet}
-eval {
-  y.b = ( 2*x.i == 42 );
-  f.a = e.a;
-}
-  \end{grgenlet}
-Furthermore the source and destination types need \emph{not} to be on a path in the directed \indexed{type hierarchy} graph, rather their relation can be arbitrary.
-However, if source and destination type have one ore more common super types, then the respective attribute values are adopted by the retyped version of the respective node (or edge).
-The edge specification as well as \emph{ReplaceNode} supports retyping.
-In Example~\ref{ex:rule:SomeRule} node \texttt{n5} is a retyped node stemming from node \texttt{n1}.
-Note, that---conceptually---the retyping is performed \emph{after} the SPO conforming rewrite.
-
-\begin{example}
-The following rule will promote the matched city \texttt{x} from a \texttt{City} to a \texttt{Metropolis} keeping all its incident edges/streets,
-with exception of the matched street \texttt{y}, which will get promoted from \texttt{Street} to \texttt{Highway}, keeping all its adjacent nodes/cities.
-\begin{grgen}
-rule oneway {
-  x:City -y:Street->;
-
-  replace {
-    x_rt:Metropolies<x> -y_rt:Highway<y>->;
-  }
-}
-\end{grgen}
-\end{example}
-
-The retyping clause \texttt{new:type<old>} can be used on the LHS, too.
-When it appears on the left hand side, the node(/edge) \texttt{old} is not changed in any way,
-instead a further node(/edge) \texttt{new} is made available for querying,
-being identical to \texttt{old} regarding the object reference,
-but additionally giving access to the attributes known to the \texttt{type} -- if matching was successful.
-The construct tries to cast \texttt{old} to \texttt{new}, 
-if successful \texttt{new} allows to access \texttt{old} as \texttt{type},
-otherwise matching fails for this \texttt{old} (and binding another graph element to \texttt{old} is tried out).
-Please have a look at example \ref{ex:retypelhs} for more on this.
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Copy} \label{sec:copy}
-\indexmain{copy}The copy operator allows to create a node or edge of the type of another node/edge, bearing the same attributes as that other node. It can be seen as an extended version of the \texttt{typeof} construct not only copying the exact dynamic type but also the attributes of the matched graph element. Together with the \texttt{iterated} construct it allows to simulate node replacement grammars or to copy entire structures, see \ref{sub:mergesplit} and \ref{sub:copyflow}.
-
-\begin{rail}
-  CopyOperator: 'copy' '<' Ident '>';
-\end{rail}\ixnterm{CopyOperator}
-
-\begin{example}
-The following rule will add a reverse edge to a one-way street, of the exact dynamic subtype of \texttt{street}, bearing the same attribute values as the original street.
-\begin{grgen}
-rule oneway {
-  a:Node -x:street-> y:Node;
-  negative {
-    y -:typeof(x)-> a;
-  }
-
-  replace {
-    a -x-> y;
-    y -:copy<x>-> a;
-  }
-}
-\end{grgen}
-\end{example}
-
-%todo: if you match an arbitrary directed edge, the edge direction is kept on copy; niy
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Annotations}\indexmain{annotation}
-\label{annotations}
-
-Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotation}s. Annotations are key-value pairs.
-\begin{rail}
-  IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
-\end{rail}\ixnterm{IdentDecl}
-Although you can use any key-value pairs between the brackets, only the identifier \indexed{prio} has an effect so far.
-You may use the annotations to transmit information from the specification files to API level where they can be enumerated.
-\begin{table}[htbp]
-\begin{tabularx}{\linewidth}{|lllX|} \hline
-  \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline
-  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for \indexed{search plan}s. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\ \hline
-\end{tabularx}
-\caption{Annotations}
-\label{tabannotations}
-\end{table}
-\begin{example}
-We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
-\end{example}
-
-% todo: The maybeDeleted by Sebastian?
-
 

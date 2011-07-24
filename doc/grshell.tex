@@ -495,7 +495,7 @@ Otherwise the edge will be of the base edge class type \texttt{Edge} for \texttt
   Constructor : '(' (() | (dollar '=' Text (() | ',' Attributes) | Attributes)) ')';
   Attributes : (AttributeName '=' AttributeValue) + (',');
   AttributeValue :  PrimitiveAttributeValue | SetConstr | MapConstr | ArrayConstr;
-  PrimitiveAttributeValue : EnumLit | Number | DoubleNum | FloatNum | QuotedText | BoolLit | NullLit ;
+  PrimitiveAttributeValue : EnumLit | Number | FloatingNumber | QuotedText | BoolLit | NullLit ;
   SetConstr: 'set' '<' Type '>' lbrace ( Expression*',' ) rbrace ;
   MapConstr: 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
   ArrayConstr: 'array' '<' Type '>' '[' ( Expression*',' ) ']' ;
@@ -504,7 +504,7 @@ A \indexed{constructor} is used to initialize a new graph element (see \texttt{n
 A comma separated list of \indexed{attribute} declarations is supplied to the constructor.
 Available attribute names are specified by the graph model of the current working graph.
 All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type
-(\texttt{int} $\leftarrow$ \texttt{0}; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float} $\leftarrow$ \texttt{0.0f}; \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}; \texttt{set<T>} $\leftarrow$ \texttt{set<T>\{\}}; \texttt{map<S,T>} $\leftarrow$ \texttt{map<S,T>\{\}}; \texttt{array<T>} $\leftarrow$ \texttt{array<T>[]}; \texttt{enum} $\leftarrow$ unspecified;).\\
+(\texttt{int} $\leftarrow$ \texttt{0}; \texttt{long} $\leftarrow$ \texttt{0L}; \texttt{byte} $\leftarrow$ \texttt{0Y}; \texttt{short} $\leftarrow$ \texttt{0S}; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float} $\leftarrow$ \texttt{0.0f}; \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}; \texttt{set<T>} $\leftarrow$ \texttt{set<T>\{\}}; \texttt{map<S,T>} $\leftarrow$ \texttt{map<S,T>\{\}}; \texttt{array<T>} $\leftarrow$ \texttt{array<T>[]}; \texttt{enum} $\leftarrow$ unspecified;).\\
 The \texttt{\$} is a special attribute name: a unique identifier of the new graph element.
 This identifier is also called \newterm{persistent name} (see Example~\ref{persistentex}).
 This name can be specified by a constructor only.
@@ -518,6 +518,11 @@ Retypes the node \emph{Node} from its current type to the new type \emph{Type}. 
   'retype' ('-' Edge '<' Type '>' '->' | '-' Edge '<' Type '>' '-')
 \end{rail}\ixkeyw{retype}
 Retypes the edge \emph{Edge} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident nodes are kept as well.
+
+\begin{rail}
+  'redirect' Edge ('source'|'target') Node
+\end{rail}\ixkeyw{redirect}
+Redirects the edge \emph{Edge} from the old source or target node to the new source or target \emph{Node} given.
 
 \begin{rail}
   'delete' 'node' Node
@@ -579,10 +584,10 @@ Gets the inherited/descendant types of \emph{NodeType}/\emph{EdgeType}.
 Gets the available node/edge \indexed{attribute} types.
 If \emph{NodeType}/\emph{EdgeType} is supplied, only attributes defined in \emph{NodeType}/\emph{EdgeType} are diplayed.
 The \texttt{only} keyword excludes inherited attributes.\\
-\begin{note}
+\begin{warning}
 The \texttt{show nodes/edges attributes\dots} command covers types and \emph{inherited} types.
 This is in contrast to the other \texttt{show\dots} commands where types and \emph{sub}types are specified or the direction in the type hierarchy is specified explicitly, respectively.
-\end{note}
+\end{warning}
 
 \begin{rail}
  'show' ('node' Node | 'edge' Edge)

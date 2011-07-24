@@ -195,7 +195,7 @@ rule moveMethod
 
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Pattern Cardinality}
+\section{Pattern Cardinality (iterated / multiple / optional)}
 \indexmainsee{cardinality}{pattern cardinality}\indexmain{pattern cardinality}\label{cardinality}
 
 \begin{rail}  
@@ -208,7 +208,7 @@ The \indexmain{pattern cardinality} blocks allow to specify how often the nested
 Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done.
 (The nested body will be explained in Section~\ref{sec:nestedrewrite}.)
 
-\subsection{The iterated block} 
+\subsection*{The iterated block} 
 The iterated block is matching the contained subpattern as often as possible, succeeding even in the case the contained pattern is not available (thus it will never fail).
 It was included in the language to allow for matching breadth-splitting structures, as in capturing all methods of a class in a program graph.
 
@@ -224,7 +224,7 @@ test methods
   \end{grgen}
 \end{example}
 
-\subsection{The multiple block}
+\subsection*{The multiple block}
 The multiple block is working like the iterated block, but expects the contained subpattern to be available at least once; if it is not, matching of the multiple block and thus its enclosing pattern fails.
 
 \begin{example}
@@ -239,7 +239,7 @@ test oneOrMoreMethods
   \end{grgen}
 \end{example}
 
-\subsection{The optional block}
+\subsection*{The optional block}
 The optional block is working like the iterated block, but matches the contained subpattern at most once; further occurences of the subpattern are left unmatched.
 If the nested pattern is available, it will get matched, otherwise it won't; matching of the optional block will succeed either way.
 
@@ -255,7 +255,7 @@ test variableMaybeInitialized
   \end{grgen}
 \end{example}
 
-\subsection{Iteration breaking} 
+\subsection*{Iteration breaking} 
 If an application condition inside an iteration block fails, then that potential match of the iterated pattern is thrown away and matching continues trying to find further matches.
 Sometimes a different behaviour is wanted, with an application condition terminating the iteration and causing it to fail.
 This would allow to check with a single rule that "every pattern X must also satisfy Y" holds.
@@ -289,10 +289,10 @@ test forEachXMustBeTheCaseY
   \end{grgen}
 \end{example}
 
-\begin{note}
+\begin{warning}
 Pattern cardinality constructs are match/rewrite-all enumeration blockers.
 For every pattern instance, the iterated/... yields only one match, even if in all mode (used in/from all-bracketed rules).
-\end{note} 
+\end{warning} 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -856,7 +856,7 @@ rule createSubpattern
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Local variables, ordered evaluation, and yielding outwards} \label{sec:localvarorderedevalyield}\indexmain{local variable}\indexmainsee{evalhere}{ordered evaluation}\indexmain{yielding outwards}
 
-\subsection{Local variables and ordered evaluation} 
+\subsection*{Local variables and ordered evaluation} 
 Sometimes attribute evaluation becomes easier with temporary variables;
 such local variables can be introduced on a right hand side employing the known variable syntax \texttt{var name:type}, prefixed with the \texttt{def}\indexmain{def} keyword.
 From then on they can be read and assigned to in eval statements of the RHS, or used as variable parameters in subpattern rewrite calls.
@@ -891,16 +891,17 @@ Normally the rewrite order is as given in table \ref{table:executionorderrewriti
     \texttt{ 3. } & \texttt{ Call rewrite code of used subpatterns} \emph{and more...} \\ 
 	  \texttt{ 4. } & \texttt{ Call rewrite code of nested iterateds } \\
     \texttt{ 5. } & \texttt{ Call rewrite code of nested alternatives } \\
-    \texttt{ 6. } & \texttt{ Retype nodes } \\  
-    \texttt{ 7. } & \texttt{ Create new edges } \\
-    \texttt{ 8. } & \texttt{ Retype edges } \\  
-    \texttt{ 9. } & \texttt{ Create subpatterns } \\
-    \texttt{ 10. } & \texttt{ Attribute reevaluation } \\
-    \texttt{ 11. } & \texttt{ Remove edges } \\ 
-	  \texttt{ 12. } & \texttt{ Remove nodes } \\
-    \texttt{ 13. } & \texttt{ Remove subpatterns } \\
-    \texttt{ 14. } & \texttt{ Emit / Exec } \\  
-    \texttt{ 15. } & \texttt{ Return } \\ \hline
+    \texttt{ 6. } & \texttt{ Redirect edges } \\  
+    \texttt{ 7. } & \texttt{ Retype (and merge) nodes } \\  
+    \texttt{ 8. } & \texttt{ Create new edges } \\
+    \texttt{ 9. } & \texttt{ Retype edges } \\  
+    \texttt{ 10. } & \texttt{ Create subpatterns } \\
+    \texttt{ 11. } & \texttt{ Attribute reevaluation } \\
+    \texttt{ 12. } & \texttt{ Remove edges } \\ 
+	  \texttt{ 13. } & \texttt{ Remove nodes } \\
+    \texttt{ 14. } & \texttt{ Remove subpatterns } \\
+    \texttt{ 15. } & \texttt{ Emit / Exec } \\  
+    \texttt{ 16. } & \texttt{ Return } \\ \hline
 	\end{tabularx}
 	{\small \emph{and more...} at \texttt{3.} are \texttt{evalhere}, \texttt{emithere}, \texttt{alternative} Name, \texttt{iterated} Name}
   \caption{Execution order rewriting}
@@ -971,7 +972,7 @@ Top down attribute evaluation operates on the already matched elements and attri
 Bottom up attribute evalutaion operates on the matched elements and attribute values locally available or the ones received into def elements yielded implicitely upwards from the nested patterns or explicitely accumulating iterated results or with assigning out parameters of subpatterns. (The same depth first run, but with attributes computed while ascending, comparable to an SAG run in compiler construction.)
 \end{note}
 
-\subsection{Yielding outwards during rewriting} 
+\subsection*{Yielding outwards during rewriting} 
 
 Sometimes one needs to bring something matched within a nested or subpattern to an outer pattern containing it (nested patterns) or calling it (subpatterns).
 So that one can do there (in the using pattern) operations on it, e.g. attaching a further edge to an end node of a chain matched with recursive patterns (thus modularizing the graph rewrite specification into chain matching patterns and patterns using chains doing things on the chain ends), or summing attributes matched in iterated pattern instances. 
@@ -1052,7 +1053,7 @@ rule outCount(head:Node) : (int)
   Second example for RHS yielding: counting the number of edges matched with an iterated.
 \end{example}
 
-\subsection{Yielding outwards during match object construction} 
+\subsection*{Yielding outwards during match object construction} 
 
 Bubbeling up the elements from nested patterns and called patterns during rewriting might be too late or inconvenient.
 Luckily it can be done before, at the end pattern matching when the match object tree gets constructed.
@@ -1068,9 +1069,9 @@ Yielding is specified by prepending the \texttt{yield}\indexmain{yield} keyword 
 in the assignment or method call.
 The \texttt{yield} must be prepended to the argument for a subpattern def parameter, too.
 
-\begin{note}
+\begin{warning}
 A def entity from the pattern part can't be yielded to from the rewrite part, they are constant after matching.
-\end{note}
+\end{warning}
 
 Let's have a look at two examples for yielding:
 

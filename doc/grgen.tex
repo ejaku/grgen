@@ -99,6 +99,8 @@ morestring=[b]",
 \definecolor{examplebg}{rgb}{.9,.9,1}
 \definecolor{statementborder}{rgb}{0,.8,0}
 \definecolor{statementbg}{rgb}{.9,1,.9}
+\definecolor{warningborder}{rgb}{.8,0,0}
+\definecolor{warningbg}{rgb}{1,.9,.9}
 \newsavebox\envbox
 \newcounter{example}
 \newenvironment{example}[1][EXAMPLE]{%
@@ -113,6 +115,13 @@ morestring=[b]",
   \par
   \refstepcounter{note}%
   \SpecialEnv{#1}{statementborder}{statementbg}{}{\thenote}%
+}{%
+  \endSpecialEnv
+}
+\newenvironment{warning}[1][NOTE]{%
+  \par
+  \refstepcounter{note}%
+  \SpecialEnv{#1}{warningborder}{warningbg}{}{\thenote}%
 }{%
   \endSpecialEnv
 }
@@ -211,7 +220,7 @@ morestring=[b]",
 
   \vspace*{2.5cm}
   \Huge The \GrG\ User Manual\\[1ex]
-  \LARGE Refers to \GrG\ Release 3.0 beta3\\[1ex]
+  \LARGE Refers to \GrG\ Release 3.0\\[1ex]
   \LARGE ---DRAFT---\\[1ex]
   \LARGE www.grgen.net\\[6ex]
   \includegraphics[width=0.9\linewidth]{fig/title}\\[6ex]
@@ -266,6 +275,8 @@ license.  The license is available at
 \include{subpatterns}
 
 \include{sequences}
+
+\include{rulelangadvanced}
 
 \include{imperative}
 

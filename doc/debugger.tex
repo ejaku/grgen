@@ -72,14 +72,14 @@ All the differently typed nodes that point to a node of type \emph{NodeType}
 The \texttt{EdgeType} constrains the type of the edges which cause grouping, the \texttt{with} clause additionally constrains the type of the adjacent node;
 \texttt{only} excludes subtypes.
 
-\begin{note}
+\begin{warning}
 Only apply group commands on a graph if they indeed lead to a containment tree of groups.
 If the group commands would lead to a directed acyclic or even cyclic containment graph, the results are undefined.
 You may get duplicate edges (and nodes); the implementation is free to choose indeterministically between the possible nestings -- it may even grow an arm and stab you in your back.
 (A conflict resultion heuristic used is to give the earlier executed \texttt{add group} command priority.
 But this mechanism is incomplete -- you'd better refine your groups or change the model in that case.
 Using a model separating edges denoting direct containment from cross-linking edges by type is normally the better design, even disregarding visual node nesting.)
-\end{note}
+\end{warning}
 
 The following example shows \emph{metropolis} ungrouped and grouped:
 \begin{center}
@@ -228,7 +228,7 @@ Further commands allow to print the variables at a given situation, the sequence
   \begin{tabularx}{\linewidth}{|lX|}
 \hline
   \texttt{s}(tep) & Execute the current rewrite rule (match, and rewrite in case it matched; the resulting graph is shown).\\
-  \texttt{d}(etailed step) & Execute the current rewrite rule in a three-step procedure: matching - highlighting the found match, rewriting - highlighting the changing elements, and doing the rewrite showing the resulting graph. In addtion, afterwards the execution of subrules from embedded xgrs (\texttt{exec}) is shown step by step. \\
+  \texttt{d}(etailed step) & Execute the current rewrite rule in a three-step procedure: matching - highlighting the found match, rewriting - highlighting the changing elements, and application - doing the rewrite showing the resulting graph. In addition, afterwards the execution of subrules from embedded xgrs (\texttt{exec}) is shown step by step. \\
   (step) \texttt{o}(ut) & Continue execution until the end of the current loop. If the execution is not in a loop at this moment, but in a sequence called, the called sequence will be executed until its end. If neither is the case, the complete sequence will be executed.\\
   (step) \texttt{u}(p) & Ascend one level up within the \indexed{Kantorowitsch tree} of the current rewrite sequence (i.e. rule; see Example~\ref{ex:debug}; at the moment the command is pretty useless because only the serialized form is displayed).\\
   \texttt{r}(un) & Continue execution (until the end or a breakpoint).\\

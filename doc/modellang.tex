@@ -123,12 +123,12 @@ Accordingly, a \GrG\ enum is internally represented as \texttt{int} (see Section
 \begin{note}
 	An enum type and an {\tt int} are different things, but in expressions enum values are implicitly casted to {\tt int} values 	(see Section~\ref{sec:builtintypes}).
 \end{note}
-\begin{note}
+\begin{warning}
 	Normally, assignments of {\tt int} values to something that has an enum type are forbidden (see Section~\ref{sec:builtintypes}).
 	Only inside a declaration of an enum type an int value may be assigned to the enum item that is currently declared.
 	This also includes the usage of items taken from other enum types (because they are implicitly casted to {\tt int}).
 	However, items from other enum types must be written fully qualified in this case (which, e.g., looks like {\tt MyEnum::a}, where {\tt MyEnum} is the name of the other enum type).
-\end{note}
+\end{warning}
 
 \begin{example}
 \begin{grgen}
@@ -194,11 +194,11 @@ Optionally edges can possess attributes.
 A \newterm{connection assertion} specifies that certain edge types should only connect specific nodes a given number of times.
 (see Section~\ref{sct:basetypes})
 
-\begin{note}
+\begin{warning}
 It is not forbidden to create graphs that are invalid according to \indexed{connection assertion}s.
 \GrG\ just enables you to check, whether a graph is valid or not.
 See also Section~\ref{graphcommands}, \texttt{validate}.
-\end{note}
+\end{warning}
 
 \begin{rail}
   ConnectionAssertions: 'connect' ((NodeConstraint ('-->' | '<--' | '--' | '?--?') NodeConstraint | 'copy' 'extends') + ',');
@@ -305,13 +305,13 @@ The expression has to be of a compatible type of the declared attribute.
 See Chapter~\ref{cha:typeexpr} for the \GrG\ types and expressions reference.
 The \emph{AttributeOverwrite} clause lets you overwrite initialization values for attributes of super classes.
 The initialization values are evaluated in the order as they appear in the rule set file.
-\begin{note}
+\begin{warning}
 	The following attribute declarations are \emph{illegal} because of the order of evaluation of initialization values:
 	\begin{grgen}
 x:int = y;
 y:int = 42;
 	\end{grgen}
-\end{note}
+\end{warning}
 
 \begin{note}
 If you need to mark nodes in the graph, but only very few of them at the same time, think of reflexive edges of a special type. If the marking is sparse, they are the most efficient solution, before attributes, even before visited flags.

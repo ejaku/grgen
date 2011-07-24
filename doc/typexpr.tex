@@ -15,8 +15,8 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
 \begin{tabularx}{\linewidth}{|l|X|}
 	\hline
 	\texttt{\indexed{boolean}} & Covers the values \texttt{true} and \texttt{false} \\
-	\texttt{\indexed{int}} & A signed integer with at least 32 bits \\
-	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number with single precision or double precision respectively \\
+  \texttt{\indexed{byte, short, int, long}} & A signed integer, with 8 bits, with 16 bits, with 32 bits, with 64 bits \\
+	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number, with single precision, with double precision\\
 	\texttt{\indexed{string}} & A character sequence of arbitrary length\\
 	\texttt{\indexed{object}} & Contains a .NET object\\
 	\hline
@@ -37,31 +37,36 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
 \label{builtingenerictypes}
 \end{table}
 
-Table~\ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed explicit type casts.
-Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself.
-
 \begin{table}[htbp]
   \centering
   \begin{tabular}[c]{|c|ccccccc|} \hline
-    \backslashbox{to}{from} & \texttt{enum} & \texttt{boolean} & \texttt{int} & \texttt{float} & \texttt{double} & \texttt{string} & \texttt{object} \\ \hline
-    \texttt{enum} & $=$/--- & & & & & & \\
-    \texttt{boolean} & & $=$ & & & & & \\
-    \texttt{int} & implicit & & $=$ & \texttt{(int)} & \texttt{(int)} & & \\
-    \texttt{float} & implicit & & implicit & $=$ & \texttt{(float)} & & \\
-    \texttt{double} &  implicit & & implicit & implicit & $=$ & & \\
-    \texttt{string} & implicit & implicit & implicit & implicit & implicit & $=$ & implicit\\
-    \texttt{object} & &  & & & & & $=$ \\\hline
+    \backslashbox{to}{from} & \texttt{enum} & \texttt{boolean} & \texttt{int} & \texttt{double} & \texttt{string} & \texttt{object} & \\ \hline
+    \texttt{enum} & $=$/--- & & & & & &\\
+    \texttt{boolean} & & $=$ & & & & &\\
+    \texttt{int} & implicit & & $=$ & \texttt{(int)} & & & \\
+    \texttt{double} &  implicit & & implicit & $=$ & & & \\
+    \texttt{string} & implicit & implicit & implicit &  implicit & $=$ & implicit & \\
+    \texttt{object} & &  & & & & $=$ &\\\hline
   \end{tabular}
   \caption{\GrG\ type casts}
   \label{tabcasts}
 \end{table}
 
-According to table~\ref{tabcasts} neither implicit nor explicit casts from {\tt int} to any \indexed{enum type} are allowed.
+Table~\ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed explicit type casts.
+Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself.
+The \texttt{int} is the default integer type, in the table it stands for all the integer types.
+The \texttt{double} is the default floating point type, in the table it stands for all the floating points types.
+The integer types are implicitely casted upwards from smaller to larger types (\texttt{byte < short < int < long}), whereas a downcast requires an explicit cast.
+The \texttt{byte} and \texttt{short} types are not used in computations, they are casted up to \texttt{int} (or \texttt{long} if required by the context.)
+The floating point types are implicitely casted upwards (\texttt{float < double}), and require an explicit cast downwards, too.
+As specified by the table, integer numbers are automatically casted to floating point numbers, and castable with an explicit cast vice versa.
+According to the table neither implicit nor explicit casts from {\tt int} to any \indexed{enum type} are allowed.
 This is because the range of an enum type is very sparse in general.
 For the same reason implicit and explicit casts between enum types are also forbidden.
 Thus, enum values can only be assigned to attributes having the same enum type.
 A cast of an enum value to a string value will return the declared name of the enum value.
 A cast of an object value to a string value will return ``null'' or it will call the \texttt{toString()} method of the .NET object.
+Everything is implicitely casted to \texttt{string} to enable concise text output without the need for boilerplate casting.
 Be careful with assignments of objects: \GrG\ does not know your .NET type hierarchy and therefore it cannot check two objects for type compatibility.
 Objects of type object are not very useful for \GrG\ processing and the im/exporters can't handle them,
 but they can be used on the API level.
@@ -228,6 +233,8 @@ The \emph{BinIntOperator} is one of the operators in Table~\ref{tabbinops}.
   \label{tabbinops}
 \end{table}
 
+If one operand is \texttt{long} the operation is carried out with 64 Bits, otherwise the operation is carried out with 32 Bits, i.e. \texttt{int}-sized --- even if all the operands are of type \texttt{byte} or \texttt{short}.
+
 \begin{rail}
   FloatExpr: ((() | '+' | '-') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr BinFloatOperator FloatExpr);
 \end{rail}\ixnterm{FloatExpr}
@@ -247,6 +254,8 @@ The \emph{BinFloatOperator} is one of the operators in Table~\ref{tabfloatbinops
 The \texttt{\%} operator on float values works analogous to the integer modulo operator.
 For instance \texttt{4.5 \% 2.3 == 2.2}.
 \end{note}
+
+If one operand is \texttt{double} the operation is carried out with 64 Bits, otherwise the operation is carried out with 32 Bits, i.e. \texttt{float}-sized.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -466,8 +475,8 @@ The member access \texttt{n.a} returns the value of the attribute \texttt{a} of 
 A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}) or one of the following built-in functions:
 
 \begin{description}
-\item[\texttt{min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{int} or \texttt{float} or \texttt{double})
-\item[\texttt{max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{int} or \texttt{float} or \texttt{double})
+\item[\texttt{min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
+\item[\texttt{max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
 \item[\texttt{pow(.,.)}] returns the first argument value to the power of the second value; both must be of type \texttt{double}
 \item[\texttt{incoming(.)}] returns a set of the edges which are incoming to the node given as argument value.
 \item[\texttt{incoming(.,.)}] as above, but only edges of the edge type given as second argument are contained.
@@ -478,17 +487,16 @@ A function call employs an external (attribute evaluation) function (cf. \ref{su
 \end{description}
 
 \begin{rail}
-  Literal: Constant | SetConstructor | MapConstructor;
-  Constant: EnumLit | Number | HexNum | DoubleNum | FloatNum | QuotedText | BoolLit | NullLit;
+  Literal: Constant | SetConstructor | MapConstructor | ArrayConstructor ;
+  Constant: EnumLit | Number | HexNumber | FloatingNumber | QuotedText | BoolLit | NullLit;
 \end{rail}\ixnterm{Constant}\ixnterm{Literal}
 
 The Constants are:
 \begin{description}
   \item[EnumLit] Is the value of an enum type, given in notation \texttt{EnumType '::' EnumValue}.
-  \item[Number] Is an \texttt{int} number in decimal notation without decimal point.
-  \item[HexNum] Is an \texttt{int} number in hexadecimal notation starting with \texttt{0x}.
-  \item[DoubleNum] Is a \texttt{double} number in decimal notation with decimal point, maybe postfixed with \texttt{d}.
-  \item[FloatNum] Is a \texttt{float} number in decimal notation with decimal point, postfixed with \texttt{f}.
+  \item[Number] Is a \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} number in decimal notation without decimal point, postfixed by \texttt{y} or \texttt{Y} for \texttt{byte}, postfixed by \texttt{s} or \texttt{S} for \texttt{short}, postfixed by \texttt{l} or \texttt{L} for \texttt{long}, or of \texttt{int} type if not postfixed.
+  \item[HexNumber] Is a \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} number in hexadecimal notation starting with \texttt{0x}, the different types are distinguished by the suffix as for a decimal notation number.
+  \item[FloatingNumber] Is a \texttt{float} or \texttt{double} number in decimal notation with decimal point, postfixed by \texttt{f} or \texttt{F} for \texttt{float}, maybe postfixed by \texttt{d} or \texttt{D} for \texttt{double} .
   \item[QuotedText] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
   \item[BoolLit] Is a constant of boolean type, i.e. one of the literals \texttt{true} or \texttt{false}.
   \item[NullLit] Is the one constant of object type, the literal \texttt{null}.
@@ -509,8 +517,12 @@ Without the type prefix all elements given in the constructor must be of the sam
 Some examples of literals:
 \begin{grgen}
 Apple::ToffeeApple // an enum literal
-42 // an integer number in decimal notation
-0x7eadbeef // an integer number in hexadecimal notation
+42y // an integer number in decimal notation of byte type
+42s // an integer number in decimal notation of short type
+42 // an integer number in decimal notation of int type
+42L // an integer number in decimal notation of long type
+0x7eadbeef // an integer number in hexadecimal notation of int type
+0xdeadbeefL // an integer number in hexadecimal notation of long type
 3.14159 // a double number
 3.14159f // a float number
 "ve rule and 0wn ze vorld" // a text literal
