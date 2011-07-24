@@ -622,14 +622,18 @@ public class ModifyGen extends CSharpBase {
 
 		genAlternativeModificationCalls(sb2, task, pathPrefix);
 
-		genTypeChangesNodes(sb2, stateConst, task,
+		genRedirectEdges(sb2, task, stateConst, 
+				state.edgesNeededAsElements, state.nodesNeededAsElements);
+
+		genTypeChangesNodesAndMerges(sb2, stateConst, task,
 				state.nodesNeededAsElements, state.nodesNeededAsTypes);
 
 		genNewEdges(sb2, stateConst, task, useAddedElementNames, prefix,
 				state.nodesNeededAsElements, state.edgesNeededAsElements,
 				state.edgesNeededAsTypes);
 
-		genTypeChangesEdges(sb2, task, stateConst, state.edgesNeededAsElements, state.edgesNeededAsTypes);
+		genTypeChangesEdges(sb2, task, stateConst, 
+				state.edgesNeededAsElements, state.edgesNeededAsTypes);
 
 		genNewSubpatternCalls(sb2, stateConst);
 
@@ -1225,6 +1229,52 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void genRedirectEdges(StringBuffer sb, ModifyGenerationTask task, ModifyGenerationStateConst state,
+			HashSet<Edge> edgesNeededAsElements, HashSet<Node> nodesNeededAsElements)
+	{
+		for(Edge edge : task.right.getEdges()) {
+			if(edge.getRedirectedSource(task.right)!=null && edge.getRedirectedTarget(task.right)!=null) {
+				Node redirectedSource = edge.getRedirectedSource(task.right);
+				Node redirectedTarget = edge.getRedirectedTarget(task.right);
+				Node oldSource = task.left.getSource(edge);
+				Node oldTarget = task.left.getTarget(edge);
+				sb.append("\t\t\tgraph.RedirectSourceAndTarget("
+						+ formatEntity(edge) + ", "
+						+ formatEntity(redirectedSource) + ", "
+						+ formatEntity(redirectedTarget) + ", "
+						+ "\"" + (oldSource!=null ? formatIdentifiable(oldSource) : "<unknown>") + "\", "
+						+ "\"" + (oldTarget!=null ? formatIdentifiable(oldTarget) : "<unknown>") + "\");\n");
+				edgesNeededAsElements.add(edge);
+				if(!state.newNodes().contains(redirectedSource))
+					nodesNeededAsElements.add(redirectedSource);
+				if(!state.newNodes().contains(redirectedTarget))
+					nodesNeededAsElements.add(redirectedTarget);
+			} 
+			else if(edge.getRedirectedSource(task.right)!=null) {
+				Node redirectedSource = edge.getRedirectedSource(task.right);
+				Node oldSource = task.left.getSource(edge);
+				sb.append("\t\t\tgraph.RedirectSource("
+						+ formatEntity(edge) + ", "
+						+ formatEntity(redirectedSource) + ", "
+						+ "\"" + (oldSource!=null ? formatIdentifiable(oldSource) : "<unknown>") + "\");\n");
+				edgesNeededAsElements.add(edge);
+				if(!state.newNodes().contains(redirectedSource))
+					nodesNeededAsElements.add(redirectedSource);
+			}
+			else if(edge.getRedirectedTarget(task.right)!=null) {
+				Node redirectedTarget = edge.getRedirectedTarget(task.right);
+				Node oldTarget = task.left.getTarget(edge);
+				sb.append("\t\t\tgraph.RedirectTarget("
+						+ formatEntity(edge) + ", "
+						+ formatEntity(edge.getRedirectedTarget(task.right)) + ", "
+						+ "\"" + (oldTarget!=null ? formatIdentifiable(oldTarget) : "<unknown>") + "\");\n");
+				edgesNeededAsElements.add(edge);
+				if(!state.newNodes().contains(redirectedTarget))
+					nodesNeededAsElements.add(redirectedTarget);
+			}
+		}
+	}
+	
 	private void genTypeChangesEdges(StringBuffer sb, ModifyGenerationTask task, ModifyGenerationStateConst state,
 			HashSet<Edge> edgesNeededAsElements, HashSet<Edge> edgesNeededAsTypes)
 	{
@@ -1255,7 +1305,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genTypeChangesNodes(StringBuffer sb, ModifyGenerationStateConst state, ModifyGenerationTask task,
+	private void genTypeChangesNodesAndMerges(StringBuffer sb, ModifyGenerationStateConst state, ModifyGenerationTask task,
 			HashSet<Node> nodesNeededAsElements, HashSet<Node> nodesNeededAsTypes)
 	{
 		for(Node node : task.right.getNodes()) {

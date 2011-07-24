@@ -19,6 +19,8 @@ import de.unika.ipd.grgen.ir.Rule;
 // TODO: a lot of code duplication among the subtypes of ActionDeclNode,
 // fix the copy'n'paste programming by extracting the common stuff to action node,
 // with parameters giving access to the left/right patterns.
+// First step: remove the ability for multiple right sides, not needed in practice (0 or 1 RHS allowed)
+// (maybe a test must be modeled as a rule with 0 RHS in order to be able to unify with the other action decl nodes)
 public abstract class ActionDeclNode extends DeclNode
 {
 	public ActionDeclNode(IdentNode id, TypeNode type) {

@@ -1121,10 +1121,7 @@ void ShellCommand():
 		noError = impl.Record(str1, boolVal, boolVal2);
 	}
 |
-    "redirect" "emit" str1=Filename() LineEnd()
-    {
-        noError = impl.RedirectEmit(str1);
-    }
+    "redirect" RedirectCommand()
 |
 	"replay" str1=Filename() ("from" str2=QuotedText())? ("to" str3=QuotedText())? LineEnd()
 	{
@@ -1528,9 +1525,9 @@ void Parameters(ArrayList parameters):
 	str=WordOrText() { parameters.Add(str); } ("," str=WordOrText() { parameters.Add(str); })*
 }
 
-///////////////////////////////////
-// "delete" and "retype" command //
-///////////////////////////////////
+//////////////////////////////////////////////////
+// "delete" and "retype" and "redirect" command //
+//////////////////////////////////////////////////
 
 void DeleteCommand():
 {
@@ -1589,6 +1586,34 @@ void RetypeCommand():
 	{
 		Console.WriteLine("Invalid command!");
 		impl.HelpRetype(new List<String>());
+		errorSkipSilent();
+		noError = false;
+	}
+}
+
+void RedirectCommand():
+{
+	INode node;
+	IEdge edge;
+	String str1;
+}
+{
+	try
+	{
+		"emit" str1=Filename() LineEnd()
+		{
+			noError = impl.RedirectEmit(str1);
+		}
+	|
+		edge=Edge() str1=WordOrText() node=Node() LineEnd()
+		{
+			noError = impl.Redirect(edge, str1, node);
+		}
+	}
+	catch(ParseException ex)
+	{
+		Console.WriteLine("Invalid command!");
+		impl.HelpRedirect(new List<String>());
 		errorSkipSilent();
 		noError = false;
 	}

@@ -14,6 +14,8 @@ package de.unika.ipd.grgen.ir;
 /**
  * An edge in a graph.
  */
+import java.util.HashMap;
+
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
 
@@ -31,6 +33,13 @@ public class Edge extends GraphEntity {
 	protected boolean fixedDirection;
 
 	protected boolean maybeNull;
+	
+	/** The redirected source node of this edge if any. */
+	protected HashMap<Graph, Node> redirectedSource = null;
+
+	/** The redirected target node of this edge if any. */
+	protected HashMap<Graph, Node> redirectedTarget = null;
+
 
 	/**
 	 * Make a new edge.
@@ -116,5 +125,33 @@ public class Edge extends GraphEntity {
 
 	public PatternGraph getPointOfDefinition() {
 		return pointOfDefinition;
+	}
+	
+	public void setRedirectedSource(Node redirectedSource, Graph graph) {
+		if(this.redirectedSource==null) {
+			this.redirectedSource = new HashMap<Graph, Node>();
+		}
+		this.redirectedSource.put(graph, redirectedSource);
+	}
+
+	public void setRedirectedTarget(Node redirectedTarget, Graph graph) {
+		if(this.redirectedTarget==null) {
+			this.redirectedTarget = new HashMap<Graph, Node>();
+		}
+		this.redirectedTarget.put(graph, redirectedTarget);
+	}
+
+	public Node getRedirectedSource(Graph graph) {
+		if(this.redirectedSource==null) {
+			return null;
+		}
+		return this.redirectedSource.get(graph);
+	}
+	
+	public Node getRedirectedTarget(Graph graph) {
+		if(this.redirectedTarget==null) {
+			return null;
+		}
+		return this.redirectedTarget.get(graph);
 	}
 }

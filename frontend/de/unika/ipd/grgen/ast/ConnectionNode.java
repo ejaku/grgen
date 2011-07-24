@@ -40,6 +40,14 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 	private int connectionKind;
 
+	/** possible redirection kinds */
+	public static final int NO_REDIRECTION = 0;
+	public static final int REDIRECT_SOURCE = 1;
+	public static final int REDIRECT_TARGET = 2;
+	public static final int REDIRECT_SOURCE_AND_TARGET = REDIRECT_SOURCE | REDIRECT_TARGET;
+
+	private int redirectionKind;
+
 	private NodeDeclNode left;
 	private EdgeDeclNode edge;
 	private NodeDeclNode right;
@@ -55,8 +63,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 *  @param n2 Second node.
 	 *  @param n2 Second node.
 	 *  @param d Direction of the connection.
+	 *  @param r Potential redirection of the edge in the connection.
 	 */
-	public ConnectionNode(BaseNode n1, BaseNode e, BaseNode n2, int d) {
+	public ConnectionNode(BaseNode n1, BaseNode e, BaseNode n2, int d, int r) {
 		super(e.getCoords());
 		leftUnresolved = n1;
 		becomeParent(leftUnresolved);
@@ -65,6 +74,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		rightUnresolved = n2;
 		becomeParent(rightUnresolved);
 		connectionKind = d;
+		redirectionKind = r;
 	}
 
 	/** Construct a new already resolved and checked connection node.
@@ -75,7 +85,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 *  @param d Direction of the connection.
 	 */
 	public ConnectionNode(NodeDeclNode n1, EdgeDeclNode e, NodeDeclNode n2, int d, BaseNode parent) {
-		this(n1, e, n2, d);
+		this(n1, e, n2, d, NO_REDIRECTION);
 		parent.becomeParent(this);
 
 		resolve();
@@ -166,7 +176,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 			& nodeTypeChecker.check(right, error)
 			& checkEdgeRootType()
 			& areDanglingEdgesInReplacementDeclaredInPattern()
-			& noDefNonDefMixedConnection();
+			& noDefNonDefMixedConnection()
+			& checkDeclaredOnLHS();
 
 		if(!sucess) {
 			return false;
@@ -282,6 +293,32 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		
 		return true;
 	}
+	
+	private boolean checkDeclaredOnLHS() {
+		if(redirectionKind != NO_REDIRECTION) {
+			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+				edge.reportError("An edge to be redirected must have been declared on the left hand side (thus matched).");
+				return false;
+			}
+			if(connectionKind != DIRECTED) {
+				edge.reportError("Only directed edges may be redirected (to other nodes).");
+				return false;
+			}
+		}
+		if(connectionKind == ConnectionNode.ARBITRARY) {
+			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+				reportError("New instances of ?--? are not allowed in RHS");
+				return false;
+			}
+		}
+		if(connectionKind == ConnectionNode.ARBITRARY_DIRECTED) {
+			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+				reportError("New instances of <--> are not allowed in RHS");
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * This adds the connection to an IR graph.
@@ -289,7 +326,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 * @param gr The IR graph.
 	 */
 	public void addToGraph(Graph gr) {
-		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == DIRECTED);
+		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == DIRECTED, 
+				(redirectionKind & REDIRECT_SOURCE)==REDIRECT_SOURCE, (redirectionKind & REDIRECT_TARGET)==REDIRECT_TARGET);
 	}
 
 	/**
@@ -303,6 +341,10 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 	public int getConnectionKind() {
 		return connectionKind;
+	}
+
+	public int getRedirectionKind() {
+		return redirectionKind;
 	}
 
 	public EdgeDeclNode getEdge() {

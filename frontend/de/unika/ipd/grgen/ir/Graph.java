@@ -324,8 +324,12 @@ public abstract class Graph extends IR {
 	 * @param left The left node.
 	 * @param edge The edge connecting the left and the right node.
 	 * @param right The right node.
+	 * @param fixedDirection Tells whether this is a directed edge or not
+	 * @param redirectSource Tells whether the edge should be redirected to the source
+	 * @param redirectTarget Tells whether the edge should be redirected to the target
 	 */
-	public void addConnection(Node left, Edge edge, Node right, boolean fixedDirection) {
+	public void addConnection(Node left, Edge edge, Node right, boolean fixedDirection, 
+			boolean redirectSource, boolean redirectTarget) {
 		// Get the nodes and edges from the map.
 		GraphNode l = getOrSetNode(left);
 		GraphNode r = getOrSetNode(right);
@@ -333,12 +337,14 @@ public abstract class Graph extends IR {
 		GraphEdge e = getOrSetEdge(edge);
 
 		// Update outgoing and incoming of the nodes.
-		if (l != null) l.outgoing.add(e);
-		if (r != null) r.incoming.add(e);
+		if(!redirectSource) if(l != null) l.outgoing.add(e);
+		if(!redirectTarget) if(r != null) r.incoming.add(e);
 
         // Set the edge source and target
-		e.source = l;
-		e.target = r;
+		if(redirectSource) edge.setRedirectedSource(left, this);
+		else e.source = l;
+		if(redirectTarget) edge.setRedirectedTarget(right, this);
+		else e.target = r;
 	}
 
 	/** Add a single node (i.e. no incident edges) to the graph. */

@@ -390,17 +390,17 @@ param [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNo
 	: MINUS edge=edgeDeclParam[context, directlyNestingLHSGraph] direction = forwardOrUndirectedEdgeParam
 		{
 			BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
-			res = new ConnectionNode(dummy, edge, dummy, direction);
+			res = new ConnectionNode(dummy, edge, dummy, direction, ConnectionNode.NO_REDIRECTION);
 		}
 	| LARROW edge=edgeDeclParam[context, directlyNestingLHSGraph] RARROW
 		{
 			BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
-			res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY_DIRECTED);
+			res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY_DIRECTED, ConnectionNode.NO_REDIRECTION);
 		}
 	| QUESTIONMINUS edge=edgeDeclParam[context, directlyNestingLHSGraph] MINUSQUESTION
 		{
 			BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
-			res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY);
+			res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY, ConnectionNode.NO_REDIRECTION);
 		}
 	| v=varDecl[context, directlyNestingLHSGraph] 
 		{
@@ -565,13 +565,14 @@ firstEdge [ CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNe
 	@init{
 		boolean forward = true;
 		MutableInteger direction = new MutableInteger(ConnectionNode.ARBITRARY);
+		MutableInteger redirection = new MutableInteger(ConnectionNode.NO_REDIRECTION);
 	}
 
-	:   ( e=forwardOrUndirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=true; } // get first edge
-		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=false; }
+	:   ( e=forwardOrUndirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=true; } // get first edge
+		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
 		| e=arbitraryEdgeOcc[context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
 		)
-		nodeContinuation[e, env.getDummyNodeDecl(context, directlyNestingLHSGraph), forward, direction, conn, context, directlyNestingLHSGraph] // and continue looking for node
+		nodeContinuation[e, env.getDummyNodeDecl(context, directlyNestingLHSGraph), forward, direction, redirection, conn, context, directlyNestingLHSGraph] // and continue looking for node
 	;
 
 firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements, int context, PatternGraphNode directlyNestingLHSGraph ]
@@ -699,19 +700,19 @@ defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclN
 		MINUS edge=defEdgeToBeYieldedTo[context, directlyNestingLHSGraph] direction = forwardOrUndirectedEdgeParam
 			{
 				BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
-				res = new ConnectionNode(dummy, edge, dummy, direction);
+				res = new ConnectionNode(dummy, edge, dummy, direction, ConnectionNode.NO_REDIRECTION);
 				if(connections!=null) connections.addChild(res);
 			}
 		| LARROW edge=defEdgeToBeYieldedTo[context, directlyNestingLHSGraph] RARROW
 			{
 				BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
-				res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY_DIRECTED);
+				res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY_DIRECTED, ConnectionNode.NO_REDIRECTION);
 				if(connections!=null) connections.addChild(res);
 			}
 		| QUESTIONMINUS edge=defEdgeToBeYieldedTo[context, directlyNestingLHSGraph] MINUSQUESTION
 			{
 				BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
-				res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY);
+				res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY, ConnectionNode.NO_REDIRECTION);
 				if(connections!=null) connections.addChild(res);
 			}
 		| v=defVarDeclToBeYieldedTo[context, directlyNestingLHSGraph]
@@ -773,24 +774,24 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 		(a=ASSIGN e=expr[false] { if(var!=null) var.setInitialization(e); } )? 
 	;
 
-nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, MutableInteger direction, CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNestingLHSGraph ]
+nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, MutableInteger direction, MutableInteger redirection, CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNestingLHSGraph ]
 	@init{ n2 = env.getDummyNodeDecl(context, directlyNestingLHSGraph); }
 
 	: n2=nodeOcc[context, directlyNestingLHSGraph] // node following - get it and build connection with it, then continue with looking for follwing edge
 		{
 			if (direction.getValue() == ConnectionNode.DIRECTED && !forward) {
-				conn.addChild(new ConnectionNode(n2, e, n1, direction.getValue()));
+				conn.addChild(new ConnectionNode(n2, e, n1, direction.getValue(), redirection.getValue()));
 			} else {
-				conn.addChild(new ConnectionNode(n1, e, n2, direction.getValue()));
+				conn.addChild(new ConnectionNode(n1, e, n2, direction.getValue(), redirection.getValue()));
 			}
 		}
 		edgeContinuation[n2, conn, context, directlyNestingLHSGraph]
 	|   // nothing following - build connection with edge dangeling on the right (see n2 initialization)
 		{
 			if (direction.getValue() == ConnectionNode.DIRECTED && !forward) {
-				conn.addChild(new ConnectionNode(n2, e, n1, direction.getValue()));
+				conn.addChild(new ConnectionNode(n2, e, n1, direction.getValue(), redirection.getValue()));
 			} else {
-				conn.addChild(new ConnectionNode(n1, e, n2, direction.getValue()));
+				conn.addChild(new ConnectionNode(n1, e, n2, direction.getValue(), redirection.getValue()));
 			}
 		}
 	;
@@ -799,6 +800,7 @@ firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context, Pat
 	@init{
 		boolean forward = true;
 		MutableInteger direction = new MutableInteger(ConnectionNode.ARBITRARY);
+		MutableInteger redirection = new MutableInteger(ConnectionNode.NO_REDIRECTION);
 	}
 
 	: // nothing following? -> one single node
@@ -810,25 +812,26 @@ firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context, Pat
 			conn.addChild(new SingleNodeConnNode(n));
 		}
 	}
-	|   ( e=forwardOrUndirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=true; }
-		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=false; }
+	|   ( e=forwardOrUndirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=true; }
+		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
 		| e=arbitraryEdgeOcc[context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
 		)
-			nodeContinuation[e, n, forward, direction, conn, context, directlyNestingLHSGraph] // continue looking for node
+			nodeContinuation[e, n, forward, direction, redirection, conn, context, directlyNestingLHSGraph] // continue looking for node
 	;
 
 edgeContinuation [ BaseNode left, CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNestingLHSGraph ]
 	@init{
 		boolean forward = true;
 		MutableInteger direction = new MutableInteger(ConnectionNode.ARBITRARY);
+		MutableInteger redirection = new MutableInteger(ConnectionNode.NO_REDIRECTION);
 	}
 
 	:   // nothing following? -> connection end reached
-	|   ( e=forwardOrUndirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=true; }
-		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=false; }
+	|   ( e=forwardOrUndirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=true; }
+		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
 		| e=arbitraryEdgeOcc[context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
 		)
-			nodeContinuation[e, left, forward, direction, conn, context, directlyNestingLHSGraph] // continue looking for node
+			nodeContinuation[e, left, forward, direction, redirection, conn, context, directlyNestingLHSGraph] // continue looking for node
 	;
 
 nodeOcc [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
@@ -975,9 +978,11 @@ varDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Base
 		)
 	;
 
-
-forwardOrUndirectedEdgeOcc [int context, MutableInteger direction, PatternGraphNode directlyNestingLHSGraph] returns [ BaseNode res = env.initNode() ]
-	: MINUS ( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; } | e2=entIdentUse { res = e2; } ) forwardOrUndirectedEdgeOccContinuation[direction]
+forwardOrUndirectedEdgeOcc [int context, MutableInteger direction, MutableInteger redirection, PatternGraphNode directlyNestingLHSGraph] returns [ BaseNode res = env.initNode() ]
+	: (NOT { redirection.setValue(ConnectionNode.REDIRECT_SOURCE); })? MINUS 
+		( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; } 
+		| e2=entIdentUse { res = e2; } ) 
+		forwardOrUndirectedEdgeOccContinuation[direction, redirection]
 	| da=DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
@@ -992,13 +997,16 @@ forwardOrUndirectedEdgeOcc [int context, MutableInteger direction, PatternGraphN
 		}
 	;
 
-forwardOrUndirectedEdgeOccContinuation [MutableInteger direction]
-	: MINUS { direction.setValue(ConnectionNode.UNDIRECTED); }
-	| RARROW { direction.setValue(ConnectionNode.DIRECTED); }
+forwardOrUndirectedEdgeOccContinuation [MutableInteger direction, MutableInteger redirection]
+	: MINUS { direction.setValue(ConnectionNode.UNDIRECTED); } (NOT { redirection.setValue(ConnectionNode.REDIRECT_TARGET | redirection.getValue()); })? // redirection not allowd but semantic error is better
+	| RARROW { direction.setValue(ConnectionNode.DIRECTED); } (NOT { redirection.setValue(ConnectionNode.REDIRECT_TARGET | redirection.getValue()); })?
 	;
 
-backwardOrArbitraryDirectedEdgeOcc [ int context, MutableInteger direction, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
-	: LARROW ( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; } | e2=entIdentUse { res = e2; } ) backwardOrArbitraryDirectedEdgeOccContinuation[ direction ]
+backwardOrArbitraryDirectedEdgeOcc [ int context, MutableInteger direction, MutableInteger redirection, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+	: (NOT { redirection.setValue(ConnectionNode.REDIRECT_TARGET); })? LARROW 
+		( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; }
+		| e2=entIdentUse { res = e2; } )
+		backwardOrArbitraryDirectedEdgeOccContinuation[ direction, redirection ]
 	| da=DOUBLE_LARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
@@ -1013,13 +1021,16 @@ backwardOrArbitraryDirectedEdgeOcc [ int context, MutableInteger direction, Patt
 		}
 	;
 
-backwardOrArbitraryDirectedEdgeOccContinuation [MutableInteger direction]
-	: MINUS { direction.setValue(ConnectionNode.DIRECTED); }
-	| RARROW { direction.setValue(ConnectionNode.ARBITRARY_DIRECTED); }
+backwardOrArbitraryDirectedEdgeOccContinuation [MutableInteger direction, MutableInteger redirection]
+	: MINUS { direction.setValue(ConnectionNode.DIRECTED); } (NOT { redirection.setValue(ConnectionNode.REDIRECT_SOURCE | redirection.getValue()); })?
+	| RARROW { direction.setValue(ConnectionNode.ARBITRARY_DIRECTED); } (NOT { redirection.setValue(ConnectionNode.REDIRECT_SOURCE | redirection.getValue()); })? // redirection not allowd but semantic error is better
 	;
 
 arbitraryEdgeOcc [int context, PatternGraphNode directlyNestingLHSGraph] returns [ BaseNode res = env.initNode() ]
-	: QUESTIONMINUS ( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; } | e2=entIdentUse { res = e2; } ) MINUSQUESTION
+	: QUESTIONMINUS
+		( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; }
+		| e2=entIdentUse { res = e2; } )
+		MINUSQUESTION
 	| q=QMMQ
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(q));

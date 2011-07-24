@@ -609,6 +609,10 @@ namespace de.unika.ipd.grGen.grShell
                         HelpRetype(commands);
                         return;
 
+                    case "redirect":
+                        HelpRedirect(commands);
+                        return;
+
                     case "show":
                         HelpShow(commands);
                         return;
@@ -678,8 +682,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - echo <text>               Writes the given text to the console\n"
                 + " - custom graph ...          Graph backend specific commands\n"
                 + " - custom actions ...        Action backend specific commands\n"
-                + " - redirect emit <filename>  Redirects the GrGen emit instructions to a file\n"
-                + " - redirect emit -           Afterwards emit instructions write to stdout again\n"
+                + " - redirect ...              Redirects edges or emit instruction output\n"
                 + " - sync io                   Writes out all files (grIO framework)\n"
                 + " - parse file <filename>     Parses the given file (ASTdapter framework)\n"
                 + " - parse <text>              Parses the given string (ASTdapter framework)\n"
@@ -780,6 +783,22 @@ namespace de.unika.ipd.grGen.grShell
                 + "   Retypes the given node from the current graph to the given type.\n\n"
                 + " - retype -edge<type>-> or -edge<type>-\n"
                 + "   Retypes the given edge from the current graph to the given type.\n");
+        }
+
+        public void HelpRedirect(List<String> commands)
+        {
+            if (commands.Count > 1)
+            {
+                debugOut.WriteLine("\nNo further help available.");
+            }
+
+            debugOut.WriteLine("\nList of available commands for \"redirect\":\n"
+                + " - redirect <edge> (source|target) <node>\n"
+                + "   Redirects the source or target of the edge to the new node given.\n"
+                + " - redirect emit <filename>\n"
+                + "   Redirects the GrGen emit instructions to a file\n"
+                + " - redirect emit -\n"
+                + "   Afterwards emit instructions write to stdout again\n");
         }
 
         public void HelpShow(List<String> commands)
@@ -2723,6 +2742,62 @@ namespace de.unika.ipd.grGen.grShell
                     curShellGraph.Graph.EmitWriter = Console.Out;
                     return false;
                 }
+            }
+            return true;
+        }
+
+        public bool Redirect(IEdge edge, String direction, INode node)
+        {
+            if(!GraphExists()) return false;
+            if(edge == null)
+            {
+                errOut.WriteLine("No edge given to redirect command");
+                return false;
+            }
+            if(direction == null)
+            {
+                errOut.WriteLine("No direction given to redirect command");
+                return false;
+            }
+            if(node == null)
+            {
+                errOut.WriteLine("No node given to redirect command");
+                return false;
+            }
+
+            try
+            {
+                bool redirectSource = false;
+                if(direction.ToLower() == "source".ToLower()) {
+                    redirectSource = true;
+                } else if (direction.ToLower() == "target".ToLower()) {
+                    redirectSource = false;
+                } else {
+                    errOut.WriteLine("direction must be either \"source\" or \"target\"");
+                    return false;
+                }
+
+                String oldNodeName; 
+                if (redirectSource) {
+                    oldNodeName = curShellGraph.Graph.GetElementName(edge.Source);
+                    curShellGraph.Graph.RedirectSource(edge, node, oldNodeName);
+                } else {
+                    oldNodeName = curShellGraph.Graph.GetElementName(edge.Target);
+                    curShellGraph.Graph.RedirectTarget(edge, node, oldNodeName);
+                }
+
+                if(!silence)
+                {
+                    String edgeName = curShellGraph.Graph.GetElementName(edge);
+                    String directionName = redirectSource ? "source" : "target";
+                    String newNodeName = curShellGraph.Graph.GetElementName(node);
+                    debugOut.WriteLine("Edge \"{0}\" \"{1}\" has been redirected from \"{2}\" to \"{3}\".", edgeName, directionName, oldNodeName, newNodeName);
+                }
+            }
+            catch(ArgumentException e)
+            {
+                errOut.WriteLine("Unable to redirect edge: " + e.Message);
+                return false;
             }
             return true;
         }

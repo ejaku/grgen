@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -95,15 +96,17 @@ public class IteratedNode extends ActionDeclNode  {
 		return type != null;
 	}
 
-	/* Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
+	// TODO: pull this and the other code duplications up to ActionDeclNode
+	/** Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
 	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
 	 * incident to (if these aren't dummy nodes themselves, of course). */
 	private boolean checkRhsReuse() {
 		boolean res = true;
+		HashMap<EdgeDeclNode, NodeDeclNode> redirectedFrom = new HashMap<EdgeDeclNode, NodeDeclNode>();
+		HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo = new HashMap<EdgeDeclNode, NodeDeclNode>();
 		for (int i = 0; i < right.getChildren().size(); i++) {
     		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
     		for (ConnectionNode rConn : right.children.get(i).getReusedConnections(pattern)) {
-    			boolean occursInLHS = false;
     			EdgeDeclNode re = rConn.getEdge();
 
     			if (re instanceof EdgeTypeChangeNode) {
@@ -122,7 +125,6 @@ public class IteratedNode extends ActionDeclNode  {
     				if ( ! le.equals(re) ) {
     					continue;
     				}
-    				occursInLHS = true;
 
     				if (lConn.getConnectionKind() != rConn.getConnectionKind()) {
     					res = false;
@@ -159,12 +161,29 @@ public class IteratedNode extends ActionDeclNode  {
     							rConn.reportError("The source node of reused edge \"" + le + "\" must be reused, too");
     							alreadyReported.add(re);
     						}
-    					} else if (lSrc != rSrc && ! alreadyReported.contains(re)) {
+    					} else if (lSrc != rSrc && (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE)!=ConnectionNode.REDIRECT_SOURCE && ! alreadyReported.contains(re)) {
     						res = false;
-    						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
+    						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes (and is not declared to redirect source)");
     						alreadyReported.add(re);
     					}
     				}
+    				
+    				if ( (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE)==ConnectionNode.REDIRECT_SOURCE ) {
+    					if(rSrc.isDummy()) {
+							res = false;
+							rConn.reportError("An edge with source redirection must be given a source node.");
+    					}
+    					
+    					if(lSrc.equals(rSrc)) {
+    						rConn.reportWarning("Redirecting edge to same source again.");
+    					}
+    					
+    					if(redirectedFrom.containsKey(le)) {
+							res = false;
+							rConn.reportError("Can't redirect edge source more than once.");
+    					}
+    					redirectedFrom.put(le, rSrc);
+					}
 
     				if ( ! lTgt.isDummy() ) {
     					if ( rTgt.isDummy() ) {
@@ -176,42 +195,49 @@ public class IteratedNode extends ActionDeclNode  {
     							rConn.reportError("The target node of reused edge \"" + le + "\" must be reused, too");
     							alreadyReported.add(re);
     						}
-    					} else if ( lTgt != rTgt && ! alreadyReported.contains(re)) {
+    					} else if ( lTgt != rTgt && (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET)!=ConnectionNode.REDIRECT_TARGET && ! alreadyReported.contains(re)) {
     						res = false;
-    						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
+    						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes (and is not declared to redirect target)");
     						alreadyReported.add(re);
     					}
     				}
+    				
+    				if ( (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET)==ConnectionNode.REDIRECT_TARGET ) {
+    					if(rTgt.isDummy()) {
+							res = false;
+							rConn.reportError("An edge with target redirection must be given a target node.");
+    					}
+    					
+    					if(lTgt.equals(rTgt)) {
+    						rConn.reportWarning("Redirecting edge to same target again.");
+    					}
+    					
+    					if(redirectedTo.containsKey(le)) {
+							res = false;
+							rConn.reportError("Can't redirect edge target more than once.");
+    					}
+    					redirectedTo.put(le, rSrc);
+					}
 
     				//check, whether RHS "adds" a node to a dangling end of a edge
     				if ( ! alreadyReported.contains(re) ) {
-    					if ( lSrc.isDummy() && ! rSrc.isDummy() ) {
+    					if ( lSrc.isDummy() && ! rSrc.isDummy() && (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE)!=ConnectionNode.REDIRECT_SOURCE ) {
     						res = false;
     						rConn.reportError("Reused edge dangles on LHS, but has a source node on RHS");
     						alreadyReported.add(re);
     					}
-    					if ( lTgt.isDummy() && ! rTgt.isDummy() ) {
+    					if ( lTgt.isDummy() && ! rTgt.isDummy() && (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET)!=ConnectionNode.REDIRECT_TARGET ) {
     						res = false;
     						rConn.reportError("Reused edge dangles on LHS, but has a target node on RHS");
     						alreadyReported.add(re);
     					}
     				}
     			}
-    			if (!occursInLHS) {
-    				// alreadyReported can not be set here
-    				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY) {
-    					res = false;
-    					rConn.reportError("New instances of ?--? are not allowed in RHS");
-    				}
-    				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY_DIRECTED) {
-    					res = false;
-    					rConn.reportError("New instances of <--> are not allowed in RHS");
-    				}
-    			}
     		}
 		}
 		return res;
 	}
+
 
 	private boolean checkLeft() {
 		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
