@@ -12,7 +12,7 @@
             <Keywords name="Operators">- ! $ % &amp; ( ) * , . : ; \ { | } ~ + &lt; = &gt;</Keywords>
             <Keywords name="Comment">1/* 2*/ 0//</Keywords>
             <Keywords name="Words1">#include abstract actions alternative arbitrary break class copy connect const def delete directed edge emit emithere enum eval evalhere exact exec extends for hom if in independent induced iterated model modify multiple nameof negative node optional pattern patternpath replace record return rule sequence test typeof undirected using valloc vfree visited vreset yield</Keywords>
-            <Keywords name="Words2">false null true boolean int float double object string set map array</Keywords>
+            <Keywords name="Words2">array boolean byte double false float int long map null object short string set true</Keywords>
             <Keywords name="Words3">add clear dangling domain dpo empty identification incoming indexOf lastIndexOf length max min outgoing peek pow range ref rem size substring subarray var</Keywords>
             <Keywords name="Words4"></Keywords>
         </KeywordLists>
@@ -43,7 +43,7 @@
             <Keywords name="Delimiters">&quot;&apos;0&quot;&apos;0</Keywords>
             <Keywords name="Comment">0#</Keywords>
             <Keywords name="Words1">askfor clear custom debug def delete dump echo exit export help import include new open quit randomseed record redirect replay retype save select show silence validate xgrs</Keywords>
-            <Keywords name="Words2">actions add any attributes backend bordercolor by color disable edge edges emit enable exitonfailure exclude from get graph graphs group hidden incoming infotag is labels layout linestyle map mode no node nodes num off on only option options outgoing rem reset set shape shortinfotag specified start stop strict sub super textcolor thickness time to types var with withvariables</Keywords>
+            <Keywords name="Words2">actions add any attributes backend bordercolor by color disable edge edges emit enable exitonfailure exclude from get graph graphs group hidden incoming infotag is labels layout linestyle map mode no node nodes num off on only option options outgoing rem reset set shape shortinfotag source specified start stop strict sub super target textcolor thickness time to types var with withvariables</Keywords>
             <Keywords name="Words3">black blue green cyan red purple brown grey lightgrey lightblue lightgreen lightcyan lightred lightpurple lightyellow yellow white darkblue darkred darkgreen darkyellow darkmagenta darkcyan gold lilac turquoise aquamarine khaki pink orange orchid yellowgreen
 				matched created deleted retyped box triangle circle ellipse rhomb hexagon trapeze uptrapeze lparallelogram rparallelogram continuous dotted dashed Random Organic Orthogonal Circular Tree Diagonal Incremental Hierarchic Compilergraph.</Keywords>
             <Keywords name="Words4"></Keywords>
