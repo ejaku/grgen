@@ -1,4 +1,31 @@
-﻿v3.0beta3 (2011-07-04)
+﻿v3.0 (2011-07-29)
+ New datatypes introduced:
+  byte - 8bit signed, literals are denoted by Y-suffix, e.g. 42y
+  short - 16bis signed, literals are denoted by S-suffix, e.g. 0x4242s
+  long - 64bit signed, literals are denoted by L-suffix, e.g. 0xDEADBEEFl
+  the operators expect int or long, byte and short are automatically casted upwards
+ 
+ Node merging:
+  Extended the retype operator by the ability to merge nodes in,
+  e.g. x:T<u,v,w> creates x as a retype of u to T, with v and w merge in,
+  i.e. the edges incident to v and w are redirected to x and then the nodes are deleted
+  as T may be typeof(u) a pure merge can be achieved
+  
+ Edge redirection:
+  Edges can be requested in the rule language rewrite part to get redirected,
+  e.g. an edge declared as x -e:T-> y in the pattern can be redirected in the rewite part with
+    x -e->! z; or x !-e-> z; or y !-e->! x; i.e. the end to be redirected is marked by !
+	(an exclamation mark at the end to change as seen from the center to state "make this happen!")
+  Edges can be requested in the shell to get redirected by the
+    redirect <edge> (source|target) <node>      command, redirecting <edge> to the new <node>
+
+  Misc:
+  - Debug appearance polished, esp. unintuitive red -> green for newly created elements
+  - HelloWorld! in examples\HelloWorld-TTC2011 made simpler by utilizing independent
+  - Syntaxhighlighting adapted
+ 
+ 
+v3.0beta3 (2011-07-04)
  LHS retyping:
   - allowed retype operator on lhs, x:T<y> tries to cast y to T, 
     if successful x allows to access y as T (attributes!), otherwise matching fails for this y
@@ -268,7 +295,8 @@ v2.7.ms1 (2010-12-05)
  - further smaller fixes and improvements
  - purged deprecated shell constructs for set handling, map handling, visited flags handling
 
-
+--------------------------------------------------------------------------------------------------------
+ 
 v2.6.4 (2010-10-30)
  Fixes for bugs introduced in 2.6.3:
  - certain pattern elements were deleted when using patterns with more than 2 nesting levels; fixed
@@ -527,6 +555,7 @@ v2.6 (2010-09-05)
   - user manual now under Creative Commons Attribution-Share Alike 3.0 Germany license
   - further minor improvements
 
+--------------------------------------------------------------------------------------------------------
 
 v2.5.1 (2009-09-09)
  Additions:
@@ -604,6 +633,7 @@ v2.5 (2009-06-28)
  Bugs:
   - Several smashed
 
+--------------------------------------------------------------------------------------------------------
 
 v2.1.2 (2009-02-16)
  Fixes:
@@ -653,6 +683,8 @@ v2.1 (2008-12-19)
 
  Other changes:
   - Increase stack size of Java frontend and GrShell
+
+--------------------------------------------------------------------------------------------------------
 
 v2.0 (2008-07-28)
  Features:
@@ -824,6 +856,7 @@ v2.0 beta (2008-04-28)
   - Changed License to GPL v3
   - The names of the generated model files now depend on the model name
 
+--------------------------------------------------------------------------------------------------------
 
 v1.4 (2008-03-20)
  Features:
@@ -907,6 +940,7 @@ v1.3.1 (2007-12-07)
   - Disabled buggy node reusing as a workaround
   - Reflexive pattern edges were not always matched correctly
 
+--------------------------------------------------------------------------------------------------------
 
 v1.3 (2007-11-06)
  Features:
@@ -966,6 +1000,7 @@ v1.3 (2007-11-06)
     - Fixed rule specification files without any rules
     - Fixed crash when using a non-existing model
 
+--------------------------------------------------------------------------------------------------------
 
 v1.2 (2007-07-19)
  Features:
@@ -1017,6 +1052,7 @@ v1.2 (2007-07-19)
   - Fixed conditions containing casts
   - Fixed float constants
 
+--------------------------------------------------------------------------------------------------------
 
 v1.1 (2007-07-02)
  - Base of change log
