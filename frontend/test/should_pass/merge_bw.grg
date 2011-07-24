@@ -1,0 +1,12 @@
+using merge_model;
+
+rule merge {
+  b:State;
+  w:State;
+  if { b.name == "Baden" && w.name == "Württemberg"; }
+
+  modify {
+    bw:typeof(b)<b,w>;
+    eval { bw.name = b.name + w.name; }
+  }
+}

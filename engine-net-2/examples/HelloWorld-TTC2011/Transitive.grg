@@ -1,63 +1,20 @@
 using graph1__ecore;
 
-rule addTransitiveEdge {
-	n1:graph1_Node;
-	n2:graph1_Node;
-	n3:graph1_Node;
-	hom(n1,n2,n3);
+rule insertTransitiveEdge {
+    n1:graph1_Node;
+    n3:graph1_Node;
+    hom(n1,n3);
 
-	n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n2;
-	n2 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
+    independent {
+        hom(n1,n2,n3);
+        n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n2:graph1_Node;
+        n2 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
+    }
+    negative {
+        n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
+    }
 
-	negative {
-		n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
-	}
-
-	modify {
-		n1 --> n3;
-	}
-}
-
-rule removeDuplicatedEdges {
-	n1:graph1_Node;
-	n2:graph1_Node;
-	hom(n1,n2);
-
-	n1 -e:Edge-> n2;
-	n1 --> n2;
-
-	modify {
-		delete(e);
-	}
-}
-
-rule transformEdge {
-	n1:graph1_Node;
-	n2:graph1_Node;
-	hom(n1,n2);
-
-	n1 -oldEdge:Edge-> n2;
-
-	// Search for edge with highest index
-	graph:graph1_Graph -:graph1_Graph_nodes-> n1;
-	graph -graphEdge:graph1_Graph_edges->;
-
-	negative {
-		graph -otherGraphEdge:graph1_Graph_edges->;
-
-		if { otherGraphEdge.index > graphEdge.index; }
-	}
-
-	modify {
-		delete(oldEdge);
-
-		n1 <-src:graph1_Edge_src- e:graph1_Edge -trg:graph1_Edge_trg-> n2;
-		graph -newGraphEdge:graph1_Graph_edges-> e;
-
-		eval {
-			src.index = 0;
-			trg.index = 0;
-			newGraphEdge.index = graphEdge.index + 1;
-		}
-	}
+    modify {
+        n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
+    }
 }
