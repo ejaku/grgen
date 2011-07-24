@@ -122,15 +122,15 @@ namespace de.unika.ipd.grGen.grShell
         {
             nodeRealizers[(int)ElementMode.Normal] = GetNodeRealizer(GrColor.Yellow, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
             nodeRealizers[(int)ElementMode.Matched] = GetNodeRealizer(GrColor.Khaki, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
-            nodeRealizers[(int)ElementMode.Created] = GetNodeRealizer(GrColor.LightRed, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
+            nodeRealizers[(int)ElementMode.Created] = GetNodeRealizer(GrColor.YellowGreen, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
             nodeRealizers[(int)ElementMode.Deleted] = GetNodeRealizer(GrColor.LightGrey, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
-            nodeRealizers[(int)ElementMode.Retyped] = GetNodeRealizer(GrColor.Cyan, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
+            nodeRealizers[(int)ElementMode.Retyped] = GetNodeRealizer(GrColor.Aquamarine, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
 
             edgeRealizers[(int)ElementMode.Normal] = GetEdgeRealizer(GrColor.DarkYellow, GrColor.Black, 1, GrLineStyle.Continuous);
-            edgeRealizers[(int)ElementMode.Matched] = GetEdgeRealizer(GrColor.Khaki, GrColor.Black, 2, GrLineStyle.Continuous);
-            edgeRealizers[(int)ElementMode.Created] = GetEdgeRealizer(GrColor.LightRed, GrColor.Black, 2, GrLineStyle.Continuous);
-            edgeRealizers[(int)ElementMode.Deleted] = GetEdgeRealizer(GrColor.LightGrey, GrColor.Black, 2, GrLineStyle.Continuous);
-            edgeRealizers[(int)ElementMode.Retyped] = GetEdgeRealizer(GrColor.Cyan, GrColor.Black, 2, GrLineStyle.Continuous);
+            edgeRealizers[(int)ElementMode.Matched] = GetEdgeRealizer(GrColor.Khaki, GrColor.Black, 3, GrLineStyle.Continuous);
+            edgeRealizers[(int)ElementMode.Created] = GetEdgeRealizer(GrColor.YellowGreen, GrColor.Black, 3, GrLineStyle.Continuous);
+            edgeRealizers[(int)ElementMode.Deleted] = GetEdgeRealizer(GrColor.LightGrey, GrColor.Black, 3, GrLineStyle.Continuous);
+            edgeRealizers[(int)ElementMode.Retyped] = GetEdgeRealizer(GrColor.Aquamarine, GrColor.Black, 3, GrLineStyle.Continuous);
         }
 
         public void RegisterYComp(YCompClient ycompClient)
