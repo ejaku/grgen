@@ -538,6 +538,14 @@ in the form of a dump of the compiler IR as a .vcg file:\\
 \texttt{java -jar grgen.jar -i yourfile.grg}
 \end{note}
 
+\begin{note}
+If you run into \texttt{Unable to process specification: The system cannot find the file specified} errors, 
+you may need to install a JDK to a non system path and add the bin folder of the JDK to the path variable.
+(Normally just installing a JRE is sufficient.)
+\end{note}
+
+\pagebreak
+
 %-----------------------------------------------------------------------------------------------
 \subsection{\texttt{\indexed{GrShell.exe}}}
 
@@ -573,6 +581,9 @@ a short introduction is given in chaper \ref{cha:api}.
 \yComp\indexmain{yComp} \cite{ycomp} is a graph visualization tool based on \yFiles\ \cite{yfiles}.
 It is well integrated and shipped with \GrG, but it's not a part of \GrG.
 \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others.
+\begin{center}
+\includegraphics[width=0.45\linewidth]{fig/ycomp1.pdf} \includegraphics[width=0.45\linewidth]{fig/ycomp2.pdf}
+\end{center}
 \begin{description}
   \item[Usage] Usually \yComp\ will be loaded by the \GrShell. You might want to open \yComp\ manually by typing\\
    \texttt{java -jar yComp.jar [<graph-file>]}\\
@@ -582,9 +593,6 @@ It is well integrated and shipped with \GrG, but it's not a part of \GrG.
   \item[Hints] The \indexed{layout algorithm}\indexmainsee{layout}{layout algorithm} \indexedsee{compiler graph}{layout algorithm} (\yComp's default setting, a version of (\texttt{\indexedsee{hierarchic}{layout algorithm}} optimized for graph based compiler intermediate representations) may not be a good choice for your graph at hand.
   Instead \texttt{\indexedsee{organic}{layout algorithm}} or \texttt{\indexedsee{orthogonal}{layout algorithm}} might be worth trying).
   Use the rightmost blue play button to start the layout process. Depending on the graph size this may take a while.
-\begin{center}
-\includegraphics[width=0.45\linewidth]{fig/ycomp1.pdf} \includegraphics[width=0.45\linewidth]{fig/ycomp2.pdf}
-\end{center}
   \item[Requires] Java Runtime Environment 1.5 (or above).
 \end{description}
 
@@ -603,7 +611,7 @@ the rule language now offers nested and subpatterns which allow to handle substr
 by now even surpassing the capabilities of the VIATRA2\cite{viatra2,recursiveviatra} graph rewriting tool, the strongest competitor in rule expressiveness.
 The rules can be combined by graph rewrite sequences, a rule application control language with variables and logical as well as iterative control flow;
 it was recently extended by storages as pioneered by the VMTS\cite{vmts} graph rewriting tool, allowing for more concise and faster solutions.
-You may have a look at the GrGen.NET solution of the Hello World! case \cite{HelloWorld} of TTC 2011 highlighting the conciseness achieved by the expressiveness of the many language constructs.
+You may have a look at the GrGen.NET solution of the Hello World! case \cite{HelloWorld} (or the other cases \cite{ProgramUnderstanding} and \cite{CompilerOptimization}) of TTC 2011 highlighting the conciseness achieved by the expressiveness of the many language constructs.
 
 \item[Performance]
 i.e. high speed at modest memory consumption, is needed to tackle real world problems.

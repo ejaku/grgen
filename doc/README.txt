@@ -1,4 +1,4 @@
-GrGen.NET v2.6 (2010-09-05)
+GrGen.NET v3.0 (2011-07-29)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -40,6 +40,12 @@ For Windows:
     ATTENTION: Do NOT add ""s around any part of the path, even if it
       contains spaces! Otherwise yComp, a graph visualisation tool, will not
       run out of GrShell!
+	  
+	If you run into "Unable to process specification: 
+	The system cannot find the file specified" errors, 
+	you may need to install a JDK to a non system path
+	and add the bin folder of the JDK to the path variable.
+	(Normally just installing a JRE is sufficient.)
 
 
 RUN
@@ -114,9 +120,9 @@ Nicholas Tung
 COPYING
 -------
 
-Copyright (C) 2003-20010 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+Copyright (C) 2003-20011 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
 
-This file is part of GrGen, Version GrGen.NET 2.6
+This file is part of GrGen, Version GrGen.NET 3.0
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
