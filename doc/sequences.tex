@@ -351,7 +351,7 @@ Table~\ref{ruletab} lists most of the operations of the graph rewrite expression
 \texttt{u=map<N,Edge>\{\}}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
 \texttt{v=u[w]}	& Assign target value of \texttt{w} in \texttt{u} to \texttt{v}. Fails if \texttt{!(w in u)}.\\
 \hline
-\texttt{w=s(w)} & Calls a sequence \texttt{s} handing in \texttt{w} as input and writing its output to \texttt{w}; defined e.g. with \texttt{sequence s(u:Node):(v:Node)} \texttt{\{ v=u \}}.\\
+\texttt{(w)=s(w)} & Calls a sequence \texttt{s} handing in \texttt{w} as input and writing its output to \texttt{w}; defined e.g. with \texttt{sequence s(u:Node):(v:Node)} \texttt{\{ v=u \}}.\\
 \hline
 \end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}}\indexmain{\texttt{"|}}
 \indexmain{\texttt{\&}}\indexmain{\texttt{"|"|}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}\indexmain{\texttt{;>}}\indexmain{\texttt{<;}}\indexmain{\texttt{+}}\indexmain{\texttt{[]}}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}\indexmain{\texttt{()}}
