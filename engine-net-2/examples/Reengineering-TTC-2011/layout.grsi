@@ -113,7 +113,21 @@ dump set node statemachine_Transition color white
 dump add node statemachine_Transition infotag _action
 dump add node statemachine_Transition infotag _trigger
 dump set edge link color red
+dump set edge link linestyle dashed
 dump set edge statemachine_Transition_src color white
 dump set edge statemachine_Transition_dst color black
 dump set edge statemachine_State_out color black
 dump set edge statemachine_State_in color white
+
+# Debugging configuration
+debug set node mode matched color black
+debug set node mode matched textcolor lightred
+debug set node mode matched bordercolor red
+debug set edge mode matched thickness 5
+debug set edge mode matched color lightred
+debug set node mode created color lightgreen
+debug set node mode created textcolor darkgreen
+debug set node mode created bordercolor turquoise
+debug set edge mode created thickness 5
+debug set edge mode created color lightgreen
+

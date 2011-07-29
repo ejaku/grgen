@@ -754,6 +754,42 @@
             <param name="newEdgeType">The new type for the edge.</param>
             <returns>The new edge object representing the retyped edge.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.Merge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String)">
+            <summary>
+            Merges the source node into the target node,
+            i.e. all edges incident to the source node are redirected to the target node, then the source node is deleted.
+            </summary>
+            <param name="target">The node which remains after the merge.</param>
+            <param name="source">The node to be merged.</param>
+            <param name="sourceName">The name of the node to be merged (used for debug display of redirected edges).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.RedirectSource(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,System.String)">
+            <summary>
+            Changes the source node of the edge from the old source to the given new source.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newSource">The new source node of the edge.</param>
+            <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.RedirectTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,System.String)">
+            <summary>
+            Changes the target node of the edge from the old target to the given new target.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newTarget">The new target node of the edge.</param>
+            <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.RedirectSourceAndTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String,System.String)">
+            <summary>
+            Changes the source of the edge from the old source to the given new source,
+            and changes the target node of the edge from the old target to the given new target.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newSource">The new source node of the edge.</param>
+            <param name="newTarget">The new target node of the edge.</param>
+            <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+            <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.Mature">
             <summary>
             Mature a graph.
@@ -1463,6 +1499,15 @@
             <param name="newNodeType">The new type for the node.</param>
             <returns>The new node object representing the retyped node.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.Retype(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType)">
+            <summary>
+            Retypes an edge by creating a new edge of the given type.
+            Source and target node as well as all attributes from common super classes are kept.
+            </summary>
+            <param name="edge">The edge to be retyped.</param>
+            <param name="newEdgeType">The new type for the edge.</param>
+            <returns>The new edge object representing the retyped edge.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.Retyping(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
             An element gets retyped, i.e. a new element created from an old element;
@@ -1481,14 +1526,41 @@
             <param name="oldElem">The old element, which was retyped.</param>
             <param name="newElem">The new element, the result of retyping.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.Retype(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType)">
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.Merge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String)">
             <summary>
-            Retypes an edge by creating a new edge of the given type.
-            Source and target node as well as all attributes from common super classes are kept.
+            Merges the source node into the target node,
+            i.e. all edges incident to the source node are redirected to the target node, then the source node is deleted.
             </summary>
-            <param name="edge">The edge to be retyped.</param>
-            <param name="newEdgeType">The new type for the edge.</param>
-            <returns>The new edge object representing the retyped edge.</returns>
+            <param name="target">The node which remains after the merge.</param>
+            <param name="source">The node to be merged.</param>
+            <param name="sourceName">The name of the node to be merged (used for debug display of redirected edges).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.RedirectSource(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,System.String)">
+            <summary>
+            Changes the source node of the edge from the old source to the given new source.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newSource">The new source node of the edge.</param>
+            <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.RedirectTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,System.String)">
+            <summary>
+            Changes the target node of the edge from the old target to the given new target.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newTarget">The new target node of the edge.</param>
+            <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.RedirectSourceAndTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String,System.String)">
+            <summary>
+            Changes the source of the edge from the old source to the given new source,
+            and changes the target node of the edge from the old target to the given new target.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newSource">The new source node of the edge.</param>
+            <param name="newTarget">The new target node of the edge.</param>
+            <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+            <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.Mature">
             <summary>
@@ -3489,8 +3561,17 @@
             Specifies the kind of a GrGen attribute.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.ByteAttr">
+            <summary>The attribute is a byte (signed).</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.ShortAttr">
+            <summary>The attribute is a short.</summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.IntegerAttr">
             <summary>The attribute is an integer.</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.LongAttr">
+            <summary>The attribute is a long.</summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.BooleanAttr">
             <summary>The attribute is a boolean.</summary>
@@ -4507,6 +4588,42 @@
             <param name="edge">The edge to be retyped.</param>
             <param name="newEdgeType">The new type for the edge.</param>
             <returns>The new edge object representing the retyped edge.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.Merge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String)">
+            <summary>
+            Merges the source node into the target node,
+            i.e. all edges incident to the source node are redirected to the target node, then the source node is deleted.
+            </summary>
+            <param name="target">The node which remains after the merge.</param>
+            <param name="source">The node to be merged.</param>
+            <param name="sourceName">The name of the node to be merged (used for debug display of redirected edges).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.RedirectSource(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,System.String)">
+            <summary>
+            Changes the source node of the edge from the old source to the given new source.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newSource">The new source node of the edge.</param>
+            <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.RedirectTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,System.String)">
+            <summary>
+            Changes the target node of the edge from the old target to the given new target.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newTarget">The new target node of the edge.</param>
+            <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.RedirectSourceAndTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String,System.String)">
+            <summary>
+            Changes the source of the edge from the old source to the given new source,
+            and changes the target node of the edge from the old target to the given new target.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newSource">The new source node of the edge.</param>
+            <param name="newTarget">The new target node of the edge.</param>
+            <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
+            <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.Mature">
             <summary>
