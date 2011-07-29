@@ -120,7 +120,7 @@ Nicholas Tung
 COPYING
 -------
 
-Copyright (C) 2003-20011 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+Copyright (C) 2003-2011 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
 
 This file is part of GrGen, Version GrGen.NET 3.0
 
