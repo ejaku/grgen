@@ -162,6 +162,7 @@ test onlyOneChildOrAllChildrenHaveExactlyOneCommonChild
 With positive application conditions (keyword \texttt{independent}) we can specify graph patterns which, in contrast to negative application conditions, must be present in the host graph to cause the matching of the enclosing pattern to succeed.
 Together with NACs they share the property of opening a \indexed{scope}, with elements being independent from the surrounding scope (i.e. a host graph element can easily get matched to a pattern element and a PAC element with a different name, unless the pattern element is referenced in the PAC). 
 They are used to improve the logical structure of rules by separating a pure condition from the main pattern of the rule amenable to rewriting.
+They are used when all matches of a pattern are wanted, and a part of that pattern is available in the graph multiple times, but should not cause combinatorically additional matches; then the \texttt{independent} can be used to check only for the existence of that part, limiting the all-matching to the core pattern.
 They are really needed if subpatterns want to match elements which were already matched during the subpattern derivation.
 
 \begin{example}
@@ -1257,3 +1258,4 @@ Maybe you want to lock all elements from the directly enclosing pattern, in this
 Maybe you want to lock all elements from the patterns dynamically containing the NAC/PAC of interest, i.e. all subpattern usages and nesting patterns on the path leading to the NAC/PAC of interest (but not their siblings). In this case you can insert \texttt{patternpath;} in the position of a graphlet into the NAC or PAC. You might be interested in this construct when matching a piecewise constructed pattern, e.g. a chain, which requires to check for another chain (iterated path) which is not allowed to cross (include an element of) the original one.
 
 
+%todo: quick reference table showing a pattern one is interested in and the language construct to capture it (breadth, alternativem, depth, ..)

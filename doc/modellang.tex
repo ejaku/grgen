@@ -272,23 +272,6 @@ Then just do the same, edges are first class citizens.
 \end{note}
 
 %-----------------------------------------------------------------------------------------------
-\subsection{External Attribute Types}\label{sub:extcls}
-\begin{rail}
-  ExternalClassDeclaration: 'class' IdentDecl (() | 'extends' (NodeType+',')) ';';
-\end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{class}\ixkeyw{extends}
-Registers a new attribute type with \GrG. You may declare the base types of the type, but not give attributes. The attribute type must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions can do computations with it. You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs.
-
-%-----------------------------------------------------------------------------------------------
-\subsection{External Function Types}\label{sub:extfct}
-\begin{rail}
-  ExternalFunctionDeclaration: IdentDecl '(' ( () | (Type + ',') ) ')' ':' Type ';';
-\end{rail}\ixnterm{ExternalFunctionDeclaration}
-Registers an \indexed{external function} with \GrG~to be used in attribue computation.
-An external function declaration specifies the expected input types and the output type. The function must be implemented externally, see \ref{sub:extclsfctimpl}.
-An external function call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types; the real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in as well as of the external attribute types.
-You may extend \GrG~with external functions if the built-in attribute computation capabilities (cf. \ref{sub:expr}) are insufficient for your needs.
-
-%-----------------------------------------------------------------------------------------------
 \subsection{Attributes and Attribute Types}
 \label{sct:attrtypes}
 
@@ -316,3 +299,7 @@ y:int = 42;
 \begin{note}
 If you need to mark nodes in the graph, but only very few of them at the same time, think of reflexive edges of a special type. If the marking is sparse, they are the most efficient solution, before attributes, even before visited flags.
 \end{note}
+
+
+
+% todo: graphik die ein beispielmodell zeigt und mit pfeilen die konstrukte benennt

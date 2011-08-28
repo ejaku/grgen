@@ -1,0 +1,67 @@
+\chapter{Extensions}\indexmain{extensions}\label{chapextensions}
+
+things to interact with the external world: attribute types, functions, annotations, command line parameter
+
+
+%-----------------------------------------------------------------------------------------------
+\section{External Attribute Types}\label{sub:extcls}
+\begin{rail}
+  ExternalClassDeclaration: 'class' IdentDecl (() | 'extends' (NodeType+',')) ';';
+\end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{class}\ixkeyw{extends}
+Registers a new attribute type with \GrG. You may declare the base types of the type, but not give attributes. The attribute type must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions can do computations with it. You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs.
+
+%-----------------------------------------------------------------------------------------------
+\section{External Function Types}\label{sub:extfct}
+\begin{rail}
+  ExternalFunctionDeclaration: IdentDecl '(' ( () | (Type + ',') ) ')' ':' Type ';';
+\end{rail}\ixnterm{ExternalFunctionDeclaration}
+Registers an \indexed{external function} with \GrG~to be used in attribue computation.
+An external function declaration specifies the expected input types and the output type. The function must be implemented externally, see \ref{sub:extclsfctimpl}.
+An external function call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types; the real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in as well as of the external attribute types.
+You may extend \GrG~with external functions if the built-in attribute computation capabilities (cf. \ref{sub:expr}) are insufficient for your needs.
+
+%-----------------------------------------------------------------------------------------------
+\section{Shell Commands}
+\label{shell commands}
+
+\noindent The \texttt{GrGen.exe} assembly implements the \GrG\ generator.
+The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies.
+The compiled assemblies form a specific graph rewriting system together with the \GrG\ backend.
+
+\texttt{[mono] GrGen.exe } \texttt{[-keep [<dest-dir>]] [-debug]} \texttt{[-r <assembly-path>]}
+\texttt{-r} & Link the assembly \emph{assembly-path} as reference to the compilation result.
+
+\begin{rail}
+  'new' 'add' 'reference' Filename
+\end{rail}\ixkeyw{new}\ixkeyw{add}\ixkeyw{reference}
+Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+
+\begin{rail}
+  'new' 'set' 'keepdebug' ('on'|'off')
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{on}\ixkeyw{off}
+Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols, maps to the \texttt{-keep} and the \texttt{-debug} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Annotations}\indexmain{annotation}
+\label{annotations}
+
+Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotation}s. Annotations are key-value pairs.
+\begin{rail}
+  IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
+\end{rail}\ixnterm{IdentDecl}
+Although you can use any key-value pairs between the brackets, only the identifier \indexed{prio} has an effect so far.
+You may use the annotations to transmit information from the specification files to API level where they can be enumerated.
+\begin{table}[htbp]
+\begin{tabularx}{\linewidth}{|lllX|} \hline
+  \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline
+  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for \indexed{search plan}s. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\ \hline
+\end{tabularx}
+\caption{Annotations}
+\label{tabannotations}
+\end{table}
+\begin{example}
+We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
+\end{example}
+
+% todo: The maybeDeleted by Sebastian?
