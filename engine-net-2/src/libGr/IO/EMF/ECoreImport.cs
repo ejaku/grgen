@@ -789,7 +789,8 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     int val;
                     if (!Int32.TryParse(attrval, out val))
-                        throw new Exception("Attribute \"" + attrname + "\" must be an int!");
+                        val = Int32.MinValue; // bullshit hack to be able to import TTC reengineering case XMI/ecore; if you really want to use XMI/ecore you maybe want to exchange the un/commented parts
+                        //throw new Exception("Attribute \"" + attrname + "\" must be an int!");
                     value = val;
                     break;
                 }
