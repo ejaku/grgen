@@ -938,6 +938,7 @@ Alternatives and iterateds named this way can then be referenced in the rewrite 
 \end{rail}
 
 What we've seen so far is applied in the following example.
+A \texttt{yield} prefix is needed whenever a \texttt{def} variable is written to (as  assignment target as well as a subpattern output argument). 
 
 \begin{example}
   \begin{grgen}
@@ -949,16 +950,16 @@ rule R {
 
   modify {
     def var i:int = 0; // initializes i to 0
-    evalhere { i = i + 1; } // afterwards i==1
+    evalhere { yield i = i + 1; } // afterwards i==1
     sub1(i); // input 1 to subpattern rewrite
-    evalhere { i = i + 1; } // afterwards i==2
+    evalhere { yield i = i + 1; } // afterwards i==2
     iterated foo; // nested iterated reads i==2 
-    evalhere { i = i + 1; } // afterwards i==3
+    evalhere { yield i = i + 1; } // afterwards i==3
     alternative bar; // nested alternative reads i==3
-    evalhere { i = i + 1; } // afterwards i==4
+    evalhere { yield i = i + 1; } // afterwards i==4
     sub2(i); // input 4 to subpattern rewrite
-    evalhere { i = i + 1; } // afterwards i==5
-    eval { j = i + 1; } // assign 6 to j
+    evalhere { yield i = i + 1; } // afterwards i==5
+    eval { yield j = i + 1; } // assign 6 to j
   }
 }
   \end{grgen}
