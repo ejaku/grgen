@@ -3216,12 +3216,41 @@ namespace de.unika.ipd.grGen.grShell
 
             if(!CheckDebuggerAlive())
             {
-                optMap[optionName] = optionValue;       // remember option for debugger startup
+                optMap[optionName] = optionValue; // remember option for debugger startup
+                ChangeOrientationIfNecessary(optionName, optionValue);
                 return;
             }
 
-            if(debugger.SetLayoutOption(optionName, optionValue))
-                optMap[optionName] = optionValue;       // only remember option if no error was reported
+            if(debugger.SetLayoutOption(optionName, optionValue)) // only remember option if no error was reported
+            {
+                optMap[optionName] = optionValue;
+                ChangeOrientationIfNecessary(optionName, optionValue);
+            }
+        }
+
+        void ChangeOrientationIfNecessary(String optionName, string optionValue)
+        {
+            if(optionName.ToLower() != "orientation")
+                return;
+
+            switch(optionValue.ToLower())
+            {
+            case "top_to_bottom":
+                curShellGraph.VcgFlags = curShellGraph.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientTopToBottom;
+                break;
+            case "bottom_to_top":
+                curShellGraph.VcgFlags = curShellGraph.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientBottomToTop;
+                break;
+            case "left_to_right":
+                curShellGraph.VcgFlags = curShellGraph.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientLeftToRight;
+                break;
+            case "right_to_left":
+                curShellGraph.VcgFlags = curShellGraph.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientRightToLeft;
+                break;
+            default:
+                Debug.Assert(false, "Unknown orientation: " + optionValue);
+                break;
+            }
         }
 
         public object Askfor(String typeName)
