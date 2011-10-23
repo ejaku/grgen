@@ -834,5 +834,14 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="dumper">The graph dumper to be used.</param>
         void Dump(IDumper dumper);
+
+        /// <summary>
+        /// Returns whether this graph is isomorph to that graph
+        /// Each graph must be either unanalyzed or unchanged since the last analyze,
+        /// otherwise results will be wrong!
+        /// </summary>
+        /// <param name="that">The other graph we check for isomorphy against</param>
+        /// <returns>true if that is isomorph to this, false otherwise</returns>
+        bool IsIsomorph(IGraph that);
     }
 }

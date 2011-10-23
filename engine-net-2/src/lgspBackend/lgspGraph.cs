@@ -66,11 +66,12 @@ namespace de.unika.ipd.grGen.lgsp
             set { reuseOptimization = value; }
         }
 
+
 #if MONO_MULTIDIMARRAY_WORKAROUND
         public int dim0size, dim1size, dim2size;  // dim3size is always 2
-        public float[] vstructs;
+        public int[] vstructs;
 #else
-        public float[, , ,] vstructs;
+        public int[, , ,] vstructs;
 #endif
 
         /// <summary>
@@ -103,6 +104,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public float[] meanInDegree;
 
+
         /// <summary>
         /// An array containing one head of a doubly-linked ring-list for each node type indexed by the type ID.
         /// </summary>
@@ -123,6 +125,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public int[] edgesByTypeCounts;
 
+        
         public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> atNegLevelMatchedElements;
         public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> atNegLevelMatchedElementsGlobal;
 
@@ -232,10 +235,10 @@ namespace de.unika.ipd.grGen.lgsp
             dim1size = dataSource.dim1size;
             dim2size = dataSource.dim2size;
             if(dataSource.vstructs != null)
-                vstructs = (float[]) dataSource.vstructs.Clone();
+                vstructs = (int[]) dataSource.vstructs.Clone();
 #else
             if(dataSource.vstructs != null)
-                vstructs = (float[ , , , ]) dataSource.vstructs.Clone();
+                vstructs = (int[ , , , ]) dataSource.vstructs.Clone();
 #endif
             if(dataSource.nodeCounts != null)
                 nodeCounts = (int[]) dataSource.nodeCounts.Clone();
@@ -2023,9 +2026,9 @@ namespace de.unika.ipd.grGen.lgsp
             dim0size = numNodeTypes;
             dim1size = numEdgeTypes;
             dim2size = numNodeTypes;
-            vstructs = new float[numNodeTypes * numEdgeTypes * numNodeTypes * 2];
+            vstructs = new int[numNodeTypes * numEdgeTypes * numNodeTypes * 2];
 #else
-            vstructs = new float[numNodeTypes, numEdgeTypes, numNodeTypes, 2];
+            vstructs = new int[numNodeTypes, numEdgeTypes, numNodeTypes, 2];
 #endif
             nodeCounts = new int[numNodeTypes];
             edgeCounts = new int[numEdgeTypes];
@@ -2138,8 +2141,8 @@ namespace de.unika.ipd.grGen.lgsp
                                     int targetSuperTypeID = targetSuperType.TypeID;
                                     if(outgoingVCount[edgeSuperTypeID, targetSuperTypeID] > 0)
                                     {
-//                                        float val = (float) Math.Log(outgoingVCount[edgeSuperTypeID, targetSuperTypeID]);     // > 1 im if
-                                        float val = outgoingVCount[edgeSuperTypeID, targetSuperTypeID];
+//                                        int val = (float) Math.Log(outgoingVCount[edgeSuperTypeID, targetSuperTypeID]);     // > 1 im if
+                                        int val = outgoingVCount[edgeSuperTypeID, targetSuperTypeID];
                                         foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
                                         {
 #if MONO_MULTIDIMARRAY_WORKAROUND
@@ -2174,8 +2177,8 @@ namespace de.unika.ipd.grGen.lgsp
                                     int sourceSuperTypeID = sourceSuperType.TypeID;
                                     if(incomingVCount[edgeSuperTypeID, sourceSuperTypeID] > 0)
                                     {
-//                                        float val = (float) Math.Log(incomingVCount[edgeSuperTypeID, sourceSuperTypeID]);     // > 1 im if
-                                        float val = incomingVCount[edgeSuperTypeID, sourceSuperTypeID];
+//                                        int val = (float) Math.Log(incomingVCount[edgeSuperTypeID, sourceSuperTypeID]);     // > 1 im if
+                                        int val = incomingVCount[edgeSuperTypeID, sourceSuperTypeID];
                                         foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
 #if MONO_MULTIDIMARRAY_WORKAROUND
                                             vstructs[((nodeSuperType.TypeID * dim1size + edgeSuperTypeID) * dim2size + sourceSuperTypeID) * 2
@@ -2507,6 +2510,91 @@ invalidCommand:
         public override IGraph Clone(String newName)
         {
             return new LGSPGraph(this, newName);
+        }
+
+        /// <summary>
+        /// Returns whether this graph is isomorph to that graph
+        /// Each graph must be either unanalyzed or unchanged since the last analyze,
+        /// otherwise results will be wrong!
+        /// </summary>
+        /// <param name="that">The other graph we check for isomorphy against</param>
+        /// <returns>true if that is isomorph to this, false otherwise</returns>
+        public override bool IsIsomorph(IGraph that)
+        {
+            // compare number of elements per type
+            for(int i = 0; i < nodesByTypeCounts.Length; ++i)
+                if(nodesByTypeCounts[i] != ((LGSPGraph)that).nodesByTypeCounts[i])
+                    return false;
+            for(int i = 0; i < edgesByTypeCounts.Length; ++i)
+                if(edgesByTypeCounts[i] != ((LGSPGraph)that).edgesByTypeCounts[i])
+                    return false;
+
+            // ensure graphs are analyzed
+            if(vstructs == null)
+                AnalyzeGraph();
+            if(((LGSPGraph)that).vstructs == null)
+                ((LGSPGraph)that).AnalyzeGraph();
+
+            // compare analyze statistics
+            int numNodeTypes = Model.NodeModel.Types.Length;
+            int numEdgeTypes = Model.EdgeModel.Types.Length;
+            for(int sourceType = 0; sourceType < numNodeTypes; ++sourceType)
+            {
+                for(int edgeType = 0; edgeType < numEdgeTypes; ++edgeType)
+                {
+                    for(int targetType = 0; targetType < numNodeTypes; ++targetType)
+                    {
+                        for(int direction = 0; direction < 2; ++direction)
+                        {
+#if MONO_MULTIDIMARRAY_WORKAROUND
+                            int vthis = vstructs[((sourceType * dim1size + edgeType) * dim2size + targetType) * 2 + direction];
+                            int vthat = ((LGSPGraph)that).vstructs[((sourceType * dim1size + edgeType) * dim2size + targetType) * 2 + direction];
+#else
+                            int vthis = vstructs[sourceType, edgeType, targetType, direction];
+                            int vthat = ((LGSPGraph)that).vstructs[sourceType, edgeType, targetType, direction];
+#endif
+                            if(Model.EdgeModel.Types[edgeType].Directedness != Directedness.Directed)
+                            {
+                                // for not directed edges the direction information is meaningless, even worse: random, so we must merge before comparing
+#if MONO_MULTIDIMARRAY_WORKAROUND
+                                vthis += vstructs[((targetType * dim1size + edgeType) * dim2size + sourceType) * 2 + 1];
+                                vthat += ((LGSPGraph)that).vstructs[((targetType * dim1size + edgeType) * dim2size + sourceType) * 2 + 1];
+#else
+                                vthis += vstructs[targetType, edgeType, sourceType, 1];
+                                vthat += ((LGSPGraph)that).vstructs[targetType, edgeType, sourceType, 1];
+#endif
+                                if(vthis != vthat)
+                                    return false;
+
+                                continue;
+                            }
+                            else
+                            {
+                                if(vthis != vthat)
+                                    return false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // they were the same? then we must try to match that in this
+            // for this we build an interpretation plan out of the graph
+            LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(this.model);
+            PatternGraph patternGraph = matcherGen.BuildPatternGraph((LGSPGraph)that);
+            PlanGraph planGraph = matcherGen.GeneratePlanGraph(this, patternGraph, false, false);
+            matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
+            SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
+            ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
+                searchPlanGraph, patternGraph, false);
+            InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan);
+            InterpretationPlan interpretationPlan = builder.BuildInterpretationPlan();
+            
+            // and execute the interpretation plan, matching that in this
+            // that's sufficient for isomorphy because 
+            // - element numbers are the same 
+            // - we match only exact types
+            return interpretationPlan.Execute(this);
         }
     }
 }
