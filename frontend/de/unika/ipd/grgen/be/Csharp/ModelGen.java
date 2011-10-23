@@ -1004,7 +1004,7 @@ array_init_loop:
 		sb.append("\t\t\tthrow new NullReferenceException(\n");
 		sb.append("\t\t\t\t\"The " + (type instanceof NodeType ? "node" : "edge")
 				+ " type \\\"" + formatIdentifiable(type)
-				+ "\\\" does not have the attribute \\\" + attrName + \\\"\\\"!\");\n");
+				+ "\\\" does not have the attribute \\\"\" + attrName + \"\\\"!\");\n");
 		sb.append("\t\t}\n");
 
 		// set attribute by name
@@ -1031,7 +1031,7 @@ array_init_loop:
 		sb.append("\t\t\tthrow new NullReferenceException(\n");
 		sb.append("\t\t\t\t\"The " + (type instanceof NodeType ? "node" : "edge")
 				+ " type \\\"" + formatIdentifiable(type)
-				+ "\\\" does not have the attribute \\\" + attrName + \\\"\\\"!\");\n");
+				+ "\\\" does not have the attribute \\\"\" + attrName + \"\\\"!\");\n");
 		sb.append("\t\t}\n");
 
 		// reset all attributes
