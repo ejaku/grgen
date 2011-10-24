@@ -61,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Expression.cs" />
+    <Compile Include="InterpretationPlan.cs" />
+    <Compile Include="InterpretationPlanBuilder.cs" />
     <Compile Include="lgspDeferredSequencesManager.cs" />
     <Compile Include="lgspGrGen.cs" />
     <Compile Include="lgspActions.cs" />

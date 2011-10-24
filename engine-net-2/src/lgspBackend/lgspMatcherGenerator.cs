@@ -67,6 +67,92 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Builds a pattern graph out of the graph.
+        /// </summary>
+        /// <param name="graph">The graph which is to be transfered into a pattern</param>
+        /// <returns></returns>
+        public PatternGraph BuildPatternGraph(LGSPGraph graph)
+        {
+            int numNodes = graph.NumNodes;
+            int numEdges = graph.NumEdges;
+
+            int count = 0;
+            PatternNode[] nodes = new PatternNode[numNodes];
+            foreach(INode node in graph.Nodes)
+            {
+                LGSPNode n = (LGSPNode)node;
+                nodes[count] = new PatternNode(
+                    n.Type.TypeID, n.Type.Name,
+                    graph.Name+"_node_"+count, "node_"+count,
+                    null, null,
+                    1.0f, -1, false,
+                    null, null, null, null, 
+                    null, false
+                );
+                ++count;
+            }
+
+            count = 0;
+            PatternEdge[] edges = new PatternEdge[numEdges];
+            foreach(IEdge edge in graph.Edges)
+            {
+                LGSPEdge e = (LGSPEdge)edge;
+                edges[count] = new PatternEdge(
+                    true,
+                    e.Type.TypeID, e.Type.Name,
+                    graph.Name+"_edge_"+count, "edge_"+count,
+                    null, null,
+                    1.0f, -1, false,
+                    null, null, null, null, 
+                    null, false
+                );
+                ++count;
+            }
+
+            bool[,] homNodes = new bool[numNodes, numNodes];
+            for(int i = 0; i < numNodes; ++i)
+                for(int j = 0; j < numNodes; ++j)
+                    homNodes[i, j] = false;
+
+            bool[,] homEdges = new bool[numEdges, numEdges];
+            for(int i = 0; i < numEdges; ++i)
+                for(int j = 0; j < numEdges; ++j)
+                    homEdges[i, j] = false;
+            
+            bool[,] homNodesGlobal = new bool[numNodes, numNodes];
+            for(int i = 0; i < numNodes; ++i)
+                for(int j = 0; j < numNodes; ++j)
+                    homNodesGlobal[i, j] = false;
+
+            bool[,] homEdgesGlobal = new bool[numEdges, numEdges];
+            for(int i = 0; i < numEdges; ++i)
+                for(int j = 0; j < numEdges; ++j)
+                    homEdgesGlobal[i, j] = false;
+
+            bool[] totallyHomNodes = new bool[numNodes];
+            for(int i = 0; i < numNodes; ++i)
+                totallyHomNodes[i] = false;
+
+            bool[] totallyHomEdges = new bool[numEdges];
+            for(int i = 0; i < numEdges; ++i)
+                totallyHomEdges[i] = false;
+
+            PatternGraph patternGraph = new PatternGraph(
+                graph.Name, "",
+                false, false,
+                nodes, edges, new PatternVariable[0],
+                new PatternGraphEmbedding[0], new Alternative[0], new Iterated[0],
+                new PatternGraph[0], new PatternGraph[0],
+                new PatternCondition[0], new PatternYielding[0],
+                homNodes, homEdges,
+                homNodesGlobal, homEdgesGlobal,
+                totallyHomNodes, totallyHomEdges
+            );
+
+            return patternGraph;
+        }
+
+        /// <summary>
         /// Generate plan graph for given pattern graph with costs from the analyzed host graph.
         /// Plan graph contains nodes representing the pattern elements (nodes and edges)
         /// and edges representing the matching operations to get the elements by.

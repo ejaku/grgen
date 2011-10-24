@@ -73,6 +73,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         public SearchPlanNodeNode(PlanNodeType nodeType, int elemID, bool isPreset, PatternElement patternElem)
             : base(nodeType, elemID, isPreset, patternElem) { }
+
+        /////////////////////////////////////////////////////////////////////////////////////
+        // helper stuff for building the interpretation plan for the interpreted matcher
+
+        /// <summary>
+        /// the node matcher interpretation plan operation created for this node
+        /// </summary>
+        public InterpretationPlanNodeMatcher nodeMatcher;
     }
 
     /// <summary>
@@ -101,6 +109,19 @@ namespace de.unika.ipd.grGen.lgsp
             PatternEdgeTarget = patEdgeTgt;
         }
 
+        /////////////////////////////////////////////////////////////////////////////////////
+        // helper stuff for building the interpretation plan for the interpreted matcher
+
+        /// <summary>
+        /// the edge matcher interpretation plan operation created for this edge
+        /// </summary>
+        public InterpretationPlanEdgeMatcher edgeMatcher;
+
+        /// <summary>
+        /// the direction variable interpretation plan operation created for this edge
+        /// in case this is an edge to be matched bidirectionally in the graph
+        /// </summary>
+        public InterpretationPlanDirectionVariable directionVariable;
     }
 
     /// <summary>
