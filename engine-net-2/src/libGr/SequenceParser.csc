@@ -593,17 +593,17 @@ Sequence RewriteSequence():
 		LOOKAHEAD(3)
 		(
 			LOOKAHEAD(3)
-			("$" { random = true; } ("%" { choice = true; })?)? "<;" seq2=RewriteSequence()
+			("$" { random = true; } ("%" { choice = true; })?)? "<;" seq2=RewriteSequenceLazyOr()
 			{
 				seq = new SequenceThenLeft(seq, seq2, random, choice);
 			}
 		|
-			("$" { random = true; } ("%" { choice = true; })?)? ";>" seq2=RewriteSequence()
+			("$" { random = true; } ("%" { choice = true; })?)? ";>" seq2=RewriteSequenceLazyOr()
 			{
 				seq = new SequenceThenRight(seq, seq2, random, choice);
 			}
 		)
-	)?
+	)*
 	{
 		return seq;
 	}
@@ -618,11 +618,11 @@ Sequence RewriteSequenceLazyOr():
 	seq=RewriteSequenceLazyAnd()
 	(
 		LOOKAHEAD(3)
-		("$" { random = true; } ("%" { choice = true; })?)? "||" seq2=RewriteSequenceLazyOr()
+		("$" { random = true; } ("%" { choice = true; })?)? "||" seq2=RewriteSequenceLazyAnd()
 		{
 			seq = new SequenceLazyOr(seq, seq2, random, choice);
 		}
-	)?
+	)*
 	{
 		return seq;
 	}
@@ -637,11 +637,11 @@ Sequence RewriteSequenceLazyAnd():
 	seq=RewriteSequenceStrictOr()
 	(
 		LOOKAHEAD(3)
-		("$" { random = true; } ("%" { choice = true; })?)? "&&" seq2=RewriteSequenceLazyAnd()
+		("$" { random = true; } ("%" { choice = true; })?)? "&&" seq2=RewriteSequenceStrictOr()
 		{
 			seq = new SequenceLazyAnd(seq, seq2, random, choice);
 		}
-	)?
+	)*
 	{
 		return seq;
 	}
@@ -656,11 +656,11 @@ Sequence RewriteSequenceStrictOr():
 	seq=RewriteSequenceStrictXor()
 	(
 		LOOKAHEAD(3)
-		("$" { random = true; } ("%" { choice = true; })?)? "|" seq2=RewriteSequenceStrictOr()
+		("$" { random = true; } ("%" { choice = true; })?)? "|" seq2=RewriteSequenceStrictXor()
 		{
 			seq = new SequenceStrictOr(seq, seq2, random, choice);
 		}
-	)?
+	)*
 	{
 		return seq;
 	}
@@ -675,11 +675,11 @@ Sequence RewriteSequenceStrictXor():
 	seq=RewriteSequenceStrictAnd()
 	(
 		LOOKAHEAD(3)
-		("$" { random = true; } ("%" { choice = true; })?)? "^" seq2=RewriteSequenceStrictXor()
+		("$" { random = true; } ("%" { choice = true; })?)? "^" seq2=RewriteSequenceStrictAnd()
 		{
 			seq = new SequenceXor(seq, seq2, random, choice);
 		}
-	)?
+	)*
 	{
 		return seq;
 	}
@@ -694,11 +694,11 @@ Sequence RewriteSequenceStrictAnd():
 	seq=RewriteSequenceNeg()
 	(
 		LOOKAHEAD(3)
-		("$" { random = true; } ("%" { choice = true; })?)? "&" seq2=RewriteSequenceStrictAnd()
+		("$" { random = true; } ("%" { choice = true; })?)? "&" seq2=RewriteSequenceNeg()
 		{
 			seq = new SequenceStrictAnd(seq, seq2, random, choice);
 		}
-	)?
+	)*
 	{
 		return seq;
 	}
