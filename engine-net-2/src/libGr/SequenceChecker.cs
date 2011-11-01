@@ -156,23 +156,15 @@ namespace de.unika.ipd.grGen.libGr
                 break;
             }
 
-            case SequenceType.Def:
-            case SequenceType.True:
-            case SequenceType.False:
-            case SequenceType.VarPredicate:
-            case SequenceType.AssignVarToVar:
+            case SequenceType.AssignExprToVar:
+                break; // could check expression
+            case SequenceType.BooleanExpression:
+                break; // could check expression
+
             case SequenceType.AssignUserInputToVar:
             case SequenceType.AssignRandomToVar:
-            case SequenceType.AssignConstToVar:
-            case SequenceType.AssignAttributeToVar:
-            case SequenceType.AssignVarToAttribute:
-            case SequenceType.AssignElemToVar:
-            case SequenceType.AssignVAllocToVar:
-            case SequenceType.AssignContainerSizeToVar:
-            case SequenceType.AssignContainerEmptyToVar:
-            case SequenceType.AssignContainerAccessToVar:
-            case SequenceType.AssignVarToIndexedVar:
-            case SequenceType.IsVisited:
+            case SequenceType.AssignExprToAttribute:
+            case SequenceType.AssignExprToIndexedVar:
             case SequenceType.SetVisited:
             case SequenceType.VFree:
             case SequenceType.VReset:
@@ -181,13 +173,40 @@ namespace de.unika.ipd.grGen.libGr
             case SequenceType.ContainerAdd:
             case SequenceType.ContainerRem:
             case SequenceType.ContainerClear:
-            case SequenceType.InContainer:
                 // Nothing to be done here
                 // TODO: type checks as in lgsp sequence checker, even more possible as we got all the information
                 break;
 
             default:
                 throw new Exception("Unknown sequence type: " + seq.SequenceType);
+            }
+        }
+
+        /// <summary>
+        /// Checks the given sequence expression for errors
+        /// reports them by exception
+        /// </summary>
+        public void Check(SequenceExpression seq)
+        {
+            switch(seq.SequenceExpressionType)
+            {
+            case SequenceExpressionType.Def:
+            case SequenceExpressionType.True:
+            case SequenceExpressionType.False:
+            case SequenceExpressionType.Variable:
+            case SequenceExpressionType.Constant:
+            case SequenceExpressionType.GraphElementAttribute:
+            case SequenceExpressionType.ElementFromGraph:
+            case SequenceExpressionType.VAlloc:
+            case SequenceExpressionType.ContainerSize:
+            case SequenceExpressionType.ContainerEmpty:
+            case SequenceExpressionType.ContainerAccess:
+            case SequenceExpressionType.IsVisited:
+            case SequenceExpressionType.InContainer:
+                // Nothing to be done here
+                break;
+            default:
+                throw new Exception("Unknown sequence expression type: " + seq.SequenceExpressionType);
             }
         }
     }

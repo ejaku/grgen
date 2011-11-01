@@ -796,34 +796,34 @@ Sequence SimpleSequence():
     (
 	    "valloc" "(" ")"
 		{
-			return new SequenceAssignVAllocToVar(toVar);
+			return new SequenceAssignExprToVar(toVar, new SequenceExpressionVAlloc());
 		}
 	|
 		LOOKAHEAD(3) fromVar=VariableUse() "." "visited" "[" fromVar2=VariableUse() "]"
         {
-			return new SequenceAssignSequenceResultToVar(toVar, new SequenceIsVisited(fromVar, fromVar2));
+			return new SequenceAssignExprToVar(toVar, new SequenceExpressionIsVisited(fromVar, fromVar2));
         }
 	|
         LOOKAHEAD(4) fromVar=VariableUse() "." method=Word() "(" ")"
 		{
-			if(method=="size") return new SequenceAssignContainerSizeToVar(toVar, fromVar);
-			else if(method=="empty") return new SequenceAssignContainerEmptyToVar(toVar, fromVar);
+			if(method=="size") return new SequenceAssignExprToVar(toVar, new SequenceExpressionContainerSize(fromVar));
+			else if(method=="empty") return new SequenceAssignExprToVar(toVar, new SequenceExpressionContainerEmpty(fromVar));
 			else throw new ParseException("Unknown method name: \"" + method + "\"! (available are size|empty on set/map)");
 		}
 	|
         LOOKAHEAD(2) fromVar=VariableUse() "." attrName=Word()
         {
-            return new SequenceAssignAttributeToVar(toVar, fromVar, attrName);
+            return new SequenceAssignExprToVar(toVar, new SequenceExpressionAttribute(fromVar, attrName));
         }
 	|
 		LOOKAHEAD(2) fromVar=VariableUse() "[" fromVar2=VariableUse() "]" // parsing v=a[ as v=a[x] has priority over (v=a)[*]
 		{
-			return new SequenceAssignContainerAccessToVar(toVar, fromVar, fromVar2);
+			return new SequenceAssignExprToVar(toVar, new SequenceExpressionContainerAccess(fromVar, fromVar2));
 		}
 	|
 		LOOKAHEAD(2) fromVar=VariableUse() "in" fromVar2=VariableUse()
 		{
-			return new SequenceAssignSequenceResultToVar(toVar, new SequenceIn(fromVar, fromVar2));
+			return new SequenceAssignExprToVar(toVar, new SequenceExpressionInContainer(fromVar, fromVar2));
 		}
 	|
         LOOKAHEAD(2) fromVar=VariableUse() "(" // deliver understandable error message for case of missing parenthesis at rule result assignment
@@ -833,17 +833,17 @@ Sequence SimpleSequence():
 	|
 		LOOKAHEAD(2) constant=Constant()
 		{
-			return new SequenceAssignConstToVar(toVar, constant);
+			return new SequenceAssignExprToVar(toVar, new SequenceExpressionConstant(constant));
 		}
     |
 		fromVar=VariableUse()
         {
-            return new SequenceAssignVarToVar(toVar, fromVar);
+            return new SequenceAssignExprToVar(toVar, new SequenceExpressionVariable(fromVar));
         }
     |
         "@" "(" elemName=Text() ")"
         {
-            return new SequenceAssignElemToVar(toVar, elemName);
+            return new SequenceAssignExprToVar(toVar, new SequenceExpressionElementFromGraph(elemName));
         }
     |
         LOOKAHEAD(4) "$" "%" "(" str=Text() ")"
@@ -858,7 +858,7 @@ Sequence SimpleSequence():
 	|
 		"def" "(" Parameters(variableList1) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
 		{
-			return new SequenceAssignSequenceResultToVar(toVar, new SequenceDef(variableList1.ToArray()));
+			return new SequenceAssignExprToVar(toVar, new SequenceExpressionDef(variableList1.ToArray()));
 		}
 	|
 		"(" seq=RewriteSequence() ")"
@@ -878,7 +878,7 @@ Sequence SimpleSequence():
 |
 	LOOKAHEAD(3) fromVar=VariableUse() "." "visited" "[" fromVar2=VariableUse() "]"
 	{
-		return new SequenceIsVisited(fromVar, fromVar2);
+		return new SequenceBooleanExpression(new SequenceExpressionIsVisited(fromVar, fromVar2), false);
 	}
 |
 	"vfree" "(" fromVar=VariableUse() ")"
@@ -903,7 +903,7 @@ Sequence SimpleSequence():
 |
 	LOOKAHEAD(4) toVar=VariableUse() "." attrName=Word() "=" fromVar=VariableUse()
     {
-        return new SequenceAssignVarToAttribute(toVar, attrName, fromVar);
+        return new SequenceAssignExprToAttribute(toVar, attrName, new SequenceExpressionVariable(fromVar));
     }
 |
 	LOOKAHEAD(2) fromVar=VariableUse() "." method=Word() "(" ( fromVar2=VariableUse() ("," fromVar3=VariableUse())? )? ")"
@@ -924,7 +924,7 @@ Sequence SimpleSequence():
 |
 	LOOKAHEAD(2) fromVar=VariableUse() "in" fromVar2=VariableUse()
 	{
-		return new SequenceIn(fromVar, fromVar2);
+		return new SequenceBooleanExpression(new SequenceExpressionInContainer(fromVar, fromVar2), false);
 	}
 |
 	LOOKAHEAD(RuleLookahead()) seq=Rule()
@@ -934,22 +934,22 @@ Sequence SimpleSequence():
 |
 	toVar=VariableUse() "[" fromVar=VariableUse() "]" "=" fromVar2=VariableUse()
 	{
-		return new SequenceAssignVarToIndexedVar(toVar, fromVar, fromVar2);
+		return new SequenceAssignExprToIndexedVar(toVar, fromVar, new SequenceExpressionVariable(fromVar2));
 	}
 |
 	"def" "(" Parameters(variableList1) ")"
 	{
-		return new SequenceDef(variableList1.ToArray());
+		return new SequenceBooleanExpression(new SequenceExpressionDef(variableList1.ToArray()), false);
 	}
 |
     LOOKAHEAD(2) ("%" { special = true; })? "true"
     {
-        return new SequenceTrue(special);
+        return new SequenceBooleanExpression(new SequenceExpressionTrue(), special);
     }
 |
     LOOKAHEAD(2) ("%" { special = true; })? "false"
     {
-        return new SequenceFalse(special);
+        return new SequenceBooleanExpression(new SequenceExpressionFalse(), special);
     }
 |
 	LOOKAHEAD(4) "$" ("%" { choice = true; } )?
@@ -1013,7 +1013,7 @@ Sequence SimpleSequence():
 |
 	"yield" toVar=VariableUse() "=" fromVar=VariableUse()
 	{
-		return new SequenceYield(toVar, fromVar);
+		return new SequenceYieldingAssignExprToVar(toVar, new SequenceExpressionVariable(fromVar));
 	}
 }
 
@@ -1068,7 +1068,7 @@ Sequence Rule():
 				{
 					if(var.Type!="" && var.Type!="boolean")
 						throw new SequenceParserException(str, "untyped or bool", var.Type);
-					return new SequenceVarPredicate(var, special);
+					return new SequenceBooleanExpression(new SequenceExpressionVariable(var), special);
 				}
 			}
 

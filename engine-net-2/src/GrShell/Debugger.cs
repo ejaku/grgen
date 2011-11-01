@@ -1081,9 +1081,7 @@ namespace de.unika.ipd.grGen.grShell
                 case SequenceType.SequenceCall:
                 case SequenceType.RuleCall:
                 case SequenceType.RuleAllCall:
-                case SequenceType.True:
-                case SequenceType.False:
-                case SequenceType.VarPredicate:
+                case SequenceType.BooleanExpression:
                 {
                     if(context.bpPosCounter >= 0)
                     {
@@ -1169,24 +1167,14 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 // Atoms (assignments and queries)
-                case SequenceType.Def:
-                case SequenceType.AssignVarToVar:
-                case SequenceType.AssignConstToVar:
-                case SequenceType.AssignAttributeToVar:
-                case SequenceType.AssignVarToAttribute:
-                case SequenceType.AssignElemToVar:
-                case SequenceType.AssignVAllocToVar:
-                case SequenceType.AssignContainerSizeToVar:
-                case SequenceType.AssignContainerEmptyToVar:
-                case SequenceType.AssignContainerAccessToVar:
-                case SequenceType.IsVisited:
+                case SequenceType.AssignExprToVar:
+                case SequenceType.AssignExprToAttribute:
                 case SequenceType.SetVisited:
                 case SequenceType.VFree:
                 case SequenceType.VReset:
                 case SequenceType.ContainerAdd:
                 case SequenceType.ContainerRem:
                 case SequenceType.ContainerClear:
-                case SequenceType.InContainer:
                 case SequenceType.Emit:
                 case SequenceType.Record:
                 {
@@ -1594,8 +1582,7 @@ namespace de.unika.ipd.grGen.grShell
             // Breakpoint reached?
             bool breakpointReached = false;
             if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
-                || seq.SequenceType == SequenceType.True || seq.SequenceType == SequenceType.False
-                || seq.SequenceType == SequenceType.VarPredicate || seq.SequenceType == SequenceType.SequenceCall)
+                || seq.SequenceType == SequenceType.BooleanExpression || seq.SequenceType == SequenceType.SequenceCall)
                     && ((SequenceSpecial)seq).Special)
             {
                 stepMode = true;

@@ -15,6 +15,10 @@ using System.IO;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    // todo: semantic changed, communicate: container access out of bounds yield runtime crash instead of sequence application result false
+    // todo: adapt parser to parse expression, currently no changes of input language
+    // todo: add type checking, merge the checks of interpreted and compiled sequences
+
     /// <summary>
     /// Specifies the actual subtype used for a Sequence.
     /// A new sequence type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator,
@@ -23,19 +27,36 @@ namespace de.unika.ipd.grGen.libGr
     public enum SequenceType
     {
         ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not,
+        LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll, SomeFromSet,
+        IfThenElse, IfThen, For,
+        Transaction, Backtrack,
         IterationMin, IterationMinMax,
-        RuleCall, RuleAllCall, Def, Yield, True, False, VarPredicate,
-        AssignVAllocToVar, AssignContainerSizeToVar, AssignContainerEmptyToVar,
-        AssignContainerAccessToVar, AssignVarToIndexedVar,
-        AssignVarToVar, AssignElemToVar,
+        RuleCall, RuleAllCall,
+        AssignExprToVar, YieldingAssignExprToVar, AssignExprToIndexedVar, AssignExprToAttribute,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
         AssignUserInputToVar, AssignRandomToVar,
-        AssignConstToVar, AssignAttributeToVar, AssignVarToAttribute,
-        IsVisited, SetVisited, VFree, VReset, Emit, Record,
-        ContainerAdd, ContainerRem, ContainerClear, InContainer,
-        LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll, SomeFromSet,
-        Transaction, Backtrack, IfThenElse, IfThen, For,
-        SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall
+        SetVisited, VFree, VReset,
+        Emit, Record,
+        ContainerAdd, ContainerRem, ContainerClear,
+        SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
+        BooleanExpression
+    }
+
+    /// <summary>
+    /// Specifies the actual subtype of an expression part of a Sequence atom.
+    /// A new expression type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator,
+    /// SequenceChecker and Sequence (add the corresponding class down below)
+    /// </summary>
+    public enum SequenceExpressionType
+    {
+        True, False, Constant, 
+        Variable,
+        Def,
+        IsVisited,
+        VAlloc,
+        InContainer, ContainerEmpty, ContainerSize, ContainerAccess,
+        ElementFromGraph,
+        GraphElementAttribute
     }
 
     /// <summary>
@@ -99,9 +120,10 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// A sequence object with references to child sequences.
+    /// The common base of sequence and sequence expression objects,
+    /// with some common infrastructure.
     /// </summary>
-    public abstract class Sequence
+    public abstract class SequenceBase
     {
         /// <summary>
         /// A common random number generator for all sequence objects.
@@ -109,6 +131,44 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static Random randomGenerator = new Random();
 
+        /// <summary>
+        /// The precedence of this operator. Zero is the highest priority, int.MaxValue the lowest.
+        /// Used to add needed parentheses for printing sequences / sequence expressions
+        /// TODO: WTF? das ist im Parser genau umgekehrt implementiert!
+        /// </summary>
+        public abstract int Precedence { get; }
+
+        /// <summary>
+        /// A string symbol representing this sequence type.
+        /// </summary>
+        public abstract String Symbol { get; }
+
+        /// <summary>
+        /// returns the sequence id - every sequence is assigned a unique id used in xgrs code generation
+        /// for copies the old id is just taken over, does not cause problems as code is only generated once per defined sequence
+        /// </summary>
+        public int Id { get { return id; } }
+
+        /// <summary>
+        /// stores the sequence unique id
+        /// </summary>
+        protected int id;
+
+        /// <summary>
+        /// the static member used to assign the unique ids to the sequence instances
+        /// </summary>
+        protected static int idSource = 0;
+
+#if LOG_SEQUENCE_EXECUTION
+        protected static StreamWriter writer = new StreamWriter("sequence_execution_log.txt");
+#endif
+    }
+
+    /// <summary>
+    /// A sequence object with references to child sequences.
+    /// </summary>
+    public abstract class Sequence : SequenceBase
+    {
         /// <summary>
         /// The type of the sequence (e.g. LazyOr or Transaction)
         /// </summary>
@@ -133,7 +193,7 @@ namespace de.unika.ipd.grGen.libGr
         /// - the execution state of the copy is NotYet
         /// - the global Variables are kept
         /// - the local Variables are replaced by copies initialized to null
-        /// Used for cloning defined sequenced before executing them if needed.
+        /// Used for cloning defined sequences before executing them if needed.
         /// Needed if the defined sequence is currently executed to prevent state corruption.
         /// </summary>
         /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
@@ -226,34 +286,6 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IEnumerable<Sequence> Children { get; }
 
         /// <summary>
-        /// The precedence of this operator. Zero is the highest priority, int.MaxValue the lowest.
-        /// Used to add needed parentheses for printing sequences
-        /// TODO: WTF? das ist im Parser genau umgekehrt implementiert!
-        /// </summary>
-        public abstract int Precedence { get; }
-
-        /// <summary>
-        /// A string symbol representing this sequence type.
-        /// </summary>
-        public abstract String Symbol { get; }
-
-        /// <summary>
-        /// returns the sequence id - every sequence is assigned a unique id used in xgrs code generation
-        /// for copies the old id is just taken over, does not cause problems as code is only generated once per defined sequence
-        /// </summary>
-        public int Id { get { return id; } }
-
-        /// <summary>
-        /// stores the sequence unique id
-        /// </summary>
-        private int id;
-
-        /// <summary>
-        /// the static member used to assign the unique ids to the sequence instances
-        /// </summary>
-        private static int idSource = 0;
-
-        /// <summary>
         /// the state of executing this sequence
         /// </summary>
         public SequenceExecutionState ExecutionState { get { return executionState; } }
@@ -262,10 +294,66 @@ namespace de.unika.ipd.grGen.libGr
         /// the state of executing this sequence, implementation
         /// </summary>
         internal SequenceExecutionState executionState;
+    }
 
-#if LOG_SEQUENCE_EXECUTION
-        protected static StreamWriter writer = new StreamWriter("sequence_execution_log.txt");
-#endif
+    /// <summary>
+    /// A sequence expression object with references to child sequence expressions.
+    /// </summary>
+    public abstract class SequenceExpression : SequenceBase
+    {
+        /// <summary>
+        /// The type of the sequence expression (e.g. Variable or IsVisited)
+        /// </summary>
+        public SequenceExpressionType SequenceExpressionType;
+
+        /// <summary>
+        /// Initializes a new SequenceExpression object with the given sequence expressoin type.
+        /// </summary>
+        /// <param name="seqExprType">The sequence expression type.</param>
+        public SequenceExpression(SequenceExpressionType seqExprType)
+        {
+            SequenceExpressionType = seqExprType;
+
+            id = idSource;
+            ++idSource;
+        }
+
+        /// <summary>
+        /// Copies the sequence expression deeply so that
+        /// - the global Variables are kept
+        /// - the local Variables are replaced by copies initialized to null
+        /// Used for cloning defined sequences before executing them if needed.
+        /// Needed if the defined sequence is currently executed to prevent state corruption.
+        /// </summary>
+        /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+        /// <returns>The copy of the sequence</returns>
+        internal abstract SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy);
+
+        /// <summary>
+        /// Evaluates this sequence expression.
+        /// </summary>
+        /// <param name="graph">The graph on which this sequence expression is to be evaluated.</param>
+        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
+        /// <returns>The value resulting from computing this sequence expression</returns>
+        public abstract object Evaluate(IGraph graph, SequenceExecutionEnvironment env);
+
+        /// <summary>
+        /// Collects all variables of the sequence expression tree into the variables dictionary.
+        /// </summary>
+        /// <param name="variables">Contains the variables found</param>
+        public virtual void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+        }
+
+        /// <summary>
+        /// Enumerates all child sequence expression objects
+        /// </summary>
+        public abstract IEnumerable<SequenceExpression> Children { get; }
+
+        /// <summary>
+        /// The type of this sequence expression as string ("" if statically unknown).
+        /// </summary>
+        //public abstract String Type { get; }
     }
 
     /// <summary>
@@ -482,12 +570,13 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// A sequence which assigns something to a destination variable.
+    /// An abstract base class SequenceAssignExpr would be helpful, too, but multiple inheritance is missing :(
     /// </summary>
-    public abstract class SequenceAssign : Sequence
+    public abstract class SequenceAssignToVar : Sequence
     {
         public SequenceVariable DestVar;
 
-        public SequenceAssign(SequenceVariable destVar, SequenceType seqType)
+        public SequenceAssignToVar(SequenceVariable destVar, SequenceType seqType)
             : base(seqType)
         {
             DestVar = destVar;
@@ -495,7 +584,7 @@ namespace de.unika.ipd.grGen.libGr
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
-            SequenceAssign copy = (SequenceAssign)MemberwiseClone();
+            SequenceAssignToVar copy = (SequenceAssignToVar)MemberwiseClone();
             copy.DestVar = DestVar.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
@@ -1107,76 +1196,56 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceDef : Sequence
+    public class SequenceAssignExprToVar : SequenceAssignToVar
     {
-        public SequenceVariable[] DefVars;
+        public SequenceExpression SourceExpression;
 
-        public SequenceDef(SequenceVariable[] defVars)
-            : base(SequenceType.Def)
+        public SequenceAssignExprToVar(SequenceVariable destVar, SequenceExpression srcExpr)
+            : base(destVar, SequenceType.AssignExprToVar)
         {
-            DefVars = defVars;
+            SourceExpression = srcExpr;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
-            SequenceDef copy = (SequenceDef)MemberwiseClone();
-            copy.DefVars = new SequenceVariable[DefVars.Length];
-            for(int i=0; i<DefVars.Length; ++i)
-                copy.DefVars[i] = DefVars[i].Copy(originalToCopy);
+            SequenceAssignExprToVar copy = (SequenceAssignExprToVar)MemberwiseClone();
+            copy.SourceExpression = SourceExpression.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            foreach(SequenceVariable defVar in DefVars)
-            {
-                if(defVar.GetVariableValue(graph) == null)
-                    return false;
-            }
-            return true;
+            return Assign(SourceExpression.Evaluate(graph, env), graph);
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
-            foreach(SequenceVariable seqVar in DefVars)
-                seqVar.GetLocalVariables(variables);
+            DestVar.GetLocalVariables(variables);
+            SourceExpression.GetLocalVariables(variables);
             return this == target;
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("def(");
-                for(int i=0; i<DefVars.Length; ++i)
-                {
-                    sb.Append(DefVars[i].Name);
-                    if(i!=DefVars.Length-1) sb.Append(",");
-                }
-                sb.Append(")");
-                return sb.ToString();
-            }
-        }
+        public override string Symbol { get { return DestVar.Name + "=" + SourceExpression.Symbol; } }
     }
 
-    public class SequenceYield : Sequence
+    public class SequenceYieldingAssignExprToVar : SequenceAssignToVar
     {
-        public SequenceVariable ToVar;
-        public SequenceVariable FromVar;
+        public SequenceExpression SourceExpression;
 
-        public SequenceYield(SequenceVariable toVar, SequenceVariable fromVar)
-            : base(SequenceType.Yield)
+        public SequenceYieldingAssignExprToVar(SequenceVariable destVar, SequenceExpression srcExpr)
+            : base(destVar, SequenceType.YieldingAssignExprToVar)
         {
-            ToVar = toVar;
-            FromVar = fromVar;
+            DestVar = destVar;
+            SourceExpression = srcExpr;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
-            SequenceYield copy = (SequenceYield)MemberwiseClone();
-            copy.ToVar = ToVar;
-            copy.FromVar = FromVar;
+            SequenceYieldingAssignExprToVar copy = (SequenceYieldingAssignExprToVar)MemberwiseClone();
+            copy.SourceExpression = SourceExpression.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
@@ -1188,260 +1257,32 @@ namespace de.unika.ipd.grGen.libGr
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
-            ToVar.GetLocalVariables(variables);
-            FromVar.GetLocalVariables(variables);
-            return this == target;
-        }
-
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "yield " + ToVar.Name + "=" + FromVar.Name; } }
-    }
-
-    public class SequenceTrue : SequenceSpecial
-    {
-        public SequenceTrue(bool special)
-            : base(special, SequenceType.True)
-        {
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceTrue copy = (SequenceTrue)MemberwiseClone();
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env) { return true; }
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Special ? "%true" : "true"; } }
-    }
-
-    public class SequenceFalse : SequenceSpecial
-    {
-        public SequenceFalse(bool special)
-            : base(special, SequenceType.False)
-        {
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceFalse copy = (SequenceFalse)MemberwiseClone();
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env) { return false; }
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Special ? "%false" : "false"; } }
-    }
-
-    public class SequenceVarPredicate : SequenceSpecial
-    {
-        public SequenceVariable PredicateVar;
-
-        public SequenceVarPredicate(SequenceVariable var, bool special)
-            : base(special, SequenceType.VarPredicate)
-        {
-            PredicateVar = var;
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceVarPredicate copy = (SequenceVarPredicate)MemberwiseClone();
-            copy.PredicateVar = PredicateVar.Copy(originalToCopy);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            object val = PredicateVar.GetVariableValue(graph);
-            if(val is bool) return (bool)val;
-            throw new InvalidOperationException("The variable '" + PredicateVar + "' is not boolean!");
-        }
-
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
-        {
-            PredicateVar.GetLocalVariables(variables);
-            return this == target;
-        }
-
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Special ? "%"+PredicateVar.Name : PredicateVar.Name; } }
-    }
-
-    public class SequenceAssignVAllocToVar : SequenceAssign
-    {
-        public SequenceAssignVAllocToVar(SequenceVariable destVar)
-            : base(destVar, SequenceType.AssignVAllocToVar)
-        {
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            return Assign(graph.AllocateVisitedFlag(), graph);
-        }
-
-        public override string Symbol { get { return DestVar.Name + "=valloc()"; } }
-    }
-
-    public class SequenceAssignContainerSizeToVar : SequenceAssign
-    {
-        public SequenceVariable Container;
-
-        public SequenceAssignContainerSizeToVar(SequenceVariable destVar, SequenceVariable container)
-            : base(destVar, SequenceType.AssignContainerSizeToVar)
-        {
-            Container = container;
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceAssignContainerSizeToVar copy = (SequenceAssignContainerSizeToVar)MemberwiseClone();
-            copy.Container = Container.Copy(originalToCopy);
-            copy.DestVar = DestVar.Copy(originalToCopy);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            if(Container.GetVariableValue(graph) is IList)
-            {
-                IList array = (IList)Container.GetVariableValue(graph);
-                return Assign(array.Count, graph);
-            }
-            else
-            {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
-                return Assign(setmap.Count, graph);
-            }
-        }
-
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
-        {
             DestVar.GetLocalVariables(variables);
-            Container.GetLocalVariables(variables);
+            SourceExpression.GetLocalVariables(variables);
             return this == target;
         }
 
-        public override string Symbol { get { return DestVar.Name + "=" + Container.Name + ".size()"; } }
+        public override string Symbol { get { return "yield " + DestVar.Name + "=" + SourceExpression.Symbol; } }
     }
 
-    public class SequenceAssignContainerEmptyToVar : SequenceAssign
+    public class SequenceAssignExprToIndexedVar : Sequence
     {
-        public SequenceVariable Container;
-
-        public SequenceAssignContainerEmptyToVar(SequenceVariable destVar, SequenceVariable container)
-            : base(destVar, SequenceType.AssignContainerEmptyToVar)
-        {
-            Container = container;
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceAssignContainerEmptyToVar copy = (SequenceAssignContainerEmptyToVar)MemberwiseClone();
-            copy.Container = Container.Copy(originalToCopy);
-            copy.DestVar = DestVar.Copy(originalToCopy);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            if(Container.GetVariableValue(graph) is IList)
-            {
-                IList array = (IList)Container.GetVariableValue(graph);
-                return Assign(array.Count == 0, graph);
-            }
-            else
-            {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
-                return Assign(setmap.Count == 0, graph);
-            }
-        }
-
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
-        {
-            DestVar.GetLocalVariables(variables);
-            Container.GetLocalVariables(variables);
-            return this == target;
-        }
-
-        public override string Symbol { get { return DestVar.Name + "=" + Container.Name + ".empty()"; } }
-    }
-
-    public class SequenceAssignContainerAccessToVar : SequenceAssign
-    {
-        public SequenceVariable Container;
+        public SequenceVariable DestVar;
         public SequenceVariable KeyVar;
+        public SequenceExpression SourceExpression;
 
-        public SequenceAssignContainerAccessToVar(SequenceVariable destVar, SequenceVariable container, SequenceVariable keyVar)
-            : base(destVar, SequenceType.AssignContainerAccessToVar)
+        public SequenceAssignExprToIndexedVar(SequenceVariable destVar, SequenceVariable keyVar, SequenceExpression srcExpr)
+            : base(SequenceType.AssignExprToIndexedVar)
         {
-            Container = container;
+            DestVar = destVar;
             KeyVar = keyVar;
+            SourceExpression = srcExpr;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
-            SequenceAssignContainerAccessToVar copy = (SequenceAssignContainerAccessToVar)MemberwiseClone();
-            copy.Container = Container.Copy(originalToCopy);
-            copy.KeyVar = KeyVar.Copy(originalToCopy);
-            copy.DestVar = DestVar.Copy(originalToCopy);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            if(Container.GetVariableValue(graph) is IList)
-            {
-                IList array = (IList)Container.GetVariableValue(graph);
-                int keyVar = (int)KeyVar.GetVariableValue(graph);
-                if(keyVar >= array.Count) return false;
-                return Assign(array[keyVar], graph);
-            }
-            else
-            {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
-                object keyVar = KeyVar.GetVariableValue(graph);
-                if(!setmap.Contains(keyVar)) return false;
-                return Assign(setmap[keyVar], graph);
-            }
-        }
-
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
-        {
-            DestVar.GetLocalVariables(variables);
-            Container.GetLocalVariables(variables);
-            KeyVar.GetLocalVariables(variables);
-            return this == target;
-        }
-
-        public override string Symbol { get { return DestVar.Name + "=" + Container.Name + "[" + KeyVar.Name + "]"; } }
-    }
-
-    public class SequenceAssignVarToIndexedVar : SequenceAssign
-    {
-        public SequenceVariable KeyVar;
-        public SequenceVariable Var;
-
-        public SequenceAssignVarToIndexedVar(SequenceVariable destVar, SequenceVariable keyVar, SequenceVariable var)
-            : base(destVar, SequenceType.AssignVarToIndexedVar)
-        {
-            KeyVar = keyVar;
-            Var = var;
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceAssignVarToIndexedVar copy = (SequenceAssignVarToIndexedVar)MemberwiseClone();
-            copy.Var = Var.Copy(originalToCopy);
+            SequenceAssignExprToIndexedVar copy = (SequenceAssignExprToIndexedVar)MemberwiseClone();
+            copy.SourceExpression = SourceExpression.Copy(originalToCopy);
             copy.KeyVar = KeyVar.Copy(originalToCopy);
             copy.DestVar = DestVar.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
@@ -1455,14 +1296,14 @@ namespace de.unika.ipd.grGen.libGr
                 IList array = (IList)DestVar.GetVariableValue(graph);
                 int keyVar = (int)KeyVar.GetVariableValue(graph);
                 if(keyVar >= array.Count) return false;
-                array[keyVar] = Var.GetVariableValue(graph);
+                array[keyVar] = SourceExpression.Evaluate(graph, env);
             }
             else
             {
                 IDictionary setmap = (IDictionary)DestVar.GetVariableValue(graph);
                 object keyVar = KeyVar.GetVariableValue(graph);
                 if(!setmap.Contains(keyVar)) return false;
-                setmap[keyVar] = Var.GetVariableValue(graph);
+                setmap[keyVar] = SourceExpression.Evaluate(graph, env);
             }
             return true;
         }
@@ -1470,49 +1311,17 @@ namespace de.unika.ipd.grGen.libGr
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
             DestVar.GetLocalVariables(variables);
-            Var.GetLocalVariables(variables);
             KeyVar.GetLocalVariables(variables);
+            SourceExpression.GetLocalVariables(variables);
             return this == target;
         }
 
-        public override string Symbol { get { return DestVar.Name + "[" + KeyVar.Name + "] = " + Var.Name; } }
+        public override IEnumerable<Sequence> Children { get { yield break; } } // nearly always no children
+        public override int Precedence { get { return 8; } } // nearly always a top prio assignment factor
+        public override string Symbol { get { return DestVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol; } }
     }
 
-    public class SequenceAssignVarToVar : SequenceAssign
-    {
-        public SequenceVariable SourceVar;
-
-        public SequenceAssignVarToVar(SequenceVariable destVar, SequenceVariable sourceVar)
-            : base(destVar, SequenceType.AssignVarToVar)
-        {
-            SourceVar = sourceVar;
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceAssignVarToVar copy = (SequenceAssignVarToVar)MemberwiseClone();
-            copy.SourceVar = SourceVar.Copy(originalToCopy);
-            copy.DestVar = DestVar.Copy(originalToCopy);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            return Assign(SourceVar.GetVariableValue(graph), graph);
-        }
-
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
-        {
-            DestVar.GetLocalVariables(variables);
-            SourceVar.GetLocalVariables(variables);
-            return this == target;
-        }
-
-        public override string Symbol { get { return DestVar.Name + "=" + SourceVar.Name; } }
-    }
-
-    public class SequenceAssignUserInputToVar : SequenceAssign, SequenceRandomChoice
+    public class SequenceAssignUserInputToVar : SequenceAssignToVar, SequenceRandomChoice
     {
         public String Type;
 
@@ -1535,7 +1344,7 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return DestVar.Name + "=" + "$%(" + Type + ")"; } }
     }
 
-    public class SequenceAssignRandomToVar : SequenceAssign, SequenceRandomChoice
+    public class SequenceAssignRandomToVar : SequenceAssignToVar, SequenceRandomChoice
     {
         public int Number;
 
@@ -1560,59 +1369,32 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return DestVar.Name + "=" + (Choice ? "$%" : "$") + "(" + Number + ")"; } }
     }
 
-    public class SequenceAssignConstToVar : SequenceAssign
-    {
-        public object Constant;
-
-        public SequenceAssignConstToVar(SequenceVariable destVar, object constant)
-            : base(destVar, SequenceType.AssignConstToVar)
-        {
-            Constant = constant;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            return Assign(Constant, graph);
-        }
-
-        public override string Symbol { get {
-            if(Constant==null)
-                return DestVar.Name + "=null";
-            else if(Constant.GetType().Name == "Dictionary`2")
-                return DestVar.Name + "={}"; // only empty set/map assignment possible as of now
-            else if(Constant.GetType().Name == "List`1")
-                return DestVar.Name + "=[]"; // only empty array assignment possible as of now
-            else
-                return DestVar.Name + "=" + Constant; }
-        }
-    }
-
-    public class SequenceAssignVarToAttribute : Sequence
+    public class SequenceAssignExprToAttribute : Sequence
     {
         public SequenceVariable DestVar;
         public String AttributeName;
-        public SequenceVariable SourceVar;
+        public SequenceExpression SourceExpression;
 
-        public SequenceAssignVarToAttribute(SequenceVariable destVar, String attributeName, SequenceVariable sourceVar)
-            : base(SequenceType.AssignVarToAttribute)
+        public SequenceAssignExprToAttribute(SequenceVariable destVar, String attributeName, SequenceExpression sourceExpr)
+            : base(SequenceType.AssignExprToAttribute)
         {
             DestVar = destVar;
             AttributeName = attributeName;
-            SourceVar = sourceVar;
+            SourceExpression = sourceExpr;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
-            SequenceAssignVarToAttribute copy = (SequenceAssignVarToAttribute)MemberwiseClone();
+            SequenceAssignExprToAttribute copy = (SequenceAssignExprToAttribute)MemberwiseClone();
             copy.DestVar = DestVar.Copy(originalToCopy);
-            copy.SourceVar = SourceVar.Copy(originalToCopy);
+            copy.SourceExpression = SourceExpression.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            object value = SourceVar.GetVariableValue(graph);
+            object value = SourceExpression.Evaluate(graph, env);
             IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(graph);
             AttributeType attrType;
             value = DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
@@ -1629,84 +1411,16 @@ namespace de.unika.ipd.grGen.libGr
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
             DestVar.GetLocalVariables(variables);
-            SourceVar.GetLocalVariables(variables);
+            SourceExpression.GetLocalVariables(variables);
             return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar.Name + "." + AttributeName + "=" + SourceVar.Name; } }
+        public override string Symbol { get { return DestVar.Name + "." + AttributeName + "=" + SourceExpression.Symbol; } }
     }
 
-    public class SequenceAssignAttributeToVar : SequenceAssign
-    {
-        public SequenceVariable SourceVar;
-        public String AttributeName;
-
-        public SequenceAssignAttributeToVar(SequenceVariable destVar, SequenceVariable sourceVar, String attributeName)
-            : base(destVar, SequenceType.AssignAttributeToVar)
-        {
-            SourceVar = sourceVar;
-            AttributeName = attributeName;
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceAssignAttributeToVar copy = (SequenceAssignAttributeToVar)MemberwiseClone();
-            copy.SourceVar = SourceVar.Copy(originalToCopy);
-            copy.DestVar = DestVar.Copy(originalToCopy);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(graph);
-            object value = elem.GetAttribute(AttributeName);
-            AttributeType attrType;
-            value = DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
-                elem, AttributeName, value, out attrType);
-            return Assign(value, graph);
-        }
-
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
-        {
-            DestVar.GetLocalVariables(variables);
-            SourceVar.GetLocalVariables(variables);
-            return this == target;
-        }
-
-        public override string Symbol { get { return DestVar.Name + "=" + SourceVar.Name + "." + AttributeName; } }
-    }
-
-    public class SequenceAssignElemToVar : SequenceAssign
-    {
-        public String ElementName;
-
-        public SequenceAssignElemToVar(SequenceVariable destVar, String elemName)
-            : base(destVar, SequenceType.AssignElemToVar)
-        {
-            ElementName = elemName;
-            if(ElementName[0]=='\"') ElementName = ElementName.Substring(1, ElementName.Length-2);
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            if(env==null && !(graph is NamedGraph))
-                throw new InvalidOperationException("The @-operator can only be used with NamedGraphs!");
-            NamedGraph namedGraph = null;
-            if(env!=null) namedGraph = env.GetNamedGraph();
-            if(env==null) namedGraph = (NamedGraph)graph;
-            IGraphElement elem = namedGraph.GetGraphElement(ElementName);
-            if(elem == null)
-                throw new InvalidOperationException("Graph element does not exist: \"" + ElementName + "\"!");
-            return Assign(elem, graph);
-        }
-
-        public override string Symbol { get { return DestVar.Name + "=@("+ElementName+")"; } }
-    }
-
-    public class SequenceAssignSequenceResultToVar : SequenceAssign
+    public class SequenceAssignSequenceResultToVar : SequenceAssignToVar
     {
         public Sequence Seq;
 
@@ -2497,46 +2211,6 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "for{"+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+" in "+Container.Name+"; ...}"; } }
     }
 
-    public class SequenceIsVisited : Sequence
-    {
-        public SequenceVariable GraphElementVar;
-        public SequenceVariable VisitedFlagVar;
-
-        public SequenceIsVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar)
-            : base(SequenceType.IsVisited)
-        {
-            GraphElementVar = graphElementVar;
-            VisitedFlagVar = visitedFlagVar;
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceIsVisited copy = (SequenceIsVisited)MemberwiseClone();
-            copy.GraphElementVar = GraphElementVar.Copy(originalToCopy);
-            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
-            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
-            return graph.IsVisited(elem, visitedFlag);
-        }
-
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
-        {
-            GraphElementVar.GetLocalVariables(variables);
-            VisitedFlagVar.GetLocalVariables(variables);
-            return this == target;
-        }
-
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return GraphElementVar.Name+".visited["+VisitedFlagVar.Name+"]"; } }
-    }
-
     public class SequenceSetVisited : Sequence
     {
         public SequenceVariable GraphElementVar;
@@ -2950,53 +2624,6 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return Container.Name + ".clear()"; } }
     }
 
-    public class SequenceIn : Sequence
-    {
-        public SequenceVariable Var;
-        public SequenceVariable Container;
-
-        public SequenceIn(SequenceVariable var, SequenceVariable container)
-            : base(SequenceType.InContainer)
-        {
-            Var = var;
-            Container = container;
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceIn copy = (SequenceIn)MemberwiseClone();
-            copy.Container = Container.Copy(originalToCopy);
-            copy.Var = Var.Copy(originalToCopy);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            if(Container.GetVariableValue(graph) is IList)
-            {
-                IList array = (IList)Container.GetVariableValue(graph);
-                return array.Contains(Var.GetVariableValue(graph));
-            }
-            else
-            {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
-                return setmap.Contains(Var.GetVariableValue(graph));
-            }
-        }
-
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
-        {
-            Container.GetLocalVariables(variables);
-            Var.GetLocalVariables(variables);
-            return this == target;
-        }
-
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Var.Name + " in " + Container.Name; } }
-    }
-
     /// <summary>
     /// An sequence representing a sequence definition.
     /// It must be applied with a different method than the other sequences because it requires the parameter information.
@@ -3369,5 +2996,530 @@ namespace de.unika.ipd.grGen.libGr
                 return (Special ? "%" : "") + GetSequenceString();
             }
         }
+    }
+
+    public class SequenceBooleanExpression : SequenceSpecial
+    {
+        public SequenceExpression Expression;
+
+        public SequenceBooleanExpression(SequenceExpression expr, bool special)
+            : base(special, SequenceType.BooleanExpression)
+        {
+            Expression = expr;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceBooleanExpression copy = (SequenceBooleanExpression)MemberwiseClone();
+            copy.Expression = Expression.Copy(originalToCopy);
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            object val = Expression.Evaluate(graph, env);
+            if(val is bool) return (bool)val;
+            throw new InvalidOperationException("The expression '" + Expression.Symbol + "' is not boolean!");
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            Expression.GetLocalVariables(variables);
+            return this == target;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Special ? "%" + Expression.Symbol : Expression.Symbol; } }
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    // sequence expressions
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public class SequenceExpressionTrue : SequenceExpression
+    {
+        public SequenceExpressionTrue()
+            : base(SequenceExpressionType.True)
+        {
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionTrue copy = (SequenceExpressionTrue)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env) { return true; }
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "true"; } }
+        //public override String Type { get { return "boolean"; } }
+    }
+
+    public class SequenceExpressionFalse : SequenceExpression
+    {
+        public SequenceExpressionFalse()
+            : base(SequenceExpressionType.False)
+        {
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionFalse copy = (SequenceExpressionFalse)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env) { return false; }
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "false"; } }
+        //public override String Type { get { return "boolean"; } }
+    }
+
+    public class SequenceExpressionVariable : SequenceExpression
+    {
+        public SequenceVariable PredicateVar;
+
+        public SequenceExpressionVariable(SequenceVariable var)
+            : base(SequenceExpressionType.Variable)
+        {
+            PredicateVar = var;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionVariable copy = (SequenceExpressionVariable)MemberwiseClone();
+            copy.PredicateVar = PredicateVar.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return PredicateVar.GetVariableValue(graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            PredicateVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return PredicateVar.Name; } }
+        //public override String Type { get { return PredicateVar.Type; } }
+    }
+
+    public class SequenceExpressionDef : SequenceExpression
+    {
+        public SequenceVariable[] DefVars;
+
+        public SequenceExpressionDef(SequenceVariable[] defVars)
+            : base(SequenceExpressionType.Def)
+        {
+            DefVars = defVars;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionDef copy = (SequenceExpressionDef)MemberwiseClone();
+            copy.DefVars = new SequenceVariable[DefVars.Length];
+            for(int i = 0; i < DefVars.Length; ++i)
+                copy.DefVars[i] = DefVars[i].Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            foreach(SequenceVariable defVar in DefVars)
+            {
+                if(defVar.GetVariableValue(graph) == null)
+                    return false;
+            }
+            return true;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            foreach(SequenceVariable seqVar in DefVars)
+                seqVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("def(");
+                for(int i = 0; i < DefVars.Length; ++i)
+                {
+                    sb.Append(DefVars[i].Name);
+                    if(i != DefVars.Length - 1) sb.Append(",");
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
+        //public override String Type { get { return "boolean"; } }
+    }
+
+    public class SequenceExpressionIsVisited : SequenceExpression
+    {
+        public SequenceVariable GraphElementVar;
+        public SequenceVariable VisitedFlagVar;
+
+        public SequenceExpressionIsVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar)
+            : base(SequenceExpressionType.IsVisited)
+        {
+            GraphElementVar = graphElementVar;
+            VisitedFlagVar = visitedFlagVar;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionIsVisited copy = (SequenceExpressionIsVisited)MemberwiseClone();
+            copy.GraphElementVar = GraphElementVar.Copy(originalToCopy);
+            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
+            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
+            return graph.IsVisited(elem, visitedFlag);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            GraphElementVar.GetLocalVariables(variables);
+            VisitedFlagVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]"; } }
+        //public override String Type { get { return "boolean"; } }
+    }
+
+    public class SequenceExpressionInContainer : SequenceExpression
+    {
+        public SequenceVariable Var;
+        public SequenceVariable Container;
+
+        public SequenceExpressionInContainer(SequenceVariable var, SequenceVariable container)
+            : base(SequenceExpressionType.InContainer)
+        {
+            Var = var;
+            Container = container;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionInContainer copy = (SequenceExpressionInContainer)MemberwiseClone();
+            copy.Container = Container.Copy(originalToCopy);
+            copy.Var = Var.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(Container.GetVariableValue(graph) is IList)
+            {
+                IList array = (IList)Container.GetVariableValue(graph);
+                return array.Contains(Var.GetVariableValue(graph));
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                return setmap.Contains(Var.GetVariableValue(graph));
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Container.GetLocalVariables(variables);
+            Var.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Var.Name + " in " + Container.Name; } }
+        //public override String Type { get { return "boolean"; } }
+    }
+
+    public class SequenceExpressionVAlloc : SequenceExpression
+    {
+        public SequenceExpressionVAlloc()
+            : base(SequenceExpressionType.VAlloc)
+        {
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionVAlloc copy = (SequenceExpressionVAlloc)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return graph.AllocateVisitedFlag();
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "valloc()"; } }
+        //public override String Type { get { return "int"; } }
+    }
+
+    public class SequenceExpressionContainerSize : SequenceExpression
+    {
+        public SequenceVariable Container;
+
+        public SequenceExpressionContainerSize(SequenceVariable container)
+            : base(SequenceExpressionType.ContainerSize)
+        {
+            Container = container;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionContainerSize copy = (SequenceExpressionContainerSize)MemberwiseClone();
+            copy.Container = Container.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(Container.GetVariableValue(graph) is IList)
+            {
+                IList array = (IList)Container.GetVariableValue(graph);
+                return array.Count;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                return setmap.Count;
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Container.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Container.Name + ".size()"; } }
+        //public override String Type { get { return "int"; } }
+    }
+
+    public class SequenceExpressionContainerEmpty : SequenceExpression
+    {
+        public SequenceVariable Container;
+
+        public SequenceExpressionContainerEmpty(SequenceVariable container)
+            : base(SequenceExpressionType.ContainerEmpty)
+        {
+            Container = container;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionContainerEmpty copy = (SequenceExpressionContainerEmpty)MemberwiseClone();
+            copy.Container = Container.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(Container.GetVariableValue(graph) is IList)
+            {
+                IList array = (IList)Container.GetVariableValue(graph);
+                return array.Count == 0;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                return setmap.Count == 0;
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Container.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Container.Name + ".empty()"; } }
+        //public override String Type { get { return "boolean"; } }
+    }
+
+    public class SequenceExpressionContainerAccess : SequenceExpression
+    {
+        public SequenceVariable Container;
+        public SequenceVariable KeyVar;
+
+        public SequenceExpressionContainerAccess(SequenceVariable container, SequenceVariable keyVar)
+            : base(SequenceExpressionType.ContainerAccess)
+        {
+            Container = container;
+            KeyVar = keyVar;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionContainerAccess copy = (SequenceExpressionContainerAccess)MemberwiseClone();
+            copy.Container = Container.Copy(originalToCopy);
+            copy.KeyVar = KeyVar.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(Container.GetVariableValue(graph) is IList)
+            {
+                IList array = (IList)Container.GetVariableValue(graph);
+                int keyVar = (int)KeyVar.GetVariableValue(graph);
+                return array[keyVar];
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                object keyVar = KeyVar.GetVariableValue(graph);
+                return setmap[keyVar];
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Container.GetLocalVariables(variables);
+            KeyVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Container.Name + "[" + KeyVar.Name + "]"; } }
+        //public override String Type { get { return TypesHelper.ExtractDst(Container.Type); } }
+    }
+
+    public class SequenceExpressionElementFromGraph : SequenceExpression
+    {
+        public String ElementName;
+
+        public SequenceExpressionElementFromGraph(String elemName)
+            : base(SequenceExpressionType.ElementFromGraph)
+        {
+            ElementName = elemName;
+            if(ElementName[0] == '\"') ElementName = ElementName.Substring(1, ElementName.Length - 2);
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionElementFromGraph copy = (SequenceExpressionElementFromGraph)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(env == null && !(graph is NamedGraph))
+                throw new InvalidOperationException("The @-operator can only be used with NamedGraphs!");
+            NamedGraph namedGraph = null;
+            if(env != null) namedGraph = env.GetNamedGraph();
+            if(env == null) namedGraph = (NamedGraph)graph;
+            IGraphElement elem = namedGraph.GetGraphElement(ElementName);
+            if(elem == null)
+                throw new InvalidOperationException("Graph element does not exist: \"" + ElementName + "\"!");
+            return elem;
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "@(" + ElementName + ")"; } }
+        //public override String Type { get { return ""; } }
+    }
+
+    public class SequenceExpressionConstant : SequenceExpression
+    {
+        public object Constant;
+
+        public SequenceExpressionConstant(object constant)
+            : base(SequenceExpressionType.Constant)
+        {
+            Constant = constant;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionConstant copy = (SequenceExpressionConstant)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return Constant;
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol
+        {
+            get
+            {
+                if(Constant == null)
+                    return "null";
+                else if(Constant.GetType().Name == "Dictionary`2")
+                    return "{}"; // only empty set/map assignment possible as of now
+                else if(Constant.GetType().Name == "List`1")
+                    return "[]"; // only empty array assignment possible as of now
+                else
+                    return Constant.ToString();
+            }
+        }
+        //public override String Type { get { return TypesHelper.XgrsTypeOfConstant(Constant, model); } }
+    }
+
+    public class SequenceExpressionAttribute : SequenceExpression
+    {
+        public SequenceVariable SourceVar;
+        public String AttributeName;
+
+        public SequenceExpressionAttribute(SequenceVariable sourceVar, String attributeName)
+            : base(SequenceExpressionType.GraphElementAttribute)
+        {
+            SourceVar = sourceVar;
+            AttributeName = attributeName;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionAttribute copy = (SequenceExpressionAttribute)MemberwiseClone();
+            copy.SourceVar = SourceVar.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(graph);
+            object value = elem.GetAttribute(AttributeName);
+            value = DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
+                elem, AttributeName, value);
+            return value;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            SourceVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return SourceVar.Name + "." + AttributeName; } }
+        //public override String Type { get { return SourceVar.Type; } }
     }
 }

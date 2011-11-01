@@ -1391,6 +1391,18 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// If the attribute of the given name of the given element is a set or map or array attribute
+        /// then return a clone of the given dictionary or list value, otherwise just return the original value
+        /// </summary>
+        public static object IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
+                IGraphElement element, String AttributeName, object value)
+        {
+            AttributeType attrType;
+            return IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
+                element, AttributeName, value, out attrType);
+        }
+
+        /// <summary>
         /// Returns a string representation of the given scalar value
         /// </summary>
         /// <param name="value">The scalar of which to get the string representation</param>
