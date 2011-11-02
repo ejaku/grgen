@@ -93,7 +93,6 @@
     <Compile Include="Recorder.cs" />
     <Compile Include="RuleAndSequenceInvocationRepresentations.cs" />
     <Compile Include="Sequence.cs" />
-    <Compile Include="SequenceChecker.cs" />
     <Compile Include="SequenceExecutionInterface.cs" />
     <Compile Include="SequenceParser.cs" />
     <Compile Include="SequenceParserConstants.cs" />
@@ -106,6 +105,7 @@
     <Compile Include="SymbolTable.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="TokenMgrError.cs" />
+    <Compile Include="TypesHelper.cs" />
     <Compile Include="VCGDumper.cs" />
   </ItemGroup>
   <ItemGroup>

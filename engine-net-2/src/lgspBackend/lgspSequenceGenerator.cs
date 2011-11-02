@@ -1834,9 +1834,9 @@ namespace de.unika.ipd.grGen.lgsp
             try
             {
                 seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, sequenceNames, varDecls, model);
-                LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
+                SequenceCheckingEnvironment env = new SequenceCheckingEnvironment(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
                                                     sequencesToInputTypes, sequencesToOutputTypes, model);
-                checker.Check(seq);
+                seq.Check(env);
             }
             catch(ParseException ex)
             {
@@ -1913,9 +1913,9 @@ namespace de.unika.ipd.grGen.lgsp
             try
             {
                 seq = SequenceParser.ParseSequence(sequence.XGRS, ruleNames, sequenceNames, varDecls, model);
-                LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
+                SequenceCheckingEnvironment env = new SequenceCheckingEnvironment(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
                                                     sequencesToInputTypes, sequencesToOutputTypes, model);
-                checker.Check(seq);
+                seq.Check(env);
             }
             catch(ParseException ex)
             {

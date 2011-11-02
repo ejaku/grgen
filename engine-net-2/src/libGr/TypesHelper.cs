@@ -7,9 +7,8 @@
 
 using System;
 using System.Text;
-using de.unika.ipd.grGen.libGr;
 
-namespace de.unika.ipd.grGen.lgsp
+namespace de.unika.ipd.grGen.libGr
 {
     // TODO: all of this string handling is scruffy, there should be some type representation used throughout the entire backend
 

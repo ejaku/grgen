@@ -72,7 +72,6 @@
     <Compile Include="lgspMatcherGenerator.cs" />
     <None Include="MonoILReader.cs" />
     <Compile Include="lgspPattern.cs" />
-    <Compile Include="lgspSequenceChecker.cs" />
     <Compile Include="lgspSequenceGenerator.cs" />
     <Compile Include="lgspTransactionManager.cs" />
     <Compile Include="NamesOfEntities.cs" />
@@ -88,7 +87,6 @@
     <Compile Include="SearchProgramBuilder.cs" />
     <Compile Include="SearchProgramCompleter.cs" />
     <Compile Include="SourceBuilder.cs" />
-    <Compile Include="TypesHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libGr\libGr.csproj">

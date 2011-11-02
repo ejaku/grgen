@@ -17,7 +17,9 @@ namespace de.unika.ipd.grGen.libGr
 {
     // todo: semantic changed, communicate: container access out of bounds yield runtime crash instead of sequence application result false
     // todo: adapt parser to parse expression, currently no changes of input language
-    // todo: add type checking, merge the checks of interpreted and compiled sequences
+    // todo: SequenceDefinitionCompiled hat die sequence nicht als kind, sicherstellen das trotzdem geprüft wird
+    // todo: just took over the sequence checker and lgsp sequence checker, reconsider/reevalute/maybe improve the checks
+    // todo: the checks commented out
 
     /// <summary>
     /// Specifies the actual subtype used for a Sequence.
@@ -68,7 +70,7 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// Environment for sequence exection giving access to graph element names and user interface
+    /// Environment for sequence execution giving access to graph element names and user interface
     /// </summary>
     public interface SequenceExecutionEnvironment
     {
@@ -120,42 +122,205 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// Environment for sequence checking giving access to model and action signatures
+    /// </summary>
+    public class SequenceCheckingEnvironment
+    {
+        // constructor for compiled sequences
+        public SequenceCheckingEnvironment(String[] ruleNames, String[] sequenceNames,
+            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
+            Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
+            IGraphModel model)
+        {
+            this.ruleNames = ruleNames;
+            this.sequenceNames = sequenceNames;
+            this.rulesToInputTypes = rulesToInputTypes;
+            this.rulesToOutputTypes = rulesToOutputTypes;
+            this.sequencesToInputTypes = sequencesToInputTypes;
+            this.sequencesToOutputTypes = sequencesToOutputTypes;
+            this.model = model;
+        }
+
+        // the information available if this is a compiled sequence 
+
+        // the rule names available in the .grg to compile
+        private String[] ruleNames;
+
+        // the sequence names available in the .grg to compile
+        private String[] sequenceNames;
+
+        // maps rule names available in the .grg to compile to the list of the input typ names
+        private Dictionary<String, List<String>> rulesToInputTypes;
+        // maps rule names available in the .grg to compile to the list of the output typ names
+        private Dictionary<String, List<String>> rulesToOutputTypes;
+
+        // maps sequence names available in the .grg to compile to the list of the input typ names
+        private Dictionary<String, List<String>> sequencesToInputTypes;
+        // maps sequence names available in the .grg to compile to the list of the output typ names
+        private Dictionary<String, List<String>> sequencesToOutputTypes;
+
+        // returns rule or sequence name to input types dictionary depending on argument
+        private Dictionary<String, List<String>> toInputTypes(bool rule) { return rule ? rulesToInputTypes : sequencesToInputTypes; }
+
+        // returns rule or sequence name to output types dictionary depending on argument
+        private Dictionary<String, List<String>> toOutputTypes(bool rule) { return rule ? rulesToOutputTypes : sequencesToOutputTypes; }
+
+        // the model object of the .grg to compile
+        private IGraphModel model;
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // constructor for interpreted sequences
+        public SequenceCheckingEnvironment(BaseActions actions)
+        {
+            this.actions = actions;
+        }
+
+        // the information available if this is an interpreted sequence 
+
+        private BaseActions actions;
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// the model giving access to graph element types for checking
+        /// </summary>
+        public IGraphModel Model { get { return model ?? actions.Graph.Model; } }
+
+
+        // helper stuff
+        public void CheckRuleCallRuleAllCallSequenceCall(Sequence seq)
+        {
+            // that's the quick was to merge SequenceChecker and lgspSequenceChecker
+            // todo: merge the code, let it work over data abstracting away the interpreted/compiled difference
+            if(actions != null)
+                CheckRuleCallRuleAllCallSequenceCallInterpreted(seq);
+            else
+                CheckRuleCallRuleAllCallSequenceCallCompiled(seq);
+        }
+
+        private void CheckRuleCallRuleAllCallSequenceCallInterpreted(Sequence seq)
+        {
+            if(seq is SequenceSequenceCall)
+                return; // nothing to check -- todo: rly? don't think so
+
+            SequenceRuleCall ruleSeq = (SequenceRuleCall)seq; // SequenceRuleAllCall is a subclass of SequenceRuleCall
+            RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
+
+            // We found the rule?
+            if(paramBindings.Action == null)
+            {
+                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
+            }
+
+            // yes -> this is a rule call; now check it
+            IAction action = paramBindings.Action;
+
+            // Check whether number of parameters and return parameters match
+            if(action.RulePattern.Inputs.Length != paramBindings.ParamVars.Length
+                    || paramBindings.ReturnVars.Length != 0 && action.RulePattern.Outputs.Length != paramBindings.ReturnVars.Length)
+                throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+
+            // Check parameter types
+            for(int i = 0; i < paramBindings.ParamVars.Length; i++)
+            {
+                // CSharpCC does not support as-expressions, yet...
+                VarType inputType = (VarType)(action.RulePattern.Inputs[i] is VarType ? action.RulePattern.Inputs[i] : null);
+
+                // If input type is not a VarType, a variable must be specified.
+                // Otherwise, if a constant is specified, the VarType must match the type of the constant
+                if(inputType == null && paramBindings.ParamVars[i] == null
+                        || inputType != null && paramBindings.Parameters[i] != null && inputType.Type != paramBindings.Parameters[i].GetType())
+                    throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
+            }
+
+            // ok, this is a well-formed rule invocation
+        }
+
+        private void CheckRuleCallRuleAllCallSequenceCallCompiled(Sequence seq)
+        {
+            SequenceRuleCall ruleSeq = seq as SequenceRuleCall;
+            SequenceSequenceCall seqSeq = seq as SequenceSequenceCall;
+            InvocationParameterBindings paramBindings = ruleSeq != null ? (InvocationParameterBindings)ruleSeq.ParamBindings : (InvocationParameterBindings)seqSeq.ParamBindings;
+
+            // processing of a compiled xgrs without BaseActions but array of rule names,
+            // check the rule name against the available rule names
+            if(Array.IndexOf(ruleNames, paramBindings.Name) == -1
+                && Array.IndexOf(sequenceNames, paramBindings.Name) == -1)
+                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
+
+            // Check whether number of parameters and return parameters match
+            if(toInputTypes(ruleSeq != null)[paramBindings.Name].Count != paramBindings.ParamVars.Length
+                    || paramBindings.ReturnVars.Length != 0 && toOutputTypes(ruleSeq != null)[paramBindings.Name].Count != paramBindings.ReturnVars.Length)
+                throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+
+            // Check parameter types
+            for(int i = 0; i < paramBindings.ParamVars.Length; i++)
+            {
+                if(paramBindings.ParamVars[i] != null
+                    && !TypesHelper.IsSameOrSubtype(paramBindings.ParamVars[i].Type, toInputTypes(ruleSeq != null)[paramBindings.Name][i], model))
+                    throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
+            }
+
+            // Check return types
+            for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
+            {
+                if(!TypesHelper.IsSameOrSubtype(toOutputTypes(ruleSeq != null)[paramBindings.Name][i], paramBindings.ReturnVars[i].Type, model))
+                    throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
+            }
+
+            // ok, this is a well-formed rule invocation
+        }
+    }
+
+    /// <summary>
     /// The common base of sequence and sequence expression objects,
     /// with some common infrastructure.
     /// </summary>
     public abstract class SequenceBase
     {
         /// <summary>
-        /// A common random number generator for all sequence objects.
+        /// Checks the sequence /expression for errors utilizing the given checking environment
+        /// reports them by exception
+        /// </summary>s
+        public abstract void Check(SequenceCheckingEnvironment env);
+
+        /// <summary>
+        /// Returns the type of the sequence /expression (for sequences always "boolean")
+        /// </summary>
+        public abstract string Type(SequenceCheckingEnvironment env);
+        
+        /// <summary>
+        /// A common random number generator for all sequence /expression objects.
         /// It uses a time-dependent seed.
         /// </summary>
         public static Random randomGenerator = new Random();
 
         /// <summary>
         /// The precedence of this operator. Zero is the highest priority, int.MaxValue the lowest.
-        /// Used to add needed parentheses for printing sequences / sequence expressions
+        /// Used to add needed parentheses for printing sequences /expressions
         /// TODO: WTF? das ist im Parser genau umgekehrt implementiert!
         /// </summary>
         public abstract int Precedence { get; }
 
         /// <summary>
-        /// A string symbol representing this sequence type.
+        /// A string symbol representing this sequence /expression kind.
         /// </summary>
         public abstract String Symbol { get; }
 
         /// <summary>
-        /// returns the sequence id - every sequence is assigned a unique id used in xgrs code generation
+        /// returns the sequence /expresion id - every sequence /expression is assigned a unique id used in xgrs code generation
         /// for copies the old id is just taken over, does not cause problems as code is only generated once per defined sequence
         /// </summary>
         public int Id { get { return id; } }
 
         /// <summary>
-        /// stores the sequence unique id
+        /// stores the sequence /expression unique id
         /// </summary>
         protected int id;
 
         /// <summary>
-        /// the static member used to assign the unique ids to the sequence instances
+        /// the static member used to assign the unique ids to the sequence /expression instances
         /// </summary>
         protected static int idSource = 0;
 
@@ -186,6 +351,25 @@ namespace de.unika.ipd.grGen.libGr
             ++idSource;
 
             executionState = SequenceExecutionState.NotYet;
+        }
+
+        /// <summary>
+        /// Checks the sequence for errors utilizing the given checking environment
+        /// reports them by exception
+        /// default behavior: check all the children 
+        /// </summary>
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            foreach(Sequence childSeq in Children)
+                childSeq.Check(env);
+        }
+
+        /// <summary>
+        /// Returns the type of the sequence, which is "boolean"
+        /// </summary>
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
         }
 
         /// <summary>
@@ -319,6 +503,26 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Checks the sequence expression for errors utilizing the given checking environment
+        /// reports them by exception
+        /// default behavior: check all the children 
+        /// </summary>
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            foreach(SequenceExpression childSeq in Children)
+                childSeq.Check(env);
+        }
+
+        /// <summary>
+        /// Returns the type of the sequence
+        /// default behaviour: returns "boolean"
+        /// </summary>
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        /// <summary>
         /// Copies the sequence expression deeply so that
         /// - the global Variables are kept
         /// - the local Variables are replaced by copies initialized to null
@@ -353,7 +557,6 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The type of this sequence expression as string ("" if statically unknown).
         /// </summary>
-        //public abstract String Type { get; }
     }
 
     /// <summary>
@@ -853,6 +1056,11 @@ namespace de.unika.ipd.grGen.libGr
             Test = test;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            env.CheckRuleCallRuleAllCallSequenceCall(this);
+        }
+
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceRuleCall copy = (SequenceRuleCall)MemberwiseClone();
@@ -1206,6 +1414,16 @@ namespace de.unika.ipd.grGen.libGr
             SourceExpression = srcExpr;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            // the assignment of an untyped variable to a typed variable is ok, cause we want access to persistency
+            // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
+            //if(!TypesHelper.IsSameOrSubtype(assignSeq.SourceExpression.Type, assignSeq.DestVar.Type, model))
+            {
+                //    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.SourceExpression.Symbol, assignSeq.DestVar.Type, assignSeq.SourceExpression.Type);
+            }
+        }
+
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceAssignExprToVar copy = (SequenceAssignExprToVar)MemberwiseClone();
@@ -1239,6 +1457,16 @@ namespace de.unika.ipd.grGen.libGr
         {
             DestVar = destVar;
             SourceExpression = srcExpr;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            // the assignment of an untyped variable to a typed variable is ok, cause we want access to persistency
+            // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
+            //if(!TypesHelper.IsSameOrSubtype(seqYield.SourceExpression.Type, seqYield.DestVar.Type, model))
+            {
+                //    throw new SequenceParserException("yield " + seqYield.DestVar.Name + "=" + seqYield.SourceExpression.Symbol, seqYield.DestVar.Type, seqYield.FromVar.Type);
+            }
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -1277,6 +1505,39 @@ namespace de.unika.ipd.grGen.libGr
             DestVar = destVar;
             KeyVar = keyVar;
             SourceExpression = srcExpr;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(DestVar.Type == "") 
+                return; // we can't check source and destination types if the variable is untyped, only runtime-check possible
+
+            if(TypesHelper.ExtractSrc(DestVar.Type) == null || TypesHelper.ExtractDst(DestVar.Type) == null || TypesHelper.ExtractDst(DestVar.Type) == "SetValueType")
+            {
+                throw new SequenceParserException(DestVar.Name + "[" + KeyVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol, "map<S,T> or array<T>", DestVar.Type);
+            }
+            if(DestVar.Type.StartsWith("array"))
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyVar.Type, "int", env.Model))
+                {
+                    throw new SequenceParserException(DestVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol, "int", KeyVar.Type);
+                }
+                //if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type, TypesHelper.ExtractSrc(DestVar.Type), model))
+                {
+                    //    throw new SequenceParserException(DestVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol, SourceExpression.Type, TypesHelper.ExtractSrc(DestVar.Type));
+                }
+            }
+            else
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyVar.Type, TypesHelper.ExtractSrc(DestVar.Type), env.Model))
+                {
+                    throw new SequenceParserException(DestVar.Name + "[" + DestVar.Name + "] = " + SourceExpression.Symbol, TypesHelper.ExtractSrc(DestVar.Type), KeyVar.Type);
+                }
+                //if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type, TypesHelper.ExtractDst(DestVar.Type), model))
+                {
+                    //    throw new SequenceParserException(DestVar.Name + "[" + DestVar.Name + "] = " + SourceExpression.Symbol, SourceExpression.Type, TypesHelper.ExtractDst(DestVar.Type));
+                }
+            }
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -1334,6 +1595,14 @@ namespace de.unika.ipd.grGen.libGr
             Type = type;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(!TypesHelper.IsSameOrSubtype(Type, DestVar.Type, env.Model))
+            {
+                throw new SequenceParserException(DestVar.Name + "=$%(" + Type + ")", DestVar.Type, Type);
+            }
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             if (env == null)
@@ -1359,6 +1628,14 @@ namespace de.unika.ipd.grGen.libGr
             this.choice = choice;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "int", env.Model))
+            {
+                throw new SequenceParserException(DestVar.Name + "=$(" + Number + ")", "int", DestVar.Type);
+            }
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             int randomNumber = randomGenerator.Next(Number);
@@ -1381,6 +1658,27 @@ namespace de.unika.ipd.grGen.libGr
             DestVar = destVar;
             AttributeName = attributeName;
             SourceExpression = sourceExpr;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(DestVar.Type == "") 
+                return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
+            if(nodeOrEdgeType == null)
+            {
+                throw new SequenceParserException(DestVar.Name + "." + AttributeName + "=" + SourceExpression.Symbol, "node or edge type", DestVar.Type);
+            }
+            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            if(attributeType == null)
+            {
+                throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
+            }
+            //if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type, TypesHelper.AttributeTypeToXgrsType(attributeType), model))
+            {
+                //    throw new SequenceParserException(DestVar.Name + "." + AttributeName + "=" + SourceExpression.Symbol, TypesHelper.AttributeTypeToXgrsType(attributeType), SourceExpression.Type);
+            }
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -1436,6 +1734,15 @@ namespace de.unika.ipd.grGen.libGr
             Seq = sequence;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            Seq.Check(env);
+            if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "boolean", env.Model))
+            {
+                throw new SequenceParserException("sequence => " + DestVar.Name, "boolean", DestVar.Type);
+            }
+        }
+
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceAssignSequenceResultToVar copy = (SequenceAssignSequenceResultToVar)MemberwiseClone();
@@ -1485,6 +1792,15 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            Seq.Check(env);
+            if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "boolean", env.Model))
+            {
+                throw new SequenceParserException("sequence |> " + DestVar.Name, "boolean", DestVar.Type);
+            }
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             bool result = Seq.Apply(graph, env);
@@ -1499,6 +1815,15 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceAndAssignSequenceResultToVar(SequenceVariable destVar, Sequence sequence)
             : base(SequenceType.AndAssignSequenceResultToVar, destVar, sequence)
         {
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            Seq.Check(env);
+            if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "boolean", env.Model))
+            {
+                throw new SequenceParserException("sequence &> " + DestVar.Name, "boolean", DestVar.Type);
+            }
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -1648,6 +1973,18 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
                 Matches.Add(null);
+            }
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            foreach(Sequence seqChild in Sequences)
+            {
+                seqChild.Check(env);
+                if(seqChild is SequenceRuleAllCall
+                    && ((SequenceRuleAllCall)seqChild).MinVarChooseRandom != null
+                    && ((SequenceRuleAllCall)seqChild).MaxVarChooseRandom != null)
+                    throw new Exception("Sequence SomeFromSet (e.g. {r1,[r2],$[r3]}) can't contain a select with variable from all construct (e.g. $v[r4], e.g. $v1,v2[r4])");
             }
         }
 
@@ -2234,6 +2571,24 @@ namespace de.unika.ipd.grGen.libGr
             Val = val;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            String varVal = Var != null ? Var.Name : Val.ToString();
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
+            if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
+            {
+                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + varVal, "node or edge type", GraphElementVar.Type);
+            }
+            if(!TypesHelper.IsSameOrSubtype(VisitedFlagVar.Type, "int", env.Model))
+            {
+                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + varVal, "int", VisitedFlagVar.Type);
+            }
+            if(Var != null && !TypesHelper.IsSameOrSubtype(Var.Type, "boolean", env.Model))
+            {
+                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + varVal, "boolean", Var.Type);
+            }
+        }
+
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceSetVisited copy = (SequenceSetVisited)MemberwiseClone();
@@ -2283,6 +2638,14 @@ namespace de.unika.ipd.grGen.libGr
             VisitedFlagVar = visitedFlagVar;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(!TypesHelper.IsSameOrSubtype(VisitedFlagVar.Type, "int", env.Model))
+            {
+                throw new SequenceParserException("vfree(" + VisitedFlagVar.Name + ")", "int", VisitedFlagVar.Type);
+            }
+        }
+
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceVFree copy = (SequenceVFree)MemberwiseClone();
@@ -2312,6 +2675,14 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceVReset : Sequence
     {
         public SequenceVariable VisitedFlagVar;
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(!TypesHelper.IsSameOrSubtype(VisitedFlagVar.Type, "int", env.Model))
+            {
+                throw new SequenceParserException("vfree(" + VisitedFlagVar.Name + ")", "int", VisitedFlagVar.Type);
+            }
+        }
 
         public SequenceVReset(SequenceVariable visitedFlagVar)
             : base(SequenceType.VReset)
@@ -2477,6 +2848,46 @@ namespace de.unika.ipd.grGen.libGr
             VarDst = varDst;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type == "") 
+                return; // we can't check further types if the variable is untyped, only runtime-check possible
+            
+            if(!Container.Type.StartsWith("set<") && !Container.Type.StartsWith("map<") && !Container.Type.StartsWith("array<"))
+            {
+                throw new SequenceParserException(Container.Name, VarDst == null ? "set or array type" : "map or array type", Container.Type);
+            }
+            if(VarDst != null && TypesHelper.ExtractDst(Container.Type) == "SetValueType")
+            {
+                throw new SequenceParserException(Container.Name, "map type or array", Container.Type);
+            }
+            if(Container.Type.StartsWith("array<"))
+            {
+                if(!TypesHelper.IsSameOrSubtype(Var.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+                {
+                    if(VarDst == null) throw new SequenceParserException(Container.Name + ".Add(" + Var.Name + ")", TypesHelper.ExtractSrc(Container.Type), Var.Type);
+                    else throw new SequenceParserException(Container.Name + ".Add(" + Var.Name + "," + VarDst.Name + ")", TypesHelper.ExtractSrc(Container.Type), Var.Type);
+                }
+                if(VarDst != null && !TypesHelper.IsSameOrSubtype(VarDst.Type, "int", env.Model))
+                {
+                    throw new SequenceParserException(Container.Name + ".Add(.," + VarDst.Name + ")", TypesHelper.ExtractDst(Container.Type), VarDst.Type);
+                }
+            }
+            else
+            {
+                if(!TypesHelper.IsSameOrSubtype(Var.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+                {
+                    if(VarDst == null) throw new SequenceParserException(Container.Name + ".Add(" + Var.Name + ")", TypesHelper.ExtractSrc(Container.Type), Var.Type);
+                    else throw new SequenceParserException(Container.Name + ".Add(" + Var.Name + "," + VarDst.Name + ")", TypesHelper.ExtractSrc(Container.Type), Var.Type);
+                }
+                if(TypesHelper.ExtractDst(Container.Type) != "SetValueType"
+                    && !TypesHelper.IsSameOrSubtype(VarDst.Type, TypesHelper.ExtractDst(Container.Type), env.Model))
+                {
+                    throw new SequenceParserException(Container.Name + ".Add(.," + VarDst.Name + ")", TypesHelper.ExtractDst(Container.Type), VarDst.Type);
+                }
+            }
+        }
+
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceContainerAdd copy = (SequenceContainerAdd)MemberwiseClone();
@@ -2539,6 +2950,31 @@ namespace de.unika.ipd.grGen.libGr
             Var = var;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type == "") 
+                return; // we can't check further types if the variable is untyped, only runtime-check possible
+            
+            if(!Container.Type.StartsWith("set<") && !Container.Type.StartsWith("map<") && !Container.Type.StartsWith("array<"))
+            {
+                throw new SequenceParserException(Container.Name, "set or map or array type", Container.Type);
+            }
+            if(Container.Type.StartsWith("array<"))
+            {
+                if(Var != null && !TypesHelper.IsSameOrSubtype(Var.Type, "int", env.Model))
+                {
+                    throw new SequenceParserException(Container.Name + ".Rem(" + Var.Name + ")", "int", Var.Type);
+                }
+            }
+            else
+            {
+                if(!TypesHelper.IsSameOrSubtype(Var.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+                {
+                    throw new SequenceParserException(Container.Name + ".Rem(" + Var.Name + ")", TypesHelper.ExtractSrc(Container.Type), Var.Type);
+                }
+            }
+        }
+
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceContainerRem copy = (SequenceContainerRem)MemberwiseClone();
@@ -2588,6 +3024,17 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceType.ContainerClear)
         {
             Container = container;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type == "")
+                return; // we can't check further types if the variable is untyped, only runtime-check possible
+
+            if(!Container.Type.StartsWith("set<") && !Container.Type.StartsWith("map<") && !Container.Type.StartsWith("array<"))
+            {
+                throw new SequenceParserException(Container.Name, "set or map or array type", Container.Type);
+            }
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -2921,6 +3368,11 @@ namespace de.unika.ipd.grGen.libGr
             ParamBindings = paramBindings;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            env.CheckRuleCallRuleAllCallSequenceCall(this);
+        }
+
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceSequenceCall copy = (SequenceSequenceCall)MemberwiseClone();
@@ -3008,6 +3460,14 @@ namespace de.unika.ipd.grGen.libGr
             Expression = expr;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            //if(!TypesHelper.IsSameOrSubtype(varPredSeq.SourceExpression.Type, "boolean", model))
+            {
+                //    throw new SequenceParserException(varPredSeq.SourceExpression.Symbol, "boolean", varPredSeq.Expression.Type);
+            }
+        }
+
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceBooleanExpression copy = (SequenceBooleanExpression)MemberwiseClone();
@@ -3056,7 +3516,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "true"; } }
-        //public override String Type { get { return "boolean"; } }
     }
 
     public class SequenceExpressionFalse : SequenceExpression
@@ -3076,7 +3535,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "false"; } }
-        //public override String Type { get { return "boolean"; } }
     }
 
     public class SequenceExpressionVariable : SequenceExpression
@@ -3087,6 +3545,11 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceExpressionType.Variable)
         {
             PredicateVar = var;
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return PredicateVar.Type;
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3109,7 +3572,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return PredicateVar.Name; } }
-        //public override String Type { get { return PredicateVar.Type; } }
     }
 
     public class SequenceExpressionDef : SequenceExpression
@@ -3164,7 +3626,6 @@ namespace de.unika.ipd.grGen.libGr
                 return sb.ToString();
             }
         }
-        //public override String Type { get { return "boolean"; } }
     }
 
     public class SequenceExpressionIsVisited : SequenceExpression
@@ -3177,6 +3638,19 @@ namespace de.unika.ipd.grGen.libGr
         {
             GraphElementVar = graphElementVar;
             VisitedFlagVar = visitedFlagVar;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
+            if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
+            {
+                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]", "node or edge type", GraphElementVar.Type);
+            }
+            if(!TypesHelper.IsSameOrSubtype(VisitedFlagVar.Type, "int", env.Model))
+            {
+                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]", "int", VisitedFlagVar.Type);
+            }
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3203,7 +3677,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]"; } }
-        //public override String Type { get { return "boolean"; } }
     }
 
     public class SequenceExpressionInContainer : SequenceExpression
@@ -3216,6 +3689,21 @@ namespace de.unika.ipd.grGen.libGr
         {
             Var = var;
             Container = container;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type == "") 
+                return; // we can't check further types if the variable is untyped, only runtime-check possible
+
+            if(!Container.Type.StartsWith("set<") && !Container.Type.StartsWith("map<") && !Container.Type.StartsWith("array<"))
+            {
+                throw new SequenceParserException(Container.Name, "set or map or array type", Container.Type);
+            }
+            if(!TypesHelper.IsSameOrSubtype(Var.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+            {
+                throw new SequenceParserException(Var.Name + " in " + Container.Name, TypesHelper.ExtractSrc(Container.Type), Var.Type);
+            }
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3249,7 +3737,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Var.Name + " in " + Container.Name; } }
-        //public override String Type { get { return "boolean"; } }
     }
 
     public class SequenceExpressionVAlloc : SequenceExpression
@@ -3257,6 +3744,16 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpressionVAlloc()
             : base(SequenceExpressionType.VAlloc)
         {
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            //"int"
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3273,7 +3770,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "valloc()"; } }
-        //public override String Type { get { return "int"; } }
     }
 
     public class SequenceExpressionContainerSize : SequenceExpression
@@ -3284,6 +3780,20 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceExpressionType.ContainerSize)
         {
             Container = container;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type != "" && (TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null))
+            {
+                throw new SequenceParserException(Container.Name + ".size()", "set<S> or map<S,T> or array<S> type", Container.Type);
+            }
+            //"int"
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3315,7 +3825,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Container.Name + ".size()"; } }
-        //public override String Type { get { return "int"; } }
     }
 
     public class SequenceExpressionContainerEmpty : SequenceExpression
@@ -3326,6 +3835,15 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceExpressionType.ContainerEmpty)
         {
             Container = container;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type != "" && (TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null))
+            {
+                throw new SequenceParserException(Container.Name + ".empty()", "set<S> or map<S,T> or array<S> type", Container.Type);
+            }
+            //"boolean"
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3357,7 +3875,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Container.Name + ".empty()"; } }
-        //public override String Type { get { return "boolean"; } }
     }
 
     public class SequenceExpressionContainerAccess : SequenceExpression
@@ -3370,6 +3887,38 @@ namespace de.unika.ipd.grGen.libGr
         {
             Container = container;
             KeyVar = keyVar;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type == "")
+                return; // we can't check source and destination types if the variable is untyped, only runtime-check possible
+            
+            if(TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == "SetValueType")
+            {
+                throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", "map<S,T> or array<S>", Container.Type);
+            }
+            if(Container.Type.StartsWith("array"))
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyVar.Type, "int", env.Model))
+                {
+                    throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", "int", KeyVar.Type);
+                }
+                //TypesHelper.ExtractSrc(Container.Type)
+            }
+            else
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyVar.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+                {
+                    throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", TypesHelper.ExtractSrc(Container.Type), KeyVar.Type);
+                }
+                //TypesHelper.ExtractDst(Container.Type)
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return TypesHelper.ExtractDst(Container.Type);
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3405,7 +3954,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Container.Name + "[" + KeyVar.Name + "]"; } }
-        //public override String Type { get { return TypesHelper.ExtractDst(Container.Type); } }
     }
 
     public class SequenceExpressionElementFromGraph : SequenceExpression
@@ -3417,6 +3965,17 @@ namespace de.unika.ipd.grGen.libGr
         {
             ElementName = elemName;
             if(ElementName[0] == '\"') ElementName = ElementName.Substring(1, ElementName.Length - 2);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            //GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, model);
+            //if(nodeOrEdgeType == null)
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "";
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3441,7 +4000,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "@(" + ElementName + ")"; } }
-        //public override String Type { get { return ""; } }
     }
 
     public class SequenceExpressionConstant : SequenceExpression
@@ -3452,6 +4010,16 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceExpressionType.Constant)
         {
             Constant = constant;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            //TypesHelper.XgrsTypeOfConstant(assignSeq.Constant, model);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return TypesHelper.XgrsTypeOfConstant(Constant, env.Model);
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3481,7 +4049,6 @@ namespace de.unika.ipd.grGen.libGr
                     return Constant.ToString();
             }
         }
-        //public override String Type { get { return TypesHelper.XgrsTypeOfConstant(Constant, model); } }
     }
 
     public class SequenceExpressionAttribute : SequenceExpression
@@ -3494,6 +4061,29 @@ namespace de.unika.ipd.grGen.libGr
         {
             SourceVar = sourceVar;
             AttributeName = attributeName;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(SourceVar.Type == "") 
+                return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SourceVar.Type, env.Model);
+            if(nodeOrEdgeType == null)
+            {
+                throw new SequenceParserException(SourceVar.Name + "." + AttributeName, "node or edge type", SourceVar.Type);
+            }
+            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            if(attributeType == null)
+            {
+                throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
+            }
+            //TypesHelper.AttributeTypeToXgrsType(attributeType);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return SourceVar.Type;
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3520,6 +4110,5 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return SourceVar.Name + "." + AttributeName; } }
-        //public override String Type { get { return SourceVar.Type; } }
     }
 }
