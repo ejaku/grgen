@@ -18,7 +18,6 @@ namespace de.unika.ipd.grGen.libGr
     // todo: semantic changed, communicate: container access out of bounds yield runtime crash instead of sequence application result false
     // todo: adapt parser to parse expression, currently no changes of input language
     // todo: SequenceDefinitionCompiled hat die sequence nicht als kind, sicherstellen das trotzdem geprüft wird
-    // todo: just took over the sequence checker and lgsp sequence checker, reconsider/reevalute/maybe improve the checks
     // todo: the checks commented out
 
     /// <summary>
@@ -122,12 +121,210 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// Environment for sequence checking giving access to model and action signatures
+    /// Environment for sequence checking giving access to model and action signatures.
+    /// Abstract base class, there are two concrete subclasses, one for interpreted, one for compiled sequences
     /// </summary>
-    public class SequenceCheckingEnvironment
+    public abstract class SequenceCheckingEnvironment
+    {
+        /// <summary>
+        /// The model giving access to graph element types for checking.
+        /// </summary>
+        public abstract IGraphModel Model { get; }
+
+        /// <summary>
+        /// Helper for checking rule calls, rule all calls, and sequence calls.
+        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Throws an exception when an error is found.
+        /// </summary>
+        /// <param name="seq">The sequence to check, must be a rule call, a rule all call, or a sequence call</param>
+        public void CheckRuleCallRuleAllCallSequenceCall(Sequence seq)
+        {
+            InvocationParameterBindings paramBindings = ExtractParameterBindings(seq);
+
+            // check the rule name against the available rule names
+            if(!IsRuleOrSequenceExisting(paramBindings))
+                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
+
+            // Check whether number of parameters and return parameters match
+            if(NumInputParameters(paramBindings) != paramBindings.ParamVars.Length
+                    || paramBindings.ReturnVars.Length != 0 && NumOutputParameters(paramBindings) != paramBindings.ReturnVars.Length)
+                throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+
+            // Check parameter types
+            for(int i = 0; i < paramBindings.ParamVars.Length; i++)
+            {
+                if(paramBindings.ParamVars[i] != null)
+                {
+                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ParamVars[i].Type, InputParameterType(i, paramBindings), Model))
+                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
+                }
+                else
+                {
+                    if(paramBindings.Parameters[i]!=null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Parameters[i], Model), InputParameterType(i, paramBindings), Model))
+                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
+                }
+            }
+
+            // Check return types
+            for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
+            {
+                if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings), paramBindings.ReturnVars[i].Type, Model))
+                    throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
+            }
+
+            // ok, this is a well-formed rule invocation
+        }
+
+        private InvocationParameterBindings ExtractParameterBindings(Sequence seq)
+        {
+            if(seq is SequenceRuleCall) // hint: a rule all call is a rule call, too
+                return (seq as SequenceRuleCall).ParamBindings;
+            else
+                return (seq as SequenceSequenceCall).ParamBindings;
+        }
+
+        protected abstract bool IsRuleOrSequenceExisting(InvocationParameterBindings paramBindings);
+        protected abstract int NumInputParameters(InvocationParameterBindings paramBindings);
+        protected abstract int NumOutputParameters(InvocationParameterBindings paramBindings);
+        protected abstract string InputParameterType(int i, InvocationParameterBindings paramBindings);
+        protected abstract string OutputParameterType(int i, InvocationParameterBindings paramBindings);
+    }
+
+    /// <summary>
+    /// Environment for sequence checking giving access to model and action signatures.
+    /// Concrete subclass for interpreted sequences.
+    /// </summary>
+    public class SequenceCheckingEnvironmentInterpreted : SequenceCheckingEnvironment
+    {
+        // constructor for interpreted sequences
+        public SequenceCheckingEnvironmentInterpreted(BaseActions actions)
+        {
+            this.actions = actions;
+        }
+
+        // the information available if this is an interpreted sequence 
+
+        private BaseActions actions;
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public override IGraphModel Model { get { return actions.Graph.Model; } }
+
+        protected override bool IsRuleOrSequenceExisting(InvocationParameterBindings paramBindings)
+        {
+            if(paramBindings is RuleInvocationParameterBindings)
+            {
+                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
+                return ruleParamBindings.Action != null;
+            }
+            else
+            {
+                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
+                return seqParamBindings.SequenceDef != null;
+            }
+        }
+
+        protected override int NumInputParameters(InvocationParameterBindings paramBindings)
+        {
+            if(paramBindings is RuleInvocationParameterBindings)
+            {
+                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
+                return ruleParamBindings.Action.RulePattern.Inputs.Length;
+            }
+            else
+            {
+                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
+                if(seqParamBindings.SequenceDef is SequenceDefinitionInterpreted)
+                {
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqParamBindings.SequenceDef;
+                    return seqDef.InputVariables.Length;
+                }
+                else
+                {
+                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqParamBindings.SequenceDef;
+                    return seqDef.SeqInfo.ParameterTypes.Length;
+                }
+            }
+        }
+
+        protected override int NumOutputParameters(InvocationParameterBindings paramBindings)
+        {
+            if(paramBindings is RuleInvocationParameterBindings)
+            {
+                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
+                return ruleParamBindings.Action.RulePattern.Outputs.Length;
+            }
+            else
+            {
+                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
+                if(seqParamBindings.SequenceDef is SequenceDefinitionInterpreted)
+                {
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqParamBindings.SequenceDef;
+                    return seqDef.OutputVariables.Length;
+                }
+                else
+                {
+                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqParamBindings.SequenceDef;
+                    return seqDef.SeqInfo.OutParameterTypes.Length;
+                }
+            }
+        }
+
+        protected override string InputParameterType(int i, InvocationParameterBindings paramBindings)
+        {
+            if(paramBindings is RuleInvocationParameterBindings)
+            {
+                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
+                return TypesHelper.DotNetTypeToXgrsType(ruleParamBindings.Action.RulePattern.Inputs[i]);
+            }
+            else
+            {
+                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
+                if(seqParamBindings.SequenceDef is SequenceDefinitionInterpreted)
+                {
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqParamBindings.SequenceDef;
+                    return seqDef.InputVariables[i].Type;
+                }
+                else
+                {
+                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqParamBindings.SequenceDef;
+                    return TypesHelper.DotNetTypeToXgrsType(seqDef.SeqInfo.ParameterTypes[i]);
+                }
+            }
+        }
+
+        protected override string OutputParameterType(int i, InvocationParameterBindings paramBindings)
+        {
+            if(paramBindings is RuleInvocationParameterBindings)
+            {
+                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
+                return TypesHelper.DotNetTypeToXgrsType(ruleParamBindings.Action.RulePattern.Outputs[i]);
+            }
+            else
+            {
+                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
+                if(seqParamBindings.SequenceDef is SequenceDefinitionInterpreted)
+                {
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqParamBindings.SequenceDef;
+                    return seqDef.OutputVariables[i].Type;
+                }
+                else
+                {
+                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqParamBindings.SequenceDef;
+                    return TypesHelper.DotNetTypeToXgrsType(seqDef.SeqInfo.OutParameterTypes[i]);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Environment for sequence checking giving access to model and action signatures.
+    /// Concrete subclass for compiled sequences.
+    /// </summary>
+    public class SequenceCheckingEnvironmentCompiled : SequenceCheckingEnvironment
     {
         // constructor for compiled sequences
-        public SequenceCheckingEnvironment(String[] ruleNames, String[] sequenceNames,
+        public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames,
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
             IGraphModel model)
@@ -170,106 +367,79 @@ namespace de.unika.ipd.grGen.libGr
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // constructor for interpreted sequences
-        public SequenceCheckingEnvironment(BaseActions actions)
-        {
-            this.actions = actions;
-        }
-
-        // the information available if this is an interpreted sequence 
-
-        private BaseActions actions;
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         /// <summary>
         /// the model giving access to graph element types for checking
         /// </summary>
-        public IGraphModel Model { get { return model ?? actions.Graph.Model; } }
+        public override IGraphModel Model { get { return model; } }
 
-
-        // helper stuff
-        public void CheckRuleCallRuleAllCallSequenceCall(Sequence seq)
+        protected override bool IsRuleOrSequenceExisting(InvocationParameterBindings paramBindings)
         {
-            // that's the quick was to merge SequenceChecker and lgspSequenceChecker
-            // todo: merge the code, let it work over data abstracting away the interpreted/compiled difference
-            if(actions != null)
-                CheckRuleCallRuleAllCallSequenceCallInterpreted(seq);
+            if(paramBindings is RuleInvocationParameterBindings)
+            {
+                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
+                return Array.IndexOf(ruleNames, ruleParamBindings.Name) != -1;
+            }
             else
-                CheckRuleCallRuleAllCallSequenceCallCompiled(seq);
+            {
+                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
+                return Array.IndexOf(sequenceNames, seqParamBindings.Name) != -1;
+            }
         }
 
-        private void CheckRuleCallRuleAllCallSequenceCallInterpreted(Sequence seq)
+        protected override int NumInputParameters(InvocationParameterBindings paramBindings)
         {
-            if(seq is SequenceSequenceCall)
-                return; // nothing to check -- todo: rly? don't think so
-
-            SequenceRuleCall ruleSeq = (SequenceRuleCall)seq; // SequenceRuleAllCall is a subclass of SequenceRuleCall
-            RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
-
-            // We found the rule?
-            if(paramBindings.Action == null)
+            if(paramBindings is RuleInvocationParameterBindings)
             {
-                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
+                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
+                return rulesToInputTypes[ruleParamBindings.Name].Count;
             }
-
-            // yes -> this is a rule call; now check it
-            IAction action = paramBindings.Action;
-
-            // Check whether number of parameters and return parameters match
-            if(action.RulePattern.Inputs.Length != paramBindings.ParamVars.Length
-                    || paramBindings.ReturnVars.Length != 0 && action.RulePattern.Outputs.Length != paramBindings.ReturnVars.Length)
-                throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
-
-            // Check parameter types
-            for(int i = 0; i < paramBindings.ParamVars.Length; i++)
+            else
             {
-                // CSharpCC does not support as-expressions, yet...
-                VarType inputType = (VarType)(action.RulePattern.Inputs[i] is VarType ? action.RulePattern.Inputs[i] : null);
-
-                // If input type is not a VarType, a variable must be specified.
-                // Otherwise, if a constant is specified, the VarType must match the type of the constant
-                if(inputType == null && paramBindings.ParamVars[i] == null
-                        || inputType != null && paramBindings.Parameters[i] != null && inputType.Type != paramBindings.Parameters[i].GetType())
-                    throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
+                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
+                return sequencesToInputTypes[seqParamBindings.Name].Count;
             }
-
-            // ok, this is a well-formed rule invocation
         }
 
-        private void CheckRuleCallRuleAllCallSequenceCallCompiled(Sequence seq)
+        protected override int NumOutputParameters(InvocationParameterBindings paramBindings)
         {
-            SequenceRuleCall ruleSeq = seq as SequenceRuleCall;
-            SequenceSequenceCall seqSeq = seq as SequenceSequenceCall;
-            InvocationParameterBindings paramBindings = ruleSeq != null ? (InvocationParameterBindings)ruleSeq.ParamBindings : (InvocationParameterBindings)seqSeq.ParamBindings;
-
-            // processing of a compiled xgrs without BaseActions but array of rule names,
-            // check the rule name against the available rule names
-            if(Array.IndexOf(ruleNames, paramBindings.Name) == -1
-                && Array.IndexOf(sequenceNames, paramBindings.Name) == -1)
-                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
-
-            // Check whether number of parameters and return parameters match
-            if(toInputTypes(ruleSeq != null)[paramBindings.Name].Count != paramBindings.ParamVars.Length
-                    || paramBindings.ReturnVars.Length != 0 && toOutputTypes(ruleSeq != null)[paramBindings.Name].Count != paramBindings.ReturnVars.Length)
-                throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
-
-            // Check parameter types
-            for(int i = 0; i < paramBindings.ParamVars.Length; i++)
+            if(paramBindings is RuleInvocationParameterBindings)
             {
-                if(paramBindings.ParamVars[i] != null
-                    && !TypesHelper.IsSameOrSubtype(paramBindings.ParamVars[i].Type, toInputTypes(ruleSeq != null)[paramBindings.Name][i], model))
-                    throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
+                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
+                return rulesToOutputTypes[ruleParamBindings.Name].Count;
             }
-
-            // Check return types
-            for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
+            else
             {
-                if(!TypesHelper.IsSameOrSubtype(toOutputTypes(ruleSeq != null)[paramBindings.Name][i], paramBindings.ReturnVars[i].Type, model))
-                    throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
+                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
+                return sequencesToOutputTypes[seqParamBindings.Name].Count;
             }
+        }
 
-            // ok, this is a well-formed rule invocation
+        protected override string InputParameterType(int i, InvocationParameterBindings paramBindings)
+        {
+            if(paramBindings is RuleInvocationParameterBindings)
+            {
+                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
+                return rulesToInputTypes[ruleParamBindings.Name][i];
+            }
+            else
+            {
+                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
+                return sequencesToInputTypes[seqParamBindings.Name][i];
+            }
+        }
+
+        protected override string OutputParameterType(int i, InvocationParameterBindings paramBindings)
+        {
+            if(paramBindings is RuleInvocationParameterBindings)
+            {
+                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
+                return rulesToOutputTypes[ruleParamBindings.Name][i];
+            }
+            else
+            {
+                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
+                return sequencesToOutputTypes[seqParamBindings.Name][i];
+            }
         }
     }
 

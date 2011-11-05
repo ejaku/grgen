@@ -60,7 +60,7 @@ PARSER_BEGIN(SequenceParser)
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
 			Sequence seq = parser.XGRS();
-			SequenceCheckingEnvironment env = new SequenceCheckingEnvironment(actions);
+			SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentInterpreted(actions);
 			seq.Check(env);
 			return seq;
 		}
@@ -83,7 +83,7 @@ PARSER_BEGIN(SequenceParser)
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
 			SequenceDefinition seq = parser.defXGRS();
-			SequenceCheckingEnvironment env = new SequenceCheckingEnvironment(actions);
+			SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentInterpreted(actions);
 			seq.Check(env);
 			return seq;
 		}
