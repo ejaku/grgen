@@ -1,0 +1,725 @@
+/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 3.0
+ * Copyright (C) 2003-2011 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+ * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.net
+ */
+
+using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Text;
+using System.IO;
+
+namespace de.unika.ipd.grGen.libGr
+{
+    /// <summary>
+    /// Specifies the actual subtype of an expression part of a Sequence atom.
+    /// A new expression type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator,
+    /// SequenceChecker and Sequence (add the corresponding class down below)
+    /// </summary>
+    public enum SequenceExpressionType
+    {
+        True, False, Constant,
+        Variable,
+        Def,
+        IsVisited,
+        VAlloc,
+        InContainer, ContainerEmpty, ContainerSize, ContainerAccess,
+        ElementFromGraph,
+        GraphElementAttribute
+    }
+
+    /// <summary>
+    /// A sequence expression object with references to child sequence expressions.
+    /// </summary>
+    public abstract class SequenceExpression : SequenceBase
+    {
+        /// <summary>
+        /// The type of the sequence expression (e.g. Variable or IsVisited)
+        /// </summary>
+        public SequenceExpressionType SequenceExpressionType;
+
+        /// <summary>
+        /// Initializes a new SequenceExpression object with the given sequence expressoin type.
+        /// </summary>
+        /// <param name="seqExprType">The sequence expression type.</param>
+        public SequenceExpression(SequenceExpressionType seqExprType)
+        {
+            SequenceExpressionType = seqExprType;
+
+            id = idSource;
+            ++idSource;
+        }
+
+        /// <summary>
+        /// Checks the sequence expression for errors utilizing the given checking environment
+        /// reports them by exception
+        /// default behavior: check all the children 
+        /// </summary>
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            foreach(SequenceExpression childSeq in Children)
+                childSeq.Check(env);
+        }
+
+        /// <summary>
+        /// Returns the type of the sequence
+        /// default behaviour: returns "boolean"
+        /// </summary>
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        /// <summary>
+        /// Copies the sequence expression deeply so that
+        /// - the global Variables are kept
+        /// - the local Variables are replaced by copies initialized to null
+        /// Used for cloning defined sequences before executing them if needed.
+        /// Needed if the defined sequence is currently executed to prevent state corruption.
+        /// </summary>
+        /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+        /// <returns>The copy of the sequence</returns>
+        internal abstract SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy);
+
+        /// <summary>
+        /// Evaluates this sequence expression.
+        /// </summary>
+        /// <param name="graph">The graph on which this sequence expression is to be evaluated.</param>
+        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
+        /// <returns>The value resulting from computing this sequence expression</returns>
+        public abstract object Evaluate(IGraph graph, SequenceExecutionEnvironment env);
+
+        /// <summary>
+        /// Collects all variables of the sequence expression tree into the variables dictionary.
+        /// </summary>
+        /// <param name="variables">Contains the variables found</param>
+        public virtual void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+        }
+
+        /// <summary>
+        /// Enumerates all child sequence expression objects
+        /// </summary>
+        public abstract IEnumerable<SequenceExpression> Children { get; }
+
+        /// <summary>
+        /// The type of this sequence expression as string ("" if statically unknown).
+        /// </summary>
+    }
+
+
+    public class SequenceExpressionTrue : SequenceExpression
+    {
+        public SequenceExpressionTrue()
+            : base(SequenceExpressionType.True)
+        {
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionTrue copy = (SequenceExpressionTrue)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env) { return true; }
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "true"; } }
+    }
+
+    public class SequenceExpressionFalse : SequenceExpression
+    {
+        public SequenceExpressionFalse()
+            : base(SequenceExpressionType.False)
+        {
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionFalse copy = (SequenceExpressionFalse)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env) { return false; }
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "false"; } }
+    }
+
+    public class SequenceExpressionVariable : SequenceExpression
+    {
+        public SequenceVariable PredicateVar;
+
+        public SequenceExpressionVariable(SequenceVariable var)
+            : base(SequenceExpressionType.Variable)
+        {
+            PredicateVar = var;
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return PredicateVar.Type;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionVariable copy = (SequenceExpressionVariable)MemberwiseClone();
+            copy.PredicateVar = PredicateVar.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return PredicateVar.GetVariableValue(graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            PredicateVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return PredicateVar.Name; } }
+    }
+
+    public class SequenceExpressionDef : SequenceExpression
+    {
+        public SequenceVariable[] DefVars;
+
+        public SequenceExpressionDef(SequenceVariable[] defVars)
+            : base(SequenceExpressionType.Def)
+        {
+            DefVars = defVars;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionDef copy = (SequenceExpressionDef)MemberwiseClone();
+            copy.DefVars = new SequenceVariable[DefVars.Length];
+            for(int i = 0; i < DefVars.Length; ++i)
+                copy.DefVars[i] = DefVars[i].Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            foreach(SequenceVariable defVar in DefVars)
+            {
+                if(defVar.GetVariableValue(graph) == null)
+                    return false;
+            }
+            return true;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            foreach(SequenceVariable seqVar in DefVars)
+                seqVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("def(");
+                for(int i = 0; i < DefVars.Length; ++i)
+                {
+                    sb.Append(DefVars[i].Name);
+                    if(i != DefVars.Length - 1) sb.Append(",");
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
+    }
+
+    public class SequenceExpressionIsVisited : SequenceExpression
+    {
+        public SequenceVariable GraphElementVar;
+        public SequenceVariable VisitedFlagVar;
+
+        public SequenceExpressionIsVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar)
+            : base(SequenceExpressionType.IsVisited)
+        {
+            GraphElementVar = graphElementVar;
+            VisitedFlagVar = visitedFlagVar;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
+            if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
+            {
+                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]", "node or edge type", GraphElementVar.Type);
+            }
+            if(!TypesHelper.IsSameOrSubtype(VisitedFlagVar.Type, "int", env.Model))
+            {
+                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]", "int", VisitedFlagVar.Type);
+            }
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionIsVisited copy = (SequenceExpressionIsVisited)MemberwiseClone();
+            copy.GraphElementVar = GraphElementVar.Copy(originalToCopy);
+            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
+            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
+            return graph.IsVisited(elem, visitedFlag);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            GraphElementVar.GetLocalVariables(variables);
+            VisitedFlagVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]"; } }
+    }
+
+    public class SequenceExpressionInContainer : SequenceExpression
+    {
+        public SequenceVariable Var;
+        public SequenceVariable Container;
+
+        public SequenceExpressionInContainer(SequenceVariable var, SequenceVariable container)
+            : base(SequenceExpressionType.InContainer)
+        {
+            Var = var;
+            Container = container;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type == "") 
+                return; // we can't check further types if the variable is untyped, only runtime-check possible
+
+            if(!Container.Type.StartsWith("set<") && !Container.Type.StartsWith("map<") && !Container.Type.StartsWith("array<"))
+            {
+                throw new SequenceParserException(Container.Name, "set or map or array type", Container.Type);
+            }
+            if(!TypesHelper.IsSameOrSubtype(Var.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+            {
+                throw new SequenceParserException(Var.Name + " in " + Container.Name, TypesHelper.ExtractSrc(Container.Type), Var.Type);
+            }
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionInContainer copy = (SequenceExpressionInContainer)MemberwiseClone();
+            copy.Container = Container.Copy(originalToCopy);
+            copy.Var = Var.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(Container.GetVariableValue(graph) is IList)
+            {
+                IList array = (IList)Container.GetVariableValue(graph);
+                return array.Contains(Var.GetVariableValue(graph));
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                return setmap.Contains(Var.GetVariableValue(graph));
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Container.GetLocalVariables(variables);
+            Var.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Var.Name + " in " + Container.Name; } }
+    }
+
+    public class SequenceExpressionVAlloc : SequenceExpression
+    {
+        public SequenceExpressionVAlloc()
+            : base(SequenceExpressionType.VAlloc)
+        {
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            //"int"
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionVAlloc copy = (SequenceExpressionVAlloc)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return graph.AllocateVisitedFlag();
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "valloc()"; } }
+    }
+
+    public class SequenceExpressionContainerSize : SequenceExpression
+    {
+        public SequenceVariable Container;
+
+        public SequenceExpressionContainerSize(SequenceVariable container)
+            : base(SequenceExpressionType.ContainerSize)
+        {
+            Container = container;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type != "" && (TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null))
+            {
+                throw new SequenceParserException(Container.Name + ".size()", "set<S> or map<S,T> or array<S> type", Container.Type);
+            }
+            //"int"
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionContainerSize copy = (SequenceExpressionContainerSize)MemberwiseClone();
+            copy.Container = Container.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(Container.GetVariableValue(graph) is IList)
+            {
+                IList array = (IList)Container.GetVariableValue(graph);
+                return array.Count;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                return setmap.Count;
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Container.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Container.Name + ".size()"; } }
+    }
+
+    public class SequenceExpressionContainerEmpty : SequenceExpression
+    {
+        public SequenceVariable Container;
+
+        public SequenceExpressionContainerEmpty(SequenceVariable container)
+            : base(SequenceExpressionType.ContainerEmpty)
+        {
+            Container = container;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type != "" && (TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null))
+            {
+                throw new SequenceParserException(Container.Name + ".empty()", "set<S> or map<S,T> or array<S> type", Container.Type);
+            }
+            //"boolean"
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionContainerEmpty copy = (SequenceExpressionContainerEmpty)MemberwiseClone();
+            copy.Container = Container.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(Container.GetVariableValue(graph) is IList)
+            {
+                IList array = (IList)Container.GetVariableValue(graph);
+                return array.Count == 0;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                return setmap.Count == 0;
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Container.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Container.Name + ".empty()"; } }
+    }
+
+    public class SequenceExpressionContainerAccess : SequenceExpression
+    {
+        public SequenceVariable Container;
+        public SequenceVariable KeyVar;
+
+        public SequenceExpressionContainerAccess(SequenceVariable container, SequenceVariable keyVar)
+            : base(SequenceExpressionType.ContainerAccess)
+        {
+            Container = container;
+            KeyVar = keyVar;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container.Type == "")
+                return; // we can't check source and destination types if the variable is untyped, only runtime-check possible
+            
+            if(TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == "SetValueType")
+            {
+                throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", "map<S,T> or array<S>", Container.Type);
+            }
+            if(Container.Type.StartsWith("array"))
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyVar.Type, "int", env.Model))
+                {
+                    throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", "int", KeyVar.Type);
+                }
+                //TypesHelper.ExtractSrc(Container.Type)
+            }
+            else
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyVar.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+                {
+                    throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", TypesHelper.ExtractSrc(Container.Type), KeyVar.Type);
+                }
+                //TypesHelper.ExtractDst(Container.Type)
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return TypesHelper.ExtractDst(Container.Type);
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionContainerAccess copy = (SequenceExpressionContainerAccess)MemberwiseClone();
+            copy.Container = Container.Copy(originalToCopy);
+            copy.KeyVar = KeyVar.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(Container.GetVariableValue(graph) is IList)
+            {
+                IList array = (IList)Container.GetVariableValue(graph);
+                int keyVar = (int)KeyVar.GetVariableValue(graph);
+                return array[keyVar];
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                object keyVar = KeyVar.GetVariableValue(graph);
+                return setmap[keyVar];
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Container.GetLocalVariables(variables);
+            KeyVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Container.Name + "[" + KeyVar.Name + "]"; } }
+    }
+
+    public class SequenceExpressionElementFromGraph : SequenceExpression
+    {
+        public String ElementName;
+
+        public SequenceExpressionElementFromGraph(String elemName)
+            : base(SequenceExpressionType.ElementFromGraph)
+        {
+            ElementName = elemName;
+            if(ElementName[0] == '\"') ElementName = ElementName.Substring(1, ElementName.Length - 2);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            //GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, model);
+            //if(nodeOrEdgeType == null)
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "";
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionElementFromGraph copy = (SequenceExpressionElementFromGraph)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(env == null && !(graph is NamedGraph))
+                throw new InvalidOperationException("The @-operator can only be used with NamedGraphs!");
+            NamedGraph namedGraph = null;
+            if(env != null) namedGraph = env.GetNamedGraph();
+            if(env == null) namedGraph = (NamedGraph)graph;
+            IGraphElement elem = namedGraph.GetGraphElement(ElementName);
+            if(elem == null)
+                throw new InvalidOperationException("Graph element does not exist: \"" + ElementName + "\"!");
+            return elem;
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "@(" + ElementName + ")"; } }
+    }
+
+    public class SequenceExpressionConstant : SequenceExpression
+    {
+        public object Constant;
+
+        public SequenceExpressionConstant(object constant)
+            : base(SequenceExpressionType.Constant)
+        {
+            Constant = constant;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            //TypesHelper.XgrsTypeOfConstant(assignSeq.Constant, model);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return TypesHelper.XgrsTypeOfConstant(Constant, env.Model);
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionConstant copy = (SequenceExpressionConstant)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return Constant;
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol
+        {
+            get
+            {
+                if(Constant == null)
+                    return "null";
+                else if(Constant.GetType().Name == "Dictionary`2")
+                    return "{}"; // only empty set/map assignment possible as of now
+                else if(Constant.GetType().Name == "List`1")
+                    return "[]"; // only empty array assignment possible as of now
+                else
+                    return Constant.ToString();
+            }
+        }
+    }
+
+    public class SequenceExpressionAttribute : SequenceExpression
+    {
+        public SequenceVariable SourceVar;
+        public String AttributeName;
+
+        public SequenceExpressionAttribute(SequenceVariable sourceVar, String attributeName)
+            : base(SequenceExpressionType.GraphElementAttribute)
+        {
+            SourceVar = sourceVar;
+            AttributeName = attributeName;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(SourceVar.Type == "") 
+                return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SourceVar.Type, env.Model);
+            if(nodeOrEdgeType == null)
+            {
+                throw new SequenceParserException(SourceVar.Name + "." + AttributeName, "node or edge type", SourceVar.Type);
+            }
+            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            if(attributeType == null)
+            {
+                throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
+            }
+            //TypesHelper.AttributeTypeToXgrsType(attributeType);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return SourceVar.Type;
+        }
+
+        internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionAttribute copy = (SequenceExpressionAttribute)MemberwiseClone();
+            copy.SourceVar = SourceVar.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(graph);
+            object value = elem.GetAttribute(AttributeName);
+            value = DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
+                elem, AttributeName, value);
+            return value;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            SourceVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return SourceVar.Name + "." + AttributeName; } }
+    }
+}

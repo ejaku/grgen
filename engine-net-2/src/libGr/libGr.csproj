@@ -93,7 +93,9 @@
     <Compile Include="Recorder.cs" />
     <Compile Include="RuleAndSequenceInvocationRepresentations.cs" />
     <Compile Include="Sequence.cs" />
+    <Compile Include="SequenceBase.cs" />
     <Compile Include="SequenceExecutionInterface.cs" />
+    <Compile Include="SequenceExpression.cs" />
     <Compile Include="SequenceParser.cs" />
     <Compile Include="SequenceParserConstants.cs" />
     <Compile Include="SequenceParserExceptions.cs" />
