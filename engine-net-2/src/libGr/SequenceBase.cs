@@ -67,6 +67,7 @@ namespace de.unika.ipd.grGen.libGr
         void EndOfIteration(bool continueLoop, Sequence seq);
     }
 
+
     /// <summary>
     /// Environment for sequence checking giving access to model and action signatures.
     /// Abstract base class, there are two concrete subclasses, one for interpreted, one for compiled sequences
@@ -389,6 +390,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
     }
+
 
     /// <summary>
     /// The common base of sequence and sequence expression objects,

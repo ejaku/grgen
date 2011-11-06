@@ -18,7 +18,6 @@ namespace de.unika.ipd.grGen.libGr
     // todo: semantic changed, communicate: container access out of bounds yield runtime crash instead of sequence application result false
     // todo: adapt parser to parse expression, currently no changes of input language
     // todo: SequenceDefinitionCompiled hat die sequence nicht als kind, sicherstellen das trotzdem geprüft wird
-    // todo: the checks commented out
 
     /// <summary>
     /// Specifies the actual subtype used for a Sequence.
@@ -1062,9 +1061,9 @@ namespace de.unika.ipd.grGen.libGr
         {
             // the assignment of an untyped variable to a typed variable is ok, cause we want access to persistency
             // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
-            //if(!TypesHelper.IsSameOrSubtype(assignSeq.SourceExpression.Type, assignSeq.DestVar.Type, model))
+            if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), DestVar.Type, env.Model))
             {
-                //    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.SourceExpression.Symbol, assignSeq.DestVar.Type, assignSeq.SourceExpression.Type);
+                throw new SequenceParserException(DestVar.Name + "=" + SourceExpression.Symbol, DestVar.Type, SourceExpression.Type(env));
             }
         }
 
@@ -1107,9 +1106,9 @@ namespace de.unika.ipd.grGen.libGr
         {
             // the assignment of an untyped variable to a typed variable is ok, cause we want access to persistency
             // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
-            //if(!TypesHelper.IsSameOrSubtype(seqYield.SourceExpression.Type, seqYield.DestVar.Type, model))
+            if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), DestVar.Type, env.Model))
             {
-                //    throw new SequenceParserException("yield " + seqYield.DestVar.Name + "=" + seqYield.SourceExpression.Symbol, seqYield.DestVar.Type, seqYield.FromVar.Type);
+                throw new SequenceParserException("yield " + DestVar.Name + "=" + SourceExpression.Symbol, DestVar.Type, SourceExpression.Type(env));
             }
         }
 
@@ -1166,9 +1165,9 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     throw new SequenceParserException(DestVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol, "int", KeyVar.Type);
                 }
-                //if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type, TypesHelper.ExtractSrc(DestVar.Type), model))
+                if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), TypesHelper.ExtractSrc(DestVar.Type), env.Model))
                 {
-                    //    throw new SequenceParserException(DestVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol, SourceExpression.Type, TypesHelper.ExtractSrc(DestVar.Type));
+                    throw new SequenceParserException(DestVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol, SourceExpression.Type(env), TypesHelper.ExtractSrc(DestVar.Type));
                 }
             }
             else
@@ -1177,9 +1176,9 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     throw new SequenceParserException(DestVar.Name + "[" + DestVar.Name + "] = " + SourceExpression.Symbol, TypesHelper.ExtractSrc(DestVar.Type), KeyVar.Type);
                 }
-                //if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type, TypesHelper.ExtractDst(DestVar.Type), model))
+                if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), TypesHelper.ExtractDst(DestVar.Type), env.Model))
                 {
-                    //    throw new SequenceParserException(DestVar.Name + "[" + DestVar.Name + "] = " + SourceExpression.Symbol, SourceExpression.Type, TypesHelper.ExtractDst(DestVar.Type));
+                    throw new SequenceParserException(DestVar.Name + "[" + DestVar.Name + "] = " + SourceExpression.Symbol, SourceExpression.Type(env), TypesHelper.ExtractDst(DestVar.Type));
                 }
             }
         }
@@ -1319,9 +1318,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
             }
-            //if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type, TypesHelper.AttributeTypeToXgrsType(attributeType), model))
+            if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), TypesHelper.AttributeTypeToXgrsType(attributeType), env.Model))
             {
-                //    throw new SequenceParserException(DestVar.Name + "." + AttributeName + "=" + SourceExpression.Symbol, TypesHelper.AttributeTypeToXgrsType(attributeType), SourceExpression.Type);
+                throw new SequenceParserException(DestVar.Name + "." + AttributeName + "=" + SourceExpression.Symbol, TypesHelper.AttributeTypeToXgrsType(attributeType), SourceExpression.Type(env));
             }
         }
 
@@ -3106,9 +3105,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            //if(!TypesHelper.IsSameOrSubtype(varPredSeq.SourceExpression.Type, "boolean", model))
+            if(!TypesHelper.IsSameOrSubtype(Expression.Type(env), "boolean", env.Model))
             {
-                //    throw new SequenceParserException(varPredSeq.SourceExpression.Symbol, "boolean", varPredSeq.Expression.Type);
+                throw new SequenceParserException(Expression.Symbol, "boolean", Expression.Type(env));
             }
         }
 

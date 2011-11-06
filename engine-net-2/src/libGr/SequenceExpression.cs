@@ -357,11 +357,6 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            //"int"
-        }
-
         public override String Type(SequenceCheckingEnvironment env)
         {
             return "int";
@@ -399,7 +394,6 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new SequenceParserException(Container.Name + ".size()", "set<S> or map<S,T> or array<S> type", Container.Type);
             }
-            //"int"
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -454,7 +448,6 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new SequenceParserException(Container.Name + ".empty()", "set<S> or map<S,T> or array<S> type", Container.Type);
             }
-            //"boolean"
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -515,7 +508,6 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", "int", KeyVar.Type);
                 }
-                //TypesHelper.ExtractSrc(Container.Type)
             }
             else
             {
@@ -523,13 +515,18 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", TypesHelper.ExtractSrc(Container.Type), KeyVar.Type);
                 }
-                //TypesHelper.ExtractDst(Container.Type)
             }
         }
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return TypesHelper.ExtractDst(Container.Type);
+            if(Container.Type == "")
+                return ""; // we can't gain access to the container destination type if the variable is untyped, only runtime-check possible
+
+            if(Container.Type.StartsWith("array"))
+                return TypesHelper.ExtractSrc(Container.Type);
+            else
+                return TypesHelper.ExtractDst(Container.Type);
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -578,12 +575,6 @@ namespace de.unika.ipd.grGen.libGr
             if(ElementName[0] == '\"') ElementName = ElementName.Substring(1, ElementName.Length - 2);
         }
 
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            //GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, model);
-            //if(nodeOrEdgeType == null)
-        }
-
         public override String Type(SequenceCheckingEnvironment env)
         {
             return "";
@@ -623,14 +614,12 @@ namespace de.unika.ipd.grGen.libGr
             Constant = constant;
         }
 
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            //TypesHelper.XgrsTypeOfConstant(assignSeq.Constant, model);
-        }
-
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return TypesHelper.XgrsTypeOfConstant(Constant, env.Model);
+            if(Constant != null)
+                return TypesHelper.XgrsTypeOfConstant(Constant, env.Model);
+            else
+                return "";
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -689,12 +678,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
             }
-            //TypesHelper.AttributeTypeToXgrsType(attributeType);
         }
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return SourceVar.Type;
+            if(SourceVar.Type == "")
+                return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SourceVar.Type, env.Model);
+            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            return TypesHelper.AttributeTypeToXgrsType(attributeType);
         }
 
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
