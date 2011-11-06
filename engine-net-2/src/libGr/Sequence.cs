@@ -16,8 +16,6 @@ using System.IO;
 namespace de.unika.ipd.grGen.libGr
 {
     // todo: semantic changed, communicate: container access out of bounds yield runtime crash instead of sequence application result false
-    // todo: adapt parser to parse expression, currently no changes of input language
-    // todo: SequenceDefinitionCompiled hat die sequence nicht als kind, sicherstellen das trotzdem geprüft wird
 
     /// <summary>
     /// Specifies the actual subtype used for a Sequence.
@@ -2195,40 +2193,30 @@ namespace de.unika.ipd.grGen.libGr
     {
         public SequenceVariable GraphElementVar;
         public SequenceVariable VisitedFlagVar;
-        public SequenceVariable Var; // if Var!=null take Var, otherwise Val
-        public bool Val;
+        public SequenceExpression SourceExpression;
 
-        public SequenceSetVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar, SequenceVariable var)
+        public SequenceSetVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar, SequenceExpression expr)
             : base(SequenceType.SetVisited)
         {
             GraphElementVar = graphElementVar;
             VisitedFlagVar = visitedFlagVar;
-            Var = var;
-        }
-
-        public SequenceSetVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar, bool val)
-            : base(SequenceType.SetVisited)
-        {
-            GraphElementVar = graphElementVar;
-            VisitedFlagVar = visitedFlagVar;
-            Val = val;
+            SourceExpression = expr;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            String varVal = Var != null ? Var.Name : Val.ToString();
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
             if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
             {
-                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + varVal, "node or edge type", GraphElementVar.Type);
+                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + SourceExpression.Symbol, "node or edge type", GraphElementVar.Type);
             }
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagVar.Type, "int", env.Model))
             {
-                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + varVal, "int", VisitedFlagVar.Type);
+                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + SourceExpression.Symbol, "int", VisitedFlagVar.Type);
             }
-            if(Var != null && !TypesHelper.IsSameOrSubtype(Var.Type, "boolean", env.Model))
+            if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), "boolean", env.Model))
             {
-                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + varVal, "boolean", Var.Type);
+                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + SourceExpression.Symbol, "boolean", SourceExpression.Type(env));
             }
         }
 
@@ -2237,8 +2225,7 @@ namespace de.unika.ipd.grGen.libGr
             SequenceSetVisited copy = (SequenceSetVisited)MemberwiseClone();
             copy.GraphElementVar = GraphElementVar.Copy(originalToCopy);
             copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
-            if(Var!=null)
-                copy.Var = Var.Copy(originalToCopy);
+            copy.SourceExpression = SourceExpression.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
@@ -2247,12 +2234,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
             int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
-            bool value;
-            if(Var!=null) {
-                value = (bool)Var.GetVariableValue(graph);
-            } else {
-                value = Val;
-            }
+            bool value = (bool)SourceExpression.Evaluate(graph, env);
             graph.SetVisited(elem, visitedFlag, value);
             return true;
         }
@@ -2261,14 +2243,13 @@ namespace de.unika.ipd.grGen.libGr
         {
             GraphElementVar.GetLocalVariables(variables);
             VisitedFlagVar.GetLocalVariables(variables);
-            if(Var != null)
-                Var.GetLocalVariables(variables);
+            SourceExpression.GetLocalVariables(variables);
             return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return GraphElementVar.Name+".visited["+VisitedFlagVar.Name+"]="+(Var!=null ? Var.Name : Val.ToString()); } }
+        public override string Symbol { get { return GraphElementVar.Name+".visited["+VisitedFlagVar.Name+"]="+SourceExpression.Symbol; } }
     }
 
     public class SequenceVFree : Sequence

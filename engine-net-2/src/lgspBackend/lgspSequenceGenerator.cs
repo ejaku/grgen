@@ -873,13 +873,8 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.SetVisited:
                 {
                     SequenceSetVisited seqSetVisited = (SequenceSetVisited)seq;
-                    if(seqSetVisited.Var!=null) {
-                        source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)"+GetVar(seqSetVisited.GraphElementVar)
-                            +", (int)"+GetVar(seqSetVisited.VisitedFlagVar)+", (bool)"+GetVar(seqSetVisited.Var)+");\n");
-                    } else {
-                        source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)"+GetVar(seqSetVisited.GraphElementVar)
-                            +", (int)"+GetVar(seqSetVisited.VisitedFlagVar)+", "+(seqSetVisited.Val?"true":"false")+");\n");
-                    }
+                    source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)"+GetVar(seqSetVisited.GraphElementVar)
+                        +", (int)"+GetVar(seqSetVisited.VisitedFlagVar)+", (bool)"+GetSequenceExpression(seqSetVisited.SourceExpression)+");\n");
                     source.AppendFront(SetResultVar(seqSetVisited, "true"));
                     break;
                 }
