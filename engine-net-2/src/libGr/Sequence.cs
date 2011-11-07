@@ -16,7 +16,6 @@ using System.IO;
 namespace de.unika.ipd.grGen.libGr
 {
     // todo: semantic changed, communicate: container access out of bounds yield runtime crash instead of sequence application result false
-    // todo: replace var for def() by expression, then merge argument lists in parser
     // todo: check where to replace variables by expressions, too
     // todo: set/map/array constructors as sequence expression?
     // todo: (optional) execution environment for InvocationParameterBindings, so parameter evaluation can access named graph

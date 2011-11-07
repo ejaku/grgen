@@ -190,18 +190,27 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionDef : SequenceExpression
     {
-        public SequenceVariable[] DefVars;
+        public SequenceExpression[] DefVars;
 
-        public SequenceExpressionDef(SequenceVariable[] defVars)
+        public SequenceExpressionDef(SequenceExpression[] defVars)
             : base(SequenceExpressionType.Def)
         {
             DefVars = defVars;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            foreach(SequenceExpression defVar in DefVars)
+            {
+                if(!(defVar is SequenceExpressionVariable))
+                    throw new SequenceParserException(Symbol, "variable", "not a variable");
+            }
+        }
+
         internal override SequenceExpression Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceExpressionDef copy = (SequenceExpressionDef)MemberwiseClone();
-            copy.DefVars = new SequenceVariable[DefVars.Length];
+            copy.DefVars = new SequenceExpression[DefVars.Length];
             for(int i = 0; i < DefVars.Length; ++i)
                 copy.DefVars[i] = DefVars[i].Copy(originalToCopy);
             return copy;
@@ -209,9 +218,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
         {
-            foreach(SequenceVariable defVar in DefVars)
+            foreach(SequenceExpression defVar in DefVars)
             {
-                if(defVar.GetVariableValue(graph) == null)
+                if(defVar.Evaluate(graph, env) == null)
                     return false;
             }
             return true;
@@ -219,11 +228,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
-            foreach(SequenceVariable seqVar in DefVars)
-                seqVar.GetLocalVariables(variables);
+            foreach(SequenceExpression defVar in DefVars)
+                defVar.GetLocalVariables(variables);
         }
 
-        public override IEnumerable<SequenceExpression> Children { get { yield break; } }
+        public override IEnumerable<SequenceExpression> Children { get { foreach(SequenceExpression defVar in DefVars) yield return defVar; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol
         {
@@ -233,7 +242,7 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append("def(");
                 for(int i = 0; i < DefVars.Length; ++i)
                 {
-                    sb.Append(DefVars[i].Name);
+                    sb.Append(DefVars[i].Symbol);
                     if(i != DefVars.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");

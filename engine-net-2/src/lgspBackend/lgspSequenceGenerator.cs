@@ -1515,11 +1515,11 @@ namespace de.unika.ipd.grGen.lgsp
                         SequenceExpressionDef seqDef = (SequenceExpressionDef)expr;
                         String condition = "";
                         bool isFirst = true;
-                        foreach(SequenceVariable var in seqDef.DefVars)
+                        foreach(SequenceExpression var in seqDef.DefVars)
                         {
                             if(isFirst) isFirst = false;
                             else condition += " && ";
-                            condition += GetVar(var) + "!=null";
+                            condition += GetSequenceExpression(var) + "!=null";
                         }
                         return condition;
                     }

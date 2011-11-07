@@ -305,15 +305,7 @@ double DoubleNumber():
 	}
 }
 
-void Parameters(List<SequenceVariable> parameters):
-{
-	SequenceVariable var;
-}
-{
-	var=VariableUse() { parameters.Add(var); } ("," var=VariableUse() { parameters.Add(var); })*
-}
-
-void RuleParameter(List<SequenceExpression> argExprs):
+void Argument(List<SequenceExpression> argExprs):
 {
 	SequenceExpression expr;
 }
@@ -432,10 +424,10 @@ object Constant():
 	}
 }
 
-void RuleParameters(List<SequenceExpression> argExprs):
+void Arguments(List<SequenceExpression> argExprs):
 { }
 {
-	RuleParameter(argExprs) ("," RuleParameter(argExprs))*
+	Argument(argExprs) ("," Argument(argExprs))*
 }
 
 
@@ -946,6 +938,7 @@ Sequence SimpleSequence():
 SequenceExpression ExpressionAsSequence():
 {
 	List<SequenceVariable> variableList1 = new List<SequenceVariable>();
+	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 	SequenceVariable fromVar, fromVar2 = null;
 	String attrName, method, elemName;
 	object constant;
@@ -981,9 +974,9 @@ SequenceExpression ExpressionAsSequence():
 		return new SequenceExpressionConstant(constant);
 	}
 |
-	"def" "(" Parameters(variableList1) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
+	"def" "(" Arguments(argExprs) ")"
 	{
-		return new SequenceExpressionDef(variableList1.ToArray());
+		return new SequenceExpressionDef(argExprs.ToArray());
 	}
 }
 
@@ -1087,7 +1080,7 @@ Sequence Rule():
 			"$" ("%" { choice = true; })? ( varChooseRand=Variable() ("," (varChooseRand2=Variable() | "*") { chooseRandSpecified2 = true; })? )? { chooseRandSpecified = true; }
 		)?
 		"[" ("%" { special = true; } | "?" { test = true; })* str=Word()
-		("(" RuleParameters(argExprs) ")")?
+		("(" Arguments(argExprs) ")")?
 		"]"
 		{
 			// No variable with this name may exist
@@ -1099,7 +1092,7 @@ Sequence Rule():
 		}
 	|
 		("%" { special = true; } | "?" { test = true; })*
-		str=Word() ("(" RuleParameters(argExprs) ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
+		str=Word() ("(" Arguments(argExprs) ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
 		{
 			if(argExprs.Count==0 && returnVars.Count==0)
 			{
