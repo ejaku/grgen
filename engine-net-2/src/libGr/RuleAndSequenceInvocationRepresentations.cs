@@ -12,7 +12,8 @@ namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// An object representing a rule or sequence invocation.
-    /// It tells from where (which variables/constants) to get the input values
+    /// It stores the input arguments (values),
+    /// tells with which sequence expressions to compute them,
     /// and where (which variables) to store the output values.
     /// </summary>
     public abstract class InvocationParameterBindings
@@ -23,11 +24,14 @@ namespace de.unika.ipd.grGen.libGr
         public String Name;
 
         /// <summary>
-        /// An array of variables used for the parameters.
-        /// It must have the same length as Parameters.
-        /// If an entry is null, the according entry in parameters is used unchanged.
+        /// An array of expressions used to compute the input arguments.
+        /// It must have the same length as Arguments.
+        /// If an entry is null, the according entry in Arguments is used unchanged.
+        /// Otherwise the entry in Arguments is filled with the evaluation result of the expression.
+        /// The sequence parser generates argument expressions for every entry;
+        /// they may be omitted by a user assembling an invocation at API level.
         /// </summary>
-        public SequenceVariable[] ParamVars;
+        public SequenceExpression[] ArgumentExpressions;
 
         /// <summary>
         /// An array of variables used for the return values.
@@ -36,33 +40,33 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceVariable[] ReturnVars;
 
         /// <summary>
-        /// Buffer to store parameters used by libGr to avoid unneccessary memory allocation.
-        /// Also holds constant parameters at the positions where ParamVars has null entries.
+        /// Buffer to store the argument values for the call;
+        /// used by libGr to avoid unneccessary memory allocations.
         /// </summary>
-        public object[] Parameters;
+        public object[] Arguments;
 
         /// <summary>
         /// Instantiates a new InvocationParameterBindings object
         /// </summary>
-        /// <param name="paramVars">An array of variable used for the parameters</param>
-        /// <param name="paramConsts">An array of constants used for the parameters.</param>
+        /// <param name="argExprs">An array of expressions used to compute the arguments</param>
+        /// <param name="arguments">An array of arguments.</param>
         /// <param name="returnVars">An array of variables used for the return values</param>
-        public InvocationParameterBindings(SequenceVariable[] paramVars, object[] paramConsts, SequenceVariable[] returnVars)
+        public InvocationParameterBindings(SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars)
         {
-            if(paramVars.Length != paramConsts.Length)
-                throw new ArgumentException("Lengths of variable and constant parameter array do not match");
+            if(argExprs.Length != arguments.Length)
+                throw new ArgumentException("Lengths of argument expression array and argument array do not match");
             foreach(SequenceVariable var in returnVars)
                 if(var==null) throw new Exception("Null entry in return vars");
             Name = "<Unknown rule/sequence>";
-            ParamVars = paramVars;
+            ArgumentExpressions = argExprs;
             ReturnVars = returnVars;
-            Parameters = paramConsts;
+            Arguments = arguments;
         }
 
         public void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
-            foreach(SequenceVariable seqVar in ParamVars)
-                seqVar.GetLocalVariables(variables);
+            foreach(SequenceExpression seqExpr in ArgumentExpressions)
+                seqExpr.GetLocalVariables(variables);
             foreach(SequenceVariable seqVar in ReturnVars)
                 seqVar.GetLocalVariables(variables);
         }
@@ -70,7 +74,8 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// An object representing a rule invocation.
-    /// It tells from where (which variables/constants) to get the input values
+    /// It stores the input arguments (values),
+    /// tells with which sequence expressions to compute them,
     /// and where (which variables) to store the output values.
     /// </summary>
     public class RuleInvocationParameterBindings : InvocationParameterBindings
@@ -84,12 +89,12 @@ namespace de.unika.ipd.grGen.libGr
         /// Instantiates a new RuleInvocationParameterBindings object
         /// </summary>
         /// <param name="action">The IAction instance to be used</param>
-        /// <param name="paramVars">An array of variable used for the parameters</param>
-        /// <param name="paramConsts">An array of constants used for the parameters.</param>
+        /// <param name="argExprs">An array of expressions used to compute the arguments</param>
+        /// <param name="arguments">An array of arguments.</param>
         /// <param name="returnVars">An array of variables used for the return values</param>
         public RuleInvocationParameterBindings(IAction action,
-            SequenceVariable[] paramVars, object[] paramConsts, SequenceVariable[] returnVars)
-            : base(paramVars, paramConsts, returnVars)
+            SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars)
+            : base(argExprs, arguments, returnVars)
         {
             Action = action;
             if(action != null) Name = action.Name;
@@ -98,22 +103,23 @@ namespace de.unika.ipd.grGen.libGr
         public RuleInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             RuleInvocationParameterBindings copy = (RuleInvocationParameterBindings)MemberwiseClone();
-            copy.ParamVars = new SequenceVariable[ParamVars.Length];
-            for(int i=0; i<ParamVars.Length;++i)
-                copy.ParamVars[i] = ParamVars[i].Copy(originalToCopy);
+            copy.ArgumentExpressions = new SequenceExpression[ArgumentExpressions.Length];
+            for(int i=0; i<ArgumentExpressions.Length;++i)
+                copy.ArgumentExpressions[i] = ArgumentExpressions[i].Copy(originalToCopy);
             copy.ReturnVars = new SequenceVariable[ReturnVars.Length];
             for(int i = 0; i < ReturnVars.Length; ++i)
                 copy.ReturnVars[i] = ReturnVars[i].Copy(originalToCopy);
-            copy.Parameters = new object[Parameters.Length];
-            for(int i = 0; i < Parameters.Length; ++i)
-                copy.Parameters[i] = Parameters[i];
+            copy.Arguments = new object[Arguments.Length];
+            for(int i = 0; i < Arguments.Length; ++i)
+                copy.Arguments[i] = Arguments[i];
             return copy;
         }
     }
 
     /// <summary>
     /// An object representing a sequence invocation.
-    /// It tells from where (which variables/constants) to get the input values
+    /// It stores the input arguments (values),
+    /// tells with which sequence expressions to compute them,
     /// and where (which variables) to store the output values.
     /// </summary>
     public class SequenceInvocationParameterBindings : InvocationParameterBindings
@@ -127,12 +133,12 @@ namespace de.unika.ipd.grGen.libGr
         /// Instantiates a new SequenceInvocationParameterBindings object
         /// </summary>
         /// <param name="sequenceDef">The defined sequence to be used</param>
-        /// <param name="paramVars">An array of variable used for the parameters</param>
-        /// <param name="paramConsts">An array of constants used for the parameters.</param>
+        /// <param name="argExprs">An array of expressions used to compute the arguments</param>
+        /// <param name="arguments">An array of arguments.</param>
         /// <param name="returnVars">An array of variables used for the return values</param>
         public SequenceInvocationParameterBindings(SequenceDefinition sequenceDef,
-            SequenceVariable[] paramVars, object[] paramConsts, SequenceVariable[] returnVars)
-            : base(paramVars, paramConsts, returnVars)
+            SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars)
+            : base(argExprs, arguments, returnVars)
         {
             SequenceDef = sequenceDef;
             if(sequenceDef != null) Name = sequenceDef.SequenceName;
@@ -141,15 +147,15 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceInvocationParameterBindings copy = (SequenceInvocationParameterBindings)MemberwiseClone();
-            copy.ParamVars = new SequenceVariable[ParamVars.Length];
-            for(int i = 0; i < ParamVars.Length; ++i)
-                copy.ParamVars[i] = ParamVars[i].Copy(originalToCopy);
+            copy.ArgumentExpressions = new SequenceExpression[ArgumentExpressions.Length];
+            for(int i = 0; i < ArgumentExpressions.Length; ++i)
+                copy.ArgumentExpressions[i] = ArgumentExpressions[i].Copy(originalToCopy);
             copy.ReturnVars = new SequenceVariable[ReturnVars.Length];
             for(int i = 0; i < ReturnVars.Length; ++i)
                 copy.ReturnVars[i] = ReturnVars[i].Copy(originalToCopy);
-            copy.Parameters = new object[Parameters.Length];
-            for(int i = 0; i < Parameters.Length; ++i)
-                copy.Parameters[i] = Parameters[i];
+            copy.Arguments = new object[Arguments.Length];
+            for(int i = 0; i < Arguments.Length; ++i)
+                copy.Arguments[i] = Arguments[i];
             return copy;
         }
     }

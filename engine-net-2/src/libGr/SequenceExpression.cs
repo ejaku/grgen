@@ -14,9 +14,9 @@ using System.IO;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// Specifies the actual subtype of an expression part of a Sequence atom.
-    /// A new expression type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator,
-    /// SequenceChecker and Sequence (add the corresponding class down below)
+    /// Specifies the actual subtype of a sequence expression.
+    /// A new expression type -> you must add the corresponding class down below 
+    /// and adapt the lgspSequenceGenerator.
     /// </summary>
     public enum SequenceExpressionType
     {
@@ -32,6 +32,9 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// A sequence expression object with references to child sequence expressions.
+    /// A language construct is an expression and not a sequence if: 
+    /// - it may return non-boolean values (primary)
+    /// - it is a side effect free query (secondary)
     /// </summary>
     public abstract class SequenceExpression : SequenceBase
     {

@@ -164,7 +164,7 @@ namespace de.unika.ipd.grGen.libGr
             Name = paramBindings.Name;
             if(paramBindings is RuleInvocationParameterBindings)
                 Action = ((RuleInvocationParameterBindings)paramBindings).Action;
-            NumGivenInputs = paramBindings.Parameters.Length;
+            NumGivenInputs = paramBindings.Arguments.Length;
             NumGivenOutputs = paramBindings.ReturnVars.Length;
             BadParamIndex = badParamIndex;
         }

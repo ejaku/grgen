@@ -511,16 +511,13 @@ namespace de.unika.ipd.grGen.libGr
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
             object[] parameters;
-            if(paramBindings.ParamVars.Length > 0)
+            if(paramBindings.ArgumentExpressions.Length > 0)
             {
-                parameters = paramBindings.Parameters;
-                for(int i = 0; i < paramBindings.ParamVars.Length; i++)
+                parameters = paramBindings.Arguments;
+                for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
                 {
-                    // If this parameter is not constant, the according ParamVars entry holds the
-                    // name of a variable to be used for the parameter.
-                    // Otherwise the parameters entry remains unchanged (it already contains the constant)
-                    if(paramBindings.ParamVars[i] != null)
-                        parameters[i] = paramBindings.ParamVars[i].GetVariableValue(this);
+                    if(paramBindings.ArgumentExpressions[i] != null)
+                        parameters[i] = paramBindings.ArgumentExpressions[i].Evaluate(this, null);
                 }
             }
             else parameters = null;

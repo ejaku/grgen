@@ -94,21 +94,21 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
 
             // Check whether number of parameters and return parameters match
-            if(NumInputParameters(paramBindings) != paramBindings.ParamVars.Length
+            if(NumInputParameters(paramBindings) != paramBindings.ArgumentExpressions.Length
                     || paramBindings.ReturnVars.Length != 0 && NumOutputParameters(paramBindings) != paramBindings.ReturnVars.Length)
                 throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
 
             // Check parameter types
-            for(int i = 0; i < paramBindings.ParamVars.Length; i++)
+            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
             {
-                if(paramBindings.ParamVars[i] != null)
+                if(paramBindings.ArgumentExpressions[i] != null)
                 {
-                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ParamVars[i].Type, InputParameterType(i, paramBindings), Model))
+                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings), Model))
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
                 else
                 {
-                    if(paramBindings.Parameters[i]!=null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Parameters[i], Model), InputParameterType(i, paramBindings), Model))
+                    if(paramBindings.Arguments[i]!=null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings), Model))
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
             }

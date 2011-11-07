@@ -228,12 +228,8 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("Action_" + ruleName + " " + "rule_" + ruleName);
                         source.Append(" = Action_" + ruleName + ".Instance;\n");
                     }
-                    for(int i=0; i<seqRule.ParamBindings.ParamVars.Length; ++i)
-                    {
-                        SequenceVariable paramVar = seqRule.ParamBindings.ParamVars[i];
-                        if(paramVar != null)
-                            EmitVarIfNew(paramVar, source);
-                    }
+                    // no handling for the input arguments seqRule.ParamBindings.ArgumentExpressions needed 
+                    // because there can only be variable uses
                     for(int i=0; i<seqRule.ParamBindings.ReturnVars.Length; ++i)
                     {
                         EmitVarIfNew(seqRule.ParamBindings.ReturnVars[i], source);
@@ -1439,9 +1435,9 @@ namespace de.unika.ipd.grGen.lgsp
         private String BuildParameters(InvocationParameterBindings paramBindings)
         {
             String parameters = "";
-            for (int j = 0; j < paramBindings.ParamVars.Length; j++)
+            for (int j = 0; j < paramBindings.ArgumentExpressions.Length; j++)
             {
-                if (paramBindings.ParamVars[j] != null)
+                if (paramBindings.ArgumentExpressions[j] != null)
                 {
                     String typeName;
                     if(rulesToInputTypes.ContainsKey(paramBindings.Name))
@@ -1449,28 +1445,12 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         typeName = sequencesToInputTypes[paramBindings.Name][j];
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + GetVar(paramBindings.ParamVars[j]);
+                    parameters += ", " + cast + GetSequenceExpression(paramBindings.ArgumentExpressions[j]);
                 }
                 else
                 {
-                    object arg = paramBindings.Parameters[j];
-                    if (arg is bool)
-                        parameters += ", " + ((bool)arg ? "true" : "false");
-                    else if (arg is string)
-                        parameters += ", \"" + (string)arg + "\"";
-                    else if (arg is float)
-                        parameters += "," + ((float)arg).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f";
-                    else if (arg is double)
-                        parameters += "," + ((double)arg).ToString(System.Globalization.CultureInfo.InvariantCulture);
-                    else if (arg is sbyte)
-                        parameters += ", (sbyte)(" + arg.ToString() + ")";
-                    else if (arg is short)
-                        parameters += ", (short)(" + arg.ToString() + ")";
-                    else if (arg is long)
-                        parameters += ", (long)(" + arg.ToString() + ")";
-                    else // e.g. int
-                        parameters += "," + arg.ToString();
-                    // TODO: abolish constants as parameters or extend to set/map?
+                    // the sequence parser always emits all argument expressions, for interpreted and compiled
+                    throw new Exception("Internal error: missing argument expressions");
                 }
             }
             return parameters;
@@ -2053,7 +2033,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.ParameterTypes[i]), model);
                 source.AppendFront(typeName + " var_" + sequence.Parameters[i]);
-                source.Append(" = (" + typeName + ")sequenceInvocation.ParamVars[" + i + "].GetVariableValue(graph);\n");
+                source.Append(" = (" + typeName + ")sequenceInvocation.ArgumentExpressions[" + i + "].Evaluate(graph, env);\n");
             }
             for(int i = 0; i < sequence.OutParameters.Length; ++i)
             {

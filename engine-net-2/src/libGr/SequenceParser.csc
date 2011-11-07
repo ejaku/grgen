@@ -313,23 +313,14 @@ void Parameters(List<SequenceVariable> parameters):
 	var=VariableUse() { parameters.Add(var); } ("," var=VariableUse() { parameters.Add(var); })*
 }
 
-void RuleParameter(List<SequenceVariable> paramVars, List<Object> paramConsts):
+void RuleParameter(List<SequenceExpression> argExprs):
 {
-	SequenceVariable var;
-	object constant;
+	SequenceExpression expr;
 }
 {
-	LOOKAHEAD(2)
-	constant=Constant()
+	expr=Expression()
 	{
-		paramVars.Add(null);
-		paramConsts.Add(constant);
-	}
-|
-	var=VariableUse()
-	{
-		paramVars.Add(var);
-		paramConsts.Add(null);
+		argExprs.Add(expr);
 	}
 }
 
@@ -441,10 +432,10 @@ object Constant():
 	}
 }
 
-void RuleParameters(List<SequenceVariable> paramVars, List<Object> paramConsts):
+void RuleParameters(List<SequenceExpression> argExprs):
 { }
 {
-	RuleParameter(paramVars, paramConsts) ("," RuleParameter(paramVars, paramConsts))*
+	RuleParameter(argExprs) ("," RuleParameter(argExprs))*
 }
 
 
@@ -1086,8 +1077,7 @@ Sequence Rule():
 	String str;
 	bool chooseRandSpecified = false, chooseRandSpecified2 = false, choice = false;
 	SequenceVariable varChooseRand = null, varChooseRand2 = null;
-	List<SequenceVariable> paramVars = new List<SequenceVariable>();
-	List<Object> paramConsts = new List<Object>();
+	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();
 }
 {
@@ -1097,21 +1087,21 @@ Sequence Rule():
 			"$" ("%" { choice = true; })? ( varChooseRand=Variable() ("," (varChooseRand2=Variable() | "*") { chooseRandSpecified2 = true; })? )? { chooseRandSpecified = true; }
 		)?
 		"[" ("%" { special = true; } | "?" { test = true; })* str=Word()
-		("(" RuleParameters(paramVars, paramConsts) ")")?
+		("(" RuleParameters(argExprs) ")")?
 		"]"
 		{
 			// No variable with this name may exist
 			if(varDecls.Lookup(str)!=null)
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-			return new SequenceRuleAllCall(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
+			return new SequenceRuleAllCall(CreateRuleInvocationParameterBindings(str, argExprs, returnVars),
 					special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice);
 		}
 	|
 		("%" { special = true; } | "?" { test = true; })*
-		str=Word() ("(" RuleParameters(paramVars, paramConsts) ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
+		str=Word() ("(" RuleParameters(argExprs) ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
 		{
-			if(paramVars.Count==0 && returnVars.Count==0)
+			if(argExprs.Count==0 && returnVars.Count==0)
 			{
 				SequenceVariable var = varDecls.Lookup(str);
 				if(var!=null)
@@ -1128,11 +1118,11 @@ Sequence Rule():
 
 			if(IsSequenceName(str))
 				return new SequenceSequenceCall(
-								CreateSequenceInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
+								CreateSequenceInvocationParameterBindings(str, argExprs, returnVars),
 								special);
 			else
 				return new SequenceRuleCall(
-								CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
+								CreateRuleInvocationParameterBindings(str, argExprs, returnVars),
 								special, test);
 		}
 	)
@@ -1140,14 +1130,14 @@ Sequence Rule():
 
 CSHARPCODE
 RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName,
-				List<SequenceVariable> paramVars, List<Object> paramConsts, List<SequenceVariable> returnVars)
+				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
 {
 	IAction action = null;
 	if(actions != null)
 		action = actions.GetAction(ruleName);
 
 	RuleInvocationParameterBindings paramBindings = new RuleInvocationParameterBindings(action,
-			paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
+			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
 
 	if(action == null)
 		paramBindings.Name = ruleName;
@@ -1157,7 +1147,7 @@ RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String rul
 
 CSHARPCODE
 SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName,
-				List<SequenceVariable> paramVars, List<Object> paramConsts, List<SequenceVariable> returnVars)
+				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
 {
 	SequenceDefinition sequenceDef = null;
 	if(actions != null) {
@@ -1165,7 +1155,7 @@ SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(St
 	}
 
 	SequenceInvocationParameterBindings paramBindings = new SequenceInvocationParameterBindings(sequenceDef,
-			paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
+			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
 
 	if(sequenceDef == null)
 		paramBindings.Name = sequenceName;

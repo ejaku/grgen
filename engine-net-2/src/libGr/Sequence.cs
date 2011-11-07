@@ -16,11 +16,15 @@ using System.IO;
 namespace de.unika.ipd.grGen.libGr
 {
     // todo: semantic changed, communicate: container access out of bounds yield runtime crash instead of sequence application result false
+    // todo: replace var for def() by expression, then merge argument lists in parser
+    // todo: check where to replace variables by expressions, too
+    // todo: set/map/array constructors as sequence expression?
+    // todo: (optional) execution environment for InvocationParameterBindings, so parameter evaluation can access named graph
 
     /// <summary>
     /// Specifies the actual subtype used for a Sequence.
-    /// A new sequence type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator,
-    /// SequenceChecker and Sequence (add the corresponding class down below), the Debugger
+    /// A new sequence type -> you must add the corresponding class down below,
+    /// and adapt the lgspSequenceGenerator and the Debugger.
     /// </summary>
     public enum SequenceType
     {
@@ -788,16 +792,16 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append(")=");
             }
             sb.Append(ParamBindings.Action.Name);
-            if(ParamBindings.ParamVars.Length > 0)
+            if(ParamBindings.ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ParamVars.Length; ++i)
+                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
                 {
-                    if(ParamBindings.ParamVars[i] != null)
-                        sb.Append(ParamBindings.ParamVars[i].Name);
+                    if(ParamBindings.ArgumentExpressions[i] != null)
+                        sb.Append(ParamBindings.ArgumentExpressions[i].Symbol);
                     else
-                        sb.Append(ParamBindings.Parameters[i]!=null ? ParamBindings.Parameters[i] : "null");
-                    if(i != ParamBindings.ParamVars.Length - 1) sb.Append(",");
+                        sb.Append(ParamBindings.Arguments[i]!=null ? ParamBindings.Arguments[i] : "null");
+                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");
             }
@@ -896,16 +900,13 @@ namespace de.unika.ipd.grGen.libGr
                 int curMaxMatches = graph.MaxMatches;
 
                 object[] parameters;
-                if(ParamBindings.ParamVars.Length > 0)
+                if(ParamBindings.ArgumentExpressions.Length > 0)
                 {
-                    parameters = ParamBindings.Parameters;
-                    for(int i = 0; i < ParamBindings.ParamVars.Length; i++)
+                    parameters = ParamBindings.Arguments;
+                    for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
                     {
-                        // If this parameter is not constant, the according ParamVars entry holds the
-                        // name of a variable to be used for the parameter.
-                        // Otherwise the parameters entry remains unchanged (it already contains the constant)
-                        if(ParamBindings.ParamVars[i] != null)
-                            parameters[i] = ParamBindings.ParamVars[i].GetVariableValue(graph);
+                        if(ParamBindings.ArgumentExpressions[i] != null)
+                            parameters[i] = ParamBindings.ArgumentExpressions[i].Evaluate(graph, null);
                     }
                 }
                 else parameters = null;
@@ -1735,16 +1736,13 @@ namespace de.unika.ipd.grGen.libGr
                 }
 
                 object[] parameters;
-                if (rule.ParamBindings.ParamVars.Length > 0)
+                if (rule.ParamBindings.ArgumentExpressions.Length > 0)
                 {
-                    parameters = rule.ParamBindings.Parameters;
-                    for (int j = 0; j < rule.ParamBindings.ParamVars.Length; j++)
+                    parameters = rule.ParamBindings.Arguments;
+                    for (int j = 0; j < rule.ParamBindings.ArgumentExpressions.Length; j++)
                     {
-                        // If this parameter is not constant, the according ParamVars entry holds the
-                        // name of a variable to be used for the parameter.
-                        // Otherwise the parameters entry remains unchanged (it already contains the constant)
-                        if (rule.ParamBindings.ParamVars[j] != null)
-                            parameters[j] = rule.ParamBindings.ParamVars[j].GetVariableValue(graph);
+                        if (rule.ParamBindings.ArgumentExpressions[j] != null)
+                            parameters[j] = rule.ParamBindings.ArgumentExpressions[j].Evaluate(graph, null);
                     }
                 }
                 else parameters = null;
@@ -1843,16 +1841,13 @@ namespace de.unika.ipd.grGen.libGr
         {
             // first get all matches of the rule
             object[] parameters;
-            if(Rule.ParamBindings.ParamVars.Length > 0)
+            if(Rule.ParamBindings.ArgumentExpressions.Length > 0)
             {
-                parameters = Rule.ParamBindings.Parameters;
-                for(int j = 0; j < Rule.ParamBindings.ParamVars.Length; j++)
+                parameters = Rule.ParamBindings.Arguments;
+                for(int j = 0; j < Rule.ParamBindings.ArgumentExpressions.Length; j++)
                 {
-                    // If this parameter is not constant, the according ParamVars entry holds the
-                    // name of a variable to be used for the parameter.
-                    // Otherwise the parameters entry remains unchanged (it already contains the constant)
-                    if(Rule.ParamBindings.ParamVars[j] != null)
-                        parameters[j] = Rule.ParamBindings.ParamVars[j].GetVariableValue(graph);
+                    if(Rule.ParamBindings.ArgumentExpressions[j] != null)
+                        parameters[j] = Rule.ParamBindings.ArgumentExpressions[j].Evaluate(graph, null);
                 }
             }
             else parameters = null;
@@ -2840,18 +2835,18 @@ namespace de.unika.ipd.grGen.libGr
         protected bool ApplyImpl(SequenceInvocationParameterBindings sequenceInvocation,
             IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(sequenceInvocation.ParamVars.Length != InputVariables.Length)
+            if(sequenceInvocation.ArgumentExpressions.Length != InputVariables.Length)
                 throw new Exception("Number of input parameters given and expected differ for " + Symbol);
             if(sequenceInvocation.ReturnVars.Length != OutputVariables.Length)
                 throw new Exception("Number of output parameters given and expected differ for " + Symbol);
 
             // prefill the local input variables with the invocation values, read from parameter variables of the caller
-            for(int i=0; i<sequenceInvocation.ParamVars.Length; ++i)
+            for(int i=0; i<sequenceInvocation.ArgumentExpressions.Length; ++i)
             {
-                if(sequenceInvocation.ParamVars[i] != null)
-                    InputVariables[i].SetVariableValue(sequenceInvocation.ParamVars[i].GetVariableValue(graph), graph);
+                if(sequenceInvocation.ArgumentExpressions[i] != null)
+                    InputVariables[i].SetVariableValue(sequenceInvocation.ArgumentExpressions[i].Evaluate(graph, null), graph);
                 else
-                    InputVariables[i].SetVariableValue(sequenceInvocation.Parameters[i], graph);
+                    InputVariables[i].SetVariableValue(sequenceInvocation.Arguments[i], graph);
             }
 
             bool success = Seq.Apply(graph, env);
@@ -3049,16 +3044,16 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append(")=");
             }
             sb.Append(ParamBindings.SequenceDef.SequenceName);
-            if(ParamBindings.ParamVars.Length > 0)
+            if(ParamBindings.ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ParamVars.Length; ++i)
+                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
                 {
-                    if(ParamBindings.ParamVars[i] != null)
-                        sb.Append(ParamBindings.ParamVars[i].Name);
+                    if(ParamBindings.ArgumentExpressions[i] != null)
+                        sb.Append(ParamBindings.ArgumentExpressions[i].Symbol);
                     else
-                        sb.Append(ParamBindings.Parameters[i] != null ? ParamBindings.Parameters[i] : "null");
-                    if(i != ParamBindings.ParamVars.Length - 1) sb.Append(",");
+                        sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
+                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");
             }
