@@ -55,6 +55,14 @@ namespace de.unika.ipd.grGen.lgsp
         // maps sequence names available in the .grg to compile to the list of the output typ names
         Dictionary<String, List<String>> sequencesToOutputTypes;
 
+        // array containing the names of the rules available in the .grg to compile
+        String[] ruleNames;
+        // array containing the names of the sequences available in the .grg to compile
+        String[] sequenceNames;
+
+        // environment for (type) checking the compiled sequences
+        SequenceCheckingEnvironment env;
+
         // the used rules (so that a variable was created for easy acess to them)
 		Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
@@ -76,6 +84,30 @@ namespace de.unika.ipd.grGen.lgsp
             this.rulesToOutputTypes = rulesToOutputTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
             this.sequencesToOutputTypes = sequencesToOutputTypes;
+
+            // extract rule names from domain of rule names to input types map
+            ruleNames = new String[rulesToInputTypes.Count];
+            int i = 0;
+            foreach(KeyValuePair<String, List<String>> ruleToInputTypes in rulesToInputTypes)
+            {
+                ruleNames[i] = ruleToInputTypes.Key;
+                ++i;
+         
+            }
+            // extract sequence names from domain of sequence names to input types map
+            sequenceNames = new String[sequencesToInputTypes.Count];
+            i = 0;
+            foreach(KeyValuePair<String, List<String>> sequenceToInputTypes in sequencesToInputTypes)
+            {
+                sequenceNames[i] = sequenceToInputTypes.Key;
+                ++i;
+            }
+
+            // create the environment for (type) checking the compiled sequences after parsing
+            env = new SequenceCheckingEnvironmentCompiled(ruleNames, sequenceNames, 
+                rulesToInputTypes, rulesToOutputTypes,
+                sequencesToInputTypes, sequencesToOutputTypes,
+                model);
         }
 
         /// <summary>
@@ -689,27 +721,31 @@ namespace de.unika.ipd.grGen.lgsp
 
                     if(seqAdd.Container.Type == "")
                     {
-                        string sourceValue = GetVar(seqAdd.Var);
-                        string destinationValue = seqAdd.VarDst == null ? null : destinationValue = GetVar(seqAdd.VarDst);
-
+                        string sourceValue = "srcval_" + seqAdd.Id;
+                        source.AppendFront("object " + sourceValue + " = " + GetSequenceExpression(seqAdd.Expr) + ";\n");
+                        string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
                         source.AppendFront("if(" + GetVar(seqAdd.Container) + " is IList) {\n");
                         source.Indent();
 
-                        if(destinationValue != null && !TypesHelper.IsSameOrSubtype(seqAdd.VarDst.Type, "int", model))
+                        if(destinationValue != null && !TypesHelper.IsSameOrSubtype(seqAdd.ExprDst.Type(env), "int", model))
                             source.AppendFront("throw new Exception(\"Can't add non-int key to array\");\n");
                         else
                         {
                             string array = "((System.Collections.IList)" + GetVar(seqAdd.Container) + ")";
+                            if(destinationValue != null)
+                                source.AppendFront("int " + destinationValue + " = (int)" + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
                             if(destinationValue == null)
                                 source.AppendFront(array + ".Add(" + sourceValue + ");\n");
                             else
-                                source.AppendFront(array + ".Insert((int)" + destinationValue + ", " + sourceValue + ");\n");
+                                source.AppendFront(array + ".Insert(" + destinationValue + ", " + sourceValue + ");\n");
                         }
 
                         source.Unindent();
                         source.AppendFront("} else {\n");
                         source.Indent();
 
+                        if(destinationValue != null)
+                            source.AppendFront("object " + destinationValue + " = " + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
                         string dictionary = "((System.Collections.IDictionary)" + GetVar(seqAdd.Container) + ")";
                         source.AppendFront("if(" + dictionary + ".Contains(" + sourceValue + "))\n");
                         source.AppendFront("{\n");
@@ -723,7 +759,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("else\n");
                         source.AppendFront("{\n");
                         source.Indent();
-                        if(seqAdd.VarDst == null)
+                        if(seqAdd.ExprDst == null)
                             source.AppendFront(dictionary + ".Add(" + sourceValue + ", null);\n");
                         else
                             source.AppendFront(dictionary + ".Add(" + sourceValue + ", " + destinationValue + ");\n");
@@ -737,25 +773,31 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         string array = GetVar(seqAdd.Container);
                         string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.Container.Type), model);
-                        string sourceValue = "((" + arrayValueType + ")" + GetVar(seqAdd.Var) + ")";
-                        string destinationValue = seqAdd.VarDst == null ? null : destinationValue = "((int)" + GetVar(seqAdd.VarDst) + ")";
+                        string sourceValue = "srcval_" + seqAdd.Id;
+                        source.AppendFront(arrayValueType + " " + sourceValue + " = (" + arrayValueType + ")" + GetSequenceExpression(seqAdd.Expr) + ";\n");
+                        string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
+                        if(destinationValue != null)
+                            source.AppendFront("int " + destinationValue + " = (int)" + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
                         if(destinationValue == null)
                             source.AppendFront(array + ".Add(" + sourceValue + ");\n");
                         else
-                            source.AppendFront(array + ".Insert((int)" + destinationValue + ", " + sourceValue + ");\n");
+                            source.AppendFront(array + ".Insert(" + destinationValue + ", " + sourceValue + ");\n");
                     }
                     else
                     {
                         string dictionary = GetVar(seqAdd.Container);
                         string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.Container.Type), model);
-                        string sourceValue = "((" + dictSrcType + ")" + GetVar(seqAdd.Var) + ")";
+                        string sourceValue = " srcval_" + seqAdd.Id;
+                        source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")" + GetSequenceExpression(seqAdd.Expr) + ";\n");
                         string dictDstType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(seqAdd.Container.Type), model);
-                        string destinationValue = seqAdd.VarDst == null ? null : destinationValue = "((" + dictDstType + ")" + GetVar(seqAdd.VarDst) + ")";
+                        string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
+                        if(destinationValue != null)
+                            source.AppendFront(dictDstType + " " + destinationValue + " = (" + dictDstType + ")" + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
 
                         source.AppendFront("if(" + dictionary + ".ContainsKey(" + sourceValue + "))\n");
                         source.AppendFront("{\n");
                         source.Indent();
-                        if(seqAdd.VarDst == null)
+                        if(seqAdd.ExprDst == null)
                             source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
                         else
                             source.AppendFront(dictionary + "[" + sourceValue + "] = " + destinationValue + ";\n");
@@ -764,7 +806,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("else\n");
                         source.AppendFront("{\n");
                         source.Indent();
-                        if(seqAdd.VarDst == null)
+                        if(seqAdd.ExprDst == null)
                             source.AppendFront(dictionary + ".Add(" + sourceValue + ", null);\n");
                         else
                             source.AppendFront(dictionary + ".Add(" + sourceValue + ", " + destinationValue + ");\n");
@@ -780,25 +822,29 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceContainerRem seqDel = (SequenceContainerRem)seq;
                     if(seqDel.Container.Type == "")
                     {
-                        string sourceValue = seqDel.Var == null ? null : GetVar(seqDel.Var);
+                        string sourceValue = seqDel.Expr==null ? null : "srcval_" + seqDel.Id;
                         source.AppendFront("if(" + GetVar(seqDel.Container) + " is IList) {\n");
                         source.Indent();
 
+                        if(sourceValue != null)
+                            source.AppendFront("int " + sourceValue + " = (int)" + GetSequenceExpression(seqDel.Expr) + ";\n");
                         string array = "((System.Collections.IList)" + GetVar(seqDel.Container) + ")";
                         if(sourceValue == null)
                             source.AppendFront(array + ".RemoveAt(" + array + ".Count - 1);\n");
                         else
                         {
-                            if(!TypesHelper.IsSameOrSubtype(seqDel.Var.Type, "int", model))
+                            if(!TypesHelper.IsSameOrSubtype(seqDel.Expr.Type(env), "int", model))
                                 source.AppendFront("throw new Exception(\"Can't remove non-int index from array\");\n");
                             else
-                                source.AppendFront(array + ".RemoveAt((int)" + sourceValue + ");\n");
+                                source.AppendFront(array + ".RemoveAt(" + sourceValue + ");\n");
                         }
 
                         source.Unindent();
                         source.AppendFront("} else {\n");
                         source.Indent();
 
+                        if(sourceValue != null)
+                            source.AppendFront("object " + sourceValue + " = " + GetSequenceExpression(seqDel.Expr) + ";\n");
                         string dictionary = "((System.Collections.IDictionary)" + GetVar(seqDel.Container) + ")";
                         if(sourceValue == null)
                             source.AppendFront("throw new Exception(\""+seqDel.Container.Name+".rem() only possible on array!\");\n");
@@ -811,18 +857,20 @@ namespace de.unika.ipd.grGen.lgsp
                     else if(seqDel.Container.Type.StartsWith("array"))
                     {
                         string array = GetVar(seqDel.Container);
-                        string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqDel.Container.Type), model);
-                        string sourceValue = seqDel.Var == null ? null : GetVar(seqDel.Var);
+                        string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
+                        if(sourceValue != null)
+                            source.AppendFront("int " + sourceValue + " = (int)" + GetSequenceExpression(seqDel.Expr) + ";\n");
                         if(sourceValue == null)
                             source.AppendFront(array + ".RemoveAt(" + array + ".Count - 1);\n");
                         else
-                            source.AppendFront(array + ".RemoveAt((int)" + sourceValue + ");\n");
+                            source.AppendFront(array + ".RemoveAt(" + sourceValue + ");\n");
                     }
                     else
                     {
                         string dictionary = GetVar(seqDel.Container);
                         string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqDel.Container.Type), model);
-                        string sourceValue = "((" + dictSrcType + ")" + GetVar(seqDel.Var) + ")";
+                        string sourceValue = "srcval_" + seqDel.Id;
+                        source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")"+ GetSequenceExpression(seqDel.Expr) + ";\n");
                         source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
                     }
                     source.AppendFront(SetResultVar(seqDel, "true"));
@@ -870,7 +918,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceSetVisited seqSetVisited = (SequenceSetVisited)seq;
                     source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)"+GetVar(seqSetVisited.GraphElementVar)
-                        +", (int)"+GetVar(seqSetVisited.VisitedFlagVar)+", (bool)"+GetSequenceExpression(seqSetVisited.SourceExpression)+");\n");
+                        +", (int)"+GetSequenceExpression(seqSetVisited.VisitedFlagExpression)+", (bool)"+GetSequenceExpression(seqSetVisited.SourceExpression)+");\n");
                     source.AppendFront(SetResultVar(seqSetVisited, "true"));
                     break;
                 }
@@ -878,7 +926,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.VFree:
                 {
                     SequenceVFree seqVFree = (SequenceVFree)seq;
-                    source.AppendFront("graph.FreeVisitedFlag((int)"+GetVar(seqVFree.VisitedFlagVar)+");\n");
+                    source.AppendFront("graph.FreeVisitedFlag((int)"+GetSequenceExpression(seqVFree.VisitedFlagExpression)+");\n");
                     source.AppendFront(SetResultVar(seqVFree, "true"));
                     break;
                 }
@@ -886,7 +934,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.VReset:
                 {
                     SequenceVReset seqVReset = (SequenceVReset)seq;
-                    source.AppendFront("graph.ResetVisitedFlag((int)"+GetVar(seqVReset.VisitedFlagVar)+");\n");
+                    source.AppendFront("graph.ResetVisitedFlag((int)"+GetSequenceExpression(seqVReset.VisitedFlagExpression)+");\n");
                     source.AppendFront(SetResultVar(seqVReset, "true"));
                     break;
                 }
@@ -894,21 +942,32 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.Emit:
                 {
                     SequenceEmit seqEmit = (SequenceEmit)seq;
-                    if(seqEmit.Variable!=null) {
-                        if(seqEmit.Variable.Type=="" || seqEmit.Variable.Type.StartsWith("set<") || seqEmit.Variable.Type.StartsWith("map<") || seqEmit.Variable.Type.StartsWith("array<"))
+                    if(!(seqEmit.Expression is SequenceExpressionConstant))
+                    {
+                        string emitVal = "emitval_" + seqEmit.Id;
+                        source.AppendFront("object " + emitVal + " = " + GetSequenceExpression(seqEmit.Expression) + ";\n");
+                        if(seqEmit.Expression.Type(env) == "" || seqEmit.Expression.Type(env).StartsWith("set<") 
+                            || seqEmit.Expression.Type(env).StartsWith("map<") || seqEmit.Expression.Type(env).StartsWith("array<"))
                         {
-                            source.AppendFront("if(" + GetVar(seqEmit.Variable) + " is IDictionary)\n");
-                            source.AppendFront("\tgraph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IDictionary)" + GetVar(seqEmit.Variable) + ", graph));\n");
-                            source.AppendFront("else if(" + GetVar(seqEmit.Variable) + " is IList)\n");
-                            source.AppendFront("\tgraph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IList)" + GetVar(seqEmit.Variable) + ", graph));\n");
+                            source.AppendFront("if(" + emitVal + " is IDictionary)\n");
+                            source.AppendFront("\tgraph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
+                            source.AppendFront("else if(" + emitVal + " is IList)\n");
+                            source.AppendFront("\tgraph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IList)" + emitVal + ", graph));\n");
                             source.AppendFront("else\n\t");
                         }
-                        source.AppendFront("graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetVar(seqEmit.Variable) + ", graph));\n");
+                        source.AppendFront("graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + emitVal + ", graph));\n");
                     } else {
-                        String text = seqEmit.Text.Replace("\n", "\\n");
-                        text = text.Replace("\r", "\\r");
-                        text = text.Replace("\t", "\\t");
-                        source.AppendFront("graph.EmitWriter.Write(\""+text+"\");\n");
+                        SequenceExpressionConstant constant = (SequenceExpressionConstant)seqEmit.Expression;
+                        if(constant.Constant is string)
+                        {
+                            String text = (string)constant.Constant;
+                            text = text.Replace("\n", "\\n");
+                            text = text.Replace("\r", "\\r");
+                            text = text.Replace("\t", "\\t");
+                            source.AppendFront("graph.EmitWriter.Write(\"" + text + "\");\n");
+                        }
+                        else
+                            source.AppendFront("graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetSequenceExpression(seqEmit.Expression) + ", graph));\n");
                     }
                     source.AppendFront(SetResultVar(seqEmit, "true"));
                     break;
@@ -917,21 +976,32 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.Record:
                 {
                     SequenceRecord seqRec = (SequenceRecord)seq;
-                    if(seqRec.Variable != null) {
-                        if(seqRec.Variable.Type=="" || seqRec.Variable.Type.StartsWith("set<") || seqRec.Variable.Type.StartsWith("map<") || seqRec.Variable.Type.StartsWith("array<"))
+                    if(!(seqRec.Expression is SequenceExpressionConstant))
+                    {
+                        string recVal = "recval_" + seqRec.Id;
+                        source.AppendFront("object " + recVal + " = " + GetSequenceExpression(seqRec.Expression) + ";\n");
+                        if(seqRec.Expression.Type(env) == "" || seqRec.Expression.Type(env).StartsWith("set<") 
+                            || seqRec.Expression.Type(env).StartsWith("map<") || seqRec.Expression.Type(env).StartsWith("array<"))
                         {
-                            source.AppendFront("if(" + GetVar(seqRec.Variable) + " is IDictionary)\n");
-                            source.AppendFront("\tgraph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IDictionary)" + GetVar(seqRec.Variable) + ", graph));\n");
-                            source.AppendFront("else if(" + GetVar(seqRec.Variable) + " is IList)\n");
-                            source.AppendFront("\tgraph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IList)" + GetVar(seqRec.Variable) + ", graph));\n");
+                            source.AppendFront("if(" + recVal + " is IDictionary)\n");
+                            source.AppendFront("\tgraph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IDictionary)" + recVal + ", graph));\n");
+                            source.AppendFront("else if(" + recVal + " is IList)\n");
+                            source.AppendFront("\tgraph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IList)" + recVal + ", graph));\n");
                             source.AppendFront("else\n\t");
                         }
-                        source.AppendFront("graph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetVar(seqRec.Variable) + ", graph));\n");
+                        source.AppendFront("graph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + recVal + ", graph));\n");
                     } else {
-                        String text = seqRec.Text.Replace("\n", "\\n");
-                        text = text.Replace("\r", "\\r");
-                        text = text.Replace("\t", "\\t");
-                        source.AppendFront("graph.Recorder.Write(\"" + text + "\");\n");
+                        SequenceExpressionConstant constant = (SequenceExpressionConstant)seqRec.Expression;
+                        if(constant.Constant is string)
+                        {
+                            String text = (string)constant.Constant;
+                            text = text.Replace("\n", "\\n");
+                            text = text.Replace("\r", "\\r");
+                            text = text.Replace("\t", "\\t");
+                            source.AppendFront("graph.Recorder.Write(\"" + text + "\");\n");
+                        }
+                        else
+                            source.AppendFront("graph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetSequenceExpression(seqRec.Expression) + ", graph));\n");
                     }
                     source.AppendFront(SetResultVar(seqRec, "true"));
                     break;
@@ -939,17 +1009,18 @@ namespace de.unika.ipd.grGen.lgsp
 
                 case SequenceType.AssignExprToIndexedVar:
                 {
-                    SequenceAssignExprToIndexedVar seqAssignVarToIndexedVar = (SequenceAssignExprToIndexedVar)seq;
-                    source.AppendFront(SetResultVar(seqAssignVarToIndexedVar, "false"));
+                    SequenceAssignExprToIndexedVar seqAssignExprToIndexedVar = (SequenceAssignExprToIndexedVar)seq;
+                    source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, "false"));
+                    string indexValue = "index_" + seqAssignExprToIndexedVar.Id;
 
-                    if(seqAssignVarToIndexedVar.DestVar.Type == "")
+                    if(seqAssignExprToIndexedVar.DestVar.Type == "")
                     {
-                        string indexValue = GetVar(seqAssignVarToIndexedVar.KeyVar);
-                        source.AppendFront("if(" + GetVar(seqAssignVarToIndexedVar.DestVar) + " is IList) {\n");
+                        source.AppendFront("if(" + GetVar(seqAssignExprToIndexedVar.DestVar) + " is IList) {\n");
                         source.Indent();
 
-                        string array = "((System.Collections.IList)" + GetVar(seqAssignVarToIndexedVar.DestVar) + ")";
-                        if(!TypesHelper.IsSameOrSubtype(seqAssignVarToIndexedVar.KeyVar.Type, "int", model))
+                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression));
+                        string array = "((System.Collections.IList)" + GetVar(seqAssignExprToIndexedVar.DestVar) + ")";
+                        if(!TypesHelper.IsSameOrSubtype(seqAssignExprToIndexedVar.KeyExpression.Type(env), "int", model))
                         {
                             source.AppendFront("if(true) {\n");
                             source.Indent();
@@ -957,10 +1028,10 @@ namespace de.unika.ipd.grGen.lgsp
                         }
                         else
                         {
-                            source.AppendFront("if(" + array + ".Count > (int)" + indexValue + ") {\n");
+                            source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
                             source.Indent();
-                            source.AppendFront(array + "[(int)" + indexValue + "] = " + GetSequenceExpression(seqAssignVarToIndexedVar.SourceExpression) + ";");
-                            source.AppendFront(SetResultVar(seqAssignVarToIndexedVar, "true"));
+                            source.AppendFront(array + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
+                            source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, "true"));
                         }
                         source.Unindent();
                         source.AppendFront("}\n");
@@ -969,37 +1040,38 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("} else {\n");
                         source.Indent();
 
-                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqAssignVarToIndexedVar.DestVar) + ")";
+                        source.AppendFront("object " + indexValue + " = " + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression));
+                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqAssignExprToIndexedVar.DestVar) + ")";
                         source.AppendFront("if(" + dictionary + ".Contains(" + indexValue + ")) {\n");
                         source.Indent();
-                        source.AppendFront(dictionary + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignVarToIndexedVar.SourceExpression) + ";");
-                        source.AppendFront(SetResultVar(seqAssignVarToIndexedVar, "true"));
+                        source.AppendFront(dictionary + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
+                        source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, "true"));
                         source.Unindent();
                         source.AppendFront("}\n");
 
                         source.Unindent();
                         source.AppendFront("}\n");
                     }
-                    else if(seqAssignVarToIndexedVar.DestVar.Type.StartsWith("array"))
+                    else if(seqAssignExprToIndexedVar.DestVar.Type.StartsWith("array"))
                     {
-                        string array = GetVar(seqAssignVarToIndexedVar.DestVar);
-                        string indexValue = "((int)" + GetVar(seqAssignVarToIndexedVar.KeyVar) + ")";
+                        string array = GetVar(seqAssignExprToIndexedVar.DestVar);
+                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression) + ";\n");
                         source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
                         source.Indent();
-                        source.AppendFront(array + "[(int)" + indexValue + "] = " + GetSequenceExpression(seqAssignVarToIndexedVar.SourceExpression) + ";");
-                        source.AppendFront(SetResultVar(seqAssignVarToIndexedVar, "true"));
+                        source.AppendFront(array + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
+                        source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, "true"));
                         source.Unindent();
                         source.AppendFront("}\n");
                     }
                     else
                     {
-                        string dictionary = GetVar(seqAssignVarToIndexedVar.DestVar);
-                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAssignVarToIndexedVar.DestVar.Type), model);
-                        string indexValue = "((" + dictSrcType + ")" + GetVar(seqAssignVarToIndexedVar.KeyVar) + ")";
+                        string dictionary = GetVar(seqAssignExprToIndexedVar.DestVar);
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAssignExprToIndexedVar.DestVar.Type), model);
+                        source.AppendFront(dictSrcType + " " + indexValue + " = (" + dictSrcType + ")" + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression) + ";\n");
                         source.AppendFront("if(" + dictionary + ".ContainsKey(" + indexValue + ")) {\n");
                         source.Indent();
-                        source.AppendFront(dictionary + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignVarToIndexedVar.SourceExpression) + ";");
-                        source.AppendFront(SetResultVar(seqAssignVarToIndexedVar, "true"));
+                        source.AppendFront(dictionary + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
+                        source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, "true"));
                         source.Unindent();
                         source.AppendFront("}\n");
                     }
@@ -1790,27 +1862,11 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 varDecls.Add(defToBeYieldedToNames[i], TypesHelper.DotNetTypeToXgrsType(defToBeYieldedToTypes[i]));
             }
-            String[] ruleNames = new String[rulesToInputTypes.Count];
-            int j = 0;
-            foreach(KeyValuePair<String, List<String>> ruleToInputTypes in rulesToInputTypes)
-            {
-                ruleNames[j] = ruleToInputTypes.Key;
-                ++j;
-            }
-            String[] sequenceNames = new String[sequencesToInputTypes.Count];
-            j = 0;
-            foreach(KeyValuePair<String, List<String>> sequenceToInputTypes in sequencesToInputTypes)
-            {
-                sequenceNames[j] = sequenceToInputTypes.Key;
-                ++j;
-            }
 
 			Sequence seq;
             try
             {
                 seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, sequenceNames, varDecls, model);
-                SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentCompiled(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
-                                                    sequencesToInputTypes, sequencesToOutputTypes, model);
                 seq.Check(env);
             }
             catch(ParseException ex)
@@ -1869,27 +1925,11 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 varDecls.Add(sequence.OutParameters[i], TypesHelper.DotNetTypeToXgrsType(sequence.OutParameterTypes[i]));
             }
-            String[] ruleNames = new String[rulesToInputTypes.Count];
-            int j = 0;
-            foreach(KeyValuePair<String, List<String>> ruleToInputTypes in rulesToInputTypes)
-            {
-                ruleNames[j] = ruleToInputTypes.Key;
-                ++j;
-            }
-            String[] sequenceNames = new String[sequencesToInputTypes.Count];
-            j = 0;
-            foreach(KeyValuePair<String, List<String>> sequenceToInputTypes in sequencesToInputTypes)
-            {
-                sequenceNames[j] = sequenceToInputTypes.Key;
-                ++j;
-            }
 
             Sequence seq;
             try
             {
                 seq = SequenceParser.ParseSequence(sequence.XGRS, ruleNames, sequenceNames, varDecls, model);
-                SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentCompiled(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
-                                                    sequencesToInputTypes, sequencesToOutputTypes, model);
                 seq.Check(env);
             }
             catch(ParseException ex)

@@ -771,7 +771,7 @@ Sequence SimpleSequence():
 	List<SequenceVariable> variableList2 = new List<SequenceVariable>();
 	List<Sequence> sequences = new List<Sequence>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
-	SequenceExpression expr;
+	SequenceExpression expr, fromExpr;
 	String attrName, method, elemName;
 	int num = 0;
 	String str;
@@ -801,10 +801,10 @@ Sequence SimpleSequence():
 		}
     )
 |
-	LOOKAHEAD(VariableUse() "." "visited" "[" VariableUse() "]" "=")
-	toVar=VariableUse() "." "visited" "[" fromVar=VariableUse() "]" "=" expr=Expression()
+	LOOKAHEAD(VariableUse() "." "visited" "[" Expression() "]" "=")
+	toVar=VariableUse() "." "visited" "[" fromExpr=Expression() "]" "=" expr=Expression()
 	{
-		return new SequenceSetVisited(toVar, fromVar, expr);
+		return new SequenceSetVisited(toVar, fromExpr, expr);
 	}
 |
 	LOOKAHEAD(VariableUse() "." Word() "=")
@@ -813,10 +813,10 @@ Sequence SimpleSequence():
         return new SequenceAssignExprToAttribute(toVar, attrName, expr);
     }
 |
-	LOOKAHEAD(VariableUse() "[" VariableUse() "]" "=")
-	toVar=VariableUse() "[" fromVar=VariableUse() "]" "=" expr=Expression()
+	LOOKAHEAD(VariableUse() "[" Expression() "]" "=")
+	toVar=VariableUse() "[" fromExpr=Expression() "]" "=" expr=Expression()
 	{
-		return new SequenceAssignExprToIndexedVar(toVar, fromVar, expr);
+		return new SequenceAssignExprToIndexedVar(toVar, fromExpr, expr);
 	}
 |
 	"yield" toVar=VariableUse() "=" expr=Expression()
@@ -845,28 +845,24 @@ Sequence SimpleSequence():
 		return seq;
 	}
 |
-	"vfree" "(" fromVar=VariableUse() ")"
+	"vfree" "(" fromExpr=Expression() ")"
 	{
-		return new SequenceVFree(fromVar);
+		return new SequenceVFree(fromExpr);
 	}
 |
-	"vreset" "(" fromVar=VariableUse() ")"
+	"vreset" "(" fromExpr=Expression() ")"
 	{
-		return new SequenceVReset(fromVar);
+		return new SequenceVReset(fromExpr);
 	}
 |
-	"emit" "("
-		( str=TextString() { seq = new SequenceEmit(str); }
-		| fromVar=VariableUse() { seq = new SequenceEmit(fromVar);} ) ")"
+	"emit" "(" fromExpr=Expression() ")"
 	{
-		return seq;
+		return new SequenceEmit(fromExpr);
 	}
 |
-	"record" "("
-		( str=TextString() { seq = new SequenceRecord(str); }
-		| fromVar=VariableUse() { seq = new SequenceRecord(fromVar);} ) ")"
+	"record" "(" fromExpr=Expression() ")"
 	{
-		return seq;
+		return new SequenceRecord(fromExpr);
 	}
 |
 	LOOKAHEAD(3)
@@ -1025,25 +1021,26 @@ SequenceExpression Expression():
 SequenceBase MethodCall():
 {
 	String method;
-	SequenceVariable fromVar, fromVar2 = null, fromVar3 = null;
+	SequenceVariable fromVar;
+	SequenceExpression fromExpr2 = null, fromExpr3 = null;
 }
 {
-	fromVar=VariableUse() "." method=Word() "(" ( fromVar2=VariableUse() ("," fromVar3=VariableUse())? )? ")"
+	fromVar=VariableUse() "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
 	{
 		if(method=="add") {
-			if(fromVar2==null) throw new ParseException("\"" + method + "\" expects 1(for set,array end) or 2(for map,array with index) parameters)");
-			return new SequenceContainerAdd(fromVar, fromVar2, fromVar3);
+			if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,array end) or 2(for map,array with index) parameters)");
+			return new SequenceContainerAdd(fromVar, fromExpr2, fromExpr3);
 		} else if(method=="rem") {
-			if(fromVar3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for array end) parameters )");
-			return new SequenceContainerRem(fromVar, fromVar2);
+			if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for array end) parameters )");
+			return new SequenceContainerRem(fromVar, fromExpr2);
 		} else if(method=="clear") {
-			if(fromVar2!=null || fromVar3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
+			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
 			return new SequenceContainerClear(fromVar);
 		} else if(method=="size") {
-			if(fromVar2!=null || fromVar3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
+			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
 			return new SequenceExpressionContainerSize(fromVar);
 		} else if(method=="empty") {
-			if(fromVar2!=null || fromVar3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
+			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
 			return new SequenceExpressionContainerEmpty(fromVar);
 		} else {
 			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty as expressions on set/map/array)");

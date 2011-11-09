@@ -16,7 +16,6 @@ using System.IO;
 namespace de.unika.ipd.grGen.libGr
 {
     // todo: semantic changed, communicate: container access out of bounds yield runtime crash instead of sequence application result false
-    // todo: check where to replace variables by expressions, too
     // todo: set/map/array constructors as sequence expression?
     // todo: (optional) execution environment for InvocationParameterBindings, so parameter evaluation can access named graph
 
@@ -1061,7 +1060,7 @@ namespace de.unika.ipd.grGen.libGr
             // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
             if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), DestVar.Type, env.Model))
             {
-                throw new SequenceParserException(DestVar.Name + "=" + SourceExpression.Symbol, DestVar.Type, SourceExpression.Type(env));
+                throw new SequenceParserException(Symbol, DestVar.Type, SourceExpression.Type(env));
             }
         }
 
@@ -1106,7 +1105,7 @@ namespace de.unika.ipd.grGen.libGr
             // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
             if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), DestVar.Type, env.Model))
             {
-                throw new SequenceParserException("yield " + DestVar.Name + "=" + SourceExpression.Symbol, DestVar.Type, SourceExpression.Type(env));
+                throw new SequenceParserException(Symbol, DestVar.Type, SourceExpression.Type(env));
             }
         }
 
@@ -1137,14 +1136,14 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceAssignExprToIndexedVar : Sequence
     {
         public SequenceVariable DestVar;
-        public SequenceVariable KeyVar;
+        public SequenceExpression KeyExpression;
         public SequenceExpression SourceExpression;
 
-        public SequenceAssignExprToIndexedVar(SequenceVariable destVar, SequenceVariable keyVar, SequenceExpression srcExpr)
+        public SequenceAssignExprToIndexedVar(SequenceVariable destVar, SequenceExpression keyExpr, SequenceExpression srcExpr)
             : base(SequenceType.AssignExprToIndexedVar)
         {
             DestVar = destVar;
-            KeyVar = keyVar;
+            KeyExpression = keyExpr;
             SourceExpression = srcExpr;
         }
 
@@ -1155,28 +1154,28 @@ namespace de.unika.ipd.grGen.libGr
 
             if(TypesHelper.ExtractSrc(DestVar.Type) == null || TypesHelper.ExtractDst(DestVar.Type) == null || TypesHelper.ExtractDst(DestVar.Type) == "SetValueType")
             {
-                throw new SequenceParserException(DestVar.Name + "[" + KeyVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol, "map<S,T> or array<T>", DestVar.Type);
+                throw new SequenceParserException(Symbol, "map<S,T> or array<T>", DestVar.Type);
             }
             if(DestVar.Type.StartsWith("array"))
             {
-                if(!TypesHelper.IsSameOrSubtype(KeyVar.Type, "int", env.Model))
+                if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), "int", env.Model))
                 {
-                    throw new SequenceParserException(DestVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol, "int", KeyVar.Type);
+                    throw new SequenceParserException(Symbol, "int", KeyExpression.Type(env));
                 }
                 if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), TypesHelper.ExtractSrc(DestVar.Type), env.Model))
                 {
-                    throw new SequenceParserException(DestVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol, SourceExpression.Type(env), TypesHelper.ExtractSrc(DestVar.Type));
+                    throw new SequenceParserException(Symbol, SourceExpression.Type(env), TypesHelper.ExtractSrc(DestVar.Type));
                 }
             }
             else
             {
-                if(!TypesHelper.IsSameOrSubtype(KeyVar.Type, TypesHelper.ExtractSrc(DestVar.Type), env.Model))
+                if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), TypesHelper.ExtractSrc(DestVar.Type), env.Model))
                 {
-                    throw new SequenceParserException(DestVar.Name + "[" + DestVar.Name + "] = " + SourceExpression.Symbol, TypesHelper.ExtractSrc(DestVar.Type), KeyVar.Type);
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(DestVar.Type), KeyExpression.Type(env));
                 }
                 if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), TypesHelper.ExtractDst(DestVar.Type), env.Model))
                 {
-                    throw new SequenceParserException(DestVar.Name + "[" + DestVar.Name + "] = " + SourceExpression.Symbol, SourceExpression.Type(env), TypesHelper.ExtractDst(DestVar.Type));
+                    throw new SequenceParserException(Symbol, SourceExpression.Type(env), TypesHelper.ExtractDst(DestVar.Type));
                 }
             }
         }
@@ -1185,7 +1184,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceAssignExprToIndexedVar copy = (SequenceAssignExprToIndexedVar)MemberwiseClone();
             copy.SourceExpression = SourceExpression.Copy(originalToCopy);
-            copy.KeyVar = KeyVar.Copy(originalToCopy);
+            copy.KeyExpression = KeyExpression.Copy(originalToCopy);
             copy.DestVar = DestVar.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
@@ -1196,16 +1195,16 @@ namespace de.unika.ipd.grGen.libGr
             if(DestVar.GetVariableValue(graph) is IList)
             {
                 IList array = (IList)DestVar.GetVariableValue(graph);
-                int keyVar = (int)KeyVar.GetVariableValue(graph);
-                if(keyVar >= array.Count) return false;
-                array[keyVar] = SourceExpression.Evaluate(graph, env);
+                int key = (int)KeyExpression.Evaluate(graph, env);
+                if(key >= array.Count) return false;
+                array[key] = SourceExpression.Evaluate(graph, env);
             }
             else
             {
                 IDictionary setmap = (IDictionary)DestVar.GetVariableValue(graph);
-                object keyVar = KeyVar.GetVariableValue(graph);
-                if(!setmap.Contains(keyVar)) return false;
-                setmap[keyVar] = SourceExpression.Evaluate(graph, env);
+                object key = KeyExpression.Evaluate(graph, env);
+                if(!setmap.Contains(key)) return false;
+                setmap[key] = SourceExpression.Evaluate(graph, env);
             }
             return true;
         }
@@ -1213,14 +1212,14 @@ namespace de.unika.ipd.grGen.libGr
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
             DestVar.GetLocalVariables(variables);
-            KeyVar.GetLocalVariables(variables);
+            KeyExpression.GetLocalVariables(variables);
             SourceExpression.GetLocalVariables(variables);
             return this == target;
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } } // nearly always no children
-        public override int Precedence { get { return 8; } } // nearly always a top prio assignment factor
-        public override string Symbol { get { return DestVar.Name + "[" + KeyVar.Name + "] = " + SourceExpression.Symbol; } }
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return DestVar.Name + "[" + KeyExpression.Symbol + "] = " + SourceExpression.Symbol; } }
     }
 
     public class SequenceAssignUserInputToVar : SequenceAssignToVar, SequenceRandomChoice
@@ -1240,7 +1239,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(!TypesHelper.IsSameOrSubtype(Type, DestVar.Type, env.Model))
             {
-                throw new SequenceParserException(DestVar.Name + "=$%(" + Type + ")", DestVar.Type, Type);
+                throw new SequenceParserException(Symbol, DestVar.Type, Type);
             }
         }
 
@@ -1273,7 +1272,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "int", env.Model))
             {
-                throw new SequenceParserException(DestVar.Name + "=$(" + Number + ")", "int", DestVar.Type);
+                throw new SequenceParserException(Symbol, "int", DestVar.Type);
             }
         }
 
@@ -1309,7 +1308,7 @@ namespace de.unika.ipd.grGen.libGr
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
             if(nodeOrEdgeType == null)
             {
-                throw new SequenceParserException(DestVar.Name + "." + AttributeName + "=" + SourceExpression.Symbol, "node or edge type", DestVar.Type);
+                throw new SequenceParserException(Symbol, "node or edge type", DestVar.Type);
             }
             AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
             if(attributeType == null)
@@ -1318,7 +1317,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), TypesHelper.AttributeTypeToXgrsType(attributeType), env.Model))
             {
-                throw new SequenceParserException(DestVar.Name + "." + AttributeName + "=" + SourceExpression.Symbol, TypesHelper.AttributeTypeToXgrsType(attributeType), SourceExpression.Type(env));
+                throw new SequenceParserException(Symbol, TypesHelper.AttributeTypeToXgrsType(attributeType), SourceExpression.Type(env));
             }
         }
 
@@ -2186,14 +2185,14 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceSetVisited : Sequence
     {
         public SequenceVariable GraphElementVar;
-        public SequenceVariable VisitedFlagVar;
+        public SequenceExpression VisitedFlagExpression;
         public SequenceExpression SourceExpression;
 
-        public SequenceSetVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar, SequenceExpression expr)
+        public SequenceSetVisited(SequenceVariable graphElementVar, SequenceExpression visitedFlagExpr, SequenceExpression expr)
             : base(SequenceType.SetVisited)
         {
             GraphElementVar = graphElementVar;
-            VisitedFlagVar = visitedFlagVar;
+            VisitedFlagExpression = visitedFlagExpr;
             SourceExpression = expr;
         }
 
@@ -2202,15 +2201,15 @@ namespace de.unika.ipd.grGen.libGr
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
             if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
             {
-                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + SourceExpression.Symbol, "node or edge type", GraphElementVar.Type);
+                throw new SequenceParserException(Symbol, "node or edge type", GraphElementVar.Type);
             }
-            if(!TypesHelper.IsSameOrSubtype(VisitedFlagVar.Type, "int", env.Model))
+            if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
             {
-                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + SourceExpression.Symbol, "int", VisitedFlagVar.Type);
+                throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
             }
             if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), "boolean", env.Model))
             {
-                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]=" + SourceExpression.Symbol, "boolean", SourceExpression.Type(env));
+                throw new SequenceParserException(Symbol, "boolean", SourceExpression.Type(env));
             }
         }
 
@@ -2218,7 +2217,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceSetVisited copy = (SequenceSetVisited)MemberwiseClone();
             copy.GraphElementVar = GraphElementVar.Copy(originalToCopy);
-            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
+            copy.VisitedFlagExpression = VisitedFlagExpression.Copy(originalToCopy);
             copy.SourceExpression = SourceExpression.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
@@ -2227,7 +2226,7 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
-            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
+            int visitedFlag = (int)VisitedFlagExpression.Evaluate(graph, env);
             bool value = (bool)SourceExpression.Evaluate(graph, env);
             graph.SetVisited(elem, visitedFlag, value);
             return true;
@@ -2236,234 +2235,224 @@ namespace de.unika.ipd.grGen.libGr
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
             GraphElementVar.GetLocalVariables(variables);
-            VisitedFlagVar.GetLocalVariables(variables);
+            VisitedFlagExpression.GetLocalVariables(variables);
             SourceExpression.GetLocalVariables(variables);
             return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return GraphElementVar.Name+".visited["+VisitedFlagVar.Name+"]="+SourceExpression.Symbol; } }
+        public override string Symbol { get { return GraphElementVar.Name+".visited["+VisitedFlagExpression.Symbol+"]="+SourceExpression.Symbol; } }
     }
 
     public class SequenceVFree : Sequence
     {
-        public SequenceVariable VisitedFlagVar;
+        public SequenceExpression VisitedFlagExpression;
 
-        public SequenceVFree(SequenceVariable visitedFlagVar)
+        public SequenceVFree(SequenceExpression visitedFlagExpr)
             : base(SequenceType.VFree)
         {
-            VisitedFlagVar = visitedFlagVar;
+            VisitedFlagExpression = visitedFlagExpr;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            if(!TypesHelper.IsSameOrSubtype(VisitedFlagVar.Type, "int", env.Model))
+            if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
             {
-                throw new SequenceParserException("vfree(" + VisitedFlagVar.Name + ")", "int", VisitedFlagVar.Type);
+                throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
             }
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceVFree copy = (SequenceVFree)MemberwiseClone();
-            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
+            copy.VisitedFlagExpression = VisitedFlagExpression.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
+            int visitedFlag = (int)VisitedFlagExpression.Evaluate(graph, env);
             graph.FreeVisitedFlag(visitedFlag);
             return true;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
-            VisitedFlagVar.GetLocalVariables(variables);
+            VisitedFlagExpression.GetLocalVariables(variables);
             return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "vfree("+VisitedFlagVar.Name+")"; } }
+        public override string Symbol { get { return "vfree("+VisitedFlagExpression.Symbol+")"; } }
     }
 
     public class SequenceVReset : Sequence
     {
-        public SequenceVariable VisitedFlagVar;
+        public SequenceExpression VisitedFlagExpression;
+
+        public SequenceVReset(SequenceExpression visitedFlagExpr)
+            : base(SequenceType.VReset)
+        {
+            VisitedFlagExpression = visitedFlagExpr;
+        }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            if(!TypesHelper.IsSameOrSubtype(VisitedFlagVar.Type, "int", env.Model))
+            if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
             {
-                throw new SequenceParserException("vfree(" + VisitedFlagVar.Name + ")", "int", VisitedFlagVar.Type);
+                throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
             }
-        }
-
-        public SequenceVReset(SequenceVariable visitedFlagVar)
-            : base(SequenceType.VReset)
-        {
-            VisitedFlagVar = visitedFlagVar;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceVReset copy = (SequenceVReset)MemberwiseClone();
-            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
+            copy.VisitedFlagExpression = VisitedFlagExpression.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
+            int visitedFlag = (int)VisitedFlagExpression.Evaluate(graph, env);
             graph.ResetVisitedFlag(visitedFlag);
             return true;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
-            VisitedFlagVar.GetLocalVariables(variables);
+            VisitedFlagExpression.GetLocalVariables(variables);
             return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "vreset("+VisitedFlagVar.Name+")"; } }
+        public override string Symbol { get { return "vreset("+VisitedFlagExpression.Symbol+")"; } }
     }
 
     public class SequenceEmit : Sequence
     {
-        public String Text;
-        public SequenceVariable Variable;
+        public SequenceExpression Expression;
 
-        public SequenceEmit(String text)
+        public SequenceEmit(SequenceExpression expr)
             : base(SequenceType.Emit)
         {
-            Text = text;
-            Text = Text.Replace("\\n", "\n");
-            Text = Text.Replace("\\r", "\r");
-            Text = Text.Replace("\\t", "\t");
-            Text = Text.Replace("\\#", "#");
-        }
-
-        public SequenceEmit(SequenceVariable var)
-            : base(SequenceType.Emit)
-        {
-            Variable = var;
+            Expression = expr;
+            if(Expression is SequenceExpressionConstant)
+            {
+                SequenceExpressionConstant constant = (SequenceExpressionConstant)Expression;
+                if(constant.Constant is string)
+                {
+                    constant.Constant = ((string)constant.Constant).Replace("\\n", "\n");
+                    constant.Constant = ((string)constant.Constant).Replace("\\r", "\r");
+                    constant.Constant = ((string)constant.Constant).Replace("\\t", "\t");
+                    constant.Constant = ((string)constant.Constant).Replace("\\#", "#");
+                }
+            }
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceEmit copy = (SequenceEmit)MemberwiseClone();
-            if(Variable!=null)
-                copy.Variable = Variable.Copy(originalToCopy);
+            copy.Expression = Expression.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Variable!=null) {
-                object val = Variable.GetVariableValue(graph);
-                if(val!=null) {
-                    if(val is IDictionary)
-                        graph.EmitWriter.Write(DictionaryListHelper.ToString((IDictionary)val, env!=null ? env.GetNamedGraph() : graph));
-                    else if(val is IList)
-                        graph.EmitWriter.Write(DictionaryListHelper.ToString((IList)val, env != null ? env.GetNamedGraph() : graph));
-                    else
-                        graph.EmitWriter.Write(DictionaryListHelper.ToString(val, env!=null ? env.GetNamedGraph() : graph));
-                }
-            } else {
-                graph.EmitWriter.Write(Text);
+            object val = Expression.Evaluate(graph, env);
+            if(val!=null) {
+                if(val is IDictionary)
+                    graph.EmitWriter.Write(DictionaryListHelper.ToString((IDictionary)val, env!=null ? env.GetNamedGraph() : graph));
+                else if(val is IList)
+                    graph.EmitWriter.Write(DictionaryListHelper.ToString((IList)val, env!=null ? env.GetNamedGraph() : graph));
+                else
+                    graph.EmitWriter.Write(DictionaryListHelper.ToString(val, env!=null ? env.GetNamedGraph() : graph));
             }
             return true;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
-            if(Variable!=null)
-                Variable.GetLocalVariables(variables);
+            Expression.GetLocalVariables(variables);
             return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Variable!=null ? "emit("+Variable.Name+")" : "emit("+Text+")"; } }
+        public override string Symbol { get { return "emit("+Expression.Symbol+")"; } }
     }
 
     public class SequenceRecord : Sequence
     {
-        public String Text;
-        public SequenceVariable Variable;
+        public SequenceExpression Expression;
 
-        public SequenceRecord(String text)
+        public SequenceRecord(SequenceExpression expr)
             : base(SequenceType.Record)
         {
-            Text = text;
-            Text = Text.Replace("\\n", "\n");
-            Text = Text.Replace("\\r", "\r");
-            Text = Text.Replace("\\t", "\t");
-            Text = Text.Replace("\\#", "#");
-        }
-
-        public SequenceRecord(SequenceVariable var)
-            : base(SequenceType.Record)
-        {
-            Variable = var;
+            Expression = expr;
+            if(Expression is SequenceExpressionConstant)
+            {
+                SequenceExpressionConstant constant = (SequenceExpressionConstant)Expression;
+                if(constant.Constant is string)
+                {
+                    constant.Constant = ((string)constant.Constant).Replace("\\n", "\n");
+                    constant.Constant = ((string)constant.Constant).Replace("\\r", "\r");
+                    constant.Constant = ((string)constant.Constant).Replace("\\t", "\t");
+                    constant.Constant = ((string)constant.Constant).Replace("\\#", "#");
+                }
+            }
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceRecord copy = (SequenceRecord)MemberwiseClone();
-            if(Variable!=null)
-                copy.Variable = Variable.Copy(originalToCopy);
+            copy.Expression = Expression.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Variable!=null) {
-                object val = Variable.GetVariableValue(graph);
-                if(val!=null) {
-                    if(val is IDictionary)
-                        graph.Recorder.Write(DictionaryListHelper.ToString((IDictionary)val, env!=null ? env.GetNamedGraph() : graph));
-                    else
-                        graph.Recorder.Write(DictionaryListHelper.ToString(val, env!=null ? env.GetNamedGraph() : graph));
-                }
-            } else {
-                graph.Recorder.Write(Text);
+            object val = Expression.Evaluate(graph, env);
+            if(val!=null) {
+                if(val is IDictionary)
+                    graph.Recorder.Write(DictionaryListHelper.ToString((IDictionary)val, env!=null ? env.GetNamedGraph() : graph));
+                else if(val is IList)
+                    graph.Recorder.Write(DictionaryListHelper.ToString((IList)val, env!=null ? env.GetNamedGraph() : graph));
+                else
+                    graph.Recorder.Write(DictionaryListHelper.ToString(val, env!=null ? env.GetNamedGraph() : graph));
             }
             return true;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
-            if(Variable!=null)
-                Variable.GetLocalVariables(variables);
+            Expression.GetLocalVariables(variables);
             return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Variable != null ? "record(" + Variable.Name + ")" : "record(" + Text + ")"; } }
+        public override string Symbol { get { return "record("+Expression.Symbol+")"; } }
     }
 
     public class SequenceContainerAdd : Sequence
     {
         public SequenceVariable Container;
-        public SequenceVariable Var;
-        public SequenceVariable VarDst;
+        public SequenceExpression Expr;
+        public SequenceExpression ExprDst;
 
-        public SequenceContainerAdd(SequenceVariable container, SequenceVariable var, SequenceVariable varDst)
+        public SequenceContainerAdd(SequenceVariable container, SequenceExpression expr, SequenceExpression exprDst)
             : base(SequenceType.ContainerAdd)
         {
             Container = container;
-            Var = var;
-            VarDst = varDst;
+            Expr = expr;
+            ExprDst = exprDst;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -2473,35 +2462,33 @@ namespace de.unika.ipd.grGen.libGr
             
             if(!Container.Type.StartsWith("set<") && !Container.Type.StartsWith("map<") && !Container.Type.StartsWith("array<"))
             {
-                throw new SequenceParserException(Container.Name, VarDst == null ? "set or array type" : "map or array type", Container.Type);
+                throw new SequenceParserException(Symbol, ExprDst == null ? "set or array type" : "map or array type", Container.Type);
             }
-            if(VarDst != null && TypesHelper.ExtractDst(Container.Type) == "SetValueType")
+            if(ExprDst != null && TypesHelper.ExtractDst(Container.Type) == "SetValueType")
             {
-                throw new SequenceParserException(Container.Name, "map type or array", Container.Type);
+                throw new SequenceParserException(Symbol, "map type or array", Container.Type);
             }
             if(Container.Type.StartsWith("array<"))
             {
-                if(!TypesHelper.IsSameOrSubtype(Var.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(Container.Type), env.Model))
                 {
-                    if(VarDst == null) throw new SequenceParserException(Container.Name + ".Add(" + Var.Name + ")", TypesHelper.ExtractSrc(Container.Type), Var.Type);
-                    else throw new SequenceParserException(Container.Name + ".Add(" + Var.Name + "," + VarDst.Name + ")", TypesHelper.ExtractSrc(Container.Type), Var.Type);
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(Container.Type), Expr.Type(env));
                 }
-                if(VarDst != null && !TypesHelper.IsSameOrSubtype(VarDst.Type, "int", env.Model))
+                if(ExprDst != null && !TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "int", env.Model))
                 {
-                    throw new SequenceParserException(Container.Name + ".Add(.," + VarDst.Name + ")", TypesHelper.ExtractDst(Container.Type), VarDst.Type);
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(Container.Type), ExprDst.Type(env));
                 }
             }
             else
             {
-                if(!TypesHelper.IsSameOrSubtype(Var.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(Container.Type), env.Model))
                 {
-                    if(VarDst == null) throw new SequenceParserException(Container.Name + ".Add(" + Var.Name + ")", TypesHelper.ExtractSrc(Container.Type), Var.Type);
-                    else throw new SequenceParserException(Container.Name + ".Add(" + Var.Name + "," + VarDst.Name + ")", TypesHelper.ExtractSrc(Container.Type), Var.Type);
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(Container.Type), Expr.Type(env));
                 }
                 if(TypesHelper.ExtractDst(Container.Type) != "SetValueType"
-                    && !TypesHelper.IsSameOrSubtype(VarDst.Type, TypesHelper.ExtractDst(Container.Type), env.Model))
+                    && !TypesHelper.IsSameOrSubtype(ExprDst.Type(env), TypesHelper.ExtractDst(Container.Type), env.Model))
                 {
-                    throw new SequenceParserException(Container.Name + ".Add(.," + VarDst.Name + ")", TypesHelper.ExtractDst(Container.Type), VarDst.Type);
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(Container.Type), ExprDst.Type(env));
                 }
             }
         }
@@ -2510,9 +2497,9 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceContainerAdd copy = (SequenceContainerAdd)MemberwiseClone();
             copy.Container = Container.Copy(originalToCopy);
-            copy.Var = Var.Copy(originalToCopy);
-            if(VarDst!=null)
-                copy.VarDst = VarDst.Copy(originalToCopy);
+            copy.Expr = Expr.Copy(originalToCopy);
+            if(ExprDst!=null)
+                copy.ExprDst = ExprDst.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
@@ -2522,21 +2509,21 @@ namespace de.unika.ipd.grGen.libGr
             if(Container.GetVariableValue(graph) is IList)
             {
                 IList array = (IList)Container.GetVariableValue(graph);
-                if(VarDst == null)
-                    array.Add(Var.GetVariableValue(graph));
+                if(ExprDst == null)
+                    array.Add(Expr.Evaluate(graph, env));
                 else
-                    array.Insert((int)VarDst.GetVariableValue(graph), Var.GetVariableValue(graph));
+                    array.Insert((int)ExprDst.Evaluate(graph, env), Expr.Evaluate(graph, env));
             }
             else
             {
                 IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
-                if(setmap.Contains(Var.GetVariableValue(graph)))
+                if(setmap.Contains(Expr.Evaluate(graph, env)))
                 {
-                    setmap[Var.GetVariableValue(graph)] = (VarDst == null ? null : VarDst.GetVariableValue(graph));
+                    setmap[Expr.Evaluate(graph, env)] = (ExprDst == null ? null : ExprDst.Evaluate(graph, env));
                 }
                 else
                 {
-                    setmap.Add(Var.GetVariableValue(graph), (VarDst == null ? null : VarDst.GetVariableValue(graph)));
+                    setmap.Add(Expr.Evaluate(graph, env), (ExprDst == null ? null : ExprDst.Evaluate(graph, env)));
                 }
             }
             return true;
@@ -2545,27 +2532,27 @@ namespace de.unika.ipd.grGen.libGr
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
             Container.GetLocalVariables(variables);
-            Var.GetLocalVariables(variables);
-            if(VarDst != null)
-                VarDst.GetLocalVariables(variables);
+            Expr.GetLocalVariables(variables);
+            if(ExprDst != null)
+                ExprDst.GetLocalVariables(variables);
             return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Container.Name+".add("+Var.Name+(VarDst!=null?","+VarDst.Name:"")+")"; } }
+        public override string Symbol { get { return Container.Name+".add("+Expr.Symbol+(ExprDst!=null?","+ExprDst.Symbol:"")+")"; } }
     }
 
     public class SequenceContainerRem : Sequence
     {
         public SequenceVariable Container;
-        public SequenceVariable Var;
+        public SequenceExpression Expr;
 
-        public SequenceContainerRem(SequenceVariable container, SequenceVariable var)
+        public SequenceContainerRem(SequenceVariable container, SequenceExpression expr)
             : base(SequenceType.ContainerRem)
         {
             Container = container;
-            Var = var;
+            Expr = expr;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -2575,20 +2562,20 @@ namespace de.unika.ipd.grGen.libGr
             
             if(!Container.Type.StartsWith("set<") && !Container.Type.StartsWith("map<") && !Container.Type.StartsWith("array<"))
             {
-                throw new SequenceParserException(Container.Name, "set or map or array type", Container.Type);
+                throw new SequenceParserException(Symbol, "set or map or array type", Container.Type);
             }
             if(Container.Type.StartsWith("array<"))
             {
-                if(Var != null && !TypesHelper.IsSameOrSubtype(Var.Type, "int", env.Model))
+                if(Expr != null && !TypesHelper.IsSameOrSubtype(Expr.Type(env), "int", env.Model))
                 {
-                    throw new SequenceParserException(Container.Name + ".Rem(" + Var.Name + ")", "int", Var.Type);
+                    throw new SequenceParserException(Symbol, "int", Expr.Type(env));
                 }
             }
             else
             {
-                if(!TypesHelper.IsSameOrSubtype(Var.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(Container.Type), env.Model))
                 {
-                    throw new SequenceParserException(Container.Name + ".Rem(" + Var.Name + ")", TypesHelper.ExtractSrc(Container.Type), Var.Type);
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(Container.Type), Expr.Type(env));
                 }
             }
         }
@@ -2597,8 +2584,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceContainerRem copy = (SequenceContainerRem)MemberwiseClone();
             copy.Container = Container.Copy(originalToCopy);
-            if(Var!=null)
-                copy.Var = Var.Copy(originalToCopy);
+            if(Expr!=null)
+                copy.Expr = Expr.Copy(originalToCopy);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
@@ -2608,15 +2595,15 @@ namespace de.unika.ipd.grGen.libGr
             if(Container.GetVariableValue(graph) is IList)
             {
                 IList array = (IList)Container.GetVariableValue(graph);
-                if(Var == null)
+                if(Expr == null)
                     array.RemoveAt(array.Count - 1);
                 else
-                    array.RemoveAt((int)Var.GetVariableValue(graph));
+                    array.RemoveAt((int)Expr.Evaluate(graph, env));
             }
             else
             {
                 IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
-                setmap.Remove(Var.GetVariableValue(graph));
+                setmap.Remove(Expr.Evaluate(graph, env));
             }
             return true;
         }
@@ -2624,14 +2611,14 @@ namespace de.unika.ipd.grGen.libGr
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
             Container.GetLocalVariables(variables);
-            if(Var!=null)
-                Var.GetLocalVariables(variables);
+            if(Expr!=null)
+                Expr.GetLocalVariables(variables);
             return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Container.Name+".rem("+Var.Name+")"; } }
+        public override string Symbol { get { return Container.Name+".rem("+(Expr!=null?Expr.Symbol:"")+")"; } }
     }
 
     public class SequenceContainerClear : Sequence
@@ -2651,7 +2638,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!Container.Type.StartsWith("set<") && !Container.Type.StartsWith("map<") && !Container.Type.StartsWith("array<"))
             {
-                throw new SequenceParserException(Container.Name, "set or map or array type", Container.Type);
+                throw new SequenceParserException(Symbol, "set or map or array type", Container.Type);
             }
         }
 
@@ -3082,7 +3069,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(!TypesHelper.IsSameOrSubtype(Expression.Type(env), "boolean", env.Model))
             {
-                throw new SequenceParserException(Expression.Symbol, "boolean", Expression.Type(env));
+                throw new SequenceParserException(Symbol, "boolean", Expression.Type(env));
             }
         }
 
