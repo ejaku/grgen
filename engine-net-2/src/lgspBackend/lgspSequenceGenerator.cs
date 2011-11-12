@@ -1610,16 +1610,16 @@ namespace de.unika.ipd.grGen.lgsp
                         {
                             SourceBuilder source = new SourceBuilder();
 
-                            string sourceValue = GetVar(seqIn.Var);
+                            string sourceExpr = GetSequenceExpression(seqIn.Expr);
                             source.AppendFront("(" + GetVar(seqIn.Container) + " is IList ? ");
 
                             string array = "((System.Collections.IList)" + GetVar(seqIn.Container) + ")";
-                            source.AppendFront(array + ".Contains(" + sourceValue + ")");
+                            source.AppendFront(array + ".Contains(" + sourceExpr + ")");
 
                             source.AppendFront(" : ");
 
                             string dictionary = "((System.Collections.IDictionary)" + GetVar(seqIn.Container) + ")";
-                            source.AppendFront(dictionary + ".Contains(" + sourceValue + ")");
+                            source.AppendFront(dictionary + ".Contains(" + sourceExpr + ")");
 
                             source.AppendFront(")");
 
@@ -1629,15 +1629,15 @@ namespace de.unika.ipd.grGen.lgsp
                         {
                             string array = GetVar(seqIn.Container);
                             string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqIn.Container.Type), model);
-                            string sourceValue = "((" + arrayValueType + ")" + GetVar(seqIn.Var) + ")";
-                            return array + ".Contains(" + sourceValue + ")";
+                            string sourceExpr = "((" + arrayValueType + ")" + GetSequenceExpression(seqIn.Expr) + ")";
+                            return array + ".Contains(" + sourceExpr + ")";
                         }
                         else
                         {
                             string dictionary = GetVar(seqIn.Container);
                             string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqIn.Container.Type), model);
-                            string sourceValue = "((" + dictSrcType + ")" + GetVar(seqIn.Var) + ")";
-                            return dictionary + ".ContainsKey(" + sourceValue + ")";
+                            string sourceExpr = "((" + dictSrcType + ")" + GetSequenceExpression(seqIn.Expr) + ")";
+                            return dictionary + ".ContainsKey(" + sourceExpr + ")";
                         }
                     }
 
@@ -1646,7 +1646,7 @@ namespace de.unika.ipd.grGen.lgsp
                         SequenceExpressionIsVisited seqIsVisited = (SequenceExpressionIsVisited)expr;
                         return "graph.IsVisited("
                             + "(GRGEN_LIBGR.IGraphElement)" + GetVar(seqIsVisited.GraphElementVar)
-                            + ", (int)" + GetVar(seqIsVisited.VisitedFlagVar)
+                            + ", (int)" + GetSequenceExpression(seqIsVisited.VisitedFlagExpr)
                             + ")";
                     }
 
@@ -1729,23 +1729,23 @@ namespace de.unika.ipd.grGen.lgsp
                         {
                             SourceBuilder source = new SourceBuilder();
 
-                            string sourceValue = GetVar(seqContainerAccessToVar.KeyVar);
+                            string sourceExpr = GetSequenceExpression(seqContainerAccessToVar.KeyExpr);
                             source.AppendFront("(" + GetVar(seqContainerAccessToVar.Container) + " is IList ? ");
 
                             string array = "((System.Collections.IList)" + GetVar(seqContainerAccessToVar.Container) + ")";
-                            if(!TypesHelper.IsSameOrSubtype(seqContainerAccessToVar.KeyVar.Type, "int", model))
+                            if(!TypesHelper.IsSameOrSubtype(seqContainerAccessToVar.KeyExpr.Type(env), "int", model))
                             {
                                 source.AppendFront(array + "[-1]");
                             }
                             else
                             {
-                                source.AppendFront(array + "[(int)" + sourceValue + "]");
+                                source.AppendFront(array + "[(int)" + sourceExpr + "]");
                             }
 
                             source.AppendFront(" : ");
 
                             string dictionary = "((System.Collections.IDictionary)" + GetVar(seqContainerAccessToVar.Container) + ")";
-                            source.AppendFront(dictionary + "[" + sourceValue + "]");
+                            source.AppendFront(dictionary + "[" + sourceExpr + "]");
 
                             source.AppendFront(")");
 
@@ -1754,15 +1754,15 @@ namespace de.unika.ipd.grGen.lgsp
                         else if(seqContainerAccessToVar.Container.Type.StartsWith("array"))
                         {
                             string array = GetVar(seqContainerAccessToVar.Container);
-                            string sourceValue = "((int)" + GetVar(seqContainerAccessToVar.KeyVar) + ")";
-                            return array + "[" + sourceValue + "]";
+                            string sourceExpr = "((int)" + GetSequenceExpression(seqContainerAccessToVar.KeyExpr) + ")";
+                            return array + "[" + sourceExpr + "]";
                         }
                         else
                         {
                             string dictionary = GetVar(seqContainerAccessToVar.Container);
                             string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerAccessToVar.Container.Type), model);
-                            string sourceValue = "((" + dictSrcType + ")" + GetVar(seqContainerAccessToVar.KeyVar) + ")";
-                            return dictionary + "[" + sourceValue + "]";
+                            string sourceExpr = "((" + dictSrcType + ")" + GetSequenceExpression(seqContainerAccessToVar.KeyExpr) + ")";
+                            return dictionary + "[" + sourceExpr + "]";
                         }
                     }
 

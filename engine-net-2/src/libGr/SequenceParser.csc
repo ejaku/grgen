@@ -935,15 +935,22 @@ SequenceExpression ExpressionAsSequence():
 {
 	List<SequenceVariable> variableList1 = new List<SequenceVariable>();
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
-	SequenceVariable fromVar, fromVar2 = null;
+	SequenceVariable fromVar;
+	SequenceExpression fromExpr = null;
 	String attrName, method, elemName;
 	object constant;
 }
 {
-	LOOKAHEAD(VariableUse() "." "visited")
-	fromVar=VariableUse() "." "visited" "[" fromVar2=VariableUse() "]"
+	LOOKAHEAD(ConstantVariableAccess() "in")
+	fromExpr=ConstantVariableAccess() "in" fromVar=VariableUse()
 	{
-		return new SequenceExpressionIsVisited(fromVar, fromVar2);
+		return new SequenceExpressionInContainer(fromExpr, fromVar);
+	}
+|
+	LOOKAHEAD(VariableUse() "." "visited")
+	fromVar=VariableUse() "." "visited" "[" fromExpr=Expression() "]"
+	{
+		return new SequenceExpressionIsVisited(fromVar, fromExpr);
 	}
 |
 	LOOKAHEAD(2)
@@ -953,18 +960,11 @@ SequenceExpression ExpressionAsSequence():
 	}
 |
 	LOOKAHEAD(2)
-	fromVar=VariableUse() "[" fromVar2=VariableUse() "]" // parsing v=a[ as v=a[x] has priority over (v=a)[*]
+	fromVar=VariableUse() "[" fromExpr=Expression() "]" // parsing v=a[ as v=a[x] has priority over (v=a)[*]
 	{
-		return new SequenceExpressionContainerAccess(fromVar, fromVar2);
+		return new SequenceExpressionContainerAccess(fromVar, fromExpr);
 	}
 |
-	LOOKAHEAD(2)
-	fromVar=VariableUse() "in" fromVar2=VariableUse()
-	{
-		return new SequenceExpressionInContainer(fromVar, fromVar2);
-	}
-|
-	LOOKAHEAD(2)
 	constant=Constant()
 	{
 		return new SequenceExpressionConstant(constant);
@@ -1015,6 +1015,46 @@ SequenceExpression Expression():
 	"valloc" "(" ")"
 	{
 		return new SequenceExpressionVAlloc();
+	}
+}
+
+// expression light used at positions which would lead to left recursion otherwise
+// contains the value delivering expressions which are of interest for the left position in which it is used
+// could contain further expressions, duplicating even more grammar parts, but I don't consider these to be of importance there
+SequenceExpression ConstantVariableAccess():
+{
+	SequenceVariable fromVar;
+	SequenceExpression fromExpr;
+	String attrName, elemName;
+	object constant;
+}
+{
+	LOOKAHEAD(2)
+	fromVar=VariableUse() "." attrName=Word()
+	{
+		return new SequenceExpressionAttribute(fromVar, attrName);
+	}
+|
+	LOOKAHEAD(2)
+	fromVar=VariableUse() "[" fromExpr=Expression() "]"
+	{
+		return new SequenceExpressionContainerAccess(fromVar, fromExpr);
+	}
+|
+	LOOKAHEAD(2)
+	constant=Constant()
+	{
+		return new SequenceExpressionConstant(constant);
+	}
+|
+	fromVar=VariableUse()
+	{
+		return new SequenceExpressionVariable(fromVar);
+	}
+|
+	"@" "(" elemName=Text() ")"
+	{
+		return new SequenceExpressionElementFromGraph(elemName);
 	}
 }
 

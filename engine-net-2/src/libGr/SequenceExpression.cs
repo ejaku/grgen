@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpressionType SequenceExpressionType;
 
         /// <summary>
-        /// Initializes a new SequenceExpression object with the given sequence expressoin type.
+        /// Initializes a new SequenceExpression object with the given sequence expression type.
         /// </summary>
         /// <param name="seqExprType">The sequence expression type.</param>
         public SequenceExpression(SequenceExpressionType seqExprType)
@@ -254,13 +254,13 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionIsVisited : SequenceExpression
     {
         public SequenceVariable GraphElementVar;
-        public SequenceVariable VisitedFlagVar;
+        public SequenceExpression VisitedFlagExpr;
 
-        public SequenceExpressionIsVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar)
+        public SequenceExpressionIsVisited(SequenceVariable graphElementVar, SequenceExpression visitedFlagExpr)
             : base(SequenceExpressionType.IsVisited)
         {
             GraphElementVar = graphElementVar;
-            VisitedFlagVar = visitedFlagVar;
+            VisitedFlagExpr = visitedFlagExpr;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -268,11 +268,11 @@ namespace de.unika.ipd.grGen.libGr
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
             if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
             {
-                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]", "node or edge type", GraphElementVar.Type);
+                throw new SequenceParserException(Symbol, "node or edge type", GraphElementVar.Type);
             }
-            if(!TypesHelper.IsSameOrSubtype(VisitedFlagVar.Type, "int", env.Model))
+            if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpr.Type(env), "int", env.Model))
             {
-                throw new SequenceParserException(GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]", "int", VisitedFlagVar.Type);
+                throw new SequenceParserException(Symbol, "int", VisitedFlagExpr.Type(env));
             }
         }
 
@@ -280,37 +280,37 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceExpressionIsVisited copy = (SequenceExpressionIsVisited)MemberwiseClone();
             copy.GraphElementVar = GraphElementVar.Copy(originalToCopy);
-            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
+            copy.VisitedFlagExpr = VisitedFlagExpr.Copy(originalToCopy);
             return copy;
         }
 
         public override object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
         {
             IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
-            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
+            int visitedFlag = (int)VisitedFlagExpr.Evaluate(graph, env);
             return graph.IsVisited(elem, visitedFlag);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
             GraphElementVar.GetLocalVariables(variables);
-            VisitedFlagVar.GetLocalVariables(variables);
+            VisitedFlagExpr.GetLocalVariables(variables);
         }
 
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return GraphElementVar.Name + ".visited[" + VisitedFlagVar.Name + "]"; } }
+        public override string Symbol { get { return GraphElementVar.Name + ".visited[" + VisitedFlagExpr.Symbol + "]"; } }
     }
 
     public class SequenceExpressionInContainer : SequenceExpression
     {
-        public SequenceVariable Var;
+        public SequenceExpression Expr;
         public SequenceVariable Container;
 
-        public SequenceExpressionInContainer(SequenceVariable var, SequenceVariable container)
+        public SequenceExpressionInContainer(SequenceExpression expr, SequenceVariable container)
             : base(SequenceExpressionType.InContainer)
         {
-            Var = var;
+            Expr = expr;
             Container = container;
         }
 
@@ -323,9 +323,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new SequenceParserException(Container.Name, "set or map or array type", Container.Type);
             }
-            if(!TypesHelper.IsSameOrSubtype(Var.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+            if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(Container.Type), env.Model))
             {
-                throw new SequenceParserException(Var.Name + " in " + Container.Name, TypesHelper.ExtractSrc(Container.Type), Var.Type);
+                throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(Container.Type), Expr.Type(env));
             }
         }
 
@@ -333,7 +333,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceExpressionInContainer copy = (SequenceExpressionInContainer)MemberwiseClone();
             copy.Container = Container.Copy(originalToCopy);
-            copy.Var = Var.Copy(originalToCopy);
+            copy.Expr = Expr.Copy(originalToCopy);
             return copy;
         }
 
@@ -342,24 +342,24 @@ namespace de.unika.ipd.grGen.libGr
             if(Container.GetVariableValue(graph) is IList)
             {
                 IList array = (IList)Container.GetVariableValue(graph);
-                return array.Contains(Var.GetVariableValue(graph));
+                return array.Contains(Expr.Evaluate(graph, env));
             }
             else
             {
                 IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
-                return setmap.Contains(Var.GetVariableValue(graph));
+                return setmap.Contains(Expr.Evaluate(graph, env));
             }
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
             Container.GetLocalVariables(variables);
-            Var.GetLocalVariables(variables);
+            Expr.GetLocalVariables(variables);
         }
 
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Var.Name + " in " + Container.Name; } }
+        public override string Symbol { get { return Expr.Symbol + " in " + Container.Name; } }
     }
 
     public class SequenceExpressionVAlloc : SequenceExpression
@@ -404,7 +404,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Container.Type != "" && (TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null))
             {
-                throw new SequenceParserException(Container.Name + ".size()", "set<S> or map<S,T> or array<S> type", Container.Type);
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> type", Container.Type);
             }
         }
 
@@ -458,7 +458,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Container.Type != "" && (TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null))
             {
-                throw new SequenceParserException(Container.Name + ".empty()", "set<S> or map<S,T> or array<S> type", Container.Type);
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> type", Container.Type);
             }
         }
 
@@ -496,13 +496,13 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionContainerAccess : SequenceExpression
     {
         public SequenceVariable Container;
-        public SequenceVariable KeyVar;
+        public SequenceExpression KeyExpr;
 
-        public SequenceExpressionContainerAccess(SequenceVariable container, SequenceVariable keyVar)
+        public SequenceExpressionContainerAccess(SequenceVariable container, SequenceExpression keyExpr)
             : base(SequenceExpressionType.ContainerAccess)
         {
             Container = container;
-            KeyVar = keyVar;
+            KeyExpr = keyExpr;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -512,20 +512,20 @@ namespace de.unika.ipd.grGen.libGr
             
             if(TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == "SetValueType")
             {
-                throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", "map<S,T> or array<S>", Container.Type);
+                throw new SequenceParserException(Symbol, "map<S,T> or array<S>", Container.Type);
             }
             if(Container.Type.StartsWith("array"))
             {
-                if(!TypesHelper.IsSameOrSubtype(KeyVar.Type, "int", env.Model))
+                if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
                 {
-                    throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", "int", KeyVar.Type);
+                    throw new SequenceParserException(Symbol, "int", KeyExpr.Type(env));
                 }
             }
             else
             {
-                if(!TypesHelper.IsSameOrSubtype(KeyVar.Type, TypesHelper.ExtractSrc(Container.Type), env.Model))
+                if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), TypesHelper.ExtractSrc(Container.Type), env.Model))
                 {
-                    throw new SequenceParserException(Container.Name + "[" + KeyVar.Name + "]", TypesHelper.ExtractSrc(Container.Type), KeyVar.Type);
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(Container.Type), KeyExpr.Type(env));
                 }
             }
         }
@@ -545,7 +545,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceExpressionContainerAccess copy = (SequenceExpressionContainerAccess)MemberwiseClone();
             copy.Container = Container.Copy(originalToCopy);
-            copy.KeyVar = KeyVar.Copy(originalToCopy);
+            copy.KeyExpr = KeyExpr.Copy(originalToCopy);
             return copy;
         }
 
@@ -554,26 +554,26 @@ namespace de.unika.ipd.grGen.libGr
             if(Container.GetVariableValue(graph) is IList)
             {
                 IList array = (IList)Container.GetVariableValue(graph);
-                int keyVar = (int)KeyVar.GetVariableValue(graph);
-                return array[keyVar];
+                int key = (int)KeyExpr.Evaluate(graph, env);
+                return array[key];
             }
             else
             {
                 IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
-                object keyVar = KeyVar.GetVariableValue(graph);
-                return setmap[keyVar];
+                object key = KeyExpr.Evaluate(graph, env);
+                return setmap[key];
             }
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
             Container.GetLocalVariables(variables);
-            KeyVar.GetLocalVariables(variables);
+            KeyExpr.GetLocalVariables(variables);
         }
 
         public override IEnumerable<SequenceExpression> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Container.Name + "[" + KeyVar.Name + "]"; } }
+        public override string Symbol { get { return Container.Name + "[" + KeyExpr.Symbol + "]"; } }
     }
 
     public class SequenceExpressionElementFromGraph : SequenceExpression
@@ -683,7 +683,7 @@ namespace de.unika.ipd.grGen.libGr
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SourceVar.Type, env.Model);
             if(nodeOrEdgeType == null)
             {
-                throw new SequenceParserException(SourceVar.Name + "." + AttributeName, "node or edge type", SourceVar.Type);
+                throw new SequenceParserException(Symbol, "node or edge type", SourceVar.Type);
             }
             AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
             if(attributeType == null)
