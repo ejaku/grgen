@@ -165,30 +165,36 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns string containing a C# expression to get the value of the result variable of the sequence given
+        /// Returns string containing a C# expression to get the value of the result variable of the sequence-like given
         /// (every sequence part writes a success-value which is read by other parts determining execution flow)
         /// </summary>
-        public string GetResultVar(Sequence seq)
+        public string GetResultVar(SequenceBase seq)
         {
             return "res_" + seq.Id;
         }
 
         /// <summary>
-        /// Returns string containing a C# assignment to set the result variable of the sequence given
+        /// Returns string containing a C# assignment to set the result variable of the sequence-like given
         /// to the value as computed by the C# expression in the string given
         /// (every sequence part writes a success-value which is read by other parts determining execution flow)
         /// </summary>
-        public string SetResultVar(Sequence seq, String valueToWrite)
+        public string SetResultVar(SequenceBase seq, String valueToWrite)
         {
-            return "res_" + seq.Id + " = (bool)(" + valueToWrite + ");\n";
+            if(seq is Sequence)
+                return "res_" + seq.Id + " = (bool)(" + valueToWrite + ");\n";
+            else
+                return "res_" + seq.Id + " = " + valueToWrite + ";\n";
         }
 
         /// <summary>
-        /// Returns string containing C# declaration of the sequence result variable
+        /// Returns string containing C# declaration of the sequence-like result variable
         /// </summary>
-        public string DeclareResultVar(Sequence seq)
+        public string DeclareResultVar(SequenceBase seq)
         {
-            return "bool res_" + seq.Id + ";\n";
+            if(seq is Sequence)
+                return "bool res_" + seq.Id + ";\n";
+            else
+                return "object res_" + seq.Id + ";\n";
         }
 
         /// <summary>
@@ -206,7 +212,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// pre-run for emitting the needed entities before emitting the real code
         /// - emits result variable declarations
-        /// - emits xgrs variable declarations (only once for every variable, declaration only possible at assignment targets)
+        /// - emits sequence variable declarations (only once for every variable, declaration only possible at assignment targets)
         /// - collects used rules into knownRules, emit local rule declaration (only once for every rule)
         /// </summary>
 		void EmitNeededVarAndRuleEntities(Sequence seq, SourceBuilder source)
@@ -215,13 +221,17 @@ namespace de.unika.ipd.grGen.lgsp
 
 			switch(seq.SequenceType)
 			{
-				case SequenceType.AssignExprToVar:		// TODO: Load from external vars?
-				{
-					SequenceAssignExprToVar toVar = (SequenceAssignExprToVar) seq;
+                case SequenceType.AssignUserInputToVar:
+                case SequenceType.AssignRandomToVar:
+                case SequenceType.AssignConstToVar:
+                case SequenceType.AssignVarToVar:
+                {
+					SequenceAssignToVar toVar = (SequenceAssignToVar) seq;
                     EmitVarIfNew(toVar.DestVar, source);
 					break;
 				}
-				case SequenceType.AssignSequenceResultToVar:
+
+                case SequenceType.AssignSequenceResultToVar:
                 case SequenceType.OrAssignSequenceResultToVar:
                 case SequenceType.AndAssignSequenceResultToVar:
                 {
@@ -230,24 +240,6 @@ namespace de.unika.ipd.grGen.lgsp
 					EmitNeededVarAndRuleEntities(seqToVar.Seq, source);
 					break;
 				}
-                case SequenceType.AssignUserInputToVar:
-                {
-                    SequenceAssignUserInputToVar userInputToVar = (SequenceAssignUserInputToVar)seq;
-                    EmitVarIfNew(userInputToVar.DestVar, source);
-                    break;
-                }
-                case SequenceType.AssignRandomToVar:
-                {
-                    SequenceAssignRandomToVar randomToVar = (SequenceAssignRandomToVar)seq;
-                    EmitVarIfNew(randomToVar.DestVar, source);
-                    break;
-                }
-                case SequenceType.AssignExprToAttribute:
-                {
-                    SequenceAssignExprToAttribute varToAttr = (SequenceAssignExprToAttribute)seq;
-                    EmitVarIfNew(varToAttr.DestVar, source);
-                    break;
-                }
 
 				case SequenceType.RuleCall:
 				case SequenceType.RuleAllCall:
@@ -278,9 +270,46 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceType.BooleanComputation:
+                {
+                    SequenceBooleanComputation seqBoolComp = (SequenceBooleanComputation)seq;
+                    EmitNeededVarEntities(seqBoolComp.Computation, source);
+                    break;
+                }
+
 				default: // esp. AssignElemToVar
 					foreach(Sequence childSeq in seq.Children)
 						EmitNeededVarAndRuleEntities(childSeq, source);
+					break;
+			}
+		}
+
+        /// <summary>
+        /// pre-run for emitting the needed entities before emitting the real code
+        /// - emits sequence variable declarations (only once for every variable, declaration only possible at assignment targets)
+        /// </summary>
+		void EmitNeededVarEntities(SequenceComputation seqComp, SourceBuilder source)
+		{
+            source.AppendFront(DeclareResultVar(seqComp));
+            
+            switch(seqComp.SequenceComputationType)
+			{
+				case SequenceComputationType.AssignExprToVar:
+				{
+					SequenceComputationAssignExprToVar toVar = (SequenceComputationAssignExprToVar) seqComp;
+                    EmitVarIfNew(toVar.DestVar, source);
+					break;
+				}
+                case SequenceComputationType.YieldingAssignExprToVar:
+                {
+                    SequenceComputationYieldingAssignExprToVar toVar = (SequenceComputationYieldingAssignExprToVar)seqComp;
+                    EmitVarIfNew(toVar.DestVar, source);
+                    break;
+                }
+
+				default: // esp. AssignElemToVar
+					foreach(SequenceComputation childSeqComp in seqComp.Children)
+						EmitNeededVarEntities(childSeqComp, source);
 					break;
 			}
 		}
@@ -457,13 +486,6 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.SequenceCall:
                     EmitSequenceCall((SequenceSequenceCall)seq, source);
                     break;
-
-				case SequenceType.BooleanExpression:
-				{
-					SequenceBooleanExpression seqPred = (SequenceBooleanExpression) seq;
-					source.AppendFront(SetResultVar(seqPred, GetSequenceExpression(seqPred.Expression)));
-					break;
-				}
 
 				case SequenceType.Not:
 				{
@@ -707,384 +729,21 @@ namespace de.unika.ipd.grGen.lgsp
 					break;
 				}
 
-                case SequenceType.YieldingAssignExprToVar:
-                {
-                    SequenceYieldingAssignExprToVar seqYield = (SequenceYieldingAssignExprToVar)seq;
-                    source.AppendFront(SetVar(seqYield.DestVar, GetSequenceExpression(seqYield.SourceExpression)));
-                    source.AppendFront(SetResultVar(seqYield, "true"));
-                    break;
-                }
-
-                case SequenceType.ContainerAdd:
-                {
-                    SequenceContainerAdd seqAdd = (SequenceContainerAdd)seq;
-
-                    if(seqAdd.Container.Type == "")
-                    {
-                        string sourceValue = "srcval_" + seqAdd.Id;
-                        source.AppendFront("object " + sourceValue + " = " + GetSequenceExpression(seqAdd.Expr) + ";\n");
-                        string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
-                        source.AppendFront("if(" + GetVar(seqAdd.Container) + " is IList) {\n");
-                        source.Indent();
-
-                        if(destinationValue != null && !TypesHelper.IsSameOrSubtype(seqAdd.ExprDst.Type(env), "int", model))
-                            source.AppendFront("throw new Exception(\"Can't add non-int key to array\");\n");
-                        else
-                        {
-                            string array = "((System.Collections.IList)" + GetVar(seqAdd.Container) + ")";
-                            if(destinationValue != null)
-                                source.AppendFront("int " + destinationValue + " = (int)" + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
-                            if(destinationValue == null)
-                                source.AppendFront(array + ".Add(" + sourceValue + ");\n");
-                            else
-                                source.AppendFront(array + ".Insert(" + destinationValue + ", " + sourceValue + ");\n");
-                        }
-
-                        source.Unindent();
-                        source.AppendFront("} else {\n");
-                        source.Indent();
-
-                        if(destinationValue != null)
-                            source.AppendFront("object " + destinationValue + " = " + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
-                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqAdd.Container) + ")";
-                        source.AppendFront("if(" + dictionary + ".Contains(" + sourceValue + "))\n");
-                        source.AppendFront("{\n");
-                        source.Indent();
-                        if(destinationValue == null)
-                            source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
-                        else
-                            source.AppendFront(dictionary + "[" + sourceValue + "] = " + destinationValue + ";\n");
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                        source.AppendFront("else\n");
-                        source.AppendFront("{\n");
-                        source.Indent();
-                        if(seqAdd.ExprDst == null)
-                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", null);\n");
-                        else
-                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", " + destinationValue + ");\n");
-                        source.Unindent();
-                        source.AppendFront("}\n");
-
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-                    else if(seqAdd.Container.Type.StartsWith("array"))
-                    {
-                        string array = GetVar(seqAdd.Container);
-                        string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.Container.Type), model);
-                        string sourceValue = "srcval_" + seqAdd.Id;
-                        source.AppendFront(arrayValueType + " " + sourceValue + " = (" + arrayValueType + ")" + GetSequenceExpression(seqAdd.Expr) + ";\n");
-                        string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
-                        if(destinationValue != null)
-                            source.AppendFront("int " + destinationValue + " = (int)" + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
-                        if(destinationValue == null)
-                            source.AppendFront(array + ".Add(" + sourceValue + ");\n");
-                        else
-                            source.AppendFront(array + ".Insert(" + destinationValue + ", " + sourceValue + ");\n");
-                    }
-                    else
-                    {
-                        string dictionary = GetVar(seqAdd.Container);
-                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.Container.Type), model);
-                        string sourceValue = " srcval_" + seqAdd.Id;
-                        source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")" + GetSequenceExpression(seqAdd.Expr) + ";\n");
-                        string dictDstType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(seqAdd.Container.Type), model);
-                        string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
-                        if(destinationValue != null)
-                            source.AppendFront(dictDstType + " " + destinationValue + " = (" + dictDstType + ")" + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
-
-                        source.AppendFront("if(" + dictionary + ".ContainsKey(" + sourceValue + "))\n");
-                        source.AppendFront("{\n");
-                        source.Indent();
-                        if(seqAdd.ExprDst == null)
-                            source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
-                        else
-                            source.AppendFront(dictionary + "[" + sourceValue + "] = " + destinationValue + ";\n");
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                        source.AppendFront("else\n");
-                        source.AppendFront("{\n");
-                        source.Indent();
-                        if(seqAdd.ExprDst == null)
-                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", null);\n");
-                        else
-                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", " + destinationValue + ");\n");
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-                    source.AppendFront(SetResultVar(seqAdd, "true"));
-                    break;
-                }
-
-                case SequenceType.ContainerRem:
-                {
-                    SequenceContainerRem seqDel = (SequenceContainerRem)seq;
-                    if(seqDel.Container.Type == "")
-                    {
-                        string sourceValue = seqDel.Expr==null ? null : "srcval_" + seqDel.Id;
-                        source.AppendFront("if(" + GetVar(seqDel.Container) + " is IList) {\n");
-                        source.Indent();
-
-                        if(sourceValue != null)
-                            source.AppendFront("int " + sourceValue + " = (int)" + GetSequenceExpression(seqDel.Expr) + ";\n");
-                        string array = "((System.Collections.IList)" + GetVar(seqDel.Container) + ")";
-                        if(sourceValue == null)
-                            source.AppendFront(array + ".RemoveAt(" + array + ".Count - 1);\n");
-                        else
-                        {
-                            if(!TypesHelper.IsSameOrSubtype(seqDel.Expr.Type(env), "int", model))
-                                source.AppendFront("throw new Exception(\"Can't remove non-int index from array\");\n");
-                            else
-                                source.AppendFront(array + ".RemoveAt(" + sourceValue + ");\n");
-                        }
-
-                        source.Unindent();
-                        source.AppendFront("} else {\n");
-                        source.Indent();
-
-                        if(sourceValue != null)
-                            source.AppendFront("object " + sourceValue + " = " + GetSequenceExpression(seqDel.Expr) + ";\n");
-                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqDel.Container) + ")";
-                        if(sourceValue == null)
-                            source.AppendFront("throw new Exception(\""+seqDel.Container.Name+".rem() only possible on array!\");\n");
-                        else
-                            source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
-
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-                    else if(seqDel.Container.Type.StartsWith("array"))
-                    {
-                        string array = GetVar(seqDel.Container);
-                        string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
-                        if(sourceValue != null)
-                            source.AppendFront("int " + sourceValue + " = (int)" + GetSequenceExpression(seqDel.Expr) + ";\n");
-                        if(sourceValue == null)
-                            source.AppendFront(array + ".RemoveAt(" + array + ".Count - 1);\n");
-                        else
-                            source.AppendFront(array + ".RemoveAt(" + sourceValue + ");\n");
-                    }
-                    else
-                    {
-                        string dictionary = GetVar(seqDel.Container);
-                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqDel.Container.Type), model);
-                        string sourceValue = "srcval_" + seqDel.Id;
-                        source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")"+ GetSequenceExpression(seqDel.Expr) + ";\n");
-                        source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
-                    }
-                    source.AppendFront(SetResultVar(seqDel, "true"));
-                    break;
-                }
-
-                case SequenceType.ContainerClear:
-                {
-                    SequenceContainerClear seqClear = (SequenceContainerClear)seq;
-
-                    if(seqClear.Container.Type == "")
-                    {
-                        source.AppendFront("if(" + GetVar(seqClear.Container) + " is IList) {\n");
-                        source.Indent();
-
-                        string array = "((System.Collections.IList)" + GetVar(seqClear.Container) + ")";
-                        source.AppendFront(array + ".Clear();\n");
-
-                        source.Unindent();
-                        source.AppendFront("} else {\n");
-                        source.Indent();
-
-                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqClear.Container) + ")";
-                        source.AppendFront(dictionary + ".Clear();\n");
-
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-                    else if(seqClear.Container.Type.StartsWith("array"))
-                    {
-                        string array = GetVar(seqClear.Container);
-                        source.AppendFront(array + ".Clear();\n");
-                    }
-                    else
-                    {
-                        string dictionary = GetVar(seqClear.Container);
-                        source.AppendFront(dictionary + ".Clear();\n");
-                    }
-
-                    source.AppendFront(SetResultVar(seqClear, "true"));
-                    break;
-                }
-
-                case SequenceType.SetVisited:
-                {
-                    SequenceSetVisited seqSetVisited = (SequenceSetVisited)seq;
-                    source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)"+GetVar(seqSetVisited.GraphElementVar)
-                        +", (int)"+GetSequenceExpression(seqSetVisited.VisitedFlagExpression)+", (bool)"+GetSequenceExpression(seqSetVisited.SourceExpression)+");\n");
-                    source.AppendFront(SetResultVar(seqSetVisited, "true"));
-                    break;
-                }
-
-                case SequenceType.VFree:
-                {
-                    SequenceVFree seqVFree = (SequenceVFree)seq;
-                    source.AppendFront("graph.FreeVisitedFlag((int)"+GetSequenceExpression(seqVFree.VisitedFlagExpression)+");\n");
-                    source.AppendFront(SetResultVar(seqVFree, "true"));
-                    break;
-                }
-
-                case SequenceType.VReset:
-                {
-                    SequenceVReset seqVReset = (SequenceVReset)seq;
-                    source.AppendFront("graph.ResetVisitedFlag((int)"+GetSequenceExpression(seqVReset.VisitedFlagExpression)+");\n");
-                    source.AppendFront(SetResultVar(seqVReset, "true"));
-                    break;
-                }
-
-                case SequenceType.Emit:
-                {
-                    SequenceEmit seqEmit = (SequenceEmit)seq;
-                    if(!(seqEmit.Expression is SequenceExpressionConstant))
-                    {
-                        string emitVal = "emitval_" + seqEmit.Id;
-                        source.AppendFront("object " + emitVal + " = " + GetSequenceExpression(seqEmit.Expression) + ";\n");
-                        if(seqEmit.Expression.Type(env) == "" || seqEmit.Expression.Type(env).StartsWith("set<") 
-                            || seqEmit.Expression.Type(env).StartsWith("map<") || seqEmit.Expression.Type(env).StartsWith("array<"))
-                        {
-                            source.AppendFront("if(" + emitVal + " is IDictionary)\n");
-                            source.AppendFront("\tgraph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
-                            source.AppendFront("else if(" + emitVal + " is IList)\n");
-                            source.AppendFront("\tgraph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IList)" + emitVal + ", graph));\n");
-                            source.AppendFront("else\n\t");
-                        }
-                        source.AppendFront("graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + emitVal + ", graph));\n");
-                    } else {
-                        SequenceExpressionConstant constant = (SequenceExpressionConstant)seqEmit.Expression;
-                        if(constant.Constant is string)
-                        {
-                            String text = (string)constant.Constant;
-                            text = text.Replace("\n", "\\n");
-                            text = text.Replace("\r", "\\r");
-                            text = text.Replace("\t", "\\t");
-                            source.AppendFront("graph.EmitWriter.Write(\"" + text + "\");\n");
-                        }
-                        else
-                            source.AppendFront("graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetSequenceExpression(seqEmit.Expression) + ", graph));\n");
-                    }
-                    source.AppendFront(SetResultVar(seqEmit, "true"));
-                    break;
-                }
-
-                case SequenceType.Record:
-                {
-                    SequenceRecord seqRec = (SequenceRecord)seq;
-                    if(!(seqRec.Expression is SequenceExpressionConstant))
-                    {
-                        string recVal = "recval_" + seqRec.Id;
-                        source.AppendFront("object " + recVal + " = " + GetSequenceExpression(seqRec.Expression) + ";\n");
-                        if(seqRec.Expression.Type(env) == "" || seqRec.Expression.Type(env).StartsWith("set<") 
-                            || seqRec.Expression.Type(env).StartsWith("map<") || seqRec.Expression.Type(env).StartsWith("array<"))
-                        {
-                            source.AppendFront("if(" + recVal + " is IDictionary)\n");
-                            source.AppendFront("\tgraph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IDictionary)" + recVal + ", graph));\n");
-                            source.AppendFront("else if(" + recVal + " is IList)\n");
-                            source.AppendFront("\tgraph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IList)" + recVal + ", graph));\n");
-                            source.AppendFront("else\n\t");
-                        }
-                        source.AppendFront("graph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + recVal + ", graph));\n");
-                    } else {
-                        SequenceExpressionConstant constant = (SequenceExpressionConstant)seqRec.Expression;
-                        if(constant.Constant is string)
-                        {
-                            String text = (string)constant.Constant;
-                            text = text.Replace("\n", "\\n");
-                            text = text.Replace("\r", "\\r");
-                            text = text.Replace("\t", "\\t");
-                            source.AppendFront("graph.Recorder.Write(\"" + text + "\");\n");
-                        }
-                        else
-                            source.AppendFront("graph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetSequenceExpression(seqRec.Expression) + ", graph));\n");
-                    }
-                    source.AppendFront(SetResultVar(seqRec, "true"));
-                    break;
-                }
-
-                case SequenceType.AssignExprToIndexedVar:
-                {
-                    SequenceAssignExprToIndexedVar seqAssignExprToIndexedVar = (SequenceAssignExprToIndexedVar)seq;
-                    source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, "false"));
-                    string indexValue = "index_" + seqAssignExprToIndexedVar.Id;
-
-                    if(seqAssignExprToIndexedVar.DestVar.Type == "")
-                    {
-                        source.AppendFront("if(" + GetVar(seqAssignExprToIndexedVar.DestVar) + " is IList) {\n");
-                        source.Indent();
-
-                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression));
-                        string array = "((System.Collections.IList)" + GetVar(seqAssignExprToIndexedVar.DestVar) + ")";
-                        if(!TypesHelper.IsSameOrSubtype(seqAssignExprToIndexedVar.KeyExpression.Type(env), "int", model))
-                        {
-                            source.AppendFront("if(true) {\n");
-                            source.Indent();
-                            source.AppendFront("throw new Exception(\"Can't access non-int index in array\");\n");
-                        }
-                        else
-                        {
-                            source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
-                            source.Indent();
-                            source.AppendFront(array + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
-                            source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, "true"));
-                        }
-                        source.Unindent();
-                        source.AppendFront("}\n");
-
-                        source.Unindent();
-                        source.AppendFront("} else {\n");
-                        source.Indent();
-
-                        source.AppendFront("object " + indexValue + " = " + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression));
-                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqAssignExprToIndexedVar.DestVar) + ")";
-                        source.AppendFront("if(" + dictionary + ".Contains(" + indexValue + ")) {\n");
-                        source.Indent();
-                        source.AppendFront(dictionary + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
-                        source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, "true"));
-                        source.Unindent();
-                        source.AppendFront("}\n");
-
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-                    else if(seqAssignExprToIndexedVar.DestVar.Type.StartsWith("array"))
-                    {
-                        string array = GetVar(seqAssignExprToIndexedVar.DestVar);
-                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression) + ";\n");
-                        source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
-                        source.Indent();
-                        source.AppendFront(array + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
-                        source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, "true"));
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-                    else
-                    {
-                        string dictionary = GetVar(seqAssignExprToIndexedVar.DestVar);
-                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAssignExprToIndexedVar.DestVar.Type), model);
-                        source.AppendFront(dictSrcType + " " + indexValue + " = (" + dictSrcType + ")" + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression) + ";\n");
-                        source.AppendFront("if(" + dictionary + ".ContainsKey(" + indexValue + ")) {\n");
-                        source.Indent();
-                        source.AppendFront(dictionary + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
-                        source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, "true"));
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-                    break;
-                }
-
-				case SequenceType.AssignExprToVar:
+				case SequenceType.AssignConstToVar:
 				{
-					SequenceAssignExprToVar seqToVar = (SequenceAssignExprToVar) seq;
-                    source.AppendFront(SetVar(seqToVar.DestVar, GetSequenceExpression(seqToVar.SourceExpression)));
+					SequenceAssignConstToVar seqToVar = (SequenceAssignConstToVar) seq;
+                    source.AppendFront(SetVar(seqToVar.DestVar, GetConstant(seqToVar.Constant)));
                     source.AppendFront(SetResultVar(seqToVar, "true"));
 					break;
 				}
+
+                case SequenceType.AssignVarToVar:
+                {
+                    SequenceAssignVarToVar seqToVar = (SequenceAssignVarToVar)seq;
+                    source.AppendFront(SetVar(seqToVar.DestVar, GetVar(seqToVar.Variable)));
+                    source.AppendFront(SetResultVar(seqToVar, "true"));
+                    break;
+                }
 
                 case SequenceType.AssignSequenceResultToVar:
                 {
@@ -1123,23 +782,6 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceAssignRandomToVar seqRandomToVar = (SequenceAssignRandomToVar)seq;
                     source.AppendFront(SetVar(seqRandomToVar.DestVar, "GRGEN_LIBGR.Sequence.randomGenerator.Next(" + seqRandomToVar.Number + ")"));
                     source.AppendFront(SetResultVar(seqRandomToVar, "true"));
-                    break;
-                }
-
-                case SequenceType.AssignExprToAttribute:
-                {
-                    SequenceAssignExprToAttribute seqVarToAttr = (SequenceAssignExprToAttribute)seq;
-                    source.AppendFront("object value_" + seqVarToAttr.Id + " = " + GetSequenceExpression(seqVarToAttr.SourceExpression) + ";\n");
-                    source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqVarToAttr.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqVarToAttr.DestVar) + ";\n");
-                    source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqVarToAttr.Id + ";\n");
-                    source.AppendFront("value_" + seqVarToAttr.Id + " = GRGEN_LIBGR.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(elem_" + seqVarToAttr.Id + ", \"" + seqVarToAttr.AttributeName + "\", value_" + seqVarToAttr.Id + ", out attrType_" + seqVarToAttr.Id + ");\n");
-                    source.AppendFront("GRGEN_LIBGR.AttributeChangeType changeType_" + seqVarToAttr.Id + " = GRGEN_LIBGR.AttributeChangeType.Assign;\n");
-                    source.AppendFront("if(elem_" + seqVarToAttr.Id + " is GRGEN_LIBGR.INode)\n");
-                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
-                    source.AppendFront("else\n");
-                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
-                    source.AppendFront("elem_" + seqVarToAttr.Id + ".SetAttribute(\"" + seqVarToAttr.AttributeName + "\", value_" + seqVarToAttr.Id + ");\n");
-                    source.AppendFront(SetResultVar(seqVarToAttr, "true"));
                     break;
                 }
 
@@ -1193,6 +835,14 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceBacktrack seqBack = (SequenceBacktrack)seq;
                     EmitSequenceBacktrack(seqBack, source);
+                    break;
+                }
+
+                case SequenceType.BooleanComputation:
+                {
+                    SequenceBooleanComputation seqComp = (SequenceBooleanComputation)seq;
+                    EmitSequenceComputation(seqComp.Computation, source);
+                    source.AppendFront(SetResultVar(seqComp, "GRGEN_LIBGR.TypesHelper.IsDefaultValue(" + GetResultVar(seqComp.Computation) + ")"));
                     break;
                 }
 
@@ -1504,6 +1154,414 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+  		void EmitSequenceComputation(SequenceComputation seqComp, SourceBuilder source)
+		{
+			switch(seqComp.SequenceComputationType)
+			{
+                case SequenceComputationType.YieldingAssignExprToVar:
+                {
+                    SequenceComputationYieldingAssignExprToVar seqYield = (SequenceComputationYieldingAssignExprToVar)seqComp;
+                    source.AppendFront(SetVar(seqYield.DestVar, GetSequenceExpression(seqYield.SourceExpression)));
+                    source.AppendFront(SetResultVar(seqYield, GetVar(seqYield.DestVar)));
+                    break;
+                }
+
+                case SequenceComputationType.ContainerAdd:
+                {
+                    SequenceComputationContainerAdd seqAdd = (SequenceComputationContainerAdd)seqComp;
+
+                    if(seqAdd.Container.Type == "")
+                    {
+                        string sourceValue = "srcval_" + seqAdd.Id;
+                        source.AppendFront("object " + sourceValue + " = " + GetSequenceExpression(seqAdd.Expr) + ";\n");
+                        string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
+                        source.AppendFront("if(" + GetVar(seqAdd.Container) + " is IList) {\n");
+                        source.Indent();
+
+                        if(destinationValue != null && !TypesHelper.IsSameOrSubtype(seqAdd.ExprDst.Type(env), "int", model))
+                            source.AppendFront("throw new Exception(\"Can't add non-int key to array\");\n");
+                        else
+                        {
+                            string array = "((System.Collections.IList)" + GetVar(seqAdd.Container) + ")";
+                            if(destinationValue != null)
+                                source.AppendFront("int " + destinationValue + " = (int)" + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
+                            if(destinationValue == null)
+                                source.AppendFront(array + ".Add(" + sourceValue + ");\n");
+                            else
+                                source.AppendFront(array + ".Insert(" + destinationValue + ", " + sourceValue + ");\n");
+                        }
+
+                        source.Unindent();
+                        source.AppendFront("} else {\n");
+                        source.Indent();
+
+                        if(destinationValue != null)
+                            source.AppendFront("object " + destinationValue + " = " + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
+                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqAdd.Container) + ")";
+                        source.AppendFront("if(" + dictionary + ".Contains(" + sourceValue + "))\n");
+                        source.AppendFront("{\n");
+                        source.Indent();
+                        if(destinationValue == null)
+                            source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
+                        else
+                            source.AppendFront(dictionary + "[" + sourceValue + "] = " + destinationValue + ";\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                        source.AppendFront("else\n");
+                        source.AppendFront("{\n");
+                        source.Indent();
+                        if(seqAdd.ExprDst == null)
+                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", null);\n");
+                        else
+                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", " + destinationValue + ");\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    else if(seqAdd.Container.Type.StartsWith("array"))
+                    {
+                        string array = GetVar(seqAdd.Container);
+                        string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.Container.Type), model);
+                        string sourceValue = "srcval_" + seqAdd.Id;
+                        source.AppendFront(arrayValueType + " " + sourceValue + " = (" + arrayValueType + ")" + GetSequenceExpression(seqAdd.Expr) + ";\n");
+                        string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
+                        if(destinationValue != null)
+                            source.AppendFront("int " + destinationValue + " = (int)" + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
+                        if(destinationValue == null)
+                            source.AppendFront(array + ".Add(" + sourceValue + ");\n");
+                        else
+                            source.AppendFront(array + ".Insert(" + destinationValue + ", " + sourceValue + ");\n");
+                    }
+                    else
+                    {
+                        string dictionary = GetVar(seqAdd.Container);
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.Container.Type), model);
+                        string sourceValue = " srcval_" + seqAdd.Id;
+                        source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")" + GetSequenceExpression(seqAdd.Expr) + ";\n");
+                        string dictDstType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(seqAdd.Container.Type), model);
+                        string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
+                        if(destinationValue != null)
+                            source.AppendFront(dictDstType + " " + destinationValue + " = (" + dictDstType + ")" + GetSequenceExpression(seqAdd.ExprDst) + ";\n");
+
+                        source.AppendFront("if(" + dictionary + ".ContainsKey(" + sourceValue + "))\n");
+                        source.AppendFront("{\n");
+                        source.Indent();
+                        if(seqAdd.ExprDst == null)
+                            source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
+                        else
+                            source.AppendFront(dictionary + "[" + sourceValue + "] = " + destinationValue + ";\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                        source.AppendFront("else\n");
+                        source.AppendFront("{\n");
+                        source.Indent();
+                        if(seqAdd.ExprDst == null)
+                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", null);\n");
+                        else
+                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", " + destinationValue + ");\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    source.AppendFront(SetResultVar(seqAdd, GetVar(seqAdd.Container)));
+                    break;
+                }
+
+                case SequenceComputationType.ContainerRem:
+                {
+                    SequenceComputationContainerRem seqDel = (SequenceComputationContainerRem)seqComp;
+                    if(seqDel.Container.Type == "")
+                    {
+                        string sourceValue = seqDel.Expr==null ? null : "srcval_" + seqDel.Id;
+                        source.AppendFront("if(" + GetVar(seqDel.Container) + " is IList) {\n");
+                        source.Indent();
+
+                        if(sourceValue != null)
+                            source.AppendFront("int " + sourceValue + " = (int)" + GetSequenceExpression(seqDel.Expr) + ";\n");
+                        string array = "((System.Collections.IList)" + GetVar(seqDel.Container) + ")";
+                        if(sourceValue == null)
+                            source.AppendFront(array + ".RemoveAt(" + array + ".Count - 1);\n");
+                        else
+                        {
+                            if(!TypesHelper.IsSameOrSubtype(seqDel.Expr.Type(env), "int", model))
+                                source.AppendFront("throw new Exception(\"Can't remove non-int index from array\");\n");
+                            else
+                                source.AppendFront(array + ".RemoveAt(" + sourceValue + ");\n");
+                        }
+
+                        source.Unindent();
+                        source.AppendFront("} else {\n");
+                        source.Indent();
+
+                        if(sourceValue != null)
+                            source.AppendFront("object " + sourceValue + " = " + GetSequenceExpression(seqDel.Expr) + ";\n");
+                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqDel.Container) + ")";
+                        if(sourceValue == null)
+                            source.AppendFront("throw new Exception(\""+seqDel.Container.Name+".rem() only possible on array!\");\n");
+                        else
+                            source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
+
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    else if(seqDel.Container.Type.StartsWith("array"))
+                    {
+                        string array = GetVar(seqDel.Container);
+                        string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
+                        if(sourceValue != null)
+                            source.AppendFront("int " + sourceValue + " = (int)" + GetSequenceExpression(seqDel.Expr) + ";\n");
+                        if(sourceValue == null)
+                            source.AppendFront(array + ".RemoveAt(" + array + ".Count - 1);\n");
+                        else
+                            source.AppendFront(array + ".RemoveAt(" + sourceValue + ");\n");
+                    }
+                    else
+                    {
+                        string dictionary = GetVar(seqDel.Container);
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqDel.Container.Type), model);
+                        string sourceValue = "srcval_" + seqDel.Id;
+                        source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")"+ GetSequenceExpression(seqDel.Expr) + ";\n");
+                        source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
+                    }
+                    source.AppendFront(SetResultVar(seqDel, GetVar(seqDel.Container)));
+                    break;
+                }
+
+                case SequenceComputationType.ContainerClear:
+                {
+                    SequenceComputationContainerClear seqClear = (SequenceComputationContainerClear)seqComp;
+
+                    if(seqClear.Container.Type == "")
+                    {
+                        source.AppendFront("if(" + GetVar(seqClear.Container) + " is IList) {\n");
+                        source.Indent();
+
+                        string array = "((System.Collections.IList)" + GetVar(seqClear.Container) + ")";
+                        source.AppendFront(array + ".Clear();\n");
+
+                        source.Unindent();
+                        source.AppendFront("} else {\n");
+                        source.Indent();
+
+                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqClear.Container) + ")";
+                        source.AppendFront(dictionary + ".Clear();\n");
+
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    else if(seqClear.Container.Type.StartsWith("array"))
+                    {
+                        string array = GetVar(seqClear.Container);
+                        source.AppendFront(array + ".Clear();\n");
+                    }
+                    else
+                    {
+                        string dictionary = GetVar(seqClear.Container);
+                        source.AppendFront(dictionary + ".Clear();\n");
+                    }
+                    source.AppendFront(SetResultVar(seqClear, GetVar(seqClear.Container)));
+                    break;
+                }
+
+                case SequenceComputationType.AssignExprToVisited:
+                {
+                    SequenceComputationAssignExprToVisited seqSetVisited = (SequenceComputationAssignExprToVisited)seqComp;
+                    source.AppendFront("bool visval_"+seqSetVisited.Id+" = (bool)"+GetSequenceExpression(seqSetVisited.SourceExpression)+";\n");
+                    source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)"+GetVar(seqSetVisited.GraphElementVar)
+                        +", (int)"+GetSequenceExpression(seqSetVisited.VisitedFlagExpression)+", visval_"+seqSetVisited.Id+");\n");
+                    source.AppendFront(SetResultVar(seqSetVisited, "visval_"+seqSetVisited.Id));
+                    break;
+                }
+
+                case SequenceComputationType.VFree:
+                {
+                    SequenceComputationVFree seqVFree = (SequenceComputationVFree)seqComp;
+                    source.AppendFront("graph.FreeVisitedFlag((int)"+GetSequenceExpression(seqVFree.VisitedFlagExpression)+");\n");
+                    source.AppendFront(SetResultVar(seqVFree, "true"));
+                    break;
+                }
+
+                case SequenceComputationType.VReset:
+                {
+                    SequenceComputationVReset seqVReset = (SequenceComputationVReset)seqComp;
+                    source.AppendFront("graph.ResetVisitedFlag((int)"+GetSequenceExpression(seqVReset.VisitedFlagExpression)+");\n");
+                    source.AppendFront(SetResultVar(seqVReset, "true"));
+                    break;
+                }
+
+                case SequenceComputationType.Emit:
+                {
+                    SequenceComputationEmit seqEmit = (SequenceComputationEmit)seqComp;
+                    if(!(seqEmit.Expression is SequenceExpressionConstant))
+                    {
+                        string emitVal = "emitval_" + seqEmit.Id;
+                        source.AppendFront("object " + emitVal + " = " + GetSequenceExpression(seqEmit.Expression) + ";\n");
+                        if(seqEmit.Expression.Type(env) == "" || seqEmit.Expression.Type(env).StartsWith("set<") 
+                            || seqEmit.Expression.Type(env).StartsWith("map<") || seqEmit.Expression.Type(env).StartsWith("array<"))
+                        {
+                            source.AppendFront("if(" + emitVal + " is IDictionary)\n");
+                            source.AppendFront("\tgraph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
+                            source.AppendFront("else if(" + emitVal + " is IList)\n");
+                            source.AppendFront("\tgraph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IList)" + emitVal + ", graph));\n");
+                            source.AppendFront("else\n\t");
+                        }
+                        source.AppendFront("graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + emitVal + ", graph));\n");
+                    } else {
+                        SequenceExpressionConstant constant = (SequenceExpressionConstant)seqEmit.Expression;
+                        if(constant.Constant is string)
+                        {
+                            String text = (string)constant.Constant;
+                            text = text.Replace("\n", "\\n");
+                            text = text.Replace("\r", "\\r");
+                            text = text.Replace("\t", "\\t");
+                            source.AppendFront("graph.EmitWriter.Write(\"" + text + "\");\n");
+                        }
+                        else
+                            source.AppendFront("graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetSequenceExpression(seqEmit.Expression) + ", graph));\n");
+                    }
+                    source.AppendFront(SetResultVar(seqEmit, "true"));
+                    break;
+                }
+
+                case SequenceComputationType.Record:
+                {
+                    SequenceComputationRecord seqRec = (SequenceComputationRecord)seqComp;
+                    if(!(seqRec.Expression is SequenceExpressionConstant))
+                    {
+                        string recVal = "recval_" + seqRec.Id;
+                        source.AppendFront("object " + recVal + " = " + GetSequenceExpression(seqRec.Expression) + ";\n");
+                        if(seqRec.Expression.Type(env) == "" || seqRec.Expression.Type(env).StartsWith("set<") 
+                            || seqRec.Expression.Type(env).StartsWith("map<") || seqRec.Expression.Type(env).StartsWith("array<"))
+                        {
+                            source.AppendFront("if(" + recVal + " is IDictionary)\n");
+                            source.AppendFront("\tgraph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IDictionary)" + recVal + ", graph));\n");
+                            source.AppendFront("else if(" + recVal + " is IList)\n");
+                            source.AppendFront("\tgraph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IList)" + recVal + ", graph));\n");
+                            source.AppendFront("else\n\t");
+                        }
+                        source.AppendFront("graph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + recVal + ", graph));\n");
+                    } else {
+                        SequenceExpressionConstant constant = (SequenceExpressionConstant)seqRec.Expression;
+                        if(constant.Constant is string)
+                        {
+                            String text = (string)constant.Constant;
+                            text = text.Replace("\n", "\\n");
+                            text = text.Replace("\r", "\\r");
+                            text = text.Replace("\t", "\\t");
+                            source.AppendFront("graph.Recorder.Write(\"" + text + "\");\n");
+                        }
+                        else
+                            source.AppendFront("graph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetSequenceExpression(seqRec.Expression) + ", graph));\n");
+                    }
+                    source.AppendFront(SetResultVar(seqRec, "true"));
+                    break;
+                }
+
+                case SequenceComputationType.AssignExprToIndexedVar:
+                {
+                    SequenceComputationAssignExprToIndexedVar seqAssignExprToIndexedVar = (SequenceComputationAssignExprToIndexedVar)seqComp;
+                    source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, GetVar(seqAssignExprToIndexedVar.DestVar)));
+                    string indexValue = "index_" + seqAssignExprToIndexedVar.Id;
+
+                    if(seqAssignExprToIndexedVar.DestVar.Type == "")
+                    {
+                        source.AppendFront("if(" + GetVar(seqAssignExprToIndexedVar.DestVar) + " is IList) {\n");
+                        source.Indent();
+
+                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression));
+                        string array = "((System.Collections.IList)" + GetVar(seqAssignExprToIndexedVar.DestVar) + ")";
+                        if(!TypesHelper.IsSameOrSubtype(seqAssignExprToIndexedVar.KeyExpression.Type(env), "int", model))
+                        {
+                            source.AppendFront("if(true) {\n");
+                            source.Indent();
+                            source.AppendFront("throw new Exception(\"Can't access non-int index in array\");\n");
+                        }
+                        else
+                        {
+                            source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
+                            source.Indent();
+                            source.AppendFront(array + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
+                        }
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("} else {\n");
+                        source.Indent();
+
+                        source.AppendFront("object " + indexValue + " = " + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression));
+                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqAssignExprToIndexedVar.DestVar) + ")";
+                        source.AppendFront("if(" + dictionary + ".Contains(" + indexValue + ")) {\n");
+                        source.Indent();
+                        source.AppendFront(dictionary + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    else if(seqAssignExprToIndexedVar.DestVar.Type.StartsWith("array"))
+                    {
+                        string array = GetVar(seqAssignExprToIndexedVar.DestVar);
+                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression) + ";\n");
+                        source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
+                        source.Indent();
+                        source.AppendFront(array + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    else
+                    {
+                        string dictionary = GetVar(seqAssignExprToIndexedVar.DestVar);
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAssignExprToIndexedVar.DestVar.Type), model);
+                        source.AppendFront(dictSrcType + " " + indexValue + " = (" + dictSrcType + ")" + GetSequenceExpression(seqAssignExprToIndexedVar.KeyExpression) + ";\n");
+                        source.AppendFront("if(" + dictionary + ".ContainsKey(" + indexValue + ")) {\n");
+                        source.Indent();
+                        source.AppendFront(dictionary + "[" + indexValue + "] = " + GetSequenceExpression(seqAssignExprToIndexedVar.SourceExpression) + ";\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    break;
+                }
+
+                case SequenceComputationType.AssignExprToVar:
+				{
+                    SequenceComputationAssignExprToVar seqToVar = (SequenceComputationAssignExprToVar)seqComp;
+                    source.AppendFront(SetVar(seqToVar.DestVar, GetSequenceExpression(seqToVar.SourceExpression)));
+                    source.AppendFront(SetResultVar(seqToVar, GetVar(seqToVar.DestVar)));
+					break;
+				}
+
+                case SequenceComputationType.AssignExprToAttribute:
+                {
+                    SequenceComputationAssignExprToAttribute seqVarToAttr = (SequenceComputationAssignExprToAttribute)seqComp;
+                    source.AppendFront("object value_" + seqVarToAttr.Id + " = " + GetSequenceExpression(seqVarToAttr.SourceExpression) + ";\n");
+                    source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqVarToAttr.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqVarToAttr.DestVar) + ";\n");
+                    source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqVarToAttr.Id + ";\n");
+                    source.AppendFront("value_" + seqVarToAttr.Id + " = GRGEN_LIBGR.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(elem_" + seqVarToAttr.Id + ", \"" + seqVarToAttr.AttributeName + "\", value_" + seqVarToAttr.Id + ", out attrType_" + seqVarToAttr.Id + ");\n");
+                    source.AppendFront("GRGEN_LIBGR.AttributeChangeType changeType_" + seqVarToAttr.Id + " = GRGEN_LIBGR.AttributeChangeType.Assign;\n");
+                    source.AppendFront("if(elem_" + seqVarToAttr.Id + " is GRGEN_LIBGR.INode)\n");
+                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
+                    source.AppendFront("else\n");
+                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
+                    source.AppendFront("elem_" + seqVarToAttr.Id + ".SetAttribute(\"" + seqVarToAttr.AttributeName + "\", value_" + seqVarToAttr.Id + ");\n");
+                    source.AppendFront(SetResultVar(seqVarToAttr, "value_" + seqVarToAttr.Id));
+                    break;
+                }
+
+                case SequenceComputationType.Expression:
+                {
+                    SequenceExpression seqExpr = (SequenceExpression)seqComp;
+                    source.AppendFront(SetResultVar(seqExpr, GetSequenceExpression(seqExpr)));
+                    break;
+                }
+
+				default:
+					throw new Exception("Unknown sequence computation type: " + seqComp.SequenceComputationType);
+			}
+		}
+
         private String BuildParameters(InvocationParameterBindings paramBindings)
         {
             String parameters = "";
@@ -1578,273 +1636,272 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        string GetSequenceExpression(SequenceExpression expr)
+        private string GetSequenceExpression(SequenceExpression expr)
         {
             switch(expr.SequenceExpressionType)
             {
                 case SequenceExpressionType.Def:
+                {
+                    SequenceExpressionDef seqDef = (SequenceExpressionDef)expr;
+                    String condition = "";
+                    bool isFirst = true;
+                    foreach(SequenceExpression var in seqDef.DefVars)
                     {
-                        SequenceExpressionDef seqDef = (SequenceExpressionDef)expr;
-                        String condition = "";
-                        bool isFirst = true;
-                        foreach(SequenceExpression var in seqDef.DefVars)
-                        {
-                            if(isFirst) isFirst = false;
-                            else condition += " && ";
-                            condition += GetSequenceExpression(var) + "!=null";
-                        }
-                        return condition;
+                        if(isFirst) isFirst = false;
+                        else condition += " && ";
+                        condition += GetSequenceExpression(var) + "!=null";
                     }
-
-                case SequenceExpressionType.True:
-                    return "true";
-
-                case SequenceExpressionType.False:
-                    return "false";
+                    return condition;
+                }
 
                 case SequenceExpressionType.InContainer:
+                {
+                    SequenceExpressionInContainer seqIn = (SequenceExpressionInContainer)expr;
+
+                    if(seqIn.Container.Type == "")
                     {
-                        SequenceExpressionInContainer seqIn = (SequenceExpressionInContainer)expr;
+                        SourceBuilder source = new SourceBuilder();
 
-                        if(seqIn.Container.Type == "")
-                        {
-                            SourceBuilder source = new SourceBuilder();
+                        string sourceExpr = GetSequenceExpression(seqIn.Expr);
+                        source.AppendFront("(" + GetVar(seqIn.Container) + " is IList ? ");
 
-                            string sourceExpr = GetSequenceExpression(seqIn.Expr);
-                            source.AppendFront("(" + GetVar(seqIn.Container) + " is IList ? ");
+                        string array = "((System.Collections.IList)" + GetVar(seqIn.Container) + ")";
+                        source.AppendFront(array + ".Contains(" + sourceExpr + ")");
 
-                            string array = "((System.Collections.IList)" + GetVar(seqIn.Container) + ")";
-                            source.AppendFront(array + ".Contains(" + sourceExpr + ")");
+                        source.AppendFront(" : ");
 
-                            source.AppendFront(" : ");
+                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqIn.Container) + ")";
+                        source.AppendFront(dictionary + ".Contains(" + sourceExpr + ")");
 
-                            string dictionary = "((System.Collections.IDictionary)" + GetVar(seqIn.Container) + ")";
-                            source.AppendFront(dictionary + ".Contains(" + sourceExpr + ")");
+                        source.AppendFront(")");
 
-                            source.AppendFront(")");
-
-                            return source.ToString();
-                        }
-                        else if(seqIn.Container.Type.StartsWith("array"))
-                        {
-                            string array = GetVar(seqIn.Container);
-                            string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqIn.Container.Type), model);
-                            string sourceExpr = "((" + arrayValueType + ")" + GetSequenceExpression(seqIn.Expr) + ")";
-                            return array + ".Contains(" + sourceExpr + ")";
-                        }
-                        else
-                        {
-                            string dictionary = GetVar(seqIn.Container);
-                            string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqIn.Container.Type), model);
-                            string sourceExpr = "((" + dictSrcType + ")" + GetSequenceExpression(seqIn.Expr) + ")";
-                            return dictionary + ".ContainsKey(" + sourceExpr + ")";
-                        }
+                        return source.ToString();
                     }
+                    else if(seqIn.Container.Type.StartsWith("array"))
+                    {
+                        string array = GetVar(seqIn.Container);
+                        string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqIn.Container.Type), model);
+                        string sourceExpr = "((" + arrayValueType + ")" + GetSequenceExpression(seqIn.Expr) + ")";
+                        return array + ".Contains(" + sourceExpr + ")";
+                    }
+                    else
+                    {
+                        string dictionary = GetVar(seqIn.Container);
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqIn.Container.Type), model);
+                        string sourceExpr = "((" + dictSrcType + ")" + GetSequenceExpression(seqIn.Expr) + ")";
+                        return dictionary + ".ContainsKey(" + sourceExpr + ")";
+                    }
+                }
 
                 case SequenceExpressionType.IsVisited:
-                    {
-                        SequenceExpressionIsVisited seqIsVisited = (SequenceExpressionIsVisited)expr;
-                        return "graph.IsVisited("
-                            + "(GRGEN_LIBGR.IGraphElement)" + GetVar(seqIsVisited.GraphElementVar)
-                            + ", (int)" + GetSequenceExpression(seqIsVisited.VisitedFlagExpr)
-                            + ")";
-                    }
+                {
+                    SequenceExpressionIsVisited seqIsVisited = (SequenceExpressionIsVisited)expr;
+                    return "graph.IsVisited("
+                        + "(GRGEN_LIBGR.IGraphElement)" + GetVar(seqIsVisited.GraphElementVar)
+                        + ", (int)" + GetSequenceExpression(seqIsVisited.VisitedFlagExpr)
+                        + ")";
+                }
 
                 case SequenceExpressionType.VAlloc:
                     return "graph.AllocateVisitedFlag()";
 
                 case SequenceExpressionType.ContainerSize:
+                {
+                    SequenceExpressionContainerSize seqContainerSizeToVar = (SequenceExpressionContainerSize)expr;
+
+                    if(seqContainerSizeToVar.Container.Type == "")
                     {
-                        SequenceExpressionContainerSize seqContainerSizeToVar = (SequenceExpressionContainerSize)expr;
+                        SourceBuilder source = new SourceBuilder();
 
-                        if(seqContainerSizeToVar.Container.Type == "")
-                        {
-                            SourceBuilder source = new SourceBuilder();
+                        source.AppendFront("(" + GetVar(seqContainerSizeToVar.Container) + " is IList ? ");
 
-                            source.AppendFront("(" + GetVar(seqContainerSizeToVar.Container) + " is IList ? ");
+                        string array = "((System.Collections.IList)" + GetVar(seqContainerSizeToVar.Container) + ")";
+                        source.AppendFront(array + ".Count");
 
-                            string array = "((System.Collections.IList)" + GetVar(seqContainerSizeToVar.Container) + ")";
-                            source.AppendFront(array + ".Count");
+                        source.AppendFront(" : ");
 
-                            source.AppendFront(" : ");
+                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqContainerSizeToVar.Container) + ")";
+                        source.AppendFront(dictionary + ".Count");
 
-                            string dictionary = "((System.Collections.IDictionary)" + GetVar(seqContainerSizeToVar.Container) + ")";
-                            source.AppendFront(dictionary + ".Count");
+                        source.AppendFront(")");
 
-                            source.AppendFront(")");
-
-                            return source.ToString();
-                        }
-                        else if(seqContainerSizeToVar.Container.Type.StartsWith("array"))
-                        {
-                            string array = GetVar(seqContainerSizeToVar.Container);
-                            return array + ".Count";
-                        }
-                        else
-                        {
-                            string dictionary = GetVar(seqContainerSizeToVar.Container);
-                            return dictionary + ".Count";
-                        }
+                        return source.ToString();
                     }
+                    else if(seqContainerSizeToVar.Container.Type.StartsWith("array"))
+                    {
+                        string array = GetVar(seqContainerSizeToVar.Container);
+                        return array + ".Count";
+                    }
+                    else
+                    {
+                        string dictionary = GetVar(seqContainerSizeToVar.Container);
+                        return dictionary + ".Count";
+                    }
+                }
 
                 case SequenceExpressionType.ContainerEmpty:
+                {
+                    SequenceExpressionContainerEmpty seqContainerEmptyToVar = (SequenceExpressionContainerEmpty)expr;
+
+                    if(seqContainerEmptyToVar.Container.Type == "")
                     {
-                        SequenceExpressionContainerEmpty seqContainerEmptyToVar = (SequenceExpressionContainerEmpty)expr;
+                        SourceBuilder source = new SourceBuilder();
 
-                        if(seqContainerEmptyToVar.Container.Type == "")
-                        {
-                            SourceBuilder source = new SourceBuilder();
+                        source.AppendFront("(" + GetVar(seqContainerEmptyToVar.Container) + " is IList ?");
 
-                            source.AppendFront("(" + GetVar(seqContainerEmptyToVar.Container) + " is IList ?");
+                        string array = "((System.Collections.IList)" + GetVar(seqContainerEmptyToVar.Container) + ")";
+                        source.AppendFront(array + ".Count==0");
 
-                            string array = "((System.Collections.IList)" + GetVar(seqContainerEmptyToVar.Container) + ")";
-                            source.AppendFront(array + ".Count==0");
+                        source.AppendFront(" : ");
 
-                            source.AppendFront(" : ");
+                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqContainerEmptyToVar.Container) + ")";
+                        source.AppendFront(dictionary + ".Count==0");
 
-                            string dictionary = "((System.Collections.IDictionary)" + GetVar(seqContainerEmptyToVar.Container) + ")";
-                            source.AppendFront(dictionary + ".Count==0");
+                        source.AppendFront(")");
 
-                            source.AppendFront(")");
-
-                            return source.ToString();
-                        }
-                        else if(seqContainerEmptyToVar.Container.Type.StartsWith("array"))
-                        {
-                            string array = GetVar(seqContainerEmptyToVar.Container);
-                            return array + ".Count==0";
-                        }
-                        else
-                        {
-                            string dictionary = GetVar(seqContainerEmptyToVar.Container);
-                            return dictionary + ".Count==0";
-                        }
+                        return source.ToString();
                     }
+                    else if(seqContainerEmptyToVar.Container.Type.StartsWith("array"))
+                    {
+                        string array = GetVar(seqContainerEmptyToVar.Container);
+                        return array + ".Count==0";
+                    }
+                    else
+                    {
+                        string dictionary = GetVar(seqContainerEmptyToVar.Container);
+                        return dictionary + ".Count==0";
+                    }
+                }
 
                 case SequenceExpressionType.ContainerAccess:
+                {
+                    SequenceExpressionContainerAccess seqContainerAccessToVar = (SequenceExpressionContainerAccess)expr; // todo: dst type unknownTypesHelper.ExtractSrc(seqMapAccessToVar.Setmap.Type)
+
+                    if(seqContainerAccessToVar.Container.Type == "")
                     {
-                        SequenceExpressionContainerAccess seqContainerAccessToVar = (SequenceExpressionContainerAccess)expr; // todo: dst type unknownTypesHelper.ExtractSrc(seqMapAccessToVar.Setmap.Type)
+                        SourceBuilder source = new SourceBuilder();
 
-                        if(seqContainerAccessToVar.Container.Type == "")
+                        string sourceExpr = GetSequenceExpression(seqContainerAccessToVar.KeyExpr);
+                        source.AppendFront("(" + GetVar(seqContainerAccessToVar.Container) + " is IList ? ");
+
+                        string array = "((System.Collections.IList)" + GetVar(seqContainerAccessToVar.Container) + ")";
+                        if(!TypesHelper.IsSameOrSubtype(seqContainerAccessToVar.KeyExpr.Type(env), "int", model))
                         {
-                            SourceBuilder source = new SourceBuilder();
-
-                            string sourceExpr = GetSequenceExpression(seqContainerAccessToVar.KeyExpr);
-                            source.AppendFront("(" + GetVar(seqContainerAccessToVar.Container) + " is IList ? ");
-
-                            string array = "((System.Collections.IList)" + GetVar(seqContainerAccessToVar.Container) + ")";
-                            if(!TypesHelper.IsSameOrSubtype(seqContainerAccessToVar.KeyExpr.Type(env), "int", model))
-                            {
-                                source.AppendFront(array + "[-1]");
-                            }
-                            else
-                            {
-                                source.AppendFront(array + "[(int)" + sourceExpr + "]");
-                            }
-
-                            source.AppendFront(" : ");
-
-                            string dictionary = "((System.Collections.IDictionary)" + GetVar(seqContainerAccessToVar.Container) + ")";
-                            source.AppendFront(dictionary + "[" + sourceExpr + "]");
-
-                            source.AppendFront(")");
-
-                            return source.ToString();
-                        }
-                        else if(seqContainerAccessToVar.Container.Type.StartsWith("array"))
-                        {
-                            string array = GetVar(seqContainerAccessToVar.Container);
-                            string sourceExpr = "((int)" + GetSequenceExpression(seqContainerAccessToVar.KeyExpr) + ")";
-                            return array + "[" + sourceExpr + "]";
+                            source.AppendFront(array + "[-1]");
                         }
                         else
                         {
-                            string dictionary = GetVar(seqContainerAccessToVar.Container);
-                            string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerAccessToVar.Container.Type), model);
-                            string sourceExpr = "((" + dictSrcType + ")" + GetSequenceExpression(seqContainerAccessToVar.KeyExpr) + ")";
-                            return dictionary + "[" + sourceExpr + "]";
+                            source.AppendFront(array + "[(int)" + sourceExpr + "]");
                         }
+
+                        source.AppendFront(" : ");
+
+                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqContainerAccessToVar.Container) + ")";
+                        source.AppendFront(dictionary + "[" + sourceExpr + "]");
+
+                        source.AppendFront(")");
+
+                        return source.ToString();
                     }
+                    else if(seqContainerAccessToVar.Container.Type.StartsWith("array"))
+                    {
+                        string array = GetVar(seqContainerAccessToVar.Container);
+                        string sourceExpr = "((int)" + GetSequenceExpression(seqContainerAccessToVar.KeyExpr) + ")";
+                        return array + "[" + sourceExpr + "]";
+                    }
+                    else
+                    {
+                        string dictionary = GetVar(seqContainerAccessToVar.Container);
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerAccessToVar.Container.Type), model);
+                        string sourceExpr = "((" + dictSrcType + ")" + GetSequenceExpression(seqContainerAccessToVar.KeyExpr) + ")";
+                        return dictionary + "[" + sourceExpr + "]";
+                    }
+                }
 
                 case SequenceExpressionType.Constant:
-                    {
-                        SequenceExpressionConstant seqConstToVar = (SequenceExpressionConstant)expr;
-                        if(seqConstToVar.Constant is bool)
-                        {
-                            return (bool)seqConstToVar.Constant == true ? "true" : "false";
-                        }
-                        else if(seqConstToVar.Constant is Enum)
-                        {
-                            Enum enumConst = (Enum)seqConstToVar.Constant;
-                            return enumConst.GetType().ToString() + "." + enumConst.ToString();
-                        }
-                        else if(seqConstToVar.Constant is IDictionary)
-                        {
-                            Type keyType;
-                            Type valueType;
-                            DictionaryListHelper.GetDictionaryTypes(seqConstToVar.Constant, out keyType, out valueType);
-                            String srcType = "typeof(" + TypesHelper.PrefixedTypeFromType(keyType) + ")";
-                            String dstType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
-                            return "GRGEN_LIBGR.DictionaryListHelper.NewDictionary(" + srcType + "," + dstType + ")";
-                        }
-                        else if(seqConstToVar.Constant is IList)
-                        {
-                            Type valueType;
-                            DictionaryListHelper.GetListType(seqConstToVar.Constant, out valueType);
-                            String arrayValueType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
-                            return "GRGEN_LIBGR.DictionaryListHelper.NewList(" + arrayValueType + ")";
-                        }
-                        else if(seqConstToVar.Constant is string)
-                        {
-                            return "\"" + seqConstToVar.Constant.ToString() + "\"";
-                        }
-                        else if(seqConstToVar.Constant is float)
-                        {
-                            return ((float)seqConstToVar.Constant).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f";
-                        }
-                        else if(seqConstToVar.Constant is double)
-                        {
-                            return ((double)seqConstToVar.Constant).ToString(System.Globalization.CultureInfo.InvariantCulture);
-                        }
-                        else if(seqConstToVar.Constant is sbyte)
-                        {
-                            return "(sbyte)(" + seqConstToVar.Constant.ToString() + ")";
-                        }
-                        else if(seqConstToVar.Constant is short)
-                        {
-                            return "(short)(" + seqConstToVar.Constant.ToString() + ")";
-                        }
-                        else if(seqConstToVar.Constant is long)
-                        {
-                            return "(long)(" + seqConstToVar.Constant.ToString() + ")";
-                        }
-                        else
-                        {
-                            return seqConstToVar.Constant.ToString();
-                        }
-                    }
+                {
+                    SequenceExpressionConstant seqConstToVar = (SequenceExpressionConstant)expr;
+                    return GetConstant(seqConstToVar.Constant);
+                }
 
                 case SequenceExpressionType.GraphElementAttribute:
-                    {
-                        SequenceExpressionAttribute seqAttrToVar = (SequenceExpressionAttribute)expr;
-                        string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqAttrToVar.SourceVar) + ")";
-                        string value = element + ".GetAttribute(\"" + seqAttrToVar.AttributeName + "\")";
-                        return "GRGEN_LIBGR.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(" + element + ", \"" + seqAttrToVar.AttributeName + "\", " + value + ")";
-                    }
+                {
+                    SequenceExpressionAttribute seqAttrToVar = (SequenceExpressionAttribute)expr;
+                    string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqAttrToVar.SourceVar) + ")";
+                    string value = element + ".GetAttribute(\"" + seqAttrToVar.AttributeName + "\")";
+                    return "GRGEN_LIBGR.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(" + element + ", \"" + seqAttrToVar.AttributeName + "\", " + value + ")";
+                }
 
                 case SequenceExpressionType.ElementFromGraph:
-                    {
-                        throw new Exception("Internal Error: the AssignElemToVar is interpreted only (no NamedGraph available at lgsp level)");
-                    }
+                {
+                    throw new Exception("Internal Error: the AssignElemToVar is interpreted only (no NamedGraph available at lgsp level)");
+                }
 
                 case SequenceExpressionType.Variable:
-                    {
-                        SequenceExpressionVariable seqVar = (SequenceExpressionVariable)expr;
-                        return GetVar(seqVar.PredicateVar);
-                    }
+                {
+                    SequenceExpressionVariable seqVar = (SequenceExpressionVariable)expr;
+                    return GetVar(seqVar.Variable);
+                }
 
                 default:
                     throw new Exception("Unknown sequence expression type: " + expr.SequenceExpressionType);
+            }
+        }
+
+        private string GetConstant(object constant)
+        {
+            if(constant is bool)
+            {
+                return (bool)constant == true ? "true" : "false";
+            }
+            else if(constant is Enum)
+            {
+                Enum enumConst = (Enum)constant;
+                return enumConst.GetType().ToString() + "." + enumConst.ToString();
+            }
+            else if(constant is IDictionary)
+            {
+                Type keyType;
+                Type valueType;
+                DictionaryListHelper.GetDictionaryTypes(constant, out keyType, out valueType);
+                String srcType = "typeof(" + TypesHelper.PrefixedTypeFromType(keyType) + ")";
+                String dstType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
+                return "GRGEN_LIBGR.DictionaryListHelper.NewDictionary(" + srcType + "," + dstType + ")";
+            }
+            else if(constant is IList)
+            {
+                Type valueType;
+                DictionaryListHelper.GetListType(constant, out valueType);
+                String arrayValueType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
+                return "GRGEN_LIBGR.DictionaryListHelper.NewList(" + arrayValueType + ")";
+            }
+            else if(constant is string)
+            {
+                return "\"" + constant.ToString() + "\"";
+            }
+            else if(constant is float)
+            {
+                return ((float)constant).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f";
+            }
+            else if(constant is double)
+            {
+                return ((double)constant).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            }
+            else if(constant is sbyte)
+            {
+                return "(sbyte)(" + constant.ToString() + ")";
+            }
+            else if(constant is short)
+            {
+                return "(short)(" + constant.ToString() + ")";
+            }
+            else if(constant is long)
+            {
+                return "(long)(" + constant.ToString() + ")";
+            }
+            else
+            {
+                return constant.ToString();
             }
         }
 

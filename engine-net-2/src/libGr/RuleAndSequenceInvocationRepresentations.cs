@@ -105,7 +105,7 @@ namespace de.unika.ipd.grGen.libGr
             RuleInvocationParameterBindings copy = (RuleInvocationParameterBindings)MemberwiseClone();
             copy.ArgumentExpressions = new SequenceExpression[ArgumentExpressions.Length];
             for(int i=0; i<ArgumentExpressions.Length;++i)
-                copy.ArgumentExpressions[i] = ArgumentExpressions[i].Copy(originalToCopy);
+                copy.ArgumentExpressions[i] = ArgumentExpressions[i].CopyExpression(originalToCopy);
             copy.ReturnVars = new SequenceVariable[ReturnVars.Length];
             for(int i = 0; i < ReturnVars.Length; ++i)
                 copy.ReturnVars[i] = ReturnVars[i].Copy(originalToCopy);
@@ -149,7 +149,7 @@ namespace de.unika.ipd.grGen.libGr
             SequenceInvocationParameterBindings copy = (SequenceInvocationParameterBindings)MemberwiseClone();
             copy.ArgumentExpressions = new SequenceExpression[ArgumentExpressions.Length];
             for(int i = 0; i < ArgumentExpressions.Length; ++i)
-                copy.ArgumentExpressions[i] = ArgumentExpressions[i].Copy(originalToCopy);
+                copy.ArgumentExpressions[i] = ArgumentExpressions[i].CopyExpression(originalToCopy);
             copy.ReturnVars = new SequenceVariable[ReturnVars.Length];
             for(int i = 0; i < ReturnVars.Length; ++i)
                 copy.ReturnVars[i] = ReturnVars[i].Copy(originalToCopy);

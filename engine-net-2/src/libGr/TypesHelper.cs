@@ -154,6 +154,34 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static bool IsDefaultValue(object value)
+        {
+            if(value == null)
+                return true;
+
+            if (value is SByte) {
+                return (SByte)value == 0;
+            } else if (value is Int16) {
+                return (Int16)value == 0;
+            } else if (value is Int32) {
+                return (Int32)value == 0;
+            } else if (value is Int64) {
+                return (Int64)value == 0L;
+            } else if (value is Boolean) {
+                return (Boolean)value == false;
+            } else if (value is Single) {
+                return (Single)value == 0.0f;
+            } else if (value is Double) {
+                return (Double)value == 0.0;
+            } else if (value is String) {
+                return (String)value == "";
+            } else if (value is Enum) {
+                return Convert.ToInt32((Enum)value) == 0;
+            }
+
+            return false; // object or node/edge or dictionary/list type which is not null
+        }
+
         public static String DefaultValue(String typeName, IGraphModel model)
         {
             switch (typeName)

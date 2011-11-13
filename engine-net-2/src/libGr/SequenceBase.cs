@@ -393,7 +393,7 @@ namespace de.unika.ipd.grGen.libGr
 
 
     /// <summary>
-    /// The common base of sequence and sequence expression objects,
+    /// The common base of sequence, sequence computation, and sequence expression objects,
     /// with some common infrastructure.
     /// </summary>
     public abstract class SequenceBase

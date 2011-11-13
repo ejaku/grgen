@@ -1014,7 +1014,7 @@ namespace de.unika.ipd.grGen.grShell
                     {
                         PrintChoice(seqSome, context);
                         ++context.cpPosCounter;
-                        Console.Write(seqSome.Choice ? "$%{" : "${");
+                        Console.Write(seqSome.Choice ? "$%{(" : "${(");
                         bool first = true;
                         foreach(Sequence seqChild in seqSome.Children)
                         {
@@ -1025,7 +1025,7 @@ namespace de.unika.ipd.grGen.grShell
                             context.cpPosCounter = cpPosCounterBackup;
                             first = false;
                         }
-                        Console.Write("}");
+                        Console.Write(")}");
                         break;
                     }
 
@@ -1036,7 +1036,7 @@ namespace de.unika.ipd.grGen.grShell
 
                     if(highlight && context.choice)
                     {
-                        context.workaround.PrintHighlighted("$%{", HighlightingMode.Choicepoint);
+                        context.workaround.PrintHighlighted("$%{(", HighlightingMode.Choicepoint);
                         bool first = true;
                         int numCurTotalMatch = 0;
                         foreach(Sequence seqChild in seqSome.Children)
@@ -1064,15 +1064,15 @@ namespace de.unika.ipd.grGen.grShell
                                 context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
                             first = false;
                         }
-                        context.workaround.PrintHighlighted("}", HighlightingMode.Choicepoint);
+                        context.workaround.PrintHighlighted(")}", HighlightingMode.Choicepoint);
                         break;
                     }
 
                     bool succesBackup = context.success;
                     if (highlight) context.success = true;
-                    Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{" : "${") : "{");
+                    Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{(" : "${(") : "{(");
                     PrintChildren(seqSome, context);
-                    Console.Write("}");
+                    Console.Write(")}");
                     context.success = succesBackup;
                     break;
                 }
@@ -1081,7 +1081,7 @@ namespace de.unika.ipd.grGen.grShell
                 case SequenceType.SequenceCall:
                 case SequenceType.RuleCall:
                 case SequenceType.RuleAllCall:
-                case SequenceType.BooleanExpression:
+                case SequenceType.BooleanComputation:
                 {
                     if(context.bpPosCounter >= 0)
                     {
@@ -1166,17 +1166,9 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 }
 
-                // Atoms (assignments and queries)
-                case SequenceType.AssignExprToVar:
-                case SequenceType.AssignExprToAttribute:
-                case SequenceType.SetVisited:
-                case SequenceType.VFree:
-                case SequenceType.VReset:
-                case SequenceType.ContainerAdd:
-                case SequenceType.ContainerRem:
-                case SequenceType.ContainerClear:
-                case SequenceType.Emit:
-                case SequenceType.Record:
+                // Atoms (assignments)
+                case SequenceType.AssignVarToVar:
+                case SequenceType.AssignConstToVar:
                 {
                     Console.Write(seq.Symbol);
                     break;
@@ -1582,7 +1574,7 @@ namespace de.unika.ipd.grGen.grShell
             // Breakpoint reached?
             bool breakpointReached = false;
             if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
-                || seq.SequenceType == SequenceType.BooleanExpression || seq.SequenceType == SequenceType.SequenceCall)
+                || seq.SequenceType == SequenceType.BooleanComputation || seq.SequenceType == SequenceType.SequenceCall)
                     && ((SequenceSpecial)seq).Special)
             {
                 stepMode = true;

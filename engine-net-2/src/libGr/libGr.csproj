@@ -94,6 +94,7 @@
     <Compile Include="RuleAndSequenceInvocationRepresentations.cs" />
     <Compile Include="Sequence.cs" />
     <Compile Include="SequenceBase.cs" />
+    <Compile Include="SequenceComputation.cs" />
     <Compile Include="SequenceExecutionInterface.cs" />
     <Compile Include="SequenceExpression.cs" />
     <Compile Include="SequenceParser.cs" />

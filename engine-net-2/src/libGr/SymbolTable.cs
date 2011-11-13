@@ -20,7 +20,8 @@ namespace de.unika.ipd.grGen.libGr
         Sequence,
         For,
         If,
-        IfThenPart
+        IfThenPart,
+        Computation
     }
 
     /// <summary>
@@ -43,6 +44,7 @@ namespace de.unika.ipd.grGen.libGr
             public ScopeType scopeType;
             public int forCount;
             public int ifCount;
+            public int computationCount;
         }
 
 		public SymbolTable()
@@ -71,6 +73,10 @@ namespace de.unika.ipd.grGen.libGr
                     break;
                 case ScopeType.IfThenPart:
                     scopeName = "thenpart";
+                    break;
+                case ScopeType.Computation:
+                    scopeName = "computation" + scopesMeta.Peek().computationCount;
+                    ++scopesMeta.Peek().computationCount;
                     break;
                 default: Debug.Assert(false); // only first scope can be of type sequence
                     scopeName = "";
