@@ -1,0 +1,9 @@
+using from_storage;
+
+rule s(ref m:map<EE,EE>)
+{
+	x:Node -e:E-> y:Node -f:EE{m[e]}-> y;
+	
+	modify {
+	}
+}

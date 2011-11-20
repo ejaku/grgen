@@ -1,0 +1,11 @@
+using from_storage;
+
+rule s(ref m:map<NN,NN>, n:N)
+{
+	x:NN{m[n]} --> y:Node;
+	
+	modify {
+		delete(y);
+	}
+}
+
