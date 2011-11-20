@@ -253,7 +253,7 @@ public class ExecNode extends BaseNode {
 				parameters.add(param.checkIR(Expression.class));
 			}
 		}
-		Exec res = new Exec(getXGRSString(), parameters);
+		Exec res = new Exec(getXGRSString(), parameters, getCoords().getLine());
 		return res;
 	}
 }

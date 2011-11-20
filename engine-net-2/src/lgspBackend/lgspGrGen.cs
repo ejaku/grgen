@@ -869,7 +869,7 @@ namespace de.unika.ipd.grGen.lgsp
                                     EmbeddedSequenceInfo xgrsInfo = (EmbeddedSequenceInfo)ruleFields[i].GetValue(null);
                                     if(!seqGen.GenerateXGRSCode(ruleFields[i].Name.Substring("XGRSInfo_".Length),
                                         xgrsInfo.XGRS, xgrsInfo.Parameters, xgrsInfo.ParameterTypes, 
-                                        xgrsInfo.OutParameters, xgrsInfo.OutParameterTypes, source))
+                                        xgrsInfo.OutParameters, xgrsInfo.OutParameterTypes, source, xgrsInfo.LineNr))
                                     {
                                         return ErrorType.GrGenNetError;
                                     }

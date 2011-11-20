@@ -990,6 +990,7 @@ void ShellCommand():
 	int num;
 	List<String> parameters;
 	Param param;
+	Token tok;
 }
 {
     "!" str1=CommandLine()
@@ -1151,7 +1152,7 @@ void ShellCommand():
 		impl.SyncIO();
 	}
 |
-	"validate" ("exitonfailure" {exitOnFailure = true;})?
+	tok="validate" ("exitonfailure" {exitOnFailure = true;})?
 	(
 	    "xgrs" str1=CommandLine()
 	    {
@@ -1163,22 +1164,23 @@ void ShellCommand():
             }
             catch(SequenceParserException ex)
             {
+	            Console.WriteLine("Unable to parse validate sequence at line " + tok.beginLine);
                 impl.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
             {
-                Console.WriteLine("Unable to execute xgrs: " + ex.Message);
+				Console.WriteLine("Unable to execute validate sequence at line " + tok.beginLine + ": " + ex.Message);
                 noError = false;
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Unable to execute xgrs: " + ex);
+				Console.WriteLine("Unable to execute validate sequence at line " + tok.beginLine + ": " + ex);
                 noError = false;
             }
 			if((!validated || !noError) && exitOnFailure)
 			{
-				throw new Exception("validate failed");
+				throw new Exception("validate (at line " + tok.beginLine + ") failed");
 			}
         }
     |
@@ -1187,12 +1189,12 @@ void ShellCommand():
 		    validated = impl.Validate(strict, onlySpecified);
 			if(!validated && exitOnFailure)
 			{
-				throw new Exception("validate failed");
+				throw new Exception("validate (at line " + tok.beginLine + ") failed");
 			}
 	    }
 	)
 |
-    "xgrs" str1=CommandLine()
+    tok="xgrs" str1=CommandLine()
     {
         try
         {
@@ -1202,22 +1204,23 @@ void ShellCommand():
         }
         catch(SequenceParserException ex)
         {
+            Console.WriteLine("Unable to parse sequence at line " + tok.beginLine);
             impl.HandleSequenceParserException(ex);
             noError = false;
         }
         catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
         {
-            Console.WriteLine("Unable to execute xgrs: " + ex.Message);
+            Console.WriteLine("Unable to execute sequence at line " + tok.beginLine + ": " + ex.Message);
             noError = false;
         }
         catch(Exception ex)
         {
-            Console.WriteLine("Unable to execute xgrs: " + ex);
+            Console.WriteLine("Unable to execute sequence at line " + tok.beginLine + ": " + ex);
             noError = false;
         }
     }
 |
-    "def" str1=CommandLine()
+    tok="def" str1=CommandLine()
     {
         try
         {
@@ -1226,17 +1229,18 @@ void ShellCommand():
         }
         catch(SequenceParserException ex)
         {
+            Console.WriteLine("Unable to parse sequence definition at line " + tok.beginLine);
             impl.HandleSequenceParserException(ex);
             noError = false;
         }
         catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
         {
-            Console.WriteLine("Unable to process sequence definition: " + ex.Message);
+            Console.WriteLine("Unable to process sequence definition at line " + tok.beginLine + ": " + ex.Message);
             noError = false;
         }
         catch(Exception ex)
         {
-            Console.WriteLine("Unable to process sequence definition: " + ex);
+            Console.WriteLine("Unable to process sequence definition at line " + tok.beginLine + ": " + ex);
             Console.WriteLine("(You tried to overwrite a compiled sequence?)");
             noError = false;
         }
@@ -1786,6 +1790,7 @@ void DebugCommand():
 {
     Sequence seq;
     String str = null, str2;
+	Token tok;
 }
 {
 	try
@@ -1796,7 +1801,7 @@ void DebugCommand():
 			noError = false;
 		}
 	|
-		"xgrs" str=CommandLine()
+		tok="xgrs" str=CommandLine()
 		{
 			try
 			{
@@ -1806,17 +1811,18 @@ void DebugCommand():
 			}
 			catch(SequenceParserException ex)
 			{
+			    Console.WriteLine("Unable to parse debug sequence at line " + tok.beginLine);
 				impl.HandleSequenceParserException(ex);
 				noError = false;
 			}
 			catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
 			{
-				Console.WriteLine("Unable to execute xgrs: " + ex.Message);
+				Console.WriteLine("Unable to execute debug sequence at line " + tok.beginLine + ": " + ex.Message);
 				noError = false;
 			}
 			catch(Exception ex)
 			{
-				Console.WriteLine("Unable to execute xgrs: " + ex);
+	            Console.WriteLine("Unable to execute debug sequence at line " + tok.beginLine + ": " + ex);
 				noError = false;
 			}
 		}

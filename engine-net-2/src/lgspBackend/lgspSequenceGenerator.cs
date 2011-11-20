@@ -842,7 +842,10 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceBooleanComputation seqComp = (SequenceBooleanComputation)seq;
                     EmitSequenceComputation(seqComp.Computation, source);
-                    source.AppendFront(SetResultVar(seqComp, "GRGEN_LIBGR.TypesHelper.IsDefaultValue(" + GetResultVar(seqComp.Computation) + ")"));
+                    if(seqComp.Computation.ReturnsValue)
+                        source.AppendFront(SetResultVar(seqComp, "!GRGEN_LIBGR.TypesHelper.IsDefaultValue(" + GetResultVar(seqComp.Computation) + ")"));
+                    else
+                        source.AppendFront(SetResultVar(seqComp, "true"));
                     break;
                 }
 
@@ -1378,7 +1381,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationVFree seqVFree = (SequenceComputationVFree)seqComp;
                     source.AppendFront("graph.FreeVisitedFlag((int)"+GetSequenceExpression(seqVFree.VisitedFlagExpression)+");\n");
-                    source.AppendFront(SetResultVar(seqVFree, "true"));
+                    source.AppendFront(SetResultVar(seqVFree, "null"));
                     break;
                 }
 
@@ -1386,7 +1389,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationVReset seqVReset = (SequenceComputationVReset)seqComp;
                     source.AppendFront("graph.ResetVisitedFlag((int)"+GetSequenceExpression(seqVReset.VisitedFlagExpression)+");\n");
-                    source.AppendFront(SetResultVar(seqVReset, "true"));
+                    source.AppendFront(SetResultVar(seqVReset, "null"));
                     break;
                 }
 
@@ -1420,7 +1423,7 @@ namespace de.unika.ipd.grGen.lgsp
                         else
                             source.AppendFront("graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetSequenceExpression(seqEmit.Expression) + ", graph));\n");
                     }
-                    source.AppendFront(SetResultVar(seqEmit, "true"));
+                    source.AppendFront(SetResultVar(seqEmit, "null"));
                     break;
                 }
 
@@ -1454,14 +1457,14 @@ namespace de.unika.ipd.grGen.lgsp
                         else
                             source.AppendFront("graph.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetSequenceExpression(seqRec.Expression) + ", graph));\n");
                     }
-                    source.AppendFront(SetResultVar(seqRec, "true"));
+                    source.AppendFront(SetResultVar(seqRec, "null"));
                     break;
                 }
 
                 case SequenceComputationType.AssignExprToIndexedVar:
                 {
                     SequenceComputationAssignExprToIndexedVar seqAssignExprToIndexedVar = (SequenceComputationAssignExprToIndexedVar)seqComp;
-                    source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, GetVar(seqAssignExprToIndexedVar.DestVar)));
+                    source.AppendFront(SetResultVar(seqAssignExprToIndexedVar, GetVar(seqAssignExprToIndexedVar.DestVar))); // container is a reference, so we can assign it already here before the changes
                     string indexValue = "index_" + seqAssignExprToIndexedVar.Id;
 
                     if(seqAssignExprToIndexedVar.DestVar.Type == "")
@@ -1901,14 +1904,17 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
-                return constant.ToString();
+                if(constant == null)
+                    return "null";
+                else
+                    return constant.ToString();
             }
         }
 
 		public bool GenerateXGRSCode(string xgrsName, String xgrsStr,
             String[] paramNames, GrGenType[] paramTypes,
             String[] defToBeYieldedToNames, GrGenType[] defToBeYieldedToTypes,
-            SourceBuilder source)
+            SourceBuilder source, int lineNr)
 		{
 			Dictionary<String, String> varDecls = new Dictionary<String, String>();
             for (int i = 0; i < paramNames.Length; i++)
@@ -1929,13 +1935,13 @@ namespace de.unika.ipd.grGen.lgsp
             catch(ParseException ex)
             {
                 Console.Error.WriteLine("The exec statement \"" + xgrsStr
-                    + "\" caused the following error:\n" + ex.Message);
+                    + "\" given on line " + lineNr + " caused the following error:\n" + ex.Message);
                 return false;
             }
             catch(SequenceParserException ex)
             {
                 Console.Error.WriteLine("The exec statement \"" + xgrsStr
-                    + "\" caused the following error:\n");
+                    + "\" given on line " + lineNr + " caused the following error:\n");
                 HandleSequenceParserException(ex);
                 return false;
             }

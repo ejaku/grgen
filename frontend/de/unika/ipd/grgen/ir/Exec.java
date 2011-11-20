@@ -21,18 +21,23 @@ import java.util.Set;
 public class Exec extends IR implements ImperativeStmt {
 	private Set<Expression> parameters = new LinkedHashSet<Expression>();
 	private Set<Entity> neededEntities;
-
 	private String xgrsString;
+	private int lineNr;
 
-	public Exec(String xgrsString, Set<Expression> parameters) {
+	public Exec(String xgrsString, Set<Expression> parameters, int lineNr) {
 		super("exec");
 		this.xgrsString = xgrsString;
 		this.parameters = parameters;
+		this.lineNr = lineNr;
 	}
 
 	/** Returns XGRS as an String */
 	public String getXGRSString() {
 		return xgrsString;
+	}
+	
+	public int getLineNr() {
+		return lineNr;
 	}
 
 	/** Returns Parameters */

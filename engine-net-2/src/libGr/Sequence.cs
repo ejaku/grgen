@@ -2405,6 +2405,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            Computation.Check(env);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -2420,7 +2421,10 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             object val = Computation.Execute(graph, env);
-            return !TypesHelper.IsDefaultValue(val);
+            if(Computation.ReturnsValue)
+                return !TypesHelper.IsDefaultValue(val);
+            else
+                return true;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)

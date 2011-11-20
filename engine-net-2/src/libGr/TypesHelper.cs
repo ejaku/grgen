@@ -224,6 +224,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public static String XgrsTypeOfConstant(object constant, IGraphModel model)
         {
+            if(constant == null)
+                return "";
+
             if(constant.GetType().IsGenericType) {
                 if(constant.GetType().Name == "Dictionary`2")
                 {

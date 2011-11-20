@@ -236,7 +236,8 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\t\"" + sequenceName + "\",\n");
-		sb.append("\t\t\t\t\t\t\"" + sequence.getExec().getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\"\n");
+		sb.append("\t\t\t\t\t\t\"" + sequence.getExec().getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\",\n");
+		sb.append("\t\t\t\t\t\t" + sequence.getExec().getLineNr() + "\n");
 		sb.append("\t\t\t\t\t  )\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t}\n");
@@ -1394,7 +1395,8 @@ public class ActionsGen extends CSharpBase {
 					}
 				}
 				sb.append("},\n");
-				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\"\n");
+				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\",\n");
+				sb.append("\t\t\t" + exec.getLineNr() + "\n");
 				sb.append("\t\t);\n");
 				
 				sb.append("\t\tprivate static bool ApplyXGRS_" + pathPrefix + xgrsID + "(GRGEN_LGSP.LGSPGraph graph");

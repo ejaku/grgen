@@ -1536,7 +1536,6 @@ simpleSequence[ExecNode xg]
 	options { k = *; }
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
-		String id_ = null, id2_ = null;
 	}
 	
 	// attention/todo: names are are only partly resolved!
@@ -1544,26 +1543,6 @@ simpleSequence[ExecNode xg]
 	// will not be detected in the frontend; xgrs in the frontend are to a certain degree syntax only
 	: lhs=xgrsEntity[xg] (ASSIGN | GE) { xg.append('='); }
 		(
-			VALLOC LPAREN RPAREN
-			{ xg.append("valloc()"); }
-		|
-			(entIdentUse DOT VISITED) => id=entIdentUse DOT VISITED LBRACK var=entIdentUse RBRACK
-			{ xg.append(id+".visited["+var+"]"); xg.addUsage(id); xg.addUsage(var); }
-		|
-			(entIdentUse DOT IDENT LPAREN ) => id=entIdentUse d=DOT method=IDENT LPAREN RPAREN
-			{ if(method.getText().equals("size")) { xg.append(id+".size()"); xg.addUsage(id); }
-			  else if(method.getText().equals("empty")) { xg.append(id+".empty()"); xg.addUsage(id); }
-			  else reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are size|empty on set/map/array)");
-			}
-		|
-			id=entIdentUse d=DOT attr=IDENT
-			{ xg.append(id+"."+attr.getText()); xg.addUsage(id); }
-		|
-			(entIdentUse LBRACK) => mapOrArray=entIdentUse LBRACK var=entIdentUse RBRACK // parsing v=a[ as v=a[x] has priority over (v=a)[*]
-			{ xg.append(mapOrArray+"["+var+"]"); xg.addUsage(mapOrArray); xg.addUsage(var); }
-		| 
-			var=entIdentUse IN setmaparray=entIdentUse { xg.append(var+" in "+setmaparray); xg.addUsage(var); xg.addUsage(setmaparray); }
-		|
 			id=entIdentUse
 			{ xg.append(id); xg.addUsage(id); }
 		|
@@ -1572,62 +1551,26 @@ simpleSequence[ExecNode xg]
 		|
 			xgrsConstant[xg]
 		|
-			a=AT LPAREN (IDENT | STRING_LITERAL) RPAREN
-			{ reportError(getCoords(a), "a NamedGraph is a GrShell-only construct -> no element names available at lgsp(libgr search plan backend)-level"); }
-		|
 			d=DOLLAR MOD LPAREN typeIdentUse RPAREN
 			{ reportError(getCoords(d), "user input is only requestable in the GrShell, not at lgsp(libgr search plan backend)-level"); }
 		|
 			d=DOLLAR LPAREN n=NUM_INTEGER RPAREN
 			{ xg.append("$("); xg.append(n.getText()); xg.append(")"); }
 		|
-			DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
-		|
 			LPAREN { xg.append('('); } xgrs[xg] RPAREN { xg.append(')'); }
 		)
-	| id=entIdentUse DOT VISITED LBRACK var=entIdentUse RBRACK ASSIGN 
-		{ xg.append(id); xg.addUsage(id); xg.append(".visited["+var+"] = "); xg.addUsage(var); }
-			( var2=entIdentUse { xg.append(var2); xg.addUsage(var2); }
-			| TRUE { xg.append("true"); }
-			| FALSE { xg.append("false"); }
-			)
-	| id=entIdentUse DOT VISITED LBRACK var=entIdentUse RBRACK
-		{ xg.append(id); xg.addUsage(id); xg.append(".visited["+var+"]"); xg.addUsage(var); }
-	| VFREE LPAREN var=entIdentUse RPAREN
-		{ xg.append("vfree("+var+")"); xg.addUsage(var); }
-	| VRESET LPAREN var=entIdentUse RPAREN
-		{ xg.append("vreset("+var+")"); xg.addUsage(var); }
-	| EMIT LPAREN (str=STRING_LITERAL { xg.append("emit("+str.getText()+")"); }
-					| id=entIdentUse { xg.append("emit("+id.toString()+")"); xg.addUsage(id); } ) RPAREN
-	| RECORD LPAREN (str=STRING_LITERAL { xg.append("record("+str.getText()+")"); }
-					| id=entIdentUse { xg.append("record("+id.toString()+")"); xg.addUsage(id); } ) RPAREN
-	| id=entIdentUse d=DOT attr=IDENT ASSIGN var=entIdentUse
-		{ xg.append(id+"."+attr.getText()+" = "+var); xg.addUsage(id); xg.addUsage(var); }
-	| setmaparray=entIdentUse d=DOT method=IDENT { xg.addUsage(setmaparray); } 
-			LPAREN ( id=entIdentUse {id_=id.toString();} (COMMA id2=entIdentUse {id2_=id2.toString();})? )? RPAREN
-		{ if(method.getText().equals("add")) { // arrrrgh! == doesn't work for strings in Java ... maximum retardedness!
-			if(id_==null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1(for set value or new array tail value) or 2(for map key and value or array value with index) parameters");
-		    if(id2_!=null) { xg.append(setmaparray+".add("+id_+","+id2_+")"); xg.addUsage(id); xg.addUsage(id2); }
-			else { xg.append(setmaparray+".add("+id_+")"); xg.addUsage(id); }
-	      } else if(method.getText().equals("rem")) {
-		    if(id2_!=null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1 parameter (set value or map key or array index) or none (for array end value)");
-		    if(id_!=null) { xg.append(setmaparray+".rem("+id_+")"); xg.addUsage(id); }
-			else xg.append(setmaparray+".rem()");
-		  } else if(method.getText().equals("clear")) { 
-		    if(id_!=null || id2_!=null) reportError(getCoords(d), "\""+method.getText()+"\" expects no parameters");
-		    xg.append(setmaparray+".clear()");
-		  } else reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear on set/map/array)");
-		}
-	| var=entIdentUse IN setmaparray=entIdentUse { xg.append(var+" in "+setmaparray); xg.addUsage(var); xg.addUsage(setmaparray); }
-	| parallelCallRule[xg, returns]
-	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
+	| YIELD { xg.append("yield "); } lhsent=entIdentUse { xg.append(lhsent); xg.addUsage(lhsent); } ASSIGN { xg.append('='); } 
+	    ( rhsent=entIdentUse { xg.append(rhsent); xg.addUsage(rhsent); } 
+		| xgrsConstant[xg] 
+		)
 	| TRUE { xg.append("true"); }
 	| FALSE { xg.append("false"); }
+	| parallelCallRule[xg, returns]
 	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? 
 		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); }) 
 		LPAREN { xg.append("("); } xgrs[xg] (COMMA { xg.append(","); } xgrs[xg])* RPAREN { xg.append(")"); }
-	| ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
-		LBRACE { xg.append("{"); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* RBRACE { xg.append("}"); }
+	| (( DOLLAR ( MOD )? )? LBRACE LPAREN) => ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
+		LBRACE LPAREN { xg.append("{("); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* RPAREN RBRACE { xg.append(")}"); }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append(" <"); } xgrs[xg] GT { xg.append("> "); }
 	| SL { xg.append(" <<"); } parallelCallRule[xg, returns] SEMI { xg.append(";"); } xgrs[xg] SR { xg.append(">> "); }
@@ -1636,7 +1579,54 @@ simpleSequence[ExecNode xg]
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
 	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
 		IN { xg.append(" in "); } xgrsEntity[xg] SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
-	| YIELD { xg.append("yield "); } lhsent=entIdentUse { xg.append(lhsent); xg.addUsage(lhsent); } ASSIGN { xg.append('='); } rhsent=entIdentUse { xg.append(rhsent); xg.addUsage(rhsent); } 
+	| LBRACE { xg.append("{"); } computation[xg] RBRACE { xg.append("}"); } 
+	;
+
+computation[ExecNode xg]
+	: (xgrsEntity[null] (ASSIGN|GE)) => xgrsEntity[xg] (ASSIGN | GE) { xg.append('='); }
+		( expression[xg]
+		| VALLOC LPAREN RPAREN { xg.append("valloc()"); }
+		)
+	| YIELD { xg.append("yield "); } lhsent=entIdentUse { xg.append(lhsent); xg.addUsage(lhsent); } ASSIGN { xg.append('='); } expression[xg] 
+	| (entIdentUse DOT VISITED LBRACK expression[null] RBRACK ASSIGN) => id=entIdentUse { xg.append(id); xg.addUsage(id); } DOT VISITED LBRACK { xg.append(".visited["); } expression[xg] RBRACK ASSIGN { xg.append("]="); } expression[xg]
+	| (entIdentUse DOT IDENT ASSIGN) => id=entIdentUse d=DOT attr=IDENT ASSIGN { xg.append(id+"."+attr.getText()+" = "); xg.addUsage(id); } expression[xg]
+	| (entIdentUse LBRACK expression[null] RBRACK ASSIGN) => id=entIdentUse LBRACK { xg.append(id+"["); xg.addUsage(id); } expression[xg] RBRACK ASSIGN { xg.append("]="); } expression[xg]
+	| VFREE LPAREN { xg.append("vfree("); } expression[xg] RPAREN { xg.append(")"); }
+	| VRESET LPAREN { xg.append("vreset("); } expression[xg] RPAREN { xg.append(")"); }
+	| EMIT LPAREN { xg.append("emit("); } expression[xg] RPAREN { xg.append(")"); }
+	| RECORD LPAREN { xg.append("record("); } expression[xg] RPAREN { xg.append(")"); }
+	| (methodCall[null]) => methodCall[xg]
+	| (expression[null]) => expression[xg]
+	;
+
+expression[ExecNode xg]
+	options { k = *; }
+	@init{
+		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
+	}
+	
+	: methodCall[xg]
+	| var=entIdentUse IN setmaparray=entIdentUse { xg.append(var+" in "+setmaparray); xg.addUsage(var); xg.addUsage(setmaparray); }
+	| id=entIdentUse DOT VISITED LBRACK { xg.append(id); xg.addUsage(id); xg.append(".visited["); } expression[xg] RBRACK { xg.append("]"); }
+	| id=entIdentUse d=DOT attr=IDENT { xg.append(id+"."+attr.getText()); xg.addUsage(id); }
+	| xgrsEntity[xg] LBRACK { xg.append("["); } expression[xg] RBRACK { xg.append("]"); }
+	| xgrsConstant[xg]
+	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
+	| id=entIdentUse { xg.append(id); xg.addUsage(id); } 
+	| id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
+		{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
+	| a=AT LPAREN (IDENT | STRING_LITERAL) RPAREN
+		{ reportError(getCoords(a), "a NamedGraph is a GrShell-only construct -> no element names available at lgsp(libgr search plan backend)-level"); }
+	| LPAREN { xg.append("("); } expression[xg] RPAREN { xg.append(")"); } 
+	;
+
+methodCall[ExecNode xg]
+	: setmaparray=entIdentUse d=DOT method=IDENT LPAREN { xg.addUsage(setmaparray); xg.append(setmaparray+"."+method.getText()+"("); } 
+			 ( expression[xg] (COMMA { xg.append(","); } expression[xg])? )? RPAREN { xg.append(")"); }
+		{ if(!method.getText().equals("add") && !method.getText().equals("rem") && !method.getText().equals("clear")
+				&& !method.getText().equals("size") && !method.getText().equals("empty"))
+			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty on set/map/array)");
+		}
 	;
 
 xgrsConstant[ExecNode xg]
@@ -1724,7 +1714,7 @@ xgrsEntity[ExecNode xg] returns [BaseNode res = null]
 		id=entIdentUse // var of node, edge, or basic type
 		{ res = id; xg.append(id); xg.addUsage(id); } 
 	|
-		xgrsVarDecl=xgrsEntityDecl[xg, true]
+		(IDENT COLON | MINUS IDENT COLON) => xgrsVarDecl=xgrsEntityDecl[xg, true]
 		{ res = xgrsVarDecl; }
 	;
 

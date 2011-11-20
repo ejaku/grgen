@@ -104,6 +104,12 @@ namespace de.unika.ipd.grGen.libGr
         /// Enumerates all child sequence computation objects
         /// </summary>
         public abstract IEnumerable<SequenceComputation> Children { get; }
+
+        /// <summary>
+        /// Tells whether Execute returns a value to be used as a result determining value for a boolean computation sequence.
+        /// Only expressions do so, the values returned by plain computations don't bubble up to sequence level, are computation internal only.
+        /// </summary>
+        public virtual bool ReturnsValue { get { return false; } }
     }
 
     /// <summary>
@@ -123,6 +129,11 @@ namespace de.unika.ipd.grGen.libGr
             SourceExpression = sourceExpr;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            SourceExpression.Check(env);
+        }
+
         public override IEnumerable<SequenceComputation> Children { get { yield break; } } // no children, will change with assignment operator instead of statement
         public override int Precedence { get { return 8; } } // always a top prio assignment factor
     }
@@ -139,6 +150,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            VisitedFlagExpression.Check(env);
+
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
             {
                 throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
@@ -156,7 +169,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             int visitedFlag = (int)VisitedFlagExpression.Evaluate(graph, env);
             graph.FreeVisitedFlag(visitedFlag);
-            return true;
+            return null;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -181,6 +194,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            VisitedFlagExpression.Check(env);
+
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
             {
                 throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
@@ -198,7 +213,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             int visitedFlag = (int)VisitedFlagExpression.Evaluate(graph, env);
             graph.ResetVisitedFlag(visitedFlag);
-            return true;
+            return null;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -227,6 +242,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            Expr.Check(env);
+            if(ExprDst != null)
+                ExprDst.Check(env);
+
             if(Container.Type == "")
                 return; // we can't check further types if the variable is untyped, only runtime-check possible
 
@@ -282,20 +301,17 @@ namespace de.unika.ipd.grGen.libGr
                     array.Add(Expr.Evaluate(graph, env));
                 else
                     array.Insert((int)ExprDst.Evaluate(graph, env), Expr.Evaluate(graph, env));
+                return array;
             }
             else
             {
                 IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
                 if(setmap.Contains(Expr.Evaluate(graph, env)))
-                {
                     setmap[Expr.Evaluate(graph, env)] = (ExprDst == null ? null : ExprDst.Evaluate(graph, env));
-                }
                 else
-                {
                     setmap.Add(Expr.Evaluate(graph, env), (ExprDst == null ? null : ExprDst.Evaluate(graph, env)));
-                }
+                return setmap;
             }
-            return true;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -325,6 +341,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            if(Expr != null)
+                Expr.Check(env);
+
             if(Container.Type == "")
                 return; // we can't check further types if the variable is untyped, only runtime-check possible
 
@@ -366,13 +385,14 @@ namespace de.unika.ipd.grGen.libGr
                     array.RemoveAt(array.Count - 1);
                 else
                     array.RemoveAt((int)Expr.Evaluate(graph, env));
+                return array;
             }
             else
             {
                 IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
                 setmap.Remove(Expr.Evaluate(graph, env));
+                return setmap;
             }
-            return true;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -421,13 +441,14 @@ namespace de.unika.ipd.grGen.libGr
             {
                 IList array = (IList)Container.GetVariableValue(graph);
                 array.Clear();
+                return array;
             }
             else
             {
                 IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
                 setmap.Clear();
+                return setmap;
             }
-            return true;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -452,6 +473,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            base.Check(env);
+
             // the assignment of an untyped variable to a typed variable is ok, cause we want access to persistency
             // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
             if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), DestVar.Type, env.Model))
@@ -470,8 +493,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
         {
-            DestVar.SetVariableValue(SourceExpression.Evaluate(graph, env), graph);
-            return null;
+            object value = SourceExpression.Evaluate(graph, env);
+            DestVar.SetVariableValue(value, graph);
+            return value;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -495,6 +519,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            base.Check(env);
+
             // the assignment of an untyped variable to a typed variable is ok, cause we want access to persistency
             // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
             if(!TypesHelper.IsSameOrSubtype(SourceExpression.Type(env), DestVar.Type, env.Model))
@@ -539,6 +565,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            base.Check(env);
+            KeyExpression.Check(env);
+
             if(DestVar.Type == "")
                 return; // we can't check source and destination types if the variable is untyped, only runtime-check possible
 
@@ -585,17 +614,18 @@ namespace de.unika.ipd.grGen.libGr
             {
                 IList array = (IList)DestVar.GetVariableValue(graph);
                 int key = (int)KeyExpression.Evaluate(graph, env);
-                if(key >= array.Count) return false;
-                array[key] = SourceExpression.Evaluate(graph, env);
+                object value = SourceExpression.Evaluate(graph, env);
+                array[key] = value;
+                return value;
             }
             else
             {
                 IDictionary setmap = (IDictionary)DestVar.GetVariableValue(graph);
                 object key = KeyExpression.Evaluate(graph, env);
-                if(!setmap.Contains(key)) return false;
-                setmap[key] = SourceExpression.Evaluate(graph, env);
+                object value = SourceExpression.Evaluate(graph, env);
+                setmap[key] = value;
+                return value;
             }
-            return null;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -622,6 +652,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            base.Check(env);
+
             if(DestVar.Type == "")
                 return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
@@ -662,7 +694,7 @@ namespace de.unika.ipd.grGen.libGr
             else
                 graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
             elem.SetAttribute(AttributeName, value);
-            return null;
+            return value;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -688,6 +720,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            base.Check(env);
+            VisitedFlagExpression.Check(env);
+
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
             if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
             {
@@ -715,9 +750,9 @@ namespace de.unika.ipd.grGen.libGr
         {
             IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
             int visitedFlag = (int)VisitedFlagExpression.Evaluate(graph, env);
-            bool value = (bool)SourceExpression.Evaluate(graph, env);
-            graph.SetVisited(elem, visitedFlag, value);
-            return null;
+            object value = SourceExpression.Evaluate(graph, env);
+            graph.SetVisited(elem, visitedFlag, (bool)value);
+            return value;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -751,6 +786,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            Expression.Check(env);
+        }
+
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceComputationEmit copy = (SequenceComputationEmit)MemberwiseClone();
@@ -760,17 +800,17 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
         {
-            object val = Expression.Evaluate(graph, env);
-            if(val != null)
+            object value = Expression.Evaluate(graph, env);
+            if(value != null)
             {
-                if(val is IDictionary)
-                    graph.EmitWriter.Write(DictionaryListHelper.ToString((IDictionary)val, env != null ? env.GetNamedGraph() : graph));
-                else if(val is IList)
-                    graph.EmitWriter.Write(DictionaryListHelper.ToString((IList)val, env != null ? env.GetNamedGraph() : graph));
+                if(value is IDictionary)
+                    graph.EmitWriter.Write(DictionaryListHelper.ToString((IDictionary)value, env != null ? env.GetNamedGraph() : graph));
+                else if(value is IList)
+                    graph.EmitWriter.Write(DictionaryListHelper.ToString((IList)value, env != null ? env.GetNamedGraph() : graph));
                 else
-                    graph.EmitWriter.Write(DictionaryListHelper.ToString(val, env != null ? env.GetNamedGraph() : graph));
+                    graph.EmitWriter.Write(DictionaryListHelper.ToString(value, env != null ? env.GetNamedGraph() : graph));
             }
-            return true;
+            return value;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -804,6 +844,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            Expression.Check(env);
+        }
+
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceComputationRecord copy = (SequenceComputationRecord)MemberwiseClone();
@@ -813,17 +858,17 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
         {
-            object val = Expression.Evaluate(graph, env);
-            if(val != null)
+            object value = Expression.Evaluate(graph, env);
+            if(value != null)
             {
-                if(val is IDictionary)
-                    graph.Recorder.Write(DictionaryListHelper.ToString((IDictionary)val, env != null ? env.GetNamedGraph() : graph));
-                else if(val is IList)
-                    graph.Recorder.Write(DictionaryListHelper.ToString((IList)val, env != null ? env.GetNamedGraph() : graph));
+                if(value is IDictionary)
+                    graph.Recorder.Write(DictionaryListHelper.ToString((IDictionary)value, env != null ? env.GetNamedGraph() : graph));
+                else if(value is IList)
+                    graph.Recorder.Write(DictionaryListHelper.ToString((IList)value, env != null ? env.GetNamedGraph() : graph));
                 else
-                    graph.Recorder.Write(DictionaryListHelper.ToString(val, env != null ? env.GetNamedGraph() : graph));
+                    graph.Recorder.Write(DictionaryListHelper.ToString(value, env != null ? env.GetNamedGraph() : graph));
             }
-            return true;
+            return value;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)

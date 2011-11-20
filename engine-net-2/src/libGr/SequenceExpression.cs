@@ -100,6 +100,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override sealed IEnumerable<SequenceComputation> Children { get { foreach(SequenceExpression expr in ChildrenExpression) yield return expr; ; } }
+        public override sealed bool ReturnsValue { get { return true; } }
 
         /// <summary>
         /// Enumerates all child sequence expression objects
@@ -628,6 +629,9 @@ namespace de.unika.ipd.grGen.libGr
             
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SourceVar.Type, env.Model);
             AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            if(attributeType == null)
+                return ""; // error, will be reported by Check, just ensure we don't crash here
+
             return TypesHelper.AttributeTypeToXgrsType(attributeType);
         }
 

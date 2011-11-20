@@ -1054,6 +1054,11 @@ SequenceExpression Expression():
 	{
 		return new SequenceExpressionElementFromGraph(elemName);
 	}
+|
+	"(" expr=Expression() ")"
+	{
+		return expr;
+	}
 }
 
 // expression light used at positions which would lead to left recursion otherwise

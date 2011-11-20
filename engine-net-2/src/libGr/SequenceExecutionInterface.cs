@@ -23,14 +23,16 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="outParameters">The names of the graph elements of the containing action yielded to.</param>
         /// <param name="outParameterTypes">The types of the graph elements of the containing action yielded to.</param>
         /// <param name="xgrs">The XGRS string.</param>
+        /// <param name="lineNr">The line number the sequence appears on in the source.</param>
         public EmbeddedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
-            String[] outParameters, GrGenType[] outParameterTypes, String xgrs)
+            String[] outParameters, GrGenType[] outParameterTypes, String xgrs, int lineNr)
         {
             Parameters = parameters;
             ParameterTypes = parameterTypes;
             OutParameters = outParameters;
             OutParameterTypes = outParameterTypes;
             XGRS = xgrs;
+            LineNr = lineNr;
         }
 
         /// <summary>
@@ -61,6 +63,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The XGRS string.
         /// </summary>
         public String XGRS;
+
+        /// <summary>
+        /// The line in the source code on which this sequence appears, printed in case of an error.
+        /// </summary>
+        public int LineNr;
     }
 
     /// <summary>
@@ -77,10 +84,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="outParameterTypes">The types of the graph elements returned to the calling action.</param>
         /// <param name="name">The name the sequence was defined with.</param>
         /// <param name="xgrs">The XGRS string.</param>
+        /// <param name="lineNr">The line number the sequence appears on in the source.</param>
         public DefinedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
             String[] outParameters, GrGenType[] outParameterTypes,
-            String name, String xgrs)
-            : base(parameters, parameterTypes, outParameters, outParameterTypes, xgrs)
+            String name, String xgrs, int lineNr)
+            : base(parameters, parameterTypes, outParameters, outParameterTypes, xgrs, lineNr)
         {
             Name = name;
         }
