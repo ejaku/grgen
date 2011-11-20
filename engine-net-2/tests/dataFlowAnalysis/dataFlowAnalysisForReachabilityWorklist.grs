@@ -24,8 +24,8 @@ xgrs ( (last)=addNotYetVisitedNodeToWorklist(last, todo) && pos=last && ( (last)
 
 # walk along worklist, compute data flow, unchain handled node, chain every node depending on handled node if it changed
 xgrs succs=set<N>{} ;> preds=set<N>{} ;> pos=head
-xgrs ( [successors(pos, succs)] ;> changed=false ;> for{s in succs; (changed)=propagateBackwards(pos,s,changed)} ;> succs.clear() \
-       ;> if{ changed ; [predecessors(pos, preds)] ;> for{p in preds; (last)=addToWorklist(p, todo, last)*} ;> preds.clear() } \
+xgrs ( [successors(pos, succs)] ;> changed=false ;> for{s in succs; (changed)=propagateBackwards(pos,s,changed)} ;> {succs.clear()} \
+       ;> if{ changed ; [predecessors(pos, preds)] ;> for{p in preds; (last)=addToWorklist(p, todo, last)*} ;> {preds.clear()} } \
        ;> (pos)=nextWorklistPosition(pos, todo) )*
 
 # finally remove special head

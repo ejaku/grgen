@@ -1,6 +1,6 @@
 new graph "exectype/exectype"
-xgrs x=(rr) && emit("The value of variable x of type bool is: ") && emit(x) && emit("\n")
-xgrs y=(ss) && emit("The value of variable y of type bool is: ") && emit(y) && emit("\n")
+xgrs x=(rr) && {emit("The value of variable x of type bool is: ")} && {emit(x)} && {emit("\n")}
+xgrs y=(ss) && {emit("The value of variable y of type bool is: ")} && {emit(y)} && {emit("\n")}
 show var x
 show var y
 quit

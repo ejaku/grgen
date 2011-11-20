@@ -78,10 +78,10 @@ rule arrayIndexof
 rule arrayIteration
 {    
     modify {
-		exec( a=array<string>[] ;> tmp="a" ;> a.add(tmp) ;> tmp="b" ;> a.add(tmp) ;> tmp="c" ;> a.add(tmp) ;> tmp="d" ;> a.add(tmp) ;> tmp="e" ;> a.add(tmp) );
-		exec( for{i->e in a; emit("1 value of attribute 5 6 ") ;> emit(i) ;> emit("\n") } );
-		exec( for{i->e in a; emit("1 value of attribute 5 6 ") ;> emit(e) ;> emit("\n") } );
-		exec( for{e in a; emit("1 value of attribute 5 6 ") ;> emit(e) ;> emit("\n") } );
+		exec( a=array<string>[] ;> tmp="a" ;> {a.add(tmp)} ;> tmp="b" ;> {a.add(tmp)} ;> tmp="c" ;> {a.add(tmp)} ;> tmp="d" ;> {a.add(tmp)} ;> tmp="e" ;> {a.add(tmp)} );
+		exec( for{i->e in a; {emit("1 value of attribute 5 6 ")} ;> {emit(i)} ;> {emit("\n")} } );
+		exec( for{i->e in a; {emit("1 value of attribute 5 6 ")} ;> {emit(e)} ;> {emit("\n")} } );
+		exec( for{e in a; {emit("1 value of attribute 5 6 ")} ;> {emit(e)} ;> {emit("\n")} } );
     }
 }
 

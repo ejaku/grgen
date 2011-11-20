@@ -3,23 +3,23 @@ new graph "exectype/exectype"
 new n:AA
 
 xgrs x=set<AA>{} && y=set<int>{} && v=42 \
-		&& x.add(n) && y.add(v) \
-		&& i=x.size() && j=y.size() \
-		&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n") \
-		&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n") \
-		&& u=x.empty() && w=y.empty() \
-		&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n") \
-		&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n") \
-		&& co1=(v in y) && k=1 && co2=(k in y) \
-		&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n") \
-		&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n") \
-		&& x.clear() && y.rem(v) \
-		&& i=x.size() && j=y.size() \
-		&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n") \
-		&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n") \
-		&& u=x.empty() && w=y.empty() \
-		&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n") \
-		&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
+		&& {x.add(n)} && {y.add(v)} \
+		&& {i=x.size()} && {j=y.size()} \
+		&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")} \
+		&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")} \
+		&& {u=x.empty()} && {w=y.empty()} \
+		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")} \
+		&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")} \
+		&& {co1=(v in y)} && k=1 && {co2=(k in y)} \
+		&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")} \
+		&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")} \
+		&& {x.clear()} && {y.rem(v)} \
+		&& {i=x.size()} && {j=y.size()} \
+		&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")} \
+		&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")} \
+		&& {u=x.empty()} && {w=y.empty()} \
+		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")} \
+		&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
 show var x
 show var y
 show var v

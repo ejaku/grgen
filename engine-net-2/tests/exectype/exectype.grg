@@ -18,16 +18,16 @@ rule ss
 rule AssignSequenceResultToVar
 {
 	modify {
-		exec(x:boolean=(rr) && emit("The value of variable x of type bool is: ") && emit(x) && emit("\n"));
-		exec(y:boolean=(ss) && emit("The value of variable y of type bool is: ") && emit(y) && emit("\n"));
+		exec(x:boolean=(rr) && {emit("The value of variable x of type bool is: ")} && {emit(x)} && {emit("\n")});
+		exec(y:boolean=(ss) && {emit("The value of variable y of type bool is: ")} && {emit(y)} && {emit("\n")});
 	}
 }
 
 rule AssignSequenceResultToVarUntyped
 {
 	modify {
-		exec(x=(rr) && emit("The value of variable x of type bool is: ") && emit(x) && emit("\n"));
-		exec(y=(ss) && emit("The value of variable y of type bool is: ") && emit(y) && emit("\n"));
+		exec(x=(rr) && {emit("The value of variable x of type bool is: ")} && {emit(x)} && {emit("\n")});
+		exec(y=(ss) && {emit("The value of variable y of type bool is: ")} && {emit(y)} && {emit("\n")});
 	}
 }
 
@@ -35,26 +35,26 @@ rule Map(n:AA, -e:HH->)
 {
 	modify {
 		exec(x:map<A,HH>=map<A,HH>{} && y:map<int,foo>=map<int,foo>{} && v:int=42 && vd:foo=foo::Bar
-			&& x.add(n,e) && y.add(v,vd)
-			&& i:int=x.size() && j:int=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u:boolean=x.empty() && w:boolean=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && k:int=1 && co2=(k in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& vr1:HH=x[n] && vr2:foo=y[v]
-			&& emit("value of variable vr1 5 6 7 8 9 ") && emit(vr1) && emit("\n")
-			&& emit("value of variable vr2 5 6 7 8 9 ") && emit(vr2) && emit("\n")
-			&& x.clear() && y.rem(v)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
+			&& {x.add(n,e)} && {y.add(v,vd)}
+			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& u:boolean=false && {u=x.empty()} && w:boolean=false && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=v in y} && k:int=1 && {co2=k in y}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& vr1:HH=null && {vr1=x[n]} && vr2:foo=foo::Bar && {vr2=y[v]}
+			&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")}
+			&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem(v)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
 		);
 	}
 }
@@ -63,26 +63,26 @@ rule MapUntyped(n:AA, -e:HH->)
 {
 	modify {
 		exec(x=map<A,HH>{} && y=map<int,foo>{} && v=42 && vd=foo::Bar
-			&& x.add(n,e) && y.add(v,vd)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && k=1 && co2=(k in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& vr1=x[n] && vr2=y[v]
-			&& emit("value of variable vr1 5 6 7 8 9 ") && emit(vr1) && emit("\n")
-			&& emit("value of variable vr2 5 6 7 8 9 ") && emit(vr2) && emit("\n")
-			&& x.clear() && y.rem(v)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
+			&& {x.add(n,e)} && {y.add(v,vd)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=v in y} && k=1 && {co2=(k in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& {vr1=x[n]} && {vr2=y[v]}
+			&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")}
+			&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem(v)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
 		);
 	}
 }
@@ -91,26 +91,26 @@ rule MapPartial2(n:AA, -e:HH->)
 {
 	modify {
 		exec(x:map<A,HH>=map<A,HH>{} && y:map<int,foo>=map<int,foo>{} && v=42 && vd=foo::Bar
-			&& x.add(n,e) && y.add(v,vd)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && k=1 && co2=(k in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& vr1=x[n] && vr2=y[v]
-			&& emit("value of variable vr1 5 6 7 8 9 ") && emit(vr1) && emit("\n")
-			&& emit("value of variable vr2 5 6 7 8 9 ") && emit(vr2) && emit("\n")
-			&& x.clear() && y.rem(v)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
+			&& {x.add(n,e)} && {y.add(v,vd)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && k=1 && {co2=(k in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& {vr1=x[n]} && {vr2=y[v]}
+			&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")}
+			&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem(v)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
 		);
 	}
 }
@@ -119,26 +119,26 @@ rule MapPartial1(n:AA, -e:HH->)
 {
 	modify {
 		exec(x=map<A,HH>{} && y=map<int,foo>{} && v:int=42 && vd:foo=foo::Bar
-			&& x.add(n,e) && y.add(v,vd)
-			&& i:int=x.size() && j:int=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u:boolean=x.empty() && w:boolean=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && k:int=1 && co2=(k in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& vr1:HH=x[n] && vr2:foo=y[v]
-			&& emit("value of variable vr1 5 6 7 8 9 ") && emit(vr1) && emit("\n")
-			&& emit("value of variable vr2 5 6 7 8 9 ") && emit(vr2) && emit("\n")
-			&& x.clear() && y.rem(v)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
+			&& {x.add(n,e)} && {y.add(v,vd)}
+			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& u:boolean=false && {u=x.empty()} && w:boolean=false && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && k:int=1 && {co2=(k in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& vr1:HH=null && {vr1=x[n]} && vr2:foo=foo::Bar && {vr2=y[v]}
+			&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")}
+			&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem(v)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
 		);
 	}
 }
@@ -148,23 +148,23 @@ rule Set(n:AA)
 {
 	modify {
 		exec(x:set<AA>=set<AA>{} && y:set<int>=set<int>{} && v:int=42
-			&& x.add(n) && y.add(v)
-			&& i:int=x.size() && j:int=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u:boolean=x.empty() && w:boolean=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && k:int=1 && co2=(k in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& x.clear() && y.rem(v)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
+			&& {x.add(n)} && {y.add(v)}
+			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& u:boolean=false && {u=x.empty()} && w:boolean=false && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && k:int=1 && {co2=(k in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem(v)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
 		);
 	}
 }
@@ -173,23 +173,23 @@ rule SetUntyped(n:AA)
 {
 	modify {
 		exec(x=set<AA>{} && y=set<int>{} && v=42
-			&& x.add(n) && y.add(v)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && k=1 && co2=(k in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& x.clear() && y.rem(v)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
+			&& {x.add(n)} && {y.add(v)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && k=1 && {co2=(k in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem(v)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
 		);
 	}
 }
@@ -198,23 +198,23 @@ rule SetPartial2(n:AA)
 {
 	modify {
 		exec(x:set<AA>=set<AA>{} && y:set<int>=set<int>{} && v=42
-			&& x.add(n) && y.add(v)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && k=1 && co2=(k in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& x.clear() && y.rem(v)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
+			&& {x.add(n)} && {y.add(v)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && k=1 && {co2=(k in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem(v)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
 		);
 	}
 }
@@ -223,23 +223,23 @@ rule SetPartial1(n:AA)
 {
 	modify {
 		exec(x=set<AA>{} && y=set<int>{} && v:int=42
-			&& x.add(n) && y.add(v)
-			&& i:int=x.size() && j:int=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u:boolean=x.empty() && w:boolean=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && k:int=1 && co2=(k in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& x.clear() && y.rem(v)
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
+			&& {x.add(n)} && {y.add(v)}
+			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& u:boolean=false && {u=x.empty()} && w:boolean=false && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && k:int=1 && {co2=(k in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem(v)}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
 		);
 	}
 }
@@ -249,27 +249,27 @@ rule Array(n:AA)
 {
 	modify {
 		exec(x:array<A>=array<A>[] && y:array<int>=array<int>[] && v:int=42 && vd:int=0
-			&& x.add(n) && y.add(v,vd)
-			&& i:int=x.size() && j:int=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u:boolean=x.empty() && w:boolean=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && co2=(vd in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& vr1:A=x[vd] && vr2:int=y[vd]
-			&& emit("value of variable vr1 5 6 7 8 9 ") && emit(vr1) && emit("\n")
-			&& emit("value of variable vr2 5 6 7 8 9 ") && emit(vr2) && emit("\n")
-			&& x.clear() && y.rem()
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& y.add(v,vd) && y.rem(vd)
+			&& {x.add(n)} && {y.add(v,vd)}
+			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& u:boolean=false && {u=x.empty()} && w:boolean=false && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && {co2=(vd in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& vr1:A=null && {vr1=x[vd]} && vr2:int=0 && {vr2=y[vd]}
+			&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")}
+			&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem()}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {y.add(v,vd)} && {y.rem(vd)}
 		);
 	}
 }
@@ -278,27 +278,27 @@ rule ArrayUntyped(n:AA)
 {
 	modify {
 		exec(x=array<A>[] && y=array<int>[] && v=42 && vd=0
-			&& x.add(n) && y.add(v,vd)
-			&& i:int=x.size() && j:int=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u:boolean=x.empty() && w:boolean=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && co2=(vd in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& vr1:A=x[vd] && vr2:int=y[vd]
-			&& emit("value of variable vr1 5 6 7 8 9 ") && emit(vr1) && emit("\n")
-			&& emit("value of variable vr2 5 6 7 8 9 ") && emit(vr2) && emit("\n")
-			&& x.clear() && y.rem()
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& y.add(v,vd) && y.rem(vd)
+			&& {x.add(n)} && {y.add(v,vd)}
+			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& u:boolean=false && {u=x.empty()} && w:boolean=false && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && {co2=(vd in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& vr1:A=null && {vr1=x[vd]} && vr2:int=0 && {vr2=y[vd]}
+			&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")}
+			&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem()}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {y.add(v,vd)} && {y.rem(vd)}
 		);
 	}
 }
@@ -307,27 +307,27 @@ rule ArrayPartial1(n:AA)
 {
 	modify {
 		exec(x:array<A>=array<A>[] && y:array<int>=array<int>[] && v=42 && vd:int=0
-			&& x.add(n) && y.add(v,vd)
-			&& i:int=x.size() && j:int=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u:boolean=x.empty() && w:boolean=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && co2=(vd in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& vr1:A=x[vd] && vr2:int=y[vd]
-			&& emit("value of variable vr1 5 6 7 8 9 ") && emit(vr1) && emit("\n")
-			&& emit("value of variable vr2 5 6 7 8 9 ") && emit(vr2) && emit("\n")
-			&& x.clear() && y.rem()
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& y.add(v,vd) && y.rem(vd)
+			&& {x.add(n)} && {y.add(v,vd)}
+			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u:boolean=false} && {u=x.empty()} && w:boolean=false && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && {co2=(vd in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& vr1:A=null && {vr1=x[vd]} && vr2:int=0 && {vr2=y[vd]}
+			&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")}
+			&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem()}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {y.add(v,vd)} && {y.rem(vd)}
 		);
 	}
 }
@@ -336,27 +336,27 @@ rule ArrayPartial2(n:AA)
 {
 	modify {
 		exec(x:array<A>=array<A>[] && y:array<int>=array<int>[] && v:int=42 && vd=0
-			&& x.add(n) && y.add(v,vd)
-			&& i:int=x.size() && j:int=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u:boolean=x.empty() && w:boolean=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && co2=(vd in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& vr1:A=x[vd] && vr2:int=y[vd]
-			&& emit("value of variable vr1 5 6 7 8 9 ") && emit(vr1) && emit("\n")
-			&& emit("value of variable vr2 5 6 7 8 9 ") && emit(vr2) && emit("\n")
-			&& x.clear() && y.rem()
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& y.add(v,vd) && y.rem(vd)
+			&& {x.add(n)} && {y.add(v,vd)}
+			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& u:boolean=false && {u=x.empty()} && w:boolean=false && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && {co2=(vd in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& vr1:A=null && {vr1=x[vd]} && vr2:int=0 && {vr2=y[vd]}
+			&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")}
+			&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem()}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {y.add(v,vd)} && {y.rem(vd)}
 		);
 	}
 }
@@ -366,27 +366,27 @@ rule ArrayPartial3(n:AA)
 {
 	modify {
 		exec(x=array<A>[] && y=array<int>[] && v:int=42 && vd:int=0
-			&& x.add(n) && y.add(v,vd)
-			&& i:int=x.size() && j:int=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u:boolean=x.empty() && w:boolean=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& co1=(v in y) && co2=(vd in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
-			&& vr1:A=x[vd] && vr2:int=y[vd]
-			&& emit("value of variable vr1 5 6 7 8 9 ") && emit(vr1) && emit("\n")
-			&& emit("value of variable vr2 5 6 7 8 9 ") && emit(vr2) && emit("\n")
-			&& x.clear() && y.rem()
-			&& i=x.size() && j=y.size()
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n")
-			&& u=x.empty() && w=y.empty()
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& y.add(v,vd) && y.rem(vd)
+			&& {x.add(n)} && {y.add(v,vd)}
+			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& u:boolean=false && {u=x.empty()} && w:boolean=false && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {co1=(v in y)} && {co2=(vd in y)}
+			&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")}
+			&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")}
+			&& vr1:A=null && {vr1=x[vd]} && vr2:int=0 && {vr2=y[vd]}
+			&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")}
+			&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")}
+			&& {x.clear()} && {y.rem()}
+			&& {i=x.size()} && {j=y.size()}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")}
+			&& {u=x.empty()} && {w=y.empty()}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {y.add(v,vd)} && {y.rem(vd)}
 		);
 	}
 }
@@ -398,18 +398,18 @@ rule AssignConstToVar
 		exec(xby:byte=3Y && xsh:short=3S && x:int=3 && xl:long=3L && y:string="fool" && z:foo=foo::Bar
 			&& u:double=3.141592654 && l:float=3.141f && v:boolean=true
 			&& w:set<int>=set<int>{} && k:map<A,H>=map<A,H>{} && m:array<int>=array<int>[]
-			&& emit("value of variable xby 5 6 7 8 9 ") && emit(xby) && emit("\n")
-			&& emit("value of variable xsh 5 6 7 8 9 ") && emit(xsh) && emit("\n")
-			&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n")
-			&& emit("value of variable xl 5 6 7 8 9 ") && emit(xl) && emit("\n")
-			&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
-			&& emit("value of variable z 5 6 7 8 9 ") && emit(z) && emit("\n")
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n")
-			&& emit("value of variable v 5 6 7 8 9 ") && emit(v) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& emit("value of variable k 5 6 7 8 9 ") && emit(k) && emit("\n")
-			&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n")
+			&& {emit("value of variable xby 5 6 7 8 9 ")} && {emit(xby)} && {emit("\n")}
+			&& {emit("value of variable xsh 5 6 7 8 9 ")} && {emit(xsh)} && {emit("\n")}
+			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
+			&& {emit("value of variable xl 5 6 7 8 9 ")} && {emit(xl)} && {emit("\n")}
+			&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
+			&& {emit("value of variable z 5 6 7 8 9 ")} && {emit(z)} && {emit("\n")}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable l 5 6 7 8 9 ")} && {emit(l)} && {emit("\n")}
+			&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(v)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {emit("value of variable k 5 6 7 8 9 ")} && {emit(k)} && {emit("\n")}
+			&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")}
 		);
 	}
 }
@@ -420,18 +420,18 @@ rule AssignConstToVarUntyped
 		exec(xby=3Y && xsh=3S && x=3 && xl=3L && y="fool" && z=foo::Bar
 			&& u=3.141592654 && l=3.141f && v=true
 			&& w=set<int>{} && k=map<A,H>{} && m=array<int>[]
-			&& emit("value of variable xby 5 6 7 8 9 ") && emit(xby) && emit("\n")
-			&& emit("value of variable xsh 5 6 7 8 9 ") && emit(xsh) && emit("\n")
-			&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n")
-			&& emit("value of variable xl 5 6 7 8 9 ") && emit(xl) && emit("\n")
-			&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
-			&& emit("value of variable z 5 6 7 8 9 ") && emit(z) && emit("\n")
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n")
-			&& emit("value of variable v 5 6 7 8 9 ") && emit(v) && emit("\n")
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
-			&& emit("value of variable k 5 6 7 8 9 ") && emit(k) && emit("\n")
-			&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n")
+			&& {emit("value of variable xby 5 6 7 8 9 ")} && {emit(xby)} && {emit("\n")}
+			&& {emit("value of variable xsh 5 6 7 8 9 ")} && {emit(xsh)} && {emit("\n")}
+			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
+			&& {emit("value of variable xl 5 6 7 8 9 ")} && {emit(xl)} && {emit("\n")}
+			&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
+			&& {emit("value of variable z 5 6 7 8 9 ")} && {emit(z)} && {emit("\n")}
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable l 5 6 7 8 9 ")} && {emit(l)} && {emit("\n")}
+			&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(v)} && {emit("\n")}
+			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+			&& {emit("value of variable k 5 6 7 8 9 ")} && {emit(k)} && {emit("\n")}
+			&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")}
 		);
 	}
 }
@@ -439,21 +439,22 @@ rule AssignConstToVarUntyped
 rule AssignAttributeToVar(x:A)
 {
 	modify {
-		exec(f:foo=x.f && by:byte=x.by && sh:short=x.sh && i:int=x.i && l:long=x.l && b:boolean=x.b && st:string=x.st
-			&& s:set<foo>=x.s && m:map<int,string>=x.m && a:array<foo>=x.a
-			&& fl:float=x.fl && d:double=x.d
-			&& emit("value of variable f 5 6 7 8 9 ") && emit(f) && emit("\n")
-			&& emit("value of variable by 5 6 7 8 9 ") && emit(by) && emit("\n")
-			&& emit("value of variable sh 5 6 7 8 9 ") && emit(sh) && emit("\n")
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n")
-			&& emit("value of variable b 5 6 7 8 9 ") && emit(b) && emit("\n")
-			&& emit("value of variable st 5 6 7 8 9 ") && emit(st) && emit("\n")
-			&& emit("value of variable s 5 6 7 8 9 ") && emit(s) && emit("\n")
-			&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n")
-			&& emit("value of variable a 5 6 7 8 9 ") && emit(a) && emit("\n")
-			&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n")
-			&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n")
+		exec(f:foo=foo::Bar && {f=x.f} && by:byte=0y && {by=x.by} && sh:short=0s && {sh=x.sh} && i:int=0 && {i=x.i}
+			&& l:long=0l && {l=x.l} && b:boolean=false && {b=x.b} && st:string=null && {st=x.st}
+			&& s:set<foo>=null && {s=x.s} && m:map<int,string>=null && {m=x.m} && a:array<foo>=null && {a=x.a}
+			&& fl:float=0.0f && {fl=x.fl} && d:double=0.0 && {d=x.d}
+			&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(f)} && {emit("\n")}
+			&& {emit("value of variable by 5 6 7 8 9 ")} && {emit(by)} && {emit("\n")}
+			&& {emit("value of variable sh 5 6 7 8 9 ")} && {emit(sh)} && {emit("\n")}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable l 5 6 7 8 9 ")} && {emit(l)} && {emit("\n")}
+			&& {emit("value of variable b 5 6 7 8 9 ")} && {emit(b)} && {emit("\n")}
+			&& {emit("value of variable st 5 6 7 8 9 ")} && {emit(st)} && {emit("\n")}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(s)} && {emit("\n")}
+			&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")}
+			&& {emit("value of variable a 5 6 7 8 9 ")} && {emit(a)} && {emit("\n")}
+			&& {emit("value of variable fl 5 6 7 8 9 ")} && {emit(fl)} && {emit("\n")}
+			&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(d)} && {emit("\n")}
 		);
 	}
 }
@@ -461,19 +462,20 @@ rule AssignAttributeToVar(x:A)
 rule AssignAttributeToVarUntyped(x:A)
 {
 	modify {
-		exec(y=x && f=y.f && by=y.by && sh=y.sh && i=y.i && l=y.l && b=y.b && st=y.st && s=y.s && m=y.m && a=y.a && fl=y.fl && d=y.d
-			&& emit("value of variable f 5 6 7 8 9 ") && emit(f) && emit("\n")
-			&& emit("value of variable by 5 6 7 8 9 ") && emit(by) && emit("\n")
-			&& emit("value of variable sh 5 6 7 8 9 ") && emit(sh) && emit("\n")
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n")
-			&& emit("value of variable b 5 6 7 8 9 ") && emit(b) && emit("\n")
-			&& emit("value of variable st 5 6 7 8 9 ") && emit(st) && emit("\n")
-			&& emit("value of variable s 5 6 7 8 9 ") && emit(s) && emit("\n")
-			&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n")
-			&& emit("value of variable a 5 6 7 8 9 ") && emit(a) && emit("\n")
-			&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n")
-			&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n")
+		exec(y=x && {f=y.f} && {by=y.by} && {sh=y.sh} && {i=y.i} && {l=y.l} && {b=y.b} 
+			&& {st=y.st} && {s=y.s} && {m=y.m} && {a=y.a} && {fl=y.fl} && {d=y.d}
+			&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(f)} && {emit("\n")}
+			&& {emit("value of variable by 5 6 7 8 9 ")} && {emit(by)} && {emit("\n")}
+			&& {emit("value of variable sh 5 6 7 8 9 ")} && {emit(sh)} && {emit("\n")}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable l 5 6 7 8 9 ")} && {emit(l)} && {emit("\n")}
+			&& {emit("value of variable b 5 6 7 8 9 ")} && {emit(b)} && {emit("\n")}
+			&& {emit("value of variable st 5 6 7 8 9 ")} && {emit(st)} && {emit("\n")}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(s)} && {emit("\n")}
+			&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")}
+			&& {emit("value of variable a 5 6 7 8 9 ")} && {emit(a)} && {emit("\n")}
+			&& {emit("value of variable fl 5 6 7 8 9 ")} && {emit(fl)} && {emit("\n")}
+			&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(d)} && {emit("\n")}
 		);
 	}
 }
@@ -481,13 +483,13 @@ rule AssignAttributeToVarUntyped(x:A)
 rule Visited(n:A,-e:H->)
 {
 	modify {
-		exec(i:int=valloc() && v:boolean=false && n.visited[i]=v && v=true && e.visited[i]=v
-			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n")
-			;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n")
-			;> vreset(i)
-			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n")
-			;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n")
-			;> vfree(i)
+		exec(i:int=0 && {i=valloc()} && v:boolean=false && {n.visited[i]=v} && v=true && {e.visited[i]=v}
+			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {vreset(i)}
+			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {vfree(i)}
 		);
 	}
 }
@@ -495,13 +497,13 @@ rule Visited(n:A,-e:H->)
 rule VisitedUntyped(n:A,-e:H->)
 {
 	modify {
-		exec(i=valloc() && v=false && n.visited[i]=v && v=true && e.visited[i]=v
-			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n")
-			;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n")
-			;> vreset(i)
-			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n")
-			;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n")
-			;> vfree(i)
+		exec({i=valloc()} && v=false && {n.visited[i]=v} && v=true && {e.visited[i]=v}
+			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {vreset(i)}
+			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {vfree(i)}
 		);
 	}
 }
@@ -509,13 +511,13 @@ rule VisitedUntyped(n:A,-e:H->)
 rule VisitedPartial2(n:A,-e:H->)
 {
 	modify {
-		exec(ifirst=valloc() && i=valloc() && v:boolean=false && n.visited[i]=v && v=true && e.visited[i]=v
-			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n")
-			;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n")
-			;> vreset(i)
-			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n")
-			;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n")
-			;> vfree(i) ;> vfree(ifirst)
+		exec({ifirst=valloc()} && {i=valloc()} && v:boolean=false && {n.visited[i]=v} && v=true && {e.visited[i]=v}
+			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {vreset(i)}
+			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {vfree(i)} ;> {vfree(ifirst)}
 		);
 	}
 }
@@ -523,13 +525,13 @@ rule VisitedPartial2(n:A,-e:H->)
 rule VisitedPartial1(n:A,-e:H->)
 {
 	modify {
-		exec(i:int=valloc() && v=false && n.visited[i]=v && v=true && e.visited[i]=v
-			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n")
-			;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n")
-			;> vreset(i)
-			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n")
-			;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n")
-			;> vfree(i)
+		exec(i:int=0 && {i=valloc()} && v=false && {n.visited[i]=v} && v=true && {e.visited[i]=v}
+			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {vreset(i)}
+			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {vfree(i)}
 		);
 	}
 }
@@ -537,8 +539,8 @@ rule VisitedPartial1(n:A,-e:H->)
 rule VarPredicate{
 	modify {
 		exec(x:boolean=true && y:boolean=false
-			&& x && emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n")
-			&& y && emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
+			&& x && {x} && {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
+			&& y && {y} && {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
 		);
 	}
 }
@@ -547,8 +549,8 @@ rule VarPredicateUntyped
 {
 	modify {
 		exec(x=true && y=false
-			&& x && emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n")
-			&& y && emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
+			&& x && {x} && {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
+			&& y && {y} && {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
 		);
 	}
 }
@@ -557,17 +559,17 @@ rule AssignVarToVar(n:A,m:AA)
 {
 	modify {
 		exec(x:A=n && y:AA=m
-			&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n")
-			&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
+			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
+			&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
 			&& x=y
-			&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n")
-			&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
+			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
+			&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
 			&& u:int=42 && v:int=1
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable v 5 6 7 8 9 ") && emit(v) && emit("\n")
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(v)} && {emit("\n")}
 			&& u=v
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable v 5 6 7 8 9 ") && emit(v) && emit("\n")
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(v)} && {emit("\n")}
 		);
 	}
 }
@@ -576,17 +578,17 @@ rule AssignVarToVarUntyped(n:A,m:AA)
 {
 	modify {
 		exec(x=n && y=m
-			&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n")
-			&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
+			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
+			&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
 			&& x=y
-			&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n")
-			&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
+			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
+			&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
 			&& u=42 && v=1
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable v 5 6 7 8 9 ") && emit(v) && emit("\n")
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(v)} && {emit("\n")}
 			&& u=v
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
-			&& emit("value of variable v 5 6 7 8 9 ") && emit(v) && emit("\n")
+			&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")}
+			&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(v)} && {emit("\n")}
 		);
 	}
 }
@@ -597,20 +599,21 @@ rule AssignVarToAttribute(x:A)
 		exec(f:foo=foo::Bla && by:byte=42y && sh:short=42s && i:int=42 && l:long=42l && b:boolean=true && st:string="Gnampf!"
 			&& s:set<foo>=set<foo>{} && m:map<int,string>=map<int,string>{} && a:array<foo>=array<foo>[]
 			&& fl:float=3.141f && d:double=3.141592654
-			&& s.add(f) && m.add(i,st) && a.add(f)
-			&& emit("value of variable f 5 6 7 8 9 ") && emit(f) && emit("\n")
-			&& emit("value of variable by 5 6 7 8 9 ") && emit(by) && emit("\n")
-			&& emit("value of variable sh 5 6 7 8 9 ") && emit(sh) && emit("\n")
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n")
-			&& emit("value of variable b 5 6 7 8 9 ") && emit(b) && emit("\n")
-			&& emit("value of variable st 5 6 7 8 9 ") && emit(st) && emit("\n")
-			&& emit("value of variable s 5 6 7 8 9 ") && emit(s) && emit("\n")
-			&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n")
-			&& emit("value of variable a 5 6 7 8 9 ") && emit(a) && emit("\n")
-			&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n")
-			&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n")
-			&& x.f=f && x.by=by && x.sh=sh && x.i=i && x.l=l && x.b=b && x.st=st && x.s=s && x.m=m && x.a=a && x.fl=fl && x.d=d
+			&& {s.add(f)} && {m.add(i,st)} && {a.add(f)}
+			&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(f)} && {emit("\n")}
+			&& {emit("value of variable by 5 6 7 8 9 ")} && {emit(by)} && {emit("\n")}
+			&& {emit("value of variable sh 5 6 7 8 9 ")} && {emit(sh)} && {emit("\n")}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable l 5 6 7 8 9 ")} && {emit(l)} && {emit("\n")}
+			&& {emit("value of variable b 5 6 7 8 9 ")} && {emit(b)} && {emit("\n")}
+			&& {emit("value of variable st 5 6 7 8 9 ")} && {emit(st)} && {emit("\n")}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(s)} && {emit("\n")}
+			&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")}
+			&& {emit("value of variable a 5 6 7 8 9 ")} && {emit(a)} && {emit("\n")}
+			&& {emit("value of variable fl 5 6 7 8 9 ")} && {emit(fl)} && {emit("\n")}
+			&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(d)} && {emit("\n")}
+			&& {x.f=f} && {x.by=by} && {x.sh=sh} && {x.i=i} && {x.l=l} && {x.b=b}
+			&& {x.st=st} && {x.s=s} && {x.m=m} && {x.a=a} && {x.fl=fl} && {x.d=d}
 		);
 	}
 }
@@ -621,20 +624,21 @@ rule AssignVarToAttributeUntyped(x:A)
 		exec(y=x && f=foo::Bla && by=42y && sh=42s && i=42 && l=42l && b=true && st="Gnampf!"
 			&& s=set<foo>{} && m=map<int,string>{} && a=array<foo>[]
 			&& fl=3.141f && d=3.141592654
-			&& s.add(f) && m.add(i,st) && a.add(f)
-			&& emit("value of variable f 5 6 7 8 9 ") && emit(f) && emit("\n")
-			&& emit("value of variable by 5 6 7 8 9 ") && emit(by) && emit("\n")
-			&& emit("value of variable sh 5 6 7 8 9 ") && emit(sh) && emit("\n")
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n")
-			&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n")
-			&& emit("value of variable b 5 6 7 8 9 ") && emit(b) && emit("\n")
-			&& emit("value of variable st 5 6 7 8 9 ") && emit(st) && emit("\n")
-			&& emit("value of variable s 5 6 7 8 9 ") && emit(s) && emit("\n")
-			&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n")
-			&& emit("value of variable a 5 6 7 8 9 ") && emit(a) && emit("\n")
-			&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n")
-			&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n")
-			&& y.f=f && y.by=by && y.sh=sh && y.i=i && y.l=l && y.b=b && y.st=st && y.s=s && y.m=m && y.a=a && y.fl=fl && y.d=d
+			&& {s.add(f)} && {m.add(i,st)} && {a.add(f)}
+			&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(f)} && {emit("\n")}
+			&& {emit("value of variable by 5 6 7 8 9 ")} && {emit(by)} && {emit("\n")}
+			&& {emit("value of variable sh 5 6 7 8 9 ")} && {emit(sh)} && {emit("\n")}
+			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
+			&& {emit("value of variable l 5 6 7 8 9 ")} && {emit(l)} && {emit("\n")}
+			&& {emit("value of variable b 5 6 7 8 9 ")} && {emit(b)} && {emit("\n")}
+			&& {emit("value of variable st 5 6 7 8 9 ")} && {emit(st)} && {emit("\n")}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(s)} && {emit("\n")}
+			&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")}
+			&& {emit("value of variable a 5 6 7 8 9 ")} && {emit(a)} && {emit("\n")}
+			&& {emit("value of variable fl 5 6 7 8 9 ")} && {emit(fl)} && {emit("\n")}
+			&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(d)} && {emit("\n")}
+			&& {y.f=f} && {y.by=by} && {y.sh=sh} && {y.i=i} && {y.l=l} && {y.b=b} 
+			&& {y.st=st} && {y.s=s} && {y.m=m} && {y.a=a} && {y.fl=fl} && {y.d=d}
 		);
 	}
 }

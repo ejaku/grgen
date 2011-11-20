@@ -10,14 +10,14 @@ show num nodes
 show num edges
 show num nodes only "N"
 
-xgrs m.add(n2,n2)
-xgrs m.add(n1,n1)
+xgrs {m.add(n2,n2)}
+xgrs {m.add(n1,n1)}
 xgrs r1(m)
 show num nodes
 show num edges
 show num nodes only "N"
 
-xgrs m.add(n2,n1)
+xgrs {m.add(n2,n1)}
 xgrs r1(m)
 show num nodes
 show num edges

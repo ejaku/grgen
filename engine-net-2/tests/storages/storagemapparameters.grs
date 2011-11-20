@@ -9,37 +9,37 @@ new n3 -e3:EEE-> n3
 
 xgrs st = map<Node,Edge>{}
 
-xgrs [addNodeEdge(st)] <; s=st.size()
+xgrs [addNodeEdge(st)] <; {s=st.size()}
 show var s
 
-xgrs [remNodeEdge(st)] <; s=st.size()
+xgrs [remNodeEdge(st)] <; {s=st.size()}
 show var s
 
-xgrs st.rem(n2) <; s=st.size()
+xgrs {st.rem(n2)} <; {s=st.size()}
 show var s
 
-xgrs addNodeEdgeIfOtherNodeNotContained(st, n1) <; s=st.size()
+xgrs addNodeEdgeIfOtherNodeNotContained(st, n1) <; {s=st.size()}
 show var s
 
-xgrs addNodeEdgeIfOtherNodeNotContained(st, n1) <; s=st.size()
+xgrs addNodeEdgeIfOtherNodeNotContained(st, n1) <; {s=st.size()}
 show var s
 
-xgrs st.add(n2) <; s=st.size()
+xgrs {st.add(n2)} <; {s=st.size()}
 show var s
 
-xgrs remNodeEdgeGiven(st, n3) <; s=st.size()
+xgrs remNodeEdgeGiven(st, n3) <; {s=st.size()}
 show var s
 
-xgrs remNodeEdgeGiven(st, n3) <; s=st.size()
+xgrs remNodeEdgeGiven(st, n3) <; {s=st.size()}
 show var s
 
-xgrs addNodeEdgeIfOtherNodeEdgeNotContained(st, n1, e1) <; s=st.size()
+xgrs addNodeEdgeIfOtherNodeEdgeNotContained(st, n1, e1) <; {s=st.size()}
 show var s
 
-xgrs addNodeEdgeIfOtherNodeEdgeNotContained(st, n1, e1) <; s=st.size()
+xgrs addNodeEdgeIfOtherNodeEdgeNotContained(st, n1, e1) <; {s=st.size()}
 show var s
 
-xgrs addNodeEdgeIfOtherNodeEdgeNotContained(st, n1, e2) <; s=st.size()
+xgrs addNodeEdgeIfOtherNodeEdgeNotContained(st, n1, e2) <; {s=st.size()}
 show var s
 
 quit

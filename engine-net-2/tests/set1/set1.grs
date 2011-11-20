@@ -61,7 +61,7 @@ n.m
 xgrs useSetVar(v)
 
 xgrs m=set<string>{}
-xgrs tmp="Hallo" ;> m.add(tmp)
+xgrs tmp="Hallo" ;> {m.add(tmp)}
 xgrs useSetVar(m)
 
 quit

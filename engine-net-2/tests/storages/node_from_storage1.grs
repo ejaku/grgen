@@ -12,7 +12,7 @@ show num nodes
 show num edges
 show num nodes only "N"
 
-xgrs s.add(n2)
+xgrs {s.add(n2)}
 xgrs r1(s)
 show num nodes
 show num edges
@@ -21,8 +21,8 @@ show num nodes only "N"
 new n3:Node
 new n2 -e2:Edge-> n3
 
-xgrs s.rem(n2)
-xgrs s.add(n3)
+xgrs {s.rem(n2)}
+xgrs {s.add(n3)}
 xgrs r1(s)
 show num nodes
 show num edges
@@ -38,8 +38,8 @@ show num edges
 show num nodes only "N"
 show num nodes only "NN"
 
-xgrs s.add(n3b)
-xgrs s.add(n2)
+xgrs {s.add(n3b)}
+xgrs {s.add(n2)}
 xgrs [r2(s)]
 show num nodes
 show num edges

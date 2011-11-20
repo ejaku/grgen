@@ -25,7 +25,7 @@ show num edges only "UEdge"
 show num edges only "G"
 
 xgrs m=map<UEdge,Edge>{}
-xgrs m.add(e1a,e2a) & m.add(e1b,e2b) & m.add(e1c,e2c) 
+xgrs {m.add(e1a,e2a)} & {m.add(e1b,e2b)} & {m.add(e1c,e2c)}
 xgrs [r8(m)]
 show num nodes
 show num edges

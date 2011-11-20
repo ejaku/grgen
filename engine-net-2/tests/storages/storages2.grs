@@ -1,13 +1,13 @@
 new graph storages/storages
 
 xgrs st1=set<Node>{}
-xgrs ( (n)=addNode ;> st1.add(n) )[5]
-xgrs sz=st1.size()
+xgrs ( (n)=addNode ;> {st1.add(n)} )[5]
+xgrs {sz=st1.size()}
 show var sz
 
 xgrs st2=set<Edge>{}
-xgrs for{n in st1; (e)=addReflexiveEdge(n) ;> st2.add(e)}
-xgrs sz=st2.size()
+xgrs for{n in st1; (e)=addReflexiveEdge(n) ;> {st2.add(e)}}
+xgrs {sz=st2.size()}
 show var sz
 show num nodes
 show num edges
@@ -16,48 +16,48 @@ xgrs for{e in st2; isReflexiveEdge(e)}
 xgrs for{n in st1; exactlyOneReflexiveEdge(n)}
 
 xgrs for{e in st2; remEdge(e)}
-xgrs sz=st2.size()
+xgrs {sz=st2.size()}
 show var sz
 show num nodes
 show num edges
 
 xgrs st3=set<Edge>{}
-xgrs for{e in st2; st3.add(e)}
-xgrs sz=st3.size()
+xgrs for{e in st2; {st3.add(e)}}
+xgrs {sz=st3.size()}
 show var sz
 
-xgrs sz=st3.size()
+xgrs {sz=st3.size()}
 show var sz
-xgrs if{e in st3; false; st3.add(e) && addNode}
+xgrs if{{e in st3}; false; {st3.add(e)} && addNode}
 show num nodes
-xgrs sz=st3.size()
+xgrs {sz=st3.size()}
 show var sz
 
-xgrs for{e in st3; st2.rem(e)}
-xgrs sz=st2.size()
+xgrs for{e in st3; {st2.rem(e)}}
+xgrs {sz=st2.size()}
 show var sz
 show num nodes
 show num edges
-xgrs sz=st3.size()
+xgrs {sz=st3.size()}
 show var sz
 
-xgrs sz=st2.size()
+xgrs {sz=st2.size()}
 show var sz
-xgrs if{e in st2; st2.rem(e) && addNode; false}
+xgrs if{{e in st2}; {st2.rem(e)} && addNode; false}
 show num nodes
-xgrs sz=st2.size()
+xgrs {sz=st2.size()}
 show var sz
-xgrs for{n in st3; st2.rem(n) && false} && addNode
+xgrs for{n in st3; {st2.rem(n)} && false} && addNode
 show num nodes
-xgrs sz=st2.size()
+xgrs {sz=st2.size()}
 show var sz
 
-xgrs sz=st3.size() ;> emit("value of variable 4 5 6 7 8 9 ") ;> emit(sz) ;> emit("\n")
-xgrs s=st3.size()
+xgrs {sz=st3.size()} ;> {emit("value of variable 4 5 6 7 8 9 ")} ;> {emit(sz)} ;> {emit("\n")}
+xgrs {s=st3.size()}
 show var s
-xgrs st3.clear()
-xgrs sz=st3.size() ;> emit("value of variable 4 5 6 7 8 9 ") ;> emit(sz) ;> emit("\n")
-xgrs s=st3.size()
+xgrs {st3.clear()}
+xgrs {sz=st3.size()} ;> {emit("value of variable 4 5 6 7 8 9 ")} ;> {emit(sz)} ;> {emit("\n")}
+xgrs {s=st3.size()}
 show var s
 
 quit

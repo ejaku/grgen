@@ -1,7 +1,7 @@
 new graph "exectype/exectype"
 xgrs x=true && y=false \
-		&& x && emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n") \
-		&& y && emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n")
+		&& x && {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")} \
+		&& y && {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
 show var x
 show var y
 quit

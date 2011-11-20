@@ -15,7 +15,7 @@ show num nodes only "N"
 show num nodes only "NN"
 
 xgrs s=set<N>{}
-xgrs s.add(n1a) & s.add(n1b) & s.add(n1c) 
+xgrs {s.add(n1a)} & {s.add(n1b)} & {s.add(n1c)}
 xgrs [r3(s)]
 show num nodes
 show num edges

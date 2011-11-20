@@ -19,7 +19,7 @@ xgrs inequality(n1, n1)
 xgrs equality(n2, n2)
 xgrs inequality(n2, n2)
 
-xgrs s = n1.a ;> idx = 2 ;> s.rem(idx) <; n1.a = s
+xgrs {s = n1.a} ;> idx = 2 ;> {s.rem(idx)} <; {n1.a = s}
 n1.a
 n2.a
 

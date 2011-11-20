@@ -15,7 +15,7 @@ show num nodes only "N"
 show num edges only "EE"
 show num edges only "G"
 
-xgrs m.add(e2,e3)
+xgrs {m.add(e2,e3)}
 xgrs r10(m)
 show num nodes
 show num edges
@@ -23,7 +23,7 @@ show num nodes only "N"
 show num edges only "EE"
 show num edges only "G"
 
-xgrs m.add(e2,e1)
+xgrs {m.add(e2,e1)}
 xgrs r10(m)
 show num nodes
 show num edges

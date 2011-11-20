@@ -3,27 +3,27 @@ new graph "exectype/exectype"
 new n:AA
 
 xgrs x=array<A>[] && y=array<int>[] && v:int=42 && vd:int=0 \
-			&& x.add(n) && y.add(v,vd) \
-			&& i:int=x.size() && j:int=y.size() \
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n") \
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n") \
-			&& u:boolean=x.empty() && w:boolean=y.empty() \
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n") \
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n") \
-			&& co1=(v in y) && co2=(vd in y) \
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n") \
-			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n") \
-			&& vr1:A=x[vd] && vr2:int=y[vd] \
-			&& emit("value of variable vr1 5 6 7 8 9 ") && emit(vr1) && emit("\n") \
-			&& emit("value of variable vr2 5 6 7 8 9 ") && emit(vr2) && emit("\n") \
-			&& x.clear() && y.rem() \
-			&& i=x.size() && j=y.size() \
-			&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n") \
-			&& emit("value of variable j 5 6 7 8 9 ") && emit(j) && emit("\n") \
-			&& u=x.empty() && w=y.empty() \
-			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n") \
-			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n") \
-			&& y.add(v,vd) && y.rem(vd)
+		&& {x.add(n)} && {y.add(v,vd)} \
+		&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()} \
+		&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")} \
+		&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")} \
+		&& u:boolean=false && {u=x.empty()} && w:boolean=false && {w=y.empty()} \
+		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")} \
+		&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")} \
+		&& {co1=(v in y)} && {co2=(vd in y)} \
+		&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")} \
+		&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")} \
+		&& vr1:A=null && {vr1=x[vd]} && vr2:int=0 && {vr2=y[vd]} \
+		&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")} \
+		&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")} \
+		&& {x.clear()} && {y.rem()} \
+		&& {i=x.size()} && {j=y.size()} \
+		&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")} \
+		&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")} \
+		&& {u=x.empty()} && {w=y.empty()} \
+		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")} \
+		&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")} \
+		&& {y.add(v,vd)} && {y.rem(vd)}
 show var n
 show var x
 show var y

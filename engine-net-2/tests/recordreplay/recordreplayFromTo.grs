@@ -4,20 +4,20 @@ new graph "recordreplay/recordreplay"
 record recordreplay/testgraph.grs start
 
 # do graph changes
-xgrs record("\# label1\n")
+xgrs {record("\# label1\n")}
 new :NA($=n1)
 new :NB($=n2)
-xgrs record("\# label2\n")
+xgrs {record("\# label2\n")}
 new @("n1")-:EA($=e1)->@("n2")
-xgrs record("\# label3\n")
+xgrs {record("\# label3\n")}
 new :NA($=n3)
 new :NB($=n4)
-xgrs record("\# label4\n")
+xgrs {record("\# label4\n")}
 new @("n2")-:EA($=e2)->@("n1")
-xgrs record("\# label5\n")
+xgrs {record("\# label5\n")}
 new @("n1")-:EB($=e3)->@("n1")
 new @("n4")-:EB($=e4)->@("n4")
-xgrs record("\# label6\n")
+xgrs {record("\# label6\n")}
 
 # stop recording
 record recordreplay/testgraph.grs stop

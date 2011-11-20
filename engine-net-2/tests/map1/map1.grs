@@ -12,7 +12,7 @@ n.m.rem("Hallo")
 xgrs getMapValue("Hallo") & getMapValue("Handtuch") & useMapVar(v)
 
 xgrs m=map<string,int>{}
-xgrs tmp1="Hallo" ;> tmp2=80 ;> m.add(tmp1, tmp2)
+xgrs tmp1="Hallo" ;> tmp2=80 ;> {m.add(tmp1, tmp2)}
 xgrs useMapVar(m)
 
 exit

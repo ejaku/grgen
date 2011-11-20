@@ -19,7 +19,7 @@ xgrs inequality(n1, n1)
 xgrs equality(n2, n2)
 xgrs inequality(n2, n2)
 
-xgrs s = n1.a ;> el = "bla" ;> s.rem(el) <; n1.a = s
+xgrs {s = n1.a} ;> {el = "bla"} ;> {s.rem(el)} <; {n1.a = s}
 n1.a
 n2.a
 
@@ -47,7 +47,7 @@ xgrs greaterorequalC(n1, n2)
 xgrs lessthanC(n1, n2)
 xgrs lessorequalC(n1, n2)
 
-xgrs s = n1.a ;> key = "foo" ;> val = 42 ;> s.add(key,val) <; n1.a = s
+xgrs {s = n1.a} ;> {key = "foo"} ;> {val = 42} ;> {s.add(key,val)} <; {n1.a = s}
 n1.a
 n2.a
 

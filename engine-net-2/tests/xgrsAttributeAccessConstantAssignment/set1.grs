@@ -4,58 +4,58 @@ new graph xgrsAttributeAccessConstantAssignment/set1
 
 new na:A
 na.a
-xgrs s=na.a
-xgrs str="blub"
+xgrs {s=na.a}
+xgrs {str="blub"}
 show var str
-xgrs s.add(str)
+xgrs {s.add(str)}
 na.a
-xgrs na.a = s 
+xgrs {na.a = s}
 na.a
-xgrs val = na.val
+xgrs {val = na.val}
 na.val
 show var val
-xgrs s=na.a
-xgrs s.add(val)
-xgrs na.a = s 
+xgrs {s=na.a}
+xgrs {s.add(val)}
+xgrs {na.a = s}
 na.a
 
-xgrs sz=s.size()
+xgrs {sz=s.size()}
 show var sz
 
-xgrs s = na.a
-xgrs str = "blub"
-xgrs s.rem(str)
+xgrs {s = na.a}
+xgrs {str = "blub"}
+xgrs {s.rem(str)}
 na.a
-xgrs na.a = s 
+xgrs {na.a = s}
 na.a
-xgrs s = na.a
-xgrs val = na.val
-xgrs s.rem(val)
-xgrs na.a = s 
+xgrs {s = na.a}
+xgrs {val = na.val}
+xgrs {s.rem(val)}
+xgrs {na.a = s}
 na.a
 
-xgrs sz=s.size()
+xgrs {sz=s.size()}
 show var sz
 
 echo "further test for reference vs value semantics - value is what it should be"
 
 new na2:A
-xgrs setmap=na.a
-xgrs na2.a=setmap
+xgrs {setmap=na.a}
+xgrs {na2.a=setmap}
 na.a
 na2.a
-xgrs val="foo"
-xgrs setmap.rem(val)
+xgrs {val="foo"}
+xgrs {setmap.rem(val)}
 na.a
 na2.a
-xgrs na2.a=setmap
+xgrs {na2.a=setmap}
 na.a
 na2.a
-xgrs val="bar"
-xgrs setmap.rem(val)
+xgrs {val="bar"}
+xgrs {setmap.rem(val)}
 na.a
 na2.a
-xgrs na.a=setmap
+xgrs {na.a=setmap}
 na.a
 na2.a
 
