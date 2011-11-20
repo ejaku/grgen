@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:A=@(lalala)); // NamedGraph only available in GrShell, not at this level
+		exec({x:A=@(lalala)}); // NamedGraph only available in GrShell, not at this level
 	}
 }

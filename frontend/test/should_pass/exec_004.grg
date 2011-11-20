@@ -108,17 +108,17 @@ rule r(p : B) : (B) {
     exec(<r(p) & (r(p) & r(p))>);
     exec(<r(p) & <r(p) & r(p)> >);
 
-    exec((h:B)=r(p) |  (h)=r(p) |  def(h));
-    exec((h:B)=r(p) &  (h)=r(p) &  def(h));
-    exec((h:B)=r(p) || (h)=r(p) || def(h));
-    exec((h:B)=r(p) && (h)=r(p) && def(h));
-    exec((h:B)=r(p) ^  (h)=r(p) ^  def(h));
+    exec((h:B)=r(p) |  (h)=r(p) |  {def(h)});
+    exec((h:B)=r(p) &  (h)=r(p) &  {def(h)});
+    exec((h:B)=r(p) || (h)=r(p) || {def(h)});
+    exec((h:B)=r(p) && (h)=r(p) && {def(h)});
+    exec((h:B)=r(p) ^  (h)=r(p) ^  {def(h)});
 
-    exec((h:B)=r(p) |  (k:B)=r(p) |  def(h,k));
-    exec((h:B)=r(p) &  (k:B)=r(p) &  def(h,k));
-    exec((h:B)=r(p) || (k:B)=r(p) || def(h,k));
-    exec((h:B)=r(p) && (k:B)=r(p) && def(h,k));
-    exec((h:B)=r(p) ^  (k:B)=r(p) ^  def(h,k));
+    exec((h:B)=r(p) |  (k:B)=r(p) |  {def(h,k)});
+    exec((h:B)=r(p) &  (k:B)=r(p) &  {def(h,k)});
+    exec((h:B)=r(p) || (k:B)=r(p) || {def(h,k)});
+    exec((h:B)=r(p) && (k:B)=r(p) && {def(h,k)});
+    exec((h:B)=r(p) ^  (k:B)=r(p) ^  {def(h,k)});
 
     exec((h:B)=r(p) |  (k:B)=r(p) |  h=k);
     exec((h:B)=r(p) &  (k:B)=r(p) &  k=h);

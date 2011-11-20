@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:int=42 ;> b:boolean=x.empty());
+		exec(x:int=42 ;> {b:boolean=x.empty()});
 	}
 }

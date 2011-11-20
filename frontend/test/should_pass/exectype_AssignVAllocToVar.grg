@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(i:int=valloc());
+		exec({i:int=valloc()});
 	}
 }

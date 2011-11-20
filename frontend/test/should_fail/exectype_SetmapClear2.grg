@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:HH=vari && x.clear());
+		exec(x:HH=vari && {x.clear()});
 	}
 }

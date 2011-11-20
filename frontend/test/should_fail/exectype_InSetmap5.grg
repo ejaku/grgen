@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(u:map<HH,string> =map<HH,string> && v:H=varia && v in u);
+		exec(u:map<HH,string> =map<HH,string> && v:H=varia && {v in u});
 	}
 }

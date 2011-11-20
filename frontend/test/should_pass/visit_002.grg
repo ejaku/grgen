@@ -102,34 +102,34 @@ rule fromGrs()
 	n3:Node;
 	
 	modify {
-		exec(visId1:int=valloc()
-			;> visId2:int=valloc()
-			;> n1.visited[visId1]=true
-			;> n2.visited[visId2]=true
-			;> n1.visited[visId1] && empty
-			;> n1.visited[visId2] && empty
-			;> n2.visited[visId1] && empty
-			;> n2.visited[visId2] && empty
-			;> n3.visited[visId1] && empty
-			;> n3.visited[visId2] && empty
+		exec(visId1:int=0 ;> {visId1=valloc()}
+			;> visId2:int=0 ;> {visId2=valloc()}
+			;> {n1.visited[visId1]=true}
+			;> {n2.visited[visId2]=true}
+			;> {n1.visited[visId1]} && empty
+			;> {n1.visited[visId2]} && empty
+			;> {n2.visited[visId1]} && empty
+			;> {n2.visited[visId2]} && empty
+			;> {n3.visited[visId1]} && empty
+			;> {n3.visited[visId2]} && empty
 			;> [isVisited(visId1)]
 			;> [isVisited(visId2)]
-			;> vreset(visId2)
+			;> {vreset(visId2)}
 			;> [isVisited(visId1)]
 			;> [isVisited(visId2)]
-			;> n1.visited[visId1]=false
+			;> {n1.visited[visId1]=false}
 			;> [isVisited(visId1)]
 			;> [isVisited(visId2)]
 			;> [setVisited(visId1)]
 			;> [isVisited(visId1)]
-			;> n3.visited[visId1] && empty
+			;> {n3.visited[visId1]} && empty
 			;> [isVisited(visId2)]
-			;> vreset(visId1)
+			;> {vreset(visId1)}
 			;> [isVisited(visId1)]
-			;> emit("id1 is ") && emit(visId1) && emit("\\n")
-			;> emit("id2 is ") && emit(visId2) && emit("\\n")
-			;> vfree(visId2)
-			;> vfree(visId1));
+			;> {emit("id1 is ")} && {emit(visId1)} && {emit("\\n")}
+			;> {emit("id2 is ")} && {emit(visId2)} && {emit("\\n")}
+			;> {vfree(visId2)}
+			;> {vfree(visId1)});
 	}
 }
 

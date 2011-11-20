@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:boolean=true && y:int=3 && x.rem(y));
+		exec(x:boolean=true && y:int=3 && {x.rem(y)});
 	}
 }

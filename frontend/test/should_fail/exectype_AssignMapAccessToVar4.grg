@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(m:map<int,HH> =map<int,HH> ;> a:string=varia && h:H=m[a]); // a must be int, not string
+		exec(m:map<int,HH> =map<int,HH> ;> a:string=varia && {h:H=m[a]}); // a must be int, not string
 	}
 }

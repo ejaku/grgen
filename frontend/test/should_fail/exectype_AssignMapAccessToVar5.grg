@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(m:map<A,H> =map<A,H> ;> aa:AA=varia && h:HH=m[aa]); // map yields only H, not HH
+		exec(m:map<A,H> =map<A,H> ;> aa:AA=varia && {h:HH=m[aa]}); // map yields only H, not HH
 	}
 }

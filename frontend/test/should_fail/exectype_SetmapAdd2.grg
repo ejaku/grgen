@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:int=42 && y:int=3 && z:string="bla" && x.add(y,z));
+		exec(x:int=42 && y:int=3 && z:string="bla" && {x.add(y,z)});
 	}
 }

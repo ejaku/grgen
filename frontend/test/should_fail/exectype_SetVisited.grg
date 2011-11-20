@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:foo=foo::Bla && i:int=0 && y:boolean=true && x.visited[i]=y);
+		exec(x:foo=foo::Bla && i:int=0 && y:boolean=true && {x.visited[i]=y});
 	}
 }

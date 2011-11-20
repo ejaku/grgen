@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x.m=m);
+		exec({x.m=m});
 	}
 }

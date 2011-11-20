@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(i:int=0 && vfree(i));
+		exec(i:int=0 && {vfree(i)});
 	}
 }

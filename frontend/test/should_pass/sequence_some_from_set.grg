@@ -30,7 +30,7 @@ rule some_of
 	n:Node;
 
 	modify {
-		exec( {(m)=r1, [r2], r3(n), (l,m)=$[r4(n,m)]} );
+		exec( {((m)=r1, [r2], r3(n), (l,m)=$[r4(n,m)])} );
 	}
 }
 
@@ -39,6 +39,6 @@ rule one_of
 	n:Node;
 
 	modify {
-		exec( ${(m)=r1, [r2], r3(n), (l,m)=$[r4(n,m)]} );
+		exec( ${((m)=r1, [r2], r3(n), (l,m)=$[r4(n,m)])} );
 	}
 }

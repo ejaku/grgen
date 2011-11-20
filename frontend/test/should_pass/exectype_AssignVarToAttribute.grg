@@ -3,7 +3,7 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:A=varia ;> f:foo=vario && x.f=f && i:int=3 && x.i=i && st:string="la" && x.st=st
-			&& m:map<int,string>=map<int,string>{} && x.m=m);
+		exec(x:A=varia ;> f:foo=vario && {x.f=f} && i:int=3 && {x.i=i} && st:string="la" && {x.st=st}
+			&& m:map<int,string>=map<int,string>{} && {x.m=m});
 	}
 }

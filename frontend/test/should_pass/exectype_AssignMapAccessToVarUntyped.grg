@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(n:map<int,int>=map<int,int>{} && i=n[k]);
+		exec(n:map<int,int>=map<int,int>{} && {i=n[k]});
 	}
 }

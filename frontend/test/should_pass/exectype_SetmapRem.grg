@@ -3,8 +3,8 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:set<int>=set<int>{} && y:int=3 && x.rem(y)
-			|| u:map<A,H>=map<A,H>{} && v:AA=varia && u.rem(v)
-			|| w:A=vario && u.rem(w));
+		exec(x:set<int>=set<int>{} && y:int=3 && {x.rem(y)}
+			|| u:map<A,H>=map<A,H>{} && v:AA=varia && {u.rem(v)}
+			|| w:A=vario && {u.rem(w)});
 	}
 }

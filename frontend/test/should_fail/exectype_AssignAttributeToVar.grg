@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:int=varia ;> f:foo=x.f); // only node/edge type allows attribute access
+		exec(x:int=varia ;> {f:foo=x.f}); // only node/edge type allows attribute access
 	}
 }

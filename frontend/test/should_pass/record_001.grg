@@ -2,6 +2,6 @@ rule r {
 	x:Node;
 
 	modify {
-		exec(record("# label1 ") ;> record(x) ;> record("\n"));
+		exec({record("# label1 ")} ;> {record(x)} ;> {record("\n")});
 	}
 }

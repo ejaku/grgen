@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:set<foo>=set<foo>{} && y:map<AA,HH>=map<AA,HH>{} ;> i:int=x.size() || i=y.size());
+		exec(x:set<foo>=set<foo>{} && y:map<AA,HH>=map<AA,HH>{} ;> {i:int=x.size()} || {i=y.size()});
 	}
 }
