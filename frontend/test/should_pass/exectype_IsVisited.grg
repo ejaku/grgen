@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:A=varia && i:int=0 && {x.visited[i]});
+		exec(x:A=::varia && i:int=0 && {x.visited[i]});
 	}
 }

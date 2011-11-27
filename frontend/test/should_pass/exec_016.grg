@@ -22,7 +22,7 @@ rule r(p : Node) : (Node)
 
 		exec(
 			st1:set<Node> = set<Node>{} ;> ( (n:Node)=addNode ;> {st1.add(n)} )[5] ;> st2:set<Edge> = set<Edge>{}
-			;> for{n in st1; (e:Edge)=addReflexiveEdge(n) ;> {st2.add(e)}} ;> for{e in st2; isReflexiveEdge(e)}
+			;> e:Edge=null ;> for{n in st1; (e)=addReflexiveEdge(n) ;> {st2.add(e)}} ;> for{e in st2; isReflexiveEdge(e)}
 			;> for{n in st1; exactlyOneReflexiveEdge(n)} ;> for{e in st2; remEdge(e)} ;> st3:set<Edge> = set<Edge>{}
 			;> for{e in st2; {st3.add(e)}} ;> {st3.add(e)} ;> for{e in st3; {st2.rem(e)}}
 			;> {st2.rem(e)} ;> for{e in st3; {st2.rem(e)}}
@@ -38,7 +38,7 @@ rule r(p : Node) : (Node)
 
 		exec(
 			st1:set<Node> = set<Node>{} ;> ( (n:Node)=addNode ;> {st1.add(n)} )[5] ;> st2:set<EE> = set<EE>{}
-			;> for{n in st1; (e:EE)=addReflexiveEdgeEE(n) ;> {st2.add(e)}} ;> for{e in st2; isReflexiveEdge(e)}
+			;> e:EE=null ;> for{n in st1; (e)=addReflexiveEdgeEE(n) ;> {st2.add(e)}} ;> for{e in st2; isReflexiveEdge(e)}
 			;> for{n in st1; exactlyOneReflexiveEdge(n)} ;> for{e in st2; remEdge(e)} ;> st3:set<EE> = set<EE>{}
 			;> for{e in st2; {st3.add(e)}} ;> {st3.add(e)} ;> for{e in st3; {st2.rem(e)}}
 			;> {st2.rem(e)} ;> for{e in st3; {st3.rem(e)}}

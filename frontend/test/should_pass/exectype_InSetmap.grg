@@ -4,6 +4,6 @@ rule r
 {
 	modify  {
 		exec(x:set<int>=set<int>{} && y:int=3 && {y in x}
-			|| u:map<H,AA>=map<H,AA>{} && v:HH=varia && {v in u});
+			|| u:map<H,AA>=map<H,AA>{} && v:HH=::varia && {v in u});
 	}
 }

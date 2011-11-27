@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(u:int=boo && v:string=hoo && u=v);
+		exec(u:int=::boo && v:string=::hoo && u=v);
 	}
 }

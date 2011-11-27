@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec({vreset(i)});
+		exec({vreset(::i)});
 	}
 }

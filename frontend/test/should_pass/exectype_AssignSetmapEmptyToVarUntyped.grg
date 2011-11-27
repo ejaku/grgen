@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec({b=y.empty()});
+		exec({::b=::y.empty()});
 	}
 }

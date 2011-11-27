@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:A=varia ;> f:foo=foo::Bar ;> {x.fool=f}); // attribute does not exist
+		exec(x:A=::varia ;> f:foo=foo::Bar ;> {x.fool=f}); // attribute does not exist
 	}
 }

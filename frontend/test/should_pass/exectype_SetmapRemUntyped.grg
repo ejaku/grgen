@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec({x.rem(y)} || {u.rem(v)});
+		exec({::x.rem(::y)} || {::u.rem(::v)});
 	}
 }

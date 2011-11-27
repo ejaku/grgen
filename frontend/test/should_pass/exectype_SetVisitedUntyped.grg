@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec({x.visited[i]=y});
+		exec({::x.visited[::i]=::y});
 	}
 }

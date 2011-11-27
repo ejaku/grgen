@@ -1,6 +1,6 @@
 rule r
 {
 	modify {
-		exec(one=1 ;> two=2 ;> three=3 ;> $[r] ;> $three[r] ;> $two,three[r] ;> $one,*[r]);
+		exec(one:int=1 ;> two:int=2 ;> three:int=3 ;> $[r] ;> $three[r] ;> $two,three[r] ;> $one,*[r]);
 	}
 }

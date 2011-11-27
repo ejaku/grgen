@@ -49,6 +49,6 @@ test testReflexive
 rule topLevel(start:A)
 {
 	modify {
-		exec((last)=chain(start) && testInit && testInitPlusReverse && addReflexive(last) && testReflexive);
+		exec((::last)=chain(start) && testInit && testInitPlusReverse && addReflexive(::last) && testReflexive);
 	}
 }

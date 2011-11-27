@@ -4,7 +4,7 @@ rule r
 {
 	modify  {
 		exec(x:set<int>=set<int>{} && y:int=3 && {x.add(y)}
-			|| u:map<A,H>=map<A,H>{} && v:AA=varia && w:HH=vario && {u.add(v,w)}
-			|| vb:A=variab && wb:H=variob && {u.add(vb,wb)});
+			|| u:map<A,H>=map<A,H>{} && v:AA=::varia && w:HH=::vario && {u.add(v,w)}
+			|| vb:A=::variab && wb:H=::variob && {u.add(vb,wb)});
 	}
 }
