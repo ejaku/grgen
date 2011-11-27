@@ -1543,13 +1543,12 @@ simpleSequence[ExecNode xg]
 	// will not be detected in the frontend; xgrs in the frontend are to a certain degree syntax only
 	: lhs=xgrsEntity[xg] (ASSIGN | GE) { xg.append('='); }
 		(
-			id=entIdentUse
-			{ xg.append(id); xg.addUsage(id); }
-		|
 			id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
-			{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
+				{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
 		|
 			xgrsConstant[xg]
+		|
+			xgrsVarUse[xg]
 		|
 			d=DOLLAR MOD LPAREN typeIdentUse RPAREN
 			{ reportError(getCoords(d), "user input is only requestable in the GrShell, not at lgsp(libgr search plan backend)-level"); }
@@ -1560,12 +1559,13 @@ simpleSequence[ExecNode xg]
 			LPAREN { xg.append('('); } xgrs[xg] RPAREN { xg.append(')'); }
 		)
 	| YIELD { xg.append("yield "); } lhsent=entIdentUse { xg.append(lhsent); xg.addUsage(lhsent); } ASSIGN { xg.append('='); } 
-	    ( rhsent=entIdentUse { xg.append(rhsent); xg.addUsage(rhsent); } 
-		| xgrsConstant[xg] 
+	    ( xgrsConstant[xg]
+		| xgrsVarUse[xg]
 		)
 	| TRUE { xg.append("true"); }
 	| FALSE { xg.append("false"); }
 	| parallelCallRule[xg, returns]
+	| DOUBLECOLON id=entIdentUse { xg.append("::" + id); xg.addUsage(id); }
 	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? 
 		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); }) 
 		LPAREN { xg.append("("); } xgrs[xg] (COMMA { xg.append(","); } xgrs[xg])* RPAREN { xg.append(")"); }
@@ -1579,50 +1579,60 @@ simpleSequence[ExecNode xg]
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
 	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
 		IN { xg.append(" in "); } xgrsEntity[xg] SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
-	| LBRACE { xg.append("{"); } computation[xg] RBRACE { xg.append("}"); } 
+	| LBRACE { xg.append("{"); } seqComputation[xg] RBRACE { xg.append("}"); } 
 	;
 
-computation[ExecNode xg]
+seqComputation[ExecNode xg]
 	: (xgrsEntity[null] (ASSIGN|GE)) => xgrsEntity[xg] (ASSIGN | GE) { xg.append('='); }
-		( expression[xg]
+		( seqExpression[xg]
 		| VALLOC LPAREN RPAREN { xg.append("valloc()"); }
 		)
-	| YIELD { xg.append("yield "); } lhsent=entIdentUse { xg.append(lhsent); xg.addUsage(lhsent); } ASSIGN { xg.append('='); } expression[xg] 
-	| (entIdentUse DOT VISITED LBRACK expression[null] RBRACK ASSIGN) => id=entIdentUse { xg.append(id); xg.addUsage(id); } DOT VISITED LBRACK { xg.append(".visited["); } expression[xg] RBRACK ASSIGN { xg.append("]="); } expression[xg]
-	| (entIdentUse DOT IDENT ASSIGN) => id=entIdentUse d=DOT attr=IDENT ASSIGN { xg.append(id+"."+attr.getText()+" = "); xg.addUsage(id); } expression[xg]
-	| (entIdentUse LBRACK expression[null] RBRACK ASSIGN) => id=entIdentUse LBRACK { xg.append(id+"["); xg.addUsage(id); } expression[xg] RBRACK ASSIGN { xg.append("]="); } expression[xg]
-	| VFREE LPAREN { xg.append("vfree("); } expression[xg] RPAREN { xg.append(")"); }
-	| VRESET LPAREN { xg.append("vreset("); } expression[xg] RPAREN { xg.append(")"); }
-	| EMIT LPAREN { xg.append("emit("); } expression[xg] RPAREN { xg.append(")"); }
-	| RECORD LPAREN { xg.append("record("); } expression[xg] RPAREN { xg.append(")"); }
+	| YIELD { xg.append("yield "); } xgrsVarUse[xg] ASSIGN { xg.append('='); } seqExpression[xg] 
+	| (xgrsVarUse[null] DOT VISITED LBRACK seqExpression[null] RBRACK ASSIGN) => xgrsVarUse[xg] DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK ASSIGN { xg.append("]="); } seqExpression[xg]
+	| (xgrsVarUse[null] DOT IDENT ASSIGN) => xgrsVarUse[xg] d=DOT attr=IDENT ASSIGN { xg.append("."+attr.getText()+" = "); } seqExpression[xg]
+	| (xgrsVarUse[null] LBRACK seqExpression[null] RBRACK ASSIGN) => xgrsVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK ASSIGN { xg.append("]="); } seqExpression[xg]
+	| VFREE LPAREN { xg.append("vfree("); } seqExpression[xg] RPAREN { xg.append(")"); }
+	| VRESET LPAREN { xg.append("vreset("); } seqExpression[xg] RPAREN { xg.append(")"); }
+	| EMIT LPAREN { xg.append("emit("); } seqExpression[xg] RPAREN { xg.append(")"); }
+	| RECORD LPAREN { xg.append("record("); } seqExpression[xg] RPAREN { xg.append(")"); }
 	| (methodCall[null]) => methodCall[xg]
-	| (expression[null]) => expression[xg]
+	| (seqExpression[null]) => seqExpression[xg]
 	;
 
-expression[ExecNode xg]
-	options { k = *; }
+seqExpression[ExecNode xg]
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
 	
-	: methodCall[xg]
-	| var=entIdentUse IN setmaparray=entIdentUse { xg.append(var+" in "+setmaparray); xg.addUsage(var); xg.addUsage(setmaparray); }
-	| id=entIdentUse DOT VISITED LBRACK { xg.append(id); xg.addUsage(id); xg.append(".visited["); } expression[xg] RBRACK { xg.append("]"); }
-	| id=entIdentUse d=DOT attr=IDENT { xg.append(id+"."+attr.getText()); xg.addUsage(id); }
-	| xgrsEntity[xg] LBRACK { xg.append("["); } expression[xg] RBRACK { xg.append("]"); }
-	| xgrsConstant[xg]
+	: (methodCall[null]) => methodCall[xg]
+	| (constantVariableAccess[null] IN) => constantVariableAccess[xg] IN { xg.append(" in "); } xgrsVarUse[xg]
+	| (xgrsVarUse[null] DOT VISITED) => xgrsVarUse[xg] DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); }
+	| (xgrsVarUse[null] DOT IDENT) => xgrsVarUse[xg] DOT attr=IDENT { xg.append("."+attr.getText()); }
+	| (xgrsVarUse[null] LBRACK) => xgrsVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
+	| (xgrsConstant[null]) => xgrsConstant[xg]
 	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
-	| id=entIdentUse { xg.append(id); xg.addUsage(id); } 
-	| id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
+	| xgrsVarUse[xg] 
+	| (id=entIdentUse LPAREN) => id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
 		{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
 	| a=AT LPAREN (IDENT | STRING_LITERAL) RPAREN
 		{ reportError(getCoords(a), "a NamedGraph is a GrShell-only construct -> no element names available at lgsp(libgr search plan backend)-level"); }
-	| LPAREN { xg.append("("); } expression[xg] RPAREN { xg.append(")"); } 
+	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
+	;
+
+// expression light used at positions which would lead to left recursion otherwise
+// contains the value delivering expressions which are of interest for the left position in which it is used
+// could contain further expressions, duplicating even more grammar parts, but I don't consider these to be of importance there
+constantVariableAccess[ExecNode xg]
+	: (xgrsVarUse[null] DOT) => xgrsVarUse[xg] d=DOT attr=IDENT { xg.append("."+attr.getText()); }
+	| (xgrsVarUse[null] LBRACK) => xgrsVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
+	| xgrsConstant[xg]
+	| xgrsVarUse[xg] 
+	| a=AT LPAREN (IDENT | STRING_LITERAL) RPAREN { reportError(getCoords(a), "a NamedGraph is a GrShell-only construct -> no element names available at lgsp(libgr search plan backend)-level"); }
 	;
 
 methodCall[ExecNode xg]
-	: setmaparray=entIdentUse d=DOT method=IDENT LPAREN { xg.addUsage(setmaparray); xg.append(setmaparray+"."+method.getText()+"("); } 
-			 ( expression[xg] (COMMA { xg.append(","); } expression[xg])? )? RPAREN { xg.append(")"); }
+	: xgrsVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
+			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])? )? RPAREN { xg.append(")"); }
 		{ if(!method.getText().equals("add") && !method.getText().equals("rem") && !method.getText().equals("clear")
 				&& !method.getText().equals("size") && !method.getText().equals("empty"))
 			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty on set/map/array)");
@@ -1648,8 +1658,8 @@ xgrsConstant[ExecNode xg]
 	
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 	: ( LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
-		(	( DOLLAR {xg.append("$");} ( varRndChoose=entIdentUse {xg.append(varRndChoose);} 
-						(COMMA {xg.append(",");} (varRndChoose2=entIdentUse {xg.append(varRndChoose2);} | STAR {xg.append("*");}))? )? )?
+		(	( DOLLAR {xg.append("$");} ( xgrsVarUse[xg] 
+						(COMMA {xg.append(",");} (xgrsVarUse[xg] | STAR {xg.append("*");}))? )? )?
 				LBRACK {xg.append("[");} 
 				callRule[xg, returns]
 				RBRACK {xg.append("]");}
@@ -1682,6 +1692,7 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 
 ruleParam[CollectNode<BaseNode> parameters]
 	: exp=identExpr { parameters.addChild(exp); }
+	| exp=globalsAccessExpr { parameters.addChild(exp); }
 	| exp=constant { parameters.addChild(exp); }
 	| MINUS
 		(
@@ -1709,10 +1720,19 @@ xgrsVariableList[ExecNode xg, CollectNode<BaseNode> res]
 		( COMMA { xg.append(","); } child=xgrsEntity[xg] { res.addChild(child); } )*
 	;
 
-xgrsEntity[ExecNode xg] returns [BaseNode res = null]
+xgrsVarUse[ExecNode xg] returns [BaseNode res = null]
 	:
 		id=entIdentUse // var of node, edge, or basic type
 		{ res = id; xg.append(id); xg.addUsage(id); } 
+	|
+		DOUBLECOLON id=entIdentUse // global var of node, edge, or basic type
+		{ res = id; xg.append("::" + id); xg.addUsage(id); } 
+	;
+
+xgrsEntity[ExecNode xg] returns [BaseNode res = null]
+	:
+		varUse=xgrsVarUse[xg] 
+		{ res = varUse; }
 	|
 		(IDENT COLON | MINUS IDENT COLON) => xgrsVarDecl=xgrsEntityDecl[xg, true]
 		{ res = xgrsVarDecl; }
@@ -2779,6 +2799,16 @@ identExpr returns [ ExprNode res = env.initExprNode() ]
 			else
 				id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
 			res = new IdentExprNode(id);
+		}
+	;
+
+globalsAccessExpr returns [ ExprNode res = env.initExprNode() ]
+	@init{ IdentNode id; }
+
+	: DOUBLECOLON i=IDENT
+		{
+			id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
+			res = new GlobalsAccessExprNode(id);
 		}
 	;
 

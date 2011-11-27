@@ -84,8 +84,13 @@ do_test()
 		    		echo " ... WARNED"
 			    	echo "WARNED $FILE" >> "$LOG"
     			else
-	    			echo " ... OK(C#)"
-		    		echo "OK     $FILE" >> "$LOG"
+			        if grep -q "WARNING" < "$DIR/log"; then
+						echo " ... WARNED"
+						echo "WARNED $FILE" >> "$LOG"
+					else
+						echo " ... OK(C#)"
+						echo "OK     $FILE" >> "$LOG"
+					fi
 			    fi
     		else
 	    		echo " ... FAILED(C#)"

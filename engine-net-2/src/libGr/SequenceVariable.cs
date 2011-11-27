@@ -42,13 +42,15 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                originalToCopy.Add(this, new SequenceVariable(Name, Prefix, Type));
+                originalToCopy.Add(this, new SequenceVariable(name, prefix, type));
                 return originalToCopy[this];
             }
         }
 
-        // the name of the variable
-        public String Name { get { return name; } }
+        // the pure name of the variable, used in code generation
+        public String PureName { get { return name; } }
+        // the name of the variable, for debug printing to the user (globals prefixed with :: in contrast to pure name)
+        public String Name { get { return type=="" ? "::"+name : name; } }
         // the nesting prefix of the variable
         public String Prefix { get { return prefix; } }
         // the type of the variable (a graph-global variable maps to "", a sequence-local to its type)
@@ -65,9 +67,9 @@ namespace de.unika.ipd.grGen.libGr
         public object GetVariableValue(IGraph graph)
         {
             if(Type == "") {
-                return graph.GetVariableValue(Name);
+                return graph.GetVariableValue(name);
             } else {
-                return Value;
+                return value;
             }
         }
 
@@ -75,9 +77,9 @@ namespace de.unika.ipd.grGen.libGr
         public void SetVariableValue(object value, IGraph graph)
         {
             if(Type == "") {
-                graph.SetVariableValue(Name, value);
+                graph.SetVariableValue(name, value);
             } else {
-                Value = value;
+                this.value = value;
             }
         }
 

@@ -42,16 +42,22 @@ PARSER_BEGIN(SequenceParser)
 		/// </summary>
 		SymbolTable varDecls;
 
+		/// <summary>
+		/// Stores the warnings which occur during parsing
+		/// </summary>
+		List<String> warnings;
+
         /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object. Used for the interpreted xgrs.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
         /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
+        /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, BaseActions actions)
+		public static Sequence ParseSequence(String sequenceStr, BaseActions actions, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
@@ -59,6 +65,7 @@ PARSER_BEGIN(SequenceParser)
 			parser.model = actions.Graph.Model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
+			parser.warnings = warnings;
 			Sequence seq = parser.XGRS();
 			SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentInterpreted(actions);
 			seq.Check(env);
@@ -70,11 +77,12 @@ PARSER_BEGIN(SequenceParser)
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
         /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
+        /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static SequenceDefinition ParseSequenceDefinition(String sequenceStr, BaseActions actions)
+		public static SequenceDefinition ParseSequenceDefinition(String sequenceStr, BaseActions actions, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
@@ -82,6 +90,7 @@ PARSER_BEGIN(SequenceParser)
 			parser.model = actions.Graph.Model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
+			parser.warnings = warnings;
 			SequenceDefinition seq = parser.defXGRS();
 			SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentInterpreted(actions);
 			seq.Check(env);
@@ -96,12 +105,13 @@ PARSER_BEGIN(SequenceParser)
         /// <param name="sequenceNames">An array containing the names of the sequences used in the specification.</param>
         /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
         /// <param name="model">The model used in the specification.</param>
+        /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames, String[] sequenceNames,
-		        Dictionary<String, String> predefinedVariables, IGraphModel model)
+		        Dictionary<String, String> predefinedVariables, IGraphModel model, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = null;
@@ -110,6 +120,7 @@ PARSER_BEGIN(SequenceParser)
 			parser.model = model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
+			parser.warnings = warnings;
 			Sequence seq = parser.XGRS();
 			// check will be done by LGSPSequenceChecker from lgsp code afterwards outside of this libGr code
 			return seq;
@@ -434,32 +445,48 @@ void Arguments(List<SequenceExpression> argExprs):
 SequenceVariable Variable(): // usage as well as definition
 {
 	String varName, typeName=null;
+	SequenceVariable oldVariable, newVariable;
 }
 {
-	varName=Word() (":" typeName=Type() )?
-	{
-		SequenceVariable oldVariable = varDecls.Lookup(varName);
-		SequenceVariable newVariable;
-		if(typeName!=null)
+	(
+		varName=Word() (":" typeName=Type() )?
 		{
-			if(oldVariable==null) {
-				newVariable = varDecls.Define(varName, typeName);
-			} else if(oldVariable.Type=="") {
-				throw new ParseException("The variable \""+varName+"\" has already been used/implicitely declared as global variable!");
-			} else {
-				throw new ParseException("The variable \""+varName+"\" has already been declared as local variable with type \""+oldVariable.Type+"\"!");
+			oldVariable = varDecls.Lookup(varName);
+			if(typeName!=null)
+			{
+				if(oldVariable==null) {
+					newVariable = varDecls.Define(varName, typeName);
+				} else if(oldVariable.Type=="") {
+					throw new ParseException("The variable \""+varName+"\" has already been used/implicitely declared as global variable!");
+				} else {
+					throw new ParseException("The variable \""+varName+"\" has already been declared as local variable with type \""+oldVariable.Type+"\"!");
+				}
 			}
+			else
+			{
+				if(oldVariable==null) {
+					newVariable = varDecls.Define(varName, "");
+					warnings.Add("WARNING: using global variables without \"::\" prefix is deprecated, missing for: " + varName);
+				} else {
+					if(oldVariable.Type=="")
+						warnings.Add("WARNING: using global variables without \"::\" prefix is deprecated, missing for: " + varName);
+					newVariable = oldVariable;
+				}
+			}
+			return newVariable;
 		}
-		else
+	|
+		"::" varName=Word()
 		{
+			oldVariable = varDecls.Lookup(varName);
 			if(oldVariable==null) {
 				newVariable = varDecls.Define(varName, "");
 			} else {
 				newVariable = oldVariable;
 			}
+			return newVariable;
 		}
-		return newVariable;
-	}
+	)
 }
 
 SequenceVariable VariableDefinition(): // only definition in contrast to Variable
@@ -485,19 +512,35 @@ SequenceVariable VariableDefinition(): // only definition in contrast to Variabl
 SequenceVariable VariableUse(): // only usage in contrast to Variable()
 {
 	String varName;
+	SequenceVariable oldVariable, newVariable;
 }
 {
-	varName=Word()
-	{
-		SequenceVariable oldVariable = varDecls.Lookup(varName);
-		SequenceVariable newVariable;
-		if(oldVariable==null) {
-			newVariable = varDecls.Define(varName, "");
-		} else {
-			newVariable = oldVariable;
+	(
+		varName=Word()
+		{
+			oldVariable = varDecls.Lookup(varName);
+			if(oldVariable==null) {
+				newVariable = varDecls.Define(varName, "");
+				warnings.Add("WARNING: using global variables without \"::\" prefix is deprecated, missing for: " + varName);
+			} else {
+				if(oldVariable.Type=="")
+					warnings.Add("WARNING: using global variables without \"::\" prefix is deprecated, missing for: " + varName);
+				newVariable = oldVariable;
+			}
+			return newVariable;
 		}
-		return newVariable;
-	}
+	|
+		"::" varName=Word()
+		{
+			oldVariable = varDecls.Lookup(varName);
+			if(oldVariable==null) {
+				newVariable = varDecls.Define(varName, "");
+			} else {
+				newVariable = oldVariable;
+			}
+			return newVariable;
+		}
+	)
 }
 
 void VariableList(List<SequenceVariable> variables):
@@ -780,13 +823,19 @@ Sequence SimpleSequence():
 	LOOKAHEAD(Variable() "=")
 	toVar=Variable() "="
     (
-		LOOKAHEAD(2)
+		LOOKAHEAD(Word() "(")
+		Word() "(" // deliver understandable error message for case of missing parenthesis at rule result assignment
+		{
+			throw new ParseException("the destination variable(s) of a rule result assignment must be enclosed in parenthesis");
+		}
+	|
+		LOOKAHEAD(Constant())
 	    constant=Constant()
 		{
 			return new SequenceAssignConstToVar(toVar, constant);
 		}
 	|
-	    fromVar=Variable()
+		fromVar=Variable()
 		{
 			return new SequenceAssignVarToVar(toVar, fromVar);
 		}
@@ -835,6 +884,15 @@ Sequence SimpleSequence():
 	seq=Rule() // accepts variables, rules, and all-bracketed rules
 	{
 		return seq;
+	}
+|
+	"::" str=Word()
+	{
+		fromVar = varDecls.Lookup(str);
+		if(fromVar==null) {
+			fromVar = varDecls.Define(str, "");
+		}
+		return new SequenceBooleanComputation(new SequenceExpressionVariable(fromVar), null, false);
 	}
 |
 	LOOKAHEAD(3)
@@ -1016,13 +1074,13 @@ SequenceExpression Expression():
 		return new SequenceExpressionIsVisited(fromVar, expr);
 	}
 |
-	LOOKAHEAD(2)
+	LOOKAHEAD(VariableUse() ".")
 	fromVar=VariableUse() "." attrName=Word()
 	{
 		return new SequenceExpressionAttribute(fromVar, attrName);
 	}
 |
-	LOOKAHEAD(2)
+	LOOKAHEAD(VariableUse() "[")
 	fromVar=VariableUse() "[" expr=Expression() "]"
 	{
 		return new SequenceExpressionContainerAccess(fromVar, expr);
@@ -1039,15 +1097,9 @@ SequenceExpression Expression():
 		return new SequenceExpressionDef(argExprs.ToArray());
 	}
 |
-	LOOKAHEAD(2)
 	fromVar=VariableUse()
 	{
 		return new SequenceExpressionVariable(fromVar);
-	}
-|
-	fromVar=VariableUse() "(" // deliver understandable error message for case of missing parenthesis at rule result assignment
-	{
-		throw new ParseException("the destination variable(s) of a rule result assignment must be enclosed in parenthesis");
 	}
 |
 	"@" "(" elemName=Text() ")"
@@ -1072,13 +1124,13 @@ SequenceExpression ConstantVariableAccess():
 	object constant;
 }
 {
-	LOOKAHEAD(2)
+	LOOKAHEAD(VariableUse() ".")
 	fromVar=VariableUse() "." attrName=Word()
 	{
 		return new SequenceExpressionAttribute(fromVar, attrName);
 	}
 |
-	LOOKAHEAD(2)
+	LOOKAHEAD(VariableUse() "[")
 	fromVar=VariableUse() "[" fromExpr=Expression() "]"
 	{
 		return new SequenceExpressionContainerAccess(fromVar, fromExpr);
@@ -1135,8 +1187,8 @@ void RuleLookahead():
 {
 }
 {
-	("(" Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">"))?
-			("," Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">"))?)* ")" "=")?
+	("(" ( Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">"))? | "::" Word() ) 
+			("," ( Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">"))? | "::" Word() ) )* ")" "=")?
 	(
 	    ( "$" ("%")? ( Variable() ("," (Variable() | "*"))? )? )? "["
 	|

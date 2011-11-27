@@ -1158,7 +1158,12 @@ void ShellCommand():
 	    {
             try
             {
-                seq = SequenceParser.ParseSequence(str1, impl.CurrentActions);
+				List<String> warnings = new List<String>();
+                seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, warnings);
+                foreach(string warning in warnings)
+                {
+					Console.WriteLine("The validate sequence at line " + tok.beginLine + " reported back: " + warning);
+                }
     	        validated = impl.ValidateWithSequence(seq);
                 noError = !impl.OperationCancelled;
             }
@@ -1198,7 +1203,12 @@ void ShellCommand():
     {
         try
         {
-            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions);
+			List<String> warnings = new List<String>();
+            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, warnings);
+			foreach(string warning in warnings)
+			{
+				Console.WriteLine("The sequence at line " + tok.beginLine + " reported back: " + warning);
+			}
             impl.ApplyRewriteSequence(seq, false);
             noError = !impl.OperationCancelled;
         }
@@ -1224,7 +1234,12 @@ void ShellCommand():
     {
         try
         {
-            seqDef = SequenceParser.ParseSequenceDefinition(str1, impl.CurrentActions);
+			List<String> warnings = new List<String>();
+            seqDef = SequenceParser.ParseSequenceDefinition(str1, impl.CurrentActions, warnings);
+			foreach(string warning in warnings)
+			{
+				Console.WriteLine("The sequence definition at line " + tok.beginLine + " reported back: " + warning);
+			}
             impl.DefineRewriteSequence(seqDef);
         }
         catch(SequenceParserException ex)
@@ -1805,7 +1820,12 @@ void DebugCommand():
 		{
 			try
 			{
-				seq = SequenceParser.ParseSequence(str, impl.CurrentActions);
+				List<String> warnings = new List<String>();
+				seq = SequenceParser.ParseSequence(str, impl.CurrentActions, warnings);
+				foreach(string warning in warnings)
+				{
+					Console.WriteLine("The debug sequence at line " + tok.beginLine + " reported back: " + warning);
+				}
 				impl.DebugRewriteSequence(seq);
 				noError = !impl.OperationCancelled;
 			}

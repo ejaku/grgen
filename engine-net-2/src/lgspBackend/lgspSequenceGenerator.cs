@@ -117,11 +117,11 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(seqVar.Type == "")
             {
-                return "graph.GetVariableValue(\"" + seqVar.Name + "\")";
+                return "graph.GetVariableValue(\"" + seqVar.PureName + "\")";
             }
             else
             {
-                return "var_" + seqVar.Prefix + seqVar.Name;
+                return "var_" + seqVar.Prefix + seqVar.PureName;
             }
         }
 
@@ -133,12 +133,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(seqVar.Type == "")
             {
-                return "graph.SetVariableValue(\"" + seqVar.Name + "\", " + valueToWrite + ");\n";
+                return "graph.SetVariableValue(\"" + seqVar.PureName + "\", " + valueToWrite + ");\n";
             }
             else
             {
                 String cast = "(" + TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model) + ")";
-                return "var_" + seqVar.Prefix + seqVar.Name + " = " + cast + "(" + valueToWrite + ");\n";
+                return "var_" + seqVar.Prefix + seqVar.PureName + " = " + cast + "(" + valueToWrite + ");\n";
             }
         }
 
@@ -152,7 +152,7 @@ namespace de.unika.ipd.grGen.lgsp
                 StringBuilder sb = new StringBuilder();
                 sb.Append(TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model));
                 sb.Append(" ");
-                sb.Append("var_" + seqVar.Prefix + seqVar.Name);
+                sb.Append("var_" + seqVar.Prefix + seqVar.PureName);
                 sb.Append(" = ");
                 sb.Append(TypesHelper.DefaultValue(seqVar.Type, model));
                 sb.Append(";\n");
@@ -1301,7 +1301,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("object " + sourceValue + " = " + GetSequenceExpression(seqDel.Expr) + ";\n");
                         string dictionary = "((System.Collections.IDictionary)" + GetVar(seqDel.Container) + ")";
                         if(sourceValue == null)
-                            source.AppendFront("throw new Exception(\""+seqDel.Container.Name+".rem() only possible on array!\");\n");
+                            source.AppendFront("throw new Exception(\""+seqDel.Container.PureName+".rem() only possible on array!\");\n");
                         else
                             source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
 
@@ -1598,7 +1598,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0) {
-                    varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].Name;
+                    varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].PureName;
                 } else {
                     varName = tmpVarCtr.ToString();
                     ++tmpVarCtr;
@@ -1626,7 +1626,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0) {
-                    varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].Name;
+                    varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].PureName;
                 } else {
                     varName = tmpVarCtr.ToString();
                     ++tmpVarCtr;
@@ -1929,7 +1929,13 @@ namespace de.unika.ipd.grGen.lgsp
 			Sequence seq;
             try
             {
-                seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, sequenceNames, varDecls, model);
+                List<string> warnings = new List<string>();
+                seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, sequenceNames, varDecls, model, warnings);
+                foreach(string warning in warnings)
+                {
+                    Console.Error.WriteLine("The exec statement \"" + xgrsStr
+                        + "\" given on line " + lineNr + " reported back:\n" + warning);
+                }
                 seq.Check(env);
             }
             catch(ParseException ex)
@@ -1992,7 +1998,14 @@ namespace de.unika.ipd.grGen.lgsp
             Sequence seq;
             try
             {
-                seq = SequenceParser.ParseSequence(sequence.XGRS, ruleNames, sequenceNames, varDecls, model);
+                List<string> warnings = new List<string>();
+                seq = SequenceParser.ParseSequence(sequence.XGRS, ruleNames, sequenceNames, varDecls, model, warnings);
+                foreach(string warning in warnings)
+                {
+                    Console.Error.WriteLine("In the defined sequence " + sequence.Name
+                        + " the exec part \"" + sequence.XGRS
+                        + "\" reported back:\n" + warning);
+                }
                 seq.Check(env);
             }
             catch(ParseException ex)

@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;
+import de.unika.ipd.grgen.ir.ArrayType;
 import de.unika.ipd.grgen.ir.Bad;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
@@ -31,6 +32,8 @@ import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
+
+// todo: the entire exec handling in the frontend is nothing but a dirty hack, clean this
 
 /**
  * Call of an action with parameters and returns.
@@ -286,6 +289,14 @@ public class CallActionNode extends BaseNode {
 							}
 							if(apt.getKeyType().classify()!=fpt.getKeyType().classify()) {
 								reportError("Map key types are incommensurable. ("+paramCounter+". argument)");
+								incommensurable = true;
+							}
+						}
+						if(actualParamType instanceof ArrayType) {
+							ArrayType apt = (ArrayType)actualParamType;
+							ArrayType fpt = (ArrayType)formalParamType;
+							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
+								reportError("Array value types are incommensurable. ("+paramCounter+". argument)");
 								incommensurable = true;
 							}
 						}
