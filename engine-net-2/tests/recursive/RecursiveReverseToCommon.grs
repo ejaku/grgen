@@ -2,25 +2,25 @@ new graph "recursive\Recursive"
 
 debug set layout Organic
 
-xgrs (beg,end)=createChain
-xgrs chainFromTo(beg,end)
-xgrs reverseChainFromTo(beg,end)
-xgrs (common)=chainFromToReverseToCommon(beg,end)
-xgrs chainFromTo(beg,end)
-xgrs reverseChainFromTo(beg,end)
-xgrs reverseChainFromToToCommon(beg,end,common)
+xgrs (::beg,::end)=createChain
+xgrs chainFromTo(::beg,::end)
+xgrs reverseChainFromTo(::beg,::end)
+xgrs (::common)=chainFromToReverseToCommon(::beg,::end)
+xgrs chainFromTo(::beg,::end)
+xgrs reverseChainFromTo(::beg,::end)
+xgrs reverseChainFromToToCommon(::beg,::end,::common)
 
 custom graph analyze_graph
 custom actions gen_searchplan chainFromToReverse
 
 clear graph 
 
-xgrs (beg,end)=createChain
-xgrs chainFromTo(beg,end)
-xgrs reverseChainFromTo(beg,end)
-xgrs (common)=chainFromToReverseToCommon(beg,end)
-xgrs chainFromTo(beg,end)
-xgrs reverseChainFromTo(beg,end)
-xgrs reverseChainFromToToCommon(beg,end,common)
+xgrs (::beg,::end)=createChain
+xgrs chainFromTo(::beg,::end)
+xgrs reverseChainFromTo(::beg,::end)
+xgrs (::common)=chainFromToReverseToCommon(::beg,::end)
+xgrs chainFromTo(::beg,::end)
+xgrs reverseChainFromTo(::beg,::end)
+xgrs reverseChainFromToToCommon(::beg,::end,::common)
 
 quit

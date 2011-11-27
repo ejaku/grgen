@@ -2,7 +2,7 @@ new graph "exectype/exectype"
 
 new n:AA
 
-xgrs ArrayPartial1(n)
+xgrs ArrayPartial1(::n)
 show var n
 show var v
 show var co1

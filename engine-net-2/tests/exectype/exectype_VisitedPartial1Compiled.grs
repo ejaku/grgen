@@ -1,6 +1,6 @@
 new graph "exectype/exectype"
 new n:A
 new n -e:H-> n
-xgrs VisitedPartial1(n,e)
+xgrs VisitedPartial1(::n,::e)
 show var v
 quit

@@ -13,6 +13,6 @@ x.m
 x.a
 x.fl
 x.d
-xgrs AssignAttributeToVarUntyped(x)
+xgrs AssignAttributeToVarUntyped(::x)
 quit
 

@@ -1,8 +1,8 @@
 new graph "iterated\spanningTree"
 
-xgrs (root)=initTree
+xgrs (::root)=initTree
 
-xgrs {flag=valloc()}
+xgrs {::flag=valloc()}
 
 show num nodes
 show num edges
@@ -10,13 +10,13 @@ xgrs [edgesVisited]
 xgrs [nodesVisited]
 
 #not sure if % is deterministic enough for a test, so take care: if test fails grgen might work perfectly
-xgrs %spanningTree(root)
+xgrs %spanningTree(::root)
 
 show num nodes
 show num edges
 xgrs [edgesVisited]
 xgrs [nodesVisited]
 
-xgrs {vfree(flag)}
+xgrs {vfree(::flag)}
 
 quit

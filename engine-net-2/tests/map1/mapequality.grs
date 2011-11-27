@@ -6,65 +6,65 @@ n1.a
 n2.a
 
 echo "testing n1==n2"
-xgrs equality(n1, n2)
-xgrs inequality(n1, n2)
-xgrs greaterthan(n1, n2)
-xgrs greaterorequal(n1, n2)
-xgrs lessthan(n1, n2)
-xgrs lessorequal(n1, n2)
+xgrs equality(::n1,::n2)
+xgrs inequality(::n1,::n2)
+xgrs greaterthan(::n1,::n2)
+xgrs greaterorequal(::n1,::n2)
+xgrs lessthan(::n1,::n2)
+xgrs lessorequal(::n1,::n2)
 
 echo "testing n1==n1,n1!=n1,n2==n2,n2!=n2"
-xgrs equality(n1, n1)
-xgrs inequality(n1, n1)
-xgrs equality(n2, n2)
-xgrs inequality(n2, n2)
+xgrs equality(::n1,::n1)
+xgrs inequality(::n1,::n1)
+xgrs equality(::n2,::n2)
+xgrs inequality(::n2,::n2)
 
-xgrs {s = n1.a} ;> {el = "bla"} ;> {s.rem(el)} <; {n1.a = s}
+xgrs {::s = ::n1.a} ;> {::el = "bla"} ;> {::s.rem(::el)} <; {::n1.a = ::s}
 n1.a
 n2.a
 
 echo "testing n1<=n2"
-xgrs equality(n1, n2)
-xgrs inequality(n1, n2)
-xgrs greaterthan(n1, n2)
-xgrs greaterorequal(n1, n2)
-xgrs lessthan(n1, n2)
-xgrs lessorequal(n1, n2)
+xgrs equality(::n1,::n2)
+xgrs inequality(::n1,::n2)
+xgrs greaterthan(::n1,::n2)
+xgrs greaterorequal(::n1,::n2)
+xgrs lessthan(::n1,::n2)
+xgrs lessorequal(::n1,::n2)
 
 echo "testing n2>=n1"
-xgrs equality(n2, n1)
-xgrs inequality(n2, n1)
-xgrs greaterthan(n2, n1)
-xgrs greaterorequal(n2, n1)
-xgrs lessthan(n2, n1)
-xgrs lessorequal(n2, n1)
+xgrs equality(::n2,::n1)
+xgrs inequality(::n2,::n1)
+xgrs greaterthan(::n2,::n1)
+xgrs greaterorequal(::n2,::n1)
+xgrs lessthan(::n2,::n1)
+xgrs lessorequal(::n2,::n1)
 
 echo "testing n1C<=n2"
-xgrs equalityC(n1, n2)
-xgrs inequalityC(n1, n2)
-xgrs greaterthanC(n1, n2)
-xgrs greaterorequalC(n1, n2)
-xgrs lessthanC(n1, n2)
-xgrs lessorequalC(n1, n2)
+xgrs equalityC(::n1,::n2)
+xgrs inequalityC(::n1,::n2)
+xgrs greaterthanC(::n1,::n2)
+xgrs greaterorequalC(::n1,::n2)
+xgrs lessthanC(::n1,::n2)
+xgrs lessorequalC(::n1,::n2)
 
-xgrs {s = n1.a} ;> {key = "foo"} ;> {val = 42} ;> {s.add(key,val)} <; {n1.a = s}
+xgrs {::s = ::n1.a} ;> {::key = "foo"} ;> {::val = 42} ;> {::s.add(::key,::val)} <; {::n1.a = ::s}
 n1.a
 n2.a
 
 echo "testing n1!=n2"
-xgrs equality(n1, n2)
-xgrs inequality(n1, n2)
-xgrs greaterthan(n1, n2)
-xgrs greaterorequal(n1, n2)
-xgrs lessthan(n1, n2)
-xgrs lessorequal(n1, n2)
+xgrs equality(::n1,::n2)
+xgrs inequality(::n1,::n2)
+xgrs greaterthan(::n1,::n2)
+xgrs greaterorequal(::n1,::n2)
+xgrs lessthan(::n1,::n2)
+xgrs lessorequal(::n1,::n2)
 
 echo "testing n1C!=n2"
-xgrs equalityCN(n1, n2)
-xgrs inequalityCN(n1, n2)
-xgrs greaterthanCN(n1, n2)
-xgrs greaterorequalCN(n1, n2)
-xgrs lessthanCN(n1, n2)
-xgrs lessorequalCN(n1, n2)
+xgrs equalityCN(::n1,::n2)
+xgrs inequalityCN(::n1,::n2)
+xgrs greaterthanCN(::n1,::n2)
+xgrs greaterorequalCN(::n1,::n2)
+xgrs lessthanCN(::n1,::n2)
+xgrs lessorequalCN(::n1,::n2)
 
 exit

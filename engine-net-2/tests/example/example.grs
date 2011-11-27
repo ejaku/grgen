@@ -43,7 +43,7 @@ show num nodes N
 show num edges
 show num edges E
 
-xgrs st=set<N>{} && success=false ;> [fooMatchOnly(st)] && for{n in st; !success && <foo(n) && fits(n)> && success=true } ;> success
+xgrs ::st=set<N>{} && ::success=false ;> [fooMatchOnly(::st)] && for{::n in ::st; !::success && <foo(::n) && fits(::n)> && ::success=true } ;> ::success
 
 show num nodes
 show num nodes N

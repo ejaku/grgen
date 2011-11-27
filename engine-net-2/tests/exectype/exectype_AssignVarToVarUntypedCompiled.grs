@@ -1,7 +1,7 @@
 new graph "exectype/exectype"
 new n:A
 new m:AA
-xgrs AssignVarToVarUntyped(n,m)
+xgrs AssignVarToVarUntyped(::n,::m)
 show var n
 show var m
 show var x

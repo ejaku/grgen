@@ -1,5 +1,5 @@
 new graph "exectype/exectype"
 new n:A
 new n -e:H-> n
-xgrs Visited(n,e)
+xgrs Visited(::n,::e)
 quit

@@ -1,29 +1,29 @@
 new graph sequenceoperators/sequenceoperators
 
-xgrs r=(if{True;True;True})
+xgrs ::r=(if{True;True;True})
 show var r
-xgrs r=(if{True;True;False})
+xgrs ::r=(if{True;True;False})
 show var r
-xgrs r=(if{True;False;True})
+xgrs ::r=(if{True;False;True})
 show var r
-xgrs r=(if{True;False;False})
+xgrs ::r=(if{True;False;False})
 show var r
-xgrs r=(if{False;True;True})
+xgrs ::r=(if{False;True;True})
 show var r
-xgrs r=(if{False;True;False})
+xgrs ::r=(if{False;True;False})
 show var r
-xgrs r=(if{False;False;True})
+xgrs ::r=(if{False;False;True})
 show var r
-xgrs r=(if{False;False;False})
+xgrs ::r=(if{False;False;False})
 show var r
 
-xgrs r=(if{True;True})
+xgrs ::r=(if{True;True})
 show var r
-xgrs r=(if{True;False})
+xgrs ::r=(if{True;False})
 show var r
-xgrs r=(if{False;True})
+xgrs ::r=(if{False;True})
 show var r
-xgrs r=(if{False;False})
+xgrs ::r=(if{False;False})
 show var r
 
 quit

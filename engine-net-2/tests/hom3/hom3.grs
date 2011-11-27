@@ -109,7 +109,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomDelRetNodeModify
+xgrs (::x)=HomDelRetNodeModify
 show num nodes
 show num edges
 show num nodes "A"
@@ -131,7 +131,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomDelRetEdgeModify
+xgrs (::x)=HomDelRetEdgeModify
 show num nodes
 show num edges
 show num nodes "A"
@@ -153,7 +153,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomDelRetNodeReplace
+xgrs (::x)=HomDelRetNodeReplace
 show num nodes
 show num edges
 show num nodes "A"
@@ -175,7 +175,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomDelRetEdgeReplace
+xgrs (::x)=HomDelRetEdgeReplace
 show num nodes
 show num edges
 show num nodes "A"
@@ -201,7 +201,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomRetypeReturnNodeModify
+xgrs (::x)=HomRetypeReturnNodeModify
 show num nodes
 show num edges
 show num nodes "A"
@@ -224,7 +224,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomRetypeReturnEdgeModify
+xgrs (::x)=HomRetypeReturnEdgeModify
 show num nodes
 show num edges
 show num nodes "A"
@@ -247,7 +247,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomRetypeReturnNodeReplace
+xgrs (::x)=HomRetypeReturnNodeReplace
 show num nodes
 show num edges
 show num nodes "A"
@@ -270,7 +270,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomRetypeReturnEdgeReplace
+xgrs (::x)=HomRetypeReturnEdgeReplace
 show num nodes
 show num edges
 show num nodes "A"
@@ -385,7 +385,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomRetypeDeleteReturnNodeModify
+xgrs (::x)=HomRetypeDeleteReturnNodeModify
 show num nodes
 show num edges
 show num nodes "A"
@@ -407,7 +407,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomRetypeDeleteReturnEdgeModify
+xgrs (::x)=HomRetypeDeleteReturnEdgeModify
 show num nodes
 show num edges
 show num nodes "A"
@@ -429,7 +429,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomRetypeDeleteReturnNodeReplace
+xgrs (::x)=HomRetypeDeleteReturnNodeReplace
 show num nodes
 show num edges
 show num nodes "A"
@@ -451,7 +451,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=HomRetypeDeleteReturnEdgeReplace
+xgrs (::x)=HomRetypeDeleteReturnEdgeReplace
 show num nodes
 show num edges
 show num nodes "A"
@@ -477,7 +477,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=DeleteNodeReturnEdgeModify
+xgrs (::x)=DeleteNodeReturnEdgeModify
 show num nodes
 show num edges
 show num nodes "A"
@@ -499,7 +499,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
-xgrs (x)=DeleteNodeReturnEdgeReplace
+xgrs (::x)=DeleteNodeReturnEdgeReplace
 show num nodes
 show num edges
 show num nodes "A"
@@ -512,7 +512,7 @@ show edge x
 
 clear graph
 
-xgrs (ab)=Init1 && (b)=Init3
+xgrs (::ab)=Init1 && (::b)=Init3
 show num nodes
 show num edges
 show num nodes "A"
@@ -533,7 +533,7 @@ show num edges "EF"
 show node ab
 show node b
 
-xgrs (n1, ef)=Init2 && (n2, f)=Init4
+xgrs (::n1, ::ef)=Init2 && (::n2, ::f)=Init4
 show num nodes
 show num edges
 show num nodes "A"

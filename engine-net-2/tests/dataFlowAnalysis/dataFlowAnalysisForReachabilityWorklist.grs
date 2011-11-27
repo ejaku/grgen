@@ -16,17 +16,17 @@ xgrs [directReachability]
 xgrs match
 
 # add final nodes to worklist starting with some special head
-xgrs todo=set<N>{} ;> (head)=initWorklist ;> last=head ;> (last)=addFinalNodesToWorklist(last, todo)*
+xgrs ::todo=set<N>{} ;> (::head)=initWorklist ;> ::last=::head ;> (::last)=addFinalNodesToWorklist(::last, ::todo)*
 # add all nodes reachable from final nodes
-xgrs pos=head ;> ( (last)=addFurther(pos, last, todo)* ;> (pos)=switchToNextWorklistPosition(pos) )*
+xgrs ::pos=::head ;> ( (::last)=addFurther(::pos, ::last, ::todo)* ;> (::pos)=switchToNextWorklistPosition(::pos) )*
 # add all nodes not reachable from some final nodes
-xgrs ( (last)=addNotYetVisitedNodeToWorklist(last, todo) && pos=last && ( (last)=addFurther(pos, last, todo)* ;> (pos)=switchToNextWorklistPosition(pos) )* )*
+xgrs ( (::last)=addNotYetVisitedNodeToWorklist(::last, ::todo) && ::pos=::last && ( (::last)=addFurther(::pos, ::last, ::todo)* ;> (::pos)=switchToNextWorklistPosition(::pos) )* )*
 
 # walk along worklist, compute data flow, unchain handled node, chain every node depending on handled node if it changed
-xgrs succs=set<N>{} ;> preds=set<N>{} ;> pos=head
-xgrs ( [successors(pos, succs)] ;> changed=false ;> for{s in succs; (changed)=propagateBackwards(pos,s,changed)} ;> {succs.clear()} \
-       ;> if{ changed ; [predecessors(pos, preds)] ;> for{p in preds; (last)=addToWorklist(p, todo, last)*} ;> {preds.clear()} } \
-       ;> (pos)=nextWorklistPosition(pos, todo) )*
+xgrs ::succs=set<N>{} ;> ::preds=set<N>{} ;> ::pos=::head
+xgrs ( [successors(::pos, ::succs)] ;> ::changed=false ;> for{::s in ::succs; (::changed)=propagateBackwards(::pos,::s,::changed)} ;> {::succs.clear()} \
+       ;> if{ ::changed ; [predecessors(::pos, ::preds)] ;> for{::p in ::preds; (::last)=addToWorklist(::p, ::todo, ::last)*} ;> {::preds.clear()} } \
+       ;> (::pos)=nextWorklistPosition(::pos, ::todo) )*
 
 # finally remove special head
 xgrs uninitWorklist

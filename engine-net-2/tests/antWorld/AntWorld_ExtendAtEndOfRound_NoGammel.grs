@@ -12,7 +12,7 @@ show num edges "NextAnt"
 show num edges "GridEdge"
 show num edges "PathToHill"
 show num edges "AntPosition"
-xgrs (firstAnt)=InitWorld
+xgrs (::firstAnt)=InitWorld
 show num nodes
 show num edges
 show num nodes "Ant"
@@ -24,7 +24,7 @@ show num edges "GridEdge"
 show num edges "PathToHill"
 show num edges "AntPosition"
 
-xgrs doAntWorld(firstAnt)
+xgrs doAntWorld(::firstAnt)
 show num nodes
 show num edges
 show num nodes "Ant"
@@ -35,7 +35,7 @@ show num edges "NextAnt"
 show num edges "GridEdge"
 show num edges "PathToHill"
 show num edges "AntPosition"
-xgrs doAntWorld(firstAnt)
+xgrs doAntWorld(::firstAnt)
 show num nodes
 show num edges
 show num nodes "Ant"
@@ -46,7 +46,7 @@ show num edges "NextAnt"
 show num edges "GridEdge"
 show num edges "PathToHill"
 show num edges "AntPosition"
-xgrs doAntWorld(firstAnt)
+xgrs doAntWorld(::firstAnt)
 show num nodes
 show num edges
 show num nodes "Ant"
@@ -57,7 +57,7 @@ show num edges "NextAnt"
 show num edges "GridEdge"
 show num edges "PathToHill"
 show num edges "AntPosition"
-xgrs doAntWorld(firstAnt)
+xgrs doAntWorld(::firstAnt)
 show num nodes
 show num edges
 show num nodes "Ant"
@@ -68,7 +68,7 @@ show num edges "NextAnt"
 show num edges "GridEdge"
 show num edges "PathToHill"
 show num edges "AntPosition"
-xgrs doAntWorld(firstAnt)
+xgrs doAntWorld(::firstAnt)
 show num nodes
 show num edges
 show num nodes "Ant"

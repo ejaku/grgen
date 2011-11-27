@@ -6,7 +6,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs (state)=init
+xgrs (::state)=init
 show num nodes
 show num edges
 show num nodes "State"
@@ -24,7 +24,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {visID=valloc()}
+xgrs {::visID=valloc()}
 xgrs findComponent*
 show num nodes
 show num edges
@@ -33,12 +33,12 @@ show num nodes "N"
 show num nodes "A"
 show num nodes "B"
 xgrs removeVisited*
-xgrs {vfree(visID)}
+xgrs {vfree(::visID)}
 
 
 clear graph
 
-xgrs (state)=init
+xgrs (::state)=init
 show num nodes
 show num edges
 show num nodes "State"
@@ -56,7 +56,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {visID=valloc()}
+xgrs {::visID=valloc()}
 xgrs findComponent*
 show num nodes
 show num edges
@@ -65,12 +65,12 @@ show num nodes "N"
 show num nodes "A"
 show num nodes "B"
 xgrs removeVisited*
-xgrs {vfree(visID)}
+xgrs {vfree(::visID)}
 
 
 clear graph
 
-xgrs (state)=init
+xgrs (::state)=init
 show num nodes
 show num edges
 show num nodes "State"
@@ -88,7 +88,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {visID=valloc()}
+xgrs {::visID=valloc()}
 xgrs findComponent*
 show num nodes
 show num edges
@@ -97,12 +97,12 @@ show num nodes "N"
 show num nodes "A"
 show num nodes "B"
 xgrs removeVisited*
-xgrs {vfree(visID)}
+xgrs {vfree(::visID)}
 
 
 clear graph
 
-xgrs (state)=init
+xgrs (::state)=init
 show num nodes
 show num edges
 show num nodes "State"
@@ -120,7 +120,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {visID=valloc()}
+xgrs {::visID=valloc()}
 xgrs findComponent*
 show num nodes
 show num edges
@@ -129,12 +129,12 @@ show num nodes "N"
 show num nodes "A"
 show num nodes "B"
 xgrs removeVisited*
-xgrs {vfree(visID)}
+xgrs {vfree(::visID)}
 
 
 clear graph
 
-xgrs (state)=init
+xgrs (::state)=init
 show num nodes
 show num edges
 show num nodes "State"
@@ -152,7 +152,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {visID=valloc()}
+xgrs {::visID=valloc()}
 xgrs findComponent*
 show num nodes
 show num edges
@@ -161,12 +161,12 @@ show num nodes "N"
 show num nodes "A"
 show num nodes "B"
 xgrs removeVisited*
-xgrs {vfree(visID)}
+xgrs {vfree(::visID)}
 
 
 clear graph
 
-xgrs (state)=init
+xgrs (::state)=init
 show num nodes
 show num edges
 show num nodes "State"
@@ -184,7 +184,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {visID=valloc()}
+xgrs {::visID=valloc()}
 xgrs findComponent*
 show num nodes
 show num edges
@@ -193,12 +193,12 @@ show num nodes "N"
 show num nodes "A"
 show num nodes "B"
 xgrs removeVisited*
-xgrs {vfree(visID)}
+xgrs {vfree(::visID)}
 
 
 clear graph
 
-xgrs (state)=init
+xgrs (::state)=init
 show num nodes
 show num edges
 show num nodes "State"
@@ -216,7 +216,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {visID=valloc()}
+xgrs {::visID=valloc()}
 xgrs findComponent*
 show num nodes
 show num edges
@@ -225,5 +225,5 @@ show num nodes "N"
 show num nodes "A"
 show num nodes "B"
 xgrs removeVisited*
-xgrs {vfree(visID)}
+xgrs {vfree(::visID)}
 quit

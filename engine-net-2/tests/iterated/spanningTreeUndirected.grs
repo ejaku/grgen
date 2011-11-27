@@ -1,21 +1,21 @@
 new graph "iterated\spanningTree"
 
-xgrs (root)=initUndirected
+xgrs (::root)=initUndirected
 
-xgrs {flag=valloc()}
-
-show num nodes
-show num edges
-xgrs [nodesVisited]
-xgrs [edgesVisited]
-
-xgrs spanningTree(root)
+xgrs {::flag=valloc()}
 
 show num nodes
 show num edges
 xgrs [nodesVisited]
 xgrs [edgesVisited]
 
-xgrs {vfree(flag)}
+xgrs spanningTree(::root)
+
+show num nodes
+show num edges
+xgrs [nodesVisited]
+xgrs [edgesVisited]
+
+xgrs {vfree(::flag)}
 
 quit

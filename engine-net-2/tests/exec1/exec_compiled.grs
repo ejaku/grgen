@@ -8,7 +8,7 @@ new n1 -e:Edge-> n2
 show num nodes A
 show num edges
 
-xgrs bar(n1)
+xgrs bar(::n1)
 
 show num nodes A
 show num edges

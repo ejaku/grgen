@@ -1,8 +1,8 @@
 new graph sequenceoperators/sequenceoperators
 
-xgrs r=(!True)
+xgrs ::r=(!True)
 show var r
-xgrs r=(!False)
+xgrs ::r=(!False)
 show var r
 
 quit

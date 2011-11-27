@@ -13,24 +13,24 @@ x.m
 x.a
 x.fl
 x.d
-xgrs y=x && f=foo::Bla && by=42y && sh=42s && i=42 && l=42l && b=true && st="Gnampf!" \
-	&& s=set<foo>{} && m=map<int,string>{} && a=array<foo>[] \
-	&& fl=3.141f && d=3.141592654 \
-	&& {s.add(f)} && {m.add(i,st)} && {a.add(f)} \
-	&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(f)} && {emit("\n")} \
-	&& {emit("value of variable by 5 6 7 8 9 ")} && {emit(by)} && {emit("\n")} \
-	&& {emit("value of variable sh 5 6 7 8 9 ")} && {emit(sh)} && {emit("\n")} \
-	&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")} \
-	&& {emit("value of variable l 5 6 7 8 9 ")} && {emit(l)} && {emit("\n")} \
-	&& {emit("value of variable b 5 6 7 8 9 ")} && {emit(b)} && {emit("\n")} \
-	&& {emit("value of variable st 5 6 7 8 9 ")} && {emit(st)} && {emit("\n")} \
-	&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(s)} && {emit("\n")} \
-	&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")} \
-	&& {emit("value of variable a 5 6 7 8 9 ")} && {emit(a)} && {emit("\n")} \
-	&& {emit("value of variable fl 5 6 7 8 9 ")} && {emit(fl)} && {emit("\n")} \
-	&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(d)} && {emit("\n")} \
-	&& {y.f=f} && {y.by=by} && {y.sh=sh} && {y.i=i} && {y.l=l} && {y.b=b} \
-	&& {y.st=st} && {y.s=s} && {y.m=m} && {y.a=a} && {y.fl=fl} && {y.d=d}
+xgrs ::y=::x && ::f=foo::Bla && ::by=42y && ::sh=42s && ::i=42 && ::l=42l && ::b=true && ::st="Gnampf!" \
+	&& ::s=set<foo>{} && ::m=map<int,string>{} && ::a=array<foo>[] \
+	&& ::fl=3.141f && ::d=3.141592654 \
+	&& {::s.add(::f)} && {::m.add(::i,::st)} && {::a.add(::f)} \
+	&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(::f)} && {emit("\n")} \
+	&& {emit("value of variable by 5 6 7 8 9 ")} && {emit(::by)} && {emit("\n")} \
+	&& {emit("value of variable sh 5 6 7 8 9 ")} && {emit(::sh)} && {emit("\n")} \
+	&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(::i)} && {emit("\n")} \
+	&& {emit("value of variable l 5 6 7 8 9 ")} && {emit(::l)} && {emit("\n")} \
+	&& {emit("value of variable b 5 6 7 8 9 ")} && {emit(::b)} && {emit("\n")} \
+	&& {emit("value of variable st 5 6 7 8 9 ")} && {emit(::st)} && {emit("\n")} \
+	&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")} \
+	&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(::m)} && {emit("\n")} \
+	&& {emit("value of variable a 5 6 7 8 9 ")} && {emit(::a)} && {emit("\n")} \
+	&& {emit("value of variable fl 5 6 7 8 9 ")} && {emit(::fl)} && {emit("\n")} \
+	&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(::d)} && {emit("\n")} \
+	&& {::y.f=::f} && {::y.by=::by} && {::y.sh=::sh} && {::y.i=::i} && {::y.l=::l} && {::y.b=::b} \
+	&& {::y.st=::st} && {::y.s=::s} && {::y.m=::m} && {::y.a=::a} && {::y.fl=::fl} && {::y.d=::d}
 x.f
 x.by
 x.sh

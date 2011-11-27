@@ -3,7 +3,7 @@ new graph "iterated\iteratedOptionalMultiple"
 show num nodes
 show num edges
 
-xgrs {visID = valloc()}
+xgrs {::visID = valloc()}
 
 xgrs markIterated
 xgrs markOptional
@@ -23,6 +23,6 @@ xgrs unmark*
 xgrs markMultiple
 xgrs unmark*
 
-xgrs {vfree(visID)}
+xgrs {vfree(::visID)}
 
 quit

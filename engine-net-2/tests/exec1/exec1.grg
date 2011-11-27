@@ -33,6 +33,13 @@ rule R4(a:A) {
     }
 }
 
+rule R5 : (A) {
+    modify {
+        a:A;
+		return(a);
+    }
+}
+
 rule RTestCodeGen
 {
 	a:A;

@@ -1,6 +1,6 @@
 new graph "porter/portersetmaparray"
 
-xgrs (n,e)=createTestGraph
+xgrs (::n,::e)=createTestGraph
 
 show num nodes only N1
 show num edges only E1
@@ -60,7 +60,7 @@ show num edges only E1
 
 select actions porter/lgsp-portersetmaparrayActions.dll
 
-xgrs (n,e)=[checkForTestGraph]
+xgrs (::n,::e)=[checkForTestGraph]
 
 n.aby
 n.ash

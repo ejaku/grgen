@@ -4,10 +4,10 @@ new a:A
 
 show num nodes A
 show num nodes B
-xgrs (a,b)=r
+xgrs (::a,::b)=r
 show num nodes A
 show num nodes B
 
-xgrs t(a,b)
+xgrs t(::a,::b)
 
 quit

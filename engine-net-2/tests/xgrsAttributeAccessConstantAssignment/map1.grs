@@ -4,45 +4,45 @@ new graph xgrsAttributeAccessConstantAssignment/map1
 #plus constant assigments in xgrs
 
 new n:A
-xgrs {key="Hallo"}
+xgrs {::key="Hallo"}
 show var key
-xgrs {value=9}
+xgrs {::value=9}
 show var value
-xgrs {themap=n.m}
-xgrs {themap.add(key,value)}
+xgrs {::themap=::n.m}
+xgrs {::themap.add(::key,::value)}
 n.m
-xgrs {n.m = themap}
+xgrs {::n.m = ::themap}
 n.m
 
 n.str
 n.i
-xgrs {val = "die Frage nach dem Leben, dem Universum und allem"}
-xgrs {n.str = val}
-xgrs {val = 42}
-xgrs {n.i = val}
+xgrs {::val = "die Frage nach dem Leben, dem Universum und allem"}
+xgrs {::n.str = ::val}
+xgrs {::val = 42}
+xgrs {::n.i = ::val}
 n.str
 n.i
 
-xgrs {foo=n.str}
+xgrs {::foo=::n.str}
 show var foo
-xgrs {bar=n.i}
+xgrs {::bar=::n.i}
 show var bar
-xgrs {themap=n.m}
-xgrs {themap.add(foo,bar)}
+xgrs {::themap=::n.m}
+xgrs {::themap.add(::foo,::bar)}
 n.m
-xgrs {n.m=themap}
+xgrs {::n.m=::themap}
 n.m
 
 n.d
-xgrs {d=3.141592654}
+xgrs {::d=3.141592654}
 show var d
-xgrs {n.d=d}
+xgrs {::n.d=::d}
 n.d
 
 n.b
-xgrs {b=true}
+xgrs {::b=true}
 show var b
-xgrs {n.b = b}
+xgrs {::n.b = ::b}
 n.b
 
 exit

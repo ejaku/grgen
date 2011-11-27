@@ -96,21 +96,21 @@ show num edges "leftHandSide"
 show num edges "ActivityEdge"
 show num edges "rightHandSide"
 show num edges "targetProcess"
-xgrs (lpa, skip)=TFInitial &&                         \
-  ( (lpa)=TFAction(lpa)                               \
-  | (  (lpa, cond, dn)=TFDecisionFirst(lpa)           \
-    && (lpa, cond, dn)=TFDecisionNext(lpa, cond, dn)* \
-    && (lpa)=TFDecisionLast(lpa, cond, dn))           \
-  | (  (lpa, mn, tgt)=TFMergeInit(lpa)                \
-    && TFMergeNext(mn, tgt)+                          \
-    && TFDelUnused(mn))                               \
-  | (  (lpa, conc, fn)=TFForkFirst(lpa)               \
-    && (lpa, conc, fn)=TFForkNext(lpa, conc, fn)+     \
-    && TFDelUnused(fn))                               \
-  | (  (lpa, jn, tgt, ev)=TFJoinFirst(lpa)            \
-    && TFJoinNext(jn, skip, ev)+                      \
-    && TFDelUnused(jn))                               \
-  | TFFinal(skip)                                     \
+xgrs (::lpa, ::skip)=TFInitial && \
+  ( (::lpa)=TFAction(::lpa) \
+  | (  (::lpa, ::cond, ::dn)=TFDecisionFirst(::lpa) \
+    && (::lpa, ::cond, ::dn)=TFDecisionNext(::lpa, ::cond, ::dn)* \
+    && (::lpa)=TFDecisionLast(::lpa, ::cond, ::dn)) \
+  | (  (::lpa, ::mn, ::tgt)=TFMergeInit(::lpa) \
+    && TFMergeNext(::mn, ::tgt)+ \
+    && TFDelUnused(::mn)) \
+  | (  (::lpa, ::conc, ::fn)=TFForkFirst(::lpa) \
+    && (::lpa, ::conc, ::fn)=TFForkNext(::lpa, ::conc, ::fn)+ \
+    && TFDelUnused(::fn)) \
+  | (  (::lpa, ::jn, ::tgt, ::ev)=TFJoinFirst(::lpa) \
+    && TFJoinNext(::jn, ::skip, ::ev)+ \
+    && TFDelUnused(::jn)) \
+  | TFFinal(::skip) \
   )+
 
 show num nodes
@@ -153,17 +153,17 @@ show num edges "leftHandSide"
 show num edges "ActivityEdge"
 show num edges "rightHandSide"
 show num edges "targetProcess"
-xgrs (file, dummyLine, curPa, dummyPa)=InitOutput && lastLine=dummyLine &&    \
-  ( (lastLine, curPa)=PAWriteProcess(file, lastLine, curPa)+                  \
-  | (lastLine, curPa)=PAWritePrefix(file, lastLine, curPa)+                   \
-  | (  (lastLine, cond, curPa)=PAWriteConditionStart(file, lastLine, curPa)   \
-    && (cond)=PAWriteConditionNext(lastLine, cond)*                           \
-    && PAWriteConditionLast(lastLine, cond)                                   \
-    && PAWriteConditionEnd(lastLine)*)                                        \
-  | (  (lastLine, conc, curPa)=PAWriteConcurrencyStart(file, lastLine, curPa) \
-    && (conc)=PAWriteConcurrencyNext(lastLine, conc)*                         \
-    && PAWriteConcurrencyLast(lastLine, conc))                                \
-  )* | FinishOutput(dummyLine, dummyPa)
+xgrs (::file, ::dummyLine, ::curPa, ::dummyPa)=InitOutput && ::lastLine=::dummyLine && \
+  ( (::lastLine, ::curPa)=PAWriteProcess(::file, ::lastLine, ::curPa)+ \
+  | (::lastLine, ::curPa)=PAWritePrefix(::file, ::lastLine, ::curPa)+ \
+  | (  (::lastLine, ::cond, ::curPa)=PAWriteConditionStart(::file, ::lastLine, ::curPa) \
+    && (::cond)=PAWriteConditionNext(::lastLine, ::cond)* \
+    && PAWriteConditionLast(::lastLine, ::cond) \
+    && PAWriteConditionEnd(::lastLine)*) \
+  | (  (::lastLine, ::conc, ::curPa)=PAWriteConcurrencyStart(::file, ::lastLine, ::curPa) \
+    && (::conc)=PAWriteConcurrencyNext(::lastLine, ::conc)* \
+    && PAWriteConcurrencyLast(::lastLine, ::conc)) \
+  )* | FinishOutput(::dummyLine, ::dummyPa)
 
 #sync io
 show num nodes

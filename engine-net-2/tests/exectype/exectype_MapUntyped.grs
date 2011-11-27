@@ -3,27 +3,27 @@ new graph "exectype/exectype"
 new n:AA
 new n -e:HH-> n
 
-xgrs x=map<A,HH>{} && y=map<int,foo>{} && v=42 && vd=foo::Bar \
-		&& {x.add(n,e)} && {y.add(v,vd)} \
-		&& {i=x.size()} && {j=y.size()} \
-		&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")} \
-		&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")} \
-		&& {u=x.empty()} && {w=y.empty()} \
-		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")} \
-		&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")} \
-		&& {co1=v in y} && k=1 && {co2=(k in y)} \
-		&& {emit("value of variable co1 5 6 7 8 9 ")} && {emit(co1)} && {emit("\n")} \
-		&& {emit("value of variable co2 5 6 7 8 9 ")} && {emit(co2)} && {emit("\n")} \
-		&& {vr1=x[n]} && {vr2=y[v]} \
-		&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(vr1)} && {emit("\n")} \
-		&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(vr2)} && {emit("\n")} \
-		&& {x.clear()} && {y.rem(v)} \
-		&& {i=x.size()} && {j=y.size()} \
-		&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")} \
-		&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(j)} && {emit("\n")} \
-		&& {u=x.empty()} && {w=y.empty()} \
-		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")} \
-		&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
+xgrs ::x=map<A,HH>{} && ::y=map<int,foo>{} && ::v=42 && ::vd=foo::Bar \
+		&& {::x.add(::n,::e)} && {::y.add(::v,::vd)} \
+		&& {::i=::x.size()} && {::j=::y.size()} \
+		&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(::i)} && {emit("\n")} \
+		&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(::j)} && {emit("\n")} \
+		&& {::u=::x.empty()} && {::w=::y.empty()} \
+		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(::u)} && {emit("\n")} \
+		&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(::w)} && {emit("\n")} \
+		&& {::co1=::v in ::y} && ::k=1 && {::co2=(::k in ::y)} \
+		&& {emit("value of variable ::co1 5 6 7 8 9 ")} && {emit(::co1)} && {emit("\n")} \
+		&& {emit("value of variable ::co2 5 6 7 8 9 ")} && {emit(::co2)} && {emit("\n")} \
+		&& {::vr1=::x[::n]} && {::vr2=::y[::v]} \
+		&& {emit("value of variable vr1 5 6 7 8 9 ")} && {emit(::vr1)} && {emit("\n")} \
+		&& {emit("value of variable vr2 5 6 7 8 9 ")} && {emit(::vr2)} && {emit("\n")} \
+		&& {::x.clear()} && {::y.rem(::v)} \
+		&& {::i=::x.size()} && {::j=::y.size()} \
+		&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(::i)} && {emit("\n")} \
+		&& {emit("value of variable j 5 6 7 8 9 ")} && {emit(::j)} && {emit("\n")} \
+		&& {::u=::x.empty()} && {::w=::y.empty()} \
+		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(::u)} && {emit("\n")} \
+		&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(::w)} && {emit("\n")}
 show var n
 show var e
 show var x

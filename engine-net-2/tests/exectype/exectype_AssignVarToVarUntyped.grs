@@ -1,18 +1,18 @@
 new graph "exectype/exectype"
 new n:A
 new m:AA
-xgrs x=n && y=m \
-		&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")} \
-		&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")} \
-		&& x=y \
-		&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")} \
-		&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")} \
-		&& u=42 && v=1 \
-		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")} \
-		&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(v)} && {emit("\n")} \
-		&& u=v \
-		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(u)} && {emit("\n")} \
-		&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(v)} && {emit("\n")}
+xgrs ::x=::n && ::y=::m \
+		&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(::x)} && {emit("\n")} \
+		&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(::y)} && {emit("\n")} \
+		&& ::x=::y \
+		&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(::x)} && {emit("\n")} \
+		&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(::y)} && {emit("\n")} \
+		&& ::u=42 && ::v=1 \
+		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(::u)} && {emit("\n")} \
+		&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(::v)} && {emit("\n")} \
+		&& ::u=::v \
+		&& {emit("value of variable u 5 6 7 8 9 ")} && {emit(::u)} && {emit("\n")} \
+		&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(::v)} && {emit("\n")}
 show var n
 show var m
 show var x

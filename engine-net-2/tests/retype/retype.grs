@@ -20,7 +20,7 @@ show num edges only "ECACB"
 show num edges only "EA"
 show num edges only "EB"
 show num edges only "EC"
-xgrs (n0,n1,n2,n3,n4,e1,e2,e3,e4,e0)=Init
+xgrs (::n0,::n1,::n2,::n3,::n4,::e1,::e2,::e3,::e4,::e0)=Init
 show node n0
 show node n1
 show node n2

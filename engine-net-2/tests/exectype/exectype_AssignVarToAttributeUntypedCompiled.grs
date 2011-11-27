@@ -13,7 +13,7 @@ x.m
 x.a
 x.fl
 x.d
-xgrs AssignVarToAttributeUntyped(x)
+xgrs AssignVarToAttributeUntyped(::x)
 x.f
 x.by
 x.sh

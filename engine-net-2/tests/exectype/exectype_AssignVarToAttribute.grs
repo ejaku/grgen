@@ -29,8 +29,8 @@ xgrs f:foo=foo::Bla && by:byte=42y && sh:short=42s && i:int=42 && l:long=42l && 
 	&& {emit("value of variable a 5 6 7 8 9 ")} && {emit(a)} && {emit("\n")} \
 	&& {emit("value of variable fl 5 6 7 8 9 ")} && {emit(fl)} && {emit("\n")} \
 	&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(d)} && {emit("\n")} \
-	&& {x.f=f} && {x.by=by} && {x.sh=sh} && {x.i=i} && {x.l=l} && {x.b=b} \
-	&& {x.st=st} && {x.s=s} && {x.m=m} && {x.a=a} && {x.fl=fl} && {x.d=d}
+	&& {::x.f=f} && {::x.by=by} && {::x.sh=sh} && {::x.i=i} && {::x.l=l} && {::x.b=b} \
+	&& {::x.st=st} && {::x.s=s} && {::x.m=m} && {::x.a=a} && {::x.fl=fl} && {::x.d=d}
 x.f
 x.by
 x.sh

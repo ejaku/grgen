@@ -11,9 +11,9 @@ xgrs [directReachability]
 
 xgrs match
 
-xgrs todo=set<N>{} ;> [addAllNodesToWorkset(todo)] ;> succs=set<N>{}
-xgrs if{ (n)=pickAndRemove(todo) ; \
-         [successors(n, succs)] ;> changed=false ;> for{s in succs; (changed)=propagateBackwards(n,s,changed)} ;> if{changed; [addPredecessors(n,todo)]} ;> {succs.clear()} ; \
+xgrs ::todo=set<N>{} ;> [addAllNodesToWorkset(::todo)] ;> ::succs=set<N>{}
+xgrs if{ (::n)=pickAndRemove(::todo) ; \
+         [successors(::n, ::succs)] ;> ::changed=false ;> for{::s in ::succs; (::changed)=propagateBackwards(::n,::s,::changed)} ;> if{::changed; [addPredecessors(::n,::todo)]} ;> {::succs.clear()} ; \
          false }*
 
 xgrs match

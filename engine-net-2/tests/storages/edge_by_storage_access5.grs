@@ -7,24 +7,24 @@ new n1 -e1:G- n2
 new n2 -e2:EE-> n3
 new n2 -e3:G- n3
 
-xgrs m=map<E,UEdge>{}
-xgrs r10(m)
+xgrs ::m=map<E,UEdge>{}
+xgrs r10(::m)
 show num nodes
 show num edges
 show num nodes only "N"
 show num edges only "EE"
 show num edges only "G"
 
-xgrs {m.add(e2,e3)}
-xgrs r10(m)
+xgrs {::m.add(::e2,::e3)}
+xgrs r10(::m)
 show num nodes
 show num edges
 show num nodes only "N"
 show num edges only "EE"
 show num edges only "G"
 
-xgrs {m.add(e2,e1)}
-xgrs r10(m)
+xgrs {::m.add(::e2,::e1)}
+xgrs r10(::m)
 show num nodes
 show num edges
 show num nodes only "N"

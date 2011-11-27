@@ -1,6 +1,6 @@
 new graph defYield/yield
 
-xgrs (start)=createToNBOOL
+xgrs (::start)=createToNBOOL
 
 show num nodes
 show num nodes NBOOL
@@ -8,7 +8,7 @@ show num nodes NINT
 show num nodes NSTRING
 show num nodes NFLOAT
 
-xgrs (v)=retypeNINTNSTRING(start)
+xgrs (::v)=retypeNINTNSTRING(::start)
 
 show var v
 
@@ -18,7 +18,7 @@ show num nodes NINT
 show num nodes NSTRING
 show num nodes NFLOAT
 
-xgrs createToNINT(start)
+xgrs createToNINT(::start)
 
 show num nodes
 show num nodes NBOOL
@@ -26,7 +26,7 @@ show num nodes NINT
 show num nodes NSTRING
 show num nodes NFLOAT
 
-xgrs (v)=retypeNINTNSTRING(start)
+xgrs (::v)=retypeNINTNSTRING(::start)
 
 show var v
 
@@ -36,7 +36,7 @@ show num nodes NINT
 show num nodes NSTRING
 show num nodes NFLOAT
 
-xgrs createToNSTRING(start)
+xgrs createToNSTRING(::start)
 
 show num nodes
 show num nodes NBOOL
@@ -44,7 +44,7 @@ show num nodes NINT
 show num nodes NSTRING
 show num nodes NFLOAT
 
-xgrs (v)=retypeNINTNSTRING(start)
+xgrs (::v)=retypeNINTNSTRING(::start)
 
 show var v
 

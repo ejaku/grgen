@@ -3,7 +3,7 @@ new graph "exectype/exectype"
 new n:AA
 new n -e:HH-> n
 
-xgrs MapUntyped(n,e)
+xgrs MapUntyped(::n,::e)
 show var n
 show var e
 show var x

@@ -22,13 +22,13 @@ show num edges only "EE"
 show num nodes only "N"
 show num nodes only "NN"
 
-xgrs m=map<E,N>{}
-xgrs {m.add(e1,n1)}
-xgrs {m.add(e2,n3)}
-xgrs {m.add(e3,n5)}
-xgrs {m.add(e4,n7)}
-xgrs {m.add(e5,n9)}
-xgrs [r6(m)]
+xgrs ::m=map<E,N>{}
+xgrs {::m.add(::e1,::n1)}
+xgrs {::m.add(::e2,::n3)}
+xgrs {::m.add(::e3,::n5)}
+xgrs {::m.add(::e4,::n7)}
+xgrs {::m.add(::e5,::n9)}
+xgrs [r6(::m)]
 show num nodes
 show num edges
 show num edges only "E"

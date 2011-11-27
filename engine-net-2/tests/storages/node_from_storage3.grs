@@ -14,9 +14,9 @@ show num edges
 show num nodes only "N"
 show num nodes only "NN"
 
-xgrs m=map<N,Node>{}
-xgrs {m.add(n1a, n2a)} & {m.add(n1b, n2b)} & {m.add(n1c, n2c)} 
-xgrs [r6(m)]
+xgrs ::m=map<N,Node>{}
+xgrs {::m.add(::n1a, ::n2a)} & {::m.add(::n1b, ::n2b)} & {::m.add(::n1c, ::n2c)} 
+xgrs [r6(::m)]
 show num nodes
 show num edges
 show num nodes only "N"

@@ -2,7 +2,7 @@ new graph "exectype/exectype"
 
 new n:AA
 
-xgrs ArrayUntyped(n)
+xgrs ArrayUntyped(::n)
 show var n
 show var x
 show var y

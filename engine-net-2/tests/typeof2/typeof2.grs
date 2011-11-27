@@ -7,7 +7,7 @@ show num nodes "ABB"
 show num nodes "A"
 show num nodes "B"
 show num nodes "AA"
-xgrs (a,b,c)=Init
+xgrs (::a,::b,::c)=Init
 show num nodes
 show num edges
 show num nodes "BB"

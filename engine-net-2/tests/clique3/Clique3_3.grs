@@ -11,7 +11,7 @@ show num nodes "N3"
 show num nodes "N4"
 show num nodes "State"
 show num nodes "N"
-xgrs (state)=init
+xgrs (::state)=init
 # state.maxNodeID = 100
 state.rand1 = 913157958
 state.rand2 = 458287237

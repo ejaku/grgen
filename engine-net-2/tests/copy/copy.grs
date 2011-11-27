@@ -8,7 +8,7 @@ show num nodes only "N"
 show num nodes only "NN"
 show num edges only "E"
 
-xgrs (x,e,y,xn1,xn2,yn,en)=doCopy
+xgrs (::x,::e,::y,::xn1,::xn2,::yn,::en)=doCopy
 
 show num nodes
 show num edges

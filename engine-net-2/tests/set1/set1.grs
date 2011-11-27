@@ -53,15 +53,15 @@ n.m.add("Handtuch")
 v=n.m
 n.m
 
-xgrs useSetVar(v)
+xgrs useSetVar(::v)
 
 n.m.rem("Hallo")
 n.m
 
-xgrs useSetVar(v)
+xgrs useSetVar(::v)
 
-xgrs m=set<string>{}
-xgrs tmp="Hallo" ;> {m.add(tmp)}
-xgrs useSetVar(m)
+xgrs ::m=set<string>{}
+xgrs ::tmp="Hallo" ;> {::m.add(::tmp)}
+xgrs useSetVar(::m)
 
 quit

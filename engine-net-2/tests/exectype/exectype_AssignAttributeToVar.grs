@@ -13,10 +13,10 @@ x.m
 x.a
 x.fl
 x.d
-xgrs f:foo=foo::Bar && {f=x.f} && by:byte=0y && {by=x.by} && sh:short=0s && {sh=x.sh} && i:int=0 && {i=x.i} \
-	&& l:long=0l && {l=x.l} && b:boolean=false && {b=x.b} && st:string=null && {st=x.st} \
-	&& s:set<foo>=null && {s=x.s} && m:map<int,string>=null && {m=x.m} && a:array<foo>=null && {a=x.a} \
-	&& fl:float=0.0f && {fl=x.fl} && d:double=0.0 && {d=x.d} \
+xgrs f:foo=foo::Bar && {f=::x.f} && by:byte=0y && {by=::x.by} && sh:short=0s && {sh=::x.sh} && i:int=0 && {i=::x.i} \
+	&& l:long=0l && {l=::x.l} && b:boolean=false && {b=::x.b} && st:string=null && {st=::x.st} \
+	&& s:set<foo>=null && {s=::x.s} && m:map<int,string>=null && {m=::x.m} && a:array<foo>=null && {a=::x.a} \
+	&& fl:float=0.0f && {fl=::x.fl} && d:double=0.0 && {d=::x.d} \
 	&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(f)} && {emit("\n")} \
 	&& {emit("value of variable by 5 6 7 8 9 ")} && {emit(by)} && {emit("\n")} \
 	&& {emit("value of variable sh 5 6 7 8 9 ")} && {emit(sh)} && {emit("\n")} \

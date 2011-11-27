@@ -7,7 +7,7 @@ show num nodes
 show num edges
 
 n=@(b)
-xgrs split(n)
+xgrs split(::n)
 show num nodes
 show num edges
 

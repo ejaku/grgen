@@ -11,7 +11,7 @@ new n0 -e2:E-> n2
 new n0 -e3:E-> n3
 new n0 -e4:Edge-> n4
 
-xgrs (numOutEN,numOutE,numOut)=outgoing
+xgrs (::numOutEN,::numOutE,::numOut)=outgoing
 
 show var numOutEN
 show var numOutE

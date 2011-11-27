@@ -2,17 +2,17 @@ new graph "exact\exact" "Exact graph"
 
 show num nodes
 show num edges
-xgrs (a, e, b, f, c)=initParam
+xgrs (::a, ::e, ::b, ::f, ::c)=initParam
 show num nodes
 show num edges
-xgrs [?exactParamNode(a)]
-xgrs [?exactParamNode(b)]
-xgrs [?exactParamNode(c)]
+xgrs [?exactParamNode(::a)]
+xgrs [?exactParamNode(::b)]
+xgrs [?exactParamNode(::c)]
 
-xgrs [?exactParamEdge(e)]
-xgrs [?exactParamEdge(f)]
+xgrs [?exactParamEdge(::e)]
+xgrs [?exactParamEdge(::f)]
 
-xgrs [?exactParamEdgeWithNodes(e)]
-xgrs [?exactParamEdgeWithNodes(f)]
+xgrs [?exactParamEdgeWithNodes(::e)]
+xgrs [?exactParamEdgeWithNodes(::f)]
 
 quit

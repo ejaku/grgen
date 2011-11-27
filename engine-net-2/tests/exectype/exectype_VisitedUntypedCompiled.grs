@@ -1,7 +1,7 @@
 new graph "exectype/exectype"
 new n:A
 new n -e:H-> n
-xgrs VisitedUntyped(n,e)
+xgrs VisitedUntyped(::n,::e)
 show var i
 show var v
 quit

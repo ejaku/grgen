@@ -3,40 +3,40 @@ new graph "iterated\optionalMultiple"
 show num nodes
 show num edges
 
-xgrs (src,tgt)=init
+xgrs (::src,::tgt)=init
 
 show num nodes
 show num edges
 
-xgrs oneOrMoreEdges(src,tgt)
+xgrs oneOrMoreEdges(::src,::tgt)
 
-xgrs addDirected(src,tgt)
-
-show num nodes
-show num edges
-
-xgrs oneOrMoreEdges(src,tgt)
-
-xgrs addDirected(src,tgt)
+xgrs addDirected(::src,::tgt)
 
 show num nodes
 show num edges
 
-xgrs oneOrMoreEdges(src,tgt)
+xgrs oneOrMoreEdges(::src,::tgt)
 
-xgrs oneOrMoreEdgesDelete(src,tgt)
-
-show num nodes
-show num edges
-
-xgrs oneOrMoreEdgesDelete(src,tgt)
-
-xgrs addDirected(src,tgt)
+xgrs addDirected(::src,::tgt)
 
 show num nodes
 show num edges
 
-xgrs {visID = valloc()}
+xgrs oneOrMoreEdges(::src,::tgt)
+
+xgrs oneOrMoreEdgesDelete(::src,::tgt)
+
+show num nodes
+show num edges
+
+xgrs oneOrMoreEdgesDelete(::src,::tgt)
+
+xgrs addDirected(::src,::tgt)
+
+show num nodes
+show num edges
+
+xgrs {::visID = valloc()}
 
 xgrs foo
 xgrs unmarkEdge*
@@ -46,38 +46,7 @@ xgrs bar
 xgrs unmarkEdge*
 xgrs unmarkUEdge*
 
-xgrs addUndirected(src, src)
-
-show num nodes
-show num edges
-
-xgrs foo
-xgrs unmarkEdge*
-xgrs unmarkUEdge*
-
-xgrs bar
-xgrs unmarkEdge*
-xgrs unmarkUEdge*
-
-xgrs addDirected(tgt, tgt)
-
-show num nodes
-show num edges
-
-xgrs foo
-xgrs unmarkEdge*
-xgrs unmarkUEdge*
-
-xgrs addUndirected(tgt, tgt)
-
-show num nodes
-show num edges
-
-xgrs foo
-xgrs unmarkEdge*
-xgrs unmarkUEdge*
-
-xgrs addDirected(tgt, tgt)
+xgrs addUndirected(::src, ::src)
 
 show num nodes
 show num edges
@@ -90,6 +59,37 @@ xgrs bar
 xgrs unmarkEdge*
 xgrs unmarkUEdge*
 
-xgrs {vfree(visID)}
+xgrs addDirected(::tgt, ::tgt)
+
+show num nodes
+show num edges
+
+xgrs foo
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
+xgrs addUndirected(::tgt, ::tgt)
+
+show num nodes
+show num edges
+
+xgrs foo
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
+xgrs addDirected(::tgt, ::tgt)
+
+show num nodes
+show num edges
+
+xgrs foo
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
+xgrs bar
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
+xgrs {vfree(::visID)}
 
 quit

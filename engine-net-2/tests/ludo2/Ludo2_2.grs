@@ -64,7 +64,7 @@ show num edges "anyPath"
 show num edges "red"
 show num edges "holds"
 show num edges "blue"
-xgrs init && (dice)=getDice
+xgrs init && (::dice)=getDice
 
 dice.rand = 987654321
 

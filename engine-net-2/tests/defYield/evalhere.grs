@@ -1,11 +1,11 @@
 new graph defYield/evalhere
 
-xgrs (start)=create
+xgrs (::start)=create
 
 show num nodes
 show num edges
 
-xgrs (v)=answer(start)
+xgrs (::v)=answer(::start)
 
 show num nodes
 show num edges

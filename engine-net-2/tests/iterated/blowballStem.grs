@@ -1,13 +1,13 @@
 new graph "iterated\blowball"
 
-xgrs (stem)=initStem
+xgrs (::stem)=initStem
 
 show num nodes
 show num edges
 
 #not sure if % is deterministic enough for a test, so take care: if test fails grgen might work perfectly
-xgrs %stemBlowball(stem)
+xgrs %stemBlowball(::stem)
 
-#xgrs [stemBlowball(stem)] todo: should iterated match all permutations on all?
+#xgrs [stemBlowball(::stem)] todo: should iterated match all permutations on all?
 
 quit

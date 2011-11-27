@@ -1,6 +1,6 @@
 new graph defYield/yieldLHS
 
-xgrs (start)=createChain
+xgrs (::start)=createChain
 
 show num nodes
 show num edges
@@ -10,7 +10,7 @@ xgrs ?deleteWithoutIncoming
 show num nodes
 show num edges
 
-xgrs (end)=linkChainEndToStartIndependent(start)
+xgrs (::end)=linkChainEndToStartIndependent(::start)
 
 show num nodes
 show num edges

@@ -8,7 +8,7 @@ new @("n2")-:EB($=e2)->@("n2")
 
 record recordreplay/testgraph.grs
 
-xgrs toggle=true ;> <<deleteEdge; (toggle)=invert(toggle) && [createNodePerNode] && toggle>>
+xgrs ::toggle=true ;> <<deleteEdge; (::toggle)=invert(::toggle) && [createNodePerNode] && ::toggle>>
 
 record recordreplay/testgraph.grs
 

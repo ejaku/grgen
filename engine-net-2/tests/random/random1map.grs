@@ -4,17 +4,17 @@ randomseed 0 # get deterministic random for tests
 
 new n:A
 
-xgrs (val)=getmap
+xgrs (::val)=getmap
 show var val
-xgrs (val)=getmap
+xgrs (::val)=getmap
 show var val
-xgrs (val)=getmap
+xgrs (::val)=getmap
 show var val
-xgrs (val)=getmap
+xgrs (::val)=getmap
 show var val
-xgrs (val)=getmap
+xgrs (::val)=getmap
 show var val
-xgrs (val)=getmap
+xgrs (::val)=getmap
 show var val
 
 exit

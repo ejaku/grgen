@@ -23,7 +23,7 @@ show num nodes Node
 show num nodes N
 show num edges
 
-xgrs <<(n)=find ; reflexive(n)>>
+xgrs <<(::n)=find ; reflexive(::n)>>
 
 show num nodes Node
 show num nodes N
@@ -35,7 +35,7 @@ show num nodes Node
 show num nodes N
 show num edges
 
-xgrs <<(n)=find ; reflexive(n)>>
+xgrs <<(::n)=find ; reflexive(::n)>>
 
 show num nodes Node
 show num nodes N
@@ -50,7 +50,7 @@ show num edges
 new n4 -:Edge-> n4
 new n5 -:Edge-> n5
 
-xgrs <<(n)=find ; reflexive(n)>>
+xgrs <<(::n)=find ; reflexive(::n)>>
 
 show num nodes Node
 show num nodes N

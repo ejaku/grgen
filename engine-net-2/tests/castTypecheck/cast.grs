@@ -1,6 +1,6 @@
 new graph castTypecheck/cast
 
-xgrs (n,e)=init
+xgrs (::n,::e)=init
 n.val
 show num nodes only "N"
 show num nodes only "NA"
@@ -26,7 +26,7 @@ show num nodes only "M"
 
 clear graph
 
-xgrs (n,e)=init
+xgrs (::n,::e)=init
 e.val
 show num edges only "E"
 show num edges only "EA"

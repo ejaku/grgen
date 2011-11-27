@@ -4,21 +4,21 @@ new n1:N
 new n2:Node
 new n1 -e1:Edge-> n2
 
-xgrs m=map<Node,Node>{}
-xgrs r1(m)
+xgrs ::m=map<Node,Node>{}
+xgrs r1(::m)
 show num nodes
 show num edges
 show num nodes only "N"
 
-xgrs {m.add(n2,n2)}
-xgrs {m.add(n1,n1)}
-xgrs r1(m)
+xgrs {::m.add(::n2,::n2)}
+xgrs {::m.add(::n1,::n1)}
+xgrs r1(::m)
 show num nodes
 show num edges
 show num nodes only "N"
 
-xgrs {m.add(n2,n1)}
-xgrs r1(m)
+xgrs {::m.add(::n2,::n1)}
+xgrs r1(::m)
 show num nodes
 show num edges
 show num nodes only "N"

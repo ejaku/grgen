@@ -1,18 +1,18 @@
 new graph "iterated\spanningTree"
 
-xgrs (root)=initDirected
+xgrs (::root)=initDirected
 
 show num nodes
 show num edges
 
 #not sure if % is deterministic enough for a test, so take care: if test fails grgen might work perfectly
-xgrs %spanningTreeOutgoing(root)
-xgrs %spanningTreeIncoming(root)
+xgrs %spanningTreeOutgoing(::root)
+xgrs %spanningTreeIncoming(::root)
 
-xgrs spanningTreeReverse(root)
+xgrs spanningTreeReverse(::root)
 
 #not sure if % is deterministic enough for a test, so take care: if test fails grgen might work perfectly
-xgrs %spanningTreeOutgoing(root)
-xgrs %spanningTreeIncoming(root)
+xgrs %spanningTreeOutgoing(::root)
+xgrs %spanningTreeIncoming(::root)
 
 quit

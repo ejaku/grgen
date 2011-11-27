@@ -1,11 +1,11 @@
 new graph typeof3/typeof3
 
-xgrs (a)=init
+xgrs (::a)=init
 show num nodes
 show num edges
 show num nodes "AstNode"
 show num nodes "Blockify"
 show num nodes "Constant"
 show num nodes "IntConstant"
-xgrs [checkType(a)]
+xgrs [checkType(::a)]
 quit

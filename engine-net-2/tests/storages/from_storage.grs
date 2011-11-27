@@ -6,35 +6,35 @@ new n3:Node
 new n1 -e1:Edge-> n2
 new n2 -e2:Edge-> n3
 
-xgrs s=set<Node>{} | t=set<Edge>{} | {s.add(n1)} | {s.add(n2)} | {s.add(n3)} | {t.add(e2)}
-xgrs t1(s,t)
+xgrs ::s=set<Node>{} | ::t=set<Edge>{} | {::s.add(::n1)} | {::s.add(::n2)} | {::s.add(::n3)} | {::t.add(::e2)}
+xgrs t1(::s,::t)
 show num nodes
 show num edges
 
-xgrs {t.add(e1)}
-xgrs t1(s,t)
+xgrs {::t.add(::e1)}
+xgrs t1(::s,::t)
 show num nodes
 show num edges
 
 delete node n3
 new n1:Node
 new n1 -e1:Edge-> n1
-xgrs {s.add(n1)} & {t.add(e1)}
-xgrs t1(s,t)
+xgrs {::s.add(::n1)} & {::t.add(::e1)}
+xgrs t1(::s,::t)
 show num nodes
 show num edges
 
-xgrs t2(s,t)
+xgrs t2(::s,::t)
 show num nodes
 show num edges
 
 new n2:Node
 new n3:Node
 
-xgrs m=map<Node,Node>{} | {m.add(n1, n2)}
-xgrs t3(m)
+xgrs ::m=map<Node,Node>{} | {::m.add(::n1, ::n2)}
+xgrs t3(::m)
 
-xgrs {m.add(n2, n3)}
-xgrs t3(m)
+xgrs {::m.add(::n2, ::n3)}
+xgrs t3(::m)
 
 quit

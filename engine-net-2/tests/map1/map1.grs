@@ -5,14 +5,14 @@ n.m.add("Hallo", 9)
 n.m.add("Handtuch", 534)
 v=n.m
 
-xgrs getMapValue("Hallo") & getMapValue("Handtuch") & useMapVar(v)
+xgrs getMapValue("Hallo") & getMapValue("Handtuch") & useMapVar(::v)
 
 n.m.rem("Hallo")
 
-xgrs getMapValue("Hallo") & getMapValue("Handtuch") & useMapVar(v)
+xgrs getMapValue("Hallo") & getMapValue("Handtuch") & useMapVar(::v)
 
-xgrs m=map<string,int>{}
-xgrs tmp1="Hallo" ;> tmp2=80 ;> {m.add(tmp1, tmp2)}
-xgrs useMapVar(m)
+xgrs ::m=map<string,int>{}
+xgrs ::tmp1="Hallo" ;> ::tmp2=80 ;> {::m.add(::tmp1, ::tmp2)}
+xgrs useMapVar(::m)
 
 exit

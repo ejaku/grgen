@@ -3,16 +3,16 @@ new graph random/random1
 new n:A
 i = 0
 show var i
-xgrs (val,i)=getm(i)
+xgrs (::val,::i)=getm(::i)
 show var val
 show var i
-xgrs (val,i)=getm(i)
+xgrs (::val,::i)=getm(::i)
 show var val
 show var i
-xgrs (val,i)=getm(i)
+xgrs (::val,::i)=getm(::i)
 show var val
 show var i
-xgrs (val,i)=getm(i)
+xgrs (::val,::i)=getm(::i)
 show var val
 show var i
 

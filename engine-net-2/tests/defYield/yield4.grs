@@ -1,12 +1,12 @@
 new graph defYield/yield
 
-xgrs (start)=createBlowball
+xgrs (::start)=createBlowball
 
 show num nodes
 show num nodes NINT
 show num edges
 
-xgrs (count)=countNINT(start)
+xgrs (::count)=countNINT(::start)
 
 show num nodes
 show num nodes NINT

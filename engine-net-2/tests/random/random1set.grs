@@ -4,17 +4,17 @@ randomseed 0 # get deterministic random for tests
 
 new n:A
 
-xgrs (val)=getset
+xgrs (::val)=getset
 show var val
-xgrs (val)=getset
+xgrs (::val)=getset
 show var val
-xgrs (val)=getset
+xgrs (::val)=getset
 show var val
-xgrs (val)=getset
+xgrs (::val)=getset
 show var val
-xgrs (val)=getset
+xgrs (::val)=getset
 show var val
-xgrs (val)=getset
+xgrs (::val)=getset
 show var val
 
 exit

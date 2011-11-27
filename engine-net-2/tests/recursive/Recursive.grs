@@ -4,23 +4,23 @@ debug set layout Organic
 
 new n1:Node
 new n2:Node
-xgrs [?chainFromTo(n1,n2)]
-xgrs (beg,end)=createChain
-xgrs [?chainFromTo(beg,end)]
-xgrs [?chainFrom(beg)]
-xgrs [?chainFromComplete(beg)]
+xgrs [?chainFromTo(::n1,::n2)]
+xgrs (::beg,::end)=createChain
+xgrs [?chainFromTo(::beg,::end)]
+xgrs [?chainFrom(::beg)]
+xgrs [?chainFromComplete(::beg)]
 
-xgrs (head)=createBlowball
-xgrs [?blowball(head)]
+xgrs (::head)=createBlowball
+xgrs [?blowball(::head)]
 
 custom graph analyze_graph
 custom actions gen_searchplan chainFromTo chainFrom chainFromComplete
 
-xgrs [?chainFromTo(beg,end)]
-xgrs [?chainFrom(beg)]
-xgrs [?chainFromComplete(beg)]
+xgrs [?chainFromTo(::beg,::end)]
+xgrs [?chainFrom(::beg)]
+xgrs [?chainFromComplete(::beg)]
 
-xgrs chainFromCompleteArbitraryPatternpathLocked(beg)
-xgrs chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(beg)
+xgrs chainFromCompleteArbitraryPatternpathLocked(::beg)
+xgrs chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(::beg)
 
 quit

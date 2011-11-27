@@ -2,6 +2,6 @@ new graph "exectype/exectype"
 
 new n:AA
 
-xgrs Set(n)
+xgrs Set(::n)
 
 quit

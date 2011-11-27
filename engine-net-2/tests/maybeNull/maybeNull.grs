@@ -4,24 +4,24 @@ new n1:Node
 new n2:Node
 new n1 -e:Edge-> n2
 
-xgrs nil=null ;> [r(n1,e)]
-xgrs [r(n1,nil)]
-xgrs [r(nil,e)]
-xgrs [r(nil,nil)]
+xgrs ::nil=null ;> [r(::n1,::e)]
+xgrs [r(::n1,::nil)]
+xgrs [r(::nil,::e)]
+xgrs [r(::nil,::nil)]
 
 new n1b:Node
 new n1b -eb:Edge-> n2
 
-xgrs [r(n1,e)]
-xgrs [r(n1,nil)]
-xgrs [r(nil,e)]
-xgrs [r(nil,nil)]
+xgrs [r(::n1,::e)]
+xgrs [r(::n1,::nil)]
+xgrs [r(::nil,::e)]
+xgrs [r(::nil,::nil)]
 
 new n1 -ec:Edge-> n2
 
-xgrs [r(n1,e)]
-xgrs [r(n1,nil)]
-xgrs [r(nil,e)]
-xgrs [r(nil,nil)]
+xgrs [r(::n1,::e)]
+xgrs [r(::n1,::nil)]
+xgrs [r(::nil,::e)]
+xgrs [r(::nil,::nil)]
 
 quit

@@ -3,7 +3,7 @@ new graph "clique2\Clique2"
 dump add node State infotag rand1
 dump add node State infotag rand2
 
-xgrs (state)=init
+xgrs (::state)=init
 state.maxNodeID = 10
 state.rand1 = 131579589
 state.rand2 = 582872378

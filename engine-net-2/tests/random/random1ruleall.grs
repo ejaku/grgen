@@ -2,40 +2,40 @@ new graph random/random1
 
 randomseed 0 # get deterministic random for tests
 
-xgrs one=1
-xgrs two=2
-xgrs three=3
+xgrs ::one=1
+xgrs ::two=2
+xgrs ::three=3
 
 xgrs $[match]
-xgrs $three[match]
-xgrs $two,three[match]
-xgrs $three,three[match]
+xgrs $::three[match]
+xgrs $::two,::three[match]
+xgrs $::three,::three[match]
 
 new n1:A
 
 xgrs $[match]
-xgrs $three[match]
-xgrs $two,three[match]
-xgrs $three,three[match]
+xgrs $::three[match]
+xgrs $::two,::three[match]
+xgrs $::three,::three[match]
 
 new n2:A
 
 xgrs $[match]
-xgrs $three[match]
-xgrs $two,three[match]
-xgrs $three,three[match]
+xgrs $::three[match]
+xgrs $::two,::three[match]
+xgrs $::three,::three[match]
 
 new n3:A
 
 show num nodes only A
 show num nodes only B
 
-xgrs $two,two[changetype]
+xgrs $::two,::two[changetype]
 
 show num nodes only A
 show num nodes only B
 
-xgrs $one,*[changetype]
+xgrs $::one,*[changetype]
 
 show num nodes only A
 show num nodes only B

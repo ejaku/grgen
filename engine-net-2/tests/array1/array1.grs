@@ -50,20 +50,20 @@ v=n.m
 n.m
 
 show var v
-xgrs useArrayVar(v)
+xgrs useArrayVar(::v)
 
 n.m.rem(1)
 n.m
 show var v
 
-xgrs useArrayVar(v)
+xgrs useArrayVar(::v)
 
 n.m.rem()
 n.m
 show var v
 
-xgrs m=array<string>[]
-xgrs tmp="Hallo" ;> {m.add(tmp)}
-xgrs useArrayVar(m)
+xgrs ::m=array<string>[]
+xgrs ::tmp="Hallo" ;> {::m.add(::tmp)}
+xgrs useArrayVar(::m)
 
 quit

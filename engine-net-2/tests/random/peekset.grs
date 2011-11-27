@@ -3,19 +3,19 @@ new graph random/random1
 new n:A
 i = 0
 show var i
-xgrs (val,i)=gets(i)
+xgrs (::val,::i)=gets(::i)
 show var val
 show var i
-xgrs (val,i)=gets(i)
+xgrs (::val,::i)=gets(::i)
 show var val
 show var i
-xgrs (val,i)=gets(i)
+xgrs (::val,::i)=gets(::i)
 show var val
 show var i
-xgrs (val,i)=gets(i)
+xgrs (::val,::i)=gets(::i)
 show var val
 show var i
-xgrs (val,i)=gets(i)
+xgrs (::val,::i)=gets(::i)
 show var val
 show var i
 
