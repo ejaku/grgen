@@ -832,12 +832,12 @@ Sequence SimpleSequence():
 		LOOKAHEAD(Constant())
 	    constant=Constant()
 		{
-			return new SequenceAssignConstToVar(toVar, constant);
+			return new SequenceAssignConstToVar(toVar, constant); // needed as sequence to allow variable declaration and initialization in sequence scope
 		}
 	|
 		fromVar=Variable()
 		{
-			return new SequenceAssignVarToVar(toVar, fromVar);
+			return new SequenceAssignVarToVar(toVar, fromVar); // needed as sequence to allow variable declaration and initialization in sequence scope
 		}
 	|
         LOOKAHEAD(4) "$" "%" "(" str=Text() ")"
@@ -861,12 +861,12 @@ Sequence SimpleSequence():
 		LOOKAHEAD(2)
 		constant=Constant()
 		{
-			return new SequenceBooleanComputation(new SequenceComputationYieldingAssignExprToVar(toVar, new SequenceExpressionConstant(constant)), null, false);
+			return new SequenceBooleanComputation(new SequenceComputationAssignment(new AssignmentTargetYieldingVar(toVar), new SequenceExpressionConstant(constant)), null, false);
 		}
 	|
 		fromVar=Variable()
 		{
-			return new SequenceBooleanComputation(new SequenceComputationYieldingAssignExprToVar(toVar, new SequenceExpressionVariable(fromVar)), null, false);
+			return new SequenceBooleanComputation(new SequenceComputationAssignment(new AssignmentTargetYieldingVar(toVar), new SequenceExpressionVariable(fromVar)), null, false);
 		}
 	)
 |
@@ -959,55 +959,33 @@ Sequence SimpleSequence():
         return new SequenceFor(fromVar, fromVar2, fromVar3, seq, variableList1);
     }
 |
-	("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); } comp=Computation() { varDecls.PopScope(variableList1); } "}"
+	("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); } comp=CompoundComputation() { varDecls.PopScope(variableList1); } "}"
 	{
 		return new SequenceBooleanComputation(comp, variableList1, special);
 	}
+}
+
+SequenceComputation CompoundComputation():
+{
+	SequenceComputation comp, compRight;
+}
+{
+	comp=Computation() (";" compRight=CompoundComputation() { return new SequenceComputationThen(comp, compRight); } | { return comp; })
 }
 
 SequenceComputation Computation():
 {
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
 	SequenceExpression expr, fromExpr;
-	SequenceComputation comp;
+	SequenceComputation comp, assignOrExpr;
+	AssignmentTarget tgt;
 	String attrName, method, elemName;
 }
 {
-	LOOKAHEAD(Variable() "=")
-	toVar=Variable() "=" 
-	(	
-		expr=Expression()
-		{
-			return new SequenceComputationAssignExprToVar(toVar, expr);
-		}
-	|
-		"valloc" "(" ")"
-		{
-			return new SequenceComputationAssignExprToVar(toVar, new SequenceExpressionVAlloc());
-		}
-	)
-|
-	"yield" toVar=VariableUse() "=" expr=Expression()
+	LOOKAHEAD(AssignmentTarget() "=")
+	tgt=AssignmentTarget() "=" assignOrExpr=ExpressionOrAssignment()
 	{
-		return new SequenceComputationYieldingAssignExprToVar(toVar, expr);
-	}
-|
-	LOOKAHEAD(VariableUse() "." "visited" "[" Expression() "]" "=")
-	toVar=VariableUse() "." "visited" "[" fromExpr=Expression() "]" "=" expr=Expression()
-	{
-		return new SequenceComputationAssignExprToVisited(toVar, fromExpr, expr);
-	}
-|
-	LOOKAHEAD(VariableUse() "." Word() "=")
-	toVar=VariableUse() "." attrName=Word() "=" expr=Expression()
-    {
-        return new SequenceComputationAssignExprToAttribute(toVar, attrName, expr);
-    }
-|
-	LOOKAHEAD(VariableUse() "[" Expression() "]" "=")
-	toVar=VariableUse() "[" fromExpr=Expression() "]" "=" expr=Expression()
-	{
-		return new SequenceComputationAssignExprToIndexedVar(toVar, fromExpr, expr);
+		return new SequenceComputationAssignment(tgt, assignOrExpr);
 	}
 |
 	"vfree" "(" fromExpr=Expression() ")"
@@ -1031,7 +1009,7 @@ SequenceComputation Computation():
 	}
 |
 	LOOKAHEAD(MethodCall())
-	comp=MethodCall()
+	comp=MethodCallRepeated()
 	{
 		return comp;
 	}
@@ -1042,7 +1020,118 @@ SequenceComputation Computation():
 	}
 }
 
+AssignmentTarget AssignmentTarget():
+{
+	SequenceVariable toVar;
+	SequenceExpression fromExpr;
+	String attrName;
+}
+{
+	"yield" toVar=VariableUse()
+	{
+		return new AssignmentTargetYieldingVar(toVar);
+	}
+|
+	LOOKAHEAD(VariableUse() "." "visited" "[" Expression() "]")
+	toVar=VariableUse() "." "visited" "[" fromExpr=Expression() "]"
+	{
+		return new AssignmentTargetVisited(toVar, fromExpr);
+	}
+|
+	LOOKAHEAD(VariableUse() "." Word())
+	toVar=VariableUse() "." attrName=Word()
+    {
+        return new AssignmentTargetAttribute(toVar, attrName);
+    }
+|
+	LOOKAHEAD(VariableUse() "[" Expression() "]")
+	toVar=VariableUse() "[" fromExpr=Expression() "]"
+	{
+		return new AssignmentTargetIndexedVar(toVar, fromExpr);
+	}
+|
+	toVar=Variable()
+	{
+		return new AssignmentTargetVar(toVar);
+	}
+}
+
+SequenceComputation ExpressionOrAssignment():
+{
+	SequenceExpression expr;
+	SequenceComputation assignOrExpr;
+	AssignmentTarget tgt;
+}
+{
+	(
+		LOOKAHEAD(AssignmentTarget() "=")
+		tgt=AssignmentTarget() "=" assignOrExpr=ExpressionOrAssignment()
+		{
+			return new SequenceComputationAssignment(tgt, assignOrExpr);
+		}	
+	|
+		expr=Expression()
+		{
+			return expr;
+		}
+	|
+		"valloc" "(" ")"
+		{
+			return new SequenceExpressionVAlloc();
+		}
+	)
+}
+
 SequenceExpression Expression():
+{
+	SequenceExpression seq, seq2;
+}
+{
+	seq=ExpressionLazyAnd() ( "||" seq2=ExpressionLazyAnd() { seq = new SequenceExpressionLazyOr(seq, seq2); } )* { return seq; }
+}
+
+SequenceExpression ExpressionLazyAnd():
+{
+	SequenceExpression seq, seq2;
+}
+{
+	seq=ExpressionStrictOr() ( "&&" seq2=ExpressionStrictOr() { seq = new SequenceExpressionLazyAnd(seq, seq2); } )* { return seq; }
+}
+
+SequenceExpression ExpressionStrictOr():
+{
+	SequenceExpression seq, seq2;
+}
+{
+	seq=ExpressionStrictXor() ( "|" seq2=ExpressionStrictXor() { seq = new SequenceExpressionStrictOr(seq, seq2); } )* { return seq; }
+}
+
+SequenceExpression ExpressionStrictXor():
+{
+	SequenceExpression seq, seq2;
+}
+{
+	seq=ExpressionStrictAnd() ( "^" seq2=ExpressionStrictAnd() { seq = new SequenceExpressionStrictXor(seq, seq2); } )* { return seq; }
+}
+
+SequenceExpression ExpressionStrictAnd():
+{
+	SequenceExpression seq, seq2;
+}
+{
+	seq=ExpressionNot() ( "&" seq2=ExpressionNot() { seq = new SequenceExpressionStrictAnd(seq, seq2); } )* { return seq; }
+}
+
+SequenceExpression ExpressionNot():
+{
+	SequenceExpression seq;
+}
+{
+    "!" seq=ExpressionBasic() { return new SequenceExpressionNot(seq); }
+	| seq=ExpressionBasic() { return seq; }
+}
+
+SequenceExpression ExpressionBasic():
 {
 	List<SequenceVariable> variableList1 = new List<SequenceVariable>();
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
@@ -1181,6 +1270,38 @@ SequenceComputation MethodCall():
 			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty as expressions on set/map/array)");
 		}
     }
+}
+
+SequenceComputation MethodCallRepeated():
+{
+	String method;
+	SequenceComputation methodCall;
+	SequenceExpression fromExpr2 = null, fromExpr3 = null;
+}
+{
+	methodCall=MethodCall()	( "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
+		{
+			if(method=="add") {
+				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,array end) or 2(for map,array with index) parameters)");
+				methodCall = new SequenceComputationContainerAdd(methodCall, fromExpr2, fromExpr3);
+			} else if(method=="rem") {
+				if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for array end) parameters )");
+				methodCall = new SequenceComputationContainerRem(methodCall, fromExpr2);
+			} else if(method=="clear") {
+				if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
+				methodCall = new SequenceComputationContainerClear(methodCall);
+			} else if(method=="size") {
+				if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
+				methodCall = new SequenceExpressionContainerSize(methodCall);
+			} else if(method=="empty") {
+				if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
+				methodCall = new SequenceExpressionContainerEmpty(methodCall);
+			} else {
+				throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty as expressions on set/map/array)");
+			}
+		}
+	)*
+	{ return methodCall; }
 }
 
 void RuleLookahead():

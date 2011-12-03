@@ -20,6 +20,8 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public enum SequenceExpressionType
     {
+        LazyOr, LazyAnd, StrictOr, StrictXor, StrictAnd,
+        Not,
         Constant, Variable,
         Def,
         IsVisited, 
@@ -54,7 +56,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns the type of the sequence
+        /// Returns the type of the sequence expression
         /// default behaviour: returns "boolean"
         /// </summary>
         public override string Type(SequenceCheckingEnvironment env)
@@ -99,13 +101,207 @@ namespace de.unika.ipd.grGen.libGr
             return Execute(graph, env);
         }
 
-        public override sealed IEnumerable<SequenceComputation> Children { get { foreach(SequenceExpression expr in ChildrenExpression) yield return expr; ; } }
+        public override IEnumerable<SequenceComputation> Children { get { foreach(SequenceExpression expr in ChildrenExpression) yield return expr; ; } }
         public override sealed bool ReturnsValue { get { return true; } }
 
         /// <summary>
         /// Enumerates all child sequence expression objects
         /// </summary>
         public abstract IEnumerable<SequenceExpression> ChildrenExpression { get; }
+    }
+
+    /// <summary>
+    /// A sequence expression over a container object (resulting from a variable or a method call)
+    /// </summary>
+    public abstract class SequenceExpressionContainer : SequenceExpression
+    {
+        public SequenceVariable Container;
+        public SequenceComputation MethodCall;
+
+        public SequenceExpressionContainer(SequenceExpressionType type, SequenceVariable container, SequenceComputation methodCall)
+            : base(type)
+        {
+            Container = container;
+            MethodCall = methodCall;
+        }
+
+        public string ContainerType(SequenceCheckingEnvironment env)
+        {
+            if(Container != null) return Container.Type;
+            else return MethodCall.Type(env);
+        }
+
+        public object ContainerValue(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(Container != null) return Container.GetVariableValue(graph);
+            else return MethodCall.Execute(graph, env);
+        }
+    }
+
+    /// <summary>
+    /// A sequence binary expression object with references to the left and right child sequence expressions.
+    /// </summary>
+    public abstract class SequenceBinaryExpression : SequenceExpression
+    {
+        public SequenceExpression Left;
+        public SequenceExpression Right;
+
+        /// <summary>
+        /// Initializes a new SequenceBinaryExpression object with the given sequence expression type.
+        /// </summary>
+        /// <param name="seqExprType">The sequence expression type.</param>
+        /// <param name="left">The left sequence expression.</param>
+        /// <param name="right">The right sequence expression.</param>
+        public SequenceBinaryExpression(SequenceExpressionType seqExprType, 
+            SequenceExpression left, SequenceExpression right)
+            : base(seqExprType)
+        {
+            SequenceExpressionType = seqExprType;
+
+            this.Left = left;
+            this.Right = right;
+        }
+
+        /// <summary>
+        /// Copies the sequence expression deeply so that
+        /// - the global Variables are kept
+        /// - the local Variables are replaced by copies initialized to null
+        /// Used for cloning defined sequences before executing them if needed.
+        /// Needed if the defined sequence is currently executed to prevent state corruption.
+        /// </summary>
+        /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+        /// <returns>The copy of the sequence expression</returns>
+        internal override sealed SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceBinaryExpression copy = (SequenceBinaryExpression)MemberwiseClone();
+            copy.Left = Left.CopyExpression(originalToCopy);
+            copy.Right = Right.CopyExpression(originalToCopy);
+            return copy;
+        }
+
+        public override sealed void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Left.GetLocalVariables(variables);
+            Right.GetLocalVariables(variables);
+        }
+
+        /// <summary>
+        /// Enumerates all child sequence expression objects
+        /// </summary>
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Left; yield return Right; } }
+    }
+
+
+    public class SequenceExpressionLazyOr : SequenceBinaryExpression
+    {
+        public SequenceExpressionLazyOr(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.LazyOr, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return (bool)Left.Evaluate(graph, env) || (bool)Right.Evaluate(graph, env);
+        }
+
+        public override int Precedence { get { return 2; } }
+        public override string Symbol { get { return Left.ToString()+"||"+Right.ToString(); } }
+    }
+
+    public class SequenceExpressionLazyAnd : SequenceBinaryExpression
+    {
+        public SequenceExpressionLazyAnd(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.LazyAnd, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return (bool)Left.Evaluate(graph, env) && (bool)Right.Evaluate(graph, env);
+        }
+
+        public override int Precedence { get { return 3; } }
+        public override string Symbol { get { return Left.ToString() + "&&" + Right.ToString(); } }
+    }
+
+    public class SequenceExpressionStrictOr : SequenceBinaryExpression
+    {
+        public SequenceExpressionStrictOr(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.StrictOr, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return (bool)Left.Evaluate(graph, env) || (bool)Right.Evaluate(graph, env);
+        }
+
+        public override int Precedence { get { return 4; } }
+        public override string Symbol { get { return Left.ToString() + "|" + Right.ToString(); } }
+    }
+
+    public class SequenceExpressionStrictXor : SequenceBinaryExpression
+    {
+        public SequenceExpressionStrictXor(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.StrictXor, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return (bool)Left.Evaluate(graph, env) ^ (bool)Right.Evaluate(graph, env);
+        }
+
+        public override int Precedence { get { return 5; } }
+        public override string Symbol { get { return Left.ToString() + "^" + Right.ToString(); } }
+    }
+
+    public class SequenceExpressionStrictAnd : SequenceBinaryExpression
+    {
+        public SequenceExpressionStrictAnd(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.StrictAnd, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return (bool)Left.Evaluate(graph, env) & (bool)Right.Evaluate(graph, env);
+        }
+
+        public override int Precedence { get { return 6; } }
+        public override string Symbol { get { return Left.ToString() + "||" + Right.ToString(); } }
+    }
+
+    public class SequenceExpressionNot : SequenceExpression
+    {
+        public SequenceExpression Operand;
+
+        public SequenceExpressionNot(SequenceExpression operand)
+            : base(SequenceExpressionType.Not)
+        {
+            this.Operand = operand;
+        }
+
+        internal override sealed SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionNot copy = (SequenceExpressionNot)MemberwiseClone();
+            copy.Operand = Operand.CopyExpression(originalToCopy);
+            return copy;
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return !(bool)Operand.Evaluate(graph, env);
+        }
+
+        public override sealed void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Operand.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Operand; } }
+        public override int Precedence { get { return 7; } }
+        public override string Symbol { get { return "!" + Operand.ToString(); } }
     }
 
 
@@ -367,21 +563,23 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return Expr.Symbol + " in " + Container.Name; } }
     }
 
-    public class SequenceExpressionContainerSize : SequenceExpression
+    public class SequenceExpressionContainerSize : SequenceExpressionContainer
     {
-        public SequenceVariable Container;
-
         public SequenceExpressionContainerSize(SequenceVariable container)
-            : base(SequenceExpressionType.ContainerSize)
+            : base(SequenceExpressionType.ContainerSize, container, null)
         {
-            Container = container;
+        }
+
+        public SequenceExpressionContainerSize(SequenceComputation methodCall)
+            : base(SequenceExpressionType.ContainerSize, null, methodCall)
+        {
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            if(Container.Type != "" && (TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null))
+            if(ContainerType(env) != "" && (TypesHelper.ExtractSrc(ContainerType(env)) == null || TypesHelper.ExtractDst(ContainerType(env)) == null))
             {
-                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> type", Container.Type);
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> type", ContainerType(env));
             }
         }
 
@@ -393,78 +591,88 @@ namespace de.unika.ipd.grGen.libGr
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceExpressionContainerSize copy = (SequenceExpressionContainerSize)MemberwiseClone();
-            copy.Container = Container.Copy(originalToCopy);
+            if(Container != null) copy.Container = Container.Copy(originalToCopy);
+            if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy);
             return copy;
         }
 
         public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Container.GetVariableValue(graph) is IList)
+            object container = ContainerValue(graph, env);
+            if(container is IList)
             {
-                IList array = (IList)Container.GetVariableValue(graph);
+                IList array = (IList)container;
                 return array.Count;
             }
             else
             {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                IDictionary setmap = (IDictionary)container;
                 return setmap.Count;
             }
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
-            Container.GetLocalVariables(variables);
+            if(Container != null) Container.GetLocalVariables(variables);
+            if(MethodCall != null) MethodCall.GetLocalVariables(variables);
         }
 
+        public override IEnumerable<SequenceComputation> Children { get { if(MethodCall==null) yield break; else yield return MethodCall; } }
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Container.Name + ".size()"; } }
     }
 
-    public class SequenceExpressionContainerEmpty : SequenceExpression
+    public class SequenceExpressionContainerEmpty : SequenceExpressionContainer
     {
-        public SequenceVariable Container;
-
         public SequenceExpressionContainerEmpty(SequenceVariable container)
-            : base(SequenceExpressionType.ContainerEmpty)
+            : base(SequenceExpressionType.ContainerEmpty, container, null)
         {
-            Container = container;
+        }
+
+        public SequenceExpressionContainerEmpty(SequenceComputation methodCall)
+            : base(SequenceExpressionType.ContainerEmpty, null, methodCall)
+        {
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            if(Container.Type != "" && (TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null))
+            if(ContainerType(env) != "" && (TypesHelper.ExtractSrc(ContainerType(env)) == null || TypesHelper.ExtractDst(ContainerType(env)) == null))
             {
-                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> type", Container.Type);
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> type", ContainerType(env));
             }
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceExpressionContainerEmpty copy = (SequenceExpressionContainerEmpty)MemberwiseClone();
-            copy.Container = Container.Copy(originalToCopy);
+            if(Container != null) copy.Container = Container.Copy(originalToCopy);
+            if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy);
             return copy;
         }
 
         public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Container.GetVariableValue(graph) is IList)
+            object container = ContainerValue(graph, env);
+            if(container is IList)
             {
-                IList array = (IList)Container.GetVariableValue(graph);
+                IList array = (IList)container;
                 return array.Count == 0;
             }
             else
             {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                IDictionary setmap = (IDictionary)container;
                 return setmap.Count == 0;
             }
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
-            Container.GetLocalVariables(variables);
+            if(Container != null) Container.GetLocalVariables(variables);
+            if(MethodCall != null) MethodCall.GetLocalVariables(variables);
         }
 
+        public override IEnumerable<SequenceComputation> Children { get { if(MethodCall == null) yield break; else yield return MethodCall; } }
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Container.Name + ".empty()"; } }

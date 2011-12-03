@@ -1477,6 +1477,9 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 // todo: add more user friendly explicit error messages for % used after $ instead of implicit syntax error
 // (a user choice $% override for the random flag $ is only available in the shell/debugger)
 
+// note: sequences and expressions are right associative here, that's wrong but doesn't matter cause this is only a syntax checking pre pass
+// in the backend, the operators are parsed with correct associativity (and with correct left-to-right, def-before-use order of variables)
+
 execInParameters [ ExecNode xg ] returns [ CollectNode<ExecVarDeclNode> res = new CollectNode<ExecVarDeclNode>() ]
 	: LPAREN (execParamList[res, xg])? RPAREN
 	|
@@ -1579,27 +1582,62 @@ simpleSequence[ExecNode xg]
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
 	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
 		IN { xg.append(" in "); } xgrsEntity[xg] SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
-	| LBRACE { xg.append("{"); } seqComputation[xg] RBRACE { xg.append("}"); } 
+	| LBRACE { xg.append("{"); } seqCompoundComputation[xg] RBRACE { xg.append("}"); } 
+	;
+
+seqCompoundComputation[ExecNode xg]
+	: seqComputation[xg] (SEMI { xg.append(";"); } seqCompoundComputation[xg])?
 	;
 
 seqComputation[ExecNode xg]
-	: (xgrsEntity[null] (ASSIGN|GE)) => xgrsEntity[xg] (ASSIGN | GE) { xg.append('='); }
-		( seqExpression[xg]
-		| VALLOC LPAREN RPAREN { xg.append("valloc()"); }
-		)
-	| YIELD { xg.append("yield "); } xgrsVarUse[xg] ASSIGN { xg.append('='); } seqExpression[xg] 
-	| (xgrsVarUse[null] DOT VISITED LBRACK seqExpression[null] RBRACK ASSIGN) => xgrsVarUse[xg] DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK ASSIGN { xg.append("]="); } seqExpression[xg]
-	| (xgrsVarUse[null] DOT IDENT ASSIGN) => xgrsVarUse[xg] d=DOT attr=IDENT ASSIGN { xg.append("."+attr.getText()+" = "); } seqExpression[xg]
-	| (xgrsVarUse[null] LBRACK seqExpression[null] RBRACK ASSIGN) => xgrsVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK ASSIGN { xg.append("]="); } seqExpression[xg]
+	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN | GE) { xg.append('='); } seqExpressionOrAssign[xg]
 	| VFREE LPAREN { xg.append("vfree("); } seqExpression[xg] RPAREN { xg.append(")"); }
 	| VRESET LPAREN { xg.append("vreset("); } seqExpression[xg] RPAREN { xg.append(")"); }
 	| EMIT LPAREN { xg.append("emit("); } seqExpression[xg] RPAREN { xg.append(")"); }
 	| RECORD LPAREN { xg.append("record("); } seqExpression[xg] RPAREN { xg.append(")"); }
-	| (methodCall[null]) => methodCall[xg]
-	| (seqExpression[null]) => seqExpression[xg]
+	| (methodCall[null]) => methodCallRepeated[xg]
+	| seqExpression[xg]
+	;
+
+seqExpressionOrAssign[ExecNode xg]
+	: (seqAssignTarget[null] ASSIGN) => seqAssignTarget[xg] ASSIGN { xg.append('='); } seqExpressionOrAssign[xg]
+	| seqExpression[xg] 
+	| VALLOC LPAREN RPAREN { xg.append("valloc()"); }
+	;
+
+seqAssignTarget[ExecNode xg]
+	: YIELD { xg.append("yield "); } xgrsVarUse[xg] 
+	| (xgrsVarUse[null] DOT VISITED) => xgrsVarUse[xg] DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); } 
+	| (xgrsVarUse[null] DOT IDENT ) => xgrsVarUse[xg] d=DOT attr=IDENT { xg.append("."+attr.getText()); }
+	| (xgrsVarUse[null] LBRACK) => xgrsVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
+	| xgrsEntity[xg]
 	;
 
 seqExpression[ExecNode xg]
+	: seqExprLazyAnd[xg] ( LOR {xg.append(" || ");} seqExpression[xg] )?
+	;
+
+seqExprLazyAnd[ExecNode xg]
+	: seqExprStrictOr[xg] ( LAND {xg.append(" && ");} seqExprLazyAnd[xg] )?
+	;
+
+seqExprStrictOr[ExecNode xg]
+	: seqExprStrictXor[xg] ( BOR {xg.append(" | ");} seqExprStrictOr[xg] )?
+	;
+
+seqExprStrictXor[ExecNode xg]
+	: seqExprStrictAnd[xg] ( BXOR {xg.append(" ^ ");} seqExprStrictXor[xg] )?
+	;
+
+seqExprStrictAnd[ExecNode xg]
+	: seqExprNeg[xg] ( BAND {xg.append(" & ");} seqExprStrictAnd[xg] )?
+	;
+
+seqExprNeg[ExecNode xg]
+	: (NOT {xg.append("!");})? seqExprBasic[xg]
+	;
+
+seqExprBasic[ExecNode xg]
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
@@ -1637,6 +1675,16 @@ methodCall[ExecNode xg]
 				&& !method.getText().equals("size") && !method.getText().equals("empty"))
 			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty on set/map/array)");
 		}
+	;
+
+methodCallRepeated[ExecNode xg]
+	: methodCall[xg] ( d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
+			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])? )? RPAREN { xg.append(")"); }
+		{ if(!method.getText().equals("add") && !method.getText().equals("rem") && !method.getText().equals("clear")
+				&& !method.getText().equals("size") && !method.getText().equals("empty"))
+			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty on set/map/array)");
+		}
+	)*
 	;
 
 xgrsConstant[ExecNode xg]
