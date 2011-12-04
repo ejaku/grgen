@@ -154,7 +154,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Append(" ");
                 sb.Append("var_" + seqVar.Prefix + seqVar.PureName);
                 sb.Append(" = ");
-                sb.Append(TypesHelper.DefaultValue(seqVar.Type, model));
+                sb.Append(TypesHelper.DefaultValueString(seqVar.Type, model));
                 sb.Append(";\n");
                 return sb.ToString();
             }
@@ -223,6 +223,7 @@ namespace de.unika.ipd.grGen.lgsp
 			{
                 case SequenceType.AssignUserInputToVar:
                 case SequenceType.AssignRandomToVar:
+                case SequenceType.DeclareVariable:
                 case SequenceType.AssignConstToVar:
                 case SequenceType.AssignVarToVar:
                 {
@@ -277,7 +278,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-				default: // esp. AssignElemToVar
+				default:
 					foreach(Sequence childSeq in seq.Children)
 						EmitNeededVarAndRuleEntities(childSeq, source);
 					break;
@@ -752,6 +753,14 @@ namespace de.unika.ipd.grGen.lgsp
 					source.AppendFront(SetResultVar(seqMinMax, "i_" + seqMinMax.Id + " >= " + seqMinMax.Min));
 					break;
 				}
+
+                case SequenceType.DeclareVariable:
+                {
+                    SequenceDeclareVariable seqDeclVar = (SequenceDeclareVariable)seq;
+                    source.AppendFront(SetVar(seqDeclVar.DestVar, TypesHelper.DefaultValueString(seqDeclVar.DestVar.Type, env.Model)));
+                    source.AppendFront(SetResultVar(seqDeclVar, "true"));
+                    break;
+                }
 
 				case SequenceType.AssignConstToVar:
 				{
@@ -1683,7 +1692,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 String typeName = sequencesToOutputTypes[paramBindings.Name][j];
                 outParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName
-                    + " = " + TypesHelper.DefaultValue(typeName, model) + ";";
+                    + " = " + TypesHelper.DefaultValueString(typeName, model) + ";";
                 outArguments += ", ref tmpvar_" + varName;
                 if(paramBindings.ReturnVars.Length != 0)
                     outAssignments += SetVar(paramBindings.ReturnVars[j], "tmpvar_" + varName);
@@ -1729,6 +1738,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             switch(expr.SequenceExpressionType)
             {
+                case SequenceExpressionType.Conditional:
+                {
+                    SequenceExpressionConditional seqCond = (SequenceExpressionConditional)expr;
+                    return "( (bool)(" + GetSequenceExpression(seqCond.Condition) + ")"
+                        + " ? (object)(" + GetSequenceExpression(seqCond.TrueCase) + ")"
+                        + " : (object)(" + GetSequenceExpression(seqCond.FalseCase) + ") )";
+                }
+
                 case SequenceExpressionType.LazyOr:
                 {
                     SequenceExpressionLazyOr seq = (SequenceExpressionLazyOr)expr;
@@ -2241,7 +2258,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.OutParameterTypes[i]), model);
                 source.AppendFront(typeName + " vari_" + sequence.OutParameters[i]);
-                source.Append(" = " + TypesHelper.DefaultValue(typeName, model) + ";\n");
+                source.Append(" = " + TypesHelper.DefaultValueString(typeName, model) + ";\n");
             }
             source.AppendFront("bool result = ApplyXGRS_" + sequence.Name + "((GRGEN_LGSP.LGSPGraph)graph");
             for(int i = 0; i < sequence.Parameters.Length; ++i)
@@ -2287,7 +2304,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.OutParameterTypes[i]), model);
                 source.AppendFront(typeName + " var_" + sequence.OutParameters[i]);
-                source.Append(" = " + TypesHelper.DefaultValue(typeName, model) + ";\n");
+                source.Append(" = " + TypesHelper.DefaultValueString(typeName, model) + ";\n");
             }
 
             source.AppendFront("bool result = ApplyXGRS_" + sequence.Name + "((GRGEN_LGSP.LGSPGraph)graph");

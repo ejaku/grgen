@@ -182,7 +182,47 @@ namespace de.unika.ipd.grGen.libGr
             return false; // object or node/edge or dictionary/list type which is not null
         }
 
-        public static String DefaultValue(String typeName, IGraphModel model)
+        public static object DefaultValue(String typeName, IGraphModel model)
+        {
+            switch (typeName)
+            {
+                case "SByte": return 0;
+                case "Int16": return 0;
+                case "Int32": return 0;
+                case "Int64": return 0L;
+                case "Boolean": return false;
+                case "Single": return 0.0f;
+                case "Double": return 0.0;
+                case "String": return "";
+            }
+
+            switch (typeName)
+            {
+                case "byte": return 0;
+                case "short": return 0;
+                case "int": return 0;
+                case "long": return 0L;
+                case "bool": return false;
+                case "float": return 0.0f;
+                case "double": return 0.0;
+                case "string": return "";
+                case "object": return null;
+            }
+
+            if(typeName == "boolean") return false;
+
+            foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
+            {
+                if ("ENUM_" + enumAttrType.Name == typeName)
+                    return Enum.Parse(enumAttrType.EnumType, Enum.GetName(enumAttrType.EnumType, 0));
+                if (enumAttrType.Name == typeName)
+                    return Enum.Parse(enumAttrType.EnumType, Enum.GetName(enumAttrType.EnumType, 0));
+            }
+
+            return null; // object or node type or edge type
+        }
+
+        public static String DefaultValueString(String typeName, IGraphModel model)
         {
             switch (typeName)
             {

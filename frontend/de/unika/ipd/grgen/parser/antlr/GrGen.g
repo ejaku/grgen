@@ -1561,6 +1561,7 @@ simpleSequence[ExecNode xg]
 		|
 			LPAREN { xg.append('('); } xgrs[xg] RPAREN { xg.append(')'); }
 		)
+	| xgrsVarDecl=xgrsEntityDecl[xg, true]
 	| YIELD { xg.append("yield "); } lhsent=entIdentUse { xg.append(lhsent); xg.addUsage(lhsent); } ASSIGN { xg.append('='); } 
 	    ( xgrsConstant[xg]
 		| xgrsVarUse[xg]
@@ -1614,7 +1615,11 @@ seqAssignTarget[ExecNode xg]
 	;
 
 seqExpression[ExecNode xg]
-	: seqExprLazyAnd[xg] ( LOR {xg.append(" || ");} seqExpression[xg] )?
+	: seqExprLazyOr[xg] ( QUESTION seqExpression[xg] COLON seqExpression[xg] )?
+	;
+
+seqExprLazyOr[ExecNode xg]
+	: seqExprLazyAnd[xg] ( LOR {xg.append(" || ");} seqExprLazyOr[xg] )?
 	;
 
 seqExprLazyAnd[ExecNode xg]

@@ -457,7 +457,10 @@ SequenceVariable Variable(): // usage as well as definition
 				if(oldVariable==null) {
 					newVariable = varDecls.Define(varName, typeName);
 				} else if(oldVariable.Type=="") {
-					throw new ParseException("The variable \""+varName+"\" has already been used/implicitely declared as global variable!");
+					if(varDecls.WasImplicitelyDeclared(oldVariable)) 
+						throw new ParseException("The variable \""+varName+"\" has already been used/implicitely declared as global variable!");
+					else // it was explicitely used as global before, we are allowed to create a local variable with the same name, the global is (only) accessible with global prefix then
+						newVariable = varDecls.Define(varName, typeName);
 				} else {
 					throw new ParseException("The variable \""+varName+"\" has already been declared as local variable with type \""+oldVariable.Type+"\"!");
 				}
@@ -478,13 +481,7 @@ SequenceVariable Variable(): // usage as well as definition
 	|
 		"::" varName=Word()
 		{
-			oldVariable = varDecls.Lookup(varName);
-			if(oldVariable==null) {
-				newVariable = varDecls.Define(varName, "");
-			} else {
-				newVariable = oldVariable;
-			}
-			return newVariable;
+			return varDecls.LookupDefineGlobal(varName);
 		}
 	)
 }
@@ -501,7 +498,10 @@ SequenceVariable VariableDefinition(): // only definition in contrast to Variabl
 		if(oldVariable==null) {
 			newVariable = varDecls.Define(varName, typeName);
 		} else if(oldVariable.Type=="") {
-			throw new ParseException("The variable \""+varName+"\" has already been used/implicitely declared as global variable!");
+			if(varDecls.WasImplicitelyDeclared(oldVariable)) 
+				throw new ParseException("The variable \""+varName+"\" has already been used/implicitely declared as global variable!");
+			else // it was explicitely used as global before, we are allowed to create a local variable with the same name, the global is (only) accessible with global prefix then
+				newVariable = varDecls.Define(varName, typeName);
 		} else {
 			throw new ParseException("The variable \""+varName+"\" has already been declared as local variable with type \""+oldVariable.Type+"\"!");
 		}
@@ -532,13 +532,7 @@ SequenceVariable VariableUse(): // only usage in contrast to Variable()
 	|
 		"::" varName=Word()
 		{
-			oldVariable = varDecls.Lookup(varName);
-			if(oldVariable==null) {
-				newVariable = varDecls.Define(varName, "");
-			} else {
-				newVariable = oldVariable;
-			}
-			return newVariable;
+			return varDecls.LookupDefineGlobal(varName);
 		}
 	)
 }
@@ -856,6 +850,12 @@ Sequence SimpleSequence():
 		}
     )
 |
+	LOOKAHEAD(VariableDefinition())
+	toVar=VariableDefinition()
+	{
+		return new SequenceDeclareVariable(toVar);
+	}
+|
 	"yield" toVar=VariableUse() "=" 
 	(
 		LOOKAHEAD(2)
@@ -888,10 +888,7 @@ Sequence SimpleSequence():
 |
 	"::" str=Word()
 	{
-		fromVar = varDecls.Lookup(str);
-		if(fromVar==null) {
-			fromVar = varDecls.Define(str, "");
-		}
+		fromVar = varDecls.LookupDefineGlobal(str);
 		return new SequenceBooleanComputation(new SequenceExpressionVariable(fromVar), null, false);
 	}
 |
@@ -1083,6 +1080,14 @@ SequenceComputation ExpressionOrAssignment():
 }
 
 SequenceExpression Expression():
+{
+	SequenceExpression seq, seq2, seq3;
+}
+{
+	seq=ExpressionLazyOr() ( "?" seq2=Expression() ":" seq3=Expression() { seq = new SequenceExpressionConditional(seq, seq2, seq3); } )? { return seq; }
+}
+
+SequenceExpression ExpressionLazyOr():
 {
 	SequenceExpression seq, seq2;
 }

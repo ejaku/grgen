@@ -1825,7 +1825,7 @@ exitSecondLoop: ;
                 outParameters += ", out " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i;
                 refParameters += ", ref " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i;
                 outLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + "; ";
-                refLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + " = " + TypesHelper.DefaultValue(matchingPattern.Outputs[i].Name, model) + "; ";
+                refLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + " = " + TypesHelper.DefaultValueString(matchingPattern.Outputs[i].Name, model) + "; ";
                 outArguments += ", out output_" + i;
                 refArguments += ", ref output_" + i;
             }
@@ -1864,7 +1864,7 @@ exitSecondLoop: ;
             sb.AppendFront("{\n");
             sb.Indent();
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                sb.AppendFrontFormat("output_{0} = {1};\n", i, TypesHelper.DefaultValue(matchingPattern.Outputs[i].Name, model));
+                sb.AppendFrontFormat("output_{0} = {1};\n", i, TypesHelper.DefaultValueString(matchingPattern.Outputs[i].Name, model));
             }
             sb.AppendFrontFormat("foreach({0} match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match{1});\n", matchType, outArguments);
             sb.Unindent();

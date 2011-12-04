@@ -20,6 +20,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public enum SequenceExpressionType
     {
+        Conditional,
         LazyOr, LazyAnd, StrictOr, StrictXor, StrictAnd,
         Not,
         Constant, Variable,
@@ -192,6 +193,61 @@ namespace de.unika.ipd.grGen.libGr
     }
 
 
+    public class SequenceExpressionConditional : SequenceExpression
+    {
+        public SequenceExpression Condition;
+        public SequenceExpression TrueCase;
+        public SequenceExpression FalseCase;
+
+        public SequenceExpressionConditional(SequenceExpression condition, 
+            SequenceExpression trueCase, 
+            SequenceExpression falseCase)
+            : base(SequenceExpressionType.Conditional)
+        {
+            this.Condition = condition;
+            this.TrueCase = TrueCase;
+            this.FalseCase = FalseCase;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(!TypesHelper.IsSameOrSubtype(Condition.Type(env), "boolean", env.Model))
+            {
+                throw new SequenceParserException(Symbol, "boolean", Condition.Type(env));
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return ""; // no constraints regarding the types of the expressions to choose from
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceExpressionConditional copy = (SequenceExpressionConditional)MemberwiseClone();
+            copy.Condition = Condition.CopyExpression(originalToCopy);
+            copy.TrueCase = TrueCase.CopyExpression(originalToCopy);
+            copy.FalseCase = FalseCase.CopyExpression(originalToCopy);
+            return copy;
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            return (bool)Condition.Evaluate(graph, env) ? TrueCase.Evaluate(graph, env) : FalseCase.Evaluate(graph, env);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Condition.GetLocalVariables(variables);
+            TrueCase.GetLocalVariables(variables);
+            FalseCase.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Condition; yield return TrueCase; yield return FalseCase; } }
+        public override int Precedence { get { return 1; } }
+        public override string Symbol { get { return Condition.Symbol + " ? " + TrueCase.Symbol + " : " + FalseCase.Symbol; } }
+    }
+
     public class SequenceExpressionLazyOr : SequenceBinaryExpression
     {
         public SequenceExpressionLazyOr(SequenceExpression left, SequenceExpression right)
@@ -205,7 +261,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 2; } }
-        public override string Symbol { get { return Left.ToString()+"||"+Right.ToString(); } }
+        public override string Symbol { get { return Left.Symbol+" || "+Right.Symbol; } }
     }
 
     public class SequenceExpressionLazyAnd : SequenceBinaryExpression
@@ -221,7 +277,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 3; } }
-        public override string Symbol { get { return Left.ToString() + "&&" + Right.ToString(); } }
+        public override string Symbol { get { return Left.Symbol + " && " + Right.Symbol; } }
     }
 
     public class SequenceExpressionStrictOr : SequenceBinaryExpression
@@ -237,7 +293,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 4; } }
-        public override string Symbol { get { return Left.ToString() + "|" + Right.ToString(); } }
+        public override string Symbol { get { return Left.Symbol + " | " + Right.Symbol; } }
     }
 
     public class SequenceExpressionStrictXor : SequenceBinaryExpression
@@ -253,7 +309,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 5; } }
-        public override string Symbol { get { return Left.ToString() + "^" + Right.ToString(); } }
+        public override string Symbol { get { return Left.Symbol + " ^ " + Right.Symbol; } }
     }
 
     public class SequenceExpressionStrictAnd : SequenceBinaryExpression
@@ -269,7 +325,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 6; } }
-        public override string Symbol { get { return Left.ToString() + "||" + Right.ToString(); } }
+        public override string Symbol { get { return Left.Symbol + " || " + Right.Symbol; } }
     }
 
     public class SequenceExpressionNot : SequenceExpression
@@ -301,7 +357,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Operand; } }
         public override int Precedence { get { return 7; } }
-        public override string Symbol { get { return "!" + Operand.ToString(); } }
+        public override string Symbol { get { return "!" + Operand.Symbol; } }
     }
 
 

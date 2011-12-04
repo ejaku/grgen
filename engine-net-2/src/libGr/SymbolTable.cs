@@ -17,6 +17,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public enum ScopeType
     {
+        Globals,
         Sequence,
         For,
         If,
@@ -51,12 +52,15 @@ namespace de.unika.ipd.grGen.libGr
 		{
 			scopes = new Stack<Dictionary<String, SequenceVariable>>();
             scopesMeta = new Stack<ScopeMetaInformation>();
+
+            globalsImplicitlyDeclared = new Dictionary<SequenceVariable, bool>();
 		}
 
 		public void PushScope(ScopeType scopeType)
 		{
-            Debug.Assert(scopes.Count > 0); // initial scope of type Sequence must be handled by PushFirstScope
-            Debug.Assert(scopesMeta.Count > 0); // initial scope of type Sequence must be handled by PushFirstScope
+            // initial scopes of type Globals and Sequence must be handled by PushFirstScope
+            Debug.Assert(scopes.Count > 1); 
+            Debug.Assert(scopesMeta.Count > 1);
 
             scopes.Push(new Dictionary<String, SequenceVariable>());
 
@@ -78,19 +82,25 @@ namespace de.unika.ipd.grGen.libGr
                     scopeName = "computation" + scopesMeta.Peek().computationCount;
                     ++scopesMeta.Peek().computationCount;
                     break;
-                default: Debug.Assert(false); // only first scope can be of type sequence
+                default:
+                    Debug.Assert(false); // only first scopes can be of type Globals and Sequence
                     scopeName = "";
                     break;
             }
+
             scopesMeta.Push(new ScopeMetaInformation(scopeName, scopeType));
 		}
 
         public void PushFirstScope(Dictionary<String, String> predefinedVariables)
 		{
-            Debug.Assert(scopes.Count == 0); // only for initial scope of type Sequence
-            Debug.Assert(scopesMeta.Count == 0); // only for initial scope of type Sequence
+            // only for initial scopes of type Globals and Sequence
+            Debug.Assert(scopes.Count == 0);
+            Debug.Assert(scopesMeta.Count == 0);
 
-            Dictionary<String, SequenceVariable> initialScope = new Dictionary<String, SequenceVariable>();
+            globalsScope = new Dictionary<String, SequenceVariable>();
+            scopes.Push(globalsScope);
+
+            Dictionary<String, SequenceVariable> sequenceScope = new Dictionary<String, SequenceVariable>();
             if (predefinedVariables != null)
             {
                 foreach (KeyValuePair<String, String> predefinedVariable in predefinedVariables)
@@ -99,11 +109,12 @@ namespace de.unika.ipd.grGen.libGr
                     String type = predefinedVariable.Value;
                     SequenceVariable newVar = new SequenceVariable(name, "", type);
                     newVar.Visited = true; // the predefined variables are parameters, don't declare them twice
-                    initialScope.Add(name, newVar);
+                    sequenceScope.Add(name, newVar);
                 }
             }
-            scopes.Push(initialScope);
+            scopes.Push(sequenceScope);
 
+            scopesMeta.Push(new ScopeMetaInformation("", ScopeType.Globals));
             scopesMeta.Push(new ScopeMetaInformation("", ScopeType.Sequence));
 		}
 
@@ -131,11 +142,33 @@ namespace de.unika.ipd.grGen.libGr
 			return null;
 		}
 
+        // returns entry for global variable, defines it in global scope if it is not yet defined there
+        // a local variable with same name is bypassed (global prefix is not mandatory during the deprecation period)
+        public SequenceVariable LookupDefineGlobal(String name)
+        {
+            if(globalsScope.ContainsKey(name))
+            {
+                return globalsScope[name];
+            }
+
+            SequenceVariable newVar = new SequenceVariable(name, "", "");
+            globalsScope.Add(name, newVar);
+            return newVar;
+        }
+
 		// returns null if variable was already defined
 		public SequenceVariable Define(String name, String type)
 		{
-			if(Lookup(name)!=null)
+            // a "redefinition" is allowed if the old definition was from an explicitely prefixed global
+			if(Lookup(name)!=null && Lookup(name).Type!="")
 				return null;
+
+            if(type == "")
+            {
+                SequenceVariable var = LookupDefineGlobal(name);
+                globalsImplicitlyDeclared.Add(var, true);
+                return var;
+            }
 
             string prefix = "";
             ScopeMetaInformation[] scopesMeta = this.scopesMeta.ToArray(); // holy shit! no sets, no backward iterators, no direct access to stack,
@@ -150,10 +183,24 @@ namespace de.unika.ipd.grGen.libGr
 			return newVar;
 		}
 
+        public bool WasImplicitelyDeclared(SequenceVariable global)
+        {
+            return globalsImplicitlyDeclared.ContainsKey(global);
+        }
+
         // contains the symbols of the current nesting level and the levels it is contained in
         private Stack<Dictionary<String, SequenceVariable>> scopes;
         // contains some information about the current scope and counters for scope name construction
         // i.e. meta data for the scope whose symbol table is available at the same nesting level in the scopes symbol table stack
         private Stack<ScopeMetaInformation> scopesMeta;
+
+        // quick access reference to globals scope
+        private Dictionary<String, SequenceVariable> globalsScope;
+
+        // ::x ;> x:T with its explicit global scope should be allowed, but x ;> x:T forbidden
+        // due to compatibility reasons as of now names are implicitely declared in global scope if not yet seen,
+        // which would render the second case ok; to prevent this we must remember whether a global was implicitely or explicitely declared
+        // this handling can be removed when the deprecated implicit-globals feature is removed and all globals must be accessed with :: prefix
+        private Dictionary<SequenceVariable, bool> globalsImplicitlyDeclared;
 	}
 }

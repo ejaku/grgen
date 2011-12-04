@@ -358,7 +358,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                     {
                         string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(var.Type), model);
-                        initializationExpression = TypesHelper.DefaultValue(typeName, model);
+                        initializationExpression = TypesHelper.DefaultValueString(typeName, model);
                     }
                     insertionPoint = insertionPoint.Append(
                         new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.Type), var.Name, 

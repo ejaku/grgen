@@ -34,7 +34,7 @@ namespace de.unika.ipd.grGen.libGr
         RuleCall, RuleAllCall,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
         AssignUserInputToVar, AssignRandomToVar, // needed as sequence because of debugger integration
-        AssignConstToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope
+        DeclareVariable, AssignConstToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
         BooleanComputation
     }
@@ -1103,6 +1103,22 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override string Symbol { get { return DestVar.Name + "=" + (Choice ? "$%" : "$") + "(" + Number + ")"; } }
+    }
+
+    public class SequenceDeclareVariable : SequenceAssignConstToVar
+    {
+        public SequenceDeclareVariable(SequenceVariable destVar)
+            : base(destVar, null)
+        {
+            SequenceType = SequenceType.DeclareVariable;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            Constant = TypesHelper.DefaultValue(DestVar.Type, env.Model);
+        }
+
+        public override string Symbol { get { return DestVar.Name + ":" + DestVar.Type; } }
     }
 
     public class SequenceAssignConstToVar : SequenceAssignToVar
@@ -2437,6 +2453,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Special ? "%{" + Computation.Symbol + "}" : "{" + Computation.Symbol + "}"; } }
+        public override string Symbol { get { return Special ? "%{ " + Computation.Symbol + " }" : "{ " + Computation.Symbol + " }"; } }
     }
 }

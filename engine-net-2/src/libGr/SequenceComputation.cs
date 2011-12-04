@@ -177,9 +177,11 @@ namespace de.unika.ipd.grGen.libGr
             right.GetLocalVariables(variables);
         }
 
+        public override bool ReturnsValue { get { return right.ReturnsValue; } }
+
         public override IEnumerable<SequenceComputation> Children { get { yield return left; yield return right; } }
         public override int Precedence { get { return 7; } }
-        public override string Symbol { get { return left.Symbol + ";" + right.Symbol; } }
+        public override string Symbol { get { return left.Symbol + "; " + right.Symbol; } }
     }
 
 
