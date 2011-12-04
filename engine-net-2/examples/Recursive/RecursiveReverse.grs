@@ -2,12 +2,12 @@ new graph "Recursive"
 
 debug set layout Organic
 
-xgrs (beg,end)=createChain
-xgrs chainFromTo(beg,end)
-xgrs reverseChainFromTo(beg,end)
-xgrs chainFromToReverse(beg,end)
-xgrs chainFromTo(beg,end)
-xgrs reverseChainFromTo(beg,end)
+xgrs (::beg,::end)=createChain
+xgrs chainFromTo(::beg,::end)
+xgrs reverseChainFromTo(::beg,::end)
+xgrs chainFromToReverse(::beg,::end)
+xgrs chainFromTo(::beg,::end)
+xgrs reverseChainFromTo(::beg,::end)
 
 custom graph analyze_graph
 custom actions gen_searchplan chainFromToReverse

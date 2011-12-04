@@ -16,7 +16,7 @@ debug enable
 
 from = askfor MethodBody
 to = askfor MethodBody
-debug xgrs CopyStatements(from, to)
+debug xgrs CopyStatements(::from, ::to)
 
 validate strict
 

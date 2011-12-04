@@ -66,6 +66,8 @@ new sE_1 -:moveRight-> sA
 xgrs ((readOneRule || readEmptyRule) | (writeOneRule || writeEmptyRule) | (ensureMoveLeftValidRule || ensureMoveRightValidRule) | (moveLeftRule || moveRightRule))[1:100]
 
 custom graph analyze
-custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
+#custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
+#the command below generates the matcher programs of all known rules anew, the command above the matcher programs of the specified rules
+custom actions gen_searchplan
 
 xgrs ((readOneRule || readEmptyRule) | (writeOneRule || writeEmptyRule) | (ensureMoveLeftValidRule || ensureMoveRightValidRule) | (moveLeftRule || moveRightRule))*

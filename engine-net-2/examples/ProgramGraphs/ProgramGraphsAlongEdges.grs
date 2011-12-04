@@ -14,7 +14,7 @@ dump add node MethodBody group by hidden outgoing containedInMethodBody
 dump add node MethodBody group by hidden outgoing contains
 
 #xgrs createProgramGraphExample
-xgrs (c1,b4) = createProgramGraphPullUp
+xgrs (::c1,::b4) = createProgramGraphPullUp
 
 xgrs InsertHelperEdgesForNestedLayout
 
@@ -23,6 +23,6 @@ debug enable
 #custom graph analyze
 #custom actions gen_searchplan pullUpMethod
 
-debug xgrs pullUpMethod(c1,b4)
+debug xgrs pullUpMethod(::c1,::b4)
 
 xgrs InsertHelperEdgesForNestedLayout

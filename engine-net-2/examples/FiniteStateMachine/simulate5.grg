@@ -21,8 +21,8 @@ dpo rule accept(state:State, var input:string) : (State)
 	modify {
 		def last:State;
 		emit( "from " + state.id + " to " + successor.id + " with " + t.Trigger + " of " + input + "\n" );
-		exec( (reduced)=eatChar(input) | (lastSuccess)=accept(successor, reduced) |
-				if{ def(lastSuccess); yield last=lastSuccess; yield last=successor } );
+		exec( (reduced:string)=eatChar(input) | (lastSuccess:State)=accept(successor, reduced) |
+				if{ {def(lastSuccess)}; yield last=lastSuccess; yield last=successor } );
 		return(last);
 	}
 }

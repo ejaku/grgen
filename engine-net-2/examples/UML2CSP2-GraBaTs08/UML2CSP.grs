@@ -18,7 +18,9 @@ debug set layout Compilergraph
 
 xgrs InitExample
 
-xgrs (lpa, skip)=TFInitial &&                         \
+xgrs lpa:ProcessAssignment ;> skip:Process ;> cond:Condition ;> dn:DecisionNode \
+ ;> mn:MergeNode ;> tgt:Process ;> conc:Concurrency ;> fn:ForkNode ;> jn:JoinNode ;> ev:Event \
+ ;> (lpa, skip)=TFInitial &&                          \
   ( (lpa)=TFAction(lpa)                               \
   | (  (lpa, cond, dn)=TFDecisionFirst(lpa)           \
     && (lpa, cond, dn)=TFDecisionNext(lpa, cond, dn)* \
@@ -34,5 +36,5 @@ xgrs (lpa, skip)=TFInitial &&                         \
     && TFDelUnused(jn))                               \
   | TFFinal(skip)                                     \
   )+
-
+  
 xgrs InitOutput

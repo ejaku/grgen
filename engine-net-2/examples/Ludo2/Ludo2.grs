@@ -41,7 +41,7 @@ dump set edge holds     color     lightpurple
 
 
 # debug enable
-xgrs init && (dice)=getDice
+xgrs init && (::dice)=getDice
 
 dice.rand = 98754321
 

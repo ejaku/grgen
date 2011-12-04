@@ -9,7 +9,7 @@ dump add node Paper infotag name
 
 redirect emit solutions.txt
 
-xgrs (last,c)=init && (last)=addSlot(last)[5]
+xgrs (::last,::c)=init && (::last)=addSlot(::last)[5]
 xgrs associatePapers*
 xgrs [solveShow]
 c.counter

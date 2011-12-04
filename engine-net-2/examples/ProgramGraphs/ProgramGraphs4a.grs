@@ -17,7 +17,7 @@ validate strict
 debug enable
 
 c = askfor Class
-debug xgrs matchAll(c)
+debug xgrs matchAll(::c)
 
 validate strict
 

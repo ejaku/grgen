@@ -6,7 +6,7 @@ new graph "ProgramGraphs4"
 
 include ProgramGraphsLayout.grsi
 
-xgrs (c1,b4) = createProgramGraphPullUp
+xgrs (::c1,::b4) = createProgramGraphPullUp
 
 validate strict
 
@@ -16,7 +16,7 @@ validate strict
 
 debug enable
 
-debug xgrs pullUpMethod(c1,b4)
+debug xgrs pullUpMethod(::c1,::b4)
 
 validate strict
 

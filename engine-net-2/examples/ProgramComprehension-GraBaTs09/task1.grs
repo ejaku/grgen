@@ -7,8 +7,8 @@ show num nodes
 show num edges
 redirect emit set0-output-grgen.xmi
 xgrs xmlPrefix
-xgrs (counter)=initXMLCounter
-xgrs visID = valloc()
-xgrs ((counter)=filter(visID, counter))*
-xgrs vfree(visID)
+xgrs (::counter)=initXMLCounter
+xgrs {::visID = valloc()}
+xgrs ((::counter)=filter(::visID, ::counter))*
+xgrs {vfree(::visID)}
 xgrs xmlSuffix

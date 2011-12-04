@@ -28,7 +28,7 @@ dump set edge invisible color white
 dump set edge invisible textcolor white
 dump set edge holds color lightpurple
 
-xgrs init && (dice)=getDice
+xgrs init && (::dice)=getDice
 
 dice.rand = 42
 

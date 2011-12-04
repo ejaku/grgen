@@ -324,6 +324,6 @@ echo "done: 299 elements created"
 debug enable
 
 #following xgrs
-#xgrs < (prev,rprev) = TATABox && ( !TerminationSequence(prev) && (prev,rprev)=NextChainElement(prev,rprev) && (A(prev,rprev) || C(prev,rprev) || G(prev,rprev) || T(prev,rprev)) )* && TerminationSequence(prev) >
+#xgrs < (prev:D,rprev:R) = TATABox && ( !TerminationSequence(prev) && (prev,rprev)=NextChainElement(prev,rprev) && (A(prev,rprev) || C(prev,rprev) || G(prev,rprev) || T(prev,rprev)) )* && TerminationSequence(prev) >
 #is roughly equivalent to
 xgrs transcription

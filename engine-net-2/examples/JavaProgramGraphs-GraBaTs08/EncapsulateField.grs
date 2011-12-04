@@ -14,16 +14,18 @@ debug enable
 # option: replace getters/setters in class itself - yes/no
 
 # ask for class and variable to refactor
-# debug apply (c,v)=getClassAndVariable(?,?)
+# debug ::cl=$%(Class)
+# debug ::va=$%(Variable)
 # or use this one / set them in shell
 c = I176 # class Node
 v = I350 # variable _name
 getterName = "getName"
 setterName = "setName"
 
-xgrs (isStatic) = variableInClass(c, v) \
-	&& (!((getter) = methodExists(c, getterName)) || sameStaticness(v, getter)) \
-	&& (!((setter) = methodExists(c, setterName)) || sameStaticness(v, setter)) \
+xgrs c:Class=::c ;> v:Variable=::v ;> getterName:string=::getterName ;> setterName:string=::setterName \
+	;> (isStatic:boolean) = variableInClass(c, v) \
+	&& (!((getter:Operation) = methodExists(c, getterName)) || sameStaticness(v, getter)) \
+	&& (!((setter:Operation) = methodExists(c, setterName)) || sameStaticness(v, setter)) \
 	&& ((getter) = methodExists(c, getterName) || (getter) = insertMethodGetter(c, v, getterName, isStatic)) \
 	&& ((setter) = methodExists(c, setterName) || (setter) = insertMethodSetter(c, v, setterName, isStatic)) \
 	&& changeVisibility(v) \

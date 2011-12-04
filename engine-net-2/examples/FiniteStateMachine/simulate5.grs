@@ -11,4 +11,4 @@ xgrs checkStartState && !checkDoublettes \
 && !epsilonTransition
 
 input="abc"
-debug xgrs (state)=getStartState && (state)=accept(state, input) && isFinalState(state)
+debug xgrs (state:State)=getStartState && (state)=accept(state, ::input) && isFinalState(state)

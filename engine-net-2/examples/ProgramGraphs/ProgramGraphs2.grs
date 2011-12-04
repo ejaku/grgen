@@ -15,7 +15,7 @@ xgrs InsertHelperEdgesForNestedLayout
 debug enable
 
 mb = askfor MethodBody
-debug xgrs FirstStatementEx(mb)
+debug xgrs FirstStatementEx(::mb)
 
 validate strict
 xgrs InsertHelperEdgesForNestedLayout

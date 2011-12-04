@@ -56,12 +56,16 @@ new sE_1 -:moveLeft-> sC
 curState = sA
 curPos = bp
 
-xgrs (((curValue)=readOneRule(curState, curPos)||(curValue)=readZeroRule(curState,curPos)) && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true) && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))[100]
+xgrs (((::curValue)=readOneRule(::curState, ::curPos)||(::curValue)=readZeroRule(::curState,::curPos)) \
+		&& (ensureMoveLeftValidRule(::curValue, ::curPos) || ensureMoveRightValidRule(::curValue, ::curPos) || true) \
+		&& ((::curState, ::curPos)=moveLeftRule(::curValue, ::curPos) || (::curState, ::curPos)=moveRightRule(::curValue, ::curPos)))[100]
 
 custom graph analyze
 custom actions gen_searchplan readOneRule readZeroRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
 
-xgrs (((curValue)=readOneRule(curState, curPos)||(curValue)=readZeroRule(curState,curPos)) && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true) && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))*
+xgrs (((::curValue)=readOneRule(::curState, ::curPos)||(::curValue)=readZeroRule(::curState,::curPos)) \
+		&& (ensureMoveLeftValidRule(::curValue, ::curPos) || ensureMoveRightValidRule(::curValue, ::curPos) || true) \
+		&& ((::curState, ::curPos)=moveLeftRule(::curValue, ::curPos) || (::curState, ::curPos)=moveRightRule(::curValue, ::curPos)))*
 
 echo "Written zeroes:"
 xgrs [countZeros]

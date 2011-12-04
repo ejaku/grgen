@@ -53,7 +53,7 @@ rule emit_activity {
 
 rule emit_activity_nodes(activity:uml_Activity) {
 	modify {
-		exec((id)=initial_id && ((n, id)=node_by_id(id) && (true | emit_activity_node(activity, n)))*);
+		exec((id:int)=initial_id && ((n:Node, id)=node_by_id(id) && (true | emit_activity_node(activity, n)))*);
 	}
 }
 
@@ -191,7 +191,7 @@ rule emit_inPartition(n:uml_ActivityNode) {
 
 rule emit_activity_edges(activity:uml_Activity) {
 	modify {
-		exec((id)=initial_id && ((n, id)=node_by_id(id) && (true | emit_activity_edge(activity, n)))*);
+		exec((::id)=initial_id && ((::n, ::id)=node_by_id(::id) && (true | emit_activity_edge(activity, ::n)))*);
 	}
 }
 
@@ -252,7 +252,7 @@ rule emit_no_guard(n:uml_ActivityEdge) {
 
 rule emit_activity_groups(activity:uml_Activity) {
 	modify {
-		exec((id)=initial_id && ((n, id)=node_by_id(id) && (true | emit_activity_group(activity, n)))*);
+		exec((id:int)=initial_id && ((n:Node, id)=node_by_id(id) && (true | emit_activity_group(activity, n)))*);
 	}
 }
 

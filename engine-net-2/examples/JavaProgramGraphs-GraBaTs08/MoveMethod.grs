@@ -5,7 +5,7 @@ include InstanceGraphLayout.grsi
 
 # programmed gxl dumper, not needed any more, shell can export to .gxl as of no
 redirect emit program.gxl
-xgrs visId = valloc() && dumpGxl(visId) && vfree(visId)
+xgrs visId:int && {visId=valloc()} && dumpGxl(visId) && {vfree(visId)}
 
 xgrs InsertHelperEdgesForNestedLayout
 
@@ -16,7 +16,7 @@ xgrs InsertHelperEdgesForNestedLayout
 #   -add source parameter to signature if "this" is accessed in moved method body
 #      (i.e. some source class member is accessed), and rewrite body to use parameter instead of "this"
 #   -move method body and operation from source to target class (change of type of implicit "this" parameter)
-#   -change the access before the call to use the target expression
+#   -change the access before the ::call to use the target expression
 #   -with source parameter if needed
 #   todo: (if correspondence formal parameter <-> actual parameter can be established
 #          -- further information must be added to graph (model) in order to do so)
@@ -27,7 +27,7 @@ xgrs InsertHelperEdgesForNestedLayout
 #   -add source parameter to signature if "this" is accessed in moved method body
 #      (i.e. some source class member is accessed), and rewrite body to use parameter instead of "this"
 #   -move method body and operation from source to target class (change of type of implicit "this" parameter)
-#   -change the access before the call to use the instance variable (src.tgt.)
+#   -change the access before the ::call to use the instance variable (::src.::tgt.)
 #   -with source parameter if needed
 # c) add delegate method
 #   -check preconditions
@@ -35,46 +35,48 @@ xgrs InsertHelperEdgesForNestedLayout
 #   -relink method body to target class operation
 #   -add source parameter to target signature if "this" is accessed in moved method body,
 #      and rewrite body to use parameter instead of "this"
-#   -add delegating body, forwarding operation parameters in call
+#   -add delegating body, forwarding operation parameters in ::call
 
 # ask user for source class, target class and method to move
-# debug apply (src,tgt,mb)=getSourceAndTargetAndMethodBody(?,?,?)
+# debug apply (::src,::tgt,::mb)=getSourceAndTargetAndMethodBody(?,?,?)
 # or in order to move the one large method to packet (same parameter) or string (same instance variable)
 src = I176 # class Node
 tgt = I194 # class Packet - use if parameter is used in moving method
 # tgt = I617 # class String - use if instance variable is used in moving method
 mb = I409 # method body of send
 
-xgrs (op)=getOperation(mb)
+xgrs (::op)=getOperation(::mb)
 
-xgrs markExpressionOfBody(mb)* #mark all expressions in body of method
+xgrs markExpressionOfBody(::mb)* #mark all expressions in body of method
 
-debug xgrs (p)=someParameterOfTargetType(mb,tgt) \
+debug xgrs mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operation=::op \
+		&& (p:Parameter)=someParameterOfTargetType(mb,tgt) \
 		&& !callToSuperExists && !isStatic(mb) && !methodNameExists(mb,tgt) \
-		&& (!thisIsAccessed || thisIsAccessed && (srcparam)=addSourceParameter(op,src) && useSourceParameter(srcparam)*) \
+		&& (!thisIsAccessed || thisIsAccessed && (srcparam:Parameter)=addSourceParameter(op,src) && useSourceParameter(srcparam)*) \
 		&& relinkOperationAndMethodBody(op,mb,src,tgt) \
-		&& ( (call,pe)=getUnprocessedCallWithActualParameter(op,p) \
-				&& ((def(srcparam) && addSourceToCall(call,srcparam)) || true) \
+		&& ( (call:Call,pe:Expression)=getUnprocessedCallWithActualParameter(op,p) \
+				&& (({def(srcparam)} && addSourceToCall(call,srcparam)) || true) \
 				&& (replaceAccess_Parameter_AccessWithoutLink(call,pe) || replaceAccess_Parameter_AccessWithLinkToExpression(call,pe)) \
 		   )*
 
-# debug xgrs (v)=someInstanceVariableOfTargetType(mb,tgt) \
+# debug xgrs mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operation=::op \
+#		&& (v:Variable)=someInstanceVariableOfTargetType(mb,tgt) \
 #		&& !callToSuperExists && !isStatic(mb) && !methodNameExists(mb,tgt) \
-#		&& (!thisIsAccessed || thisIsAccessed && (srcparam)=addSourceParameter(op,src) && useSourceParameter(srcparam)*) \
+#		&& (!thisIsAccessed || thisIsAccessed && (srcparam:Parameter)=addSourceParameter(op,src) && useSourceParameter(srcparam)*) \
 #		&& relinkOperationAndMethodBody(op,mb,src,tgt) \
-#		&& ((def(srcparam) && [replaceAccess_Variable_WithSource(op,v,srcparam)]) || [replaceAccess_Variable(op,v)])
+#		&& (({def(srcparam)} && [replaceAccess_Variable_WithSource(op,v,srcparam)]) || [replaceAccess_Variable(op,v)])
 
 # debug set layout Hierarchic # use hierarchic with delegate, there are problems with compilergraph
-# debug xgrs ((vp)=someInstanceVariableOfTargetType(mb,tgt) || (vp)=someParameterOfTargetType(mb,tgt)) \
+# debug xgrs ((vp:Variable)=someInstanceVariableOfTargetType(mb,tgt) || (vp)=someParameterOfTargetType(mb,tgt)) \
 #		&& !callToSuperExists && !isStatic(mb) && !methodNameExists(mb,tgt) \
-#		&& (newop)=copyOperation(op,tgt) && [copyOperationParameter(op,newop)] \
+#		&& (newop:Operation)=copyOperation(op,tgt) && [copyOperationParameter(op,newop)] \
 #		&& relinkMethodBody(mb,src,tgt,op,newop) && relinkParameter(mb,op,newop)* \
-#		&& (!thisIsAccessed || thisIsAccessed && (srcparam)=addSourceParameter(newop,src) && useSourceParameter(srcparam)*) \
-#		&& (call)=addDelegateBody(src,op,newop,vp) && [linkDelegateBodyToOperation(call,newop)]
+#		&& (!thisIsAccessed || thisIsAccessed && (srcparam:Parameter)=addSourceParameter(newop,src) && useSourceParameter(srcparam)*) \
+#		&& (call:Call)=addDelegateBody(src,op,newop,vp) && [linkDelegateBodyToOperation(call,newop)]
 
 # unmark all marked expressions
 xgrs unmarkExpression*
 
 # programmed gxl dumper, not needed any more, shell can export to .gxl as of no
 redirect emit programafter.gxl
-xgrs visId = valloc() && dumpGxl(visId) && vfree(visId)
+xgrs visId:int && {visId=valloc()} && dumpGxl(visId) && {vfree(visId)}

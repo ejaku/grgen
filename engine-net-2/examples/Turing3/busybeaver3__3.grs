@@ -33,9 +33,7 @@ new s3_w2 -:moveRight-> h
 dump add node BandPosition infotag value
 dump add node WriteValue infotag value
 
-curState = s1
-curPos = bp
-
-debug xgrs (((curValue)=readOneRule(curState, curPos) || (curValue)=readZeroRule(curState,curPos)) \
+debug xgrs curState:State = ::s1 && curPos:BandPosition = ::bp
+		&& (((curValue:WriteValue)=readOneRule(curState, curPos) || (curValue)=readZeroRule(curState,curPos)) \
         && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true) \
         && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))*

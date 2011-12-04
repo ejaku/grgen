@@ -61,14 +61,14 @@ xgrs AST_nodes_2_CFG
 
 # Dump CFG
 redirect emit cfg_task2-grgen.xmi
-xgrs (id) = CFG_initial_id
-xgrs (id) = CFG_number_node(id)*
-xgrs CFG_XML_prefix
-xgrs (id) = CFG_initial_id
-xgrs ((n, id) = CFG_node_by_id(id) && CFG_dump_AbstractNode(n))*
-xgrs CFG_XML_suffix
-xgrs CFG_finish_dump
-xgrs (CFG_add_Enter_and_Exit & CFG_connect_Enter* & CFG_connect_Exit*)
+xgrs (id:int) = CFG_initial_id \
+		;> (id) = CFG_number_node(id)* \
+		;> CFG_XML_prefix \
+		;> (id) = CFG_initial_id \
+		;> ((n:org_amma_cfg_AbstractNode, id) = CFG_node_by_id(id) && CFG_dump_AbstractNode(n))* \
+		;> CFG_XML_suffix \
+		;> CFG_finish_dump \
+		;> (CFG_add_Enter_and_Exit & CFG_connect_Enter* & CFG_connect_Exit*) \
 
 # Transform CFG to PDG
 xgrs PDG_init_post_dominance
