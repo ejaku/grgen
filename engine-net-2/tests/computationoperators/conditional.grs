@@ -1,0 +1,20 @@
+new graph computationoperators/computationoperators
+
+xgrs ::r=({true?true:true})
+show var r
+xgrs ::r=({true?true:false})
+show var r
+xgrs ::r=({true?false:true})
+show var r
+xgrs ::r=({true?false:false})
+show var r
+xgrs ::r=({false?true:true})
+show var r
+xgrs ::r=({false?true:false})
+show var r
+xgrs ::r=({false?false:true})
+show var r
+xgrs ::r=({false?false:false})
+show var r
+
+quit

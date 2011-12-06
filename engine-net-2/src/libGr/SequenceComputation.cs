@@ -141,7 +141,16 @@ namespace de.unika.ipd.grGen.libGr
             else return MethodCall.Execute(graph, env);
         }
 
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            if(Container != null)
+                return Container.Type;
+            else
+                return MethodCall.Type(env);
+        }
+
         public override int Precedence { get { return 8; } }
+        public string Name { get { if(Container != null) return Container.Name; else return MethodCall.Symbol; } }
     }
 
 
@@ -376,7 +385,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<SequenceComputation> Children { get { if(MethodCall == null) yield break; else yield return MethodCall; } }
-        public override string Symbol { get { return Container.Name + ".add(" + Expr.Symbol + (ExprDst != null ? "," + ExprDst.Symbol : "") + ")"; } }
+        public override string Symbol { get { return Name + ".add(" + Expr.Symbol + (ExprDst != null ? "," + ExprDst.Symbol : "") + ")"; } }
     }
 
     public class SequenceComputationContainerRem : SequenceComputationContainer
@@ -460,7 +469,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<SequenceComputation> Children { get { if(MethodCall == null) yield break; else yield return MethodCall; } }
-        public override string Symbol { get { return Container.Name + ".rem(" + (Expr != null ? Expr.Symbol : "") + ")"; } }
+        public override string Symbol { get { return Name + ".rem(" + (Expr != null ? Expr.Symbol : "") + ")"; } }
     }
 
     public class SequenceComputationContainerClear : SequenceComputationContainer
@@ -517,7 +526,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<SequenceComputation> Children { get { if(MethodCall == null) yield break; else yield return MethodCall; } }
-        public override string Symbol { get { return Container.Name + ".clear()"; } }
+        public override string Symbol { get { return Name + ".clear()"; } }
     }
 
     public class SequenceComputationAssignment : SequenceComputation

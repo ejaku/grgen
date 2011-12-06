@@ -1,0 +1,8 @@
+new graph computationoperators/computationoperators
+
+xgrs {::r=::s=::t=42}
+show var r
+show var s
+show var t
+
+quit

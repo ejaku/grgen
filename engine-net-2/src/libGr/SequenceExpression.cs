@@ -137,6 +137,16 @@ namespace de.unika.ipd.grGen.libGr
             if(Container != null) return Container.GetVariableValue(graph);
             else return MethodCall.Execute(graph, env);
         }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            if(Container != null)
+                return Container.Type;
+            else
+                return MethodCall.Type(env);
+        }
+
+        public string Name { get { if(Container != null) return Container.Name; else return MethodCall.Symbol; } }
     }
 
     /// <summary>
@@ -205,8 +215,8 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceExpressionType.Conditional)
         {
             this.Condition = condition;
-            this.TrueCase = TrueCase;
-            this.FalseCase = FalseCase;
+            this.TrueCase = trueCase;
+            this.FalseCase = falseCase;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -676,7 +686,7 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceComputation> Children { get { if(MethodCall==null) yield break; else yield return MethodCall; } }
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Container.Name + ".size()"; } }
+        public override string Symbol { get { return Name + ".size()"; } }
     }
 
     public class SequenceExpressionContainerEmpty : SequenceExpressionContainer
@@ -697,6 +707,11 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> type", ContainerType(env));
             }
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -731,7 +746,7 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceComputation> Children { get { if(MethodCall == null) yield break; else yield return MethodCall; } }
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Container.Name + ".empty()"; } }
+        public override string Symbol { get { return Name + ".empty()"; } }
     }
 
     public class SequenceExpressionContainerAccess : SequenceExpression

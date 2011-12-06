@@ -1289,9 +1289,11 @@ SequenceComputation MethodCallRepeated():
 			if(method=="add") {
 				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,array end) or 2(for map,array with index) parameters)");
 				methodCall = new SequenceComputationContainerAdd(methodCall, fromExpr2, fromExpr3);
+				fromExpr2 = null; fromExpr3 = null;
 			} else if(method=="rem") {
 				if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for array end) parameters )");
 				methodCall = new SequenceComputationContainerRem(methodCall, fromExpr2);
+				fromExpr2 = null;
 			} else if(method=="clear") {
 				if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
 				methodCall = new SequenceComputationContainerClear(methodCall);

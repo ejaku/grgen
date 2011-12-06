@@ -1,0 +1,8 @@
+new graph computationoperators/computationoperators
+
+xgrs ::r=({!true})
+show var r
+xgrs ::r=({!false})
+show var r
+
+quit
