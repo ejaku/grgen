@@ -9,6 +9,11 @@ AntWorld-GraBaTs08:
   AntWorld_RememberBorder.grs -> 0
 Clique:
   Clique.grs -> 0
+CompilerOptimization-TTC2011:
+  InstructionSelection.grs -> 0
+  InstructionSelectionDebug.grs -> 0
+  Optimization.grs -> 0
+  OptimizationDebug.grs -> 0
 ConferenceScheduling-GraBaTs08-Live-Contest-Winning-Solution:
   conference.grs -> 0
   conferenceShow.grs -> 0
@@ -44,6 +49,15 @@ FloweringGeraniumInCrackedPot:
   FloweringGeraniumInCrackedPot.grs -> 0
 GrIO:
   GrIOtest.grs -> 0
+HelloWorld-TTC2011:
+  Count.grs -> 0
+  Delete.grs -> 0
+  HelloWorld.grs -> 0
+  HelloWorldExt.grs -> 0
+  Reverse.grs -> 0
+  SimpleToEvolved.grs -> 0
+  SimpleToMoreEvolved.grs -> 0
+  Transitive.grs -> 0
 HighwayMetropolis:
   Highway.grs -> 0
 JavaProgramGraphs-GraBaTs08:
@@ -84,19 +98,21 @@ Petri:
 ProgramComprehension-GraBaTs09:
   task1.grs -> 0
   task2.grs -> 0
+ProgramGraphExample-AGTIVE11:
+  ProgramGraphs.grs -> 0
 ProgramGraphs:
   ProgramGraphs0a.grs -> 0
   ProgramGraphs0b.grs -> 0
   ProgramGraphs0c.grs -> 0
   ProgramGraphs0d.grs -> 0
   ProgramGraphs1a.grs -> 0
-  ProgramGraphs1b.grs -> 255
-  ProgramGraphs2.grs -> 255
-  ProgramGraphs3a.grs -> 255
+  ProgramGraphs1b.grs -> 127
+  ProgramGraphs2.grs -> 127
+  ProgramGraphs3a.grs -> 127
   ProgramGraphs3b.grs -> 0
-  ProgramGraphs3c.grs -> 255
-  ProgramGraphs3d.grs -> 255
-  ProgramGraphs4a.grs -> 255
+  ProgramGraphs3c.grs -> 127
+  ProgramGraphs3d.grs -> 127
+  ProgramGraphs4a.grs -> 127
   ProgramGraphs4b.grs -> 0
   ProgramGraphsAlongEdges.grs -> 0
   ProgramGraphsOriginal.grs -> 0
@@ -104,6 +120,8 @@ Recursive:
   Recursive.grs -> 0
   RecursiveReverse.grs -> 0
   RecursiveReverseToCommon.grs -> 0
+Reengineering-TTC-2011:
+  reengineering.grs -> 0
 Sierpinski:
   Sierpinski.grs -> 0
 Sierpinski2:
@@ -130,13 +148,16 @@ Turing3:
 TuringRubino:
   TuringRubino_BB3.grs -> 0
 UML:
-  StateMachine_001.grs -> 255
-  demo_sm.grs -> 255
-  g2x.grs -> 255
-  test.grs -> 255
+  StateMachine_001.grs -> 127
+  demo_sm.grs -> 127
+  g2x.grs -> 127
+  test.grs -> 127
 UML2CSP-GraBaTs09:
   UML2CSP.grs -> 0
 UML2CSP2-GraBaTs08:
   UML2CSP.grs -> 0
+Visualization:
+  Debugging.grs -> 0
+  Visualization.grs -> 0
 WeakComponents:
   visit.grs -> 0
