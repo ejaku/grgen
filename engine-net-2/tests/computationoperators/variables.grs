@@ -1,0 +1,7 @@
+new graph computationoperators/computationoperators
+
+xgrs ::r=42 ;> r:int=1337 \
+		;> {emit("1 value of attribute 5 6 ")} ;> {emit(::r)} ;> {emit("\n")} \
+		;> {emit("1 value of attribute 5 6 ")} ;> {emit(r)} ;> {emit("\n")}
+
+quit
