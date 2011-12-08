@@ -1615,7 +1615,7 @@ seqAssignTarget[ExecNode xg]
 	;
 
 seqExpression[ExecNode xg]
-	: seqExprLazyOr[xg] ( QUESTION seqExpression[xg] COLON seqExpression[xg] )?
+	: seqExprLazyOr[xg] ( QUESTION { xg.append("?"); } seqExpression[xg] COLON { xg.append(":"); } seqExpression[xg] )?
 	;
 
 seqExprLazyOr[ExecNode xg]

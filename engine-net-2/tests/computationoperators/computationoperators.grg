@@ -8,3 +8,111 @@ test False
 {
 	.;
 }
+
+rule then
+{
+	modify {
+		exec(r:boolean=({true ; true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({true ; false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false ; true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false ; false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+	}
+}
+
+rule lazyor
+{
+	modify {
+		exec(r:boolean=({true || true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({true || false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false || true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false || false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+	}
+}
+
+rule lazyand
+{
+	modify {
+		exec(r:boolean=({true && true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({true && false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false && true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false && false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+	}
+}
+
+rule strictor
+{
+	modify {
+		exec(r:boolean=({true | true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({true | false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false | true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false | false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+	}
+}
+
+rule strictand
+{
+	modify {
+		exec(r:boolean=({true & true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({true & false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false & true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false & false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+	}
+}
+
+rule strictxor
+{
+	modify {
+		exec(r:boolean=({true ^ true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({true ^ false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false ^ true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false ^ false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+	}
+}
+
+rule neg
+{
+	modify {
+		exec(r:boolean=({!true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({!false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+	}
+}
+
+rule conditional
+{
+	modify {
+		exec(r:boolean=({true ? true : true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({true ? true : false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({true ? false : true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({true ? false : false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false ? true : true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false ? true : false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false ? false : true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({false ? false : false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+	}
+}
+
+rule assignment
+{
+	modify {
+		exec(({::r=::s=::t=42}) && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")}
+								  && {emit("The value of variable s of type bool is: ")} && {emit(::s)} && {emit("\n")}
+								  && {emit("The value of variable t of type bool is: ")} && {emit(::t)} && {emit("\n")});
+	}
+}
+
+rule variables
+{
+	modify {
+		exec(::r=42 ;> r:int=1337 ;> {emit("1 value of attribute 5 6 ")} ;> {emit(::r)} ;> {emit("\n")}
+								  ;> {emit("1 value of attribute 5 6 ")} ;> {emit(r)} ;> {emit("\n")});
+	}
+}
+
+rule methodcall
+{
+	modify {
+		exec(::r=set<int>{} ;> ::s=({::r.add(1).add(2).add(3).rem(3).empty()})
+				;> {emit("The value of variable r of type bool is: ")} ;> {emit(::r)} ;> {emit("\n")}
+				;> {emit("The value of variable s of type bool is: ")} ;> {emit(::s)} ;> {emit("\n")});
+	}
+}
