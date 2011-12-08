@@ -455,6 +455,7 @@ TOKEN: {
     < NL: "\n" >
 |   < QUOTE: "\"" >
 |   < SINGLEQUOTE: "\'" >
+|   < DOUBLECOLON: "::" >
 |   < EQUAL: "=" >
 |   < COMMA: "," >
 |   < ARROW: "->" >
@@ -562,6 +563,17 @@ String Text():
 	}
 }
 
+String Variable():
+{
+	Token tok;
+}
+{
+	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | "::" tok=<WORD>)
+	{
+		return tok.image;
+	}
+}
+
 String AttributeValue():
 {
 	Token tok;
@@ -605,7 +617,7 @@ INode Node():
 	(
 		"@" "(" str=Text() ")" { node = GetNodeByName(str); }
 	|
-		str=Text() { node = GetNodeByVar(str); }
+		str=Variable() { node = GetNodeByVar(str); }
 	)
 	{ return node; }
 }
@@ -619,7 +631,7 @@ IEdge Edge():
 	(
 		"@" "(" str=Text() ")" { edge = GetEdgeByName(str); }
 	|
-		str=Text() { edge = GetEdgeByVar(str); }
+		str=Variable() { edge = GetEdgeByVar(str); }
 	)
 	{ return edge; }
 }
@@ -633,7 +645,7 @@ IGraphElement GraphElement():
 	(
 		"@" "(" str=Text() ")" { elem = GetElemByName(str); }
 	|
-		str=Text() { elem = GetElemByVar(str); }
+		str=Variable() { elem = GetElemByVar(str); }
 	)
 	{ return elem; }
 }
@@ -724,7 +736,7 @@ ElementDef ElementDefinition():
 	ArrayList attributes = new ArrayList();
 }
 {
-	(varName=Text())?
+	(varName=Variable())?
 	(
 		":" typeName=Text()
 		(

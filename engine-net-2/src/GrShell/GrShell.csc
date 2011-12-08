@@ -222,6 +222,7 @@ TOKEN: {
     < NL: "\n" >
 |   < QUOTE: "\"" >
 |   < SINGLEQUOTE: "\'" >
+|   < DOUBLECOLON: "::" >
 |   < COLON: ":" >
 |   < DOUBLESEMICOLON: ";;" >
 |   < SEMICOLON: ";" >
@@ -526,6 +527,17 @@ String TextOrNumber():
 	}
 }
 
+String Variable():
+{
+	Token tok;
+}
+{
+	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | "::" tok=<WORD>)
+	{
+		return tok.image;
+	}
+}
+
 String AttributeValue():
 {
 	Token tok;
@@ -620,7 +632,7 @@ object NumberOrVar():
 		return Convert.ToInt32(t.image);
 	}
 |
-	str=WordOrText() { val = impl.GetVarValue(str); return val; }
+	str=Variable() { val = impl.GetVarValue(str); return val; }
 }
 
 bool Bool():
@@ -641,7 +653,7 @@ object BoolOrVar():
 |
 	"false" { return false; }
 |
-	str=WordOrText() { val = impl.GetVarValue(str); return val; }
+	str=Variable() { val = impl.GetVarValue(str); return val; }
 }
 
 String Filename():
@@ -730,7 +742,7 @@ IGraphElement GraphElement():
 	(
 		"@" "(" str=WordOrText() ")" { elem = impl.GetElemByName(str); }
 	|
-		str=WordOrText() { elem = impl.GetElemByVar(str); }
+		str=Variable() { elem = impl.GetElemByVar(str); }
 	)
 	{ return elem; }
 }
@@ -744,7 +756,7 @@ object GraphElementOrVar():
 	(
 		"@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
 	|
-		str=WordOrText() { val = impl.GetVarValue(str); }
+		str=Variable() { val = impl.GetVarValue(str); }
 	)
 	{ return val; }
 }
@@ -760,6 +772,8 @@ object GraphElementOrUnquotedVar():
 		"@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
 	|
 		tok=<WORD> { val = impl.GetVarValue(tok.image); }
+	|
+		"::" tok=<WORD> { val = impl.GetVarValue(tok.image); }
 	)
 	{ return val; }
 }
@@ -775,7 +789,7 @@ object GraphElementOrVarOrNull():
     |
         "null" { val = null; }
 	|
-		str=WordOrText() { val = impl.GetVarValue(str); }
+		str=Variable() { val = impl.GetVarValue(str); }
 	)
 	{ return val; }
 }
@@ -789,7 +803,7 @@ INode Node():
 	(
 		"@" "(" str=WordOrText() ")" { node = impl.GetNodeByName(str); }
 	|
-		str=WordOrText() { node = impl.GetNodeByVar(str); }
+		str=Variable() { node = impl.GetNodeByVar(str); }
 	)
 	{ return node; }
 }
@@ -803,7 +817,7 @@ IEdge Edge():
 	(
 		"@" "(" str=WordOrText() ")" { edge = impl.GetEdgeByName(str); }
 	|
-		str=WordOrText() { edge = impl.GetEdgeByVar(str); }
+		str=Variable() { edge = impl.GetEdgeByVar(str); }
 	)
 	{ return edge; }
 }
@@ -1309,7 +1323,7 @@ void ShellCommand():
 			)
 	    )
 	|
-        LOOKAHEAD(2) str1=WordOrText() "="
+        LOOKAHEAD(2) str1=Variable() "="
         (
 			"askfor"
 			(
@@ -1347,7 +1361,7 @@ void ShellCommand():
 			if(noError) impl.SetVariable(str1, obj);
         }
 	|
-		str1=WordOrText() "[" obj=SimpleConstant() "]" "=" obj2=SimpleConstant() LineEnd()
+		str1=Variable() "[" obj=SimpleConstant() "]" "=" obj2=SimpleConstant() LineEnd()
 		{
 			impl.SetVariableIndexed(str1, obj2, obj);
 		}
@@ -1419,7 +1433,7 @@ ElementDef ElementDefinition():
 	ArrayList attributes = new ArrayList();
 }
 {
-	(varName=WordOrText())?
+	(varName=Variable())?
 	(
 		":" typeName=WordOrText()
 		(
@@ -1791,7 +1805,7 @@ void ShowVar():
 	String str;
 }
 {
-	str=WordOrText() LineEnd()
+	str=Variable() LineEnd()
 	{
 		impl.ShowVar(str);
 	}
