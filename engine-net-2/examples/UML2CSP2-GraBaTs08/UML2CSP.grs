@@ -16,9 +16,9 @@ dump add node Condition infotag expression
 dump add node Event infotag name
 debug set layout Compilergraph
 
-xgrs InitExample
+exec InitExample
 
-xgrs lpa:ProcessAssignment ;> skip:Process ;> cond:Condition ;> dn:DecisionNode \
+exec lpa:ProcessAssignment ;> skip:Process ;> cond:Condition ;> dn:DecisionNode \
  ;> mn:MergeNode ;> tgt:Process ;> conc:Concurrency ;> fn:ForkNode ;> jn:JoinNode ;> ev:Event \
  ;> (lpa, skip)=TFInitial &&                          \
   ( (lpa)=TFAction(lpa)                               \
@@ -37,4 +37,4 @@ xgrs lpa:ProcessAssignment ;> skip:Process ;> cond:Condition ;> dn:DecisionNode 
   | TFFinal(skip)                                     \
   )+
   
-xgrs InitOutput
+exec InitOutput

@@ -3,18 +3,18 @@ import graph1.ecore result.ecore Graph1.xmi Count.grg
 include layout.grsi
 
 redirect emit "Count-nodes-grgen.xmi"
-xgrs (::res)=createIntResult ;> [countNode(::res)] ;> emitInt
+exec (::res)=createIntResult ;> [countNode(::res)] ;> emitInt
 
 redirect emit "Count-looping-edges-grgen.xmi"
-debug xgrs (::res)=createIntResult ;> [countLoopingEdge(::res)] ;> emitInt
+debug exec (::res)=createIntResult ;> [countLoopingEdge(::res)] ;> emitInt
 
 redirect emit "Count-isolated-nodes-grgen.xmi"
-xgrs (::res)=createIntResult ;> [countIsolatedNode(::res)] ;> emitInt
+exec (::res)=createIntResult ;> [countIsolatedNode(::res)] ;> emitInt
 
 redirect emit "Count-cycles-grgen.xmi"
-xgrs (::res)=createIntResult ;> [countCycle(::res)] ;> emitInt
+exec (::res)=createIntResult ;> [countCycle(::res)] ;> emitInt
 
 redirect emit "Count-dangling-edges-grgen.xmi"
-xgrs (::res)=createIntResult ;> [countDanglingEdge(::res)] ;> emitInt
+exec (::res)=createIntResult ;> [countDanglingEdge(::res)] ;> emitInt
 
 quit

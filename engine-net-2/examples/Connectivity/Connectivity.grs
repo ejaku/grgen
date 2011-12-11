@@ -1,14 +1,14 @@
 new graph Connectivity
 
-xgrs init
+exec init
 
-xgrs removeLoop*
-xgrs removeMultipleEdges*
-xgrs addReverseEdge*
+exec removeLoop*
+exec removeMultipleEdges*
+exec addReverseEdge*
 
-xgrs (reduceComponent || breakCycle)*
+exec (reduceComponent || breakCycle)*
 
 # show results
-xgrs reportSize*
+exec reportSize*
 
 quit

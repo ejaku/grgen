@@ -13,4 +13,4 @@ new graph removeEpsilons2.grg "StateMachine"
 #include NFADublette.grsi
 include NFA.grsi
 
-debug xgrs checkStartState && !checkDoublettes && forwardTransition*
+debug exec checkStartState && !checkDoublettes && forwardTransition*

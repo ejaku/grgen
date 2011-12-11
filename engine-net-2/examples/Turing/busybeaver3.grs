@@ -41,7 +41,7 @@ new sC_w2:WriteOne
 new sC -:one-> sC_w2
 new sC_w2 -:moveRight-> h
 
-debug xgrs ((readZeroRule || readOneRule || readEmptyRule) \
+debug exec ((readZeroRule || readOneRule || readEmptyRule) \
         | (writeZeroRule || writeOneRule || writeEmptyRule) \
         | (ensureMoveLeftValidRule || ensureMoveRightValidRule) \
         | (moveLeftRule || moveRightRule || dontMoveRule))+

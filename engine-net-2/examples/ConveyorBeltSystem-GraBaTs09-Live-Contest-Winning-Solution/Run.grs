@@ -16,19 +16,19 @@ dump add node CompoundState group by hidden outgoing Contains
 dump add node Statechart group by hidden outgoing Contains
 
 
-xgrs InitialGraph
+exec InitialGraph
 
-debug xgrs InitStatechart && ((s:State)=CreateCompoundStateAndInit && ((s)=CreateStates(s))*)* && FixupInitialStates*
+debug exec InitStatechart && ((s:State)=CreateCompoundStateAndInit && ((s)=CreateStates(s))*)* && FixupInitialStates*
 
-xgrs {::flags = valloc()}
-xgrs i:int=0 ;> ((i)=LableLinks(i))*
+exec {::flags = valloc()}
+exec i:int=0 ;> ((i)=LableLinks(i))*
 
-xgrs CreatePredSucc* && CopyPredSucc*
+exec CreatePredSucc* && CopyPredSucc*
 
-debug xgrs LuggageInput[5] && (Fire $| FireFinal)*
+debug exec LuggageInput[5] && (Fire $| FireFinal)*
 
-xgrs FindCycle
+exec FindCycle
 
-xgrs {vfree(::flags)}
+exec {vfree(::flags)}
 
 #show graph ycomp

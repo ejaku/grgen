@@ -16,7 +16,7 @@ dump set edge uses color blue
 dump set edge writesTo color red
 dump set edge calls color black
 
-xgrs createProgramGraphExample
+exec createProgramGraphExample
 
 validate strict
 

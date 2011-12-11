@@ -29,6 +29,6 @@ dump set node A_S color yellow
 dump set node A_Cl color green
 
 debug enable
-xgrs createDNAChain
-xgrs A2K
-xgrs transcription
+exec createDNAChain
+exec A2K
+exec transcription

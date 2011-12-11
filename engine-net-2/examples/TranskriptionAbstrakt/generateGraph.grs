@@ -39402,4 +39402,4 @@ new N39352 -E39354:Edge-> N39353
 new N39348 -E39355:PG-> N39352
 echo "done: 39356 elements created"
 
-xgrs [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription]
+exec [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription] && [?transcription]

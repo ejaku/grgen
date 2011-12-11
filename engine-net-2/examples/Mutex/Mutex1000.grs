@@ -5,7 +5,7 @@ new p2:Process
 new p1-:next->p2
 new p2-:next->p1
 
-xgrs newRule[998] && mountRule && requestRule[1000]
+exec newRule[998] && mountRule && requestRule[1000]
 custom graph analyze
 custom actions gen_searchplan takeRule releaseRule giveRule
-xgrs (takeRule && releaseRule && giveRule)[1000]
+exec (takeRule && releaseRule && giveRule)[1000]

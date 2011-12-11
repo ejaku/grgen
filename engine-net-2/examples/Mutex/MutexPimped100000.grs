@@ -5,4 +5,4 @@ new p2:Process
 new p1-:next->p2
 new p2-:next->p1
 
-xgrs newRule[99998] && mountRule && requestRule[100000] && (takeRule && releaseRule && giveRule)[100000]
+exec newRule[99998] && mountRule && requestRule[100000] && (takeRule && releaseRule && giveRule)[100000]

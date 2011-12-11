@@ -42,8 +42,8 @@ dump set node minuml1_Partition labels off
 dump add node minuml1_Partition shortinfotag _name
 
 # beautify and dump the graph
-xgrs dump_addTransitionsToPartitions*
-xgrs dump_guardedTransitionEdges*
-xgrs dump_transitionEdges*
+exec dump_addTransitionsToPartitions*
+exec dump_guardedTransitionEdges*
+exec dump_transitionEdges*
 
 show graph ycomp

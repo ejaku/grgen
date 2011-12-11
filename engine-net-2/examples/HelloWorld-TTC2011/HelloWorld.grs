@@ -1,6 +1,6 @@
 import helloworld.ecore HelloWorld.grg
 
-xgrs createHelloWorld
+exec createHelloWorld
 
 show graph ycomp
 

@@ -44,24 +44,24 @@ dump set node org_amma_pdg_ExpressionNode labels off
 dump add node org_amma_pdg_ExpressionNode shortinfotag _name
 
 # if-statement tests
-#xgrs WhileStatement_to_IfStatement_then
-#xgrs WhileStatement_to_IfStatement_else
-#xgrs [rename_prod_2_k]
+#exec WhileStatement_to_IfStatement_then
+#exec WhileStatement_to_IfStatement_else
+#exec [rename_prod_2_k]
 
 # Transform AST to CFG
-xgrs CFG_name_expressions
-xgrs [CFG_handle_statements]
-xgrs [CFG_handle_IfStatement]
-xgrs [CFG_handle_IfStatement_Block]
-xgrs [CFG_handle_WhileStatement]
-xgrs [CFG_handle_WhileStatement_Block]
-xgrs [CFG_handle_EmptyStatement]
-xgrs [CFG_sweep_graph]
-xgrs AST_nodes_2_CFG
+exec CFG_name_expressions
+exec [CFG_handle_statements]
+exec [CFG_handle_IfStatement]
+exec [CFG_handle_IfStatement_Block]
+exec [CFG_handle_WhileStatement]
+exec [CFG_handle_WhileStatement_Block]
+exec [CFG_handle_EmptyStatement]
+exec [CFG_sweep_graph]
+exec AST_nodes_2_CFG
 
 # Dump CFG
 redirect emit cfg_task2-grgen.xmi
-xgrs (id:int) = CFG_initial_id \
+exec (id:int) = CFG_initial_id \
 		;> (id) = CFG_number_node(id)* \
 		;> CFG_XML_prefix \
 		;> (id) = CFG_initial_id \
@@ -71,21 +71,21 @@ xgrs (id:int) = CFG_initial_id \
 		;> (CFG_add_Enter_and_Exit & CFG_connect_Enter* & CFG_connect_Exit*) \
 
 # Transform CFG to PDG
-xgrs PDG_init_post_dominance
-xgrs PDG_determine_post_dominance
-xgrs PDG_determine_post_dominance_frontiers
-xgrs PDG_create_control_dependencies
-xgrs PDG_delete_post_dominance*
-xgrs PDG_add_data_dependencies
-xgrs CFG_nodes_2_PDG
+exec PDG_init_post_dominance
+exec PDG_determine_post_dominance
+exec PDG_determine_post_dominance_frontiers
+exec PDG_create_control_dependencies
+exec PDG_delete_post_dominance*
+exec PDG_add_data_dependencies
+exec CFG_nodes_2_PDG
 
 # Dump PDG
 redirect emit pdg_task2-grgen.xmi
-xgrs PDG_number_dependencies
-xgrs PDG_XML_prefix
-xgrs PDG_dump
-xgrs PDG_XML_suffix
-xgrs PDG_finish_dump
+exec PDG_number_dependencies
+exec PDG_XML_prefix
+exec PDG_dump
+exec PDG_XML_suffix
+exec PDG_finish_dump
 
 show graph ycomp
 exit

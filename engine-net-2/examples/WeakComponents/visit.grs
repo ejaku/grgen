@@ -2,26 +2,26 @@ new graph "visit"
 
 # generate a pseudo random graph with 290 nodes of type N and 170 edges
 
-xgrs (::state)=init
+exec (::state)=init
 state.maxNodeID = 290
 state.rand1 = 2147
 state.rand2 = 691501
 
-xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[170]
+exec newNode* && ((nextRandom && !trimRandom)* | newEdge)[170]
 
 echo ""
 echo "==========================================================================="
-echo "  The number of found matches for the next xgrs is the number of weakly"
+echo "  The number of found matches for the next exec is the number of weakly"
 echo "  connected components consisting of nodes of type N in the current graph"
 echo "==========================================================================="
 echo ""
 
-xgrs {::visID = valloc()}
+exec {::visID = valloc()}
 
 # HACK: The visID variable should be given to the findComponent rule,
 #       but as subpatterns don't support value variables yet and the first
 #       allocated visited flag is always 0, we use the constant value 0
 #       inside the rules...
-xgrs findComponent*
+exec findComponent*
 
-xgrs {vfree(::visID)}
+exec {vfree(::visID)}

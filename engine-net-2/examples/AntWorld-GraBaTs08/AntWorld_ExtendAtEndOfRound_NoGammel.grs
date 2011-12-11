@@ -7,11 +7,11 @@ dump add edge NextAnt exclude
 
 randomseed 13
 
-xgrs (::firstAnt)=InitWorld
+exec (::firstAnt)=InitWorld
 
-xgrs doAntWorld(::firstAnt)
+exec doAntWorld(::firstAnt)
 
-#xgrs (curAnt:Ant=::firstAnt &&                                                                                                                \
+#exec (curAnt:Ant=::firstAnt &&                                                                                                                \
 #    ((                                                                                                                                  \
 #        (TakeFood(curAnt) && true) | (GoHome(curAnt) && true) ||                                                                        \
 #        DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] || $[SearchAimless(curAnt)])                                               \

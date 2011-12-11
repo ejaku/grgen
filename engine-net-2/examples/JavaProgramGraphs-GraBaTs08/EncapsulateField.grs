@@ -4,9 +4,9 @@ include InstanceGraph.grsi
 include InstanceGraphLayout.grsi
 
 redirect emit program.txt
-xgrs emitSpanningTree
+exec emitSpanningTree
 
-xgrs InsertHelperEdgesForNestedLayout
+exec InsertHelperEdgesForNestedLayout
 
 debug enable
 
@@ -22,7 +22,7 @@ v = I350 # variable _name
 getterName = "getName"
 setterName = "setName"
 
-xgrs c:Class=::c ;> v:Variable=::v ;> getterName:string=::getterName ;> setterName:string=::setterName \
+exec c:Class=::c ;> v:Variable=::v ;> getterName:string=::getterName ;> setterName:string=::setterName \
 	;> (isStatic:boolean) = variableInClass(c, v) \
 	&& (!((getter:Operation) = methodExists(c, getterName)) || sameStaticness(v, getter)) \
 	&& (!((setter:Operation) = methodExists(c, setterName)) || sameStaticness(v, setter)) \
@@ -33,5 +33,5 @@ xgrs c:Class=::c ;> v:Variable=::v ;> getterName:string=::getterName ;> setterNa
 	&& adaptUpdate(c, v, setter)*
 
 redirect emit programafter.txt
-xgrs emitSpanningTree
+exec emitSpanningTree
 

@@ -18,10 +18,10 @@ dump set node ExpressionS shape circle
 dump set edge nextS color red
 dump set edge usedefS color blue
 
-xgrs init
+exec init
 
-debug xgrs optimize
+debug exec optimize
 
-debug xgrs transform
+debug exec transform
 
 quit

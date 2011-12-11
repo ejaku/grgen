@@ -2,7 +2,7 @@ new graph "Recursive"
 
 debug set layout Organic
 
-xgrs (beg:Node,end:Node)=createChain \
+exec (beg:Node,end:Node)=createChain \
 		;> chainFromTo(beg,end) \
 		;> reverseChainFromTo(beg,end) \
 		;> (common:Node)=chainFromToReverseToCommon(beg,end) \

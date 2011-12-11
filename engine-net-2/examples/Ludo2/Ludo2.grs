@@ -41,14 +41,14 @@ dump set edge holds     color     lightpurple
 
 
 # debug enable
-xgrs init && (::dice)=getDice
+exec init && (::dice)=getDice
 
 dice.rand = 98754321
 
 debug enable
 debug set layout option INITIAL_PLACEMENT AS_IS
 
-debug xgrs                                                                \
+debug exec                                                                \
   (                                                                       \
     (                                                                     \
       (nextRandom && !trimRandom)* |                                      \

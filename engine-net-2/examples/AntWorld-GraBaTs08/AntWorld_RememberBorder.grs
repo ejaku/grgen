@@ -8,11 +8,11 @@ dump add node GammelFix exclude
 
 randomseed 13
 
-xgrs (::firstAnt, ::outer)=InitWorld
+exec (::firstAnt, ::outer)=InitWorld
 
-xgrs doAntWorld(::firstAnt, ::outer)
+exec doAntWorld(::firstAnt, ::outer)
 
-#debug xgrs curOuter:GridNode=::outer && (curAnt:Ant=::firstAnt && \
+#debug exec curOuter:GridNode=::outer && (curAnt:Ant=::firstAnt && \
 #    (( \
 #        TakeFood(curAnt) | GoHome(curAnt) || \
 #        DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] || \
@@ -29,7 +29,7 @@ xgrs doAntWorld(::firstAnt, ::outer)
 #    | [EvaporateWorld] \
 #    )[250]
 
-#xgrs (curAnt:Ant=::firstAnt &&                                                                                                                \
+#exec (curAnt:Ant=::firstAnt &&                                                                                                                \
 #    ((                                                                                                                                  \
 #        (TakeFood(curAnt) && true) | (GoHome(curAnt) && true) ||                                                                        \
 #        DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] || $[SearchAimless(curAnt)])                                               \

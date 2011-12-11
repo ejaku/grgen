@@ -20,7 +20,7 @@ dump set edge calls color black
 
 dump add node Entity group by hidden outgoing contains
 
-xgrs createProgramGraphExample
+exec createProgramGraphExample
 
 validate strict
 

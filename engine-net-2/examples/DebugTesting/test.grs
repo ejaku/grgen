@@ -1,43 +1,43 @@
 # this file is for manually testing the debugger
 new graph test
 
-debug xgrs !match
-debug xgrs match ;> match
-debug xgrs match <; match
-debug xgrs match || match
-debug xgrs match && match
-debug xgrs match | match
-debug xgrs match ^ match
-debug xgrs match & match
+debug exec !match
+debug exec match ;> match
+debug exec match <; match
+debug exec match || match
+debug exec match && match
+debug exec match | match
+debug exec match ^ match
+debug exec match & match
 
 new n:N
 
-debug xgrs {::id=valloc()} && matchmark+
-debug xgrs {::n.visited[::id]} && {vreset(::id)} && matchmark* && {::n.visited[::id] = false}
+debug exec {::id=valloc()} && matchmark+
+debug exec {::n.visited[::id]} && {vreset(::id)} && matchmark* && {::n.visited[::id] = false}
 
-debug xgrs if{match; match; dontmatch}
-debug xgrs if{dontmatch; match; dontmatch}
-debug xgrs if{dontmatch; match}
+debug exec if{match; match; dontmatch}
+debug exec if{dontmatch; match; dontmatch}
+debug exec if{dontmatch; match}
 
-debug xgrs <matchmark ;> dontmatch>
+debug exec <matchmark ;> dontmatch>
 
-debug xgrs [matchmark]
+debug exec [matchmark]
 
 new m:N
 
-debug xgrs true && false || x:boolean = false ;> y:boolean = x ;> y <; match
-debug xgrs ::x = (match ^ dontmatch) # && z = @("$1") disabled cause non-interactive execution fails otherwise
-debug xgrs {::m.b = ::x; ::x = ::m.b; def(::z)} <; match
+debug exec true && false || x:boolean = false ;> y:boolean = x ;> y <; match
+debug exec ::x = (match ^ dontmatch) # && z = @("$1") disabled cause non-interactive execution fails otherwise
+debug exec {::m.b = ::x; ::x = ::m.b; def(::z)} <; match
 
-debug xgrs {::s = set<Node>{}; vreset(::id)} ;> (::l)=matchmark ;> {::s.add(::l); ::si=::s.size(); ::s.rem(::l)}
-debug xgrs {::s.add(::l); ::l in ::s} <; dontmatch
-debug xgrs for{::i in ::s; setstring(::i)}
-debug xgrs {::si=::s.empty(); ::s.clear(); ::si} <; match
+debug exec {::s = set<Node>{}; vreset(::id)} ;> (::l)=matchmark ;> {::s.add(::l); ::si=::s.size(); ::s.rem(::l)}
+debug exec {::s.add(::l); ::l in ::s} <; dontmatch
+debug exec for{::i in ::s; setstring(::i)}
+debug exec {::si=::s.empty(); ::s.clear(); ::si} <; match
 
-debug xgrs ::ss = map<Node,Node>{} && (::ll)=matchmark ;> {::ss.add(::l,::ll); ::si=::ss.size(); ::ss.rem(::l)}
-debug xgrs {::ss.add(::l,::ll); ::l in ::ss} <; dontmatch
-debug xgrs for{::i->::j in ::ss; setstring(::j)}
-debug xgrs {::k = ::ss[::l]; ::si=::ss.empty(); ::ss.clear(); ::si} <; match
+debug exec ::ss = map<Node,Node>{} && (::ll)=matchmark ;> {::ss.add(::l,::ll); ::si=::ss.size(); ::ss.rem(::l)}
+debug exec {::ss.add(::l,::ll); ::l in ::ss} <; dontmatch
+debug exec for{::i->::j in ::ss; setstring(::j)}
+debug exec {::k = ::ss[::l]; ::si=::ss.empty(); ::ss.clear(); ::si} <; match
 
-debug xgrs {vreset(::id)} && s:set<Node> = set<Node>{} && {s.add(::n); s.add(::m)} && for{::i in s; unsetstring(::i)} && {vfree(::id)}
+debug exec {vreset(::id)} && s:set<Node> = set<Node>{} && {s.add(::n); s.add(::m)} && for{::i in s; unsetstring(::i)} && {vfree(::id)}
 

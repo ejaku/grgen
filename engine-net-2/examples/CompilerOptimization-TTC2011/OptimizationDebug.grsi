@@ -7,9 +7,9 @@ def wavefront(constUsersNow:set<FirmNode>, constUsersNext:set<FirmNode>) {\
 	} ;> {constUsersNow.clear()}\
 }
 
-validate xgrs verify
+validate exec verify
 
-debug xgrs now:set<FirmNode>=set<FirmNode>{} ;> next:set<FirmNode>=set<FirmNode>{} ;>\
+debug exec now:set<FirmNode>=set<FirmNode>{} ;> next:set<FirmNode>=set<FirmNode>{} ;>\
 	( [collectConstUsers(null, now)] ;>\
 		(wavefront(now, next) ;> {now.clear(); tmp:set<FirmNode>=now; now=next; next=tmp; isEmpty:boolean=now.empty(); !isEmpty})* ;>\
 		[foldAssociativeAndCommutative] ;>\
@@ -18,4 +18,4 @@ debug xgrs now:set<FirmNode>=set<FirmNode>{} ;> next:set<FirmNode>=set<FirmNode>
 		(mergeConsts+ | removeUnusedNode+ | mergeBlocks+)\
 	)*
 
-validate xgrs verify
+validate exec verify

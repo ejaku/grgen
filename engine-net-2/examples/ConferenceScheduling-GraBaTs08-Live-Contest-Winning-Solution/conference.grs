@@ -7,7 +7,7 @@ dump add node Person infotag name
 dump add node Session infotag name
 dump add node Paper infotag name
 
-xgrs (::last,::c)=init && (::last)=addSlot(::last)[5]
-xgrs associatePapers*
-xgrs [solve]
+exec (::last,::c)=init && (::last)=addSlot(::last)[5]
+exec associatePapers*
+exec [solve]
 c.counter

@@ -9,7 +9,7 @@ new graph removeEpsilons3.grg "StateMachine"
 include NFA.grsi
 include NFALayout.grsi
 
-debug xgrs checkStartState && !checkDoublettes \
+debug exec checkStartState && !checkDoublettes \
 && (forwardTransition* ;> addStartFinalState ;> addFinalState* ;> removeEpsilonTransition* ;> removeLonelyStates* ;> true) \
 && !epsilonTransition
 

@@ -1,16 +1,16 @@
 new graph "DTree.grg"
 
-xgrs init
+exec init
 
 #debug enable
 dump set edge SE color red
 dump add edge NE infotag v
 
-xgrs (extAR+ || extBR+)[12]
+exec (extAR+ || extBR+)[12]
 
 # fast alternative
-xgrs p12M
+exec p12M
 
 # slow alternative
-# xgrs p12E
+# exec p12E
 

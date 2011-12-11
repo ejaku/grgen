@@ -28,11 +28,11 @@ dump set edge invisible color white
 dump set edge invisible textcolor white
 dump set edge holds color lightpurple
 
-xgrs init && (::dice)=getDice
+exec init && (::dice)=getDice
 
 dice.rand = 98754321
 
-xgrs (((nextRandom && !trimRandom)* | (!(((put || move1 || move2 || move3 || move4 || move5 || move6) \
+exec (((nextRandom && !trimRandom)* | (!(((put || move1 || move2 || move3 || move4 || move5 || move6) \
      && ((knockout || noKnockout) && (removeOldOccupies || true) && removeIntends || !removeIntends) \
      && resetFigureChoice) || !(chooseNextFigure || !resetFigureChoice)))* | nextPlayer) & !won)*
 

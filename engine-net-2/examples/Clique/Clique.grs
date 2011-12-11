@@ -3,25 +3,25 @@ new graph Clique
 dump add node State infotag rand1
 dump add node State infotag rand2
 
-xgrs (::state)=init
+exec (::state)=init
 # state.maxNodeID = 100
 # state.rand1 = 1231579
 # state.rand2 = 165031
 
-xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[200]
+exec newNode* && ((nextRandom && !trimRandom)* | newEdge)[200]
 
 echo "C3 exists"
-xgrs C3Dir
+exec C3Dir
 echo "C4 exists"
-xgrs C4Dir
+exec C4Dir
 echo "K4 exists"
-xgrs K4Dir
+exec K4Dir
 
 echo "Number of C3s"
-xgrs [C3Dir]
+exec [C3Dir]
 echo "Number of C4s"
-xgrs [C4Dir]
+exec [C4Dir]
 echo "Number of K4s"
-xgrs [K4Dir]
+exec [K4Dir]
 
 quit

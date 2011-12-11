@@ -1,5 +1,5 @@
 new graph debugexec
-xgrs Init && Enlarge[10]
+exec Init && Enlarge[10]
 
 debug set layout Organic
-debug xgrs DestroyRing
+debug exec DestroyRing

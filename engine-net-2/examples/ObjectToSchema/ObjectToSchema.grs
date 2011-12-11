@@ -21,9 +21,9 @@ dump set node FKey color darkblue
 dump set node PKey color orchid
 dump set node Column color lightblue
 
-xgrs createUMLModel
+exec createUMLModel
 
 custom graph analyze
 custom actions gen_searchplan schemaRule classRule associationRule assocEndRule generalizationRule attributeRule
 
-debug xgrs schemaRule* && classRule* && associationRule* && assocEndRule* && generalizationRule* && attributeRule*
+debug exec schemaRule* && classRule* && associationRule* && assocEndRule* && generalizationRule* && attributeRule*

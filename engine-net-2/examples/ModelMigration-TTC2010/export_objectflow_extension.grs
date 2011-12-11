@@ -4,9 +4,9 @@ include alternative_ObjectFlowState.grs
 
 # Export the graph
 redirect emit migrated_objectflow_model.xmi
-xgrs (::id) = initial_id
-xgrs (::id) = number_node(::id)*
-xgrs XMI_prefix
-xgrs [emit_activity]
-xgrs XMI_suffix
-xgrs finish_dump
+exec (::id) = initial_id
+exec (::id) = number_node(::id)*
+exec XMI_prefix
+exec [emit_activity]
+exec XMI_suffix
+exec finish_dump

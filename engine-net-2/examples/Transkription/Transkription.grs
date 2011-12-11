@@ -11,7 +11,7 @@ dump set node S color yellow
 dump set node Cl color green
 
 #ACGTA
-xgrs createDNAChain
+exec createDNAChain
 
 custom graph analyze_graph
 custom actions gen_searchplan Transkription
@@ -19,7 +19,7 @@ custom actions gen_searchplan Transkription
 debug enable
 
 #A->U, C->G, G->C, T->A
-xgrs Transkription
+exec Transkription
 # ACGTA + UGCAU
 
 quit

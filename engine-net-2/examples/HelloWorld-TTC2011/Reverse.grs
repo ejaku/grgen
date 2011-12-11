@@ -2,7 +2,7 @@ import graph1.ecore Graph1.xmi Reverse.grg
 
 show graph ycomp
 
-xgrs [reverseEdge]
+exec [reverseEdge]
 
 show graph ycomp
 

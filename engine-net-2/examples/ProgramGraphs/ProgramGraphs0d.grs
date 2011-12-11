@@ -22,11 +22,11 @@ dump set edge calls color black
 dump add node Class group by hidden outgoing only contains
 dump add node MethodBody group by hidden outgoing methodBodyContains
 
-xgrs createProgramGraphExample
+exec createProgramGraphExample
 
 validate strict
 
-xgrs InsertHelperEdgesForNestedLayout
+exec InsertHelperEdgesForNestedLayout
 
 validate strict
 

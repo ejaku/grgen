@@ -5,9 +5,9 @@ include InstanceGraphLayout.grsi
 
 # programmed gxl dumper, not needed any more, shell can export to .gxl as of no
 redirect emit program.gxl
-xgrs visId:int && {visId=valloc()} && dumpGxl(visId) && {vfree(visId)}
+exec visId:int && {visId=valloc()} && dumpGxl(visId) && {vfree(visId)}
 
-xgrs InsertHelperEdgesForNestedLayout
+exec InsertHelperEdgesForNestedLayout
 
 # move method - move method m from class source to class target
 
@@ -45,11 +45,11 @@ tgt = I194 # class Packet - use if parameter is used in moving method
 # tgt = I617 # class String - use if instance variable is used in moving method
 mb = I409 # method body of send
 
-xgrs (::op)=getOperation(::mb)
+exec (::op)=getOperation(::mb)
 
-xgrs markExpressionOfBody(::mb)* #mark all expressions in body of method
+exec markExpressionOfBody(::mb)* #mark all expressions in body of method
 
-debug xgrs mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operation=::op \
+debug exec mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operation=::op \
 		&& (p:Parameter)=someParameterOfTargetType(mb,tgt) \
 		&& !callToSuperExists && !isStatic(mb) && !methodNameExists(mb,tgt) \
 		&& (!thisIsAccessed || thisIsAccessed && (srcparam:Parameter)=addSourceParameter(op,src) && useSourceParameter(srcparam)*) \
@@ -59,7 +59,7 @@ debug xgrs mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operat
 				&& (replaceAccess_Parameter_AccessWithoutLink(call,pe) || replaceAccess_Parameter_AccessWithLinkToExpression(call,pe)) \
 		   )*
 
-# debug xgrs mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operation=::op \
+# debug exec mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operation=::op \
 #		&& (v:Variable)=someInstanceVariableOfTargetType(mb,tgt) \
 #		&& !callToSuperExists && !isStatic(mb) && !methodNameExists(mb,tgt) \
 #		&& (!thisIsAccessed || thisIsAccessed && (srcparam:Parameter)=addSourceParameter(op,src) && useSourceParameter(srcparam)*) \
@@ -67,7 +67,7 @@ debug xgrs mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operat
 #		&& (({def(srcparam)} && [replaceAccess_Variable_WithSource(op,v,srcparam)]) || [replaceAccess_Variable(op,v)])
 
 # debug set layout Hierarchic # use hierarchic with delegate, there are problems with compilergraph
-# debug xgrs ((vp:Variable)=someInstanceVariableOfTargetType(mb,tgt) || (vp)=someParameterOfTargetType(mb,tgt)) \
+# debug exec ((vp:Variable)=someInstanceVariableOfTargetType(mb,tgt) || (vp)=someParameterOfTargetType(mb,tgt)) \
 #		&& !callToSuperExists && !isStatic(mb) && !methodNameExists(mb,tgt) \
 #		&& (newop:Operation)=copyOperation(op,tgt) && [copyOperationParameter(op,newop)] \
 #		&& relinkMethodBody(mb,src,tgt,op,newop) && relinkParameter(mb,op,newop)* \
@@ -75,8 +75,8 @@ debug xgrs mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operat
 #		&& (call:Call)=addDelegateBody(src,op,newop,vp) && [linkDelegateBodyToOperation(call,newop)]
 
 # unmark all marked expressions
-xgrs unmarkExpression*
+exec unmarkExpression*
 
 # programmed gxl dumper, not needed any more, shell can export to .gxl as of no
 redirect emit programafter.gxl
-xgrs visId:int && {visId=valloc()} && dumpGxl(visId) && {vfree(visId)}
+exec visId:int && {visId=valloc()} && dumpGxl(visId) && {vfree(visId)}

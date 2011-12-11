@@ -6,16 +6,16 @@ new graph "ProgramGraphs3b"
 
 include ProgramGraphsLayout.grsi
 
-xgrs createProgramGraphExample
+exec createProgramGraphExample
 
 validate strict
 
-xgrs InsertHelperEdgesForNestedLayout
+exec InsertHelperEdgesForNestedLayout
 
 debug enable
 
-debug xgrs $%[MatchStatements]
+debug exec $%[MatchStatements]
 
 validate strict
 
-xgrs InsertHelperEdgesForNestedLayout
+exec InsertHelperEdgesForNestedLayout

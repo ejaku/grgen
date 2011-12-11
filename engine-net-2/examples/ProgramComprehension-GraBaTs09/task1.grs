@@ -6,9 +6,9 @@ import JDTAST.ecore set0.xmi task1.grg Q1View.ecore
 show num nodes
 show num edges
 redirect emit set0-output-grgen.xmi
-xgrs xmlPrefix
-xgrs (::counter)=initXMLCounter
-xgrs {::visID = valloc()}
-xgrs ((::counter)=filter(::visID, ::counter))*
-xgrs {vfree(::visID)}
-xgrs xmlSuffix
+exec xmlPrefix
+exec (::counter)=initXMLCounter
+exec {::visID = valloc()}
+exec ((::counter)=filter(::visID, ::counter))*
+exec {vfree(::visID)}
+exec xmlSuffix

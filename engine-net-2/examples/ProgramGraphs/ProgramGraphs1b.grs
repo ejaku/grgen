@@ -7,16 +7,16 @@ new graph "ProgramGraphs1"
 
 include ProgramGraphsLayout.grsi
 
-xgrs createProgramGraphExample
+exec createProgramGraphExample
 
 validate strict
 
-xgrs InsertHelperEdgesForNestedLayout
+exec InsertHelperEdgesForNestedLayout
 
 debug enable
 
 mb = askfor MethodBody
-debug xgrs FirstStatementEx(::mb)
+debug exec FirstStatementEx(::mb)
 
 validate strict
-xgrs InsertHelperEdgesForNestedLayout
+exec InsertHelperEdgesForNestedLayout

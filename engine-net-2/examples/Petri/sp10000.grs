@@ -47503,4 +47503,4 @@ new transition_uN49127_64 -inarc_uN49130_64:inArc-> place_uN49125_64
 custom graph analyze
 custom actions gen_searchplan fireRule emitTokens consumeTokens deleteToken
 
-xgrs fireRule[1000000]
+exec fireRule[1000000]

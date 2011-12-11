@@ -1,14 +1,14 @@
 new graph demo_sm
 
-xgrs createGraph
+exec createGraph
 
-debug xgrs (sm:StateMachine)=findStateMachine && ( (forwardTransitionNoXZ(sm)+|forwardTransitionNoEpsXZ(sm)+|forwardTransition3(sm)+)* \
+debug exec (sm:StateMachine)=findStateMachine && ( (forwardTransitionNoXZ(sm)+|forwardTransitionNoEpsXZ(sm)+|forwardTransition3(sm)+)* \
 													| propagateFinalState(sm) | removeEpsilonTransition(sm)* )
 
 #echo "\n\n===========\nEmit graph.\n===========\n\n"
 
 #select actions "lgsp-g2xActions.dll"
 
-#xgrs (cntr:AUX_Counter)=createAUX_Counter && [uniquifyIDs(cntr)] && deleteAUX_Counter(cntr)
+#exec (cntr:AUX_Counter)=createAUX_Counter && [uniquifyIDs(cntr)] && deleteAUX_Counter(cntr)
 
-#xgrs toXMI
+#exec toXMI

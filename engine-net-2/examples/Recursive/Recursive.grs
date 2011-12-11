@@ -4,13 +4,13 @@ debug set layout Organic
 
 new n1:Node
 new n2:Node
-xgrs [?chainFromTo(::n1,::n2)]
-xgrs (::beg,::end)=createChain
-xgrs [?chainFromTo(::beg,::end)]
-xgrs [?chainFrom(::beg)]
-xgrs [?chainFromComplete(::beg)]
+exec [?chainFromTo(::n1,::n2)]
+exec (::beg,::end)=createChain
+exec [?chainFromTo(::beg,::end)]
+exec [?chainFrom(::beg)]
+exec [?chainFromComplete(::beg)]
 
-xgrs (::head)=createBlowball
-xgrs [?blowball(::head)]
+exec (::head)=createBlowball
+exec [?blowball(::head)]
 
 quit

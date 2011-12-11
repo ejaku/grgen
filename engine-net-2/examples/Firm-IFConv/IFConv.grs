@@ -12,20 +12,20 @@ dump add node Block group by hidden incoming df
 dump add node Mode exclude
 dump add edge df infotag pos
 
-#xgrs sad_variant0
-#xgrs InitDiamond
-#xgrs g
-xgrs ifconvTest1
+#exec sad_variant0
+#exec InitDiamond
+#exec g
+exec ifconvTest1
 
-#debug xgrs testRetype*
-xgrs CreateEndBlock && InitPDom*
+#debug exec testRetype*
+exec CreateEndBlock && InitPDom*
 
-xgrs InitPDomEnd && CalcPDom*
-xgrs KillReflexivePDom* && ReducePDom*
-xgrs [WalkBlocks]
+exec InitPDomEnd && CalcPDom*
+exec KillReflexivePDom* && ReducePDom*
+exec [WalkBlocks]
 
 debug enable
 
-#xgrs %IFConv
+#exec %IFConv
 
-#xgrs IFConv*
+#exec IFConv*

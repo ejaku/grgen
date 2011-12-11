@@ -1,6 +1,6 @@
 new graph "Sierpinski3.grg"
 
-xgrs init
+exec init
 
 debug set layout Organic
 
@@ -14,4 +14,4 @@ dump set node CA color pink
 dump set edge Edge color gold
 
 # Replace [2] by [4] to get 2 more iterations
-debug xgrs [gen][2]
+debug exec [gen][2]

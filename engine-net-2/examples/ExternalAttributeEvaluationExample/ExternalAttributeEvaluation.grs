@@ -1,5 +1,5 @@
 new graph ExternalAttributeEvaluation
 
-xgrs init
+exec init
 
-xgrs r
+exec r

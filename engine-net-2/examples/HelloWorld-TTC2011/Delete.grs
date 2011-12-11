@@ -2,8 +2,8 @@ import graph1.ecore Graph1.xmi Delete.grg
 
 show num nodes graph1_Node
 
-#xgrs deleteN1 && fixNodeIndex*
-xgrs deleteN1AndAllIncidentEdges && fixNodeIndex*
+#exec deleteN1 && fixNodeIndex*
+exec deleteN1AndAllIncidentEdges && fixNodeIndex*
 
 show num nodes graph1_Node
 

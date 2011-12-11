@@ -7,9 +7,9 @@ new graph simulate4.grg "StateMachine"
 include NFA.grsi
 include NFALayout.grsi
 
-xgrs checkStartState && !checkDoublettes \
+exec checkStartState && !checkDoublettes \
 && (forwardTransition* ;> addStartFinalState ;> addFinalState* ;> removeEpsilonTransition* ;> removeLonelyStates* ;> true) \
 && !epsilonTransition
 
 input="abc"
-debug xgrs (state:State)=getStartState && (state, ::input)=accept(state, ::input)* && isFinalState(state)
+debug exec (state:State)=getStartState && (state, ::input)=accept(state, ::input)* && isFinalState(state)

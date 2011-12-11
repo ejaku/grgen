@@ -2,9 +2,9 @@ new graph "TuringZustand_BB_3.grg" "Busy beaver 3"
 
 dump add node Band infotag bu
 
-xgrs init
+exec init
 
 #custom graph analyze
 #custom actions gen_searchplan XL XR R1 R2 R3 R4 R5 R6
 
-debug xgrs (XL | XR | (R1 || R2 || R3 || R4 || R5 || R6))+
+debug exec (XL | XR | (R1 || R2 || R3 || R4 || R5 || R6))+

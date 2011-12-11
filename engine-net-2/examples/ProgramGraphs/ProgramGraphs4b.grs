@@ -6,18 +6,18 @@ new graph "ProgramGraphs4"
 
 include ProgramGraphsLayout.grsi
 
-xgrs (::c1,::b4) = createProgramGraphPullUp
+exec (::c1,::b4) = createProgramGraphPullUp
 
 validate strict
 
-xgrs InsertHelperEdgesForNestedLayout
+exec InsertHelperEdgesForNestedLayout
 
 validate strict
 
 debug enable
 
-debug xgrs pullUpMethod(::c1,::b4)
+debug exec pullUpMethod(::c1,::b4)
 
 validate strict
 
-xgrs InsertHelperEdgesForNestedLayout
+exec InsertHelperEdgesForNestedLayout

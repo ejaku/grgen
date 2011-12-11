@@ -10,8 +10,8 @@ debug set edge mode created color green
 debug set edge mode deleted color red
 debug set edge mode retyped color blue
 
-xgrs init
+exec init
 
-debug xgrs r
+debug exec r
 
 quit

@@ -30,4 +30,4 @@ new P2 -EP2G3:Edge -> P2G3
 new P3 -EP3G1:Edge -> P3G1
 new P4 -EP4G1:Edge -> P4G1
 
-debug xgrs moveFloweringInCrackedPotsToNewPots
+debug exec moveFloweringInCrackedPotsToNewPots

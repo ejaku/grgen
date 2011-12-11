@@ -2,7 +2,7 @@ import graph1.ecore Graph1.xmi Transitive.grg
 
 show graph ycomp
 
-xgrs [insertTransitiveEdge]
+exec [insertTransitiveEdge]
 
 show graph ycomp
 

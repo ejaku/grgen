@@ -3,7 +3,7 @@ new graph g2x
 include L3Metamodel.grsi
 include newproject1.grsi
 
-xgrs (cntr:AUX_Counter)=createAUX_Counter && [uniquifyIDs(cntr)] && deleteAUX_Counter(cntr)
+exec (cntr:AUX_Counter)=createAUX_Counter && [uniquifyIDs(cntr)] && deleteAUX_Counter(cntr)
 
 redirect emit result.xmi
-xgrs toXmi
+exec toXmi

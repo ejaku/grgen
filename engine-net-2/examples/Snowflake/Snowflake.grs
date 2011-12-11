@@ -12,11 +12,11 @@ dump set edge Edge1 color red
 dump set edge Edge2 color blue
 dump set edge EdgeSperr color grey
 
-debug xgrs (makeFlake1* & beautify* & makeFlake2* & beautify*)[1]
+debug exec (makeFlake1* & beautify* & makeFlake2* & beautify*)[1]
 
 # To get more iterations, uncomment the following commands
 
 # custom graph analyze_graph
 # custom actions gen_searchplan beautify
 
-# xgrs (makeFlake1* & beautify* & makeFlake2* & beautify*)[1]
+# exec (makeFlake1* & beautify* & makeFlake2* & beautify*)[1]
