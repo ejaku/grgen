@@ -13,7 +13,7 @@ If they appear in rules, they get compiled, otherwise they get interpreted.
 Iff used within \GrShell, they are amenable to debugging.
 
 Graph rewrite sequences are written down with a syntax similar to boolean and regular expressions.
-They are a means of composing complex graph operations out of single graph rewrite rules; 
+They are a means of composing complex graph transformations out of single graph rewrite rules; 
 they determine the control flow by the evaluation order of the operands.
 Graph rewrite sequences have a boolean return value; for a single rule, \texttt{true} means the rule was successfully applied to the host graph.
 A \texttt{false} return value means that the pattern was not found in the host graph. 
@@ -24,8 +24,9 @@ A variable is an arbitrary identifier which can hold a graph element or a value 
 There are two kinds of variables available in \GrG,
 i) graph global variables\indexmain{graph global variables}\indexmainsee{variable}{graph global variables} and 
 ii) sequence local variables\indexmain{sequence local variables}\indexmainsee{variable}{sequence local variables}.
-A variable is alive from its first declaration on: graph global variables are implicitely declared upon first assignment to their name,
+A variable is alive from its first declaration on: graph global variables are implicitely declared upon first usage of their name,
 sequence local variables are explicitely declared with a typed variable declaration of the form \texttt{name:type}.
+Graph global variables must be prefixed with a double colon ::, local variables are referenced just with their name.
 Graph global variables are untyped; their values are typed, though, so type errors cause an exception at runtime.
 They belong to and are stored in the graph -- if you save the graph in \GrShell\ (or export to \texttt{.grs} using the \texttt{withvariables} option)
 then the variables are saved, too, and restored next time you load the saved graph.
@@ -118,23 +119,22 @@ Consider all-bracketing introduced in the next section for rewriting all matches
 
 \begin{rail} 
   RewriteFactor: RuleExecution
-     | VariableHandling
+     | SimpleVariableHandling
      | ExtendedControl
-     | VisitedFlagsManagement
-     | 'emit' '(' (QuotedText | Variable ) ')'
-     | 'record' '(' (QuotedText | Variable ) ')'
+     | RewriteComputationUsage
 	; 
-\end{rail}\ixnterm{RewriteFactor}\ixkeyw{emit}\ixkeyw{record}\label{recstmt}\indexmain{record}\indexmain{emit}
+\end{rail}\ixnterm{RewriteFactor}
 
 Rewrite factors are the building blocks of graph rewrite sequences.
-They are split into four major areas: rule and sequence application, variable assignment, extended control, and visited flags management (plus the special area of storages to be described separately).
-Further on, there are the \texttt{emit} and \texttt{record} statements: the emit statement writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}). The record statement writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
+They are split into four major areas: rule and sequence application, simple variable handling, extended control, and sequence computation usages.
+Each of the following sections explaines the constructs of one such area, here we start with the most import one, applying rules.
 
 \begin{rail}    
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') (Rule | (RandomSelection)? '[' Rule ']');
   RandomSelection: dollar (percent)? ( Variable | (Variable ',' (Variable | '*')) )?;
   Rule: RuleIdent (() | '(' (Variable+',') ')');
 \end{rail}\ixnterm{RuleExecution}\ixnterm{RandomSelection}\ixnterm{Rule}
+
 The \emph{RuleExecution} clause applies a single rule or test.
 In case of a rule, the first found pattern match will be rewritten.
 Application will fail in case no match was found and succeed otherwise. 
@@ -175,42 +175,31 @@ The sequence \verb#$[t]# determines all matches of the parameterless rule \textt
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Variable handling}
+\section{Simple Variable Handling}\label{sec:simplevarhandling}
 
 \begin{rail}
-  VariableHandling: 
-    (Variable (':' Type)? '=' 
-	  (Variable | 
-      '(' RewriteSequence ')' | 
-      Literal | 
-	  Variable '.' Attribute |
-	  '@' '(' NameString ')' |
-	  dollar (percent)? '(' Number ')' |
-	  dollar percent '(' Type ')')
-    ) |
-	Variable '.' Attribute '=' Variable |
-    (percent)? Variable |
-    'def' '(' (Variable+',') ')' |
-	'yield' Variable '=' Variable
+  SimpleVariableHandling: SimpleAssignmentTarget '=' SimpleOrInteractiveExpression | VariableDeclaration | Variable;
+  SimpleAssignmentTarget: Variable | VariableDeclaration; 
+	VariableDeclaration: Variable ':' Type;
+	SimpleOrInteractiveExpression:
+		Variable |  
+		Literal | 
+		dollar (percent)? '(' Number ')' |
+		dollar percent '(' Type ')'
   ;
-\end{rail}\ixnterm{VariableHandling}\ixkeyw{def}\makeatother
+  Variable: Word | '::' Word;
+\end{rail}\ixnterm{SimpleVariableHandling}\makeatother
+
+The simple variable handling in the sequences allows to assign a variable or a constant to a variable, to interactively query for an element of a given type or a number and assign it to a variable, or to declare a local variable; these constructs always result in true/success.
+In addition, a boolean variable may be used as a predicate; using such a variable predicate together with the sequence result assignment allows to directly transmit execution results from one part of the sequence to another one.
 Variables can hold graph elements, or values of value/attribute types, including booleans.
-The typed explicit declaration introduces a sequence local variable, 
-if the colon and the type are missing, a graph global variable gets implicitely declared if not existing yet.
-Graph elments are initially assigned to the variables by the element returns of the \emph{RuleExecution} statement or by the by name access (denoted with the at operator).
-Assigning graph elements by their \indexed{persistent name} to variables is not supported in compiled sequences (names are not available on this level).
+The typed explicit declaration (which may be given at an assignment, rendering that assignment into an initialization) introduces a sequence local variable, the name alone references a sequence local variable.
+A global variable is accessed with the double colon prefix, it gets implicitely declared if not existing yet (you can't declare a graph global variable).
 The random number assignment \texttt{v=\$(42)} assigns a random number in between 0 and 41 to the variable \texttt{v}. 
 Appending a \texttt{\%} changes random selection to user selection (defining a \indexed{choice point}).
 The \indexed {user input assignment} \texttt{v=\$\%(string)} queries the user for a string value -- this only works in the GrShell.
 The user input assignment \texttt{v=\$\%(Node)} queries the user for a node from the host graph -- this only works in the GrShell in debug mode.
-Each of the \emph{VarAssignment} rewrite factors yields always true.
-The variable in the \indexed{variable predicate} (a sequence consisting of only a variable read) must contain a boolean value;
-a prepended \texttt{\%} attaches a \indexed{break point} to it.
-The variable predicate together with the sequence result assignment allow to directly transmit execution results from one part of the sequence to another one.
-A \texttt{def} term is successful iff all the variables are defined (not null).
-A \texttt{yield} assignment writes the rhs variable value to the lhs variable which must be declared as a  def-to-be-yielded-to variable (\texttt{def}-prefix) in the pattern containing the \texttt{exec} statement.
-Yielding is only possible from compiled sequences, it always succeeds.
-Further variable handling constructs are given in \ref{sec:storages}.
+The non simple variable handling is given in \ref{sec:seqcomp}, even further variable handling constructs are given in \ref{sec:storages}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -264,7 +253,7 @@ but its result must be a predefined value; furtheron a \indexed{break point} may
 \begin{rail} 
   ExtendedControl: 
 	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')' |
-	(dollar (percent)? )? lbrace ((RuleExecution)+(',')) rbrace
+	(dollar (percent)? )? lbrace '(' ((RuleExecution)+(',')) ')' rbrace
 	;
   SequencesList:
 	RewriteSequence ((',' RewriteSequence)*())
@@ -276,8 +265,8 @@ The strict operators \verb/|/ and \verb/&/ evaluate all their subsequences in ra
 The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed or every subsequence was executed 
 (which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule).
 A \indexed{choice point} may be used to define the subsequence to be executed next.
-The \indexed{some-of-set braces} \verb/{r,[s],$[t]}/ matches all contained rules and then executes the ones which matched.
-The \indexed{one-of-set braces} \verb/${r,[s],$[t]}/ (some-of-set with random choice applied) matches all contained rules and then executes at random one of the rules which matched
+The \indexed{some-of-set braces} \verb/{(r,[s],$[t]=}/ matches all contained rules and then executes the ones which matched.
+The \indexed{one-of-set braces} \verb/${(r,[s],$[t])}/ (some-of-set with random choice applied) matches all contained rules and then executes at random one of the rules which matched
 (i.e. the one match of a rule, all matches of an all bracketed rule, or one randomly chosen match of an all bracketed rule with random choice).
 The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
 A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 
@@ -304,9 +293,116 @@ The interpreted sequences in the shell must start with the \texttt{def} keyword;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sequence computation} \label{sec:seqcomp}
+
+\begin{rail} 
+  RewriteComputationUsage: (percent)? lbrace CompoundComputation rbrace; 
+\end{rail}\ixnterm{RewriteFactor}
+
+The non-computation constructs introduced before are used for executing rules, to determine which rule to execute next depending on success and failure of the previous rule applications, and where to apply it next by transmitting simple valued variables in between the rules.
+Sequence computations in contrast are used for manipulating complex valued variables, evaluating computational expressions, or for causing side effects like output or element markings.
+The computation will return a boolean value by comparing the return value of the compound computation to the default value of the corresponding type, and returning false if equal, or true if unequal; a computation without a return value always returns true.
+So just using a boolean variable as computation returns the value of the variable.
+A prepended \texttt{\%} attaches a \indexed{break point} to the computation.
+
+\begin{rail} 
+  CompoundComputation: Computation ((';' Computation)*); 
+\end{rail}
+
+A compound computation consists of a computation followed by an optional list of computations separated by semicolons.
+The computations are executed from left to right;
+the value of the compound computation is the value of the last computation (so you must give an expression there in order to return a value, whereas it is pointless to specify an expression before).
+
+\begin{rail} 
+  Computation:
+     VariableDeclaration |
+     Assignment |
+     MethodCall |
+     FunctionCall |
+     SequenceExpression
+  ;
+	Assignment:	AssignmentTarget '=' (SequenceExpression | Assignment); 
+	MethodCall: Variable (SingleMethodCall +);
+	SingleMethodCall: '.' MethodName '(' Arguments ')';
+	FunctionCall: FunctionName '(' Arguments ')';
+	Arguments: (SequenceExpression * ',');
+\end{rail}\ixnterm{Computation}\label{recstmt}\indexmain{record}\indexmain{emit}
+
+A variable declaration declares a local variable in the same way as in the sequences.
+An assignment assigns the value of a sequence expression to an assignment target.
+It may be chained; such an assignment chain is executed from right to left, assigning the rightmost value to all the assignment targets given.
+The form of expressions and assignment targets will be specifed below.
+A method call executes a (predefined) method on a variable, passing further arguments.
+If may be chained; such a method call chain is executed from left to right. 
+This is possible with storage changing methods which return the variable again, better: which return the then altered variable. 
+They will be introduced in \ref{sec:storages} in more details.
+A function call executes a (predefined) function, passing further arguments.
+In addition to the visited flag functions which will be explained in more detail in \ref{sec:visited},
+\texttt{emit} and \texttt{record} function calls can be given here: the emit function writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}). The record function writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
+Finally, an expression (without side effects) can be evaluated, this allows to return a (boolean) value from a computation.
+
+\begin{rail}
+  AssignmentTarget: 
+    Variable (':' Type)? |
+    'yield' Variable |
+    GraphElement '.' Attribute |
+    ArrayVariable '[' SequenceExpression ']' |
+    GraphElement '.' 'visited' '[' SequenceExpression ']'
+;
+\end{rail}\ixnterm{AssignmentTarget}\ixkeyw{visited}\ixkeyw{yield}
+
+Possible targets of assignments are the variables and def-variables to be yielded to, as in the simple assignments of the sequences. 
+A \texttt{yield} assignment writes the rhs variable value to the lhs variable which must be declared as a  def-to-be-yielded-to variable (\texttt{def}-prefix) in the pattern containing the \texttt{exec} statement.
+Yielding is only possible from compiled sequences, it always succeeds.
+Further on, the attributes of graph elements may be written to, the values at given positions of array variables may be written to, and the visited status of graph elements may be changed.
+
+\begin{rail}
+  SequenceExpression: 
+    BasicSequenceExpression '?' SequenceExpression ':' SequenceExpression |
+    SequenceExpression (ampersand | xorhat | '|' | doubleampersand | '||') SequenceExpression |
+    '!' SequenceExpression |
+    BasicSequenceExpression |
+    SpecialSequenceExpression;
+\end{rail}\ixnterm{SequenceExpression}
+
+Sequence expressions can be combined by the conditional operator already known from the rule sequences.
+Furthermore, logical conjunction and disjunction are available, both in strict and lazy versions;
+as well as antivalence (xor) and negation.
+
+\begin{rail}
+  BasicSequenceExpression:
+    'def' '(' (Variable+',') ')' |
+	  railat '(' NameString ')' |
+ 	  GraphElement '.' Attribute |
+	  Variable | 
+    Literal
+  ;
+\end{rail}\ixnterm{BasicSequenceExpression}\ixkeyw{def}
+
+The basic sequence expressions are the building blocks of the computation sequences.
+A \texttt{def} term is successful iff all the variables are defined (not null).
+The at operator allows to access a graph element by its \indexed{persistent name} (this is not supported in the compiled sequences because names are not available on that level).
+The attribute access clause returns the attribute value of the given graph element.
+The variable and literal basic expressions are the same as in the SimpleOrInteractiveExpression.
+
+\begin{rail}
+  SpecialSequenceExpression:
+    GraphElement '.' 'visited' '[' SequenceExpression ']' |
+    BasicSequenceExpression 'in' SequenceExpression |
+    ArrayOrMapVariable '[' SequenceExpression ']' |
+    MethodCall;
+  ;
+\end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{in}\ixkeyw{visited}
+
+The special sequence expressions are used to check whether a value is marked or contained in a storage, to access a storage, or to call a method on a storage (note: here it is not possible to build method call chains). 
+They will be explained in more detail in chapter \ref{cha:storagesvisited}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick reference table}
 
-Table~\ref{ruletab} lists most of the operations of the graph rewrite expressions at a glance (the ones below the horizontal line are defined in the following chapter).
+Table~\ref{seqtab} lists most of the operations of the graph rewrite sequences at a glance,
+whereas Table~\ref{comptab} lists most of the operations of the graph rewrite computations at a glance.
 
 %\makeatletter
 \begin{table}[htbp]
@@ -334,34 +430,61 @@ Table~\ref{ruletab} lists most of the operations of the graph rewrite expression
 \texttt{?\emph{Rule}} & Switches \emph{Rule} to a test. \\
 \texttt{\%\emph{Rule}} & This is the multi-purpose flag when accessed from \LibGr. Also used for graph dumping and break points. \\
 \texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}.\\
-\texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\
+\texttt{v}	& A variable acting as a predicate.\\
 \texttt{\$\{r1,[r2],\$[r3]\}}	& Tries to match all contained rules, then rewrites indeterministically one of the rules which matched. True if at least one matched.\\
 \hline
-\texttt{id=valloc()} & Allocates a visited-flag, returns its id.\\
-\texttt{vfree(id)} & Frees the visited-flag given.\\
-\texttt{vreset(id)} & Resets the visited-flag given in all graph elements.\\
-\texttt{u=set<Node>\{\}}	& Create storage set and assign to \texttt{u}.\\
-\texttt{u.add(v)}	& Add \texttt{v} to storage set \texttt{u}.\\
-\texttt{u.rem(v)}	& Remove \texttt{v} from storage set \texttt{u}.\\
-\texttt{for\{v in u; t\}}	& Execute \texttt{t} for every \texttt{v} in storage set \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
-\texttt{u.clear()}	& Clears the storage set \texttt{u}.\\
-\texttt{v in u} & Membership query: succeeds if \texttt{v} is element of \texttt{u}, otherwise fails.\\
-\texttt{u=map<N,Edge>\{\}}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
-\texttt{v=u[w]}	& Assign target value of \texttt{w} in \texttt{u} to \texttt{v}. Fails if \texttt{!(w in u)}.\\
-\hline
 \texttt{(w)=s(w)} & Calls a sequence \texttt{s} handing in \texttt{w} as input and writing its output to \texttt{w}; defined e.g. with \texttt{sequence s(u:Node):(v:Node)} \texttt{\{ v=u \}}.\\
+\hline
+\texttt{for\{v in u; t\}}	& Execute \texttt{t} for every \texttt{v} in storage set \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
+\texttt{for\{v->w in u; t\}}	& Execute \texttt{t} for every pair (\texttt{v},\texttt{w} in storage map \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
 \hline
 \end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}}\indexmain{\texttt{"|}}
 \indexmain{\texttt{\&}}\indexmain{\texttt{"|"|}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}\indexmain{\texttt{;>}}\indexmain{\texttt{<;}}\indexmain{\texttt{+}}\indexmain{\texttt{[]}}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}\indexmain{\texttt{()}}
 \end{minipage}\\
 \\ 
 {\small Let \texttt{r}, \texttt{s}, \texttt{t} be sequences, \texttt{u}, \texttt{v}, \texttt{w} variable identifiers, \texttt{<op>} $\in \{\texttt{|}, \texttt{\textasciicircum}, \texttt{\&}, \texttt{||}, \texttt{\&\&}\}$ }%and \texttt{n}, \texttt{m} $\in \N_0$.}
-\caption{GRS expressions at a glance}
-\label{ruletab}
+\caption{Sequences at a glance}
+\label{seqtab}
 \end{table}
 %\makeatother
  
+%\makeatletter
+\begin{table}[htbp]
+\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
+\begin{tabularx}{\linewidth}{|lX|}
+\hline
+\texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
+\texttt{@(name)} & Return graph element of given name.\\
+\texttt{v.name} & Return value of given attribute.\\
+\texttt{emit(v)} & Emits value of v to stdout.\\
+\texttt{record(v)} & Records value of v to the replay log.\\
+\hline
+\texttt{v=valloc()} & Allocates a visited-flag, assigns its id.\\
+\texttt{vfree(v)} & Frees the visited-flag given.\\
+\texttt{vreset(v)} & Resets the visited-flag given in all graph elements.\\
+\texttt{u.visited[v]} & Returns whether the visited flag is set on u.\\
+\texttt{u.visited[v] = e} & Sets the visited flag on u to e.\\
+\hline
+\texttt{u=set<Node>\{\}}	& Create storage set and assign to \texttt{u}.\\
+\texttt{u.add(v)}	& Add \texttt{v} to storage set \texttt{u}.\\
+\texttt{u.rem(v)}	& Remove \texttt{v} from storage set \texttt{u}.\\
+\texttt{u.clear()}	& Clears the storage set \texttt{u}.\\
+\texttt{v in u} & Membership query: succeeds if \texttt{v} is element of \texttt{u}, otherwise fails.\\
+\texttt{u.size()}	& Returns the size of storage set \texttt{u}.\\
+\texttt{u.empty()} & Returns whether storage set \texttt{u} is empty.\\
+\texttt{u=map<N,Edge>\{\}}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
+\texttt{u[w]}	& Returns target value of \texttt{w} in \texttt{u}. Fails if \texttt{!(w in u)}.\\
+\hline
+\end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}}\indexmain{\texttt{"|}}
+\indexmain{\texttt{\&}}\indexmain{\texttt{"|"|}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}\indexmain{\texttt{;>}}\indexmain{\texttt{<;}}\indexmain{\texttt{+}}\indexmain{\texttt{[]}}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}\indexmain{\texttt{()}}
+\end{minipage}\\
+\\ 
+{\small Let \texttt{u}, \texttt{v}, \texttt{w} be variable identifiers, \texttt{e} and \texttt{f} be expressions, \texttt{t} be an assignment target, \texttt{<op>} $\in \{\texttt{|}, \texttt{\textasciicircum}, \texttt{\&}, \texttt{||}, \texttt{\&\&}\}$ }%and \texttt{n}, \texttt{m} $\in \N_0$.}
+\caption{Sequence computations at a glance}
+\label{comptab}
+\end{table}
+%\makeatother
  
 % todo: beispiele im text bringen

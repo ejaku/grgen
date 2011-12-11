@@ -38,7 +38,7 @@ Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Sect
 In order to describe the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
 \begin{description}
   \item[Filename]A fully qualified file name without spaces (e.g.\ \texttt{/Users/Bob/amazing\textunderscore file.txt}) or a single quoted or double quoted fully qualified file name that may contain spaces (\texttt{"/Users/Bob/amazing file.txt"}).
-  \item[Variable] Identifier of a (graph global) variable that contains a graph element or a value. \indexmainsee{GrShell variable}{graph global variable}
+  \item[Variable] Identifier of a (graph global) variable that contains a graph element or a value. \indexmainsee{GrShell variable}{graph global variable} A double colon prefix as required in the sequences may be given, but as the shell only knows graph global variables, it is optional.
   \item[NodeType, EdgeType] Identifier of a node type resp.\ edge type defined in the model of the current graph.
   \item[AttributeName] Identifier of an attribute.
   \item[Graph] Identifies a graph by its name.
@@ -154,7 +154,7 @@ The entered value is type checked against the expected type, and assigned to the
 If the type is a value type, the user is prompted to enter a value literal with the keyboard.
 If the type is a graph element type, the user is prompted to enter the graph element by double clicking in yComp.
 Note that in this case the debug mode must have been enabled before.
-(The command is equivalent to \verb#debug xgrs Variable=$%(Type)#.)
+(The command is equivalent to \verb#debug exec Variable=$%(Type)#.)
 
 \begin{example}
 \begin{grshelllet}
@@ -271,12 +271,12 @@ So some form of selective strict checking is supported:
 The \emph{strict only specified} mode requires strict matching (i.e. that all edges are covered) only of the edges for which connection assertions have been specified in the model.
 
 \begin{rail}
-  'validate' ('exitonfailure')? 'xgrs' GRS
-\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{xgrs}
+  'validate' ('exitonfailure')? ('exec'|'xgrs') GRS
+\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{xgrs}\ixkeyw{exec}
 Validates\indexmain{validate} if the current working graph satisfies the \indexed{graph rewrite sequence} given.
 Before the graph rewrite sequence is executed, the instance graph gets cloned;
 the sequence operates on the clone, allowing you to change the graph as you want to, without influence on the host graph.
-Validation fails iff the xgrs fails.
+Validation fails iff the sequence fails.
 This gives a rather costly but extremely flexible and powerful mechanism to specify graph constraints.
 The GrShell is exited with an error code if \texttt{exitonfailure} is specified and the validation fails.
 
@@ -650,8 +650,8 @@ def chain(first:A):(last:A){ if{(next:A)=chainPiece(first); (last)=chain(next); 
 
 \makeatletter
 \begin{rail}
-  GraphRewriteSequence: 'xgrs' SimpleRewriteSequence ;
-\end{rail}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
+  GraphRewriteSequence: ('exec'|'xgrs') SimpleRewriteSequence ;
+\end{rail}\ixkeyw{exec}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
 See Chapter~\ref{cha:xgrs} for graph rewrite sequences.
 Additionally to the variable assignment in rule-embedded graph rewrite sequences, you are also able to assign \emph{persistent names} to parameters via  \texttt{Variable = \@(Text)}.

@@ -1,10 +1,9 @@
-\chapter{Embedded Sequences and Storages}\indexmain{imperativeandstate}
+\chapter{Embedded Sequences and Transformation Techniques}\indexmain{imperativeandstate}
 \label{cha:imperativeandstate}
 
 In this chapter we'll have a look at language constructs which allow to emit text from rules/subpatterns and which allow to execute a graph rewrite sequence at the end of a rule invocation.
 The ability to execute a sequence at the end of a rule invocation allows to combine rules and build complex rules.
-Furthermore we'll have a look at language constructs which allow to build transformations by introducing state as a communications means between several rule applications.
-Finally we apply these techniques to accomplish certain common transformation tasks.
+After a short discussion of transformation techniques we apply the language constructs introduced so far to accomplish certain common transformation tasks.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Imperative Statements}\indexmain{imperative statements}
@@ -156,327 +155,8 @@ pattern BinaryExpression(root:Expr)
 \end{example}
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Reading, writing, and managing state}\indexmain{visited flag}\indexmain{storage}
-
-Besides the normal scalar variables from the rule application control language there are set-, map-, and array-valued storages available for communicating some information between rule applications;
-additionally there are several visited flags per graph element available for this means.
-Both allow to split a transformation into passes mediated by their state.
-
-\begin{note}
-The storage sets are more efficient in case the count of elements of interest is a good deal smaller than the number elements in the graph; they are looked up in the set, in contrast to the visited flags, which are used by enumerating all available graph elements, filtering according to visited state.
-The visited flags on the other hand are extremely memory efficient (for free as long as you use only a few of them at the same time).
-\end{note}
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Storage handling in the sequences}\label{sec:storages}
-
-Storages are variables of set or map or array type (cf. \ref{sec:builtintypes}) storing nodes or edges.
-They are primarily used in the sequences, from where they are handed in to the rules via parameters
-(but additionally set/map/array attributes in graph elements may be used as storages,
-esp. for doing data flow analyses, cf. \ref{subsub:flow}).
-They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the set.
-A difference of storage sets and maps in the sequences to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction.
-The splitting of transformations into passes mediated by set/map/array valued global variables allows for subgraph copying without model pollution, cf. \ref{subsub:copystructure}; please have a look at \ref{sub:mergesplit} and \ref{sub:copyflow} regarding a discussion on when to use which transformation combinators and for storage examples.
-The following syntax diagrams give extensions to the syntax diagrams of the Rule Application Control Language chapter \ref{cha:xgrs}.
-
-\begin{rail}
-  VariableHandling:
-    Variable (SetMapArrayTypeDecl)? '=' RHS |
-    Variable '.' Attribute '=' Variable |
-    Variable '=' (MapVariable | ArrayVariable) '[' Variable ']' |
-    ArrayVariable '[' Variable ']' '=' Variable
-    ;
-\end{rail}\ixnterm{VariableHandling}
-
-\begin{rail}
-  VariableHandling:
-    SetVariable '.' ( 'add' '(' Value ')' | 'rem' '(' Value ')' | 'clear' '(' ')' ) |
-    MapVariable '.' ( 'add' '(' Key ',' Value ')' | 'rem' '(' Key ')' | 'clear' '(' ')' ) |
-    ArrayVariable '.' ( 'add' '(' Value (',' Index)? ')' | 'rem' '(' (Index)? ')' | 'clear' '(' ')' ) |
-    Variable 'in' (SetVariable | MapVariable | ArrayVariable)
-    ;
-  SetMapArrayTypeDecl:
-    ':' ('set' '<' Type '>' | 'map' '<' KeyType ',' ValueType '>' | 'array' '<' Type '>')
-    ;
-\end{rail}\ixnterm{VariableHandling}\ixnterm{SetMapArrayTypeDecl}\ixkeyw{in}\indexmain{map}\indexmain{array}\indexmain{set}%\makeatother
-
-\begin{rail}
-  RHS:
-    SetMapArrayCreation |
-    Variable |
-    Variable '.' Attribute |
-    (SetVariable | MapVariable | ArrayVariable) '.' ( size '(' ')' | empty '(' ')' )
-    ;
-  SetMapArrayCreation:
-    'set' '<' Type '>' lbrace rbrace |
-    'map' '<' KeyType ',' ValueType '>' lbrace rbrace |
-    'array' '<' Type '>' '[' ']'
-	;
-\end{rail}\ixnterm{RHS}\ixnterm{SetMapArrayCreation}\makeatother
-
-A set/map/array must be created and assigned to a variable before it can be used.
-
-\begin{example}
-\begin{grgen}
-x=set<NodeTypeA>{}
-y:map<Node,Edge> = map<Node,Edge>{}
-\end{grgen}
-The first line declares or references a variable \texttt{x} (without static type) and assigns the newly created, empty set of type \texttt{set<NodeTypeA>} to it as value.
-The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} and assigns the newly created, empty map of the same type to it as value.
-\end{example}
-
-\noindent There are several operations on set variables available in method call notation, these are:
-
-\begin{description}
-\item[Set addition:] \texttt{s.add(v)} adds the value \texttt{v} to the set \texttt{s}, succeeds always.
-\item[Set removal:] \texttt{s.rem(v)} removes the value \texttt{v} from the set \texttt{s}, succeeds always.
-\item[Set clearing:] \texttt{s.clear()} removes all values from the set \texttt{s}, succeeds always.
-\end{description}
-
-\noindent Very similar operations are available on map variables:
-
-\begin{description}
-\item[Map addition:] \texttt{m.add(k,v)} adds the pair (\texttt{k},\texttt{v}) to the map \texttt{m}, succeeds always.
-\item[Map removal:] \texttt{m.rem(k)} removes the pair (\texttt{k},unknown) from the map \texttt{m}, succeeds always.
-\item[Map clearing:] \texttt{m.clear()} removes all key-value-pairs from the map \texttt{m}, succeeds always.
-\end{description}
-
-\noindent Similar operations are available on map variables:
-
-\begin{description}
-\item[Array addition:] \texttt{a.add(v)} adds the value \texttt{v} to the end of array \texttt{a}, succeeds always.
-\item[Array addition:] \texttt{a.add(v,i)} inserts the value \texttt{v} to the array \texttt{a} at index \texttt{i}, succeeds always.
-\item[Array removal:] \texttt{a.rem()} removes the value at the end of array \texttt{a}, succeeds always.
-\item[Array removal:] \texttt{a.rem(i)} removes the value at index \texttt{i} from the array \texttt{a}, succeeds always.
-\item[Array clearing:] \texttt{a.clear()} removes all values from the array \texttt{a}, succeeds always.
-\end{description}
-
-\noindent There are further operations which are only available in variable assignments:
-
-\begin{description}
-\item[Size assignment:] \texttt{v=w.size()} writes the number of entries in the set or map or array \texttt{w} to the variable \texttt{v},\\succeeds always.
-\item[Emptyness assignment:] \texttt{v=w.empty()} writes to the variable \texttt{v} whether the set or map or array \texttt{w} is empty, succeeds always.
-\item[Map lookup assignement:] \texttt{v=m[k]} assigns the result of the map lookup to the variable \texttt{v},\\succeeds iff \texttt{k} was contained in \texttt{m},\\ fails otherwise, not touching the variable \texttt{v}.
-\item[Array lookup assignement:] \texttt{v=a[i]} assigns the result of the array access to the variable \texttt{v},\\succeeds iff \texttt{i} is a valid index into \texttt{a},\\ fails otherwise, not touching the variable \texttt{v}.
-\item[Array indexed assignement:] \texttt{a[i]=v} assigns the variable \texttt{v} to the array \texttt{a} at the index \texttt{i}, overwriting the old value,\\succeeds iff \texttt{i} is a valid index into \texttt{a},\\ fails otherwise.
-\end{description}
-
-\noindent Handling of the storages is completed by the rewrite factors for membership query and storage iteration.
-
-\begin{rail}
-  RewriteFactor:
-    Var 'in' (SetVar | MapVar | ArrayVar)
-    ;
-  RewriteFactor:
-    'for' lbrace (Var 'in' SetVar | Var '->' Var 'in' MapVar | Var 'in' ArrayVar | Var '->' Var 'in' ArrayVar) ';' RewriteSequence rbrace
-    ;
-\end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{RewriteFactor}
-
-The binary operator \texttt{v in w} checks for set/map/array membership; it returns true if \texttt{v} is contained in the set or the domain of the map or the array \texttt{w}, otherwise false.
-The \texttt{for} command iterates over all elements in the set or array or all key-value pairs in the map or array and executes for each element / key-value pair the nested graph rewrite sequence; it completes successfully iff all sequences were executed successfully (an empty set/map/array causes immediate successful completion); the key in the key-value pair iteration of an array is the integer typed index.
-
-\begin{example}
-The following XGRS is a typical storage usage.
-First an empty set \texttt{x} is created, which gets populated by an rule \texttt{t} executed iteratedly, returning a node which is written to the set.
-Then another rule is executed iteratedly for every member of the set doing the main work, and finally the set gets cleared to prevent memory leaks or later mistakes.
-If the graph should stay untouched during set filling you may need \texttt{visited} flags to prevent endless looping.
-\verb#x=set<Node>{} ;> ( (v)=t() && x.add(v) )+ && for{v in x; r(v)} <; x.clear()#
-Handing in the storage to the rule, and using the set \texttt{add} method as introduced down below in \ref{sct:imperative} within the rule to fill the storage, allows to shorten the sequence to:\\
-\verb#x=set<Node>{} ;> ( t(x) )+ && for{v in x; r(v)} <; x.clear()#\\
-The for loop could be replaced by employing the storage access in the rule construct, cf. \ref{sub:storageaccess}; this would be especially benefitial if the rule \texttt{r} inside the for loop would have to change the storage \texttt{x}, which would corrupt the iteration/enumeration variable.
-\end{example}
-
-\begin{warning}
-The set/map/array over which the for loop iterates must stay untouched during iteration.
-\end{warning}
-
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Storage access in the rules} \label{sub:storageaccess}\indexmain{storage access}
-
-Storages can be used in the rule application control language as introduced above \ref{sec:storages}, they can get filled or emptied in the rules as defined here \ref{replstmt}, a discussion about their usage and examples are given here \ref{sub:mergesplit} and here \ref{sub:copyflow}.
-In the pattern part you may ask for an element to get bound to an element from a storage or a storage attribute;
-this is syntactically specified by giving the storage enclosed in left and right braces.
-You may ask for an element to get bound to the value element queried from a storagemap by a key graph element;
-this is syntactically specified by giving the storagemap indexed by the key graph element enclosed in left and right braces
-(this is not possible for storage map attributes due to internal limitations with the search planning).
-If the type of the element retrieved from the storage is not compatible to the type of the pattern element specified,
-or if the storage is empty, or if the key element is not contained in the storagemap, matching fails.
-
-The advantage of this storage querying inside the rule over handing in a value from a for loop iterating the storage values outside the rule are: i) a more concise syntax, ii) the ability to access a storage attribute of an element just matched or to access a storage map with an element just matched in the same rule, which would require to break up the rule in two rules in the other case, and iii), a restriction of the iteration to the matching phase, so that at rewriting one can happily manipulaivte the storage without destroying the iterator/enumerator used in the loop which would be the case when using an outside loop.
-
-The following syntax diagram gives an extensions to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}, pattern part:
-\begin{rail}
-  StorageAccess:
-    lbrace StorageVariable rbrace |
-    lbrace NodeOrEdge '.' StorageAttribute rbrace |
-    lbrace StorageMap '[' Ident ']' rbrace;
-\end{rail}\ixnterm{StorageAccess}
-
-\begin{example}
-Queries the graph for the neighbouring cities to the cities contained in the storageset.
-\begin{grgen}
-test neighbour(ref startCities:set<City>) : City
-{
-    :City{startCities} -:Street-> n:City;
-    return(n);
-}
-\end{grgen}
-\end{example}
-
-\begin{example}
-Queries for the neighbour of the neighbour of a city matched.
-With the first neigbouring relation queried from the storagemap assumed to contain the neighbouring relation of some cities of interest, and the second neighbouring relation queried from the graph.
-\begin{grgen}
-test neighbourneighbour(ref neighbours:map<City, City>) : City
-{
-    someCity:City;
-    nc:City{neighbours[someCity]} -:Street-> nnc:City;
-    return(nnc);
-}
-\end{grgen}
-\end{example}
-
-These were the storage queries available in the pattern part;
-additionally you can query the storage sets and maps and arrays in the \texttt{if} attribute evaluation clause,
-with the set/map/array expressions as given in the Types and Expressions chapter \ref{cha:typeexpr}.
-
-Furthermore you can add and remove elements from the storages (or normal sets/maps/arrays) in the \texttt{eval} clause of the rewrite part, the following syntax diagrams give extensions to the \texttt{eval} clause:
-
-\begin{rail}
-  CompoundAssignment:
-    (SetEntity | MapEntity) ('|' '=' | ampersand '=' | backslash '=') Expr ChangeAssignment? |
-    ArrayEntity '+' '=' Expr
-  ;
-  ChangeAssignment:
-    ('=' '>' | '|' '>' | ampersand '>') (NodeOrEdge '.' BoolAttribute | BoolVariable | VisitedFlag)
-  ;
-\end{rail}\ixnterm{CompoundAssignment}
-
-\begin{rail}
-  SetMapArrayStateChange:
-   	SetEntity '.' ( ( 'add' '(' Expr ')') | ( 'rem' '(' Expr ')' ) ) |
-	  MapEntity '.' ( ( 'add' '(' KeyExpr ',' ValueExpr ')' ) | ( 'rem' '(' KeyExpr ')' ) ) |
-	  ArrayEntity '.' ( ( 'add' '(' ValueExpr (','  IndexExpr)? ')' ) | ( 'rem' '(' (IndexExpr)? ')' ) ) |
-	  ArrayEntity '[' IndexExpr ']' '=' Expr
-	;
-	SetEntityOrMapEntityOrArrayEntity:
-	  (NodeOrEdge '.' SetAttribute | Variable)
-	;
-\end{rail}\ixnterm{SetMapArrayStateChange}
-
-The by-ref set/map/array parameters or set/map/array attributes can be operated upon by the set/map/array state change methods,
-which allow to only partially change the set/map/array by adding or removing or overwriting elements resp. pairs of elements (in contrast to normal assignments which replace overwrite the target variable entirely);
-they are especially useful for sets/maps/arrays containing nodes or edges.
-
-\noindent The state change methods on sets and maps and arrays are:
-
-\begin{description}
-\item[Set addition:] \texttt{s.add(v)} adds the value \texttt{v} to the set \texttt{s}.
-\item[Set removal:] \texttt{s.rem(v)} removes the value \texttt{v} from the set \texttt{s}.
-\item[Map addition:] \texttt{m.add(k,v)} adds the pair (\texttt{k},\texttt{v}) to the map \texttt{m}, overwrites the old value if a pair (\texttt{k},unknown) was already existing.
-\item[Map removal:] \texttt{m.rem(k)} removes the pair (\texttt{k},unknown) from the map \texttt{m}.
-\item[Array addition:] \texttt{a.add(v)} adds the value \texttt{v} to the end of array \texttt{a}.
-\item[Array addition:] \texttt{a.add(v,i)} inserts the value \texttt{v} at index \texttt{i} to array \texttt{a}.
-\item[Array removal:] \texttt{a.rem()} removes the value at then end of the array \texttt{a}.
-\item[Array removal:] \texttt{a.rem(i)} removes the value at index \texttt{i} from the array \texttt{a}.
-\item[Array indexed assignment:] \texttt{a[i]=v} overwrites the old value at index \texttt{i} in array \texttt{a} with new value \texttt{v}.
-\end{description}
-
-%currently only implemented for iterated accumulation, for sequences;   todo: extend to rules
-%\begin{rail}
-%  ForLoop:
-%    'for' lbrace Var 'in' SetVar ';' RewriteSequence rbrace |
-%    'for' lbrace Var '->' Var 'in' MapVar ';' RewriteSequence rbrace
-%\end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{ForLoop}
-
-Compound assignments are assignments which use the first source as target, too,
-only adapting the target value instead of computing a new value and overwriting the target with it.
-For scalars this is not supported, but for set/map/array valued enitities it is offered due to performance reasons.
-The compound assignment statements are union \verb#|=#, intersection \verb#&=# and difference \verb#\=# assignment on set/map and \verb#+=# concatenation assignment on arrays; they are especially useful for sets and maps containing nodes or edges.
-
-The compound assignments on sets and maps may be enhanced with a change assignment declaration.
-The change value is \texttt{true} in case the target collection changes and \texttt{false} in case the target collection is not altered.
-The assign-to operator \verb#=># assigns the change value to the specified target, the or-to operator \verb#|># assigns the boolean disjunction of the change value target with the change value to the change value target, the and-to operator \verb#&># assigns the boolean conjunction of the change value target with the change value to the change value target.
-This addition allows for efficient data flow computations not needing to check for a change by set comparison, see \ref{subsub:flow}.
-
-
-\begin{example}
-The set/map/array state change methods \texttt{add} and \texttt{rem} allow to add graph elements to storages or remove graph elements from storages, i.e. sets or maps or arrays holding nodes and edges used for rewrite in the calling sequence (cf. \ref{sec:storages}).
-This way you can write transformations consisting of several passes with one pass operating on nodes/edges determined in a previous pass,
-without the need to mark the element in the graph by helper edges or visited flags.
-	\begin{grgen}
-rule foo(ref storage:set<Node>)
-{
-  n:Node;
-  modify {
-    eval {
-      storage.add(n);
-    }
-  }
-}
-	\end{grgen}
-\end{example}
-
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Visited flag handling in the sequences}\label{sec:visited}
-
-Visited flags are flags available for/in each graph element which can be set, reset, and queried in the rules and in the sequences and must be allocated and deallocated in the sequences; they allow to mark already visited elements during a run over the graph. The following syntax diagram gives an extensions to the syntax diagrams of the Rule Application Control Language chapter \ref{cha:xgrs}.
-
-\begin{rail}
-  VisitedFlagsManagement:
-    Variable (':' Type)? '=' \\('valloc' '(' ')' | GraphElement '.' 'visited' '[' Variable ']') |
-    'vfree' '(' Variable ')' |
-    GraphElement '.' 'visited' '[' Variable ']' '=' (Variable|BoolLit) |
-    GraphElement '.' 'visited' '[' Variable ']' |
-    'vreset' '(' Variable ')'
-\end{rail}\ixnterm{VisitedFlagsManagement}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{visited}\ixkeyw{vreset}
-The visited flags are stored in some excess bits of the graph elements, if this pool is exceeded they are stored in additional dictionaries, one per visited flag requested.
-Due to this flags must get allocated/deallocated, and all flag related operations require an integer number -- the flag id -- specifying the flag to operate on (with exception of the allocation operation returning this flag id).
-The operations always return true as sequence results (with exception of the operation reading the flag, it fails iff the visited flag is not set for the graph element);
-if you try to access a not previously allocated visited flag, an exception is thrown.
-The operations managing the visited flags are:
-\begin{description}
-\item[Flag allocation:] By \texttt{valloc}\label{allocvisitflag} -- allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0.
-Afterwards, the visited flag of the id can be read and written within the rules by the \texttt{visited}-expression and the \texttt{visited}-assignment,
-as well as by the \texttt{visited} flag reading and writing rewrite factors.
-The first visited flags are stored in some excess bits of the graph elements and are thus essentially for free,
-but if this implementation defined space is used up completely, the information is stored in graph element external dictionaries.
-\item[Flag deallocation:] By \texttt{vfree} -- frees the space previously allocated for the visited flag; afterwards you must not access it anymore.
-The value stored in the variable must be of integer type, stemming from a previous allocation.
-\item[Flag writing:] By \texttt{e.visited[f] = b} -- sets the visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e} to the given boolean value \texttt{b}; visited flags are normally written by rules of the rule language.
-\item[Flag reading:] By \texttt{e.visited[f]} -- returns the visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e}; visited flags are normally read by tests and rules of the rule language.
-\item[Flag resetting:] By \texttt{vreset} -- resets the visitor flag given by the flag id variable in all graph elements.
-\end{description}
-
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Visited flag access in the rules} \label{sub:visitedaccess}\indexmain{visited access}
-
-The visited flag queries available in the \texttt{if} attribute evaluation clause of the pattern part are given in the Types and Expressions chapter \ref{cha:typeexpr}.
-
-Additionally you can set them in the \texttt{eval} clause of the rewrite part, the following syntax diagram gives an extensions to the \texttt{eval} clause:
-
-\begin{rail}
-  VisitedAssignment:
-    VisitedFlag '=' BoolExpr
-	;
-	VisitedFlag:
-    NodeOrEdge '.' 'visited' ('[' FlagNumber ']')?
-  ;
-\end{rail}\ixnterm{VisitedAssignment}\ixkeyw{visited}
-
-The \texttt{visited} flag assignment sets the \texttt{boolean} status of the \indexed{visited flag} of the given number for the given graph element.
-If no flag number is given, the default number for the first visited flag of 0 is used.
-Make sure to allocate \ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them
-(and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Merge, Split, and Node Replacement Grammars}\label{sub:mergesplit}
+\section{Transformation Techniques}\label{sub:mergesplit}
 
 In this and the following section we'll have a look at several common graph rewriting tasks and how to accomplish them in \GrG.
 They could be offered directly by some dedicated operators,
@@ -502,7 +182,19 @@ Further examples can be found in \cite{CompilerOptimization} employing two stora
 You should use the means to build complex transformations in the order given, first try to solve the problem with nested and subpatterns, if they don't get the job done (often because of the isomorphy constraint locking of already matched elements) or feel awkward then embedded graph rewrite sequences, and if these are still inadequate then storages and storagemaps; i.e. from declarative-local to imperative-global. This helps in keeping the code readable and easily adaptable. And don't forget the last resort if you must solve a task so complex that rules, control and storages are not sufficient: adding helper nodes, edges, or attributes to the graph model and the graph itself (with the visited flags being a light version of this tactic). Note: storages and storagemaps might be useful when you are experiencing performance problems, replacing a search in the graph by a lookup in a dictionary. But beware of elements already deleted from the graph still hanging out in your storage because you forgot to remove them.
 \end{note}
 
-\subsubsection*{Merge and split nodes}\indexmain{merge node}\indexmain{split node}
+Furthermore we'll have a look at language constructs which allow to build transformations by introducing state as a communications means between several rule applications.
+
+Besides the normal scalar variables from the rule application control language there are set-, map-, and array-valued storages available for communicating some information between rule applications;
+additionally there are several visited flags per graph element available for this means.
+Both allow to split a transformation into passes mediated by their state.
+
+\begin{note}
+The storage sets are more efficient in case the count of elements of interest is a good deal smaller than the number elements in the graph; they are looked up in the set, in contrast to the visited flags, which are used by enumerating all available graph elements, filtering according to visited state.
+The visited flags on the other hand are extremely memory efficient (for free as long as you use only a few of them at the same time).
+\end{note}
+
+
+\subsection{Merge and split nodes}\indexmain{merge node}\indexmain{split node}
 Merging a node \texttt{m} into a node \texttt{n} means transferring all edges from node \texttt{m} to node \texttt{n}, then deleting node \texttt{m}.
 Splitting a node \texttt{m} off from a node \texttt{n} means creating a node \texttt{m} and transferring some edges from node \texttt{n} to \texttt{m}.
 
@@ -650,7 +342,8 @@ rule copyCfSuccFromTo(pred:BB, newpred:BB)
 
 The examples given can be found in the \texttt{tests/mergeSplit/} directory including the control scripts and test graphs; you may add \texttt{debug} prefixes to the \texttt{xgrs} statements in the graph rewrite script files and call GrShell with e.g. \texttt{mergeSplit/split.grs} as argument from the \texttt{tests} directory to watch execution.
 
-\subsubsection*{Node Replacement Grammars}\indexmain{node replacement grammar}\indexmainsee{edNCE}{node replacement grammar}
+
+\subsection{Node Replacement Grammars}\indexmain{node replacement grammar}\indexmainsee{edNCE}{node replacement grammar}
 With node replacement grammars we mean edNCE grammars \cite{NodeReplacement}, which stands for edge label directed node controlled embedding. In this context free graph grammar formalism, every rule describes how a node with a nonterminal type is replaced by a subgraph containing terminal and nonterminal nodes and terminal edges. The nodes in the instantiated graph get connected to the nodes that were adjacent to the initial nonterminal node, by connection instructions which tell which edges of what direction and what type are to be created for which original edges of what direction and what type, going to a node of what type.
 
 This kind of grammars can be encoded in \GrG~by rules with a left hand side consisting of a node with a type denoting a nonterminal and iterateds matching the edges and opposite nodes it is connected to of interest; "of interest" amounts to the type and direction of the edges and the type of the opposite node. The right hand side deletes the original node (thus implicitely the incident edges), creates the replacement subgraph, and tells in the rewrite part of the iterateds what new edges of what directedness and type are to be created, from the newly created nodes to the nodes adjacent to the original node. (Multiple edges between two nodes are not allowed in the node replacement formalism, in case you want to handle them you've to use \texttt{exec} as shown in the merge/split example above.)
@@ -727,9 +420,8 @@ rule cliqueTerminal
 
 The examples can be found in the \texttt{tests/nodeReplacementGrammar} directory.
 
-\section{Subgraph Copying and Data Flow Analysis for Reachability}\label{sub:copyflow}
 
-\subsubsection*{Copy structures}\label{subsub:copystructure}\indexmain{subgraph copying}\indexmainsee{copy structure}{subgraph copying}
+\subsection{Copy structures}\label{subsub:copystructure}\indexmain{subgraph copying}\indexmainsee{copy structure}{subgraph copying}
 Structures are copied in two passes, the first copying and collecting all nodes of interest, the second copying all edges of interest in between the nodes.
 
 The first pass consists of covering the nodes of the structure one wants to copy with iterated subpatterns,
@@ -783,7 +475,7 @@ rule CopyOutgoingEdge(n:Node, ref oldToNew:map<Node, Node>)
 The example can be found in the \texttt{tests/copyStructure} directory.
 Without storagemaps one would have to pollute the graph model with helper edges linking the original to the copied nodes.
 
-\subsubsection*{Data flow analysis for computing reachability}\label{subsub:flow}\indexmain{flow equations}\indexmain{data flow analysis}\indexmain{reachability}
+\subsection{Data flow analysis for computing reachability}\label{subsub:flow}\indexmain{flow equations}\indexmain{data flow analysis}\indexmain{reachability}
 %todo: refine this nightly hacked section
 %add dominance computation
 

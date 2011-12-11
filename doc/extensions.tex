@@ -1,7 +1,6 @@
 \chapter{Extensions}\indexmain{extensions}\label{chapextensions}
 
-things to interact with the external world: attribute types, functions, annotations, command line parameter
-
+This chapter lists the ways you can customize \GrG without \GrG-means, the things which allow to interact with the external world outside of \GrG: attribute types, functions, annotations, and command line parameters.
 
 %-----------------------------------------------------------------------------------------------
 \section{External Attribute Types}\label{sub:extcls}
@@ -21,15 +20,14 @@ An external function call (cf. \ref{sec:primexpr}) may receive and return values
 You may extend \GrG~with external functions if the built-in attribute computation capabilities (cf. \ref{sub:expr}) are insufficient for your needs.
 
 %-----------------------------------------------------------------------------------------------
-\section{Shell Commands}
+\section{Shell Commands and Compiler Parameters}
 \label{shell commands}
 
-\noindent The \texttt{GrGen.exe} assembly implements the \GrG\ generator.
-The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies.
-The compiled assemblies form a specific graph rewriting system together with the \GrG\ backend.
+\noindent When executing the \GrG\ generator/compiler \texttt{GrGen.exe}, the follwing parameters are admissible:
 
-\texttt{[mono] GrGen.exe } \texttt{[-keep [<dest-dir>]] [-debug]} \texttt{[-r <assembly-path>]}
-\texttt{-r} & Link the assembly \emph{assembly-path} as reference to the compilation result.
+\noindent \texttt{[mono] GrGen.exe } \texttt{[-keep [<dest-dir>]] [-debug]} \texttt{[-r <assembly-path>]}
+
+The assembly \emph{assembly-path} is linked as reference to the compilation result with the \texttt{-r} parameter.
 
 \begin{rail}
   'new' 'add' 'reference' Filename
@@ -51,7 +49,7 @@ Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotat
   IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
 \end{rail}\ixnterm{IdentDecl}
 Although you can use any key-value pairs between the brackets, only the identifier \indexed{prio} has an effect so far.
-You may use the annotations to transmit information from the specification files to API level where they can be enumerated.
+But you may use the annotations to transmit information from the specification files to API level where they can be enumerated.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|lllX|} \hline
   \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline

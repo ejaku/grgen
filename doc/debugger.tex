@@ -175,10 +175,10 @@ The following modes are supported: \texttt{matched}, \texttt{created}, \texttt{d
 Change this if you e.g. want the matched elements to be marked more visibly, or added/deleted elements to be colored green/red.
 
 \begin{rail}
-  GraphRewriteSequence: 'debug' 'xgrs' SimpleRewriteSequence ;
-\end{rail}\ixkeyw{debug}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
+  GraphRewriteSequence: 'debug' ('exec'|'xgrs') SimpleRewriteSequence ;
+\end{rail}\ixkeyw{debug}\ixkeyw{exec}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence} in the debugger\indexmain{debugger}.
-Same as \texttt{xgrs SimpleRewriteSequence} in the previous chapter, but allows tracing the rewriting process step-by-step.
+Same as \texttt{exec SimpleRewriteSequence} in the previous chapter, but allows tracing the rewriting process step-by-step.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,7 +216,7 @@ This holds for the binary operators, the random match selector of all bracketed 
 The idea behind this is: you need some randomization for \indexed{simulation} purposes --- then use the randomize modifier \texttt{\$}.
 You want to force a certain decision overriding the random decision to try out another execution path while debugging the simulation flow --- then modify the randomize modifier with the user (choice) modifier \texttt{\%}.
 
-The initial breakpoint and choicepoint assignment is given with the \texttt{\%} characters in the sequences after the \texttt{debug xgrs} commands in the \texttt{.grs} file.
+The initial breakpoint and choicepoint assignment is given with the \texttt{\%} characters in the sequences after the \texttt{debug exec} commands in the \texttt{.grs} file.
 The breakpoint and choicepoint commands of the debugger allow to toggle them at runtime, overriding the initial assignment (notationally yielding a sequence with added or removed \texttt{\%} characters).
 The user input commands \texttt{\$\%(type)} define choice points which can't be toggled off.
 
@@ -259,7 +259,7 @@ Further commands allow to print the variables at a given situation, the sequence
 \begin{example}\label{ex:debug}
 We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also Section~\ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
-debug xgrs (makeFlake1* & (beautify & doNothing)* & makeFlake2* & beautify*)[1]
+debug exec (makeFlake1* & (beautify & doNothing)* & makeFlake2* & beautify*)[1]
 \end{grshell}
 \yComp\ will be opened with an initial graph (resulting from \texttt{grs init}):
 \begin{center}
