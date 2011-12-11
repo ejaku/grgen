@@ -322,6 +322,7 @@ OK     should_pass/map_element_parameters_and_addrem.grg
 OK     should_pass/map_identical_assignment.grg
 OK     should_pass/map_node_edge.grg
 OK     should_pass/mapset_001.grg
+OK     should_pass/merge_bw.grg
 OK     should_pass/minmax.grg
 OK     should_pass/model_init_001.grg
 OK     should_pass/model_init_002.grg
@@ -368,6 +369,7 @@ OK     should_pass/pieter.grg
 OK     should_pass/pow.grg
 OK     should_pass/randompeek.grg
 OK     should_pass/randomrule.grg
+OK     should_pass/randomrule_untyped.grg
 OK     should_pass/record_001.grg
 OK     should_pass/redirect_001.grg
 OK     should_pass/redirect_002.grg
@@ -475,6 +477,7 @@ WARNED should_warn/exact_001.grg
 WARNED should_warn/exact_002.grg
 WARNED should_warn/exact_003.grg
 WARNED should_warn/exact_004.grg
+WARNED should_warn/exec_globals.grg
 WARNED should_warn/hom_001.grg
 WARNED should_warn/hom_010.grg
 WARNED should_warn/induced_001.grg
@@ -716,6 +719,9 @@ ERROR  should_fail/defYield_006i.grg
 ERROR  should_fail/defYield_007a.grg
 ERROR  should_fail/defYield_007b.grg
 ERROR  should_fail/defYield_007c.grg
+ERROR  should_fail/defYield_008a.grg
+ERROR  should_fail/defYield_008b.grg
+ERROR  should_fail/defYield_008c.grg
 ERROR  should_fail/defYield_009a.grg
 ERROR  should_fail/defYield_009b.grg
 ERROR  should_fail/delretypesame_001.grg
@@ -884,6 +890,10 @@ FAILED should_fail/exectype_VReset.grg
 FAILED should_fail/exectype_VarPredicate.grg
 ERROR  should_fail/from_storage_001.grg
 ERROR  should_fail/from_storage_002.grg
+ERROR  should_fail/from_storage_003a.grg
+ERROR  should_fail/from_storage_003b.grg
+ERROR  should_fail/from_storage_004a.grg
+ERROR  should_fail/from_storage_004b.grg
 ERROR  should_fail/from_storage_005.grg
 ERROR  should_fail/from_storage_006.grg
 ERROR  should_fail/hom_002.grg
