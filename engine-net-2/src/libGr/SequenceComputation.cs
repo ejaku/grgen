@@ -24,6 +24,7 @@ namespace de.unika.ipd.grGen.libGr
         VFree, VReset,
         ContainerAdd, ContainerRem, ContainerClear,
         Assignment,
+        VariableDeclaration,
         Emit, Record,
         AssignmentTarget, // every assignment target (lhs value) is a computation
         Expression // every expression (rhs value) is a computation
@@ -577,6 +578,40 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol { get { return Target.Symbol + "=" + SourceValueProvider.Symbol; } }
         public override IEnumerable<SequenceComputation> Children { get { yield return Target; yield return SourceValueProvider; } }
+        public override int Precedence { get { return 8; } } // always a top prio assignment factor
+    }
+
+    public class SequenceComputationVariableDeclaration : SequenceComputation
+    {
+        public SequenceVariable Target;
+
+        public SequenceComputationVariableDeclaration(SequenceVariable tgt)
+            : base(SequenceComputationType.VariableDeclaration)
+        {
+            Target = tgt;
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceComputationVariableDeclaration copy = (SequenceComputationVariableDeclaration)MemberwiseClone();
+            copy.Target = Target.Copy(originalToCopy);
+            return copy;
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            object value = TypesHelper.DefaultValue(Target.Type, graph.Model);
+            Target.SetVariableValue(value, graph);
+            return value;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Target.GetLocalVariables(variables);
+        }
+
+        public override string Symbol { get { return Target.Name; } }
+        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
         public override int Precedence { get { return 8; } } // always a top prio assignment factor
     }
 

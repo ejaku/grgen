@@ -1592,6 +1592,7 @@ seqCompoundComputation[ExecNode xg]
 
 seqComputation[ExecNode xg]
 	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN | GE) { xg.append('='); } seqExpressionOrAssign[xg]
+	| (xgrsEntityDecl[null,true]) => xgrsVarDecl=xgrsEntityDecl[xg, true]
 	| VFREE LPAREN { xg.append("vfree("); } seqExpression[xg] RPAREN { xg.append(")"); }
 	| VRESET LPAREN { xg.append("vreset("); } seqExpression[xg] RPAREN { xg.append(")"); }
 	| EMIT LPAREN { xg.append("emit("); } seqExpression[xg] RPAREN { xg.append(")"); }

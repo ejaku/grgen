@@ -1,0 +1,10 @@
+new graph computationoperators/computationoperators
+
+r = 42
+show var r
+show var ::r
+::r = 1337
+show var r 
+show var ::r
+
+quit

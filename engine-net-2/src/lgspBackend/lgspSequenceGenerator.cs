@@ -1221,6 +1221,14 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceComputationType.VariableDeclaration:
+                {
+                    SequenceComputationVariableDeclaration seqVarDecl = (SequenceComputationVariableDeclaration)seqComp;
+                    source.AppendFront(SetVar(seqVarDecl.Target, TypesHelper.DefaultValueString(seqVarDecl.Target.Type, model)));
+                    source.AppendFront(SetResultVar(seqVarDecl, GetVar(seqVarDecl.Target)));
+                    break;
+                }
+
                 case SequenceComputationType.ContainerAdd:
                 {
                     SequenceComputationContainerAdd seqAdd = (SequenceComputationContainerAdd)seqComp;

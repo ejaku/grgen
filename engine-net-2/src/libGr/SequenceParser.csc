@@ -985,6 +985,12 @@ SequenceComputation Computation():
 		return new SequenceComputationAssignment(tgt, assignOrExpr);
 	}
 |
+	LOOKAHEAD(VariableDefinition())
+	toVar=VariableDefinition()
+	{
+		return new SequenceComputationVariableDeclaration(toVar);
+	}
+|
 	"vfree" "(" fromExpr=Expression() ")"
 	{
 		return new SequenceComputationVFree(fromExpr);

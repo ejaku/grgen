@@ -278,9 +278,10 @@ TOKEN: {
 |   < EMIT: "emit" >
 |   < ENABLE: "enable" >
 |   < EXCLUDE: "exclude" >
-|   < EXPORT: "export" >
+|   < EXEC: "exec" >
 |   < EXIT: "exit" >
 |   < EXITONFAILURE: "exitonfailure" >
+|   < EXPORT: "export" >
 |   < FALSE: "false" >
 |   < FILE: "file" >
 |   < FROM: "from" >
@@ -1063,7 +1064,7 @@ void ShellCommand():
 |
 	"grs" str1=CommandLine()
 	{
-        Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences xgrs.");
+        Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences exec(/xgrs).");
         noError = false;
 	}
 |
@@ -1168,7 +1169,7 @@ void ShellCommand():
 |
 	tok="validate" ("exitonfailure" {exitOnFailure = true;})?
 	(
-	    "xgrs" str1=CommandLine()
+	    ("xgrs" | "exec") str1=CommandLine()
 	    {
             try
             {
@@ -1213,7 +1214,7 @@ void ShellCommand():
 	    }
 	)
 |
-    tok="xgrs" str1=CommandLine()
+    (tok="xgrs" | tok="exec") str1=CommandLine()
     {
         try
         {
@@ -1279,7 +1280,7 @@ void ShellCommand():
 
     try
     {
-	    LOOKAHEAD(2) elem=GraphElement() "." str1=AttributeName()
+	    LOOKAHEAD(3) elem=GraphElement() "." str1=AttributeName()
 	    (
 	        LineEnd()
 	        {
@@ -1826,11 +1827,11 @@ void DebugCommand():
 	{
 		"grs" str=CommandLine()
 		{
-			Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences xgrs.");
+			Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences exec(/xgrs).");
 			noError = false;
 		}
 	|
-		tok="xgrs" str=CommandLine()
+		(tok="xgrs" | tok="exec") str=CommandLine()
 		{
 			try
 			{

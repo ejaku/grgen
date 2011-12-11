@@ -1,0 +1,6 @@
+new graph computationoperators/computationoperators
+
+xgrs {r:int; emit("1 value of attribute 5 6 "); emit(r); emit("\n"); \
+		r=1337; emit("1 value of attribute 5 6 "); emit(r); emit("\n")}
+
+quit
