@@ -1280,7 +1280,7 @@ void ShellCommand():
 
     try
     {
-	    LOOKAHEAD(3) elem=GraphElement() "." str1=AttributeName()
+	    LOOKAHEAD(GraphElement() ".") elem=GraphElement() "." str1=AttributeName()
 	    (
 	        LineEnd()
 	        {
