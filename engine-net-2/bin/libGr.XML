@@ -234,7 +234,8 @@
         <member name="T:de.unika.ipd.grGen.libGr.InvocationParameterBindings">
             <summary>
             An object representing a rule or sequence invocation.
-            It tells from where (which variables/constants) to get the input values
+            It stores the input arguments (values),
+            tells with which sequence expressions to compute them,
             and where (which variables) to store the output values.
             </summary>
         </member>
@@ -243,11 +244,14 @@
             The name of the rule or the sequence. Used for generation, where the rule or sequence representation objects do not exist yet.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.ParamVars">
+        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.ArgumentExpressions">
             <summary>
-            An array of variables used for the parameters.
-            It must have the same length as Parameters.
-            If an entry is null, the according entry in parameters is used unchanged.
+            An array of expressions used to compute the input arguments.
+            It must have the same length as Arguments.
+            If an entry is null, the according entry in Arguments is used unchanged.
+            Otherwise the entry in Arguments is filled with the evaluation result of the expression.
+            The sequence parser generates argument expressions for every entry;
+            they may be omitted by a user assembling an invocation at API level.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.ReturnVars">
@@ -256,24 +260,25 @@
             Might be empty if the rule/sequence caller is not interested in available returns values.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.Parameters">
+        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.Arguments">
             <summary>
-            Buffer to store parameters used by libGr to avoid unneccessary memory allocation.
-            Also holds constant parameters at the positions where ParamVars has null entries.
+            Buffer to store the argument values for the call;
+            used by libGr to avoid unneccessary memory allocations.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.InvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.SequenceVariable[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
+        <member name="M:de.unika.ipd.grGen.libGr.InvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
             <summary>
             Instantiates a new InvocationParameterBindings object
             </summary>
-            <param name="paramVars">An array of variable used for the parameters</param>
-            <param name="paramConsts">An array of constants used for the parameters.</param>
+            <param name="argExprs">An array of expressions used to compute the arguments</param>
+            <param name="arguments">An array of arguments.</param>
             <param name="returnVars">An array of variables used for the return values</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings">
             <summary>
             An object representing a rule invocation.
-            It tells from where (which variables/constants) to get the input values
+            It stores the input arguments (values),
+            tells with which sequence expressions to compute them,
             and where (which variables) to store the output values.
             </summary>
         </member>
@@ -282,19 +287,20 @@
             The IAction instance to be used
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.IAction,de.unika.ipd.grGen.libGr.SequenceVariable[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
+        <member name="M:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.IAction,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
             <summary>
             Instantiates a new RuleInvocationParameterBindings object
             </summary>
             <param name="action">The IAction instance to be used</param>
-            <param name="paramVars">An array of variable used for the parameters</param>
-            <param name="paramConsts">An array of constants used for the parameters.</param>
+            <param name="argExprs">An array of expressions used to compute the arguments</param>
+            <param name="arguments">An array of arguments.</param>
             <param name="returnVars">An array of variables used for the return values</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings">
             <summary>
             An object representing a sequence invocation.
-            It tells from where (which variables/constants) to get the input values
+            It stores the input arguments (values),
+            tells with which sequence expressions to compute them,
             and where (which variables) to store the output values.
             </summary>
         </member>
@@ -303,13 +309,13 @@
             The defined sequence to be used
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.SequenceDefinition,de.unika.ipd.grGen.libGr.SequenceVariable[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.SequenceDefinition,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
             <summary>
             Instantiates a new SequenceInvocationParameterBindings object
             </summary>
             <param name="sequenceDef">The defined sequence to be used</param>
-            <param name="paramVars">An array of variable used for the parameters</param>
-            <param name="paramConsts">An array of constants used for the parameters.</param>
+            <param name="argExprs">An array of expressions used to compute the arguments</param>
+            <param name="arguments">An array of arguments.</param>
             <param name="returnVars">An array of variables used for the return values</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.GXLExport">
@@ -340,6 +346,16 @@
             <param name="kind">The attribute kind</param>
             <param name="enumAttrType">For enums, enumAttrType must be valid. Otherwise it may be null.</param>
             <returns></returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.PrefixedTypeFromType(System.Type)">
+            <summary>
+            Returns type string with correct namespace prefix for the type given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.XgrsTypeToCSharpType(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Returns type with correct namespace prefix for the type given
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ScopeType">
             <summary>
@@ -383,29 +399,36 @@
             a graph-global variable maps to type "", a sequence-local to its type
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,de.unika.ipd.grGen.libGr.BaseActions)">
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.warnings">
+            <summary>
+            Stores the warnings which occur during parsing
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,de.unika.ipd.grGen.libGr.BaseActions,System.Collections.Generic.List{System.String})">
             <summary>
             Parses a given string in xgrs syntax and builds a Sequence object. Used for the interpreted xgrs.
             </summary>
             <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
             <param name="actions">The BaseActions object containing the rules used in the string.</param>
+            <param name="warnings">A list which receives the warnings generated during parsing.</param>
             <returns>The sequence object according to sequenceStr.</returns>
             <exception cref="T:de.unika.ipd.grGen.libGr.sequenceParser.ParseException">Thrown when a syntax error was found in the string.</exception>
             <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserException">Thrown when a rule is used with the wrong number of arguments
             or return parameters.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequenceDefinition(System.String,de.unika.ipd.grGen.libGr.BaseActions)">
+        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequenceDefinition(System.String,de.unika.ipd.grGen.libGr.BaseActions,System.Collections.Generic.List{System.String})">
             <summary>
             Parses a given string in sequence definition syntax and builds a SequenceDefinition object. Used for the interpreted xgrs.
             </summary>
             <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
             <param name="actions">The BaseActions object containing the rules used in the string.</param>
+            <param name="warnings">A list which receives the warnings generated during parsing.</param>
             <returns>The sequence object according to sequenceStr.</returns>
             <exception cref="T:de.unika.ipd.grGen.libGr.sequenceParser.ParseException">Thrown when a syntax error was found in the string.</exception>
             <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserException">Thrown when a rule is used with the wrong number of arguments
             or return parameters.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,System.String[],System.String[],System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.IGraphModel)">
+        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,System.String[],System.String[],System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.List{System.String})">
             <summary>
             Parses a given string in xgrs syntax and builds a Sequence object. Used for the compiled xgrs.
             </summary>
@@ -414,17 +437,189 @@
             <param name="sequenceNames">An array containing the names of the sequences used in the specification.</param>
             <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
             <param name="model">The model used in the specification.</param>
+            <param name="warnings">A list which receives the warnings generated during parsing.</param>
             <returns>The sequence object according to sequenceStr.</returns>
             <exception cref="T:de.unika.ipd.grGen.libGr.sequenceParser.ParseException">Thrown when a syntax error was found in the string.</exception>
             <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserException">Thrown when a rule is used with the wrong number of arguments
             or return parameters.</exception>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.AssignmentTargetType">
+            <summary>
+            Specifies the assignment target type (the lhs expression).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.AssignmentTarget">
+            <summary>
+            An assignment target object with references to used sequence computations.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceComputation">
+            <summary>
+            A sequence computation object with references to child sequence computations.
+            The computations are basically: visited flags management, container manipulation,
+            assignments and special functions; they may or may not return values.
+            They do change things, in contrast to the side-effect free sequence expressions.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceBase">
+            <summary>
+            The common base of sequence, sequence computation, and sequence expression objects,
+            with some common infrastructure.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceBase.Check(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+            <summary>
+            Checks the sequence /expression for errors utilizing the given checking environment
+            reports them by exception
+            </summary>s
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceBase.Type(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+            <summary>
+            Returns the type of the sequence /expression (for sequences always "boolean")
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceBase.randomGenerator">
+            <summary>
+            A common random number generator for all sequence /expression objects.
+            It uses a time-dependent seed.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceBase.id">
+            <summary>
+            stores the sequence /expression unique id
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceBase.idSource">
+            <summary>
+            the static member used to assign the unique ids to the sequence /expression instances
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.SequenceBase.Precedence">
+            <summary>
+            The precedence of this operator. Zero is the highest priority, int.MaxValue the lowest.
+            Used to add needed parentheses for printing sequences /expressions
+            TODO: WTF? das ist im Parser genau umgekehrt implementiert!
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.SequenceBase.Symbol">
+            <summary>
+            A string symbol representing this sequence /expression kind.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.SequenceBase.Id">
+            <summary>
+            returns the sequence /expresion id - every sequence /expression is assigned a unique id used in xgrs code generation
+            for copies the old id is just taken over, does not cause problems as code is only generated once per defined sequence
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceComputation.SequenceComputationType">
+            <summary>
+            The type of the sequence computation (e.g. Assignment or MethodCall)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.#ctor(de.unika.ipd.grGen.libGr.SequenceComputationType)">
+            <summary>
+            Initializes a new SequenceComputation object with the given sequence computation type.
+            </summary>
+            <param name="seqCompType">The sequence computation type.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.Check(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+            <summary>
+            Checks the sequence computation for errors utilizing the given checking environment
+            reports them by exception
+            default behavior: check all the children 
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.Type(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+            <summary>
+            Returns the type of the sequence
+            default behaviour: returns "void"
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.Copy(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable})">
+            <summary>
+            Copies the sequence computation deeply so that
+            - the global Variables are kept
+            - the local Variables are replaced by copies initialized to null
+            Used for cloning defined sequences before executing them if needed.
+            Needed if the defined sequence is currently executed to prevent state corruption.
+            </summary>
+            <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <returns>The copy of the sequence computation</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.Execute(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment)">
+            <summary>
+            Executes this sequence computation.
+            </summary>
+            <param name="graph">The graph on which this sequence computation is to be evaluated.</param>
+            <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
+            <returns>The value resulting from computing this sequence computation, 
+                     null if there is no result value</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.GetLocalVariables(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SetValueType})">
+            <summary>
+            Collects all variables of the sequence expression tree into the variables dictionary.
+            </summary>
+            <param name="variables">Contains the variables found</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.SequenceComputation.Children">
+            <summary>
+            Enumerates all child sequence computation objects
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.SequenceComputation.ReturnsValue">
+            <summary>
+            Tells whether Execute returns a value to be used as a result determining value for a boolean computation sequence.
+            Only expressions do so, the values returned by plain computations don't bubble up to sequence level, are computation internal only.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AssignmentTarget.AssignmentTargetType">
+            <summary>
+            The type of the assignment target (e.g. Variable or IndexedVariable)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.#ctor(de.unika.ipd.grGen.libGr.AssignmentTargetType)">
+            <summary>
+            Initializes a new AssignmentTargetType object with the given assignment target type.
+            </summary>
+            <param name="seqCompType">The sequence computation type.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.Copy(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable})">
+            <summary>
+            Copies the sequence computation deeply so that
+            - the global Variables are kept
+            - the local Variables are replaced by copies initialized to null
+            Used for cloning defined sequences before executing them if needed.
+            Needed if the defined sequence is currently executed to prevent state corruption.
+            </summary>
+            <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <returns>The copy of the sequence computation</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.CopyTarget(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable})">
+            <summary>
+            Copies the assignment target deeply so that
+            - the global Variables are kept
+            - the local Variables are replaced by copies initialized to null
+            Used for cloning defined sequences before executing them if needed.
+            Needed if the defined sequence is currently executed to prevent state corruption.
+            </summary>
+            <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <returns>The copy of the assignment target</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.Assign(System.Object,de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment)">
+            <summary>
+            Assigns a value to this assignment target.
+            </summary>
+            <param name="value">The value to assign.</param>
+            <param name="graph">The graph on which this assignment is to be executed.</param>
+            <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo">
             <summary>
             Represents an XGRS used in an exec statement.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String,System.Int32)">
             <summary>
             Constructs an EmbeddedSequenceInfo object.
             </summary>
@@ -433,6 +628,7 @@
             <param name="outParameters">The names of the graph elements of the containing action yielded to.</param>
             <param name="outParameterTypes">The types of the graph elements of the containing action yielded to.</param>
             <param name="xgrs">The XGRS string.</param>
+            <param name="lineNr">The line number the sequence appears on in the source.</param>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo.Parameters">
             <summary>
@@ -463,12 +659,17 @@
             The XGRS string.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo.LineNr">
+            <summary>
+            The line in the source code on which this sequence appears, printed in case of an error.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.DefinedSequenceInfo">
             <summary>
             Represents a sequence definition.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String,System.String,System.Int32)">
             <summary>
             Constructs an DefinedSequenceInfo object.
             </summary>
@@ -478,6 +679,7 @@
             <param name="outParameterTypes">The types of the graph elements returned to the calling action.</param>
             <param name="name">The name the sequence was defined with.</param>
             <param name="xgrs">The XGRS string.</param>
+            <param name="lineNr">The line number the sequence appears on in the source.</param>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.Name">
             <summary>
@@ -491,7 +693,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment">
             <summary>
-            Environment for sequence exection giving access to graph element names and user interface
+            Environment for sequence execution giving access to graph element names and user interface
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.GetNamedGraph">
@@ -1071,6 +1273,15 @@
             Dumps the graph with a given graph dumper and default dump style.
             </summary>
             <param name="dumper">The graph dumper to be used.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.IsIsomorph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns whether this graph is isomorph to that graph
+            Each graph must be either unanalyzed or unchanged since the last analyze,
+            otherwise results will be wrong!
+            </summary>
+            <param name="that">The other graph we check for isomorphy against</param>
+            <returns>true if that is isomorph to this, false otherwise</returns>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraph.Name">
             <summary>
@@ -1834,6 +2045,15 @@
             Dumps the graph with a given graph dumper and default dump style.
             </summary>
             <param name="dumper">The graph dumper to be used.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.IsIsomorph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns whether this graph is isomorph to that graph
+            Each graph must be either unanalyzed or unchanged since the last analyze,
+            otherwise results will be wrong!
+            </summary>
+            <param name="that">The other graph we check for isomorphy against</param>
+            <returns>true if that is isomorph to this, false otherwise</returns>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.NamedGraph.WrappedGraph">
             <summary>
@@ -2720,6 +2940,106 @@
             <summary>
             An enumerable of KeyValuePairs, where the keys are names of existing graphs and the
             values are the names of the appropriate models (not filenames).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceExpressionType">
+            <summary>
+            Specifies the actual subtype of a sequence expression.
+            A new expression type -> you must add the corresponding class down below 
+            and adapt the lgspSequenceGenerator.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceExpression">
+            <summary>
+            A sequence expression object with references to child sequence expressions.
+            A sequence expression is a side effect free computation returning a value (a query).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceExpression.SequenceExpressionType">
+            <summary>
+            The type of the sequence expression (e.g. Variable or IsVisited)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.#ctor(de.unika.ipd.grGen.libGr.SequenceExpressionType)">
+            <summary>
+            Initializes a new SequenceExpression object with the given sequence expression type.
+            </summary>
+            <param name="seqExprType">The sequence expression type.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.Type(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+            <summary>
+            Returns the type of the sequence expression
+            default behaviour: returns "boolean"
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.Copy(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable})">
+            <summary>
+            Copies the sequence computation deeply so that
+            - the global Variables are kept
+            - the local Variables are replaced by copies initialized to null
+            Used for cloning defined sequences before executing them if needed.
+            Needed if the defined sequence is currently executed to prevent state corruption.
+            </summary>
+            <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <returns>The copy of the sequence computation</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.CopyExpression(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable})">
+            <summary>
+            Copies the sequence expression deeply so that
+            - the global Variables are kept
+            - the local Variables are replaced by copies initialized to null
+            Used for cloning defined sequences before executing them if needed.
+            Needed if the defined sequence is currently executed to prevent state corruption.
+            </summary>
+            <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <returns>The copy of the sequence expression</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.Evaluate(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment)">
+            <summary>
+            Evaluates this sequence expression.
+            Implemented by calling execute, every expression is a computation.
+            </summary>
+            <param name="graph">The graph on which this sequence expression is to be evaluated.</param>
+            <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
+            <returns>The value resulting from computing this sequence expression</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.SequenceExpression.ChildrenExpression">
+            <summary>
+            Enumerates all child sequence expression objects
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceExpressionContainer">
+            <summary>
+            A sequence expression over a container object (resulting from a variable or a method call)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceBinaryExpression">
+            <summary>
+            A sequence binary expression object with references to the left and right child sequence expressions.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceBinaryExpression.#ctor(de.unika.ipd.grGen.libGr.SequenceExpressionType,de.unika.ipd.grGen.libGr.SequenceExpression,de.unika.ipd.grGen.libGr.SequenceExpression)">
+            <summary>
+            Initializes a new SequenceBinaryExpression object with the given sequence expression type.
+            </summary>
+            <param name="seqExprType">The sequence expression type.</param>
+            <param name="left">The left sequence expression.</param>
+            <param name="right">The right sequence expression.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceBinaryExpression.CopyExpression(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable})">
+            <summary>
+            Copies the sequence expression deeply so that
+            - the global Variables are kept
+            - the local Variables are replaced by copies initialized to null
+            Used for cloning defined sequences before executing them if needed.
+            Needed if the defined sequence is currently executed to prevent state corruption.
+            </summary>
+            <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <returns>The copy of the sequence expression</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.SequenceBinaryExpression.ChildrenExpression">
+            <summary>
+            Enumerates all child sequence expression objects
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.porter.TokenMgrError.LexicalError">
@@ -5023,6 +5343,15 @@
             </summary>
             <param name="dumper">The graph dumper to be used.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.IsIsomorph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns whether this graph is isomorph to that graph
+            Each graph must be either unanalyzed or unchanged since the last analyze,
+            otherwise results will be wrong!
+            </summary>
+            <param name="that">The other graph we check for isomorphy against</param>
+            <returns>true if that is isomorph to this, false otherwise</returns>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.BaseGraph.Name">
             <summary>
             A name associated with the graph.
@@ -5282,8 +5611,8 @@
         <member name="T:de.unika.ipd.grGen.libGr.SequenceType">
             <summary>
             Specifies the actual subtype used for a Sequence.
-            A new sequence type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator,
-            SequenceChecker and Sequence (add the corresponding class down below), the Debugger
+            A new sequence type -> you must add the corresponding class down below,
+            and adapt the lgspSequenceGenerator and the Debugger.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceExecutionState">
@@ -5294,12 +5623,7 @@
         <member name="T:de.unika.ipd.grGen.libGr.Sequence">
             <summary>
             A sequence object with references to child sequences.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.Sequence.randomGenerator">
-            <summary>
-            A common random number generator for all sequence objects.
-            It uses a time-dependent seed.
+            A sequence is basically a rule application or a computation, or an operator combining them.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.Sequence.SequenceType">
@@ -5313,13 +5637,25 @@
             </summary>
             <param name="seqType">The sequence type.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Sequence.Check(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+            <summary>
+            Checks the sequence for errors utilizing the given checking environment
+            reports them by exception
+            default behavior: check all the children 
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Sequence.Type(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+            <summary>
+            Returns the type of the sequence, which is "boolean"
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.Sequence.Copy(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable})">
             <summary>
             Copies the sequence deeply so that
             - the execution state of the copy is NotYet
             - the global Variables are kept
             - the local Variables are replaced by copies initialized to null
-            Used for cloning defined sequenced before executing them if needed.
+            Used for cloning defined sequences before executing them if needed.
             Needed if the defined sequence is currently executed to prevent state corruption.
             </summary>
             <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
@@ -5374,16 +5710,6 @@
             <param name="target">The target sequence up to which to walk</param>
             <returns>Returns whether the target was hit, so the parent can abort walking</returns>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.Sequence.id">
-            <summary>
-            stores the sequence unique id
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.Sequence.idSource">
-            <summary>
-            the static member used to assign the unique ids to the sequence instances
-            </summary>
-        </member>
         <member name="F:de.unika.ipd.grGen.libGr.Sequence.executionState">
             <summary>
             the state of executing this sequence, implementation
@@ -5392,24 +5718,6 @@
         <member name="P:de.unika.ipd.grGen.libGr.Sequence.Children">
             <summary>
             Enumerates all child sequence objects
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.Sequence.Precedence">
-            <summary>
-            The precedence of this operator. Zero is the highest priority, int.MaxValue the lowest.
-            Used to add needed parentheses for printing sequences
-            TODO: WTF? das ist im Parser genau umgekehrt implementiert!
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.Sequence.Symbol">
-            <summary>
-            A string symbol representing this sequence type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.Sequence.Id">
-            <summary>
-            returns the sequence id - every sequence is assigned a unique id used in xgrs code generation
-            for copies the old id is just taken over, does not cause problems as code is only generated once per defined sequence
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.Sequence.ExecutionState">
@@ -5470,7 +5778,7 @@
             Decision on order of execution always by random, by user choice possible.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.libGr.SequenceAssign">
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceAssignToVar">
             <summary>
             A sequence which assigns something to a destination variable.
             </summary>
@@ -5827,17 +6135,6 @@
             after parsing only on the heap, with references from the sequence AST pointing to it.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.libGr.SequenceChecker">
-            <summary>
-            Class for some basic checking of the sequence which is to be interpreted.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceChecker.Check(de.unika.ipd.grGen.libGr.Sequence)">
-            <summary>
-            Checks the given sequence for errors
-            reports them by exception
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.libGr.NodeAddedHandler">
             <summary>
             Represents a method called, when a node has been added.
@@ -5965,6 +6262,18 @@
             Represents a method called before a sequence is left.
             </summary>
             <param name="seq">The current sequence object.</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceComputationType">
+            <summary>
+            Specifies the actual subtype of a sequence computation.
+            A new expression type -> you must add the corresponding class down below 
+            and adapt the lgspSequenceGenerator.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceComputationContainer">
+            <summary>
+            A sequence computation on a container object (resulting from a variable or a method call; yielding a container object again)
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IAction">
             <summary>
@@ -6463,6 +6772,42 @@
             <param name="min">The lower bound of the range.</param>
             <param name="max">The upper bound of the range.</param>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment">
+            <summary>
+            Environment for sequence checking giving access to model and action signatures.
+            Abstract base class, there are two concrete subclasses, one for interpreted, one for compiled sequences
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckRuleCallRuleAllCallSequenceCall(de.unika.ipd.grGen.libGr.Sequence)">
+            <summary>
+            Helper for checking rule calls, rule all calls, and sequence calls.
+            Checks whether called entity exists, type checks the input, type checks the output.
+            Throws an exception when an error is found.
+            </summary>
+            <param name="seq">The sequence to check, must be a rule call, a rule all call, or a sequence call</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.Model">
+            <summary>
+            The model giving access to graph element types for checking.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironmentInterpreted">
+            <summary>
+            Environment for sequence checking giving access to model and action signatures.
+            Concrete subclass for interpreted sequences.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironmentCompiled">
+            <summary>
+            Environment for sequence checking giving access to model and action signatures.
+            Concrete subclass for compiled sequences.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironmentCompiled.Model">
+            <summary>
+            the model giving access to graph element types for checking
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.porter.SimpleCharStream">
             <summary>
             An implementation of interface CharStream, where the stream is assumed to
@@ -6955,6 +7300,12 @@
             If the attribute of the given name of the given element is a set or map or array attribute
             then return a clone of the given dictionary or list value, otherwise just return the original value;
             additionally returns the AttributeType of the attribute of the element.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object)">
+            <summary>
+            If the attribute of the given name of the given element is a set or map or array attribute
+            then return a clone of the given dictionary or list value, otherwise just return the original value
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">

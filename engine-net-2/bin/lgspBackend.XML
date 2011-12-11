@@ -4,16 +4,6 @@
         <name>lgspBackend</name>
     </assembly>
     <members>
-        <member name="M:de.unika.ipd.grGen.lgsp.TypesHelper.PrefixedTypeFromType(System.Type)">
-            <summary>
-            Returns type string with correct namespace prefix for the type given
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.TypesHelper.XgrsTypeToCSharpType(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
-            <summary>
-            Returns type with correct namespace prefix for the type given
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramOperation">
             <summary>
             Base class for all search program operations, containing concatenation fields,
@@ -623,6 +613,144 @@
             push match to the match objects stack used for patternpath checking
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlan">
+            <summary>
+            Base class of the interpretation plan data structure,
+            which consists of a linked list of matching operations
+            (Benefits compared to scheduled search plan:
+              - stores matched graph elements
+              - connectedness checking with bidirectional matching is complicated enough it should be computed statically before execution)
+            The interpretation plan is only used in isomorphy checking.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Execute(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Executes the interpretation plan (starting with this operation)
+            </summary>
+            <param name="graph">The graph over which the plan is to be interpreted</param>
+            <returns>true if execution succeeded, i.e. a match was found; false otherwise</returns>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlan.next">
+            <summary>
+            The next interpretation plan operation
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanNodeMatcher">
+            <summary>
+            An interpretation plan operation which matches a node
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlanNodeMatcher.node">
+            <summary>
+            The node matched by this interpretation plan operation during execution
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanEdgeMatcher">
+            <summary>
+            An interpretation plan operation which matches an edge
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlanEdgeMatcher.edge">
+            <summary>
+            The edge matched by this interpretation plan operation during execution
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanDirectionVariable">
+            <summary>
+            An interpretation plan operation which stores a direction decision
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlanDirectionVariable.direction">
+            <summary>
+            The direction decided upon by this interpretation plan operation during execution
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanStart">
+            <summary>
+            Interpretation plan operation which work as an anchor for an interpretation plan without own functionality
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanLookupNode">
+            <summary>
+            Interpretation plan operation which looks up a node in the graph
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanLookupEdge">
+            <summary>
+            Interpretation plan operation which looks up an edge in the graph
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanBothDirections">
+            <summary>
+            Interpretation plan operation which iterates both directions,
+            needed for matching bidirectional edges in both directions
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanIncoming">
+            <summary>
+            Interpretation plan operation which retrieves an incoming edge from a source node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanOutgoing">
+            <summary>
+            Interpretation plan operation which retrieves an outgoing edge from a source node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanIncomingOrOutgoing">
+            <summary>
+            Interpretation plan operation which retrieves an edge to be matched bidirectionally from a source node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanImplicitTarget">
+            <summary>
+            Interpretation plan operation which retrieves the target node of an edge
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanImplicitSource">
+            <summary>
+            Interpretation plan operation which retrieves the source node of an edge
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanImplicitSourceOrTarget">
+            <summary>
+            Interpretation plan operation which retrieves the source or target node of an edge
+            depending on the current direction to be matched
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanImplicitTheOther">
+            <summary>
+            Interpretation plan operation which retrieves the source or target node of an edge
+            depending on the other node already matched
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanCheckConnectednessSource">
+            <summary>
+            Interpretation plan operation which checks the source node of an edge to be identical to a given node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanCheckConnectednessTarget">
+            <summary>
+            Interpretation plan operation which checks the target node of an edge to be identical to a given node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanCheckConnectednessSourceOrTarget">
+            <summary>
+            Interpretation plan operation which checks the source or target node of an edge to be identical to a given node,
+            depending on the current direction to be matched
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanCheckConnectednessTheOther">
+            <summary>
+            Interpretation plan operation which checks the source or target node of an edge to be identical to a given node,
+            depending on the other node already matched
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanMatchComplete">
+            <summary>
+            Interpretation plan operation which completes a match;
+            no own functionality, it just succeeds when execution reaches it
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchOperationType">
             <summary>
             Describes the type of a search operation.
@@ -777,22 +905,22 @@
             Returns string containing a C# declaration of the variable given
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.GetResultVar(de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.GetResultVar(de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
-            Returns string containing a C# expression to get the value of the result variable of the sequence given
+            Returns string containing a C# expression to get the value of the result variable of the sequence-like given
             (every sequence part writes a success-value which is read by other parts determining execution flow)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.SetResultVar(de.unika.ipd.grGen.libGr.Sequence,System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.SetResultVar(de.unika.ipd.grGen.libGr.SequenceBase,System.String)">
             <summary>
-            Returns string containing a C# assignment to set the result variable of the sequence given
+            Returns string containing a C# assignment to set the result variable of the sequence-like given
             to the value as computed by the C# expression in the string given
             (every sequence part writes a success-value which is read by other parts determining execution flow)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.DeclareResultVar(de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.DeclareResultVar(de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
-            Returns string containing C# declaration of the sequence result variable
+            Returns string containing C# declaration of the sequence-like result variable
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.EmitVarIfNew(de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.lgsp.SourceBuilder)">
@@ -804,19 +932,20 @@
             <summary>
             pre-run for emitting the needed entities before emitting the real code
             - emits result variable declarations
-            - emits xgrs variable declarations (only once for every variable)
+            - emits sequence variable declarations (only once for every variable, declaration only possible at assignment targets)
             - collects used rules into knownRules, emit local rule declaration (only once for every rule)
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.LGSPSequenceChecker">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.EmitNeededVarEntities(de.unika.ipd.grGen.libGr.SequenceComputation,de.unika.ipd.grGen.lgsp.SourceBuilder)">
             <summary>
-            Class for some extended type checking of the sequence for which some code is to be generated.
+            pre-run for emitting the needed entities before emitting the real code
+            - emits sequence variable declarations (only once for every variable, declaration only possible at assignment targets)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceChecker.Check(de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.EmitNeededVarEntities(de.unika.ipd.grGen.libGr.AssignmentTarget,de.unika.ipd.grGen.lgsp.SourceBuilder)">
             <summary>
-            Checks the given sequence for type errors
-            reports them by exception
+            pre-run for emitting the needed entities before emitting the real code
+            - emits sequence variable declarations (only once for every variable, declaration only possible at assignment targets)
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.IsomorphyInformation.CheckIsMatchedBit">
@@ -897,6 +1026,13 @@
             so that the analysis data is written the pattern graphs of the matching patterns to generate code for.
             </summary>
             <param name="model">The model for which the matcher functions shall be generated.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.BuildPatternGraph(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Builds a pattern graph out of the graph.
+            </summary>
+            <param name="graph">The graph which is to be transfered into a pattern</param>
+            <returns></returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GeneratePlanGraph(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
             <summary>
@@ -1087,6 +1223,167 @@
             <summary>
             Generate a new action for the given action, doing the same work, 
             but hopefully faster by taking graph analysis information into account
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder">
+            <summary>
+            A class for building the interpretation plan data structure from a scheduled search plan
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.#ctor(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan)">
+            <summary>
+            Creates an interpretation plan builder for the given scheduled search plan.
+            Only a limited amount of search operations is supported, the ones needed for isomorphy checking.
+            </summary>
+            <param name="ssp">the scheduled search plan to build an interpretation plan for</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.BuildInterpretationPlan">
+            <summary>
+            Builds interpretation plan from scheduled search plan.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.BuildInterpretationPlan(de.unika.ipd.grGen.lgsp.InterpretationPlan,System.Int32)">
+            <summary>
+            Recursively assembles interpretation plan from scheduled search plan, beginning at index 0.
+            Decides which specialized build procedure is to be called.
+            The specialized build procedure then calls this procedure again, 
+            in order to process the next search plan operation at the following index.
+            The insertionPoint is the lastly built operation;
+            the next operation built is inserted into the next link of it, 
+            then it becomes the current insertionPoint.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.buildLookup(de.unika.ipd.grGen.lgsp.InterpretationPlan,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode)">
+            <summary>
+            Interpretation plan operations implementing the
+            Lookup node search plan operation
+            are created and inserted into the interpretation plan at the insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.buildLookup(de.unika.ipd.grGen.lgsp.InterpretationPlan,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode)">
+            <summary>
+            Interpretation plan operations implementing the
+            Lookup edge search plan operation
+            are created and inserted into the interpretation plan at the insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.buildImplicit(de.unika.ipd.grGen.lgsp.InterpretationPlan,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.ImplicitNodeType)">
+            <summary>
+            Interpretation plan operations implementing the
+            Implicit Source|Target|SourceOrTarget search plan operation
+            are created and inserted into the interpretation plan at the insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.buildIncident(de.unika.ipd.grGen.lgsp.InterpretationPlan,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.IncidentEdgeType)">
+            <summary>
+            Interpretation plan operations implementing the
+            Extend Incoming|Outgoing|IncomingOrOutgoing search plan operation
+            are created and inserted into the interpretation plan at the insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.buildMatchComplete(de.unika.ipd.grGen.lgsp.InterpretationPlan)">
+            <summary>
+            The closing matching completed interpretation plan operation is added at the insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.insertImplicitNodeFromEdge(de.unika.ipd.grGen.lgsp.InterpretationPlan,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.ImplicitNodeType)">
+            <summary>
+            Inserts code to get an implicit node from an edge
+            receives insertion point, returns new insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.insertIncidentEdgeFromNode(de.unika.ipd.grGen.lgsp.InterpretationPlan,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.IncidentEdgeType)">
+            <summary>
+            Inserts code to get an incident edge from some node
+            receives insertion point, returns new insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.decideOnAndInsertCheckConnectednessOfNodeFromLookup(de.unika.ipd.grGen.lgsp.InterpretationPlan,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode)">
+            <summary>
+            Decides which check connectedness operations are needed for the given node just determined by lookup
+            and inserts them into the interpretation plan
+            receives insertion point, returns new insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.decideOnAndInsertCheckConnectednessOfImplicitNodeFromEdge(de.unika.ipd.grGen.lgsp.InterpretationPlan,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode)">
+            <summary>
+            Decides which check connectedness operations are needed for the given node just drawn from edge
+            and inserts them into the interpretation plan
+            receives insertion point, returns new insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.decideOnAndInsertCheckConnectednessOfNodeFixedDirection(de.unika.ipd.grGen.lgsp.InterpretationPlan,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.CheckCandidateForConnectednessType)">
+            <summary>
+            Decides which check connectedness operations are needed for the given node and edge of fixed direction
+            and inserts them into the interpretation plan
+            receives insertion point, returns new insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.decideOnAndInsertCheckConnectednessOfNodeBothDirections(de.unika.ipd.grGen.lgsp.InterpretationPlan,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode)">
+            <summary>
+            Decides which check connectedness operations are needed for the given node and edge in both directions
+            and inserts them into the interpretation plan
+            receives insertion point, returns new insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.decideOnAndInsertCheckConnectednessOfEdgeFromLookup(de.unika.ipd.grGen.lgsp.InterpretationPlan,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode)">
+            <summary>
+            Decides which check connectedness operations are needed for the given edge determined by lookup
+            and inserts them into the interpretation plan
+            receives insertion point, returns new insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.decideOnAndInsertCheckConnectednessOfIncidentEdgeFromNode(de.unika.ipd.grGen.lgsp.InterpretationPlan,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,System.Boolean)">
+            <summary>
+            Decides which check connectedness operations are needed for the given edge determined from incident node
+            and inserts them into the interpretation plan
+            receives insertion point, returns new insertions point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(de.unika.ipd.grGen.lgsp.InterpretationPlan,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.CheckCandidateForConnectednessType)">
+            <summary>
+            Decides which check connectedness operations are needed for the given edge of fixed direction
+            and inserts them into the interpretation plan
+            receives insertion point, returns new insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.decideOnAndInsertCheckConnectednessOfEdgeBothDirections(de.unika.ipd.grGen.lgsp.InterpretationPlan,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,System.Boolean)">
+            <summary>
+            Decides which check connectedness operations are needed for the given edge in both directions
+            and inserts them into the interpretation plan
+            receives insertion point, returns new insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.currentNodeIsFirstIncidentNodeOfEdge(de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode)">
+            <summary>
+            returns true if the node which gets currently determined in the schedule
+            is the first incident node of the edge which gets connected to it
+            only of interest for edges of unfixed direction
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.currentNodeIsSecondIncidentNodeOfEdge(de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode)">
+            <summary>
+            returns true if the node which gets currently determined in the schedule
+            is the second incident node of the edge which gets connected to it
+            only of interest for edges of unfixed direction
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.currentEdgeConnectsOnlyToFirstIncidentNode(de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode)">
+            <summary>
+            returns true if only one incident node of the edge which gets currently determined in the schedule
+            was already computed; only of interest for edges of unfixed direction
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.currentEdgeConnectsToFirstIncidentNode(de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode)">
+            <summary>
+            returns true if at least one incident node of the edge which gets currently determined in the schedule
+            was already computed; only of interest for edges of unfixed direction
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.currentEdgeConnectsToSecondIncidentNode(de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode)">
+            <summary>
+            returns true if both incident nodes of the edge which gets currently determined in the schedule
+            were already computed; only of interest for edges of unfixed direction
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPGraph">
@@ -1693,6 +1990,15 @@
             </summary>
             <param name="newName">Name of the new graph.</param>
             <returns>A new graph with the same structure as this graph.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.IsIsomorph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns whether this graph is isomorph to that graph
+            Each graph must be either unanalyzed or unchanged since the last analyze,
+            otherwise results will be wrong!
+            </summary>
+            <param name="that">The other graph we check for isomorphy against</param>
+            <returns>true if that is isomorph to this, false otherwise</returns>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Actions">
             <summary>
@@ -2835,6 +3141,11 @@
             OutgoingPatternEdges are the search plan nodes which originate from the outgoing pattern edges of the pattern node this node represents
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchPlanNodeNode.nodeMatcher">
+            <summary>
+            the node matcher interpretation plan operation created for this node
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode">
             <summary>
             Element of the search plan graph representing an edge within the pattern graph.
@@ -2850,6 +3161,17 @@
             <summary>
             PatternEdgeSource gives us the search plan node which originated from the source of the pattern edge this node represents
             PatternEdgeTarget gives us the search plan node which originated from the target of the pattern edge this node represents
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode.edgeMatcher">
+            <summary>
+            the edge matcher interpretation plan operation created for this edge
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode.directionVariable">
+            <summary>
+            the direction variable interpretation plan operation created for this edge
+            in case this is an edge to be matched bidirectionally in the graph
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchPlanEdge">
