@@ -1,4 +1,48 @@
-﻿v3.0 (2011-07-29)
+﻿v3.1 beta 1 (2011-12-12)
+ Refactoring of the sequences: split old sequences into sequences and sequence computations
+  (plus the sequence computation sub parts sequence expressions and assignment targets)
+  - sequences are now pretty pure, control operators over rule applications plus basic variable handling
+  - computations must be be given in the sequences enclosed in { },
+    return true if computation has no result value or it is a non-default value
+
+ Refactoring of variable handling: global variables must be prefixed with ::
+  so we have typed local variables declared with name:Type and used with name,
+  and untyped first-usage-is-definition global variables used with ::name.
+  Optional in shell and grs importer, as all variables there are global,
+  mandatory in sequences and sequence computations, with a deprecation warning if prefix is missing.
+  Parsing and symbol tables now allow global and local variables with same name.
+ 
+ A lot of further refactorings in sequence handling 
+  - to improve the code, 
+  - to allow for more powerful sequences and sequence computations in the future 
+  - to fix old issues, e.g. binary operators are now left associative, as they should be
+ 
+ (Negative) side effects of sequence computation introduction: 
+  - the rule-set-sequence must be given with syntax {(.,.)} now instead of {.,.}
+  - several constructs must be given in { } now as they are computations
+  - container access out of bounds yield runtime crash instead of sequence application result false
+ 
+ New sequence computation constructs:
+  - chaining of statements with then operator ";", e.g. {x=y; x.add(3); x.empty()} 
+  - chaining of assignments, e.g. {a=b=0}
+  - chaining of method calls on the state object, useful for container changing methods, e.g. {s.add(1).add(2)}
+ New sequence expression constructs:
+  - boolean operators &&,||,&,|,^
+  - conditional ternary operator, e.g. a ? b : c
+ New sequence construct: 
+  - plain variable declaration, later on initialized explicitely in a computation
+
+ Improvements:
+  - print line number of sequence when sequence parsing fails, in .grs and in .grg
+  - sequences can now be called in shell with exec, too
+  - orientation layout option now affects not only the debugger, but the .vcg dumps, too
+  - a few bug fixes
+  
+ Adapted user manual to mainly sequence handling changes,
+  split off storages and visited to own chaper, split off external stuff into extensions chapter.
+
+
+v3.0 (2011-07-29)
  New datatypes introduced:
   byte - 8bit signed, literals are denoted by Y-suffix, e.g. 42y
   short - 16bis signed, literals are denoted by S-suffix, e.g. 0x4242s
@@ -7,9 +51,9 @@
  
  Node merging:
   Extended the retype operator by the ability to merge nodes in,
-  e.g. x:T<u,v,w> creates x as a retype of u to T, with v and w merge in,
+  e.g. x:T<u,v,w> creates x as a retype of u to T, with v and w merged in,
   i.e. the edges incident to v and w are redirected to x and then the nodes are deleted
-  as T may be typeof(u) a pure merge can be achieved
+  - as T may be typeof(u) a pure merge can be achieved
   
  Edge redirection:
   Edges can be requested in the rule language rewrite part to get redirected,
