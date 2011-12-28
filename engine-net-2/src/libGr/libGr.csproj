@@ -98,6 +98,7 @@
     <Compile Include="SequenceComputation.cs" />
     <Compile Include="SequenceExecutionInterface.cs" />
     <Compile Include="SequenceExpression.cs" />
+    <Compile Include="SequenceExpressionHelper.cs" />
     <Compile Include="SequenceParser.cs" />
     <Compile Include="SequenceParserConstants.cs" />
     <Compile Include="SequenceParserExceptions.cs" />

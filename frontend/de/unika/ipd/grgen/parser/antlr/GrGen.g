@@ -1544,7 +1544,7 @@ simpleSequence[ExecNode xg]
 	// attention/todo: names are are only partly resolved!
 	// -> using not existing types, not declared names outside of the return assignment of an action call 
 	// will not be detected in the frontend; xgrs in the frontend are to a certain degree syntax only
-	: lhs=xgrsEntity[xg] (ASSIGN | GE) { xg.append('='); }
+	: lhs=xgrsEntity[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); })
 		(
 			id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
 				{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
@@ -1591,7 +1591,7 @@ seqCompoundComputation[ExecNode xg]
 	;
 
 seqComputation[ExecNode xg]
-	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN | GE) { xg.append('='); } seqExpressionOrAssign[xg]
+	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); }) seqExpressionOrAssign[xg]
 	| (xgrsEntityDecl[null,true]) => xgrsVarDecl=xgrsEntityDecl[xg, true]
 	| VFREE LPAREN { xg.append("vfree("); } seqExpression[xg] RPAREN { xg.append(")"); }
 	| VRESET LPAREN { xg.append("vreset("); } seqExpression[xg] RPAREN { xg.append(")"); }
@@ -1602,7 +1602,7 @@ seqComputation[ExecNode xg]
 	;
 
 seqExpressionOrAssign[ExecNode xg]
-	: (seqAssignTarget[null] ASSIGN) => seqAssignTarget[xg] ASSIGN { xg.append('='); } seqExpressionOrAssign[xg]
+	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); }) seqExpressionOrAssign[xg]
 	| seqExpression[xg] 
 	| VALLOC LPAREN RPAREN { xg.append("valloc()"); }
 	;
@@ -1636,7 +1636,19 @@ seqExprStrictXor[ExecNode xg]
 	;
 
 seqExprStrictAnd[ExecNode xg]
-	: seqExprNeg[xg] ( BAND {xg.append(" & ");} seqExprStrictAnd[xg] )?
+	: seqExprEquality[xg] ( BAND {xg.append(" & ");} seqExprStrictAnd[xg] )?
+	;
+
+seqExprEquality[ExecNode xg]
+	: seqExprRelation[xg] ( (EQUAL {xg.append(" == ");} | NOT_EQUAL {xg.append(" != ");}) seqExprEquality[xg] )?
+	;
+
+seqExprRelation[ExecNode xg]
+	: seqExprAdd[xg] ( (LT {xg.append(" < ");} | GT {xg.append(" > ");} | LE {xg.append(" <= ");} | GE {xg.append(" >= ");} | IN {xg.append(" in ");}) seqExprRelation[xg] )?
+	;
+
+seqExprAdd[ExecNode xg]
+	: seqExprNeg[xg] ( PLUS {xg.append(" + ");} seqExprAdd[xg] )?
 	;
 
 seqExprNeg[ExecNode xg]
@@ -1649,7 +1661,6 @@ seqExprBasic[ExecNode xg]
 	}
 	
 	: (methodCall[null]) => methodCall[xg]
-	| (constantVariableAccess[null] IN) => constantVariableAccess[xg] IN { xg.append(" in "); } xgrsVarUse[xg]
 	| (xgrsVarUse[null] DOT VISITED) => xgrsVarUse[xg] DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); }
 	| (xgrsVarUse[null] DOT IDENT) => xgrsVarUse[xg] DOT attr=IDENT { xg.append("."+attr.getText()); }
 	| (xgrsVarUse[null] LBRACK) => xgrsVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
@@ -1661,17 +1672,6 @@ seqExprBasic[ExecNode xg]
 	| a=AT LPAREN (IDENT | STRING_LITERAL) RPAREN
 		{ reportError(getCoords(a), "a NamedGraph is a GrShell-only construct -> no element names available at lgsp(libgr search plan backend)-level"); }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
-	;
-
-// expression light used at positions which would lead to left recursion otherwise
-// contains the value delivering expressions which are of interest for the left position in which it is used
-// could contain further expressions, duplicating even more grammar parts, but I don't consider these to be of importance there
-constantVariableAccess[ExecNode xg]
-	: (xgrsVarUse[null] DOT) => xgrsVarUse[xg] d=DOT attr=IDENT { xg.append("."+attr.getText()); }
-	| (xgrsVarUse[null] LBRACK) => xgrsVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
-	| xgrsConstant[xg]
-	| xgrsVarUse[xg] 
-	| a=AT LPAREN (IDENT | STRING_LITERAL) RPAREN { reportError(getCoords(a), "a NamedGraph is a GrShell-only construct -> no element names available at lgsp(libgr search plan backend)-level"); }
 	;
 
 methodCall[ExecNode xg]
@@ -1815,7 +1815,7 @@ options { k = *; }
 		id=entIdentDecl COLON MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse // map decl; special to save user from splitting map<S,T>=x to map<S,T> =x as >= is GE not GT ASSIGN
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
-			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
+			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -1832,7 +1832,7 @@ options { k = *; }
 		id=entIdentDecl COLON SET LT type=typeIdentUse // set decl; special to save user from splitting set<S>=x to set<S> =x as >= is GE not GT ASSIGN
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, SetTypeNode.getSetType(type));
-			if(emit) xg.append(id.toString()+":set<"+type.toString()+">");
+			if(emit) xg.append(id.toString()+":set<"+type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -1849,7 +1849,7 @@ options { k = *; }
 		id=entIdentDecl COLON ARRAY LT type=typeIdentUse // array decl; special to save user from splitting array<S>=x to array<S> =x as >= is GE not GT ASSIGN
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, ArrayTypeNode.getArrayType(type));
-			if(emit) xg.append(id.toString()+":array<"+type.toString()+">");
+			if(emit) xg.append(id.toString()+":array<"+type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}

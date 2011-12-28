@@ -52,7 +52,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Type check error
         /// </summary>
-        TypeMismatch
+        TypeMismatch,
+
+        /// <summary>
+        /// The operator is not available for the given types
+        /// </summary>
+        OperatorNotFound
     }
 
     /// <summary>
@@ -94,7 +99,7 @@ namespace de.unika.ipd.grGen.libGr
         // the members for a type mismatch error
 
         /// <summary>
-        /// The variable which caused the type error or the function which caused the type error
+        /// The variable which caused the type error or the function/operator which caused the type error
         /// </summary>
         public String VariableOrFunctionName;
 
@@ -107,6 +112,22 @@ namespace de.unika.ipd.grGen.libGr
         /// The given type
         /// </summary>
         public String GivenType;
+
+        /// <summary>
+        /// The left type given for the operator
+        /// </summary>
+        public String LeftType;
+
+        /// <summary>
+        /// The right type given for the operator
+        /// </summary>
+        public String RightType;
+
+        /// <summary>
+        /// The sub-expression as string for which the operator given in VariableOrFunctionName 
+        /// was not defined for the types given in LeftType and RightType
+        /// </summary>
+        public String Expression;
 
 
         /// <summary>
@@ -182,6 +203,19 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates an instance of a SequenceParserException used by the SequenceParser,
+        /// when an operator is not available for the supplied types.
+        /// </summary>
+        public SequenceParserException(String varOrFuncName, String leftType, String rightType, String expression)
+        {
+            VariableOrFunctionName = varOrFuncName;
+            LeftType = leftType;
+            RightType = rightType;
+            Expression = expression;
+            Kind = SequenceParserError.OperatorNotFound;
+        }
+
+        /// <summary>
         /// The error message of the exception.
         /// </summary>
         public override string Message
@@ -225,6 +259,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.TypeMismatch:
                     return "The construct \"" + this.VariableOrFunctionName + "\" expects:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
+
+                case SequenceParserError.OperatorNotFound:
+                    return "No operator " + this.LeftType + this.VariableOrFunctionName + this.RightType + " available (for \"" + this.Expression + "\")!";
 
                 default:
                     return "Invalid error kind: " + this.Kind;

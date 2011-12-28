@@ -458,5 +458,16 @@ namespace de.unika.ipd.grGen.libGr
         {
             return storage.Type.GetGenericArguments()[1].FullName;
         }
+
+        public static bool IsEnumType(string typename, IGraphModel model)
+        {
+            foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
+            {
+                if(enumAttrType.Name == typename)
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

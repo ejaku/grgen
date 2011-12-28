@@ -23,6 +23,8 @@ namespace de.unika.ipd.grGen.libGr
         Conditional,
         LazyOr, LazyAnd, StrictOr, StrictXor, StrictAnd,
         Not,
+        Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual,
+        Plus, // todo: all the other operators and functions/methods from the expressions - as time allows
         Constant, Variable,
         Def,
         IsVisited, 
@@ -157,6 +159,11 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpression Left;
         public SequenceExpression Right;
 
+        // statically known types of the binary expression
+        public string LeftTypeStatic;
+        public string RightTypeStatic;
+        public string BalancedTypeStatic; // the type of the operator, i.e. the common type of both operands for the operation
+
         /// <summary>
         /// Initializes a new SequenceBinaryExpression object with the given sequence expression type.
         /// </summary>
@@ -171,6 +178,19 @@ namespace de.unika.ipd.grGen.libGr
 
             this.Left = left;
             this.Right = right;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            BalancedTypeStatic = SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+            if(BalancedTypeStatic == "-")
+            {
+                throw new SequenceParserException(Operator, LeftTypeStatic, RightTypeStatic, Symbol);
+            }
         }
 
         /// <summary>
@@ -200,6 +220,18 @@ namespace de.unika.ipd.grGen.libGr
         /// Enumerates all child sequence expression objects
         /// </summary>
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Left; yield return Right; } }
+
+        /// <summary>
+        /// Returns this expression as string, in the form of left expression then operator then right expression;
+        /// same for all binary expressions
+        /// </summary>
+        public override string Symbol { get { return Left.Symbol + Operator + Right.Symbol; } }
+
+        /// <summary>
+        /// Returns the operator of this binary expression (enclosed in spaces);
+        /// abstract property, to be overwritten by concrete operator symbol
+        /// </summary>
+        public abstract string Operator { get; }
     }
 
 
@@ -271,7 +303,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 2; } }
-        public override string Symbol { get { return Left.Symbol+" || "+Right.Symbol; } }
+        public override string Operator { get { return " || "; } }
     }
 
     public class SequenceExpressionLazyAnd : SequenceBinaryExpression
@@ -287,7 +319,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 3; } }
-        public override string Symbol { get { return Left.Symbol + " && " + Right.Symbol; } }
+        public override string Operator { get { return " && "; } }
     }
 
     public class SequenceExpressionStrictOr : SequenceBinaryExpression
@@ -299,11 +331,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
         {
-            return (bool)Left.Evaluate(graph, env) || (bool)Right.Evaluate(graph, env);
+            return (bool)Left.Evaluate(graph, env) | (bool)Right.Evaluate(graph, env);
         }
 
         public override int Precedence { get { return 4; } }
-        public override string Symbol { get { return Left.Symbol + " | " + Right.Symbol; } }
+        public override string Operator { get { return " | "; } }
     }
 
     public class SequenceExpressionStrictXor : SequenceBinaryExpression
@@ -319,7 +351,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 5; } }
-        public override string Symbol { get { return Left.Symbol + " ^ " + Right.Symbol; } }
+        public override string Operator { get { return " ^ "; } }
     }
 
     public class SequenceExpressionStrictAnd : SequenceBinaryExpression
@@ -335,7 +367,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 6; } }
-        public override string Symbol { get { return Left.Symbol + " || " + Right.Symbol; } }
+        public override string Operator { get { return " & "; } }
     }
 
     public class SequenceExpressionNot : SequenceExpression
@@ -368,6 +400,288 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Operand; } }
         public override int Precedence { get { return 7; } }
         public override string Symbol { get { return "!" + Operand.Symbol; } }
+    }
+
+
+    public class SequenceExpressionEqual : SequenceBinaryExpression
+    {
+        public SequenceExpressionEqual(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.Equal, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            object leftValue = Left.Evaluate(graph, env);
+            object rightValue = Right.Evaluate(graph, env);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            if(balancedType == "")
+            {
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                if(balancedType == "-")
+                {
+                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+                }
+            }
+
+            try
+            {
+                return SequenceExpressionHelper.EqualObjects(leftValue, rightValue, balancedType, leftType, rightType);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence { get { return -1; } }
+        public override string Operator { get { return " == "; } }
+    }
+
+    public class SequenceExpressionNotEqual : SequenceBinaryExpression
+    {
+        public SequenceExpressionNotEqual(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.NotEqual, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            object leftValue = Left.Evaluate(graph, env);
+            object rightValue = Right.Evaluate(graph, env);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            if(balancedType == "")
+            {
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                if(balancedType == "-")
+                {
+                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+                }
+            }
+
+            try
+            {
+                return SequenceExpressionHelper.NotEqualObjects(leftValue, rightValue, balancedType, leftType, rightType);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence { get { return -1; } }
+        public override string Operator { get { return " != "; } }
+    }
+
+    public class SequenceExpressionLower : SequenceBinaryExpression
+    {
+        public SequenceExpressionLower(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.Lower, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            object leftValue = Left.Evaluate(graph, env);
+            object rightValue = Right.Evaluate(graph, env);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            if(balancedType == "")
+            {
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                if(balancedType == "-")
+                {
+                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+                }
+            }
+
+            try
+            {
+                return SequenceExpressionHelper.LowerObjects(leftValue, rightValue, balancedType, leftType, rightType);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence { get { return -1; } }
+        public override string Operator { get { return " < "; } }
+    }
+
+    public class SequenceExpressionLowerEqual : SequenceBinaryExpression
+    {
+        public SequenceExpressionLowerEqual(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.LowerEqual, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            object leftValue = Left.Evaluate(graph, env);
+            object rightValue = Right.Evaluate(graph, env);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            if(balancedType == "")
+            {
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                if(balancedType == "-")
+                {
+                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+                }
+            }
+
+            try
+            {
+                return SequenceExpressionHelper.LowerEqualObjects(leftValue, rightValue, balancedType, leftType, rightType);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence { get { return -1; } }
+        public override string Operator { get { return " <= "; } }
+    }
+
+    public class SequenceExpressionGreater : SequenceBinaryExpression
+    {
+        public SequenceExpressionGreater(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.Greater, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            object leftValue = Left.Evaluate(graph, env);
+            object rightValue = Right.Evaluate(graph, env);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            if(balancedType == "")
+            {
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                if(balancedType == "-")
+                {
+                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+                }
+            }
+
+            try
+            {
+                return SequenceExpressionHelper.GreaterObjects(leftValue, rightValue, balancedType, leftType, rightType);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence { get { return -1; } }
+        public override string Operator { get { return " > "; } }
+    }
+
+    public class SequenceExpressionGreaterEqual : SequenceBinaryExpression
+    {
+        public SequenceExpressionGreaterEqual(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.GreaterEqual, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            object leftValue = Left.Evaluate(graph, env);
+            object rightValue = Right.Evaluate(graph, env);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            if(balancedType == "")
+            {
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                if(balancedType == "-")
+                {
+                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+                }
+            }
+
+            try
+            {
+                return SequenceExpressionHelper.GreaterEqualObjects(leftValue, rightValue, balancedType, leftType, rightType);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence { get { return -1; } }
+        public override string Operator { get { return " >= "; } }
+    }
+
+
+    public class SequenceExpressionPlus : SequenceBinaryExpression
+    {
+        public SequenceExpressionPlus(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.Plus, left, right)
+        {
+        }
+
+        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            object leftValue = Left.Evaluate(graph, env);
+            object rightValue = Right.Evaluate(graph, env);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            if(balancedType == "")
+            {
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                if(balancedType == "-")
+                {
+                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+                }
+            }
+
+            try
+            {
+                return SequenceExpressionHelper.PlusObjects(leftValue, rightValue, balancedType, leftType, rightType, graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence { get { return -1; } }
+        public override string Operator { get { return " + "; } }
     }
 
 
@@ -572,9 +886,9 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionInContainer : SequenceExpression
     {
         public SequenceExpression Expr;
-        public SequenceVariable Container;
+        public SequenceExpression Container;
 
-        public SequenceExpressionInContainer(SequenceExpression expr, SequenceVariable container)
+        public SequenceExpressionInContainer(SequenceExpression expr, SequenceExpression container)
             : base(SequenceExpressionType.InContainer)
         {
             Expr = expr;
@@ -583,37 +897,38 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            if(Container.Type == "") 
+            if(Container.Type(env) == "") 
                 return; // we can't check further types if the variable is untyped, only runtime-check possible
 
-            if(!Container.Type.StartsWith("set<") && !Container.Type.StartsWith("map<") && !Container.Type.StartsWith("array<"))
+            if(!Container.Type(env).StartsWith("set<") && !Container.Type(env).StartsWith("map<") && !Container.Type(env).StartsWith("array<"))
             {
-                throw new SequenceParserException(Container.Name, "set or map or array type", Container.Type);
+                throw new SequenceParserException(Container.Symbol, "set or map or array type", Container.Type(env));
             }
-            if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(Container.Type), env.Model))
+            if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(Container.Type(env)), env.Model))
             {
-                throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(Container.Type), Expr.Type(env));
+                throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(Container.Type(env)), Expr.Type(env));
             }
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceExpressionInContainer copy = (SequenceExpressionInContainer)MemberwiseClone();
-            copy.Container = Container.Copy(originalToCopy);
+            copy.Container = Container.CopyExpression(originalToCopy);
             copy.Expr = Expr.CopyExpression(originalToCopy);
             return copy;
         }
 
         public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Container.GetVariableValue(graph) is IList)
+            object container = Container.Evaluate(graph, env);
+            if(container is IList)
             {
-                IList array = (IList)Container.GetVariableValue(graph);
+                IList array = (IList)container;
                 return array.Contains(Expr.Evaluate(graph, env));
             }
             else
             {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                IDictionary setmap = (IDictionary)container;
                 return setmap.Contains(Expr.Evaluate(graph, env));
             }
         }
@@ -626,7 +941,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Expr.Symbol + " in " + Container.Name; } }
+        public override string Symbol { get { return Expr.Symbol + " in " + Container.Symbol; } }
     }
 
     public class SequenceExpressionContainerSize : SequenceExpressionContainer

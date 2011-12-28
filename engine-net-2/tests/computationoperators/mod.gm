@@ -1,0 +1,6 @@
+enum Foo
+{
+	Bla,
+	Bar,
+	Blubb
+}

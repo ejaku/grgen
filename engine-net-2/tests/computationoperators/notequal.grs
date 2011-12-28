@@ -1,0 +1,117 @@
+new graph computationoperators/computationoperators
+
+exec ::r=({true != true})
+show var r
+exec ::r=({true != false})
+show var r
+exec ::r=({false != true})
+show var r
+exec ::r=({false != false})
+show var r
+
+exec ::r=({"a" != "a"})
+show var r
+exec ::r=({"a" != "b"})
+show var r
+exec ::r=({"b" != "a"})
+show var r
+exec ::r=({"b" != "b"})
+show var r
+
+exec ::r=({Foo::Bar != Foo::Bar})
+show var r
+exec ::r=({Foo::Bar != Foo::Bla})
+show var r
+exec ::r=({Foo::Bla != Foo::Bar})
+show var r
+exec ::r=({Foo::Bla != Foo::Bla})
+show var r
+
+exec ::r=({1Y != 1Y})
+show var r
+exec ::r=({1Y != 0})
+show var r
+exec ::r=({0 != 1Y})
+show var r
+exec ::r=({0 != 0})
+show var r
+
+exec ::r=({1S != 1S})
+show var r
+exec ::r=({1S != 0S})
+show var r
+exec ::r=({0S != 1S})
+show var r
+exec ::r=({0S != 0S})
+show var r
+
+exec ::r=({1 != 1})
+show var r
+exec ::r=({1 != 0})
+show var r
+exec ::r=({0 != 1})
+show var r
+exec ::r=({0 != 0})
+show var r
+
+exec ::r=({1L != 1L})
+show var r
+exec ::r=({1L != 0})
+show var r
+exec ::r=({0 != 1L})
+show var r
+exec ::r=({0 != 0})
+show var r
+
+exec ::r=({1.0f != 1.0f})
+show var r
+exec ::r=({1.0f != 0.0})
+show var r
+exec ::r=({0.0 != 1.0f})
+show var r
+exec ::r=({0.0 != 0.0})
+show var r
+
+exec ::r=({1.0 != 1.0})
+show var r
+exec ::r=({1.0 != 0.0})
+show var r
+exec ::r=({0.0 != 1.0})
+show var r
+exec ::r=({0.0 != 0.0})
+show var r
+
+exec ::s1=set<string>{} ;> {::s1.add("foo")} ;> ::s2=set<string>{}
+exec ::r=({::s1 != ::s1})
+show var r
+exec ::r=({::s1 != ::s2})
+show var r
+exec ::r=({::s2 != ::s1})
+show var r
+exec ::r=({::s2 != ::s2})
+show var r
+
+exec ::m1=map<int,double>{} ;> {::m1.add(42,3.141592654)} ;> ::m2=map<int,double>{}
+exec ::r=({::m1 != ::m1})
+show var r
+exec ::r=({::m1 != ::m2})
+show var r
+exec ::r=({::m2 != ::m1})
+show var r
+exec ::r=({::m2 != ::m2})
+show var r
+
+exec ::a1=array<boolean>[] ;> {::a1.add(true).add(false)} ;> ::a2=array<boolean>[]
+exec ::r=({::a1 != ::a1})
+show var r
+exec ::r=({::a1 != ::a2})
+show var r
+exec ::r=({::a2 != ::a1})
+show var r
+exec ::r=({::a2 != ::a2})
+show var r
+
+exec ::r=({null != null})
+show var r
+
+quit

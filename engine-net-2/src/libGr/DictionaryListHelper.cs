@@ -757,6 +757,20 @@ namespace de.unika.ipd.grGen.libGr
             return newList;
         }
 
+        public static IList ConcatenateIList(IList a, IList b)
+        {
+            // create new list as a copy of a
+            IList newList = (IList)Activator.CreateInstance(a.GetType(), a);
+
+            // then append b
+            foreach(object elem in b)
+            {
+                newList.Add(elem);
+            }
+
+            return newList;
+        }
+
         /// <summary>
         /// Appends all values from dynamic array <paramref name="b"/> to <paramref name="a"/>.
         /// </summary>
@@ -888,6 +902,20 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Checks if set/map <paramref name="a"/> equals set/map <paramref name="b"/>.
+        /// For a map, key and value must be same to be equal.
+        /// </summary>
+        /// <param name="a">A dictionary.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of set/map comparison.</returns>
+        public static bool EqualIDictionary(IDictionary a, IDictionary b)
+        {
+            if(a.Count != b.Count) return false;
+            if(LessOrEqualIDictionary(a, b) && LessOrEqualIDictionary(b, a)) return true;
+            else return false;
+        }
+
+        /// <summary>
         /// Checks if set/map <paramref name="a"/> is not equal to set/map <paramref name="b"/>.
         /// For a map, key and value must be same to be equal.
         /// </summary>
@@ -898,6 +926,13 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(a.Count!=b.Count) return true;
             if(LessOrEqual(a, b) && LessOrEqual(b, a)) return false;
+            else return true;
+        }
+
+        public static bool NotEqualIDictionary(IDictionary a, IDictionary b)
+        {
+            if(a.Count != b.Count) return true;
+            if(LessOrEqualIDictionary(a, b) && LessOrEqualIDictionary(b, a)) return false;
             else return true;
         }
 
@@ -914,6 +949,12 @@ namespace de.unika.ipd.grGen.libGr
             else return false;
         }
 
+        public static bool GreaterThanIDictionary(IDictionary a, IDictionary b)
+        {
+            if(GreaterOrEqualIDictionary(a, b)) return b.Count != a.Count;
+            else return false;
+        }
+
         /// <summary>
         /// Checks if set/map <paramref name="a"/> is a superset/map of <paramref name="b"/>.
         /// For a map, key and value must be same to be equal.
@@ -926,6 +967,11 @@ namespace de.unika.ipd.grGen.libGr
             return LessOrEqual(b, a);
         }
 
+        public static bool GreaterOrEqualIDictionary(IDictionary a, IDictionary b)
+        {
+            return LessOrEqualIDictionary(b, a);
+        }
+
         /// <summary>
         /// Checks if set/map <paramref name="a"/> is a proper subset/map of <paramref name="b"/>.
         /// For a map, key and value must be same to be equal.
@@ -936,6 +982,12 @@ namespace de.unika.ipd.grGen.libGr
         public static bool LessThan<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             if(LessOrEqual(a, b)) return a.Count!=b.Count;
+            else return false;
+        }
+
+        public static bool LessThanIDictionary(IDictionary a, IDictionary b)
+        {
+            if(LessOrEqualIDictionary(a, b)) return a.Count != b.Count;
             else return false;
         }
 
@@ -960,7 +1012,30 @@ namespace de.unika.ipd.grGen.libGr
                 foreach(KeyValuePair<K, V> entry in a)
                 {
                     if(!b.ContainsKey(entry.Key)) return false;
-                    if(!entry.Value.Equals(b[entry.Key])) return false;
+                    if(entry.Value!=null ? !entry.Value.Equals(b[entry.Key]) : b[entry.Key]!=null) return false;
+                }
+            }
+            return true;
+        }
+
+        public static bool LessOrEqualIDictionary(IDictionary a, IDictionary b)
+        {
+            Type keyType;
+            Type valueType;
+            DictionaryListHelper.GetDictionaryTypes(a, out keyType, out valueType);
+            if(valueType.Name == "SetValueType")
+            {
+                foreach(DictionaryEntry entry in a)
+                {
+                    if(!b.Contains(entry.Key)) return false;
+                }
+            }
+            else
+            {
+                foreach(DictionaryEntry entry in a)
+                {
+                    if(!b.Contains(entry.Key)) return false;
+                    if(entry.Value != null ? !entry.Value.Equals(b[entry.Key]) : b[entry.Key] != null) return false;
                 }
             }
             return true;
@@ -980,6 +1055,13 @@ namespace de.unika.ipd.grGen.libGr
             else return false;
         }
 
+        public static bool EqualIList(IList a, IList b)
+        {
+            if(a.Count != b.Count) return false;
+            if(LessOrEqualIList(a, b)) return true;
+            else return false;
+        }
+
         /// <summary>
         /// Checks if List <paramref name="a"/> is not equal List <paramref name="b"/>.
         /// </summary>
@@ -990,6 +1072,13 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(a.Count != b.Count) return true;
             if(LessOrEqual(a, b)) return false;
+            else return true;
+        }
+
+        public static bool NotEqualIList(IList a, IList b)
+        {
+            if(a.Count != b.Count) return true;
+            if(LessOrEqualIList(a, b)) return false;
             else return true;
         }
 
@@ -1006,6 +1095,12 @@ namespace de.unika.ipd.grGen.libGr
             return GreaterOrEqual(a, b);
         }
 
+        public static bool GreaterThanIList(IList a, IList b)
+        {
+            if(a.Count == b.Count) return false;
+            return GreaterOrEqualIList(a, b);
+        }
+
         /// <summary>
         /// Checks if List <paramref name="a"/> is a superlist of <paramref name="b"/>.
         /// Requires a to contain more or same number of entries than b and same values at same index for being true.
@@ -1016,6 +1111,11 @@ namespace de.unika.ipd.grGen.libGr
         public static bool GreaterOrEqual<V>(List<V> a, List<V> b)
         {
             return LessOrEqual(b, a);
+        }
+
+        public static bool GreaterOrEqualIList(IList a, IList b)
+        {
+            return LessOrEqualIList(b, a);
         }
 
         /// <summary>
@@ -1031,6 +1131,12 @@ namespace de.unika.ipd.grGen.libGr
             return LessOrEqual(a, b);
         }
 
+        public static bool LessThanIList(IList a, IList b)
+        {
+            if(a.Count == b.Count) return false;
+            return LessOrEqualIList(a, b);
+        }
+
         /// <summary>
         /// Checks if List <paramref name="a"/> is a sublist of <paramref name="b"/>.
         /// Requires a to contain less or same number of entries than b and same values at same index for being true.
@@ -1044,6 +1150,16 @@ namespace de.unika.ipd.grGen.libGr
             for(int i=0; i<a.Count; ++i)
             {
                 if(!EqualityComparer<V>.Default.Equals(a[i], b[i])) return false;
+            }
+            return true;
+        }
+
+        public static bool LessOrEqualIList(IList a, IList b)
+        {
+            if(a.Count > b.Count) return false;
+            for(int i = 0; i < a.Count; ++i)
+            {
+                if(!Equals(a[i], b[i])) return false;
             }
             return true;
         }

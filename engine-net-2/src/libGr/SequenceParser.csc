@@ -148,6 +148,10 @@ TOKEN: {
 |   < DOUBLEPIPE: "||" >
 |	< PIPE: "|" >
 |   < CIRCUMFLEX: "^" >
+|   < EQUALITY: "==" >
+|   < INEQUALITY: "!=" >
+|   < LOWEREQUAL: "<=" >
+|   < GREATEREQUAL: ">=" >
 |	< STAR: "*" >
 |	< PLUS: "+" >
 |	< EXCLAMATIONMARK: "!" >
@@ -558,14 +562,21 @@ String Type():
 	String type;
 	String typeParam, typeParamDst;
 }
-{
+{ 
 	(type=Word()
-		| "set" "<" typeParam=Word() ">" { type = "set<"+typeParam+">"; }
-			("{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
-		| "map" "<" typeParam=Word() "," typeParamDst=Word() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
-			("{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
-		| "array" "<" typeParam=Word() ">" { type = "array<"+typeParam+">"; }
-			(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
+	| LOOKAHEAD("set" "<" Word() ">") "set" "<" typeParam=Word() ">" { type = "set<"+typeParam+">"; }
+		("{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
+	| LOOKAHEAD("map" "<" Word() "," Word() ">") "map" "<" typeParam=Word() "," typeParamDst=Word() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
+		("{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
+	| LOOKAHEAD("array" "<" Word() ">") "array" "<" typeParam=Word() ">" { type = "array<"+typeParam+">"; }
+		(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
+	// for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
+	| LOOKAHEAD("set" "<" Word() ">=") "set" "<" typeParam=Word() { type = "set<"+typeParam+">"; }
+		("{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
+	| LOOKAHEAD("map" "<" Word() "," Word() ">=") "map" "<" typeParam=Word() "," typeParamDst=Word() { type = "map<"+typeParam+","+typeParamDst+">"; }
+		("{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
+	| LOOKAHEAD("array" "<" Word() ">=") "array" "<" typeParam=Word() { type = "array<"+typeParam+">"; }
+		(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
 	)
 	{
 		return type;
@@ -814,8 +825,8 @@ Sequence SimpleSequence():
 	object constant;
 }
 {
-	LOOKAHEAD(Variable() "=")
-	toVar=Variable() "="
+	LOOKAHEAD(Variable() ("="|">="))
+	toVar=Variable() ("="|">=")
     (
 		LOOKAHEAD(Word() "(")
 		Word() "(" // deliver understandable error message for case of missing parenthesis at rule result assignment
@@ -979,6 +990,15 @@ SequenceComputation Computation():
 	String attrName, method, elemName;
 }
 {
+	// this is a special case of the special case solution to accept e.g. s:set<int>= as s:set<int> = and not s:set<int >= which is what the lexer gives
+	// it is not correct, I just assume that one doesn't want to compare a just defined but not assigned variable to something, 
+	// so it's pretty safe to assume it's a set/map/array declaration with the ">=" != ">""=" issue
+	LOOKAHEAD(VariableDefinition() ">=")
+	toVar=VariableDefinition() ">=" assignOrExpr=ExpressionOrAssignment()
+	{
+		return new SequenceComputationAssignment(new AssignmentTargetVar(toVar), assignOrExpr);
+	}
+|
 	LOOKAHEAD(AssignmentTarget() "=")
 	tgt=AssignmentTarget() "=" assignOrExpr=ExpressionOrAssignment()
 	{
@@ -1064,9 +1084,17 @@ SequenceComputation ExpressionOrAssignment():
 	SequenceExpression expr;
 	SequenceComputation assignOrExpr;
 	AssignmentTarget tgt;
+	SequenceVariable toVar;
 }
 {
 	(
+		// special case handling for ">=" != ">""="
+		LOOKAHEAD(VariableDefinition() ">=")
+		toVar=VariableDefinition() ">=" assignOrExpr=ExpressionOrAssignment()
+		{
+			return new SequenceComputationAssignment(new AssignmentTargetVar(toVar), assignOrExpr);
+		}
+	|
 		LOOKAHEAD(AssignmentTarget() "=")
 		tgt=AssignmentTarget() "=" assignOrExpr=ExpressionOrAssignment()
 		{
@@ -1130,7 +1158,40 @@ SequenceExpression ExpressionStrictAnd():
 	SequenceExpression seq, seq2;
 }
 {
-	seq=ExpressionNot() ( "&" seq2=ExpressionNot() { seq = new SequenceExpressionStrictAnd(seq, seq2); } )* { return seq; }
+	seq=ExpressionEquality() ( "&" seq2=ExpressionEquality() { seq = new SequenceExpressionStrictAnd(seq, seq2); } )* { return seq; }
+}
+
+SequenceExpression ExpressionEquality():
+{
+	SequenceExpression seq, seq2;
+}
+{
+	seq=ExpressionRelation() ( "==" seq2=ExpressionRelation() { seq = new SequenceExpressionEqual(seq, seq2); } 
+							 | "!=" seq2=ExpressionRelation() { seq = new SequenceExpressionNotEqual(seq, seq2); }
+							 )*
+	{ return seq; }
+}
+
+SequenceExpression ExpressionRelation():
+{
+	SequenceExpression seq, seq2;
+}
+{
+	seq=ExpressionAdd() ( "<" seq2=ExpressionAdd() { seq = new SequenceExpressionLower(seq, seq2); }
+						| ">" seq2=ExpressionAdd() { seq = new SequenceExpressionGreater(seq, seq2); }
+						| "<=" seq2=ExpressionAdd() { seq = new SequenceExpressionLowerEqual(seq, seq2); }
+						| ">=" seq2=ExpressionAdd() { seq = new SequenceExpressionGreaterEqual(seq, seq2); }
+						| "in" seq2=ExpressionAdd() { seq = new SequenceExpressionInContainer(seq, seq2); }
+						)* 
+	{ return seq; }
+}
+
+SequenceExpression ExpressionAdd():
+{
+	SequenceExpression seq, seq2;
+}
+{
+	seq=ExpressionNot() ( "+" seq2=ExpressionNot() { seq = new SequenceExpressionPlus(seq, seq2); } )* { return seq; }
 }
 
 SequenceExpression ExpressionNot():
@@ -1160,12 +1221,6 @@ SequenceExpression ExpressionBasic():
 			return (SequenceExpression)comp;
 		else
 			throw new ParseException("expression method call expected, not the compution method call with side effects: "+comp.Symbol);
-	}
-|
-	LOOKAHEAD(ConstantVariableAccess() "in")
-	expr=ConstantVariableAccess() "in" fromVar=VariableUse()
-	{
-		return new SequenceExpressionInContainer(expr, fromVar);
 	}
 |
 	LOOKAHEAD(VariableUse() "." "visited")
@@ -1210,46 +1265,6 @@ SequenceExpression ExpressionBasic():
 	"(" expr=Expression() ")"
 	{
 		return expr;
-	}
-}
-
-// expression light used at positions which would lead to left recursion otherwise
-// contains the value delivering expressions which are of interest for the left position in which it is used
-// could contain further expressions, duplicating even more grammar parts, but I don't consider these to be of importance there
-SequenceExpression ConstantVariableAccess():
-{
-	SequenceVariable fromVar;
-	SequenceExpression fromExpr;
-	String attrName, elemName;
-	object constant;
-}
-{
-	LOOKAHEAD(VariableUse() ".")
-	fromVar=VariableUse() "." attrName=Word()
-	{
-		return new SequenceExpressionAttribute(fromVar, attrName);
-	}
-|
-	LOOKAHEAD(VariableUse() "[")
-	fromVar=VariableUse() "[" fromExpr=Expression() "]"
-	{
-		return new SequenceExpressionContainerAccess(fromVar, fromExpr);
-	}
-|
-	LOOKAHEAD(2)
-	constant=Constant()
-	{
-		return new SequenceExpressionConstant(constant);
-	}
-|
-	fromVar=VariableUse()
-	{
-		return new SequenceExpressionVariable(fromVar);
-	}
-|
-	"@" "(" elemName=Text() ")"
-	{
-		return new SequenceExpressionElementFromGraph(elemName);
 	}
 }
 
