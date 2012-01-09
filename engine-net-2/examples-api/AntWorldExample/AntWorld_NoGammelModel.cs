@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sat Jun 25 14:38:13 CEST 2011
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Jan 08 18:57:16 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@Node node;
 			if(poolLevel == 0)
@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set/array creation of Node
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -90,12 +90,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -189,7 +189,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@GridNode CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@GridNode CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@GridNode node;
 			if(poolLevel == 0)
@@ -205,7 +205,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				node.@pheromones = 0;
 				// explicit initializations of GridNode for target GridNode
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -237,7 +237,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				case "pheromones": return this.@pheromones;
 			}
 			throw new NullReferenceException(
-				"The node type \"GridNode\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"GridNode\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -247,7 +247,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				case "pheromones": this.@pheromones = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"GridNode\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"GridNode\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -380,7 +380,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@GridCornerNode CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@GridCornerNode CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@GridCornerNode node;
 			if(poolLevel == 0)
@@ -397,7 +397,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				// explicit initializations of GridNode for target GridCornerNode
 				// explicit initializations of GridCornerNode for target GridCornerNode
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -429,7 +429,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				case "pheromones": return this.@pheromones;
 			}
 			throw new NullReferenceException(
-				"The node type \"GridCornerNode\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"GridCornerNode\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -439,7 +439,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				case "pheromones": this.@pheromones = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"GridCornerNode\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"GridCornerNode\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -581,7 +581,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@AntHill CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@AntHill CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@AntHill node;
 			if(poolLevel == 0)
@@ -600,7 +600,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				// explicit initializations of AntHill for target AntHill
 				node.@foodCountdown = 10;
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -640,7 +640,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				case "foodCountdown": return this.@foodCountdown;
 			}
 			throw new NullReferenceException(
-				"The node type \"AntHill\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"AntHill\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -651,7 +651,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				case "foodCountdown": this.@foodCountdown = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"AntHill\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"AntHill\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -790,7 +790,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@Ant CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@Ant CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@Ant node;
 			if(poolLevel == 0)
@@ -805,7 +805,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				node.@hasFood = false;
 				// explicit initializations of Ant for target Ant
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -829,7 +829,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				case "hasFood": return this.@hasFood;
 			}
 			throw new NullReferenceException(
-				"The node type \"Ant\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Ant\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -838,7 +838,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				case "hasFood": this.@hasFood = (bool) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"Ant\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Ant\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1117,7 +1117,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@Edge edge;
 			if(poolLevel == 0)
@@ -1130,7 +1130,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				edge.lgspTarget = target;
 				// implicit initialization, map/set/array creation of Edge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1143,12 +1143,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1233,7 +1233,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@UEdge edge;
 			if(poolLevel == 0)
@@ -1246,7 +1246,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				edge.lgspTarget = target;
 				// implicit initialization, map/set/array creation of UEdge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1259,12 +1259,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1356,7 +1356,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@GridEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@GridEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@GridEdge edge;
 			if(poolLevel == 0)
@@ -1370,7 +1370,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				// implicit initialization, map/set/array creation of GridEdge
 				// explicit initializations of GridEdge for target GridEdge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1383,12 +1383,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"GridEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"GridEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"GridEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"GridEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1485,7 +1485,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@PathToHill CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@PathToHill CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@PathToHill edge;
 			if(poolLevel == 0)
@@ -1500,7 +1500,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				// explicit initializations of GridEdge for target PathToHill
 				// explicit initializations of PathToHill for target PathToHill
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1513,12 +1513,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"PathToHill\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"PathToHill\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"PathToHill\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"PathToHill\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1612,7 +1612,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@AntPosition CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@AntPosition CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@AntPosition edge;
 			if(poolLevel == 0)
@@ -1626,7 +1626,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				// implicit initialization, map/set/array creation of AntPosition
 				// explicit initializations of AntPosition for target AntPosition
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1639,12 +1639,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"AntPosition\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"AntPosition\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"AntPosition\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"AntPosition\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1737,7 +1737,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@NextAnt CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@NextAnt CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@NextAnt edge;
 			if(poolLevel == 0)
@@ -1751,7 +1751,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 				// implicit initialization, map/set/array creation of NextAnt
 				// explicit initializations of NextAnt for target NextAnt
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1764,12 +1764,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"NextAnt\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"NextAnt\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"NextAnt\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"NextAnt\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -2008,19 +2008,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return GRGEN_MODEL.@Node.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@Node CreateNodeNode(string varName)
-		{
-			return GRGEN_MODEL.@Node.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@GridNode CreateNodeGridNode()
 		{
 			return GRGEN_MODEL.@GridNode.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@GridNode CreateNodeGridNode(string varName)
-		{
-			return GRGEN_MODEL.@GridNode.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@GridCornerNode CreateNodeGridCornerNode()
@@ -2028,19 +2018,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return GRGEN_MODEL.@GridCornerNode.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@GridCornerNode CreateNodeGridCornerNode(string varName)
-		{
-			return GRGEN_MODEL.@GridCornerNode.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@AntHill CreateNodeAntHill()
 		{
 			return GRGEN_MODEL.@AntHill.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@AntHill CreateNodeAntHill(string varName)
-		{
-			return GRGEN_MODEL.@AntHill.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@Ant CreateNodeAnt()
@@ -2048,19 +2028,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return GRGEN_MODEL.@Ant.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@Ant CreateNodeAnt(string varName)
-		{
-			return GRGEN_MODEL.@Ant.CreateNode(this, varName);
-		}
-
 		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2068,19 +2038,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, varName);
-		}
-
 		public @GRGEN_MODEL.@GridEdge CreateEdgeGridEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@GridEdge.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@GridEdge CreateEdgeGridEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@GridEdge.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@PathToHill CreateEdgePathToHill(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2088,19 +2048,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return @GRGEN_MODEL.@PathToHill.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@PathToHill CreateEdgePathToHill(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@PathToHill.CreateEdge(this, source, target, varName);
-		}
-
 		public @GRGEN_MODEL.@AntPosition CreateEdgeAntPosition(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@AntPosition.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@AntPosition CreateEdgeAntPosition(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@AntPosition.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@NextAnt CreateEdgeNextAnt(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2108,9 +2058,140 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return @GRGEN_MODEL.@NextAnt.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@NextAnt CreateEdgeNextAnt(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		private AntWorld_NoGammelNodeModel nodeModel = new AntWorld_NoGammelNodeModel();
+		private AntWorld_NoGammelEdgeModel edgeModel = new AntWorld_NoGammelEdgeModel();
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_GridEdge.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, 1, 1, 1, 1, false),
+		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+
+		public string ModelName { get { return "AntWorld_NoGammel"; } }
+		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
+		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public string MD5Hash { get { return "5efeccfb37eb4c2835fae110fe22d2e7"; } }
+	}
+
+	//
+	// INamedGraph/IGraphModel implementation
+	//
+	public class AntWorld_NoGammelNamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel
+	{
+		public AntWorld_NoGammelNamedGraph() : base(GetNextGraphName())
 		{
-			return @GRGEN_MODEL.@NextAnt.CreateEdge(this, source, target, varName);
+			InitializeGraph(this);
+		}
+
+		public GRGEN_MODEL.@Node CreateNodeNode()
+		{
+			return GRGEN_MODEL.@Node.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@Node CreateNodeNode(string nodeName)
+		{
+			return GRGEN_MODEL.@Node.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@GridNode CreateNodeGridNode()
+		{
+			return GRGEN_MODEL.@GridNode.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@GridNode CreateNodeGridNode(string nodeName)
+		{
+			return GRGEN_MODEL.@GridNode.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@GridCornerNode CreateNodeGridCornerNode()
+		{
+			return GRGEN_MODEL.@GridCornerNode.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@GridCornerNode CreateNodeGridCornerNode(string nodeName)
+		{
+			return GRGEN_MODEL.@GridCornerNode.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@AntHill CreateNodeAntHill()
+		{
+			return GRGEN_MODEL.@AntHill.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@AntHill CreateNodeAntHill(string nodeName)
+		{
+			return GRGEN_MODEL.@AntHill.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@Ant CreateNodeAnt()
+		{
+			return GRGEN_MODEL.@Ant.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@Ant CreateNodeAnt(string nodeName)
+		{
+			return GRGEN_MODEL.@Ant.CreateNode(this, nodeName);
+		}
+
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@GridEdge CreateEdgeGridEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@GridEdge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@GridEdge CreateEdgeGridEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@GridEdge.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@PathToHill CreateEdgePathToHill(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@PathToHill.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@PathToHill CreateEdgePathToHill(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@PathToHill.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@AntPosition CreateEdgeAntPosition(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@AntPosition.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@AntPosition CreateEdgeAntPosition(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@AntPosition.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@NextAnt CreateEdgeNextAnt(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@NextAnt.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@NextAnt CreateEdgeNextAnt(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@NextAnt.CreateEdge(this, source, target, edgeName);
 		}
 
 		private AntWorld_NoGammelNodeModel nodeModel = new AntWorld_NoGammelNodeModel();

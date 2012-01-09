@@ -12,9 +12,12 @@ class HelloMutex
 {
     static void Main(string[] args)
     {
-        LGSPGraph graph;
+        LGSPNamedGraph graph;
         LGSPActions actions;
-        new LGSPBackend().CreateFromSpec("Mutex.grg", out graph, out actions);
+
+        new LGSPBackend().CreateNamedFromSpec("Mutex.grg", out graph, out actions);
+
+        LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
         NodeType processType = graph.GetNodeType("Process");
         EdgeType nextType = graph.GetEdgeType("next");
@@ -24,7 +27,7 @@ class HelloMutex
         graph.AddEdge(nextType, p1, p2);
         graph.AddEdge(nextType, p2, p1);
 
-        actions.ApplyGraphRewriteSequence("newRule[3] && mountRule && requestRule[5] "
+        procEnv.ApplyGraphRewriteSequence("newRule[3] && mountRule && requestRule[5] "
             + "&& (takeRule && releaseRule && giveRule)*");
 
         using(VCGDumper dumper = new VCGDumper("HelloMutex.vcg"))

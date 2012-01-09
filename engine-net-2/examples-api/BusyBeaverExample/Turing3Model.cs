@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sat Jun 25 14:38:18 CEST 2011
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jan 08 18:57:20 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return node;
 		}
 
-		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@Node node;
 			if(poolLevel == 0)
@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set/array creation of Node
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -90,12 +90,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -186,7 +186,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return node;
 		}
 
-		public static GRGEN_MODEL.@BandPosition CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@BandPosition CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@BandPosition node;
 			if(poolLevel == 0)
@@ -201,7 +201,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.@value = 0;
 				// explicit initializations of BandPosition for target BandPosition
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -225,7 +225,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				case "value": return this.@value;
 			}
 			throw new NullReferenceException(
-				"The node type \"BandPosition\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"BandPosition\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -234,7 +234,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				case "value": this.@value = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"BandPosition\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"BandPosition\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -351,7 +351,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return node;
 		}
 
-		public static GRGEN_MODEL.@State CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@State CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@State node;
 			if(poolLevel == 0)
@@ -365,7 +365,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				// implicit initialization, map/set/array creation of State
 				// explicit initializations of State for target State
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -378,12 +378,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"State\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"State\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"State\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"State\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -475,7 +475,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return node;
 		}
 
-		public static GRGEN_MODEL.@WriteValue CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@WriteValue CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@WriteValue node;
 			if(poolLevel == 0)
@@ -490,7 +490,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.@value = 0;
 				// explicit initializations of WriteValue for target WriteValue
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -514,7 +514,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				case "value": return this.@value;
 			}
 			throw new NullReferenceException(
-				"The node type \"WriteValue\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"WriteValue\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -523,7 +523,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				case "value": this.@value = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"WriteValue\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"WriteValue\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -779,7 +779,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@Edge edge;
 			if(poolLevel == 0)
@@ -792,7 +792,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspTarget = target;
 				// implicit initialization, map/set/array creation of Edge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -805,12 +805,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -895,7 +895,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@UEdge edge;
 			if(poolLevel == 0)
@@ -908,7 +908,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspTarget = target;
 				// implicit initialization, map/set/array creation of UEdge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -921,12 +921,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1018,7 +1018,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@right CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@right CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@right edge;
 			if(poolLevel == 0)
@@ -1032,7 +1032,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				// implicit initialization, map/set/array creation of right
 				// explicit initializations of right for target right
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1045,12 +1045,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"right\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"right\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"right\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"right\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1143,7 +1143,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@readZero CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@readZero CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@readZero edge;
 			if(poolLevel == 0)
@@ -1157,7 +1157,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				// implicit initialization, map/set/array creation of readZero
 				// explicit initializations of readZero for target readZero
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1170,12 +1170,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"readZero\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"readZero\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"readZero\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"readZero\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1268,7 +1268,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@readOne CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@readOne CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@readOne edge;
 			if(poolLevel == 0)
@@ -1282,7 +1282,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				// implicit initialization, map/set/array creation of readOne
 				// explicit initializations of readOne for target readOne
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1295,12 +1295,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"readOne\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"readOne\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"readOne\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"readOne\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1393,7 +1393,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@moveLeft CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@moveLeft CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@moveLeft edge;
 			if(poolLevel == 0)
@@ -1407,7 +1407,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				// implicit initialization, map/set/array creation of moveLeft
 				// explicit initializations of moveLeft for target moveLeft
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1420,12 +1420,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"moveLeft\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"moveLeft\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"moveLeft\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"moveLeft\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1518,7 +1518,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@moveRight CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@moveRight CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@moveRight edge;
 			if(poolLevel == 0)
@@ -1532,7 +1532,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				// implicit initialization, map/set/array creation of moveRight
 				// explicit initializations of moveRight for target moveRight
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1545,12 +1545,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"moveRight\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"moveRight\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"moveRight\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"moveRight\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1806,19 +1806,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return GRGEN_MODEL.@Node.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@Node CreateNodeNode(string varName)
-		{
-			return GRGEN_MODEL.@Node.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@BandPosition CreateNodeBandPosition()
 		{
 			return GRGEN_MODEL.@BandPosition.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@BandPosition CreateNodeBandPosition(string varName)
-		{
-			return GRGEN_MODEL.@BandPosition.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@State CreateNodeState()
@@ -1826,19 +1816,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return GRGEN_MODEL.@State.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@State CreateNodeState(string varName)
-		{
-			return GRGEN_MODEL.@State.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@WriteValue CreateNodeWriteValue()
 		{
 			return GRGEN_MODEL.@WriteValue.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@WriteValue CreateNodeWriteValue(string varName)
-		{
-			return GRGEN_MODEL.@WriteValue.CreateNode(this, varName);
 		}
 
 		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1846,19 +1826,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, varName);
-		}
-
 		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@right CreateEdgeright(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1866,19 +1836,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return @GRGEN_MODEL.@right.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@right CreateEdgeright(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@right.CreateEdge(this, source, target, varName);
-		}
-
 		public @GRGEN_MODEL.@readZero CreateEdgereadZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@readZero.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@readZero CreateEdgereadZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@readZero.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@readOne CreateEdgereadOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1886,19 +1846,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return @GRGEN_MODEL.@readOne.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@readOne CreateEdgereadOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@readOne.CreateEdge(this, source, target, varName);
-		}
-
 		public @GRGEN_MODEL.@moveLeft CreateEdgemoveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@moveLeft.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@moveLeft CreateEdgemoveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@moveLeft.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@moveRight CreateEdgemoveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1906,9 +1856,140 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return @GRGEN_MODEL.@moveRight.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@moveRight CreateEdgemoveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		private Turing3NodeModel nodeModel = new Turing3NodeModel();
+		private Turing3EdgeModel edgeModel = new Turing3EdgeModel();
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
+		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+
+		public string ModelName { get { return "Turing3"; } }
+		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
+		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public string MD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
+	}
+
+	//
+	// INamedGraph/IGraphModel implementation
+	//
+	public class Turing3NamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel
+	{
+		public Turing3NamedGraph() : base(GetNextGraphName())
 		{
-			return @GRGEN_MODEL.@moveRight.CreateEdge(this, source, target, varName);
+			InitializeGraph(this);
+		}
+
+		public GRGEN_MODEL.@Node CreateNodeNode()
+		{
+			return GRGEN_MODEL.@Node.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@Node CreateNodeNode(string nodeName)
+		{
+			return GRGEN_MODEL.@Node.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@BandPosition CreateNodeBandPosition()
+		{
+			return GRGEN_MODEL.@BandPosition.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@BandPosition CreateNodeBandPosition(string nodeName)
+		{
+			return GRGEN_MODEL.@BandPosition.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@State CreateNodeState()
+		{
+			return GRGEN_MODEL.@State.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@State CreateNodeState(string nodeName)
+		{
+			return GRGEN_MODEL.@State.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@WriteValue CreateNodeWriteValue()
+		{
+			return GRGEN_MODEL.@WriteValue.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@WriteValue CreateNodeWriteValue(string nodeName)
+		{
+			return GRGEN_MODEL.@WriteValue.CreateNode(this, nodeName);
+		}
+
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@right CreateEdgeright(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@right.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@right CreateEdgeright(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@right.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@readZero CreateEdgereadZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@readZero.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@readZero CreateEdgereadZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@readZero.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@readOne CreateEdgereadOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@readOne.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@readOne CreateEdgereadOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@readOne.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@moveLeft CreateEdgemoveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@moveLeft.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@moveLeft CreateEdgemoveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@moveLeft.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@moveRight CreateEdgemoveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@moveRight.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@moveRight CreateEdgemoveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@moveRight.CreateEdge(this, source, target, edgeName);
 		}
 
 		private Turing3NodeModel nodeModel = new Turing3NodeModel();

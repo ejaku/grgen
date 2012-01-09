@@ -693,9 +693,10 @@ namespace spBench
             actions.Graph = graph;
             Sequence seq = SequenceParser.ParseSequence(benchGRS, actions, new List<string>());
 
+            LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
             PerformanceInfo perfInfo = new PerformanceInfo();
-            graph.PerformanceInfo = perfInfo;
-            graph.ApplyGraphRewriteSequence(seq);
+            procEnv.PerformanceInfo = perfInfo;
+            procEnv.ApplyGraphRewriteSequence(seq);
             if(foundMatches != -1)
             {
                 if(perfInfo.MatchesFound != foundMatches)
@@ -1514,10 +1515,13 @@ namespace spBench
 
             LGSPGraph graph;
             LGSPActions actions;
+            LGSPGraphProcessingEnvironment procEnv;
 
             try
             {
-                new LGSPBackend().CreateFromSpec(grgFile, "spBenchGraph", ProcessSpecFlags.UseNoExistingFiles, new List<String>(), out graph, out actions);
+                new LGSPBackend().CreateFromSpec(grgFile, "spBenchGraph", ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false,
+                    out graph, out actions);
+                procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
             }
             catch(Exception ex)
             {
@@ -1526,7 +1530,7 @@ namespace spBench
             }
 
             if(initGRS != null)
-                actions.ApplyGraphRewriteSequence(initGRS);
+                procEnv.ApplyGraphRewriteSequence(initGRS);
 
 #if DUMP_INITIALGRAPH
             IDumper dumper = new VCGDumper("spBenchTest-Initial.cs", VCGFlags.OrientTopToBottom);

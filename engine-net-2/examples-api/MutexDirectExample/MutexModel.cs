@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sat Jun 25 14:38:36 CEST 2011
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jan 08 18:57:41 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return node;
 		}
 
-		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@Node node;
 			if(poolLevel == 0)
@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set/array creation of Node
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -90,12 +90,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -183,7 +183,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return node;
 		}
 
-		public static GRGEN_MODEL.@Process CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@Process CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@Process node;
 			if(poolLevel == 0)
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				// implicit initialization, map/set/array creation of Process
 				// explicit initializations of Process for target Process
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -210,12 +210,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"Process\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Process\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"Process\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Process\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -304,7 +304,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return node;
 		}
 
-		public static GRGEN_MODEL.@Resource CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@Resource CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@Resource node;
 			if(poolLevel == 0)
@@ -318,7 +318,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				// implicit initialization, map/set/array creation of Resource
 				// explicit initializations of Resource for target Resource
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -331,12 +331,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"Resource\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Resource\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"Resource\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Resource\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -425,7 +425,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return node;
 		}
 
-		public static GRGEN_MODEL.@AnnotationTestNode CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@AnnotationTestNode CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@AnnotationTestNode node;
 			if(poolLevel == 0)
@@ -439,7 +439,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				// implicit initialization, map/set/array creation of AnnotationTestNode
 				// explicit initializations of AnnotationTestNode for target AnnotationTestNode
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -452,12 +452,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"AnnotationTestNode\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"AnnotationTestNode\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"AnnotationTestNode\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"AnnotationTestNode\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -684,7 +684,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@Edge edge;
 			if(poolLevel == 0)
@@ -697,7 +697,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.lgspTarget = target;
 				// implicit initialization, map/set/array creation of Edge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -710,12 +710,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -800,7 +800,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@UEdge edge;
 			if(poolLevel == 0)
@@ -813,7 +813,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.lgspTarget = target;
 				// implicit initialization, map/set/array creation of UEdge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -826,12 +826,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -923,7 +923,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@next CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@next CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@next edge;
 			if(poolLevel == 0)
@@ -937,7 +937,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				// implicit initialization, map/set/array creation of next
 				// explicit initializations of next for target next
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -950,12 +950,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"next\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"next\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"next\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"next\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1048,7 +1048,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@blocked CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@blocked CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@blocked edge;
 			if(poolLevel == 0)
@@ -1062,7 +1062,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				// implicit initialization, map/set/array creation of blocked
 				// explicit initializations of blocked for target blocked
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1075,12 +1075,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"blocked\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"blocked\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"blocked\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"blocked\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1173,7 +1173,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@held_by CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@held_by CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@held_by edge;
 			if(poolLevel == 0)
@@ -1187,7 +1187,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				// implicit initialization, map/set/array creation of held_by
 				// explicit initializations of held_by for target held_by
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1200,12 +1200,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"held_by\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"held_by\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"held_by\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"held_by\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1298,7 +1298,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@token CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@token CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@token edge;
 			if(poolLevel == 0)
@@ -1312,7 +1312,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				// implicit initialization, map/set/array creation of token
 				// explicit initializations of token for target token
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1325,12 +1325,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"token\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"token\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"token\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"token\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1423,7 +1423,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@release CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@release CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@release edge;
 			if(poolLevel == 0)
@@ -1437,7 +1437,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				// implicit initialization, map/set/array creation of release
 				// explicit initializations of release for target release
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1450,12 +1450,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"release\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"release\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"release\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"release\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1548,7 +1548,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@request CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@request CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@request edge;
 			if(poolLevel == 0)
@@ -1562,7 +1562,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				// implicit initialization, map/set/array creation of request
 				// explicit initializations of request for target request
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1575,12 +1575,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"request\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"request\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"request\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"request\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1678,7 +1678,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@annotationTestEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@annotationTestEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@annotationTestEdge edge;
 			if(poolLevel == 0)
@@ -1694,7 +1694,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				// explicit initializations of annotationTestEdge for target annotationTestEdge
 				edge.@attrib = 0;
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1718,7 +1718,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				case "attrib": return this.@attrib;
 			}
 			throw new NullReferenceException(
-				"The edge type \"annotationTestEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"annotationTestEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -1727,7 +1727,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				case "attrib": this.@attrib = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The edge type \"annotationTestEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"annotationTestEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -2057,19 +2057,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return GRGEN_MODEL.@Node.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@Node CreateNodeNode(string varName)
-		{
-			return GRGEN_MODEL.@Node.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@Process CreateNodeProcess()
 		{
 			return GRGEN_MODEL.@Process.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@Process CreateNodeProcess(string varName)
-		{
-			return GRGEN_MODEL.@Process.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@Resource CreateNodeResource()
@@ -2077,19 +2067,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return GRGEN_MODEL.@Resource.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@Resource CreateNodeResource(string varName)
-		{
-			return GRGEN_MODEL.@Resource.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@AnnotationTestNode CreateNodeAnnotationTestNode()
 		{
 			return GRGEN_MODEL.@AnnotationTestNode.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@AnnotationTestNode CreateNodeAnnotationTestNode(string varName)
-		{
-			return GRGEN_MODEL.@AnnotationTestNode.CreateNode(this, varName);
 		}
 
 		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2097,19 +2077,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, varName);
-		}
-
 		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@next CreateEdgenext(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2117,19 +2087,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return @GRGEN_MODEL.@next.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@next CreateEdgenext(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@next.CreateEdge(this, source, target, varName);
-		}
-
 		public @GRGEN_MODEL.@blocked CreateEdgeblocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@blocked.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@blocked CreateEdgeblocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@blocked.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@held_by CreateEdgeheld_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2137,19 +2097,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return @GRGEN_MODEL.@held_by.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@held_by CreateEdgeheld_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@held_by.CreateEdge(this, source, target, varName);
-		}
-
 		public @GRGEN_MODEL.@token CreateEdgetoken(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@token.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@token CreateEdgetoken(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@token.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@release CreateEdgerelease(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2157,19 +2107,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return @GRGEN_MODEL.@release.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@release CreateEdgerelease(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@release.CreateEdge(this, source, target, varName);
-		}
-
 		public @GRGEN_MODEL.@request CreateEdgerequest(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@request.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@request CreateEdgerequest(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@request.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@annotationTestEdge CreateEdgeannotationTestEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2177,9 +2117,165 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return @GRGEN_MODEL.@annotationTestEdge.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@annotationTestEdge CreateEdgeannotationTestEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		private MutexNodeModel nodeModel = new MutexNodeModel();
+		private MutexEdgeModel edgeModel = new MutexEdgeModel();
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_next.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 1, 0, 1, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_blocked.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 2147483647, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_held_by.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_token.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_release.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_request.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, 0, 2147483647, 0, 2147483647, false),
+		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+
+		public string ModelName { get { return "Mutex"; } }
+		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
+		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public string MD5Hash { get { return "b75cc12d5d56ba550bb415bb40c4947f"; } }
+	}
+
+	//
+	// INamedGraph/IGraphModel implementation
+	//
+	public class MutexNamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel
+	{
+		public MutexNamedGraph() : base(GetNextGraphName())
 		{
-			return @GRGEN_MODEL.@annotationTestEdge.CreateEdge(this, source, target, varName);
+			InitializeGraph(this);
+		}
+
+		public GRGEN_MODEL.@Node CreateNodeNode()
+		{
+			return GRGEN_MODEL.@Node.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@Node CreateNodeNode(string nodeName)
+		{
+			return GRGEN_MODEL.@Node.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@Process CreateNodeProcess()
+		{
+			return GRGEN_MODEL.@Process.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@Process CreateNodeProcess(string nodeName)
+		{
+			return GRGEN_MODEL.@Process.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@Resource CreateNodeResource()
+		{
+			return GRGEN_MODEL.@Resource.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@Resource CreateNodeResource(string nodeName)
+		{
+			return GRGEN_MODEL.@Resource.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@AnnotationTestNode CreateNodeAnnotationTestNode()
+		{
+			return GRGEN_MODEL.@AnnotationTestNode.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@AnnotationTestNode CreateNodeAnnotationTestNode(string nodeName)
+		{
+			return GRGEN_MODEL.@AnnotationTestNode.CreateNode(this, nodeName);
+		}
+
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@next CreateEdgenext(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@next.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@next CreateEdgenext(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@next.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@blocked CreateEdgeblocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@blocked.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@blocked CreateEdgeblocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@blocked.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@held_by CreateEdgeheld_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@held_by.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@held_by CreateEdgeheld_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@held_by.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@token CreateEdgetoken(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@token.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@token CreateEdgetoken(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@token.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@release CreateEdgerelease(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@release.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@release CreateEdgerelease(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@release.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@request CreateEdgerequest(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@request.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@request CreateEdgerequest(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@request.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@annotationTestEdge CreateEdgeannotationTestEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@annotationTestEdge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@annotationTestEdge CreateEdgeannotationTestEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@annotationTestEdge.CreateEdge(this, source, target, edgeName);
 		}
 
 		private MutexNodeModel nodeModel = new MutexNodeModel();

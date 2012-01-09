@@ -17,44 +17,46 @@ namespace Recursive
     {
         StdGraph graph;
         RecursiveActions actions;
+        LGSPGraphProcessingEnvironment procEnv;
 
         void DoAlt()
         {
             graph = new StdGraph();
             actions = new RecursiveActions(graph);
+            procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
             IMatches matches;
             Object[] returns;
 
             Action_createChain createChain = Action_createChain.Instance;
-            matches = createChain.Match(graph, 0);
-            returns = createChain.Modify(graph, matches.First);
+            matches = createChain.Match(procEnv, 0);
+            returns = createChain.Modify(procEnv, matches.First);
             Node[] param = new Node[2];
             param[0] = (Node)returns[0];
             param[1] = (Node)returns[1];
-            matches = actions.GetAction("chainFromToReverseToCommon").Match(graph, 0, param);
+            matches = actions.GetAction("chainFromToReverseToCommon").Match(procEnv, 0, param);
             Console.WriteLine(matches.Count + " matches found.");
 
             Action_createBlowball createBlowball = Action_createBlowball.Instance;
-            matches = createBlowball.Match(graph, 0);
-            returns = createBlowball.Modify(graph, matches.First);
-            matches = actions.GetAction("blowball").Match(graph, 0, returns);
+            matches = createBlowball.Match(procEnv, 0);
+            returns = createBlowball.Modify(procEnv, matches.First);
+            matches = actions.GetAction("blowball").Match(procEnv, 0, returns);
             Console.WriteLine(matches.Count + " matches found.");
 
             graph.Clear();
 
-            graph.PerformanceInfo = new PerformanceInfo();
-            matches = createChain.Match(graph, 0);
-            returns = createChain.Modify(graph, matches.First);
+            procEnv.PerformanceInfo = new PerformanceInfo();
+            matches = createChain.Match(procEnv, 0);
+            returns = createChain.Modify(procEnv, matches.First);
             param[0] = (Node)returns[0];
 
-            Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
-            graph.PerformanceInfo.Reset();
+            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            procEnv.PerformanceInfo.Reset();
 
             IAction chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = 
                 actions.GetAction("chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards");
-            matches = chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match(graph, 0, param);
+            matches = chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match(procEnv, 0, param);
             Console.WriteLine(matches.Count + " matches found.");
         }
 

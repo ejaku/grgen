@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sat Jun 25 14:38:28 CEST 2011
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Jan 08 18:57:32 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -148,53 +148,57 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void SpanningTree_Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void SpanningTree_Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_SpanningTree curMatch = (Match_SpanningTree)_curMatch;
 			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0> iterated_iter_0 = curMatch._iter_0;
 			graph.SettingAddedNodeNames( SpanningTree_addedNodeNames );
-			SpanningTree_iter_0_Modify(graph, iterated_iter_0);
+			SpanningTree_iter_0_Modify(procEnv, iterated_iter_0);
 			graph.SettingAddedEdgeNames( SpanningTree_addedEdgeNames );
 		}
 		private static string[] SpanningTree_addedNodeNames = new string[] {  };
 		private static string[] SpanningTree_addedEdgeNames = new string[] {  };
 
-		public void SpanningTree_Create(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode node_root)
+		public void SpanningTree_Create(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LGSP.LGSPNode node_root)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			graph.SettingAddedNodeNames( create_SpanningTree_addedNodeNames );
 			graph.SettingAddedEdgeNames( create_SpanningTree_addedEdgeNames );
 		}
 		private static string[] create_SpanningTree_addedNodeNames = new string[] {  };
 		private static string[] create_SpanningTree_addedEdgeNames = new string[] {  };
 
-		public void SpanningTree_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTree curMatch)
+		public void SpanningTree_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, Match_SpanningTree curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0> iterated_iter_0 = curMatch._iter_0;
-			SpanningTree_iter_0_Delete(graph, iterated_iter_0);
+			SpanningTree_iter_0_Delete(procEnv, iterated_iter_0);
 		}
 
-		public void SpanningTree_iter_0_Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0> curMatches)
+		public void SpanningTree_iter_0_Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0> curMatches)
 		{
 			for(Match_SpanningTree_iter_0 curMatch=curMatches.Root; curMatch!=null; curMatch=curMatch.next) {
-				SpanningTree_iter_0_Modify(graph, curMatch);
+				SpanningTree_iter_0_Modify(procEnv, curMatch);
 			}
 		}
 
-		public void SpanningTree_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0> curMatches)
+		public void SpanningTree_iter_0_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0> curMatches)
 		{
 			for(Match_SpanningTree_iter_0 curMatch=curMatches.Root; curMatch!=null; curMatch=curMatch.next) {
-				SpanningTree_iter_0_Delete(graph, curMatch);
+				SpanningTree_iter_0_Delete(procEnv, curMatch);
 			}
 		}
 
-		public void SpanningTree_iter_0_Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void SpanningTree_iter_0_Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_SpanningTree_iter_0 curMatch = (Match_SpanningTree_iter_0)_curMatch;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
 			Pattern_SpanningTree.Match_SpanningTree subpattern_sptr = curMatch.@_sptr;
 			graph.SettingAddedNodeNames( SpanningTree_iter_0_addedNodeNames );
-			Pattern_SpanningTree.Instance.SpanningTree_Modify(graph, subpattern_sptr);
+			Pattern_SpanningTree.Instance.SpanningTree_Modify(procEnv, subpattern_sptr);
 			graph.SettingAddedEdgeNames( SpanningTree_iter_0_addedEdgeNames );
 			graph.SetVisited(edge_e, 0, true);
 			graph.SetVisited(node_next, 0, true);
@@ -202,8 +206,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private static string[] SpanningTree_iter_0_addedNodeNames = new string[] {  };
 		private static string[] SpanningTree_iter_0_addedEdgeNames = new string[] {  };
 
-		public void SpanningTree_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTree_iter_0 curMatch)
+		public void SpanningTree_iter_0_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, Match_SpanningTree_iter_0 curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
@@ -213,7 +218,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			graph.Remove(node_root);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
-			Pattern_SpanningTree.Instance.SpanningTree_Delete(graph, subpattern_sptr);
+			Pattern_SpanningTree.Instance.SpanningTree_Delete(procEnv, subpattern_sptr);
 		}
 
 		static Pattern_SpanningTree() {
@@ -581,54 +586,58 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void SpanningTreeReverse_Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void SpanningTreeReverse_Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_SpanningTreeReverse curMatch = (Match_SpanningTreeReverse)_curMatch;
 			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> iterated_iter_0 = curMatch._iter_0;
 			graph.SettingAddedNodeNames( SpanningTreeReverse_addedNodeNames );
-			SpanningTreeReverse_iter_0_Modify(graph, iterated_iter_0);
+			SpanningTreeReverse_iter_0_Modify(procEnv, iterated_iter_0);
 			graph.SettingAddedEdgeNames( SpanningTreeReverse_addedEdgeNames );
 		}
 		private static string[] SpanningTreeReverse_addedNodeNames = new string[] {  };
 		private static string[] SpanningTreeReverse_addedEdgeNames = new string[] {  };
 
-		public void SpanningTreeReverse_Create(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode node_root)
+		public void SpanningTreeReverse_Create(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LGSP.LGSPNode node_root)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			graph.SettingAddedNodeNames( create_SpanningTreeReverse_addedNodeNames );
 			graph.SettingAddedEdgeNames( create_SpanningTreeReverse_addedEdgeNames );
 		}
 		private static string[] create_SpanningTreeReverse_addedNodeNames = new string[] {  };
 		private static string[] create_SpanningTreeReverse_addedEdgeNames = new string[] {  };
 
-		public void SpanningTreeReverse_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeReverse curMatch)
+		public void SpanningTreeReverse_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, Match_SpanningTreeReverse curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> iterated_iter_0 = curMatch._iter_0;
-			SpanningTreeReverse_iter_0_Delete(graph, iterated_iter_0);
+			SpanningTreeReverse_iter_0_Delete(procEnv, iterated_iter_0);
 		}
 
-		public void SpanningTreeReverse_iter_0_Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> curMatches)
+		public void SpanningTreeReverse_iter_0_Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> curMatches)
 		{
 			for(Match_SpanningTreeReverse_iter_0 curMatch=curMatches.Root; curMatch!=null; curMatch=curMatch.next) {
-				SpanningTreeReverse_iter_0_Modify(graph, curMatch);
+				SpanningTreeReverse_iter_0_Modify(procEnv, curMatch);
 			}
 		}
 
-		public void SpanningTreeReverse_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> curMatches)
+		public void SpanningTreeReverse_iter_0_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> curMatches)
 		{
 			for(Match_SpanningTreeReverse_iter_0 curMatch=curMatches.Root; curMatch!=null; curMatch=curMatch.next) {
-				SpanningTreeReverse_iter_0_Delete(graph, curMatch);
+				SpanningTreeReverse_iter_0_Delete(procEnv, curMatch);
 			}
 		}
 
-		public void SpanningTreeReverse_iter_0_Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void SpanningTreeReverse_iter_0_Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_SpanningTreeReverse_iter_0 curMatch = (Match_SpanningTreeReverse_iter_0)_curMatch;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_SpanningTreeReverse.Match_SpanningTreeReverse subpattern_sptrr = curMatch.@_sptrr;
 			graph.SettingAddedNodeNames( SpanningTreeReverse_iter_0_addedNodeNames );
-			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Modify(graph, subpattern_sptrr);
+			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Modify(procEnv, subpattern_sptrr);
 			graph.SettingAddedEdgeNames( SpanningTreeReverse_iter_0_addedEdgeNames );
 			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_next, node_root);
 			graph.Remove(edge__edge0);
@@ -636,8 +645,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private static string[] SpanningTreeReverse_iter_0_addedNodeNames = new string[] {  };
 		private static string[] SpanningTreeReverse_iter_0_addedEdgeNames = new string[] { "_edge1" };
 
-		public void SpanningTreeReverse_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeReverse_iter_0 curMatch)
+		public void SpanningTreeReverse_iter_0_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, Match_SpanningTreeReverse_iter_0 curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
@@ -647,7 +657,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			graph.Remove(node_root);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
-			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Delete(graph, subpattern_sptrr);
+			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Delete(procEnv, subpattern_sptrr);
 		}
 
 		static Pattern_SpanningTreeReverse() {
@@ -1013,29 +1023,32 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void SpanningTreeOutgoing_Create(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode node_root)
+		public void SpanningTreeOutgoing_Create(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LGSP.LGSPNode node_root)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			graph.SettingAddedNodeNames( create_SpanningTreeOutgoing_addedNodeNames );
 			graph.SettingAddedEdgeNames( create_SpanningTreeOutgoing_addedEdgeNames );
 		}
 		private static string[] create_SpanningTreeOutgoing_addedNodeNames = new string[] {  };
 		private static string[] create_SpanningTreeOutgoing_addedEdgeNames = new string[] {  };
 
-		public void SpanningTreeOutgoing_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeOutgoing curMatch)
+		public void SpanningTreeOutgoing_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, Match_SpanningTreeOutgoing curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeOutgoing_iter_0, IMatch_SpanningTreeOutgoing_iter_0> iterated_iter_0 = curMatch._iter_0;
-			SpanningTreeOutgoing_iter_0_Delete(graph, iterated_iter_0);
+			SpanningTreeOutgoing_iter_0_Delete(procEnv, iterated_iter_0);
 		}
 
-		public void SpanningTreeOutgoing_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeOutgoing_iter_0, IMatch_SpanningTreeOutgoing_iter_0> curMatches)
+		public void SpanningTreeOutgoing_iter_0_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeOutgoing_iter_0, IMatch_SpanningTreeOutgoing_iter_0> curMatches)
 		{
 			for(Match_SpanningTreeOutgoing_iter_0 curMatch=curMatches.Root; curMatch!=null; curMatch=curMatch.next) {
-				SpanningTreeOutgoing_iter_0_Delete(graph, curMatch);
+				SpanningTreeOutgoing_iter_0_Delete(procEnv, curMatch);
 			}
 		}
 
-		public void SpanningTreeOutgoing_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeOutgoing_iter_0 curMatch)
+		public void SpanningTreeOutgoing_iter_0_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, Match_SpanningTreeOutgoing_iter_0 curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
@@ -1045,7 +1058,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			graph.Remove(node_root);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
-			Pattern_SpanningTreeOutgoing.Instance.SpanningTreeOutgoing_Delete(graph, subpattern__sub0);
+			Pattern_SpanningTreeOutgoing.Instance.SpanningTreeOutgoing_Delete(procEnv, subpattern__sub0);
 		}
 
 		static Pattern_SpanningTreeOutgoing() {
@@ -1411,29 +1424,32 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void SpanningTreeIncoming_Create(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode node_root)
+		public void SpanningTreeIncoming_Create(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LGSP.LGSPNode node_root)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			graph.SettingAddedNodeNames( create_SpanningTreeIncoming_addedNodeNames );
 			graph.SettingAddedEdgeNames( create_SpanningTreeIncoming_addedEdgeNames );
 		}
 		private static string[] create_SpanningTreeIncoming_addedNodeNames = new string[] {  };
 		private static string[] create_SpanningTreeIncoming_addedEdgeNames = new string[] {  };
 
-		public void SpanningTreeIncoming_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeIncoming curMatch)
+		public void SpanningTreeIncoming_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, Match_SpanningTreeIncoming curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeIncoming_iter_0, IMatch_SpanningTreeIncoming_iter_0> iterated_iter_0 = curMatch._iter_0;
-			SpanningTreeIncoming_iter_0_Delete(graph, iterated_iter_0);
+			SpanningTreeIncoming_iter_0_Delete(procEnv, iterated_iter_0);
 		}
 
-		public void SpanningTreeIncoming_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeIncoming_iter_0, IMatch_SpanningTreeIncoming_iter_0> curMatches)
+		public void SpanningTreeIncoming_iter_0_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeIncoming_iter_0, IMatch_SpanningTreeIncoming_iter_0> curMatches)
 		{
 			for(Match_SpanningTreeIncoming_iter_0 curMatch=curMatches.Root; curMatch!=null; curMatch=curMatch.next) {
-				SpanningTreeIncoming_iter_0_Delete(graph, curMatch);
+				SpanningTreeIncoming_iter_0_Delete(procEnv, curMatch);
 			}
 		}
 
-		public void SpanningTreeIncoming_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeIncoming_iter_0 curMatch)
+		public void SpanningTreeIncoming_iter_0_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, Match_SpanningTreeIncoming_iter_0 curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
@@ -1443,7 +1459,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			graph.Remove(node_next);
 			graph.RemoveEdges(node_root);
 			graph.Remove(node_root);
-			Pattern_SpanningTreeIncoming.Instance.SpanningTreeIncoming_Delete(graph, subpattern__sub0);
+			Pattern_SpanningTreeIncoming.Instance.SpanningTreeIncoming_Delete(procEnv, subpattern__sub0);
 		}
 
 		static Pattern_SpanningTreeIncoming() {
@@ -1738,8 +1754,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_initTree curMatch = (Match_initTree)_curMatch;
 			graph.SettingAddedNodeNames( initTree_addedNodeNames );
 			GRGEN_MODEL.@Node node_root = GRGEN_MODEL.@Node.CreateNode(graph);
@@ -1936,8 +1953,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_initUndirected curMatch = (Match_initUndirected)_curMatch;
 			graph.SettingAddedNodeNames( initUndirected_addedNodeNames );
 			GRGEN_MODEL.@Node node_root = GRGEN_MODEL.@Node.CreateNode(graph);
@@ -2128,8 +2146,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_initDirected curMatch = (Match_initDirected)_curMatch;
 			graph.SettingAddedNodeNames( initDirected_addedNodeNames );
 			GRGEN_MODEL.@Node node_root = GRGEN_MODEL.@Node.CreateNode(graph);
@@ -2334,13 +2353,14 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_spanningTree curMatch = (Match_spanningTree)_curMatch;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			Pattern_SpanningTree.Match_SpanningTree subpattern_sptr = curMatch.@_sptr;
 			graph.SettingAddedNodeNames( spanningTree_addedNodeNames );
-			Pattern_SpanningTree.Instance.SpanningTree_Modify(graph, subpattern_sptr);
+			Pattern_SpanningTree.Instance.SpanningTree_Modify(procEnv, subpattern_sptr);
 			graph.SettingAddedEdgeNames( spanningTree_addedEdgeNames );
 			graph.SetVisited(node_root, 0, true);
 			return;
@@ -2532,8 +2552,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_edgesVisited curMatch = (Match_edgesVisited)_curMatch;
 			return;
 		}
@@ -2718,8 +2739,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_nodesVisited curMatch = (Match_nodesVisited)_curMatch;
 			return;
 		}
@@ -2908,12 +2930,13 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_spanningTreeReverse curMatch = (Match_spanningTreeReverse)_curMatch;
 			Pattern_SpanningTreeReverse.Match_SpanningTreeReverse subpattern_sptrr = curMatch.@_sptrr;
 			graph.SettingAddedNodeNames( spanningTreeReverse_addedNodeNames );
-			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Modify(graph, subpattern_sptrr);
+			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Modify(procEnv, subpattern_sptrr);
 			graph.SettingAddedEdgeNames( spanningTreeReverse_addedEdgeNames );
 			return;
 		}
@@ -3107,8 +3130,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_spanningTreeOutgoing curMatch = (Match_spanningTreeOutgoing)_curMatch;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing subpattern__sub0 = curMatch.@__sub0;
@@ -3302,8 +3326,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_spanningTreeIncoming curMatch = (Match_spanningTreeIncoming)_curMatch;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming subpattern__sub0 = curMatch.@__sub0;
@@ -3470,21 +3495,21 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
     public class PatternAction_SpanningTree : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_SpanningTree(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
-            graph = graph_; openTasks = openTasks_;
+        private PatternAction_SpanningTree(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+            procEnv = procEnv_; openTasks = openTasks_;
             patternGraph = Pattern_SpanningTree.Instance.patternGraph;
         }
 
-        public static PatternAction_SpanningTree getNewTask(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        public static PatternAction_SpanningTree getNewTask(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
             PatternAction_SpanningTree newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
-                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.procEnv = procEnv_; newTask.openTasks = openTasks_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new PatternAction_SpanningTree(graph_, openTasks_);
+                newTask = new PatternAction_SpanningTree(procEnv_, openTasks_);
             }
             return newTask;
         }
@@ -3492,7 +3517,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
         public static void releaseTask(PatternAction_SpanningTree oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
-                oldTask.graph = null; oldTask.openTasks = null;
+                oldTask.procEnv = null; oldTask.openTasks = null;
                 freeListHead = oldTask;
                 ++numFreeTasks;
             }
@@ -3508,13 +3533,14 @@ namespace de.unika.ipd.grGen.Action_spanningTree
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // SubPreset SpanningTree_node_root 
             GRGEN_LGSP.LGSPNode candidate_SpanningTree_node_root = SpanningTree_node_root;
             // Push iterated matching task for SpanningTree_iter_0
-            IteratedAction_SpanningTree_iter_0 taskFor_iter_0 = IteratedAction_SpanningTree_iter_0.getNewTask(graph, openTasks);
+            IteratedAction_SpanningTree_iter_0 taskFor_iter_0 = IteratedAction_SpanningTree_iter_0.getNewTask(procEnv, openTasks);
             taskFor_iter_0.SpanningTree_node_root = candidate_SpanningTree_node_root;
             taskFor_iter_0.searchPatternpath = false;
             taskFor_iter_0.matchOfNestingPattern = null;
@@ -3565,8 +3591,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
     public class IteratedAction_SpanningTree_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_SpanningTree_iter_0(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
-            graph = graph_; openTasks = openTasks_;
+        private IteratedAction_SpanningTree_iter_0(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+            procEnv = procEnv_; openTasks = openTasks_;
             patternGraph = Pattern_SpanningTree.Instance.patternGraph;
             minMatchesIter = 0;
             maxMatchesIter = 0;
@@ -3577,16 +3603,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
         int maxMatchesIter;
         int numMatchesIter;
 
-        public static IteratedAction_SpanningTree_iter_0 getNewTask(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        public static IteratedAction_SpanningTree_iter_0 getNewTask(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
             IteratedAction_SpanningTree_iter_0 newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
-                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.procEnv = procEnv_; newTask.openTasks = openTasks_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new IteratedAction_SpanningTree_iter_0(graph_, openTasks_);
+                newTask = new IteratedAction_SpanningTree_iter_0(procEnv_, openTasks_);
             }
             return newTask;
         }
@@ -3594,7 +3620,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
         public static void releaseTask(IteratedAction_SpanningTree_iter_0 oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
-                oldTask.graph = null; oldTask.openTasks = null;
+                oldTask.procEnv = null; oldTask.openTasks = null;
                 freeListHead = oldTask;
                 ++numFreeTasks;
             }
@@ -3611,6 +3637,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             bool patternFound = false;
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
@@ -3650,7 +3677,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
                             // accept iterated instance match
                             ++numMatchesIter;
                             // Push subpattern matching task for sptr
-                            PatternAction_SpanningTree taskFor_sptr = PatternAction_SpanningTree.getNewTask(graph, openTasks);
+                            PatternAction_SpanningTree taskFor_sptr = PatternAction_SpanningTree.getNewTask(procEnv, openTasks);
                             taskFor_sptr.SpanningTree_node_root = candidate_SpanningTree_iter_0_node_next;
                             taskFor_sptr.searchPatternpath = false;
                             taskFor_sptr.matchOfNestingPattern = null;
@@ -3739,21 +3766,21 @@ maxMatchesIterReached:
 
     public class PatternAction_SpanningTreeReverse : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_SpanningTreeReverse(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
-            graph = graph_; openTasks = openTasks_;
+        private PatternAction_SpanningTreeReverse(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+            procEnv = procEnv_; openTasks = openTasks_;
             patternGraph = Pattern_SpanningTreeReverse.Instance.patternGraph;
         }
 
-        public static PatternAction_SpanningTreeReverse getNewTask(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        public static PatternAction_SpanningTreeReverse getNewTask(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
             PatternAction_SpanningTreeReverse newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
-                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.procEnv = procEnv_; newTask.openTasks = openTasks_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new PatternAction_SpanningTreeReverse(graph_, openTasks_);
+                newTask = new PatternAction_SpanningTreeReverse(procEnv_, openTasks_);
             }
             return newTask;
         }
@@ -3761,7 +3788,7 @@ maxMatchesIterReached:
         public static void releaseTask(PatternAction_SpanningTreeReverse oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
-                oldTask.graph = null; oldTask.openTasks = null;
+                oldTask.procEnv = null; oldTask.openTasks = null;
                 freeListHead = oldTask;
                 ++numFreeTasks;
             }
@@ -3777,13 +3804,14 @@ maxMatchesIterReached:
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // SubPreset SpanningTreeReverse_node_root 
             GRGEN_LGSP.LGSPNode candidate_SpanningTreeReverse_node_root = SpanningTreeReverse_node_root;
             // Push iterated matching task for SpanningTreeReverse_iter_0
-            IteratedAction_SpanningTreeReverse_iter_0 taskFor_iter_0 = IteratedAction_SpanningTreeReverse_iter_0.getNewTask(graph, openTasks);
+            IteratedAction_SpanningTreeReverse_iter_0 taskFor_iter_0 = IteratedAction_SpanningTreeReverse_iter_0.getNewTask(procEnv, openTasks);
             taskFor_iter_0.SpanningTreeReverse_node_root = candidate_SpanningTreeReverse_node_root;
             taskFor_iter_0.searchPatternpath = false;
             taskFor_iter_0.matchOfNestingPattern = null;
@@ -3834,8 +3862,8 @@ maxMatchesIterReached:
 
     public class IteratedAction_SpanningTreeReverse_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_SpanningTreeReverse_iter_0(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
-            graph = graph_; openTasks = openTasks_;
+        private IteratedAction_SpanningTreeReverse_iter_0(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+            procEnv = procEnv_; openTasks = openTasks_;
             patternGraph = Pattern_SpanningTreeReverse.Instance.patternGraph;
             minMatchesIter = 0;
             maxMatchesIter = 0;
@@ -3846,16 +3874,16 @@ maxMatchesIterReached:
         int maxMatchesIter;
         int numMatchesIter;
 
-        public static IteratedAction_SpanningTreeReverse_iter_0 getNewTask(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        public static IteratedAction_SpanningTreeReverse_iter_0 getNewTask(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
             IteratedAction_SpanningTreeReverse_iter_0 newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
-                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.procEnv = procEnv_; newTask.openTasks = openTasks_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new IteratedAction_SpanningTreeReverse_iter_0(graph_, openTasks_);
+                newTask = new IteratedAction_SpanningTreeReverse_iter_0(procEnv_, openTasks_);
             }
             return newTask;
         }
@@ -3863,7 +3891,7 @@ maxMatchesIterReached:
         public static void releaseTask(IteratedAction_SpanningTreeReverse_iter_0 oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
-                oldTask.graph = null; oldTask.openTasks = null;
+                oldTask.procEnv = null; oldTask.openTasks = null;
                 freeListHead = oldTask;
                 ++numFreeTasks;
             }
@@ -3880,6 +3908,7 @@ maxMatchesIterReached:
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             bool patternFound = false;
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
@@ -3916,7 +3945,7 @@ maxMatchesIterReached:
                         // accept iterated instance match
                         ++numMatchesIter;
                         // Push subpattern matching task for sptrr
-                        PatternAction_SpanningTreeReverse taskFor_sptrr = PatternAction_SpanningTreeReverse.getNewTask(graph, openTasks);
+                        PatternAction_SpanningTreeReverse taskFor_sptrr = PatternAction_SpanningTreeReverse.getNewTask(procEnv, openTasks);
                         taskFor_sptrr.SpanningTreeReverse_node_root = candidate_SpanningTreeReverse_iter_0_node_next;
                         taskFor_sptrr.searchPatternpath = false;
                         taskFor_sptrr.matchOfNestingPattern = null;
@@ -4004,21 +4033,21 @@ maxMatchesIterReached:
 
     public class PatternAction_SpanningTreeOutgoing : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_SpanningTreeOutgoing(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
-            graph = graph_; openTasks = openTasks_;
+        private PatternAction_SpanningTreeOutgoing(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+            procEnv = procEnv_; openTasks = openTasks_;
             patternGraph = Pattern_SpanningTreeOutgoing.Instance.patternGraph;
         }
 
-        public static PatternAction_SpanningTreeOutgoing getNewTask(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        public static PatternAction_SpanningTreeOutgoing getNewTask(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
             PatternAction_SpanningTreeOutgoing newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
-                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.procEnv = procEnv_; newTask.openTasks = openTasks_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new PatternAction_SpanningTreeOutgoing(graph_, openTasks_);
+                newTask = new PatternAction_SpanningTreeOutgoing(procEnv_, openTasks_);
             }
             return newTask;
         }
@@ -4026,7 +4055,7 @@ maxMatchesIterReached:
         public static void releaseTask(PatternAction_SpanningTreeOutgoing oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
-                oldTask.graph = null; oldTask.openTasks = null;
+                oldTask.procEnv = null; oldTask.openTasks = null;
                 freeListHead = oldTask;
                 ++numFreeTasks;
             }
@@ -4042,13 +4071,14 @@ maxMatchesIterReached:
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // SubPreset SpanningTreeOutgoing_node_root 
             GRGEN_LGSP.LGSPNode candidate_SpanningTreeOutgoing_node_root = SpanningTreeOutgoing_node_root;
             // Push iterated matching task for SpanningTreeOutgoing_iter_0
-            IteratedAction_SpanningTreeOutgoing_iter_0 taskFor_iter_0 = IteratedAction_SpanningTreeOutgoing_iter_0.getNewTask(graph, openTasks);
+            IteratedAction_SpanningTreeOutgoing_iter_0 taskFor_iter_0 = IteratedAction_SpanningTreeOutgoing_iter_0.getNewTask(procEnv, openTasks);
             taskFor_iter_0.SpanningTreeOutgoing_node_root = candidate_SpanningTreeOutgoing_node_root;
             taskFor_iter_0.searchPatternpath = false;
             taskFor_iter_0.matchOfNestingPattern = null;
@@ -4099,8 +4129,8 @@ maxMatchesIterReached:
 
     public class IteratedAction_SpanningTreeOutgoing_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_SpanningTreeOutgoing_iter_0(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
-            graph = graph_; openTasks = openTasks_;
+        private IteratedAction_SpanningTreeOutgoing_iter_0(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+            procEnv = procEnv_; openTasks = openTasks_;
             patternGraph = Pattern_SpanningTreeOutgoing.Instance.patternGraph;
             minMatchesIter = 0;
             maxMatchesIter = 0;
@@ -4111,16 +4141,16 @@ maxMatchesIterReached:
         int maxMatchesIter;
         int numMatchesIter;
 
-        public static IteratedAction_SpanningTreeOutgoing_iter_0 getNewTask(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        public static IteratedAction_SpanningTreeOutgoing_iter_0 getNewTask(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
             IteratedAction_SpanningTreeOutgoing_iter_0 newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
-                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.procEnv = procEnv_; newTask.openTasks = openTasks_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new IteratedAction_SpanningTreeOutgoing_iter_0(graph_, openTasks_);
+                newTask = new IteratedAction_SpanningTreeOutgoing_iter_0(procEnv_, openTasks_);
             }
             return newTask;
         }
@@ -4128,7 +4158,7 @@ maxMatchesIterReached:
         public static void releaseTask(IteratedAction_SpanningTreeOutgoing_iter_0 oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
-                oldTask.graph = null; oldTask.openTasks = null;
+                oldTask.procEnv = null; oldTask.openTasks = null;
                 freeListHead = oldTask;
                 ++numFreeTasks;
             }
@@ -4145,6 +4175,7 @@ maxMatchesIterReached:
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             bool patternFound = false;
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
@@ -4181,7 +4212,7 @@ maxMatchesIterReached:
                         // accept iterated instance match
                         ++numMatchesIter;
                         // Push subpattern matching task for _sub0
-                        PatternAction_SpanningTreeOutgoing taskFor__sub0 = PatternAction_SpanningTreeOutgoing.getNewTask(graph, openTasks);
+                        PatternAction_SpanningTreeOutgoing taskFor__sub0 = PatternAction_SpanningTreeOutgoing.getNewTask(procEnv, openTasks);
                         taskFor__sub0.SpanningTreeOutgoing_node_root = candidate_SpanningTreeOutgoing_iter_0_node_next;
                         taskFor__sub0.searchPatternpath = false;
                         taskFor__sub0.matchOfNestingPattern = null;
@@ -4269,21 +4300,21 @@ maxMatchesIterReached:
 
     public class PatternAction_SpanningTreeIncoming : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_SpanningTreeIncoming(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
-            graph = graph_; openTasks = openTasks_;
+        private PatternAction_SpanningTreeIncoming(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+            procEnv = procEnv_; openTasks = openTasks_;
             patternGraph = Pattern_SpanningTreeIncoming.Instance.patternGraph;
         }
 
-        public static PatternAction_SpanningTreeIncoming getNewTask(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        public static PatternAction_SpanningTreeIncoming getNewTask(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
             PatternAction_SpanningTreeIncoming newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
-                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.procEnv = procEnv_; newTask.openTasks = openTasks_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new PatternAction_SpanningTreeIncoming(graph_, openTasks_);
+                newTask = new PatternAction_SpanningTreeIncoming(procEnv_, openTasks_);
             }
             return newTask;
         }
@@ -4291,7 +4322,7 @@ maxMatchesIterReached:
         public static void releaseTask(PatternAction_SpanningTreeIncoming oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
-                oldTask.graph = null; oldTask.openTasks = null;
+                oldTask.procEnv = null; oldTask.openTasks = null;
                 freeListHead = oldTask;
                 ++numFreeTasks;
             }
@@ -4307,13 +4338,14 @@ maxMatchesIterReached:
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // SubPreset SpanningTreeIncoming_node_root 
             GRGEN_LGSP.LGSPNode candidate_SpanningTreeIncoming_node_root = SpanningTreeIncoming_node_root;
             // Push iterated matching task for SpanningTreeIncoming_iter_0
-            IteratedAction_SpanningTreeIncoming_iter_0 taskFor_iter_0 = IteratedAction_SpanningTreeIncoming_iter_0.getNewTask(graph, openTasks);
+            IteratedAction_SpanningTreeIncoming_iter_0 taskFor_iter_0 = IteratedAction_SpanningTreeIncoming_iter_0.getNewTask(procEnv, openTasks);
             taskFor_iter_0.SpanningTreeIncoming_node_root = candidate_SpanningTreeIncoming_node_root;
             taskFor_iter_0.searchPatternpath = false;
             taskFor_iter_0.matchOfNestingPattern = null;
@@ -4364,8 +4396,8 @@ maxMatchesIterReached:
 
     public class IteratedAction_SpanningTreeIncoming_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_SpanningTreeIncoming_iter_0(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
-            graph = graph_; openTasks = openTasks_;
+        private IteratedAction_SpanningTreeIncoming_iter_0(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+            procEnv = procEnv_; openTasks = openTasks_;
             patternGraph = Pattern_SpanningTreeIncoming.Instance.patternGraph;
             minMatchesIter = 0;
             maxMatchesIter = 0;
@@ -4376,16 +4408,16 @@ maxMatchesIterReached:
         int maxMatchesIter;
         int numMatchesIter;
 
-        public static IteratedAction_SpanningTreeIncoming_iter_0 getNewTask(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        public static IteratedAction_SpanningTreeIncoming_iter_0 getNewTask(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
             IteratedAction_SpanningTreeIncoming_iter_0 newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
-                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.procEnv = procEnv_; newTask.openTasks = openTasks_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new IteratedAction_SpanningTreeIncoming_iter_0(graph_, openTasks_);
+                newTask = new IteratedAction_SpanningTreeIncoming_iter_0(procEnv_, openTasks_);
             }
             return newTask;
         }
@@ -4393,7 +4425,7 @@ maxMatchesIterReached:
         public static void releaseTask(IteratedAction_SpanningTreeIncoming_iter_0 oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
-                oldTask.graph = null; oldTask.openTasks = null;
+                oldTask.procEnv = null; oldTask.openTasks = null;
                 freeListHead = oldTask;
                 ++numFreeTasks;
             }
@@ -4410,6 +4442,7 @@ maxMatchesIterReached:
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             bool patternFound = false;
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
@@ -4446,7 +4479,7 @@ maxMatchesIterReached:
                         // accept iterated instance match
                         ++numMatchesIter;
                         // Push subpattern matching task for _sub0
-                        PatternAction_SpanningTreeIncoming taskFor__sub0 = PatternAction_SpanningTreeIncoming.getNewTask(graph, openTasks);
+                        PatternAction_SpanningTreeIncoming taskFor__sub0 = PatternAction_SpanningTreeIncoming.getNewTask(procEnv, openTasks);
                         taskFor__sub0.SpanningTreeIncoming_node_root = candidate_SpanningTreeIncoming_iter_0_node_next;
                         taskFor__sub0.searchPatternpath = false;
                         taskFor__sub0.matchOfNestingPattern = null;
@@ -4538,21 +4571,21 @@ maxMatchesIterReached:
     public interface IAction_initTree
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_initTree.IMatch_initTree match, out GRGEN_LIBGR.INode output_0);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_initTree.IMatch_initTree match, out GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches, out GRGEN_LIBGR.INode output_0);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches, out GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_initTree : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_initTree
@@ -4573,8 +4606,9 @@ maxMatchesIterReached:
         public static Action_initTree Instance { get { return instance; } }
         private static Action_initTree instance = new Action_initTree();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             Rule_initTree.Match_initTree match = matches.GetNextUnfilledPosition();
@@ -4586,153 +4620,153 @@ maxMatchesIterReached:
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_initTree.IMatch_initTree match, out GRGEN_LIBGR.INode output_0)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_initTree.IMatch_initTree match, out GRGEN_LIBGR.INode output_0)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match, out output_0);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches, out GRGEN_LIBGR.INode output_0)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches, out GRGEN_LIBGR.INode output_0)
         {
             output_0 = null;
-            foreach(Rule_initTree.IMatch_initTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            foreach(Rule_initTree.IMatch_initTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match, out output_0);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_initTree.IMatch_initTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            foreach(Rule_initTree.IMatch_initTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match, out output_0);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches;
             GRGEN_LIBGR.INode output_0; 
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             GRGEN_LIBGR.INode output_0; 
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches;
             GRGEN_LIBGR.INode output_0; 
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             GRGEN_LIBGR.INode output_0; 
-            Modify(graph, (Rule_initTree.IMatch_initTree)match, out output_0);
+            Modify(procEnv, (Rule_initTree.IMatch_initTree)match, out output_0);
             ReturnArray[0] = output_0;
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             GRGEN_LIBGR.INode output_0; 
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree>)matches, out output_0);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree>)matches, out output_0);
             ReturnArray[0] = output_0;
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(Apply(graph, ref output_0)) {
+            if(Apply(procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(Apply(graph, ref output_0)) {
+            if(Apply(procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(ApplyAll(maxMatches, graph, ref output_0)) {
+            if(ApplyAll(maxMatches, procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(ApplyAll(maxMatches, graph, ref output_0)) {
+            if(ApplyAll(maxMatches, procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -4742,21 +4776,21 @@ maxMatchesIterReached:
     public interface IAction_initUndirected
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_initUndirected.IMatch_initUndirected match, out GRGEN_LIBGR.INode output_0);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_initUndirected.IMatch_initUndirected match, out GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches, out GRGEN_LIBGR.INode output_0);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches, out GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_initUndirected : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_initUndirected
@@ -4777,8 +4811,9 @@ maxMatchesIterReached:
         public static Action_initUndirected Instance { get { return instance; } }
         private static Action_initUndirected instance = new Action_initUndirected();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             Rule_initUndirected.Match_initUndirected match = matches.GetNextUnfilledPosition();
@@ -4790,153 +4825,153 @@ maxMatchesIterReached:
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_initUndirected.IMatch_initUndirected match, out GRGEN_LIBGR.INode output_0)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_initUndirected.IMatch_initUndirected match, out GRGEN_LIBGR.INode output_0)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match, out output_0);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches, out GRGEN_LIBGR.INode output_0)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches, out GRGEN_LIBGR.INode output_0)
         {
             output_0 = null;
-            foreach(Rule_initUndirected.IMatch_initUndirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            foreach(Rule_initUndirected.IMatch_initUndirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match, out output_0);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_initUndirected.IMatch_initUndirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            foreach(Rule_initUndirected.IMatch_initUndirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match, out output_0);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches;
             GRGEN_LIBGR.INode output_0; 
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             GRGEN_LIBGR.INode output_0; 
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches;
             GRGEN_LIBGR.INode output_0; 
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             GRGEN_LIBGR.INode output_0; 
-            Modify(graph, (Rule_initUndirected.IMatch_initUndirected)match, out output_0);
+            Modify(procEnv, (Rule_initUndirected.IMatch_initUndirected)match, out output_0);
             ReturnArray[0] = output_0;
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             GRGEN_LIBGR.INode output_0; 
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected>)matches, out output_0);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected>)matches, out output_0);
             ReturnArray[0] = output_0;
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(Apply(graph, ref output_0)) {
+            if(Apply(procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(Apply(graph, ref output_0)) {
+            if(Apply(procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(ApplyAll(maxMatches, graph, ref output_0)) {
+            if(ApplyAll(maxMatches, procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(ApplyAll(maxMatches, graph, ref output_0)) {
+            if(ApplyAll(maxMatches, procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -4946,21 +4981,21 @@ maxMatchesIterReached:
     public interface IAction_initDirected
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_initDirected.IMatch_initDirected match, out GRGEN_LIBGR.INode output_0);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_initDirected.IMatch_initDirected match, out GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches, out GRGEN_LIBGR.INode output_0);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches, out GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_initDirected : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_initDirected
@@ -4981,8 +5016,9 @@ maxMatchesIterReached:
         public static Action_initDirected Instance { get { return instance; } }
         private static Action_initDirected instance = new Action_initDirected();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             Rule_initDirected.Match_initDirected match = matches.GetNextUnfilledPosition();
@@ -4994,153 +5030,153 @@ maxMatchesIterReached:
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_initDirected.IMatch_initDirected match, out GRGEN_LIBGR.INode output_0)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_initDirected.IMatch_initDirected match, out GRGEN_LIBGR.INode output_0)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match, out output_0);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches, out GRGEN_LIBGR.INode output_0)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches, out GRGEN_LIBGR.INode output_0)
         {
             output_0 = null;
-            foreach(Rule_initDirected.IMatch_initDirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            foreach(Rule_initDirected.IMatch_initDirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match, out output_0);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, ref GRGEN_LIBGR.INode output_0)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_initDirected.IMatch_initDirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            foreach(Rule_initDirected.IMatch_initDirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match, out output_0);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches;
             GRGEN_LIBGR.INode output_0; 
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             GRGEN_LIBGR.INode output_0; 
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches;
             GRGEN_LIBGR.INode output_0; 
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First, out output_0);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             GRGEN_LIBGR.INode output_0; 
-            Modify(graph, (Rule_initDirected.IMatch_initDirected)match, out output_0);
+            Modify(procEnv, (Rule_initDirected.IMatch_initDirected)match, out output_0);
             ReturnArray[0] = output_0;
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             GRGEN_LIBGR.INode output_0; 
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected>)matches, out output_0);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected>)matches, out output_0);
             ReturnArray[0] = output_0;
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(Apply(graph, ref output_0)) {
+            if(Apply(procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(Apply(graph, ref output_0)) {
+            if(Apply(procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(ApplyAll(maxMatches, graph, ref output_0)) {
+            if(ApplyAll(maxMatches, procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             GRGEN_LIBGR.INode output_0 = null; 
-            if(ApplyAll(maxMatches, graph, ref output_0)) {
+            if(ApplyAll(maxMatches, procEnv, ref output_0)) {
                 ReturnArray[0] = output_0;
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -5150,21 +5186,21 @@ maxMatchesIterReached:
     public interface IAction_spanningTree
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTree_node_root);
+        GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTree_node_root);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTree.IMatch_spanningTree match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_spanningTree.IMatch_spanningTree match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTree_node_root);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTree_node_root);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTree_node_root);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTree_node_root);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode spanningTree_node_root);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, GRGEN_LIBGR.INode spanningTree_node_root);
     }
     
     public class Action_spanningTree : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_spanningTree
@@ -5185,8 +5221,9 @@ maxMatchesIterReached:
         public static Action_spanningTree Instance { get { return instance; } }
         private static Action_spanningTree instance = new Action_spanningTree();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTree_node_root)
+        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTree_node_root)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
@@ -5195,7 +5232,7 @@ maxMatchesIterReached:
             // Preset spanningTree_node_root 
             GRGEN_LGSP.LGSPNode candidate_spanningTree_node_root = (GRGEN_LGSP.LGSPNode)spanningTree_node_root;
             // Push subpattern matching task for sptr
-            PatternAction_SpanningTree taskFor_sptr = PatternAction_SpanningTree.getNewTask(graph, openTasks);
+            PatternAction_SpanningTree taskFor_sptr = PatternAction_SpanningTree.getNewTask(procEnv, openTasks);
             taskFor_sptr.SpanningTree_node_root = candidate_spanningTree_node_root;
             taskFor_sptr.searchPatternpath = false;
             taskFor_sptr.matchOfNestingPattern = null;
@@ -5233,138 +5270,138 @@ maxMatchesIterReached:
             candidate_spanningTree_node_root.lgspFlags = candidate_spanningTree_node_root.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_spanningTree_node_root;
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTree_node_root);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTree_node_root);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTree_node_root)
+        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTree_node_root)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTree_node_root);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches, spanningTree_node_root);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTree.IMatch_spanningTree match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_spanningTree.IMatch_spanningTree match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches)
         {
-            foreach(Rule_spanningTree.IMatch_spanningTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_spanningTree.IMatch_spanningTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTree_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTree_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTree_node_root);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTree_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTree_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches, spanningTree_node_root);
             if(matches.Count <= 0) return false;
-            foreach(Rule_spanningTree.IMatch_spanningTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_spanningTree.IMatch_spanningTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTree_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTree_node_root);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTree_node_root);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTree_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTree_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTree_node_root);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTree_node_root);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTree_node_root);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode spanningTree_node_root)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, GRGEN_LIBGR.INode spanningTree_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTree_node_root);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTree_node_root);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
+            return Match(procEnv, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
-        {
-            
-            Modify(graph, (Rule_spanningTree.IMatch_spanningTree)match);
-            return ReturnArray;
-        }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree>)matches);
+            Modify(procEnv, (Rule_spanningTree.IMatch_spanningTree)match);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
+        {
+            
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree>)matches);
+            return ReturnArray;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0])) {
+            if(Apply(procEnv, (GRGEN_LIBGR.INode) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0])) {
+            if(ApplyAll(maxMatches, procEnv, (GRGEN_LIBGR.INode) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyStar(procEnv, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyPlus(procEnv, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyMinMax(procEnv, min, max, (GRGEN_LIBGR.INode) parameters[0]);
         }
     }
 
@@ -5374,21 +5411,21 @@ maxMatchesIterReached:
     public interface IAction_edgesVisited
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_edgesVisited.IMatch_edgesVisited match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_edgesVisited.IMatch_edgesVisited match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_edgesVisited : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_edgesVisited
@@ -5409,8 +5446,9 @@ maxMatchesIterReached:
         public static Action_edgesVisited Instance { get { return instance; } }
         private static Action_edgesVisited instance = new Action_edgesVisited();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             // Lookup edgesVisited_edge_e 
@@ -5433,146 +5471,146 @@ maxMatchesIterReached:
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_edgesVisited.IMatch_edgesVisited match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_edgesVisited.IMatch_edgesVisited match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches)
         {
-            foreach(Rule_edgesVisited.IMatch_edgesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_edgesVisited.IMatch_edgesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_edgesVisited.IMatch_edgesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_edgesVisited.IMatch_edgesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_edgesVisited.IMatch_edgesVisited)match);
+            Modify(procEnv, (Rule_edgesVisited.IMatch_edgesVisited)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -5582,21 +5620,21 @@ maxMatchesIterReached:
     public interface IAction_nodesVisited
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_nodesVisited.IMatch_nodesVisited match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_nodesVisited.IMatch_nodesVisited match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_nodesVisited : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_nodesVisited
@@ -5617,8 +5655,9 @@ maxMatchesIterReached:
         public static Action_nodesVisited Instance { get { return instance; } }
         private static Action_nodesVisited instance = new Action_nodesVisited();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             // Lookup nodesVisited_node_n 
@@ -5641,146 +5680,146 @@ maxMatchesIterReached:
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_nodesVisited.IMatch_nodesVisited match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_nodesVisited.IMatch_nodesVisited match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches)
         {
-            foreach(Rule_nodesVisited.IMatch_nodesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_nodesVisited.IMatch_nodesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_nodesVisited.IMatch_nodesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_nodesVisited.IMatch_nodesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_nodesVisited.IMatch_nodesVisited)match);
+            Modify(procEnv, (Rule_nodesVisited.IMatch_nodesVisited)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -5790,21 +5829,21 @@ maxMatchesIterReached:
     public interface IAction_spanningTreeReverse
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
+        GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTreeReverse.IMatch_spanningTreeReverse match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_spanningTreeReverse.IMatch_spanningTreeReverse match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
     }
     
     public class Action_spanningTreeReverse : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_spanningTreeReverse
@@ -5825,8 +5864,9 @@ maxMatchesIterReached:
         public static Action_spanningTreeReverse Instance { get { return instance; } }
         private static Action_spanningTreeReverse instance = new Action_spanningTreeReverse();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
+        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
@@ -5835,7 +5875,7 @@ maxMatchesIterReached:
             // Preset spanningTreeReverse_node_root 
             GRGEN_LGSP.LGSPNode candidate_spanningTreeReverse_node_root = (GRGEN_LGSP.LGSPNode)spanningTreeReverse_node_root;
             // Push subpattern matching task for sptrr
-            PatternAction_SpanningTreeReverse taskFor_sptrr = PatternAction_SpanningTreeReverse.getNewTask(graph, openTasks);
+            PatternAction_SpanningTreeReverse taskFor_sptrr = PatternAction_SpanningTreeReverse.getNewTask(procEnv, openTasks);
             taskFor_sptrr.SpanningTreeReverse_node_root = candidate_spanningTreeReverse_node_root;
             taskFor_sptrr.searchPatternpath = false;
             taskFor_sptrr.matchOfNestingPattern = null;
@@ -5873,138 +5913,138 @@ maxMatchesIterReached:
             candidate_spanningTreeReverse_node_root.lgspFlags = candidate_spanningTreeReverse_node_root.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_spanningTreeReverse_node_root;
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeReverse_node_root);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
+        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTreeReverse_node_root);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches, spanningTreeReverse_node_root);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTreeReverse.IMatch_spanningTreeReverse match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_spanningTreeReverse.IMatch_spanningTreeReverse match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches)
         {
-            foreach(Rule_spanningTreeReverse.IMatch_spanningTreeReverse match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_spanningTreeReverse.IMatch_spanningTreeReverse match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeReverse_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeReverse_node_root);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTreeReverse_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches, spanningTreeReverse_node_root);
             if(matches.Count <= 0) return false;
-            foreach(Rule_spanningTreeReverse.IMatch_spanningTreeReverse match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_spanningTreeReverse.IMatch_spanningTreeReverse match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeReverse_node_root);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeReverse_node_root);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeReverse_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeReverse_node_root);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeReverse_node_root);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeReverse_node_root);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeReverse_node_root);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeReverse_node_root);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
+            return Match(procEnv, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
-        {
-            
-            Modify(graph, (Rule_spanningTreeReverse.IMatch_spanningTreeReverse)match);
-            return ReturnArray;
-        }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse>)matches);
+            Modify(procEnv, (Rule_spanningTreeReverse.IMatch_spanningTreeReverse)match);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
+        {
+            
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse>)matches);
+            return ReturnArray;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0])) {
+            if(Apply(procEnv, (GRGEN_LIBGR.INode) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0])) {
+            if(ApplyAll(maxMatches, procEnv, (GRGEN_LIBGR.INode) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyStar(procEnv, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyPlus(procEnv, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyMinMax(procEnv, min, max, (GRGEN_LIBGR.INode) parameters[0]);
         }
     }
 
@@ -6014,21 +6054,21 @@ maxMatchesIterReached:
     public interface IAction_spanningTreeOutgoing
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
+        GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
     }
     
     public class Action_spanningTreeOutgoing : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_spanningTreeOutgoing
@@ -6049,8 +6089,9 @@ maxMatchesIterReached:
         public static Action_spanningTreeOutgoing Instance { get { return instance; } }
         private static Action_spanningTreeOutgoing instance = new Action_spanningTreeOutgoing();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
+        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
@@ -6059,7 +6100,7 @@ maxMatchesIterReached:
             // Preset spanningTreeOutgoing_node_root 
             GRGEN_LGSP.LGSPNode candidate_spanningTreeOutgoing_node_root = (GRGEN_LGSP.LGSPNode)spanningTreeOutgoing_node_root;
             // Push subpattern matching task for _sub0
-            PatternAction_SpanningTreeOutgoing taskFor__sub0 = PatternAction_SpanningTreeOutgoing.getNewTask(graph, openTasks);
+            PatternAction_SpanningTreeOutgoing taskFor__sub0 = PatternAction_SpanningTreeOutgoing.getNewTask(procEnv, openTasks);
             taskFor__sub0.SpanningTreeOutgoing_node_root = candidate_spanningTreeOutgoing_node_root;
             taskFor__sub0.searchPatternpath = false;
             taskFor__sub0.matchOfNestingPattern = null;
@@ -6097,138 +6138,138 @@ maxMatchesIterReached:
             candidate_spanningTreeOutgoing_node_root.lgspFlags = candidate_spanningTreeOutgoing_node_root.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_spanningTreeOutgoing_node_root;
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
+        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTreeOutgoing_node_root);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches, spanningTreeOutgoing_node_root);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches)
         {
-            foreach(Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeOutgoing_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeOutgoing_node_root);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTreeOutgoing_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches, spanningTreeOutgoing_node_root);
             if(matches.Count <= 0) return false;
-            foreach(Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeOutgoing_node_root);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeOutgoing_node_root);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeOutgoing_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeOutgoing_node_root);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeOutgoing_node_root);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeOutgoing_node_root);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeOutgoing_node_root);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeOutgoing_node_root);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
+            return Match(procEnv, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
-        {
-            
-            Modify(graph, (Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing)match);
-            return ReturnArray;
-        }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>)matches);
+            Modify(procEnv, (Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing)match);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
+        {
+            
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>)matches);
+            return ReturnArray;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0])) {
+            if(Apply(procEnv, (GRGEN_LIBGR.INode) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0])) {
+            if(ApplyAll(maxMatches, procEnv, (GRGEN_LIBGR.INode) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyStar(procEnv, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyPlus(procEnv, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyMinMax(procEnv, min, max, (GRGEN_LIBGR.INode) parameters[0]);
         }
     }
 
@@ -6238,21 +6279,21 @@ maxMatchesIterReached:
     public interface IAction_spanningTreeIncoming
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
+        GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
     }
     
     public class Action_spanningTreeIncoming : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_spanningTreeIncoming
@@ -6273,8 +6314,9 @@ maxMatchesIterReached:
         public static Action_spanningTreeIncoming Instance { get { return instance; } }
         private static Action_spanningTreeIncoming instance = new Action_spanningTreeIncoming();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
+        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
@@ -6283,7 +6325,7 @@ maxMatchesIterReached:
             // Preset spanningTreeIncoming_node_root 
             GRGEN_LGSP.LGSPNode candidate_spanningTreeIncoming_node_root = (GRGEN_LGSP.LGSPNode)spanningTreeIncoming_node_root;
             // Push subpattern matching task for _sub0
-            PatternAction_SpanningTreeIncoming taskFor__sub0 = PatternAction_SpanningTreeIncoming.getNewTask(graph, openTasks);
+            PatternAction_SpanningTreeIncoming taskFor__sub0 = PatternAction_SpanningTreeIncoming.getNewTask(procEnv, openTasks);
             taskFor__sub0.SpanningTreeIncoming_node_root = candidate_spanningTreeIncoming_node_root;
             taskFor__sub0.searchPatternpath = false;
             taskFor__sub0.matchOfNestingPattern = null;
@@ -6321,138 +6363,138 @@ maxMatchesIterReached:
             candidate_spanningTreeIncoming_node_root.lgspFlags = candidate_spanningTreeIncoming_node_root.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_spanningTreeIncoming_node_root;
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeIncoming_node_root);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
+        public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTreeIncoming_node_root);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches, spanningTreeIncoming_node_root);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches)
         {
-            foreach(Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeIncoming_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeIncoming_node_root);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTreeIncoming_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches, spanningTreeIncoming_node_root);
             if(matches.Count <= 0) return false;
-            foreach(Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeIncoming_node_root);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeIncoming_node_root);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeIncoming_node_root);
+            GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeIncoming_node_root);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeIncoming_node_root);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeIncoming_node_root);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeIncoming_node_root);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1, spanningTreeIncoming_node_root);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
+            return Match(procEnv, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
-        {
-            
-            Modify(graph, (Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming)match);
-            return ReturnArray;
-        }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>)matches);
+            Modify(procEnv, (Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming)match);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
+        {
+            
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>)matches);
+            return ReturnArray;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0])) {
+            if(Apply(procEnv, (GRGEN_LIBGR.INode) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0])) {
+            if(ApplyAll(maxMatches, procEnv, (GRGEN_LIBGR.INode) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyStar(procEnv, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyPlus(procEnv, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             throw new Exception(); return false;
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max, (GRGEN_LIBGR.INode) parameters[0]);
+            return ApplyMinMax(procEnv, min, max, (GRGEN_LIBGR.INode) parameters[0]);
         }
     }
 

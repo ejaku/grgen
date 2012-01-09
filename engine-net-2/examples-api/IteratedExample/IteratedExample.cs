@@ -17,19 +17,21 @@ namespace Iterated
     {
         LGSPGraph graph;
         spanningTreeActions actions;
+        LGSPGraphProcessingEnvironment procEnv;
 
         void DoIter()
         {
             graph = new LGSPGraph(new StdGraphModel());
             actions = new spanningTreeActions(graph);
+            procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
             IAction_initUndirected init = actions.initUndirected;
-            IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matchesInitUndirected = init.Match(graph, 0);
+            IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matchesInitUndirected = init.Match(procEnv, 0);
             INode root;
-            init.Modify(graph, matchesInitUndirected.FirstExact, out root);
+            init.Modify(procEnv, matchesInitUndirected.FirstExact, out root);
 
-            IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matchesSpanningTree = actions.spanningTree.Match(graph, 0, root);
-            actions.spanningTree.Modify(graph, matchesSpanningTree.FirstExact);
+            IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matchesSpanningTree = actions.spanningTree.Match(procEnv, 0, root);
+            actions.spanningTree.Modify(procEnv, matchesSpanningTree.FirstExact);
             Console.WriteLine(matchesSpanningTree.Count + " matches found.");
         }
 

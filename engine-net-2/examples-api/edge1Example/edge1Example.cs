@@ -17,30 +17,32 @@ namespace edge1
     {
         StdGraph graph;
         edge1Actions actions;
+        LGSPGraphProcessingEnvironment procEnv;
 
         void DoEdge1()
         {
             graph = new StdGraph();
             actions = new edge1Actions(graph);
+            procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-			graph.PerformanceInfo = new PerformanceInfo();
+			procEnv.PerformanceInfo = new PerformanceInfo();
 
             // use graph rewrite sequence
-            actions.ApplyGraphRewriteSequence("init3");
+            procEnv.ApplyGraphRewriteSequence("init3");
 
-			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
-			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
-			graph.PerformanceInfo.Reset();
+			Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            procEnv.PerformanceInfo.Reset();
 
             // use old inexact interface
-            IMatches matches = actions.GetAction("findTripleCircle").Match(graph, 0, null);
+            IMatches matches = actions.GetAction("findTripleCircle").Match(procEnv, 0, null);
             Console.WriteLine(matches.Count + " matches found.");
 
             // use new exact interface
-            IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matchesExact = 
-                actions.findTripleCircle.Match(graph, 0);
+            IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matchesExact =
+                actions.findTripleCircle.Match(procEnv, 0);
             Console.WriteLine(matchesExact.Count + " matches found.");
-            actions.findTripleCircle.Modify(graph, matchesExact.FirstExact); // rewrite first match (largely nop, as findTripleCircle is a test)
+            actions.findTripleCircle.Modify(procEnv, matchesExact.FirstExact); // rewrite first match (largely nop, as findTripleCircle is a test)
         }
 
         static void Main(string[] args)

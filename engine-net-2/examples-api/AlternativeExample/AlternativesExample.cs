@@ -17,27 +17,29 @@ namespace Alternatives
     {
         LGSPGraph graph;
         AlternativesActions actions;
+        LGSPGraphProcessingEnvironment procEnv;
 
         void DoAlt()
         {
             graph = new LGSPGraph(new AlternativesGraphModel());
             actions = new AlternativesActions(graph);
+            procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-			graph.PerformanceInfo = new PerformanceInfo();
+            procEnv.PerformanceInfo = new PerformanceInfo();
 
             // use graph rewrite sequence
-            actions.ApplyGraphRewriteSequence("createComplex");
+            procEnv.ApplyGraphRewriteSequence("createComplex");
 
-			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
-			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
-			graph.PerformanceInfo.Reset();
+            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            procEnv.PerformanceInfo.Reset();
 
             // use old inexact interface
-            IMatches matches = actions.GetAction("Complex").Match(graph, 0, null);
+            IMatches matches = actions.GetAction("Complex").Match(procEnv, 0, null);
             Console.WriteLine(matches.Count + " Complex matches found.");
 
             // use new 2.5 exact interface
-            IMatchesExact<Rule_ComplexMax.IMatch_ComplexMax> matchesExact = actions.ComplexMax.Match(graph, 0);
+            IMatchesExact<Rule_ComplexMax.IMatch_ComplexMax> matchesExact = actions.ComplexMax.Match(procEnv, 0);
             Console.WriteLine(matchesExact.Count + " ComplexMax matches found.");
         }
 

@@ -17,40 +17,42 @@ namespace Independent
     {
         LGSPGraph graph;
         IndependentActions actions;
+        LGSPGraphProcessingEnvironment procEnv;
 
         void DoIdpt()
         {
             graph = new LGSPGraph(new IndependentGraphModel());
             actions = new IndependentActions(graph);
+            procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-            graph.PerformanceInfo = new PerformanceInfo();
+            procEnv.PerformanceInfo = new PerformanceInfo();
 
-            actions.ApplyGraphRewriteSequence("create");
+            procEnv.ApplyGraphRewriteSequence("create");
 
-			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
-			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
-			graph.PerformanceInfo.Reset();
+			Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+			Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+			procEnv.PerformanceInfo.Reset();
 
-            IMatches matches = actions.GetAction("findIndependent").Match(graph, 0, null);
+            IMatches matches = actions.GetAction("findIndependent").Match(procEnv, 0, null);
             Console.WriteLine(matches.Count + " matches found.");
 
             graph.Clear();
 
-            actions.ApplyGraphRewriteSequence("createIterated");
+            procEnv.ApplyGraphRewriteSequence("createIterated");
 
-            Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
-            graph.PerformanceInfo.Reset();
+            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            procEnv.PerformanceInfo.Reset();
 
             IAction_createIterated createIterated = actions.createIterated;
             IMatchesExact<Rule_createIterated.IMatch_createIterated> matchesCreateIterated = 
-                createIterated.Match(graph, 0);
+                createIterated.Match(procEnv, 0);
             IintNode beg;
             INode end;
-            createIterated.Modify(graph, matchesCreateIterated.FirstExact, out beg, out end);
+            createIterated.Modify(procEnv, matchesCreateIterated.FirstExact, out beg, out end);
 
             IMatchesExact<Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> matchesFindChain =
-                actions.findChainPlusChainToIntIndependent.Match(graph, 0, beg, end);
+                actions.findChainPlusChainToIntIndependent.Match(procEnv, 0, beg, end);
             Console.WriteLine(matchesFindChain.Count + " matches found.");
         }
 

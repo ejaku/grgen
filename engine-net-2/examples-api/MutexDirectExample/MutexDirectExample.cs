@@ -40,6 +40,7 @@ namespace MutexExample
 
             MutexGraph graph = new MutexGraph();
             MutexPimpedActions actions = new MutexPimpedActions(graph);
+            LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
             LGSPNode p1 = graph.CreateNodeProcess();
             LGSPNode p2 = graph.CreateNodeProcess();
@@ -50,18 +51,18 @@ namespace MutexExample
             Action_newRule newRule = Action_newRule.Instance;
             for(int i = 0; i < n - 2; i++)
             {
-                matches = newRule.Match(graph, 1);
-                newRule.Modify(graph, matches.First);
+                matches = newRule.Match(procEnv, 1);
+                newRule.Modify(procEnv, matches.First);
             }
 
-            matches = Action_mountRule.Instance.Match(graph, 1);
-            Action_mountRule.Instance.Modify(graph, matches.First);
+            matches = Action_mountRule.Instance.Match(procEnv, 1);
+            Action_mountRule.Instance.Modify(procEnv, matches.First);
 
             Action_requestRule requestRule = Action_requestRule.Instance;
             for(int i = 0; i < n; i++)
             {
-                matches = requestRule.Match(graph, 1);
-                requestRule.Modify(graph, matches.First);
+                matches = requestRule.Match(procEnv, 1);
+                requestRule.Modify(procEnv, matches.First);
             }
 
             /**
@@ -90,12 +91,12 @@ namespace MutexExample
             Action_giveRule giveRule = Action_giveRule.Instance;
             for(int i = 0; i < n; i++)
             {
-                matches = takeRule.Match(graph, 1);
-                takeRule.Modify(graph, matches.First);
-                matches = releaseRule.Match(graph, 1);
-                releaseRule.Modify(graph, matches.First);
-                matches = giveRule.Match(graph, 1);
-                giveRule.Modify(graph, matches.First);
+                matches = takeRule.Match(procEnv, 1);
+                takeRule.Modify(procEnv, matches.First);
+                matches = releaseRule.Match(procEnv, 1);
+                releaseRule.Modify(procEnv, matches.First);
+                matches = giveRule.Match(procEnv, 1);
+                giveRule.Modify(procEnv, matches.First);
             }
 
             int endTime = Environment.TickCount;
@@ -137,24 +138,25 @@ namespace MutexExample
 
 			MutexGraph graph = new MutexGraph();
 			MutexPimpedActions actions = new MutexPimpedActions(graph);
+            LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
 			LGSPNode p1 = graph.CreateNodeProcess();
 			LGSPNode p2 = graph.CreateNodeProcess();
 			LGSPEdge n1 = graph.CreateEdgenext(p1, p2);
 			LGSPEdge n2 = graph.CreateEdgenext(p2, p1);
 
-            Action_newRule.Instance.ApplyMinMax(graph, n - 2, n - 2);
-            Action_mountRule.Instance.Apply(graph);
-            Action_requestRule.Instance.ApplyMinMax(graph, n, n);
+            Action_newRule.Instance.ApplyMinMax(procEnv, n - 2, n - 2);
+            Action_mountRule.Instance.Apply(procEnv);
+            Action_requestRule.Instance.ApplyMinMax(procEnv, n, n);
 
             Action_takeRule takeRule = Action_takeRule.Instance;
             Action_releaseRule releaseRule = Action_releaseRule.Instance;
             Action_giveRule giveRule = Action_giveRule.Instance;
             for(int i = 0; i < n; i++)
             {
-                takeRule.Apply(graph);
-                releaseRule.Apply(graph);
-                giveRule.Apply(graph);
+                takeRule.Apply(procEnv);
+                releaseRule.Apply(procEnv);
+                giveRule.Apply(procEnv);
             }
 
             int endTime = Environment.TickCount;
@@ -176,13 +178,14 @@ namespace MutexExample
 
 			MutexGraph graph = new MutexGraph();
 			MutexPimpedActions actions = new MutexPimpedActions(graph);
+            LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
 			LGSPNode p1 = graph.CreateNodeProcess();
 			LGSPNode p2 = graph.CreateNodeProcess();
 			LGSPEdge n1 = graph.CreateEdgenext(p1, p2);
 			LGSPEdge n2 = graph.CreateEdgenext(p2, p1);
 
-            actions.ApplyGraphRewriteSequence("newRule[" + (n - 2) + "] && mountRule && requestRule[" + n
+            procEnv.ApplyGraphRewriteSequence("newRule[" + (n - 2) + "] && mountRule && requestRule[" + n
                 + "] && (takeRule && releaseRule && giveRule)[" + n + "]");
 
             int endTime = Environment.TickCount;

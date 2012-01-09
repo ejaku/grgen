@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Sat Jun 25 14:38:20 CEST 2011
+// Generated from "..\..\tests\edge1\edge1.grg" on Sun Jan 08 18:57:24 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -75,8 +75,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_init curMatch = (Match_init)_curMatch;
 			graph.SettingAddedNodeNames( init_addedNodeNames );
 			GRGEN_MODEL.@Node node_x = GRGEN_MODEL.@Node.CreateNode(graph);
@@ -257,8 +258,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_init2 curMatch = (Match_init2)_curMatch;
 			graph.SettingAddedNodeNames( init2_addedNodeNames );
 			GRGEN_MODEL.@Node node__node0 = GRGEN_MODEL.@Node.CreateNode(graph);
@@ -438,8 +440,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_init3 curMatch = (Match_init3)_curMatch;
 			graph.SettingAddedNodeNames( init3_addedNodeNames );
 			GRGEN_MODEL.@Node node_x = GRGEN_MODEL.@Node.CreateNode(graph);
@@ -643,8 +646,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_findUndirectedEdge curMatch = (Match_findUndirectedEdge)_curMatch;
 			return;
 		}
@@ -850,8 +854,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_findArbitraryEdge curMatch = (Match_findArbitraryEdge)_curMatch;
 			return;
 		}
@@ -1057,8 +1062,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_findArbitraryDirectedEdge curMatch = (Match_findArbitraryDirectedEdge)_curMatch;
 			return;
 		}
@@ -1258,8 +1264,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_findArbitraryDirectedReflexiveEdge curMatch = (Match_findArbitraryDirectedReflexiveEdge)_curMatch;
 			return;
 		}
@@ -1469,8 +1476,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne curMatch = (Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne)_curMatch;
 			return;
 		}
@@ -1694,8 +1702,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_findArbitraryDirectedTriple curMatch = (Match_findArbitraryDirectedTriple)_curMatch;
 			return;
 		}
@@ -1909,8 +1918,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_findDirectedEdge curMatch = (Match_findDirectedEdge)_curMatch;
 			return;
 		}
@@ -2138,8 +2148,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch)
 		{
+			GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
 			Match_findTripleCircle curMatch = (Match_findTripleCircle)_curMatch;
 			return;
 		}
@@ -2320,21 +2331,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_init
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_init.IMatch_init match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_init.IMatch_init match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_init : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init
@@ -2355,8 +2366,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_init Instance { get { return instance; } }
         private static Action_init instance = new Action_init();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             Rule_init.Match_init match = matches.GetNextUnfilledPosition();
@@ -2368,146 +2380,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_init.IMatch_init match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_init.IMatch_init match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches)
         {
-            foreach(Rule_init.IMatch_init match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_init.IMatch_init match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_init.IMatch_init match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_init.IMatch_init match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_init.IMatch_init)match);
+            Modify(procEnv, (Rule_init.IMatch_init)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -2517,21 +2529,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_init2
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_init2.IMatch_init2 match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_init2.IMatch_init2 match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_init2 : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init2
@@ -2552,8 +2564,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_init2 Instance { get { return instance; } }
         private static Action_init2 instance = new Action_init2();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             Rule_init2.Match_init2 match = matches.GetNextUnfilledPosition();
@@ -2565,146 +2578,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_init2.IMatch_init2 match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_init2.IMatch_init2 match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches)
         {
-            foreach(Rule_init2.IMatch_init2 match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_init2.IMatch_init2 match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_init2.IMatch_init2 match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_init2.IMatch_init2 match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_init2.IMatch_init2)match);
+            Modify(procEnv, (Rule_init2.IMatch_init2)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -2714,21 +2727,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_init3
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_init3.IMatch_init3 match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_init3.IMatch_init3 match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_init3 : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init3
@@ -2749,8 +2762,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_init3 Instance { get { return instance; } }
         private static Action_init3 instance = new Action_init3();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             Rule_init3.Match_init3 match = matches.GetNextUnfilledPosition();
@@ -2762,146 +2776,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_init3.IMatch_init3 match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_init3.IMatch_init3 match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches)
         {
-            foreach(Rule_init3.IMatch_init3 match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_init3.IMatch_init3 match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_init3.IMatch_init3 match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_init3.IMatch_init3 match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_init3.IMatch_init3)match);
+            Modify(procEnv, (Rule_init3.IMatch_init3)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -2911,21 +2925,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_findUndirectedEdge
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_findUndirectedEdge.IMatch_findUndirectedEdge match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findUndirectedEdge.IMatch_findUndirectedEdge match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_findUndirectedEdge : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findUndirectedEdge
@@ -2946,8 +2960,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_findUndirectedEdge Instance { get { return instance; } }
         private static Action_findUndirectedEdge instance = new Action_findUndirectedEdge();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             // Lookup findUndirectedEdge_edge__edge0 
@@ -2986,146 +3001,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_findUndirectedEdge.IMatch_findUndirectedEdge match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findUndirectedEdge.IMatch_findUndirectedEdge match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches)
         {
-            foreach(Rule_findUndirectedEdge.IMatch_findUndirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findUndirectedEdge.IMatch_findUndirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_findUndirectedEdge.IMatch_findUndirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findUndirectedEdge.IMatch_findUndirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_findUndirectedEdge.IMatch_findUndirectedEdge)match);
+            Modify(procEnv, (Rule_findUndirectedEdge.IMatch_findUndirectedEdge)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -3135,21 +3150,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_findArbitraryEdge
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_findArbitraryEdge.IMatch_findArbitraryEdge match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findArbitraryEdge.IMatch_findArbitraryEdge match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_findArbitraryEdge : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findArbitraryEdge
@@ -3170,8 +3185,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_findArbitraryEdge Instance { get { return instance; } }
         private static Action_findArbitraryEdge instance = new Action_findArbitraryEdge();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             // Lookup findArbitraryEdge_edge__edge0 
@@ -3213,146 +3229,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_findArbitraryEdge.IMatch_findArbitraryEdge match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findArbitraryEdge.IMatch_findArbitraryEdge match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches)
         {
-            foreach(Rule_findArbitraryEdge.IMatch_findArbitraryEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findArbitraryEdge.IMatch_findArbitraryEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_findArbitraryEdge.IMatch_findArbitraryEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findArbitraryEdge.IMatch_findArbitraryEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_findArbitraryEdge.IMatch_findArbitraryEdge)match);
+            Modify(procEnv, (Rule_findArbitraryEdge.IMatch_findArbitraryEdge)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -3362,21 +3378,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_findArbitraryDirectedEdge
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_findArbitraryDirectedEdge : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findArbitraryDirectedEdge
@@ -3397,8 +3413,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_findArbitraryDirectedEdge Instance { get { return instance; } }
         private static Action_findArbitraryDirectedEdge instance = new Action_findArbitraryDirectedEdge();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             // Lookup findArbitraryDirectedEdge_edge__edge0 
@@ -3437,146 +3454,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches)
         {
-            foreach(Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge)match);
+            Modify(procEnv, (Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -3586,21 +3603,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_findArbitraryDirectedReflexiveEdge
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_findArbitraryDirectedReflexiveEdge : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findArbitraryDirectedReflexiveEdge
@@ -3621,8 +3638,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_findArbitraryDirectedReflexiveEdge Instance { get { return instance; } }
         private static Action_findArbitraryDirectedReflexiveEdge instance = new Action_findArbitraryDirectedReflexiveEdge();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             // Lookup findArbitraryDirectedReflexiveEdge_edge__edge0 
@@ -3650,146 +3668,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches)
         {
-            foreach(Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge)match);
+            Modify(procEnv, (Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -3799,21 +3817,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne
@@ -3834,8 +3852,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne Instance { get { return instance; } }
         private static Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne instance = new Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             // Lookup findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 
@@ -3892,146 +3911,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches)
         {
-            foreach(Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne)match);
+            Modify(procEnv, (Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -4041,21 +4060,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_findArbitraryDirectedTriple
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_findArbitraryDirectedTriple : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findArbitraryDirectedTriple
@@ -4076,8 +4095,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_findArbitraryDirectedTriple Instance { get { return instance; } }
         private static Action_findArbitraryDirectedTriple instance = new Action_findArbitraryDirectedTriple();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             // Lookup findArbitraryDirectedTriple_edge__edge1 
@@ -4160,146 +4180,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches)
         {
-            foreach(Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple)match);
+            Modify(procEnv, (Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -4309,21 +4329,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_findDirectedEdge
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_findDirectedEdge.IMatch_findDirectedEdge match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findDirectedEdge.IMatch_findDirectedEdge match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_findDirectedEdge : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findDirectedEdge
@@ -4344,8 +4364,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_findDirectedEdge Instance { get { return instance; } }
         private static Action_findDirectedEdge instance = new Action_findDirectedEdge();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             // Lookup findDirectedEdge_edge__edge0 
@@ -4380,146 +4401,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_findDirectedEdge.IMatch_findDirectedEdge match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findDirectedEdge.IMatch_findDirectedEdge match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches)
         {
-            foreach(Rule_findDirectedEdge.IMatch_findDirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findDirectedEdge.IMatch_findDirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_findDirectedEdge.IMatch_findDirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findDirectedEdge.IMatch_findDirectedEdge match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_findDirectedEdge.IMatch_findDirectedEdge)match);
+            Modify(procEnv, (Rule_findDirectedEdge.IMatch_findDirectedEdge)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 
@@ -4529,21 +4550,21 @@ namespace de.unika.ipd.grGen.Action_edge1
     public interface IAction_findTripleCircle
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        void Modify(GRGEN_LIBGR.IGraph graph, Rule_findTripleCircle.IMatch_findTripleCircle match);
+        void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findTripleCircle.IMatch_findTripleCircle match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches);
+        void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max);
     }
     
     public class Action_findTripleCircle : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findTripleCircle
@@ -4564,8 +4585,9 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static Action_findTripleCircle Instance { get { return instance; } }
         private static Action_findTripleCircle instance = new Action_findTripleCircle();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> myMatch(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches)
         {
+            GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             matches.Clear();
             int negLevel = 0;
             // Lookup findTripleCircle_edge__edge0 
@@ -4684,146 +4706,146 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
             return matches;
         }
-        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
         }
-        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_findTripleCircle.IMatch_findTripleCircle match)
+        public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, Rule_findTripleCircle.IMatch_findTripleCircle match)
         {
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches)
         {
-            foreach(Rule_findTripleCircle.IMatch_findTripleCircle match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findTripleCircle.IMatch_findTripleCircle match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
-            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches);
             if(matches.Count <= 0) return false;
-            foreach(Rule_findTripleCircle.IMatch_findTripleCircle match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            foreach(Rule_findTripleCircle.IMatch_findTripleCircle match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return true;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             if(matches.Count <= 0) return false;
             
             do
             {
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1);
                 if(matches.Count <= 0) return i >= min;
-                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First);
             }
             return true;
         }
         // implementation of inexact action interface by delegation to exact action interface
-        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(procEnv, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)
         {
             
-            Modify(graph, (Rule_findTripleCircle.IMatch_findTripleCircle)match);
+            Modify(procEnv, (Rule_findTripleCircle.IMatch_findTripleCircle)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)
         {
             
-            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle>)matches);
+            ModifyAll(procEnv, (GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle>)matches);
             return ReturnArray;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, procEnv)) {
                 return ReturnArray;
             }
             else return null;
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(procEnv);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
-        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(procEnv, min, max);
         }
     }
 

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sat Jun 25 14:38:14 CEST 2011
+// Generated from "test.grg" on Sun Jan 08 18:57:20 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@Node node;
 			if(poolLevel == 0)
@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set/array creation of Node
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -90,12 +90,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -186,7 +186,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@A1 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@A1 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@A1 node;
 			if(poolLevel == 0)
@@ -201,7 +201,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@a1 = 0;
 				// explicit initializations of A1 for target A1
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -225,7 +225,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a1": return this.@a1;
 			}
 			throw new NullReferenceException(
-				"The node type \"A1\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"A1\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -234,7 +234,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a1": this.@a1 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"A1\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"A1\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -355,7 +355,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@A2 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@A2 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@A2 node;
 			if(poolLevel == 0)
@@ -370,7 +370,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@a2 = 0;
 				// explicit initializations of A2 for target A2
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -394,7 +394,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a2": return this.@a2;
 			}
 			throw new NullReferenceException(
-				"The node type \"A2\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"A2\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -403,7 +403,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a2": this.@a2 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"A2\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"A2\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -531,7 +531,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@A3 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@A3 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@A3 node;
 			if(poolLevel == 0)
@@ -546,7 +546,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@a3 = 0;
 				// explicit initializations of A3 for target A3
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -570,7 +570,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a3": return this.@a3;
 			}
 			throw new NullReferenceException(
-				"The node type \"A3\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"A3\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -579,7 +579,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a3": this.@a3 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"A3\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"A3\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -700,7 +700,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@A4 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@A4 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@A4 node;
 			if(poolLevel == 0)
@@ -715,7 +715,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@a4 = 0;
 				// explicit initializations of A4 for target A4
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -739,7 +739,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a4": return this.@a4;
 			}
 			throw new NullReferenceException(
-				"The node type \"A4\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"A4\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -748,7 +748,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a4": this.@a4 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"A4\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"A4\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -877,7 +877,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@A5 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@A5 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@A5 node;
 			if(poolLevel == 0)
@@ -892,7 +892,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@a5 = 0;
 				// explicit initializations of A5 for target A5
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -916,7 +916,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a5": return this.@a5;
 			}
 			throw new NullReferenceException(
-				"The node type \"A5\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"A5\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -925,7 +925,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a5": this.@a5 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"A5\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"A5\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1053,7 +1053,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@B21 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@B21 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@B21 node;
 			if(poolLevel == 0)
@@ -1070,7 +1070,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of A2 for target B21
 				// explicit initializations of B21 for target B21
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -1102,7 +1102,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b21": return this.@b21;
 			}
 			throw new NullReferenceException(
-				"The node type \"B21\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B21\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -1112,7 +1112,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b21": this.@b21 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B21\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B21\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1257,7 +1257,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@B22 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@B22 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@B22 node;
 			if(poolLevel == 0)
@@ -1274,7 +1274,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of A2 for target B22
 				// explicit initializations of B22 for target B22
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -1306,7 +1306,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b22": return this.@b22;
 			}
 			throw new NullReferenceException(
-				"The node type \"B22\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B22\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -1316,7 +1316,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b22": this.@b22 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B22\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B22\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1461,7 +1461,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@B23 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@B23 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@B23 node;
 			if(poolLevel == 0)
@@ -1478,7 +1478,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of A2 for target B23
 				// explicit initializations of B23 for target B23
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -1510,7 +1510,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b23": return this.@b23;
 			}
 			throw new NullReferenceException(
-				"The node type \"B23\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B23\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -1520,7 +1520,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b23": this.@b23 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B23\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B23\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1665,7 +1665,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@B41 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@B41 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@B41 node;
 			if(poolLevel == 0)
@@ -1682,7 +1682,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of A4 for target B41
 				// explicit initializations of B41 for target B41
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -1714,7 +1714,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b41": return this.@b41;
 			}
 			throw new NullReferenceException(
-				"The node type \"B41\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B41\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -1724,7 +1724,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b41": this.@b41 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B41\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B41\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1870,7 +1870,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@B42 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@B42 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@B42 node;
 			if(poolLevel == 0)
@@ -1887,7 +1887,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of A4 for target B42
 				// explicit initializations of B42 for target B42
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -1919,7 +1919,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b42": return this.@b42;
 			}
 			throw new NullReferenceException(
-				"The node type \"B42\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B42\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -1929,7 +1929,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b42": this.@b42 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B42\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B42\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -2072,7 +2072,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@B43 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@B43 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@B43 node;
 			if(poolLevel == 0)
@@ -2088,7 +2088,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of A4 for target B43
 				// explicit initializations of B43 for target B43
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -2112,7 +2112,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a4": return this.@a4;
 			}
 			throw new NullReferenceException(
-				"The node type \"B43\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B43\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -2121,7 +2121,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a4": this.@a4 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B43\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"B43\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -2267,7 +2267,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@C221 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@C221 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@C221 node;
 			if(poolLevel == 0)
@@ -2286,7 +2286,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of B22 for target C221
 				// explicit initializations of C221 for target C221
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -2326,7 +2326,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c221": return this.@c221;
 			}
 			throw new NullReferenceException(
-				"The node type \"C221\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"C221\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -2337,7 +2337,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c221": this.@c221 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"C221\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"C221\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -2512,7 +2512,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@C222_411 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@C222_411 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@C222_411 node;
 			if(poolLevel == 0)
@@ -2535,7 +2535,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of B41 for target C222_411
 				// explicit initializations of C222_411 for target C222_411
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -2591,7 +2591,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c222_411": return this.@c222_411;
 			}
 			throw new NullReferenceException(
-				"The node type \"C222_411\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"C222_411\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -2604,7 +2604,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c222_411": this.@c222_411 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"C222_411\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"C222_411\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -2821,7 +2821,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@C412_421_431_51 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@C412_421_431_51 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@C412_421_431_51 node;
 			if(poolLevel == 0)
@@ -2844,7 +2844,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of A5 for target C412_421_431_51
 				// explicit initializations of C412_421_431_51 for target C412_421_431_51
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -2892,7 +2892,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a5": return this.@a5;
 			}
 			throw new NullReferenceException(
-				"The node type \"C412_421_431_51\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"C412_421_431_51\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -2904,7 +2904,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a5": this.@a5 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"C412_421_431_51\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"C412_421_431_51\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -3106,7 +3106,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@C432_422 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@C432_422 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@C432_422 node;
 			if(poolLevel == 0)
@@ -3126,7 +3126,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of B42 for target C432_422
 				// explicit initializations of C432_422 for target C432_422
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -3166,7 +3166,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c432_422": return this.@c432_422;
 			}
 			throw new NullReferenceException(
-				"The node type \"C432_422\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"C432_422\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -3177,7 +3177,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c432_422": this.@c432_422 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"C432_422\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"C432_422\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -3381,7 +3381,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@D11_2221 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@D11_2221 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@D11_2221 node;
 			if(poolLevel == 0)
@@ -3408,7 +3408,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of C222_411 for target D11_2221
 				// explicit initializations of D11_2221 for target D11_2221
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -3480,7 +3480,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d11_2221": return this.@d11_2221;
 			}
 			throw new NullReferenceException(
-				"The node type \"D11_2221\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"D11_2221\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -3495,7 +3495,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d11_2221": this.@d11_2221 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"D11_2221\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"D11_2221\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -3756,7 +3756,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@D2211_2222_31 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@D2211_2222_31 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@D2211_2222_31 node;
 			if(poolLevel == 0)
@@ -3785,7 +3785,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of A3 for target D2211_2222_31
 				// explicit initializations of D2211_2222_31 for target D2211_2222_31
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -3865,7 +3865,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d2211_2222_31": return this.@d2211_2222_31;
 			}
 			throw new NullReferenceException(
-				"The node type \"D2211_2222_31\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"D2211_2222_31\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -3881,7 +3881,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d2211_2222_31": this.@d2211_2222_31 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"D2211_2222_31\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"D2211_2222_31\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -4145,7 +4145,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static GRGEN_MODEL.@D231_4121 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@D231_4121 CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@D231_4121 node;
 			if(poolLevel == 0)
@@ -4174,7 +4174,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				// explicit initializations of C412_421_431_51 for target D231_4121
 				// explicit initializations of D231_4121 for target D231_4121
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -4204,7 +4204,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d231_4121": return this.@d231_4121;
 			}
 			throw new NullReferenceException(
-				"The node type \"D231_4121\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"D231_4121\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -4219,7 +4219,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d231_4121": this.@d231_4121 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"D231_4121\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"D231_4121\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -4966,7 +4966,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@Edge edge;
 			if(poolLevel == 0)
@@ -4979,7 +4979,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge.lgspTarget = target;
 				// implicit initialization, map/set/array creation of Edge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -4992,12 +4992,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -5082,7 +5082,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@UEdge edge;
 			if(poolLevel == 0)
@@ -5095,7 +5095,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge.lgspTarget = target;
 				// implicit initialization, map/set/array creation of UEdge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -5108,12 +5108,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -5272,19 +5272,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return GRGEN_MODEL.@Node.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@Node CreateNodeNode(string varName)
-		{
-			return GRGEN_MODEL.@Node.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@A1 CreateNodeA1()
 		{
 			return GRGEN_MODEL.@A1.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@A1 CreateNodeA1(string varName)
-		{
-			return GRGEN_MODEL.@A1.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@A2 CreateNodeA2()
@@ -5292,19 +5282,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return GRGEN_MODEL.@A2.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@A2 CreateNodeA2(string varName)
-		{
-			return GRGEN_MODEL.@A2.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@A3 CreateNodeA3()
 		{
 			return GRGEN_MODEL.@A3.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@A3 CreateNodeA3(string varName)
-		{
-			return GRGEN_MODEL.@A3.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@A4 CreateNodeA4()
@@ -5312,19 +5292,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return GRGEN_MODEL.@A4.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@A4 CreateNodeA4(string varName)
-		{
-			return GRGEN_MODEL.@A4.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@A5 CreateNodeA5()
 		{
 			return GRGEN_MODEL.@A5.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@A5 CreateNodeA5(string varName)
-		{
-			return GRGEN_MODEL.@A5.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@B21 CreateNodeB21()
@@ -5332,19 +5302,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return GRGEN_MODEL.@B21.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@B21 CreateNodeB21(string varName)
-		{
-			return GRGEN_MODEL.@B21.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@B22 CreateNodeB22()
 		{
 			return GRGEN_MODEL.@B22.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@B22 CreateNodeB22(string varName)
-		{
-			return GRGEN_MODEL.@B22.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@B23 CreateNodeB23()
@@ -5352,19 +5312,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return GRGEN_MODEL.@B23.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@B23 CreateNodeB23(string varName)
-		{
-			return GRGEN_MODEL.@B23.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@B41 CreateNodeB41()
 		{
 			return GRGEN_MODEL.@B41.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@B41 CreateNodeB41(string varName)
-		{
-			return GRGEN_MODEL.@B41.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@B42 CreateNodeB42()
@@ -5372,19 +5322,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return GRGEN_MODEL.@B42.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@B42 CreateNodeB42(string varName)
-		{
-			return GRGEN_MODEL.@B42.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@B43 CreateNodeB43()
 		{
 			return GRGEN_MODEL.@B43.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@B43 CreateNodeB43(string varName)
-		{
-			return GRGEN_MODEL.@B43.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@C221 CreateNodeC221()
@@ -5392,19 +5332,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return GRGEN_MODEL.@C221.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@C221 CreateNodeC221(string varName)
-		{
-			return GRGEN_MODEL.@C221.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@C222_411 CreateNodeC222_411()
 		{
 			return GRGEN_MODEL.@C222_411.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@C222_411 CreateNodeC222_411(string varName)
-		{
-			return GRGEN_MODEL.@C222_411.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@C412_421_431_51 CreateNodeC412_421_431_51()
@@ -5412,19 +5342,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return GRGEN_MODEL.@C412_421_431_51.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@C412_421_431_51 CreateNodeC412_421_431_51(string varName)
-		{
-			return GRGEN_MODEL.@C412_421_431_51.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@C432_422 CreateNodeC432_422()
 		{
 			return GRGEN_MODEL.@C432_422.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@C432_422 CreateNodeC432_422(string varName)
-		{
-			return GRGEN_MODEL.@C432_422.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@D11_2221 CreateNodeD11_2221()
@@ -5432,19 +5352,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return GRGEN_MODEL.@D11_2221.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@D11_2221 CreateNodeD11_2221(string varName)
-		{
-			return GRGEN_MODEL.@D11_2221.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@D2211_2222_31 CreateNodeD2211_2222_31()
 		{
 			return GRGEN_MODEL.@D2211_2222_31.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@D2211_2222_31 CreateNodeD2211_2222_31(string varName)
-		{
-			return GRGEN_MODEL.@D2211_2222_31.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@D231_4121 CreateNodeD231_4121()
@@ -5452,19 +5362,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return GRGEN_MODEL.@D231_4121.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@D231_4121 CreateNodeD231_4121(string varName)
-		{
-			return GRGEN_MODEL.@D231_4121.CreateNode(this, varName);
-		}
-
 		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -5472,9 +5372,239 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		private complModelNodeModel nodeModel = new complModelNodeModel();
+		private complModelEdgeModel edgeModel = new complModelEdgeModel();
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+
+		public string ModelName { get { return "complModel"; } }
+		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
+		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public string MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
+	}
+
+	//
+	// INamedGraph/IGraphModel implementation
+	//
+	public class complModelNamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel
+	{
+		public complModelNamedGraph() : base(GetNextGraphName())
 		{
-			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, varName);
+			InitializeGraph(this);
+		}
+
+		public GRGEN_MODEL.@Node CreateNodeNode()
+		{
+			return GRGEN_MODEL.@Node.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@Node CreateNodeNode(string nodeName)
+		{
+			return GRGEN_MODEL.@Node.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@A1 CreateNodeA1()
+		{
+			return GRGEN_MODEL.@A1.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@A1 CreateNodeA1(string nodeName)
+		{
+			return GRGEN_MODEL.@A1.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@A2 CreateNodeA2()
+		{
+			return GRGEN_MODEL.@A2.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@A2 CreateNodeA2(string nodeName)
+		{
+			return GRGEN_MODEL.@A2.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@A3 CreateNodeA3()
+		{
+			return GRGEN_MODEL.@A3.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@A3 CreateNodeA3(string nodeName)
+		{
+			return GRGEN_MODEL.@A3.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@A4 CreateNodeA4()
+		{
+			return GRGEN_MODEL.@A4.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@A4 CreateNodeA4(string nodeName)
+		{
+			return GRGEN_MODEL.@A4.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@A5 CreateNodeA5()
+		{
+			return GRGEN_MODEL.@A5.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@A5 CreateNodeA5(string nodeName)
+		{
+			return GRGEN_MODEL.@A5.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@B21 CreateNodeB21()
+		{
+			return GRGEN_MODEL.@B21.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@B21 CreateNodeB21(string nodeName)
+		{
+			return GRGEN_MODEL.@B21.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@B22 CreateNodeB22()
+		{
+			return GRGEN_MODEL.@B22.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@B22 CreateNodeB22(string nodeName)
+		{
+			return GRGEN_MODEL.@B22.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@B23 CreateNodeB23()
+		{
+			return GRGEN_MODEL.@B23.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@B23 CreateNodeB23(string nodeName)
+		{
+			return GRGEN_MODEL.@B23.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@B41 CreateNodeB41()
+		{
+			return GRGEN_MODEL.@B41.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@B41 CreateNodeB41(string nodeName)
+		{
+			return GRGEN_MODEL.@B41.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@B42 CreateNodeB42()
+		{
+			return GRGEN_MODEL.@B42.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@B42 CreateNodeB42(string nodeName)
+		{
+			return GRGEN_MODEL.@B42.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@B43 CreateNodeB43()
+		{
+			return GRGEN_MODEL.@B43.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@B43 CreateNodeB43(string nodeName)
+		{
+			return GRGEN_MODEL.@B43.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@C221 CreateNodeC221()
+		{
+			return GRGEN_MODEL.@C221.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@C221 CreateNodeC221(string nodeName)
+		{
+			return GRGEN_MODEL.@C221.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@C222_411 CreateNodeC222_411()
+		{
+			return GRGEN_MODEL.@C222_411.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@C222_411 CreateNodeC222_411(string nodeName)
+		{
+			return GRGEN_MODEL.@C222_411.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@C412_421_431_51 CreateNodeC412_421_431_51()
+		{
+			return GRGEN_MODEL.@C412_421_431_51.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@C412_421_431_51 CreateNodeC412_421_431_51(string nodeName)
+		{
+			return GRGEN_MODEL.@C412_421_431_51.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@C432_422 CreateNodeC432_422()
+		{
+			return GRGEN_MODEL.@C432_422.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@C432_422 CreateNodeC432_422(string nodeName)
+		{
+			return GRGEN_MODEL.@C432_422.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@D11_2221 CreateNodeD11_2221()
+		{
+			return GRGEN_MODEL.@D11_2221.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@D11_2221 CreateNodeD11_2221(string nodeName)
+		{
+			return GRGEN_MODEL.@D11_2221.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@D2211_2222_31 CreateNodeD2211_2222_31()
+		{
+			return GRGEN_MODEL.@D2211_2222_31.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@D2211_2222_31 CreateNodeD2211_2222_31(string nodeName)
+		{
+			return GRGEN_MODEL.@D2211_2222_31.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@D231_4121 CreateNodeD231_4121()
+		{
+			return GRGEN_MODEL.@D231_4121.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@D231_4121 CreateNodeD231_4121(string nodeName)
+		{
+			return GRGEN_MODEL.@D231_4121.CreateNode(this, nodeName);
+		}
+
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, edgeName);
 		}
 
 		private complModelNodeModel nodeModel = new complModelNodeModel();

@@ -25,6 +25,7 @@ namespace BusyBeaver
 
         Turing3Graph graph;
         Turing3Actions actions;
+        LGSPGraphProcessingEnvironment procEnv;
 
         void GenStateTransition(String srcState, int input, String destState, int output, int move)
         {
@@ -40,8 +41,8 @@ namespace BusyBeaver
             writeNode.value = output;
 
             graph.AddEdge(input == 0 ? (EdgeType) readZero.TypeInstance : (EdgeType) readOne.TypeInstance,
-                graph.GetNodeVarValue(srcState), writeNode);
-            graph.AddEdge(moveType, writeNode, graph.GetNodeVarValue(destState));
+                procEnv.GetNodeVarValue(srcState), writeNode);
+            graph.AddEdge(moveType, writeNode, procEnv.GetNodeVarValue(destState));
         }
 
         void DoBusyBeaver()
@@ -51,20 +52,27 @@ namespace BusyBeaver
 
             graph = new Turing3Graph();
             actions = new Turing3Actions(graph);
+            procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
             // Enable step counting
-			graph.PerformanceInfo = new PerformanceInfo();
+			procEnv.PerformanceInfo = new PerformanceInfo();
 
             // Initialize tape
             BandPosition bp = graph.CreateNodeBandPosition();
 
             // Initialize states
-            State sA = graph.CreateNodeState("sA");
-			graph.CreateNodeState("sB");
-			graph.CreateNodeState("sC");
-			graph.CreateNodeState("sD");
-			graph.CreateNodeState("sE");
-			graph.CreateNodeState("sH");
+            State sA = graph.CreateNodeState();
+            procEnv.SetVariableValue("sA", sA);
+            State sB = graph.CreateNodeState();
+            procEnv.SetVariableValue("sB", sB);
+            State sC = graph.CreateNodeState();
+            procEnv.SetVariableValue("sC", sC);
+            State sD = graph.CreateNodeState();
+            procEnv.SetVariableValue("sD", sD);
+            State sE = graph.CreateNodeState();
+            procEnv.SetVariableValue("sE", sE);
+            State sH = graph.CreateNodeState();
+            procEnv.SetVariableValue("sH", sH);
 
             // Create state transitions
             GenStateTransition("sA", 0, "sB", 1, L);
@@ -79,12 +87,12 @@ namespace BusyBeaver
             GenStateTransition("sE", 1, "sC", 1, L);
 
             // Initialize head
-            graph.SetVariableValue("curState", sA);
-            graph.SetVariableValue("curPos", bp);
+            procEnv.SetVariableValue("curState", sA);
+            procEnv.SetVariableValue("curPos", bp);
 
             // A little warm up for the beaver
             // Using a graph rewrite sequence with the new and more expressive syntax
-            actions.ApplyGraphRewriteSequence(
+            procEnv.ApplyGraphRewriteSequence(
                   @"(
                        ((curValue:WriteValue)=readOneRule(curState, curPos)
                        || (curValue)=readZeroRule(curState,curPos))
@@ -95,10 +103,10 @@ namespace BusyBeaver
                        || (curState, curPos)=moveRightRule(curValue, curPos))
                    )[100]");
 
-			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
+			Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
 
             // Reset counters of the PerformanceInfo object
-			graph.PerformanceInfo.Reset();
+			procEnv.PerformanceInfo.Reset();
 
             // Calculate search plans to optimize performance
             graph.AnalyzeGraph();
@@ -107,7 +115,7 @@ namespace BusyBeaver
 
             // Go, beaver, go!
 #if USE_SEQUENCE
-            actions.ApplyGraphRewriteSequence(
+            procEnv.ApplyGraphRewriteSequence(
                   @"(
                        ((curValue:WriteValue)=readOneRule(curState, curPos)
                        || (curValue)=readZeroRule(curState,curPos))
@@ -119,20 +127,20 @@ namespace BusyBeaver
                    )*");
 #else
             // the graph rewrite sequence from above formulated in C# with the API of GrGen.NET 2.5
-            IState curState = (IState)graph.GetVariableValue("curState");
-            IBandPosition curPos = (IBandPosition)graph.GetVariableValue("curPos");
-            IWriteValue curValue = (IWriteValue)graph.GetVariableValue("curValue");
+            IState curState = (IState)procEnv.GetVariableValue("curState");
+            IBandPosition curPos = (IBandPosition)procEnv.GetVariableValue("curPos");
+            IWriteValue curValue = (IWriteValue)procEnv.GetVariableValue("curValue");
             bool expressionToIterateSucceeded;
             do
             {
                 expressionToIterateSucceeded =
-                    ( actions.readOneRule.Apply(graph, curState, curPos, ref curValue)
-                    || actions.readZeroRule.Apply(graph, curState, curPos, ref curValue) )
-                && ( actions.ensureMoveLeftValidRule.Apply(graph, curValue, curPos)
-                    || actions.ensureMoveRightValidRule.Apply(graph, curValue, curPos)
+                    ( actions.readOneRule.Apply(procEnv, curState, curPos, ref curValue)
+                    || actions.readZeroRule.Apply(procEnv, curState, curPos, ref curValue) )
+                && ( actions.ensureMoveLeftValidRule.Apply(procEnv, curValue, curPos)
+                    || actions.ensureMoveRightValidRule.Apply(procEnv, curValue, curPos)
                     || true )
-                && ( actions.moveLeftRule.Apply(graph, curValue, curPos, ref curState, ref curPos)
-                    || actions.moveRightRule.Apply(graph, curValue, curPos, ref curState, ref curPos) );
+                && ( actions.moveLeftRule.Apply(procEnv, curValue, curPos, ref curState, ref curPos)
+                    || actions.moveRightRule.Apply(procEnv, curValue, curPos, ref curState, ref curPos) );
             }
             while(expressionToIterateSucceeded);
 #endif
@@ -147,7 +155,7 @@ namespace BusyBeaver
 
             int countTime = Environment.TickCount - stopTime;
 
-			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found."
+			Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found."
                 + "\nNumber of ones written: " + numOnes
                 + "\nTime needed for counting ones: " + countTime + " ms");
 

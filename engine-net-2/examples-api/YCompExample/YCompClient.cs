@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.grShell
     {
         TcpClient ycompClient;
         YCompStream ycompStream;
-        IGraph graph;
+        INamedGraph graph;
         String nodeRealizer = null;
         String edgeRealizer = null;
         DumpInfo dumpInfo;
@@ -198,7 +198,7 @@ namespace de.unika.ipd.grGen.grShell
         /// Creates a new YCompClient instance and connects to the local YComp server.
         /// If it is not available a SocketException is thrown
         /// </summary>
-        public YCompClient(IGraph graph, String layoutModule, int connectionTimeout, int port, DumpInfo dumpInfo)
+        public YCompClient(INamedGraph graph, String layoutModule, int connectionTimeout, int port, DumpInfo dumpInfo)
         {
             this.graph = graph;
             this.dumpInfo = dumpInfo;
@@ -244,7 +244,7 @@ namespace de.unika.ipd.grGen.grShell
         /// Creates a new YCompClient instance and connects to the local YComp server.
         /// If it is not available a SocketException is thrown
         /// </summary>
-        public YCompClient(IGraph graph, String layoutModule, int connectionTimeout, int port)
+        public YCompClient(INamedGraph graph, String layoutModule, int connectionTimeout, int port)
             : this(graph, layoutModule, connectionTimeout, port, new DumpInfo(graph.GetElementName)) { }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// Starts YComp on a free TCP port in the range 4242-4251.
         /// </summary>
-        /// <param name="graph">The graph to be displayed.</param>
+        /// <param name="graph">The named graph to be displayed.</param>
         /// <param name="layout">Sets the layouter in YComp.
         ///     Can be one of:
         ///     - Random
@@ -291,7 +291,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <param name="dumpInfo">Sets the dump information setting colors, shapes,
         ///     excluded types, etc.</param>
         /// <returns>An YCompClient object, or null on error.</returns>
-        public static YCompClient CreateYCompClient(IGraph graph, String layout, DumpInfo dumpInfo)
+        public static YCompClient CreateYCompClient(INamedGraph graph, String layout, DumpInfo dumpInfo)
         {
             int ycompPort = GetFreeTCPPort();
             if(ycompPort < 0)

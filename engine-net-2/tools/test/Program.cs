@@ -17,9 +17,10 @@ namespace test
     {
         static void Main(string[] args)
         {
-            complModelGraph graph = new complModelGraph();
+            complModelNamedGraph graph = new complModelNamedGraph();
             graph.ReuseOptimization = false;
             LGSPActions actions = new testActions(graph);
+            LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
 /*            Node_Process p1 = Node_Process.CreateNode(graph);
             p1.name = "Siegfried";
@@ -63,7 +64,7 @@ namespace test
 			graph.CreateEdgeEdge(n1, n2);
 			graph.CreateEdgeEdge(n2, n3);
 
-            Action_testRule.Instance.Apply(graph);
+            Action_testRule.Instance.Apply(procEnv);
 
             using(VCGDumper dumper = new VCGDumper("test.vcg"))
                 graph.Dump(dumper);

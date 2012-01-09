@@ -17,27 +17,29 @@ namespace TNT
     {
         LGSPGraph graph;
         TNTActions actions;
+        LGSPGraphProcessingEnvironment procEnv;
 
         void DoTNT()
         {
             graph = new LGSPGraph(new TNTGraphModel());
             actions = new TNTActions(graph);
+            procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-            graph.PerformanceInfo = new PerformanceInfo();
+            procEnv.PerformanceInfo = new PerformanceInfo();
 
             // use graph rewrite sequence
-            actions.ApplyGraphRewriteSequence("createTNT");
+            procEnv.ApplyGraphRewriteSequence("createTNT");
 
-			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
-			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
-			graph.PerformanceInfo.Reset();
+            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            procEnv.PerformanceInfo.Reset();
 
             // use old inexact interface
-            IMatches matchesInexact = actions.GetAction("TNT").Match(graph, 0, null);
+            IMatches matchesInexact = actions.GetAction("TNT").Match(procEnv, 0, null);
             Console.WriteLine(matchesInexact.Count + " matches found.");
 
             // use new 2.5 exact interface
-            IMatchesExact<Rule_ToluolCore.IMatch_ToluolCore> matchesExact = actions.ToluolCore.Match(graph, 0);
+            IMatchesExact<Rule_ToluolCore.IMatch_ToluolCore> matchesExact = actions.ToluolCore.Match(procEnv, 0);
             Console.WriteLine(matchesExact.Count + " matches found.");
         }
 

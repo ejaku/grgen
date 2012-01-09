@@ -42,11 +42,14 @@ namespace YCompExample
 
         public static void Main(string[] args)
         {
-            LGSPGraph graph;
+            LGSPNamedGraph graph;
             LGSPActions actions;
+            LGSPGraphProcessingEnvironment procEnv;
+
             try
             {
-                new LGSPBackend().CreateFromSpec("Mutex.grg", out graph, out actions);
+                new LGSPBackend().CreateNamedFromSpec("Mutex.grg", out graph, out actions);
+                procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
             }
             catch(Exception ex)
             {
@@ -63,18 +66,18 @@ namespace YCompExample
             NodeType processType = graph.GetNodeType("Process");
             EdgeType nextType = graph.GetEdgeType("next");
 
-            LGSPNode p1 = graph.AddNode(processType);
-            LGSPNode p2 = graph.AddNode(processType);
+            LGSPNode p1 = graph.AddLGSPNode(processType);
+            LGSPNode p2 = graph.AddLGSPNode(processType);
             graph.AddEdge(nextType, p1, p2);
             graph.AddEdge(nextType, p2, p1);
             PrintAndWait("Initial 2-process ring constructed.", ycomp);
 
-            actions.ApplyGraphRewriteSequence("newRule[5] && mountRule && requestRule[7]");
+            procEnv.ApplyGraphRewriteSequence("newRule[5] && mountRule && requestRule[7]");
             PrintAndWait("Initialized 7-process ring with resource and requests.", ycomp);
 
             ycomp.UnregisterLibGrEvents();
             Console.WriteLine("Do many changes slowing down too much with YComp (not in this example)...");
-            actions.ApplyGraphRewriteSequence("(takeRule && releaseRule && giveRule)*");
+            procEnv.ApplyGraphRewriteSequence("(takeRule && releaseRule && giveRule)*");
             PrintAndWait("Nothing changed so far on the display.", ycomp);
 
             ycomp.ClearGraph();
@@ -83,7 +86,7 @@ namespace YCompExample
 
             ycomp.RegisterLibGrEvents();
 
-            actions.GetAction("newRule").ApplyMinMax(graph, 4, 4);
+            actions.GetAction("newRule").ApplyMinMax(procEnv, 4, 4);
             PrintAndWait("Added 4 processes in the ring.", ycomp);
 
             ycomp.Close();

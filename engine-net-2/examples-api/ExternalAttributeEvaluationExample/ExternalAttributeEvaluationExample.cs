@@ -17,6 +17,7 @@ namespace EAE
     {
         ExternalAttributeEvaluationGraph graph;
         ExternalAttributeEvaluationActions actions;
+        LGSPGraphProcessingEnvironment procEnv;
 
         // Have a look at the .gm + .grg, the ExternalAttributeEvaluationModelExternalFunctions.cs,
         // and the ExternalAttributeEvaluationModelExternalFunctionsImpl.cs files.
@@ -28,22 +29,23 @@ namespace EAE
         {
             graph = new ExternalAttributeEvaluationGraph();
             actions = new ExternalAttributeEvaluationActions(graph);
+            procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-            graph.PerformanceInfo = new PerformanceInfo();
+            procEnv.PerformanceInfo = new PerformanceInfo();
 
             de.unika.ipd.grGen.expression.ExternalFunctions.setGraph(graph);
 
             // use graph rewrite sequence
-            actions.ApplyGraphRewriteSequence("init");
+            procEnv.ApplyGraphRewriteSequence("init");
 
-            Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
-            graph.PerformanceInfo.Reset();
+            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            procEnv.PerformanceInfo.Reset();
 
             // use new 2.5 exact interface
-            IMatchesExact<Rule_r.IMatch_r> matchesExact = actions.r.Match(graph, 0);
+            IMatchesExact<Rule_r.IMatch_r> matchesExact = actions.r.Match(procEnv, 0);
             Console.WriteLine(matchesExact.Count + " matches found.");
-            actions.r.Modify(graph, matchesExact.FirstExact);
+            actions.r.Modify(procEnv, matchesExact.FirstExact);
         }
 
         static void Main(string[] args)

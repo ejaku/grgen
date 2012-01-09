@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sat Jun 25 14:38:45 CEST 2011
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Jan 08 18:57:50 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return node;
 		}
 
-		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@Node node;
 			if(poolLevel == 0)
@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set/array creation of Node
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -90,12 +90,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -183,7 +183,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return node;
 		}
 
-		public static GRGEN_MODEL.@C CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@C CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@C node;
 			if(poolLevel == 0)
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				// implicit initialization, map/set/array creation of C
 				// explicit initializations of C for target C
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -210,12 +210,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"C\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"C\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"C\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"C\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -304,7 +304,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return node;
 		}
 
-		public static GRGEN_MODEL.@H CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@H CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@H node;
 			if(poolLevel == 0)
@@ -318,7 +318,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				// implicit initialization, map/set/array creation of H
 				// explicit initializations of H for target H
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -331,12 +331,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"H\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"H\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"H\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"H\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -425,7 +425,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return node;
 		}
 
-		public static GRGEN_MODEL.@O CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@O CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@O node;
 			if(poolLevel == 0)
@@ -439,7 +439,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				// implicit initialization, map/set/array creation of O
 				// explicit initializations of O for target O
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -452,12 +452,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"O\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"O\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"O\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"O\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -546,7 +546,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return node;
 		}
 
-		public static GRGEN_MODEL.@N CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@N CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@N node;
 			if(poolLevel == 0)
@@ -560,7 +560,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				// implicit initialization, map/set/array creation of N
 				// explicit initializations of N for target N
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -573,12 +573,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"N\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"N\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"N\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"N\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -667,7 +667,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return node;
 		}
 
-		public static GRGEN_MODEL.@P CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@P CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@P node;
 			if(poolLevel == 0)
@@ -681,7 +681,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				// implicit initialization, map/set/array creation of P
 				// explicit initializations of P for target P
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -694,12 +694,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"P\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"P\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"P\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"P\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -788,7 +788,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return node;
 		}
 
-		public static GRGEN_MODEL.@S CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		public static GRGEN_MODEL.@S CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
 		{
 			GRGEN_MODEL.@S node;
 			if(poolLevel == 0)
@@ -802,7 +802,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				// implicit initialization, map/set/array creation of S
 				// explicit initializations of S for target S
 			}
-			graph.AddNode(node, varName);
+			graph.AddNode(node, nodeName);
 			return node;
 		}
 
@@ -815,12 +815,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"S\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"S\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"S\" does not have the attribute \" + attrName + \"\"!");
+				"The node type \"S\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1097,7 +1097,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@Edge edge;
 			if(poolLevel == 0)
@@ -1110,7 +1110,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				edge.lgspTarget = target;
 				// implicit initialization, map/set/array creation of Edge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1123,12 +1123,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1213,7 +1213,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
 			GRGEN_MODEL.@UEdge edge;
 			if(poolLevel == 0)
@@ -1226,7 +1226,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				edge.lgspTarget = target;
 				// implicit initialization, map/set/array creation of UEdge
 			}
-			graph.AddEdge(edge, varName);
+			graph.AddEdge(edge, edgeName);
 			return edge;
 		}
 
@@ -1239,12 +1239,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1403,19 +1403,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return GRGEN_MODEL.@Node.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@Node CreateNodeNode(string varName)
-		{
-			return GRGEN_MODEL.@Node.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@C CreateNodeC()
 		{
 			return GRGEN_MODEL.@C.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@C CreateNodeC(string varName)
-		{
-			return GRGEN_MODEL.@C.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@H CreateNodeH()
@@ -1423,19 +1413,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return GRGEN_MODEL.@H.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@H CreateNodeH(string varName)
-		{
-			return GRGEN_MODEL.@H.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@O CreateNodeO()
 		{
 			return GRGEN_MODEL.@O.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@O CreateNodeO(string varName)
-		{
-			return GRGEN_MODEL.@O.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@N CreateNodeN()
@@ -1443,19 +1423,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return GRGEN_MODEL.@N.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@N CreateNodeN(string varName)
-		{
-			return GRGEN_MODEL.@N.CreateNode(this, varName);
-		}
-
 		public GRGEN_MODEL.@P CreateNodeP()
 		{
 			return GRGEN_MODEL.@P.CreateNode(this);
-		}
-
-		public GRGEN_MODEL.@P CreateNodeP(string varName)
-		{
-			return GRGEN_MODEL.@P.CreateNode(this, varName);
 		}
 
 		public GRGEN_MODEL.@S CreateNodeS()
@@ -1463,19 +1433,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return GRGEN_MODEL.@S.CreateNode(this);
 		}
 
-		public GRGEN_MODEL.@S CreateNodeS(string varName)
-		{
-			return GRGEN_MODEL.@S.CreateNode(this, varName);
-		}
-
 		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
-		}
-
-		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
-		{
-			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, varName);
 		}
 
 		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1483,9 +1443,119 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		private TNTNodeModel nodeModel = new TNTNodeModel();
+		private TNTEdgeModel edgeModel = new TNTEdgeModel();
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+
+		public string ModelName { get { return "TNT"; } }
+		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
+		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public string MD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
+	}
+
+	//
+	// INamedGraph/IGraphModel implementation
+	//
+	public class TNTNamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel
+	{
+		public TNTNamedGraph() : base(GetNextGraphName())
 		{
-			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, varName);
+			InitializeGraph(this);
+		}
+
+		public GRGEN_MODEL.@Node CreateNodeNode()
+		{
+			return GRGEN_MODEL.@Node.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@Node CreateNodeNode(string nodeName)
+		{
+			return GRGEN_MODEL.@Node.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@C CreateNodeC()
+		{
+			return GRGEN_MODEL.@C.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@C CreateNodeC(string nodeName)
+		{
+			return GRGEN_MODEL.@C.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@H CreateNodeH()
+		{
+			return GRGEN_MODEL.@H.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@H CreateNodeH(string nodeName)
+		{
+			return GRGEN_MODEL.@H.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@O CreateNodeO()
+		{
+			return GRGEN_MODEL.@O.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@O CreateNodeO(string nodeName)
+		{
+			return GRGEN_MODEL.@O.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@N CreateNodeN()
+		{
+			return GRGEN_MODEL.@N.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@N CreateNodeN(string nodeName)
+		{
+			return GRGEN_MODEL.@N.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@P CreateNodeP()
+		{
+			return GRGEN_MODEL.@P.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@P CreateNodeP(string nodeName)
+		{
+			return GRGEN_MODEL.@P.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@S CreateNodeS()
+		{
+			return GRGEN_MODEL.@S.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@S CreateNodeS(string nodeName)
+		{
+			return GRGEN_MODEL.@S.CreateNode(this, nodeName);
+		}
+
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, edgeName);
+		}
+
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, edgeName);
 		}
 
 		private TNTNodeModel nodeModel = new TNTNodeModel();

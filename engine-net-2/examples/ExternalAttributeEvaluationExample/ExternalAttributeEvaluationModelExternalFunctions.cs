@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalAttributeEvaluation.grg" on Sun Oct 24 14:56:57 CEST 2010
+// Generated from "ExternalAttributeEvaluation.grg" on Mon Dec 12 00:17:36 CET 2011
 
 using System;
 using System.Collections.Generic;

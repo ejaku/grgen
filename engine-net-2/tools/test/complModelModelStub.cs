@@ -1,7 +1,7 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
 // Rename this file or use a copy!
-// Generated from "test.grg" on Sat Jun 25 14:38:15 CEST 2011
+// Generated from "test.grg" on Sun Jan 08 18:57:20 CET 2012
 
 using System;
 using System.Collections.Generic;
