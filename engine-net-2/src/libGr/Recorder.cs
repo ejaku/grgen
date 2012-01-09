@@ -18,14 +18,21 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class Recorder : IRecorder
     {
+        INamedGraph graph = null;
+        IGraphProcessingEnvironment procEnv = null;
+
+        private IDictionary<string, StreamWriter> recordings = new Dictionary<string, StreamWriter>();
+        
+
         /// <summary>
         /// Create a recorder
         /// </summary>
-        /// <param name="graph">The graph whose changes are to be recorded;
-        /// should be a NamedGraph for things to run smoothly (same holds for Porter methods)</param>
-        public Recorder(IGraph graph)
+        /// <param name="graph">The named graph whose changes are to be recorded</param>
+        /// <param name="procEnv">The graph processing environment receiving some of the action events, may be null if only graph changes are requested</param>
+        public Recorder(INamedGraph graph, IGraphProcessingEnvironment procEnv)
         {
             this.graph = graph;
+            this.procEnv = procEnv;
         }
 
         /// <summary>
@@ -57,7 +64,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(lastIndex==-1) lastIndex = filename.LastIndexOf("\\");
                     pathPrefix = filename.Substring(0, lastIndex+1);
                 }
-                GRSExport.ExportYouMustCloseStreamWriter(graph, writer, false, pathPrefix);
+                GRSExport.ExportYouMustCloseStreamWriter(graph, writer, pathPrefix);
 
                 recordings.Add(new KeyValuePair<string, StreamWriter>(filename, writer));
             }
@@ -99,37 +106,42 @@ namespace de.unika.ipd.grGen.libGr
                 writer.Write(value);
         }
 
-        IGraph graph = null;
-        private IDictionary<string, StreamWriter> recordings = new Dictionary<string, StreamWriter>();
-
         private void SubscribeEvents()
         {
-            graph.OnNodeAdded += new NodeAddedHandler(NodeAdded);
-            graph.OnEdgeAdded += new EdgeAddedHandler(EdgeAdded);
-            graph.OnRemovingNode += new RemovingNodeHandler(RemovingNode);
-            graph.OnRemovingEdge += new RemovingEdgeHandler(RemovingEdge);
-            graph.OnChangingNodeAttribute += new ChangingNodeAttributeHandler(ChangingAttribute);
-            graph.OnChangingEdgeAttribute += new ChangingEdgeAttributeHandler(ChangingAttribute);
-            graph.OnRetypingNode += new RetypingNodeHandler(RetypingNode);
-            graph.OnRetypingEdge += new RetypingEdgeHandler(RetypingEdge);
-            graph.OnFinishing += new BeforeFinishHandler(BeforeFinish);
-            graph.OnRewritingNextMatch += new RewriteNextMatchHandler(RewriteNextMatch);
-            graph.OnFinished += new AfterFinishHandler(AfterFinish);
+            graph.OnNodeAdded += NodeAdded;
+            graph.OnEdgeAdded += EdgeAdded;
+            graph.OnRemovingNode += RemovingNode;
+            graph.OnRemovingEdge += RemovingEdge;
+            graph.OnChangingNodeAttribute += ChangingAttribute;
+            graph.OnChangingEdgeAttribute += ChangingAttribute;
+            graph.OnRetypingNode += RetypingNode;
+            graph.OnRetypingEdge += RetypingEdge;
+
+            if(procEnv != null)
+            {
+                procEnv.OnFinishing += BeforeFinish;
+                procEnv.OnRewritingNextMatch += RewriteNextMatch;
+                procEnv.OnFinished += AfterFinish;
+            }
         }
 
         private void UnsubscribeEvents()
         {
-            graph.OnNodeAdded -= new NodeAddedHandler(NodeAdded);
-            graph.OnEdgeAdded -= new EdgeAddedHandler(EdgeAdded);
-            graph.OnRemovingNode -= new RemovingNodeHandler(RemovingNode);
-            graph.OnRemovingEdge -= new RemovingEdgeHandler(RemovingEdge);
-            graph.OnChangingNodeAttribute -= new ChangingNodeAttributeHandler(ChangingAttribute);
-            graph.OnChangingEdgeAttribute -= new ChangingEdgeAttributeHandler(ChangingAttribute);
-            graph.OnRetypingNode -= new RetypingNodeHandler(RetypingNode);
-            graph.OnRetypingEdge -= new RetypingEdgeHandler(RetypingEdge);
-            graph.OnFinishing -= new BeforeFinishHandler(BeforeFinish);
-            graph.OnRewritingNextMatch += new RewriteNextMatchHandler(RewriteNextMatch);
-            graph.OnFinished -= new AfterFinishHandler(AfterFinish);
+            graph.OnNodeAdded -= NodeAdded;
+            graph.OnEdgeAdded -= EdgeAdded;
+            graph.OnRemovingNode -= RemovingNode;
+            graph.OnRemovingEdge -= RemovingEdge;
+            graph.OnChangingNodeAttribute -= ChangingAttribute;
+            graph.OnChangingEdgeAttribute -= ChangingAttribute;
+            graph.OnRetypingNode -= RetypingNode;
+            graph.OnRetypingEdge -= RetypingEdge;
+
+            if(procEnv != null)
+            {
+                procEnv.OnFinishing -= BeforeFinish;
+                procEnv.OnRewritingNextMatch += RewriteNextMatch;
+                procEnv.OnFinished -= AfterFinish;
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////

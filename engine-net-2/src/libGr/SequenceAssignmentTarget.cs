@@ -74,11 +74,12 @@ namespace de.unika.ipd.grGen.libGr
         /// Assigns a value to this assignment target.
         /// </summary>
         /// <param name="value">The value to assign.</param>
-        /// <param name="graph">The graph on which this assignment is to be executed.</param>
+        /// <param name="procEnv">The graph processing environment on which this assignment is to be executed.
+        ///     Containing especially the graph on which this assignment is to be executed.</param>
         /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        public abstract void Assign(object value, IGraph graph, SequenceExecutionEnvironment env);
+        public abstract void Assign(object value, IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env);
 
-        public override sealed object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override sealed object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             throw new Exception("Internal error! AssignmentTarget executed as SequenceComputation.");
         }
@@ -114,9 +115,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override void Assign(object value, IGraph graph, SequenceExecutionEnvironment env)
+        public override void Assign(object value, IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            DestVar.SetVariableValue(value, graph);
+            DestVar.SetVariableValue(value, procEnv);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -155,7 +156,7 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override void Assign(object value, IGraph graph, SequenceExecutionEnvironment env)
+        public override void Assign(object value, IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             throw new Exception("yield is only available in the compiled sequences (exec)");
         }
@@ -225,18 +226,18 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override void Assign(object value, IGraph graph, SequenceExecutionEnvironment env)
+        public override void Assign(object value, IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            if(DestVar.GetVariableValue(graph) is IList)
+            if(DestVar.GetVariableValue(procEnv) is IList)
             {
-                IList array = (IList)DestVar.GetVariableValue(graph);
-                int key = (int)KeyExpression.Evaluate(graph, env);
+                IList array = (IList)DestVar.GetVariableValue(procEnv);
+                int key = (int)KeyExpression.Evaluate(procEnv, env);
                 array[key] = value;
             }
             else
             {
-                IDictionary setmap = (IDictionary)DestVar.GetVariableValue(graph);
-                object key = KeyExpression.Evaluate(graph, env);
+                IDictionary setmap = (IDictionary)DestVar.GetVariableValue(procEnv);
+                object key = KeyExpression.Evaluate(procEnv, env);
                 setmap[key] = value;
             }
         }
@@ -299,17 +300,17 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override void Assign(object value, IGraph graph, SequenceExecutionEnvironment env)
+        public override void Assign(object value, IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(graph);
+            IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(procEnv);
             AttributeType attrType;
             value = DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
                 elem, AttributeName, value, out attrType);
             AttributeChangeType changeType = AttributeChangeType.Assign;
             if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
+                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
+                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
             elem.SetAttribute(AttributeName, value);
         }
 
@@ -363,11 +364,11 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override void Assign(object value, IGraph graph, SequenceExecutionEnvironment env)
+        public override void Assign(object value, IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
-            int visitedFlag = (int)VisitedFlagExpression.Evaluate(graph, env);
-            graph.SetVisited(elem, visitedFlag, (bool)value);
+            IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(procEnv);
+            int visitedFlag = (int)VisitedFlagExpression.Evaluate(procEnv, env);
+            procEnv.Graph.SetVisited(elem, visitedFlag, (bool)value);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)

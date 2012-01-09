@@ -255,7 +255,7 @@ namespace de.unika.ipd.grGen.lgsp
             string matchType = RulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(PatternName);
             string matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
             sourceCode.AppendFrontFormat("public {0} {1}("
-                    + "GRGEN_LGSP.LGSPGraph graph, int maxMatches{2})\n", matchesType, Name, Parameters);
+                    + "GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches{2})\n", matchesType, Name, Parameters);
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -265,6 +265,7 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitMaybeNullDispatching(sourceCode, 0, 0);
             }
 
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
             sourceCode.AppendFront("matches.Clear();\n");
             sourceCode.AppendFront("int negLevel = 0;\n");
             
@@ -320,7 +321,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(emittedCounter>0) // first entry are we ourselves, don't call, just nop
                 {
-                    sourceCode.AppendFrontFormat("return {0}(graph, maxMatches", SuffixedMatcherNames[emittedCounter]);
+                    sourceCode.AppendFrontFormat("return {0}(procEnv, maxMatches", SuffixedMatcherNames[emittedCounter]);
                     foreach(string argument in Arguments[emittedCounter]) {
                         sourceCode.AppendFormat(", {0}", argument);                        
                     }
@@ -388,6 +389,8 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
+            sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
@@ -449,6 +452,8 @@ namespace de.unika.ipd.grGen.lgsp
                 + "int maxMatches, int negLevel)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
+
+            sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
 
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
             {
@@ -512,7 +517,9 @@ namespace de.unika.ipd.grGen.lgsp
                 + "int maxMatches, int negLevel)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
+
             sourceCode.AppendFront("bool patternFound = false;\n");
+            sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
 
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
             {
@@ -4306,7 +4313,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // create matching task for subpattern
                 variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
                 string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, false, false);
-                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks);\n",
+                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(procEnv, {2}openTasks);\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix);
             }
             else if (Type == PushAndPopSubpatternTaskTypes.Alternative)
@@ -4321,7 +4328,7 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraphPath += PathPrefix.Substring(0, PathPrefix.Length - 1);
                 string alternativeCases = patternGraphPath + ".alternatives[(int)" + RulePatternClassName + "."
                     + PathPrefix + "AltNums.@" + AlternativeOrIteratedName + "].alternativeCases";
-                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks, {3});\n",
+                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(procEnv, {2}openTasks, {3});\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, alternativeCases);
             }
             else // if(Type == PushAndPopSubpatternTaskTypes.Iterated)
@@ -4329,7 +4336,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // create matching task for iterated
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
                 string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, false, true);
-                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks);\n",
+                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(procEnv, {2}openTasks);\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix);
             }
             

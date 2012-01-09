@@ -20,11 +20,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Exports the given graph to a file with the given filename.
         /// The format is determined by the file extension. 
-        /// Currently available are: .grs/.grsi or .gxl.
+        /// Currently available is: .gxl; the format .grs/.grsi needs the named graph export.
         /// Optionally suffixed by .gz; in this case they are saved gzipped.
         /// Any errors will be reported by exception.
         /// </summary>
-        /// <param name="graph">The graph to export. The .grs/.grsi exporter is capable of exporting a NamedGraph, i.e. including names.</param>
+        /// <param name="graph">The graph to export.</param>
         /// <param name="filenameParameters">The names of the files to be exported.
         /// The first must be a filename, the following may be used for giving export parameters
         /// (in fact currently no exporter supports multiple files).</param>
@@ -43,11 +43,56 @@ namespace de.unika.ipd.grGen.libGr
             if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase)) {
                 GXLExport.Export(graph, writer);
             } else if (first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
-                || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase)) {
-                GRSExport.Export(graph, writer, ListGet(filenameParameters, 1)=="withvariables");
-            } else if (first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase)) {
+                || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
+                throw new NotSupportedException("File format requires an export of a named graph");
+            else if(first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase))
+                throw new NotSupportedException("File format requires an export of a named graph");
+            else
+                throw new NotSupportedException("File format not supported");
+        }
+
+        /// <summary>
+        /// Exports the given named graph to a file with the given filename.
+        /// The format is determined by the file extension. 
+        /// Currently available are: .grs/.grsi or .gxl.
+        /// Optionally suffixed by .gz; in this case they are saved gzipped.
+        /// Any errors will be reported by exception.
+        /// </summary>
+        /// <param name="graph">The named graph to export.
+        /// The .grs/.grsi exporter is exporting the names/including the names; import will return a named graph again.
+        /// The .gxl exporter is exporting without the names, which is equivalent of calling the non-named graph export.</param>
+        /// <param name="filenameParameters">The names of the files to be exported.
+        /// The first must be a filename, the following may be used for giving export parameters
+        /// (in fact currently no exporter supports multiple files).</param>
+        public static void Export(INamedGraph graph, List<String> filenameParameters)
+        {
+            String first = ListGet(filenameParameters, 0);
+            StreamWriter writer = null;
+            if(first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase))
+            {
+                FileStream filewriter = new FileStream(first, FileMode.OpenOrCreate, FileAccess.Write);
+                writer = new StreamWriter(new GZipStream(filewriter, CompressionMode.Compress));
+                first = first.Substring(0, first.Length - 3);
+            }
+            else
+            {
+                writer = new StreamWriter(first);
+            }
+
+            if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
+            {
+                GXLExport.Export(graph, writer);
+            }
+            else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
+                || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
+            {
+                GRSExport.Export(graph, writer);
+            }
+            else if(first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase))
+            {
                 GRGExport.Export(graph, writer);
-            } else
+            }
+            else
                 throw new NotSupportedException("File format not supported");
         }
 
@@ -61,10 +106,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="filenameParameters">The names of the files to be imported.</param>
+        /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
         /// <returns>The imported graph. 
-        /// The .grs/.grsi importer returns a NamedGraph. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+        /// The .grs/.grsi importer returns an INamedGraph. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
-        public static IGraph Import(IBackend backend, List<String> filenameParameters)
+        public static IGraph Import(IBackend backend, List<String> filenameParameters, out BaseActions actions)
         {
             String first = ListGet(filenameParameters, 0);
             StreamReader reader = null;
@@ -77,10 +123,10 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
-                return GXLImport.Import(reader, ListGet(filenameParameters, 1), backend);
+                return GXLImport.Import(reader, ListGet(filenameParameters, 1), backend, out actions);
             else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                         || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
-                return porter.GRSImporter.Import(reader, ListGet(filenameParameters, 1), backend);
+                return porter.GRSImporter.Import(reader, ListGet(filenameParameters, 1), backend, out actions);
             else if(first.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
             {
                 List<String> ecores = new List<String>();
@@ -107,7 +153,7 @@ namespace de.unika.ipd.grGen.libGr
                         noPackageNamePrefix = true;
                     }
                 }
-                return ECoreImport.Import(backend, ecores, grg, xmi, noPackageNamePrefix);
+                return ECoreImport.Import(backend, ecores, grg, xmi, noPackageNamePrefix, out actions);
             }
             else
                 throw new NotSupportedException("File format not supported");
@@ -123,16 +169,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="graphModel">The graph model to be used, 
         ///     it must be conformant to the model used in the file to be imported.</param>
+        /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
         /// <returns>The imported graph. 
-        /// The .grs/.grsi importer returns a NamedGraph. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+        /// The .grs/.grsi importer returns an INamedGraph. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
-        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel)
+        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel, out BaseActions actions)
         {
             if(importFilename.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
-                return GXLImport.Import(importFilename, backend, graphModel);
+                return GXLImport.Import(importFilename, backend, graphModel, out actions);
             else if (importFilename.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                         || importFilename.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
-                return porter.GRSImporter.Import(importFilename, backend, graphModel);
+                return porter.GRSImporter.Import(importFilename, backend, graphModel, out actions);
             else
                 throw new NotSupportedException("File format not supported");
         }

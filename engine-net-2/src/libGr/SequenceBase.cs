@@ -16,15 +16,10 @@ using System.IO;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// Environment for sequence execution giving access to graph element names and user interface
+    /// Environment for sequence execution giving access to user interface
     /// </summary>
     public interface SequenceExecutionEnvironment
     {
-        /// <summary>
-        /// returns the named graph on which the sequence is to be executed, containing the names
-        /// </summary>
-        NamedGraph GetNamedGraph();
-
         /// <summary>
         /// returns the maybe user altered direction of execution for the sequence given
         /// the randomly chosen directions is supplied; 0: execute left operand first, 1: execute right operand first

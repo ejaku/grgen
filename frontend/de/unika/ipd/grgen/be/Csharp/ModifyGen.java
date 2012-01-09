@@ -356,7 +356,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\n");
 		sb.append("\t\tpublic void "
 					  + pathPrefix+altName+"_Modify"
-					  + "(GRGEN_LGSP.LGSPGraph graph, IMatch_"+pathPrefix+altName+" curMatch");
+					  + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IMatch_"+pathPrefix+altName+" curMatch");
 		List<Entity> replParameters = new LinkedList<Entity>();
 		getUnionOfReplaceParametersOfAlternativeCases(alt, replParameters);
 		for(Entity entity : replParameters) {
@@ -389,7 +389,7 @@ public class ModifyGen extends CSharpBase {
 						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
 			}
 			sb.append("\t\t\t\t" + pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+"_Modify"
-					+ "(graph, (Match_"+pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+")curMatch");
+					+ "(procEnv, (Match_"+pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+")curMatch");
 			replParameters = altCase.getRight().getReplParameters();
 			for(Entity entity : replParameters) {
 				sb.append(", ");
@@ -421,7 +421,7 @@ public class ModifyGen extends CSharpBase {
 			boolean isSubpattern) {
 		// Emit function header
 		sb.append("\n");
-		sb.append("\t\tpublic void " + pathPrefix+altName+"_Delete(GRGEN_LGSP.LGSPGraph graph, "
+		sb.append("\t\tpublic void " + pathPrefix+altName+"_Delete(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, "
 				+ "IMatch_"+pathPrefix+altName+" curMatch)\n");
 		sb.append("\t\t{\n");
 
@@ -439,7 +439,7 @@ public class ModifyGen extends CSharpBase {
 						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
 			}
 			sb.append("\t\t\t\t" + pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+"_"
-					+ "Delete(graph, (Match_"+pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+")curMatch);\n");
+					+ "Delete(procEnv, (Match_"+pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+")curMatch);\n");
 			sb.append("\t\t\t\treturn;\n");
 			sb.append("\t\t\t}\n");
 		}
@@ -464,7 +464,7 @@ public class ModifyGen extends CSharpBase {
 		// Emit function header
 		sb.append("\n");
 		sb.append("\t\tpublic void "+pathPrefix+iterName+"_Modify"
-					  + "(GRGEN_LGSP.LGSPGraph graph, "
+					  + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, "
 					  + "GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefix+iterName
 					  + ", IMatch_"+pathPrefix+iterName+"> curMatches");
 		List<Entity> replParameters = iter.getRight().getReplParameters();
@@ -488,7 +488,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\tfor(Match_"+pathPrefix+iterName+" curMatch=curMatches.Root;"
 				+" curMatch!=null; curMatch=curMatch.next) {\n");
 		sb.append("\t\t\t\t" + pathPrefix+iterName+"_Modify"
-				+ "(graph, curMatch");
+				+ "(procEnv, curMatch");
 		for(Entity entity : replParameters) {
 			sb.append(", ");
 			if(entity.isDefToBeYieldedTo()) sb.append("ref ");
@@ -506,7 +506,7 @@ public class ModifyGen extends CSharpBase {
 		// Emit function header
 		sb.append("\n");
 		sb.append("\t\tpublic void "+pathPrefix+iterName+"_Delete"
-					  + "(GRGEN_LGSP.LGSPGraph graph, "
+					  + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, "
 					  + "GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefix+iterName
 					  + ", IMatch_"+pathPrefix+iterName+"> curMatches)\n");
 		sb.append("\t\t{\n");
@@ -515,7 +515,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\tfor(Match_"+pathPrefix+iterName+" curMatch=curMatches.Root;"
 				+" curMatch!=null; curMatch=curMatch.next) {\n");
 		sb.append("\t\t\t\t" + pathPrefix+iterName+"_Delete"
-				+ "(graph, curMatch);\n");
+				+ "(procEnv, curMatch);\n");
 		sb.append("\t\t\t}\n");
 
 		// Emit end of function
@@ -715,14 +715,15 @@ public class ModifyGen extends CSharpBase {
 			if(pathPrefix=="" && !task.isSubpattern) {
 				sb.append("\t\tpublic void "
 						+ "Modify"
-						+ "(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch"
+						+ "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch"
 						+ outParameters + ")\n");
 				sb.append("\t\t{\n");
+				sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
 				sb.append("\t\t\t"+matchType+" curMatch = ("+matchType+")_curMatch;\n");
 			} else {
 				sb.append("\t\tpublic void "
 						+ pathPrefix+task.left.getNameOfGraph() + "_Modify"
-						+ "(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch");
+						+ "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch _curMatch");
 				for(Entity entity : task.replParameters) {
 					if(entity instanceof Node) {
 						Node node = (Node)entity;
@@ -738,13 +739,14 @@ public class ModifyGen extends CSharpBase {
 				}
 				sb.append(")\n");
 				sb.append("\t\t{\n");
+				sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
 				sb.append("\t\t\t"+matchType+" curMatch = ("+matchType+")_curMatch;\n");
 			}
 			break;
 		case TYPE_OF_TASK_CREATION:
 			sb.append("\t\tpublic void "
 					+ pathPrefix+task.left.getNameOfGraph() + "_Create"
-					+ "(GRGEN_LGSP.LGSPGraph graph");
+					+ "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 			for(Entity entity : task.parameters) {
 				if(entity instanceof Node) {
 					sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(entity));					
@@ -757,12 +759,14 @@ public class ModifyGen extends CSharpBase {
 			}
 			sb.append(")\n");
 			sb.append("\t\t{\n");
+			sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
 			break;
 		case TYPE_OF_TASK_DELETION:
 			sb.append("\t\tpublic void "
 					+ pathPrefix+task.left.getNameOfGraph() + "_Delete"
-					+ "(GRGEN_LGSP.LGSPGraph graph, "+matchType+" curMatch)\n");
+					+ "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, "+matchType+" curMatch)\n");
 			sb.append("\t\t{\n");
+			sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
 			break;
 		default:
 			assert false;
@@ -1073,7 +1077,7 @@ public class ModifyGen extends CSharpBase {
 			ModifyGenerationTask task, String pathPrefix)
 	{
 		if(task.mightThereBeDeferredExecs) {
-			sb.append("\t\t\tgraph.sequencesManager.ExecuteDeferredSequencesThenExitRuleModify(graph);\n");
+			sb.append("\t\t\tprocEnv.sequencesManager.ExecuteDeferredSequencesThenExitRuleModify(procEnv);\n");
 		}
 
 		int xgrsID = 0;
@@ -1081,7 +1085,7 @@ public class ModifyGen extends CSharpBase {
 			if(istmt instanceof Emit) {
 				Emit emit = (Emit) istmt;
 				for(Expression arg : emit.getArguments()) {
-					sb.append("\t\t\tgraph.EmitWriter.Write(");
+					sb.append("\t\t\tprocEnv.EmitWriter.Write(");
 					genExpression(sb, arg, state);
 					sb.append(");\n");
 				}
@@ -1105,7 +1109,7 @@ public class ModifyGen extends CSharpBase {
 						sb.append(formatEntity(neededEntity));
 					}
 					sb.append(");\n");
-					sb.append("\t\t\tgraph.sequencesManager.AddDeferredSequence(xgrs"+xgrsID+");\n");
+					sb.append("\t\t\tprocEnv.sequencesManager.AddDeferredSequence(xgrs"+xgrsID+");\n");
 				} else {
 					for(Entity neededEntity : exec.getNeededEntities()) {
 						if(neededEntity.isDefToBeYieldedTo()) {
@@ -1115,7 +1119,7 @@ public class ModifyGen extends CSharpBase {
 							sb.append(formatEntity(neededEntity) + ";\n");
 						}
 					}
-					sb.append("\t\t\tApplyXGRS_" + task.left.getNameOfGraph() + "_" + xgrsID + "(graph");
+					sb.append("\t\t\tApplyXGRS_" + task.left.getNameOfGraph() + "_" + xgrsID + "(procEnv");
 					for(Entity neededEntity : exec.getNeededEntities()) {
 						if(!neededEntity.isDefToBeYieldedTo()) {
 							sb.append(", ");
@@ -1367,7 +1371,7 @@ public class ModifyGen extends CSharpBase {
 			for(Alternative alt : alts) {
 				String altName = alt.getNameOfGraph();
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
-						"Delete" + "(graph, alternative_"+altName+");\n");
+						"Delete" + "(procEnv, alternative_"+altName+");\n");
 			}
 		}
 	}
@@ -1375,7 +1379,7 @@ public class ModifyGen extends CSharpBase {
 	private void genAlternativeModificationCall(Alternative alt, StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
 		String altName = alt.getNameOfGraph();
 		sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
-				"Modify(graph, alternative_" + altName);
+				"Modify(procEnv, alternative_" + altName);
 		List<Entity> replParameters = new LinkedList<Entity>();
 		getUnionOfReplaceParametersOfAlternativeCases(alt, replParameters);
 		for(Entity entity : replParameters) {
@@ -1406,7 +1410,7 @@ public class ModifyGen extends CSharpBase {
 			for(Rule iter : iters) {
 				String iterName = iter.getLeft().getNameOfGraph();
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
-						"Delete" + "(graph, iterated_"+iterName+");\n");
+						"Delete" + "(procEnv, iterated_"+iterName+");\n");
 			}
 		}
 	}
@@ -1414,7 +1418,7 @@ public class ModifyGen extends CSharpBase {
 	private void genIteratedModificationCall(Rule iter, StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
 		String iterName = iter.getLeft().getNameOfGraph();
 		sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
-				"Modify(graph, iterated_" + iterName);
+				"Modify(procEnv, iterated_" + iterName);
 		List<Entity> replParameters = iter.getRight().getReplParameters();
 		for(Entity entity : replParameters) {
 			sb.append(", ");
@@ -1432,7 +1436,7 @@ public class ModifyGen extends CSharpBase {
 		}
 
 		if(task.mightThereBeDeferredExecs) {
-			sb.append("\t\t\tgraph.sequencesManager.EnterRuleModifyAddingDeferredSequences();\n");
+			sb.append("\t\t\tprocEnv.sequencesManager.EnterRuleModifyAddingDeferredSequences();\n");
 		}
 
 		// generate calls to the dependent modifications of the subpatterns
@@ -1443,7 +1447,7 @@ public class ModifyGen extends CSharpBase {
 				String subName = formatIdentifiable(subRep);
 				sb.append("\t\t\tPattern_" + formatIdentifiable(subRule)
 						+ ".Instance." + formatIdentifiable(subRule) +
-						"_Modify(graph, subpattern_" + subName);
+						"_Modify(procEnv, subpattern_" + subName);
 				NeededEntities needs = new NeededEntities(true, true, true, false, true, true);
 				List<Entity> replParameters = subRule.getRight().getReplParameters();
 				for(int i=0; i<subRep.getReplConnections().size(); ++i) {
@@ -1479,7 +1483,7 @@ public class ModifyGen extends CSharpBase {
 			} else if(orderedRep instanceof Emit) { // emithere
 				Emit emit = (Emit)orderedRep;
 				for(Expression arg : emit.getArguments()) {
-					sb.append("\t\t\tgraph.EmitWriter.Write(");
+					sb.append("\t\t\tprocEnv.EmitWriter.Write(");
 					genExpression(sb, arg, state);
 					sb.append(");\n");
 				}
@@ -1711,7 +1715,7 @@ public class ModifyGen extends CSharpBase {
 
 			sb.append("\t\t\tPattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
-					"_Create(graph");
+					"_Create(procEnv");
 			for(Expression expr: subUsage.getSubpatternConnections()) {
 				// var parameters can't be used in creation, so just skip them
 				if(expr instanceof GraphEntityExpression) {
@@ -1731,7 +1735,7 @@ public class ModifyGen extends CSharpBase {
 			String subName = formatIdentifiable(subUsage);
 			sb.append("\t\t\tPattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
-					"_Delete(graph, subpattern_" + subName + ");\n");
+					"_Delete(procEnv, subpattern_" + subName + ");\n");
 		}
 	}
 

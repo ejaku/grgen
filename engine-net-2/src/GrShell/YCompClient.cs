@@ -135,7 +135,7 @@ namespace de.unika.ipd.grGen.grShell
         TcpClient ycompClient;
         internal YCompStream ycompStream;
 
-        IGraph graph;
+        INamedGraph graph;
         
         DumpInfo dumpInfo;
 
@@ -170,7 +170,7 @@ namespace de.unika.ipd.grGen.grShell
         /// Creates a new YCompClient instance and connects to the local YComp server.
         /// If it is not available a SocketException is thrown
         /// </summary>
-        public YCompClient(IGraph graph, String layoutModule, int connectionTimeout, int port, DumpInfo dumpInfo, ElementRealizers realizers)
+        public YCompClient(INamedGraph graph, String layoutModule, int connectionTimeout, int port, DumpInfo dumpInfo, ElementRealizers realizers)
         {
             this.graph = graph;
             this.dumpInfo = dumpInfo;
@@ -228,7 +228,7 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public String EdgeRealizerOverride { get { return edgeRealizerOverride; } set { edgeRealizerOverride = value; } }
 
-        public IGraph Graph { get { return graph; } }
+        public INamedGraph Graph { get { return graph; } }
 
         public event ConnectionLostHandler OnConnectionLost
         { add { ycompStream.OnConnectionLost += value; } remove { ycompStream.OnConnectionLost -= value; } }

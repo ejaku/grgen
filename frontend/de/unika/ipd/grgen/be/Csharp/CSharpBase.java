@@ -628,7 +628,7 @@ public abstract class CSharpBase {
 			if(no.getEntity()==null) {
 				sb.append("graph.Name"); // name of graph
 			} else {
-				sb.append("graph.GetElementName(" + formatEntity(no.getEntity()) + ")"); // name of entity
+				sb.append("((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(" + formatEntity(no.getEntity()) + ")"); // name of entity
 			}
 		}
 		else if(expr instanceof Typeof) {

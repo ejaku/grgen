@@ -101,7 +101,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates an LGSPNode object.
         /// </summary>
         /// <param name="nodeType">The node type.</param>
-        public LGSPNode(NodeType nodeType)
+        protected LGSPNode(NodeType nodeType)
         {
             lgspType = nodeType;
         }
@@ -604,7 +604,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="edgeType">The edge type.</param>
         /// <param name="sourceNode">The source node.</param>
         /// <param name="targetNode">The target node.</param>
-        public LGSPEdge(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
+        protected LGSPEdge(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
         {
             lgspType = edgeType;
             lgspSource = sourceNode;

@@ -112,6 +112,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		BaseNode prev = null;
 
 		while (!(curr instanceof RuleDeclNode
+					|| curr instanceof TestDeclNode
 					|| curr instanceof SubpatternDeclNode
 					|| curr instanceof AlternativeCaseNode))
 		{

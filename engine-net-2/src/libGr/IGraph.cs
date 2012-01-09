@@ -92,58 +92,25 @@ namespace de.unika.ipd.grGen.libGr
     public delegate void RetypingNodeHandler(INode oldNode, INode newNode);
 
     /// <summary>
-    /// Represents a method called before a edge is retyped.
+    /// Represents a method called before an edge is retyped.
     /// </summary>
     /// <param name="oldEdge">The edge to be retyped.</param>
     /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the incident nodes, yet.</param>
     public delegate void RetypingEdgeHandler(IEdge oldEdge, IEdge newEdge);
 
     /// <summary>
+    /// Represents a method called before an edge is redirected (i.e. will be removed soon and added again immediately thereafter).
+    /// </summary>
+    /// <param name="oldEdge">The edge which will be redirectey.</param>
+    public delegate void RedirectingEdgeHandler(IEdge edge);
+
+    /// <summary>
     /// Delegate-type called shortly before elements are added to the graph, with the names of the elements added.
     /// </summary>
     public delegate void SettingAddedElementNamesHandler(String[] namesOfElementsAdded);
 
-    /// <summary>
-    /// Represents a method called after all requested matches of an action have been matched.
-    /// </summary>
-    /// <param name="matches">The matches found.</param>
-    /// <param name="special">Specifies whether the "special" flag has been used.</param>
-    public delegate void AfterMatchHandler(IMatches matches, bool special);
-
-    /// <summary>
-    /// Represents a method called before the rewrite step of an action, when at least one match has been found.
-    /// </summary>
-    /// <param name="matches">The matches found.</param>
-    /// <param name="special">Specifies whether the "special" flag has been used.</param>
-    public delegate void BeforeFinishHandler(IMatches matches, bool special);
-
-    /// <summary>
-    /// Represents a method called during rewriting a set of matches before the next match is rewritten.
-    /// It is not fired before rewriting the first match.
-    /// </summary>
-    public delegate void RewriteNextMatchHandler();
-
-    /// <summary>
-    /// Represents a method called after the rewrite step of a rule.
-    /// </summary>
-    /// <param name="matches">The matches found.
-    /// This may contain invalid entries, because parts of the matches may have been deleted.</param>
-    /// <param name="special">Specifies whether the "special" flag has been used.</param>
-    public delegate void AfterFinishHandler(IMatches matches, bool special);
-
-    /// <summary>
-    /// Represents a method called directly after a sequence has been entered.
-    /// </summary>
-    /// <param name="seq">The current sequence object.</param>
-    public delegate void EnterSequenceHandler(Sequence seq);
-
-    /// <summary>
-    /// Represents a method called before a sequence is left.
-    /// </summary>
-    /// <param name="seq">The current sequence object.</param>
-    public delegate void ExitSequenceHandler(Sequence seq);
-
     #endregion GraphDelegates
+
 
     /// <summary>
     /// An attributed, typed and directed multigraph with multiple inheritance on node and edge types.
@@ -161,42 +128,6 @@ namespace de.unika.ipd.grGen.libGr
         IGraphModel Model { get; }
 
         /// <summary>
-        /// A currently associated actions object.
-        /// </summary>
-        BaseActions Actions { get; set; }
-
-        /// <summary>
-        /// Returns the transaction manager of the graph.
-        /// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
-        /// Don't forget to call Commit after a transaction is finished!
-        /// </summary>
-        ITransactionManager TransactionManager { get; }
-
-        /// <summary>
-        /// The recorder of the graph.
-        /// Might be null (is set if a named graph is available, then the persistent names are taken from the named graph).
-        /// </summary>
-        IRecorder Recorder { get; set; }
-
-        /// <summary>
-        /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
-        /// By default it should be null.
-        /// The user is responsible for resetting the PerformanceInfo object.
-        /// </summary>
-        PerformanceInfo PerformanceInfo { get; set; }
-
-        /// <summary>
-        /// The writer used by emit statements. By default this is Console.Out.
-        /// </summary>
-        TextWriter EmitWriter { get; set; }
-
-        /// <summary>
-        /// The maximum number of matches to be returned for a RuleAll sequence element.
-        /// If it is zero or less, the number of matches is unlimited.
-        /// </summary>
-        int MaxMatches { get; set; }
-
-        /// <summary>
         /// If true (the default case), elements deleted during a rewrite
         /// may be reused in the same rewrite.
         /// As a result new elements may not be discriminable anymore from
@@ -209,12 +140,6 @@ namespace de.unika.ipd.grGen.libGr
         /// For persistent backends permanently destroys the graph.
         /// </summary>
         void DestroyGraph();
-
-        /// <summary>
-        /// Loads a BaseActions instance from the given file.
-        /// If the file is a ".cs" file it will be compiled first.
-        /// </summary>
-        BaseActions LoadActions(String actionFilename);
 
 
         /// <summary>
@@ -278,15 +203,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType);
 
-        /// <summary>
-        /// Adds an existing INode object to the graph and assigns it to the given variable.
-        /// The node must not be part of any graph, yet!
-        /// The node may not be connected to any other elements!
-        /// </summary>
-        /// <param name="node">The node to be added.</param>
-        /// <param name="varName">The name of the variable.</param>
-        void AddNode(INode node, String varName);
-
+        
         /// <summary>
         /// Adds an existing INode object to the graph.
         /// The node must not be part of any graph, yet!
@@ -296,28 +213,11 @@ namespace de.unika.ipd.grGen.libGr
         void AddNode(INode node);
 
         /// <summary>
-        /// Adds a new node to the graph and assigns it to the given variable.
-        /// </summary>
-        /// <param name="nodeType">The node type for the new node.</param>
-        /// <param name="varName">The name of the variable.</param>
-        /// <returns>The newly created node.</returns>
-        INode AddNode(NodeType nodeType, String varName);
-
-        /// <summary>
         /// Adds a new node to the graph.
         /// </summary>
         /// <param name="nodeType">The node type for the new node.</param>
         /// <returns>The newly created node.</returns>
         INode AddNode(NodeType nodeType);
-
-        /// <summary>
-        /// Adds an existing IEdge object to the graph and assigns it to the given variable.
-        /// The edge must not be part of any graph, yet!
-        /// Source and target of the edge must already be part of the graph.
-        /// </summary>
-        /// <param name="edge">The edge to be added.</param>
-        /// <param name="varName">The name of the variable.</param>
-        void AddEdge(IEdge edge, String varName);
 
         /// <summary>
         /// Adds an existing IEdge object to the graph.
@@ -326,16 +226,6 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="edge">The edge to be added.</param>
         void AddEdge(IEdge edge);
-
-        /// <summary>
-        /// Adds a new edge to the graph and assigns it to the given variable.
-        /// </summary>
-        /// <param name="edgeType">The edge type for the new edge.</param>
-        /// <param name="source">The source of the edge.</param>
-        /// <param name="target">The target of the edge.</param>
-        /// <param name="varName">The name of the variable.</param>
-        /// <returns>The newly created edge.</returns>
-        IEdge AddEdge(EdgeType edgeType, INode source, INode target, string varName);
 
         /// <summary>
         /// Adds a new edge to the graph.
@@ -362,7 +252,7 @@ namespace de.unika.ipd.grGen.libGr
         void RemoveEdges(INode node);
 
         /// <summary>
-        /// Removes all nodes and edges (including any variables pointing to them) from the graph.
+        /// Removes all nodes and edges from the graph (so any variables pointing to them start dangling).
         /// </summary>
         void Clear();
 
@@ -437,11 +327,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Duplicates a graph.
         /// The new graph will use the same model and backend as the other.
-        /// The open transactions will NOT be cloned.
         /// </summary>
         /// <param name="newName">Name of the new graph.</param>
         /// <returns>A new graph with the same structure as this graph.</returns>
         IGraph Clone(String newName);
+
 
         #region Visited flags management
 
@@ -486,137 +376,6 @@ namespace de.unika.ipd.grGen.libGr
 
         #endregion Visited flags management
 
-        #region Names and Variables management
-
-        /// <summary>
-        /// Returns the name for the given element,
-        /// i.e. the name defined by the named graph if a named graph is available,
-        /// or a hash value string if only a lgpsGraph is available.
-        /// </summary>
-        /// <param name="elem">Element of which the name is to be found</param>
-        /// <returns>The name of the given element</returns>
-        string GetElementName(IGraphElement elem);
-
-        /// <summary>
-        /// Returns a linked list of variables mapping to the given graph element
-        /// or null, if no variable points to this element
-        /// </summary>
-        LinkedList<Variable> GetElementVariables(IGraphElement elem);
-
-        /// <summary>
-        /// Retrieves the object for a variable name or null, if the variable isn't set yet or anymore
-        /// </summary>
-        /// <param name="varName">The variable name to lookup</param>
-        /// <returns>The according object or null</returns>
-        object GetVariableValue(string varName);
-
-        /// <summary>
-        /// Retrieves the INode for a variable name or null, if the variable isn't set yet or anymore.
-        /// A InvalidCastException is thrown, if the variable is set and does not point to an INode object.
-        /// </summary>
-        /// <param name="varName">The variable name to lookup.</param>
-        /// <returns>The according INode or null.</returns>
-        INode GetNodeVarValue(string varName);
-
-        /// <summary>
-        /// Retrieves the IEdge for a variable name or null, if the variable isn't set yet or anymore.
-        /// A InvalidCastException is thrown, if the variable is set and does not point to an IEdge object.
-        /// </summary>
-        /// <param name="varName">The variable name to lookup.</param>
-        /// <returns>The according INode or null.</returns>
-        IEdge GetEdgeVarValue(string varName);
-
-        /// <summary>
-        /// Sets the value of the given variable to the given value.
-        /// If the variable name is null, this function does nothing.
-        /// If elem is null, the variable is unset.
-        /// </summary>
-        /// <param name="varName">The name of the variable</param>
-        /// <param name="val">The new value of the variable</param>
-        void SetVariableValue(string varName, object val);
-
-        /// <summary>
-        /// Returns an iterator over all available (non-null) variables
-        /// </summary>
-        IEnumerable<Variable> Variables { get; }
-
-        #endregion Variables management
-
-        #region Graph rewriting
-
-        /// <summary>
-        /// Retrieves the newest version of an IAction object currently available for this graph.
-        /// This may be the given object.
-        /// </summary>
-        /// <param name="action">The IAction object.</param>
-        /// <returns>The newest version of the given action.</returns>
-        IAction GetNewestActionVersion(IAction action);
-
-        /// <summary>
-        /// Sets the newest action version for a static action.
-        /// </summary>
-        /// <param name="staticAction">The original action generated by GrGen.exe.</param>
-        /// <param name="newAction">A new action instance.</param>
-        void SetNewestActionVersion(IAction staticAction, IAction newAction);
-
-        /// <summary>
-        /// Executes the modifications of the according rule to the given match/matches.
-        /// Fires OnRewritingNextMatch events before each rewrite except for the first one.
-        /// </summary>
-        /// <param name="matches">The matches object returned by a previous matcher call.</param>
-        /// <param name="which">The index of the match in the matches object to be applied,
-        /// or -1, if all matches are to be applied.</param>
-        /// <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
-        object[] Replace(IMatches matches, int which);
-
-        /// <summary>
-        /// Apply a rewrite rule.
-        /// </summary>
-        /// <param name="paramBindings">The parameter bindings of the rule invocation</param>
-        /// <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
-        /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
-        /// depends on MaxMatches)</param>
-        /// <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
-        /// the application</param>
-        /// <param name="test">If true, no rewrite step is performed.</param>
-        /// <returns>The number of matches found</returns>
-        int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test);
-
-        #endregion Graph rewriting
-
-        #region Sequence handling
-
-        /// <summary>
-        /// Apply a graph rewrite sequence.
-        /// </summary>
-        /// <param name="sequence">The graph rewrite sequence</param>
-        /// <returns>The result of the sequence.</returns>
-        bool ApplyGraphRewriteSequence(Sequence sequence);
-
-        /// <summary>
-        /// Apply a graph rewrite sequence.
-        /// </summary>
-        /// <param name="sequence">The graph rewrite sequence</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        /// <returns>The result of the sequence.</returns>
-        bool ApplyGraphRewriteSequence(Sequence sequence, SequenceExecutionEnvironment env);
-
-        /// <summary>
-        /// Tests whether the given sequence succeeds on a clone of the associated graph.
-        /// </summary>
-        /// <param name="seq">The sequence to be executed</param>
-        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        bool ValidateWithSequence(Sequence seq);
-
-        /// <summary>
-        /// Tests whether the given sequence succeeds on a clone of the associated graph.
-        /// </summary>
-        /// <param name="seq">The sequence to be executed</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        bool ValidateWithSequence(Sequence seq, SequenceExecutionEnvironment env);
-
-        #endregion Sequence handling
 
         #region Events
 
@@ -672,15 +431,21 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Fired before the type of a node is changed.
-        /// Old and new type and attributes are provided to the handler.
+        /// Old and new nodes are provided to the handler.
         /// </summary>
         event RetypingNodeHandler OnRetypingNode;
 
         /// <summary>
         /// Fired before the type of an edge is changed.
-        /// Old and new type and attributes are provided to the handler.
+        /// Old and new edges are provided to the handler.
         /// </summary>
         event RetypingEdgeHandler OnRetypingEdge;
+
+        /// <summary>
+        /// Fired before an edge is redirected (causing removal then adding again).
+        /// The edge to be redirected is provided to the handler.
+        /// </summary>
+        event RedirectingEdgeHandler OnRedirectingEdge;
 
         /// <summary>
         /// Fired before each rewrite step (also rewrite steps of subpatterns) to indicate the names
@@ -694,37 +459,6 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         event SettingAddedElementNamesHandler OnSettingAddedEdgeNames;
 
-        /// <summary>
-        /// Fired after all requested matches of a rule have been matched.
-        /// </summary>
-        event AfterMatchHandler OnMatched;
-
-        /// <summary>
-        /// Fired before the rewrite step of a rule, when at least one match has been found.
-        /// </summary>
-        event BeforeFinishHandler OnFinishing;
-
-        /// <summary>
-        /// Fired before the next match is rewritten. It is not fired before rewriting the first match.
-        /// </summary>
-        event RewriteNextMatchHandler OnRewritingNextMatch;
-
-        /// <summary>
-        /// Fired after the rewrite step of a rule.
-        /// Note, that the given matches object may contain invalid entries,
-        /// as parts of the match may have been deleted!
-        /// </summary>
-        event AfterFinishHandler OnFinished;
-
-        /// <summary>
-        /// Fired when a sequence is entered.
-        /// </summary>
-        event EnterSequenceHandler OnEntereringSequence;
-
-        /// <summary>
-        /// Fired when a sequence is left.
-        /// </summary>
-        event ExitSequenceHandler OnExitingSequence;
 
         /// <summary>
         /// Fires an OnChangingNodeAttribute event.
@@ -764,45 +498,8 @@ namespace de.unika.ipd.grGen.libGr
         void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue);
 
-        /// <summary>
-        /// Fires an OnMatched event.
-        /// </summary>
-        /// <param name="matches">The IMatches object returned by the matcher.</param>
-        /// <param name="special">Whether this is a 'special' match (user defined).</param>
-        void Matched(IMatches matches, bool special);
-
-        /// <summary>
-        /// Fires an OnFinishing event.
-        /// </summary>
-        /// <param name="matches">The IMatches object returned by the matcher.</param>
-        /// <param name="special">Whether this is a 'special' match (user defined).</param>
-        void Finishing(IMatches matches, bool special);
-
-        /// <summary>
-        /// Fires an OnRewritingNextMatch event.
-        /// </summary>
-        void RewritingNextMatch();
-
-        /// <summary>
-        /// Fires an OnFinished event.
-        /// </summary>
-        /// <param name="matches">The IMatches object returned by the matcher. The elements may be invalid.</param>
-        /// <param name="special">Whether this is a 'special' match (user defined).</param>
-        void Finished(IMatches matches, bool special);
-
-        /// <summary>
-        /// Fires an OnEnteringSequence event.
-        /// </summary>
-        /// <param name="seq">The sequence to be entered.</param>
-        void EnteringSequence(Sequence seq);
-
-        /// <summary>
-        /// Fires an OnExitingSequence event.
-        /// </summary>
-        /// <param name="seq">The sequence to be exited.</param>
-        void ExitingSequence(Sequence seq);
-
         #endregion Events
+
 
         /// <summary>
         /// Checks whether a graph meets the connection assertions.
@@ -829,11 +526,6 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
         void Dump(IDumper dumper, DumpInfo dumpInfo);
 
-        /// <summary>
-        /// Dumps the graph with a given graph dumper and default dump style.
-        /// </summary>
-        /// <param name="dumper">The graph dumper to be used.</param>
-        void Dump(IDumper dumper);
 
         /// <summary>
         /// Returns whether this graph is isomorph to that graph

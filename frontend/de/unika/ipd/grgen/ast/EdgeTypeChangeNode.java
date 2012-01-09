@@ -98,6 +98,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		BaseNode prev = null;
 
 		while (!(curr instanceof RuleDeclNode
+				|| curr instanceof TestDeclNode
 				|| curr instanceof SubpatternDeclNode
 				|| curr instanceof AlternativeCaseNode)) {
 			prev = curr;

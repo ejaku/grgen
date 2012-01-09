@@ -844,7 +844,7 @@ namespace de.unika.ipd.grGen.expression
         {
             if (Entity != null)
             {
-                sourceCode.Append("graph.GetElementName(" + NamesOfEntities.CandidateVariable(Entity) +")");
+                sourceCode.Append("((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(" + NamesOfEntities.CandidateVariable(Entity) +")");
             }
             else
             {

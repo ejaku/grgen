@@ -426,7 +426,8 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\tgraph.AddNode(node);\n"
 					+ "\t\t\treturn node;\n"
 					+ "\t\t}\n\n"
-					+ "\t\tpublic static " + elemref + " CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)\n"
+					
+					+ "\t\tpublic static " + elemref + " CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)\n"
 					+ "\t\t{\n"
 					+ "\t\t\t" + elemref + " node;\n"
 					+ "\t\t\tif(poolLevel == 0)\n"
@@ -439,7 +440,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tnode.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
 			initAllMembersNonConst(type, "node", "\t\t\t\t", true, false);
 			sb.append("\t\t\t}\n"
-					+ "\t\t\tgraph.AddNode(node, varName);\n"
+					+ "\t\t\tgraph.AddNode(node, nodeName);\n"
 					+ "\t\t\treturn node;\n"
 					+ "\t\t}\n\n");
 		}
@@ -461,8 +462,9 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\tgraph.AddEdge(edge);\n"
 					+ "\t\t\treturn edge;\n"
 					+ "\t\t}\n\n"
-					+ "\t\tpublic static " + elemref + " CreateEdge(GRGEN_LGSP.LGSPGraph graph, "
-						+ "GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)\n"
+
+					+ "\t\tpublic static " + elemref + " CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, "
+						+ "GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)\n"
 					+ "\t\t{\n"
 					+ "\t\t\t" + elemref + " edge;\n"
 					+ "\t\t\tif(poolLevel == 0)\n"
@@ -475,7 +477,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tedge.lgspTarget = target;\n");
 			initAllMembersNonConst(type, "edge", "\t\t\t\t", true, false);
 			sb.append("\t\t\t}\n"
-					+ "\t\t\tgraph.AddEdge(edge, varName);\n"
+					+ "\t\t\tgraph.AddEdge(edge, edgeName);\n"
 					+ "\t\t\treturn edge;\n"
 					+ "\t\t}\n\n");
 		}
@@ -1657,6 +1659,16 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t}\n");
 		sb.append("\n");
 
+		genGraphIncludingModelClass();
+
+		sb.append("\n");
+
+		genNamedGraphIncludingModelClass();
+	}
+
+	private void genGraphIncludingModelClass() {
+		String modelName = model.getIdent().toString();
+
 		sb.append("\t//\n");
 		sb.append("\t// IGraph/IGraphModel implementation\n");
 		sb.append("\t//\n");
@@ -1679,9 +1691,54 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				+ "\t\t{\n"
 				+ "\t\t\treturn " + elemref + ".CreateNode(this);\n"
 				+ "\t\t}\n\n"
-				+ "\t\tpublic " + elemref + " CreateNode" + name + "(string varName)\n"
+			);
+		}
+
+		for(EdgeType edgeType : model.getEdgeTypes()) {
+			if(edgeType.isAbstract()) continue;
+			String name = formatIdentifiable(edgeType);
+			String elemref = formatElementClassRef(edgeType);
+			sb.append(
+				  "\t\tpublic @" + elemref + " CreateEdge" + name
+					+ "(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)\n"
 				+ "\t\t{\n"
-				+ "\t\t\treturn " + elemref + ".CreateNode(this, varName);\n"
+				+ "\t\t\treturn @" + elemref + ".CreateEdge(this, source, target);\n"
+				+ "\t\t}\n\n"
+			);
+		}
+
+		genGraphModelBody(modelName);
+		sb.append("\t}\n");
+	}
+
+	private void genNamedGraphIncludingModelClass() {
+		String modelName = model.getIdent().toString();
+
+		sb.append("\t//\n");
+		sb.append("\t// INamedGraph/IGraphModel implementation\n");
+		sb.append("\t//\n");
+
+		sb.append(
+			  "\tpublic class " + modelName + "NamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel\n"
+			+ "\t{\n"
+			+ "\t\tpublic " + modelName + "NamedGraph() : base(GetNextGraphName())\n"
+			+ "\t\t{\n"
+			+ "\t\t\tInitializeGraph(this);\n"
+			+ "\t\t}\n\n"
+		);
+
+		for(NodeType nodeType : model.getNodeTypes()) {
+			if(nodeType.isAbstract()) continue;
+			String name = formatIdentifiable(nodeType);
+			String elemref = formatElementClassRef(nodeType);
+			sb.append(
+				  "\t\tpublic " + elemref + " CreateNode" + name + "()\n"
+				+ "\t\t{\n"
+				+ "\t\t\treturn " + elemref + ".CreateNode(this);\n"
+				+ "\t\t}\n\n"
+				+ "\t\tpublic " + elemref + " CreateNode" + name + "(string nodeName)\n"
+				+ "\t\t{\n"
+				+ "\t\t\treturn " + elemref + ".CreateNode(this, nodeName);\n"
 				+ "\t\t}\n\n"
 			);
 		}
@@ -1697,9 +1754,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				+ "\t\t\treturn @" + elemref + ".CreateEdge(this, source, target);\n"
 				+ "\t\t}\n\n"
 				+ "\t\tpublic @" + elemref + " CreateEdge" + name
-					+ "(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)\n"
+					+ "(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)\n"
 				+ "\t\t{\n"
-				+ "\t\t\treturn @" + elemref + ".CreateEdge(this, source, target, varName);\n"
+				+ "\t\t\treturn @" + elemref + ".CreateEdge(this, source, target, edgeName);\n"
 				+ "\t\t}\n\n"
 			);
 		}

@@ -55,9 +55,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="importFilename">The filename of the file to be imported.</param>
         /// <param name="modelOverride">If not null, overrides the filename of the graph model to be used.</param>
         /// <param name="backend">The backend to use to create the graph.</param>
-        public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
+        /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
+        public static IGraph Import(String importFilename, String modelOverride, IBackend backend, out BaseActions actions)
         {
-            return Import(new StreamReader(importFilename), modelOverride, backend);
+            return Import(new StreamReader(importFilename), modelOverride, backend, out actions);
         }
 
         /// <summary>
@@ -67,7 +68,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="inStream">The text reader input stream import source.</param>
         /// <param name="modelOverride">If not null, overrides the filename of the graph model to be used.</param>
         /// <param name="backend">The backend to use to create the graph.</param>
-        public static IGraph Import(TextReader inStream, String modelOverride, IBackend backend)
+        /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
+        public static IGraph Import(TextReader inStream, String modelOverride, IBackend backend, out BaseActions actions)
         {
             XmlDocument doc = new XmlDocument();
             doc.XmlResolver = null;
@@ -128,13 +130,13 @@ namespace de.unika.ipd.grGen.libGr
             String graphname = graphelem.GetAttribute("id");
             if(modelfilename.EndsWith(".grg"))
             {
-                BaseActions actions;
-                backend.CreateFromSpec(modelfilename, graphname, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), out graph, out actions);
-                graph.Actions = actions;
+                backend.CreateFromSpec(modelfilename, graphname, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), 
+                    out graph, out actions);
             }
             else
             {
                 graph = backend.CreateGraph(modelfilename, graphname);
+                actions = null;
             }
 
             ImportGraph(graph, doc, graphelem);
@@ -152,9 +154,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="graphModel">The graph model to be used, 
         ///     it must be conformant to the model used in the file to be imported.</param>
-        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel)
+        /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
+        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel, out BaseActions actions)
         {
-            return Import(new StreamReader(importFilename), backend, graphModel);
+            return Import(new StreamReader(importFilename), backend, graphModel, out actions);
         }
 
         /// <summary>
@@ -165,7 +168,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="graphModel">The graph model to be used, 
         ///     it must be conformant to the model used in the file to be imported.</param>
-        public static IGraph Import(TextReader inStream, IBackend backend, IGraphModel graphModel)
+        /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
+        public static IGraph Import(TextReader inStream, IBackend backend, IGraphModel graphModel, out BaseActions actions)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(inStream);
@@ -194,6 +198,7 @@ namespace de.unika.ipd.grGen.libGr
 
             ImportGraph(graph, doc, graphelem);
 
+            actions = null;
             return graph;
         }
 

@@ -31,5 +31,7 @@ show var last
 
 xgrs addReflexive(::last)
 xgrs testReflexive
+xgrs isAB(::start)
+xgrs isAB(::last)
 
 quit

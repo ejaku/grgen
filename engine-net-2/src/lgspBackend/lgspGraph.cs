@@ -28,28 +28,13 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPGraph : BaseGraph
     {
-        private static int actionID = 0;
         private static int graphID = 0;
 
         private String name;
-        private LGSPBackend backend = null;
+        internal LGSPBackend backend = null;
         private IGraphModel model;
-        private String modelAssemblyName;
+        internal String modelAssemblyName;
 
-        private LGSPTransactionManager transactionManager;
-
-        public LGSPDeferredSequencesManager sequencesManager;
-
-        /// <summary>
-        /// Currently associated LGSPActions object.
-        /// This is needed to the current matchers while executing an exec statement on the RHS of a rule.
-        /// </summary>
-        public LGSPActions curActions = null;
-
-        /// <summary>
-        /// A currently associated actions object.
-        /// </summary>
-        public override BaseActions Actions { get { return curActions; } set { curActions = (LGSPActions) value; } }
 
         private bool reuseOptimization = true;
 
@@ -184,11 +169,34 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Copy constructor.
-        /// Open transaction data lost.
         /// </summary>
         /// <param name="dataSource">The LGSPGraph object to get the data from</param>
         /// <param name="newName">Name of the copied graph.</param>
-        protected LGSPGraph(LGSPGraph dataSource, String newName)
+        /// <param name="oldToNewMap">A map of the old elements to the new elements after cloning.</param>
+        public LGSPGraph(LGSPGraph dataSource, String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
+        {
+            Copy(dataSource, newName, out oldToNewMap);
+        }
+
+        /// <summary>
+        /// Copy constructor.
+        /// </summary>
+        /// <param name="dataSource">The LGSPGraph object to get the data from</param>
+        /// <param name="newName">Name of the copied graph.</param>
+        public LGSPGraph(LGSPGraph dataSource, String newName)
+        {
+            IDictionary<IGraphElement, IGraphElement> oldToNewMap;
+            Copy(dataSource, newName, out oldToNewMap);
+        }
+
+        /// <summary>
+        /// Copy constructor helper.
+        /// </summary>
+        /// <param name="dataSource">The LGSPGraph object to get the data from</param>
+        /// <param name="newName">Name of the copied graph.</param>
+        /// <param name="oldToNewMap">A map of the old elements to the new elements after cloning,
+        /// just forget about it if you don't need it.</param>
+        private void Copy(LGSPGraph dataSource, String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
             model = dataSource.model;
             name = newName;
@@ -201,7 +209,7 @@ namespace de.unika.ipd.grGen.lgsp
                 modelAssemblyName = dataSource.modelAssemblyName;
             }
 
-            Dictionary<IGraphElement, IGraphElement> oldToNewMap = new Dictionary<IGraphElement, IGraphElement>();
+            oldToNewMap = new Dictionary<IGraphElement, IGraphElement>();
 
             for(int i = 0; i < dataSource.nodesByTypeHeads.Length; i++)
             {
@@ -223,12 +231,13 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            foreach(KeyValuePair<IGraphElement, LinkedList<Variable>> kvp in dataSource.ElementMap)
+            /* TODO: remove when cloning of graph variables was implemented
+             * foreach(KeyValuePair<IGraphElement, LinkedList<Variable>> kvp in dataSource.ElementMap)
             {
                 IGraphElement newElem = oldToNewMap[kvp.Key];
                 foreach(Variable var in kvp.Value)
                     SetVariableValue(var.Name, newElem);
-            }
+            }*/
 
 #if MONO_MULTIDIMARRAY_WORKAROUND
             dim0size = dataSource.dim0size;
@@ -271,10 +280,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void InitializeGraph()
         {
-            transactionManager = new LGSPTransactionManager(this);
-
-            sequencesManager = new LGSPDeferredSequencesManager();
-
             nodesByTypeHeads = new LGSPNode[model.NodeModel.Types.Length];
             for(int i = 0; i < model.NodeModel.Types.Length; i++)
             {
@@ -293,10 +298,6 @@ namespace de.unika.ipd.grGen.lgsp
                 edgesByTypeHeads[i] = head;
             }
             edgesByTypeCounts = new int[model.EdgeModel.Types.Length];
-
-            // Reset variables
-            ElementMap.Clear();
-            VariableMap.Clear();
 
             // Reset statistical data
 #if MONO_MULTIDIMARRAY_WORKAROUND
@@ -323,13 +324,6 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
         public override IGraphModel Model { get { return model; } }
 
-		/// <summary>
-		/// Returns the transaction manager of the graph.
-		/// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
-		/// Don't forget to call Commit after a transaction is finished!
-		/// </summary>
-        public override ITransactionManager TransactionManager { get { return transactionManager; } }
-
         /// <summary>
         /// For persistent backends permanently destroys the graph
         /// </summary>
@@ -337,88 +331,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
         }
 
-        /// <summary>
-        /// Loads a LGSPActions implementation
-        /// </summary>
-        /// <param name="actionFilename">Filename of a action file. This can be either a library (.dll) or source code (.cs)</param>
-        /// <returns>A LGSPActions object as BaseActions</returns>
-        public override BaseActions LoadActions(String actionFilename)
-        {
-            Assembly assembly;
-            String assemblyName;
-
-            String extension = Path.GetExtension(actionFilename);
-            if(extension.Equals(".cs", StringComparison.OrdinalIgnoreCase))
-            {
-                CSharpCodeProvider compiler = new CSharpCodeProvider();
-                CompilerParameters compParams = new CompilerParameters();
-                compParams.ReferencedAssemblies.Add("System.dll");
-                compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
-                compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
-                compParams.ReferencedAssemblies.Add(modelAssemblyName);
-
-//                compParams.GenerateInMemory = true;
-                compParams.CompilerOptions = "/optimize";
-                compParams.OutputAssembly = String.Format("lgsp-action-assembly-{0:00000}.dll", actionID++);
-
-                CompilerResults compResults = compiler.CompileAssemblyFromFile(compParams, actionFilename);
-                if(compResults.Errors.HasErrors)
-                {
-                    String errorMsg = compResults.Errors.Count + " Errors:";
-                    foreach(CompilerError error in compResults.Errors)
-                        errorMsg += String.Format("\r\nLine: {0} - {1}", error.Line, error.ErrorText);
-                    throw new ArgumentException("Illegal actions C# source code: " + errorMsg);
-                }
-
-                assembly = compResults.CompiledAssembly;
-                assemblyName = compParams.OutputAssembly;
-            }
-            else if(extension.Equals(".dll", StringComparison.OrdinalIgnoreCase))
-            {
-                assembly = Assembly.LoadFrom(actionFilename);
-                assemblyName = actionFilename;
-                if(backend != null) backend.AddAssembly(assembly);          // TODO: still needed??
-            }
-            else
-            {
-                throw new ArgumentException("The action filename must be either a .cs or a .dll filename!");
-            }
-
-            Type actionsType = null;
-            try
-            {
-                foreach(Type type in assembly.GetTypes())
-                {
-                    if(!type.IsClass || type.IsNotPublic) continue;
-                    if(type.BaseType == typeof(LGSPActions))
-                    {
-                        if(actionsType != null)
-                        {
-                            throw new ArgumentException(
-                                "The given action file contains more than one LGSPActions implementation!");
-                        }
-                        actionsType = type;
-                    }
-                }
-            }
-            catch(ReflectionTypeLoadException e)
-            {
-                String errorMsg = "";
-                foreach(Exception ex in e.LoaderExceptions)
-                    errorMsg += "- " + ex.Message + Environment.NewLine;
-                if(errorMsg.Length == 0) errorMsg = e.Message;
-                throw new ArgumentException(errorMsg);
-            }
-            if(actionsType == null)
-                throw new ArgumentException("The given action file doesn't contain an LGSPActions implementation!");
-
-            LGSPActions actions = (LGSPActions) Activator.CreateInstance(actionsType, this, modelAssemblyName, assemblyName);
-
-            if(Model.MD5Hash != actions.ModelMD5Hash)
-                throw new ArgumentException("The given action file has been compiled with another model assembly!");
-
-            return actions;
-        }
 
         /// <summary>
         /// Returns the number of nodes with the exact given node type.
@@ -621,24 +533,6 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
         }
 
-        /// <summary>
-        /// Adds an existing INode object to the graph and assigns it to the given variable.
-        /// The node must not be part of any graph, yet!
-        /// The node may not be connected to any other elements!
-        /// </summary>
-        /// <param name="node">The node to be added.</param>
-        /// <param name="varName">The name of the variable.</param>
-        public override void AddNode(INode node, String varName)
-        {
-            AddNode((LGSPNode) node, varName);
-        }
-
-        /// <summary>
-        /// Adds an existing LGSPNode object to the graph.
-        /// The node must not be part of any graph, yet!
-        /// The node may not be connected to any other elements!
-        /// </summary>
-        /// <param name="node">The node to be added.</param>
         public override void AddNode(INode node)
         {
             AddNode((LGSPNode) node);
@@ -650,20 +544,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// The node may not be connected to any other elements!
         /// </summary>
         /// <param name="node">The node to be added.</param>
-        public void AddNode(LGSPNode node)
+        public virtual void AddNode(LGSPNode node)
         {
             AddNodeWithoutEvents(node, node.lgspType.TypeID);
             NodeAdded(node);
         }
 
-        /// <summary>
-        /// Adds a new node to the graph.
-        /// </summary>
-        /// <param name="nodeType">The node type for the new node.</param>
-        /// <returns>The newly created node.</returns>
-        protected override INode AddINode(NodeType nodeType)
+
+        public override INode AddNode(NodeType nodeType)
         {
-            return AddNode(nodeType);
+            return AddLGSPNode(nodeType);
         }
 
         /// <summary>
@@ -672,75 +562,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="nodeType">The type for the new node.</param>
         /// <returns>The created node.</returns>
-        public new LGSPNode AddNode(NodeType nodeType)
+        public virtual LGSPNode AddLGSPNode(NodeType nodeType)
         {
-//            LGSPNode node = new LGSPNode(nodeType);
-            LGSPNode node = (LGSPNode) nodeType.CreateNode();
+            //            LGSPNode node = new LGSPNode(nodeType);
+            LGSPNode node = (LGSPNode)nodeType.CreateNode();
             AddNodeWithoutEvents(node, nodeType.TypeID);
             NodeAdded(node);
             return node;
         }
 
-        /// <summary>
-        /// Adds an existing LGSPNode object to the graph and assigns it to the given variable.
-        /// The node must not be part of any graph, yet!
-        /// The node may not be connected to any other elements!
-        /// </summary>
-        /// <param name="node">The node to be added.</param>
-        /// <param name="varName">The name of the variable.</param>
-        public void AddNode(LGSPNode node, String varName)
-        {
-            AddNodeWithoutEvents(node, node.lgspType.TypeID);
-            SetVariableValue(varName, node);
-            NodeAdded(node);
-        }
-
-        /// <summary>
-        /// Adds a new node to the graph.
-        /// TODO: Slow but provides a better interface...
-        /// </summary>
-        /// <param name="nodeType">The node type for the new node.</param>
-		/// <param name="varName">The name of the variable.</param>
-		/// <returns>The newly created node.</returns>
-        protected override INode AddINode(NodeType nodeType, String varName)
-        {
-            return AddNode(nodeType, varName);
-        }
-
-        /// <summary>
-        /// Adds a new LGSPNode to the graph and assigns it to the given variable.
-        /// </summary>
-        /// <param name="nodeType">The node type for the new node.</param>
-        /// <param name="varName">The name of the variable.</param>
-        /// <returns>The newly created node.</returns>
-        public new LGSPNode AddNode(NodeType nodeType, String varName)
-        {
-//            LGSPNode node = new LGSPNode(nodeType);
-            LGSPNode node = (LGSPNode) nodeType.CreateNode();
-            AddNodeWithoutEvents(node, nodeType.TypeID);
-            SetVariableValue(varName, node);
-            NodeAdded(node);
-            return node;
-        }
-
-        /// <summary>
-        /// Adds an existing IEdge object to the graph and assigns it to the given variable.
-        /// The edge must not be part of any graph, yet!
-        /// Source and target of the edge must already be part of the graph.
-        /// </summary>
-        /// <param name="edge">The edge to be added.</param>
-        /// <param name="varName">The name of the variable.</param>
-        public override void AddEdge(IEdge edge, String varName)
-        {
-            AddEdge((LGSPEdge) edge, varName);
-        }
-
-        /// <summary>
-        /// Adds an existing LGSPEdge object to the graph.
-        /// The edge must not be part of any graph, yet!
-        /// Source and target of the edge must already be part of the graph.
-        /// </summary>
-        /// <param name="edge">The edge to be added.</param>
         public override void AddEdge(IEdge edge)
         {
             AddEdge((LGSPEdge) edge);
@@ -752,83 +582,31 @@ namespace de.unika.ipd.grGen.lgsp
         /// Source and target of the edge must already be part of the graph.
         /// </summary>
         /// <param name="edge">The edge to be added.</param>
-        public void AddEdge(LGSPEdge edge)
+        public virtual void AddEdge(LGSPEdge edge)
         {
             AddEdgeWithoutEvents(edge, edge.lgspType.TypeID);
             EdgeAdded(edge);
         }
 
-        /// <summary>
-        /// Adds a new edge to the graph.
-        /// </summary>
-        /// <param name="edgeType">The edge type for the new edge.</param>
-        /// <param name="source">The source of the edge.</param>
-        /// <param name="target">The target of the edge.</param>
-        /// <returns>The newly created edge.</returns>
-        public LGSPEdge AddEdge(EdgeType edgeType, LGSPNode source, LGSPNode target)
-        {
-//            LGSPEdge edge = new LGSPEdge(edgeType, source, target);
-            LGSPEdge edge = (LGSPEdge) edgeType.CreateEdge(source, target);
-            AddEdgeWithoutEvents(edge, edgeType.TypeID);
-            EdgeAdded(edge);
-            return edge;
-        }
-
-        /// <summary>
-        /// Adds a new edge to the graph.
-        /// </summary>
-        /// <param name="edgeType">The edge type for the new edge.</param>
-        /// <param name="source">The source of the edge.</param>
-        /// <param name="target">The target of the edge.</param>
-        /// <returns>The newly created edge.</returns>
         public override IEdge AddEdge(EdgeType edgeType, INode source, INode target)
         {
             return AddEdge(edgeType, (LGSPNode)source, (LGSPNode)target);
         }
 
         /// <summary>
-        /// Adds an existing LGSPEdge object to the graph and assigns it to the given variable.
-        /// The edge must not be part of any graph, yet!
-        /// Source and target of the edge must already be part of the graph.
-        /// </summary>
-        /// <param name="edge">The edge to be added.</param>
-        /// <param name="varName">The name of the variable.</param>
-        public void AddEdge(LGSPEdge edge, String varName)
-        {
-            AddEdgeWithoutEvents(edge, edge.lgspType.TypeID);
-            SetVariableValue(varName, edge);
-            EdgeAdded(edge);
-        }
-
-        /// <summary>
-        /// Adds a new edge to the graph and assigns it to the given variable.
+        /// Adds a new edge to the graph.
         /// </summary>
         /// <param name="edgeType">The edge type for the new edge.</param>
         /// <param name="source">The source of the edge.</param>
         /// <param name="target">The target of the edge.</param>
-        /// <param name="varName">The name of the variable.</param>
         /// <returns>The newly created edge.</returns>
-        public LGSPEdge AddEdge(EdgeType edgeType, LGSPNode source, LGSPNode target, String varName)
+        public virtual LGSPEdge AddEdge(EdgeType edgeType, LGSPNode source, LGSPNode target)
         {
 //            LGSPEdge edge = new LGSPEdge(edgeType, source, target);
             LGSPEdge edge = (LGSPEdge) edgeType.CreateEdge(source, target);
             AddEdgeWithoutEvents(edge, edgeType.TypeID);
-            SetVariableValue(varName, edge);
             EdgeAdded(edge);
             return edge;
-        }
-
-        /// <summary>
-        /// Adds a new edge to the graph and assigns it to the given variable.
-        /// </summary>
-        /// <param name="edgeType">The edge type for the new edge.</param>
-        /// <param name="source">The source of the edge.</param>
-        /// <param name="target">The target of the edge.</param>
-        /// <param name="varName">The name of the variable.</param>
-        /// <returns>The newly created edge.</returns>
-        public override IEdge AddEdge(EdgeType edgeType, INode source, INode target, String varName)
-        {
-            return AddEdge(edgeType, (LGSPNode) source, (LGSPNode) target, varName);
         }
 
         internal void RemoveNodeWithoutEvents(LGSPNode node, int typeid)
@@ -859,14 +637,6 @@ namespace de.unika.ipd.grGen.lgsp
             if(!lgspNode.Valid) return;          // node not in graph (anymore)
 
             RemovingNode(node);
-
-            if((lgspNode.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
-            {
-                foreach(Variable var in ElementMap[lgspNode])
-                    VariableMap.Remove(var.Name);
-                ElementMap.Remove(lgspNode);
-                lgspNode.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
-            }
             RemoveNodeWithoutEvents(lgspNode, lgspNode.lgspType.TypeID);
         }
 
@@ -880,13 +650,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             RemovingEdge(edge);
 
-            if((lgspEdge.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
-            {
-                foreach(Variable var in ElementMap[lgspEdge])
-                    VariableMap.Remove(var.Name);
-                ElementMap.Remove(lgspEdge);
-                lgspEdge.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
-            }
             lgspEdge.lgspSource.RemoveOutgoing(lgspEdge);
             lgspEdge.lgspTarget.RemoveIncoming(lgspEdge);
 
@@ -931,36 +694,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Retypes a node by creating a new node of the given type.
         /// All incident edges as well as all attributes from common super classes are kept.
-        /// WARNING: GetElementName will probably not return the same element name for the new node, yet! (TODO)
         /// </summary>
         /// <param name="node">The node to be retyped.</param>
         /// <param name="newNodeType">The new type for the node.</param>
         /// <returns>The new node object representing the retyped node.</returns>
-        public LGSPNode Retype(LGSPNode node, NodeType newNodeType)
+        public virtual LGSPNode Retype(LGSPNode node, NodeType newNodeType)
         {
             LGSPNode newNode = (LGSPNode) newNodeType.CreateNodeWithCopyCommons(node);
-
-            if(namedGraph != null)
-                namedGraph.Retyping(node, newNode);
-
             RetypingNode(node, newNode);
-
             ReplaceNode(node, newNode);
-
-            if(namedGraph != null)
-                namedGraph.Retyped(node, newNode);
-
             return newNode;
         }
 
-        /// <summary>
-        /// Retypes a node by creating a new node of the given type.
-        /// All incident edges as well as all attributes from common super classes are kept.
-        /// WARNING: GetElementName will probably not return the same element name for the new node, yet! (TODO)
-        /// </summary>
-        /// <param name="node">The node to be retyped.</param>
-        /// <param name="newNodeType">The new type for the node.</param>
-        /// <returns>The new node object representing the retyped node.</returns>
         public override INode Retype(INode node, NodeType newNodeType)
         {
             return Retype((LGSPNode) node, newNodeType);
@@ -969,36 +714,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Retypes an edge by replacing it by a new edge of the given type.
         /// Source and target node as well as all attributes from common super classes are kept.
-        /// WARNING: GetElementName will probably not return the same element name for the new edge, yet! (TODO)
         /// </summary>
         /// <param name="edge">The edge to be retyped.</param>
         /// <param name="newEdgeType">The new type for the edge.</param>
         /// <returns>The new edge object representing the retyped edge.</returns>
-        public LGSPEdge Retype(LGSPEdge edge, EdgeType newEdgeType)
+        public virtual LGSPEdge Retype(LGSPEdge edge, EdgeType newEdgeType)
         {
             LGSPEdge newEdge = (LGSPEdge) newEdgeType.CreateEdgeWithCopyCommons(edge.lgspSource, edge.lgspTarget, edge);
-
-            if(namedGraph != null)
-                namedGraph.Retyping(edge, newEdge);
-
             RetypingEdge(edge, newEdge);
-
             ReplaceEdge(edge, newEdge);
-
-            if(namedGraph != null)
-                namedGraph.Retyped(edge, newEdge);
-
             return newEdge;
         }
 
-        /// <summary>
-        /// Retypes an edge by replacing it by a new edge of the given type.
-        /// Source and target node as well as all attributes from common super classes are kept.
-        /// WARNING: GetElementName will probably not return the same element name for the new edge, yet! (TODO)
-        /// </summary>
-        /// <param name="edge">The edge to be retyped.</param>
-        /// <param name="newEdgeType">The new type for the edge.</param>
-        /// <returns>The new edge object representing the retyped edge.</returns>
         public override IEdge Retype(IEdge edge, EdgeType newEdgeType)
         {
             return Retype((LGSPEdge) edge, newEdgeType);
@@ -1014,16 +741,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newNode">The replacement for the node.</param>
         public void ReplaceNode(LGSPNode oldNode, LGSPNode newNode)
         {
-            if((oldNode.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
-            {
-                LinkedList<Variable> varList = ElementMap[oldNode];
-                foreach(Variable var in varList)
-                    var.Value = newNode;
-                ElementMap.Remove(oldNode);
-                ElementMap[newNode] = varList;
-                newNode.lgspFlags |= (uint) LGSPElemFlags.HAS_VARIABLES;
-            }
-
             if(oldNode.lgspType != newNode.lgspType)
             {
                 if(!oldNode.Valid)
@@ -1095,16 +812,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newEdge">The replacement for the edge.</param>
         public void ReplaceEdge(LGSPEdge oldEdge, LGSPEdge newEdge)
         {
-            if((oldEdge.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
-            {
-                LinkedList<Variable> varList = ElementMap[oldEdge];
-                foreach(Variable var in varList)
-                    var.Value = newEdge;
-                ElementMap.Remove(oldEdge);
-                ElementMap[newEdge] = varList;
-                newEdge.lgspFlags |= (uint) LGSPElemFlags.HAS_VARIABLES;
-            }
-
             if(oldEdge.lgspType != newEdge.lgspType)
             {
                 if(!oldEdge.Valid)
@@ -1234,6 +941,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
         public void RedirectSource(LGSPEdge edge, LGSPNode newSource, string oldSourceName)
         {
+            RedirectingEdge(edge);
             RemovingEdge(edge);
             edge.lgspSource.RemoveOutgoing(edge);
             newSource.AddOutgoing(edge);
@@ -1262,6 +970,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
         public void RedirectTarget(LGSPEdge edge, LGSPNode newTarget, string oldTargetName)
         {
+            RedirectingEdge(edge);
             RemovingEdge(edge);
             edge.lgspTarget.RemoveIncoming(edge);
             newTarget.AddIncoming(edge);
@@ -1293,6 +1002,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
         public void RedirectSourceAndTarget(LGSPEdge edge, LGSPNode newSource, LGSPNode newTarget, string oldSourceName, string oldTargetName)
         {
+            RedirectingEdge(edge);
             RemovingEdge(edge);
             edge.lgspSource.RemoveOutgoing(edge);
             newSource.AddOutgoing(edge);
@@ -1501,174 +1211,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         #endregion Visited flags management
 
-        #region Names and Variables management
-
-        /// <summary>
-        /// Set it if a named graph is available, so that
-        /// - the nameof operator can return the persistent name instead of a hash code
-        /// - a retyped element can keep its name
-        /// </summary>
-        public NamedGraph NamedGraph { get { return namedGraph; } set { namedGraph = value; } }
-        private NamedGraph namedGraph = null;
-
-        protected Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
-        protected Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
-
-        /// <summary>
-        /// Returns the name for the given element,
-        /// i.e. the name defined by the named graph if a named graph is available,
-        /// or a hash value string if only a lgpsGraph is available.
-        /// </summary>
-        /// <param name="elem">Element of which the name is to be found</param>
-        /// <returns>The name of the given element</returns>
-        public override String GetElementName(IGraphElement elem)
-        {
-            if(namedGraph != null)
-                return namedGraph.GetElementName(elem);
-            else
-                return "$" + elem.GetHashCode();
-        }
-
-        /// <summary>
-        /// Returns a linked list of variables mapped to the given graph element
-        /// or null, if no variable points to this element
-        /// </summary>
-        public override LinkedList<Variable> GetElementVariables(IGraphElement elem)
-        {
-            LinkedList<Variable> variableList;
-            ElementMap.TryGetValue(elem, out variableList);
-            return variableList;
-        }
-
-        /// <summary>
-        /// Retrieves the object for a variable name or null, if the variable isn't set yet or anymore.
-        /// </summary>
-        /// <param name="varName">The variable name to lookup</param>
-        /// <returns>The according object or null</returns>
-        public override object GetVariableValue(String varName)
-        {
-            Variable var;
-            VariableMap.TryGetValue(varName, out var);
-            if(var == null) return null;
-            return var.Value;
-        }
-
-        /// <summary>
-        /// Retrieves the LGSPNode for a variable name or null, if the variable isn't set yet or anymore.
-        /// A InvalidCastException is thrown, if the variable is set and does not point to an LGSPNode object.
-        /// </summary>
-        /// <param name="varName">The variable name to lookup.</param>
-        /// <returns>The according LGSPNode or null.</returns>
-        public new LGSPNode GetNodeVarValue(string varName)
-        {
-            return (LGSPNode) GetVariableValue(varName);
-        }
-
-        /// <summary>
-        /// Retrieves the LGSPEdge for a variable name or null, if the variable isn't set yet or anymore.
-        /// A InvalidCastException is thrown, if the variable is set and does not point to an LGSPEdge object.
-        /// </summary>
-        /// <param name="varName">The variable name to lookup.</param>
-        /// <returns>The according LGSPEdge or null.</returns>
-        public new LGSPEdge GetEdgeVarValue(string varName)
-        {
-            return (LGSPEdge) GetVariableValue(varName);
-        }
-
-        /// <summary>
-        /// Detaches the specified variable from the according graph element.
-        /// If it was the last variable pointing to the element, the variable list for the element is removed.
-        /// This function may only called on variables pointing to graph elements.
-        /// </summary>
-        /// <param name="var">Variable to detach.</param>
-        private void DetachVariableFromElement(Variable var)
-        {
-            IGraphElement elem = (IGraphElement) var.Value;
-            LinkedList<Variable> oldVarList = ElementMap[elem];
-            oldVarList.Remove(var);
-            if(oldVarList.Count == 0)
-            {
-                ElementMap.Remove(elem);
-
-                LGSPNode oldNode = elem as LGSPNode;
-                if(oldNode != null) oldNode.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
-                else
-                {
-                    LGSPEdge oldEdge = (LGSPEdge) elem;
-                    oldEdge.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Sets the value of the given variable to the given IGraphElement.
-        /// If the variable name is null, this function does nothing.
-        /// If elem is null, the variable is unset.
-        /// </summary>
-        /// <param name="varName">The name of the variable.</param>
-        /// <param name="val">The new value of the variable or null to unset the variable.</param>
-        public override void SetVariableValue(String varName, object val)
-        {
-            if(varName == null) return;
-
-            Variable var;
-            VariableMap.TryGetValue(varName, out var);
-
-            if(var != null)
-            {
-                if(var.Value == val) return;     // Variable already set to this element?
-                if(var.Value is IGraphElement)
-                    DetachVariableFromElement(var);
-
-                if(val == null)
-                {
-                    VariableMap.Remove(varName);
-                    return;
-                }
-                var.Value = val;
-            }
-            else
-            {
-                if(val == null) return;
-
-                var = new Variable(varName, val);
-                VariableMap[varName] = var;
-            }
-
-            IGraphElement elem = val as IGraphElement;
-            if(elem == null) return;
-
-            LinkedList<Variable> newVarList;
-            if(!ElementMap.TryGetValue(elem, out newVarList))
-            {
-                newVarList = new LinkedList<Variable>();
-                ElementMap[elem] = newVarList;
-            }
-            newVarList.AddFirst(var);
-
-            LGSPNode node = elem as LGSPNode;
-            if(node != null)
-                node.lgspFlags |= (uint) LGSPElemFlags.HAS_VARIABLES;
-            else
-            {
-                LGSPEdge edge = (LGSPEdge) elem;
-                edge.lgspFlags |= (uint) LGSPElemFlags.HAS_VARIABLES;
-            }
-        }
-
-        /// <summary>
-        /// Returns an iterator over all available (non-null) variables
-        /// </summary>
-        public override IEnumerable<Variable> Variables
-        {
-            get
-            {
-                foreach(Variable var in VariableMap.Values)
-                    yield return var;
-            }
-        }
-
-        #endregion Variables management
 
 #if USE_SUB_SUPER_ENUMERATORS
         public void AnalyseGraph()
@@ -2478,16 +2020,6 @@ namespace de.unika.ipd.grGen.lgsp
                     if(!bool.TryParse((String) args[1], out reuseOptimization))
                         throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
                     return;
-
-                case "set_max_matches":
-                    if(args.Length != 2)
-                        throw new ArgumentException("Usage: set_max_matches <integer>\nIf <integer> <= 0, all matches will be matched.");
-
-                    int newMaxMatches;
-                    if(!int.TryParse((String) args[1], out newMaxMatches))
-                        throw new ArgumentException("Illegal integer value specified: \"" + (String) args[1] + "\"");
-                    MaxMatches = newMaxMatches;
-                    return;
             }
 
 invalidCommand:
@@ -2495,9 +2027,7 @@ invalidCommand:
                 + "- analyze: Analyzes the graph. The generated information can then be\n"
                 + "     used by Actions implementations to optimize the pattern matching\n"
                 + "- optimizereuse: Sets whether deleted elements may be reused in a rewrite\n"
-                + "     (default: true)\n"
-                + "- set_max_matches: Sets the maximum number of matches to be found\n"
-                + "     during matching\n");
+                + "     (default: true)\n");
         }
 
         /// <summary>

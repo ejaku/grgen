@@ -33,10 +33,10 @@ namespace de.unika.ipd.grGen.lgsp
             toBeExecuted.Peek().Enqueue(closure);
         }
 
-        public void ExecuteDeferredSequencesThenExitRuleModify(LGSPGraph graph)
+        public void ExecuteDeferredSequencesThenExitRuleModify(LGSPGraphProcessingEnvironment procEnv)
         {
             while(toBeExecuted.Peek().Count > 0)
-                toBeExecuted.Peek().Dequeue().exec(graph);
+                toBeExecuted.Peek().Dequeue().exec(procEnv);
             toBeExecuted.Pop();
         }
 

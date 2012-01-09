@@ -127,65 +127,6 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        /// <summary>
-        /// Apply a graph rewrite sequence to the currently associated graph.
-        /// </summary>
-        /// <param name="seqStr">The graph rewrite sequence in form of a string</param>
-        /// <returns>The result of the sequence.</returns>
-        public bool ApplyGraphRewriteSequence(String seqStr)
-        {
-            return Graph.ApplyGraphRewriteSequence(ParseSequence(seqStr));
-        }
-
-        /// <summary>
-        /// Apply a graph rewrite sequence to the currently associated graph.
-        /// </summary>
-        /// <param name="seqStr">The graph rewrite sequence in form of a string</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        /// <returns>The result of the sequence.</returns>
-        public bool ApplyGraphRewriteSequence(String seqStr, SequenceExecutionEnvironment env)
-        {
-            return Graph.ApplyGraphRewriteSequence(ParseSequence(seqStr), env);
-        }
-
-        /// <summary>
-        /// Tests whether the given sequence succeeds on a clone of the associated graph.
-        /// </summary>
-        /// <param name="seqStr">The sequence to be executed in form of a string</param>
-        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        public bool ValidateWithSequence(String seqStr)
-        {
-            return Graph.ValidateWithSequence(ParseSequence(seqStr));
-        }
-
-        /// <summary>
-        /// Tests whether the given sequence succeeds on a clone of the associated graph.
-        /// </summary>
-        /// <param name="seqStr">The sequence to be executed in form of a string</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        public bool ValidateWithSequence(String seqStr, SequenceExecutionEnvironment env)
-        {
-            return Graph.ValidateWithSequence(ParseSequence(seqStr), env);
-        }
-
-        /// <summary>
-        /// Parses the given XGRS string and generates a Sequence object.
-        /// Any actions in the string must refer to actions from this action container.
-        /// </summary>
-        /// <param name="seqStr">The sequence to be parsed in form of an XGRS string.</param>
-        /// <returns>The sequence object according to the given string.</returns>
-        public Sequence ParseSequence(String seqStr)
-        {
-            List<string> warnings = new List<string>();
-            Sequence seq = SequenceParser.ParseSequence(seqStr, this, warnings);
-            foreach(string warning in warnings)
-            {
-                System.Console.Error.WriteLine(warning);
-            }
-            return seq;
-        }
-
         #endregion Sequence handling
     }
 }

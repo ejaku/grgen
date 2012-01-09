@@ -93,6 +93,15 @@ namespace de.unika.ipd.grGen.libGr
         IGraph CreateGraph(IGraphModel graphModel, String graphName, params String[] parameters);
 
         /// <summary>
+        /// Creates a new INamedGraph backend instance with the given graph model and name.
+        /// </summary>
+        /// <param name="graphModel">An IGraphModel instance.</param>
+        /// <param name="graphName">Name of the graph.</param>
+        /// <param name="parameters">Backend specific parameters.</param>
+        /// <returns>The new INamedGraph backend instance.</returns>
+        INamedGraph CreateNamedGraph(IGraphModel graphModel, String graphName, params String[] parameters);
+
+        /// <summary>
         /// Creates a new IGraph backend instance with the graph model provided by the graph model file and a name.
         /// </summary>
         /// <param name="modelFilename">Filename of a graph model file.</param>
@@ -100,6 +109,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="parameters">Backend specific parameters.</param>
         /// <returns>The new IGraph backend instance.</returns>
         IGraph CreateGraph(String modelFilename, String graphName, params String[] parameters);
+
+        /// <summary>
+        /// Creates a new INamedGraph backend instance with the graph model provided by the graph model file and a name.
+        /// </summary>
+        /// <param name="modelFilename">Filename of a graph model file.</param>
+        /// <param name="graphName">Name of the graph.</param>
+        /// <param name="parameters">Backend specific parameters.</param>
+        /// <returns>The new INamedGraph backend instance.</returns>
+        INamedGraph CreateNamedGraph(String modelFilename, String graphName, params String[] parameters);
 
         /// <summary>
         /// Creates a new IGraph and BaseActions backend instance from the specified specification file.
@@ -116,6 +134,20 @@ namespace de.unika.ipd.grGen.libGr
             out IGraph newGraph, out BaseActions newActions);
 
         /// <summary>
+        /// Creates a new INamedGraph and BaseActions backend instance from the specified specification file.
+        /// If neccessary, any processing steps are performed automatically.
+        /// </summary>
+        /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+        /// <param name="graphName">Name of the new graph.</param>
+        /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
+        /// <param name="externalAssemblies">List of external assemblies to reference.</param>
+        /// <param name="newGraph">Returns the new named graph.</param>
+        /// <param name="newActions">Returns the new BaseActions object.</param>
+        /// <exception cref="System.Exception">Thrown when something goes wrong.</exception>
+        void CreateNamedFromSpec(String grgFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies,
+            out INamedGraph newGraph, out BaseActions newActions);
+
+        /// <summary>
         /// Creates a new IGraph instance from the specified specification file.
         /// If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
         /// </summary>
@@ -127,6 +159,19 @@ namespace de.unika.ipd.grGen.libGr
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
         /// <returns>The new IGraph backend instance.</returns>
         IGraph CreateFromSpec(String gmFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies);
+
+        /// <summary>
+        /// Creates a new INamedGraph instance from the specified specification file.
+        /// If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
+        /// </summary>
+        /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
+        /// <param name="graphName">Name of the new graph.</param>
+        /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
+        /// <param name="externalAssemblies">List of external assemblies to reference.</param>
+        /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+        /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
+        /// <returns>The new INamedGraph backend instance.</returns>
+        INamedGraph CreateNamedFromSpec(String gmFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies);
 
         /// <summary>
         /// Opens an existing graph identified by graphName using the specified IGraphModel.

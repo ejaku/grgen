@@ -42,9 +42,9 @@ namespace de.unika.ipd.grGen.libGr
         /// Exports the given graph to a GRG file with the given filename.
         /// Any errors will be reported by exception.
         /// </summary>
-        /// <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
+        /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="exportFilename">The filename for the exported file.</param>
-        public static void Export(IGraph graph, String exportFilename)
+        public static void Export(INamedGraph graph, String exportFilename)
         {
             using(GRGExport export = new GRGExport(exportFilename))
                 export.Export(graph);
@@ -54,15 +54,15 @@ namespace de.unika.ipd.grGen.libGr
         /// Exports the given graph to the file given by the stream writer in grg format, i.e. as GrGen rule.
         /// Any errors will be reported by exception.
         /// </summary>
-        /// <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
+        /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="writer">The stream writer to export to.</param>
-        public static void Export(IGraph graph, StreamWriter writer)
+        public static void Export(INamedGraph graph, StreamWriter writer)
         {
             using(GRGExport export = new GRGExport(writer))
                 export.Export(graph);
         }
 
-        protected void Export(IGraph graph)
+        protected void Export(INamedGraph graph)
         {
             ExportYouMustCloseStreamWriter(graph, writer, "");
         }
@@ -71,9 +71,9 @@ namespace de.unika.ipd.grGen.libGr
         /// Exports the given graph to the file given by the stream writer in grg format, i.e. as GrGen rule.
         /// Any errors will be reported by exception.
         /// </summary>
-        /// <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
+        /// <param name="graph">The graph to export. Must be a NamedGraph.</param>
         /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
-        public static void ExportYouMustCloseStreamWriter(IGraph graph, StreamWriter sw, string modelPathPrefix)
+        public static void ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix)
         {
             // we traverse the graph in one pass, directly writing a creating rule,
             // and writing a matching test to a helper stream which is appended at the end to the primary stream
@@ -86,11 +86,6 @@ namespace de.unika.ipd.grGen.libGr
 
                     sw.WriteLine("using " + graph.Model.ModelName + ";");
                     sw.WriteLine();
-
-                    if (!(graph is NamedGraph)) {
-                        // assign arbitrary but unique names
-                        graph = new NamedGraph(graph);
-                    }
 
                     sw.Write("rule createGraph\n");
                     sw.Write("{\n");
@@ -177,6 +172,8 @@ namespace de.unika.ipd.grGen.libGr
 
                     sw.Write("\t}\n");
                     sw.Write("}\n");
+
+                    //sw2.WriteLine("\nnegative { pattern; .; -->; } // no additional node and no additional edge allowed");
                     sw2.Write("}\n");
 
                     sw.WriteLine();
@@ -198,7 +195,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Emits the node/edge attribute initialization code in graph exporting
         /// for an attribute of the given type with the given value into the stream writer
         /// </summary>
-        private static void EmitAttributeInitialization(IGraphElement elem, AttributeType attrType, object value, IGraph graph, String op, StreamWriter sw)
+        private static void EmitAttributeInitialization(IGraphElement elem, AttributeType attrType, object value, INamedGraph graph, String op, StreamWriter sw)
         {
             sw.Write("\t\t\t{0}.{1} {2} ", EscapeName(graph.GetElementName(elem)), attrType.Name, op);
             EmitAttribute(attrType, value, graph, sw);
@@ -209,7 +206,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Emits the attribute value as code
         /// for an attribute of the given type with the given value into the stream writer
         /// </summary>
-        public static void EmitAttribute(AttributeType attrType, object value, IGraph graph, StreamWriter sw)
+        public static void EmitAttribute(AttributeType attrType, object value, INamedGraph graph, StreamWriter sw)
         {
             if(attrType.Kind==AttributeKind.SetAttr)
             {
@@ -260,7 +257,7 @@ namespace de.unika.ipd.grGen.libGr
         /// type needed for enum, otherwise null ok
         /// graph needed for node/edge in set/map, otherwise null ok
         /// </summary>
-        public static String ToString(object value, AttributeType type, IGraph graph)
+        public static String ToString(object value, AttributeType type, INamedGraph graph)
         {
             switch(type.Kind)
             {

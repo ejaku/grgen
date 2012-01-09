@@ -64,20 +64,20 @@ namespace de.unika.ipd.grGen.libGr
         public object Value { get { return value; } set { this.value = value; } }
 
         // gets the variable value, decides whether to query the graph-global or the sequence-lokal variables
-        public object GetVariableValue(IGraph graph)
+        public object GetVariableValue(IGraphProcessingEnvironment procEnv)
         {
             if(Type == "") {
-                return graph.GetVariableValue(name);
+                return procEnv.GetVariableValue(name);
             } else {
                 return value;
             }
         }
 
         // sets the variable value, decides whether to update the graph-global or the sequence-lokal variables
-        public void SetVariableValue(object value, IGraph graph)
+        public void SetVariableValue(object value, IGraphProcessingEnvironment procEnv)
         {
             if(Type == "") {
-                graph.SetVariableValue(name, value);
+                procEnv.SetVariableValue(name, value);
             } else {
                 this.value = value;
             }

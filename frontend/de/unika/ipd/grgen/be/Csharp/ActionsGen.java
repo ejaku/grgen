@@ -1399,7 +1399,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append("\t\t\t" + exec.getLineNr() + "\n");
 				sb.append("\t\t);\n");
 				
-				sb.append("\t\tprivate static bool ApplyXGRS_" + pathPrefix + xgrsID + "(GRGEN_LGSP.LGSPGraph graph");
+				sb.append("\t\tprivate static bool ApplyXGRS_" + pathPrefix + xgrsID + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					if(!neededEntity.isDefToBeYieldedTo()) {
 						sb.append(", " + formatType(neededEntity.getType()) + " var_" + neededEntity.getIdent());
@@ -1481,8 +1481,8 @@ public class ActionsGen extends CSharpBase {
 			}
 			sb.append("\t\t\t}\n");
 			
-			sb.append("\t\t\tpublic override bool exec(GRGEN_LGSP.LGSPGraph graph) {\n");
-			sb.append("\t\t\t\treturn ApplyXGRS_" + pathPrefix + xgrsID + "(graph");
+			sb.append("\t\t\tpublic override bool exec(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv) {\n");
+			sb.append("\t\t\t\treturn ApplyXGRS_" + pathPrefix + xgrsID + "(procEnv");
 			for(Entity neededEntity : exec.getNeededEntities()) {
 				sb.append(", " + formatEntity(neededEntity));
 			}

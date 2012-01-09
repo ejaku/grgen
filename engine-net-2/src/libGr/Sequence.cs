@@ -118,34 +118,36 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Applies this sequence.
         /// </summary>
-        /// <param name="graph">The graph on which this sequence is to be applied.
+        /// <param name="procEnv">The graph processing environment on which this sequence is to be applied.
+        ///     Contains especially the graph on which this sequence is to be applied.
         ///     The rules will only be chosen during the Sequence object instantiation, so
         ///     exchanging rules will have no effect for already existing Sequence objects.</param>
         /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>True, iff the sequence succeeded</returns>
-        public bool Apply(IGraph graph, SequenceExecutionEnvironment env)
+        public bool Apply(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            graph.EnteringSequence(this);
+            procEnv.EnteringSequence(this);
             executionState = SequenceExecutionState.Underway;
 #if LOG_SEQUENCE_EXECUTION
             writer.WriteLine("Before executing sequence " + Id + ": " + Symbol);
 #endif
-            bool res = ApplyImpl(graph, env);
+            bool res = ApplyImpl(procEnv, env);
 #if LOG_SEQUENCE_EXECUTION
             writer.WriteLine("After executing sequence " + Id + ": " + Symbol + " result " + res);
 #endif
             executionState = res ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
-            graph.ExitingSequence(this);
+            procEnv.ExitingSequence(this);
             return res;
         }
 
         /// <summary>
         /// Applies this sequence. This function represents the actual implementation of the sequence.
         /// </summary>
-        /// <param name="graph">The graph on which this sequence is to be applied.</param>
+        /// <param name="graph">The graph processing environment on which this sequence is to be applied.
+        ///     Contains especially the graph on which this sequence is to be applied.</param>
         /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>True, iff the sequence succeeded</returns>
-        protected abstract bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env);
+        protected abstract bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env);
 
         /// <summary>
         /// Reset the execution state after a run (for following runs).
@@ -197,6 +199,8 @@ namespace de.unika.ipd.grGen.libGr
         /// the state of executing this sequence, implementation
         /// </summary>
         internal SequenceExecutionState executionState;
+
+        public static readonly object[] NoElems = new object[] { }; // A singleton object array used when no elements are returned.
     }
 
 
@@ -433,9 +437,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        protected bool Assign(object value, IGraph graph)
+        protected bool Assign(object value, IGraphProcessingEnvironment procEnv)
         {
-            DestVar.SetVariableValue(value, graph);
+            DestVar.SetVariableValue(value, procEnv);
             return true;
         }
 
@@ -457,18 +461,18 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             bool res;
             int direction = 0;
             if(Random) direction = randomGenerator.Next(2);
             if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
             if(direction == 1) {
-                Right.Apply(graph, env);
-                res = Left.Apply(graph, env);
+                Right.Apply(procEnv, env);
+                res = Left.Apply(procEnv, env);
             } else {
-                res = Left.Apply(graph, env);
-                Right.Apply(graph, env);
+                res = Left.Apply(procEnv, env);
+                Right.Apply(procEnv, env);
             }
             return res;
         }
@@ -484,7 +488,7 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             bool res;
             int direction = 0;
@@ -492,11 +496,11 @@ namespace de.unika.ipd.grGen.libGr
             if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
             if(direction == 1)
             {
-                res = Right.Apply(graph, env);
-                Left.Apply(graph, env);
+                res = Right.Apply(procEnv, env);
+                Left.Apply(procEnv, env);
             } else {
-                Left.Apply(graph, env);
-                res = Right.Apply(graph, env);
+                Left.Apply(procEnv, env);
+                res = Right.Apply(procEnv, env);
             }
             return res;
         }
@@ -512,15 +516,15 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             int direction = 0;
             if(Random) direction = randomGenerator.Next(2);
             if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
             if(direction == 1)
-                return Right.Apply(graph, env) || Left.Apply(graph, env);
+                return Right.Apply(procEnv, env) || Left.Apply(procEnv, env);
             else
-                return Left.Apply(graph, env) || Right.Apply(graph, env);
+                return Left.Apply(procEnv, env) || Right.Apply(procEnv, env);
         }
 
         public override int Precedence { get { return 1; } }
@@ -534,15 +538,15 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             int direction = 0;
             if(Random) direction = randomGenerator.Next(2);
             if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
             if(direction == 1)
-                return Right.Apply(graph, env) && Left.Apply(graph, env);
+                return Right.Apply(procEnv, env) && Left.Apply(procEnv, env);
             else
-                return Left.Apply(graph, env) && Right.Apply(graph, env);
+                return Left.Apply(procEnv, env) && Right.Apply(procEnv, env);
         }
 
         public override int Precedence { get { return 2; } }
@@ -556,15 +560,15 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             int direction = 0;
             if(Random) direction = randomGenerator.Next(2);
             if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
             if(direction == 1)
-                return Right.Apply(graph, env) | Left.Apply(graph, env);
+                return Right.Apply(procEnv, env) | Left.Apply(procEnv, env);
             else
-                return Left.Apply(graph, env) | Right.Apply(graph, env);
+                return Left.Apply(procEnv, env) | Right.Apply(procEnv, env);
         }
 
         public override int Precedence { get { return 3; } }
@@ -578,15 +582,15 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             int direction = 0;
             if(Random) direction = randomGenerator.Next(2);
             if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
             if(direction == 1)
-                return Right.Apply(graph, env) ^ Left.Apply(graph, env);
+                return Right.Apply(procEnv, env) ^ Left.Apply(procEnv, env);
             else
-                return Left.Apply(graph, env) ^ Right.Apply(graph, env);
+                return Left.Apply(procEnv, env) ^ Right.Apply(procEnv, env);
         }
 
         public override int Precedence { get { return 4; } }
@@ -600,15 +604,15 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             int direction = 0;
             if(Random) direction = randomGenerator.Next(2);
             if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
             if(direction == 1)
-                return Right.Apply(graph, env) & Left.Apply(graph, env);
+                return Right.Apply(procEnv, env) & Left.Apply(procEnv, env);
             else
-                return Left.Apply(graph, env) & Right.Apply(graph, env);
+                return Left.Apply(procEnv, env) & Right.Apply(procEnv, env);
         }
 
         public override int Precedence { get { return 5; } }
@@ -619,9 +623,9 @@ namespace de.unika.ipd.grGen.libGr
     {
         public SequenceNot(Sequence seq) : base(seq, SequenceType.Not) {}
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return !Seq.Apply(graph, env);
+            return !Seq.Apply(procEnv, env);
         }
 
         public override int Precedence { get { return 6; } }
@@ -637,10 +641,10 @@ namespace de.unika.ipd.grGen.libGr
             Min = min;
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             long i = 0;
-            while(Seq.Apply(graph, env))
+            while(Seq.Apply(procEnv, env))
             {
                 if(env!=null) env.EndOfIteration(true, this);
                 Seq.ResetExecutionState();
@@ -664,7 +668,7 @@ namespace de.unika.ipd.grGen.libGr
             Max = max;
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             long i;
             bool first = true;
@@ -672,7 +676,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(env!=null && !first) env.EndOfIteration(true, this);
                 Seq.ResetExecutionState();
-                if(!Seq.Apply(graph, env)) break;
+                if(!Seq.Apply(procEnv, env)) break;
                 first = false;
             }
             if(env!=null) env.EndOfIteration(false, this);
@@ -709,12 +713,12 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             bool res;
             try
             {
-                res = graph.ApplyRewrite(ParamBindings, 0, 1, Special, Test) > 0;
+                res = procEnv.ApplyRewrite(ParamBindings, 0, 1, Special, Test) > 0;
             }
             catch (NullReferenceException)
             {
@@ -732,29 +736,29 @@ namespace de.unika.ipd.grGen.libGr
             return res;
         }
 
-        public virtual bool Rewrite(IGraph graph, IMatches matches, SequenceExecutionEnvironment env, IMatch chosenMatch)
+        public virtual bool Rewrite(IGraphProcessingEnvironment procEnv, IMatches matches, SequenceExecutionEnvironment env, IMatch chosenMatch)
         {
             if(matches.Count == 0) return false;
             if(Test) return false;
 
             IMatch match = chosenMatch!=null ? chosenMatch : matches.First;
 
-            graph.Finishing(matches, Special);
+            procEnv.Finishing(matches, Special);
 
-            if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
+            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
 
             object[] retElems = null;
-            retElems = matches.Producer.Modify(graph, match);
-            if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
+            retElems = matches.Producer.Modify(procEnv, match);
+            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
 
-            if(retElems == null) retElems = BaseGraph.NoElems;
+            if(retElems == null) retElems = NoElems;
 
             for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
-                ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], graph);
+                ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], procEnv);
 
-            if(graph.PerformanceInfo != null) graph.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
+            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
 
-            graph.Finished(matches, Special);
+            procEnv.Finished(matches, Special);
 
 #if LOG_SEQUENCE_EXECUTION
                 writer.WriteLine("Matched/Applied " + Symbol);
@@ -865,14 +869,14 @@ namespace de.unika.ipd.grGen.libGr
         public bool Random { get { return ChooseRandom; } set { ChooseRandom = value; } }
         public bool Choice { get { return choice; } set { choice = value; } }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             if(!ChooseRandom)
             {
                 bool res;
                 try
                 {
-                    res = graph.ApplyRewrite(ParamBindings, -1, -1, Special, Test) > 0;
+                    res = procEnv.ApplyRewrite(ParamBindings, -1, -1, Special, Test) > 0;
                 }
                 catch (NullReferenceException)
                 {
@@ -892,7 +896,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 // TODO: Code duplication! Compare with BaseGraph.ApplyRewrite.
 
-                int curMaxMatches = graph.MaxMatches;
+                int curMaxMatches = procEnv.MaxMatches;
 
                 object[] parameters;
                 if(ParamBindings.ArgumentExpressions.Length > 0)
@@ -901,50 +905,50 @@ namespace de.unika.ipd.grGen.libGr
                     for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
                     {
                         if(ParamBindings.ArgumentExpressions[i] != null)
-                            parameters[i] = ParamBindings.ArgumentExpressions[i].Evaluate(graph, null);
+                            parameters[i] = ParamBindings.ArgumentExpressions[i].Evaluate(procEnv, null);
                     }
                 }
                 else parameters = null;
 
-                if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
+                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
                 IMatches matches;
                 try
                 {
-                    matches = ParamBindings.Action.Match(graph, curMaxMatches, parameters);
+                    matches = ParamBindings.Action.Match(procEnv, curMaxMatches, parameters);
                 }
                 catch (NullReferenceException)
                 {
                     System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
                     throw;
                 }
-                if(graph.PerformanceInfo != null)
+                if(procEnv.PerformanceInfo != null)
                 {
-                    graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
-                    graph.PerformanceInfo.MatchesFound += matches.Count;
+                    procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
+                    procEnv.PerformanceInfo.MatchesFound += matches.Count;
                 }
 
-                graph.Matched(matches, Special);
+                procEnv.Matched(matches, Special);
 
-                return Rewrite(graph, matches, env, null);
+                return Rewrite(procEnv, matches, env, null);
             }
         }
 
-        public override bool Rewrite(IGraph graph, IMatches matches, SequenceExecutionEnvironment env, IMatch chosenMatch)
+        public override bool Rewrite(IGraphProcessingEnvironment procEnv, IMatches matches, SequenceExecutionEnvironment env, IMatch chosenMatch)
         {
             if (matches.Count == 0) return false;
             if (Test) return false;
 
             if (MinSpecified)
             {
-                if (!(MinVarChooseRandom.GetVariableValue(graph) is int))
+                if(!(MinVarChooseRandom.GetVariableValue(procEnv) is int))
                     throw new InvalidOperationException("The variable '" + MinVarChooseRandom + "' is not of type int!");
-                if(matches.Count < (int)MinVarChooseRandom.GetVariableValue(graph))
+                if(matches.Count < (int)MinVarChooseRandom.GetVariableValue(procEnv))
                     return false;
             }
 
-            graph.Finishing(matches, Special);
+            procEnv.Finishing(matches, Special);
 
-            if (graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
+            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
 
             object[] retElems = null;
             if (!ChooseRandom)
@@ -955,15 +959,15 @@ namespace de.unika.ipd.grGen.libGr
                 while (matchesEnum.MoveNext())
                 {
                     IMatch match = matchesEnum.Current;
-                    if (match != matches.First) graph.RewritingNextMatch();
-                    retElems = matches.Producer.Modify(graph, match);
-                    if (graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
+                    if (match != matches.First) procEnv.RewritingNextMatch();
+                    retElems = matches.Producer.Modify(procEnv, match);
+                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
                 }
-                if (retElems == null) retElems = BaseGraph.NoElems;
+                if (retElems == null) retElems = NoElems;
             }
             else
             {
-                object val = MaxVarChooseRandom != null ? MaxVarChooseRandom.GetVariableValue(graph) : (MinSpecified ? 2147483647 : 1);
+                object val = MaxVarChooseRandom != null ? MaxVarChooseRandom.GetVariableValue(procEnv) : (MinSpecified ? 2147483647 : 1);
                 if (!(val is int))
                     throw new InvalidOperationException("The variable '" + MaxVarChooseRandom.Name + "' is not of type int!");
                 int numChooseRandom = (int)val;
@@ -971,22 +975,22 @@ namespace de.unika.ipd.grGen.libGr
 
                 for (int i = 0; i < numChooseRandom; i++)
                 {
-                    if (i != 0) graph.RewritingNextMatch();
+                    if (i != 0) procEnv.RewritingNextMatch();
                     int matchToApply = randomGenerator.Next(matches.Count);
                     if (Choice && env != null) matchToApply = env.ChooseMatch(matchToApply, matches, numChooseRandom - 1 - i, this);
                     IMatch match = matches.RemoveMatch(matchToApply);
                     if (chosenMatch != null) match = chosenMatch;
-                    retElems = matches.Producer.Modify(graph, match);
-                    if (graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
+                    retElems = matches.Producer.Modify(procEnv, match);
+                    if (procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
                 }
-                if (retElems == null) retElems = BaseGraph.NoElems;
+                if (retElems == null) retElems = NoElems;
             }
 
             for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
-                ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], graph);
-            if(graph.PerformanceInfo != null) graph.PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
+                ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], procEnv);
+            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
 
-            graph.Finished(matches, Special);
+            procEnv.Finished(matches, Special);
 
 #if LOG_SEQUENCE_EXECUTION
                 writer.WriteLine("Matched/Applied " + Symbol);
@@ -1062,11 +1066,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             if (env == null)
                 throw new Exception("Can only query the user for a value if a debugger is available");
-            return Assign(env.ChooseValue(Type, this), graph);
+            return Assign(env.ChooseValue(Type, this), procEnv);
         }
 
         public override string Symbol { get { return DestVar.Name + "=" + "$%(" + Type + ")"; } }
@@ -1095,11 +1099,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             int randomNumber = randomGenerator.Next(Number);
             if(Choice && env!=null) randomNumber = env.ChooseRandomNumber(randomNumber, Number, this);
-            return Assign(randomNumber, graph);
+            return Assign(randomNumber, procEnv);
         }
 
         public override string Symbol { get { return DestVar.Name + "=" + (Choice ? "$%" : "$") + "(" + Number + ")"; } }
@@ -1139,9 +1143,9 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return Assign(Constant, graph);
+            return Assign(Constant, procEnv);
         }
 
         public override string Symbol
@@ -1194,9 +1198,9 @@ namespace de.unika.ipd.grGen.libGr
             return this == target;
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return Assign(Variable.GetVariableValue(graph), graph);
+            return Assign(Variable.GetVariableValue(procEnv), procEnv);
         }
 
         public override string Symbol { get { return DestVar.Name + "=" + Variable.Name; } }
@@ -1241,10 +1245,10 @@ namespace de.unika.ipd.grGen.libGr
             Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            bool result = Seq.Apply(graph, env);
-            return Assign(result, graph);
+            bool result = Seq.Apply(procEnv, env);
+            return Assign(result, procEnv);
         }
 
         public override Sequence GetCurrentlyExecutedSequence()
@@ -1285,10 +1289,10 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            bool result = Seq.Apply(graph, env);
-            return Assign(result || (bool)DestVar.GetVariableValue(graph), graph);
+            bool result = Seq.Apply(procEnv, env);
+            return Assign(result || (bool)DestVar.GetVariableValue(procEnv), procEnv);
         }
 
         public override string Symbol { get { return "... |> " + DestVar.Name; } }
@@ -1310,10 +1314,10 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            bool result = Seq.Apply(graph, env);
-            return Assign(result && (bool)DestVar.GetVariableValue(graph), graph);
+            bool result = Seq.Apply(procEnv, env);
+            return Assign(result && (bool)DestVar.GetVariableValue(procEnv), procEnv);
         }
 
         public override string Symbol { get { return "... &> " + DestVar.Name; } }
@@ -1326,14 +1330,14 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             List<Sequence> sequences = new List<Sequence>(Sequences);
             while(sequences.Count != 0)
             {
                 int seqToExecute = randomGenerator.Next(sequences.Count);
                 if(Choice && !Skip && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
-                bool result = sequences[seqToExecute].Apply(graph, env);
+                bool result = sequences[seqToExecute].Apply(procEnv, env);
                 sequences.Remove(sequences[seqToExecute]);
                 if(result) {
                     Skip = false;
@@ -1355,14 +1359,14 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             List<Sequence> sequences = new List<Sequence>(Sequences);
             while(sequences.Count != 0)
             {
                 int seqToExecute = randomGenerator.Next(sequences.Count);
                 if(Choice && !Skip && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
-                bool result = sequences[seqToExecute].Apply(graph, env);
+                bool result = sequences[seqToExecute].Apply(procEnv, env);
                 sequences.Remove(sequences[seqToExecute]);
                 if(!result) {
                     Skip = false;
@@ -1384,7 +1388,7 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             bool result = false;
             List<Sequence> sequences = new List<Sequence>(Sequences);
@@ -1392,7 +1396,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 int seqToExecute = randomGenerator.Next(sequences.Count);
                 if(Choice && !Skip && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
-                result |= sequences[seqToExecute].Apply(graph, env);
+                result |= sequences[seqToExecute].Apply(procEnv, env);
                 sequences.Remove(sequences[seqToExecute]);
             }
             Skip = false;
@@ -1410,7 +1414,7 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             bool result = true;
             List<Sequence> sequences = new List<Sequence>(Sequences);
@@ -1418,7 +1422,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 int seqToExecute = randomGenerator.Next(sequences.Count);
                 if(Choice && !Skip && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
-                result &= sequences[seqToExecute].Apply(graph, env);
+                result &= sequences[seqToExecute].Apply(procEnv, env);
                 sequences.Remove(sequences[seqToExecute]);
             }
             Skip = false;
@@ -1516,9 +1520,9 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error: can't computer rule and match from total match");
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            MatchAll(graph);
+            MatchAll(procEnv);
 
             if (NumTotalMatches == 0)
             {
@@ -1536,11 +1540,11 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceRuleCall rule = (SequenceRuleCall)Sequences[ruleToExecute];
                 IMatch match = Matches[ruleToExecute].GetMatch(matchToExecute);
                 if (!(rule is SequenceRuleAllCall))
-                    ApplyRule(rule, graph, Matches[ruleToExecute], null);
+                    ApplyRule(rule, procEnv, Matches[ruleToExecute], null);
                 else if (!((SequenceRuleAllCall)rule).ChooseRandom)
-                    ApplyRule(rule, graph, Matches[ruleToExecute], null);
+                    ApplyRule(rule, procEnv, Matches[ruleToExecute], null);
                 else
-                    ApplyRule(rule, graph, Matches[ruleToExecute], Matches[ruleToExecute].GetMatch(matchToExecute));
+                    ApplyRule(rule, procEnv, Matches[ruleToExecute], Matches[ruleToExecute].GetMatch(matchToExecute));
                 for (int i = 0; i < Sequences.Count; ++i)
                     Sequences[i].executionState = Matches[i].Count == 0 ? SequenceExecutionState.Fail : Sequences[i].executionState;
                 Sequences[ruleToExecute].executionState = SequenceExecutionState.Success; // ApplyRule removed the match from the matches
@@ -1552,7 +1556,7 @@ namespace de.unika.ipd.grGen.libGr
                     if (Matches[i].Count > 0)
                     {
                         SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
-                        ApplyRule(rule, graph, Matches[i], null);
+                        ApplyRule(rule, procEnv, Matches[i], null);
                     }
                     else
                         Sequences[i].executionState = SequenceExecutionState.Fail;
@@ -1562,7 +1566,7 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        protected void MatchAll(IGraph graph)
+        protected void MatchAll(IGraphProcessingEnvironment procEnv)
         {
             for (int i = 0; i < Sequences.Count; ++i)
             {
@@ -1574,7 +1578,7 @@ namespace de.unika.ipd.grGen.libGr
                 if (rule is SequenceRuleAllCall)
                 {
                     ruleAll = (SequenceRuleAllCall)rule;
-                    maxMatches = graph.MaxMatches;
+                    maxMatches = procEnv.MaxMatches;
                 }
 
                 object[] parameters;
@@ -1584,38 +1588,38 @@ namespace de.unika.ipd.grGen.libGr
                     for (int j = 0; j < rule.ParamBindings.ArgumentExpressions.Length; j++)
                     {
                         if (rule.ParamBindings.ArgumentExpressions[j] != null)
-                            parameters[j] = rule.ParamBindings.ArgumentExpressions[j].Evaluate(graph, null);
+                            parameters[j] = rule.ParamBindings.ArgumentExpressions[j].Evaluate(procEnv, null);
                     }
                 }
                 else parameters = null;
 
-                if (graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
-                IMatches matches = rule.ParamBindings.Action.Match(graph, maxMatches, parameters);
-                if (graph.PerformanceInfo != null)
+                if (procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
+                IMatches matches = rule.ParamBindings.Action.Match(procEnv, maxMatches, parameters);
+                if (procEnv.PerformanceInfo != null)
                 {
-                    graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
-                    graph.PerformanceInfo.MatchesFound += matches.Count;
+                    procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
+                    procEnv.PerformanceInfo.MatchesFound += matches.Count;
                 }
 
                 Matches[i] = matches;
             }
         }
 
-        protected bool ApplyRule(SequenceRuleCall rule, IGraph graph, IMatches matches, IMatch match)
+        protected bool ApplyRule(SequenceRuleCall rule, IGraphProcessingEnvironment procEnv, IMatches matches, IMatch match)
         {
             bool result;
-            graph.EnteringSequence(rule);
+            procEnv.EnteringSequence(rule);
             rule.executionState = SequenceExecutionState.Underway;
 #if LOG_SEQUENCE_EXECUTION
             writer.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
 #endif
-            graph.Matched(matches, rule.Special);
-            result = rule.Rewrite(graph, matches, null, match);
+            procEnv.Matched(matches, rule.Special);
+            result = rule.Rewrite(procEnv, matches, null, match);
 #if LOG_SEQUENCE_EXECUTION
             writer.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
 #endif
             rule.executionState = result ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
-            graph.ExitingSequence(rule);
+            procEnv.ExitingSequence(rule);
             return result;
         }
 
@@ -1629,22 +1633,22 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            int transactionID = graph.TransactionManager.StartTransaction();
+            int transactionID = procEnv.TransactionManager.StartTransaction();
             int oldRewritesPerformed;
 
-            if(graph.PerformanceInfo != null) oldRewritesPerformed = graph.PerformanceInfo.RewritesPerformed;
+            if(procEnv.PerformanceInfo != null) oldRewritesPerformed = procEnv.PerformanceInfo.RewritesPerformed;
             else oldRewritesPerformed = -1;
 
-            bool res = Seq.Apply(graph, env);
+            bool res = Seq.Apply(procEnv, env);
 
-            if(res) graph.TransactionManager.Commit(transactionID);
+            if(res) procEnv.TransactionManager.Commit(transactionID);
             else
             {
-                graph.TransactionManager.Rollback(transactionID);
-                if(graph.PerformanceInfo != null)
-                    graph.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
+                procEnv.TransactionManager.Rollback(transactionID);
+                if(procEnv.PerformanceInfo != null)
+                    procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
             }
 
             return res;
@@ -1679,7 +1683,7 @@ namespace de.unika.ipd.grGen.libGr
             Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             // first get all matches of the rule
             object[] parameters;
@@ -1689,17 +1693,17 @@ namespace de.unika.ipd.grGen.libGr
                 for(int j = 0; j < Rule.ParamBindings.ArgumentExpressions.Length; j++)
                 {
                     if(Rule.ParamBindings.ArgumentExpressions[j] != null)
-                        parameters[j] = Rule.ParamBindings.ArgumentExpressions[j].Evaluate(graph, null);
+                        parameters[j] = Rule.ParamBindings.ArgumentExpressions[j].Evaluate(procEnv, null);
                 }
             }
             else parameters = null;
 
-            if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
-            IMatches matches = Rule.ParamBindings.Action.Match(graph, graph.MaxMatches, parameters);
-            if(graph.PerformanceInfo != null)
+            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
+            IMatches matches = Rule.ParamBindings.Action.Match(procEnv, procEnv.MaxMatches, parameters);
+            if(procEnv.PerformanceInfo != null)
             {
-                graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
-                graph.PerformanceInfo.MatchesFound += matches.Count;
+                procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
+                procEnv.PerformanceInfo.MatchesFound += matches.Count;
             }
 
             if(matches.Count == 0)
@@ -1717,33 +1721,33 @@ namespace de.unika.ipd.grGen.libGr
                 ++matchesTried;
 
                 // start a transaction
-                int transactionID = graph.TransactionManager.StartTransaction();
+                int transactionID = procEnv.TransactionManager.StartTransaction();
                 int oldRewritesPerformed = -1;
 
-                if(graph.PerformanceInfo != null) oldRewritesPerformed = graph.PerformanceInfo.RewritesPerformed;
+                if(procEnv.PerformanceInfo != null) oldRewritesPerformed = procEnv.PerformanceInfo.RewritesPerformed;
 
-                graph.EnteringSequence(Rule);
+                procEnv.EnteringSequence(Rule);
                 Rule.executionState = SequenceExecutionState.Underway;
 #if LOG_SEQUENCE_EXECUTION
                 writer.WriteLine("Before executing sequence " + Rule.Id + ": " + rule.Symbol);
 #endif
-                graph.Matched(matches, Rule.Special);
-                bool result = Rule.Rewrite(graph, matches, null, match);
+                procEnv.Matched(matches, Rule.Special);
+                bool result = Rule.Rewrite(procEnv, matches, null, match);
 #if LOG_SEQUENCE_EXECUTION
                 writer.WriteLine("After executing sequence " + Rule.Id + ": " + rule.Symbol + " result " + result);
 #endif
                 Rule.executionState = result ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
-                graph.ExitingSequence(Rule);
+                procEnv.ExitingSequence(Rule);
 
                 // rule applied, now execute the sequence
-                result = Seq.Apply(graph, env);
+                result = Seq.Apply(procEnv, env);
 
                 // if sequence execution failed, roll the changes back and try the next match of the rule
                 if(!result)
                 {
-                    graph.TransactionManager.Rollback(transactionID);
-                    if(graph.PerformanceInfo != null)
-                        graph.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
+                    procEnv.TransactionManager.Rollback(transactionID);
+                    if(procEnv.PerformanceInfo != null)
+                        procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
                     if(matchesTried < matches.Count)
                     {
                         if(env != null) env.EndOfIteration(true, this);
@@ -1760,7 +1764,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
 
                 // if sequence execution succeeded, commit the changes so far and succeed
-                graph.TransactionManager.Commit(transactionID);
+                procEnv.TransactionManager.Commit(transactionID);
                 if(env != null) env.EndOfIteration(false, this);
                 return true;
             }
@@ -1841,9 +1845,9 @@ namespace de.unika.ipd.grGen.libGr
             FalseCase.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return Condition.Apply(graph, env) ? TrueCase.Apply(graph, env) : FalseCase.Apply(graph, env);
+            return Condition.Apply(procEnv, env) ? TrueCase.Apply(procEnv, env) : FalseCase.Apply(procEnv, env);
         }
 
         public override Sequence GetCurrentlyExecutedSequence()
@@ -1908,9 +1912,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return Left.Apply(graph, env) ? Right.Apply(graph, env) : true; // lazy implication
+            return Left.Apply(procEnv, env) ? Right.Apply(procEnv, env) : true; // lazy implication
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
@@ -1963,43 +1967,43 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             bool res = true;
-            if(Container.GetVariableValue(graph) is IList)
+            if(Container.GetVariableValue(procEnv) is IList)
             {
-                IList array = (IList)Container.GetVariableValue(graph);
+                IList array = (IList)Container.GetVariableValue(procEnv);
                 bool first = true;
                 for(int i = 0; i < array.Count; ++i)
                 {
                     if(env != null && !first) env.EndOfIteration(true, this);
                     if(VarDst != null)
                     {
-                        Var.SetVariableValue(i, graph);
-                        VarDst.SetVariableValue(array[i], graph);
+                        Var.SetVariableValue(i, procEnv);
+                        VarDst.SetVariableValue(array[i], procEnv);
                     }
                     else
                     {
-                        Var.SetVariableValue(array[i], graph);
+                        Var.SetVariableValue(array[i], procEnv);
                     }
                     Seq.ResetExecutionState();
-                    res &= Seq.Apply(graph, env);
+                    res &= Seq.Apply(procEnv, env);
                     first = false;
                 }
                 if(env != null) env.EndOfIteration(false, this);
             }
             else
             {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(procEnv);
                 bool first = true;
                 foreach(DictionaryEntry entry in setmap)
                 {
                     if(env != null && !first) env.EndOfIteration(true, this);
-                    Var.SetVariableValue(entry.Key, graph);
+                    Var.SetVariableValue(entry.Key, procEnv);
                     if(VarDst != null)
-                        VarDst.SetVariableValue(entry.Value, graph);
+                        VarDst.SetVariableValue(entry.Value, procEnv);
                     Seq.ResetExecutionState();
-                    res &= Seq.Apply(graph, env);
+                    res &= Seq.Apply(procEnv, env);
                     first = false;
                 }
                 if(env != null) env.EndOfIteration(false, this);
@@ -2040,7 +2044,7 @@ namespace de.unika.ipd.grGen.libGr
             SequenceName = sequenceName;
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             throw new Exception("Can't apply sequence definition like a normal sequence");
         }
@@ -2050,13 +2054,14 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="sequenceInvocation">Sequence invocation object for this sequence application,
         ///     containing the input parameter sources and output parameter targets</param>
-        /// <param name="graph">The graph on which this sequence is to be applied.
+        /// <param name="procEnv">The graph processing environment on which this sequence is to be applied.
+        ///     Contains especially the graph on which this sequence is to be applied.
         ///     The rules will only be chosen during the Sequence object instantiation, so
         ///     exchanging rules will have no effect for already existing Sequence objects.</param>
         /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>True, iff the sequence succeeded</returns>
         public abstract bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraph graph, SequenceExecutionEnvironment env);
+            IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env);
 
         public override int Precedence { get { return -1; } }
         public override string Symbol { get { return SequenceName; } }
@@ -2112,22 +2117,22 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraph graph, SequenceExecutionEnvironment env)
+            IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             // If this sequence definition is currently executed
             // we must copy it and use the copy in its place
             // to prevent state corruption.
             if(executionState == SequenceExecutionState.Underway)
             {
-                return ApplyCopy(sequenceInvocation, graph, env);
+                return ApplyCopy(sequenceInvocation, procEnv, env);
             }
 
-            graph.EnteringSequence(this);
+            procEnv.EnteringSequence(this);
             executionState = SequenceExecutionState.Underway;
 #if LOG_SEQUENCE_EXECUTION
             writer.WriteLine("Before executing sequence definition " + Id + ": " + Symbol);
 #endif
-            bool res = ApplyImpl(sequenceInvocation, graph, env);
+            bool res = ApplyImpl(sequenceInvocation, procEnv, env);
 #if LOG_SEQUENCE_EXECUTION
             writer.WriteLine("After executing sequence definition " + Id + ": " + Symbol + " result " + res);
 #endif
@@ -2135,7 +2140,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(env != null) env.EndOfIteration(false, this);
 
-            graph.ExitingSequence(this);
+            procEnv.ExitingSequence(this);
 
             ResetExecutionState(); // state is shown by call, we don't exist any more for the debugger
 
@@ -2144,7 +2149,7 @@ namespace de.unika.ipd.grGen.libGr
 
         // creates or reuses a copy and applies the copy
         protected bool ApplyCopy(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraph graph, SequenceExecutionEnvironment env)
+            IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             // To improve performance we recycle copies in nameToCopies.
             SequenceDefinition seqCopy;
@@ -2159,7 +2164,7 @@ namespace de.unika.ipd.grGen.libGr
                 seqCopy = (SequenceDefinition)Copy(originalToCopy);
             }
             sequenceInvocation.SequenceDef = seqCopy;
-            bool success = seqCopy.Apply(sequenceInvocation, graph, env);
+            bool success = seqCopy.Apply(sequenceInvocation, procEnv, env);
             sequenceInvocation.SequenceDef = this;
             if(!nameToCopies.ContainsKey(SequenceName))
                 nameToCopies.Add(SequenceName, new Stack<SequenceDefinition>());
@@ -2169,7 +2174,7 @@ namespace de.unika.ipd.grGen.libGr
 
         // applies the sequence of/in the sequence definition
         protected bool ApplyImpl(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraph graph, SequenceExecutionEnvironment env)
+            IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             if(sequenceInvocation.ArgumentExpressions.Length != InputVariables.Length)
                 throw new Exception("Number of input parameters given and expected differ for " + Symbol);
@@ -2180,18 +2185,18 @@ namespace de.unika.ipd.grGen.libGr
             for(int i=0; i<sequenceInvocation.ArgumentExpressions.Length; ++i)
             {
                 if(sequenceInvocation.ArgumentExpressions[i] != null)
-                    InputVariables[i].SetVariableValue(sequenceInvocation.ArgumentExpressions[i].Evaluate(graph, null), graph);
+                    InputVariables[i].SetVariableValue(sequenceInvocation.ArgumentExpressions[i].Evaluate(procEnv, null), procEnv);
                 else
-                    InputVariables[i].SetVariableValue(sequenceInvocation.Arguments[i], graph);
+                    InputVariables[i].SetVariableValue(sequenceInvocation.Arguments[i], procEnv);
             }
 
-            bool success = Seq.Apply(graph, env);
+            bool success = Seq.Apply(procEnv, env);
 
             if(success)
             {
                 // postfill the return-to variables of the caller with the return values, read from the local output variables
                 for(int i = 0; i < sequenceInvocation.ReturnVars.Length; i++)
-                    sequenceInvocation.ReturnVars[i].SetVariableValue(OutputVariables[i].GetVariableValue(graph), graph);
+                    sequenceInvocation.ReturnVars[i].SetVariableValue(OutputVariables[i].GetVariableValue(procEnv), procEnv);
             }
 
             return success;
@@ -2292,13 +2297,13 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("ReplaceSequenceDefinition not supported on compiled sequences");
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             throw new Exception("Can't apply compiled sequence definition like a normal sequence");
         }
 
         public abstract override bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraph graph, SequenceExecutionEnvironment env);
+            IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env);
 
         public override Sequence GetCurrentlyExecutedSequence()
         {
@@ -2342,10 +2347,10 @@ namespace de.unika.ipd.grGen.libGr
                 ParamBindings.SequenceDef = newDef;
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             SequenceDefinition seqDef = ParamBindings.SequenceDef;
-            bool res = seqDef.Apply(ParamBindings, graph, env);
+            bool res = seqDef.Apply(ParamBindings, procEnv, env);
 
 #if LOG_SEQUENCE_EXECUTION
             if(res)
@@ -2434,9 +2439,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object val = Computation.Execute(graph, env);
+            object val = Computation.Execute(procEnv, env);
             if(Computation.ReturnsValue)
                 return !TypesHelper.IsDefaultValue(val);
             else

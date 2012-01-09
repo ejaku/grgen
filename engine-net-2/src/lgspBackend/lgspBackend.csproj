@@ -64,6 +64,7 @@
     <Compile Include="InterpretationPlan.cs" />
     <Compile Include="InterpretationPlanBuilder.cs" />
     <Compile Include="lgspDeferredSequencesManager.cs" />
+    <Compile Include="lgspGraphProcessingEnvironment.cs" />
     <Compile Include="lgspGrGen.cs" />
     <Compile Include="lgspActions.cs" />
     <Compile Include="lgspBackend.cs" />
@@ -71,6 +72,8 @@
     <Compile Include="lgspGraphElements.cs" />
     <Compile Include="lgspMatcherGenerator.cs" />
     <None Include="MonoILReader.cs" />
+    <Compile Include="lgspMatches.cs" />
+    <Compile Include="lgspNamedGraph.cs" />
     <Compile Include="lgspPattern.cs" />
     <Compile Include="lgspSequenceGenerator.cs" />
     <Compile Include="lgspTransactionManager.cs" />

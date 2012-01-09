@@ -40,3 +40,8 @@ test testReflexive
 {
 	n:AB --> n; 
 }
+
+test isAB(n:Node)
+{
+	:AB<n>;
+}

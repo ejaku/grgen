@@ -93,11 +93,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="grgFilename">A grg file to be used to create the graph, or null.</param>
         /// <param name="xmiFilename">The filename of the model instance to be imported, or null.</param>
         /// <param name="noPackageNamePrefix">Prefix the types with the name of the package? Can only be used if names from the packages are disjoint.</param>
-        public static IGraph Import(IBackend backend, List<String> ecoreFilenames, String grgFilename, String xmiFilename, bool noPackageNamePrefix)
+        /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
+        public static IGraph Import(IBackend backend, List<String> ecoreFilenames, String grgFilename, String xmiFilename, bool noPackageNamePrefix, out BaseActions actions)
         {
             ECoreImport imported = new ECoreImport();
             imported.noPackageNamePrefix = noPackageNamePrefix;
-            imported.graph = imported.ImportModels(ecoreFilenames, grgFilename, backend);
+            imported.graph = imported.ImportModels(ecoreFilenames, grgFilename, backend, out actions);
             if(xmiFilename != null)
             {
                 Console.WriteLine("Importing graph...");
@@ -106,7 +107,7 @@ namespace de.unika.ipd.grGen.libGr
             return imported.graph;
         }
 
-        private IGraph ImportModels(List<String> ecoreFilenames, String grgFilename, IBackend backend)
+        private IGraph ImportModels(List<String> ecoreFilenames, String grgFilename, IBackend backend, out BaseActions actions)
         {
             foreach(String ecoreFilename in ecoreFilenames)
             {
@@ -159,9 +160,8 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             IGraph graph;
-            BaseActions actions;
-            backend.CreateFromSpec(grgFilename, "defaultname", ProcessSpecFlags.UseNoExistingFiles, new List<String>(), out graph, out actions);
-            graph.Actions = actions;
+            backend.CreateFromSpec(grgFilename, "defaultname", ProcessSpecFlags.UseNoExistingFiles, new List<String>(), 
+                out graph, out actions);
             return graph;
         }
 

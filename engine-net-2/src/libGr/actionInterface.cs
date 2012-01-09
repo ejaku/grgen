@@ -30,141 +30,144 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IRulePattern RulePattern { get; }
 
+
         /// <summary>
-        /// Searches for a graph pattern as specified by RulePattern.
+        /// Searches for a graph pattern as specified by RulePattern in the current graph of the graph processing environment.
         /// </summary>
-        /// <param name="graph">The host graph.</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>An IMatches object containing the found matches.</returns>
-        IMatches Match(IGraph graph, int maxMatches, object[] parameters);
+        IMatches Match(IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters);
 
         /// <summary>
-        /// Performs the rule specific modifications to the given graph with the given match.
+        /// Performs the rule specific modifications to the current graph of the graph processing environment with the given match.
         /// The graph and match object must have the correct type for the used backend (and this action).
         /// </summary>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <returns>An array of objects returned by the rule.
         /// It is only valid until the next graph rewrite with this rule.</returns>
-        object[] Modify(IGraph graph, IMatch match);
+        object[] Modify(IGraphProcessingEnvironment procEnv, IMatch match);
 
         /// <summary>
-        /// Performs the rule specific modifications to the given graph with all of the given matches.
+        /// Performs the rule specific modifications to the current graph of the graph processing environment with all of the given matches.
         /// The graph and match object must have the correct type for the used backend.
         /// No OnRewritingNextMatch events are triggered by this function.
         /// </summary>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <returns>An array of objects returned by the last applicance of the rule.
         /// It is only valid until the next graph rewrite with this rule.</returns>
-        object[] ModifyAll(IGraph graph, IMatches matches);
+        object[] ModifyAll(IGraphProcessingEnvironment procEnv, IMatches matches);
 
         /// <summary>
-        /// Tries to apply this rule to the given graph once.
+        /// Tries to apply this rule to the given graph processing environment/its current graph once.
         /// The rule may not require any parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <returns>A possibly empty array of objects returned by the rule,
         /// which is only valid until the next graph rewrite with this rule,
         /// or null, if no match was found.</returns>
-        object[] Apply(IGraph graph);
+        object[] Apply(IGraphProcessingEnvironment procEnv);
 
         /// <summary>
-        /// Tries to apply this rule to the given graph once.
+        /// Tries to apply this rule to the given processing environment/its current graph once.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>A possibly empty array of objects returned by the rule,
         /// which is only valid until the next graph rewrite with this rule,
         /// or null, if no match was found.</returns>
-        object[] Apply(IGraph graph, params object[] parameters);
+        object[] Apply(IGraphProcessingEnvironment procEnv, params object[] parameters);
 
         /// <summary>
-        /// Tries to apply this rule to all occurrences in the given graph "at once".
+        /// Tries to apply this rule to all occurrences in the current graph of the graph processing environment "at once".
         /// The rule may not require any parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
-        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
         /// which is only valid until the next graph rewrite with this rule,
         /// or null, if no match was found.</returns>
-        object[] ApplyAll(int maxMatches, IGraph graph);
+        object[] ApplyAll(int maxMatches, IGraphProcessingEnvironment procEnv);
 
         /// <summary>
-        /// Tries to apply this rule to all occurrences in the given graph "at once".
+        /// Tries to apply this rule to all occurrences in the current graph of the graph processing environment "at once".
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
-        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
         /// which is only valid until the next graph rewrite with this rule,
         /// or null, if no match was found.</returns>
-        object[] ApplyAll(int maxMatches, IGraph graph, params object[] parameters);
+        object[] ApplyAll(int maxMatches, IGraphProcessingEnvironment procEnv, params object[] parameters);
 
         /// <summary>
-        /// Applies this rule to the given graph as often as possible.
+        /// Applies this rule to the given processing environment/its current graph as often as possible.
         /// The rule may not require any parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <returns>Always returns true.</returns>
-        bool ApplyStar(IGraph graph);
+        bool ApplyStar(IGraphProcessingEnvironment procEnv);
 
         /// <summary>
-        /// Applies this rule to the given graph as often as possible.
+        /// Applies this rule to the given processing environment/its current graph as often as possible.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>Always returns true.</returns>
-        bool ApplyStar(IGraph graph, params object[] parameters);
+        bool ApplyStar(IGraphProcessingEnvironment procEnv, params object[] parameters);
 
         /// <summary>
-        /// Applies this rule to the given graph as often as possible.
+        /// Applies this rule to the given processing environment/its current graph as often as possible.
         /// The rule may not require any parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <returns>True, if the rule was applied at least once.</returns>
-        bool ApplyPlus(IGraph graph);
+        bool ApplyPlus(IGraphProcessingEnvironment procEnv);
 
         /// <summary>
-        /// Applies this rule to the given graph as often as possible.
+        /// Applies this rule to the given processing environment/its current graph as often as possible.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>True, if the rule was applied at least once.</returns>
-        bool ApplyPlus(IGraph graph, params object[] parameters);
+        bool ApplyPlus(IGraphProcessingEnvironment procEnv, params object[] parameters);
 
         /// <summary>
-        /// Applies this rule to the given graph at most max times.
+        /// Applies this rule to the processing environment/its current graph at most max times.
         /// The rule may not require any parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <param name="min">The minimum number of applications to be "successful".</param>
         /// <param name="max">The maximum number of applications to be applied.</param>
         /// <returns>True, if the rule was applied at least min times.</returns>
-        bool ApplyMinMax(IGraph graph, int min, int max);
+        bool ApplyMinMax(IGraphProcessingEnvironment procEnv, int min, int max);
 
         /// <summary>
-        /// Applies this rule to the given graph at most max times.
+        /// Applies this rule to the given processing environment/its current graph at most max times.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="procEnv">The processing environment, esp. giving access to the host graph.</param>
         /// <param name="min">The minimum number of applications to be "successful".</param>
         /// <param name="max">The maximum number of applications to be applied.</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>True, if the rule was applied at least min times.</returns>
-        bool ApplyMinMax(IGraph graph, int min, int max, params object[] parameters);
+        bool ApplyMinMax(IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters);
     }
 
     /// <summary>
@@ -435,234 +438,5 @@ namespace de.unika.ipd.grGen.libGr
         /// Removes the match of exact type at the given index and returns it.
         /// </summary>
         MatchInterface RemoveMatchExact(int index);
-    }
-
-    /// <summary>
-    /// An object accumulating information about needed time, number of found matches and number of performed rewrites.
-    /// </summary>
-    public class PerformanceInfo
-    {
-        /// <summary>
-        /// Accumulated number of matches found by any rule applied via an BaseActions object.
-        /// </summary>
-        public int MatchesFound;
-
-        /// <summary>
-        /// Accumulated number of rewrites performed by any rule applied via an BaseActions object.
-        /// This differs from <see cref="MatchesFound"/> for test rules, tested rules, and undone rules.
-        /// </summary>
-        public int RewritesPerformed;
-
-#if USE_HIGHPERFORMANCE_COUNTER
-
-        private long totalStart, totalEnd;
-        private long localStart;
-        private long totalMatchTime;
-        private long totalRewriteTime;
-
-        public long LastMatchTime;
-        public long LastRewriteTime;
-
-        public int TotalMatchTimeMS { get { return (int) (totalMatchTime * 1000 / perfFreq); } }
-        public int TotalRewriteTimeMS { get { return (int) (totalRewriteTime * 1000 / perfFreq); } }
-        public int TotalTimeMS { get { return (int) ((totalEnd - totalStart) * 1000 / perfFreq); } }
-
-        [DllImport("Kernel32.dll")]
-        private static extern bool QueryPerformanceCounter(out long perfCount);
-
-        [DllImport("Kernel32.dll")]
-        private static extern bool QueryPerformanceFrequency(out long freq);
-
-        private long perfFreq;
-
-        public PerformanceInfo()
-        {
-            if(!QueryPerformanceFrequency(out perfFreq))
-                throw new Win32Exception();
-            Console.WriteLine("Performance counter frequency: {0} Hz", perfFreq);
-        }
-
-
-        public void Start()
-        {
-            QueryPerformanceCounter(out totalStart);
-        }
-
-        public void Stop()
-        {
-            QueryPerformanceCounter(out totalEnd);
-        }
-
-//        [Conditional("DEBUG")]
-        public void StartLocal()
-        {
-            QueryPerformanceCounter(out localStart);
-        }
-
-//        [Conditional("DEBUG")]
-        public void StopMatch()
-        {
-            long counter;
-            QueryPerformanceCounter(out counter);
-            totalMatchTime += counter - localStart;
-            LastMatchTime = counter - localStart;
-            LastRewriteTime = 0;
-        }
-
-//        [Conditional("DEBUG")]
-        public void StopRewrite()
-        {
-            long counter;
-            QueryPerformanceCounter(out counter);
-            totalRewriteTime += counter - localStart;
-            LastRewriteTime = counter - localStart;
-        }
-
-#if DEBUGACTIONS
-        public int TimeDiffToMS(long diff)
-        {
-            return (int) (diff * 1000 / perfFreq);
-        }
-#endif
-
-#else
-
-        private int totalStart;
-        private int localStart;
-        private int totalMatchTime;
-        private int totalRewriteTime;
-        private int totalTime;
-
-        /// <summary>
-        /// The time needed for the last matching.
-        /// </summary>
-        /// <remarks>Only updated if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
-        public long LastMatchTime;
-
-        /// <summary>
-        /// The time needed for the last rewriting.
-        /// </summary>
-        /// <remarks>Only updated if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
-        public long LastRewriteTime;
-
-        /// <summary>
-        /// The total time needed for matching.
-        /// Due to timer resolution, this should not be used, except for very difficult patterns.
-        /// </summary>
-        public int TotalMatchTimeMS { get { return totalMatchTime; } }
-
-        /// <summary>
-        /// The total time needed for rewriting.
-        /// Due to timer resolution, this should not be used, except for very big rewrites.
-        /// </summary>
-        public int TotalRewriteTimeMS { get { return totalRewriteTime; } }
-
-        /// <summary>
-        /// The accumulated time of rule and sequence applications.
-        /// </summary>
-        public int TotalTimeMS { get { return totalTime; } }
-
-        /// <summary>
-        /// Starts time measurement.
-        /// </summary>
-        public void Start()
-        {
-            totalStart = Environment.TickCount;
-        }
-
-        /// <summary>
-        /// Stops time measurement and increases the TotalTimeMS by the elapsed time between this call
-        /// and the last call to Start().
-        /// </summary>
-        public void Stop()
-        {
-            totalTime += Environment.TickCount - totalStart;
-        }
-
-        /// <summary>
-        /// Resets all accumulated information.
-        /// </summary>
-        public void Reset()
-        {
-            MatchesFound = totalStart = localStart = totalMatchTime = totalRewriteTime = totalTime = 0;
-            LastMatchTime = LastRewriteTime = 0;
-        }
-
-        /// <summary>
-        /// Starts a local time measurement to be used with either StopMatch() or StopRewrite().
-        /// </summary>
-        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
-        [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
-        public void StartLocal()
-        {
-            localStart = Environment.TickCount;
-        }
-
-        /// <summary>
-        /// Stops a local time measurement, sets LastMatchTime to the elapsed time between this call
-        /// and the last call to StartLocal() and increases the TotalMatchTime by this amount.
-        /// </summary>
-        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
-        [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
-        public void StopMatch()
-        {
-            int diff = Environment.TickCount - localStart;
-            totalMatchTime += diff;
-            LastMatchTime = diff;
-            LastRewriteTime = 0;
-        }
-
-        /// <summary>
-        /// Stops a local time measurement, sets LastRewriteTime to the elapsed time between this call
-        /// and the last call to StartLocal() and increases the TotalRewriteTime by this amount.
-        /// </summary>
-        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
-        [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
-        public void StopRewrite()
-        {
-            int diff = Environment.TickCount - localStart;
-            totalRewriteTime += diff;
-            LastRewriteTime = diff;
-        }
-
-#if DEBUGACTIONS
-        public int TimeDiffToMS(long diff)
-        {
-            return (int) diff;
-        }
-#endif
-#endif
-    }
-
-    /// <summary>
-    /// Describes a range with a minimum and a maximum value.
-    /// </summary>
-    public struct Range
-    {
-        /// <summary>
-        /// Constant value representing positive infinity for a range.
-        /// </summary>
-        public const int Infinite = int.MaxValue;
-
-        /// <summary>
-        /// The lower bound of the range.
-        /// </summary>
-        public int Min;
-
-        /// <summary>
-        /// The upper bound of the range.
-        /// </summary>
-        public int Max;
-
-        /// <summary>
-        /// Constructs a Range object.
-        /// </summary>
-        /// <param name="min">The lower bound of the range.</param>
-        /// <param name="max">The upper bound of the range.</param>
-        public Range(int min, int max)
-        {
-            Min = min;
-            Max = max;
-        }
     }
 }

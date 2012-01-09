@@ -30,687 +30,89 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// A partial implementation of the IGraph interface.
+    /// Adding some methods implemented over the IGraph interface (some convenience stuff, graph validation, and graph dumping).
     /// </summary>
     public abstract class BaseGraph : IGraph
     {
         #region Abstract and virtual members
 
-        /// <summary>
-        /// A name associated with the graph.
-        /// </summary>
         public abstract String Name { get; }
-
-        /// <summary>
-        /// The model associated with the graph.
-        /// </summary>
         public abstract IGraphModel Model { get; }
-
-        /// <summary>
-        /// A currently associated actions object.
-        /// </summary>
-        public abstract BaseActions Actions { get; set; }
-
-        /// <summary>
-        /// Returns the graph's transaction manager.
-        /// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
-        /// Don't forget to call Commit after a transaction is finished!
-        /// </summary>
-        public abstract ITransactionManager TransactionManager { get; }
-
-        /// <summary>
-        /// If true (the default case), elements deleted during a rewrite
-        /// may be reused in the same rewrite.
-        /// As a result new elements may not be discriminable anymore from
-        /// already deleted elements using object equality, hash maps, etc.
-        /// In cases where this is needed this optimization should be disabled.
-        /// </summary>
         public abstract bool ReuseOptimization { get; set; }
-
-        /// <summary>
-        /// For persistent backends permanently destroys the graph
-        /// </summary>
         public abstract void DestroyGraph();
 
-        /// <summary>
-        /// Loads a BaseActions instance from the given file.
-        /// If the file is a ".cs" file it will be compiled first.
-        /// </summary>
-        public abstract BaseActions LoadActions(String actionFilename);
+        public int NumNodes { get { return GetNumCompatibleNodes(Model.NodeModel.RootType); } }
+        public int NumEdges { get { return GetNumCompatibleEdges(Model.EdgeModel.RootType); } }
+        public IEnumerable<INode> Nodes { get { return GetCompatibleNodes(Model.NodeModel.RootType); } }
+        public IEnumerable<IEdge> Edges { get { return GetCompatibleEdges(Model.EdgeModel.RootType); } }
 
-        /// <summary>
-        /// Returns the number of nodes with the exact given node type.
-        /// </summary>
         public abstract int GetNumExactNodes(NodeType nodeType);
-
-        /// <summary>
-        /// Returns the number of edges with the exact given edge type.
-        /// </summary>
         public abstract int GetNumExactEdges(EdgeType edgeType);
-
-        /// <summary>
-        /// Enumerates all nodes with the exact given node type.
-        /// </summary>
         public abstract IEnumerable<INode> GetExactNodes(NodeType nodeType);
-
-        /// <summary>
-        /// Enumerates all edges with the exact given edge type.
-        /// </summary>
         public abstract IEnumerable<IEdge> GetExactEdges(EdgeType edgeType);
 
-        /// <summary>
-        /// Returns the number of nodes compatible to the given node type.
-        /// </summary>
         public abstract int GetNumCompatibleNodes(NodeType nodeType);
-
-        /// <summary>
-        /// Returns the number of edges compatible to the given edge type.
-        /// </summary>
         public abstract int GetNumCompatibleEdges(EdgeType edgeType);
-
-        /// <summary>
-        /// Enumerates all nodes compatible to the given node type.
-        /// </summary>
         public abstract IEnumerable<INode> GetCompatibleNodes(NodeType nodeType);
-
-        /// <summary>
-        /// Enumerates all edges compatible to the given edge type.
-        /// </summary>
         public abstract IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType);
 
-        /// <summary>
-        /// Adds an existing INode object to the graph and assigns it to the given variable.
-        /// The node must not be part of any graph, yet!
-        /// The node may not be connected to any other elements!
-        /// </summary>
-        /// <param name="node">The node to be added.</param>
-        /// <param name="varName">The name of the variable.</param>
-        public abstract void AddNode(INode node, String varName);
-
-        /// <summary>
-        /// Adds an existing INode object to the graph.
-        /// The node must not be part of any graph, yet!
-        /// The node may not be connected to any other elements!
-        /// </summary>
-        /// <param name="node">The node to be added.</param>
         public abstract void AddNode(INode node);
+        public abstract INode AddNode(NodeType nodeType);
 
-        /// <summary>
-        /// Adds a new node to the graph and assigns it to the given variable.
-        /// </summary>
-        /// <param name="nodeType">The node type for the new node.</param>
-        /// <param name="varName">The name of the variable.</param>
-        /// <returns>The newly created node.</returns>
-        protected abstract INode AddINode(NodeType nodeType, String varName);
-
-        /// <summary>
-        /// Adds a new node to the graph and assigns it to the given variable.
-        /// </summary>
-        /// <param name="nodeType">The node type for the new node.</param>
-        /// <param name="varName">The name of the variable.</param>
-        /// <returns>The newly created node.</returns>
-        public INode AddNode(NodeType nodeType, String varName)
-        {
-            return AddINode(nodeType, varName);
-        }
-
-        /// <summary>
-        /// Adds a new node to the graph.
-        /// </summary>
-        /// <param name="nodeType">The node type for the new node.</param>
-        /// <returns>The newly created node.</returns>
-        protected abstract INode AddINode(NodeType nodeType);
-
-        /// <summary>
-        /// Adds a new node to the graph.
-        /// </summary>
-        /// <param name="nodeType">The node type for the new node.</param>
-        /// <returns>The newly created node.</returns>
-        public INode AddNode(NodeType nodeType)
-        {
-            return AddINode(nodeType);
-        }
-
-        /// <summary>
-        /// Adds an existing IEdge object to the graph and assigns it to the given variable.
-        /// The edge must not be part of any graph, yet!
-        /// Source and target of the edge must already be part of the graph.
-        /// </summary>
-        /// <param name="edge">The edge to be added.</param>
-        /// <param name="varName">The name of the variable.</param>
-        public abstract void AddEdge(IEdge edge, String varName);
-
-        /// <summary>
-        /// Adds an existing IEdge object to the graph.
-        /// The edge must not be part of any graph, yet!
-        /// Source and target of the edge must already be part of the graph.
-        /// </summary>
-        /// <param name="edge">The edge to be added.</param>
         public abstract void AddEdge(IEdge edge);
-
-        /// <summary>
-        /// Adds a new edge to the graph and assigns it to the given variable.
-        /// </summary>
-        /// <param name="edgeType">The edge type for the new edge.</param>
-        /// <param name="source">The source of the edge.</param>
-        /// <param name="target">The target of the edge.</param>
-        /// <param name="varName">The name of the variable.</param>
-        /// <returns>The newly created edge.</returns>
-        public abstract IEdge AddEdge(EdgeType edgeType, INode source, INode target, string varName);
-
-        /// <summary>
-        /// Adds a new edge to the graph.
-        /// </summary>
-        /// <param name="edgeType">The edge type for the new edge.</param>
-        /// <param name="source">The source of the edge.</param>
-        /// <param name="target">The target of the edge.</param>
-        /// <returns>The newly created edge.</returns>
         public abstract IEdge AddEdge(EdgeType edgeType, INode source, INode target);
 
-        /// <summary>
-        /// Removes the given node from the graph.
-        /// </summary>
         public abstract void Remove(INode node);
-
-        /// <summary>
-        /// Removes the given edge from the graph.
-        /// </summary>
         public abstract void Remove(IEdge edge);
-
-        /// <summary>
-        /// Removes all edges from the given node.
-        /// </summary>
         public abstract void RemoveEdges(INode node);
 
-        /// <summary>
-        /// Removes all nodes and edges (including any variables pointing to them) from the graph.
-        /// </summary>
         public abstract void Clear();
 
-        /// <summary>
-        /// Retypes a node by creating a new node of the given type.
-        /// All incident edges as well as all attributes from common super classes are kept.
-        /// </summary>
-        /// <param name="node">The node to be retyped.</param>
-        /// <param name="newNodeType">The new type for the node.</param>
-        /// <returns>The new node object representing the retyped node.</returns>
         public abstract INode Retype(INode node, NodeType newNodeType);
-
-        /// <summary>
-        /// Retypes an edge by creating a new edge of the given type.
-        /// Source and target node as well as all attributes from common super classes are kept.
-        /// </summary>
-        /// <param name="edge">The edge to be retyped.</param>
-        /// <param name="newEdgeType">The new type for the edge.</param>
-        /// <returns>The new edge object representing the retyped edge.</returns>
         public abstract IEdge Retype(IEdge edge, EdgeType newEdgeType);
 
-        /// <summary>
-        /// Merges the source node into the target node,
-        /// i.e. all edges incident to the source node are redirected to the target node, then the source node is deleted.
-        /// </summary>
-        /// <param name="target">The node which remains after the merge.</param>
-        /// <param name="source">The node to be merged.</param>
-        /// <param name="sourceName">The name of the node to be merged (used for debug display of redirected edges).</param>
         public abstract void Merge(INode target, INode source, string sourceName);
 
-        /// <summary>
-        /// Changes the source node of the edge from the old source to the given new source.
-        /// </summary>
-        /// <param name="edge">The edge to redirect.</param>
-        /// <param name="newSource">The new source node of the edge.</param>
-        /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
         public abstract void RedirectSource(IEdge edge, INode newSource, string oldSourceName);
-
-        /// <summary>
-        /// Changes the target node of the edge from the old target to the given new target.
-        /// </summary>
-        /// <param name="edge">The edge to redirect.</param>
-        /// <param name="newTarget">The new target node of the edge.</param>
-        /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
         public abstract void RedirectTarget(IEdge edge, INode newTarget, string oldTargetName);
-
-        /// <summary>
-        /// Changes the source of the edge from the old source to the given new source,
-        /// and changes the target node of the edge from the old target to the given new target.
-        /// </summary>
-        /// <param name="edge">The edge to redirect.</param>
-        /// <param name="newSource">The new source node of the edge.</param>
-        /// <param name="newTarget">The new target node of the edge.</param>
-        /// <param name="oldSourceName">The name of the old source node (used for debug display of the new edge).</param>
-        /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
         public abstract void RedirectSourceAndTarget(IEdge edge, INode newSource, INode newTarget, string oldSourceName, string oldTargetName);
 
-        /// <summary>
-        /// Mature a graph.
-        /// This method should be invoked after adding all nodes and edges to the graph.
-        /// The backend may implement analyses on the graph to speed up matching etc.
-        /// The graph may not be modified by this function.
-        /// </summary>
         public abstract void Mature();
 
-        /// <summary>
-        /// Does graph-backend dependent stuff.
-        /// </summary>
-        /// <param name="args">Any kind of paramteres for the stuff to do</param>
         public abstract void Custom(params object[] args);
 
-        /// <summary>
-        /// Duplicates a graph.
-        /// The new graph will use the same model and backend as the other
-        /// The open transactions will NOT be cloned.
-        /// </summary>
-        /// <param name="newName">Name of the new graph.</param>
-        /// <returns>A new graph with the same structure as this graph.</returns>
         public abstract IGraph Clone(String newName);
 
-        /// <summary>
-        /// Allocates a clean visited flag on the graph elements.
-        /// If needed the flag is cleared on all graph elements, so this is an O(n) operation.
-        /// </summary>
-        /// <returns>A visitor ID to be used in
-        /// visited conditions in patterns ("if { !visited(elem, id); }"),
-        /// visited expressions in evals ("visited(elem, id) = true; b.flag = visited(elem, id) || c.flag; "}
-        /// and calls to other visitor functions.</returns>
         public abstract int AllocateVisitedFlag();
-
-        /// <summary>
-        /// Frees a visited flag.
-        /// This is an O(1) operation.
-        /// </summary>
-        /// <param name="visitorID">The ID of the visited flag to be freed.</param>
         public abstract void FreeVisitedFlag(int visitorID);
-
-        /// <summary>
-        /// Resets the visited flag with the given ID on all graph elements, if necessary.
-        /// </summary>
-        /// <param name="visitorID">The ID of the visited flag.</param>
         public abstract void ResetVisitedFlag(int visitorID);
-
-        /// <summary>
-        /// Sets the visited flag of the given graph element.
-        /// </summary>
-        /// <param name="elem">The graph element whose flag is to be set.</param>
-        /// <param name="visitorID">The ID of the visited flag.</param>
-        /// <param name="visited">True for visited, false for not visited.</param>
         public abstract void SetVisited(IGraphElement elem, int visitorID, bool visited);
-
-        /// <summary>
-        /// Returns whether the given graph element has been visited.
-        /// </summary>
-        /// <param name="elem">The graph element to be examined.</param>
-        /// <param name="visitorID">The ID of the visited flag.</param>
-        /// <returns>True for visited, false for not visited.</returns>
         public abstract bool IsVisited(IGraphElement elem, int visitorID);
 
         #endregion Abstract and virtual members
 
-        #region Names and Variables management
-
-        /// <summary>
-        /// Returns the name for the given element,
-        /// i.e. the name defined by the named graph if a named graph is available,
-        /// or a hash value string if only a lgpsGraph is available.
-        /// </summary>
-        /// <param name="elem">Element of which the name is to be found</param>
-        /// <returns>The name of the given element</returns>
-        public abstract String GetElementName(IGraphElement elem);
-
-        /// <summary>
-        /// Returns a linked list of variables mapped to the given graph element
-        /// or null, if no variable points to this element
-        /// </summary>
-        public abstract LinkedList<Variable> GetElementVariables(IGraphElement elem);
-
-        /// <summary>
-        /// Retrieves the object for a variable name or null, if the variable isn't set yet or anymore
-        /// </summary>
-        /// <param name="varName">The variable name to lookup</param>
-        /// <returns>The according object or null</returns>
-        public abstract object GetVariableValue(String varName);
-
-        /// <summary>
-        /// Retrieves the INode for a variable name or null, if the variable isn't set yet or anymore.
-        /// A InvalidCastException is thrown, if the variable is set and does not point to an INode object.
-        /// </summary>
-        /// <param name="varName">The variable name to lookup.</param>
-        /// <returns>The according INode or null.</returns>
-        public INode GetNodeVarValue(string varName)
-        {
-            return (INode) GetVariableValue(varName);
-        }
-
-        /// <summary>
-        /// Retrieves the IEdge for a variable name or null, if the variable isn't set yet or anymore.
-        /// A InvalidCastException is thrown, if the variable is set and does not point to an IEdge object.
-        /// </summary>
-        /// <param name="varName">The variable name to lookup.</param>
-        /// <returns>The according INode or null.</returns>
-        public IEdge GetEdgeVarValue(string varName)
-        {
-            return (IEdge) GetVariableValue(varName);
-        }
-
-        /// <summary>
-        /// Sets the value of the given variable to the given object.
-        /// If the variable name is null, this function does nothing
-        /// If elem is null, the variable is unset
-        /// </summary>
-        /// <param name="varName">The name of the variable</param>
-        /// <param name="val">The new value of the variable</param>
-        public abstract void SetVariableValue(String varName, object val);
-
-        /// <summary>
-        /// Returns an iterator over all available (non-null) variables
-        /// </summary>
-        public abstract IEnumerable<Variable> Variables { get; }
-
-        #endregion Variables management
-
-        #region Graph rewriting
-
-        /// <summary>
-        /// A singleton object array used when no elements are returned.
-        /// </summary>
-        public static readonly object[] NoElems = new object[] { };
-
-        private PerformanceInfo perfInfo = null;
-        private int maxMatches = 0;
-        private Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
-
-        /// <summary>
-        /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
-        /// The user is responsible for resetting the PerformanceInfo object.
-        /// </summary>
-        public PerformanceInfo PerformanceInfo
-        {
-            get { return perfInfo; }
-            set { perfInfo = value; }
-        }
-
-        /// <summary>
-        /// The maximum number of matches to be returned for a RuleAll sequence element.
-        /// If it is zero or less, the number of matches is unlimited.
-        /// </summary>
-        public int MaxMatches
-        {
-            get { return maxMatches; }
-            set { maxMatches = value; }
-        }
-
-        /// <summary>
-        /// Retrieves the newest version of an IAction object currently available for this graph.
-        /// This may be the given object.
-        /// </summary>
-        /// <param name="action">The IAction object.</param>
-        /// <returns>The newest version of the given action.</returns>
-        public IAction GetNewestActionVersion(IAction action)
-        {
-            IAction newest;
-            if(!actionMapStaticToNewest.TryGetValue(action, out newest))
-                return action;
-            return newest;
-        }
-
-        /// <summary>
-        /// Sets the newest action version for a static action.
-        /// </summary>
-        /// <param name="staticAction">The original action generated by GrGen.exe.</param>
-        /// <param name="newAction">A new action instance.</param>
-        public void SetNewestActionVersion(IAction staticAction, IAction newAction)
-        {
-            actionMapStaticToNewest[staticAction] = newAction;
-        }
-
-        /// <summary>
-        /// Executes the modifications of the according rule to the given match/matches.
-        /// Fires OnRewritingNextMatch events before each rewrite except for the first one.
-        /// </summary>
-        /// <param name="matches">The matches object returned by a previous matcher call.</param>
-        /// <param name="which">The index of the match in the matches object to be applied,
-        /// or -1, if all matches are to be applied.</param>
-        /// <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
-        public object[] Replace(IMatches matches, int which)
-        {
-            object[] retElems = null;
-            if(which != -1)
-            {
-                if(which < 0 || which >= matches.Count)
-                    throw new ArgumentOutOfRangeException("\"which\" is out of range!");
-
-                retElems = matches.Producer.Modify(this, matches.GetMatch(which));
-                if(PerformanceInfo != null) PerformanceInfo.RewritesPerformed++;
-            }
-            else
-            {
-                bool first = true;
-                foreach(IMatch match in matches)
-                {
-                    if(first) first = false;
-                    else if(OnRewritingNextMatch != null) OnRewritingNextMatch();
-                    retElems = matches.Producer.Modify(this, match);
-                    if(PerformanceInfo != null) PerformanceInfo.RewritesPerformed++;
-                }
-                if(retElems == null) retElems = NoElems;
-            }
-            return retElems;
-        }
-
-        /// <summary>
-        /// Apply a rewrite rule.
-        /// </summary>
-        /// <param name="paramBindings">The parameter bindings of the rule invocation</param>
-        /// <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
-        /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
-        /// depends on MaxMatches)</param>
-        /// <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
-        /// the application</param>
-        /// <param name="test">If true, no rewrite step is performed.</param>
-        /// <returns>The number of matches found</returns>
-        public int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test)
-        {
-            int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
-
-            object[] parameters;
-            if(paramBindings.ArgumentExpressions.Length > 0)
-            {
-                parameters = paramBindings.Arguments;
-                for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
-                {
-                    if(paramBindings.ArgumentExpressions[i] != null)
-                        parameters[i] = paramBindings.ArgumentExpressions[i].Evaluate(this, null);
-                }
-            }
-            else parameters = null;
-
-            if(PerformanceInfo != null) PerformanceInfo.StartLocal();
-            IMatches matches = paramBindings.Action.Match(this, curMaxMatches, parameters);
-            if(PerformanceInfo != null) PerformanceInfo.StopMatch();
-
-            if(OnMatched != null) OnMatched(matches, special);
-            if(matches.Count == 0) return 0;
-
-            if(PerformanceInfo != null) PerformanceInfo.MatchesFound += matches.Count;
-
-            if(test) return matches.Count;
-
-            if(OnFinishing != null) OnFinishing(matches, special);
-
-            if(PerformanceInfo != null) PerformanceInfo.StartLocal();
-            object[] retElems = Replace(matches, which);
-            for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
-                paramBindings.ReturnVars[i].SetVariableValue(retElems[i], this);
-            if(PerformanceInfo != null) PerformanceInfo.StopRewrite();
-
-            if(OnFinished != null) OnFinished(matches, special);
-
-            return matches.Count;
-        }
-
-        #endregion Graph rewriting
-
-        #region Sequence handling
-
-        /// <summary>
-        /// Apply a graph rewrite sequence.
-        /// </summary>
-        /// <param name="sequence">The graph rewrite sequence</param>
-        /// <returns>The result of the sequence.</returns>
-        public bool ApplyGraphRewriteSequence(Sequence sequence)
-        {
-            if(PerformanceInfo != null) PerformanceInfo.Start();
-
-            bool res = sequence.Apply(this, null);
-
-            if(PerformanceInfo != null) PerformanceInfo.Stop();
-            return res;
-        }
-
-        /// <summary>
-        /// Apply a graph rewrite sequence.
-        /// </summary>
-        /// <param name="sequence">The graph rewrite sequence</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        /// <returns>The result of the sequence.</returns>
-        public bool ApplyGraphRewriteSequence(Sequence sequence, SequenceExecutionEnvironment env)
-        {
-            if (PerformanceInfo != null) PerformanceInfo.Start();
-
-            bool res = sequence.Apply(this, env);
-
-            if (PerformanceInfo != null) PerformanceInfo.Stop();
-            return res;
-        }
-
-        /// <summary>
-        /// Tests whether the given sequence succeeds on a clone of the associated graph.
-        /// </summary>
-        /// <param name="seq">The sequence to be executed</param>
-        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        public bool ValidateWithSequence(Sequence seq)
-        {
-            return seq.Apply(Clone("clonedGraph"), null);
-        }
-
-        /// <summary>
-        /// Tests whether the given sequence succeeds on a clone of the associated graph.
-        /// </summary>
-        /// <param name="seq">The sequence to be executed</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        public bool ValidateWithSequence(Sequence seq, SequenceExecutionEnvironment env)
-        {
-            return seq.Apply(Clone("clonedGraph"), env);
-        }
-
-        #endregion Sequence handling
 
         #region Events
 
-        /// <summary>
-        /// Fired after a node has been added
-        /// </summary>
         public event NodeAddedHandler OnNodeAdded;
-
-        /// <summary>
-        /// Fired after an edge has been added
-        /// </summary>
         public event EdgeAddedHandler OnEdgeAdded;
 
-        /// <summary>
-        /// Fired before a node is deleted
-        /// </summary>
         public event RemovingNodeHandler OnRemovingNode;
-
-        /// <summary>
-        /// Fired before an edge is deleted
-        /// </summary>
         public event RemovingEdgeHandler OnRemovingEdge;
-
-        /// <summary>
-        /// Fired before all edges of a node are deleted
-        /// </summary>
         public event RemovingEdgesHandler OnRemovingEdges;
 
-        /// <summary>
-        /// Fired before the whole graph is cleared
-        /// </summary>
         public event ClearingGraphHandler OnClearingGraph;
 
-        /// <summary>
-        /// Fired before an attribute of a node is changed.
-        /// Note for LGSPBackend:
-        /// Because graph elements of the LGSPBackend don't know their graph a call to
-        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function
-        /// and want the event to be fired, you have to fire it yourself
-        /// using ChangingNodeAttributes.
-        /// </summary>
         public event ChangingNodeAttributeHandler OnChangingNodeAttribute;
-
-        /// <summary>
-        /// Fired before an attribute of an edge is changed.
-        /// Note for LGSPBackend:
-        /// Because graph elements of the LGSPBackend don't know their graph a call to
-        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function
-        /// and want the event to be fired, you have to fire it yourself
-        /// using ChangingEdgeAttributes.
-        /// </summary>
         public event ChangingEdgeAttributeHandler OnChangingEdgeAttribute;
 
-        /// <summary>
-        /// Fired before a node is retyped.
-        /// Old and new node are provided to the handler.
-        /// </summary>
         public event RetypingNodeHandler OnRetypingNode;
-
-        /// <summary>
-        /// Fired before an edge is retyped.
-        /// Old and new edge are provided to the handler.
-        /// </summary>
         public event RetypingEdgeHandler OnRetypingEdge;
 
-        /// <summary>
-        /// Fired before each rewrite step (also rewrite steps of subpatterns) to indicate the names
-        /// of the nodes added in this rewrite step in order of addition.
-        /// </summary>
+        public event RedirectingEdgeHandler OnRedirectingEdge;
+
         public event SettingAddedElementNamesHandler OnSettingAddedNodeNames;
-
-        /// <summary>
-        /// Fired before each rewrite step (also rewrite steps of subpatterns) to indicate the names
-        /// of the edges added in this rewrite step in order of addition.
-        /// </summary>
         public event SettingAddedElementNamesHandler OnSettingAddedEdgeNames;
-
-        /// <summary>
-        /// Fired after all requested matches of a rule have been matched.
-        /// </summary>
-        public event AfterMatchHandler OnMatched;
-
-        /// <summary>
-        /// Fired before the rewrite step of a rule, when at least one match has been found.
-        /// </summary>
-        public event BeforeFinishHandler OnFinishing;
-
-        /// <summary>
-        /// Fired before the next match is rewritten. It is not fired before rewriting the first match.
-        /// </summary>
-        public event RewriteNextMatchHandler OnRewritingNextMatch;
-
-        /// <summary>
-        /// Fired after the rewrite step of a rule.
-        /// Note, that the given matches object may contain invalid entries,
-        /// as parts of the match may have been deleted!
-        /// </summary>
-        public event AfterFinishHandler OnFinished;
-
-        /// <summary>
-        /// Fired when a sequence is entered.
-        /// </summary>
-        public event EnterSequenceHandler OnEntereringSequence;
-
-        /// <summary>
-        /// Fired when a sequence is left.
-        /// </summary>
-        public event ExitSequenceHandler OnExitingSequence;
 
         /// <summary>
         /// Fires an OnNodeAdded event.
@@ -771,40 +173,6 @@ namespace de.unika.ipd.grGen.libGr
             if(clearingGraph != null) clearingGraph();
         }
 
-        /// <summary>
-        /// Fires an OnSettingAddedNodeNames event.
-        /// </summary>
-        public void SettingAddedNodeNames(String[] addedNodeNames)
-        {
-            SettingAddedElementNamesHandler handler = OnSettingAddedNodeNames;
-            if(handler != null) handler(addedNodeNames);
-        }
-
-        /// <summary>
-        /// Fires an OnSettingAddedEdgeNames event.
-        /// </summary>
-        public void SettingAddedEdgeNames(String[] addedEdgeNames)
-        {
-            SettingAddedElementNamesHandler handler = OnSettingAddedEdgeNames;
-            if(handler != null) handler(addedEdgeNames);
-        }
-
-        /// <summary>
-        /// Fires an OnChangingNodeAttribute event.
-        /// To be called before changing an attribute of a node,
-        /// with exact information about the change to occur,
-        /// to allow rollback of changes, in case a transaction is underway.
-        /// </summary>
-        /// <param name="node">The node whose attribute is changed.</param>
-        /// <param name="attrType">The type of the attribute to be changed.</param>
-        /// <param name="changeType">The type of the change which will be made.</param>
-        /// <param name="newValue">The new value of the attribute, if changeType==Assign.
-        ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
-        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.
-        ///                        Or the new value to be inserted/added if changeType==PutElement on array.
-        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
-        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
-        ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
         public void ChangingNodeAttribute(INode node, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
@@ -813,22 +181,6 @@ namespace de.unika.ipd.grGen.libGr
                 changingElemAttr(node, attrType, changeType, newValue, keyValue);
         }
 
-        /// <summary>
-        /// Fires an OnChangingEdgeAttribute event.
-        /// To be called before changing an attribute of an edge,
-        /// with exact information about the change to occur,
-        /// to allow rollback of changes, in case a transaction is underway.
-        /// </summary>
-        /// <param name="edge">The edge whose attribute is changed.</param>
-        /// <param name="attrType">The type of the attribute to be changed.</param>
-        /// <param name="changeType">The type of the change which will be made.</param>
-        /// <param name="newValue">The new value of the attribute, if changeType==Assign.
-        ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
-        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.
-        ///                        Or the new value to be inserted/added if changeType==PutElement on array.
-        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
-        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
-        ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
         public void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
@@ -860,116 +212,30 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Fires an OnMatched event.
+        /// Fires an OnRedirectingEdge event.
         /// </summary>
-        /// <param name="matches">The match result.</param>
-        /// <param name="special">The "special" flag of this rule application.</param>
-        public void Matched(IMatches matches, bool special)
+        /// <param name="oldEdge">The edge to be retyped.</param>
+        /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the incident nodes, yet.</param>
+        public void RedirectingEdge(IEdge edge)
         {
-            AfterMatchHandler handler = OnMatched;
-            if(handler != null) handler(matches, special);
+            RedirectingEdgeHandler redirectingEdge = OnRedirectingEdge;
+            if(redirectingEdge != null) redirectingEdge(edge);
         }
 
-        /// <summary>
-        /// Fires an OnFinishing event.
-        /// </summary>
-        /// <param name="matches">The match result.</param>
-        /// <param name="special">The "special" flag of this rule application.</param>
-        public void Finishing(IMatches matches, bool special)
+        public void SettingAddedNodeNames(String[] addedNodeNames)
         {
-            BeforeFinishHandler handler = OnFinishing;
-            if(handler != null) handler(matches, special);
+            SettingAddedElementNamesHandler handler = OnSettingAddedNodeNames;
+            if(handler != null) handler(addedNodeNames);
         }
 
-        /// <summary>
-        /// Fires an OnRewritingNextMatch event.
-        /// </summary>
-        public void RewritingNextMatch()
+        public void SettingAddedEdgeNames(String[] addedEdgeNames)
         {
-            RewriteNextMatchHandler handler = OnRewritingNextMatch;
-            if(handler != null) handler();
-        }
-
-        /// <summary>
-        /// Fires an OnFinished event.
-        /// </summary>
-        /// <param name="matches">The match result.</param>
-        /// <param name="special">The "special" flag of this rule application.</param>
-        public void Finished(IMatches matches, bool special)
-        {
-            AfterFinishHandler handler = OnFinished;
-            if(handler != null) handler(matches, special);
-        }
-
-        /// <summary>
-        /// Fires an OnEnteringSequence event.
-        /// </summary>
-        /// <param name="seq">The sequence which is entered.</param>
-        public void EnteringSequence(Sequence seq)
-        {
-            EnterSequenceHandler handler = OnEntereringSequence;
-            if(handler != null) handler(seq);
-        }
-
-        /// <summary>
-        /// Fires an OnExitingSequence event.
-        /// </summary>
-        /// <param name="seq">The sequence which is exited.</param>
-        public void ExitingSequence(Sequence seq)
-        {
-            ExitSequenceHandler handler = OnExitingSequence;
-            if(handler != null) handler(seq);
+            SettingAddedElementNamesHandler handler = OnSettingAddedEdgeNames;
+            if(handler != null) handler(addedEdgeNames);
         }
 
         #endregion Events
 
-        /// <summary>
-        /// The total number of nodes in the graph.
-        /// </summary>
-        public int NumNodes { get { return GetNumCompatibleNodes(Model.NodeModel.RootType); } }
-
-        /// <summary>
-        /// The total number of edges in the graph.
-        /// </summary>
-        public int NumEdges { get { return GetNumCompatibleEdges(Model.EdgeModel.RootType); } }
-
-        /// <summary>
-        /// Enumerates all nodes in the graph.
-        /// </summary>
-        public IEnumerable<INode> Nodes { get { return GetCompatibleNodes(Model.NodeModel.RootType); } }
-
-        /// <summary>
-        /// Enumerates all edges in the graph.
-        /// </summary>
-        public IEnumerable<IEdge> Edges { get { return GetCompatibleEdges(Model.EdgeModel.RootType); } }
-
-        /// <summary>
-        /// The writer used by emit statements. By default this is Console.Out.
-        /// </summary>
-        private TextWriter emitWriter = Console.Out;
-
-        /// <summary>
-        /// The writer used by emit statements. By default this is Console.Out.
-        /// </summary>
-        public TextWriter EmitWriter
-        {
-            get { return emitWriter; }
-            set { emitWriter = value; }
-        }
-
-        /// <summary>
-        /// The recorder writing the changes applied to the graph to a file
-        /// </summary>
-        private IRecorder recorder;
-
-        /// <summary>
-        /// The recorder writing the changes applied to the graph to a file
-        /// </summary>
-        public IRecorder Recorder
-        {
-            get { return recorder; }
-            set { recorder = value; }
-        }
 
         #region Convenience methods
 
@@ -991,12 +257,6 @@ namespace de.unika.ipd.grGen.libGr
 
         #region Graph validation
 
-        /// <summary>
-        /// Checks whether a graph meets the connection assertions.
-        /// </summary>
-        /// <param name="mode">The validation mode to apply.</param>
-        /// <param name="errors">If the graph is not valid, this refers to a List of ConnectionAssertionError objects, otherwise it is null.</param>
-        /// <returns>True, if the graph is valid.</returns>
         public bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors)
         {
             bool result = true;
@@ -1684,15 +944,6 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        /// <summary>
-        /// Dumps the current graph and highlights any given matches.
-        /// If no match is given, the whole graph is dumped without any changes.
-        /// </summary>
-        /// <param name="dumper">The graph dumper to be used.</param>
-        /// <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
-        /// <param name="matches">An IMatches object containing the matches or null, if the graph is to be dumped normally.</param>
-        /// <param name="which">Which match to dump, or AllMatches for dumping all matches
-        /// adding connections between them, or OnlyMatches to dump the matches only</param>
         public void DumpMatch(IDumper dumper, DumpInfo dumpInfo, IMatches matches, DumpMatchSpecial which)
         {
             Set<INode> matchedNodes = null;
@@ -1722,34 +973,14 @@ namespace de.unika.ipd.grGen.libGr
             DumpGroups(nodes, dc);
         }
 
-        /// <summary>
-        /// Dumps the graph with a given graph dumper.
-        /// </summary>
-        /// <param name="dumper">The graph dumper to be used.</param>
-        /// <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
         public void Dump(IDumper dumper, DumpInfo dumpInfo)
         {
             DumpMatch(dumper, dumpInfo, null, 0);
         }
 
-        /// <summary>
-        /// Dumps the graph with a given graph dumper and default dump style.
-        /// </summary>
-        /// <param name="dumper">The graph dumper to be used.</param>
-        public void Dump(IDumper dumper)
-        {
-            DumpMatch(dumper, new DumpInfo(GetElementName), null, 0);
-        }
-
         #endregion Graph dumping stuff
 
-        /// <summary>
-        /// Returns whether this graph is isomorph to that graph
-        /// Each graph must be either unanalyzed or unchanged since the last analyze,
-        /// otherwise results will be wrong!
-        /// </summary>
-        /// <param name="that">The other graph we check for isomorphy against</param>
-        /// <returns>true if that is isomorph to this, false otherwise</returns>
+
         public abstract bool IsIsomorph(IGraph that);
     }
 }

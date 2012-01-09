@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -158,5 +159,234 @@ namespace de.unika.ipd.grGen.libGr
         OnlyMultiplicitiesOfMatchingTypes, // check the multiplicities of the incoming/outgoing edges which match the types specified
         StrictOnlySpecified, // as first and additionally check that edges with connections assertions specified are covered by at least on connection assertion
         Strict // as first and additionally check that all edges are covered by at least one connection assertion
+    }
+
+    /// <summary>
+    /// An object accumulating information about needed time, number of found matches and number of performed rewrites.
+    /// </summary>
+    public class PerformanceInfo
+    {
+        /// <summary>
+        /// Accumulated number of matches found by any rule applied via an BaseActions object.
+        /// </summary>
+        public int MatchesFound;
+
+        /// <summary>
+        /// Accumulated number of rewrites performed by any rule applied via an BaseActions object.
+        /// This differs from <see cref="MatchesFound"/> for test rules, tested rules, and undone rules.
+        /// </summary>
+        public int RewritesPerformed;
+
+#if USE_HIGHPERFORMANCE_COUNTER
+
+        private long totalStart, totalEnd;
+        private long localStart;
+        private long totalMatchTime;
+        private long totalRewriteTime;
+
+        public long LastMatchTime;
+        public long LastRewriteTime;
+
+        public int TotalMatchTimeMS { get { return (int) (totalMatchTime * 1000 / perfFreq); } }
+        public int TotalRewriteTimeMS { get { return (int) (totalRewriteTime * 1000 / perfFreq); } }
+        public int TotalTimeMS { get { return (int) ((totalEnd - totalStart) * 1000 / perfFreq); } }
+
+        [DllImport("Kernel32.dll")]
+        private static extern bool QueryPerformanceCounter(out long perfCount);
+
+        [DllImport("Kernel32.dll")]
+        private static extern bool QueryPerformanceFrequency(out long freq);
+
+        private long perfFreq;
+
+        public PerformanceInfo()
+        {
+            if(!QueryPerformanceFrequency(out perfFreq))
+                throw new Win32Exception();
+            Console.WriteLine("Performance counter frequency: {0} Hz", perfFreq);
+        }
+
+
+        public void Start()
+        {
+            QueryPerformanceCounter(out totalStart);
+        }
+
+        public void Stop()
+        {
+            QueryPerformanceCounter(out totalEnd);
+        }
+
+//        [Conditional("DEBUG")]
+        public void StartLocal()
+        {
+            QueryPerformanceCounter(out localStart);
+        }
+
+//        [Conditional("DEBUG")]
+        public void StopMatch()
+        {
+            long counter;
+            QueryPerformanceCounter(out counter);
+            totalMatchTime += counter - localStart;
+            LastMatchTime = counter - localStart;
+            LastRewriteTime = 0;
+        }
+
+//        [Conditional("DEBUG")]
+        public void StopRewrite()
+        {
+            long counter;
+            QueryPerformanceCounter(out counter);
+            totalRewriteTime += counter - localStart;
+            LastRewriteTime = counter - localStart;
+        }
+
+#if DEBUGACTIONS
+        public int TimeDiffToMS(long diff)
+        {
+            return (int) (diff * 1000 / perfFreq);
+        }
+#endif
+
+#else
+
+        private int totalStart;
+        private int localStart;
+        private int totalMatchTime;
+        private int totalRewriteTime;
+        private int totalTime;
+
+        /// <summary>
+        /// The time needed for the last matching.
+        /// </summary>
+        /// <remarks>Only updated if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
+        public long LastMatchTime;
+
+        /// <summary>
+        /// The time needed for the last rewriting.
+        /// </summary>
+        /// <remarks>Only updated if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
+        public long LastRewriteTime;
+
+        /// <summary>
+        /// The total time needed for matching.
+        /// Due to timer resolution, this should not be used, except for very difficult patterns.
+        /// </summary>
+        public int TotalMatchTimeMS { get { return totalMatchTime; } }
+
+        /// <summary>
+        /// The total time needed for rewriting.
+        /// Due to timer resolution, this should not be used, except for very big rewrites.
+        /// </summary>
+        public int TotalRewriteTimeMS { get { return totalRewriteTime; } }
+
+        /// <summary>
+        /// The accumulated time of rule and sequence applications.
+        /// </summary>
+        public int TotalTimeMS { get { return totalTime; } }
+
+        /// <summary>
+        /// Starts time measurement.
+        /// </summary>
+        public void Start()
+        {
+            totalStart = Environment.TickCount;
+        }
+
+        /// <summary>
+        /// Stops time measurement and increases the TotalTimeMS by the elapsed time between this call
+        /// and the last call to Start().
+        /// </summary>
+        public void Stop()
+        {
+            totalTime += Environment.TickCount - totalStart;
+        }
+
+        /// <summary>
+        /// Resets all accumulated information.
+        /// </summary>
+        public void Reset()
+        {
+            MatchesFound = totalStart = localStart = totalMatchTime = totalRewriteTime = totalTime = 0;
+            LastMatchTime = LastRewriteTime = 0;
+        }
+
+        /// <summary>
+        /// Starts a local time measurement to be used with either StopMatch() or StopRewrite().
+        /// </summary>
+        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
+        [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
+        public void StartLocal()
+        {
+            localStart = Environment.TickCount;
+        }
+
+        /// <summary>
+        /// Stops a local time measurement, sets LastMatchTime to the elapsed time between this call
+        /// and the last call to StartLocal() and increases the TotalMatchTime by this amount.
+        /// </summary>
+        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
+        [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
+        public void StopMatch()
+        {
+            int diff = Environment.TickCount - localStart;
+            totalMatchTime += diff;
+            LastMatchTime = diff;
+            LastRewriteTime = 0;
+        }
+
+        /// <summary>
+        /// Stops a local time measurement, sets LastRewriteTime to the elapsed time between this call
+        /// and the last call to StartLocal() and increases the TotalRewriteTime by this amount.
+        /// </summary>
+        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
+        [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
+        public void StopRewrite()
+        {
+            int diff = Environment.TickCount - localStart;
+            totalRewriteTime += diff;
+            LastRewriteTime = diff;
+        }
+
+#if DEBUGACTIONS
+        public int TimeDiffToMS(long diff)
+        {
+            return (int) diff;
+        }
+#endif
+#endif
+    }
+
+    /// <summary>
+    /// Describes a range with a minimum and a maximum value.
+    /// </summary>
+    public struct Range
+    {
+        /// <summary>
+        /// Constant value representing positive infinity for a range.
+        /// </summary>
+        public const int Infinite = int.MaxValue;
+
+        /// <summary>
+        /// The lower bound of the range.
+        /// </summary>
+        public int Min;
+
+        /// <summary>
+        /// The upper bound of the range.
+        /// </summary>
+        public int Max;
+
+        /// <summary>
+        /// Constructs a Range object.
+        /// </summary>
+        /// <param name="min">The lower bound of the range.</param>
+        /// <param name="max">The upper bound of the range.</param>
+        public Range(int min, int max)
+        {
+            Min = min;
+            Max = max;
+        }
     }
 }

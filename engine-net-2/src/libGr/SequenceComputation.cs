@@ -89,11 +89,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Executes this sequence computation.
         /// </summary>
-        /// <param name="graph">The graph on which this sequence computation is to be evaluated.</param>
+        /// <param name="procEnv">The graph processing environment on which this sequence computation is to be evaluated.
+        ///     Contains especially the graph on which this sequence computation is to be evaluated.</param>
         /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>The value resulting from computing this sequence computation, 
         ///          null if there is no result value</returns>
-        public abstract object Execute(IGraph graph, SequenceExecutionEnvironment env);
+        public abstract object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env);
 
         /// <summary>
         /// Collects all variables of the sequence expression tree into the variables dictionary.
@@ -136,10 +137,10 @@ namespace de.unika.ipd.grGen.libGr
             else return MethodCall.Type(env);
         }
 
-        public object ContainerValue(IGraph graph, SequenceExecutionEnvironment env)
+        public object ContainerValue(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            if(Container != null) return Container.GetVariableValue(graph);
-            else return MethodCall.Execute(graph, env);
+            if(Container != null) return Container.GetVariableValue(procEnv);
+            else return MethodCall.Execute(procEnv, env);
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -175,10 +176,10 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            left.Execute(graph, env);
-            return right.Execute(graph, env);
+            left.Execute(procEnv, env);
+            return right.Execute(procEnv, env);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -222,10 +223,10 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            int visitedFlag = (int)VisitedFlagExpression.Evaluate(graph, env);
-            graph.FreeVisitedFlag(visitedFlag);
+            int visitedFlag = (int)VisitedFlagExpression.Evaluate(procEnv, env);
+            procEnv.Graph.FreeVisitedFlag(visitedFlag);
             return null;
         }
 
@@ -266,10 +267,10 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            int visitedFlag = (int)VisitedFlagExpression.Evaluate(graph, env);
-            graph.ResetVisitedFlag(visitedFlag);
+            int visitedFlag = (int)VisitedFlagExpression.Evaluate(procEnv, env);
+            procEnv.Graph.ResetVisitedFlag(visitedFlag);
             return null;
         }
 
@@ -354,25 +355,25 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object container = ContainerValue(graph, env);
+            object container = ContainerValue(procEnv, env);
             if(container is IList)
             {
                 IList array = (IList)container;
                 if(ExprDst == null)
-                    array.Add(Expr.Evaluate(graph, env));
+                    array.Add(Expr.Evaluate(procEnv, env));
                 else
-                    array.Insert((int)ExprDst.Evaluate(graph, env), Expr.Evaluate(graph, env));
+                    array.Insert((int)ExprDst.Evaluate(procEnv, env), Expr.Evaluate(procEnv, env));
                 return array;
             }
             else
             {
                 IDictionary setmap = (IDictionary)container;
-                if(setmap.Contains(Expr.Evaluate(graph, env)))
-                    setmap[Expr.Evaluate(graph, env)] = (ExprDst == null ? null : ExprDst.Evaluate(graph, env));
+                if(setmap.Contains(Expr.Evaluate(procEnv, env)))
+                    setmap[Expr.Evaluate(procEnv, env)] = (ExprDst == null ? null : ExprDst.Evaluate(procEnv, env));
                 else
-                    setmap.Add(Expr.Evaluate(graph, env), (ExprDst == null ? null : ExprDst.Evaluate(graph, env)));
+                    setmap.Add(Expr.Evaluate(procEnv, env), (ExprDst == null ? null : ExprDst.Evaluate(procEnv, env)));
                 return setmap;
             }
         }
@@ -442,22 +443,22 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object container = ContainerValue(graph, env);
+            object container = ContainerValue(procEnv, env);
             if(container is IList)
             {
                 IList array = (IList)container;
                 if(Expr == null)
                     array.RemoveAt(array.Count - 1);
                 else
-                    array.RemoveAt((int)Expr.Evaluate(graph, env));
+                    array.RemoveAt((int)Expr.Evaluate(procEnv, env));
                 return array;
             }
             else
             {
                 IDictionary setmap = (IDictionary)container;
-                setmap.Remove(Expr.Evaluate(graph, env));
+                setmap.Remove(Expr.Evaluate(procEnv, env));
                 return setmap;
             }
         }
@@ -504,17 +505,17 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            if(Container.GetVariableValue(graph) is IList)
+            if(Container.GetVariableValue(procEnv) is IList)
             {
-                IList array = (IList)Container.GetVariableValue(graph);
+                IList array = (IList)Container.GetVariableValue(procEnv);
                 array.Clear();
                 return array;
             }
             else
             {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(procEnv);
                 setmap.Clear();
                 return setmap;
             }
@@ -563,10 +564,10 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object value = SourceValueProvider.Execute(graph, env);
-            Target.Assign(value, graph, env);
+            object value = SourceValueProvider.Execute(procEnv, env);
+            Target.Assign(value, procEnv, env);
             return value;
         }
 
@@ -598,10 +599,10 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object value = TypesHelper.DefaultValue(Target.Type, graph.Model);
-            Target.SetVariableValue(value, graph);
+            object value = TypesHelper.DefaultValue(Target.Type, procEnv.Graph.Model);
+            Target.SetVariableValue(value, procEnv);
             return value;
         }
 
@@ -648,17 +649,17 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object value = Expression.Evaluate(graph, env);
+            object value = Expression.Evaluate(procEnv, env);
             if(value != null)
             {
                 if(value is IDictionary)
-                    graph.EmitWriter.Write(DictionaryListHelper.ToString((IDictionary)value, env != null ? env.GetNamedGraph() : graph));
+                    procEnv.EmitWriter.Write(DictionaryListHelper.ToString((IDictionary)value, procEnv.Graph));
                 else if(value is IList)
-                    graph.EmitWriter.Write(DictionaryListHelper.ToString((IList)value, env != null ? env.GetNamedGraph() : graph));
+                    procEnv.EmitWriter.Write(DictionaryListHelper.ToString((IList)value, procEnv.Graph));
                 else
-                    graph.EmitWriter.Write(DictionaryListHelper.ToString(value, env != null ? env.GetNamedGraph() : graph));
+                    procEnv.EmitWriter.Write(DictionaryListHelper.ToString(value, procEnv.Graph));
             }
             return value;
         }
@@ -706,17 +707,17 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object value = Expression.Evaluate(graph, env);
+            object value = Expression.Evaluate(procEnv, env);
             if(value != null)
             {
                 if(value is IDictionary)
-                    graph.Recorder.Write(DictionaryListHelper.ToString((IDictionary)value, env != null ? env.GetNamedGraph() : graph));
+                    procEnv.Recorder.Write(DictionaryListHelper.ToString((IDictionary)value, procEnv.Graph));
                 else if(value is IList)
-                    graph.Recorder.Write(DictionaryListHelper.ToString((IList)value, env != null ? env.GetNamedGraph() : graph));
+                    procEnv.Recorder.Write(DictionaryListHelper.ToString((IList)value, procEnv.Graph));
                 else
-                    graph.Recorder.Write(DictionaryListHelper.ToString(value, env != null ? env.GetNamedGraph() : graph));
+                    procEnv.Recorder.Write(DictionaryListHelper.ToString(value, procEnv.Graph));
             }
             return value;
         }

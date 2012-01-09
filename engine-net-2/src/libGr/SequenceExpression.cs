@@ -96,12 +96,13 @@ namespace de.unika.ipd.grGen.libGr
         /// Evaluates this sequence expression.
         /// Implemented by calling execute, every expression is a computation.
         /// </summary>
-        /// <param name="graph">The graph on which this sequence expression is to be evaluated.</param>
+        /// <param name="procEnv">The graph processing environment on which this sequence expression is to be evaluated.
+        ///     Contains especially the graph on which this sequence expression is to be evaluated.</param>
         /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>The value resulting from computing this sequence expression</returns>
-        public object Evaluate(IGraph graph, SequenceExecutionEnvironment env)
+        public object Evaluate(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return Execute(graph, env);
+            return Execute(procEnv, env);
         }
 
         public override IEnumerable<SequenceComputation> Children { get { foreach(SequenceExpression expr in ChildrenExpression) yield return expr; ; } }
@@ -134,10 +135,10 @@ namespace de.unika.ipd.grGen.libGr
             else return MethodCall.Type(env);
         }
 
-        public object ContainerValue(IGraph graph, SequenceExecutionEnvironment env)
+        public object ContainerValue(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            if(Container != null) return Container.GetVariableValue(graph);
-            else return MethodCall.Execute(graph, env);
+            if(Container != null) return Container.GetVariableValue(procEnv);
+            else return MethodCall.Execute(procEnv, env);
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -273,9 +274,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return (bool)Condition.Evaluate(graph, env) ? TrueCase.Evaluate(graph, env) : FalseCase.Evaluate(graph, env);
+            return (bool)Condition.Evaluate(procEnv, env) ? TrueCase.Evaluate(procEnv, env) : FalseCase.Evaluate(procEnv, env);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -297,9 +298,9 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return (bool)Left.Evaluate(graph, env) || (bool)Right.Evaluate(graph, env);
+            return (bool)Left.Evaluate(procEnv, env) || (bool)Right.Evaluate(procEnv, env);
         }
 
         public override int Precedence { get { return 2; } }
@@ -313,9 +314,9 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return (bool)Left.Evaluate(graph, env) && (bool)Right.Evaluate(graph, env);
+            return (bool)Left.Evaluate(procEnv, env) && (bool)Right.Evaluate(procEnv, env);
         }
 
         public override int Precedence { get { return 3; } }
@@ -329,9 +330,9 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return (bool)Left.Evaluate(graph, env) | (bool)Right.Evaluate(graph, env);
+            return (bool)Left.Evaluate(procEnv, env) | (bool)Right.Evaluate(procEnv, env);
         }
 
         public override int Precedence { get { return 4; } }
@@ -345,9 +346,9 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return (bool)Left.Evaluate(graph, env) ^ (bool)Right.Evaluate(graph, env);
+            return (bool)Left.Evaluate(procEnv, env) ^ (bool)Right.Evaluate(procEnv, env);
         }
 
         public override int Precedence { get { return 5; } }
@@ -361,9 +362,9 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return (bool)Left.Evaluate(graph, env) & (bool)Right.Evaluate(graph, env);
+            return (bool)Left.Evaluate(procEnv, env) & (bool)Right.Evaluate(procEnv, env);
         }
 
         public override int Precedence { get { return 6; } }
@@ -387,9 +388,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return !(bool)Operand.Evaluate(graph, env);
+            return !(bool)Operand.Evaluate(procEnv, env);
         }
 
         public override sealed void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -410,19 +411,19 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object leftValue = Left.Evaluate(graph, env);
-            object rightValue = Right.Evaluate(graph, env);
+            object leftValue = Left.Evaluate(procEnv, env);
+            object rightValue = Right.Evaluate(procEnv, env);
 
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
             if(balancedType == "")
             {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -435,7 +436,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(Exception)
             {
-                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
             }
         }
 
@@ -450,19 +451,19 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object leftValue = Left.Evaluate(graph, env);
-            object rightValue = Right.Evaluate(graph, env);
+            object leftValue = Left.Evaluate(procEnv, env);
+            object rightValue = Right.Evaluate(procEnv, env);
 
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
             if(balancedType == "")
             {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -475,7 +476,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(Exception)
             {
-                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
             }
         }
 
@@ -490,19 +491,19 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object leftValue = Left.Evaluate(graph, env);
-            object rightValue = Right.Evaluate(graph, env);
+            object leftValue = Left.Evaluate(procEnv, env);
+            object rightValue = Right.Evaluate(procEnv, env);
 
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
             if(balancedType == "")
             {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -515,7 +516,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(Exception)
             {
-                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
             }
         }
 
@@ -530,19 +531,19 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object leftValue = Left.Evaluate(graph, env);
-            object rightValue = Right.Evaluate(graph, env);
+            object leftValue = Left.Evaluate(procEnv, env);
+            object rightValue = Right.Evaluate(procEnv, env);
 
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
             if(balancedType == "")
             {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -555,7 +556,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(Exception)
             {
-                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
             }
         }
 
@@ -570,19 +571,19 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object leftValue = Left.Evaluate(graph, env);
-            object rightValue = Right.Evaluate(graph, env);
+            object leftValue = Left.Evaluate(procEnv, env);
+            object rightValue = Right.Evaluate(procEnv, env);
 
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
             if(balancedType == "")
             {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -595,7 +596,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(Exception)
             {
-                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
             }
         }
 
@@ -610,19 +611,19 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object leftValue = Left.Evaluate(graph, env);
-            object rightValue = Right.Evaluate(graph, env);
+            object leftValue = Left.Evaluate(procEnv, env);
+            object rightValue = Right.Evaluate(procEnv, env);
 
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
             if(balancedType == "")
             {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -635,7 +636,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(Exception)
             {
-                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
             }
         }
 
@@ -651,19 +652,19 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object leftValue = Left.Evaluate(graph, env);
-            object rightValue = Right.Evaluate(graph, env);
+            object leftValue = Left.Evaluate(procEnv, env);
+            object rightValue = Right.Evaluate(procEnv, env);
 
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
             if(balancedType == "")
             {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, graph.Model);
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -672,11 +673,11 @@ namespace de.unika.ipd.grGen.libGr
 
             try
             {
-                return SequenceExpressionHelper.PlusObjects(leftValue, rightValue, balancedType, leftType, rightType, graph);
+                return SequenceExpressionHelper.PlusObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
             }
             catch(Exception)
             {
-                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, graph.Model), Symbol);
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
             }
         }
 
@@ -709,7 +710,7 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             return Constant;
         }
@@ -754,9 +755,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return Variable.GetVariableValue(graph);
+            return Variable.GetVariableValue(procEnv);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -797,11 +798,11 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
             foreach(SequenceExpression defVar in DefVars)
             {
-                if(defVar.Evaluate(graph, env) == null)
+                if(defVar.Evaluate(procEnv, env) == null)
                     return false;
             }
             return true;
@@ -865,11 +866,11 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
-            int visitedFlag = (int)VisitedFlagExpr.Evaluate(graph, env);
-            return graph.IsVisited(elem, visitedFlag);
+            IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(procEnv);
+            int visitedFlag = (int)VisitedFlagExpr.Evaluate(procEnv, env);
+            return procEnv.Graph.IsVisited(elem, visitedFlag);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -918,18 +919,18 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object container = Container.Evaluate(graph, env);
+            object container = Container.Evaluate(procEnv, env);
             if(container is IList)
             {
                 IList array = (IList)container;
-                return array.Contains(Expr.Evaluate(graph, env));
+                return array.Contains(Expr.Evaluate(procEnv, env));
             }
             else
             {
                 IDictionary setmap = (IDictionary)container;
-                return setmap.Contains(Expr.Evaluate(graph, env));
+                return setmap.Contains(Expr.Evaluate(procEnv, env));
             }
         }
 
@@ -977,9 +978,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object container = ContainerValue(graph, env);
+            object container = ContainerValue(procEnv, env);
             if(container is IList)
             {
                 IList array = (IList)container;
@@ -1037,9 +1038,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            object container = ContainerValue(graph, env);
+            object container = ContainerValue(procEnv, env);
             if(container is IList)
             {
                 IList array = (IList)container;
@@ -1120,18 +1121,18 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            if(Container.GetVariableValue(graph) is IList)
+            if(Container.GetVariableValue(procEnv) is IList)
             {
-                IList array = (IList)Container.GetVariableValue(graph);
-                int key = (int)KeyExpr.Evaluate(graph, env);
+                IList array = (IList)Container.GetVariableValue(procEnv);
+                int key = (int)KeyExpr.Evaluate(procEnv, env);
                 return array[key];
             }
             else
             {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(graph);
-                object key = KeyExpr.Evaluate(graph, env);
+                IDictionary setmap = (IDictionary)Container.GetVariableValue(procEnv);
+                object key = KeyExpr.Evaluate(procEnv, env);
                 return setmap[key];
             }
         }
@@ -1169,13 +1170,11 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            if(env == null && !(graph is NamedGraph))
-                throw new InvalidOperationException("The @-operator can only be used with NamedGraphs!");
-            NamedGraph namedGraph = null;
-            if(env != null) namedGraph = env.GetNamedGraph();
-            if(env == null) namedGraph = (NamedGraph)graph;
+            if(!(procEnv.Graph is INamedGraph))
+                throw new InvalidOperationException("The @-operator can only be used with named graphs!");
+            INamedGraph namedGraph = (INamedGraph)procEnv.Graph;
             IGraphElement elem = namedGraph.GetGraphElement(ElementName);
             if(elem == null)
                 throw new InvalidOperationException("Graph element does not exist: \"" + ElementName + "\"!");
@@ -1236,9 +1235,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(graph);
+            IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(procEnv);
             object value = elem.GetAttribute(AttributeName);
             value = DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
                 elem, AttributeName, value);
@@ -1273,9 +1272,9 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override object Execute(IGraph graph, SequenceExecutionEnvironment env)
+        public override object Execute(IGraphProcessingEnvironment procEnv, SequenceExecutionEnvironment env)
         {
-            return graph.AllocateVisitedFlag();
+            return procEnv.Graph.AllocateVisitedFlag();
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }

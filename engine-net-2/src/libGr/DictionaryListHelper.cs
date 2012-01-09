@@ -1555,14 +1555,14 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(graph!=null && value!=null)
                 {
-                    return graph.GetElementName((IGraphElement)value);
+                    return ((INamedGraph)graph).GetElementName((IGraphElement)value);
                 }
             }
             if(value is IGraphElement)
             {
                 if(graph!=null)
                 {
-                    return graph.GetElementName((IGraphElement)value);
+                    return ((INamedGraph)graph).GetElementName((IGraphElement)value);
                 }
             }
 
