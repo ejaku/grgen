@@ -31,6 +31,6 @@ class HelloMutex
             + "&& (takeRule && releaseRule && giveRule)*");
 
         using(VCGDumper dumper = new VCGDumper("HelloMutex.vcg"))
-            graph.Dump(dumper);
+            GraphDumper.Dump(graph, dumper);
     }
 }

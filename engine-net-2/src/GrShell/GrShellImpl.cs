@@ -2266,7 +2266,7 @@ namespace de.unika.ipd.grGen.grShell
             while(File.Exists(filename));
 
             VCGDumper dump = new VCGDumper(filename, curShellProcEnv.VcgFlags, debugLayout);
-            curShellProcEnv.Graph.Dump(dump, curShellProcEnv.DumpInfo);
+            GraphDumper.Dump(curShellProcEnv.Graph, dump, curShellProcEnv.DumpInfo);
             dump.FinishDump();
 
             Thread t = new Thread(new ParameterizedThreadStart(ShowGraphThread));
@@ -3292,7 +3292,7 @@ showavail:
             try
             {
                 using(VCGDumper dump = new VCGDumper(filename, curShellProcEnv.VcgFlags, debugLayout))
-                    curShellProcEnv.Graph.Dump(dump, curShellProcEnv.DumpInfo);
+                    GraphDumper.Dump(curShellProcEnv.Graph, dump, curShellProcEnv.DumpInfo);
             }
             catch(Exception ex)
             {

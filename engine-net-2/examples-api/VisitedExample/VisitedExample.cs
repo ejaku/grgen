@@ -177,7 +177,7 @@ namespace VisitedExample
                 Edge.CreateEdge(graph, nodes[rnd.Next(numNodes)], nodes[rnd.Next(numNodes)]);
 
             using(VCGDumper dumper = new VCGDumper("test.vcg"))
-                graph.Dump(dumper);
+                GraphDumper.Dump(graph, dumper);
 
             int visitorID = graph.AllocateVisitedFlag();
             DFSWalker dfs = new DFSWalker(graph, PreWalker, PostWalker, visitorID);

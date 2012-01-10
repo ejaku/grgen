@@ -501,23 +501,6 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>True, if the graph is valid.</returns>
         bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors);
 
-        /// <summary>
-        /// Dumps one or more matches with a given graph dumper.
-        /// </summary>
-        /// <param name="dumper">The graph dumper to be used.</param>
-        /// <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
-        /// <param name="matches">An IMatches object containing the matches.</param>
-        /// <param name="which">Which match to dump, or AllMatches for dumping all matches
-        /// adding connections between them, or OnlyMatches to dump the matches only</param>
-        void DumpMatch(IDumper dumper, DumpInfo dumpInfo, IMatches matches, DumpMatchSpecial which);
-
-        /// <summary>
-        /// Dumps the graph with a given graph dumper.
-        /// </summary>
-        /// <param name="dumper">The graph dumper to be used.</param>
-        /// <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
-        void Dump(IDumper dumper, DumpInfo dumpInfo);
-
 
         /// <summary>
         /// Returns whether this graph is isomorph to that graph

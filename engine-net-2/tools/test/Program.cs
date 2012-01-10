@@ -67,7 +67,7 @@ namespace test
             Action_testRule.Instance.Apply(procEnv);
 
             using(VCGDumper dumper = new VCGDumper("test.vcg"))
-                graph.Dump(dumper);
+                GraphDumper.Dump(graph, dumper);
         }
     }
 }

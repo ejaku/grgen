@@ -537,10 +537,5 @@ namespace de.unika.ipd.grGen.lgsp
             IDictionary<IGraphElement, IGraphElement> oldToNewMap;
             return new LGSPNamedGraph(this, newName, out oldToNewMap);
         }
-
-        public void Dump(IDumper dumper)
-        {
-            DumpMatch(dumper, new DumpInfo(GetElementName), null, 0);
-        }
     }
 }

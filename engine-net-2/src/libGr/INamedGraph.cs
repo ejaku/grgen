@@ -167,11 +167,5 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newName">Name of the new graph.</param>
         /// <returns>A new graph with the same structure and names as this graph.</returns>
         INamedGraph CloneNamed(String newName);
-
-        /// <summary>
-        /// Dumps the graph with a given graph dumper and default dump style.
-        /// </summary>
-        /// <param name="dumper">The graph dumper to be used.</param>
-        void Dump(IDumper dumper);
     }
 }

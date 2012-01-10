@@ -70,6 +70,7 @@
     <Compile Include="dumpInterface.cs" />
     <Compile Include="actionInterface.cs" />
     <Compile Include="elementInterface.cs" />
+    <Compile Include="GraphDumper.cs" />
     <Compile Include="GRSImporter\GRSImporter.cs" />
     <Compile Include="IActionExecutionEnvironment.cs" />
     <Compile Include="IGraph.cs" />
