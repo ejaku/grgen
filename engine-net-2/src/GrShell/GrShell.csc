@@ -839,7 +839,7 @@ EdgeType EdgeType():
 	str=WordOrText() { return impl.GetEdgeType(str); }
 }
 
-ShellGraph Graph():
+ShellGraphProcessingEnvironment Graph():
 {
 	String str;
 	int index;
@@ -997,7 +997,7 @@ void ShellCommand():
 	object obj, obj2;
 	INode node1, node2;
 	IEdge edge1, edge2;
-	ShellGraph shellGraph = null;
+	ShellGraphProcessingEnvironment shellGraph = null;
 	Sequence seq;
 	SequenceDefinition seqDef;
 	bool shellGraphSpecified = false, boolVal, boolVal2;
@@ -1511,7 +1511,7 @@ void SelectCommand():
 {
 	String str, mainname;
 	ArrayList parameters = new ArrayList();
-	ShellGraph shellGraph;
+	ShellGraphProcessingEnvironment shellGraph;
 }
 {
 	try
@@ -1562,7 +1562,7 @@ void DeleteCommand():
 {
 	INode node;
 	IEdge edge;
-	ShellGraph shellGraph = null;
+	ShellGraphProcessingEnvironment shellGraph = null;
 	bool shellGraphSpecified = false;
 }
 {
