@@ -733,33 +733,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Opens an existing graph identified by graphName using the specifiede IGraphModel.
-        /// This may not be supported by the backend, if the data is not persistent.
-        /// </summary>
-        /// <param name="modelFilename">Filename of a graph model file</param>
-        /// <param name="graphName">Name of an existing graph</param>
-        /// <param name="parameters">Backend specific parameters</param>
-        /// <returns>The IGraph backend instance or NULL on error</returns>
-        public IGraph OpenGraph(String modelFilename, String graphName, params String[] parameters)
-        {
-            throw new NotImplementedException(
-                "OpenGraph is not supported by this backend, because data is not persistent.");
-        }
-
-        /// <summary>
-        /// An enumerable of KeyValuePairs, where the keys are names of existing graphs and the
-        /// values are the names of the appropriate models (not filenames).
-        /// </summary>
-        public IEnumerable<KeyValuePair<String, String>> ExistingGraphs
-        {
-            get
-            {
-                throw new NotImplementedException(
-                    "ExistingGraphs is not supported by this backend, because data is not persistent.");
-            }
-        }
-
-        /// <summary>
         /// Processes the given rule specification file and generates a model and actions library.
         /// </summary>
         /// <param name="specPath">The path to the rule specification file (.grg).</param>

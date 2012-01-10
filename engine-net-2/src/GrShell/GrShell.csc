@@ -1090,11 +1090,6 @@ void ShellCommand():
 		impl.NodeTypeIsA(node1, node2);
 	}
 |
-	"open" "graph" str1=Filename() str2=WordOrText() LineEnd()
-	{
-		noError = impl.OpenGraph(str1, str2);
-	}
-|
 	"parse"
 	(
 	    "file" str1=Filename() LineEnd()

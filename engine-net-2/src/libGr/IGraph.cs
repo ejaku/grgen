@@ -136,11 +136,6 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         bool ReuseOptimization { get; set; }
 
-        /// <summary>
-        /// For persistent backends permanently destroys the graph.
-        /// </summary>
-        void DestroyGraph();
-
 
         /// <summary>
         /// The total number of nodes in the graph.

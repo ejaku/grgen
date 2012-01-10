@@ -174,22 +174,6 @@ namespace de.unika.ipd.grGen.libGr
         INamedGraph CreateNamedFromSpec(String gmFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies);
 
         /// <summary>
-        /// Opens an existing graph identified by graphName using the specified IGraphModel.
-        /// This may not be supported by the backend, if the data is not persistent.
-        /// </summary>
-        /// <param name="modelFilename">Filename of a graph model file</param>
-        /// <param name="graphName">Name of an existing graph</param>
-        /// <param name="parameters">Backend specific parameters</param>
-        /// <returns>The IGraph backend instance</returns>
-        IGraph OpenGraph(String modelFilename, String graphName, params String[] parameters);
-
-        /// <summary>
-        /// An enumerable of KeyValuePairs, where the keys are names of existing graphs and the
-        /// values are the names of the appropriate models (not filenames).
-        /// </summary>
-        IEnumerable<KeyValuePair<String, String>> ExistingGraphs { get; }
-
-        /// <summary>
         /// Processes the given rule specification file and generates a model and actions library.
         /// </summary>
         /// <param name="specPath">The path to the rule specification file (.grg).</param>

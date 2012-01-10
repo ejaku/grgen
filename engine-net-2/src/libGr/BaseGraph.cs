@@ -14,7 +14,7 @@ namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// A partial implementation of the IGraph interface.
-    /// Adding some methods implemented over the IGraph interface (some convenience stuff, graph validation, and graph dumping).
+    /// Adding some methods implemented over the IGraph interface (some convenience stuff plus graph validation).
     /// </summary>
     public abstract class BaseGraph : IGraph
     {
@@ -23,7 +23,6 @@ namespace de.unika.ipd.grGen.libGr
         public abstract String Name { get; }
         public abstract IGraphModel Model { get; }
         public abstract bool ReuseOptimization { get; set; }
-        public abstract void DestroyGraph();
 
         public int NumNodes
         {

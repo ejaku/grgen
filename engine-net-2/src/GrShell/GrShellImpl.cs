@@ -1338,46 +1338,6 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        public bool OpenGraph(String modelFilename, String graphName)
-        {
-            if(!BackendExists()) return false;
-
-            // replace wrong directory separator chars by the right ones
-            if(Path.DirectorySeparatorChar != '\\')
-                modelFilename = modelFilename.Replace('\\', Path.DirectorySeparatorChar);
-
-            IGraph graph;
-            try
-            {
-                graph = curGraphBackend.OpenGraph(modelFilename, graphName, backendParameters);
-            }
-            catch(Exception e)
-            {
-                errOut.WriteLine("Unable to open graph with model \"{0}\":\n{1}", modelFilename, e.Message);
-                return false;
-            }
-            try
-            {
-                curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, modelFilename);
-            }
-            catch(Exception ex)
-            {
-                errOut.WriteLine("Unable to open graph: {0}", ex.Message);
-                return false;
-            }
-            shellProcEnvs.Add(curShellProcEnv);
-
-            if(InDebugMode) { // switch to new graph from old graph
-                SetDebugMode(false);
-                pendingDebugEnable = true;
-            }
-
-            if(pendingDebugEnable)
-                SetDebugMode(true);
-
-            return true;
-        }
-
         public void SelectGraph(ShellGraphProcessingEnvironment shellGraph)
         {
             curShellProcEnv = shellGraph ?? curShellProcEnv;
@@ -2071,7 +2031,6 @@ namespace de.unika.ipd.grGen.grShell
 
             if(shellGraph == curShellProcEnv)
                 curShellProcEnv = null;
-            shellGraph.Graph.DestroyGraph();
             shellProcEnvs.Remove(shellGraph);
 
             return true;

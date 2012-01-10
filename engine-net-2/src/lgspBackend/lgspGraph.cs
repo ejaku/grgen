@@ -324,13 +324,6 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
         public override IGraphModel Model { get { return model; } }
 
-        /// <summary>
-        /// For persistent backends permanently destroys the graph
-        /// </summary>
-        public override void DestroyGraph()
-        {
-        }
-
 
         /// <summary>
         /// Returns the number of nodes with the exact given node type.
