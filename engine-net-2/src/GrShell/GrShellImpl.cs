@@ -208,49 +208,6 @@ namespace de.unika.ipd.grGen.grShell
 
     public class GrShellImpl
     {
-        public class ClonedGraphStack : Stack<ShellGraphProcessingEnvironment>
-        {
-            GrShellImpl impl;
-
-            public ClonedGraphStack(GrShellImpl impl)
-            {
-                this.impl = impl;
-                base.Push(impl.CurrentShellProcEnv);
-            }
-
-            public void Push(ShellGraphProcessingEnvironment graph)
-            {
-                base.Push(graph);
-                this.impl.shellProcEnvs.Add(graph);
-                this.SetActive();
-            }
-
-            public void PushClone()
-            {
-                Push(impl.CurrentShellProcEnv.Clone(null));
-            }
-
-            public ShellGraphProcessingEnvironment Pop()
-            {
-                ShellGraphProcessingEnvironment result = base.Pop();
-                this.impl.DestroyGraph(result, true);
-                this.SetActive();
-                return result;
-            }
-
-            /// <summary>return true if the graph is active</summary>
-            public bool IsActive()
-            {
-                return this.impl.CurrentShellProcEnv == this.Peek();
-            }
-
-            /// <summary>set the top graph as active</summary>
-            public void SetActive()
-            {
-                this.impl.curShellProcEnv = this.Peek();
-            }
-        }
-
         public static readonly String VersionString = "GrShell v3.0";
 
         IBackend curGraphBackend = new LGSPBackend();
@@ -290,15 +247,6 @@ namespace de.unika.ipd.grGen.grShell
         public GrShellImpl()
         {
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
-        }
-
-        /// <summary>Get a graph stack to manage the graph list. Requires a current graph.</summary>
-        public ClonedGraphStack GetGraphStack()
-        {
-            if (!this.GraphExists()) {
-                return null;
-            }
-            return new ClonedGraphStack(this);
         }
 
         public bool OperationCancelled { get { return cancelSequence; } }
