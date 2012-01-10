@@ -1981,17 +1981,6 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
         /// <summary>
-        /// Mature a graph.
-        /// This method should be invoked after adding all nodes and edges to the graph.
-        /// The backend may implement analyses on the graph to speed up matching etc.
-        /// The graph may not be modified by this function.
-        /// </summary>
-        public override void Mature()
-        {
-            // Nothing to be done here, yet
-        }
-
-        /// <summary>
         /// Does graph-backend dependent stuff.
         /// </summary>
         /// <param name="args">Any kind of paramteres for the stuff to do</param>
