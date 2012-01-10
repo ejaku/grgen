@@ -18,27 +18,23 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// An implementation of the IGraphProcessingEnvironment, to be used with LGSPGraphs.
     /// </summary>
-    public class LGSPGraphProcessingEnvironment : IGraphProcessingEnvironment
+    public class LGSPGraphProcessingEnvironment : LGSPActionExecutionEnvironment, IGraphProcessingEnvironment
     {
         private LGSPTransactionManager transactionManager;
         private IRecorder recorder;
-        private PerformanceInfo perfInfo = null;
         private TextWriter emitWriter = Console.Out;
-        private int maxMatches = 0;
-        private Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
-        public LGSPGraph graph;
-        public LGSPActions curActions;
         public LGSPDeferredSequencesManager sequencesManager;
         private bool clearVariables = false;
         private IEdge currentlyRedirectedEdge;
 
+        protected Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
+        protected Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
+
 
         public LGSPGraphProcessingEnvironment(LGSPGraph graph, LGSPActions actions)
+            : base(graph, actions)
         {
-            // TODO: evt. IGraph + BaseActions und dann hier cast auf LGSP, mal gucken was an Schnittstelle besser paﬂt
-            this.graph = graph;
             recorder = new Recorder(graph as LGSPNamedGraph, this);
-            this.curActions = actions;
             transactionManager = new LGSPTransactionManager(this);
             sequencesManager = new LGSPDeferredSequencesManager();
             SetClearVariables(true);
@@ -148,22 +144,10 @@ namespace de.unika.ipd.grGen.lgsp
             set { recorder = value; }
         }
 
-        public PerformanceInfo PerformanceInfo
-        {
-            get { return perfInfo; }
-            set { perfInfo = value; }
-        }
-
         public TextWriter EmitWriter
         {
             get { return emitWriter; }
             set { emitWriter = value; }
-        }
-
-        public int MaxMatches
-        {
-            get { return maxMatches; }
-            set { maxMatches = value; }
         }
         
         public IGraph Graph
@@ -183,7 +167,7 @@ namespace de.unika.ipd.grGen.lgsp
             // TODO: implement
         }
 
-        public void Custom(params object[] args)
+        public override void Custom(params object[] args)
         {
             if(args.Length == 0) goto invalidCommand;
 
@@ -191,13 +175,7 @@ namespace de.unika.ipd.grGen.lgsp
             switch((String)args[0])
             {
                 case "set_max_matches":
-                    if(args.Length != 2)
-                        throw new ArgumentException("Usage: set_max_matches <integer>\nIf <integer> <= 0, all matches will be matched.");
-
-                    int newMaxMatches;
-                    if(!int.TryParse((String)args[1], out newMaxMatches))
-                        throw new ArgumentException("Illegal integer value specified: \"" + (String)args[1] + "\"");
-                    MaxMatches = newMaxMatches;
+                    base.Custom(args);
                     return;
 
                 case "adaptvariables":
@@ -216,9 +194,17 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
         invalidCommand:
-            throw new ArgumentException("Possible commands:\n"
-                + "- set_max_matches: Sets the maximum number of matches to be found\n"
-                + "     during matching\n"
+            string errorMsg = "";
+            try
+            {
+                base.Custom(args);
+            }
+            catch(ArgumentException ex)
+            {
+                errorMsg = ex.Message;
+            }
+
+            throw new ArgumentException(errorMsg
                 + "- adaptvariables: Sets whether variables are cleared if they contain\n"
                 + "     elements which are removed from the graph, and rewritten to\n"
                 + "     the new element on retypings.\n");
@@ -252,10 +238,48 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
 
-        #region Variables management
+        public int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test)
+        {
+            int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
-        protected Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
-        protected Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
+            object[] parameters;
+            if(paramBindings.ArgumentExpressions.Length > 0)
+            {
+                parameters = paramBindings.Arguments;
+                for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+                {
+                    if(paramBindings.ArgumentExpressions[i] != null)
+                        parameters[i] = paramBindings.ArgumentExpressions[i].Evaluate(this, null);
+                }
+            }
+            else parameters = null;
+
+            if(PerformanceInfo != null) PerformanceInfo.StartLocal();
+            IMatches matches = paramBindings.Action.Match(this, curMaxMatches, parameters);
+            if(PerformanceInfo != null) PerformanceInfo.StopMatch();
+
+            Matched(matches, special);
+            if(matches.Count == 0) return 0;
+
+            if(PerformanceInfo != null) PerformanceInfo.MatchesFound += matches.Count;
+
+            if(test) return matches.Count;
+
+            Finishing(matches, special);
+
+            if(PerformanceInfo != null) PerformanceInfo.StartLocal();
+            object[] retElems = Replace(matches, which);
+            for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
+                paramBindings.ReturnVars[i].SetVariableValue(retElems[i], this);
+            if(PerformanceInfo != null) PerformanceInfo.StopRewrite();
+
+            Finished(matches, special);
+
+            return matches.Count;
+        }
+
+
+        #region Variables management
 
         public LinkedList<Variable> GetElementVariables(IGraphElement elem)
         {
@@ -508,111 +532,35 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void AddNode(INode node, String varName, String elemName)
         {
-            // TODO: cast into named graph, add with element name, set variable to it
+            LGSPNamedGraph namedGraph = (LGSPNamedGraph)graph;
+            namedGraph.AddNode(node, elemName);
+            SetVariableValue(varName, node);
         }
 
         public INode AddNode(NodeType nodeType, String varName, String elemName)
         {
-            // TODO: cast into named graph, add with element name, set variable to it
-            return null;
+            LGSPNamedGraph namedGraph = (LGSPNamedGraph)graph;
+            INode node = namedGraph.AddNode(nodeType, elemName);
+            SetVariableValue(varName, node);
+            return node;
         }
 
         public void AddEdge(IEdge edge, String varName, String elemName)
         {
-            // TODO: cast into named graph, add with element name, set variable to it
+            LGSPNamedGraph namedGraph = (LGSPNamedGraph)graph;
+            namedGraph.AddEdge(edge, elemName);
+            SetVariableValue(varName, edge);
         }
 
         public IEdge AddEdge(EdgeType edgeType, INode source, INode target, String varName, String elemName)
         {
-            // TODO: cast into named graph, add with element name, set variable to it
-            return null;
+            LGSPNamedGraph namedGraph = (LGSPNamedGraph)graph;
+            IEdge edge = namedGraph.AddEdge(edgeType, source, target, elemName);
+            SetVariableValue(varName, edge);
+            return edge;
         }
 
         #endregion Variables of named graph elements convenience
-
-
-        #region Graph rewriting
-
-        public IAction GetNewestActionVersion(IAction action)
-        {
-            IAction newest;
-            if(!actionMapStaticToNewest.TryGetValue(action, out newest))
-                return action;
-            return newest;
-        }
-
-        public void SetNewestActionVersion(IAction staticAction, IAction newAction)
-        {
-            actionMapStaticToNewest[staticAction] = newAction;
-        }
-
-        public object[] Replace(IMatches matches, int which)
-        {
-            object[] retElems = null;
-            if(which != -1)
-            {
-                if(which < 0 || which >= matches.Count)
-                    throw new ArgumentOutOfRangeException("\"which\" is out of range!");
-
-                retElems = matches.Producer.Modify(this, matches.GetMatch(which));
-                if(PerformanceInfo != null) PerformanceInfo.RewritesPerformed++;
-            }
-            else
-            {
-                bool first = true;
-                foreach(IMatch match in matches)
-                {
-                    if(first) first = false;
-                    else if(OnRewritingNextMatch != null) OnRewritingNextMatch();
-                    retElems = matches.Producer.Modify(this, match);
-                    if(PerformanceInfo != null) PerformanceInfo.RewritesPerformed++;
-                }
-                if(retElems == null) retElems = Sequence.NoElems;
-            }
-            return retElems;
-        }
-
-        public int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test)
-        {
-            int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
-
-            object[] parameters;
-            if(paramBindings.ArgumentExpressions.Length > 0)
-            {
-                parameters = paramBindings.Arguments;
-                for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
-                {
-                    if(paramBindings.ArgumentExpressions[i] != null)
-                        parameters[i] = paramBindings.ArgumentExpressions[i].Evaluate(this, null);
-                }
-            }
-            else parameters = null;
-
-            if(PerformanceInfo != null) PerformanceInfo.StartLocal();
-            IMatches matches = paramBindings.Action.Match(this, curMaxMatches, parameters);
-            if(PerformanceInfo != null) PerformanceInfo.StopMatch();
-
-            if(OnMatched != null) OnMatched(matches, special);
-            if(matches.Count == 0) return 0;
-
-            if(PerformanceInfo != null) PerformanceInfo.MatchesFound += matches.Count;
-
-            if(test) return matches.Count;
-
-            if(OnFinishing != null) OnFinishing(matches, special);
-
-            if(PerformanceInfo != null) PerformanceInfo.StartLocal();
-            object[] retElems = Replace(matches, which);
-            for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
-                paramBindings.ReturnVars[i].SetVariableValue(retElems[i], this);
-            if(PerformanceInfo != null) PerformanceInfo.StopRewrite();
-
-            if(OnFinished != null) OnFinished(matches, special);
-
-            return matches.Count;
-        }
-
-        #endregion Graph rewriting
 
 
         #region Sequence handling
@@ -691,36 +639,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         #region Events
 
-        public event AfterMatchHandler OnMatched;
-        public event BeforeFinishHandler OnFinishing;
-        public event RewriteNextMatchHandler OnRewritingNextMatch;
-        public event AfterFinishHandler OnFinished;
         public event EnterSequenceHandler OnEntereringSequence;
         public event ExitSequenceHandler OnExitingSequence;
 
-        public void Matched(IMatches matches, bool special)
-        {
-            AfterMatchHandler handler = OnMatched;
-            if(handler != null) handler(matches, special);
-        }
-
-        public void Finishing(IMatches matches, bool special)
-        {
-            BeforeFinishHandler handler = OnFinishing;
-            if(handler != null) handler(matches, special);
-        }
-
-        public void RewritingNextMatch()
-        {
-            RewriteNextMatchHandler handler = OnRewritingNextMatch;
-            if(handler != null) handler();
-        }
-
-        public void Finished(IMatches matches, bool special)
-        {
-            AfterFinishHandler handler = OnFinished;
-            if(handler != null) handler(matches, special);
-        }
 
         public void EnteringSequence(Sequence seq)
         {

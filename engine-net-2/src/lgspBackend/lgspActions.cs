@@ -415,9 +415,9 @@ invalidCommand:
         protected PatternGraph[] patternGraphs;
 
         /// <summary>
-        /// The processing environment which contains the host graph in which to search for matches
+        /// The action execution environment which contains the host graph in which to search for matches
         /// </summary>
-        protected LGSPGraphProcessingEnvironment procEnv;
+        protected LGSPActionExecutionEnvironment actionEnv;
 
         /// <summary>
         /// The subpattern actions which have to be executed until a full match is found

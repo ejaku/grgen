@@ -1771,28 +1771,28 @@ exitSecondLoop: ;
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFront("/// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>\n");
-            sb.AppendFrontFormat("{0} Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches{1});\n", matchesType, inParameters);
+            sb.AppendFrontFormat("{0} Match(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int maxMatches{1});\n", matchesType, inParameters);
 
             sb.AppendFront("/// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>\n");
-            sb.AppendFrontFormat("void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, {0} match{1});\n", matchType, outParameters);
+            sb.AppendFrontFormat("void Modify(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, {0} match{1});\n", matchType, outParameters);
 
             sb.AppendFront("/// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>\n");
-            sb.AppendFrontFormat("void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, {0} matches{1});\n", matchesType, outParameters);
+            sb.AppendFrontFormat("void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, {0} matches{1});\n", matchesType, outParameters);
 
             sb.AppendFront("/// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>\n");
-            sb.AppendFrontFormat("bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv{0}{1});\n", inParameters, refParameters);
+            sb.AppendFrontFormat("bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0}{1});\n", inParameters, refParameters);
 
             sb.AppendFront("/// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>\n");
-            sb.AppendFrontFormat("bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv{0}{1});\n", inParameters, refParameters);
+            sb.AppendFrontFormat("bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0}{1});\n", inParameters, refParameters);
 
             sb.AppendFront("/// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>\n");
-            sb.AppendFrontFormat("bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv{0});\n", inParameters);
+            sb.AppendFrontFormat("bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0});\n", inParameters);
 
             sb.AppendFront("/// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>\n");
-            sb.AppendFrontFormat("bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv{0});\n", inParameters);
+            sb.AppendFrontFormat("bool ApplyPlus(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0});\n", inParameters);
 
             sb.AppendFront("/// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>\n");
-            sb.AppendFrontFormat("bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max{0});\n", inParameters);
+            sb.AppendFrontFormat("bool ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max{0});\n", inParameters);
             sb.Unindent();
             sb.AppendFront("}\n");
             sb.AppendFront("\n");
@@ -1838,7 +1838,7 @@ exitSecondLoop: ;
             // implementation of exact action interface
 
             sb.AppendFront("/// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>\n");
-            sb.AppendFrontFormat("public delegate {0} MatchInvoker(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int maxMatches{1});\n", matchesType, inParameters);
+            sb.AppendFrontFormat("public delegate {0} MatchInvoker(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches{1});\n", matchesType, inParameters);
 
             sb.AppendFront("/// <summary> A delegate pointing to the current matcher program for this rule. </summary>\n");
             sb.AppendFront("public MatchInvoker DynamicMatch;\n");
@@ -1846,51 +1846,51 @@ exitSecondLoop: ;
             sb.AppendFront("/// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>\n");
             sb.AppendFront("public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }\n");
 
-            sb.AppendFrontFormat("public {0} Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches{1})\n", matchesType, inParameters);
+            sb.AppendFrontFormat("public {0} Match(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int maxMatches{1})\n", matchesType, inParameters);
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("return DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches{0});\n", inArguments);
+            sb.AppendFrontFormat("return DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches{0});\n", inArguments);
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public void Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, {0} match{1})\n", matchType, outParameters);
+            sb.AppendFrontFormat("public void Modify(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, {0} match{1})\n", matchType, outParameters);
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match{0});\n", outArguments);
+            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{0});\n", outArguments);
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public void ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, {0} matches{1})\n", matchesType, outParameters);
+            sb.AppendFrontFormat("public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, {0} matches{1})\n", matchesType, outParameters);
             sb.AppendFront("{\n");
             sb.Indent();
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
                 sb.AppendFrontFormat("output_{0} = {1};\n", i, TypesHelper.DefaultValueString(matchingPattern.Outputs[i].Name, model));
             }
-            sb.AppendFrontFormat("foreach({0} match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match{1});\n", matchType, outArguments);
+            sb.AppendFrontFormat("foreach({0} match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{1});\n", matchType, outArguments);
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv{0}{1})\n", inParameters, refParameters);
+            sb.AppendFrontFormat("public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0}{1})\n", inParameters, refParameters);
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("{0} matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1{1});\n", matchesType, inArguments);
+            sb.AppendFrontFormat("{0} matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, 1{1});\n", matchesType, inArguments);
             sb.AppendFront("if(matches.Count <= 0) return false;\n");
-            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First{0});\n", outArguments);
+            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First{0});\n", outArguments);
             sb.AppendFront("return true;\n");
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv{0}{1})\n", inParameters, refParameters);
+            sb.AppendFrontFormat("public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0}{1})\n", inParameters, refParameters);
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("{0} matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, maxMatches{1});\n", matchesType, inArguments);
+            sb.AppendFrontFormat("{0} matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches{1});\n", matchesType, inArguments);
             sb.AppendFront("if(matches.Count <= 0) return false;\n");
-            sb.AppendFrontFormat("foreach({0} match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, match{1});\n", matchType, outArguments);
+            sb.AppendFrontFormat("foreach({0} match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{1});\n", matchType, outArguments);
             sb.AppendFront("return true;\n");
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public bool ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv{0})\n", inParameters);
+            sb.AppendFrontFormat("public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0})\n", inParameters);
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFrontFormat("{0} matches;\n", matchesType);
@@ -1899,25 +1899,25 @@ exitSecondLoop: ;
             sb.AppendFront("while(true)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1{0});\n", inArguments);
+            sb.AppendFrontFormat("matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, 1{0});\n", inArguments);
             sb.AppendFront("if(matches.Count <= 0) return true;\n");
-            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First{0});\n", outArguments);
+            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First{0});\n", outArguments);
             sb.Unindent();
             sb.AppendFront("}\n");
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public bool ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv{0})\n", inParameters);
+            sb.AppendFrontFormat("public bool ApplyPlus(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0})\n", inParameters);
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("{0} matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1{1});\n", matchesType, inArguments);
+            sb.AppendFrontFormat("{0} matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, 1{1});\n", matchesType, inArguments);
             sb.AppendFront("if(matches.Count <= 0) return false;\n");
             sb.AppendFrontFormat("{0}\n", outLocals);
             sb.AppendFront("do\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First{0});\n", outArguments);
-            sb.AppendFrontFormat("matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1{0});\n", inArguments);
+            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First{0});\n", outArguments);
+            sb.AppendFrontFormat("matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, 1{0});\n", inArguments);
             sb.Unindent();
             sb.AppendFront("}\n");
             sb.AppendFront("while(matches.Count > 0) ;\n");
@@ -1925,7 +1925,7 @@ exitSecondLoop: ;
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public bool ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max{0})\n", inParameters);
+            sb.AppendFrontFormat("public bool ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max{0})\n", inParameters);
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFrontFormat("{0} matches;\n", matchesType);
@@ -1933,9 +1933,9 @@ exitSecondLoop: ;
             sb.AppendFront("for(int i = 0; i < max; i++)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("matches = DynamicMatch((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, 1{0});\n", inArguments);
+            sb.AppendFrontFormat("matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, 1{0});\n", inArguments);
             sb.AppendFront("if(matches.Count <= 0) return i >= min;\n");
-            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, matches.First{0});\n", outArguments);
+            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First{0});\n", outArguments);
             sb.Unindent();
             sb.AppendFront("}\n");
             sb.AppendFront("return true;\n");
@@ -1945,18 +1945,18 @@ exitSecondLoop: ;
             // implementation of inexact action interface by delegation to exact action interface
             sb.AppendFront("// implementation of inexact action interface by delegation to exact action interface\n");
 
-            sb.AppendFront("public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int maxMatches, object[] parameters)\n");
+            sb.AppendFront("public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int maxMatches, object[] parameters)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("return Match(procEnv, maxMatches{0});\n", inArgumentsFromArray);
+            sb.AppendFrontFormat("return Match(actionEnv, maxMatches{0});\n", inArgumentsFromArray);
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("public object[] Modify(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatch match)\n");
+            sb.AppendFront("public object[] Modify(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatch match)\n");
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFrontFormat("{0}\n", outLocals);
-            sb.AppendFrontFormat("Modify(procEnv, ({0})match{1});\n", matchType, outArguments);
+            sb.AppendFrontFormat("Modify(actionEnv, ({0})match{1});\n", matchType, outArguments);
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
@@ -1964,11 +1964,11 @@ exitSecondLoop: ;
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("public object[] ModifyAll(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatches matches)\n");
+            sb.AppendFront("public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)\n");
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFrontFormat("{0}\n", outLocals);
-            sb.AppendFrontFormat("ModifyAll(procEnv, ({0})matches{1});\n", matchesType, outArguments);
+            sb.AppendFrontFormat("ModifyAll(actionEnv, ({0})matches{1});\n", matchesType, outArguments);
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
@@ -1976,12 +1976,12 @@ exitSecondLoop: ;
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)\n");
+            sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)\n");
             sb.AppendFront("{\n");
             sb.Indent();
             if (matchingPattern.Inputs.Length == 0) {
                 sb.AppendFrontFormat("{0}\n", refLocals);
-                sb.AppendFrontFormat("if(Apply(procEnv{0})) ", refArguments);
+                sb.AppendFrontFormat("if(Apply(actionEnv{0})) ", refArguments);
                 sb.Append("{\n");
                 sb.Indent();
                 for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
@@ -1996,11 +1996,11 @@ exitSecondLoop: ;
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)\n");
+            sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)\n");
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFrontFormat("{0}\n", refLocals);
-            sb.AppendFrontFormat("if(Apply(procEnv{0}{1})) ", inArgumentsFromArray, refArguments);
+            sb.AppendFrontFormat("if(Apply(actionEnv{0}{1})) ", inArgumentsFromArray, refArguments);
             sb.Append("{\n");
             sb.Indent();
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
@@ -2013,12 +2013,12 @@ exitSecondLoop: ;
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)\n");
+            sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)\n");
             sb.AppendFront("{\n");
             sb.Indent();
             if (matchingPattern.Inputs.Length == 0) {
                 sb.AppendFrontFormat("{0}\n", refLocals);
-                sb.AppendFrontFormat("if(ApplyAll(maxMatches, procEnv{0})) ", refArguments);
+                sb.AppendFrontFormat("if(ApplyAll(maxMatches, actionEnv{0})) ", refArguments);
                 sb.Append("{\n");
                 sb.Indent();
                 for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
@@ -2033,11 +2033,11 @@ exitSecondLoop: ;
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)\n");
+            sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)\n");
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFrontFormat("{0}\n", refLocals);
-            sb.AppendFrontFormat("if(ApplyAll(maxMatches, procEnv{0}{1})) ", inArgumentsFromArray, refArguments);
+            sb.AppendFrontFormat("if(ApplyAll(maxMatches, actionEnv{0}{1})) ", inArgumentsFromArray, refArguments);
             sb.Append("{\n");
             sb.Indent();
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
@@ -2050,48 +2050,48 @@ exitSecondLoop: ;
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)\n");
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyStar(procEnv);\n");
+            if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyStar(actionEnv);\n");
             else sb.AppendFront("throw new Exception(); return false;\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)\n");
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("return ApplyStar(procEnv{0});\n", inArgumentsFromArray);
+            sb.AppendFrontFormat("return ApplyStar(actionEnv{0});\n", inArgumentsFromArray);
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)\n");
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyPlus(procEnv);\n");
+            if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyPlus(actionEnv);\n");
             else sb.AppendFront("throw new Exception(); return false;\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, params object[] parameters)\n");
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("return ApplyPlus(procEnv{0});\n", inArgumentsFromArray);
+            sb.AppendFrontFormat("return ApplyPlus(actionEnv{0});\n", inArgumentsFromArray);
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max)\n");
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyMinMax(procEnv, min, max);\n");
+            if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyMinMax(actionEnv, min, max);\n");
             else sb.AppendFront("throw new Exception(); return false;\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, int min, int max, params object[] parameters)\n");
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)\n");
             sb.AppendFront("{\n");
             sb.Indent(); 
-            sb.AppendFrontFormat("return ApplyMinMax(procEnv, min, max{0});\n", inArgumentsFromArray);
+            sb.AppendFrontFormat("return ApplyMinMax(actionEnv, min, max{0});\n", inArgumentsFromArray);
             sb.Unindent(); 
             sb.AppendFront("}\n");
         }
@@ -2320,9 +2320,9 @@ exitSecondLoop: ;
             sb.AppendFront("{\n");
             sb.Indent(); // class level
 
-            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
+            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
             sb.Indent(); // method body level
-            sb.AppendFront("procEnv = procEnv_; openTasks = openTasks_;\n");
+            sb.AppendFront("actionEnv = actionEnv_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
            
             sb.Unindent(); // class level
@@ -2373,10 +2373,10 @@ exitSecondLoop: ;
             sb.AppendFront("{\n");
             sb.Indent(); // class level
 
-            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, "
+            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
                 + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {\n");
             sb.Indent(); // method body level
-            sb.AppendFront("procEnv = procEnv_; openTasks = openTasks_;\n");
+            sb.AppendFront("actionEnv = actionEnv_; openTasks = openTasks_;\n");
             // pfadausdruck gebraucht, da das alternative-objekt im pattern graph steckt
             sb.AppendFront("patternGraphs = patternGraphs_;\n");
             
@@ -2435,9 +2435,9 @@ exitSecondLoop: ;
             sb.AppendFront("{\n");
             sb.Indent(); // class level
 
-            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
+            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
             sb.Indent(); // method body level
-            sb.AppendFront("procEnv = procEnv_; openTasks = openTasks_;\n");
+            sb.AppendFront("actionEnv = actionEnv_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
             int index = -1;
             for (int i=0; i<iter.embeddingGraph.iterateds.Length; ++i) {
@@ -2517,17 +2517,17 @@ exitSecondLoop: ;
         {
             // getNewTask method handing out new task from pool or creating task if pool is empty
             if (isAlternative)
-                sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, "
+                sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
                     + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {\n");
             else
-                sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv_, "
+                sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
                     + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
             sb.Indent();
             sb.AppendFront(className + " newTask;\n");
             sb.AppendFront("if(numFreeTasks>0) {\n");
             sb.Indent();
             sb.AppendFront("newTask = freeListHead;\n"); 
-            sb.AppendFront("newTask.procEnv = procEnv_; newTask.openTasks = openTasks_;\n");
+            sb.AppendFront("newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;\n");
             if(isAlternative)
                 sb.AppendFront("newTask.patternGraphs = patternGraphs_;\n");
             else if(isIterationBreaking)
@@ -2539,9 +2539,9 @@ exitSecondLoop: ;
             sb.AppendFront("} else {\n");
             sb.Indent();
             if (isAlternative)
-                sb.AppendFront("newTask = new " + className + "(procEnv_, openTasks_, patternGraphs_);\n");
+                sb.AppendFront("newTask = new " + className + "(actionEnv_, openTasks_, patternGraphs_);\n");
             else
-                sb.AppendFront("newTask = new " + className + "(procEnv_, openTasks_);\n");
+                sb.AppendFront("newTask = new " + className + "(actionEnv_, openTasks_);\n");
             sb.Unindent();
             sb.AppendFront("}\n");
             sb.AppendFront("return newTask;\n");
@@ -2554,7 +2554,7 @@ exitSecondLoop: ;
             sb.AppendFront("if(numFreeTasks<MAX_NUM_FREE_TASKS) {\n");
             sb.Indent();
             sb.AppendFront("oldTask.next = freeListHead;\n");
-            sb.AppendFront("oldTask.procEnv = null; oldTask.openTasks = null;\n");
+            sb.AppendFront("oldTask.actionEnv = null; oldTask.openTasks = null;\n");
             sb.AppendFront("freeListHead = oldTask;\n");
             sb.AppendFront("++numFreeTasks;\n");
             sb.Unindent();

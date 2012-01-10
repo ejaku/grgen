@@ -63,6 +63,7 @@
     <Compile Include="Expression.cs" />
     <Compile Include="InterpretationPlan.cs" />
     <Compile Include="InterpretationPlanBuilder.cs" />
+    <Compile Include="lgspActionExecutionEnvironment.cs" />
     <Compile Include="lgspDeferredSequencesManager.cs" />
     <Compile Include="lgspGraphProcessingEnvironment.cs" />
     <Compile Include="lgspGrGen.cs" />
