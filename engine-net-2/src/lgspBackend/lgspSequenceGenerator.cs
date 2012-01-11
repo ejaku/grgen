@@ -2429,7 +2429,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void GenerateGenericExternalDefinedSequenceApplicationMethod(SourceBuilder source, DefinedSequenceInfo sequence)
         {
-            source.AppendFront("public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.SequenceExecutionEnvironment env)");
+            source.AppendFront("public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)");
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFront("GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;\n");
@@ -2438,7 +2438,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.ParameterTypes[i]), model);
                 source.AppendFront(typeName + " var_" + sequence.Parameters[i]);
-                source.Append(" = (" + typeName + ")sequenceInvocation.ArgumentExpressions[" + i + "].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, env);\n");
+                source.Append(" = (" + typeName + ")sequenceInvocation.ArgumentExpressions[" + i + "].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);\n");
             }
             for(int i = 0; i < sequence.OutParameters.Length; ++i)
             {

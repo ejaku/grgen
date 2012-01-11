@@ -25,6 +25,11 @@ namespace de.unika.ipd.grGen.libGr
     /// <param name="seq">The current sequence object.</param>
     public delegate void ExitSequenceHandler(Sequence seq);
 
+    /// <summary>
+    /// Represents a method called when a loop iteration is ended.
+    /// </summary>
+    public delegate void EndOfIterationHandler(bool continueLoop, Sequence seq);
+
     #endregion GraphProcessingDelegates
 
 
@@ -204,7 +209,7 @@ namespace de.unika.ipd.grGen.libGr
         #endregion Variables of named graph elements convenience
 
         
-        #region Sequence handling
+        #region Sequence handling        
 
         /// <summary>
         /// Apply a graph rewrite sequence (to the currently associated graph).
@@ -221,22 +226,6 @@ namespace de.unika.ipd.grGen.libGr
         bool ApplyGraphRewriteSequence(String seqStr);
 
         /// <summary>
-        /// Apply a graph rewrite sequence (to the currently associated graph).
-        /// </summary>
-        /// <param name="sequence">The graph rewrite sequence</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        /// <returns>The result of the sequence.</returns>
-        bool ApplyGraphRewriteSequence(Sequence sequence, SequenceExecutionEnvironment env);
-
-        /// <summary>
-        /// Apply a graph rewrite sequence (to the currently associated graph).
-        /// </summary>
-        /// <param name="seqStr">The graph rewrite sequence in form of a string</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        /// <returns>The result of the sequence.</returns>
-        bool ApplyGraphRewriteSequence(String seqStr, SequenceExecutionEnvironment env);
-
-        /// <summary>
         /// Tests whether the given sequence succeeds on a clone of the associated graph.
         /// </summary>
         /// <param name="seq">The sequence to be executed</param>
@@ -251,28 +240,24 @@ namespace de.unika.ipd.grGen.libGr
         bool ValidateWithSequence(String seqStr);
 
         /// <summary>
-        /// Tests whether the given sequence succeeds on a clone of the associated graph.
-        /// </summary>
-        /// <param name="seq">The sequence to be executed</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        bool ValidateWithSequence(Sequence seq, SequenceExecutionEnvironment env);
-
-        /// <summary>
-        /// Tests whether the given sequence succeeds on a clone of the associated graph.
-        /// </summary>
-        /// <param name="seqStr">The sequence to be executed in form of a string</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
-        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        bool ValidateWithSequence(String seqStr, SequenceExecutionEnvironment env);
-
-        /// <summary>
         /// Parses the given XGRS string and generates a Sequence object.
         /// Any actions in the string must refer to actions from the actions contained in this object.
         /// </summary>
         /// <param name="seqStr">The sequence to be parsed in form of an XGRS string.</param>
         /// <returns>The sequence object according to the given string.</returns>
         Sequence ParseSequence(String seqStr);
+
+
+        /// <summary>
+        /// The user proxy queried for choices during sequence execution.
+        /// By default the compliant user proxy, if debugging the debugger acting on behalf of/controlled by the user.
+        /// </summary>
+        IUserProxyForSequenceExecution UserProxy { get; set; }
+
+        /// <summary>
+        /// Returns a non-interactive user proxy just echoing its inputs.
+        /// </summary>
+        IUserProxyForSequenceExecution CompliantUserProxy { get; }
 
         #endregion Sequence handling
         
@@ -289,6 +274,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         event ExitSequenceHandler OnExitingSequence;
 
+        /// <summary>
+        /// Fired when a sequence iteration is ended.
+        /// </summary>
+        event EndOfIterationHandler OnEndOfIteration;
+
 
         /// <summary>
         /// Fires an OnEnteringSequence event.
@@ -302,6 +292,54 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="seq">The sequence to be exited.</param>
         void ExitingSequence(Sequence seq);
 
+        /// <summary>
+        /// Fires an OnEndOfIteration event. 
+        /// This informs the debugger about the end of a loop iteration, so it can display the state at the end of the iteration.
+        /// </summary>
+        void EndOfIteration(bool continueLoop, Sequence seq);
+
         #endregion Events
+    }
+
+
+    /// <summary>
+    /// A proxy simulating an always compliant user for choices during sequence execution,
+    /// always returns the suggested choice. Used for sequence execution without debugger.
+    /// </summary>
+    public class CompliantUserProxyForSequenceExecution : IUserProxyForSequenceExecution
+    {
+        public CompliantUserProxyForSequenceExecution()
+        {
+        }
+
+        public int ChooseDirection(int direction, Sequence seq)
+        {
+            return direction;
+        }
+
+        public int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
+        {
+            return seqToExecute;
+        }
+
+        public int ChooseMatch(int totalMatchExecute, SequenceSomeFromSet seq)
+        {
+            return totalMatchExecute;
+        }
+
+        public int ChooseMatch(int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq)
+        {
+            return matchToApply;
+        }
+
+        public int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
+        {
+            return randomNumber;
+        }
+
+        public object ChooseValue(string type, Sequence seq)
+        {
+            throw new Exception("Can only query the user for a value if a debugger is available");
+        }
     }
 }

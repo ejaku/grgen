@@ -73,7 +73,7 @@ namespace de.unika.ipd.grGen.grShell
         }
     }
 
-    class Debugger : SequenceExecutionEnvironment
+    class Debugger : IUserProxyForSequenceExecution
     {
         GrShellImpl grShellImpl;
         ShellGraphProcessingEnvironment shellProcEnv;
@@ -231,461 +231,58 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
-        /// returns the maybe user altered direction of execution for the sequence given
-        /// the randomly chosen directions is supplied; 0: execute left operand first, 1: execute right operand first
+        /// Uploads the graph to YComp, updates the display and makes a synchonisation
         /// </summary>
-        public int ChooseDirection(int direction, Sequence seq)
+        void UploadGraph()
         {
+            foreach(INode node in shellProcEnv.Graph.Nodes)
+                ycompClient.AddNode(node);
+            foreach(IEdge edge in shellProcEnv.Graph.Edges)
+                ycompClient.AddEdge(edge);
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
-
-            context.highlightSeq = seq;
-            context.choice = true;
-            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-            Console.WriteLine();
-            context.choice = false;
-
-            context.workaround.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
-            Console.Write(" (l)eft or (r)ight or (s)/(n) to continue with random choice?  (Random has chosen " + (direction==0 ? "(l)eft" : "(r)ight") + ") ");
-            while(true)
-            {
-                ConsoleKeyInfo key = ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                case 'l':
-                    Console.WriteLine();
-                    return 0;
-                case 'r':
-                    Console.WriteLine();
-                    return 1;
-                case 's':
-                case 'n':
-                    Console.WriteLine();
-                    return direction;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (l)eft branch, (r)ight branch, (s)/(n) to continue allowed! ");
-                    break;
-                }
-            }
         }
 
         /// <summary>
-        /// returns the maybe user altered sequence to execute next for the sequence given
-        /// the randomly chosen sequence is supplied; the object with all available sequences is supplied
+        /// Searches for a free TCP port in the range 4242-4251
         /// </summary>
-        public int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
+        /// <returns>A free TCP port or -1, if they are all occupied</returns>
+        int GetFreeTCPPort()
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
-
-            context.workaround.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Pre-selecting sequence " + seqToExecute + " chosen by random.");
-            Console.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
-                                + " Press (s) or (n) to commit to the pre-selected sequence and continue."
-                                + " Pressing (u) or (o) works like (s)/(n) but does not ask for the remaining contained sequences.");
-
-            while(true)
+            for(int i = 4242; i < 4252; i++)
             {
-                context.highlightSeq = sequences[seqToExecute];
-                context.choice = true;
-                context.sequences = sequences;
-                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-                Console.WriteLine();
-                context.choice = false;
-                context.sequences = null;
-
-                ConsoleKeyInfo key = ReadKeyWithCancel();
-                switch(key.KeyChar)
+                try
                 {
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
-                    int num = key.KeyChar - '0';
-                    if(num >= sequences.Count)
+                    IPEndPoint endpoint = new IPEndPoint(IPAddress.Loopback, i);
+                    // Check whether the current socket is already open by connecting to it
+                    using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
                     {
-                        Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                        break;
-                    }
-                    seqToExecute = num;
-                    break;
-                case 'e':
-                    Console.Write("Enter number of sequence to show: ");
-                    String numStr = Console.ReadLine();
-                    if(int.TryParse(numStr, out num))
-                    {
-                        if(num < 0 || num >= sequences.Count)
+                        try
                         {
-                            Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                            break;
+                            socket.Connect(endpoint);
+                            socket.Disconnect(false);
+                            // Someone is already listening at the current port, so try another one
+                            continue;
                         }
-                        seqToExecute = num;
-                        break;
-                    }
-                    Console.WriteLine("You must enter a valid integer number!");
-                    break;
-                case 's':
-                case 'n':
-                    return seqToExecute;
-                case 'u':
-                case 'o':
-                    seq.Skip = true; // skip remaining rules (reset after exection of seq)
-                    return seqToExecute;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// returns the maybe user altered rule to execute next for the sequence given
-        /// the randomly chosen rule is supplied; the object with all available rules is supplied
-        /// a list of all found matches is supplied, too
-        /// </summary>
-        public int ChooseMatch(int totalMatchToExecute, SequenceSomeFromSet seq)
-        {
-            if (seq.NumTotalMatches <= 1 && lazyChoice)
-            {
-                context.workaround.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
-                Console.WriteLine("as no choice needed (use the (l) command to toggle this behaviour).");
-                return totalMatchToExecute;
-            }
-
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
-
-            context.workaround.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Pre-selecting match " + totalMatchToExecute + " chosen by random.");
-            Console.WriteLine("Press (0)...(9) to pre-select the corresponding match or (e) to enter the number of the match to show."
-                                + " Press (s) or (n) to commit to the pre-selected match and continue.");
-
-            while(true)
-            {
-                int rule; int match;
-                seq.FromTotalMatch(totalMatchToExecute, out rule, out match);
-                Mark(rule, match, seq);
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
-
-                context.highlightSeq = seq.Sequences[rule];
-                context.choice = true;
-                context.sequences = seq.Sequences;
-                context.matches = seq.Matches;
-                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-                Console.WriteLine();
-                context.choice = false;
-                context.sequences = null;
-                context.matches = null;
-
-                ConsoleKeyInfo key = ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
-                    int num = key.KeyChar - '0';
-                    if(num >= seq.NumTotalMatches)
-                    {
-                        Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
-                        break;
-                    }
-                    Unmark(rule, match, seq);
-                    totalMatchToExecute = num;
-                    break;
-                case 'e':
-                    Console.Write("Enter number of rule to show: ");
-                    String numStr = Console.ReadLine();
-                    if(int.TryParse(numStr, out num))
-                    {
-                        if(num < 0 || num >= seq.NumTotalMatches)
+                        catch(SocketException)
                         {
-                            Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
-                            break;
-                        }
-                        Unmark(rule, match, seq);
-                        totalMatchToExecute = num;
-                        break;
+                        } // Nobody there? Good...
                     }
-                    Console.WriteLine("You must enter a valid integer number!");
-                    break;
-                case 's':
-                case 'n':
-                    Unmark(rule, match, seq);
-                    return totalMatchToExecute;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
-                    break;
+
+                    // Unable to connect, so try to bind the current port.
+                    // Trying to bind directly (without the connect-check before), does not
+                    // work on Windows Vista even with ExclusiveAddressUse set to true (which does not work on Mono).
+                    // It will bind to already used ports without any notice.
+                    using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
+                        socket.Bind(endpoint);
                 }
-            }
-        }
-
-        void Mark(int rule, int match, SequenceSomeFromSet seq)
-        {
-            if (seq.NonRandomAll(rule))
-            {
-                MarkMatches(seq.Matches[rule], realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-                AnnotateMatches(seq.Matches[rule], true);
-            }
-            else
-            {
-                MarkMatch(seq.Matches[rule].GetMatch(match), realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-                AnnotateMatch(seq.Matches[rule].GetMatch(match), true);
-            }
-        }
-
-        void Unmark(int rule, int match, SequenceSomeFromSet seq)
-        {
-            if (seq.NonRandomAll(rule))
-            {
-                MarkMatches(seq.Matches[rule], null, null);
-                AnnotateMatches(seq.Matches[rule], false);
-            }
-            else
-            {
-                MarkMatch(seq.Matches[rule].GetMatch(match), null, null);
-                AnnotateMatch(seq.Matches[rule].GetMatch(match), false);
-            }
-        }
-
-        /// <summary>
-        /// returns the maybe user altered match to apply next for the sequence given
-        /// the randomly chosen match is supplied; the object with all available matches is supplied
-        /// </summary>
-        public int ChooseMatch(int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq)
-        {
-            context.highlightSeq = seq;
-            context.choice = true;
-            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-            Console.WriteLine();
-            context.choice = false;
-
-            if(matches.Count <= 1 + numFurtherMatchesToApply && lazyChoice)
-            {
-                context.workaround.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
-                Console.WriteLine("as no choice needed (use the (l) command to toggle this behaviour).");
-                return matchToApply;
-            }
-
-            context.workaround.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
-            Console.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
-                                + " Press (s) or (n) to commit to the currently shown match and continue.");
-
-            if(detailedMode)
-            {
-                MarkMatches(matches, null, null);
-                AnnotateMatches(matches, false);
-            }
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
-
-            int newMatchToRewrite = matchToApply;
-            while(true)
-            {
-                MarkMatch(matches.GetMatch(matchToApply), null, null);
-                AnnotateMatch(matches.GetMatch(matchToApply), false);
-                matchToApply = newMatchToRewrite;
-                MarkMatch(matches.GetMatch(matchToApply), realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-                AnnotateMatch(matches.GetMatch(matchToApply), true);
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
-
-                Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
-
-                ConsoleKeyInfo key = ReadKeyWithCancel();
-                switch(key.KeyChar)
+                catch(SocketException)
                 {
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
-                    int num = key.KeyChar - '0';
-                    if(num >= matches.Count)
-                    {
-                        Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                        break;
-                    }
-                    newMatchToRewrite = num;
-                    break;
-                case 'e':
-                    Console.Write("Enter number of match to show: ");
-                    String numStr = Console.ReadLine();
-                    if(int.TryParse(numStr, out num))
-                    {
-                        if(num < 0 || num >= matches.Count)
-                        {
-                            Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                            break;
-                        }
-                        newMatchToRewrite = num;
-                        break;
-                    }
-                    Console.WriteLine("You must enter a valid integer number!");
-                    break;
-                case 's':
-                case 'n':
-                    MarkMatch(matches.GetMatch(matchToApply), null, null);
-                    AnnotateMatch(matches.GetMatch(matchToApply), false);
-                    ycompClient.UpdateDisplay();
-                    ycompClient.Sync();
-                    return matchToApply;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
-                    break;
+                    continue;
                 }
+                return i;
             }
-        }
-
-        /// <summary>
-        /// returns the maybe user altered random number in the range 0 - upperBound exclusive for the sequence given
-        /// the random number chosen is supplied
-        /// </summary>
-        public int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
-        {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
-
-            context.highlightSeq = seq;
-            context.choice = true;
-            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-            Console.WriteLine();
-            context.choice = false;
-
-            while(true)
-            {
-                Console.Write("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber + ": ");
-                String numStr = Console.ReadLine();
-                if(numStr == "")
-                    return randomNumber;
-                int num;
-                if(int.TryParse(numStr, out num))
-                {
-                    if(num < 0 || num >= upperBound)
-                    {
-                        Console.WriteLine("You must specify a number between 0 and " + (upperBound - 1) + "!");
-                        continue;
-                    }
-                    return num;
-                }
-                Console.WriteLine("You must enter a valid integer number!");
-            }
-        }
-
-        /// <summary>
-        /// returns the id/persistent name of a node/edge chosen by the user in yComp
-        /// </summary>
-        public string ChooseGraphElement()
-        {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
-
-            ycompClient.WaitForElement(true);
-
-            // Allow to abort with ESC
-            while(true)
-            {
-                if(Console.KeyAvailable && grShellImpl.Workaround.ReadKey(true).Key == ConsoleKey.Escape)
-                {
-                    Console.WriteLine("Aborted!");
-                    ycompClient.WaitForElement(false);
-                    return null;
-                }
-                if(ycompClient.CommandAvailable)
-                    break;
-                Thread.Sleep(100);
-            }
-
-            String cmd = ycompClient.ReadCommand();
-            if(cmd.Length < 7 || !cmd.StartsWith("send "))
-            {
-                Console.WriteLine("Unexpected yComp command: \"" + cmd + "\"!");
-                return null;
-            }
-
-            // Skip 'n' or 'e'
-            return cmd.Substring(6);
-        }
-
-        /// <summary>
-        /// returns a user chosen/input value of the given type
-        /// no random input value is supplied, the user must give a value
-        /// </summary>
-        public object ChooseValue(string type, Sequence seq)
-        {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
-
-            context.highlightSeq = seq;
-            context.choice = true;
-            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-            Console.WriteLine();
-            context.choice = false;
-
-            object value = grShellImpl.Askfor(type);
-
-            while(value == null)
-            {
-                Console.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
-                ConsoleKeyInfo key = ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                case 'a':
-                    Console.WriteLine();
-                    return null;
-                case 'r':
-                    Console.WriteLine();
-                    value = grShellImpl.Askfor(type);
-                    break;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (a)bort user choice or (r)etry allowed! ");
-                    break;
-                }
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
-        /// </summary>
-        public void EndOfIteration(bool continueLoop, Sequence seq)
-        {
-            if (stepMode || dynamicStepMode)
-            {
-                if(seq is SequenceBacktrack)
-                {
-                    SequenceBacktrack seqBack = (SequenceBacktrack)seq;
-                    String text;
-                    if(seqBack.Seq.ExecutionState == SequenceExecutionState.Success)
-                        text = "Success ";
-                    else
-                        if(continueLoop) text = "Backtracking ";
-                        else text = "Backtracking possibilities exhausted, fail ";
-                    context.workaround.PrintHighlighted(text, HighlightingMode.SequenceStart);
-                    context.highlightSeq = seq;
-                    PrintSequence(seq, context, debugSequences.Count);
-                    if(!continueLoop)
-                        context.workaround.PrintHighlighted("< leaving backtracking brackets", HighlightingMode.SequenceStart);
-                }
-                else if(seq is SequenceDefinition)
-                {
-                    SequenceDefinition seqDef = (SequenceDefinition)seq;
-                    context.workaround.PrintHighlighted("State at end of sequence call ", HighlightingMode.SequenceStart);
-                    context.highlightSeq = seq;
-                    PrintSequence(seq, context, debugSequences.Count);
-                    context.workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
-                }
-                else
-                {
-                    context.workaround.PrintHighlighted("State at end of iteration step ", HighlightingMode.SequenceStart);
-                    context.highlightSeq = seq;
-                    PrintSequence(seq, context, debugSequences.Count);
-                    if(!continueLoop)
-                        context.workaround.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
-                }
-                Console.WriteLine(" (updating, please wait...)");
-            }
+            return -1;
         }
 
         /// <summary>
@@ -793,444 +390,6 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
-        /// Prints the given root sequence adding parentheses if needed according to the print context.
-        /// </summary>
-        /// <param name="seq">The sequence to be printed</param>
-        /// <param name="context">The print context</param>
-        /// <param name="nestingLevel">The level the sequence is nested in</param>
-        private static void PrintSequence(Sequence seq, PrintSequenceContext context, int nestingLevel)
-        {
-            context.workaround.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
-            PrintSequence(seq, null, context);
-        }
-
-        /// <summary>
-        /// Prints the given sequence adding parentheses if needed according to the print context.
-        /// </summary>
-        /// <param name="seq">The sequence to be printed</param>
-        /// <param name="parent">The parent of the sequence or null if the sequence is a root</param>
-        /// <param name="context">The print context</param>
-        private static void PrintSequence(Sequence seq, Sequence parent, PrintSequenceContext context)
-        {
-            // print parentheses, if neccessary
-            if(parent != null && seq.Precedence < parent.Precedence) Console.Write("(");
-
-            switch(seq.SequenceType)
-            {
-                // Binary
-                case SequenceType.ThenLeft:
-                case SequenceType.ThenRight:
-                case SequenceType.LazyOr:
-                case SequenceType.LazyAnd:
-                case SequenceType.StrictOr:
-                case SequenceType.Xor:
-                case SequenceType.StrictAnd:
-                {
-                    SequenceBinary seqBin = (SequenceBinary)seq;
-
-                    if(context.cpPosCounter >= 0 && seqBin.Random)
-                    {
-                        int cpPosCounter = context.cpPosCounter;
-                        ++context.cpPosCounter;
-                        PrintSequence(seqBin.Left, seq, context);
-                        PrintChoice(seqBin, context);
-                        Console.Write(seq.Symbol + " ");
-                        PrintSequence(seqBin.Right, seq, context);
-                        break;
-                    }
-
-                    if(seqBin == context.highlightSeq && context.choice)
-                    {
-                        context.workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
-                        PrintSequence(seqBin.Left, seq, context);
-                        context.workaround.PrintHighlighted("(l) " + seq.Symbol + " (r)", HighlightingMode.Choicepoint);
-                        PrintSequence(seqBin.Right, seq, context);
-                        context.workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
-                        break;
-                    }
-
-                    PrintSequence(seqBin.Left, seq, context);
-                    Console.Write(" " + seq.Symbol + " ");
-                    PrintSequence(seqBin.Right, seq, context);
-                    break;
-                }
-                case SequenceType.IfThen:
-                {
-                    SequenceIfThen seqIfThen = (SequenceIfThen)seq;
-                    Console.Write("if{");
-                    PrintSequence(seqIfThen.Left, seq, context);
-                    Console.Write(";");
-                    PrintSequence(seqIfThen.Right, seq, context);
-                    Console.Write("}");
-                    break;
-                }
-
-                // Unary
-                case SequenceType.Not:
-                {
-                    SequenceNot seqNot = (SequenceNot)seq;
-                    Console.Write(seq.Symbol);
-                    PrintSequence(seqNot.Seq, seq, context);
-                    break;
-                }
-                case SequenceType.IterationMin:
-                {
-                    SequenceIterationMin seqMin = (SequenceIterationMin)seq;
-                    PrintSequence(seqMin.Seq, seq, context);
-                    Console.Write("[" + seqMin.Min + ":*]");
-                    break;
-                }
-                case SequenceType.IterationMinMax:
-                {
-                    SequenceIterationMinMax seqMinMax = (SequenceIterationMinMax)seq;
-                    PrintSequence(seqMinMax.Seq, seq, context);
-                    Console.Write("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]");
-                    break;
-                }
-                case SequenceType.Transaction:
-                {
-                    SequenceTransaction seqTrans = (SequenceTransaction)seq;
-                    Console.Write("<");
-                    PrintSequence(seqTrans.Seq, seq, context);
-                    Console.Write(">");
-                    break;
-                }
-                case SequenceType.Backtrack:
-                {
-                    SequenceBacktrack seqBack = (SequenceBacktrack)seq;
-                    Console.Write("<<");
-                    PrintSequence(seqBack.Rule, seq, context);
-                    Console.Write(";");
-                    PrintSequence(seqBack.Seq, seq, context);
-                    Console.Write(">>");
-                    break;
-                }
-                case SequenceType.For:
-                {
-                    SequenceFor seqFor = (SequenceFor)seq;
-                    Console.Write("for{");
-                    Console.Write(seqFor.Var.Name);
-                    if(seqFor.VarDst!=null) Console.Write("->" + seqFor.VarDst.Name);
-                    Console.Write(" in " + seqFor.Container.Name);
-                    Console.Write("; ");
-                    PrintSequence(seqFor.Seq, seq, context);
-                    Console.Write("}");
-                    break;
-                }
-
-                // Ternary
-                case SequenceType.IfThenElse:
-                {
-                    SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
-                    Console.Write("if{");
-                    PrintSequence(seqIf.Condition, seq, context);
-                    Console.Write(";");
-                    PrintSequence(seqIf.TrueCase, seq, context);
-                    Console.Write(";");
-                    PrintSequence(seqIf.FalseCase, seq, context);
-                    Console.Write("}");
-                    break;
-                }
-
-                // n-ary
-                case SequenceType.LazyOrAll:
-                case SequenceType.LazyAndAll:
-                case SequenceType.StrictOrAll:
-                case SequenceType.StrictAndAll:
-                {
-                    SequenceNAry seqN = (SequenceNAry)seq;
-
-                    if(context.cpPosCounter >= 0)
-                    {
-                        PrintChoice(seqN, context);
-                        ++context.cpPosCounter;
-                        Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
-                        bool first = true;
-                        foreach(Sequence seqChild in seqN.Children)
-                        {
-                            if(!first) Console.Write(", ");
-                            PrintSequence(seqChild, seqN, context);
-                            first = false;
-                        }
-                        Console.Write(")");
-                        break;
-                    }
-
-                    bool highlight = false;
-                    foreach(Sequence seqChild in seqN.Children)
-                        if(seqChild == context.highlightSeq)
-                            highlight = true;
-                    if(highlight && context.choice)
-                    {
-                        context.workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
-                        bool first = true;
-                        foreach(Sequence seqChild in seqN.Children)
-                        {
-                            if(!first) Console.Write(", ");
-                            if(seqChild == context.highlightSeq)
-                                context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
-                            if(context.sequences != null)
-                            {
-                                for(int i = 0; i < context.sequences.Count; ++i)
-                                {
-                                    if(seqChild == context.sequences[i])
-                                        context.workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
-                                }
-                            }
-
-                            Sequence highlightSeqBackup = context.highlightSeq;
-                            context.highlightSeq = null; // we already highlighted here
-                            PrintSequence(seqChild, seqN, context);
-                            context.highlightSeq = highlightSeqBackup;
-
-                            if(seqChild == context.highlightSeq)
-                                context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
-                            first = false;
-                        }
-                        context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
-                        break;
-                    }
-
-                    Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
-                    PrintChildren(seqN, context);
-                    Console.Write(")");
-                    break;
-                }
-
-                case SequenceType.SomeFromSet:
-                {
-                    SequenceSomeFromSet seqSome = (SequenceSomeFromSet)seq;
-
-                    if(context.cpPosCounter >= 0
-                        && seqSome.Random)
-                    {
-                        PrintChoice(seqSome, context);
-                        ++context.cpPosCounter;
-                        Console.Write(seqSome.Choice ? "$%{(" : "${(");
-                        bool first = true;
-                        foreach(Sequence seqChild in seqSome.Children)
-                        {
-                            if(!first) Console.Write(", ");
-                            int cpPosCounterBackup = context.cpPosCounter;
-                            context.cpPosCounter = -1; // rules within some-from-set are not choicepointable
-                            PrintSequence(seqChild, seqSome, context);
-                            context.cpPosCounter = cpPosCounterBackup;
-                            first = false;
-                        }
-                        Console.Write(")}");
-                        break;
-                    }
-
-                    bool highlight = false;
-                    foreach(Sequence seqChild in seqSome.Children)
-                        if(seqChild == context.highlightSeq)
-                            highlight = true;
-
-                    if(highlight && context.choice)
-                    {
-                        context.workaround.PrintHighlighted("$%{(", HighlightingMode.Choicepoint);
-                        bool first = true;
-                        int numCurTotalMatch = 0;
-                        foreach(Sequence seqChild in seqSome.Children)
-                        {
-                            if(!first) Console.Write(", ");
-                            if(seqChild == context.highlightSeq)
-                                context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
-                            if(context.sequences != null)
-                            {
-                                for(int i = 0; i < context.sequences.Count; ++i)
-                                {
-                                    if(seqChild == context.sequences[i] && context.matches[i].Count>0)
-                                    {
-                                        PrintListOfMatchesNumbers(context, ref numCurTotalMatch, context.matches[i].Count);
-                                    }
-                                }
-                            }
-
-                            Sequence highlightSeqBackup = context.highlightSeq;
-                            context.highlightSeq = null; // we already highlighted here
-                            PrintSequence(seqChild, seqSome, context);
-                            context.highlightSeq = highlightSeqBackup;
-
-                            if(seqChild == context.highlightSeq)
-                                context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
-                            first = false;
-                        }
-                        context.workaround.PrintHighlighted(")}", HighlightingMode.Choicepoint);
-                        break;
-                    }
-
-                    bool succesBackup = context.success;
-                    if (highlight) context.success = true;
-                    Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{(" : "${(") : "{(");
-                    PrintChildren(seqSome, context);
-                    Console.Write(")}");
-                    context.success = succesBackup;
-                    break;
-                }
-
-                // Breakpointable atoms
-                case SequenceType.SequenceCall:
-                case SequenceType.RuleCall:
-                case SequenceType.RuleAllCall:
-                case SequenceType.BooleanComputation:
-                {
-                    if(context.bpPosCounter >= 0)
-                    {
-                        PrintBreak((SequenceSpecial)seq, context);
-                        Console.Write(seq.Symbol);
-                        ++context.bpPosCounter;
-                        break;
-                    }
-
-                    if(context.cpPosCounter >= 0 && seq is SequenceRandomChoice
-                        && ((SequenceRandomChoice)seq).Random)
-                    {
-                        PrintChoice((SequenceRandomChoice)seq, context);
-                        Console.Write(seq.Symbol);
-                        ++context.cpPosCounter;
-                        break;
-                    }
-
-                    HighlightingMode mode = HighlightingMode.None;
-                    if(seq == context.highlightSeq) {
-                        if(context.choice) mode |= HighlightingMode.Choicepoint;
-                        else if(context.success) mode |= HighlightingMode.FocusSucces;
-                        else mode |= HighlightingMode.Focus;
-                    }
-                    if(seq.ExecutionState==SequenceExecutionState.Success) mode |= HighlightingMode.LastSuccess;
-                    if(seq.ExecutionState==SequenceExecutionState.Fail) mode |= HighlightingMode.LastFail;
-                    if(context.sequences!=null && context.sequences.Contains(seq))
-                    {
-                        if(context.matches!=null && context.matches[context.sequences.IndexOf(seq)].Count > 0)
-                            mode |= HighlightingMode.FocusSucces;
-                    }
-                    context.workaround.PrintHighlighted(seq.Symbol, mode);
-                    break;
-                }
-
-                // Unary assignment
-                case SequenceType.AssignSequenceResultToVar:
-                case SequenceType.OrAssignSequenceResultToVar:
-                case SequenceType.AndAssignSequenceResultToVar:
-                {
-                    SequenceAssignSequenceResultToVar seqAss = (SequenceAssignSequenceResultToVar)seq;
-                    Console.Write("(");
-                    PrintSequence(seqAss.Seq, seq, context);
-                    if(seq.SequenceType==SequenceType.OrAssignSequenceResultToVar)
-                        Console.Write("|>");
-                    else if(seq.SequenceType==SequenceType.AndAssignSequenceResultToVar)
-                        Console.Write("&>");
-                    else //if(seq.SequenceType==SequenceType.AssignSequenceResultToVar)
-                        Console.Write("=>");
-                    Console.Write(seqAss.DestVar.Name);
-                    Console.Write(")");
-                    break;
-                }
-
-                // Choice highlightable user assignments
-                case SequenceType.AssignUserInputToVar:
-                case SequenceType.AssignRandomToVar:
-                {
-                    if(context.cpPosCounter >= 0 && seq is SequenceAssignRandomToVar)
-                    {
-                        PrintChoice((SequenceRandomChoice)seq, context);
-                        Console.Write(seq.Symbol);
-                        ++context.cpPosCounter;
-                        break;
-                    }
-
-                    if(seq == context.highlightSeq && context.choice)
-                        context.workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
-                    else
-                        Console.Write(seq.Symbol);
-                    break;
-                }
-
-                case SequenceType.SequenceDefinitionInterpreted:
-                {
-                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seq;
-                    HighlightingMode mode = HighlightingMode.None;
-                    if(seqDef.ExecutionState == SequenceExecutionState.Success) mode = HighlightingMode.LastSuccess;
-                    if(seqDef.ExecutionState == SequenceExecutionState.Fail) mode = HighlightingMode.LastFail;
-                    context.workaround.PrintHighlighted(seqDef.Symbol+": ", mode);
-                    PrintSequence(seqDef.Seq, seqDef.Seq, context);
-                    break;
-                }
-
-                // Atoms (assignments)
-                case SequenceType.AssignVarToVar:
-                case SequenceType.AssignConstToVar:
-                {
-                    Console.Write(seq.Symbol);
-                    break;
-                }
-
-                default:
-                {
-                    Debug.Assert(false);
-                    Console.Write("<UNKNOWN_SEQUENCE_TYPE>");
-                    break;
-                }
-            }
-
-            // print parentheses, if neccessary
-            if(parent != null && seq.Precedence < parent.Precedence) Console.Write(")");
-        }
-
-        static void PrintChildren(Sequence seq, PrintSequenceContext context)
-        {
-            bool first = true;
-            foreach (Sequence seqChild in seq.Children)
-            {
-                if (!first) Console.Write(", ");
-                PrintSequence(seqChild, seq, context);
-                first = false;
-            }
-        }
-
-        static void PrintChoice(SequenceRandomChoice seq, PrintSequenceContext context)
-        {
-            if (seq.Choice)
-                context.workaround.PrintHighlighted("-%" + context.cpPosCounter + "-:", HighlightingMode.Choicepoint);
-            else
-                context.workaround.PrintHighlighted("+%" + context.cpPosCounter + "+:", HighlightingMode.Choicepoint);
-        }
-
-        static void PrintBreak(SequenceSpecial seq, PrintSequenceContext context)
-        {
-            if (seq.Special)
-                context.workaround.PrintHighlighted("-%" + context.bpPosCounter + "-:", HighlightingMode.Breakpoint);
-            else
-                context.workaround.PrintHighlighted("+%" + context.bpPosCounter + "+:", HighlightingMode.Breakpoint);
-        }
-
-        static void PrintListOfMatchesNumbers(PrintSequenceContext context, ref int numCurTotalMatch, int numMatches)
-        {
-            context.workaround.PrintHighlighted("(", HighlightingMode.Choicepoint);
-            bool first = true;
-            for (int i = 0; i < numMatches; ++i)
-            {
-                if (!first) context.workaround.PrintHighlighted(",", HighlightingMode.Choicepoint);
-                context.workaround.PrintHighlighted(numCurTotalMatch.ToString(), HighlightingMode.Choicepoint);
-                ++numCurTotalMatch;
-                first = false;
-            }
-            context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
-        }
-
-        /// <summary>
-        /// Called from shell after an debugging abort highlighting the lastly executed rule
-        /// </summary>
-        public static void PrintSequence(Sequence seq, Sequence highlight, IWorkaround workaround)
-        {
-            PrintSequenceContext context = new PrintSequenceContext(workaround);
-            context.highlightSeq = highlight;
-            PrintSequence(seq, context, 0);
-            // TODO: what to do if abort came within sequence called from top sequence?
-        }
-
-        /// <summary>
         /// Searches in the given sequence seq for the parent sequence of the sequence childseq.
         /// </summary>
         /// <returns>The parent sequence of childseq or null, if no parent has been found.</returns>
@@ -1263,427 +422,11 @@ namespace de.unika.ipd.grGen.grShell
             return key;
         }
 
-        void HandleShowVariable(Sequence seq)
-        {
-            PrintVariables(null, null);
-            PrintVariables(debugSequences.Peek(), seq);
-        }
-
-        void HandleStackTrace()
-        {
-            Console.WriteLine("Current sequence call stack is:");
-            PrintSequenceContext contextTrace = new PrintSequenceContext(grShellImpl.Workaround);
-            Sequence[] callStack = debugSequences.ToArray();
-            for(int i = callStack.Length - 1; i >= 0; --i)
-            {
-                contextTrace.highlightSeq = callStack[i].GetCurrentlyExecutedSequence();
-                PrintSequence(callStack[i], contextTrace, callStack.Length-i);
-                Console.WriteLine();
-            }
-            Console.WriteLine("continuing execution with:");
-        }
-
-        void HandleFullState()
-        {
-            Console.WriteLine("Current execution state is:");
-            PrintVariables(null, null);
-            PrintSequenceContext contextTrace = new PrintSequenceContext(grShellImpl.Workaround);
-            Sequence[] callStack = debugSequences.ToArray();
-            for(int i = callStack.Length - 1; i >= 0; --i)
-            {
-                Sequence currSeq = callStack[i].GetCurrentlyExecutedSequence();
-                contextTrace.highlightSeq = currSeq;
-                PrintSequence(callStack[i], contextTrace, callStack.Length - i);
-                Console.WriteLine();
-                PrintVariables(callStack[i], currSeq != null ? currSeq : callStack[i]);
-            }
-            Console.WriteLine("continuing execution with:");
-        }
-
-        void PrintVariables(Sequence seqStart, Sequence seq)
-        {
-            if(seq != null)
-            {
-                Console.WriteLine("Available local variables:");
-                Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
-                seqStart.GetLocalVariables(seqVars, seq);
-                foreach(SequenceVariable var in seqVars.Keys)
-                {
-                    string type;
-                    string content;
-                    if(var.Value is IDictionary)
-                        DictionaryListHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
-                    else if(var.Value is IList)
-                        DictionaryListHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
-                    else
-                        DictionaryListHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
-                    Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Available global (non null) variables:");
-                foreach(Variable var in shellProcEnv.ProcEnv.Variables)
-                {
-                    string type;
-                    string content;
-                    if(var.Value is IDictionary)
-                        DictionaryListHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
-                    else if(var.Value is IList)
-                        DictionaryListHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
-                    else
-                        DictionaryListHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
-                    Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
-                }
-            }
-        }
-
-        void HandleToggleBreakpoints()
-        {
-            Console.Write("Available breakpoint positions:\n  ");
-
-            PrintSequenceContext contextBp = new PrintSequenceContext(grShellImpl.Workaround);
-            contextBp.bpPosCounter = 0;
-            PrintSequence(debugSequences.Peek(), contextBp, debugSequences.Count);
-            Console.WriteLine();
-
-            if(contextBp.bpPosCounter == 0)
-            {
-                Console.WriteLine("No breakpoint positions available!");
-                return;
-            }
-
-            int pos = HandleTogglePoint("breakpoint", contextBp.bpPosCounter);
-            if (pos == -1)
-                return;
-
-            TogglePointInAllInstances(pos, false);
-        }
-
-        void HandleToggleChoicepoints()
-        {
-            Console.Write("Available choicepoint positions:\n  ");
-
-            PrintSequenceContext contextCp = new PrintSequenceContext(grShellImpl.Workaround);
-            contextCp.cpPosCounter = 0;
-            PrintSequence(debugSequences.Peek(), contextCp, debugSequences.Count);
-            Console.WriteLine();
-
-            if (contextCp.cpPosCounter == 0)
-            {
-                Console.WriteLine("No choicepoint positions available!");
-                return;
-            }
-
-            int pos = HandleTogglePoint("choicepoint", contextCp.cpPosCounter);
-            if (pos == -1)
-                return;
-
-            TogglePointInAllInstances(pos, true);
-        }
-
-        int HandleTogglePoint(string pointName, int numPositions)
-        {
-            while(true)
-            {
-                Console.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
-                Console.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
-                                + " Press (a) to abort.");
-
-                ConsoleKeyInfo key = ReadKeyWithCancel();
-                switch (key.KeyChar)
-                {
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    int num = key.KeyChar - '0';
-                    if (num >= numPositions)
-                    {
-                        Console.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
-                        break;
-                    }
-                    return num;
-                case 'e':
-                    Console.Write("Enter number of " + pointName + " to toggle (-1 for abort): ");
-                    String numStr = Console.ReadLine();
-                    if (int.TryParse(numStr, out num))
-                    {
-                        if (num < -1 || num >= numPositions)
-                        {
-                            Console.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
-                            break;
-                        }
-                        return num;
-                    }
-                    Console.WriteLine("You must enter a valid integer number!");
-                    break;
-                case 'a':
-                    return -1;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (a)bort allowed! ");
-                    break;
-                }
-            }
-        }
-
-        void TogglePointInAllInstances(int pos, bool choice)
-        {
-            if(debugSequences.Count > 1)
-            {
-                SequenceDefinitionInterpreted top = (SequenceDefinitionInterpreted)debugSequences.Peek();
-                Sequence[] callStack = debugSequences.ToArray();
-                for(int i = 0; i <= callStack.Length - 2; ++i) // non definition bottom excluded
-                {
-                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)callStack[i];
-                    if(seqDef.SequenceName == top.SequenceName)
-                    {
-                        if(choice)
-                            ToggleChoicepoint(seqDef, pos);
-                        else
-                            ToggleBreakpoint(seqDef, pos);
-                    }
-                }
-
-                // additionally handle the internally cached sequences
-                foreach(SequenceDefinitionInterpreted seqDef in top.CachedSequenceCopies)
-                {
-                    if(choice)
-                        ToggleChoicepoint(seqDef, pos);
-                    else
-                        ToggleBreakpoint(seqDef, pos);
-                }
-            }
-            else
-            {
-                if(choice)
-                    ToggleChoicepoint(debugSequences.Peek(), pos);
-                else
-                    ToggleBreakpoint(debugSequences.Peek(), pos);
-            }
-        }
-
-        void ToggleChoicepoint(Sequence seq, int cpPos)
-        {
-            int cpCounter = 0; // dummy
-            SequenceRandomChoice cpSeq = GetSequenceAtChoicepointPosition(seq, cpPos, ref cpCounter);
-            cpSeq.Choice = !cpSeq.Choice;
-        }
-
-        void ToggleBreakpoint(Sequence seq, int bpPos)
-        {
-            int bpCounter = 0; // dummy
-            SequenceSpecial bpSeq = GetSequenceAtBreakpointPosition(seq, bpPos, ref bpCounter);
-            bpSeq.Special = !bpSeq.Special;
-        }
-
-        SequenceSpecial GetSequenceAtBreakpointPosition(Sequence seq, int bpPos, ref int counter)
-        {
-            if (seq is SequenceSpecial)
-            {
-                if (counter == bpPos)
-                    return (SequenceSpecial)seq;
-                counter++;
-            }
-            foreach (Sequence child in seq.Children)
-            {
-                SequenceSpecial res = GetSequenceAtBreakpointPosition(child, bpPos, ref counter);
-                if (res != null) return res;
-            }
-            return null;
-        }
-
-        SequenceRandomChoice GetSequenceAtChoicepointPosition(Sequence seq, int cpPos, ref int counter)
-        {
-            if (seq is SequenceRandomChoice && ((SequenceRandomChoice)seq).Random)
-            {
-                if (counter == cpPos)
-                    return (SequenceRandomChoice)seq;
-                counter++;
-            }
-            foreach (Sequence child in seq.Children)
-            {
-                SequenceRandomChoice res = GetSequenceAtChoicepointPosition(child, cpPos, ref counter);
-                if (res != null) return res;
-            }
-            return null;
-        }
-
-        void HandleToggleLazyChoice()
-        {
-            if(lazyChoice)
-            {
-                Console.WriteLine("Lazy choice disabled, always requesting user choice on $%[r] / $%v[r] / $%{...}.");
-                lazyChoice = false;
-            }
-            else
-            {
-                Console.WriteLine("Lazy choice enabled, only prompting user on $%[r] / $%v[r] / $%{...} if more matches available than rewrites requested.");
-                lazyChoice = true;
-            }
-        }
-
-        void DebugEnteringSequence(Sequence seq)
-        {
-            // root node of sequence entered and interactive debugging activated
-            if(stepMode && lastlyEntered == null)
-            {
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
-                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-                Console.WriteLine();
-                context.workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
-                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state and (a)bort (plus Ctrl+C for forced abort).");
-                QueryUser(seq);
-            }
-
-            lastlyEntered = seq;
-            recentlyMatched = null;
-
-            // Entering a loop?
-            if(seq.SequenceType == SequenceType.IterationMin
-                || seq.SequenceType == SequenceType.IterationMinMax
-                || seq.SequenceType == SequenceType.For
-                || seq.SequenceType == SequenceType.Backtrack)
-            {
-                loopList.AddFirst(seq);
-            }
-
-            // Entering a subsequence called?
-            if(seq.SequenceType == SequenceType.SequenceDefinitionInterpreted)
-            {
-                loopList.AddFirst(seq);
-                debugSequences.Push(seq);
-            }
-
-            // Breakpoint reached?
-            bool breakpointReached = false;
-            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
-                || seq.SequenceType == SequenceType.BooleanComputation || seq.SequenceType == SequenceType.SequenceCall)
-                    && ((SequenceSpecial)seq).Special)
-            {
-                stepMode = true;
-                breakpointReached = true;
-            }
-
-            if(!stepMode)
-            {
-                return;
-            }
-
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
-                || seq.SequenceType == SequenceType.SequenceCall
-                || breakpointReached)
-            {
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
-                context.highlightSeq = seq;
-                context.success = false;
-                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-                Console.WriteLine();
-                QueryUser(seq);
-                return;
-            }
-        }
-
-        void DebugExitingSequence(Sequence seq)
-        {
-            skipMode = false;
-
-            if(seq == curStepSequence)
-            {
-                stepMode = true;
-            }
-
-            if(seq.SequenceType == SequenceType.IterationMin
-                || seq.SequenceType == SequenceType.IterationMinMax
-                || seq.SequenceType == SequenceType.For
-                || seq.SequenceType == SequenceType.Backtrack)
-            {
-                loopList.RemoveFirst();
-            }
-
-            if(seq.SequenceType == SequenceType.SequenceDefinitionInterpreted)
-            {
-                debugSequences.Pop();
-                loopList.RemoveFirst();
-            }
-
-            if(debugSequences.Count==1 && seq==debugSequences.Peek())
-            {
-                context.workaround.PrintHighlighted("State at end of sequence ", HighlightingMode.SequenceStart);
-                context.highlightSeq = null;
-                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-                context.workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
-                Console.WriteLine();
-            }
-        }
-
-        void DebugMatched(IMatches matches, bool special)
-        {
-            if(matches.Count == 0) // todo: how can this happen?
-                return;
-
-            if(dynamicStepMode && !skipMode)
-            {
-                skipMode = true;
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
-                context.highlightSeq = lastlyEntered;
-                context.success = true;
-                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-                Console.WriteLine();
-
-                if(!QueryUser(lastlyEntered))
-                {
-                    recentlyMatched = lastlyEntered;
-                    return;
-                }
-            }
-
-            recentlyMatched = lastlyEntered;
-
-            if(!detailedMode)
-                return;
-
-            if(recordMode)
-            {
-                DebugFinished(null, false);
-                matchDepth++;
-            }
-
-            if(matchDepth++ > 0)
-                Console.WriteLine("Matched " + matches.Producer.Name);
-
-            annotatedNodes.Clear();
-            annotatedEdges.Clear();
-
-            curRulePattern = matches.Producer.RulePattern;
-
-            MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-            AnnotateMatches(matches, true);
-
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
-            Console.WriteLine("Press any key to apply rewrite...");
-            ReadKeyWithCancel();
-
-            MarkMatches(matches, null, null);
-
-            recordMode = true;
-            ycompClient.NodeRealizerOverride = realizers.NewNodeRealizer;
-            ycompClient.EdgeRealizerOverride = realizers.NewEdgeRealizer;
-            nextAddedNodeIndex = 0;
-            nextAddedEdgeIndex = 0;
-        }
-
+        /// <summary>
+        /// Debugger method waiting for user commands
+        /// </summary>
+        /// <param name="seq"></param>
+        /// <returns></returns>
         private bool QueryUser(Sequence seq)
         {
             while(true)
@@ -1767,6 +510,758 @@ namespace de.unika.ipd.grGen.grShell
                         + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state and (a)bort allowed!");
                     break;
                 }
+            }
+        }
+
+
+        #region Methods for directly handling user commands
+
+        void HandleToggleBreakpoints()
+        {
+            Console.Write("Available breakpoint positions:\n  ");
+
+            PrintSequenceContext contextBp = new PrintSequenceContext(grShellImpl.Workaround);
+            contextBp.bpPosCounter = 0;
+            PrintSequence(debugSequences.Peek(), contextBp, debugSequences.Count);
+            Console.WriteLine();
+
+            if(contextBp.bpPosCounter == 0)
+            {
+                Console.WriteLine("No breakpoint positions available!");
+                return;
+            }
+
+            int pos = HandleTogglePoint("breakpoint", contextBp.bpPosCounter);
+            if (pos == -1)
+                return;
+
+            TogglePointInAllInstances(pos, false);
+        }
+
+        void HandleToggleChoicepoints()
+        {
+            Console.Write("Available choicepoint positions:\n  ");
+
+            PrintSequenceContext contextCp = new PrintSequenceContext(grShellImpl.Workaround);
+            contextCp.cpPosCounter = 0;
+            PrintSequence(debugSequences.Peek(), contextCp, debugSequences.Count);
+            Console.WriteLine();
+
+            if (contextCp.cpPosCounter == 0)
+            {
+                Console.WriteLine("No choicepoint positions available!");
+                return;
+            }
+
+            int pos = HandleTogglePoint("choicepoint", contextCp.cpPosCounter);
+            if (pos == -1)
+                return;
+
+            TogglePointInAllInstances(pos, true);
+        }
+
+        void HandleToggleLazyChoice()
+        {
+            if(lazyChoice)
+            {
+                Console.WriteLine("Lazy choice disabled, always requesting user choice on $%[r] / $%v[r] / $%{...}.");
+                lazyChoice = false;
+            }
+            else
+            {
+                Console.WriteLine("Lazy choice enabled, only prompting user on $%[r] / $%v[r] / $%{...} if more matches available than rewrites requested.");
+                lazyChoice = true;
+            }
+        }
+
+        void HandleShowVariable(Sequence seq)
+        {
+            PrintVariables(null, null);
+            PrintVariables(debugSequences.Peek(), seq);
+        }
+
+        void HandleStackTrace()
+        {
+            Console.WriteLine("Current sequence call stack is:");
+            PrintSequenceContext contextTrace = new PrintSequenceContext(grShellImpl.Workaround);
+            Sequence[] callStack = debugSequences.ToArray();
+            for(int i = callStack.Length - 1; i >= 0; --i)
+            {
+                contextTrace.highlightSeq = callStack[i].GetCurrentlyExecutedSequence();
+                PrintSequence(callStack[i], contextTrace, callStack.Length - i);
+                Console.WriteLine();
+            }
+            Console.WriteLine("continuing execution with:");
+        }
+
+        void HandleFullState()
+        {
+            Console.WriteLine("Current execution state is:");
+            PrintVariables(null, null);
+            PrintSequenceContext contextTrace = new PrintSequenceContext(grShellImpl.Workaround);
+            Sequence[] callStack = debugSequences.ToArray();
+            for(int i = callStack.Length - 1; i >= 0; --i)
+            {
+                Sequence currSeq = callStack[i].GetCurrentlyExecutedSequence();
+                contextTrace.highlightSeq = currSeq;
+                PrintSequence(callStack[i], contextTrace, callStack.Length - i);
+                Console.WriteLine();
+                PrintVariables(callStack[i], currSeq != null ? currSeq : callStack[i]);
+            }
+            Console.WriteLine("continuing execution with:");
+        }
+
+        #endregion Methods for directly handling user commands
+
+
+        #region Choice/Breakpoint helpers
+
+        int HandleTogglePoint(string pointName, int numPositions)
+        {
+            while(true)
+            {
+                Console.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
+                Console.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
+                                + " Press (a) to abort.");
+
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch (key.KeyChar)
+                {
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    int num = key.KeyChar - '0';
+                    if (num >= numPositions)
+                    {
+                        Console.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
+                        break;
+                    }
+                    return num;
+                case 'e':
+                    Console.Write("Enter number of " + pointName + " to toggle (-1 for abort): ");
+                    String numStr = Console.ReadLine();
+                    if (int.TryParse(numStr, out num))
+                    {
+                        if (num < -1 || num >= numPositions)
+                        {
+                            Console.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
+                            break;
+                        }
+                        return num;
+                    }
+                    Console.WriteLine("You must enter a valid integer number!");
+                    break;
+                case 'a':
+                    return -1;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (0)...(9), (e)nter number, (a)bort allowed! ");
+                    break;
+                }
+            }
+        }
+
+        void ToggleChoicepoint(Sequence seq, int cpPos)
+        {
+            int cpCounter = 0; // dummy
+            SequenceRandomChoice cpSeq = GetSequenceAtChoicepointPosition(seq, cpPos, ref cpCounter);
+            cpSeq.Choice = !cpSeq.Choice;
+        }
+
+        void ToggleBreakpoint(Sequence seq, int bpPos)
+        {
+            int bpCounter = 0; // dummy
+            SequenceSpecial bpSeq = GetSequenceAtBreakpointPosition(seq, bpPos, ref bpCounter);
+            bpSeq.Special = !bpSeq.Special;
+        }
+
+        SequenceSpecial GetSequenceAtBreakpointPosition(Sequence seq, int bpPos, ref int counter)
+        {
+            if (seq is SequenceSpecial)
+            {
+                if (counter == bpPos)
+                    return (SequenceSpecial)seq;
+                counter++;
+            }
+            foreach (Sequence child in seq.Children)
+            {
+                SequenceSpecial res = GetSequenceAtBreakpointPosition(child, bpPos, ref counter);
+                if (res != null) return res;
+            }
+            return null;
+        }
+
+        SequenceRandomChoice GetSequenceAtChoicepointPosition(Sequence seq, int cpPos, ref int counter)
+        {
+            if (seq is SequenceRandomChoice && ((SequenceRandomChoice)seq).Random)
+            {
+                if (counter == cpPos)
+                    return (SequenceRandomChoice)seq;
+                counter++;
+            }
+            foreach (Sequence child in seq.Children)
+            {
+                SequenceRandomChoice res = GetSequenceAtChoicepointPosition(child, cpPos, ref counter);
+                if (res != null) return res;
+            }
+            return null;
+        }
+        
+        void TogglePointInAllInstances(int pos, bool choice)
+        {
+            if(debugSequences.Count > 1)
+            {
+                SequenceDefinitionInterpreted top = (SequenceDefinitionInterpreted)debugSequences.Peek();
+                Sequence[] callStack = debugSequences.ToArray();
+                for(int i = 0; i <= callStack.Length - 2; ++i) // non definition bottom excluded
+                {
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)callStack[i];
+                    if(seqDef.SequenceName == top.SequenceName)
+                    {
+                        if(choice)
+                            ToggleChoicepoint(seqDef, pos);
+                        else
+                            ToggleBreakpoint(seqDef, pos);
+                    }
+                }
+
+                // additionally handle the internally cached sequences
+                foreach(SequenceDefinitionInterpreted seqDef in top.CachedSequenceCopies)
+                {
+                    if(choice)
+                        ToggleChoicepoint(seqDef, pos);
+                    else
+                        ToggleBreakpoint(seqDef, pos);
+                }
+            }
+            else
+            {
+                if(choice)
+                    ToggleChoicepoint(debugSequences.Peek(), pos);
+                else
+                    ToggleBreakpoint(debugSequences.Peek(), pos);
+            }
+        }
+
+        #endregion Choice/Breakpoint helpers
+
+
+        #region Print sequence and variables
+
+        /// <summary>
+        /// Prints the given root sequence adding parentheses if needed according to the print context.
+        /// </summary>
+        /// <param name="seq">The sequence to be printed</param>
+        /// <param name="context">The print context</param>
+        /// <param name="nestingLevel">The level the sequence is nested in</param>
+        private static void PrintSequence(Sequence seq, PrintSequenceContext context, int nestingLevel)
+        {
+            context.workaround.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
+            PrintSequence(seq, null, context);
+        }
+
+        /// <summary>
+        /// Prints the given sequence adding parentheses if needed according to the print context.
+        /// </summary>
+        /// <param name="seq">The sequence to be printed</param>
+        /// <param name="parent">The parent of the sequence or null if the sequence is a root</param>
+        /// <param name="context">The print context</param>
+        private static void PrintSequence(Sequence seq, Sequence parent, PrintSequenceContext context)
+        {
+            // print parentheses, if neccessary
+            if(parent != null && seq.Precedence < parent.Precedence) Console.Write("(");
+
+            switch(seq.SequenceType)
+            {
+                // Binary
+                case SequenceType.ThenLeft:
+                case SequenceType.ThenRight:
+                case SequenceType.LazyOr:
+                case SequenceType.LazyAnd:
+                case SequenceType.StrictOr:
+                case SequenceType.Xor:
+                case SequenceType.StrictAnd:
+                    {
+                        SequenceBinary seqBin = (SequenceBinary)seq;
+
+                        if(context.cpPosCounter >= 0 && seqBin.Random)
+                        {
+                            int cpPosCounter = context.cpPosCounter;
+                            ++context.cpPosCounter;
+                            PrintSequence(seqBin.Left, seq, context);
+                            PrintChoice(seqBin, context);
+                            Console.Write(seq.Symbol + " ");
+                            PrintSequence(seqBin.Right, seq, context);
+                            break;
+                        }
+
+                        if(seqBin == context.highlightSeq && context.choice)
+                        {
+                            context.workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
+                            PrintSequence(seqBin.Left, seq, context);
+                            context.workaround.PrintHighlighted("(l) " + seq.Symbol + " (r)", HighlightingMode.Choicepoint);
+                            PrintSequence(seqBin.Right, seq, context);
+                            context.workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
+                            break;
+                        }
+
+                        PrintSequence(seqBin.Left, seq, context);
+                        Console.Write(" " + seq.Symbol + " ");
+                        PrintSequence(seqBin.Right, seq, context);
+                        break;
+                    }
+                case SequenceType.IfThen:
+                    {
+                        SequenceIfThen seqIfThen = (SequenceIfThen)seq;
+                        Console.Write("if{");
+                        PrintSequence(seqIfThen.Left, seq, context);
+                        Console.Write(";");
+                        PrintSequence(seqIfThen.Right, seq, context);
+                        Console.Write("}");
+                        break;
+                    }
+
+                // Unary
+                case SequenceType.Not:
+                    {
+                        SequenceNot seqNot = (SequenceNot)seq;
+                        Console.Write(seq.Symbol);
+                        PrintSequence(seqNot.Seq, seq, context);
+                        break;
+                    }
+                case SequenceType.IterationMin:
+                    {
+                        SequenceIterationMin seqMin = (SequenceIterationMin)seq;
+                        PrintSequence(seqMin.Seq, seq, context);
+                        Console.Write("[" + seqMin.Min + ":*]");
+                        break;
+                    }
+                case SequenceType.IterationMinMax:
+                    {
+                        SequenceIterationMinMax seqMinMax = (SequenceIterationMinMax)seq;
+                        PrintSequence(seqMinMax.Seq, seq, context);
+                        Console.Write("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]");
+                        break;
+                    }
+                case SequenceType.Transaction:
+                    {
+                        SequenceTransaction seqTrans = (SequenceTransaction)seq;
+                        Console.Write("<");
+                        PrintSequence(seqTrans.Seq, seq, context);
+                        Console.Write(">");
+                        break;
+                    }
+                case SequenceType.Backtrack:
+                    {
+                        SequenceBacktrack seqBack = (SequenceBacktrack)seq;
+                        Console.Write("<<");
+                        PrintSequence(seqBack.Rule, seq, context);
+                        Console.Write(";");
+                        PrintSequence(seqBack.Seq, seq, context);
+                        Console.Write(">>");
+                        break;
+                    }
+                case SequenceType.For:
+                    {
+                        SequenceFor seqFor = (SequenceFor)seq;
+                        Console.Write("for{");
+                        Console.Write(seqFor.Var.Name);
+                        if(seqFor.VarDst != null) Console.Write("->" + seqFor.VarDst.Name);
+                        Console.Write(" in " + seqFor.Container.Name);
+                        Console.Write("; ");
+                        PrintSequence(seqFor.Seq, seq, context);
+                        Console.Write("}");
+                        break;
+                    }
+
+                // Ternary
+                case SequenceType.IfThenElse:
+                    {
+                        SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
+                        Console.Write("if{");
+                        PrintSequence(seqIf.Condition, seq, context);
+                        Console.Write(";");
+                        PrintSequence(seqIf.TrueCase, seq, context);
+                        Console.Write(";");
+                        PrintSequence(seqIf.FalseCase, seq, context);
+                        Console.Write("}");
+                        break;
+                    }
+
+                // n-ary
+                case SequenceType.LazyOrAll:
+                case SequenceType.LazyAndAll:
+                case SequenceType.StrictOrAll:
+                case SequenceType.StrictAndAll:
+                    {
+                        SequenceNAry seqN = (SequenceNAry)seq;
+
+                        if(context.cpPosCounter >= 0)
+                        {
+                            PrintChoice(seqN, context);
+                            ++context.cpPosCounter;
+                            Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
+                            bool first = true;
+                            foreach(Sequence seqChild in seqN.Children)
+                            {
+                                if(!first) Console.Write(", ");
+                                PrintSequence(seqChild, seqN, context);
+                                first = false;
+                            }
+                            Console.Write(")");
+                            break;
+                        }
+
+                        bool highlight = false;
+                        foreach(Sequence seqChild in seqN.Children)
+                            if(seqChild == context.highlightSeq)
+                                highlight = true;
+                        if(highlight && context.choice)
+                        {
+                            context.workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
+                            bool first = true;
+                            foreach(Sequence seqChild in seqN.Children)
+                            {
+                                if(!first) Console.Write(", ");
+                                if(seqChild == context.highlightSeq)
+                                    context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                                if(context.sequences != null)
+                                {
+                                    for(int i = 0; i < context.sequences.Count; ++i)
+                                    {
+                                        if(seqChild == context.sequences[i])
+                                            context.workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
+                                    }
+                                }
+
+                                Sequence highlightSeqBackup = context.highlightSeq;
+                                context.highlightSeq = null; // we already highlighted here
+                                PrintSequence(seqChild, seqN, context);
+                                context.highlightSeq = highlightSeqBackup;
+
+                                if(seqChild == context.highlightSeq)
+                                    context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                                first = false;
+                            }
+                            context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                            break;
+                        }
+
+                        Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
+                        PrintChildren(seqN, context);
+                        Console.Write(")");
+                        break;
+                    }
+
+                case SequenceType.SomeFromSet:
+                    {
+                        SequenceSomeFromSet seqSome = (SequenceSomeFromSet)seq;
+
+                        if(context.cpPosCounter >= 0
+                            && seqSome.Random)
+                        {
+                            PrintChoice(seqSome, context);
+                            ++context.cpPosCounter;
+                            Console.Write(seqSome.Choice ? "$%{(" : "${(");
+                            bool first = true;
+                            foreach(Sequence seqChild in seqSome.Children)
+                            {
+                                if(!first) Console.Write(", ");
+                                int cpPosCounterBackup = context.cpPosCounter;
+                                context.cpPosCounter = -1; // rules within some-from-set are not choicepointable
+                                PrintSequence(seqChild, seqSome, context);
+                                context.cpPosCounter = cpPosCounterBackup;
+                                first = false;
+                            }
+                            Console.Write(")}");
+                            break;
+                        }
+
+                        bool highlight = false;
+                        foreach(Sequence seqChild in seqSome.Children)
+                            if(seqChild == context.highlightSeq)
+                                highlight = true;
+
+                        if(highlight && context.choice)
+                        {
+                            context.workaround.PrintHighlighted("$%{(", HighlightingMode.Choicepoint);
+                            bool first = true;
+                            int numCurTotalMatch = 0;
+                            foreach(Sequence seqChild in seqSome.Children)
+                            {
+                                if(!first) Console.Write(", ");
+                                if(seqChild == context.highlightSeq)
+                                    context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                                if(context.sequences != null)
+                                {
+                                    for(int i = 0; i < context.sequences.Count; ++i)
+                                    {
+                                        if(seqChild == context.sequences[i] && context.matches[i].Count > 0)
+                                        {
+                                            PrintListOfMatchesNumbers(context, ref numCurTotalMatch, context.matches[i].Count);
+                                        }
+                                    }
+                                }
+
+                                Sequence highlightSeqBackup = context.highlightSeq;
+                                context.highlightSeq = null; // we already highlighted here
+                                PrintSequence(seqChild, seqSome, context);
+                                context.highlightSeq = highlightSeqBackup;
+
+                                if(seqChild == context.highlightSeq)
+                                    context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                                first = false;
+                            }
+                            context.workaround.PrintHighlighted(")}", HighlightingMode.Choicepoint);
+                            break;
+                        }
+
+                        bool succesBackup = context.success;
+                        if(highlight) context.success = true;
+                        Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{(" : "${(") : "{(");
+                        PrintChildren(seqSome, context);
+                        Console.Write(")}");
+                        context.success = succesBackup;
+                        break;
+                    }
+
+                // Breakpointable atoms
+                case SequenceType.SequenceCall:
+                case SequenceType.RuleCall:
+                case SequenceType.RuleAllCall:
+                case SequenceType.BooleanComputation:
+                    {
+                        if(context.bpPosCounter >= 0)
+                        {
+                            PrintBreak((SequenceSpecial)seq, context);
+                            Console.Write(seq.Symbol);
+                            ++context.bpPosCounter;
+                            break;
+                        }
+
+                        if(context.cpPosCounter >= 0 && seq is SequenceRandomChoice
+                            && ((SequenceRandomChoice)seq).Random)
+                        {
+                            PrintChoice((SequenceRandomChoice)seq, context);
+                            Console.Write(seq.Symbol);
+                            ++context.cpPosCounter;
+                            break;
+                        }
+
+                        HighlightingMode mode = HighlightingMode.None;
+                        if(seq == context.highlightSeq)
+                        {
+                            if(context.choice) mode |= HighlightingMode.Choicepoint;
+                            else if(context.success) mode |= HighlightingMode.FocusSucces;
+                            else mode |= HighlightingMode.Focus;
+                        }
+                        if(seq.ExecutionState == SequenceExecutionState.Success) mode |= HighlightingMode.LastSuccess;
+                        if(seq.ExecutionState == SequenceExecutionState.Fail) mode |= HighlightingMode.LastFail;
+                        if(context.sequences != null && context.sequences.Contains(seq))
+                        {
+                            if(context.matches != null && context.matches[context.sequences.IndexOf(seq)].Count > 0)
+                                mode |= HighlightingMode.FocusSucces;
+                        }
+                        context.workaround.PrintHighlighted(seq.Symbol, mode);
+                        break;
+                    }
+
+                // Unary assignment
+                case SequenceType.AssignSequenceResultToVar:
+                case SequenceType.OrAssignSequenceResultToVar:
+                case SequenceType.AndAssignSequenceResultToVar:
+                    {
+                        SequenceAssignSequenceResultToVar seqAss = (SequenceAssignSequenceResultToVar)seq;
+                        Console.Write("(");
+                        PrintSequence(seqAss.Seq, seq, context);
+                        if(seq.SequenceType == SequenceType.OrAssignSequenceResultToVar)
+                            Console.Write("|>");
+                        else if(seq.SequenceType == SequenceType.AndAssignSequenceResultToVar)
+                            Console.Write("&>");
+                        else //if(seq.SequenceType==SequenceType.AssignSequenceResultToVar)
+                            Console.Write("=>");
+                        Console.Write(seqAss.DestVar.Name);
+                        Console.Write(")");
+                        break;
+                    }
+
+                // Choice highlightable user assignments
+                case SequenceType.AssignUserInputToVar:
+                case SequenceType.AssignRandomToVar:
+                    {
+                        if(context.cpPosCounter >= 0 && seq is SequenceAssignRandomToVar)
+                        {
+                            PrintChoice((SequenceRandomChoice)seq, context);
+                            Console.Write(seq.Symbol);
+                            ++context.cpPosCounter;
+                            break;
+                        }
+
+                        if(seq == context.highlightSeq && context.choice)
+                            context.workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
+                        else
+                            Console.Write(seq.Symbol);
+                        break;
+                    }
+
+                case SequenceType.SequenceDefinitionInterpreted:
+                    {
+                        SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seq;
+                        HighlightingMode mode = HighlightingMode.None;
+                        if(seqDef.ExecutionState == SequenceExecutionState.Success) mode = HighlightingMode.LastSuccess;
+                        if(seqDef.ExecutionState == SequenceExecutionState.Fail) mode = HighlightingMode.LastFail;
+                        context.workaround.PrintHighlighted(seqDef.Symbol + ": ", mode);
+                        PrintSequence(seqDef.Seq, seqDef.Seq, context);
+                        break;
+                    }
+
+                // Atoms (assignments)
+                case SequenceType.AssignVarToVar:
+                case SequenceType.AssignConstToVar:
+                    {
+                        Console.Write(seq.Symbol);
+                        break;
+                    }
+
+                default:
+                    {
+                        Debug.Assert(false);
+                        Console.Write("<UNKNOWN_SEQUENCE_TYPE>");
+                        break;
+                    }
+            }
+
+            // print parentheses, if neccessary
+            if(parent != null && seq.Precedence < parent.Precedence) Console.Write(")");
+        }
+
+        static void PrintChildren(Sequence seq, PrintSequenceContext context)
+        {
+            bool first = true;
+            foreach(Sequence seqChild in seq.Children)
+            {
+                if(!first) Console.Write(", ");
+                PrintSequence(seqChild, seq, context);
+                first = false;
+            }
+        }
+
+        static void PrintChoice(SequenceRandomChoice seq, PrintSequenceContext context)
+        {
+            if(seq.Choice)
+                context.workaround.PrintHighlighted("-%" + context.cpPosCounter + "-:", HighlightingMode.Choicepoint);
+            else
+                context.workaround.PrintHighlighted("+%" + context.cpPosCounter + "+:", HighlightingMode.Choicepoint);
+        }
+
+        static void PrintBreak(SequenceSpecial seq, PrintSequenceContext context)
+        {
+            if(seq.Special)
+                context.workaround.PrintHighlighted("-%" + context.bpPosCounter + "-:", HighlightingMode.Breakpoint);
+            else
+                context.workaround.PrintHighlighted("+%" + context.bpPosCounter + "+:", HighlightingMode.Breakpoint);
+        }
+
+        static void PrintListOfMatchesNumbers(PrintSequenceContext context, ref int numCurTotalMatch, int numMatches)
+        {
+            context.workaround.PrintHighlighted("(", HighlightingMode.Choicepoint);
+            bool first = true;
+            for(int i = 0; i < numMatches; ++i)
+            {
+                if(!first) context.workaround.PrintHighlighted(",", HighlightingMode.Choicepoint);
+                context.workaround.PrintHighlighted(numCurTotalMatch.ToString(), HighlightingMode.Choicepoint);
+                ++numCurTotalMatch;
+                first = false;
+            }
+            context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+        }
+
+        /// <summary>
+        /// Called from shell after an debugging abort highlighting the lastly executed rule
+        /// </summary>
+        public static void PrintSequence(Sequence seq, Sequence highlight, IWorkaround workaround)
+        {
+            PrintSequenceContext context = new PrintSequenceContext(workaround);
+            context.highlightSeq = highlight;
+            PrintSequence(seq, context, 0);
+            // TODO: what to do if abort came within sequence called from top sequence?
+        }
+
+        void PrintVariables(Sequence seqStart, Sequence seq)
+        {
+            if(seq != null)
+            {
+                Console.WriteLine("Available local variables:");
+                Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
+                seqStart.GetLocalVariables(seqVars, seq);
+                foreach(SequenceVariable var in seqVars.Keys)
+                {
+                    string type;
+                    string content;
+                    if(var.Value is IDictionary)
+                        DictionaryListHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
+                    else if(var.Value is IList)
+                        DictionaryListHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
+                    else
+                        DictionaryListHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
+                    Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Available global (non null) variables:");
+                foreach(Variable var in shellProcEnv.ProcEnv.Variables)
+                {
+                    string type;
+                    string content;
+                    if(var.Value is IDictionary)
+                        DictionaryListHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
+                    else if(var.Value is IList)
+                        DictionaryListHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
+                    else
+                        DictionaryListHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
+                    Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
+                }
+            }
+        }
+
+        #endregion Print sequence and variables
+
+
+        #region Match marking and annotation in graph
+
+        void Mark(int rule, int match, SequenceSomeFromSet seq)
+        {
+            if(seq.NonRandomAll(rule))
+            {
+                MarkMatches(seq.Matches[rule], realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+                AnnotateMatches(seq.Matches[rule], true);
+            }
+            else
+            {
+                MarkMatch(seq.Matches[rule].GetMatch(match), realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+                AnnotateMatch(seq.Matches[rule].GetMatch(match), true);
+            }
+        }
+
+        void Unmark(int rule, int match, SequenceSomeFromSet seq)
+        {
+            if(seq.NonRandomAll(rule))
+            {
+                MarkMatches(seq.Matches[rule], null, null);
+                AnnotateMatches(seq.Matches[rule], false);
+            }
+            else
+            {
+                MarkMatch(seq.Matches[rule].GetMatch(match), null, null);
+                AnnotateMatch(seq.Matches[rule].GetMatch(match), false);
             }
         }
 
@@ -1980,11 +1475,427 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void DebugNextMatch()
+        #endregion Match marking and annotation in graph
+
+
+        #region Possible user choices during sequence execution
+
+        /// <summary>
+        /// returns the maybe user altered direction of execution for the sequence given
+        /// the randomly chosen directions is supplied; 0: execute left operand first, 1: execute right operand first
+        /// </summary>
+        public int ChooseDirection(int direction, Sequence seq)
         {
-            nextAddedNodeIndex = 0;
-            nextAddedEdgeIndex = 0;
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            context.highlightSeq = seq;
+            context.choice = true;
+            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            Console.WriteLine();
+            context.choice = false;
+
+            context.workaround.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
+            Console.Write(" (l)eft or (r)ight or (s)/(n) to continue with random choice?  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
+            while(true)
+            {
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                    case 'l':
+                        Console.WriteLine();
+                        return 0;
+                    case 'r':
+                        Console.WriteLine();
+                        return 1;
+                    case 's':
+                    case 'n':
+                        Console.WriteLine();
+                        return direction;
+                    default:
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (l)eft branch, (r)ight branch, (s)/(n) to continue allowed! ");
+                        break;
+                }
+            }
         }
+
+        /// <summary>
+        /// returns the maybe user altered sequence to execute next for the sequence given
+        /// the randomly chosen sequence is supplied; the object with all available sequences is supplied
+        /// </summary>
+        public int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
+        {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            context.workaround.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
+            Console.WriteLine(" Pre-selecting sequence " + seqToExecute + " chosen by random.");
+            Console.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
+                                + " Press (s) or (n) to commit to the pre-selected sequence and continue."
+                                + " Pressing (u) or (o) works like (s)/(n) but does not ask for the remaining contained sequences.");
+
+            while(true)
+            {
+                context.highlightSeq = sequences[seqToExecute];
+                context.choice = true;
+                context.sequences = sequences;
+                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                Console.WriteLine();
+                context.choice = false;
+                context.sequences = null;
+
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        int num = key.KeyChar - '0';
+                        if(num >= sequences.Count)
+                        {
+                            Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                            break;
+                        }
+                        seqToExecute = num;
+                        break;
+                    case 'e':
+                        Console.Write("Enter number of sequence to show: ");
+                        String numStr = Console.ReadLine();
+                        if(int.TryParse(numStr, out num))
+                        {
+                            if(num < 0 || num >= sequences.Count)
+                            {
+                                Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                                break;
+                            }
+                            seqToExecute = num;
+                            break;
+                        }
+                        Console.WriteLine("You must enter a valid integer number!");
+                        break;
+                    case 's':
+                    case 'n':
+                        return seqToExecute;
+                    case 'u':
+                    case 'o':
+                        seq.Skip = true; // skip remaining rules (reset after exection of seq)
+                        return seqToExecute;
+                    default:
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// returns the maybe user altered rule to execute next for the sequence given
+        /// the randomly chosen rule is supplied; the object with all available rules is supplied
+        /// a list of all found matches is supplied, too
+        /// </summary>
+        public int ChooseMatch(int totalMatchToExecute, SequenceSomeFromSet seq)
+        {
+            if(seq.NumTotalMatches <= 1 && lazyChoice)
+            {
+                context.workaround.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
+                Console.WriteLine("as no choice needed (use the (l) command to toggle this behaviour).");
+                return totalMatchToExecute;
+            }
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            context.workaround.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
+            Console.WriteLine(" Pre-selecting match " + totalMatchToExecute + " chosen by random.");
+            Console.WriteLine("Press (0)...(9) to pre-select the corresponding match or (e) to enter the number of the match to show."
+                                + " Press (s) or (n) to commit to the pre-selected match and continue.");
+
+            while(true)
+            {
+                int rule; int match;
+                seq.FromTotalMatch(totalMatchToExecute, out rule, out match);
+                Mark(rule, match, seq);
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+
+                context.highlightSeq = seq.Sequences[rule];
+                context.choice = true;
+                context.sequences = seq.Sequences;
+                context.matches = seq.Matches;
+                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                Console.WriteLine();
+                context.choice = false;
+                context.sequences = null;
+                context.matches = null;
+
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        int num = key.KeyChar - '0';
+                        if(num >= seq.NumTotalMatches)
+                        {
+                            Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
+                            break;
+                        }
+                        Unmark(rule, match, seq);
+                        totalMatchToExecute = num;
+                        break;
+                    case 'e':
+                        Console.Write("Enter number of rule to show: ");
+                        String numStr = Console.ReadLine();
+                        if(int.TryParse(numStr, out num))
+                        {
+                            if(num < 0 || num >= seq.NumTotalMatches)
+                            {
+                                Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
+                                break;
+                            }
+                            Unmark(rule, match, seq);
+                            totalMatchToExecute = num;
+                            break;
+                        }
+                        Console.WriteLine("You must enter a valid integer number!");
+                        break;
+                    case 's':
+                    case 'n':
+                        Unmark(rule, match, seq);
+                        return totalMatchToExecute;
+                    default:
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// returns the maybe user altered match to apply next for the sequence given
+        /// the randomly chosen match is supplied; the object with all available matches is supplied
+        /// </summary>
+        public int ChooseMatch(int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq)
+        {
+            context.highlightSeq = seq;
+            context.choice = true;
+            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            Console.WriteLine();
+            context.choice = false;
+
+            if(matches.Count <= 1 + numFurtherMatchesToApply && lazyChoice)
+            {
+                context.workaround.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
+                Console.WriteLine("as no choice needed (use the (l) command to toggle this behaviour).");
+                return matchToApply;
+            }
+
+            context.workaround.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
+            Console.WriteLine(" Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
+            Console.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
+                                + " Press (s) or (n) to commit to the currently shown match and continue.");
+
+            if(detailedMode)
+            {
+                MarkMatches(matches, null, null);
+                AnnotateMatches(matches, false);
+            }
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            int newMatchToRewrite = matchToApply;
+            while(true)
+            {
+                MarkMatch(matches.GetMatch(matchToApply), null, null);
+                AnnotateMatch(matches.GetMatch(matchToApply), false);
+                matchToApply = newMatchToRewrite;
+                MarkMatch(matches.GetMatch(matchToApply), realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+                AnnotateMatch(matches.GetMatch(matchToApply), true);
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+
+                Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
+
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        int num = key.KeyChar - '0';
+                        if(num >= matches.Count)
+                        {
+                            Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
+                            break;
+                        }
+                        newMatchToRewrite = num;
+                        break;
+                    case 'e':
+                        Console.Write("Enter number of match to show: ");
+                        String numStr = Console.ReadLine();
+                        if(int.TryParse(numStr, out num))
+                        {
+                            if(num < 0 || num >= matches.Count)
+                            {
+                                Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
+                                break;
+                            }
+                            newMatchToRewrite = num;
+                            break;
+                        }
+                        Console.WriteLine("You must enter a valid integer number!");
+                        break;
+                    case 's':
+                    case 'n':
+                        MarkMatch(matches.GetMatch(matchToApply), null, null);
+                        AnnotateMatch(matches.GetMatch(matchToApply), false);
+                        ycompClient.UpdateDisplay();
+                        ycompClient.Sync();
+                        return matchToApply;
+                    default:
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// returns the maybe user altered random number in the range 0 - upperBound exclusive for the sequence given
+        /// the random number chosen is supplied
+        /// </summary>
+        public int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
+        {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            context.highlightSeq = seq;
+            context.choice = true;
+            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            Console.WriteLine();
+            context.choice = false;
+
+            while(true)
+            {
+                Console.Write("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber + ": ");
+                String numStr = Console.ReadLine();
+                if(numStr == "")
+                    return randomNumber;
+                int num;
+                if(int.TryParse(numStr, out num))
+                {
+                    if(num < 0 || num >= upperBound)
+                    {
+                        Console.WriteLine("You must specify a number between 0 and " + (upperBound - 1) + "!");
+                        continue;
+                    }
+                    return num;
+                }
+                Console.WriteLine("You must enter a valid integer number!");
+            }
+        }
+
+        /// <summary>
+        /// returns the id/persistent name of a node/edge chosen by the user in yComp
+        /// </summary>
+        public string ChooseGraphElement()
+        {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            ycompClient.WaitForElement(true);
+
+            // Allow to abort with ESC
+            while(true)
+            {
+                if(Console.KeyAvailable && grShellImpl.Workaround.ReadKey(true).Key == ConsoleKey.Escape)
+                {
+                    Console.WriteLine("Aborted!");
+                    ycompClient.WaitForElement(false);
+                    return null;
+                }
+                if(ycompClient.CommandAvailable)
+                    break;
+                Thread.Sleep(100);
+            }
+
+            String cmd = ycompClient.ReadCommand();
+            if(cmd.Length < 7 || !cmd.StartsWith("send "))
+            {
+                Console.WriteLine("Unexpected yComp command: \"" + cmd + "\"!");
+                return null;
+            }
+
+            // Skip 'n' or 'e'
+            return cmd.Substring(6);
+        }
+
+        /// <summary>
+        /// returns a user chosen/input value of the given type
+        /// no random input value is supplied, the user must give a value
+        /// </summary>
+        public object ChooseValue(string type, Sequence seq)
+        {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            context.highlightSeq = seq;
+            context.choice = true;
+            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            Console.WriteLine();
+            context.choice = false;
+
+            object value = grShellImpl.Askfor(type);
+
+            while(value == null)
+            {
+                Console.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                    case 'a':
+                        Console.WriteLine();
+                        return null;
+                    case 'r':
+                        Console.WriteLine();
+                        value = grShellImpl.Askfor(type);
+                        break;
+                    default:
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (a)bort user choice or (r)etry allowed! ");
+                        break;
+                }
+            }
+
+            return value;
+        }
+
+        #endregion Possible user choices during sequence execution
+
+
+        #region Event Handling
 
         void DebugNodeAdded(INode node)
         {
@@ -2096,6 +2007,82 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        void DebugSettingAddedNodeNames(string[] namesOfNodesAdded)
+        {
+            curAddedNodeNames = namesOfNodesAdded;
+            nextAddedNodeIndex = 0;
+        }
+
+        void DebugSettingAddedEdgeNames(string[] namesOfEdgesAdded)
+        {
+            curAddedEdgeNames = namesOfEdgesAdded;
+            nextAddedEdgeIndex = 0;
+        }
+
+        void DebugMatched(IMatches matches, bool special)
+        {
+            if(matches.Count == 0) // todo: how can this happen?
+                return;
+
+            if(dynamicStepMode && !skipMode)
+            {
+                skipMode = true;
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+                context.highlightSeq = lastlyEntered;
+                context.success = true;
+                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                Console.WriteLine();
+
+                if(!QueryUser(lastlyEntered))
+                {
+                    recentlyMatched = lastlyEntered;
+                    return;
+                }
+            }
+
+            recentlyMatched = lastlyEntered;
+
+            if(!detailedMode)
+                return;
+
+            if(recordMode)
+            {
+                DebugFinished(null, false);
+                matchDepth++;
+            }
+
+            if(matchDepth++ > 0)
+                Console.WriteLine("Matched " + matches.Producer.Name);
+
+            annotatedNodes.Clear();
+            annotatedEdges.Clear();
+
+            curRulePattern = matches.Producer.RulePattern;
+
+            MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+            AnnotateMatches(matches, true);
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+            Console.WriteLine("Press any key to apply rewrite...");
+            ReadKeyWithCancel();
+
+            MarkMatches(matches, null, null);
+
+            recordMode = true;
+            ycompClient.NodeRealizerOverride = realizers.NewNodeRealizer;
+            ycompClient.EdgeRealizerOverride = realizers.NewEdgeRealizer;
+            nextAddedNodeIndex = 0;
+            nextAddedEdgeIndex = 0;
+        }
+
+        void DebugNextMatch()
+        {
+            nextAddedNodeIndex = 0;
+            nextAddedEdgeIndex = 0;
+        }
+
         void DebugFinished(IMatches matches, bool special)
         {
             if(detailedMode == false) return;
@@ -2142,6 +2129,144 @@ namespace de.unika.ipd.grGen.grShell
             matchDepth--;
         }
 
+        void DebugEnteringSequence(Sequence seq)
+        {
+            // root node of sequence entered and interactive debugging activated
+            if(stepMode && lastlyEntered == null)
+            {
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                Console.WriteLine();
+                context.workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
+                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state and (a)bort (plus Ctrl+C for forced abort).");
+                QueryUser(seq);
+            }
+
+            lastlyEntered = seq;
+            recentlyMatched = null;
+
+            // Entering a loop?
+            if(seq.SequenceType == SequenceType.IterationMin
+                || seq.SequenceType == SequenceType.IterationMinMax
+                || seq.SequenceType == SequenceType.For
+                || seq.SequenceType == SequenceType.Backtrack)
+            {
+                loopList.AddFirst(seq);
+            }
+
+            // Entering a subsequence called?
+            if(seq.SequenceType == SequenceType.SequenceDefinitionInterpreted)
+            {
+                loopList.AddFirst(seq);
+                debugSequences.Push(seq);
+            }
+
+            // Breakpoint reached?
+            bool breakpointReached = false;
+            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
+                || seq.SequenceType == SequenceType.BooleanComputation || seq.SequenceType == SequenceType.SequenceCall)
+                    && ((SequenceSpecial)seq).Special)
+            {
+                stepMode = true;
+                breakpointReached = true;
+            }
+
+            if(!stepMode)
+            {
+                return;
+            }
+
+            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
+                || seq.SequenceType == SequenceType.SequenceCall
+                || breakpointReached)
+            {
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+                context.highlightSeq = seq;
+                context.success = false;
+                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                Console.WriteLine();
+                QueryUser(seq);
+                return;
+            }
+        }
+
+        void DebugExitingSequence(Sequence seq)
+        {
+            skipMode = false;
+
+            if(seq == curStepSequence)
+            {
+                stepMode = true;
+            }
+
+            if(seq.SequenceType == SequenceType.IterationMin
+                || seq.SequenceType == SequenceType.IterationMinMax
+                || seq.SequenceType == SequenceType.For
+                || seq.SequenceType == SequenceType.Backtrack)
+            {
+                loopList.RemoveFirst();
+            }
+
+            if(seq.SequenceType == SequenceType.SequenceDefinitionInterpreted)
+            {
+                debugSequences.Pop();
+                loopList.RemoveFirst();
+            }
+
+            if(debugSequences.Count == 1 && seq == debugSequences.Peek())
+            {
+                context.workaround.PrintHighlighted("State at end of sequence ", HighlightingMode.SequenceStart);
+                context.highlightSeq = null;
+                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                context.workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
+                Console.WriteLine();
+            }
+        }
+
+        /// <summary>
+        /// informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
+        /// </summary>
+        void DebugEndOfIteration(bool continueLoop, Sequence seq)
+        {
+            if(stepMode || dynamicStepMode)
+            {
+                if(seq is SequenceBacktrack)
+                {
+                    SequenceBacktrack seqBack = (SequenceBacktrack)seq;
+                    String text;
+                    if(seqBack.Seq.ExecutionState == SequenceExecutionState.Success)
+                        text = "Success ";
+                    else
+                        if(continueLoop) text = "Backtracking ";
+                        else text = "Backtracking possibilities exhausted, fail ";
+                    context.workaround.PrintHighlighted(text, HighlightingMode.SequenceStart);
+                    context.highlightSeq = seq;
+                    PrintSequence(seq, context, debugSequences.Count);
+                    if(!continueLoop)
+                        context.workaround.PrintHighlighted("< leaving backtracking brackets", HighlightingMode.SequenceStart);
+                }
+                else if(seq is SequenceDefinition)
+                {
+                    SequenceDefinition seqDef = (SequenceDefinition)seq;
+                    context.workaround.PrintHighlighted("State at end of sequence call ", HighlightingMode.SequenceStart);
+                    context.highlightSeq = seq;
+                    PrintSequence(seq, context, debugSequences.Count);
+                    context.workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
+                }
+                else
+                {
+                    context.workaround.PrintHighlighted("State at end of iteration step ", HighlightingMode.SequenceStart);
+                    context.highlightSeq = seq;
+                    PrintSequence(seq, context, debugSequences.Count);
+                    if(!continueLoop)
+                        context.workaround.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
+                }
+                Console.WriteLine(" (updating, please wait...)");
+            }
+        }
+
         void DebugOnConnectionLost()
         {
             Console.WriteLine("Connection to yComp lost!");
@@ -2165,23 +2290,12 @@ namespace de.unika.ipd.grGen.grShell
             shellProcEnv.Graph.OnSettingAddedNodeNames += DebugSettingAddedNodeNames;
             shellProcEnv.Graph.OnSettingAddedEdgeNames += DebugSettingAddedEdgeNames;
 
-            shellProcEnv.ProcEnv.OnEntereringSequence += DebugEnteringSequence;
-            shellProcEnv.ProcEnv.OnExitingSequence += DebugExitingSequence;
             shellProcEnv.ProcEnv.OnMatched += DebugMatched;
             shellProcEnv.ProcEnv.OnRewritingNextMatch += DebugNextMatch;
             shellProcEnv.ProcEnv.OnFinished += DebugFinished;
-        }
-
-        void DebugSettingAddedNodeNames(string[] namesOfNodesAdded)
-        {
-            curAddedNodeNames = namesOfNodesAdded;
-            nextAddedNodeIndex = 0;
-        }
-
-        void DebugSettingAddedEdgeNames(string[] namesOfEdgesAdded)
-        {
-            curAddedEdgeNames = namesOfEdgesAdded;
-            nextAddedEdgeIndex = 0;
+            shellProcEnv.ProcEnv.OnEntereringSequence += DebugEnteringSequence;
+            shellProcEnv.ProcEnv.OnExitingSequence += DebugExitingSequence;
+            shellProcEnv.ProcEnv.OnEndOfIteration += DebugEndOfIteration;
         }
 
         /// <summary>
@@ -2201,66 +2315,14 @@ namespace de.unika.ipd.grGen.grShell
             shellProcEnv.Graph.OnSettingAddedNodeNames -= DebugSettingAddedNodeNames;
             shellProcEnv.Graph.OnSettingAddedEdgeNames -= DebugSettingAddedEdgeNames;
 
-            shellProcEnv.ProcEnv.OnEntereringSequence -= DebugEnteringSequence;
-            shellProcEnv.ProcEnv.OnExitingSequence -= DebugExitingSequence;
             shellProcEnv.ProcEnv.OnMatched -= DebugMatched;
             shellProcEnv.ProcEnv.OnRewritingNextMatch -= DebugNextMatch;
             shellProcEnv.ProcEnv.OnFinished -= DebugFinished;
+            shellProcEnv.ProcEnv.OnEntereringSequence -= DebugEnteringSequence;
+            shellProcEnv.ProcEnv.OnExitingSequence -= DebugExitingSequence;
+            shellProcEnv.ProcEnv.OnEndOfIteration += DebugEndOfIteration;
         }
 
-        /// <summary>
-        /// Uploads the graph to YComp, updates the display and makes a synchonisation
-        /// </summary>
-        void UploadGraph()
-        {
-            foreach(INode node in shellProcEnv.Graph.Nodes)
-                ycompClient.AddNode(node);
-            foreach(IEdge edge in shellProcEnv.Graph.Edges)
-                ycompClient.AddEdge(edge);
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
-        }
-
-        /// <summary>
-        /// Searches for a free TCP port in the range 4242-4251
-        /// </summary>
-        /// <returns>A free TCP port or -1, if they are all occupied</returns>
-        int GetFreeTCPPort()
-        {
-            for(int i = 4242; i < 4252; i++)
-            {
-                try
-                {
-                    IPEndPoint endpoint = new IPEndPoint(IPAddress.Loopback, i);
-                    // Check whether the current socket is already open by connecting to it
-                    using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
-                    {
-                        try
-                        {
-                            socket.Connect(endpoint);
-                            socket.Disconnect(false);
-                            // Someone is already listening at the current port, so try another one
-                            continue;
-                        }
-                        catch(SocketException)
-                        {
-                        } // Nobody there? Good...
-                    }
-
-                    // Unable to connect, so try to bind the current port.
-                    // Trying to bind directly (without the connect-check before), does not
-                    // work on Windows Vista even with ExclusiveAddressUse set to true (which does not work on Mono).
-                    // It will bind to already used ports without any notice.
-                    using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
-                        socket.Bind(endpoint);
-                }
-                catch(SocketException)
-                {
-                    continue;
-                }
-                return i;
-            }
-            return -1;
-        }
+        #endregion Event Handling
     }
 }

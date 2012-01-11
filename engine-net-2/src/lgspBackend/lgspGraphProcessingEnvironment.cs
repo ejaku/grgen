@@ -24,8 +24,12 @@ namespace de.unika.ipd.grGen.lgsp
         private IRecorder recorder;
         private TextWriter emitWriter = Console.Out;
         public LGSPDeferredSequencesManager sequencesManager;
+        
         private bool clearVariables = false;
         private IEdge currentlyRedirectedEdge;
+
+        private IUserProxyForSequenceExecution userProxy;
+        private IUserProxyForSequenceExecution compliantUserProxy = new CompliantUserProxyForSequenceExecution();
 
         protected Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
         protected Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
@@ -237,7 +241,7 @@ namespace de.unika.ipd.grGen.lgsp
                 for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
                 {
                     if(paramBindings.ArgumentExpressions[i] != null)
-                        parameters[i] = paramBindings.ArgumentExpressions[i].Evaluate(this, null);
+                        parameters[i] = paramBindings.ArgumentExpressions[i].Evaluate(this);
                 }
             }
             else parameters = null;
@@ -557,7 +561,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(PerformanceInfo != null) PerformanceInfo.Start();
 
-            bool res = sequence.Apply(this, null);
+            bool res = sequence.Apply(this);
 
             if(PerformanceInfo != null) PerformanceInfo.Stop();
             return res;
@@ -568,26 +572,11 @@ namespace de.unika.ipd.grGen.lgsp
             return ApplyGraphRewriteSequence(ParseSequence(seqStr));
         }
 
-        public bool ApplyGraphRewriteSequence(Sequence sequence, SequenceExecutionEnvironment env)
-        {
-            if(PerformanceInfo != null) PerformanceInfo.Start();
-
-            bool res = sequence.Apply(this, env);
-
-            if(PerformanceInfo != null) PerformanceInfo.Stop();
-            return res;
-        }
-
-        public bool ApplyGraphRewriteSequence(String seqStr, SequenceExecutionEnvironment env)
-        {
-            return ApplyGraphRewriteSequence(ParseSequence(seqStr), env);
-        }
-
         public bool ValidateWithSequence(Sequence seq)
         {
             LGSPGraph old = graph;
             graph = (LGSPGraph)graph.Clone("clonedGraph");
-            bool valid = seq.Apply(this, null);
+            bool valid = seq.Apply(this);
             graph = old;
             return valid;
         }
@@ -595,20 +584,6 @@ namespace de.unika.ipd.grGen.lgsp
         public bool ValidateWithSequence(String seqStr)
         {
             return ValidateWithSequence(ParseSequence(seqStr));
-        }
-
-        public bool ValidateWithSequence(Sequence seq, SequenceExecutionEnvironment env)
-        {
-            LGSPGraph old = graph;
-            graph = (LGSPGraph)graph.Clone("clonedGraph");
-            bool valid = seq.Apply(this, env);
-            graph = old;
-            return valid;
-        }
-
-        public bool ValidateWithSequence(String seqStr, SequenceExecutionEnvironment env)
-        {
-            return ValidateWithSequence(ParseSequence(seqStr), env);
         }
 
         public Sequence ParseSequence(String seqStr)
@@ -622,6 +597,18 @@ namespace de.unika.ipd.grGen.lgsp
             return seq;
         }
 
+
+        public IUserProxyForSequenceExecution UserProxy
+        {
+            get { return userProxy; }
+            set { userProxy = value; }
+        }
+
+        public IUserProxyForSequenceExecution CompliantUserProxy
+        {
+            get { return compliantUserProxy; }
+        }
+
         #endregion Sequence handling
         
 
@@ -629,6 +616,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public event EnterSequenceHandler OnEntereringSequence;
         public event ExitSequenceHandler OnExitingSequence;
+        public event EndOfIterationHandler OnEndOfIteration;
 
 
         public void EnteringSequence(Sequence seq)
@@ -641,6 +629,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             ExitSequenceHandler handler = OnExitingSequence;
             if(handler != null) handler(seq);
+        }
+
+        public void EndOfIteration(bool continueLoop, Sequence seq)
+        {
+            EndOfIterationHandler handler = OnEndOfIteration;
+            if(handler != null) handler(continueLoop, seq);
         }
 
         #endregion Events

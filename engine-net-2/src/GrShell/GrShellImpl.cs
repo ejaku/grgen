@@ -2832,7 +2832,8 @@ namespace de.unika.ipd.grGen.grShell
             curShellProcEnv.ProcEnv.PerformanceInfo = perfInfo;
             try
             {
-                bool result = curShellProcEnv.ProcEnv.ApplyGraphRewriteSequence(seq, debugger);
+                bool result = curShellProcEnv.ProcEnv.ApplyGraphRewriteSequence(seq);
+
                 seq.ResetExecutionState();
                 debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:", perfInfo.TotalTimeMS, result);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
@@ -3006,6 +3007,7 @@ namespace de.unika.ipd.grGen.grShell
                 try
                 {
                     debugger = new Debugger(this, debugLayout, optMap);
+                    curShellProcEnv.ProcEnv.UserProxy = debugger;
                 }
                 catch(Exception ex)
                 {
@@ -3030,6 +3032,7 @@ namespace de.unika.ipd.grGen.grShell
                     return true;
                 }
 
+                curShellProcEnv.ProcEnv.UserProxy = curShellProcEnv.ProcEnv.CompliantUserProxy;
                 debugger.Close();
                 debugger = null;
             }
