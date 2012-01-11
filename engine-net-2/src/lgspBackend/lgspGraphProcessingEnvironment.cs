@@ -150,18 +150,6 @@ namespace de.unika.ipd.grGen.lgsp
             set { emitWriter = value; }
         }
         
-        public IGraph Graph
-        {
-            get { return graph; }
-            set { graph = (LGSPGraph)value; }
-        }
-
-        public BaseActions Actions
-        {
-            get { return curActions; }
-            set { curActions = (LGSPActions)value; }
-        }
-
         public void CloneGraphVariables(IGraph old, IGraph clone)
         {
             // TODO: implement

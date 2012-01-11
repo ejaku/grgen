@@ -14,12 +14,10 @@ namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// A partial implementation of the IGraph interface.
-    /// Adding some methods implemented over the IGraph interface (some convenience stuff plus graph validation).
+    /// Adding some methods implemented over the IGraph interface (some convenience stuff).
     /// </summary>
     public abstract class BaseGraph : IGraph
     {
-        #region Abstract and virtual members
-
         public abstract String Name { get; }
         public abstract IGraphModel Model { get; }
         public abstract bool ReuseOptimization { get; set; }
@@ -79,13 +77,18 @@ namespace de.unika.ipd.grGen.libGr
 
         public abstract IGraph Clone(String newName);
 
+        public abstract bool IsIsomorph(IGraph that);
+
+        public bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors)
+        {
+            return GraphValidator.Validate(this, mode, out errors);
+        }
+
         public abstract int AllocateVisitedFlag();
         public abstract void FreeVisitedFlag(int visitorID);
         public abstract void ResetVisitedFlag(int visitorID);
         public abstract void SetVisited(IGraphElement elem, int visitorID, bool visited);
         public abstract bool IsVisited(IGraphElement elem, int visitorID);
-
-        #endregion Abstract and virtual members
 
 
         #region Events
@@ -233,181 +236,6 @@ namespace de.unika.ipd.grGen.libGr
         #endregion Events
 
 
-        #region Graph validation
-
-        public bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors)
-        {
-            bool result = true;
-            Dictionary<IEdge, bool> checkedOutEdges = new Dictionary<IEdge, bool>(2 * NumEdges);
-            Dictionary<IEdge, bool> checkedInEdges = new Dictionary<IEdge, bool>(2 * NumEdges);
-            errors = new List<ConnectionAssertionError>();
-
-            int numConnectionAssertions = 0;
-            foreach(ValidateInfo valInfo in Model.ValidateInfo)
-            {
-                // Check outgoing count on nodes of source type
-                foreach(INode node in GetCompatibleNodes(valInfo.SourceType))
-                {
-                    result &= ValidateSource(node, valInfo, errors, checkedOutEdges, checkedInEdges);
-                }
-                // Check incoming count on nodes of target type
-                foreach(INode node in GetCompatibleNodes(valInfo.TargetType))
-                {
-                    result &= ValidateTarget(node, valInfo, errors, checkedOutEdges, checkedInEdges);
-                }
-
-                ++numConnectionAssertions;
-            }
-
-            if(mode == ValidationMode.StrictOnlySpecified)
-            {
-                Dictionary<EdgeType, bool> strictnessCheckedEdgeTypes = new Dictionary<EdgeType, bool>(2 * numConnectionAssertions);
-                foreach(ValidateInfo valInfo in Model.ValidateInfo)
-                {
-                    if(strictnessCheckedEdgeTypes.ContainsKey(valInfo.EdgeType))
-                        continue;
-
-                    foreach(IEdge edge in GetExactEdges(valInfo.EdgeType))
-                    {
-                        // Some edges with connection assertions specified are not covered; strict only specified validation prohibits that!
-                        if(!checkedOutEdges.ContainsKey(edge) || !checkedInEdges.ContainsKey(edge))
-                        {
-                            errors.Add(new ConnectionAssertionError(CAEType.EdgeNotSpecified, edge, 0, null));
-                            result = false;
-                        }
-                    }
-                    strictnessCheckedEdgeTypes.Add(valInfo.EdgeType, true);
-                }
-            }
-
-            if(mode == ValidationMode.Strict
-                && (NumEdges != checkedOutEdges.Count || NumEdges != checkedInEdges.Count))
-            {
-                // Some edges are not covered; strict validation prohibits that!
-                foreach(IEdge edge in Edges)
-                {
-                    if(!checkedOutEdges.ContainsKey(edge) || !checkedInEdges.ContainsKey(edge))
-                    {
-                        errors.Add(new ConnectionAssertionError(CAEType.EdgeNotSpecified, edge, 0, null));
-                        result = false;
-                    }
-                }
-            }
-
-            if(result) errors = null;
-            return result;
-        }
-
-        bool ValidateSource(INode node, ValidateInfo valInfo, List<ConnectionAssertionError> errors,
-            Dictionary<IEdge, bool> checkedOutEdges, Dictionary<IEdge, bool> checkedInEdges)
-        {
-            bool result = true;
-
-            // Check outgoing edges
-            long num = CountOutgoing(node, valInfo.EdgeType, valInfo.TargetType, checkedOutEdges);
-            if(valInfo.BothDirections)
-            {
-                long incoming = CountIncoming(node, valInfo.EdgeType, valInfo.TargetType, checkedInEdges);
-                num -= CountReflexive(node, valInfo.EdgeType, valInfo.TargetType, num, incoming);
-                num += incoming;
-            }
-
-            if(num < valInfo.SourceLower)
-            {
-                errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, node, num, valInfo));
-                result = false;
-            }
-            else if(num > valInfo.SourceUpper)
-            {
-                errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, node, num, valInfo));
-                result = false;
-            }
-
-            return result;
-        }
-
-        bool ValidateTarget(INode node, ValidateInfo valInfo, List<ConnectionAssertionError> errors,
-            Dictionary<IEdge, bool> checkedOutEdges, Dictionary<IEdge, bool> checkedInEdges)
-        {
-            bool result = true;
-
-            // Check incoming edges
-            long num = CountIncoming(node, valInfo.EdgeType, valInfo.SourceType, checkedInEdges);
-            if(valInfo.BothDirections)
-            {
-                long outgoing = CountOutgoing(node, valInfo.EdgeType, valInfo.SourceType, checkedOutEdges);
-                num -= CountReflexive(node, valInfo.EdgeType, valInfo.SourceType, outgoing, num);
-                num += outgoing;
-            }
-
-            if(num < valInfo.TargetLower)
-            {
-                errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, node, num, valInfo));
-                result = false;
-            }
-            else if(num > valInfo.TargetUpper)
-            {
-                errors.Add(new ConnectionAssertionError(CAEType.NodeTooManyTargets, node, num, valInfo));
-                result = false;
-            }
-
-            return result;
-        }
-
-        long CountOutgoing(INode node, EdgeType edgeType, NodeType targetNodeType,
-            Dictionary<IEdge, bool> checkedOutEdges)
-        {
-            long num = 0;
-            foreach(IEdge outEdge in node.GetExactOutgoing(edgeType))
-            {
-                if(!outEdge.Target.Type.IsA(targetNodeType)) continue;
-                checkedOutEdges[outEdge] = true;
-                ++num;
-            }
-            return num;
-        }
-
-        long CountIncoming(INode node, EdgeType edgeType, NodeType sourceNodeType,
-            Dictionary<IEdge, bool> checkedInEdges)
-        {
-            long num = 0;
-            foreach(IEdge inEdge in node.GetExactIncoming(edgeType))
-            {
-                if(!inEdge.Source.Type.IsA(sourceNodeType)) continue;
-                checkedInEdges[inEdge] = true;
-                ++num;
-            }
-            return num;
-        }
-
-        long CountReflexive(INode node, EdgeType edgeType, NodeType oppositeNodeType,
-            long outgoing, long incoming)
-        {
-            long num = 0;
-            if(outgoing <= incoming)
-            {
-                foreach(IEdge outEdge in node.GetExactOutgoing(edgeType))
-                {
-                    if(!outEdge.Target.Type.IsA(oppositeNodeType)) continue;
-                    if(outEdge.Target != node) continue;
-                    ++num;
-                }
-            }
-            else
-            {
-                foreach(IEdge inEdge in node.GetExactIncoming(edgeType))
-                {
-                    if(!inEdge.Source.Type.IsA(oppositeNodeType)) continue;
-                    if(inEdge.Source != node) continue;
-                    ++num;
-                }
-            }
-            return num;
-        }
-
-        #endregion Graph validation
-
-
         /// <summary>
         /// Returns the outgoing edges of given type from the given node, with a target node of given type.
         /// </summary>
@@ -456,8 +284,5 @@ namespace de.unika.ipd.grGen.libGr
         {
             return Model.EdgeModel.GetType(typeName);
         }
-
-
-        public abstract bool IsIsomorph(IGraph that);
     }
 }

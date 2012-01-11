@@ -305,6 +305,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="oldTargetName">The name of the old target node (used for debug display of the new edge).</param>
         void RedirectSourceAndTarget(IEdge edge, INode newSource, INode newTarget, string oldSourceName, string oldTargetName);
 
+
         /// <summary>
         /// Does graph-backend dependent stuff.
         /// </summary>
@@ -318,6 +319,23 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newName">Name of the new graph.</param>
         /// <returns>A new graph with the same structure as this graph.</returns>
         IGraph Clone(String newName);
+
+        /// <summary>
+        /// Returns whether this graph is isomorph to that graph
+        /// Each graph must be either unanalyzed or unchanged since the last analyze,
+        /// otherwise results will be wrong!
+        /// </summary>
+        /// <param name="that">The other graph we check for isomorphy against</param>
+        /// <returns>true if that is isomorph to this, false otherwise</returns>
+        bool IsIsomorph(IGraph that);
+
+        /// <summary>
+        /// Checks whether a graph meets the connection assertions.
+        /// </summary>
+        /// <param name="mode">The validation mode to apply.</param>
+        /// <param name="errors">If the graph is not valid, this refers to a List of ConnectionAssertionError objects, otherwise it is null.</param>
+        /// <returns>True, if the graph is valid.</returns>
+        bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors);
 
 
         #region Visited flags management
@@ -486,24 +504,5 @@ namespace de.unika.ipd.grGen.libGr
             AttributeChangeType changeType, Object newValue, Object keyValue);
 
         #endregion Events
-
-
-        /// <summary>
-        /// Checks whether a graph meets the connection assertions.
-        /// </summary>
-        /// <param name="mode">The validation mode to apply.</param>
-        /// <param name="errors">If the graph is not valid, this refers to a List of ConnectionAssertionError objects, otherwise it is null.</param>
-        /// <returns>True, if the graph is valid.</returns>
-        bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors);
-
-
-        /// <summary>
-        /// Returns whether this graph is isomorph to that graph
-        /// Each graph must be either unanalyzed or unchanged since the last analyze,
-        /// otherwise results will be wrong!
-        /// </summary>
-        /// <param name="that">The other graph we check for isomorphy against</param>
-        /// <returns>true if that is isomorph to this, false otherwise</returns>
-        bool IsIsomorph(IGraph that);
     }
 }

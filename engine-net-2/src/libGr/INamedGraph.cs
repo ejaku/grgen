@@ -12,89 +12,6 @@ using System.IO;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// Environment for sequence exection giving access to graph element names, with null user interface
-    /// </summary>
-    public class SequenceExecutionEnvironmentNamedGraphOnly : SequenceExecutionEnvironment
-    {
-        INamedGraph namedGraph;
-
-        public SequenceExecutionEnvironmentNamedGraphOnly(INamedGraph namedGraph)
-        {
-            this.namedGraph = namedGraph;
-        }
-
-        /// <summary>
-        /// returns the named graph on which the sequence is to be executed, containing the names
-        /// </summary>
-        public INamedGraph GetNamedGraph()
-        {
-            return namedGraph;
-        }
-
-        /// <summary>
-        /// returns the maybe user altered direction of execution for the sequence given
-        /// the randomly chosen direction is supplied; 0: execute left operand first, 1: execute right operand first
-        /// </summary>
-        public int ChooseDirection(int direction, Sequence seq)
-        {
-            return direction;
-        }
-
-        /// <summary>
-        /// returns the maybe user altered sequence to execute next for the sequence given
-        /// the randomly chosen sequence is supplied; the object with all available sequences is supplied
-        /// </summary>
-        public int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
-        {
-            return seqToExecute;
-        }
-
-        /// <summary>
-        /// returns the maybe user altered match to execute next for the sequence given
-        /// the randomly chosen total match is supplied; the sequence with the rules and matches is supplied
-        /// </summary>
-        public int ChooseMatch(int totalMatchExecute, SequenceSomeFromSet seq)
-        {
-            return totalMatchExecute;
-        }
-
-        /// <summary>
-        /// returns the maybe user altered match to apply next for the sequence given
-        /// the randomly chosen match is supplied; the object with all available matches is supplied
-        /// </summary>
-        public int ChooseMatch(int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq)
-        {
-            return matchToApply;
-        }
-
-        /// <summary>
-        /// returns the maybe user altered random number in the range 0 - upperBound exclusive for the sequence given
-        /// the random number chosen is supplied
-        /// </summary>
-        public int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
-        {
-            return randomNumber;
-        }
-
-        /// <summary>
-        /// returns a user chosen/input value of the given type
-        /// no random input value is supplied, the user must give a value
-        /// </summary>
-        public object ChooseValue(string type, Sequence seq)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
-        /// </summary>
-        public void EndOfIteration(bool continueLoop, Sequence seq)
-        {
-        }
-    }
-
-
-    /// <summary>
     /// An named IGraph (which is an attributed, typed and directed multigraph with multiple inheritance on node and edge types),
     /// with a unique name assigned to each node and edge; allowing to access an element by name and a name by element.
     /// </summary>
@@ -159,6 +76,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="elemName">The name for the edge or null if it is to be auto-generated.</param>
         /// <returns>The newly created edge.</returns>
         IEdge AddEdge(EdgeType edgeType, INode source, INode target, String elemName);
+
 
         /// <summary>
         /// Duplicates a named graph.

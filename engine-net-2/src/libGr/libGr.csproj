@@ -67,21 +67,22 @@
     <Compile Include="BaseActions.cs" />
     <Compile Include="BaseGraph.cs" />
     <Compile Include="DictionaryListHelper.cs" />
-    <Compile Include="dumpInterface.cs" />
+    <Compile Include="IO\dumpInterface.cs" />
     <Compile Include="actionInterface.cs" />
     <Compile Include="elementInterface.cs" />
-    <Compile Include="GraphDumper.cs" />
+    <Compile Include="IO\GraphDumper.cs" />
+    <Compile Include="GraphValidator.cs" />
     <Compile Include="GRSImporter\GRSImporter.cs" />
     <Compile Include="IActionExecutionEnvironment.cs" />
     <Compile Include="IGraph.cs" />
     <Compile Include="IGraphHelpers.cs" />
     <Compile Include="IGraphProcessingEnvironment.cs" />
     <Compile Include="INamedGraph.cs" />
-    <Compile Include="IO\EMF\ECoreImport.cs" />
-    <Compile Include="IO\GRG\GrgExport.cs" />
-    <Compile Include="IO\GRS\GrsExport.cs" />
-    <Compile Include="IO\GXL\GXLExport.cs" />
-    <Compile Include="IO\GXL\GXLImport.cs" />
+    <Compile Include="IO\ECoreImport.cs" />
+    <Compile Include="IO\GrgExport.cs" />
+    <Compile Include="IO\GrsExport.cs" />
+    <Compile Include="IO\GXLExport.cs" />
+    <Compile Include="IO\GXLImport.cs" />
     <Compile Include="matchesInterface.cs" />
     <Compile Include="modelInterface.cs" />
     <Compile Include="ParseException.cs" />
@@ -108,14 +109,14 @@
     <Compile Include="SequenceParserExceptions.cs" />
     <Compile Include="SequenceParserTokenManager.cs" />
     <Compile Include="SequenceVariable.cs" />
-    <Compile Include="set.cs" />
+    <Compile Include="IO\set.cs" />
     <Compile Include="SimpleCharStream.cs" />
     <Compile Include="SingleLinkedList.cs" />
     <Compile Include="SymbolTable.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="TokenMgrError.cs" />
     <Compile Include="TypesHelper.cs" />
-    <Compile Include="VCGDumper.cs" />
+    <Compile Include="IO\VCGDumper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GRSImporter\GRSImporter.csc" />
