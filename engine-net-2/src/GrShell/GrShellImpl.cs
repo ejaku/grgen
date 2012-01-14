@@ -233,6 +233,7 @@ namespace de.unika.ipd.grGen.grShell
 
         List<String> newGraphExternalAssembliesReferenced = new List<String>();
         bool newGraphKeepDebug = false;
+        bool newGraphLazyNIC = false;
 
         /// <summary>
         /// Maps layouts to layout option names to their values.
@@ -1204,9 +1205,15 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        public bool NewGraphSetKeepDebug(bool keepDebug)
+        public bool NewGraphSetKeepDebug(bool on)
         {
-            newGraphKeepDebug = keepDebug;
+            newGraphKeepDebug = on;
+            return true;
+        }
+
+        public bool NewGraphSetLazyNIC(bool on)
+        {
+            newGraphLazyNIC = on;
             return true;
         }
 
@@ -1266,9 +1273,10 @@ namespace de.unika.ipd.grGen.grShell
                     IGraph graph;
                     try
                     {
+                        ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
+                        if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         graph = curGraphBackend.CreateFromSpec(specFilename, graphName, 
-                            newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles, 
-                            newGraphExternalAssembliesReferenced);
+                            flags, newGraphExternalAssembliesReferenced);
                     }
                     catch(Exception e)
                     {
@@ -1295,9 +1303,10 @@ namespace de.unika.ipd.grGen.grShell
                     
                     try
                     {
+                        ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
+                        if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         curGraphBackend.CreateNamedFromSpec(specFilename, graphName, 
-                            newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles, 
-                            newGraphExternalAssembliesReferenced,
+                            flags, newGraphExternalAssembliesReferenced,
                             out graph, out actions);
                     }
                     catch(Exception e)

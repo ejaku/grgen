@@ -300,6 +300,7 @@ TOKEN: {
 |   < KEEPDEBUG: "keepdebug" >
 |   < LABELS: "labels" >
 |   < LAYOUT: "layout" >
+|   < LAZYNIC: "lazynic" >
 |   < LS: "ls" >
 |   < MAP: "map" >
 |   < MODE: "mode" >
@@ -1377,7 +1378,7 @@ void NewCommand():
 	String modelFilename, referencePath, graphName = "DefaultGraph";
 	INode srcNode, tgtNode;
 	ElementDef elemDef;
-	bool directed, keepdebug;
+	bool directed, on;
 }
 {
 	try
@@ -1392,9 +1393,14 @@ void NewCommand():
 			noError = impl.NewGraphAddReference(referencePath);
 		}
 	|
-		"set" "keepdebug" ("on" { keepdebug = true; } | "off" { keepdebug = false; }) LineEnd()
+		LOOKAHEAD(2) "set" "keepdebug" ("on" { on = true; } | "off" { on = false; }) LineEnd()
 		{
-			noError = impl.NewGraphSetKeepDebug(keepdebug);
+			noError = impl.NewGraphSetKeepDebug(on);
+		}
+	|
+		"set" "lazynic" ("on" { on = true; } | "off" { on = false; }) LineEnd()
+		{
+			noError = impl.NewGraphSetLazyNIC(on);
 		}
 	|
 		LOOKAHEAD(3)

@@ -64,7 +64,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Do not try to update the performance info object. Used for optimization.
         /// </summary>
-        NoPerformanceInfoUpdates = 128
+        NoPerformanceInfoUpdates = 128,
+
+        /// <summary>
+        /// Execute the negatives, independents, and conditionals only at the end of matching.
+        /// </summary>
+        LazyNIC = 256
     }
 
     /// <summary>

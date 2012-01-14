@@ -201,6 +201,10 @@ namespace de.unika.ipd.grGen.grGen
                             Console.WriteLine("One tool to bring them all, and in the darkness bind them.");
                             return 0;
 
+                        case "-lazynic":
+                            flags |= ProcessSpecFlags.LazyNIC;
+                            break;
+
                         default:
                             Console.Error.WriteLine("Illegal option: " + args[i]);
                             specFile = null;
@@ -236,6 +240,8 @@ namespace de.unika.ipd.grGen.grGen
                     + "  -debug                Compiles the assemblies with debug information\n"
                     + "  -r <assembly-path>    Assembly path to reference, i.e. link into\n"
                     + "                        the generated assembly\n"
+                    + "  -lazynic              Negatives, Independents, and Conditions are only\n"
+                    + "                        executed at the end of matching (normally asap)\n"
                     + "  -mission              Uncovers the tool's evil mission\n\n"
                     + "Optimizing options:\n"
                     + "  -noevents             Do not fire any events in the generated code.\n"

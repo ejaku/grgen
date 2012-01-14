@@ -944,6 +944,7 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternGraphAnalyzer analyzer = new PatternGraphAnalyzer();
                 LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
                 if ((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
+                if ((flags & ProcessSpecFlags.LazyNIC) != 0) matcherGen.LazyNegativeIndependentConditionEvaluation = true;
 
                 foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {

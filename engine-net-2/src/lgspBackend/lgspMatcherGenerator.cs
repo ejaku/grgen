@@ -56,6 +56,13 @@ namespace de.unika.ipd.grGen.lgsp
         public bool DumpSearchPlan = false;
 
         /// <summary>
+        /// If true, the negatives, independents, and evaluations are inserted at the end of the schedule
+        /// instead of as early as possible; this is likely less efficient but allows to use checks 
+        /// which require that they are only called after a structural match was found
+        /// </summary>
+        public bool LazyNegativeIndependentConditionEvaluation = false;
+
+        /// <summary>
         /// Instantiates a new instance of LGSPMatcherGenerator with the given graph model.
         /// A PatternGraphAnalyzer must run before the matcher generator is used,
         /// so that the analysis data is written the pattern graphs of the matching patterns to generate code for.
@@ -1470,6 +1477,9 @@ exitSecondLoop: ;
                         continue;
                     }
 
+                    if (LazyNegativeIndependentConditionEvaluation)
+                        break;
+
                     if (op.Type == SearchOperationType.LockLocalElementsForPatternpath)
                     {
                         break; // LockLocalElementsForPatternpath is barrier for neg/idpt
@@ -1516,6 +1526,9 @@ exitSecondLoop: ;
                     {
                         continue;
                     }
+
+                    if (LazyNegativeIndependentConditionEvaluation)
+                        break;
 
                     if (op.Type == SearchOperationType.LockLocalElementsForPatternpath)
                     {
@@ -1586,6 +1599,9 @@ exitSecondLoop: ;
                     {
                         continue;
                     }
+
+                    if (LazyNegativeIndependentConditionEvaluation)
+                        break;
 
                     if (neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     {
