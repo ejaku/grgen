@@ -46,7 +46,7 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
     \texttt{int} & implicit & & $=$ & \texttt{(int)} & & & \\
     \texttt{double} &  implicit & & implicit & $=$ & & & \\
     \texttt{string} & implicit & implicit & implicit &  implicit & $=$ & implicit & \\
-    \texttt{object} & &  & & & & $=$ &\\\hline
+    \texttt{object} & \texttt{(object)} & \texttt{(object)} & \texttt{(object)} & \texttt{(object)} & \texttt{(object)} & $=$ &\\\hline
   \end{tabular}
   \caption{\GrG\ type casts}
   \label{tabcasts}
@@ -457,8 +457,8 @@ The visited flags are written in the assignments of the eval statements (see sec
 Make sure to allocate \ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them
 (and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
 
-The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex}) of the given graph element as \texttt{string};
-graphs elements at the API level bear no name, the operator can only (sensibly) be used with Shell-graphs (\texttt{NamedGraph}; unless you decide to use the \texttt{NamedGraph} on API level, too).
+The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex}) of the given graph element as \texttt{string}
+(graphs elements of pure \texttt{LGSPGraph}s bear no name, then the query fails, but normally you are using \texttt{LGSPNamedGraph}s).
 If no graph element is given, the name of the graph is returned.
 
 The \texttt{random} function returns a double random value in between 0.0 and 1.0 if called without an argument,

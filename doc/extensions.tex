@@ -35,9 +35,11 @@ The assembly \emph{assembly-path} is linked as reference to the compilation resu
 Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 \begin{rail}
-  'new' 'set' 'keepdebug' ('on'|'off')
-\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{on}\ixkeyw{off}
-Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols, maps to the \texttt{-keep} and the \texttt{-debug} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+  'new' 'set' ('keepdebug'|'lazynic') ('on'|'off')
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{on}\ixkeyw{off}
+Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols,
+or configures the generation of the matchers to execute negatives, independents, and conditions only at the end of matching (normally asap).
+Maps to the \texttt{-keep} and the \texttt{-debug} options or to the \texttt{-lazynic} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

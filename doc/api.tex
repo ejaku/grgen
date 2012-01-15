@@ -6,6 +6,7 @@ We'll have a look at
 \begin{itemize}
 \item the interface to the graph and model
 \item the interface to the rules and matches
+\item the interface of the graph processing environment
 \item the porter module for importing and exporting of graphs and miscellaneous stuff
 \item implementing external class and function declarations
 \end{itemize}
@@ -32,8 +33,11 @@ It contains for every node or edge class \texttt{Bar} an interface \texttt{IBar}
 This builds the exact interface of the model, it is implemented by a sealed class \texttt{Bar} with generated code and with code from the lgsp backend.
 Furtheron the namespace contains a model class \texttt{FooGraphModel} implementing the interface \texttt{de.unika.ipd.grGen.libGr.IGraphModel},
 which supports iteration over the entities defined in the model using further, generic(i.e. inexact) interfaces from libGr.
-Finally, the namespace contains a class \texttt{FooGraph} which defines an lgsp-graph of a model equivalent to \texttt{FooGraphModel}; 
+Finally, the namespace contains a class \texttt{FooGraph} which defines an \texttt{LGSPGraph} of a model equivalent to \texttt{FooGraphModel}; 
 it contains convenience functions to easily create nodes and edges of exact type in the graph.
+In addition, a class \texttt{FooNamedGraph} is available, which defines an \texttt{LGSPNamedGraph} of a model equivalent to \texttt{FooGraphModel}; 
+the named graph offers persistent names \ref{persistentex} for all its graph elements, otherwise it is identical to an \texttt{LGSPGraph}.
+The naming requires about the same memory as an unnamed graph, but under normal circumstances the named graph is the recommended one to use (and is the one which will be used if employed by the shell).
 
 \begin{note}
 If you want to use the type-safe interface, use the interface \texttt{IBar}, and the \texttt{CreateNodeBar}-methods of \texttt{FooGraph} or the \texttt{CreateNode}-method of \texttt{Bar}.
@@ -113,6 +117,11 @@ FooActions actions = new FooActions(graph);
 Bar b = graph.CreateNodeBar();
 actions.bar.Apply(graph, b, ref b); // input of type Bar, output of type Bar
 \end{verbatim}
+
+We could create a named graph instead offering persistent names for its graph elements:
+\begin{verbatim}
+FooNamedGraph graph = new FooNamedGraph();
+\end{verbatim}
 \end{example}
 
 \begin{example}
@@ -132,8 +141,30 @@ IAction_bar bar = Action_bar.Instance;
 IMatchesExact<Rule_bar.IMatch_bar> matches = bar.Match(graph, 0, b);
 bar.Modify(graph, matches.First);
 \end{verbatim}
+
+We could create a named graph instead offering persistent names for its graph elements:
+\begin{verbatim}
+LGSPGraph graph = new LGSPNamedGraph(model);
+\end{verbatim}
 \end{example}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Interface of the graph processing environment}
+
+The interface \texttt{IGraphProcessingEnvironment} implemented by the \texttt{LGSPGraphProcessing\-Environment} class offers all the additional functionality of \GrG~exceeding what is offered by the graph and the actions.
+It is constructed as \texttt{LGSPGraphProcessingEnvironment} given the graph and the actions.
+It offers execution of the sequences and variable handling, combining actions into transformations
+(the former regarding control flow, the latter regarding data flow).
+Further on, the environment offers driver or helper objects for transaction management, deferred sequence execution, graph change recording, and emitting.
+
+\begin{example}
+For all but the simplest transformations you'll end up constructing a graph processing environment from the graph and the actions constructed until now, executing a graph rewrite sequence on the graph processing environment:
+\begin{verbatim}
+LGSPGraphProcessingEnvironment procEnv = 
+    new LGSPGraphProcessingEnvironment(graph, actions);
+procEnv.ApplyGraphRewriteSequence("<(::x)=foo && (::y)=bar(::x) | bla(::y)>");
+\end{verbatim}
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Import/Export and miscellaneous stuff}\label{sub:imexport}\indexmain{import}\indexmain{export}
@@ -159,12 +190,10 @@ The file format is determined by the file extensions.
 To export a graph instance you can use \texttt{Porter.Export()} from the libGr API (the GrShell command \texttt{export} is mapped to it).
 For an example of how to use the importer/exporter on API level see \texttt{examples-api/JavaProgramGraphsExample/JavaProgramGraphs\-Example.cs}
 
-The GRS(I) importer returns a \texttt{NamedGraph}, which is a wrapper for the \texttt{LGSPGraph} behind it (exposed via the \texttt{IGraph} interface of libGr).
-If you don't need the persistent names, get rid of them by casting to the named graph, getting the wrapped graph, and forgetting any references to the named graph.
-If you want to keep it you should get the wrapped graph (casting it to \texttt{LGSPGraph}) and set its property \texttt{NamedGraph} to the named graph; 
-this will cause the \texttt{nameof} operator to work as known, i.e. as if using GrShell which employs named graphs.
+The GRS(I) importer returns an \texttt{INamedGraph};
+if you don't need the persistent names, get rid of them by casting to the \texttt{LGSPNamedGraph} implementing the interface, (copy-)constructing a \texttt{LGSPGraph} from it, and forgetting any references to the named graph.
 Please be aware that naming is rather expensive:
-A named graph supplying the name to element and element to name mappings normally uses up about the same amount of memory as the wrapped \texttt{LGSPGraph} defining the real graph.
+A \texttt{LGSPNamedGraph} supplying the name to element and element to name mappings normally uses up about twice the amount of memory of the \texttt{LGSPGraph} defining the graph alone (but is worth is most often).
 
 There are further examples available in the \texttt{examples-api} folder of the \GrG-distribution:
 \begin{itemize} 

@@ -1,4 +1,27 @@
-﻿v3.1 beta 1 (2011-12-12)
+﻿v3.1 beta 2 (2012-01-??)
+ Added comparison operators ==,!=,<,<=,>,>= to sequence expressions, as well as + operator;
+  same semantics as in rule language expressions, for the various types they apply to
+ 
+ Refactoring of the graph: split out the graph processing stuff into a graph processing environment
+  the graph itself is now clean and easy; for sequence execution and variables an environment is needed
+  consequences:
+   - variables can't be exported (and therefore imported) any more, "withvariables" option removed
+     only shell save/include emit them/read them
+   - on API level you need an additional graph processing environment object for most tasks,
+     an LGSPGraphProcessingEnvironment to be constructed from the graph and the actions
+ Refactoring of the named graphs: named graph is now an interface and an lgsp implementation,
+  instead of a wrapper; that's easier to handle, and naming now works more reliable, in more situations
+ Some further refactorings to clean and improve the code, 
+  partly moving functionality, partly removing unused functionality
+ 
+ Improved External Function Handling:
+  - introduced -lazynic parameters to the grgen compiler, 
+    so one can access external assemblies in the user defined function/class implementation
+  - and lazynic to the shell, too:
+    new set keepdebug on|off
+ 
+ 
+v3.1 beta 1 (2011-12-12)
  Refactoring of the sequences: split old sequences into sequences and sequence computations
   (plus the sequence computation sub parts sequence expressions and assignment targets)
   - sequences are now pretty pure, control operators over rule applications plus basic variable handling
@@ -41,6 +64,7 @@
  Adapted user manual to mainly sequence handling changes,
   split off storages and visited to own chaper, split off external stuff into extensions chapter.
 
+--------------------------------------------------------------------------------------------------------
 
 v3.0 (2011-07-29)
  New datatypes introduced:

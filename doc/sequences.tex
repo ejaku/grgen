@@ -28,7 +28,7 @@ A variable is alive from its first declaration on: graph global variables are im
 sequence local variables are explicitely declared with a typed variable declaration of the form \texttt{name:type}.
 Graph global variables must be prefixed with a double colon ::, local variables are referenced just with their name.
 Graph global variables are untyped; their values are typed, though, so type errors cause an exception at runtime.
-They belong to and are stored in the graph -- if you save the graph in \GrShell\ (or export to \texttt{.grs} using the \texttt{withvariables} option)
+They belong to and are stored in the graph processing environment -- if you save the graph in \GrShell\ 
 then the variables are saved, too, and restored next time you load the saved graph.
 Further on, they are nulled if the graph element assigned to them gets deleted (even if this happens due to a transaction rollback),
 thus saving one from debugging problems due to zombie elements (you may use the \texttt{def()} operator to check during execution if this happened).
@@ -357,17 +357,53 @@ Yielding is only possible from compiled sequences, it always succeeds.
 Further on, the attributes of graph elements may be written to, the values at given positions of array variables may be written to, and the visited status of graph elements may be changed.
 
 \begin{rail}
-  SequenceExpression: 
-    BasicSequenceExpression '?' SequenceExpression ':' SequenceExpression |
-    SequenceExpression (ampersand | xorhat | '|' | doubleampersand | '||') SequenceExpression |
-    '!' SequenceExpression |
-    BasicSequenceExpression |
-    SpecialSequenceExpression;
+  SequenceExpression:  
+    ConditionalSequenceExpression |
+    BooleanSequenceExpression |
+    RelationalSequenceExpression |
+    ArtihemticSequenceExpression |
+    PrimarySequenceExpression;
 \end{rail}\ixnterm{SequenceExpression}
 
-Sequence expressions can be combined by the conditional operator already known from the rule sequences.
-Furthermore, logical conjunction and disjunction are available, both in strict and lazy versions;
-as well as antivalence (xor) and negation.
+Sequence expressions are basically a subset of the expressions introduced in \ref{sub:expr}.
+
+\begin{rail}
+  ConditionalSequenceExpression: 
+    BooleanSequenceExpression '?' SequenceExpression ':' SequenceExpression;
+\end{rail}\ixnterm{ConditionalSequenceExpression}
+
+The conditional operator has lowest priority, if the condition evaluates to true the first expression is evaluated and returned, otherwise the second.
+
+\begin{rail}
+  BooleanSequenceExpression: 
+    SequenceExpression (ampersand | xorhat | '|' | doubleampersand | '||') SequenceExpression |
+    '!' SequenceExpression;
+\end{rail}\ixnterm{BooleanSequenceExpression}
+
+The boolean operators have the same semantics and same priority as in \ref{sub:expr}.
+
+\begin{rail}
+  RelationalSequenceExpression: 
+    SequenceExpression ('==' | '!=' | '<' | '<='| '>' | '>=' | 'in') SequenceExpression;
+\end{rail}\ixnterm{RelationalSequenceExpression}
+
+The equality operators work for every type and return whether the values to compare are equal or unequal.
+The relational operators on numerical and set/map/array types work as specified in \ref{sub:expr}.
+
+\begin{rail}
+  ArithmeticSequenceExpression:
+    SequenceExpression ('+') SequenceExpression;
+\end{rail}\ixnterm{ArithmeticSequenceExpression}
+
+The only arithemtic operator available for now is plus, denoting addition of numerical values or string concatenation.
+
+\begin{rail}
+  PrimarySequenceExpression:
+    BasicSequenceExpression |
+    SpecialSequenceExpression;
+\end{rail}\ixnterm{PrimarySequenceExpression}
+
+The atoms of the expressions are the basic and the special sequence expressions.
 
 \begin{rail}
   BasicSequenceExpression:
@@ -381,20 +417,19 @@ as well as antivalence (xor) and negation.
 
 The basic sequence expressions are the building blocks of the computation sequences.
 A \texttt{def} term is successful iff all the variables are defined (not null).
-The at operator allows to access a graph element by its \indexed{persistent name} (this is not supported in the compiled sequences because names are not available on that level).
+The at operator allows to access a graph element by its \indexed{persistent name}.
 The attribute access clause returns the attribute value of the given graph element.
 The variable and literal basic expressions are the same as in the SimpleOrInteractiveExpression.
 
 \begin{rail}
   SpecialSequenceExpression:
     GraphElement '.' 'visited' '[' SequenceExpression ']' |
-    BasicSequenceExpression 'in' SequenceExpression |
     ArrayOrMapVariable '[' SequenceExpression ']' |
     MethodCall;
   ;
-\end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{in}\ixkeyw{visited}
+\end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{visited}
 
-The special sequence expressions are used to check whether a value is marked or contained in a storage, to access a storage, or to call a method on a storage (note: here it is not possible to build method call chains). 
+The special sequence expressions are used to check whether a value is marked, to access a storage, or to call a method on a storage (note: here it is not possible to build method call chains). 
 They will be explained in more detail in chapter \ref{cha:storagesvisited}.
 
 
@@ -433,7 +468,8 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\
 \texttt{v}	& A variable acting as a predicate.\\
-\texttt{\$\{r1,[r2],\$[r3]\}}	& Tries to match all contained rules, then rewrites indeterministically one of the rules which matched. True if at least one matched.\\
+\texttt{\{comp\}}	& An unspecified sequence computation (see following table).\\
+\texttt{\$\{(r1,[r2],\$[r3])\}}	& Tries to match all contained rules, then rewrites indeterministically one of the rules which matched. True if at least one matched.\\
 \hline
 \texttt{(w)=s(w)} & Calls a sequence \texttt{s} handing in \texttt{w} as input and writing its output to \texttt{w}; defined e.g. with \texttt{sequence s(u:Node):(v:Node)} \texttt{\{ v=u \}}.\\
 \hline
@@ -455,33 +491,42 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
-\texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
+\texttt{c;d}	& Computes c then d; the value of the computation is d\\
+\texttt{t=e}	& Simple assignment of an expression value to an assignment target\\
+\texttt{t=e=f}	& Chained assignment \\
+\texttt{v.m(e)}	& Simple method call, with m e.g. being storage add \\
+\texttt{v.m(e).m(e)}	& Chained method call\\
+\hline
+\texttt{e ? f : g}	& Returns f if e evaluates to true, otherwise g \\
+\texttt{e op f}	& For \texttt{op} being one of the boolean operators \texttt{||,|,\&,\&\&,\^\ } \\
+\texttt{e op f}	& For \texttt{op} being one of comparison operators \texttt{==,!=,<,<=,>,>=,in} \\
+\texttt{e + f}	& Numerical addition or string concatenation \\
+\hline
+\texttt{v} & Variable. Assignment target or expression.\\
+\texttt{v.name} & Attribute of graph element. Assignment target or expression.\\
 \texttt{@(name)} & Return graph element of given name.\\
-\texttt{v.name} & Return value of given attribute.\\
 \texttt{emit(v)} & Emits value of v to stdout.\\
 \texttt{record(v)} & Records value of v to the replay log.\\
+\texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \hline
-\texttt{v=valloc()} & Allocates a visited-flag, assigns its id.\\
-\texttt{vfree(v)} & Frees the visited-flag given.\\
-\texttt{vreset(v)} & Resets the visited-flag given in all graph elements.\\
-\texttt{u.visited[v]} & Returns whether the visited flag is set on u.\\
-\texttt{u.visited[v] = e} & Sets the visited flag on u to e.\\
+\texttt{v=valloc()} & Allocates a visited-flag, assigns its id to v.\\
+\texttt{vfree(e)} & Frees the visited-flag given.\\
+\texttt{vreset(e)} & Resets the visited-flag given in all graph elements.\\
+\texttt{u.visited[e]} & Visited flag e of u. Assignment target or expression.\\
 \hline
 \texttt{u=set<Node>\{\}}	& Create storage set and assign to \texttt{u}.\\
-\texttt{u.add(v)}	& Add \texttt{v} to storage set \texttt{u}.\\
-\texttt{u.rem(v)}	& Remove \texttt{v} from storage set \texttt{u}.\\
+\texttt{u.add(e)}	& Add \texttt{e} to storage set \texttt{u}.\\
+\texttt{u.rem(e)}	& Remove \texttt{e} from storage set \texttt{u}.\\
 \texttt{u.clear()}	& Clears the storage set \texttt{u}.\\
-\texttt{v in u} & Membership query: succeeds if \texttt{v} is element of \texttt{u}, otherwise fails.\\
 \texttt{u.size()}	& Returns the size of storage set \texttt{u}.\\
 \texttt{u.empty()} & Returns whether storage set \texttt{u} is empty.\\
 \texttt{u=map<N,Edge>\{\}}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
-\texttt{u[w]}	& Returns target value of \texttt{w} in \texttt{u}. Fails if \texttt{!(w in u)}.\\
+\texttt{u[e]}	& Target value of \texttt{e} in \texttt{u}. Fails if \texttt{!(e in u)}. Assignment target or expression.\\
 \hline
-\end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}}\indexmain{\texttt{"|}}
-\indexmain{\texttt{\&}}\indexmain{\texttt{"|"|}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}\indexmain{\texttt{;>}}\indexmain{\texttt{<;}}\indexmain{\texttt{+}}\indexmain{\texttt{[]}}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}\indexmain{\texttt{()}}
+\end{tabularx}
 \end{minipage}\\
 \\ 
-{\small Let \texttt{u}, \texttt{v}, \texttt{w} be variable identifiers, \texttt{e} and \texttt{f} be expressions, \texttt{t} be an assignment target, \texttt{<op>} $\in \{\texttt{|}, \texttt{\textasciicircum}, \texttt{\&}, \texttt{||}, \texttt{\&\&}\}$ }%and \texttt{n}, \texttt{m} $\in \N_0$.}
+{\small Let \texttt{c} and \texttt{d} be computations, \texttt{t} be an assignment target, \texttt{e}, \texttt{f}, \texttt{g} be expressions, \texttt{u}, \texttt{v}, \texttt{w} be variable identifiers }
 \caption{Sequence computations at a glance}
 \label{comptab}
 \end{table}

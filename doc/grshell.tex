@@ -218,16 +218,11 @@ In this case the necessary assemblies will be created on the fly.
 Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 \begin{rail}
-  'new' 'set' 'keepdebug' ('on'|'off')
-\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{on}\ixkeyw{off}
-Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols, maps to the \texttt{-keep} and the \texttt{-debug} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
-
-\begin{rail}
-  'open' 'graph' Filename Text
-\end{rail}\ixkeyw{open}\ixkeyw{graph}
-Opens the graph \emph{Text} stored in the backend.
-However, the \emph{LGSPBackend} doesn't support \indexed{persistent graph}s, and as the \emph{LGSPBackend} is the only backend available at the moment, this command is currently useless.
-You may achieve persistence by using import/export or save/include instead.
+  'new' 'set' ('keepdebug'|'lazynic') ('on'|'off')
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{on}\ixkeyw{off}
+Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols,
+or configures the generation of the matchers to execute negatives, independents, and conditions only at the end of matching (normally asap).
+Maps to the \texttt{-keep} and the \texttt{-debug} options or to the \texttt{-lazynic} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 \begin{rail}
   'show' 'graphs'
@@ -334,19 +329,17 @@ but not necessarily using the same commands you typed in during construction.
 Such a script can be loaded and executed by the \texttt{include} command (see Section~\ref{commcommands}).
 
 \begin{rail}
-  'export' Filename ('.grs' | '.grsi') ('.gz')? ('withvariables')?
-\end{rail}\ixkeyw{export}\ixkeyw{withvariables}\indexmain{export}
+  'export' Filename ('.grs' | '.grsi') ('.gz')?
+\end{rail}\ixkeyw{export}\indexmain{export}
 Exports an instance graph in GRS (.grs/.grsi) format, which is a reduced \GrShell\ script
 (it can get imported and exported on API level\ref{sub:imexport} without using the \GrShell).
 This is the recommended standard format.
 It contains the \texttt{new graph} command, followed by \texttt{new node} commands, followed by \texttt{new edge} commands.
 If the \texttt{.gz} suffix is given the graph is saved zipped.
-If \texttt{withvariables} is specified, the (graph global) variables are exported, too.
 The export is only complete with the model of the graph given in the \texttt{.gm} file.
 Exporting fails if the graph model contains attributes of \texttt{object}-type.
 The \texttt{save} command is for saving about a \GrShell\ session including graph global variables and visualization commands,
 the goal of the \texttt{export} command is basic graph rewrite system interoperability.
-The persistent names are saved in contrast to the following format GXL.
 
 \begin{rail}
   'export' Filename '.gxl' ('.gz')?
@@ -428,12 +421,11 @@ An export is not available -- we coded the export we needed for the GraBaTs/TTC 
 \end{note}
 
 \begin{rail}
-  'import' 'add' FileSpec 'withvariables'
+  'import' 'add' FileSpec
 \end{rail}\ixkeyw{import}\ixkeyw{add}
 Imports the graph in the specified file and adds it to the current graph
 (instead of overwriting the old graph with the new graph).
 The \texttt{FileSpec} is of the same format as the file specification in the other two imports.
-The \texttt{withvariables} argument only yields an effect if the file to import contains variable specifications (the content of old variables of the same name is overwritten).
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Graph Change Recording and Replaying}
