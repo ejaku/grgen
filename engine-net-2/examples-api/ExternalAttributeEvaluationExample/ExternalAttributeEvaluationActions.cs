@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Tue Jan 10 22:47:51 CET 2012
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jan 22 14:24:16 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -185,9 +185,17 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_init.instance.pat_init; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_init(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_init(Match_init that)
+			{
+			}
+			public Match_init()
+			{
+			}
 		}
 
 	}
@@ -416,9 +424,19 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_r.instance.pat_r; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_r(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_r(Match_r that)
+			{
+				_node_n = that._node_n;
+				_edge_e = that._edge_e;
+			}
+			public Match_r()
+			{
+			}
 		}
 
 	}

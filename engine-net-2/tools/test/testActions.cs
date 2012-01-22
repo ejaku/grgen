@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Tue Jan 10 22:47:49 CET 2012
+// Generated from "test.grg" on Sun Jan 22 14:24:08 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -259,9 +259,22 @@ namespace de.unika.ipd.grGen.Action_test
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_testRule.instance.pat_testRule; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_testRule(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_testRule(Match_testRule that)
+			{
+				_node_a = that._node_a;
+				_node_f = that._node_f;
+				_node_m = that._node_m;
+				_edge__edge0 = that._edge__edge0;
+				_edge__edge1 = that._edge__edge1;
+			}
+			public Match_testRule()
+			{
+			}
 		}
 
 	}

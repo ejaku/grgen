@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Jan 10 22:47:44 CET 2012
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jan 22 14:24:09 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -240,9 +240,21 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_readZeroRule.instance.pat_readZeroRule; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_readZeroRule(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_readZeroRule(Match_readZeroRule that)
+			{
+				_node_s = that._node_s;
+				_node_wv = that._node_wv;
+				_node_bp = that._node_bp;
+				_edge_rv = that._edge_rv;
+			}
+			public Match_readZeroRule()
+			{
+			}
 		}
 
 	}
@@ -474,9 +486,21 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_readOneRule.instance.pat_readOneRule; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_readOneRule(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_readOneRule(Match_readOneRule that)
+			{
+				_node_s = that._node_s;
+				_node_wv = that._node_wv;
+				_node_bp = that._node_bp;
+				_edge_rv = that._edge_rv;
+			}
+			public Match_readOneRule()
+			{
+			}
 		}
 
 	}
@@ -772,9 +796,21 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveLeftValidRule.instance.pat_ensureMoveLeftValidRule; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_ensureMoveLeftValidRule(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_ensureMoveLeftValidRule(Match_ensureMoveLeftValidRule that)
+			{
+				_node_wv = that._node_wv;
+				_node__node0 = that._node__node0;
+				_node_bp = that._node_bp;
+				_edge__edge0 = that._edge__edge0;
+			}
+			public Match_ensureMoveLeftValidRule()
+			{
+			}
 		}
 
 		public class Match_ensureMoveLeftValidRule_neg_0 : GRGEN_LGSP.ListElement<Match_ensureMoveLeftValidRule_neg_0>, IMatch_ensureMoveLeftValidRule_neg_0
@@ -867,9 +903,20 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveLeftValidRule.instance.ensureMoveLeftValidRule_neg_0; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_ensureMoveLeftValidRule_neg_0(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_ensureMoveLeftValidRule_neg_0(Match_ensureMoveLeftValidRule_neg_0 that)
+			{
+				_node__node0 = that._node__node0;
+				_node_bp = that._node_bp;
+				_edge__edge0 = that._edge__edge0;
+			}
+			public Match_ensureMoveLeftValidRule_neg_0()
+			{
+			}
 		}
 
 	}
@@ -1165,9 +1212,21 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveRightValidRule.instance.pat_ensureMoveRightValidRule; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_ensureMoveRightValidRule(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_ensureMoveRightValidRule(Match_ensureMoveRightValidRule that)
+			{
+				_node_wv = that._node_wv;
+				_node__node0 = that._node__node0;
+				_node_bp = that._node_bp;
+				_edge__edge0 = that._edge__edge0;
+			}
+			public Match_ensureMoveRightValidRule()
+			{
+			}
 		}
 
 		public class Match_ensureMoveRightValidRule_neg_0 : GRGEN_LGSP.ListElement<Match_ensureMoveRightValidRule_neg_0>, IMatch_ensureMoveRightValidRule_neg_0
@@ -1260,9 +1319,20 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveRightValidRule.instance.ensureMoveRightValidRule_neg_0; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_ensureMoveRightValidRule_neg_0(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_ensureMoveRightValidRule_neg_0(Match_ensureMoveRightValidRule_neg_0 that)
+			{
+				_node_bp = that._node_bp;
+				_node__node0 = that._node__node0;
+				_edge__edge0 = that._edge__edge0;
+			}
+			public Match_ensureMoveRightValidRule_neg_0()
+			{
+			}
 		}
 
 	}
@@ -1509,9 +1579,23 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_moveLeftRule.instance.pat_moveLeftRule; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_moveLeftRule(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_moveLeftRule(Match_moveLeftRule that)
+			{
+				_node_wv = that._node_wv;
+				_node_s = that._node_s;
+				_node_lbp = that._node_lbp;
+				_node_bp = that._node_bp;
+				_edge__edge0 = that._edge__edge0;
+				_edge__edge1 = that._edge__edge1;
+			}
+			public Match_moveLeftRule()
+			{
+			}
 		}
 
 	}
@@ -1758,9 +1842,23 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_moveRightRule.instance.pat_moveRightRule; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_moveRightRule(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_moveRightRule(Match_moveRightRule that)
+			{
+				_node_wv = that._node_wv;
+				_node_s = that._node_s;
+				_node_bp = that._node_bp;
+				_node_rbp = that._node_rbp;
+				_edge__edge0 = that._edge__edge0;
+				_edge__edge1 = that._edge__edge1;
+			}
+			public Match_moveRightRule()
+			{
+			}
 		}
 
 	}
@@ -1950,9 +2048,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_countZeros.instance.pat_countZeros; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_countZeros(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_countZeros(Match_countZeros that)
+			{
+				_node_bp = that._node_bp;
+			}
+			public Match_countZeros()
+			{
+			}
 		}
 
 	}
@@ -2142,9 +2249,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_countOnes.instance.pat_countOnes; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_countOnes(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_countOnes(Match_countOnes that)
+			{
+				_node_bp = that._node_bp;
+			}
+			public Match_countOnes()
+			{
+			}
 		}
 
 	}

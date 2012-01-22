@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Tue Jan 10 22:47:55 CET 2012
+// Generated from "..\..\tests\independent\Independent.grg" on Sun Jan 22 14:24:21 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -419,9 +419,20 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPath.instance.pat_iteratedPath; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPath(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_iteratedPath(Match_iteratedPath that)
+			{
+				_node_beg = that._node_beg;
+				_node_end = that._node_end;
+				_alt_0 = that._alt_0;
+			}
+			public Match_iteratedPath()
+			{
+			}
 		}
 
 		public class Match_iteratedPath_alt_0_base : GRGEN_LGSP.ListElement<Match_iteratedPath_alt_0_base>, IMatch_iteratedPath_alt_0_base
@@ -514,9 +525,20 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPath.instance.iteratedPath_alt_0_base; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPath_alt_0_base(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_iteratedPath_alt_0_base(Match_iteratedPath_alt_0_base that)
+			{
+				_node_beg = that._node_beg;
+				_node_end = that._node_end;
+				_edge__edge0 = that._edge__edge0;
+			}
+			public Match_iteratedPath_alt_0_base()
+			{
+			}
 		}
 
 		public class Match_iteratedPath_alt_0_recursive : GRGEN_LGSP.ListElement<Match_iteratedPath_alt_0_recursive>, IMatch_iteratedPath_alt_0_recursive
@@ -615,9 +637,22 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPath.instance.iteratedPath_alt_0_recursive; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPath_alt_0_recursive(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_iteratedPath_alt_0_recursive(Match_iteratedPath_alt_0_recursive that)
+			{
+				_node_beg = that._node_beg;
+				_node_intermediate = that._node_intermediate;
+				_node_end = that._node_end;
+				_edge__edge0 = that._edge__edge0;
+				@__sub0 = that.@__sub0;
+			}
+			public Match_iteratedPath_alt_0_recursive()
+			{
+			}
 		}
 
 	}
@@ -1015,9 +1050,19 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPathToIntNode.instance.pat_iteratedPathToIntNode; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPathToIntNode(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_iteratedPathToIntNode(Match_iteratedPathToIntNode that)
+			{
+				_node_beg = that._node_beg;
+				_alt_0 = that._alt_0;
+			}
+			public Match_iteratedPathToIntNode()
+			{
+			}
 		}
 
 		public class Match_iteratedPathToIntNode_alt_0_base : GRGEN_LGSP.ListElement<Match_iteratedPathToIntNode_alt_0_base>, IMatch_iteratedPathToIntNode_alt_0_base
@@ -1110,9 +1155,20 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPathToIntNode.instance.iteratedPathToIntNode_alt_0_base; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPathToIntNode_alt_0_base(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_iteratedPathToIntNode_alt_0_base(Match_iteratedPathToIntNode_alt_0_base that)
+			{
+				_node_beg = that._node_beg;
+				_node_end = that._node_end;
+				_edge__edge0 = that._edge__edge0;
+			}
+			public Match_iteratedPathToIntNode_alt_0_base()
+			{
+			}
 		}
 
 		public class Match_iteratedPathToIntNode_alt_0_recursive : GRGEN_LGSP.ListElement<Match_iteratedPathToIntNode_alt_0_recursive>, IMatch_iteratedPathToIntNode_alt_0_recursive
@@ -1208,9 +1264,21 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPathToIntNode.instance.iteratedPathToIntNode_alt_0_recursive; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPathToIntNode_alt_0_recursive(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_iteratedPathToIntNode_alt_0_recursive(Match_iteratedPathToIntNode_alt_0_recursive that)
+			{
+				_node_beg = that._node_beg;
+				_node_intermediate = that._node_intermediate;
+				_edge__edge0 = that._edge__edge0;
+				@__sub0 = that.@__sub0;
+			}
+			public Match_iteratedPathToIntNode_alt_0_recursive()
+			{
+			}
 		}
 
 	}
@@ -1394,9 +1462,17 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_create.instance.pat_create; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_create(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_create(Match_create that)
+			{
+			}
+			public Match_create()
+			{
+			}
 		}
 
 	}
@@ -1658,9 +1734,25 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_find.instance.pat_find; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_find(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_find(Match_find that)
+			{
+				_node_beg = that._node_beg;
+				_node__node0 = that._node__node0;
+				_node_end = that._node_end;
+				_node__node1 = that._node__node1;
+				_edge__edge0 = that._edge__edge0;
+				_edge__edge1 = that._edge__edge1;
+				_edge__edge2 = that._edge__edge2;
+				_edge__edge3 = that._edge__edge3;
+			}
+			public Match_find()
+			{
+			}
 		}
 
 	}
@@ -1976,9 +2068,23 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findIndependent.instance.pat_findIndependent; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_findIndependent(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_findIndependent(Match_findIndependent that)
+			{
+				_node_beg = that._node_beg;
+				_node__node0 = that._node__node0;
+				_node_end = that._node_end;
+				_edge__edge0 = that._edge__edge0;
+				_edge__edge1 = that._edge__edge1;
+				_idpt_0 = that._idpt_0;
+			}
+			public Match_findIndependent()
+			{
+			}
 		}
 
 		public class Match_findIndependent_idpt_0 : GRGEN_LGSP.ListElement<Match_findIndependent_idpt_0>, IMatch_findIndependent_idpt_0
@@ -2077,6 +2183,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findIndependent.instance.findIndependent_idpt_0; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_findIndependent_idpt_0(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
@@ -2665,9 +2772,24 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.pat_findMultiNested; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_findMultiNested(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_findMultiNested(Match_findMultiNested that)
+			{
+				_node_beg = that._node_beg;
+				_node__node0 = that._node__node0;
+				_node_end = that._node_end;
+				_edge__edge0 = that._edge__edge0;
+				_edge__edge1 = that._edge__edge1;
+				_idpt_0 = that._idpt_0;
+				_idpt_2 = that._idpt_2;
+			}
+			public Match_findMultiNested()
+			{
+			}
 		}
 
 		public class Match_findMultiNested_idpt_0 : GRGEN_LGSP.ListElement<Match_findMultiNested_idpt_0>, IMatch_findMultiNested_idpt_0
@@ -2769,6 +2891,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_0; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_findMultiNested_idpt_0(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
@@ -2883,6 +3006,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_0_idpt_1; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_findMultiNested_idpt_0_idpt_1(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
@@ -2999,6 +3123,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_2; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_findMultiNested_idpt_2(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
@@ -3113,6 +3238,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_2_idpt_3; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_findMultiNested_idpt_2_idpt_3(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
@@ -3318,9 +3444,17 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createIterated.instance.pat_createIterated; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_createIterated(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_createIterated(Match_createIterated that)
+			{
+			}
+			public Match_createIterated()
+			{
+			}
 		}
 
 	}
@@ -3537,9 +3671,21 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findChainPlusChainToInt.instance.pat_findChainPlusChainToInt; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_findChainPlusChainToInt(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_findChainPlusChainToInt(Match_findChainPlusChainToInt that)
+			{
+				_node_beg = that._node_beg;
+				_node_end = that._node_end;
+				@__sub0 = that.@__sub0;
+				@__sub1 = that.@__sub1;
+			}
+			public Match_findChainPlusChainToInt()
+			{
+			}
 		}
 
 	}
@@ -3810,9 +3956,21 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findChainPlusChainToIntIndependent.instance.pat_findChainPlusChainToIntIndependent; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_findChainPlusChainToIntIndependent(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+
+			public Match_findChainPlusChainToIntIndependent(Match_findChainPlusChainToIntIndependent that)
+			{
+				_node_beg = that._node_beg;
+				_node_end = that._node_end;
+				@__sub0 = that.@__sub0;
+				_idpt_0 = that._idpt_0;
+			}
+			public Match_findChainPlusChainToIntIndependent()
+			{
+			}
 		}
 
 		public class Match_findChainPlusChainToIntIndependent_idpt_0 : GRGEN_LGSP.ListElement<Match_findChainPlusChainToIntIndependent_idpt_0>, IMatch_findChainPlusChainToIntIndependent_idpt_0
@@ -3902,6 +4060,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findChainPlusChainToIntIndependent.instance.findChainPlusChainToIntIndependent_idpt_0; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch Clone() { return new Match_findChainPlusChainToIntIndependent_idpt_0(this); }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
