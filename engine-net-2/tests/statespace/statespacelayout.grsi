@@ -1,0 +1,14 @@
+debug set layout Hierarchic
+
+dump set node Red color red
+dump set node Green color green
+dump set node Blue color blue
+
+dump set node Graph color grey
+
+dump set edge nextRed color red
+dump set edge nextGreen color green
+dump set edge nextBlue color blue
+dump set edge next thickness 4
+
+dump add node Graph group by hidden outgoing contains

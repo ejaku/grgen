@@ -1,0 +1,17 @@
+new graph statespace/statespace
+
+include statespace/statespacelayout.grsi
+
+exec (gr:Graph)=init ;> ::stopLevel=5 ;> stateStepCompiled(gr, 0)
+
+#show graph ycomp
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+show num nodes Graph
+show num edges nextRed
+show num edges nextGreen
+show num edges nextBlue
+show num edges contains
+
+exit

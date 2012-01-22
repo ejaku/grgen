@@ -1,0 +1,45 @@
+new graph statespace/statespace
+
+include statespace/statespacelayout.grsi
+
+def copyAndLinkRed(gr:Graph) : (ngr:Graph) {\
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkRed(gr,ngr)\
+}
+def copyAndLinkGreen(gr:Graph) : (ngr:Graph) {\
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkGreen(gr,ngr)\
+}
+def copyAndLinkBlue(gr:Graph) : (ngr:Graph) {\
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkBlue(gr,ngr)\
+}
+
+exec (gr:Graph)=init ;> << insertRed(gr) ; / (gr2:Graph)=copyAndLinkRed(gr) / ;>\
+	<< insertGreen(gr2) ;; / (gr3:Graph)=copyAndLinkGreen(gr2) / ;>\
+		<< insertRed(gr3) ;; / (gr4:Graph)=copyAndLinkRed(gr3) / ;>\
+			<< insertRed(gr4) ;; / (gr5:Graph)=copyAndLinkRed(gr4) / ;> false >>\
+			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreen(gr4) / ;> false >>\
+			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlue(gr4) / ;> false >>\
+		>>\
+		;> << insertGreen(gr3) ;; / (gr4)=copyAndLinkGreen(gr3) / ;>\
+			<< insertRed(gr4) ;; / (gr5)=copyAndLinkRed(gr4) / ;> false >>\
+			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreen(gr4) / ;> false >>\
+			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlue(gr4) / ;> false >>\
+		>>\
+		;> << insertBlue(gr3) ;; / (gr4)=copyAndLinkBlue(gr3) / ;>\
+			<< insertRed(gr4) ;; / (gr5)=copyAndLinkRed(gr4) / ;> false >>\
+			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreen(gr4) / ;> false >>\
+			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlue(gr4) / ;> false >>\
+		>>\
+	>>\
+>>
+
+#show graph ycomp
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+show num nodes Graph
+show num edges nextRed
+show num edges nextGreen
+show num edges nextBlue
+show num edges contains
+
+exit

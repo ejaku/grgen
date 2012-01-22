@@ -1,0 +1,191 @@
+using statespace;
+
+rule init : (Graph)
+{
+	modify {
+		gr:Graph;
+		r:Red --> g:Green --> b:Blue --> r;
+		gr -:contains-> r;
+		gr -:contains-> g;
+		gr -:contains-> b;
+		return(gr);
+	}
+}
+
+rule insertRed(gr:Graph)
+{
+	alternative {
+		GreenToBlue {
+			g:Green -e:Edge-> b:Blue;
+			gr -:contains-> g;
+			gr -:contains-> b;
+
+			modify {
+				gr -:contains-> r:Red;
+				delete(e);
+				g --> r --> b;
+			}
+		}
+		BlueToGreen {
+			b:Blue -e:Edge-> g:Green;
+			gr -:contains-> g;
+			gr -:contains-> b;
+
+			modify {
+				gr -:contains-> r:Red;
+				delete(e);
+				b --> r --> g;
+			}
+		}
+	}
+}
+
+rule insertGreen(gr:Graph)
+{
+	alternative {
+		RedToBlue {
+			r:Red -e:Edge-> b:Blue;
+			gr -:contains-> r;
+			gr -:contains-> b;
+
+			modify {
+				gr -:contains-> g:Green;
+				delete(e);
+				r --> g --> b;
+			}
+		}
+		BlueToRed {
+			b:Blue -e:Edge-> r:Red;
+			gr -:contains-> r;
+			gr -:contains-> b;
+
+			modify {
+				gr -:contains-> g:Green;
+				delete(e);
+				b --> g --> r;
+			}
+		}
+	}
+}
+
+rule insertBlue(gr:Graph)
+{
+	alternative {
+		RedToGreen {
+			r:Red -e:Edge-> g:Green;
+			gr -:contains-> r;
+			gr -:contains-> g;
+
+			modify {
+				gr -:contains-> b:Blue;
+				delete(e);
+				r --> b --> g;
+			}
+		}
+		GreenToRed {
+			g:Green -e:Edge-> r:Red;
+			gr -:contains-> g;
+			gr -:contains-> r;
+
+			modify {
+				gr -:contains-> b:Blue;
+				delete(e);
+				g --> b --> r;
+			}
+		}
+	}
+}
+
+rule copySubgraph(gr:Graph, ref oldToNew:map<Color, Color>) : (Graph)
+{
+	iterated { // copy nodes contained in/incident to gr, then copy edges with deferred exec
+		gr -:contains-> c:Color;
+
+		modify {
+			ngr -:contains-> nc:copy<c>;
+			eval { oldToNew.add(c, nc); }
+			exec( [CopyOutgoingEdge(c, oldToNew)] );
+		}
+	}
+
+	modify {
+		ngr:copy<gr>;
+		return(ngr);
+	}
+}
+
+rule CopyOutgoingEdge(n:Color, ref oldToNew:map<Color, Color>)
+{
+	n -e:Edge-> m:Color;
+	hom(n,m); // reflexive edges
+	nn:Color{oldToNew[n]}; nm:Color{oldToNew[m]};
+	hom(nn,nm); // reflexive edges
+
+	modify {
+		nn -ee:copy<e>-> nm;
+	}
+}
+
+rule linkRed(gr:Graph, ngr:Graph)
+{
+	modify {
+		gr -:nextRed-> ngr;
+	}
+}
+
+rule linkGreen(gr:Graph, ngr:Graph)
+{
+	modify {
+		gr -:nextGreen-> ngr;
+	}
+}
+
+rule linkBlue(gr:Graph, ngr:Graph)
+{
+	modify {
+		gr -:nextBlue-> ngr;
+	}
+}
+
+sequence copyAndLinkRedCompiled(gr:Graph) : (ngr:Graph) {
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkRed(gr,ngr)
+}
+
+sequence copyAndLinkGreenCompiled(gr:Graph) : (ngr:Graph) {
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkGreen(gr,ngr)
+}
+
+sequence copyAndLinkBlueCompiled(gr:Graph) : (ngr:Graph) {
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkBlue(gr,ngr)
+}
+
+sequence stateStepCompiled(gr:Graph, level:int) {
+	if{{level < ::stopLevel};
+		<< insertRed(gr) ;; / (ngr:Graph)=copyAndLinkRedCompiled(gr) / ;> stateStepCompiled(ngr, level+1) >>
+		;> << insertGreen(gr) ;; / (ngr)=copyAndLinkGreenCompiled(gr) / ;> stateStepCompiled(ngr, level+1) >>
+		;> << insertBlue(gr) ;; / (ngr)=copyAndLinkBlueCompiled(gr) / ;> stateStepCompiled(ngr, level+1) >>;
+		false}
+}
+
+sequence stateSpaceStaticCompiled
+{
+(gr:Graph)=init ;> << insertRed(gr) ;; / (gr2:Graph)=copyAndLinkRedCompiled(gr) / ;>
+	<< insertGreen(gr2) ;; / (gr3:Graph)=copyAndLinkGreenCompiled(gr2) / ;>
+		<< insertRed(gr3) ;; / (gr4:Graph)=copyAndLinkRedCompiled(gr3) / ;>
+			<< insertRed(gr4) ;; / (gr5:Graph)=copyAndLinkRedCompiled(gr4) / ;> false >>
+			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreenCompiled(gr4) / ;> false >>
+			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlueCompiled(gr4) / ;> false >>
+		>>
+		;> << insertGreen(gr3) ;; / (gr4)=copyAndLinkGreenCompiled(gr3) / ;>
+			<< insertRed(gr4) ;; / (gr5)=copyAndLinkRedCompiled(gr4) / ;> false >>
+			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreenCompiled(gr4) / ;> false >>
+			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlueCompiled(gr4) / ;> false >>
+		>>
+		;> << insertBlue(gr3) ;; / (gr4)=copyAndLinkBlueCompiled(gr3) / ;>
+			<< insertRed(gr4) ;; / (gr5)=copyAndLinkRedCompiled(gr4) / ;> false >>
+			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreenCompiled(gr4) / ;> false >>
+			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlueCompiled(gr4) / ;> false >>
+		>>
+	>>
+>>
+}

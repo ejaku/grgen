@@ -1,0 +1,14 @@
+// the plain graphs / object level
+abstract node class Color;
+node class Red extends Color;
+node class Green extends Color;
+node class Blue extends Color;
+
+// the statespace / meta level
+
+node class Graph;
+edge class contains connect Graph[*] --> Color[1];
+abstract edge class next connect Graph[0:1] --> Graph[0:1];
+edge class nextRed extends next;
+edge class nextGreen extends next;
+edge class nextBlue extends next;
