@@ -76,6 +76,18 @@ namespace de.unika.ipd.grGen.libGr
         int StartTransaction();
 
         /// <summary>
+        /// Pauses the running transactions,
+        /// i.e. changes done from now on until resume won't be undone in case of a rollback
+        /// </summary>
+        void Pause();
+
+        /// <summary>
+        /// Resumes the running transactions after a pause,
+        /// i.e. changes done from now on will be undone again in case of a rollback
+        /// </summary>
+        void Resume();
+
+        /// <summary>
         /// Removes the rollback data and stops this transaction
         /// </summary>
         /// <param name="transactionID">Transaction ID returned by a StartTransaction call</param>
@@ -91,8 +103,6 @@ namespace de.unika.ipd.grGen.libGr
         /// Indicates, whether a transaction is currently active.
         /// </summary>
         bool TransactionActive { get; }
-
-//        ITransactionManager Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap);
     }
 
     /// <summary>
@@ -128,6 +138,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="value">The string to write to the recordings</param>
         void Write(string value);
+
+        /// <summary>
+        /// Writes the given string to the currently ongoing recordings followed by a new line
+        /// </summary>
+        /// <param name="value">The string to write to the recordings</param>
+        void WriteLine(string value);
+
+        /// <summary>
+        /// Flushes the writer
+        /// </summary>
+        void Flush();
 
         ////////////////////////////////////////////////////////////////////////
 

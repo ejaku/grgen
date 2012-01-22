@@ -154,6 +154,7 @@ TOKEN: {
 |   < GREATEREQUAL: ">=" >
 |	< STAR: "*" >
 |	< PLUS: "+" >
+|	< DIV: "/" >
 |	< EXCLAMATIONMARK: "!" >
 |	< LPARENTHESIS: "(" >
 |	< RPARENTHESIS: ")" >
@@ -948,9 +949,14 @@ Sequence SimpleSequence():
         return new SequenceTransaction(seq);
     }
 |
-    "<<" seq=Rule() ";" seq2=RewriteSequence() ">>"
+    "<<" seq=Rule() (";;"|";") seq2=RewriteSequence() ">>"
     {
         return new SequenceBacktrack(seq, seq2);
+    }
+|
+    "/" seq=RewriteSequence() "/"
+    {
+        return new SequencePause(seq);
     }
 |
     "if" "{" { varDecls.PushScope(ScopeType.If); } seq=RewriteSequence() ";"

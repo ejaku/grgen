@@ -222,7 +222,11 @@ public class ActionsGen extends CSharpBase {
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
 		for(ExecVariable inParam : sequence.getInParameters()) {
-			sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
+			if(inParam.getType() instanceof InheritanceType) {
+				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
+			}
 		}
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\tnew String[] { ");
@@ -231,8 +235,12 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
-		for(ExecVariable inParam : sequence.getOutParameters()) {
-			sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
+		for(ExecVariable outParam : sequence.getOutParameters()) {
+			if(outParam.getType() instanceof InheritanceType) {
+				sb.append(formatTypeClassRef(outParam.getType()) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outParam.getType()) + ")), ");
+			}
 		}
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\t\"" + sequenceName + "\",\n");
@@ -2137,23 +2145,20 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\tpublic bool _isNullMatch;\n");
 		}
 		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }\n");
+		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch Clone() { return new "+className+"(this); }\n");
 		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;\n");
 		sb.append("\t\t\tpublic void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }\n");
 		sb.append("\t\t\tpublic override string ToString() { return \"Match of \" + Pattern.Name; }\n");
 
-		if(independent) {
-			sb.append("\n\t\t\tpublic "+className+"("+className +" that)\n");
-			sb.append("\t\t\t{\n");
-			for(int i=MATCH_PART_NODES; i<MATCH_PART_END; ++i) {
-				genCopyMatchedEntities(sb, pattern, name,
-						i, pathPrefixForElements);
-			}
-			sb.append("\t\t\t}\n");
-			
-			sb.append("\t\t\tpublic "+className+"()\n");
-			sb.append("\t\t\t{\n");
-			sb.append("\t\t\t}\n");
+		sb.append("\n\t\t\tpublic "+className+"("+className +" that)\n");
+		sb.append("\t\t\t{\n");
+		for(int i=MATCH_PART_NODES; i<MATCH_PART_END; ++i) {
+			genCopyMatchedEntities(sb, pattern, name, i, pathPrefixForElements);
 		}
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\tpublic "+className+"()\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t}\n");
 
 		sb.append("\t\t}\n");
 		sb.append("\n");

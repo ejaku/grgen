@@ -19,8 +19,6 @@ namespace de.unika.ipd.grGen.lgsp
     public interface IUndoItem
     {
         void DoUndo(LGSPGraphProcessingEnvironment procEnv);
-
-        IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap);
     }
 
 
@@ -38,11 +36,6 @@ namespace de.unika.ipd.grGen.lgsp
             // from the nested transactions to know when to remove the rollback information
             // if nothing happened from opening the first transaction to opening the transaction of interest,
             // they would be indistinguishable as the number of undo items did not change
-        }
-
-        public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
-        {
-            return new LGSPUndoTransactionStarted();
         }
     }
 
@@ -62,11 +55,6 @@ namespace de.unika.ipd.grGen.lgsp
             if(_elem is INode) procEnv.graph.Remove((INode) _elem);
             else procEnv.graph.Remove((IEdge) _elem);
         }
-
-        public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
-        {
-            return new LGSPUndoElemAdded(oldToNewMap[_elem]);
-        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -81,9 +69,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             _elem = elem;
             _vars = procEnv.GetElementVariables(_elem);
-            // TODO: reactivate after NamedGraph is not a wrapper anymore, but a LGSPNamedGraph extending the NamedGraph interface and IGraph as well as LGSPGraph
-//            if(procEnv.graph is NamedGraph) _name = ((NamedGraph)procEnv.graph).GetElementName(_elem);
-//            else _name = null;
+            if(procEnv.graph is LGSPNamedGraph) _name = ((LGSPNamedGraph)procEnv.graph).GetElementName(_elem);
+            else _name = null;
         }
 
         private LGSPUndoElemRemoved(IGraphElement elem, String name, LinkedList<Variable> vars)
@@ -95,32 +82,22 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void DoUndo(LGSPGraphProcessingEnvironment procEnv)
         {
-            if(_elem is LGSPNode) ((LGSPGraph)procEnv.graph).AddNode((LGSPNode)_elem);
-            else ((LGSPGraph)procEnv.graph).AddEdge((LGSPEdge)_elem);
-
-            // TODO: reactivate after NamedGraph is not a wrapper anymore, but a LGSPNamedGraph extending the NamedGraph interface and IGraph as well as LGSPGraph
-            //if(procEnv.graph is NamedGraph)
-            //    ((NamedGraph)procEnv.graph).SetElementName(_elem, _name);
+            if(procEnv.Graph is LGSPNamedGraph)
+            {
+                if(_elem is LGSPNode) ((LGSPNamedGraph)procEnv.graph).AddNode((LGSPNode)_elem, _name);
+                else ((LGSPNamedGraph)procEnv.graph).AddEdge((LGSPEdge)_elem, _name);
+            }
+            else
+            {
+                if(_elem is LGSPNode) procEnv.graph.AddNode((LGSPNode)_elem);
+                else procEnv.graph.AddEdge((LGSPEdge)_elem);
+            }
 
             if(_vars != null)
             {
                 foreach(Variable var in _vars)
                     procEnv.SetVariableValue(var.Name, _elem);
             }
-        }
-
-        public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
-        {
-            LinkedList<Variable> newVars = new LinkedList<Variable>();
-            foreach(Variable var in _vars)
-            {
-                object newVal;
-                IGraphElement elem = var.Value as IGraphElement;
-                if(elem != null) newVal = oldToNewMap[elem];
-                else newVal = var.Value;
-                newVars.AddLast(new Variable(var.Name, newVal));
-            }
-            return new LGSPUndoElemRemoved(oldToNewMap[_elem], _name, newVars);
         }
     }
 
@@ -383,12 +360,6 @@ namespace de.unika.ipd.grGen.lgsp
                 procEnv.graph.ChangingEdgeAttribute(edge, _attrType, changeType, _value, _keyOfValue);
             }
         }
-
-        public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
-        {
-            throw new Exception("Not implemented yet!");
-            //return new LGSPUndoAttributeChanged(oldToNewMap[_elem], _attrType, _oldValue, _newValue);
-        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -397,8 +368,6 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public IGraphElement _oldElem;
         public IGraphElement _newElem;
-        // TODO: why is there no procEnv needed as in element removed, 
-        // why are the variables not restored as in element removed?
 
         public LGSPUndoElemRetyped(IGraphElement oldElem, IGraphElement newElem)
         {
@@ -417,7 +386,7 @@ namespace de.unika.ipd.grGen.lgsp
                     LGSPNode newNode = (LGSPNode)_newElem;
                     LGSPNode oldNode = (LGSPNode)_oldElem;
                     lgspGraph.ElemToName[oldNode] = name;
-                    lgspGraph.RetypingNode(newNode, oldNode);
+                    lgspGraph.RetypingNode(newNode, oldNode); // this will switch the variables
                     lgspGraph.ReplaceNode(newNode, oldNode);
                     lgspGraph.ElemToName.Remove(newNode);
                     lgspGraph.NameToElem[name] = oldNode;
@@ -427,7 +396,7 @@ namespace de.unika.ipd.grGen.lgsp
                     LGSPEdge newEdge = (LGSPEdge)_newElem;
                     LGSPEdge oldEdge = (LGSPEdge)_oldElem;
                     lgspGraph.ElemToName[oldEdge] = name;
-                    lgspGraph.RetypingEdge(newEdge, oldEdge);
+                    lgspGraph.RetypingEdge(newEdge, oldEdge); // this will switch the variables
                     lgspGraph.ReplaceEdge(newEdge, oldEdge);
                     lgspGraph.ElemToName.Remove(newEdge);
                     lgspGraph.NameToElem[name] = oldEdge;
@@ -440,23 +409,17 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     LGSPNode newNode = (LGSPNode)_newElem;
                     LGSPNode oldNode = (LGSPNode)_oldElem;
-                    lgspGraph.RetypingNode(newNode, oldNode);
+                    lgspGraph.RetypingNode(newNode, oldNode); // this will switch the variables
                     lgspGraph.ReplaceNode(newNode, oldNode);
                 }
                 else
                 {
                     LGSPEdge newEdge = (LGSPEdge)_newElem;
                     LGSPEdge oldEdge = (LGSPEdge)_oldElem;
-                    lgspGraph.RetypingEdge(newEdge, oldEdge);
+                    lgspGraph.RetypingEdge(newEdge, oldEdge); // this will switch the variables
                     lgspGraph.ReplaceEdge(newEdge, oldEdge);
                 }
             }
-        }
-
-        public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
-        {
-            throw new Exception("Not implemented yet!");
-//            return new LGSPUndoElemTypeChanged(oldToNewMap[_elem], _oldType, _oldAttrs == null ? null : (IAttributes) _oldAttrs.Clone());
         }
     }
 
@@ -469,12 +432,14 @@ namespace de.unika.ipd.grGen.lgsp
     {
         private LinkedList<IUndoItem> undoItems = new LinkedList<IUndoItem>();
         private bool recording = false;
-        private bool reuseOptimizationBackup = false;
+        private bool paused = false; // only of interest if recording==true
+        private bool reuseOptimizationBackup = false; // old value from graph, to be restored after outermost transaction completed
         private bool undoing = false;
         private LGSPGraphProcessingEnvironment procEnv;
 
 #if LOG_TRANSACTION_HANDLING
         private StreamWriter writer;
+        private int transactionLevel = 0;
 #endif
 
         public LGSPTransactionManager(LGSPGraphProcessingEnvironment procEnv)
@@ -482,7 +447,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.procEnv = procEnv;
 
 #if LOG_TRANSACTION_HANDLING
-            writer = new StreamWriter(graph.Name + "_transaction_log.txt");
+            writer = new StreamWriter(procEnv.graph.Name + "_transaction_log.txt");
 #endif
         }
 
@@ -498,6 +463,7 @@ namespace de.unika.ipd.grGen.lgsp
             procEnv.graph.OnRetypingEdge += RetypingElement;
 
             recording = true;
+            paused = false;
             reuseOptimizationBackup = procEnv.graph.ReuseOptimization;
             procEnv.graph.ReuseOptimization = false; // reusing destroys the graph on rollback, so disable it when handling transactions
         }
@@ -517,14 +483,16 @@ namespace de.unika.ipd.grGen.lgsp
             procEnv.graph.ReuseOptimization = reuseOptimizationBackup;
         }
 
-        /// <summary>
-        /// Starts a transaction
-        /// </summary>
-        /// <returns>A transaction ID to be used with Commit or Rollback</returns>
         public int StartTransaction()
         {
+            // TODO: allow transactions within pauses, nesting of pauses with transactions
+            // this requires a stack of transactions; not difficult, but would eat a bit of performance,
+            // so only to be done if there is demand by users (for the majority of tasks it should not be needed)
+            if(paused)
+                throw new Exception("Transaction handling is currently paused, can't start a transaction!");
 #if LOG_TRANSACTION_HANDLING
-            writer.WriteLine("StartTransaction");
+            writer.WriteLine(new String(' ', transactionLevel) + "StartTransaction");
+            ++transactionLevel;
 #endif
             if(procEnv.Recorder != null)
                 procEnv.Recorder.TransactionStart(undoItems.Count);
@@ -537,15 +505,38 @@ namespace de.unika.ipd.grGen.lgsp
             return count;
         }
 
-        /// <summary>
-        /// Commits the changes during a transaction
-        /// (removes rollback information only if the transaction is outermost)
-        /// </summary>
-        /// <param name="transactionID">Transaction ID returned by a StartTransaction call</param>
+        public void Pause()
+        {
+            if(paused)
+                throw new Exception("Transaction handling is already paused, can't pause again!");
+            if(!recording)
+                throw new Exception("No transaction underway to pause!");
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine(new String(' ', transactionLevel) + "PauseTransaction");
+#endif
+            paused = true;
+        }
+
+        public void Resume()
+        {
+            if(!paused)
+                throw new Exception("Transaction handling is not paused, can't resume!");
+            if(!recording)
+                throw new Exception("No transaction underway to resume!");
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine(new String(' ', transactionLevel) + "ResumeTransaction");
+#endif
+            paused = false;
+        }
+
+
         public void Commit(int transactionID)
         {
+            if(paused)
+                throw new Exception("Transaction handling is currently paused, can't commit!");
 #if LOG_TRANSACTION_HANDLING
-            writer.WriteLine("Commit to " + transactionID);
+            writer.WriteLine(new String(' ', transactionLevel) + "Commit to " + transactionID);
+            --transactionLevel;
             writer.Flush();
 #endif
 #if CHECK_RINGLISTS
@@ -554,6 +545,8 @@ namespace de.unika.ipd.grGen.lgsp
             if(procEnv.Recorder != null)
                 procEnv.Recorder.TransactionCommit(transactionID);
 
+            // removes rollback information only if the transaction is outermost
+            // otherwise we might need do undo it because a transaction enclosing this transaction failed
             if(transactionID == 0)
             {
                 undoItems.Clear();
@@ -561,15 +554,13 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Undoes all changes during a transaction
-        /// </summary>
-        /// <param name="transactionID">The ID of the transaction to be rollbacked</param>
         public void Rollback(int transactionID)
         {
+            if(paused)
+                throw new Exception("Transaction handling is currently paused, can't roll back!");
 #if LOG_TRANSACTION_HANDLING
-            writer.WriteLine("Rollback to " + transactionID);
-#endif
+            writer.WriteLine(new String(' ', transactionLevel) + "Rollback to " + transactionID);
+#endif      
             if(procEnv.Recorder != null)
                 procEnv.Recorder.TransactionRollback(transactionID, true);
 
@@ -577,33 +568,33 @@ namespace de.unika.ipd.grGen.lgsp
             while(undoItems.Count > transactionID)
             {
 #if LOG_TRANSACTION_HANDLING
-                writer.Write("rolling back " + undoItems.Count + " - ");
+                writer.Write(new String(' ', transactionLevel) + "rolling back " + undoItems.Count + " - ");
                 if(undoItems.Last.Value is LGSPUndoTransactionStarted) {
                     writer.WriteLine("TransactionStarted");
                 } else if(undoItems.Last.Value is LGSPUndoElemAdded) {
                     LGSPUndoElemAdded item = (LGSPUndoElemAdded)undoItems.Last.Value;
                     if(item._elem is INode) {
                         INode node = (INode)item._elem;
-                        writer.WriteLine("ElementAdded: " + graph.GetElementName(node) + ":" + node.Type.Name);
+                        writer.WriteLine("ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
                     } else {
                         IEdge edge = (IEdge)item._elem;
-                        writer.WriteLine("ElementAdded: " + graph.GetElementName(edge.Source) + " -" + graph.GetElementName(edge) + ":" + edge.Type.Name + " ->" + graph.GetElementName(edge.Target));
+                        writer.WriteLine("ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + " ->" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
                     }
                 } else if(undoItems.Last.Value is LGSPUndoElemRemoved) {
                     LGSPUndoElemRemoved item = (LGSPUndoElemRemoved)undoItems.Last.Value;
                     if(item._elem is INode) {
                         INode node = (INode)item._elem;
-                        writer.WriteLine("RemovingElement: " + graph.GetElementName(node) + ":" + node.Type.Name);
+                        writer.WriteLine("RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
                     } else {
                         IEdge edge = (IEdge)item._elem;
-                        writer.WriteLine("RemovingElement: " + graph.GetElementName(edge.Source) + " -"+ graph.GetElementName(edge) + ":" + edge.Type.Name + "-> " + graph.GetElementName(edge.Target));
+                        writer.WriteLine("RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + "-> " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
                     }
                 } else if(undoItems.Last.Value is LGSPUndoAttributeChanged) {
                     LGSPUndoAttributeChanged item = (LGSPUndoAttributeChanged)undoItems.Last.Value;
-                    writer.WriteLine("ChangingElementAttribute: " + graph.GetElementName(item._elem) + ":" + item._elem.Type.Name + "." + item._attrType.Name);
+                    writer.WriteLine("ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._elem) + ":" + item._elem.Type.Name + "." + item._attrType.Name);
                 } else if(undoItems.Last.Value is LGSPUndoElemRetyped) {
                     LGSPUndoElemRetyped item = (LGSPUndoElemRetyped)undoItems.Last.Value;
-                    writer.WriteLine("RetypingElement: " + graph.GetElementName(item._newElem) + ":" + item._newElem.Type.Name + "<" + graph.GetElementName(item._oldElem)+ ":" + item._oldElem.Type.Name + ">");
+                    writer.WriteLine("RetypingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._newElem) + ":" + item._newElem.Type.Name + "<" + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._oldElem) + ":" + item._oldElem.Type.Name + ">");
                 }
 #endif
                 undoItems.Last.Value.DoUndo(procEnv);
@@ -618,6 +609,7 @@ namespace de.unika.ipd.grGen.lgsp
                 procEnv.Recorder.TransactionRollback(transactionID, false);
 
 #if LOG_TRANSACTION_HANDLING
+            --transactionLevel;
             writer.Flush();
 #endif
 #if CHECK_RINGLISTS
@@ -627,14 +619,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void ElementAdded(IGraphElement elem)
         {
-            if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemAdded(elem));
+            if(recording && !paused && !undoing) undoItems.AddLast(new LGSPUndoElemAdded(elem));
 #if LOG_TRANSACTION_HANDLING
             if(elem is INode) {
                 INode node = (INode)elem;
-                writer.WriteLine("ElementAdded: " + graph.GetElementName(node) + ":" + node.Type.Name);
+                writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
             } else {
                 IEdge edge = (IEdge)elem;
-                writer.WriteLine("ElementAdded: " + graph.GetElementName(edge.Source) + " -" + graph.GetElementName(edge) + ":" + edge.Type.Name + "-> " + graph.GetElementName(edge.Target));
+                writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + "-> " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
             }
 #endif
         }
@@ -644,44 +636,32 @@ namespace de.unika.ipd.grGen.lgsp
 #if LOG_TRANSACTION_HANDLING
             if(elem is INode) {
                 INode node = (INode)elem;
-                writer.WriteLine("RemovingElement: " + graph.GetElementName(node) + ":" + node.Type.Name);
+                writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
             } else {
                 IEdge edge = (IEdge)elem;
-                writer.WriteLine("RemovingElement: " + graph.GetElementName(edge.Source) + " -" + graph.GetElementName(edge) + ":" + edge.Type.Name + "-> " + graph.GetElementName(edge.Target));
+                writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + "-> " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
             }
 #endif
-            if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemRemoved(elem, procEnv));
+            if(recording && !paused && !undoing) undoItems.AddLast(new LGSPUndoElemRemoved(elem, procEnv));
         }
 
         public void ChangingElementAttribute(IGraphElement elem, AttributeType attrType,
                 AttributeChangeType changeType, Object newValue, Object keyValue)
         {
 #if LOG_TRANSACTION_HANDLING
-            writer.WriteLine("ChangingElementAttribute: " + graph.GetElementName(elem) + ":" + elem.Type.Name + "." + attrType.Name);
+            writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(elem) + ":" + elem.Type.Name + "." + attrType.Name);
 #endif
-            if(recording && !undoing) undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue));
+            if(recording && !paused && !undoing) undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue));
         }
 
         public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
 #if LOG_TRANSACTION_HANDLING
-            writer.WriteLine("RetypingElement: " + graph.GetElementName(newElem) + ":" + newElem.Type.Name+ "<" + graph.GetElementName(oldElem) + ":" + oldElem.Type.Name + ">");
+            writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "RetypingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(newElem) + ":" + newElem.Type.Name + "<" + ((LGSPNamedGraph)procEnv.graph).GetElementName(oldElem) + ":" + oldElem.Type.Name + ">");
 #endif
-            if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemRetyped(oldElem, newElem));
+            if(recording && !paused && !undoing) undoItems.AddLast(new LGSPUndoElemRetyped(oldElem, newElem));
         }
 
         public bool TransactionActive { get { return recording; } }
-
-/*        public ITransactionManager Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
-        {
-            LGSPTransactionManager newTM = new LGSPTransactionManager();
-            newTM.recording = recording;
-            newTM.undoing = undoing;
-            foreach(IUndoItem undoItem in undoItems)
-            {
-                IUndoItem newUndoItem = undoItem.Clone(oldToNewMap);
-                newTM.undoItems.AddLast(newUndoItem);
-            }
-        }*/
     }
 }

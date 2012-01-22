@@ -262,6 +262,18 @@ namespace de.unika.ipd.grGen.lgsp
 					break;
 				}
 
+                case SequenceType.SequenceCall:
+                {
+                    SequenceSequenceCall seqSeq = (SequenceSequenceCall)seq;
+                    // no handling for the input arguments seqSeq.ParamBindings.ArgumentExpressions needed 
+                    // because there can only be variable uses
+                    for(int i = 0; i < seqSeq.ParamBindings.ReturnVars.Length; ++i)
+                    {
+                        EmitVarIfNew(seqSeq.ParamBindings.ReturnVars[i], source);
+                    }
+                    break;
+                }
+
                 case SequenceType.For:
                 {
                     SequenceFor seqFor = (SequenceFor)seq;
@@ -871,6 +883,16 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceType.Pause:
+                {
+                    SequencePause seqPause = (SequencePause)seq;
+                    source.AppendFront("procEnv.TransactionManager.Pause();\n");
+                    EmitSequence(seqPause.Seq, source);
+                    source.AppendFront("procEnv.TransactionManager.Resume();\n");
+                    source.AppendFront(SetResultVar(seqPause, GetResultVar(seqPause.Seq)));
+                    break;
+                }
+
                 case SequenceType.BooleanComputation:
                 {
                     SequenceBooleanComputation seqComp = (SequenceBooleanComputation)seq;
@@ -908,6 +930,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("} else {\n");
             source.Indent();
             source.AppendFront(SetResultVar(seq, "true")); // shut up compiler
+            source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
             if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             if(gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
@@ -2115,7 +2138,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                 case SequenceExpressionType.ElementFromGraph:
                 {
-                    throw new Exception("Internal Error: the ElementFromGraph is interpreted only (no NamedGraph available at lgsp level)");
+                    SequenceExpressionElementFromGraph seqFromGraph = (SequenceExpressionElementFromGraph)expr;
+                    return "((GRGEN_LIBGR.INamedGraph)graph).GetGraphElement(\""+seqFromGraph.ElementName+"\")";
                 }
 
                 case SequenceExpressionType.Variable:

@@ -76,9 +76,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
         /// <returns>The copy of the sequence computation</returns>
-        internal override sealed SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override sealed SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            return CopyExpression(originalToCopy);
+            return CopyExpression(originalToCopy, procEnv);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
         /// <returns>The copy of the sequence expression</returns>
-        internal abstract SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy);
+        internal abstract SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv);
 
         /// <summary>
         /// Evaluates this sequence expression.
@@ -203,11 +203,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
         /// <returns>The copy of the sequence expression</returns>
-        internal override sealed SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override sealed SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceBinaryExpression copy = (SequenceBinaryExpression)MemberwiseClone();
-            copy.Left = Left.CopyExpression(originalToCopy);
-            copy.Right = Right.CopyExpression(originalToCopy);
+            copy.Left = Left.CopyExpression(originalToCopy, procEnv);
+            copy.Right = Right.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -265,12 +265,12 @@ namespace de.unika.ipd.grGen.libGr
             return ""; // no constraints regarding the types of the expressions to choose from
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionConditional copy = (SequenceExpressionConditional)MemberwiseClone();
-            copy.Condition = Condition.CopyExpression(originalToCopy);
-            copy.TrueCase = TrueCase.CopyExpression(originalToCopy);
-            copy.FalseCase = FalseCase.CopyExpression(originalToCopy);
+            copy.Condition = Condition.CopyExpression(originalToCopy, procEnv);
+            copy.TrueCase = TrueCase.CopyExpression(originalToCopy, procEnv);
+            copy.FalseCase = FalseCase.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -381,10 +381,10 @@ namespace de.unika.ipd.grGen.libGr
             this.Operand = operand;
         }
 
-        internal override sealed SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override sealed SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionNot copy = (SequenceExpressionNot)MemberwiseClone();
-            copy.Operand = Operand.CopyExpression(originalToCopy);
+            copy.Operand = Operand.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -652,6 +652,13 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             object leftValue = Left.Evaluate(procEnv);
@@ -704,7 +711,7 @@ namespace de.unika.ipd.grGen.libGr
                 return "";
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionConstant copy = (SequenceExpressionConstant)MemberwiseClone();
             return copy;
@@ -748,10 +755,10 @@ namespace de.unika.ipd.grGen.libGr
             return Variable.Type;
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionVariable copy = (SequenceExpressionVariable)MemberwiseClone();
-            copy.Variable = Variable.Copy(originalToCopy);
+            copy.Variable = Variable.Copy(originalToCopy, procEnv);
             return copy;
         }
 
@@ -789,12 +796,12 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionDef copy = (SequenceExpressionDef)MemberwiseClone();
             copy.DefVars = new SequenceExpression[DefVars.Length];
             for(int i = 0; i < DefVars.Length; ++i)
-                copy.DefVars[i] = DefVars[i].CopyExpression(originalToCopy);
+                copy.DefVars[i] = DefVars[i].CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -858,11 +865,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionIsVisited copy = (SequenceExpressionIsVisited)MemberwiseClone();
-            copy.GraphElementVar = GraphElementVar.Copy(originalToCopy);
-            copy.VisitedFlagExpr = VisitedFlagExpr.CopyExpression(originalToCopy);
+            copy.GraphElementVar = GraphElementVar.Copy(originalToCopy, procEnv);
+            copy.VisitedFlagExpr = VisitedFlagExpr.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -911,11 +918,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionInContainer copy = (SequenceExpressionInContainer)MemberwiseClone();
-            copy.Container = Container.CopyExpression(originalToCopy);
-            copy.Expr = Expr.CopyExpression(originalToCopy);
+            copy.Container = Container.CopyExpression(originalToCopy, procEnv);
+            copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -970,11 +977,11 @@ namespace de.unika.ipd.grGen.libGr
             return "int";
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionContainerSize copy = (SequenceExpressionContainerSize)MemberwiseClone();
-            if(Container != null) copy.Container = Container.Copy(originalToCopy);
-            if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy);
+            if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
+            if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
             return copy;
         }
 
@@ -1030,11 +1037,11 @@ namespace de.unika.ipd.grGen.libGr
             return "boolean";
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionContainerEmpty copy = (SequenceExpressionContainerEmpty)MemberwiseClone();
-            if(Container != null) copy.Container = Container.Copy(originalToCopy);
-            if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy);
+            if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
+            if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
             return copy;
         }
 
@@ -1113,11 +1120,11 @@ namespace de.unika.ipd.grGen.libGr
                 return TypesHelper.ExtractDst(Container.Type);
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionContainerAccess copy = (SequenceExpressionContainerAccess)MemberwiseClone();
-            copy.Container = Container.Copy(originalToCopy);
-            copy.KeyExpr = KeyExpr.CopyExpression(originalToCopy);
+            copy.Container = Container.Copy(originalToCopy, procEnv);
+            copy.KeyExpr = KeyExpr.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -1164,7 +1171,7 @@ namespace de.unika.ipd.grGen.libGr
             return "";
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionElementFromGraph copy = (SequenceExpressionElementFromGraph)MemberwiseClone();
             return copy;
@@ -1228,10 +1235,10 @@ namespace de.unika.ipd.grGen.libGr
             return TypesHelper.AttributeTypeToXgrsType(attributeType);
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionAttribute copy = (SequenceExpressionAttribute)MemberwiseClone();
-            copy.SourceVar = SourceVar.Copy(originalToCopy);
+            copy.SourceVar = SourceVar.Copy(originalToCopy, procEnv);
             return copy;
         }
 
@@ -1266,7 +1273,7 @@ namespace de.unika.ipd.grGen.libGr
             return "int";
         }
 
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionVAlloc copy = (SequenceExpressionVAlloc)MemberwiseClone();
             return copy;

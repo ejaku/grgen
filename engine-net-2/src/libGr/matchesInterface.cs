@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
@@ -26,6 +27,11 @@ namespace de.unika.ipd.grGen.libGr
         /// a subpattern, alternative, iterated or independent; otherwise null
         /// </summary>
         IMatch MatchOfEnclosingPattern { get; }
+
+        /// <summary>
+        /// Clone the match
+        /// </summary>
+        IMatch Clone();
 
 
         //////////////////////////////////////////////////////////////////////////
@@ -249,6 +255,11 @@ namespace de.unika.ipd.grGen.libGr
 		/// <param name="index">The index of the match to be removed.</param>
 		/// <returns>The removed match.</returns>
 		IMatch RemoveMatch(int index);
+
+        /// <summary>
+        /// Clone the matches
+        /// </summary>
+        IMatches Clone();
     }
 
 
@@ -278,5 +289,75 @@ namespace de.unika.ipd.grGen.libGr
         /// Removes the match of exact type at the given index and returns it.
         /// </summary>
         MatchInterface RemoveMatchExact(int index);
+    }
+
+    public class MatchPrinter
+    {
+        public static string ToString(IMatch match, IGraph graph, string indent)
+        {
+            StringBuilder sb = new StringBuilder(4096);
+
+            sb.Append(indent + "nodes: ");
+            foreach(INode node in match.Nodes)
+            {
+                sb.Append(DictionaryListHelper.ToStringAutomatic(node, graph));
+                sb.Append(" ");
+            }
+            sb.Append("\n");
+
+            sb.Append(indent + "edges: ");
+            foreach(IEdge edge in match.Edges)
+            {
+                sb.Append(DictionaryListHelper.ToStringAutomatic(edge, graph));
+                sb.Append(" ");
+            }
+            sb.Append("\n");
+
+            if(match.NumberOfIndependents > 0)
+            {
+                sb.Append(indent + "independents: \n");
+                foreach(IMatch independent in match.Independents)
+                {
+                    sb.Append(ToString(independent, graph, indent + "  "));
+                }
+                sb.Append("\n");
+            }
+
+            if(match.NumberOfAlternatives > 0)
+            {
+                sb.Append(indent + "alternatives: \n");
+                foreach(IMatch alternativeCase in match.Alternatives)
+                {
+                    sb.Append(ToString(alternativeCase, graph, indent + "  "));
+                }
+                sb.Append("\n");
+            }
+
+            if(match.NumberOfIterateds > 0)
+            {
+                sb.Append(indent + "iterateds: \n");
+                foreach(IMatches iterated in match.Iterateds)
+                {
+                    sb.Append(indent + " iterated: \n");
+                    foreach(IMatch iteratedMatches in iterated)
+                    {
+                        sb.Append(ToString(iteratedMatches, graph, indent + "  "));
+                    }
+                }
+                sb.Append("\n");
+            }
+
+            if(match.NumberOfEmbeddedGraphs > 0)
+            {
+                sb.Append(indent + "subpatterns: \n");
+                foreach(IMatch subpattern in match.EmbeddedGraphs)
+                {
+                    sb.Append(ToString(subpattern, graph, indent + "  "));
+                }
+                sb.Append("\n");
+            }
+
+            return sb.ToString();
+        }
     }
 }

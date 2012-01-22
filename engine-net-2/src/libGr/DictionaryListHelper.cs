@@ -1568,5 +1568,36 @@ namespace de.unika.ipd.grGen.libGr
 
             return value!=null ? value.ToString() : "";
         }
+
+        /// <summary>
+        /// Returns a string representation of the given value, might be a scalar, a dictionary, or a list
+        /// </summary>
+        /// <param name="value">The value of which to get the string representation</param>
+        /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        /// <returns>string representation of value</returns>
+        public static string ToStringAutomatic(object value, IGraph graph)
+        {
+            if(value is IDictionary)
+            {
+                string type;
+                string content;
+                ToString((IDictionary)value, out type, out content, null, graph);
+                return content;
+            }
+            else if(value is IList)
+            {
+                string type;
+                string content;
+                ToString((IList)value, out type, out content, null, graph);
+                return content;
+            }
+            else
+            {
+                string type;
+                string content;
+                ToString(value, out type, out content, null, graph);
+                return content;
+            }
+        }
     }
 }

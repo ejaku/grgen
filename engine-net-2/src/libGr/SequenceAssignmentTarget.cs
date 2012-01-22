@@ -54,9 +54,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
         /// <returns>The copy of the sequence computation</returns>
-        internal override sealed SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override sealed SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            return CopyTarget(originalToCopy);
+            return CopyTarget(originalToCopy, procEnv);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
         /// <returns>The copy of the assignment target</returns>
-        internal abstract AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy);
+        internal abstract AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv);
 
         /// <summary>
         /// Assigns a value to this assignment target.
@@ -108,10 +108,10 @@ namespace de.unika.ipd.grGen.libGr
             return DestVar.Type;
         }
 
-        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             AssignmentTargetVar copy = (AssignmentTargetVar)MemberwiseClone();
-            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy, procEnv);
             return copy;
         }
 
@@ -149,10 +149,10 @@ namespace de.unika.ipd.grGen.libGr
             return DestVar.Type;
         }
 
-        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             AssignmentTargetYieldingVar copy = (AssignmentTargetYieldingVar)MemberwiseClone();
-            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy, procEnv);
             return copy;
         }
 
@@ -218,11 +218,11 @@ namespace de.unika.ipd.grGen.libGr
                 return TypesHelper.ExtractDst(DestVar.Type);
         }
 
-        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             AssignmentTargetIndexedVar copy = (AssignmentTargetIndexedVar)MemberwiseClone();
-            copy.DestVar = DestVar.Copy(originalToCopy);
-            copy.KeyExpression = KeyExpression.CopyExpression(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy, procEnv);
+            copy.KeyExpression = KeyExpression.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -293,10 +293,10 @@ namespace de.unika.ipd.grGen.libGr
             return TypesHelper.AttributeTypeToXgrsType(attributeType);
         }
 
-        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             AssignmentTargetAttribute copy = (AssignmentTargetAttribute)MemberwiseClone();
-            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy, procEnv);
             return copy;
         }
 
@@ -356,11 +356,11 @@ namespace de.unika.ipd.grGen.libGr
             return "boolean";
         }
 
-        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             AssignmentTargetVisited copy = (AssignmentTargetVisited)MemberwiseClone();
-            copy.GraphElementVar = GraphElementVar.Copy(originalToCopy);
-            copy.VisitedFlagExpression = VisitedFlagExpression.CopyExpression(originalToCopy);
+            copy.GraphElementVar = GraphElementVar.Copy(originalToCopy, procEnv);
+            copy.VisitedFlagExpression = VisitedFlagExpression.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 

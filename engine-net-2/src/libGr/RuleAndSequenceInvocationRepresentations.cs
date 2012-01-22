@@ -100,15 +100,15 @@ namespace de.unika.ipd.grGen.libGr
             if(action != null) Name = action.Name;
         }
 
-        public RuleInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        public RuleInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             RuleInvocationParameterBindings copy = (RuleInvocationParameterBindings)MemberwiseClone();
             copy.ArgumentExpressions = new SequenceExpression[ArgumentExpressions.Length];
             for(int i=0; i<ArgumentExpressions.Length;++i)
-                copy.ArgumentExpressions[i] = ArgumentExpressions[i].CopyExpression(originalToCopy);
+                copy.ArgumentExpressions[i] = ArgumentExpressions[i].CopyExpression(originalToCopy, procEnv);
             copy.ReturnVars = new SequenceVariable[ReturnVars.Length];
             for(int i = 0; i < ReturnVars.Length; ++i)
-                copy.ReturnVars[i] = ReturnVars[i].Copy(originalToCopy);
+                copy.ReturnVars[i] = ReturnVars[i].Copy(originalToCopy, procEnv);
             copy.Arguments = new object[Arguments.Length];
             for(int i = 0; i < Arguments.Length; ++i)
                 copy.Arguments[i] = Arguments[i];
@@ -144,15 +144,15 @@ namespace de.unika.ipd.grGen.libGr
             if(sequenceDef != null) Name = sequenceDef.SequenceName;
         }
 
-        public SequenceInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        public SequenceInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceInvocationParameterBindings copy = (SequenceInvocationParameterBindings)MemberwiseClone();
             copy.ArgumentExpressions = new SequenceExpression[ArgumentExpressions.Length];
             for(int i = 0; i < ArgumentExpressions.Length; ++i)
-                copy.ArgumentExpressions[i] = ArgumentExpressions[i].CopyExpression(originalToCopy);
+                copy.ArgumentExpressions[i] = ArgumentExpressions[i].CopyExpression(originalToCopy, procEnv);
             copy.ReturnVars = new SequenceVariable[ReturnVars.Length];
             for(int i = 0; i < ReturnVars.Length; ++i)
-                copy.ReturnVars[i] = ReturnVars[i].Copy(originalToCopy);
+                copy.ReturnVars[i] = ReturnVars[i].Copy(originalToCopy, procEnv);
             copy.Arguments = new object[Arguments.Length];
             for(int i = 0; i < Arguments.Length; ++i)
                 copy.Arguments[i] = Arguments[i];

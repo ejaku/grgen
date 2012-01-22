@@ -5,7 +5,10 @@
  * www.grgen.net
  */
 
+//#define LOG_VARIABLE_OPERATIONS
+
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
@@ -27,7 +30,7 @@ namespace de.unika.ipd.grGen.libGr
             visited = false;
         }
 
-        public SequenceVariable Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        public SequenceVariable Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             // ensure that every instance of a variable is mapped to the same copy
             if(originalToCopy.ContainsKey(this))
@@ -43,6 +46,9 @@ namespace de.unika.ipd.grGen.libGr
             else
             {
                 originalToCopy.Add(this, new SequenceVariable(name, prefix, type));
+#if LOG_VARIABLE_OPERATIONS
+                procEnv.Recorder.Write(name + " = " + name + "; " + name + "==" + DictionaryListHelper.ToStringAutomatic(value, procEnv.Graph) + "\n");
+#endif
                 return originalToCopy[this];
             }
         }
@@ -69,6 +75,9 @@ namespace de.unika.ipd.grGen.libGr
             if(Type == "") {
                 return procEnv.GetVariableValue(name);
             } else {
+#if LOG_VARIABLE_OPERATIONS
+                procEnv.Recorder.Write(name + "==" + DictionaryListHelper.ToStringAutomatic(value, procEnv.Graph) + "\n");
+#endif
                 return value;
             }
         }
@@ -79,6 +88,9 @@ namespace de.unika.ipd.grGen.libGr
             if(Type == "") {
                 procEnv.SetVariableValue(name, value);
             } else {
+#if LOG_VARIABLE_OPERATIONS
+                procEnv.Recorder.Write(name + " = " + DictionaryListHelper.ToStringAutomatic(value, procEnv.Graph) + "\n");
+#endif
                 this.value = value;
             }
         }

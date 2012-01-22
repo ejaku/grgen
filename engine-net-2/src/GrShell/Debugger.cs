@@ -863,9 +863,17 @@ namespace de.unika.ipd.grGen.grShell
                         SequenceBacktrack seqBack = (SequenceBacktrack)seq;
                         Console.Write("<<");
                         PrintSequence(seqBack.Rule, seq, context);
-                        Console.Write(";");
+                        Console.Write(";;");
                         PrintSequence(seqBack.Seq, seq, context);
                         Console.Write(">>");
+                        break;
+                    }
+                case SequenceType.Pause:
+                    {
+                        SequencePause seqPause = (SequencePause)seq;
+                        Console.Write("/");
+                        PrintSequence(seqPause.Seq, seq, context);
+                        Console.Write("/");
                         break;
                     }
                 case SequenceType.For:

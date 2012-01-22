@@ -35,13 +35,6 @@ namespace de.unika.ipd.grGen.libGr
             this.procEnv = procEnv;
         }
 
-        /// <summary>
-        /// Creates a file which initially gets filled with a .grs export of the graph.
-        /// Afterwards the changes applied to the graph are recorded into the file,
-        /// in the order they occur.
-        /// You can start multiple recordings into differently named files.
-        /// </summary>
-        /// <param name="filename">The name of the file to record to</param>
         public void StartRecording(string filename)
         {
             if(!recordings.ContainsKey(filename))
@@ -70,10 +63,6 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        /// <summary>
-        /// Stops recording of the changes applied to the graph to the given file.
-        /// </summary>
-        /// <param name="filename">The name of the file to stop recording to</param>
         public void StopRecording(string filename)
         {
             if(recordings.ContainsKey(filename))
@@ -86,24 +75,27 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        /// <summary>
-        /// Returns whether the graph changes get currently recorded into the given file.
-        /// </summary>
-        /// <param name="filename">The name of the file whose recording status gets queried</param>
-        /// <returns>The recording status of the file queried</returns>
         public bool IsRecording(string filename)
         {
             return recordings.ContainsKey(filename);
         }
 
-        /// <summary>
-        /// Writes the given string to the currently ongoing recordings
-        /// </summary>
-        /// <param name="value">The string to write to the recordings</param>
         public void Write(string value)
         {
             foreach(StreamWriter writer in recordings.Values)
                 writer.Write(value);
+        }
+
+        public void WriteLine(string value)
+        {
+            foreach(StreamWriter writer in recordings.Values)
+                writer.Write(value + "\n");
+        }
+
+        public void Flush()
+        {
+            foreach(StreamWriter writer in recordings.Values)
+                writer.Flush();
         }
 
         private void SubscribeEvents()

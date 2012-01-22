@@ -92,7 +92,8 @@ namespace de.unika.ipd.grGen.libGr
                 namesToSequenceDefinitions[sequenceDef.SequenceName] = sequenceDef; // replace definition in map by name used for new sequences
                 foreach(SequenceDefinition seqDef in namesToSequenceDefinitions.Values) // replace all references in old sequences to new one
                 {
-                    seqDef.ReplaceSequenceDefinition(existingSequenceDef, sequenceDef);
+                    if(!(seqDef is SequenceDefinitionCompiled))
+                        seqDef.ReplaceSequenceDefinition(existingSequenceDef, sequenceDef);
                 }
                 existingSequenceDef.WasReplacedBy(sequenceDef); // flush sequence copy cache for this name
 

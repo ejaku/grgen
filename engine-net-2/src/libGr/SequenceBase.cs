@@ -5,8 +5,6 @@
  * www.grgen.net
  */
 
-//#define LOG_SEQUENCE_EXECUTION // you must uncomment it in Sequence.cs, too
-
 using System;
 using System.Collections.Generic;
 using System.Collections;
@@ -91,6 +89,8 @@ namespace de.unika.ipd.grGen.libGr
             // Check parameter types
             for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
             {
+                paramBindings.ArgumentExpressions[i].Check(this);
+
                 if(paramBindings.ArgumentExpressions[i] != null)
                 {
                     if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings), Model))
@@ -432,9 +432,5 @@ namespace de.unika.ipd.grGen.libGr
         /// the static member used to assign the unique ids to the sequence /expression instances
         /// </summary>
         protected static int idSource = 0;
-
-#if LOG_SEQUENCE_EXECUTION
-        protected static StreamWriter writer = new StreamWriter("sequence_execution_log.txt");
-#endif
     }
 }

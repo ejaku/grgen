@@ -1577,7 +1577,8 @@ simpleSequence[ExecNode xg]
 		LBRACE LPAREN { xg.append("{("); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* RPAREN RBRACE { xg.append(")}"); }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append(" <"); } xgrs[xg] GT { xg.append("> "); }
-	| SL { xg.append(" <<"); } parallelCallRule[xg, returns] SEMI { xg.append(";"); } xgrs[xg] SR { xg.append(">> "); }
+	| SL { xg.append(" <<"); } parallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] SR { xg.append(">> "); }
+	| DIV { xg.append(" /"); } xgrs[xg] DIV { xg.append("/ "); }
 	| IF l=LBRACE pushScopeStr["if/exec", getCoords(l)] { xg.append("if{"); } xgrs[xg] s=SEMI 
 		pushScopeStr["if/then-part", getCoords(s)] { xg.append("; "); } xgrs[xg] popScope
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
@@ -1615,62 +1616,97 @@ seqAssignTarget[ExecNode xg]
 	| xgrsEntity[xg]
 	;
 
-seqExpression[ExecNode xg]
-	: seqExprLazyOr[xg] ( QUESTION { xg.append("?"); } seqExpression[xg] COLON { xg.append(":"); } seqExpression[xg] )?
+// todo: add expression value returns to remaining sequence expressions,
+// as of now only some sequence expressions return an expression
+// the expressions are needed for the argument expressions of rule/sequence calls,
+// in all other places of the sequences we only need a textual emit of the constructs just parsed
+seqExpression[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: exp=seqExprLazyOr[xg] { res = exp; }
+		( 
+			q=QUESTION { xg.append("?"); } op1=seqExpression[xg] COLON { xg.append(":"); } op2=seqExpression[xg]
+			{
+				OpNode cond=makeOp(q);
+				cond.addChild(exp);
+				cond.addChild(op1);
+				cond.addChild(op2);
+				res=cond;
+			}
+		)?
 	;
 
-seqExprLazyOr[ExecNode xg]
-	: seqExprLazyAnd[xg] ( LOR {xg.append(" || ");} seqExprLazyOr[xg] )?
+seqExprLazyOr[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: exp=seqExprLazyAnd[xg] { res=exp; } ( t=LOR {xg.append(" || ");} exp2=seqExprLazyOr[xg] { res = makeBinOp(t, exp, exp2); })?
 	;
 
-seqExprLazyAnd[ExecNode xg]
-	: seqExprStrictOr[xg] ( LAND {xg.append(" && ");} seqExprLazyAnd[xg] )?
+seqExprLazyAnd[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: exp=seqExprStrictOr[xg] { res=exp; } ( t=LAND {xg.append(" && ");} exp2=seqExprLazyAnd[xg] { res = makeBinOp(t, exp, exp2); })?
 	;
 
-seqExprStrictOr[ExecNode xg]
-	: seqExprStrictXor[xg] ( BOR {xg.append(" | ");} seqExprStrictOr[xg] )?
+seqExprStrictOr[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: exp=seqExprStrictXor[xg] { res=exp; } ( t=BOR {xg.append(" | ");} exp2=seqExprStrictOr[xg] { res = makeBinOp(t, exp, exp2); })?
 	;
 
-seqExprStrictXor[ExecNode xg]
-	: seqExprStrictAnd[xg] ( BXOR {xg.append(" ^ ");} seqExprStrictXor[xg] )?
+seqExprStrictXor[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: exp=seqExprStrictAnd[xg] { res=exp; } ( t=BXOR {xg.append(" ^ ");} exp2=seqExprStrictXor[xg] { res = makeBinOp(t, exp, exp2); })?
 	;
 
-seqExprStrictAnd[ExecNode xg]
-	: seqExprEquality[xg] ( BAND {xg.append(" & ");} seqExprStrictAnd[xg] )?
+seqExprStrictAnd[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: exp=seqExprEquality[xg] { res=exp; } ( t=BAND {xg.append(" & ");} exp2=seqExprStrictAnd[xg] { res = makeBinOp(t, exp, exp2); })?
+	;
+	
+seqEqOp[ExecNode xg] returns [ Token t = null ]
+	: e=EQUAL {xg.append(" == "); t = e; }
+	| n=NOT_EQUAL {xg.append(" != "); t = n; }
 	;
 
-seqExprEquality[ExecNode xg]
-	: seqExprRelation[xg] ( (EQUAL {xg.append(" == ");} | NOT_EQUAL {xg.append(" != ");}) seqExprEquality[xg] )?
+seqExprEquality[ExecNode xg] returns [ExprNode res = env.initExprNode()]
+	: exp=seqExprRelation[xg] { res=exp; } ( t=seqEqOp[xg] exp2=seqExprEquality[xg] { res = makeBinOp(t, exp, exp2); })?
 	;
 
-seqExprRelation[ExecNode xg]
-	: seqExprAdd[xg] ( (LT {xg.append(" < ");} | GT {xg.append(" > ");} | LE {xg.append(" <= ");} | GE {xg.append(" >= ");} | IN {xg.append(" in ");}) seqExprRelation[xg] )?
+seqRelOp[ExecNode xg] returns [ Token t = null ]
+	: lt=LT {xg.append(" < "); t = lt; }
+	| le=LE {xg.append(" <= "); t = le; }
+	| gt=GT {xg.append(" > "); t = gt; }
+	| ge=GE {xg.append(" >= "); t = ge; }
+	| in=IN {xg.append(" in "); t = in; }
 	;
 
-seqExprAdd[ExecNode xg]
-	: seqExprNeg[xg] ( PLUS {xg.append(" + ");} seqExprAdd[xg] )?
+seqExprRelation[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: exp=seqExprAdd[xg] { res=exp; } ( t=seqRelOp[xg] exp2=seqExprRelation[xg] { res = makeBinOp(t, exp, exp2); })?
 	;
 
-seqExprNeg[ExecNode xg]
-	: (NOT {xg.append("!");})? seqExprBasic[xg]
+seqExprAdd[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: exp=seqExprNeg[xg] { res=exp; } ( t=PLUS {xg.append(" + ");} exp2=seqExprAdd[xg]  { res = makeBinOp(t, exp, exp2); })?
 	;
 
-seqExprBasic[ExecNode xg]
+seqExprNeg[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	@init{ Token t = null; }
+	: (n=NOT {t=n; xg.append("!");})? exp=seqExprBasic[xg] { if(t!=null) res = makeUnOp(t, exp); else res = exp; }
+	| m=MINUS {xg.append("-");} exp=seqExprBasic[xg]
+		{
+			OpNode neg = new ArithmeticOpNode(getCoords(m), OperatorSignature.NEG);
+			neg.addChild(exp);
+			res = neg;
+		}
+	;
+
+// todo: the xgrsVarUse[xg] casted to IdenNodes might be not simple variable identifiers, but global variables with :: prefix,
+//  probably a distinction is needed
+seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
 	
 	: (methodCall[null]) => methodCall[xg]
 	| (xgrsVarUse[null] DOT VISITED) => xgrsVarUse[xg] DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); }
-	| (xgrsVarUse[null] DOT IDENT) => xgrsVarUse[xg] DOT attr=IDENT { xg.append("."+attr.getText()); }
-	| (xgrsVarUse[null] LBRACK) => xgrsVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
-	| (xgrsConstant[null]) => xgrsConstant[xg]
+	| (xgrsVarUse[null] DOT IDENT) => target=xgrsVarUse[xg] d=DOT attr=memberIdentUse { xg.append("."+attr.getSymbol().getText()); res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
+	| (xgrsVarUse[null] LBRACK) => target=xgrsVarUse[xg] l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); res = new IndexedAccessExprNode(getCoords(l), new IdentExprNode((IdentNode)target), key); }
+	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
 	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
-	| xgrsVarUse[xg] 
+	| exp=xgrsVarUse[xg] { res = new IdentExprNode((IdentNode)exp); }
 	| (id=entIdentUse LPAREN) => id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
 		{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
-	| a=AT LPAREN (IDENT | STRING_LITERAL) RPAREN
-		{ reportError(getCoords(a), "a NamedGraph is a GrShell-only construct -> no element names available at lgsp(libgr search plan backend)-level"); }
+	| a=AT LPAREN { xg.append("@("); } (i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
 	;
 
@@ -1693,17 +1729,20 @@ methodCallRepeated[ExecNode xg]
 	)*
 	;
 
-xgrsConstant[ExecNode xg]
-	: b=NUM_BYTE { xg.append(b.getText()); }
-	| sh=NUM_SHORT { xg.append(sh.getText()); }
-	| i=NUM_INTEGER { xg.append(i.getText()); }
-	| l=NUM_LONG { xg.append(l.getText()); }
-	| f=NUM_FLOAT { xg.append(f.getText()); }
-	| d=NUM_DOUBLE { xg.append(d.getText()); }
-	| s=STRING_LITERAL { xg.append(s.getText()); }
-	| tt=TRUE { xg.append(tt.getText()); }
-	| ff=FALSE { xg.append(ff.getText()); }
-	| n=NULL { xg.append(n.getText()); }
+xgrsConstant[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: b=NUM_BYTE { xg.append(b.getText()); res = new ByteConstNode(getCoords(b), Byte.parseByte(ByteConstNode.removeSuffix(b.getText()), 10)); }
+	| sh=NUM_SHORT { xg.append(sh.getText()); res = new ShortConstNode(getCoords(sh), Short.parseShort(ShortConstNode.removeSuffix(sh.getText()), 10)); }
+	| i=NUM_INTEGER { xg.append(i.getText()); res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10)); }
+	| l=NUM_LONG { xg.append(l.getText()); res = new LongConstNode(getCoords(l), Long.parseLong(LongConstNode.removeSuffix(l.getText()), 10)); }
+	| f=NUM_FLOAT { xg.append(f.getText()); res = new FloatConstNode(getCoords(f), Float.parseFloat(f.getText())); }
+	| d=NUM_DOUBLE { xg.append(d.getText()); res = new DoubleConstNode(getCoords(d), Double.parseDouble(d.getText())); }
+	| s=STRING_LITERAL { xg.append(s.getText()); String buff = s.getText();
+			// Strip the " from the string
+			buff = buff.substring(1, buff.length() - 1);
+			res = new StringConstNode(getCoords(s), buff); }
+	| tt=TRUE { xg.append(tt.getText()); res = new BoolConstNode(getCoords(tt), true); }
+	| ff=FALSE { xg.append(ff.getText()); res = new BoolConstNode(getCoords(ff), false); }
+	| n=NULL { xg.append(n.getText()); res = new NullConstNode(getCoords(n)); }
 	| tid=typeIdentUse d=DOUBLECOLON id=entIdentUse { xg.append(tid + "::" + id); }
 	| MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT LBRACE RBRACE { xg.append("map<"+typeName+","+toTypeName+">{ }"); }
 	| SET LT typeName=typeIdentUse GT LBRACE RBRACE { xg.append("set<"+typeName+">{ }"); }
@@ -1729,44 +1768,18 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	
 	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
 		id=actionIdentUse {xg.append(id);}
-		(LPAREN ruleParams[params] RPAREN)?
+		(LPAREN {xg.append("(");} ruleParams[xg, params] RPAREN {xg.append(")");})?
 		{
 			xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns));
-			if(params.getChildren().iterator().hasNext()) {
-				xg.append("(");
-				for(Iterator<BaseNode> i = params.getChildren().iterator(); i.hasNext();) {
-					BaseNode p = i.next();
-					xg.append(p);
-					if(i.hasNext()) xg.append(", ");
-				}
-				xg.append(")");
-			}
 		}
 	;
 
-ruleParam[CollectNode<BaseNode> parameters]
-	: exp=identExpr { parameters.addChild(exp); }
-	| exp=globalsAccessExpr { parameters.addChild(exp); }
-	| exp=constant { parameters.addChild(exp); }
-	| MINUS
-		(
-			b=NUM_BYTE
-				{ parameters.addChild(new ByteConstNode(getCoords(i), Byte.parseByte("-" + ByteConstNode.removeSuffix(b.getText()), 10))); }
-		|	sh=NUM_SHORT
-				{ parameters.addChild(new ShortConstNode(getCoords(i), Short.parseShort("-" + ShortConstNode.removeSuffix(sh.getText()), 10))); }
-		|	i=NUM_INTEGER
-				{ parameters.addChild(new IntConstNode(getCoords(i), Integer.parseInt("-" + i.getText(), 10))); }
-		|	l=NUM_LONG
-				{ parameters.addChild(new LongConstNode(getCoords(i), Long.parseLong("-" + LongConstNode.removeSuffix(l.getText()), 10))); }
-		|	f=NUM_FLOAT
-				{ parameters.addChild(new FloatConstNode(getCoords(f), Float.parseFloat("-" + f.getText()))); }
-		| 	d=NUM_DOUBLE
-				{ parameters.addChild(new DoubleConstNode(getCoords(d), Double.parseDouble("-" + d.getText()))); }
-		)
+ruleParam[ExecNode xg, CollectNode<BaseNode> parameters]
+	: exp=seqExpression[xg] { parameters.addChild(exp); }
 	;
 
-ruleParams[CollectNode<BaseNode> parameters]
-	: ruleParam[parameters]	( COMMA ruleParam[parameters] )*
+ruleParams[ExecNode xg, CollectNode<BaseNode> parameters]
+	: ruleParam[xg, parameters]	( COMMA {xg.append(",");} ruleParam[xg, parameters] )*
 	;
 
 xgrsVariableList[ExecNode xg, CollectNode<BaseNode> res]
@@ -3036,6 +3049,7 @@ LOR				:	'||'	;
 BAND			:	'&'		;
 LAND			:	'&&'	;
 SEMI			:	';'		;
+DOUBLE_SEMI		:	';;'	;
 BACKSLASH		:	'\\'	;
 PLUSPLUS		:	'++'	;
 MINUSMINUS		:	'--'	;

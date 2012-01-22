@@ -18,9 +18,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
-import de.unika.ipd.grgen.ast.util.Triple;
+import de.unika.ipd.grgen.ast.util.CollectQuadrupleResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationQuadrupleResolver;
+import de.unika.ipd.grgen.ast.util.Quadruple;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
@@ -37,9 +37,9 @@ public class ExecNode extends BaseNode {
 		setName(ExecNode.class, "exec");
 	}
 
-	private static final CollectTripleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode> graphElementUsageOutsideOfCallResolver =
-		new CollectTripleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode>(
-		new DeclarationTripleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode>(ExecVarDeclNode.class, NodeDeclNode.class, EdgeDeclNode.class));
+	private static final CollectQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode> graphElementUsageOutsideOfCallResolver =
+		new CollectQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode>(
+		new DeclarationQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode>(ExecVarDeclNode.class, NodeDeclNode.class, EdgeDeclNode.class, VarDeclNode.class));
 
 	private StringBuilder sb = new StringBuilder();
 	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
@@ -203,7 +203,7 @@ public class ExecNode extends BaseNode {
 	@Override
 	protected boolean resolveLocal() {
 		addImplicitDefinitions();
-		Triple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>> resolve =
+		Quadruple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<VarDeclNode>> resolve =
 			graphElementUsageOutsideOfCallResolver.resolve(usageUnresolved);
 
 		if (resolve != null) {
@@ -221,6 +221,12 @@ public class ExecNode extends BaseNode {
 
 			if (resolve.third != null) {
 				for (EdgeDeclNode c : resolve.third.getChildren()) {
+					usage.addChild(c);
+				}
+			}
+
+			if (resolve.fourth != null) {
+				for (VarDeclNode c : resolve.fourth.getChildren()) {
 					usage.addChild(c);
 				}
 			}

@@ -340,6 +340,14 @@ namespace de.unika.ipd.grGen.lgsp
             return cur;
         }
 
+        /// <summary>
+        /// Clone the matches
+        /// </summary>
+        public IMatches Clone()
+        {
+            return new LGSPMatchesList<Match, MatchInterface>(this);
+        }
+
         #endregion
 
         /// <summary>
@@ -352,6 +360,20 @@ namespace de.unika.ipd.grGen.lgsp
                 this.producer = producer;
                 last = root = new Match();
             }
+        }
+
+        protected LGSPMatchesList(LGSPMatchesList<Match, MatchInterface> that)
+        {
+            producer = that.producer;
+            count = that.count;
+            Match curThat = that.root;
+            Match cur = root = (Match)curThat.Clone();
+            for(int i = 1; i < that.count; i++, curThat = curThat.next)
+            {
+                cur.next = (Match)curThat.Clone();
+                cur = cur.next;
+            }
+            last = cur;
         }
 
         /// <summary>
