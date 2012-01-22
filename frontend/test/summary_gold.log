@@ -112,6 +112,7 @@ OK     should_pass/cast.grg
 OK     should_pass/cast_001.grg
 OK     should_pass/cast_002.grg
 OK     should_pass/cast_003.grg
+OK     should_pass/computationoperators.grg
 OK     should_pass/conn_001.grg
 OK     should_pass/constr_001.grg
 OK     should_pass/copy.grg
@@ -223,6 +224,7 @@ OK     should_pass/exectype_AssignAttributeToVar.grg
 OK     should_pass/exectype_AssignAttributeToVarUntyped.grg
 OK     should_pass/exectype_AssignConstToVar.grg
 OK     should_pass/exectype_AssignConstToVarUntyped.grg
+OK     should_pass/exectype_AssignElemToVar.grg
 OK     should_pass/exectype_AssignMapAccessToVar.grg
 OK     should_pass/exectype_AssignMapAccessToVarUntyped.grg
 OK     should_pass/exectype_AssignMapAccessToVarUntyped2.grg
@@ -836,7 +838,6 @@ FAILED should_fail/exectype_AssignConstToVar.grg
 FAILED should_fail/exectype_AssignConstToVar2.grg
 FAILED should_fail/exectype_AssignConstToVar3.grg
 FAILED should_fail/exectype_AssignConstToVar4.grg
-ERROR  should_fail/exectype_AssignElemToVar.grg
 ERROR  should_fail/exectype_AssignMapAccessToVar.grg
 FAILED should_fail/exectype_AssignMapAccessToVar2.grg
 ERROR  should_fail/exectype_AssignMapAccessToVar3.grg

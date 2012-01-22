@@ -12,12 +12,13 @@
            a specific number of sub-topics when creating the outline.  Specify
            zero (0) to limit it to top-level sections only.  -->
       <!-- <autoOutline /> -->
-      <para>This is an introduction into the Application Programming Interface of the GrGen.NET v3.0 system,
+      <para>This is an introduction into the Application Programming Interface of the GrGen.NET v3.1 system,
       	i.e. the libGr and the assemblies generated from the model and rule specifications.
       	We'll have a look at the	
 		<list class="bullet">
-		  <listItem>interface to the graph and model</listItem>
+		  <listItem>interface to the (named) graph and model</listItem>
 		  <listItem>interface to the rules and matches</listItem>
+		  <listItem>interface to the graph processing environment</listItem>
 		</list>
     	
       	From the input file <localUri>Foo.grg</localUri> the <application>grgen.exe</application> compiler generates the output files <localUri>FooModel.cs</localUri> for the model and <localUri>FooActions.cs</localUri> for the actions,
@@ -50,9 +51,11 @@ Use the <replaceable>-keep</replaceable> option when you call <application>grgen
 			This builds the exact interface of the model, it is implemented by a sealed class <codeInline>Bar</codeInline> with generated code and with code from the lgsp backend.
 			Furtheron the namespace contains a model class <codeInline>FooGraphModel</codeInline> implementing the interface <codeInline>de.unika.ipd.grGen.libGr.IGraphModel</codeInline>,
 			which supports iteration over the entities defined in the model using further, generic(i.e. inexact) interfaces from libGr.
-			Finally, the namespace contains a class <codeInline>FooGraph</codeInline> which defines an lgsp-graph of a model equivalent to <codeInline>FooGraphModel</codeInline>; 
+			Finally, the namespace contains a class <codeInline>FooGraph</codeInline> which defines an LGSPGraph of a model equivalent to <codeInline>FooGraphModel</codeInline>; 
 			it contains convenience functions to easily create nodes and edges of exact type in the graph.
-			
+			In addition, a class <codeInline>FooNamedGraph</codeInline> is available, which defines an LGSPNamedGraph of a model equivalent to <codeInline>FooGraphModel</codeInline>;
+			the named graph offers persistent names for all its graph elements, otherwise it is identical to an LGSPGraph.
+			The naming requires about the same memory as an unnamed graph, but under normal circumstances the named graph is the recommended one to use (and is the one which will be used if employed by the shell).			
 			<alert class="note">
 			  <para>
 			    If you want to use the type-safe interface, use the interface <codeInline>IBar</codeInline>, and the <codeInline>CreateNodeBar</codeInline>-methods of <codeInline>FooGraph</codeInline> or the <codeInline>CreateNode</codeInline>-method of <codeInline>Bar</codeInline>.
@@ -120,6 +123,19 @@ Use the <replaceable>-keep</replaceable> option when you call <application>grgen
       </content>
     </section>
     <section address="Section3">
+      <title>Interface to the graph processing environment</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>
+The interface <codeInline>IGraphProcessingEnvironment</codeInline> implemented by the <codeInline>LGSPGraphProcessingEnvironment</codeInline> class offers all the additional functionality of GrGen.NET exceeding what is offered by the graph and the actions.
+It is constructed as <codeInline>LGSPGraphProcessingEnvironment</codeInline> given the graph and the actions.
+It offers execution of the sequences and variable handling, combining actions into transformations (the former regarding control flow, the latter regarding data flow).
+Further on, the environment offers driver or helper objects for transaction management, deferred sequence execution, graph change recording, and emitting.
+        </para>
+      </content>
+    </section>
+    <section address="Section4">
       <title>Examples</title>
       <content>
         <!-- Uncomment this to create a sub-section outline
@@ -183,6 +199,11 @@ Use the <replaceable>-keep</replaceable> option when you call <application>grgen
 					Bar b = graph.CreateNodeBar();
 					actions.bar.Apply(graph, b, ref b); // input of type Bar, output of type Bar
 					</code>
+					
+					We could create a named graph instead offering persistent names for its graph elements:
+					<code language="cs">
+					FooNamedGraph graph = new FooNamedGraph();
+					</code>
 				  </para>
               </content>
           </section>
@@ -205,6 +226,10 @@ Use the <replaceable>-keep</replaceable> option when you call <application>grgen
 					IAction_bar bar = Action_bar.Instance;
 					IMatchesExact&lt;Rule_bar.IMatch_bar matches&gt; = bar.Match(graph, 0, b);
 					bar.Modify(graph, matches.First);
+					</code>
+					We could create a named graph instead offering persistent names for its graph elements:
+					<code language="cs">
+					LGSPGraph graph = new LGSPNamedGraph(model);
 					</code>
                   </para>
               </content>
@@ -237,6 +262,18 @@ Use the <replaceable>-keep</replaceable> option when you call <application>grgen
                   </para>
               </content>
           </section>
+          <section address="SubSection4">
+              <title>Example 4</title>
+              <content>
+                  <para>
+					For all but the simplest transformations you'll end up constructing a graph processing environment from the graph and the actions constructed until now, executing a graph rewrite sequence on the graph processing environment:
+					<code>
+					LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
+					procEnv.ApplyGraphRewriteSequence("&lt;(::x)=foo &amp;&amp; (::y)=bar(::x) | bla(::y)&gt;");
+					</code>
+                  </para>
+              </content>
+          </section>
       </sections>
     </section>
     <relatedTopics>
@@ -247,6 +284,7 @@ Use the <replaceable>-keep</replaceable> option when you call <application>grgen
       </externalLink>
 
       <codeEntityReference>T:de.unika.ipd.grGen.libGr.IGraph</codeEntityReference>
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.INamedGraph</codeEntityReference>
       
       <codeEntityReference>T:de.unika.ipd.grGen.libGr.IGraphModel</codeEntityReference>
       <codeEntityReference>T:de.unika.ipd.grGen.libGr.INode</codeEntityReference>
@@ -257,6 +295,7 @@ Use the <replaceable>-keep</replaceable> option when you call <application>grgen
       <codeEntityReference>T:de.unika.ipd.grGen.libGr.IMatches</codeEntityReference>
       <codeEntityReference>T:de.unika.ipd.grGen.libGr.IMatch</codeEntityReference>
 
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment</codeEntityReference>
       <codeEntityReference>T:de.unika.ipd.grGen.libGr.Porter</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
