@@ -1,7 +1,17 @@
-﻿v3.1 beta 2 (2012-01-??)
+﻿v3.1 beta 2 (2012-01-22)
  Added comparison operators ==,!=,<,<=,>,>= to sequence expressions, as well as + operator;
   same semantics as in rule language expressions, for the various types they apply to
+
+ Added pause insertion / s / to transaction and backtracking angles:
+  The effects of the sequences are kept in the graph even if the (backtracking) transaction is rolled back.
+  This behaviour allows to generate a spate space by iterating all matches with nested backtracking brackets 
+  (dynamically nested via sequence calls, with the body of the sequence called containing one backtracking step),
+  copying during the backtracking pauses the states which are reached 
+  during the backtracking enumeration and which should be kept.
  
+ Backtracking brackets expect now a double semicolon in between the rule and the sequence,
+  is much better readable that way: << r ;; s >>  (old simple semicolon still available)
+  
  Refactoring of the graph: split out the graph processing stuff into a graph processing environment
   the graph itself is now clean and easy; for sequence execution and variables an environment is needed
   consequences:
@@ -10,7 +20,8 @@
    - on API level you need an additional graph processing environment object for most tasks,
      an LGSPGraphProcessingEnvironment to be constructed from the graph and the actions
  Refactoring of the named graphs: named graph is now an interface and an lgsp implementation,
-  instead of a wrapper; that's easier to handle, and naming now works more reliable, in more situations
+  instead of a wrapper; that's easier to handle, and naming now works more reliable, in more situations,
+  esp. the naming operator can now we be used in embedded sequences, too
  Some further refactorings to clean and improve the code, 
   partly moving functionality, partly removing unused functionality
  
@@ -20,6 +31,11 @@
   - and lazynic to the shell, too:
     new set keepdebug on|off
  
+ Several bugs fixed, esp. regarding transactions and (compiled) sequences, most imporant:
+  - the matches of a rule found during handling of nested backtracking don't get destroyed any more
+    if the same rule is matched again at a deeper nesting level (they get now cloned)
+  - allowed sequence expressions as parameters of rule/sequence calls in the embedded sequences, too
+  
  
 v3.1 beta 1 (2011-12-12)
  Refactoring of the sequences: split old sequences into sequences and sequence computations

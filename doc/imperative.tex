@@ -537,7 +537,7 @@ rule propagateBackwards(n:N, s:N, var changed:boolean) : (boolean)
     \end{grgen}
   \end{example}
 
-The example can be found in the \texttt{tests/dataFlowAnalysis} directory, just add \texttt{debug} before the \texttt{xgrs} in \texttt{dataFlowAnalysisForReachability.grs} and watch it run.
+The example can be found in the \texttt{tests/dataFlowAnalysis} directory, just add \texttt{debug} before the \texttt{exec} (or \texttt{xgrs}) in \texttt{dataFlowAnalysisForReachability.grs} and watch it run.
 A sample situation showing a propagation step is given in \ref{figdataflow}.
 The subgraph at the top-left is already handled as you can see by the reachable set displayed in each node.
 
@@ -604,7 +604,7 @@ rule nextWorklistPosition(pos:N, ref todo:set<N>) : (N)
     \end{grgen}
   \end{example}
 
-The example can be found in the \texttt{tests/dataFlowAnalysis} directory, just add \texttt{debug} before the \texttt{xgrs} in \texttt{dataFlowAnalysisForReachabilityWorklist.grs} and watch it run.
+The example can be found in the \texttt{tests/dataFlowAnalysis} directory, just add \texttt{debug} before the \texttt{exec} (or \texttt{xgrs}) in \texttt{dataFlowAnalysisForReachabilityWorklist.grs} and watch it run.
 A sample situation showing a worklist building step is given in \ref{figworklist}.
 The subgraph at the top-left is already handled as you can see by the reachable set displayed in each node.
 

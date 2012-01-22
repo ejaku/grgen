@@ -237,7 +237,7 @@ For instance we don't want to forward just one $\varepsilon$-transition as \text
 Such a rule composing is called \emph{graph rewrite sequence} (see Chapter~\ref{cha:xgrs}).
 We add the following line to our shell script \texttt{removeEpsilons.grs}:
 \begin{grgen}
-debug xgrs (checkStartState && checkDoublettes) && <forwardTransition* | addStartFinalState | addFinalState* | removeEpsilonTransition*>
+debug exec (checkStartState && checkDoublettes) && <forwardTransition* | addStartFinalState | addFinalState* | removeEpsilonTransition*>
 \end{grgen}
 This looks like a boolean expression and in fact it behaves similar.
 The whole expression is evaluated from left to right.
@@ -266,7 +266,7 @@ Finally you should get a graph like the one in figure \ref{fig:quick:final}
 	\label{fig:quick:final}
 \end{figure}
 
-If everything is working fine you can delete the \texttt{debug} keyword in front of \texttt{xgrs}.
+If everything is working fine you can delete the \texttt{debug} keyword in front of \texttt{exec}.
 Maybe you want to save a visualization of the resulting graph.
 This is possible by typing \texttt{dump graph mygraph.vcg} in \GrShell,
 writing \texttt{mygraph.vcg} into the current directory in VCG format readable by \yComp.

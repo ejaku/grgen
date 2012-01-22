@@ -228,7 +228,7 @@ Further commands allow to print the variables at a given situation, the sequence
   \begin{tabularx}{\linewidth}{|lX|}
 \hline
   \texttt{s}(tep) & Execute the current rewrite rule (match, and rewrite in case it matched; the resulting graph is shown).\\
-  \texttt{d}(etailed step) & Execute the current rewrite rule in a three-step procedure: matching - highlighting the found match, rewriting - highlighting the changing elements, and application - doing the rewrite showing the resulting graph. In addition, afterwards the execution of subrules from embedded xgrs (\texttt{exec}) is shown step by step. \\
+  \texttt{d}(etailed step) & Execute the current rewrite rule in a three-step procedure: matching - highlighting the found match, rewriting - highlighting the changing elements, and application - doing the rewrite showing the resulting graph. In addition, afterwards the execution of subrules from embedded sequences (\texttt{exec}) is shown step by step. \\
   (step) \texttt{o}(ut) & Continue execution until the end of the current loop. If the execution is not in a loop at this moment, but in a sequence called, the called sequence will be executed until its end. If neither is the case, the complete sequence will be executed.\\
   (step) \texttt{u}(p) & Ascend one level up within the \indexed{Kantorowitsch tree} of the current rewrite sequence (i.e. rule; see Example~\ref{ex:debug}; at the moment the command is pretty useless because only the serialized form is displayed).\\
   \texttt{r}(un) & Continue execution (until the end or a breakpoint).\\

@@ -220,19 +220,23 @@ The sequence \verb#if{Condition;TrueCase}# is equivalent to \verb#if{Condition;T
 \begin{rail} 
   ExtendedControl: 
     '<' RewriteSequence '>' | 
-    '<<' RuleExecution ';' RewriteSequence '>>'
+    '<<' RuleExecution ';;' RewriteSequence '>>' |
+    '/' RewriteSequence '/'
 	;
 \end{rail}
 
 Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}), i.e.
 if the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
 Nested transactions\indexmainsee{nested transaction}{transaction} are supported, i.e. a transaction which was committed is rolled back again if an enclosing transaction fails.
-Transactions are a key ingredient for backtracking, which is syntactically specified by double angle brackets (\texttt{<<r;s>>}.
+Transactions are a key ingredient for backtracking, which is syntactically specified by double angle brackets (\texttt{<<r;;s>>}.
 The semantics of the construct are:
 First compute all matches for rule \texttt{r}, then start a transaction.
 For each match: execute the rewrite of the match, then execute \texttt{s}.
 If \texttt{s} failed then rollback and continue with the loop.
 If \texttt{s} succeeded then commit and break from the loop.
+A normal or backtracking transaction can be paused temporarily with the \indexed{pause insertion} \texttt{/ s /}.
+The effects of the sequence inside the pause insertion are written to the graph and kept even if the transaction fails and is rolled back.
+This behaviour allows to generate a spate space by iterating all matches with nested backtracking brackets (either statically nested, or dynamically nested via sequence calls, with the body of the sequence called containing one backtracking step), copying during the backtracking pauses the states which are reached during the backtracking enumeration and which should be kept.
 
 \begin{note}
 While a transaction or a backtrack is pending, all changes to the graph are recorded into some kind of undo log, which is used to reverse the effects on the graph in the case of rollback (and is thrown away when the nesting root gets committed).
@@ -454,7 +458,7 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \texttt{if\{r;s;t\}}	& Execute \texttt{r}. If \texttt{r} succeeded, execute \texttt{s} and return the result of \texttt{s}. Otherwise execute \texttt{t} and return the result of \texttt{t}.\\
 \texttt{if\{r;s\}}	& Same as \texttt{if\{r;s;true\}}\\
 \texttt{<s>}	& Execute \texttt{s} transactionally (rollback on failure).\\
-\texttt{<<r;s>>}	& Backtracking: try the matches of rule \texttt{r} until \texttt{s} succeeds.\\
+\texttt{<<r;;s>>}	& Backtracking: try the matches of rule \texttt{r} until \texttt{s} succeeds.\\
 \texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
 \texttt{\$<op>}	& Use random instead of left-associative execution order for \texttt{<op>}. \\
 \texttt{s*}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
