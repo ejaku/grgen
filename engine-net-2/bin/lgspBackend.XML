@@ -872,11 +872,11 @@
             The real stuff depends on the xgrs and is generated, implementing this abstract class.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceClosure.exec(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceClosure.exec(de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment)">
             <summary>
             Executes the embedded sequence closure
             </summary>
-            <param name="graph">the graph on which to apply the sequence</param>
+            <param name="procEnv">the processing environment on which to apply the sequence, esp. containing the graph</param>
             <returns>the result of sequence execution</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator">
@@ -948,6 +948,104 @@
             - emits sequence variable declarations (only once for every variable, declaration only possible at assignment targets)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment">
+            <summary>
+            An implementation of the IGraphProcessingEnvironment, to be used with LGSPGraphs.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPActionExecutionEnvironment">
+            <summary>
+            An implementation of the IGraphProcessingEnvironment, to be used with LGSPGraphs.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.GetLGSPNodeVarValue(System.String)">
+            <summary>
+            Retrieves the LGSPNode for a variable name or null, if the variable isn't set yet or anymore.
+            A InvalidCastException is thrown, if the variable is set and does not point to an LGSPNode object.
+            </summary>
+            <param name="varName">The variable name to lookup.</param>
+            <returns>The according LGSPNode or null.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.GetLGSPEdgeVarValue(System.String)">
+            <summary>
+            Retrieves the LGSPEdge for a variable name or null, if the variable isn't set yet or anymore.
+            A InvalidCastException is thrown, if the variable is set and does not point to an LGSPEdge object.
+            </summary>
+            <param name="varName">The variable name to lookup.</param>
+            <returns>The according LGSPEdge or null.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.DetachVariableFromElement(de.unika.ipd.grGen.libGr.Variable)">
+            <summary>
+            Detaches the specified variable from the according graph element.
+            If it was the last variable pointing to the element, the variable list for the element is removed.
+            This function may only called on variables pointing to graph elements.
+            </summary>
+            <param name="var">Variable to detach.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.AddNode(de.unika.ipd.grGen.lgsp.LGSPNode,System.String)">
+            <summary>
+            Adds an existing LGSPNode object to the graph and assigns it to the given variable.
+            The node must not be part of any graph, yet!
+            The node may not be connected to any other elements!
+            </summary>
+            <param name="node">The node to be added.</param>
+            <param name="varName">The name of the variable.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.AddINode(de.unika.ipd.grGen.libGr.NodeType,System.String)">
+            <summary>
+            Adds a new node to the graph.
+            TODO: Slow but provides a better interface...
+            </summary>
+            <param name="nodeType">The node type for the new node.</param>
+            <param name="varName">The name of the variable.</param>
+            <returns>The newly created node.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.AddLGSPNode(de.unika.ipd.grGen.libGr.NodeType,System.String)">
+            <summary>
+            Adds a new LGSPNode to the graph and assigns it to the given variable.
+            </summary>
+            <param name="nodeType">The node type for the new node.</param>
+            <param name="varName">The name of the variable.</param>
+            <returns>The newly created node.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.AddEdge(de.unika.ipd.grGen.libGr.IEdge,System.String)">
+            <summary>
+            Adds an existing IEdge object to the graph and assigns it to the given variable.
+            The edge must not be part of any graph, yet!
+            Source and target of the edge must already be part of the graph.
+            </summary>
+            <param name="edge">The edge to be added.</param>
+            <param name="varName">The name of the variable.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.AddEdge(de.unika.ipd.grGen.lgsp.LGSPEdge,System.String)">
+            <summary>
+            Adds an existing LGSPEdge object to the graph and assigns it to the given variable.
+            The edge must not be part of any graph, yet!
+            Source and target of the edge must already be part of the graph.
+            </summary>
+            <param name="edge">The edge to be added.</param>
+            <param name="varName">The name of the variable.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.AddEdge(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String)">
+            <summary>
+            Adds a new edge to the graph and assigns it to the given variable.
+            </summary>
+            <param name="edgeType">The edge type for the new edge.</param>
+            <param name="source">The source of the edge.</param>
+            <param name="target">The target of the edge.</param>
+            <param name="varName">The name of the variable.</param>
+            <returns>The newly created edge.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.AddEdge(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.lgsp.LGSPNode,de.unika.ipd.grGen.lgsp.LGSPNode,System.String)">
+            <summary>
+            Adds a new edge to the graph and assigns it to the given variable.
+            </summary>
+            <param name="edgeType">The edge type for the new edge.</param>
+            <param name="source">The source of the edge.</param>
+            <param name="target">The target of the edge.</param>
+            <param name="varName">The name of the variable.</param>
+            <returns>The newly created edge.</returns>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.IsomorphyInformation.CheckIsMatchedBit">
             <summary>
             if true, the graph element's is-matched-bit must be checked
@@ -1017,6 +1115,13 @@
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.DumpSearchPlan">
             <summary>
             If true, generated search plans are dumped in VCG and TXT files in the current directory.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.LazyNegativeIndependentConditionEvaluation">
+            <summary>
+            If true, the negatives, independents, and evaluations are inserted at the end of the schedule
+            instead of as early as possible; this is likely less efficient but allows to use checks 
+            which require that they are only called after a structural match was found
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.#ctor(de.unika.ipd.grGen.libGr.IGraphModel)">
@@ -1391,12 +1496,6 @@
             An implementation of the IGraph interface.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.curActions">
-            <summary>
-            Currently associated LGSPActions object.
-            This is needed to the current matchers while executing an exec statement on the RHS of a rule.
-            </summary>
-        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.nodeCounts">
             <summary>
             The number of compatible nodes in the graph for each type at the time of the last analysis.
@@ -1472,31 +1571,35 @@
             </summary>
             <param name="grname">The name for the graph.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
             <summary>
             Copy constructor.
-            Open transaction data lost.
             </summary>
             <param name="dataSource">The LGSPGraph object to get the data from</param>
             <param name="newName">Name of the copied graph.</param>
+            <param name="oldToNewMap">A map of the old elements to the new elements after cloning.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="dataSource">The LGSPGraph object to get the data from</param>
+            <param name="newName">Name of the copied graph.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Copy(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
+            <summary>
+            Copy constructor helper.
+            </summary>
+            <param name="dataSource">The LGSPGraph object to get the data from</param>
+            <param name="newName">Name of the copied graph.</param>
+            <param name="oldToNewMap">A map of the old elements to the new elements after cloning,
+            just forget about it if you don't need it.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.InitializeGraph(de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
             Initializes the graph with the given model.
             </summary>
             <param name="grmodel">The model for this graph.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.DestroyGraph">
-            <summary>
-            For persistent backends permanently destroys the graph
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.LoadActions(System.String)">
-            <summary>
-            Loads a LGSPActions implementation
-            </summary>
-            <param name="actionFilename">Filename of a action file. This can be either a library (.dll) or source code (.cs)</param>
-            <returns>A LGSPActions object as BaseActions</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetNumExactNodes(de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
@@ -1568,23 +1671,6 @@
             Intended only for undo, clone, retyping and internal use!
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddNode(de.unika.ipd.grGen.libGr.INode,System.String)">
-            <summary>
-            Adds an existing INode object to the graph and assigns it to the given variable.
-            The node must not be part of any graph, yet!
-            The node may not be connected to any other elements!
-            </summary>
-            <param name="node">The node to be added.</param>
-            <param name="varName">The name of the variable.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddNode(de.unika.ipd.grGen.libGr.INode)">
-            <summary>
-            Adds an existing LGSPNode object to the graph.
-            The node must not be part of any graph, yet!
-            The node may not be connected to any other elements!
-            </summary>
-            <param name="node">The node to be added.</param>
-        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddNode(de.unika.ipd.grGen.lgsp.LGSPNode)">
             <summary>
             Adds an existing LGSPNode object to the graph.
@@ -1593,63 +1679,13 @@
             </summary>
             <param name="node">The node to be added.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddINode(de.unika.ipd.grGen.libGr.NodeType)">
-            <summary>
-            Adds a new node to the graph.
-            </summary>
-            <param name="nodeType">The node type for the new node.</param>
-            <returns>The newly created node.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddNode(de.unika.ipd.grGen.libGr.NodeType)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddLGSPNode(de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
             Creates a new LGSPNode according to the given type and adds
             it to the graph.
             </summary>
             <param name="nodeType">The type for the new node.</param>
             <returns>The created node.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddNode(de.unika.ipd.grGen.lgsp.LGSPNode,System.String)">
-            <summary>
-            Adds an existing LGSPNode object to the graph and assigns it to the given variable.
-            The node must not be part of any graph, yet!
-            The node may not be connected to any other elements!
-            </summary>
-            <param name="node">The node to be added.</param>
-            <param name="varName">The name of the variable.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddINode(de.unika.ipd.grGen.libGr.NodeType,System.String)">
-            <summary>
-            Adds a new node to the graph.
-            TODO: Slow but provides a better interface...
-            </summary>
-            <param name="nodeType">The node type for the new node.</param>
-            <param name="varName">The name of the variable.</param>
-            <returns>The newly created node.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddNode(de.unika.ipd.grGen.libGr.NodeType,System.String)">
-            <summary>
-            Adds a new LGSPNode to the graph and assigns it to the given variable.
-            </summary>
-            <param name="nodeType">The node type for the new node.</param>
-            <param name="varName">The name of the variable.</param>
-            <returns>The newly created node.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddEdge(de.unika.ipd.grGen.libGr.IEdge,System.String)">
-            <summary>
-            Adds an existing IEdge object to the graph and assigns it to the given variable.
-            The edge must not be part of any graph, yet!
-            Source and target of the edge must already be part of the graph.
-            </summary>
-            <param name="edge">The edge to be added.</param>
-            <param name="varName">The name of the variable.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddEdge(de.unika.ipd.grGen.libGr.IEdge)">
-            <summary>
-            Adds an existing LGSPEdge object to the graph.
-            The edge must not be part of any graph, yet!
-            Source and target of the edge must already be part of the graph.
-            </summary>
-            <param name="edge">The edge to be added.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddEdge(de.unika.ipd.grGen.lgsp.LGSPEdge)">
             <summary>
@@ -1666,44 +1702,6 @@
             <param name="edgeType">The edge type for the new edge.</param>
             <param name="source">The source of the edge.</param>
             <param name="target">The target of the edge.</param>
-            <returns>The newly created edge.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddEdge(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
-            <summary>
-            Adds a new edge to the graph.
-            </summary>
-            <param name="edgeType">The edge type for the new edge.</param>
-            <param name="source">The source of the edge.</param>
-            <param name="target">The target of the edge.</param>
-            <returns>The newly created edge.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddEdge(de.unika.ipd.grGen.lgsp.LGSPEdge,System.String)">
-            <summary>
-            Adds an existing LGSPEdge object to the graph and assigns it to the given variable.
-            The edge must not be part of any graph, yet!
-            Source and target of the edge must already be part of the graph.
-            </summary>
-            <param name="edge">The edge to be added.</param>
-            <param name="varName">The name of the variable.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddEdge(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.lgsp.LGSPNode,de.unika.ipd.grGen.lgsp.LGSPNode,System.String)">
-            <summary>
-            Adds a new edge to the graph and assigns it to the given variable.
-            </summary>
-            <param name="edgeType">The edge type for the new edge.</param>
-            <param name="source">The source of the edge.</param>
-            <param name="target">The target of the edge.</param>
-            <param name="varName">The name of the variable.</param>
-            <returns>The newly created edge.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AddEdge(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String)">
-            <summary>
-            Adds a new edge to the graph and assigns it to the given variable.
-            </summary>
-            <param name="edgeType">The edge type for the new edge.</param>
-            <param name="source">The source of the edge.</param>
-            <param name="target">The target of the edge.</param>
-            <param name="varName">The name of the variable.</param>
             <returns>The newly created edge.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Remove(de.unika.ipd.grGen.libGr.INode)">
@@ -1730,17 +1728,6 @@
             <summary>
             Retypes a node by creating a new node of the given type.
             All incident edges as well as all attributes from common super classes are kept.
-            WARNING: GetElementName will probably not return the same element name for the new node, yet! (TODO)
-            </summary>
-            <param name="node">The node to be retyped.</param>
-            <param name="newNodeType">The new type for the node.</param>
-            <returns>The new node object representing the retyped node.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Retype(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.NodeType)">
-            <summary>
-            Retypes a node by creating a new node of the given type.
-            All incident edges as well as all attributes from common super classes are kept.
-            WARNING: GetElementName will probably not return the same element name for the new node, yet! (TODO)
             </summary>
             <param name="node">The node to be retyped.</param>
             <param name="newNodeType">The new type for the node.</param>
@@ -1750,17 +1737,6 @@
             <summary>
             Retypes an edge by replacing it by a new edge of the given type.
             Source and target node as well as all attributes from common super classes are kept.
-            WARNING: GetElementName will probably not return the same element name for the new edge, yet! (TODO)
-            </summary>
-            <param name="edge">The edge to be retyped.</param>
-            <param name="newEdgeType">The new type for the edge.</param>
-            <returns>The new edge object representing the retyped edge.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Retype(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType)">
-            <summary>
-            Retypes an edge by replacing it by a new edge of the given type.
-            Source and target node as well as all attributes from common super classes are kept.
-            WARNING: GetElementName will probably not return the same element name for the new edge, yet! (TODO)
             </summary>
             <param name="edge">The edge to be retyped.</param>
             <param name="newEdgeType">The new type for the edge.</param>
@@ -1902,61 +1878,6 @@
             <param name="visitorID">The ID of the visited flag.</param>
             <returns>True for visited, false for not visited.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetElementName(de.unika.ipd.grGen.libGr.IGraphElement)">
-            <summary>
-            Returns the name for the given element,
-            i.e. the name defined by the named graph if a named graph is available,
-            or a hash value string if only a lgpsGraph is available.
-            </summary>
-            <param name="elem">Element of which the name is to be found</param>
-            <returns>The name of the given element</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetElementVariables(de.unika.ipd.grGen.libGr.IGraphElement)">
-            <summary>
-            Returns a linked list of variables mapped to the given graph element
-            or null, if no variable points to this element
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetVariableValue(System.String)">
-            <summary>
-            Retrieves the object for a variable name or null, if the variable isn't set yet or anymore.
-            </summary>
-            <param name="varName">The variable name to lookup</param>
-            <returns>The according object or null</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetNodeVarValue(System.String)">
-            <summary>
-            Retrieves the LGSPNode for a variable name or null, if the variable isn't set yet or anymore.
-            A InvalidCastException is thrown, if the variable is set and does not point to an LGSPNode object.
-            </summary>
-            <param name="varName">The variable name to lookup.</param>
-            <returns>The according LGSPNode or null.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetEdgeVarValue(System.String)">
-            <summary>
-            Retrieves the LGSPEdge for a variable name or null, if the variable isn't set yet or anymore.
-            A InvalidCastException is thrown, if the variable is set and does not point to an LGSPEdge object.
-            </summary>
-            <param name="varName">The variable name to lookup.</param>
-            <returns>The according LGSPEdge or null.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.DetachVariableFromElement(de.unika.ipd.grGen.libGr.Variable)">
-            <summary>
-            Detaches the specified variable from the according graph element.
-            If it was the last variable pointing to the element, the variable list for the element is removed.
-            This function may only called on variables pointing to graph elements.
-            </summary>
-            <param name="var">Variable to detach.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.SetVariableValue(System.String,System.Object)">
-            <summary>
-            Sets the value of the given variable to the given IGraphElement.
-            If the variable name is null, this function does nothing.
-            If elem is null, the variable is unset.
-            </summary>
-            <param name="varName">The name of the variable.</param>
-            <param name="val">The new value of the variable or null to unset the variable.</param>
-        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AnalyzeGraph">
             <summary>
             Analyzes the graph.
@@ -1966,14 +1887,6 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CheckEmptyFlags">
             <summary>
             Checks if the matching state flags in the graph are not set, as they should be in case no matching is undereway
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Mature">
-            <summary>
-            Mature a graph.
-            This method should be invoked after adding all nodes and edges to the graph.
-            The backend may implement analyses on the graph to speed up matching etc.
-            The graph may not be modified by this function.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Custom(System.Object[])">
@@ -2000,11 +1913,6 @@
             <param name="that">The other graph we check for isomorphy against</param>
             <returns>true if that is isomorph to this, false otherwise</returns>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Actions">
-            <summary>
-            A currently associated actions object.
-            </summary>
-        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.ReuseOptimization">
             <summary>
             If true (the default case), elements deleted during a rewrite
@@ -2022,25 +1930,6 @@
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Model">
             <summary>
             The model associated with the graph.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.TransactionManager">
-            <summary>
-            Returns the transaction manager of the graph.
-            For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
-            Don't forget to call Commit after a transaction is finished!
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.NamedGraph">
-            <summary>
-            Set it if a named graph is available, so that
-            - the nameof operator can return the persistent name instead of a hash code
-            - a retyped element can keep its name
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Variables">
-            <summary>
-            Returns an iterator over all available (non-null) variables
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.VisitorData.NodesMarked">
@@ -2478,229 +2367,6 @@
             Special head edge of the lists containing all the edges of one type
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Nodes_Enumerable">
-            <summary>
-            enumerable returning enumerator over nodes in match
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Nodes_Enumerator">
-            <summary>
-            enumerator over nodes in match
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Edges_Enumerable">
-            <summary>
-            enumerable returning enumerator over edges in match
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Edges_Enumerator">
-            <summary>
-            enumerator over edges in match
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Variables_Enumerable">
-            <summary>
-            enumerable returning enumerator over variables in match
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Variables_Enumerator">
-            <summary>
-            enumerator over variables in match
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.EmbeddedGraphs_Enumerable">
-            <summary>
-            enumerable returning enumerator over submatches due to subpatterns
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.EmbeddedGraphs_Enumerator">
-            <summary>
-            enumerator over submatches due to subpatterns
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Alternatives_Enumerable">
-            <summary>
-            enumerable returning enumerator over submatches due to alternatives
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Alternatives_Enumerator">
-            <summary>
-            enumerator over submatches due to alternatives
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Iterateds_Enumerable">
-            <summary>
-            enumerable returning enumerator over submatches due to iterateds,
-            with every submatch being a list of matches of the iterated-pattern
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Iterateds_Enumerator">
-            <summary>
-            enumerator over submatches due to iterateds,
-            with every submatch being a list of matches of the iterated-pattern
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Independents_Enumerable">
-            <summary>
-            enumerable returning enumerator over submatches due to independents
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.Independents_Enumerator">
-            <summary>
-            enumerator over submatches due to independents
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.ListElement`1">
-            <summary>
-            Element of invasive linked list of T
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.ListElement`1.next">
-            <summary>
-            The next element in the linked list.
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2">
-            <summary>
-            An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
-            It is returned by IAction.Match() and given to the OnMatched, OnFinishing and OnFinished event.
-            Generic to be instantiated with the exact interface and the exact implementation type of the match object
-            Every generated Action contains a LGSPMatchesList,
-            the matches contain one LGSPMatchesList per iterated pattern.
-            A matches list stores the matches found by the last application of the action,
-            the matches objects within the list are recycled by the next application of the action,
-            only their content gets updated.
-            The purpose of this list is to act as a memory manager
-            to save new/garbage collection cycles and improve cache footprint.
-            Additionally this list is used for storing the results of an iteration in the matches objects, Producer being null in this case.
-            Then it is just used as a container for already allocated elements.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetEnumeratorExact">
-            <summary>
-            Returns an enumerator over all found matches with exact match interface type
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetMatchExact(System.Int32)">
-            <summary>
-            Returns the match of exact type with the given index. Invalid indices cause an exception.
-            This may be slow. If you want to iterate over the elements the MatchesExact IEnumerable should be used.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.RemoveMatchExact(System.Int32)">
-            <summary>
-            Removes the match of exact type at the given index and returns it.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetEnumerator">
-            <summary>
-            Returns an enumerator over all found matches with inexact match interface type.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.System#Collections#IEnumerable#GetEnumerator">
-            <summary>
-            Returns a non-generic enumerator over all found matches.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetMatch(System.Int32)">
-            <summary>
-            Returns the match with the given index. Invalid indices cause an exception.
-            This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
-            </summary>
-            <exception cref="T:System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.RemoveMatch(System.Int32)">
-            <summary>
-            Removes the match at the given index and returns it.
-            </summary>
-            <param name="index">The index of the match to be removed.</param>
-            <returns>The removed match.</returns>
-            <exception cref="T:System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.#ctor(de.unika.ipd.grGen.libGr.IAction)">
-            <summary>
-            Constructs a new LGSPMatchesList instance.
-            </summary>
-            <param name="producer">The action object used to generate this LGSPMatchesList object; null if this is the matches list of an iteration</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetNextUnfilledPosition">
-            <summary>
-            returns an empty match object from the matches list
-            to be filled by the matching action with the found nodes, edges and subpatterns.
-            unless PositionWasFilledFixIt is called you always get the same element
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.PositionWasFilledFixIt">
-            <summary>
-            the match object returned by GetNextUnfilledPosition was filled,
-            now fix it within the list, so that the next call to GetNextUnfilledPosition returns a new element
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Add(`0)">
-            <summary>
-            adds a match object to the end of the list; only applicable if this is the match of an iteration, not an action
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Clear">
-            <summary>
-            remove all filled and committed elements from the list
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.producer">
-            <summary>
-            the action object used to generate this LGSPMatchesList object
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.root">
-            <summary>
-            head of list
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.last">
-            <summary>
-            logically last element of list, not necessarily physically the last element
-            as previously generated matches are kept and recycled
-            denotes the next point of logical insertion i.e. physical update
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.count">
-            <summary>
-            number of found matches in the list
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FirstExact">
-            <summary>
-            Returns the first match of exact type (null if no match exists).
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Producer">
-            <summary>
-            The action object used to generate this LGSPMatchesList object
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Count">
-            <summary>
-            The number of matches in this list.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.First">
-            <summary>
-            The first match of this list.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Root">
-            <summary>
-            The root element of the list.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Item(System.Int32)">
-            <summary>
-            Returns the match with the given index.
-            This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
-            </summary>
-            <exception cref="T:System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
-        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPAction">
             <summary>
             An object representing an executable rule of the LGSPBackend.
@@ -2733,11 +2399,6 @@
             Abstract base class with empty actions, the derived classes fill the actions dictionary.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPActions.actions">
-            <summary>
-            A map from action names to LGSPAction objects.
-            </summary>
-        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPActions.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph)">
             <summary>
             Constructs a new LGSPActions instance.
@@ -2752,6 +2413,12 @@
             <param name="lgspgraph">The associated graph.</param>
             <param name="modelAsmName">The name of the model assembly.</param>
             <param name="actionsAsmName">The name of the actions assembly.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPActions.LoadActions(System.String,de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Loads a LGSPActions instance from the given file.
+            If the file is a ".cs" file it will be compiled first.
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPActions.GenerateAction(de.unika.ipd.grGen.lgsp.LGSPAction)">
             <summary>
@@ -2834,9 +2501,9 @@
             (non-null in case of an alternative, contains the pattern graphs of the alternative cases then)
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPSubpatternAction.graph">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPSubpatternAction.actionEnv">
             <summary>
-            The host graph in which to search for matches
+            The action execution environment which contains the host graph in which to search for matches
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPSubpatternAction.openTasks">
@@ -3189,23 +2856,15 @@
             A helper class for backend independent graph and rule handling.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateGraph(de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.String[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateGraph(System.String,System.String,System.Boolean,System.String[])">
             <summary>
-            Creates a new IGraph backend instance with the given graph model and name
+            Creates a new LGSPGraph or LGSPNamedGraph backend instance with the graph model provided by the graph model file and a name.
             </summary>
-            <param name="graphModel">An IGraphModel instance</param>
-            <param name="graphName">Name of the graph</param>
-            <param name="parameters">Backend specific parameters</param>
-            <returns>The new IGraph backend instance</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateGraph(System.String,System.String,System.String[])">
-            <summary>
-            Creates a new IGraph backend instance with the graph model provided by the graph model file and a name.
-            </summary>
-            <param name="modelFilename">Filename of a graph model file</param>
-            <param name="graphName">Name of the graph</param>
-            <param name="parameters">Backend specific parameters</param>
-            <returns>The new IGraph backend instance</returns>
+            <param name="modelFilename">Filename of a graph model file.</param>
+            <param name="graphName">Name of the graph.</param>
+            <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
+            <param name="parameters">Backend specific parameters.</param>
+            <returns>The new IGraph backend instance.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.IgnoreRest(de.unika.ipd.grGen.libGr.sequenceParser.SimpleCharStream,System.Char)">
             <summary>
@@ -3245,15 +2904,16 @@
             Returns the base name of a path name (i.e. no path and no extension).
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
             <summary>
-            Creates a new LGSPGraph and LGSPActions instance from the specified specification file.
+            Creates a new LGSPGraph or LGSPNamedGraph and LGSPActions instance from the specified specification file.
             If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
             <param name="graphName">Name of the new graph.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
+            <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
             <param name="newGraph">Returns the new graph.</param>
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
@@ -3271,31 +2931,31 @@
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateNamedFromSpec(System.String,de.unika.ipd.grGen.lgsp.LGSPNamedGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
             <summary>
-            Creates a new LGSPGraph instance from the specified specification file.
-            If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
+            Creates a new LGSPNamedGraph and LGSPActions instance from the specified specification file.
+            If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
+            A name for the graph is automatically generated.
             </summary>
-            <param name="gmFilename">Filename of the model specification file (.gm).</param>
-            <param name="graphName">Name of the new graph.</param>
-            <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
-            <param name="externalAssemblies">List of external assemblies to reference.</param>
+            <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+            <param name="newGraph">Returns the new named graph.</param>
+            <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
-            <returns>The new LGSPGraph instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.de#unika#ipd#grGen#libGr#IBackend#CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean)">
             <summary>
-            Creates a new LGSPGraph instance from the specified specification file.
+            Creates a new LGSPGraph or LGSPNamedGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="gmFilename">Filename of the model specification file (.gm).</param>
             <param name="graphName">Name of the new graph.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
+            <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
-            <returns>The new LGSPGraph instance.</returns>
+            <returns>The new LGSPGraph or LGSPNamedGraph instance.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String)">
             <summary>
@@ -3309,15 +2969,17 @@
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new LGSPGraph instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.OpenGraph(System.String,System.String,System.String[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateNamedFromSpec(System.String)">
             <summary>
-            Opens an existing graph identified by graphName using the specifiede IGraphModel.
-            This may not be supported by the backend, if the data is not persistent.
+            Creates a new LGSPNamedGraph instance from the specified specification file.
+            If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
+            A name for the graph is automatically generated.
             </summary>
-            <param name="modelFilename">Filename of a graph model file</param>
-            <param name="graphName">Name of an existing graph</param>
-            <param name="parameters">Backend specific parameters</param>
-            <returns>The IGraph backend instance or NULL on error</returns>
+            <param name="gmFilename">Filename of the model specification file (.gm).</param>
+            <param name="newGraph">Returns the new named graph.</param>
+            <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+            <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
+            <returns>The new LGSPNamedGraph instance.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.ProcessSpecification(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
             <summary>
@@ -3336,23 +2998,6 @@
             </summary>
             <param name="specPath">The path to the rule specification file (.grg).</param>
             <exception cref="T:System.Exception">Thrown, when an error occurred.</exception>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPBackend.Name">
-            <summary>
-            The name of the backend.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPBackend.ArgumentNames">
-            <summary>
-            Enumerates the names of the arguments which can be optionally passed to the create/open functions.
-            Not currently used...
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPBackend.ExistingGraphs">
-            <summary>
-            An enumerable of KeyValuePairs, where the keys are names of existing graphs and the
-            values are the names of the appropriate models (not filenames).
-            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPDeferredSequencesManager">
             <summary>
@@ -4898,25 +4543,6 @@
             A class for managing graph transactions.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransactionManager.StartTransaction">
-            <summary>
-            Starts a transaction
-            </summary>
-            <returns>A transaction ID to be used with Commit or Rollback</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransactionManager.Commit(System.Int32)">
-            <summary>
-            Commits the changes during a transaction
-            (removes rollback information only if the transaction is outermost)
-            </summary>
-            <param name="transactionID">Transaction ID returned by a StartTransaction call</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransactionManager.Rollback(System.Int32)">
-            <summary>
-            Undoes all changes during a transaction
-            </summary>
-            <param name="transactionID">The ID of the transaction to be rollbacked</param>
-        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SourceBuilder">
             <summary>
             Pretty printing helper class for source code generation
@@ -5052,6 +4678,347 @@
             <summary>
             The plan graph data structure for the MSA-algorithm.
             </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPNamedGraph">
+            <summary>
+            An implementation of the INamedGraph interface.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Constructs an LGSPNamedGraph object with the given model and an automatically generated name.
+            </summary>
+            <param name="grmodel">The graph model.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,System.String)">
+            <summary>
+            Constructs an LGSPNamedGraph object with the given model and name.
+            </summary>
+            <param name="grmodel">The graph model.</param>
+            <param name="grname">The name for the graph.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPBackend,de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.String)">
+            <summary>
+            Constructs an LGSPNamedGraph object.
+            Deprecated.
+            </summary>
+            <param name="lgspBackend">The responsible backend object.</param>
+            <param name="grmodel">The graph model.</param>
+            <param name="grname">The name for the graph.</param>
+            <param name="modelassemblyname">The name of the model assembly.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(System.String)">
+            <summary>
+            Constructs an LGSPNameGraph object without initializing it.
+            </summary>
+            <param name="grname">The name for the graph.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPNamedGraph,System.String,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="dataSource">The LGSPNamedGraph object to get the data from</param>
+            <param name="newName">Name of the copied graph.</param>
+            <param name="oldToNewMap">A map of the old elements to the new elements after cloning.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPNamedGraph,System.String)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="dataSource">The LGSPNamedGraph object to get the data from</param>
+            <param name="newName">Name of the copied graph.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.CopyNames(de.unika.ipd.grGen.lgsp.LGSPNamedGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement})">
+            <summary>
+            Copy constructor helper.
+            </summary>
+            <param name="dataSource">The LGSPNamedGraph object to get the data from</param>
+            <param name="oldToNewMap">A map of the old elements to the new elements after cloning.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
+            <summary>
+            Copy and extend constructor, creates a named graph from a normal graph.
+            Initializes the name maps with anonymous names in the form "$" + GetNextName()
+            </summary>
+            <param name="graph">The graph to be used named</param>
+            <param name="oldToNewMap">A map of the old elements to the new elements after cloning</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Copy and extend constructor, creates a named graph from a normal graph.
+            Initializes the name maps with anonymous names in the form "$" + GetNextName()
+            </summary>
+            <param name="graph">The graph to be used named</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.DoName">
+            <summary>
+            Initializes the name maps with anonymous names in the form "$" + GetNextName()
+            </summary>
+            <param name="graph">The graph to be used named</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
+            <summary>
+            Copy and extend constructor, creates a named graph from a normal graph.
+            Initializes the name maps with the names provided in a given attribute each graph element must have
+            </summary>
+            <param name="graph">The graph to be used named</param>
+            <param name="nameAttributeName">The name of the attribute to be used for naming</param>
+            <param name="oldToNewMap">A map of the old elements to the new elements after cloning</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String)">
+            <summary>
+            Copy and extend constructor, creates a named graph from a normal graph.
+            Initializes the name maps with the names provided in a given attribute each graph element must have
+            </summary>
+            <param name="graph">The graph to be used named</param>
+            <param name="nameAttributeName">The name of the attribute to be used for naming</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.DoName(System.String)">
+            <summary>
+            </summary>
+            <param name="nameAttributeName">The name of the attribute to be used for naming</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.DifferentElementWithName(de.unika.ipd.grGen.libGr.IGraphElement,System.String)">
+            <summary>
+            returns whether another element than the one given already bears the name
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.AddElemName(de.unika.ipd.grGen.libGr.IGraphElement,System.String)">
+            <summary>
+            Tries to set the name of an element.
+            If the name is already used by another element, the element is removed from the graph and
+            an ArgumentException is thrown.
+            </summary>
+            <param name="elem"></param>
+            <param name="name"></param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Nodes_Enumerable">
+            <summary>
+            enumerable returning enumerator over nodes in match
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Nodes_Enumerator">
+            <summary>
+            enumerator over nodes in match
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Edges_Enumerable">
+            <summary>
+            enumerable returning enumerator over edges in match
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Edges_Enumerator">
+            <summary>
+            enumerator over edges in match
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Variables_Enumerable">
+            <summary>
+            enumerable returning enumerator over variables in match
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Variables_Enumerator">
+            <summary>
+            enumerator over variables in match
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.EmbeddedGraphs_Enumerable">
+            <summary>
+            enumerable returning enumerator over submatches due to subpatterns
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.EmbeddedGraphs_Enumerator">
+            <summary>
+            enumerator over submatches due to subpatterns
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Alternatives_Enumerable">
+            <summary>
+            enumerable returning enumerator over submatches due to alternatives
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Alternatives_Enumerator">
+            <summary>
+            enumerator over submatches due to alternatives
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Iterateds_Enumerable">
+            <summary>
+            enumerable returning enumerator over submatches due to iterateds,
+            with every submatch being a list of matches of the iterated-pattern
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Iterateds_Enumerator">
+            <summary>
+            enumerator over submatches due to iterateds,
+            with every submatch being a list of matches of the iterated-pattern
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Independents_Enumerable">
+            <summary>
+            enumerable returning enumerator over submatches due to independents
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Independents_Enumerator">
+            <summary>
+            enumerator over submatches due to independents
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.ListElement`1">
+            <summary>
+            Element of invasive linked list of T
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.ListElement`1.next">
+            <summary>
+            The next element in the linked list.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2">
+            <summary>
+            An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
+            It is returned by IAction.Match() and given to the OnMatched, OnFinishing and OnFinished event.
+            Generic to be instantiated with the exact interface and the exact implementation type of the match object
+            Every generated Action contains a LGSPMatchesList,
+            the matches contain one LGSPMatchesList per iterated pattern.
+            A matches list stores the matches found by the last application of the action,
+            the matches objects within the list are recycled by the next application of the action,
+            only their content gets updated.
+            The purpose of this list is to act as a memory manager
+            to save new/garbage collection cycles and improve cache footprint.
+            Additionally this list is used for storing the results of an iteration in the matches objects, Producer being null in this case.
+            Then it is just used as a container for already allocated elements.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetEnumeratorExact">
+            <summary>
+            Returns an enumerator over all found matches with exact match interface type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetMatchExact(System.Int32)">
+            <summary>
+            Returns the match of exact type with the given index. Invalid indices cause an exception.
+            This may be slow. If you want to iterate over the elements the MatchesExact IEnumerable should be used.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.RemoveMatchExact(System.Int32)">
+            <summary>
+            Removes the match of exact type at the given index and returns it.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetEnumerator">
+            <summary>
+            Returns an enumerator over all found matches with inexact match interface type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns a non-generic enumerator over all found matches.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetMatch(System.Int32)">
+            <summary>
+            Returns the match with the given index. Invalid indices cause an exception.
+            This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
+            </summary>
+            <exception cref="T:System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.RemoveMatch(System.Int32)">
+            <summary>
+            Removes the match at the given index and returns it.
+            </summary>
+            <param name="index">The index of the match to be removed.</param>
+            <returns>The removed match.</returns>
+            <exception cref="T:System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Clone">
+            <summary>
+            Clone the matches
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.#ctor(de.unika.ipd.grGen.libGr.IAction)">
+            <summary>
+            Constructs a new LGSPMatchesList instance.
+            </summary>
+            <param name="producer">The action object used to generate this LGSPMatchesList object; null if this is the matches list of an iteration</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetNextUnfilledPosition">
+            <summary>
+            returns an empty match object from the matches list
+            to be filled by the matching action with the found nodes, edges and subpatterns.
+            unless PositionWasFilledFixIt is called you always get the same element
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.PositionWasFilledFixIt">
+            <summary>
+            the match object returned by GetNextUnfilledPosition was filled,
+            now fix it within the list, so that the next call to GetNextUnfilledPosition returns a new element
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Add(`0)">
+            <summary>
+            adds a match object to the end of the list; only applicable if this is the match of an iteration, not an action
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Clear">
+            <summary>
+            remove all filled and committed elements from the list
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.producer">
+            <summary>
+            the action object used to generate this LGSPMatchesList object
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.root">
+            <summary>
+            head of list
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.last">
+            <summary>
+            logically last element of list, not necessarily physically the last element
+            as previously generated matches are kept and recycled
+            denotes the next point of logical insertion i.e. physical update
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.count">
+            <summary>
+            number of found matches in the list
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FirstExact">
+            <summary>
+            Returns the first match of exact type (null if no match exists).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Producer">
+            <summary>
+            The action object used to generate this LGSPMatchesList object
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Count">
+            <summary>
+            The number of matches in this list.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.First">
+            <summary>
+            The first match of this list.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Root">
+            <summary>
+            The root element of the list.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Item(System.Int32)">
+            <summary>
+            Returns the match with the given index.
+            This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
+            </summary>
+            <exception cref="T:System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPGrGen">
             <summary>
