@@ -15,7 +15,8 @@ def copyAndLinkBlue(gr:Graph) : (ngr:Graph) {\
 def stateStep(gr:Graph, level:int) { false }
 def stateStep(gr:Graph, level:int) {\
 	if{{level < ::stopLevel};\
-		<< insertRed(gr) ;; / (ngr:Graph)=copyAndLinkRed(gr) / ;> stateStep(ngr, level+1) >>\
+		ngr:Graph\
+		;> << insertRed(gr) ;; / (ngr)=copyAndLinkRed(gr) / ;> stateStep(ngr, level+1) >>\
 		;> << insertGreen(gr) ;; / (ngr)=copyAndLinkGreen(gr) / ;> stateStep(ngr, level+1) >>\
 		;> << insertBlue(gr) ;; / (ngr)=copyAndLinkBlue(gr) / ;> stateStep(ngr, level+1) >>;\
 		false}\

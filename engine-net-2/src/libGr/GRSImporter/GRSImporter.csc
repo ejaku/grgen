@@ -309,6 +309,11 @@ PARSER_BEGIN(GRSImporter)
 	                throw new Exception("(Non-null) Object attributes unsupported");
 				value = null;
 				break;
+            case AttributeKind.GraphAttr:
+				if(valueString!="null")
+	                throw new Exception("(Non-null) Graph attributes unsupported");
+				value = null;
+				break;
 			case AttributeKind.NodeAttr:
 				if((valueString[2]=='\"' || valueString[2]=='\'') && (valueString[valueString.Length-2]=='\"' || valueString[valueString.Length-2]=='\''))
 					value = GetNodeByName(valueString.Substring(3, valueString.Length-5));

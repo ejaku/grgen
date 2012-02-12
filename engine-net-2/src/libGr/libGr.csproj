@@ -67,6 +67,7 @@
     <Compile Include="BaseActions.cs" />
     <Compile Include="BaseGraph.cs" />
     <Compile Include="DictionaryListHelper.cs" />
+    <Compile Include="GraphHelper.cs" />
     <Compile Include="IO\dumpInterface.cs" />
     <Compile Include="actionInterface.cs" />
     <Compile Include="elementInterface.cs" />

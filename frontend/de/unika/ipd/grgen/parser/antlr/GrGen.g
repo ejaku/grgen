@@ -1536,7 +1536,6 @@ iterSequence[ExecNode xg]
 	;
 
 simpleSequence[ExecNode xg]
-	options { k = *; }
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
@@ -1544,8 +1543,9 @@ simpleSequence[ExecNode xg]
 	// attention/todo: names are are only partly resolved!
 	// -> using not existing types, not declared names outside of the return assignment of an action call 
 	// will not be detected in the frontend; xgrs in the frontend are to a certain degree syntax only
-	: lhs=xgrsEntity[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); })
+	: (xgrsEntity[null] (ASSIGN | GE )) => lhs=xgrsEntity[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); })
 		(
+			{ !input.LT(1).getText().equals("valloc") && !input.LT(1).getText().equals("adjacent") && !input.LT(1).getText().equals("induced")}?
 			id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
 				{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
 		|
@@ -1568,7 +1568,7 @@ simpleSequence[ExecNode xg]
 		)
 	| TRUE { xg.append("true"); }
 	| FALSE { xg.append("false"); }
-	| parallelCallRule[xg, returns]
+	| (parallelCallRule[null, null]) => parallelCallRule[xg, returns]
 	| DOUBLECOLON id=entIdentUse { xg.append("::" + id); xg.addUsage(id); }
 	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? 
 		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); }) 
@@ -1582,8 +1582,8 @@ simpleSequence[ExecNode xg]
 	| IF l=LBRACE pushScopeStr["if/exec", getCoords(l)] { xg.append("if{"); } xgrs[xg] s=SEMI 
 		pushScopeStr["if/then-part", getCoords(s)] { xg.append("; "); } xgrs[xg] popScope
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
-	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
-		IN { xg.append(" in "); } xgrsEntity[xg] SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
+	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] ( (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
+		IN { xg.append(" in "); } xgrsEntity[xg] )? SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
 	| LBRACE { xg.append("{"); } seqCompoundComputation[xg] RBRACE { xg.append("}"); } 
 	;
 
@@ -1594,11 +1594,8 @@ seqCompoundComputation[ExecNode xg]
 seqComputation[ExecNode xg]
 	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); }) seqExpressionOrAssign[xg]
 	| (xgrsEntityDecl[null,true]) => xgrsVarDecl=xgrsEntityDecl[xg, true]
-	| VFREE LPAREN { xg.append("vfree("); } seqExpression[xg] RPAREN { xg.append(")"); }
-	| VRESET LPAREN { xg.append("vreset("); } seqExpression[xg] RPAREN { xg.append(")"); }
-	| EMIT LPAREN { xg.append("emit("); } seqExpression[xg] RPAREN { xg.append(")"); }
-	| RECORD LPAREN { xg.append("record("); } seqExpression[xg] RPAREN { xg.append(")"); }
 	| (methodCall[null]) => methodCallRepeated[xg]
+	| (procedureCall[null]) => procedureCall[xg]
 	| seqExpression[xg]
 	;
 
@@ -1702,14 +1699,23 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	| (xgrsVarUse[null] DOT IDENT) => target=xgrsVarUse[xg] d=DOT attr=memberIdentUse { xg.append("."+attr.getSymbol().getText()); res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
 	| (xgrsVarUse[null] LBRACK) => target=xgrsVarUse[xg] l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); res = new IndexedAccessExprNode(getCoords(l), new IdentExprNode((IdentNode)target), key); }
 	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
+	| (functionCall[null]) => functionCall[xg]
 	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
-	| exp=xgrsVarUse[xg] { res = new IdentExprNode((IdentNode)exp); }
-	| (id=entIdentUse LPAREN) => id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
-		{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
+	| (xgrsVarUse[null])=> exp=xgrsVarUse[xg] { res = new IdentExprNode((IdentNode)exp); }
 	| a=AT LPAREN { xg.append("@("); } (i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
 	;
 
+procedureCall[ExecNode xg]
+	: { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vreset") || input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") }?
+		(i=IDENT | i=EMIT) LPAREN { xg.append(i.getText()); xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); }
+	;
+
+functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: { input.LT(1).getText().equals("valloc") || input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("induced") }?
+		(i=IDENT | i=INDUCED) LPAREN { xg.append(i.getText()); xg.append("("); } ( fromExpr=seqExpression[xg] (COMMA { xg.append(","); } fromExpr2=seqExpression[xg] (COMMA { xg.append(","); } fromExpr3=seqExpression[xg])? )? )? RPAREN { xg.append(")"); }
+	;
+	
 methodCall[ExecNode xg]
 	: xgrsVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
 			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])? )? RPAREN { xg.append(")"); }
@@ -3178,7 +3184,6 @@ OPTIONAL : 'optional';
 PATTERN : 'pattern';
 PATTERNPATH : 'patternpath';
 RANDOM : 'random';
-RECORD : 'record';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';
@@ -3190,9 +3195,7 @@ TYPEOF : 'typeof';
 UNDIRECTED : 'undirected';
 USING : 'using';
 VALLOC : 'valloc';
-VFREE : 'vfree';
 VISITED : 'visited';
-VRESET : 'vreset';
 YIELD : 'yield';
 
 IDENT : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;

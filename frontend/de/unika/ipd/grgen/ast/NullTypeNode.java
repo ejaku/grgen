@@ -22,9 +22,9 @@ public class NullTypeNode extends BasicTypeNode
 
 	@Override
 	protected boolean isCompatibleTo(TypeNode t) {
-		// null is compatible to all graph element types, object and string
+		// null is compatible to all graph element types, object, string, and graph
 		if(!(t instanceof BasicTypeNode)) return true;
-		if(t == BasicTypeNode.objectType || t == BasicTypeNode.stringType) return true;
+		if(t == BasicTypeNode.objectType || t == BasicTypeNode.stringType || t == BasicTypeNode.graphType) return true;
 		return false;
 	}
 

@@ -317,7 +317,10 @@ namespace de.unika.ipd.grGen.libGr
         NodeAttr,
 
         /// <summary>The attribute is an edge (only valid for set/map/array key/value type).</summary>
-        EdgeAttr
+        EdgeAttr,
+
+        /// <summary>The attribute is a graph (created as a subgraph of the host graph).</summary>
+        GraphAttr
     }
 
     /// <summary>
@@ -415,6 +418,7 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.FloatAttr: return "float";
                 case AttributeKind.DoubleAttr: return "double";
                 case AttributeKind.ObjectAttr: return "object";
+                case AttributeKind.GraphAttr: return "graph";
             }
             return "<INVALID>";
         }

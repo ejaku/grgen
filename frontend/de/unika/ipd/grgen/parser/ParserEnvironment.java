@@ -113,6 +113,7 @@ public abstract class ParserEnvironment extends Base {
 			symTabs[i].enterKeyword("float");
 			symTabs[i].enterKeyword("double");
 			symTabs[i].enterKeyword("object");
+			symTabs[i].enterKeyword("graph");
 		}
 
 		initLexerKeywords();
@@ -151,6 +152,7 @@ public abstract class ParserEnvironment extends Base {
 		stdModelChilds.addChild(predefineType("float", BasicTypeNode.floatType));
 		stdModelChilds.addChild(predefineType("double", BasicTypeNode.doubleType));
 		stdModelChilds.addChild(predefineType("object", BasicTypeNode.objectType));
+		stdModelChilds.addChild(predefineType("graph", BasicTypeNode.graphType));
 
 		predefine(EXTERNAL_FUNCTIONS, "min");
 		predefine(EXTERNAL_FUNCTIONS, "max");
@@ -362,6 +364,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("extends");
 		keywords.add("false");
 		keywords.add("for");
+		keywords.add("graph");
 		keywords.add("hom");
 		keywords.add("if");
 		keywords.add("in");

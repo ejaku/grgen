@@ -1662,8 +1662,19 @@ namespace de.unika.ipd.grGen.grShell
                     if(valueString != "null")
                     {
                         errOut.WriteLine("Attribute \"" + attribute + "\" is an object type attribute!\n"
-                                + "It is not possible to assign a value other than null to an object type attribute!");
+                                + "It is not possible to statically assign a value other than null to an object type attribute!");
                         throw new Exception("Unknown object literal (only null allowed)" + valueString);
+                    }
+                    value = null;
+                    break;
+                }
+                case AttributeKind.GraphAttr:
+                {
+                    if(valueString != "null")
+                    {
+                        errOut.WriteLine("Attribute \"" + attribute + "\" is a graph type attribute!\n"
+                                + "It is not possible to statically assign a value other than null to a graph type attribute!");
+                        throw new Exception("Unknown graph literal (only null allowed)" + valueString);
                     }
                     value = null;
                     break;
@@ -2341,6 +2352,7 @@ namespace de.unika.ipd.grGen.grShell
                     case AttributeKind.FloatAttr: kind = "float"; break;
                     case AttributeKind.DoubleAttr: kind = "double"; break;
                     case AttributeKind.ObjectAttr: kind = "object"; break;
+                    case AttributeKind.GraphAttr: kind = "graph"; break;
                     default: kind = "<INVALID>"; break;
                 }
                 debugOut.WriteLine(" - {0,-24} {1}::{2}", kind, attrType.OwnerType.Name, attrType.Name);

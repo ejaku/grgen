@@ -32,7 +32,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private String name;
         internal LGSPBackend backend = null;
-        private IGraphModel model;
+        protected IGraphModel model;
         internal String modelAssemblyName;
 
 
@@ -509,6 +509,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
 #if CHECK_RINGLISTS
             CheckEdgeAlreadyInTypeRinglist(edge);
+            CheckNodeInGraph((LGSPNode)edge.Source);
+            CheckNodeInGraph((LGSPNode)edge.Target);
 #endif
             LGSPEdge head = edgesByTypeHeads[typeid];
             head.lgspTypeNext.lgspTypePrev = edge;
@@ -1780,7 +1782,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-#if CHECK_RINGLISTS
         /// <summary>
         /// Checks if the given node is already available in its type ringlist
         /// </summary>
@@ -1971,7 +1972,19 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
         }
-#endif
+
+        void CheckNodeInGraph(LGSPNode node)
+        {
+            LGSPNode head = nodesByTypeHeads[node.lgspType.TypeID];
+            LGSPNode cur = head.lgspTypeNext;
+            while(cur != head)
+            {
+                if(cur == node)
+                    return;
+                cur = cur.lgspTypeNext;
+            }
+            throw new Exception("Internal error: Node not in graph");
+        }
 
         /// <summary>
         /// Does graph-backend dependent stuff.
@@ -2022,6 +2035,16 @@ invalidCommand:
         public override IGraph Clone(String newName)
         {
             return new LGSPGraph(this, newName);
+        }
+
+        /// <summary>
+        /// Creates an empty graph using the same model and backend as the other.
+        /// </summary>
+        /// <param name="newName">Name of the new graph.</param>
+        /// <returns>A new empty graph of the same model.</returns>
+        public override IGraph CreateEmptyEquivalent(String newName)
+        {
+            return new LGSPGraph(this.model, newName);
         }
 
         /// <summary>
@@ -2099,7 +2122,7 @@ invalidCommand:
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
             ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
                 searchPlanGraph, patternGraph, false);
-            InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan);
+            InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan, searchPlanGraph);
             InterpretationPlan interpretationPlan = builder.BuildInterpretationPlan();
             
             // and execute the interpretation plan, matching that in this
@@ -2107,6 +2130,14 @@ invalidCommand:
             // - element numbers are the same 
             // - we match only exact types
             return interpretationPlan.Execute(this);
+        }
+
+        public override void Check()
+        {
+            CheckTypeRinglistsBroken();
+            CheckEmptyFlags();
+            foreach(INode node in Nodes)
+                CheckInOutRinglistsBroken((LGSPNode)node);
         }
     }
 }

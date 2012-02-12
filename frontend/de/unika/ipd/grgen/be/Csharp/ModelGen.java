@@ -408,6 +408,26 @@ public class ModelGen extends CSharpBase {
 		}
 		routedSB.append("\t\t}\n");
 
+		// Generate the attribute comparison method
+		routedSB.append("\n\t\tpublic override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {\n");
+		routedSB.append("\t\t\tif(!(that is "+routedClassName+")) return false;\n");
+		routedSB.append("\t\t\t"+routedClassName+" that_ = ("+routedClassName+")that;\n");
+		routedSB.append("\t\t\treturn true\n");
+		for(Entity member : type.getAllMembers()) {
+			if(member.isConst())
+				continue;
+
+			String attrName = formatIdentifiable(member);
+			if(member.getType() instanceof MapType || member.getType() instanceof SetType || member.getType() instanceof ArrayType) {
+				routedSB.append("\t\t\t\t&& GRGEN_LIBGR.DictionaryListHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
+						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+			} else {
+				routedSB.append("\t\t\t\t&& " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " == that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");
+			}
+		}
+		routedSB.append("\t\t\t;\n");
+		routedSB.append("\t\t}\n\n");
+
 		// Generate element creators
 		if(isNode) {
 			sb.append("\t\tpublic static " + elemref + " CreateNode(GRGEN_LGSP.LGSPGraph graph)\n"
@@ -539,7 +559,7 @@ public class ModelGen extends CSharpBase {
 					sb.append("0l;\n");
 				} else if(t instanceof BooleanType) {
 					sb.append("false;\n");
-				} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalType) {
+				} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalType || t instanceof GraphType) {
 					sb.append("null;\n");
 				} else {
 					throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
@@ -1301,6 +1321,8 @@ array_init_loop:
 			return "GRGEN_LIBGR.AttributeKind.NodeAttr";
 		else if (t instanceof EdgeType)
 			return "GRGEN_LIBGR.AttributeKind.EdgeAttr";
+		else if (t instanceof GraphType)
+			return "GRGEN_LIBGR.AttributeKind.GraphAttr";
 		else throw new IllegalArgumentException("Unknown Type: " + t);
 	}
 

@@ -65,6 +65,26 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
+        public static NodeType GetNodeType(String typeName, IGraphModel model)
+        {
+            foreach(NodeType nodeType in model.NodeModel.Types)
+            {
+                if(nodeType.Name == typeName) return nodeType;
+            }
+
+            return null;
+        }
+
+        public static EdgeType GetEdgeType(String typeName, IGraphModel model)
+        {
+            foreach(EdgeType edgeType in model.EdgeModel.Types)
+            {
+                if(edgeType.Name == typeName) return edgeType;
+            }
+
+            return null;
+        }
+
         public static String DotNetTypeToXgrsType(GrGenType type)
         {
             if (type is VarType)
@@ -108,6 +128,7 @@ namespace de.unika.ipd.grGen.libGr
                 case "Double": return "double";
                 case "String": return "string";
                 case "Object": return "object";
+                case "de.unika.ipd.grGen.libGr.IGraph": return "graph";
             }
 
             if (typeName.StartsWith("ENUM_")) return typeName.Substring(5);
@@ -149,6 +170,8 @@ namespace de.unika.ipd.grGen.libGr
                 return attributeType.TypeName;
             case AttributeKind.EdgeAttr:
                 return attributeType.TypeName;
+            case AttributeKind.GraphAttr:
+                return "graph";
             default:
                 return null;
             }
@@ -219,7 +242,7 @@ namespace de.unika.ipd.grGen.libGr
                     return Enum.Parse(enumAttrType.EnumType, Enum.GetName(enumAttrType.EnumType, 0));
             }
 
-            return null; // object or node type or edge type
+            return null; // object or graph or node type or edge type
         }
 
         public static String DefaultValueString(String typeName, IGraphModel model)
@@ -259,7 +282,7 @@ namespace de.unika.ipd.grGen.libGr
                     return "(GRGEN_MODEL.ENUM_" + enumAttrType.Name + ")0";
             }
 
-            return "null"; // object or node type or edge type
+            return "null"; // object or graph or node type or edge type
         }
 
         public static String XgrsTypeOfConstant(object constant, IGraphModel model)
@@ -343,6 +366,8 @@ namespace de.unika.ipd.grGen.libGr
 
             if(type.Name == "SetValueType") return "GRGEN_LIBGR.SetValueType";
 
+            if(type.Name == "IGraph") return "GRGEN_LIBGR.IGraph";
+
             switch(type.Name)
             {
             case "SByte": return "sbyte";
@@ -364,16 +389,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static string XgrsTypeToCSharpType(string type, IGraphModel model)
         {
-            if (type == "Node") return "GRGEN_LIBGR.INode";
-            if (type == "AEdge" || type == "Edge" || type == "UEdge") return "GRGEN_LIBGR.IEdge";
-            if (type == "short" || type == "int" || type == "long" || type == "bool" || type == "string" || type == "float" || type == "double" || type == "object") return type;
-            if (type == "byte") return "sbyte";
-            if (type == "boolean") return "bool";
-            if (type.StartsWith("set<") || type.StartsWith("map<")) return "Dictionary<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + "," + XgrsTypeToCSharpType(ExtractDst(type), model) + ">";
-            if (type.StartsWith("array<")) return "List<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
-            if (type == "SetValueType") return "GRGEN_LIBGR.SetValueType";
+            if(type == "Node") return "GRGEN_LIBGR.INode";
+            if(type == "AEdge" || type == "Edge" || type == "UEdge") return "GRGEN_LIBGR.IEdge";
+            if(type == "short" || type == "int" || type == "long" || type == "bool" || type == "string" || type == "float" || type == "double" || type == "object") return type;
+            if(type == "byte") return "sbyte";
+            if(type == "boolean") return "bool";
+            if(type.StartsWith("set<") || type.StartsWith("map<")) return "Dictionary<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + "," + XgrsTypeToCSharpType(ExtractDst(type), model) + ">";
+            if(type.StartsWith("array<")) return "List<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
+            if(type == "SetValueType") return "GRGEN_LIBGR.SetValueType";
+            if(type == "graph") return "GRGEN_LIBGR.IGraph"; 
 
-            foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
+            foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
                 if (enumAttrType.Name == type)
                     return "GRGEN_MODEL.ENUM_" + type;
@@ -405,7 +431,8 @@ namespace de.unika.ipd.grGen.libGr
 
             if(xgrsTypeSameOrSub == "short" || xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "long" 
                 || xgrsTypeSameOrSub == "float" || xgrsTypeSameOrSub == "double"
-                || xgrsTypeSameOrSub == "string" || xgrsTypeSameOrSub == "object")
+                || xgrsTypeSameOrSub == "string" || xgrsTypeSameOrSub == "object"
+                || xgrsTypeSameOrSub == "graph")
                 return xgrsTypeSameOrSub==xgrsTypeBase;
             if (xgrsTypeSameOrSub == "byte" || xgrsTypeSameOrSub == "sbyte")
                 return xgrsTypeBase == "byte" || xgrsTypeBase == "sbyte";

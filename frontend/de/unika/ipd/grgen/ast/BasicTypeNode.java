@@ -35,6 +35,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode enumItemType = new EnumItemTypeNode();
 	public static final BasicTypeNode voidType = new VoidTypeNode();
 	public static final BasicTypeNode nullType = new NullTypeNode();
+	public static final BasicTypeNode graphType = new GraphTypeNode();
 
 	public static final TypeNode errorType = new ErrorTypeNode(IdentNode.getInvalid());
 

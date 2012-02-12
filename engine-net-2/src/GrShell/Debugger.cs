@@ -882,7 +882,7 @@ namespace de.unika.ipd.grGen.grShell
                         Console.Write("for{");
                         Console.Write(seqFor.Var.Name);
                         if(seqFor.VarDst != null) Console.Write("->" + seqFor.VarDst.Name);
-                        Console.Write(" in " + seqFor.Container.Name);
+                        if(seqFor.Container != null) Console.Write(" in " + seqFor.Container.Name);
                         Console.Write("; ");
                         PrintSequence(seqFor.Seq, seq, context);
                         Console.Write("}");
@@ -1133,6 +1133,7 @@ namespace de.unika.ipd.grGen.grShell
                 // Atoms (assignments)
                 case SequenceType.AssignVarToVar:
                 case SequenceType.AssignConstToVar:
+                case SequenceType.DeclareVariable:
                     {
                         Console.Write(seq.Symbol);
                         break;

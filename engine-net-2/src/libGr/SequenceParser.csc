@@ -174,6 +174,7 @@ TOKEN: {
 |   < DEF: "def" >
 |   < TRUE: "true" >
 |   < FALSE: "false" >
+|   < NULL: "null" >
 |   < SET: "set" >
 |   < MAP: "map" >
 |   < ARRAY: "array" >
@@ -186,13 +187,7 @@ TOKEN: {
 |   < THENRIGHT: ";>" >
 |   < SEMI: ";" >
 |   < DOUBLESEMI: ";;" >
-|   < VALLOC: "valloc" >
-|   < VFREE: "vfree" >
 |   < VISITED: "visited" >
-|   < VRESET: "vreset" >
-|   < EMIT: "emit" >
-|   < record: "record" >
-|   < NULL: "null" >
 |   < YIELD: "yield" >
 }
 
@@ -363,6 +358,7 @@ object SimpleConstant():
 	|
 		<NULL> { constant = null; }
 	|
+		LOOKAHEAD(2)
 		type=Word() "::" value=Word()
 		{
 			foreach(EnumAttributeType attrType in model.EnumAttributeTypes)
@@ -376,6 +372,12 @@ object SimpleConstant():
 			}
 			if(constant==null)
 				throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
+		}
+	|
+		LOOKAHEAD({ GetToken(1).kind==WORD && varDecls.Lookup(GetToken(1).image)==null && TypesHelper.GetNodeOrEdgeType(GetToken(1).image, model)!=null})
+		type=Word()
+		{
+			return TypesHelper.GetNodeOrEdgeType(type, model);
 		}
 	)
 	{
@@ -829,7 +831,8 @@ Sequence SimpleSequence():
 	LOOKAHEAD(Variable() ("="|">="))
 	toVar=Variable() ("="|">=")
     (
-		LOOKAHEAD(Word() "(")
+		LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(2).kind==LPARENTHESIS
+			&& GetToken(1).image!="valloc" && GetToken(1).image!="adjacent" && GetToken(1).image!="induced"})
 		Word() "(" // deliver understandable error message for case of missing parenthesis at rule result assignment
 		{
 			throw new ParseException("the destination variable(s) of a rule result assignment must be enclosed in parenthesis");
@@ -967,7 +970,7 @@ Sequence SimpleSequence():
         else return new SequenceIfThenElse(seq, seq2, seq3, variableList1, variableList2);
     }
 |
-	"for" "{" { varDecls.PushScope(ScopeType.For); } fromVar=Variable() ("->" fromVar2=Variable())? "in" fromVar3=VariableUse() ";"
+	"for" "{" { varDecls.PushScope(ScopeType.For); } fromVar=Variable() ( ("->" fromVar2=Variable())? "in" fromVar3=VariableUse() )? ";"
 		seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
 	{
         return new SequenceFor(fromVar, fromVar2, fromVar3, seq, variableList1);
@@ -989,11 +992,11 @@ SequenceComputation CompoundComputation():
 
 SequenceComputation Computation():
 {
-	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
-	SequenceExpression expr, fromExpr;
+	SequenceVariable toVar;
+	SequenceExpression expr;
 	SequenceComputation comp, assignOrExpr;
 	AssignmentTarget tgt;
-	String attrName, method, elemName;
+	String procedure;
 }
 {
 	// this is a special case of the special case solution to accept e.g. s:set<int>= as s:set<int> = and not s:set<int >= which is what the lexer gives
@@ -1017,28 +1020,16 @@ SequenceComputation Computation():
 		return new SequenceComputationVariableDeclaration(toVar);
 	}
 |
-	"vfree" "(" fromExpr=Expression() ")"
-	{
-		return new SequenceComputationVFree(fromExpr);
-	}
-|
-	"vreset" "(" fromExpr=Expression() ")"
-	{
-		return new SequenceComputationVReset(fromExpr);
-	}
-|
-	"emit" "(" fromExpr=Expression() ")"
-	{
-		return new SequenceComputationEmit(fromExpr);
-	}
-|
-	"record" "(" fromExpr=Expression() ")"
-	{
-		return new SequenceComputationRecord(fromExpr);
-	}
-|
 	LOOKAHEAD(MethodCall())
 	comp=MethodCallRepeated()
+	{
+		return comp;
+	}
+|
+	LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(2).kind==LPARENTHESIS 
+				&& (GetToken(1).image=="vfree" || GetToken(1).image=="vreset"
+					|| GetToken(1).image=="emit" || GetToken(1).image=="record")})
+	comp=ProcedureCall()
 	{
 		return comp;
 	}
@@ -1091,6 +1082,7 @@ SequenceComputation ExpressionOrAssignment():
 	SequenceComputation assignOrExpr;
 	AssignmentTarget tgt;
 	SequenceVariable toVar;
+	String function;
 }
 {
 	(
@@ -1107,14 +1099,16 @@ SequenceComputation ExpressionOrAssignment():
 			return new SequenceComputationAssignment(tgt, assignOrExpr);
 		}	
 	|
+		LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(2).kind==LPARENTHESIS
+					&& GetToken(1).image=="valloc" })
+		function=Word() "(" ")"
+		{
+			return new SequenceExpressionVAlloc();
+		}
+	|
 		expr=Expression()
 		{
 			return expr;
-		}
-	|
-		"valloc" "(" ")"
-		{
-			return new SequenceExpressionVAlloc();
 		}
 	)
 }
@@ -1247,6 +1241,12 @@ SequenceExpression ExpressionBasic():
 		return new SequenceExpressionContainerAccess(fromVar, expr);
 	}
 |
+	LOOKAHEAD(FunctionCall())
+	expr=FunctionCall()
+	{
+		return expr;
+	}
+|
 	LOOKAHEAD(2)
 	constant=Constant()
 	{
@@ -1272,6 +1272,55 @@ SequenceExpression ExpressionBasic():
 	{
 		return expr;
 	}
+}
+
+SequenceComputation ProcedureCall():
+{
+	String procedure;
+	SequenceExpression fromExpr = null;
+}
+{
+	procedure=Word() "(" ( fromExpr=Expression() )? ")"
+	{
+		if(procedure=="vfree") {
+			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationVFree(fromExpr);
+		} else if(procedure=="vreset") {
+			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationVReset(fromExpr);
+		} else if(procedure=="emit") {
+			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationEmit(fromExpr);
+		} else if(procedure=="record") {
+			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationRecord(fromExpr);
+		} else {
+			throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are vfree|vreset|emit|record)");
+		}
+    }
+}
+
+SequenceExpression FunctionCall():
+{
+	String function;
+	SequenceExpression fromExpr = null, fromExpr2 = null, fromExpr3 = null;
+}
+{
+	function=Word() "(" ( fromExpr=Expression() ("," fromExpr2=Expression() ("," fromExpr3=Expression())? )? )? ")"
+	{
+		if(function=="valloc") {
+			if(fromExpr!=null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects no parameters)");
+			return new SequenceExpressionVAlloc();
+		} else if(function=="adjacent") {
+			if(fromExpr==null) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionAdjacent(fromExpr, fromExpr2, fromExpr3);
+		} else if(function=="induced") {
+			if(fromExpr==null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 1 parameter (the set of nodes to construct the induced subgraph from))");
+			return new SequenceExpressionInduced(fromExpr);
+		} else {
+			throw new ParseException("Unknown function name: \"" + function + "\"! (available are valloc|adjacent|induced)");
+		}
+    }
 }
 
 SequenceComputation MethodCall():
@@ -1311,7 +1360,8 @@ SequenceComputation MethodCallRepeated():
 	SequenceExpression fromExpr2 = null, fromExpr3 = null;
 }
 {
-	methodCall=MethodCall()	( "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
+	methodCall=MethodCall()
+	( "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
 		{
 			if(method=="add") {
 				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,array end) or 2(for map,array with index) parameters)");

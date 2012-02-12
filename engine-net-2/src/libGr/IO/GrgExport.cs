@@ -282,6 +282,9 @@ namespace de.unika.ipd.grGen.libGr
             case AttributeKind.ObjectAttr:
                 Console.WriteLine("Warning: Exporting non-null attribute of object type to null");
                 return "null";
+            case AttributeKind.GraphAttr:
+                Console.WriteLine("Warning: Exporting non-null attribute of graph type to null");
+                return "null";
             case AttributeKind.EnumAttr:
                 return type.EnumType.Name + "::" + type.EnumType[(int)value].Name;
             case AttributeKind.NodeAttr:

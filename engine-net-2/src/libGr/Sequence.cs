@@ -2021,13 +2021,30 @@ namespace de.unika.ipd.grGen.libGr
             VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Container == null)
+            {
+                if(Var.Type == "")
+                {
+                    throw new SequenceParserException(Var.Name, "a node or edge type", "statically unknown type");
+                }
+                if(TypesHelper.GetNodeOrEdgeType(Var.Type, env.Model) == null)
+                {
+                    throw new SequenceParserException(Var.Name, "a node or edge type", Var.Type);
+                }
+            }
+            base.Check(env);
+        }
+
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceFor copy = (SequenceFor)MemberwiseClone();
             copy.Var = Var.Copy(originalToCopy, procEnv);
             if(VarDst!=null)
                 copy.VarDst = VarDst.Copy(originalToCopy, procEnv);
-            copy.Container = Container.Copy(originalToCopy, procEnv);
+            if(Container!=null)
+                copy.Container = Container.Copy(originalToCopy, procEnv);
             copy.Seq = Seq.Copy(originalToCopy, procEnv);
             copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
             foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
@@ -2039,7 +2056,38 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
             bool res = true;
-            if(Container.GetVariableValue(procEnv) is IList)
+            if(Container == null)
+            {
+                NodeType nodeType = TypesHelper.GetNodeType(Var.Type, procEnv.Graph.Model);
+                if(nodeType!=null)
+                {
+                    bool first = true;
+                    foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
+                    {
+                        if(!first) procEnv.EndOfIteration(true, this);
+                        Var.SetVariableValue(node, procEnv);
+                        Seq.ResetExecutionState();
+                        res &= Seq.Apply(procEnv);
+                        first = false;
+                    }
+                    procEnv.EndOfIteration(false, this);
+                }
+                else
+                {
+                    EdgeType edgeType = TypesHelper.GetEdgeType(Var.Type, procEnv.Graph.Model);
+                    bool first = true;
+                    foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
+                    {
+                        if(!first) procEnv.EndOfIteration(true, this);
+                        Var.SetVariableValue(edge, procEnv);
+                        Seq.ResetExecutionState();
+                        res &= Seq.Apply(procEnv);
+                        first = false;
+                    }
+                    procEnv.EndOfIteration(false, this);
+                }
+            }
+            else if(Container.GetVariableValue(procEnv) is IList)
             {
                 IList array = (IList)Container.GetVariableValue(procEnv);
                 bool first = true;
@@ -2096,7 +2144,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "for{"+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+" in "+Container.Name+"; ...}"; } }
+        public override string Symbol { get { return "for{"+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+(Container!=null?" in "+Container.Name:"")+"; ...}"; } }
     }
 
     /// <summary>

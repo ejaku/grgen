@@ -505,6 +505,36 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Interpretation plan operation which checks the AreAttribuesEqual condition
+    /// </summary>
+    public class InterpretationPlanCheckCondition : InterpretationPlan
+    {
+        public InterpretationPlanCheckCondition(expression.AreAttributesEqual condition, InterpretationPlanNodeMatcher nodeMatcher)
+        {
+            this.condition = condition;
+            this.nodeMatcher = nodeMatcher;
+        }
+
+        public InterpretationPlanCheckCondition(expression.AreAttributesEqual condition, InterpretationPlanEdgeMatcher edgeMatcher)
+        {
+            this.condition = condition;
+            this.edgeMatcher = edgeMatcher;
+        }
+
+        public override bool Execute(LGSPGraph graph)
+        {
+            if(condition.Execute(nodeMatcher!=null ? (IGraphElement)nodeMatcher.node : (IGraphElement)edgeMatcher.edge))
+                return next.Execute(graph);
+            else
+                return false;
+        }
+
+        expression.AreAttributesEqual condition;
+        InterpretationPlanNodeMatcher nodeMatcher;
+        InterpretationPlanEdgeMatcher edgeMatcher;
+    }
+
+    /// <summary>
     /// Interpretation plan operation which completes a match;
     /// no own functionality, it just succeeds when execution reaches it
     /// </summary>

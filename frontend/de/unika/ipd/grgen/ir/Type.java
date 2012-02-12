@@ -56,6 +56,7 @@ public abstract class Type extends Identifiable {
 	public static final int IS_MAP = 13;
 	public static final int IS_UNTYPED_EXEC_VAR_TYPE = 14;
 	public static final int IS_EXTERNAL_TYPE = 15;
+	public static final int IS_GRAPH = 16;
 
 	/**
 	 * Make a new type.

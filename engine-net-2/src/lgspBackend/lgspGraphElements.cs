@@ -508,6 +508,12 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract INode Clone();
 
         /// <summary>
+        /// Returns whether the attributes of this element and that are equal.
+        /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+        /// </summary>
+        public abstract bool AreAttributesEqual(IGraphElement that);
+
+        /// <summary>
         /// Recycles this node. This may pool the node or just ignore it.
         /// </summary>
         public abstract void Recycle();
@@ -541,6 +547,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override INode Clone()
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override bool AreAttributesEqual(IGraphElement that)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -721,6 +732,12 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IEdge Clone(INode newSource, INode newTarget);
 
         /// <summary>
+        /// Returns whether the attributes of this element and that are equal.
+        /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+        /// </summary>
+        public abstract bool AreAttributesEqual(IGraphElement that);
+
+        /// <summary>
         /// Recycles this edge. This may pool the edge or just ignore it.
         /// </summary>
         public abstract void Recycle();
@@ -754,6 +771,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override IEdge Clone(INode newSource, INode newTarget)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override bool AreAttributesEqual(IGraphElement that)
         {
             throw new Exception("The method or operation is not implemented.");
         }

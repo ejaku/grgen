@@ -657,9 +657,21 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternNode[] nodes;
 
         /// <summary>
+        /// Normally null. In case this is a pattern created from a graph,
+        /// an array of all nodes which created the pattern nodes in nodes, coupled by position.
+        /// </summary>
+        public INode[] correspondingNodes;
+
+        /// <summary>
         /// An array of all pattern edges.
         /// </summary>
         public PatternEdge[] edges;
+
+        /// <summary>
+        /// Normally null. In case this is a pattern created from a graph,
+        /// an array of all edges which created the pattern edges in edges, coupled by position.
+        /// </summary>
+        public IEdge[] correspondingEdges;
 
         /// <summary>
         /// An array of all pattern variables.

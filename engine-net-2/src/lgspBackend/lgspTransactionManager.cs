@@ -492,6 +492,7 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new Exception("Transaction handling is currently paused, can't start a transaction!");
 #if LOG_TRANSACTION_HANDLING
             writer.WriteLine(new String(' ', transactionLevel) + "StartTransaction");
+            writer.Flush();
             ++transactionLevel;
 #endif
             if(procEnv.Recorder != null)
@@ -513,6 +514,7 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new Exception("No transaction underway to pause!");
 #if LOG_TRANSACTION_HANDLING
             writer.WriteLine(new String(' ', transactionLevel) + "PauseTransaction");
+            writer.Flush();
 #endif
             paused = true;
         }
@@ -525,6 +527,7 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new Exception("No transaction underway to resume!");
 #if LOG_TRANSACTION_HANDLING
             writer.WriteLine(new String(' ', transactionLevel) + "ResumeTransaction");
+            writer.Flush();
 #endif
             paused = false;
         }
@@ -536,8 +539,8 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new Exception("Transaction handling is currently paused, can't commit!");
 #if LOG_TRANSACTION_HANDLING
             writer.WriteLine(new String(' ', transactionLevel) + "Commit to " + transactionID);
-            --transactionLevel;
             writer.Flush();
+            --transactionLevel;
 #endif
 #if CHECK_RINGLISTS
             procEnv.graph.CheckTypeRinglistsBroken();
@@ -560,6 +563,7 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new Exception("Transaction handling is currently paused, can't roll back!");
 #if LOG_TRANSACTION_HANDLING
             writer.WriteLine(new String(' ', transactionLevel) + "Rollback to " + transactionID);
+            writer.Flush();
 #endif      
             if(procEnv.Recorder != null)
                 procEnv.Recorder.TransactionRollback(transactionID, true);
@@ -613,7 +617,7 @@ namespace de.unika.ipd.grGen.lgsp
             writer.Flush();
 #endif
 #if CHECK_RINGLISTS
-            graph.CheckTypeRinglistsBroken();
+            procEnv.graph.CheckTypeRinglistsBroken();
 #endif
         }
 

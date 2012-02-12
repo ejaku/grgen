@@ -645,7 +645,26 @@ namespace de.unika.ipd.grGen.lgsp
 
                     source.AppendFront(SetResultVar(seqFor, "true"));
 
-                    if(seqFor.Container.Type == "")
+                    if(seqFor.Container == null)
+                    {
+                        NodeType nodeType = TypesHelper.GetNodeType(seqFor.Var.Type, model);
+                        EdgeType edgeType = TypesHelper.GetEdgeType(seqFor.Var.Type, model);
+                        if(nodeType != null)
+                            source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode elem_{0} in graph.GetCompatibleNodes(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + seqFor.Var.Type + "\", graph.Model)))\n", seqFor.Id);
+                        else // further check/case is needed in case variables of dynamic type would be allowed
+                            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge elem_{0} in graph.GetCompatibleEdges(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + seqFor.Var.Type + "\", graph.Model)))\n", seqFor.Id);
+                        source.AppendFront("{\n");
+                        source.Indent();
+                        source.AppendFront(SetVar(seqFor.Var, "elem_" + seqFor.Id));
+
+                        EmitSequence(seqFor.Seq, source);
+
+                        source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                    }
+                    else if(seqFor.Container.Type == "")
                     {
                         // type not statically known? -> might be Dictionary or List dynamically, must decide at runtime
                         source.AppendFront("if(" + GetVar(seqFor.Container) + " is IList) {\n");
@@ -1994,6 +2013,54 @@ namespace de.unika.ipd.grGen.lgsp
                         + ")";
                 }
 
+                case SequenceExpressionType.AdjacentNodes:
+                {
+                    SequenceExpressionAdjacent seqAdjacent = (SequenceExpressionAdjacent)expr;
+                    string sourceNode = GetSequenceExpression(seqAdjacent.SourceNode, source);
+                    string incidentEdgeType = "graph.Model.EdgeModel.RootType";
+                    if(seqAdjacent.EdgeType != null)
+                    {
+                        if(seqAdjacent.EdgeType.Type(env) != "")
+                        {
+                            if(seqAdjacent.EdgeType.Type(env) == "string")
+                                incidentEdgeType = "graph.Model.EdgeModel.GetType((string)"+GetSequenceExpression(seqAdjacent.EdgeType, source) +")";
+                            else
+                                incidentEdgeType = "(GRGEN_LIBGR.EdgeType)"+GetSequenceExpression(seqAdjacent.EdgeType, source);
+                        }
+                        else
+                        {
+                            incidentEdgeType = GetSequenceExpression(seqAdjacent.EdgeType, source) + " is string ? "
+                                + "graph.Model.EdgeModel.GetType((string)"+GetSequenceExpression(seqAdjacent.EdgeType, source) +")"
+                                + " : " + "(GRGEN_LIBGR.EdgeType)" + GetSequenceExpression(seqAdjacent.EdgeType, source);
+                        }
+                    }
+                    string adjacentNodeType = "graph.Model.NodeModel.RootType";
+                    if(seqAdjacent.OppositeNodeType != null)
+                    {
+                        if(seqAdjacent.OppositeNodeType.Type(env) != "")
+                        {
+                            if(seqAdjacent.OppositeNodeType.Type(env) == "string")
+                                adjacentNodeType = "graph.Model.NodeModel.GetType((string)" + GetSequenceExpression(seqAdjacent.OppositeNodeType, source) + ")";
+                            else
+                                adjacentNodeType = "(GRGEN_LIBGR.NodeType)" + GetSequenceExpression(seqAdjacent.OppositeNodeType, source);
+                        }
+                        else
+                        {
+                            adjacentNodeType = GetSequenceExpression(seqAdjacent.EdgeType, source) + " is string ? "
+                                + "graph.Model.NodeModel.GetType((string)" + GetSequenceExpression(seqAdjacent.OppositeNodeType, source) + ")"
+                                + " : " + "(GRGEN_LIBGR.NodeType)" + GetSequenceExpression(seqAdjacent.OppositeNodeType, source);
+                        }
+                    }
+                    return "GRGEN_LIBGR.GraphHelper.Adjacent((GRGEN_LIBGR.INode)" + sourceNode
+                        + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                }
+
+                case SequenceExpressionType.InducedSubgraph:
+                {
+                    SequenceExpressionInduced seqInduced = (SequenceExpressionInduced)expr;
+                    return "GRGEN_LIBGR.GraphHelper.Induced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInduced.NodeSet, source) + ", graph)";
+                }
+
                 case SequenceExpressionType.VAlloc:
                     return "graph.AllocateVisitedFlag()";
 
@@ -2211,6 +2278,14 @@ namespace de.unika.ipd.grGen.lgsp
             else if(constant is long)
             {
                 return "((long)" + constant.ToString() + ")";
+            }
+            else if(constant is NodeType)
+            {
+                return "(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + constant + "\", graph.Model))";
+            }
+            else if(constant is EdgeType)
+            {
+                return "(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + constant + "\", graph.Model))";
             }
             else
             {

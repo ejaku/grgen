@@ -289,6 +289,9 @@ public abstract class CSharpBase {
 			ArrayType arrayType = (ArrayType) t;
 			return "List<" + formatType(arrayType.getValueType()) + ">";
 		}
+		else if (t instanceof GraphType) {
+			return "GRGEN_LIBGR.IGraph";
+		}
 		else if (t instanceof ExternalType) {
 			ExternalType extType = (ExternalType) t;
 			return "GRGEN_MODEL." + extType.getIdent();
@@ -464,6 +467,13 @@ public abstract class CSharpBase {
 								sb.append(", ");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
+							}
+							else if(opType instanceof GraphType) {
+								sb.append("((IGraph)");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(").IsIsomorph((IGraph)");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
 							} else {
 								genBinOpDefault(sb, op, modifyGenerationState);
 							}
@@ -484,6 +494,13 @@ public abstract class CSharpBase {
 								sb.append("GRGEN_LIBGR.DictionaryListHelper.NotEqual(");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
 								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else if(opType instanceof GraphType) {
+								sb.append("!((IGraph)");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(").IsIsomorph((IGraph)");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
@@ -1041,6 +1058,8 @@ public abstract class CSharpBase {
 				if(constant.getValue() == null) {
 					return "null";
 				}
+			case Type.IS_GRAPH:
+				return "null"; // there is no graph constant - assert instead?
 			default:
 				throw new UnsupportedOperationException("unsupported type");
 		}
@@ -1062,6 +1081,7 @@ public abstract class CSharpBase {
 			case Type.IS_DOUBLE: typeName = "double"; break;
 			case Type.IS_BOOLEAN: typeName = "bool"; break;
 			case Type.IS_OBJECT: typeName = "object"; break;
+			case Type.IS_GRAPH: typeName = "GRGEN_LIBGR.IGraph"; break;
 			default:
 				throw new UnsupportedOperationException(
 					"This is either a forbidden cast, which should have been " +

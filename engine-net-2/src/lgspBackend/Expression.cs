@@ -2290,4 +2290,32 @@ namespace de.unika.ipd.grGen.expression
 
         public String IteratedMatchVariable;
     }
+
+    /// <summary>
+    /// Class representing a comparison of all the attributes.
+    /// Is not generated into code, does not exist at source level.
+    /// An internal thing only used for the interpretation plan, isomorphy checking.
+    /// (todo: Makes sense to offer sth like this at source level, too?)
+    /// </summary>
+    public class AreAttributesEqual : Expression
+    {
+        public AreAttributesEqual(IGraphElement this_, PatternElement thisInPattern)
+        {
+            this.this_ = this_;
+            this.thisInPattern = thisInPattern;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            throw new Exception("Not implemented!");
+        }
+
+        public bool Execute(IGraphElement that)
+        {
+            return this_.AreAttributesEqual(that);
+        }
+
+        public IGraphElement this_;
+        public PatternElement thisInPattern;
+    }
 }

@@ -114,6 +114,7 @@ public class OperatorSignature extends FunctionSignature {
 	static final TypeNode FLOAT = BasicTypeNode.floatType;
 	static final TypeNode DOUBLE = BasicTypeNode.doubleType;
 	static final TypeNode OBJECT = BasicTypeNode.objectType;
+	static final TypeNode GRAPH = BasicTypeNode.graphType;
 	static final TypeNode NULL = BasicTypeNode.nullType;
 	static final TypeNode ENUM = BasicTypeNode.enumItemType;
 	static final TypeNode TYPE = BasicTypeNode.typeType;
@@ -300,6 +301,13 @@ public class OperatorSignature extends FunctionSignature {
 
 				default: throw new NotEvaluatableException(coords);
 			}
+		}
+	};
+
+	private static final Evaluator subgraphEvaluator = new Evaluator() {
+		protected ExprNode eval(Coords coords, OperatorSignature op,
+				ExprNode[] e) throws NotEvaluatableException {
+			throw new NotEvaluatableException(coords);
 		}
 	};
 
@@ -675,6 +683,10 @@ public class OperatorSignature extends FunctionSignature {
 		// null operators
 		makeBinOp(EQ, BOOLEAN, NULL, NULL, nullEvaluator);
 		makeBinOp(NE, BOOLEAN, NULL, NULL, nullEvaluator);
+
+		// String operators
+		makeBinOp(EQ, BOOLEAN, GRAPH, GRAPH, subgraphEvaluator);
+		makeBinOp(NE, BOOLEAN, GRAPH, GRAPH, subgraphEvaluator);
 
 		// Integer comparison
 		makeBinOp(EQ, BOOLEAN, INT, INT, intEvaluator);

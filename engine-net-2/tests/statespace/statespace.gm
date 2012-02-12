@@ -6,7 +6,11 @@ node class Blue extends Color;
 
 // the statespace / meta level
 
-node class Graph;
+node class Graph
+{
+	sub:graph; // the subgraph starting at this node as graph to be used for isomorphy checks
+}
+
 edge class contains connect Graph[*] --> Color[1];
 abstract edge class next connect Graph[0:1] --> Graph[0:1];
 edge class nextRed extends next;

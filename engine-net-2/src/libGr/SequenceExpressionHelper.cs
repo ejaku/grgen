@@ -366,6 +366,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return (object)leftValue == (object)rightValue;
             }
+            else if(balancedType == "graph")
+            {
+                return ((IGraph)leftValue).IsIsomorph((IGraph)rightValue);
+            }
             else if(balancedType.StartsWith("set<"))
             {
                 return DictionaryListHelper.EqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
@@ -416,6 +420,10 @@ namespace de.unika.ipd.grGen.libGr
             else if(balancedType == "object")
             {
                 return "((object)"+leftValue+" == "+"(object)"+rightValue+")";
+            }
+            else if(balancedType == "graph")
+            {
+                return "((GRGEN_LIBGR.IGraph)"+leftValue+").IsIsomorph((GRGEN_LIBGR.IGraph)"+rightValue+");";
             }
             else if(balancedType.StartsWith("set<"))
             {
@@ -782,6 +790,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return (object)leftValue != (object)rightValue;
             }
+            else if(balancedType == "graph")
+            {
+                return !((IGraph)leftValue).IsIsomorph((IGraph)rightValue);
+            }
             else if(balancedType.StartsWith("set<"))
             {
                 return DictionaryListHelper.NotEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
@@ -832,6 +844,10 @@ namespace de.unika.ipd.grGen.libGr
             else if(balancedType == "object")
             {
                 return "((object)"+leftValue+" != "+"(object)"+rightValue+")";
+            }
+            else if(balancedType == "graph")
+            {
+                return "!((GRGEN_LIBGR.IGraph)"+leftValue+").IsIsomorph((GRGEN_LIBGR.IGraph)"+rightValue+");";
             }
             else if(balancedType.StartsWith("set<"))
             {

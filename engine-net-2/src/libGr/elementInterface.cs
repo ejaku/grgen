@@ -55,6 +55,12 @@ namespace de.unika.ipd.grGen.libGr
         /// Resets all graph element attributes to their initial values.
         /// </summary>
         void ResetAllAttributes();
+
+        /// <summary>
+        /// Returns whether the attributes of this element and that are equal.
+        /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+        /// </summary>
+        bool AreAttributesEqual(IGraphElement that);
     }
 
     /// <summary>

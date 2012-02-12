@@ -321,6 +321,13 @@ namespace de.unika.ipd.grGen.libGr
         IGraph Clone(String newName);
 
         /// <summary>
+        /// Creates an empty graph using the same model and backend as the other.
+        /// </summary>
+        /// <param name="newName">Name of the new graph.</param>
+        /// <returns>A new empty graph of the same model.</returns>
+        IGraph CreateEmptyEquivalent(String newName);
+
+        /// <summary>
         /// Returns whether this graph is isomorph to that graph
         /// Each graph must be either unanalyzed or unchanged since the last analyze,
         /// otherwise results will be wrong!
@@ -337,6 +344,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>True, if the graph is valid.</returns>
         bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors);
 
+        /// <summary>
+        /// Checks whether the internal data structures are ok (will throw an exception if they are not).
+        /// This is for debugging the underlying implementation from positions outside the implementation.
+        /// </summary>
+        void Check();
 
         #region Visited flags management
 

@@ -76,6 +76,7 @@ namespace de.unika.ipd.grGen.libGr
         public abstract void Custom(params object[] args);
 
         public abstract IGraph Clone(String newName);
+        public abstract IGraph CreateEmptyEquivalent(String newName);
 
         public abstract bool IsIsomorph(IGraph that);
 
@@ -83,6 +84,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             return GraphValidator.Validate(this, mode, out errors);
         }
+
+        public abstract void Check();
 
         public abstract int AllocateVisitedFlag();
         public abstract void FreeVisitedFlag(int visitorID);

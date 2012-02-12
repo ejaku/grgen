@@ -110,6 +110,7 @@ namespace de.unika.ipd.grGen.libGr
                 case "double": return typeof(double);
                 case "string": return typeof(string);
                 case "object": return typeof(object);
+                case "graph": return typeof(IGraph);
             }
 
             if (model == null) return null;
@@ -1437,6 +1438,7 @@ namespace de.unika.ipd.grGen.libGr
                     case "Single": type = "float"; break;
                     case "Double": type = "double"; break;
                     case "Object": type = "object"; break;
+                    case "de.unika.ipd.grGen.libGr.IGraph": type = "graph"; break;
                     default:
                         type = "<INVALID>";
                         if(graph != null && value is Enum)
@@ -1474,6 +1476,7 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.FloatAttr: type = "float"; break;
                 case AttributeKind.DoubleAttr: type = "double"; break;
                 case AttributeKind.ObjectAttr: type = "object"; break;
+                case AttributeKind.GraphAttr: type = "GRGEN_LIBGR.IGraph"; break;
                 case AttributeKind.NodeAttr: type = attrType.TypeName; break;
                 case AttributeKind.EdgeAttr: type = attrType.TypeName; break;
                 default: type = "<INVALID>"; break;

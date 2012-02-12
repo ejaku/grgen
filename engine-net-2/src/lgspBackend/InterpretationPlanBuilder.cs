@@ -22,14 +22,19 @@ namespace de.unika.ipd.grGen.lgsp
         // the scheduled search plan to build an interpretation plan for
         private ScheduledSearchPlan ssp;
 
+        // the search plan graph for determining the pattern element needed for attribute checking
+        private SearchPlanGraph spg;
+
         /// <summary>
         /// Creates an interpretation plan builder for the given scheduled search plan.
         /// Only a limited amount of search operations is supported, the ones needed for isomorphy checking.
         /// </summary>
         /// <param name="ssp">the scheduled search plan to build an interpretation plan for</param>
-        public InterpretationPlanBuilder(ScheduledSearchPlan ssp)
+        /// <param name="spg">the search plan graph for determining the pattern element needed for attribute checking</param>
+        public InterpretationPlanBuilder(ScheduledSearchPlan ssp, SearchPlanGraph spg)
         {
             this.ssp = ssp;
+            this.spg = spg;
         }
 
         /// <summary>
@@ -51,7 +56,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SearchPlanNodeNode node = ssp.Operations[i].Element as SearchPlanNodeNode;
                     node.nodeMatcher = null;
                 }
-                else
+                else if(ssp.Operations[i].Element is SearchPlanEdgeNode)
                 {
                     SearchPlanEdgeNode edge = ssp.Operations[i].Element as SearchPlanEdgeNode;
                     edge.edgeMatcher = null;
@@ -77,6 +82,7 @@ namespace de.unika.ipd.grGen.lgsp
             if (index >= ssp.Operations.Length)
             { // end of scheduled search plan reached, stop recursive iteration
                 buildMatchComplete(insertionPoint);
+                return;
             }
 
             SearchOperation op = ssp.Operations[index];
@@ -132,6 +138,11 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNodeNode)op.SourceSPNode,
                         (SearchPlanEdgeNode)op.Element,
                         IncidentEdgeType.IncomingOrOutgoing);
+                    break;
+
+                case SearchOperationType.Condition:
+                    buildCondition(insertionPoint, index,
+                        (PatternCondition)op.Element);
                     break;
 
                 default:
@@ -240,6 +251,46 @@ namespace de.unika.ipd.grGen.lgsp
             target.Visited = true;
             BuildInterpretationPlan(insertionPoint, index + 1);
             target.Visited = false;
+        }
+
+        /// <summary>
+        /// Interpretation plan operations implementing the
+        /// CheckCondition search plan operation
+        /// are created and inserted into the interpretation plan at the insertion point
+        /// </summary>
+        private void buildCondition(
+            InterpretationPlan insertionPoint, int index,
+            PatternCondition condition)
+        {
+            // check condition
+            expression.AreAttributesEqual aae = (expression.AreAttributesEqual)condition.ConditionExpression;
+            foreach(SearchPlanNode spn in spg.Nodes)
+            {
+                if(spn.PatternElement == aae.thisInPattern)
+                {
+                    InterpretationPlanCheckCondition checkCondition;
+                    if(spn is SearchPlanNodeNode)
+                    {
+                        SearchPlanNodeNode nodeNode = (SearchPlanNodeNode)spn;
+                        checkCondition = new InterpretationPlanCheckCondition(
+                            aae, nodeNode.nodeMatcher);
+                    }
+                    else
+                    {
+                        SearchPlanEdgeNode edgeNode = (SearchPlanEdgeNode)spn;
+                        checkCondition = new InterpretationPlanCheckCondition(
+                            aae, edgeNode.edgeMatcher);
+                    }
+
+                    insertionPoint.next = checkCondition;
+                    insertionPoint = insertionPoint.next;
+
+                    // continue with next operation
+                    BuildInterpretationPlan(insertionPoint, index + 1);
+                    return;
+                }
+            }
+            throw new Exception("Internal error constructing interpretation plan!");
         }
 
         /// <summary>

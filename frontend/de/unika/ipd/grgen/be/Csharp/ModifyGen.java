@@ -1034,7 +1034,7 @@ public class ModifyGen extends CSharpBase {
 					sb.append("0l;\n");
 				} else if(var.getType() instanceof BooleanType) {
 					sb.append("false;\n");
-				} else if(var.getType() instanceof StringType || var.getType() instanceof ObjectType 
+				} else if(var.getType() instanceof StringType || var.getType() instanceof ObjectType || var.getType() instanceof GraphType
 						|| var.getType() instanceof VoidType || var.getType() instanceof ExternalType 
 						|| var.getType() instanceof MapType || var.getType() instanceof SetType || var.getType() instanceof ArrayType) {
 					sb.append("null;\n");
@@ -1960,6 +1960,11 @@ public class ModifyGen extends CSharpBase {
 				varType = defined.contains("object") ? "" : "Object ";
 				defined.add("object");
 				break;
+			case Type.IS_GRAPH:
+				varName = "tempvar_graph";
+				varType = defined.contains("graph") ? "" : "GRGEN_LIBGR.IGraph";
+				defined.add("graph");
+				break;
 			case Type.IS_EXTERNAL_TYPE:
 				varName = "tempvar_" + targetType.getIdent();
 				varType = defined.contains(targetType.getIdent().toString()) ? "" : "GRGEN_MODEL."+targetType.getIdent()+" ";
@@ -2693,6 +2698,9 @@ public class ModifyGen extends CSharpBase {
 				case Type.IS_OBJECT:
 				case Type.IS_UNKNOWN:
 					varTypeName = "Object";
+					break;
+				case Type.IS_GRAPH:
+					varTypeName = "GRGEN_LIBGR.IGraph";
 					break;
 				default:
 					throw new IllegalArgumentException();
