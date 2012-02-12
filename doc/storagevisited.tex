@@ -91,10 +91,10 @@ The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} a
   RewriteFactor:
     'for' lbrace (Var 'in' SetVar | Var '->' Var 'in' MapVar | Var 'in' ArrayVar | Var '->' Var 'in' ArrayVar) ';' RewriteSequence rbrace
     ;
-\end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{RewriteFactor}
+\end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{RewriteFactor}\label{forstorage}
 
 The binary operator \texttt{v in w} checks for set/map/array membership; it returns true if \texttt{v} is contained in the set or the domain of the map or the array \texttt{w}, otherwise false.
-The \texttt{for} command iterates over all elements in the set or array or all key-value pairs in the map or array and executes for each element / key-value pair the nested graph rewrite sequence; it completes successfully iff all sequences were executed successfully (an empty set/map/array causes immediate successful completion); the key in the key-value pair iteration of an array is the integer typed index.
+The \texttt{for} command iterates over all elements in the set or array or all key-value pairs in the map or array and executes for each element / key-value pair the nested graph rewrite sequence; it completes successfully iff all sequences were executed successfully (an empty set/map/array causes immediate successful completion); the key in the key-value pair iteration of an array is the integer typed index. (See \ref{forgraphelem} for another version of the \texttt{for} command.)
 
 \begin{example}
 The following XGRS is a typical storage usage.

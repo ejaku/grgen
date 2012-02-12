@@ -615,3 +615,33 @@ The subgraph at the top-left is already handled as you can see by the reachable 
   \label{figworklist}
 \end{figure}
 
+
+%todo: extend, refine this quick-hacked text
+\subsection{State Space Enumeration}\label{sec:statespaceenum}\indexmain{state space enumeration}
+
+State space enumeration can be programmed in GrGen.NET utilizing the sequence constructs introduced up so far.
+GrGen.NET always operates on one host graph, over one combined model, applying actions from one combined rule set --- so everything is always within reach.
+That is by far the most simple approach to graph transformation, and for a tool which is not specially geared towards enumerating state spaces what makes most sense.
+Thus state space enumeration (or transformation between different graphs/models) must be realized within the one host graph.
+This can be achieved by virtually partitioning the host graph into smaller graphs or subgraphs, following a convention like this one:
+There are nodes of type \texttt{Graph} which are representing a state of the statespace; each such representative is an  anchor node for a subgraph.
+The containment in the subgraph is denoted by a \texttt{contains} edge from a node of type \texttt{Graph} to all the nodes contained in this (sub)graph.
+The edges between the \texttt{Graph} nodes give the relationship between the subgraphs, i.e. successorship between the states of the statespace.
+The edges between the non-\texttt{Graph} nodes are the "normal" graph edges inside the subgraphs.
+
+The key ingredients for state space enumeration then are
+\begin{itemize}
+	\item The aforementioned modelling with anchor nodes linking to the subgraphs, i.e. states
+	\item Backtracking angles --- they allow to recursively enumerate and apply the matches of a rule found, exhaustively stepping through the state space, rolling back the effects on the graph of the previous match tried before carrying out the next step
+	\item Pause insertions --- they allow to write the interesting subgraphs found during state space search out into the host graph while effects recording of backtracking supervision is paused, so that they are not rolled back during backtracking
+	\item Recursive sequences --- they allow to nest backtracking angles dynamically, so it becomes possible to enumerate an entire state space with a sequence just implementing one backtracking step
+	\item The capability to create a copy of a subgraph and insert it into the host graph
+	\item A subgraph attribute in the anchor nodes which contains a copy of the subgraph in the host graph, ready to be compared to the current graph, in order to decide whether that one should be inserted into the state space or purged for being an isomorphic copy of an already available instance; and of course such an equality comparison
+	\item Adjacency and induced functions to compute the subgraphs from the host graph following the \texttt{contains} edges from the anchor nodes
+\end{itemize}
+
+The modelling given above allows to employ the ability of GrGen.NET/yComp to visualize nested graphs from a flat graph by interpreting node containment along edges of a special type (cf. \ref{sub:visual}), ballooning the anchor node up to a subgraph. 
+
+An example implementation of this approach with a variant utilizing isomorphy checking and a variant without isomorphy checking can be found in the \texttt{tests/statespace} folder.
+
+

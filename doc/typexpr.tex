@@ -19,6 +19,7 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
 	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number, with single precision, with double precision\\
 	\texttt{\indexed{string}} & A character sequence of arbitrary length\\
 	\texttt{\indexed{object}} & Contains a .NET object\\
+	\texttt{\indexed{graph}} & A subgraph of the host graph\\
 	\hline
 \end{tabularx}
 \caption{\GrG\ built-in primitive types}
@@ -70,6 +71,9 @@ Everything is implicitely casted to \texttt{string} to enable concise text outpu
 Be careful with assignments of objects: \GrG\ does not know your .NET type hierarchy and therefore it cannot check two objects for type compatibility.
 Objects of type object are not very useful for \GrG\ processing and the im/exporters can't handle them,
 but they can be used on the API level.
+The type \texttt{graph} is not availble for general multi-graph processing but for storing subgraphs of the current host graph.
+The only operations supported on it are equality and inequality, i.e. graph isomorphy checking 
+(they are considered equal if they can be mapped onto each other showing the same structure and attribute values).
 
 \begin{example}
   \begin{itemize}
@@ -156,10 +160,11 @@ the semantics is given by Table~\ref{compandarithmetic} (by implicit casting the
   \label{compandarithmetic}
 \end{table}
 
-\texttt{String} types, \texttt{boolean} types, and \texttt{object} types support only the \texttt{==} and the \texttt{!=} operators;
+\texttt{String} types, \texttt{boolean} types, \texttt{object} types, and \textt{graph} types support only the \texttt{==} and the \texttt{!=} operators;
 for strings they denote whether the strings are the same or not,
 on boolean values they denote equivalence and antivalence,
-and on object types the tell whether the references are the same, thus the objects identical.
+on object types the tell whether the references are the same, thus the objects identical,
+and on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}).
 
 For set/map/array expressions, table~\ref{compandsetmap} describes the semantics of the compare operators.
 Some set A is a subset of B iff all elements in A are contained in B, too.

@@ -275,6 +275,17 @@ The \indexed{one-of-set braces} \verb/${(r,[s],$[t])}/ (some-of-set with random 
 The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
 A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 
 
+\begin{rail}
+  ExtendedControl:
+    'for' lbrace Variable ':' Type ';' RewriteSequence rbrace
+    ;
+\end{rail}\ixkeyw{for}\label{forgraphelem}
+
+The \texttt{for} loop without container is iterating over all the elements in the current host graph which are compatible to the type given.
+Its sibling, the \texttt{for} loop with container, for iterating storages, is introduced here: \ref{forstorage}.
+The iteration variable is bound to the currently enumerated graph element, then the sequence in the body is executed.
+The \texttt{for} loop fails if one of the sequence executions failed.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Procedural abstraction (Sequence definitions)} \label{sec:sequencedefinition}
@@ -429,12 +440,25 @@ The variable and literal basic expressions are the same as in the SimpleOrIntera
   SpecialSequenceExpression:
     GraphElement '.' 'visited' '[' SequenceExpression ']' |
     ArrayOrMapVariable '[' SequenceExpression ']' |
-    MethodCall;
+    MethodCall |
+    FunctionCall;
   ;
 \end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{visited}
 
-The special sequence expressions are used to check whether a value is marked, to access a storage, or to call a method on a storage (note: here it is not possible to build method call chains). 
+The special sequence expressions are used for storage and visited flag handling, plus for graph and subgraph handling.
+
+The storage and visited flag oriented ones are used to check whether a value is marked, to access a storage, or to call a method on a storage (note: here it is not possible to build method call chains). 
 They will be explained in more detail in chapter \ref{cha:storagesvisited}.
+
+The graph and subgraph oriented ones are used to compute sets from the graph for the incidence and adjacency relationships, and for computing an induced subgraph from the host graph given a set of nodes. They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
+
+\begin{description}
+\item[\texttt{adjacent(.)}] returns the set of the nodes which are incident to the node given as argument value.
+\item[\texttt{adjacent(.,.)}] as above, but only nodes incident to an edge of the type given as second argument are contained.
+\item[\texttt{adjacent(.,.,.)}] as above, but only nodes of the node type given as third argument are contained.
+\item[\texttt{induced(.)}] returns the induced subgraph (type: \texttt{graph}) of the host graph for the set of nodes given as argument value.
+\end{description}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

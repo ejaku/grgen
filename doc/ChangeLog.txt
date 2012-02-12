@@ -1,4 +1,21 @@
-﻿v3.1 beta 2 (2012-01-22)
+﻿v3.1 beta 3 (2012-02-12)
+ Isomorphy checking for state space enumeration now supported (to purge duplicate graphs/states):
+  - Added subgraph typed variables and attributes, which allow to store and retrieve IGraph values,
+    (they are for coping with subgraphs of the host graph, not multiple host graphs,)
+    declared e.g. as gr:graph
+  - Comparison operators == and != offered for (sub)graphs (the only operations on the graph type),
+    they check whether the graphs are isomorphic to each other
+  - for loop without container added to sequence, looping over the compatible graph elements 
+    of the statically declared type of the iteration variable, e.g. for{x:Bar; do_sth()}
+  - added adjacent operation to collect the nodes adjacent to a source node into a set of nodes
+    e.g. adjacent(source), or adjacent(s, incidentEdgeType), or adjacent(s, iET, adjacentNodeType)
+  - added induced operation to create an induced subgraph given a set of nodes
+    e.g. induced(set), or sequence {gr:graph=induced(adjacent(src, contains))}
+  - the statespace test now gives an example of state space enumeration including isomorphy checking,
+    cutting equivalent graphs/states (i.e. mapping isomorphically regarding structure and attributes)
+ 
+
+v3.1 beta 2 (2012-01-22)
  Added comparison operators ==,!=,<,<=,>,>= to sequence expressions, as well as + operator;
   same semantics as in rule language expressions, for the various types they apply to
 
@@ -29,7 +46,7 @@
   - introduced -lazynic parameters to the grgen compiler, 
     so one can access external assemblies in the user defined function/class implementation
   - and lazynic to the shell, too:
-    new set keepdebug on|off
+    new set lazynic on|off
  
  Several bugs fixed, esp. regarding transactions and (compiled) sequences, most imporant:
   - the matches of a rule found during handling of nested backtracking don't get destroyed any more
