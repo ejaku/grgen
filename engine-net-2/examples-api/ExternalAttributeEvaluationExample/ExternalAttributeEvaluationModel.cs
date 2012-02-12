@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jan 22 14:24:16 CET 2012
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Feb 05 16:26:11 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -54,6 +54,14 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Node)) return false;
+			@Node that_ = (@Node)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Node node;
@@ -197,6 +205,25 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			ow_M0no_suXx_h4rD = oldElem.ow_M0no_suXx_h4rD;
 			op_M0no_suXx_h4rD = oldElem.op_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @N)) return false;
+			@N that_ = (@N)that;
+			return true
+				&& i_M0no_suXx_h4rD == that_.i_M0no_suXx_h4rD
+				&& s_M0no_suXx_h4rD == that_.s_M0no_suXx_h4rD
+				&& o_M0no_suXx_h4rD == that_.o_M0no_suXx_h4rD
+				&& b_M0no_suXx_h4rD == that_.b_M0no_suXx_h4rD
+				&& f_M0no_suXx_h4rD == that_.f_M0no_suXx_h4rD
+				&& d_M0no_suXx_h4rD == that_.d_M0no_suXx_h4rD
+				&& enu_M0no_suXx_h4rD == that_.enu_M0no_suXx_h4rD
+				&& GRGEN_LIBGR.DictionaryListHelper.Equal(si_M0no_suXx_h4rD, that_.si_M0no_suXx_h4rD)
+				&& GRGEN_LIBGR.DictionaryListHelper.Equal(mso_M0no_suXx_h4rD, that_.mso_M0no_suXx_h4rD)
+				&& ow_M0no_suXx_h4rD == that_.ow_M0no_suXx_h4rD
+				&& op_M0no_suXx_h4rD == that_.op_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@N CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@N node;
@@ -657,6 +684,14 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Edge)) return false;
+			@Edge that_ = (@Edge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@Edge edge;
@@ -773,6 +808,14 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @UEdge)) return false;
+			@UEdge that_ = (@UEdge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@UEdge edge;
@@ -895,6 +938,14 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			: base(GRGEN_MODEL.EdgeType_E.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @E)) return false;
+			@E that_ = (@E)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@E CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@E edge;

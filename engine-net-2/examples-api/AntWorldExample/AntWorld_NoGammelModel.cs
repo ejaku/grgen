@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Jan 22 14:24:04 CET 2012
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Feb 05 16:26:01 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -47,6 +47,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Node)) return false;
+			@Node that_ = (@Node)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Node node;
@@ -169,6 +177,16 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			food_M0no_suXx_h4rD = oldElem.food_M0no_suXx_h4rD;
 			pheromones_M0no_suXx_h4rD = oldElem.pheromones_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @GridNode)) return false;
+			@GridNode that_ = (@GridNode)that;
+			return true
+				&& food_M0no_suXx_h4rD == that_.food_M0no_suXx_h4rD
+				&& pheromones_M0no_suXx_h4rD == that_.pheromones_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@GridNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@GridNode node;
@@ -359,6 +377,16 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			food_M0no_suXx_h4rD = oldElem.food_M0no_suXx_h4rD;
 			pheromones_M0no_suXx_h4rD = oldElem.pheromones_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @GridCornerNode)) return false;
+			@GridCornerNode that_ = (@GridCornerNode)that;
+			return true
+				&& food_M0no_suXx_h4rD == that_.food_M0no_suXx_h4rD
+				&& pheromones_M0no_suXx_h4rD == that_.pheromones_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@GridCornerNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@GridCornerNode node;
@@ -558,6 +586,17 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			pheromones_M0no_suXx_h4rD = oldElem.pheromones_M0no_suXx_h4rD;
 			foodCountdown_M0no_suXx_h4rD = oldElem.foodCountdown_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @AntHill)) return false;
+			@AntHill that_ = (@AntHill)that;
+			return true
+				&& food_M0no_suXx_h4rD == that_.food_M0no_suXx_h4rD
+				&& pheromones_M0no_suXx_h4rD == that_.pheromones_M0no_suXx_h4rD
+				&& foodCountdown_M0no_suXx_h4rD == that_.foodCountdown_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@AntHill CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@AntHill node;
@@ -771,6 +810,15 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 			hasFood_M0no_suXx_h4rD = oldElem.hasFood_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Ant)) return false;
+			@Ant that_ = (@Ant)that;
+			return true
+				&& hasFood_M0no_suXx_h4rD == that_.hasFood_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Ant CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Ant node;
@@ -1100,6 +1148,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Edge)) return false;
+			@Edge that_ = (@Edge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@Edge edge;
@@ -1216,6 +1272,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @UEdge)) return false;
+			@UEdge that_ = (@UEdge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@UEdge edge;
@@ -1338,6 +1402,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			: base(GRGEN_MODEL.EdgeType_GridEdge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @GridEdge)) return false;
+			@GridEdge that_ = (@GridEdge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@GridEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@GridEdge edge;
@@ -1466,6 +1538,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			: base(GRGEN_MODEL.EdgeType_PathToHill.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @PathToHill)) return false;
+			@PathToHill that_ = (@PathToHill)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@PathToHill CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@PathToHill edge;
@@ -1594,6 +1674,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			: base(GRGEN_MODEL.EdgeType_AntPosition.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @AntPosition)) return false;
+			@AntPosition that_ = (@AntPosition)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@AntPosition CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@AntPosition edge;
@@ -1719,6 +1807,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			: base(GRGEN_MODEL.EdgeType_NextAnt.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @NextAnt)) return false;
+			@NextAnt that_ = (@NextAnt)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@NextAnt CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@NextAnt edge;

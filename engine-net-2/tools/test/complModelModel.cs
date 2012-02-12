@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Jan 22 14:24:07 CET 2012
+// Generated from "test.grg" on Sun Feb 05 16:26:05 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -47,6 +47,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Node)) return false;
+			@Node that_ = (@Node)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Node node;
@@ -167,6 +175,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			a1_M0no_suXx_h4rD = oldElem.a1_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @A1)) return false;
+			@A1 that_ = (@A1)that;
+			return true
+				&& a1_M0no_suXx_h4rD == that_.a1_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@A1 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@A1 node;
@@ -336,6 +353,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @A2)) return false;
+			@A2 that_ = (@A2)that;
+			return true
+				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@A2 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@A2 node;
@@ -512,6 +538,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			a3_M0no_suXx_h4rD = oldElem.a3_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @A3)) return false;
+			@A3 that_ = (@A3)that;
+			return true
+				&& a3_M0no_suXx_h4rD == that_.a3_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@A3 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@A3 node;
@@ -681,6 +716,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @A4)) return false;
+			@A4 that_ = (@A4)that;
+			return true
+				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@A4 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@A4 node;
@@ -858,6 +902,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			a5_M0no_suXx_h4rD = oldElem.a5_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @A5)) return false;
+			@A5 that_ = (@A5)that;
+			return true
+				&& a5_M0no_suXx_h4rD == that_.a5_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@A5 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@A5 node;
@@ -1032,6 +1085,16 @@ namespace de.unika.ipd.grGen.Model_complModel
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b21_M0no_suXx_h4rD = oldElem.b21_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @B21)) return false;
+			@B21 that_ = (@B21)that;
+			return true
+				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
+				&& b21_M0no_suXx_h4rD == that_.b21_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@B21 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@B21 node;
@@ -1236,6 +1299,16 @@ namespace de.unika.ipd.grGen.Model_complModel
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @B22)) return false;
+			@B22 that_ = (@B22)that;
+			return true
+				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
+				&& b22_M0no_suXx_h4rD == that_.b22_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@B22 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@B22 node;
@@ -1440,6 +1513,16 @@ namespace de.unika.ipd.grGen.Model_complModel
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b23_M0no_suXx_h4rD = oldElem.b23_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @B23)) return false;
+			@B23 that_ = (@B23)that;
+			return true
+				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
+				&& b23_M0no_suXx_h4rD == that_.b23_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@B23 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@B23 node;
@@ -1644,6 +1727,16 @@ namespace de.unika.ipd.grGen.Model_complModel
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @B41)) return false;
+			@B41 that_ = (@B41)that;
+			return true
+				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
+				&& b41_M0no_suXx_h4rD == that_.b41_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@B41 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@B41 node;
@@ -1849,6 +1942,16 @@ namespace de.unika.ipd.grGen.Model_complModel
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @B42)) return false;
+			@B42 that_ = (@B42)that;
+			return true
+				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
+				&& b42_M0no_suXx_h4rD == that_.b42_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@B42 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@B42 node;
@@ -2052,6 +2155,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @B43)) return false;
+			@B43 that_ = (@B43)that;
+			return true
+				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@B43 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@B43 node;
@@ -2244,6 +2356,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
 			c221_M0no_suXx_h4rD = oldElem.c221_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @C221)) return false;
+			@C221 that_ = (@C221)that;
+			return true
+				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
+				&& b22_M0no_suXx_h4rD == that_.b22_M0no_suXx_h4rD
+				&& c221_M0no_suXx_h4rD == that_.c221_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@C221 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@C221 node;
@@ -2485,6 +2608,19 @@ namespace de.unika.ipd.grGen.Model_complModel
 			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
 			c222_411_M0no_suXx_h4rD = oldElem.c222_411_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @C222_411)) return false;
+			@C222_411 that_ = (@C222_411)that;
+			return true
+				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
+				&& b22_M0no_suXx_h4rD == that_.b22_M0no_suXx_h4rD
+				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
+				&& b41_M0no_suXx_h4rD == that_.b41_M0no_suXx_h4rD
+				&& c222_411_M0no_suXx_h4rD == that_.c222_411_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@C222_411 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@C222_411 node;
@@ -2794,6 +2930,18 @@ namespace de.unika.ipd.grGen.Model_complModel
 			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
 			a5_M0no_suXx_h4rD = oldElem.a5_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @C412_421_431_51)) return false;
+			@C412_421_431_51 that_ = (@C412_421_431_51)that;
+			return true
+				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
+				&& b41_M0no_suXx_h4rD == that_.b41_M0no_suXx_h4rD
+				&& b42_M0no_suXx_h4rD == that_.b42_M0no_suXx_h4rD
+				&& a5_M0no_suXx_h4rD == that_.a5_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@C412_421_431_51 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@C412_421_431_51 node;
@@ -3082,6 +3230,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
 			c432_422_M0no_suXx_h4rD = oldElem.c432_422_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @C432_422)) return false;
+			@C432_422 that_ = (@C432_422)that;
+			return true
+				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
+				&& b42_M0no_suXx_h4rD == that_.b42_M0no_suXx_h4rD
+				&& c432_422_M0no_suXx_h4rD == that_.c432_422_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@C432_422 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@C432_422 node;
@@ -3350,6 +3509,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			c222_411_M0no_suXx_h4rD = oldElem.c222_411_M0no_suXx_h4rD;
 			d11_2221_M0no_suXx_h4rD = oldElem.d11_2221_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @D11_2221)) return false;
+			@D11_2221 that_ = (@D11_2221)that;
+			return true
+				&& a1_M0no_suXx_h4rD == that_.a1_M0no_suXx_h4rD
+				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
+				&& b22_M0no_suXx_h4rD == that_.b22_M0no_suXx_h4rD
+				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
+				&& b41_M0no_suXx_h4rD == that_.b41_M0no_suXx_h4rD
+				&& c222_411_M0no_suXx_h4rD == that_.c222_411_M0no_suXx_h4rD
+				&& d11_2221_M0no_suXx_h4rD == that_.d11_2221_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@D11_2221 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@D11_2221 node;
@@ -3723,6 +3897,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			a3_M0no_suXx_h4rD = oldElem.a3_M0no_suXx_h4rD;
 			d2211_2222_31_M0no_suXx_h4rD = oldElem.d2211_2222_31_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @D2211_2222_31)) return false;
+			@D2211_2222_31 that_ = (@D2211_2222_31)that;
+			return true
+				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
+				&& b22_M0no_suXx_h4rD == that_.b22_M0no_suXx_h4rD
+				&& c221_M0no_suXx_h4rD == that_.c221_M0no_suXx_h4rD
+				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
+				&& b41_M0no_suXx_h4rD == that_.b41_M0no_suXx_h4rD
+				&& c222_411_M0no_suXx_h4rD == that_.c222_411_M0no_suXx_h4rD
+				&& a3_M0no_suXx_h4rD == that_.a3_M0no_suXx_h4rD
+				&& d2211_2222_31_M0no_suXx_h4rD == that_.d2211_2222_31_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@D2211_2222_31 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@D2211_2222_31 node;
@@ -4949,6 +5139,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Edge)) return false;
+			@Edge that_ = (@Edge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@Edge edge;
@@ -5065,6 +5263,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @UEdge)) return false;
+			@UEdge that_ = (@UEdge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@UEdge edge;

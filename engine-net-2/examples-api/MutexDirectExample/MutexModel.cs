@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jan 22 14:24:33 CET 2012
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Feb 05 16:26:23 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -47,6 +47,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Node)) return false;
+			@Node that_ = (@Node)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Node node;
@@ -165,6 +173,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private @Process(GRGEN_MODEL.@Process oldElem) : base(GRGEN_MODEL.NodeType_Process.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Process)) return false;
+			@Process that_ = (@Process)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Process CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Process node;
@@ -286,6 +302,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private @Resource(GRGEN_MODEL.@Resource oldElem) : base(GRGEN_MODEL.NodeType_Resource.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Resource)) return false;
+			@Resource that_ = (@Resource)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Resource CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Resource node;
@@ -407,6 +431,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private @AnnotationTestNode(GRGEN_MODEL.@AnnotationTestNode oldElem) : base(GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @AnnotationTestNode)) return false;
+			@AnnotationTestNode that_ = (@AnnotationTestNode)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@AnnotationTestNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@AnnotationTestNode node;
@@ -667,6 +699,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Edge)) return false;
+			@Edge that_ = (@Edge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@Edge edge;
@@ -783,6 +823,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @UEdge)) return false;
+			@UEdge that_ = (@UEdge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@UEdge edge;
@@ -905,6 +953,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(GRGEN_MODEL.EdgeType_next.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @next)) return false;
+			@next that_ = (@next)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@next CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@next edge;
@@ -1030,6 +1086,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(GRGEN_MODEL.EdgeType_blocked.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @blocked)) return false;
+			@blocked that_ = (@blocked)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@blocked CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@blocked edge;
@@ -1155,6 +1219,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(GRGEN_MODEL.EdgeType_held_by.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @held_by)) return false;
+			@held_by that_ = (@held_by)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@held_by CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@held_by edge;
@@ -1280,6 +1352,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(GRGEN_MODEL.EdgeType_token.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @token)) return false;
+			@token that_ = (@token)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@token CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@token edge;
@@ -1405,6 +1485,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(GRGEN_MODEL.EdgeType_release.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @release)) return false;
+			@release that_ = (@release)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@release CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@release edge;
@@ -1530,6 +1618,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(GRGEN_MODEL.EdgeType_request.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @request)) return false;
+			@request that_ = (@request)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@request CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@request edge;
@@ -1658,6 +1754,15 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			attrib_M0no_suXx_h4rD = oldElem.attrib_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @annotationTestEdge)) return false;
+			@annotationTestEdge that_ = (@annotationTestEdge)that;
+			return true
+				&& attrib_M0no_suXx_h4rD == that_.attrib_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@annotationTestEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@annotationTestEdge edge;

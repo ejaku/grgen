@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jan 22 14:24:09 CET 2012
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Feb 05 16:26:07 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -47,6 +47,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Node)) return false;
+			@Node that_ = (@Node)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Node node;
@@ -167,6 +175,15 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 			value_M0no_suXx_h4rD = oldElem.value_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @BandPosition)) return false;
+			@BandPosition that_ = (@BandPosition)that;
+			return true
+				&& value_M0no_suXx_h4rD == that_.value_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@BandPosition CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@BandPosition node;
@@ -333,6 +350,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		private @State(GRGEN_MODEL.@State oldElem) : base(GRGEN_MODEL.NodeType_State.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @State)) return false;
+			@State that_ = (@State)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@State CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@State node;
@@ -456,6 +481,15 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 			value_M0no_suXx_h4rD = oldElem.value_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @WriteValue)) return false;
+			@WriteValue that_ = (@WriteValue)that;
+			return true
+				&& value_M0no_suXx_h4rD == that_.value_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@WriteValue CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@WriteValue node;
@@ -762,6 +796,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Edge)) return false;
+			@Edge that_ = (@Edge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@Edge edge;
@@ -878,6 +920,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @UEdge)) return false;
+			@UEdge that_ = (@UEdge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@UEdge edge;
@@ -1000,6 +1050,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(GRGEN_MODEL.EdgeType_right.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @right)) return false;
+			@right that_ = (@right)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@right CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@right edge;
@@ -1125,6 +1183,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(GRGEN_MODEL.EdgeType_readZero.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @readZero)) return false;
+			@readZero that_ = (@readZero)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@readZero CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@readZero edge;
@@ -1250,6 +1316,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(GRGEN_MODEL.EdgeType_readOne.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @readOne)) return false;
+			@readOne that_ = (@readOne)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@readOne CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@readOne edge;
@@ -1375,6 +1449,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(GRGEN_MODEL.EdgeType_moveLeft.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @moveLeft)) return false;
+			@moveLeft that_ = (@moveLeft)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@moveLeft CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@moveLeft edge;
@@ -1500,6 +1582,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(GRGEN_MODEL.EdgeType_moveRight.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @moveRight)) return false;
+			@moveRight that_ = (@moveRight)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@moveRight CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@moveRight edge;

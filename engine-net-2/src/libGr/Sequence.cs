@@ -33,7 +33,7 @@ namespace de.unika.ipd.grGen.libGr
         RuleCall, RuleAllCall,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
         AssignUserInputToVar, AssignRandomToVar, // needed as sequence because of debugger integration
-        DeclareVariable, AssignConstToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope
+        DeclareVariable, AssignConstToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
         BooleanComputation
     }

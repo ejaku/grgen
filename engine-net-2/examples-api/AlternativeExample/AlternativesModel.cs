@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Jan 22 14:24:00 CET 2012
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Feb 05 16:25:57 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -47,6 +47,14 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Node)) return false;
+			@Node that_ = (@Node)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Node node;
@@ -165,6 +173,14 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		private @A(GRGEN_MODEL.@A oldElem) : base(GRGEN_MODEL.NodeType_A.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @A)) return false;
+			@A that_ = (@A)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@A CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@A node;
@@ -286,6 +302,14 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		private @B(GRGEN_MODEL.@B oldElem) : base(GRGEN_MODEL.NodeType_B.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @B)) return false;
+			@B that_ = (@B)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@B CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@B node;
@@ -407,6 +431,14 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		private @C(GRGEN_MODEL.@C oldElem) : base(GRGEN_MODEL.NodeType_C.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @C)) return false;
+			@C that_ = (@C)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@C CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@C node;
@@ -666,6 +698,14 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Edge)) return false;
+			@Edge that_ = (@Edge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@Edge edge;
@@ -782,6 +822,14 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @UEdge)) return false;
+			@UEdge that_ = (@UEdge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@UEdge edge;

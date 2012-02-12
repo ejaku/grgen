@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Jan 22 14:24:28 CET 2012
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Feb 05 16:26:18 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -47,6 +47,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Node)) return false;
+			@Node that_ = (@Node)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Node node;
@@ -167,6 +175,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Package)) return false;
+			@Package that_ = (@Package)that;
+			return true
+				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Package CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Package node;
@@ -339,6 +356,17 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
 			isAbstract_M0no_suXx_h4rD = oldElem.isAbstract_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Classifier)) return false;
+			@Classifier that_ = (@Classifier)that;
+			return true
+				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
+				&& visibility_M0no_suXx_h4rD == that_.visibility_M0no_suXx_h4rD
+				&& isAbstract_M0no_suXx_h4rD == that_.isAbstract_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Classifier CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Classifier node;
@@ -549,6 +577,18 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			isAbstract_M0no_suXx_h4rD = oldElem.isAbstract_M0no_suXx_h4rD;
 			isFinal_M0no_suXx_h4rD = oldElem.isFinal_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Class)) return false;
+			@Class that_ = (@Class)that;
+			return true
+				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
+				&& visibility_M0no_suXx_h4rD == that_.visibility_M0no_suXx_h4rD
+				&& isAbstract_M0no_suXx_h4rD == that_.isAbstract_M0no_suXx_h4rD
+				&& isFinal_M0no_suXx_h4rD == that_.isFinal_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Class CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Class node;
@@ -779,6 +819,17 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
 			isAbstract_M0no_suXx_h4rD = oldElem.isAbstract_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Interface)) return false;
+			@Interface that_ = (@Interface)that;
+			return true
+				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
+				&& visibility_M0no_suXx_h4rD == that_.visibility_M0no_suXx_h4rD
+				&& isAbstract_M0no_suXx_h4rD == that_.isAbstract_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Interface CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Interface node;
@@ -994,6 +1045,18 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			isStatic_M0no_suXx_h4rD = oldElem.isStatic_M0no_suXx_h4rD;
 			isFinal_M0no_suXx_h4rD = oldElem.isFinal_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Variable)) return false;
+			@Variable that_ = (@Variable)that;
+			return true
+				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
+				&& visibility_M0no_suXx_h4rD == that_.visibility_M0no_suXx_h4rD
+				&& isStatic_M0no_suXx_h4rD == that_.isStatic_M0no_suXx_h4rD
+				&& isFinal_M0no_suXx_h4rD == that_.isFinal_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Variable CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Variable node;
@@ -1221,6 +1284,19 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			isStatic_M0no_suXx_h4rD = oldElem.isStatic_M0no_suXx_h4rD;
 			isFinal_M0no_suXx_h4rD = oldElem.isFinal_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Operation)) return false;
+			@Operation that_ = (@Operation)that;
+			return true
+				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
+				&& visibility_M0no_suXx_h4rD == that_.visibility_M0no_suXx_h4rD
+				&& isAbstract_M0no_suXx_h4rD == that_.isAbstract_M0no_suXx_h4rD
+				&& isStatic_M0no_suXx_h4rD == that_.isStatic_M0no_suXx_h4rD
+				&& isFinal_M0no_suXx_h4rD == that_.isFinal_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Operation CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Operation node;
@@ -1455,6 +1531,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		private @MethodBody(GRGEN_MODEL.@MethodBody oldElem) : base(GRGEN_MODEL.NodeType_MethodBody.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @MethodBody)) return false;
+			@MethodBody that_ = (@MethodBody)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@MethodBody CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@MethodBody node;
@@ -1576,6 +1660,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		private @Expression(GRGEN_MODEL.@Expression oldElem) : base(GRGEN_MODEL.NodeType_Expression.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Expression)) return false;
+			@Expression that_ = (@Expression)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Expression CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Expression node;
@@ -1702,6 +1794,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			this_M0no_suXx_h4rD = oldElem.this_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Access)) return false;
+			@Access that_ = (@Access)that;
+			return true
+				&& this_M0no_suXx_h4rD == that_.this_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Access CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Access node;
@@ -1876,6 +1977,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			this_M0no_suXx_h4rD = oldElem.this_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Update)) return false;
+			@Update that_ = (@Update)that;
+			return true
+				&& this_M0no_suXx_h4rD == that_.this_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Update CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Update node;
@@ -2052,6 +2162,16 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			this_M0no_suXx_h4rD = oldElem.this_M0no_suXx_h4rD;
 			super_M0no_suXx_h4rD = oldElem.super_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Call)) return false;
+			@Call that_ = (@Call)that;
+			return true
+				&& this_M0no_suXx_h4rD == that_.this_M0no_suXx_h4rD
+				&& super_M0no_suXx_h4rD == that_.super_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Call CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Call node;
@@ -2241,6 +2361,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		private @Instantiation(GRGEN_MODEL.@Instantiation oldElem) : base(GRGEN_MODEL.NodeType_Instantiation.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Instantiation)) return false;
+			@Instantiation that_ = (@Instantiation)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Instantiation CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Instantiation node;
@@ -2370,6 +2498,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Operator)) return false;
+			@Operator that_ = (@Operator)that;
+			return true
+				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Operator CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Operator node;
@@ -2542,6 +2679,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		private @Return(GRGEN_MODEL.@Return oldElem) : base(GRGEN_MODEL.NodeType_Return.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Return)) return false;
+			@Return that_ = (@Return)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Return CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Return node;
@@ -2669,6 +2814,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		private @Block(GRGEN_MODEL.@Block oldElem) : base(GRGEN_MODEL.NodeType_Block.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Block)) return false;
+			@Block that_ = (@Block)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Block CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Block node;
@@ -2795,6 +2948,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			value_M0no_suXx_h4rD = oldElem.value_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Literal)) return false;
+			@Literal that_ = (@Literal)that;
+			return true
+				&& value_M0no_suXx_h4rD == that_.value_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@Literal CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Literal node;
@@ -2961,6 +3123,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		private @Parameter(GRGEN_MODEL.@Parameter oldElem) : base(GRGEN_MODEL.NodeType_Parameter.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Parameter)) return false;
+			@Parameter that_ = (@Parameter)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Parameter CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Parameter node;
@@ -3496,6 +3666,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Edge)) return false;
+			@Edge that_ = (@Edge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@Edge edge;
@@ -3612,6 +3790,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @UEdge)) return false;
+			@UEdge that_ = (@UEdge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@UEdge edge;
@@ -3734,6 +3920,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_belongsTo.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @belongsTo)) return false;
+			@belongsTo that_ = (@belongsTo)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@belongsTo CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@belongsTo edge;
@@ -3859,6 +4053,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_type_.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @type_)) return false;
+			@type_ that_ = (@type_)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@type_ CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@type_ edge;
@@ -3984,6 +4186,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_extends_.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @extends_)) return false;
+			@extends_ that_ = (@extends_)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@extends_ CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@extends_ edge;
@@ -4109,6 +4319,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_imports.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @imports)) return false;
+			@imports that_ = (@imports)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@imports CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@imports edge;
@@ -4234,6 +4452,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_implements.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @implements)) return false;
+			@implements that_ = (@implements)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@implements CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@implements edge;
@@ -4361,6 +4587,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			order_M0no_suXx_h4rD = oldElem.order_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @parameter)) return false;
+			@parameter that_ = (@parameter)that;
+			return true
+				&& order_M0no_suXx_h4rD == that_.order_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@parameter CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@parameter edge;
@@ -4531,6 +4766,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_actualParameter.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @actualParameter)) return false;
+			@actualParameter that_ = (@actualParameter)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@actualParameter CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@actualParameter edge;
@@ -4656,6 +4899,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_binding.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @binding)) return false;
+			@binding that_ = (@binding)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@binding CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@binding edge;
@@ -4781,6 +5032,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_link.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @link)) return false;
+			@link that_ = (@link)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@link CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@link edge;
@@ -4908,6 +5167,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			order_M0no_suXx_h4rD = oldElem.order_M0no_suXx_h4rD;
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @expression)) return false;
+			@expression that_ = (@expression)that;
+			return true
+				&& order_M0no_suXx_h4rD == that_.order_M0no_suXx_h4rD
+			;
+		}
+
 		public static GRGEN_MODEL.@expression CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@expression edge;
@@ -5078,6 +5346,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_inBlock.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @inBlock)) return false;
+			@inBlock that_ = (@inBlock)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@inBlock CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@inBlock edge;
@@ -5203,6 +5479,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			: base(GRGEN_MODEL.EdgeType_inClass.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @inClass)) return false;
+			@inClass that_ = (@inClass)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@inClass CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@inClass edge;

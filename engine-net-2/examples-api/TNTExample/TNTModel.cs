@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Jan 22 14:24:42 CET 2012
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Feb 05 16:26:31 CET 2012
 
 using System;
 using System.Collections.Generic;
@@ -47,6 +47,14 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Node)) return false;
+			@Node that_ = (@Node)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@Node node;
@@ -165,6 +173,14 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private @C(GRGEN_MODEL.@C oldElem) : base(GRGEN_MODEL.NodeType_C.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @C)) return false;
+			@C that_ = (@C)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@C CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@C node;
@@ -286,6 +302,14 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private @H(GRGEN_MODEL.@H oldElem) : base(GRGEN_MODEL.NodeType_H.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @H)) return false;
+			@H that_ = (@H)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@H CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@H node;
@@ -407,6 +431,14 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private @O(GRGEN_MODEL.@O oldElem) : base(GRGEN_MODEL.NodeType_O.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @O)) return false;
+			@O that_ = (@O)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@O CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@O node;
@@ -528,6 +560,14 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private @N(GRGEN_MODEL.@N oldElem) : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @N)) return false;
+			@N that_ = (@N)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@N CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@N node;
@@ -649,6 +689,14 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private @P(GRGEN_MODEL.@P oldElem) : base(GRGEN_MODEL.NodeType_P.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @P)) return false;
+			@P that_ = (@P)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@P CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@P node;
@@ -770,6 +818,14 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private @S(GRGEN_MODEL.@S oldElem) : base(GRGEN_MODEL.NodeType_S.typeVar)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @S)) return false;
+			@S that_ = (@S)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@S CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			GRGEN_MODEL.@S node;
@@ -1080,6 +1136,14 @@ namespace de.unika.ipd.grGen.Model_TNT
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Edge)) return false;
+			@Edge that_ = (@Edge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@Edge edge;
@@ -1196,6 +1260,14 @@ namespace de.unika.ipd.grGen.Model_TNT
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @UEdge)) return false;
+			@UEdge that_ = (@UEdge)that;
+			return true
+			;
+		}
+
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			GRGEN_MODEL.@UEdge edge;
