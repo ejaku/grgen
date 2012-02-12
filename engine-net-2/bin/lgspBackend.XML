@@ -745,6 +745,11 @@
             depending on the other node already matched
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanCheckCondition">
+            <summary>
+            Interpretation plan operation which checks the AreAttribuesEqual condition
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanMatchComplete">
             <summary>
             Interpretation plan operation which completes a match;
@@ -1135,6 +1140,8 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.BuildPatternGraph(de.unika.ipd.grGen.lgsp.LGSPGraph)">
             <summary>
             Builds a pattern graph out of the graph.
+            The pattern graph retains links to the original graph elements and uses them for attribute comparison.
+            Attention: if you change the elements(/graph) your comparisons will be done against the old structure but the new attributes! 
             </summary>
             <param name="graph">The graph which is to be transfered into a pattern</param>
             <returns></returns>
@@ -1335,12 +1342,13 @@
             A class for building the interpretation plan data structure from a scheduled search plan
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.#ctor(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan)">
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.#ctor(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan,de.unika.ipd.grGen.lgsp.SearchPlanGraph)">
             <summary>
             Creates an interpretation plan builder for the given scheduled search plan.
             Only a limited amount of search operations is supported, the ones needed for isomorphy checking.
             </summary>
             <param name="ssp">the scheduled search plan to build an interpretation plan for</param>
+            <param name="spg">the search plan graph for determining the pattern element needed for attribute checking</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.BuildInterpretationPlan">
             <summary>
@@ -1383,6 +1391,13 @@
             <summary>
             Interpretation plan operations implementing the
             Extend Incoming|Outgoing|IncomingOrOutgoing search plan operation
+            are created and inserted into the interpretation plan at the insertion point
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.buildCondition(de.unika.ipd.grGen.lgsp.InterpretationPlan,System.Int32,de.unika.ipd.grGen.lgsp.PatternCondition)">
+            <summary>
+            Interpretation plan operations implementing the
+            CheckCondition search plan operation
             are created and inserted into the interpretation plan at the insertion point
             </summary>
         </member>
@@ -1889,6 +1904,43 @@
             Checks if the matching state flags in the graph are not set, as they should be in case no matching is undereway
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CheckNodeAlreadyInTypeRinglist(de.unika.ipd.grGen.lgsp.LGSPNode)">
+            <summary>
+            Checks if the given node is already available in its type ringlist
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CheckEdgeAlreadyInTypeRinglist(de.unika.ipd.grGen.lgsp.LGSPEdge)">
+            <summary>
+            Checks if the given edge is already available in its type ringlist
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CheckTypeRinglistBroken(de.unika.ipd.grGen.lgsp.LGSPNode)">
+            <summary>
+            Checks whether the type ringlist starting at the given head node is broken.
+            Use for debugging purposes.
+            </summary>
+            <param name="node">The node head to be checked.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CheckTypeRinglistBroken(de.unika.ipd.grGen.lgsp.LGSPEdge)">
+            <summary>
+            Checks whether the type ringlist starting at the given head edge is broken.
+            Use for debugging purposes.
+            </summary>
+            <param name="node">The edge head to be checked.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CheckTypeRinglistsBroken">
+            <summary>
+            Checks whether the type ringlists are broken.
+            Use for debugging purposes.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CheckInOutRinglistsBroken(de.unika.ipd.grGen.lgsp.LGSPNode)">
+            <summary>
+            Checks whether the incoming or outgoing ringlists of the given node are broken.
+            Use for debugging purposes.
+            </summary>
+            <param name="node">The node to be checked.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Custom(System.Object[])">
             <summary>
             Does graph-backend dependent stuff.
@@ -1903,6 +1955,13 @@
             </summary>
             <param name="newName">Name of the new graph.</param>
             <returns>A new graph with the same structure as this graph.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CreateEmptyEquivalent(System.String)">
+            <summary>
+            Creates an empty graph using the same model and backend as the other.
+            </summary>
+            <param name="newName">Name of the new graph.</param>
+            <returns>A new empty graph of the same model.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.IsIsomorph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
@@ -2125,6 +2184,12 @@
             </summary>
             <returns>A copy of this node.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.AreAttributesEqual(de.unika.ipd.grGen.libGr.IGraphElement)">
+            <summary>
+            Returns whether the attributes of this element and that are equal.
+            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.Recycle">
             <summary>
             Recycles this node. This may pool the node or just ignore it.
@@ -2307,6 +2372,12 @@
             <param name="newSource">The new source node for the new edge.</param>
             <param name="newTarget">The new target node for the new edge.</param>
             <returns>A copy of this edge.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.AreAttributesEqual(de.unika.ipd.grGen.libGr.IGraphElement)">
+            <summary>
+            Returns whether the attributes of this element and that are equal.
+            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.Recycle">
             <summary>
@@ -3515,9 +3586,21 @@
             An array of all pattern nodes.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.correspondingNodes">
+            <summary>
+            Normally null. In case this is a pattern created from a graph,
+            an array of all nodes which created the pattern nodes in nodes, coupled by position.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.edges">
             <summary>
             An array of all pattern edges.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.correspondingEdges">
+            <summary>
+            Normally null. In case this is a pattern created from a graph,
+            an array of all edges which created the pattern edges in edges, coupled by position.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.variables">
@@ -5607,6 +5690,14 @@
             Class representing an iterated accumulation yield executed after the match was found
             accumulating the values matched by a nested iterated with a chosen operator
             writing the accumulated value into the target def variable
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.AreAttributesEqual">
+            <summary>
+            Class representing a comparison of all the attributes.
+            Is not generated into code, does not exist at source level.
+            An internal thing only used for the interpretation plan, isomorphy checking.
+            (todo: Makes sense to offer sth like this at source level, too?)
             </summary>
         </member>
     </members>

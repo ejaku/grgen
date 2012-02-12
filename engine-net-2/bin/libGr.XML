@@ -1471,6 +1471,12 @@
             Resets all graph element attributes to their initial values.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.AreAttributesEqual(de.unika.ipd.grGen.libGr.IGraphElement)">
+            <summary>
+            Returns whether the attributes of this element and that are equal.
+            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphElement.Type">
             <summary>
             The GrGenType of the graph element
@@ -2957,6 +2963,9 @@
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.EdgeAttr">
             <summary>The attribute is an edge (only valid for set/map/array key/value type).</summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.GraphAttr">
+            <summary>The attribute is a graph (created as a subgraph of the host graph).</summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.AttributeType">
             <summary>
             Describes a GrGen attribute.
@@ -3966,6 +3975,13 @@
             <param name="newName">Name of the new graph.</param>
             <returns>A new graph with the same structure as this graph.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.CreateEmptyEquivalent(System.String)">
+            <summary>
+            Creates an empty graph using the same model and backend as the other.
+            </summary>
+            <param name="newName">Name of the new graph.</param>
+            <returns>A new empty graph of the same model.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.IsIsomorph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns whether this graph is isomorph to that graph
@@ -3982,6 +3998,12 @@
             <param name="mode">The validation mode to apply.</param>
             <param name="errors">If the graph is not valid, this refers to a List of ConnectionAssertionError objects, otherwise it is null.</param>
             <returns>True, if the graph is valid.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.Check">
+            <summary>
+            Checks whether the internal data structures are ok (will throw an exception if they are not).
+            This is for debugging the underlying implementation from positions outside the implementation.
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.AllocateVisitedFlag">
             <summary>
