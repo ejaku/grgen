@@ -832,6 +832,7 @@ Sequence SimpleSequence():
 	LOOKAHEAD(Variable() ("="|">="))
 	toVar=Variable() ("="|">=")
     (
+		LOOKAHEAD(Word() "(")
 		Word() "(" // deliver understandable error message for case of missing parenthesis at rule result assignment
 		{
 			throw new ParseException("the destination variable(s) of a rule result assignment must be enclosed in parenthesis");

@@ -1137,13 +1137,14 @@
             </summary>
             <param name="model">The model for which the matcher functions shall be generated.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.BuildPatternGraph(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.BuildPatternGraph(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Boolean)">
             <summary>
             Builds a pattern graph out of the graph.
             The pattern graph retains links to the original graph elements and uses them for attribute comparison.
             Attention: if you change the elements(/graph) your comparisons will be done against the old structure but the new attributes! 
             </summary>
             <param name="graph">The graph which is to be transfered into a pattern</param>
+            <param name="includingAttributes">Whether the attributes should be included and thus checked</param>
             <returns></returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GeneratePlanGraph(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
@@ -1971,6 +1972,15 @@
             </summary>
             <param name="that">The other graph we check for isomorphy against</param>
             <returns>true if that is isomorph to this, false otherwise</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.HasSameStructure(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
+            Each graph must be either unanalyzed or unchanged since the last analyze,
+            otherwise results will be wrong!
+            </summary>
+            <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
+            <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.ReuseOptimization">
             <summary>

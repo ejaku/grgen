@@ -25,10 +25,9 @@ rule r {
 			nsh.a = (short)- - - nsh.a;
 
 			nsh.a = (short)~nsh.a;
-			nsh.a = (short)~~nsh.a;
-			nsh.a = (short)~~~nsh.a;
-			nsh.a = (short)~~~~nsh.a;
-			nsh.a = (short)~ ~ ~~ nsh.a;
+			nsh.a = (short)~ ~nsh.a;
+			nsh.a = (short)~ ~ ~nsh.a;
+			nsh.a = (short)~ ~ ~ ~nsh.a;
 
 			nsh.a = (short)+ + + + - +-+- - - + +-+- +- nsh.a;
 		}

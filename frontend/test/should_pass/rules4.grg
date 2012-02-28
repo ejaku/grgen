@@ -1,0 +1,27 @@
+
+rule check_one {
+
+modify{
+	emit("check One");
+}
+}
+
+rule check_two {
+
+modify{
+	emit("check Two");
+}
+}
+
+rule check_three {
+
+modify{
+	emit("check Three");
+}
+}
+
+sequence random_selection {
+
+$%{(check_one, check_two, check_three)}
+
+}

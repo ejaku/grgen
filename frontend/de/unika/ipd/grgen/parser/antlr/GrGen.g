@@ -1569,11 +1569,11 @@ simpleSequence[ExecNode xg]
 	| FALSE { xg.append("false"); }
 	| (parallelCallRule[null, null]) => parallelCallRule[xg, returns]
 	| DOUBLECOLON id=entIdentUse { xg.append("::" + id); xg.addUsage(id); }
+	| (( DOLLAR ( MOD )? )? LBRACE LPAREN) => ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
+		LBRACE LPAREN { xg.append("{("); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* RPAREN RBRACE { xg.append(")}"); }
 	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? 
 		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); }) 
 		LPAREN { xg.append("("); } xgrs[xg] (COMMA { xg.append(","); } xgrs[xg])* RPAREN { xg.append(")"); }
-	| (( DOLLAR ( MOD )? )? LBRACE LPAREN) => ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
-		LBRACE LPAREN { xg.append("{("); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* RPAREN RBRACE { xg.append(")}"); }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append(" <"); } xgrs[xg] GT { xg.append("> "); }
 	| SL { xg.append(" <<"); } parallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] SR { xg.append(">> "); }

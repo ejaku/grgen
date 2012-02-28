@@ -598,6 +598,58 @@
                 Containing especially the graph on which this assignment is to be executed.
                 And the user proxy queried when choices are due.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Adjacent(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of nodes adjacent to the source node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AdjacentOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of nodes adjacent to the source node via outgoing edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AdjacentIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of nodes adjacent to the source node via incoming edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Incident(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of edges incident to the source node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Outgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of edges outgoing from the source node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Incoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of edges incoming to the source node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InducedSubgraph(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns the induced subgraph of the given node set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.DefinedSubgraph(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns the edge induced/defined subgraph of the given edge set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InsertInduced(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Inserts a copy of the induced subgraph of the given node set to the graph
+            returns the copy of the dedicated root node (which must be in the node set)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InsertDefined(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Inserts a copy of the edge induced/defined subgraph of the given edge set to the graph
+            returns the copy of the dedicated root edge (which must be in the edge set)
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo">
             <summary>
             Represents an XGRS used in an exec statement.
@@ -3984,12 +4036,21 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.IsIsomorph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            Returns whether this graph is isomorph to that graph
+            Returns whether this graph is isomorph to that graph (including the attribute values)
             Each graph must be either unanalyzed or unchanged since the last analyze,
             otherwise results will be wrong!
             </summary>
             <param name="that">The other graph we check for isomorphy against</param>
-            <returns>true if that is isomorph to this, false otherwise</returns>
+            <returns>true if that is isomorph (structure and attributes) to this, false otherwise</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.HasSameStructure(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
+            Each graph must be either unanalyzed or unchanged since the last analyze,
+            otherwise results will be wrong!
+            </summary>
+            <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
+            <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.Validate(de.unika.ipd.grGen.libGr.ValidationMode,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.ConnectionAssertionError}@)">
             <summary>
@@ -4254,16 +4315,6 @@
             </summary>
             <param name="oldEdge">The edge to be retyped.</param>
             <param name="newEdge">The new edge with the common attributes, but not fully connected with the incident nodes, yet.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.Outgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
-            <summary>
-            Returns the outgoing edges of given type from the given node, with a target node of given type.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.Incoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
-            <summary>
-            Returns the incoming edges of given type to the given node, with a source node of given type.
-            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.GetNodeType(System.String)">
             <summary>

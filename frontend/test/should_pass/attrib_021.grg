@@ -25,10 +25,9 @@ rule r {
 			ni.a = - - - ni.a;
 
 			ni.a = ~ni.a;
-			ni.a = ~~ni.a;
-			ni.a = ~~~ni.a;
-			ni.a = ~~~~ni.a;
-			ni.a = ~ ~ ~~ ni.a;
+			ni.a = ~ ~ni.a;
+			ni.a = ~ ~ ~ni.a;
+			ni.a = ~ ~ ~ ~ni.a;
 
 			ni.a = + + + + - +-+- - - + +-+- +- ni.a;
 		}

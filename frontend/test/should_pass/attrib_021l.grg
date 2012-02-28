@@ -25,10 +25,9 @@ rule r {
 			nl.a = - - - nl.a;
 
 			nl.a = ~nl.a;
-			nl.a = ~~nl.a;
-			nl.a = ~~~nl.a;
-			nl.a = ~~~~nl.a;
-			nl.a = ~ ~ ~~ nl.a;
+			nl.a = ~ ~nl.a;
+			nl.a = ~ ~ ~nl.a;
+			nl.a = ~ ~ ~ ~nl.a;
 
 			nl.a = + + + + - +-+- - - + +-+- +- nl.a;
 		}

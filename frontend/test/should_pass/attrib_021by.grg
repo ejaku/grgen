@@ -25,10 +25,9 @@ rule r {
 			nby.a = (byte)- - - nby.a;
 
 			nby.a = (byte)~nby.a;
-			nby.a = (byte)~~nby.a;
-			nby.a = (byte)~~~nby.a;
-			nby.a = (byte)~~~~nby.a;
-			nby.a = (byte)~ ~ ~~ nby.a;
+			nby.a = (byte)~ ~nby.a;
+			nby.a = (byte)~ ~ ~nby.a;
+			nby.a = (byte)~ ~ ~ ~nby.a;
 
 			nby.a = (byte)+ + + + - +-+- - - + +-+- +- nby.a;
 		}
