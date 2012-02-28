@@ -98,11 +98,6 @@ namespace de.unika.ipd.grGen.libGr
             DestVar = destVar;
         }
 
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            base.Check(env);
-        }
-
         public override string Type(SequenceCheckingEnvironment env)
         {
             return DestVar.Type;
@@ -137,11 +132,6 @@ namespace de.unika.ipd.grGen.libGr
             : base(AssignmentTargetType.YieldingToVar)
         {
             DestVar = destVar;
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            base.Check(env);
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -185,7 +175,6 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env);
-            KeyExpression.Check(env);
 
             if(DestVar.Type == "")
                 return; // we can't check source and destination types if the variable is untyped, only runtime-check possible
@@ -338,7 +327,6 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env);
-            VisitedFlagExpression.Check(env);
 
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
             if(GraphElementVar.Type != "" && nodeOrEdgeType == null)

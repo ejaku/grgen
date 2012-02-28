@@ -2419,6 +2419,11 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
+        public static bool StructuralEqualObjects(object leftValue, object rightValue)
+        {
+            return ((IGraph)leftValue).HasSameStructure((IGraph)rightValue);
+        }
+
         public static object PlusObjects(object leftValue, object rightValue,
             string balancedType, string leftType, string rightType, IGraph graph)
         {
@@ -2921,6 +2926,7 @@ namespace de.unika.ipd.grGen.libGr
                         }
                     }
                     return result;
+                
                 case SequenceExpressionType.Lower:
                 case SequenceExpressionType.LowerEqual:
                 case SequenceExpressionType.Greater:
@@ -2933,6 +2939,10 @@ namespace de.unika.ipd.grGen.libGr
                         else return "-";
                     }
                     return result;
+
+                case SequenceExpressionType.StructuralEqual:
+                    return "graph";
+
                 case SequenceExpressionType.Plus:
                     result = BalanceArithmetic(left, right, model);
                     if(result == "") return "";
@@ -2948,6 +2958,7 @@ namespace de.unika.ipd.grGen.libGr
                         }
                     }
                     return result;
+                
                 default:
                     return "";
             }

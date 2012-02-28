@@ -1850,7 +1850,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("graph.Outgoing("
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Outgoing("
                 + NamesOfEntities.CandidateVariable(Node) + ", "
                 + IncidentEdgeType + ", "
                 + AdjacentNodeType
@@ -1876,7 +1876,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("graph.Incoming("
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incoming("
                 + NamesOfEntities.CandidateVariable(Node) + ", "
                 + IncidentEdgeType + ", "
                 + AdjacentNodeType

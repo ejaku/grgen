@@ -133,7 +133,10 @@ namespace de.unika.ipd.grGen.libGr
 
             if (typeName.StartsWith("ENUM_")) return typeName.Substring(5);
 
-            return typeName.Substring(1);
+            if (typeName.StartsWith("NodeType_")) return typeName.Substring(9);
+            if (typeName.StartsWith("EdgeType_")) return typeName.Substring(9);
+
+            return typeName.Substring(1); // remove I from class name
         }
 
         public static String AttributeTypeToXgrsType(AttributeType attributeType)

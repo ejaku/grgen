@@ -991,7 +991,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ce = (IncidentEdgeExpr) expr;
-			sb.append("graph."+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
+			sb.append("GRGEN_LIBGR.GraphHelper."+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
 				+ formatEntity(ce.getNode())+", "
 				+ formatTypeClassRef(ce.getIncidentEdgeType()) + ".typeVar, "
 				+ formatTypeClassRef(ce.getAdjacentNodeType()) + ".typeVar"

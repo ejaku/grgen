@@ -152,6 +152,7 @@ TOKEN: {
 |   < INEQUALITY: "!=" >
 |   < LOWEREQUAL: "<=" >
 |   < GREATEREQUAL: ">=" >
+|   < STRUCTURALEQUAL: "~~" >
 |	< STAR: "*" >
 |	< PLUS: "+" >
 |	< DIV: "/" >
@@ -831,8 +832,6 @@ Sequence SimpleSequence():
 	LOOKAHEAD(Variable() ("="|">="))
 	toVar=Variable() ("="|">=")
     (
-		LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(2).kind==LPARENTHESIS
-			&& GetToken(1).image!="valloc" && GetToken(1).image!="adjacent" && GetToken(1).image!="induced"})
 		Word() "(" // deliver understandable error message for case of missing parenthesis at rule result assignment
 		{
 			throw new ParseException("the destination variable(s) of a rule result assignment must be enclosed in parenthesis");
@@ -1028,7 +1027,8 @@ SequenceComputation Computation():
 |
 	LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(2).kind==LPARENTHESIS 
 				&& (GetToken(1).image=="vfree" || GetToken(1).image=="vreset"
-					|| GetToken(1).image=="emit" || GetToken(1).image=="record")})
+					|| GetToken(1).image=="emit" || GetToken(1).image=="record"
+					|| GetToken(1).image=="rem" || GetToken(1).image=="clear")})
 	comp=ProcedureCall()
 	{
 		return comp;
@@ -1099,13 +1099,6 @@ SequenceComputation ExpressionOrAssignment():
 			return new SequenceComputationAssignment(tgt, assignOrExpr);
 		}	
 	|
-		LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(2).kind==LPARENTHESIS
-					&& GetToken(1).image=="valloc" })
-		function=Word() "(" ")"
-		{
-			return new SequenceExpressionVAlloc();
-		}
-	|
 		expr=Expression()
 		{
 			return expr;
@@ -1168,6 +1161,7 @@ SequenceExpression ExpressionEquality():
 {
 	seq=ExpressionRelation() ( "==" seq2=ExpressionRelation() { seq = new SequenceExpressionEqual(seq, seq2); } 
 							 | "!=" seq2=ExpressionRelation() { seq = new SequenceExpressionNotEqual(seq, seq2); }
+							 | "~~" seq2=ExpressionRelation() { seq = new SequenceExpressionStructuralEqual(seq, seq2); }
 							 )*
 	{ return seq; }
 }
@@ -1294,8 +1288,14 @@ SequenceComputation ProcedureCall():
 		} else if(procedure=="record") {
 			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 			return new SequenceComputationRecord(fromExpr);
+		} else if(procedure=="rem") {
+			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationGraphRem(fromExpr);
+		} else if(procedure=="clear") {
+			if(fromExpr!=null) throw new ParseException("\"" + procedure + "\" expects no parameters)");
+			return new SequenceComputationGraphClear();
 		} else {
-			throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are vfree|vreset|emit|record)");
+			throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are vfree|vreset|emit|record|rem|clear)");
 		}
     }
 }
@@ -1311,14 +1311,47 @@ SequenceExpression FunctionCall():
 		if(function=="valloc") {
 			if(fromExpr!=null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects no parameters)");
 			return new SequenceExpressionVAlloc();
+		} else if(function=="add") {
+			if(fromExpr==null || (fromExpr2!=null && fromExpr3==null)) throw new ParseException("\"" + function + "\" expects 1(for a node) or 3(for an edge) parameters)");
+			return new SequenceExpressionGraphAdd(fromExpr, fromExpr2, fromExpr3);
+		} else if(function=="insertInduced") {
+			if(fromExpr==null || fromExpr2==null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 2 parameters (the set of nodes to compute the induced subgraph from which will be cloned and inserted, and one node of the set of which the clone will be returned)");
+			return new SequenceExpressionInsertInduced(fromExpr, fromExpr2);
+		} else if(function=="insertDefined") {
+			if(fromExpr==null || fromExpr2==null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 2 parameters (the set of edges which define the subgraph which will be cloned and inserted, and one edge of the set of which the clone will be returned)");
+			return new SequenceExpressionInsertDefined(fromExpr, fromExpr2);
 		} else if(function=="adjacent") {
 			if(fromExpr==null) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
-			return new SequenceExpressionAdjacent(fromExpr, fromExpr2, fromExpr3);
-		} else if(function=="induced") {
-			if(fromExpr==null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 1 parameter (the set of nodes to construct the induced subgraph from))");
-			return new SequenceExpressionInduced(fromExpr);
+			return new SequenceExpressionAdjacentIncident(fromExpr, fromExpr2, fromExpr3, SequenceExpressionType.AdjacentNodes);
+		} else if(function=="adjacentIncoming") {
+			if(fromExpr==null) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionAdjacentIncident(fromExpr, fromExpr2, fromExpr3, SequenceExpressionType.AdjacentNodesViaIncoming);
+		} else if(function=="adjacentOutgoing") {
+			if(fromExpr==null) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionAdjacentIncident(fromExpr, fromExpr2, fromExpr3, SequenceExpressionType.AdjacentNodesViaOutgoing);
+		} else if(function=="incident") {
+			if(fromExpr==null) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionAdjacentIncident(fromExpr, fromExpr2, fromExpr3, SequenceExpressionType.IncidentEdges);
+		} else if(function=="incoming") {
+			if(fromExpr==null) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionAdjacentIncident(fromExpr, fromExpr2, fromExpr3, SequenceExpressionType.IncomingEdges);
+		} else if(function=="outgoing") {
+			if(fromExpr==null) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionAdjacentIncident(fromExpr, fromExpr2, fromExpr3, SequenceExpressionType.OutgoingEdges);
+		} else if(function=="inducedSubgraph") {
+			if(fromExpr==null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 1 parameter (the set of nodes to construct the induced subgraph from)");
+			return new SequenceExpressionInducedSubgraph(fromExpr);
+		} else if(function=="definedSubgraph") {
+			if(fromExpr==null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 1 parameter (the set of edges to construct the defined subgraph from)");
+			return new SequenceExpressionDefinedSubgraph(fromExpr);
+		} else if(function=="source") {
+			if(fromExpr==null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 1 parameter (the edge to get the source node from)");
+			return new SequenceExpressionSource(fromExpr);
+		} else if(function=="target") {
+			if(fromExpr==null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 1 parameter (the edge to get the target node from)");
+			return new SequenceExpressionTarget(fromExpr);
 		} else {
-			throw new ParseException("Unknown function name: \"" + function + "\"! (available are valloc|adjacent|induced)");
+			throw new ParseException("Unknown function name: \"" + function + "\"! (available are valloc|add|insertInduced|insertDefined|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|inducedSubgraph|definedSubgraph|source|target)");
 		}
     }
 }

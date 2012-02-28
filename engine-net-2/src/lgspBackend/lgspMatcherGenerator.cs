@@ -79,8 +79,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// Attention: if you change the elements(/graph) your comparisons will be done against the old structure but the new attributes! 
         /// </summary>
         /// <param name="graph">The graph which is to be transfered into a pattern</param>
+        /// <param name="includingAttributes">Whether the attributes should be included and thus checked</param>
         /// <returns></returns>
-        public PatternGraph BuildPatternGraph(LGSPGraph graph)
+        public PatternGraph BuildPatternGraph(LGSPGraph graph, bool includingAttributes)
         {
             int numNodes = graph.NumNodes;
             int numEdges = graph.NumEdges;
@@ -150,16 +151,20 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < numEdges; ++i)
                 totallyHomEdges[i] = false;
 
-            PatternCondition[] patternConditions = new PatternCondition[numNodes + numEdges];
-            for(int i = 0; i < numNodes; ++i)
+            PatternCondition[] patternConditions = new PatternCondition[0];
+            if(includingAttributes)
             {
-                patternConditions[i] = new PatternCondition(new expression.AreAttributesEqual(correspondingNodes[i], nodes[i]),
-                    new string[] { nodes[i].name }, new string[] { }, new string[] { },  new VarType[] {});
-            }
-            for(int i = numNodes; i < numNodes+numEdges; ++i)
-            {
-                patternConditions[i] = new PatternCondition(new expression.AreAttributesEqual(correspondingEdges[i-numNodes], edges[i-numNodes]),
-                    new string[] { }, new string[] { edges[i-numNodes].name }, new string[] { }, new VarType[] { });
+                patternConditions = new PatternCondition[numNodes + numEdges];
+                for(int i = 0; i < numNodes; ++i)
+                {
+                    patternConditions[i] = new PatternCondition(new expression.AreAttributesEqual(correspondingNodes[i], nodes[i]),
+                        new string[] { nodes[i].name }, new string[] { }, new string[] { }, new VarType[] { });
+                }
+                for(int i = numNodes; i < numNodes + numEdges; ++i)
+                {
+                    patternConditions[i] = new PatternCondition(new expression.AreAttributesEqual(correspondingEdges[i - numNodes], edges[i - numNodes]),
+                        new string[] { }, new string[] { edges[i - numNodes].name }, new string[] { }, new VarType[] { });
+                }
             }
 
             PatternGraph patternGraph = new PatternGraph(

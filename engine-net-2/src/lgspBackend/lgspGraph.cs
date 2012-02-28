@@ -2056,6 +2056,23 @@ invalidCommand:
         /// <returns>true if that is isomorph to this, false otherwise</returns>
         public override bool IsIsomorph(IGraph that)
         {
+            return IsIsomorph(that, true);
+        }
+
+        /// <summary>
+        /// Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
+        /// Each graph must be either unanalyzed or unchanged since the last analyze,
+        /// otherwise results will be wrong!
+        /// </summary>
+        /// <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
+        /// <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
+        public override bool HasSameStructure(IGraph that)
+        {
+            return IsIsomorph(that, false);
+        }
+
+        public bool IsIsomorph(IGraph that, bool includingAttributes)
+        {
             // compare number of elements per type
             for(int i = 0; i < nodesByTypeCounts.Length; ++i)
                 if(nodesByTypeCounts[i] != ((LGSPGraph)that).nodesByTypeCounts[i])
@@ -2116,7 +2133,7 @@ invalidCommand:
             // they were the same? then we must try to match that in this
             // for this we build an interpretation plan out of the graph
             LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(this.model);
-            PatternGraph patternGraph = matcherGen.BuildPatternGraph((LGSPGraph)that);
+            PatternGraph patternGraph = matcherGen.BuildPatternGraph((LGSPGraph)that, includingAttributes);
             PlanGraph planGraph = matcherGen.GeneratePlanGraph(this, patternGraph, false, false);
             matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
@@ -2124,7 +2141,7 @@ invalidCommand:
                 searchPlanGraph, patternGraph, false);
             InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan, searchPlanGraph);
             InterpretationPlan interpretationPlan = builder.BuildInterpretationPlan();
-            
+
             // and execute the interpretation plan, matching that in this
             // that's sufficient for isomorphy because 
             // - element numbers are the same 

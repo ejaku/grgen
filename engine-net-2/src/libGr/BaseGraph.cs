@@ -79,6 +79,7 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IGraph CreateEmptyEquivalent(String newName);
 
         public abstract bool IsIsomorph(IGraph that);
+        public abstract bool HasSameStructure(IGraph that);
 
         public bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors)
         {
@@ -237,35 +238,6 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         #endregion Events
-
-
-        /// <summary>
-        /// Returns the outgoing edges of given type from the given node, with a target node of given type.
-        /// </summary>
-        public IDictionary Outgoing(INode node, EdgeType edgeType, NodeType targetNodeType)
-        {
-            IDictionary set = DictionaryListHelper.NewDictionary(DictionaryListHelper.GetTypeFromNameForDictionaryOrList(edgeType.Name, this), typeof(SetValueType));
-            foreach(IEdge outEdge in node.GetCompatibleOutgoing(edgeType))
-            {
-                if(!outEdge.Target.Type.IsA(targetNodeType)) continue;
-                set.Add(outEdge, null);
-            }
-            return set;
-        }
-
-        /// <summary>
-        /// Returns the incoming edges of given type to the given node, with a source node of given type.
-        /// </summary>
-        public IDictionary Incoming(INode node, EdgeType edgeType, NodeType sourceNodeType)
-        {
-            IDictionary set = DictionaryListHelper.NewDictionary(DictionaryListHelper.GetTypeFromNameForDictionaryOrList(edgeType.Name, this), typeof(SetValueType));
-            foreach(IEdge inEdge in node.GetCompatibleIncoming(edgeType))
-            {
-                if(!inEdge.Source.Type.IsA(sourceNodeType)) continue;
-                set.Add(inEdge, null);
-            }
-            return set;
-        }
 
 
         /// <summary>

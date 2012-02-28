@@ -171,9 +171,9 @@ sequence stateStepCompiled(gr:Graph, level:int) {
 sequence stateStepIsoCheckCompiled(gr:Graph, level:int) {
 	if{{level < ::stopLevel};
 		sub:graph ;> ngr:Graph
-		;> << insertRed(gr) ;; {sub=induced(adjacent(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkRedCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckCompiled(ngr, level+1) >>
-		;> << insertGreen(gr) ;; {sub=induced(adjacent(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkGreenCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckCompiled(ngr, level+1) >>
-		;> << insertBlue(gr) ;; {sub=induced(adjacent(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkBlueCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckCompiled(ngr, level+1) >>;
+		;> << insertRed(gr) ;; {sub=inducedSubgraph(adjacent(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkRedCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckCompiled(ngr, level+1) >>
+		;> << insertGreen(gr) ;; {sub=inducedSubgraph(adjacent(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkGreenCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckCompiled(ngr, level+1) >>
+		;> << insertBlue(gr) ;; {sub=inducedSubgraph(adjacent(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkBlueCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckCompiled(ngr, level+1) >>;
 		false}
 }
 

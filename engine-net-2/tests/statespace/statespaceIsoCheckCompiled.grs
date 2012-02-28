@@ -2,7 +2,7 @@ new graph statespace/statespace
 
 include statespace/statespacelayout.grsi
 
-exec (gr:Graph)=init ;> {gr.sub=induced(adjacent(gr, contains))} ;> ::stopLevel=5 ;> stateStepIsoCheckCompiled(gr, 0)
+exec (gr:Graph)=init ;> {gr.sub=inducedSubgraph(adjacent(gr, contains))} ;> ::stopLevel=5 ;> stateStepIsoCheckCompiled(gr, 0)
 
 #show graph ycomp
 show num nodes Red

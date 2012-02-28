@@ -1545,7 +1545,6 @@ simpleSequence[ExecNode xg]
 	// will not be detected in the frontend; xgrs in the frontend are to a certain degree syntax only
 	: (xgrsEntity[null] (ASSIGN | GE )) => lhs=xgrsEntity[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); })
 		(
-			{ !input.LT(1).getText().equals("valloc") && !input.LT(1).getText().equals("adjacent") && !input.LT(1).getText().equals("induced")}?
 			id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
 				{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
 		|
@@ -1654,6 +1653,7 @@ seqExprStrictAnd[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 seqEqOp[ExecNode xg] returns [ Token t = null ]
 	: e=EQUAL {xg.append(" == "); t = e; }
 	| n=NOT_EQUAL {xg.append(" != "); t = n; }
+	| s=STRUCTURAL_EQUAL {xg.append(" ~~ "); t = s; }
 	;
 
 seqExprEquality[ExecNode xg] returns [ExprNode res = env.initExprNode()]
@@ -1707,12 +1707,12 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	;
 
 procedureCall[ExecNode xg]
-	: { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vreset") || input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") }?
-		(i=IDENT | i=EMIT) LPAREN { xg.append(i.getText()); xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); }
+	: { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vreset") || input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") || input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
+		(i=IDENT | i=EMIT) LPAREN { xg.append(i.getText()); xg.append("("); } ( seqExpression[xg] )? RPAREN { xg.append(")"); }
 	;
 
 functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: { input.LT(1).getText().equals("valloc") || input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("induced") }?
+	: { input.LT(1).getText().equals("valloc") || input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("inducedSubgraph") }?
 		(i=IDENT | i=INDUCED) LPAREN { xg.append(i.getText()); xg.append("("); } ( fromExpr=seqExpression[xg] (COMMA { xg.append(","); } fromExpr2=seqExpression[xg] (COMMA { xg.append(","); } fromExpr3=seqExpression[xg])? )? )? RPAREN { xg.append(")"); }
 	;
 	
@@ -3030,6 +3030,7 @@ BAND_TO			:	'&>'	;
 EQUAL			:	'=='	;
 NOT         	:	'!'		;
 TILDE			:	'~'		;
+STRUCTURAL_EQUAL:	'~~'	;
 NOT_EQUAL		:	'!='	;
 SL				:	'<<'	;
 SR				:	'>>'	;

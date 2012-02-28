@@ -2013,9 +2013,10 @@ namespace de.unika.ipd.grGen.lgsp
                         + ")";
                 }
 
+                // TODO: adapt to the different adjacent/incident types added
                 case SequenceExpressionType.AdjacentNodes:
                 {
-                    SequenceExpressionAdjacent seqAdjacent = (SequenceExpressionAdjacent)expr;
+                    SequenceExpressionAdjacentIncident seqAdjacent = (SequenceExpressionAdjacentIncident)expr;
                     string sourceNode = GetSequenceExpression(seqAdjacent.SourceNode, source);
                     string incidentEdgeType = "graph.Model.EdgeModel.RootType";
                     if(seqAdjacent.EdgeType != null)
@@ -2057,8 +2058,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                 case SequenceExpressionType.InducedSubgraph:
                 {
-                    SequenceExpressionInduced seqInduced = (SequenceExpressionInduced)expr;
-                    return "GRGEN_LIBGR.GraphHelper.Induced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInduced.NodeSet, source) + ", graph)";
+                    SequenceExpressionInducedSubgraph seqInduced = (SequenceExpressionInducedSubgraph)expr;
+                    return "GRGEN_LIBGR.GraphHelper.InducedSubgraph((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInduced.NodeSet, source) + ", graph)";
                 }
 
                 case SequenceExpressionType.VAlloc:
