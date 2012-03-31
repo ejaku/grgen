@@ -1,0 +1,91 @@
+new graph "exec3/exec3.grg"
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+exec addA
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+exec addB
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+exec addC
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+exec addE
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+exec addF
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+exec addG
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+exec Match
+
+exec getSrc
+show var ::src
+
+exec getTgt
+show var ::tgt
+
+exec remG
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+exec Match
+
+exec remB
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+exec clr
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+quit

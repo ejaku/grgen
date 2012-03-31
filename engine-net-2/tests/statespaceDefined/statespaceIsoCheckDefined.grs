@@ -1,0 +1,39 @@
+new graph statespaceDefined/statespace
+
+# this test does not make a lot of sense, it's just a smoke test derived from statespace
+
+include statespace/statespacelayout.grsi
+
+def copyAndLinkRed(gr:Graph) : (ngr:Graph) {\
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkRed(gr,ngr)\
+}
+def copyAndLinkGreen(gr:Graph) : (ngr:Graph) {\
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkGreen(gr,ngr)\
+}
+def copyAndLinkBlue(gr:Graph) : (ngr:Graph) {\
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkBlue(gr,ngr)\
+}
+
+def stateStepIsoCheckDefined(gr:Graph, level:int) { false }
+def stateStepIsoCheckDefined(gr:Graph, level:int) {\
+	if{{level < ::stopLevel};\
+		sub:graph ;> ngr:Graph\
+		;> << insertRed(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkRed(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefined(ngr, level+1) >>\
+		;> << insertGreen(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkGreen(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefined(ngr, level+1) >>\
+		;> << insertBlue(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkBlue(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefined(ngr, level+1) >>;\
+		false}\
+}
+
+exec (gr:Graph)=init ;> {gr.sub=definedSubgraph(incident(gr, contains))} ;> ::stopLevel=5 ;> stateStepIsoCheckDefined(gr, 0)
+
+#show graph ycomp
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+show num nodes Graph
+show num edges nextRed
+show num edges nextGreen
+show num edges nextBlue
+show num edges contains
+
+exit

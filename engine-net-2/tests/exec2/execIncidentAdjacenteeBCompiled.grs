@@ -1,0 +1,7 @@
+new graph "exec2/exec2.grg"
+
+exec (::c,::c2,::c3)=Init
+
+exec incidentAdjacenteeB(::c, ::c2, ::c3)
+
+quit

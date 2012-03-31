@@ -754,8 +754,15 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             object delCandidate = Expr.Evaluate(procEnv);
-            if(delCandidate is IEdge) procEnv.Graph.Remove((IEdge)delCandidate);
-            else procEnv.Graph.Remove((INode)delCandidate);
+            if(delCandidate is IEdge)
+            {
+                procEnv.Graph.Remove((IEdge)delCandidate);
+            }
+            else
+            {
+                procEnv.Graph.RemoveEdges((INode)delCandidate);
+                procEnv.Graph.Remove((INode)delCandidate);
+            }
             return null;
         }
 

@@ -177,6 +177,15 @@ sequence stateStepIsoCheckCompiled(gr:Graph, level:int) {
 		false}
 }
 
+sequence stateStepIsoCheckInsertInducedCompiled(gr:Graph, level:int) {
+	if{{level < ::stopLevel};
+		sub:graph ;> ngr:Graph ;> adj:set<Node>
+		;> << insertRed(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=insertInduced(adj, gr)} && linkRed(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInducedCompiled(ngr, level+1) >>
+		;> << insertGreen(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=insertInduced(adj, gr)} && linkGreen(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInducedCompiled(ngr, level+1) >>
+		;> << insertBlue(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=insertInduced(adj, gr)} && linkBlue(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInducedCompiled(ngr, level+1) >>;
+		false}
+}
+
 sequence stateSpaceStaticCompiled
 {
 (gr:Graph)=init ;> << insertRed(gr) ;; / (gr2:Graph)=copyAndLinkRedCompiled(gr) / ;>

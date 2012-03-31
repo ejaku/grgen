@@ -1572,6 +1572,27 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceComputationType.GraphRem:
+                {
+                    SequenceComputationGraphRem seqRem = (SequenceComputationGraphRem)seqComp;
+                    string remVal = "remval_" + seqRem.Id;
+                    source.AppendFront("object " + remVal + " = " + GetSequenceExpression(seqRem.Expr, source) + ";\n");
+                    source.AppendFront("if(" + remVal + " is GRGEN_LIBGR.IEdge)\n");
+                    source.AppendFront("\tgraph.Remove((GRGEN_LIBGR.IEdge)" + remVal + ");\n");
+                    source.AppendFront("else\n");
+                    source.AppendFront("\t{graph.RemoveEdges((GRGEN_LIBGR.INode)" + remVal + "); graph.Remove((GRGEN_LIBGR.INode)" + remVal + ");}\n");
+                    source.AppendFront(SetResultVar(seqRem, "null"));
+                    break;
+                }
+
+                case SequenceComputationType.GraphClear:
+                {
+                    SequenceComputationGraphClear seqClr = (SequenceComputationGraphClear)seqComp;
+                    source.AppendFront("graph.Clear();\n");
+                    source.AppendFront(SetResultVar(seqClr, "null"));
+                    break;
+                }
+
                 case SequenceComputationType.Expression:
                 {
                     SequenceExpression seqExpr = (SequenceExpression)seqComp;
@@ -1846,6 +1867,14 @@ namespace de.unika.ipd.grGen.lgsp
                             + leftType + ", " + rightType + ")";
                 }
 
+                case SequenceExpressionType.StructuralEqual:
+                {
+                    SequenceExpressionStructuralEqual seq = (SequenceExpressionStructuralEqual)expr;
+                    string leftExpr = GetSequenceExpression(seq.Left, source);
+                    string rightExpr = GetSequenceExpression(seq.Right, source);
+                    return SequenceExpressionHelper.StructuralEqualStatic(leftExpr, rightExpr);
+                }
+
                 case SequenceExpressionType.NotEqual:
                 {
                     SequenceExpressionNotEqual seq = (SequenceExpressionNotEqual)expr;
@@ -1947,7 +1976,19 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceExpressionNot seqNot = (SequenceExpressionNot)expr;
                     return "!" + "((bool)" + GetSequenceExpression(seqNot.Operand, source) + ")";
                 }
-            
+
+                case SequenceExpressionType.Cast:
+                {
+                    SequenceExpressionCast seqCast = (SequenceExpressionCast)expr;
+                    string targetType = "UNSUPPORTED TYPE CAST";
+                    if(seqCast.TargetType is NodeType)
+                        targetType = ((NodeType)seqCast.TargetType).NodeInterfaceName;
+                    if(seqCast.TargetType is EdgeType)
+                        targetType = ((EdgeType)seqCast.TargetType).EdgeInterfaceName;
+                    // TODO: handle the non-node and non-edge-types, too
+                    return "((" + targetType + ")" + GetSequenceExpression(seqCast.Operand, source) + ")";
+                }
+
                 case SequenceExpressionType.Def:
                 {
                     SequenceExpressionDef seqDef = (SequenceExpressionDef)expr;
@@ -2013,46 +2054,68 @@ namespace de.unika.ipd.grGen.lgsp
                         + ")";
                 }
 
-                // TODO: adapt to the different adjacent/incident types added
                 case SequenceExpressionType.AdjacentNodes:
+                case SequenceExpressionType.AdjacentNodesViaIncoming:
+                case SequenceExpressionType.AdjacentNodesViaOutgoing:
+                case SequenceExpressionType.IncidentEdges:
+                case SequenceExpressionType.IncomingEdges:
+                case SequenceExpressionType.OutgoingEdges:
                 {
-                    SequenceExpressionAdjacentIncident seqAdjacent = (SequenceExpressionAdjacentIncident)expr;
-                    string sourceNode = GetSequenceExpression(seqAdjacent.SourceNode, source);
+                    SequenceExpressionAdjacentIncident seqAdjInc = (SequenceExpressionAdjacentIncident)expr;
+                    string sourceNode = GetSequenceExpression(seqAdjInc.SourceNode, source);
                     string incidentEdgeType = "graph.Model.EdgeModel.RootType";
-                    if(seqAdjacent.EdgeType != null)
+                    if(seqAdjInc.EdgeType != null)
                     {
-                        if(seqAdjacent.EdgeType.Type(env) != "")
+                        if(seqAdjInc.EdgeType.Type(env) != "")
                         {
-                            if(seqAdjacent.EdgeType.Type(env) == "string")
-                                incidentEdgeType = "graph.Model.EdgeModel.GetType((string)"+GetSequenceExpression(seqAdjacent.EdgeType, source) +")";
+                            if(seqAdjInc.EdgeType.Type(env) == "string")
+                                incidentEdgeType = "graph.Model.EdgeModel.GetType((string)"+GetSequenceExpression(seqAdjInc.EdgeType, source) +")";
                             else
-                                incidentEdgeType = "(GRGEN_LIBGR.EdgeType)"+GetSequenceExpression(seqAdjacent.EdgeType, source);
+                                incidentEdgeType = "(GRGEN_LIBGR.EdgeType)"+GetSequenceExpression(seqAdjInc.EdgeType, source);
                         }
                         else
                         {
-                            incidentEdgeType = GetSequenceExpression(seqAdjacent.EdgeType, source) + " is string ? "
-                                + "graph.Model.EdgeModel.GetType((string)"+GetSequenceExpression(seqAdjacent.EdgeType, source) +")"
-                                + " : " + "(GRGEN_LIBGR.EdgeType)" + GetSequenceExpression(seqAdjacent.EdgeType, source);
+                            incidentEdgeType = GetSequenceExpression(seqAdjInc.EdgeType, source) + " is string ? "
+                                + "graph.Model.EdgeModel.GetType((string)"+GetSequenceExpression(seqAdjInc.EdgeType, source) +")"
+                                + " : " + "(GRGEN_LIBGR.EdgeType)" + GetSequenceExpression(seqAdjInc.EdgeType, source);
                         }
                     }
                     string adjacentNodeType = "graph.Model.NodeModel.RootType";
-                    if(seqAdjacent.OppositeNodeType != null)
+                    if(seqAdjInc.OppositeNodeType != null)
                     {
-                        if(seqAdjacent.OppositeNodeType.Type(env) != "")
+                        if(seqAdjInc.OppositeNodeType.Type(env) != "")
                         {
-                            if(seqAdjacent.OppositeNodeType.Type(env) == "string")
-                                adjacentNodeType = "graph.Model.NodeModel.GetType((string)" + GetSequenceExpression(seqAdjacent.OppositeNodeType, source) + ")";
+                            if(seqAdjInc.OppositeNodeType.Type(env) == "string")
+                                adjacentNodeType = "graph.Model.NodeModel.GetType((string)" + GetSequenceExpression(seqAdjInc.OppositeNodeType, source) + ")";
                             else
-                                adjacentNodeType = "(GRGEN_LIBGR.NodeType)" + GetSequenceExpression(seqAdjacent.OppositeNodeType, source);
+                                adjacentNodeType = "(GRGEN_LIBGR.NodeType)" + GetSequenceExpression(seqAdjInc.OppositeNodeType, source);
                         }
                         else
                         {
-                            adjacentNodeType = GetSequenceExpression(seqAdjacent.EdgeType, source) + " is string ? "
-                                + "graph.Model.NodeModel.GetType((string)" + GetSequenceExpression(seqAdjacent.OppositeNodeType, source) + ")"
-                                + " : " + "(GRGEN_LIBGR.NodeType)" + GetSequenceExpression(seqAdjacent.OppositeNodeType, source);
+                            adjacentNodeType = GetSequenceExpression(seqAdjInc.EdgeType, source) + " is string ? "
+                                + "graph.Model.NodeModel.GetType((string)" + GetSequenceExpression(seqAdjInc.OppositeNodeType, source) + ")"
+                                + " : " + "(GRGEN_LIBGR.NodeType)" + GetSequenceExpression(seqAdjInc.OppositeNodeType, source);
                         }
                     }
-                    return "GRGEN_LIBGR.GraphHelper.Adjacent((GRGEN_LIBGR.INode)" + sourceNode
+                    string function;
+                    switch(seqAdjInc.SequenceExpressionType)
+                    {
+                        case SequenceExpressionType.AdjacentNodes:
+                            function = "Adjacent"; break;
+                        case SequenceExpressionType.AdjacentNodesViaIncoming:
+                            function = "AdjacentIncoming"; break;
+                        case SequenceExpressionType.AdjacentNodesViaOutgoing:
+                            function = "AdjacentOutgoing"; break;
+                        case SequenceExpressionType.IncidentEdges:
+                            function = "Incident"; break;
+                        case SequenceExpressionType.IncomingEdges:
+                            function = "Incoming"; break;
+                        case SequenceExpressionType.OutgoingEdges:
+                            function = "Outgoing"; break;
+                        default:
+                            function = "INTERNAL ERROR"; break;
+                    }
+                    return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode
                         + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
                 }
 
@@ -2062,8 +2125,43 @@ namespace de.unika.ipd.grGen.lgsp
                     return "GRGEN_LIBGR.GraphHelper.InducedSubgraph((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInduced.NodeSet, source) + ", graph)";
                 }
 
+                case SequenceExpressionType.DefinedSubgraph:
+                {
+                    SequenceExpressionDefinedSubgraph seqDefined = (SequenceExpressionDefinedSubgraph)expr;
+                    return "GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
+                }
+
                 case SequenceExpressionType.VAlloc:
                     return "graph.AllocateVisitedFlag()";
+
+                case SequenceExpressionType.GraphAdd:
+                {
+                    SequenceExpressionGraphAdd seqAdd = (SequenceExpressionGraphAdd)expr;
+                    if(seqAdd.ExprSrc == null)
+                    {
+                        string typeExpr = GetSequenceExpression(seqAdd.Expr, source);
+                        return "GRGEN_LIBGR.GraphHelper.AddNodeOfType(" + typeExpr + ", graph)";
+                    }
+                    else
+                    {
+                        string typeExpr = GetSequenceExpression(seqAdd.Expr, source);
+                        string srcExpr = GetSequenceExpression(seqAdd.ExprSrc, source);
+                        string tgtExpr = GetSequenceExpression(seqAdd.ExprDst, source);
+                        return "GRGEN_LIBGR.GraphHelper.AddEdgeOfType(" + typeExpr + ", (GRGEN_LIBGR.INode)" + srcExpr + ", (GRGEN_LIBGR.INode)" + tgtExpr + ", graph)";
+                    }
+                }
+
+                case SequenceExpressionType.InsertInduced:
+                {
+                    SequenceExpressionInsertInduced seqInsInd = (SequenceExpressionInsertInduced)expr;
+                    return "GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInsInd.NodeSet, source) + ", (GRGEN_LIBGR.INode)" + GetSequenceExpression(seqInsInd.RootNode, source) + ", graph)";
+                }
+
+                case SequenceExpressionType.InsertDefined:
+                {
+                    SequenceExpressionInsertDefined seqInsDef = (SequenceExpressionInsertDefined)expr;
+                    return "GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)";
+                }
 
                 case SequenceExpressionType.ContainerSize:
                 {
@@ -2190,6 +2288,30 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
+                case SequenceExpressionType.ContainerPeek:
+                {
+                    SequenceExpressionContainerPeek seqContainerPeek = (SequenceExpressionContainerPeek)expr;
+
+                    if(seqContainerPeek.MethodCall != null)
+                    {
+                        EmitSequenceComputation(seqContainerPeek.MethodCall, source);
+                    }
+                    string container = GetContainerValue(seqContainerPeek);
+
+                    if(seqContainerPeek.ContainerType(env) == "")
+                    {
+                        return "GRGEN_LIBGR.DictionaryListHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")"; 
+                    }
+                    else if(seqContainerPeek.ContainerType(env).StartsWith("array"))
+                    {
+                        return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
+                    }
+                    else // statically known set/map
+                    {
+                        return "GRGEN_LIBGR.DictionaryListHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
+                    }
+                }
+
                 case SequenceExpressionType.Constant:
                 {
                     SequenceExpressionConstant seqConst = (SequenceExpressionConstant)expr;
@@ -2208,6 +2330,18 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionElementFromGraph seqFromGraph = (SequenceExpressionElementFromGraph)expr;
                     return "((GRGEN_LIBGR.INamedGraph)graph).GetGraphElement(\""+seqFromGraph.ElementName+"\")";
+                }
+
+                case SequenceExpressionType.Source:
+                {
+                    SequenceExpressionSource seqSrc = (SequenceExpressionSource)expr;
+                    return "((GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqSrc.Edge, source) + ").Source";
+                }
+
+                case SequenceExpressionType.Target:
+                {
+                    SequenceExpressionTarget seqTgt = (SequenceExpressionTarget)expr;
+                    return "((GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqTgt.Edge, source) + ").Target";
                 }
 
                 case SequenceExpressionType.Variable:

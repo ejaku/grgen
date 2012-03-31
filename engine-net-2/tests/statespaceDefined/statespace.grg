@@ -1,0 +1,180 @@
+using statespace;
+
+// this test does not make a lot of sense, it's just a smoke test derived from statespace
+
+rule init : (Graph)
+{
+	modify {
+		gr:Graph;
+		r:Red --> g:Green --> b:Blue --> r;
+		gr -:contains-> r;
+		gr -:contains-> g;
+		gr -:contains-> b;
+		return(gr);
+	}
+}
+
+rule insertRed(gr:Graph)
+{
+	alternative {
+		GreenToBlue {
+			g:Green -e:Edge-> b:Blue;
+			gr -:contains-> g;
+			gr -:contains-> b;
+
+			modify {
+				gr -:contains-> r:Red;
+				delete(e);
+				g --> r --> b;
+			}
+		}
+		BlueToGreen {
+			b:Blue -e:Edge-> g:Green;
+			gr -:contains-> g;
+			gr -:contains-> b;
+
+			modify {
+				gr -:contains-> r:Red;
+				delete(e);
+				b --> r --> g;
+			}
+		}
+	}
+}
+
+rule insertGreen(gr:Graph)
+{
+	alternative {
+		RedToBlue {
+			r:Red -e:Edge-> b:Blue;
+			gr -:contains-> r;
+			gr -:contains-> b;
+
+			modify {
+				gr -:contains-> g:Green;
+				delete(e);
+				r --> g --> b;
+			}
+		}
+		BlueToRed {
+			b:Blue -e:Edge-> r:Red;
+			gr -:contains-> r;
+			gr -:contains-> b;
+
+			modify {
+				gr -:contains-> g:Green;
+				delete(e);
+				b --> g --> r;
+			}
+		}
+	}
+}
+
+rule insertBlue(gr:Graph)
+{
+	alternative {
+		RedToGreen {
+			r:Red -e:Edge-> g:Green;
+			gr -:contains-> r;
+			gr -:contains-> g;
+
+			modify {
+				gr -:contains-> b:Blue;
+				delete(e);
+				r --> b --> g;
+			}
+		}
+		GreenToRed {
+			g:Green -e:Edge-> r:Red;
+			gr -:contains-> g;
+			gr -:contains-> r;
+
+			modify {
+				gr -:contains-> b:Blue;
+				delete(e);
+				g --> b --> r;
+			}
+		}
+	}
+}
+
+rule copySubgraph(gr:Graph, ref oldToNew:map<Color, Color>) : (Graph)
+{
+	iterated { // copy nodes contained in/incident to gr, then copy edges with deferred exec
+		gr -:contains-> c:Color;
+
+		modify {
+			ngr -:contains-> nc:copy<c>;
+			eval { oldToNew.add(c, nc); }
+			exec( [CopyOutgoingEdge(c, oldToNew)] );
+		}
+	}
+
+	modify {
+		ngr:copy<gr>;
+		return(ngr);
+	}
+}
+
+rule CopyOutgoingEdge(n:Color, ref oldToNew:map<Color, Color>)
+{
+	n -e:Edge-> m:Color;
+	hom(n,m); // reflexive edges
+	nn:Color{oldToNew[n]}; nm:Color{oldToNew[m]};
+	hom(nn,nm); // reflexive edges
+
+	modify {
+		nn -ee:copy<e>-> nm;
+	}
+}
+
+rule linkRed(gr:Graph, ngr:Graph)
+{
+	modify {
+		gr -:nextRed-> ngr;
+	}
+}
+
+rule linkGreen(gr:Graph, ngr:Graph)
+{
+	modify {
+		gr -:nextGreen-> ngr;
+	}
+}
+
+rule linkBlue(gr:Graph, ngr:Graph)
+{
+	modify {
+		gr -:nextBlue-> ngr;
+	}
+}
+
+sequence copyAndLinkRedCompiled(gr:Graph) : (ngr:Graph) {
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkRed(gr,ngr)
+}
+
+sequence copyAndLinkGreenCompiled(gr:Graph) : (ngr:Graph) {
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkGreen(gr,ngr)
+}
+
+sequence copyAndLinkBlueCompiled(gr:Graph) : (ngr:Graph) {
+	oldToNew:map<Color,Color>=map<Color,Color>{} ;> (ngr)=copySubgraph(gr,oldToNew) ;> linkBlue(gr,ngr)
+}
+
+sequence stateStepIsoCheckDefinedCompiled(gr:Graph, level:int) {
+	if{{level < ::stopLevel};
+		sub:graph ;> ngr:Graph
+		;> << insertRed(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkRedCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefinedCompiled(ngr, level+1) >>
+		;> << insertGreen(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkGreenCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefinedCompiled(ngr, level+1) >>
+		;> << insertBlue(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkBlueCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefinedCompiled(ngr, level+1) >>;
+		false}
+}
+
+sequence stateStepIsoCheckInsertDefinedCompiled(gr:Graph, level:int) {
+	if{{level < ::stopLevel};
+		sub:graph ;> ngr:Graph ;> inc:set<Edge>
+		;> << insertRed(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=(Graph)source(insertDefined(inc, inc.peek(0)))} && linkRed(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefinedCompiled(ngr, level+1) >>
+		;> << insertGreen(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=(Graph)source(insertDefined(inc, inc.peek(0)))} && linkGreen(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefinedCompiled(ngr, level+1) >>
+		;> << insertBlue(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=(Graph)source(insertDefined(inc, inc.peek(0)))} && linkBlue(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefinedCompiled(ngr, level+1) >>;
+		false}
+}

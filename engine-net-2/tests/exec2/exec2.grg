@@ -1,0 +1,220 @@
+using execModel;
+
+rule Init : (Node, Node, Node)
+{
+    replace {
+		c:Node;
+        c --> :A;
+        c --> :B;
+        c -:ee-> :Node;
+        c <-:ee- :B;
+		
+		c2:Node --> c2;
+
+		c3:A -:ee-> b:B;
+		c3 --> b;
+		
+		return(c,c2,c3);
+    }
+}
+
+
+rule incidentAdjacent(c1:Node, c2:Node, c3:Node)
+{
+	modify {
+		exec(
+			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
+			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
+			&& {emit("value of variable c3 5 6 7 8 9 ")} && {emit(::c3)} && {emit("\n")}
+			
+			&& {::s=incident(::c)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			
+			&& {::s=incident(::c2)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c2)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c2)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c2)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c2)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c2)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+
+			&& {::s=incident(::c3)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c3)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c3)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c3)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c3)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c3)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+		);
+	}
+}
+
+rule incidentAdjacentee(c1:Node, c2:Node, c3:Node)
+{
+	modify {
+		exec(
+			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
+			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
+			&& {emit("value of variable c3 5 6 7 8 9 ")} && {emit(::c3)} && {emit("\n")}
+			
+			&& {::s=incident(::c, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			
+			&& {::s=incident(::c2, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c2, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c2, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c2, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c2, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c2, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+
+			&& {::s=incident(::c3, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c3, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c3, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c3, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c3, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c3, ee)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+		);
+	}
+}
+
+rule incidentAdjacentB(c1:Node, c2:Node, c3:Node)
+{
+	modify {
+		exec(
+			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
+			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
+			&& {emit("value of variable c3 5 6 7 8 9 ")} && {emit(::c3)} && {emit("\n")}
+			
+			&& {::s=incident(::c, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			
+			&& {::s=incident(::c2, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c2, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c2, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c2, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c2, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c2, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+
+			&& {::s=incident(::c3, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c3, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c3, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c3, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c3, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c3, Edge, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+		);
+	}
+}
+
+rule incidentAdjacenteeB(c1:Node, c2:Node, c3:Node)
+{
+	modify {
+		exec(
+			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
+			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
+			&& {emit("value of variable c3 5 6 7 8 9 ")} && {emit(::c3)} && {emit("\n")}
+			
+			&& {::s=incident(::c, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			
+			&& {::s=incident(::c2, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c2, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c2, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c2, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c2, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c2, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+
+			&& {::s=incident(::c3, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=incoming(::c3, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=outgoing(::c3, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacent(::c3, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentIncoming(::c3, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+			&& {::s=adjacentOutgoing(::c3, ee, B)}
+			&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}
+		);
+	}
+}

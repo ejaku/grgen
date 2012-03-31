@@ -1,0 +1,19 @@
+new graph statespaceDefined/statespace
+
+# this test does not make a lot of sense, it's just a smoke test derived from statespace
+
+include statespace/statespacelayout.grsi
+
+exec (gr:Graph)=init ;> {gr.sub=definedSubgraph(incident(gr, contains))} ;> ::stopLevel=5 ;> stateStepIsoCheckInsertDefinedCompiled(gr, 0)
+
+#show graph ycomp
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+show num nodes Graph
+show num edges nextRed
+show num edges nextGreen
+show num edges nextBlue
+show num edges contains
+
+exit

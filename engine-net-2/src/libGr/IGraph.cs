@@ -233,6 +233,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Removes the given node from the graph.
+        /// There must be no edges left incident to the node (you may use RemoveEdges to ensure this).
         /// </summary>
         void Remove(INode node);
 

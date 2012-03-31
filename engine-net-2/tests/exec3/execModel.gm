@@ -1,0 +1,4 @@
+node class A;
+node class B;
+
+edge class ee;

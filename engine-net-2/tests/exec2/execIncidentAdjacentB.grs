@@ -1,0 +1,73 @@
+new graph "exec2/exec2.grg"
+
+exec (::c,::c2,::c3)=Init
+
+show var ::c
+show var ::c2
+show var ::c3
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+
+exec {::s=incident(::c, Edge, B)}
+show var ::s
+
+exec {::s=incoming(::c, Edge, B)}
+show var ::s
+
+exec {::s=outgoing(::c, Edge, B)}
+show var ::s
+
+exec {::s=adjacent(::c, Edge, B)}
+show var ::s
+
+exec {::s=adjacentIncoming(::c, Edge, B)}
+show var ::s
+
+exec {::s=adjacentOutgoing(::c, Edge, B)}
+show var ::s
+
+
+exec {::s=incident(::c2, Edge, B)}
+show var ::s
+
+exec {::s=incoming(::c2, Edge, B)}
+show var ::s
+
+exec {::s=outgoing(::c2, Edge, B)}
+show var ::s
+
+exec {::s=adjacent(::c2, Edge, B)}
+show var ::s
+
+exec {::s=adjacentIncoming(::c2, Edge, B)}
+show var ::s
+
+exec {::s=adjacentOutgoing(::c2, Edge, B)}
+show var ::s
+
+
+exec {::s=incident(::c3, Edge, B)}
+show var ::s
+
+exec {::s=incoming(::c3, Edge, B)}
+show var ::s
+
+exec {::s=outgoing(::c3, Edge, B)}
+show var ::s
+
+exec {::s=adjacent(::c3, Edge, B)}
+show var ::s
+
+exec {::s=adjacentIncoming(::c3, Edge, B)}
+show var ::s
+
+exec {::s=adjacentOutgoing(::c3, Edge, B)}
+show var ::s
+
+
+quit

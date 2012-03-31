@@ -1,0 +1,27 @@
+new graph statespace/statespace
+
+include statespace/statespacelayout.grsi
+
+def stateStepIsoCheckInsertInduced(gr:Graph, level:int) { false }
+def stateStepIsoCheckInsertInduced(gr:Graph, level:int) {\
+	if{{level < ::stopLevel};\
+		sub:graph ;> ngr:Graph ;> adj:set<Node>\
+		;> << insertRed(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=insertInduced(adj, gr)} && linkRed(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInduced(ngr, level+1) >>\
+		;> << insertGreen(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=insertInduced(adj, gr)} && linkGreen(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInduced(ngr, level+1) >>\
+		;> << insertBlue(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=insertInduced(adj, gr)} && linkBlue(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInduced(ngr, level+1) >>;\
+		false}\
+}
+
+exec (gr:Graph)=init ;> {gr.sub=inducedSubgraph(adjacent(gr, contains))} ;> ::stopLevel=5 ;> stateStepIsoCheckInsertInduced(gr, 0)
+
+#show graph ycomp
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+show num nodes Graph
+show num edges nextRed
+show num edges nextGreen
+show num edges nextBlue
+show num edges contains
+
+exit

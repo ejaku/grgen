@@ -1,0 +1,29 @@
+new graph statespaceDefined/statespace
+
+# this test does not make a lot of sense, it's just a smoke test derived from statespace
+
+include statespace/statespacelayout.grsi
+
+def stateStepIsoCheckInsertDefined(gr:Graph, level:int) { false }
+def stateStepIsoCheckInsertDefined(gr:Graph, level:int) {\
+	if{{level < ::stopLevel};\
+		sub:graph ;> ngr:Graph ;> inc:set<Edge>\
+		;> << insertRed(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=(Graph)source(insertDefined(inc, inc.peek(0)))} && linkRed(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefined(ngr, level+1) >>\
+		;> << insertGreen(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=(Graph)source(insertDefined(inc, inc.peek(0)))} && linkGreen(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefined(ngr, level+1) >>\
+		;> << insertBlue(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph; {sub!=others.sub}} && / {ngr=(Graph)source(insertDefined(inc, inc.peek(0)))} && linkBlue(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefined(ngr, level+1) >>;\
+		false}\
+}
+
+exec (gr:Graph)=init ;> {gr.sub=definedSubgraph(incident(gr, contains))} ;> ::stopLevel=5 ;> stateStepIsoCheckInsertDefined(gr, 0)
+
+#show graph ycomp
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+show num nodes Graph
+show num edges nextRed
+show num edges nextGreen
+show num edges nextBlue
+show num edges contains
+
+exit

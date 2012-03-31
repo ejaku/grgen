@@ -200,16 +200,23 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Inserts a copy of the induced subgraph of the given node set to the graph
-        /// returns the copy of the dedicated root node (which must be in the node set)
+        /// returns the copy of the dedicated root node
+        /// the root node is processed as if it was in the given node set even if it isn't
         /// </summary>
         public static INode InsertInduced(IDictionary<INode, SetValueType> nodeSet, INode rootNode, IGraph graph)
         {
-            IDictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(nodeSet.Count);
+            IDictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(nodeSet.Count+1);
             foreach(KeyValuePair<INode, SetValueType> nodeEntry in nodeSet)
             {
                 INode node = nodeEntry.Key;
                 INode clone = node.Clone();
                 nodeToCloned.Add(node, clone);
+                graph.AddNode(clone);
+            }
+            if(!nodeSet.ContainsKey(rootNode))
+            {
+                INode clone = rootNode.Clone();
+                nodeToCloned.Add(rootNode, clone);
                 graph.AddNode(clone);
             }
             //graph.Check();
@@ -226,6 +233,25 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
             }
+            if(!nodeSet.ContainsKey(rootNode))
+            {
+                foreach(IEdge edge in rootNode.Outgoing)
+                {
+                    if(nodeToCloned.ContainsKey(edge.Target))
+                    {
+                        IEdge clone = edge.Clone(nodeToCloned[rootNode], nodeToCloned[edge.Target]);
+                        graph.AddEdge(clone);
+                    }
+                }
+                foreach(IEdge edge in rootNode.Incoming)
+                {
+                    if(nodeToCloned.ContainsKey(edge.Source) && edge.Source!=rootNode)
+                    {
+                        IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[rootNode]);
+                        graph.AddEdge(clone);
+                    }
+                }
+            }
             //graph.Check();
 
             return nodeToCloned[rootNode];
@@ -233,11 +259,12 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Inserts a copy of the edge induced/defined subgraph of the given edge set to the graph
-        /// returns the copy of the dedicated root edge (which must be in the edge set)
+        /// returns the copy of the dedicated root edge
+        /// the root edge is processed as if it was in the given edge set even if it isn't
         /// </summary>
         public static IEdge InsertDefined(IDictionary<IEdge, SetValueType> edgeSet, IEdge rootEdge, IGraph graph)
         {
-            IDictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count * 2);
+            IDictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count*2 + 1);
             foreach(KeyValuePair<IEdge, SetValueType> edgeEntry in edgeSet)
             {
                 IEdge edge = edgeEntry.Key;
@@ -255,20 +282,70 @@ namespace de.unika.ipd.grGen.libGr
                     graph.AddNode(clone);
                 }
             }
+            if(!edgeSet.ContainsKey(rootEdge))
+            {
+                if(!nodeToCloned.ContainsKey(rootEdge.Source))
+                {
+                    INode clone = rootEdge.Source.Clone();
+                    nodeToCloned.Add(rootEdge.Source, clone);
+                    graph.AddNode(clone);
+
+                }
+                if(!nodeToCloned.ContainsKey(rootEdge.Target))
+                {
+                    INode clone = rootEdge.Target.Clone();
+                    nodeToCloned.Add(rootEdge.Target, clone);
+                    graph.AddNode(clone);
+                }
+            }
             //graph.Check();
 
             IEdge clonedEdge = null;
-            foreach(KeyValuePair<IEdge, SetValueType> edgeEntry in edgeSet)
+            if(edgeSet.ContainsKey(rootEdge))
             {
-                IEdge edge = edgeEntry.Key;
-                IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[edge.Target]);
-                graph.AddEdge(clone);
-                if(edge == rootEdge)
-                    clonedEdge = clone;
+                foreach(KeyValuePair<IEdge, SetValueType> edgeEntry in edgeSet)
+                {
+                    IEdge edge = edgeEntry.Key;
+                    IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[edge.Target]);
+                    graph.AddEdge(clone);
+                    if(edge == rootEdge)
+                        clonedEdge = clone;
+                }
+            }
+            else
+            {
+                foreach(KeyValuePair<IEdge, SetValueType> edgeEntry in edgeSet)
+                {
+                    IEdge edge = edgeEntry.Key;
+                    IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[edge.Target]);
+                    graph.AddEdge(clone);
+                }
+
+                IEdge rootClone = rootEdge.Clone(nodeToCloned[rootEdge.Source], nodeToCloned[rootEdge.Target]);
+                graph.AddEdge(rootClone);
+                clonedEdge = rootClone;
             }
             //graph.Check();
 
             return clonedEdge;
+        }
+
+        /// <summary>
+        /// creates a node of given type and adds it to the graph, returns it
+        /// type might be a string denoting a NodeType or a NodeType
+        /// </summary>
+        public static INode AddNodeOfType(object type, IGraph graph)
+        {
+            return graph.AddNode(type is string ? graph.Model.NodeModel.GetType((string)type) : (NodeType)type);
+        }
+
+        /// <summary>
+        /// creates an edge of given type and adds it to the graph between from and to, returns it
+        /// type might be a string denoting an EdgeType or an EdgeType
+        /// </summary>
+        public static IEdge AddEdgeOfType(object type, INode src, INode tgt, IGraph graph)
+        {
+            return graph.AddEdge(type is string ? graph.Model.EdgeModel.GetType((string)type) : (EdgeType)type, src, tgt);
         }
     }
 }

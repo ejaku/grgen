@@ -1673,12 +1673,17 @@ seqExprRelation[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	;
 
 seqExprAdd[ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprNeg[xg] { res=exp; } ( t=PLUS {xg.append(" + ");} exp2=seqExprAdd[xg]  { res = makeBinOp(t, exp, exp2); })?
+	: exp=seqExprUnary[xg] { res=exp; } ( t=PLUS {xg.append(" + ");} exp2=seqExprAdd[xg]  { res = makeBinOp(t, exp, exp2); })?
 	;
 
-seqExprNeg[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+seqExprUnary[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	@init{ Token t = null; }
-	: (n=NOT {t=n; xg.append("!");})? exp=seqExprBasic[xg] { if(t!=null) res = makeUnOp(t, exp); else res = exp; }
+	: (LPAREN typeIdentUse RPAREN) =>
+		p=LPAREN {xg.append("(");} id=typeIdentUse {xg.append(id);} RPAREN {xg.append(")");} op=seqExprBasic[xg]
+		{
+			res = new CastNode(getCoords(p), id, op);
+		}
+	| (n=NOT {t=n; xg.append("!");})? exp=seqExprBasic[xg] { if(t!=null) res = makeUnOp(t, exp); else res = exp; }
 	| m=MINUS {xg.append("-");} exp=seqExprBasic[xg]
 		{
 			OpNode neg = new ArithmeticOpNode(getCoords(m), OperatorSignature.NEG);
@@ -1707,21 +1712,27 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	;
 
 procedureCall[ExecNode xg]
-	: { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vreset") || input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") || input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
+	: { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vreset") || input.LT(1).getText().equals("record")
+		|| input.LT(1).getText().equals("emit") || input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
 		(i=IDENT | i=EMIT) LPAREN { xg.append(i.getText()); xg.append("("); } ( seqExpression[xg] )? RPAREN { xg.append(")"); }
 	;
 
 functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: { input.LT(1).getText().equals("valloc") || input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("inducedSubgraph") }?
-		(i=IDENT | i=INDUCED) LPAREN { xg.append(i.getText()); xg.append("("); } ( fromExpr=seqExpression[xg] (COMMA { xg.append(","); } fromExpr2=seqExpression[xg] (COMMA { xg.append(","); } fromExpr3=seqExpression[xg])? )? )? RPAREN { xg.append(")"); }
+	: { input.LT(1).getText().equals("valloc") || input.LT(1).getText().equals("add") 
+		|| input.LT(1).getText().equals("insertInduced") || input.LT(1).getText().equals("insertDefined")
+		|| input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
+		|| input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing") 
+		|| input.LT(1).getText().equals("inducedSubgraph") || input.LT(1).getText().equals("definedSubgraph")
+		|| input.LT(1).getText().equals("source") || input.LT(1).getText().equals("target") }?
+		i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); } ( fromExpr=seqExpression[xg] (COMMA { xg.append(","); } fromExpr2=seqExpression[xg] (COMMA { xg.append(","); } fromExpr3=seqExpression[xg])? )? )? RPAREN { xg.append(")"); }
 	;
 	
 methodCall[ExecNode xg]
 	: xgrsVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
 			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])? )? RPAREN { xg.append(")"); }
 		{ if(!method.getText().equals("add") && !method.getText().equals("rem") && !method.getText().equals("clear")
-				&& !method.getText().equals("size") && !method.getText().equals("empty"))
-			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty on set/map/array)");
+				&& !method.getText().equals("size") && !method.getText().equals("empty") && !method.getText().equals("peek"))
+			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty|peek on set/map/array)");
 		}
 	;
 
@@ -1729,8 +1740,8 @@ methodCallRepeated[ExecNode xg]
 	: methodCall[xg] ( d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
 			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])? )? RPAREN { xg.append(")"); }
 		{ if(!method.getText().equals("add") && !method.getText().equals("rem") && !method.getText().equals("clear")
-				&& !method.getText().equals("size") && !method.getText().equals("empty"))
-			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty on set/map/array)");
+				&& !method.getText().equals("size") && !method.getText().equals("empty") && !method.getText().equals("peek"))
+			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty|peek on set/map/array)");
 		}
 	)*
 	;

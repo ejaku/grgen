@@ -1186,15 +1186,17 @@ SequenceExpression ExpressionAdd():
 	SequenceExpression seq, seq2;
 }
 {
-	seq=ExpressionNot() ( "+" seq2=ExpressionNot() { seq = new SequenceExpressionPlus(seq, seq2); } )* { return seq; }
+	seq=ExpressionUnary() ( "+" seq2=ExpressionUnary() { seq = new SequenceExpressionPlus(seq, seq2); } )* { return seq; }
 }
 
-SequenceExpression ExpressionNot():
+SequenceExpression ExpressionUnary():
 {
 	SequenceExpression seq;
+	object type;
 }
 {
-    "!" seq=ExpressionBasic() { return new SequenceExpressionNot(seq); }
+    LOOKAHEAD("(" SimpleConstant() ")") "(" type=SimpleConstant() ")" seq=ExpressionBasic() { return new SequenceExpressionCast(seq, type); }
+    | "!" seq=ExpressionBasic() { return new SequenceExpressionNot(seq); }
 	| seq=ExpressionBasic() { return seq; }
 }
 
@@ -1381,8 +1383,11 @@ SequenceComputation MethodCall():
 		} else if(method=="empty") {
 			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
 			return new SequenceExpressionContainerEmpty(fromVar);
+		} else if(method=="peek") {
+			if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1 parameter)");
+			return new SequenceExpressionContainerPeek(fromVar, fromExpr2);
 		} else {
-			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty as expressions on set/map/array)");
+			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty|peek as expressions on set/map/array)");
 		}
     }
 }
@@ -1414,8 +1419,11 @@ SequenceComputation MethodCallRepeated():
 			} else if(method=="empty") {
 				if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
 				methodCall = new SequenceExpressionContainerEmpty(methodCall);
+			} else if(method=="peek") {
+				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1 parameter)");
+				return new SequenceExpressionContainerPeek(methodCall, fromExpr2);
 			} else {
-				throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty as expressions on set/map/array)");
+				throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty|peek as expressions on set/map/array)");
 			}
 		}
 	)*
