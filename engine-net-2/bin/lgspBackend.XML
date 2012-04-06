@@ -3240,6 +3240,12 @@
             If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.originalElement">
+            <summary>
+            Links to the original pattern element in case this element was inlined, otherwise null;
+            the point of definition of the original element references the original containing pattern
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.TempPlanMapping">
             <summary>
             plan graph node corresponding to this pattern element, used in plan graph generation, just hacked into this place
@@ -3340,6 +3346,12 @@
             </summary>
             <returns>The string representation of this instance.</returns>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternNode.originalNode">
+            <summary>
+            Links to the original pattern node in case this node was inlined, otherwise null;
+            the point of definition of the original node references the original containing pattern
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternEdge">
             <summary>
             A pattern edge of a rule pattern.
@@ -3382,6 +3394,12 @@
             Converts this instance into a string representation.
             </summary>
             <returns>The string representation of this instance.</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternEdge.originalEdge">
+            <summary>
+            Links to the original pattern edge in case this node was inlined, otherwise null;
+            the point of definition of the original edge references the original containing pattern
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternVariable">
             <summary>
@@ -3427,6 +3445,12 @@
         <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.ParameterIndex">
             <summary>
             Specifies to which rule parameter this variable corresponds.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.originalVariable">
+            <summary>
+            Links to the original pattern variable in case this node was inlined, otherwise null;
+            the point of definition of the original variable references the original containing pattern
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternVariable.#ctor(de.unika.ipd.grGen.libGr.VarType,System.String,System.String,System.Int32,System.Boolean,de.unika.ipd.grGen.expression.Expression)">
@@ -3497,6 +3521,11 @@
             An array of variable types (corresponding to the variable names) needed by this condition.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.originalCondition">
+            <summary>
+            Links to the original pattern condition in case this condition was inlined, otherwise null
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.#ctor(de.unika.ipd.grGen.expression.Expression,System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[])">
             <summary>
             Constructs a PatternCondition object.
@@ -3535,6 +3564,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededVariableTypes">
             <summary>
             An array of variable types (corresponding to the variable names) needed by this yielding assignment.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.originalYielding">
+            <summary>
+            Links to the original pattern yielding in case this yielding was inlined, otherwise null
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.#ctor(de.unika.ipd.grGen.expression.Yielding,System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[])">
@@ -3596,6 +3630,11 @@
             An array of all pattern nodes.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.nodesPlusInlined">
+            <summary>
+            An array of all pattern nodes plus the nodes inlined into this pattern.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.correspondingNodes">
             <summary>
             Normally null. In case this is a pattern created from a graph,
@@ -3607,6 +3646,11 @@
             An array of all pattern edges.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.edgesPlusInlined">
+            <summary>
+            An array of all pattern edges plus the edges inlined into this pattern.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.correspondingEdges">
             <summary>
             Normally null. In case this is a pattern created from a graph,
@@ -3616,6 +3660,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.variables">
             <summary>
             An array of all pattern variables.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.variablesPlusInlined">
+            <summary>
+            An array of all pattern variables plus the variables inlined into this pattern.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.GetSource(de.unika.ipd.grGen.lgsp.PatternEdge)">
@@ -3630,44 +3679,52 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.edgeToSourceNode">
             <summary>
-            contains the source node of the pattern edges in this graph if specified 
+            Contains the source node of the pattern edges in this graph if specified.
+            Including the additional information from inlined stuff.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.edgeToTargetNode">
             <summary>
-            contains the target node of the pattern edges in this graph if specified 
+            Contains the target node of the pattern edges in this graph if specified.
+            Including the additional information from inlined stuff.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.homomorphicNodes">
             <summary>
             A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node.
+            Including the additional information from inlined stuff.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.homomorphicEdges">
             <summary>
             A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge.
+            Including the additional information from inlined stuff.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.homomorphicNodesGlobal">
             <summary>
             A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
             i.e. the nodes are contained in different, but locally nested patterns (alternative cases, iterateds).
+            Including the additional information from inlined stuff.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.homomorphicEdgesGlobal">
             <summary>
             A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
             i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
+            Including the additional information from inlined stuff.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.totallyHomomorphicNodes">
             <summary>
             An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.
+            Including the additional information from inlined stuff.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.totallyHomomorphicEdges">
             <summary>
             An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.
+            Including the additional information from inlined stuff.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.embeddedGraphs">
@@ -3675,14 +3732,29 @@
             An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.embeddedGraphsPlusInlined">
+            <summary>
+            An array of all embedded graphs plus the embedded graphs inlined into this pattern.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.alternatives">
             <summary>
             An array of alternatives, each alternative contains in its cases the subpatterns to choose out of.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.alternativesPlusInlined">
+            <summary>
+            An array of all alternatives plus the alternatives inlined into this pattern.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.iterateds">
             <summary>
             An array of iterateds, each iterated is matched as often as possible within the specified bounds.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.iteratedsPlusInlined">
+            <summary>
+            An array of all iterateds plus the iterateds inlined into this pattern.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.negativePatternGraphs">
@@ -3691,10 +3763,20 @@
             (NACs - Negative Application Conditions).
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.negativePatternGraphsPlusInlined">
+            <summary>
+            An array of all negative pattern graphs plus the negative pattern graphs inlined into this pattern.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.independentPatternGraphs">
             <summary>
             An array of independent pattern graphs which must get matched in addition to the main pattern
             (PACs - Positive Application Conditions).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.independentPatternGraphsPlusInlined">
+            <summary>
+            An array of all independent pattern graphs plus the pattern graphs inlined into this pattern.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.embeddingGraph">
@@ -3707,9 +3789,19 @@
             The conditions used in this pattern graph or it's nested graphs
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.ConditionsPlusInlined">
+            <summary>
+            An array of all conditions plus the conditions inlined into this pattern.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.Yieldings">
             <summary>
             The yielding assignments used in this pattern graph or it's nested graphs
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.YieldingsPlusInlined">
+            <summary>
+            An array of all yielding assignments plus the yielding assignments inlined into this pattern.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.isDefEntityExisting">
@@ -3720,6 +3812,18 @@
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.isNonLocalDefEntityExisting">
             <summary>
             Tells whether a non local def entity (node, edge, variable) is existing in this pattern graph
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.originalPatternGraph">
+            <summary>
+            Links to the original pattern graph in case this pattern graph was inlined, otherwise null;
+            the embeddingGraph of the original pattern graph references the original containing pattern
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.Copy(System.String)">
+            <summary>
+            Copies the pattern graph, renaming all elements with the given prefix.
+            Needed to avoid name clashes during inlining.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.Iterated[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],de.unika.ipd.grGen.lgsp.PatternYielding[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[],System.Boolean[])">
@@ -3979,6 +4083,13 @@
             An array of variable types (corresponding to the variable names) needed by this embedding.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.inlined">
+            <summary>
+            Tells whether this pattern usage was inlined.
+            In this case it is ignored in matcher generation, 
+            as all elements of the pattern used were added to the elementAndInlined-members of the using pattern.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.#ctor(System.String,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.expression.Expression[],System.String[],System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[])">
             <summary>
             Constructs a PatternGraphEmbedding object.
@@ -3987,7 +4098,7 @@
             <param name="matchingPatternOfEmbeddedGraph">The embedded subpattern.</param>
             <param name="connections">An array with the expressions defining how the subpattern is connected
             to the containing pattern (graph elements and basic variables) .</param>
-            <param name="connections">An array with the def elements and variables 
+            <param name="yields">An array with the def elements and variables 
             from the containing pattern yielded to from the subpattern.</param>
             <param name="neededNodes">An array with names of nodes needed by this embedding.</param>
             <param name="neededEdges">An array with names of edges  needed by this embedding.</param>
@@ -4030,6 +4141,11 @@
             Array with the alternative cases.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.Alternative.originalAlternative">
+            <summary>
+            Links to the original alternative in case this alternative was inlined, otherwise null
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.Alternative.#ctor(System.String,System.String,de.unika.ipd.grGen.lgsp.PatternGraph[])">
             <summary>
             Constructs an Alternative object.
@@ -4062,6 +4178,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.Iterated.maxMatches">
             <summary>
             The upper bound to stop matching at, 0 means unlimited.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.Iterated.originalIterated">
+            <summary>
+            Links to the original iterated in case this iterated was inlined, otherwise null
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.Iterated.#ctor(de.unika.ipd.grGen.lgsp.PatternGraph,System.Int32,System.Int32)">
