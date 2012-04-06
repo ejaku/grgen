@@ -424,6 +424,28 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     ////////////////////////////////////////////////////////////////////////////////
+    public class LGSPUndoElemRedirecting : IUndoItem
+    ////////////////////////////////////////////////////////////////////////////////
+    {
+        public LGSPEdge _edge;
+        public LGSPNode _source;
+        public LGSPNode _target;
+
+        public LGSPUndoElemRedirecting(LGSPEdge edge, LGSPNode source, LGSPNode target)
+        {
+            _edge = edge;
+            _source = source;
+            _target = target;
+        }
+
+        public void DoUndo(LGSPGraphProcessingEnvironment procEnv)
+        {
+            _edge.lgspSource = _source;
+            _edge.lgspTarget = _target;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
     /// A class for managing graph transactions.
@@ -431,6 +453,7 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPTransactionManager : ITransactionManager
     {
         private LinkedList<IUndoItem> undoItems = new LinkedList<IUndoItem>();
+        private IEdge currentlyRedirectedEdge;
         private bool recording = false;
         private bool paused = false; // only of interest if recording==true
         private bool reuseOptimizationBackup = false; // old value from graph, to be restored after outermost transaction completed
@@ -461,6 +484,7 @@ namespace de.unika.ipd.grGen.lgsp
             procEnv.graph.OnChangingEdgeAttribute += ChangingElementAttribute;
             procEnv.graph.OnRetypingNode += RetypingElement;
             procEnv.graph.OnRetypingEdge += RetypingElement;
+            procEnv.graph.OnRedirectingEdge += RedirectingEdge;
 
             recording = true;
             paused = false;
@@ -478,6 +502,7 @@ namespace de.unika.ipd.grGen.lgsp
             procEnv.graph.OnChangingEdgeAttribute -= ChangingElementAttribute;
             procEnv.graph.OnRetypingNode -= RetypingElement;
             procEnv.graph.OnRetypingEdge -= RetypingElement;
+            procEnv.graph.OnRedirectingEdge -= RedirectingEdge;
 
             recording = false;
             procEnv.graph.ReuseOptimization = reuseOptimizationBackup;
@@ -599,6 +624,9 @@ namespace de.unika.ipd.grGen.lgsp
                 } else if(undoItems.Last.Value is LGSPUndoElemRetyped) {
                     LGSPUndoElemRetyped item = (LGSPUndoElemRetyped)undoItems.Last.Value;
                     writer.WriteLine("RetypingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._newElem) + ":" + item._newElem.Type.Name + "<" + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._oldElem) + ":" + item._oldElem.Type.Name + ">");
+                } else if(undoItems.Last.Value is LGSPUndoElemRedirecting) {
+                    LGSPUndoElemRedirecting item = (LGSPUndoElemRedirecting)undoItems.Last.Value;
+                    writer.WriteLine("RedirectingEdge: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._edge) + " before undoing removal");
                 }
 #endif
                 undoItems.Last.Value.DoUndo(procEnv);
@@ -623,7 +651,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void ElementAdded(IGraphElement elem)
         {
-            if(recording && !paused && !undoing) undoItems.AddLast(new LGSPUndoElemAdded(elem));
+            if(recording && !paused && !undoing)
+                undoItems.AddLast(new LGSPUndoElemAdded(elem));
+
 #if LOG_TRANSACTION_HANDLING
             if(elem is INode) {
                 INode node = (INode)elem;
@@ -646,7 +676,16 @@ namespace de.unika.ipd.grGen.lgsp
                 writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + "-> " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
             }
 #endif
-            if(recording && !paused && !undoing) undoItems.AddLast(new LGSPUndoElemRemoved(elem, procEnv));
+            if(recording && !paused && !undoing)
+            {
+                undoItems.AddLast(new LGSPUndoElemRemoved(elem, procEnv));
+                if(Object.ReferenceEquals(elem, currentlyRedirectedEdge))
+                {
+                    LGSPEdge edge = (LGSPEdge)elem;
+                    undoItems.AddLast(new LGSPUndoElemRedirecting(edge, edge.lgspSource, edge.lgspTarget));
+                    currentlyRedirectedEdge = null;
+                }
+            }
         }
 
         public void ChangingElementAttribute(IGraphElement elem, AttributeType attrType,
@@ -655,7 +694,8 @@ namespace de.unika.ipd.grGen.lgsp
 #if LOG_TRANSACTION_HANDLING
             writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(elem) + ":" + elem.Type.Name + "." + attrType.Name);
 #endif
-            if(recording && !paused && !undoing) undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue));
+            if(recording && !paused && !undoing)
+                undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue));
         }
 
         public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
@@ -663,7 +703,17 @@ namespace de.unika.ipd.grGen.lgsp
 #if LOG_TRANSACTION_HANDLING
             writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "RetypingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(newElem) + ":" + newElem.Type.Name + "<" + ((LGSPNamedGraph)procEnv.graph).GetElementName(oldElem) + ":" + oldElem.Type.Name + ">");
 #endif
-            if(recording && !paused && !undoing) undoItems.AddLast(new LGSPUndoElemRetyped(oldElem, newElem));
+            if(recording && !paused && !undoing)
+                undoItems.AddLast(new LGSPUndoElemRetyped(oldElem, newElem));
+        }
+
+        public void RedirectingEdge(IEdge edge)
+        {
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "RedirectingEdge: " + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + "-> " );
+#endif
+            if(recording && !paused && !undoing)
+                currentlyRedirectedEdge = edge;
         }
 
         public bool TransactionActive { get { return recording; } }
