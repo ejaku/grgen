@@ -2162,6 +2162,7 @@ exitSecondLoop: ;
                 + "using System.Collections;\n"
                 + "using System.Text;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
+                + "using GRGEN_EXPR = de.unika.ipd.grGen.expression;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
                 + "using GRGEN_MODEL = " + namespaceOfModel + ";\n"
                 + "using " + namespaceOfRulePatterns + ";\n\n");
