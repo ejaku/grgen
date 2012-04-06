@@ -2424,6 +2424,11 @@ namespace de.unika.ipd.grGen.libGr
             return ((IGraph)leftValue).HasSameStructure((IGraph)rightValue);
         }
 
+        public static string StructuralEqualStatic(object leftValue, object rightValue)
+        {
+            return "((GRGEN_LIBGR.IGraph)" + leftValue + ").HasSameStructure((GRGEN_LIBGR.IGraph)" + rightValue + ");";
+        }
+
         public static object PlusObjects(object leftValue, object rightValue,
             string balancedType, string leftType, string rightType, IGraph graph)
         {
