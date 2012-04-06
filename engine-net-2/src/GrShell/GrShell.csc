@@ -23,6 +23,7 @@ PARSER_BEGIN(GrShell)
         public IWorkaround workaround;
         bool noError;
         bool exitOnError = false;
+		static bool deprecationNotes = false;
 
 		public void SetImpl(GrShellImpl impl)
 		{
@@ -66,6 +67,10 @@ PARSER_BEGIN(GrShell)
                     {
                         nonDebugNonGuiExitOnError = true;
                     }
+                    else if(args[i] == "-deprecated")
+                    {
+                        deprecationNotes = true;
+                    }
                     else if(args[i] == "--help")
                     {
 	                    Console.WriteLine("Displays help");
@@ -108,6 +113,7 @@ PARSER_BEGIN(GrShell)
                 Console.WriteLine("  -C <command> Specifies a command to be executed >first<. Using");
                 Console.WriteLine("               ';;' as a delimiter it can actually contain multiple shell commands");
                 Console.WriteLine("  -N           non-interactive non-gui shell which exits on error instead of waiting for user input");
+                Console.WriteLine("  -deprecated  sequences constructs deprecated in 3.1 give warnings");				
                 Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
                 return errorCode;
             }
@@ -1157,7 +1163,7 @@ void ShellCommand():
 	    {
             try
             {
-                seq = SequenceParser.ParseSequence(str1, impl.CurrentActions);
+                seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, deprecationNotes);
     	        validated = impl.ValidateWithSequence(seq);
                 noError = !impl.OperationCancelled;
             }
@@ -1196,7 +1202,7 @@ void ShellCommand():
     {
         try
         {
-            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions);
+            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, deprecationNotes);
             impl.ApplyRewriteSequence(seq, false);
             noError = !impl.OperationCancelled;
         }
@@ -1221,7 +1227,7 @@ void ShellCommand():
     {
         try
         {
-            seqDef = SequenceParser.ParseSequenceDefinition(str1, impl.CurrentActions);
+            seqDef = SequenceParser.ParseSequenceDefinition(str1, impl.CurrentActions, deprecationNotes);
             impl.DefineRewriteSequence(seqDef);
         }
         catch(SequenceParserException ex)
@@ -1800,7 +1806,7 @@ void DebugCommand():
 		{
 			try
 			{
-				seq = SequenceParser.ParseSequence(str, impl.CurrentActions);
+				seq = SequenceParser.ParseSequence(str, impl.CurrentActions, deprecationNotes);
 				impl.DebugRewriteSequence(seq);
 				noError = !impl.OperationCancelled;
 			}

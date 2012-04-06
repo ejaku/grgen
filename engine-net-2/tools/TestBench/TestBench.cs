@@ -163,7 +163,7 @@ namespace de.unika.ipd.grGen.testBench
 					bool failed = false;
 					try
 					{
-                        backend.ProcessSpecification(file, outDir + Path.DirectorySeparatorChar, outDir, ProcessSpecFlags.KeepGeneratedFiles);
+                        backend.ProcessSpecification(file, outDir + Path.DirectorySeparatorChar, outDir, ProcessSpecFlags.KeepGeneratedFiles, false);
 					}
 					catch(Exception ex)
 					{

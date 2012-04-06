@@ -153,13 +153,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <param name="externalAssemblies">External assemblies to reference</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        void ProcessSpecification(String specPath, String destDir, String intermediateDir, ProcessSpecFlags flags, params String[] externalAssemblies);
+        void ProcessSpecification(String specPath, String destDir, String intermediateDir, ProcessSpecFlags flags, bool deprecationNotes, params String[] externalAssemblies);
 
         /// <summary>
         /// Processes the given rule specification file and generates a model and actions library in the same directory as the specification file.
         /// </summary>
         /// <param name="specPath">The path to the rule specification file (.grg).</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        void ProcessSpecification(String specPath);
+        void ProcessSpecification(String specPath, bool deprecationNotes);
     }
 }

@@ -691,7 +691,7 @@ namespace spBench
         {
             LGSPGraph graph = (LGSPGraph) orgGraph.Clone("tempGraph");
             actions.Graph = graph;
-            Sequence seq = SequenceParser.ParseSequence(benchGRS, actions);
+            Sequence seq = SequenceParser.ParseSequence(benchGRS, actions, false);
 
             PerformanceInfo perfInfo = new PerformanceInfo();
             graph.PerformanceInfo = perfInfo;

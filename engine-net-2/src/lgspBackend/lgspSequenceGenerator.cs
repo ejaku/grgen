@@ -1871,7 +1871,7 @@ namespace de.unika.ipd.grGen.lgsp
 		public bool GenerateXGRSCode(string xgrsName, String xgrsStr,
             String[] paramNames, GrGenType[] paramTypes,
             String[] defToBeYieldedToNames, GrGenType[] defToBeYieldedToTypes,
-            SourceBuilder source)
+            SourceBuilder source, bool deprecationNotes)
 		{
 			Dictionary<String, String> varDecls = new Dictionary<String, String>();
             for (int i = 0; i < paramNames.Length; i++)
@@ -1900,7 +1900,7 @@ namespace de.unika.ipd.grGen.lgsp
 			Sequence seq;
             try
             {
-                seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, sequenceNames, varDecls, model);
+                seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, sequenceNames, varDecls, model, deprecationNotes);
                 LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
                                                     sequencesToInputTypes, sequencesToOutputTypes, model);
                 checker.Check(seq);
@@ -1950,7 +1950,7 @@ namespace de.unika.ipd.grGen.lgsp
 			return true;
 		}
 
-        public bool GenerateDefinedSequences(SourceBuilder source, DefinedSequenceInfo sequence)
+        public bool GenerateDefinedSequences(SourceBuilder source, DefinedSequenceInfo sequence, bool deprecationNotes)
         {
             Dictionary<String, String> varDecls = new Dictionary<String, String>();
             for(int i = 0; i < sequence.Parameters.Length; i++)
@@ -1979,7 +1979,7 @@ namespace de.unika.ipd.grGen.lgsp
             Sequence seq;
             try
             {
-                seq = SequenceParser.ParseSequence(sequence.XGRS, ruleNames, sequenceNames, varDecls, model);
+                seq = SequenceParser.ParseSequence(sequence.XGRS, ruleNames, sequenceNames, varDecls, model, deprecationNotes);
                 LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
                                                     sequencesToInputTypes, sequencesToOutputTypes, model);
                 checker.Check(seq);

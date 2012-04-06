@@ -177,8 +177,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The sequence object according to the given string.</returns>
         public Sequence ParseSequence(String seqStr)
         {
-            return SequenceParser.ParseSequence(seqStr, this);
+            return SequenceParser.ParseSequence(seqStr, this, deprecationNotes);
         }
+
+        public bool deprecationNotes;
 
         #endregion Sequence handling
     }

@@ -105,7 +105,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String modelDllFilename;
                 if(MustGenerate(modelFilename, out modelDllFilename))
-                    LGSPGrGen.ProcessSpecification(modelFilename, ProcessSpecFlags.UseNoExistingFiles, new String[0]);
+                    LGSPGrGen.ProcessSpecification(modelFilename, ProcessSpecFlags.UseNoExistingFiles, false, new String[0]);
                 return CreateGraph(modelDllFilename, graphName, parameters);
             }
             else
@@ -598,7 +598,7 @@ namespace de.unika.ipd.grGen.lgsp
             String modelFilename;
 
             if(MustGenerate(grgFilename, out actionsFilename, out modelFilename))
-                LGSPGrGen.ProcessSpecification(grgFilename, flags, externalAssemblies.ToArray());
+                LGSPGrGen.ProcessSpecification(grgFilename, flags, false, externalAssemblies.ToArray());
 
             LGSPGraph graph = (LGSPGraph) CreateGraph(modelFilename, graphName);
             newActions = (LGSPActions) graph.LoadActions(actionsFilename);
@@ -648,7 +648,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             String modelFilename;
             if(MustGenerate(gmFilename, out modelFilename))
-                LGSPGrGen.ProcessSpecification(gmFilename, flags, externalAssemblies.ToArray());
+                LGSPGrGen.ProcessSpecification(gmFilename, flags, false, externalAssemblies.ToArray());
 
             return (LGSPGraph) CreateGraph(modelFilename, graphName);
         }
@@ -720,9 +720,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <param name="externalAssemblies">External assemblies to reference</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        public void ProcessSpecification(string specPath, string destDir, string intermediateDir, ProcessSpecFlags flags, params String[] externalAssemblies)
+        public void ProcessSpecification(string specPath, string destDir, string intermediateDir, ProcessSpecFlags flags, bool deprecationNotes, params String[] externalAssemblies)
         {
-            LGSPGrGen.ProcessSpecification(specPath, destDir, intermediateDir, flags, externalAssemblies);
+            LGSPGrGen.ProcessSpecification(specPath, destDir, intermediateDir, flags, deprecationNotes, externalAssemblies);
         }
 
         /// <summary>
@@ -730,9 +730,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="specPath">The path to the rule specification file (.grg).</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        public void ProcessSpecification(string specPath)
+        public void ProcessSpecification(string specPath, bool deprecationNotes)
         {
-            LGSPGrGen.ProcessSpecification(specPath, ProcessSpecFlags.UseNoExistingFiles, new String[0]);
+            LGSPGrGen.ProcessSpecification(specPath, ProcessSpecFlags.UseNoExistingFiles, deprecationNotes, new String[0]);
         }
     }
 }

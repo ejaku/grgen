@@ -41,6 +41,8 @@ PARSER_BEGIN(SequenceParser)
 		/// a graph-global variable maps to type "", a sequence-local to its type
 		/// </summary>
 		SymbolTable varDecls;
+		
+		bool deprecationNotes;
 
         /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object. Used for the interpreted xgrs.
@@ -51,7 +53,7 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, BaseActions actions)
+		public static Sequence ParseSequence(String sequenceStr, BaseActions actions, bool deprecationNotes)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
@@ -59,6 +61,7 @@ PARSER_BEGIN(SequenceParser)
 			parser.model = actions.Graph.Model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
+			parser.deprecationNotes = deprecationNotes;
 			Sequence seq = parser.XGRS();
 			SequenceChecker seqChecker = new SequenceChecker(actions);
 			seqChecker.Check(seq);
@@ -74,7 +77,7 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static SequenceDefinition ParseSequenceDefinition(String sequenceStr, BaseActions actions)
+		public static SequenceDefinition ParseSequenceDefinition(String sequenceStr, BaseActions actions, bool deprecationNotes)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
@@ -82,6 +85,7 @@ PARSER_BEGIN(SequenceParser)
 			parser.model = actions.Graph.Model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
+			parser.deprecationNotes = deprecationNotes;
 			SequenceDefinition seq = parser.defXGRS();
 			SequenceChecker seqChecker = new SequenceChecker(actions);
 			seqChecker.Check(seq);
@@ -101,7 +105,7 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames, String[] sequenceNames,
-		        Dictionary<String, String> predefinedVariables, IGraphModel model)
+		        Dictionary<String, String> predefinedVariables, IGraphModel model, bool deprecationNotes)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = null;
@@ -110,6 +114,7 @@ PARSER_BEGIN(SequenceParser)
 			parser.model = model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
+			parser.deprecationNotes = deprecationNotes;
 			Sequence seq = parser.XGRS();
 			// check will be done by LGSPSequenceChecker from lgsp code afterwards outside of this libGr code
 			return seq;
@@ -796,16 +801,19 @@ Sequence SimpleSequence():
     (
 	    "valloc" "(" ")"
 		{
+			if(deprecationNotes) Console.Error.WriteLine("assignment of valloc only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 			return new SequenceAssignVAllocToVar(toVar);
 		}
 	|
 		LOOKAHEAD(3) fromVar=VariableUse() "." "visited" "[" fromVar2=VariableUse() "]"
         {
+			if(deprecationNotes) Console.Error.WriteLine("assignment of visited flag query only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 			return new SequenceAssignSequenceResultToVar(toVar, new SequenceIsVisited(fromVar, fromVar2));
         }
 	|
         LOOKAHEAD(4) fromVar=VariableUse() "." method=Word() "(" ")"
 		{
+			if(deprecationNotes) Console.Error.WriteLine("assignment of method call result only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 			if(method=="size") return new SequenceAssignContainerSizeToVar(toVar, fromVar);
 			else if(method=="empty") return new SequenceAssignContainerEmptyToVar(toVar, fromVar);
 			else throw new ParseException("Unknown method name: \"" + method + "\"! (available are size|empty on set/map)");
@@ -813,16 +821,19 @@ Sequence SimpleSequence():
 	|
         LOOKAHEAD(2) fromVar=VariableUse() "." attrName=Word()
         {
+			if(deprecationNotes) Console.Error.WriteLine("assignment of attribute value only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
             return new SequenceAssignAttributeToVar(toVar, fromVar, attrName);
         }
 	|
 		LOOKAHEAD(2) fromVar=VariableUse() "[" fromVar2=VariableUse() "]" // parsing v=a[ as v=a[x] has priority over (v=a)[*]
 		{
+			if(deprecationNotes) Console.Error.WriteLine("assignment of container access only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 			return new SequenceAssignContainerAccessToVar(toVar, fromVar, fromVar2);
 		}
 	|
 		LOOKAHEAD(2) fromVar=VariableUse() "in" fromVar2=VariableUse()
 		{
+			if(deprecationNotes) Console.Error.WriteLine("assignment of container membership query only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 			return new SequenceAssignSequenceResultToVar(toVar, new SequenceIn(fromVar, fromVar2));
 		}
 	|
@@ -843,6 +854,7 @@ Sequence SimpleSequence():
     |
         "@" "(" elemName=Text() ")"
         {
+			if(deprecationNotes) Console.Error.WriteLine("assignment of named element query in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
             return new SequenceAssignElemToVar(toVar, elemName);
         }
     |
@@ -858,6 +870,7 @@ Sequence SimpleSequence():
 	|
 		"def" "(" Parameters(variableList1) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
 		{
+			if(deprecationNotes) Console.Error.WriteLine("assignment of def check only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 			return new SequenceAssignSequenceResultToVar(toVar, new SequenceDef(variableList1.ToArray()));
 		}
 	|
@@ -868,6 +881,9 @@ Sequence SimpleSequence():
     )
 |
 	LOOKAHEAD(7) toVar=VariableUse() "." "visited" "[" fromVar=VariableUse() "]" "="
+		{ 
+			if(deprecationNotes) Console.Error.WriteLine("assignment to visited flag only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
+		}
 		(
 			fromVar2=VariableUse() { return new SequenceSetVisited(toVar, fromVar, fromVar2); }
 		|
@@ -878,36 +894,49 @@ Sequence SimpleSequence():
 |
 	LOOKAHEAD(3) fromVar=VariableUse() "." "visited" "[" fromVar2=VariableUse() "]"
 	{
+		if(deprecationNotes) Console.Error.WriteLine("visited query only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 		return new SequenceIsVisited(fromVar, fromVar2);
 	}
 |
 	"vfree" "(" fromVar=VariableUse() ")"
 	{
+		if(deprecationNotes) Console.Error.WriteLine("vfree only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 		return new SequenceVFree(fromVar);
 	}
 |
 	"vreset" "(" fromVar=VariableUse() ")"
 	{
+		if(deprecationNotes) Console.Error.WriteLine("vreset only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 		return new SequenceVReset(fromVar);
 	}
 |
 	"emit" "("
 		( str=TextString() { seq = new SequenceEmit(str); }
 		| fromVar=VariableUse() { seq = new SequenceEmit(fromVar);} )
-	")" { return seq; }
+	")"
+	{
+		if(deprecationNotes) Console.Error.WriteLine("emit only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
+		return seq;
+	}
 |
 	"record" "("
 		( str=TextString() { seq = new SequenceRecord(str); }
 		| fromVar=VariableUse() { seq = new SequenceRecord(fromVar);} )
-	")" { return seq; }
+	")"
+    {
+		if(deprecationNotes) Console.Error.WriteLine("record only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
+		return seq;
+	}
 |
 	LOOKAHEAD(4) toVar=VariableUse() "." attrName=Word() "=" fromVar=VariableUse()
     {
+		if(deprecationNotes) Console.Error.WriteLine("assignment to attribute only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
         return new SequenceAssignVarToAttribute(toVar, attrName, fromVar);
     }
 |
 	LOOKAHEAD(2) fromVar=VariableUse() "." method=Word() "(" ( fromVar2=VariableUse() ("," fromVar3=VariableUse())? )? ")"
 	{
+		if(deprecationNotes) Console.Error.WriteLine("container method call only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 		if(method=="add") {
 			if(fromVar2==null) throw new ParseException("\"" + method + "\" expects 1(for set,array end) or 2(for map,array with index) parameters)");
 			return new SequenceContainerAdd(fromVar, fromVar2, fromVar3);
@@ -924,6 +953,7 @@ Sequence SimpleSequence():
 |
 	LOOKAHEAD(2) fromVar=VariableUse() "in" fromVar2=VariableUse()
 	{
+		if(deprecationNotes) Console.Error.WriteLine("container membership query only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 		return new SequenceIn(fromVar, fromVar2);
 	}
 |
@@ -934,11 +964,13 @@ Sequence SimpleSequence():
 |
 	toVar=VariableUse() "[" fromVar=VariableUse() "]" "=" fromVar2=VariableUse()
 	{
+		if(deprecationNotes) Console.Error.WriteLine("assignment to indexed variable only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 		return new SequenceAssignVarToIndexedVar(toVar, fromVar, fromVar2);
 	}
 |
 	"def" "(" Parameters(variableList1) ")"
 	{
+		if(deprecationNotes) Console.Error.WriteLine("def query only in sequence computation allowed at/before " + GetToken(0).beginLine + ", " + GetToken(0).beginColumn);
 		return new SequenceDef(variableList1.ToArray());
 	}
 |
@@ -979,6 +1011,7 @@ Sequence SimpleSequence():
 	( "$" { chooseRandSpecified=true; } ("%" { choice = true; } )? )?
 		"{" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "}"
 	{
+		if(deprecationNotes) Console.Error.WriteLine("{} or ${} must be written {()} or ${()}, {} is reserved for sequence computations");
 		return new SequenceSomeFromSet(sequences, chooseRandSpecified, choice);
 	}
 |

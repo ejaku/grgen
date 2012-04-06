@@ -78,6 +78,7 @@ namespace de.unika.ipd.grGen.grGen
             ProcessSpecFlags flags = ProcessSpecFlags.UseNoExistingFiles;
             IBackend backend = null;
             List<String> externalAssemblies = new List<String>();
+            bool deprecationNotes = false;
 
             for(int i = 0; i < args.Length; i++)
             {
@@ -201,6 +202,10 @@ namespace de.unika.ipd.grGen.grGen
                             Console.WriteLine("One tool to bring them all, and in the darkness bind them.");
                             return 0;
 
+                        case "-deprecated":
+                            deprecationNotes = true;
+                            break;
+
                         default:
                             Console.Error.WriteLine("Illegal option: " + args[i]);
                             specFile = null;
@@ -236,6 +241,7 @@ namespace de.unika.ipd.grGen.grGen
                     + "  -debug                Compiles the assemblies with debug information\n"
                     + "  -r <assembly-path>    Assembly path to reference, i.e. link into\n"
                     + "                        the generated assembly\n"
+                    + "  -deprecated           sequences constructs deprecated in 3.1 give warnings\n"
                     + "  -mission              Uncovers the tool's evil mission\n\n"
                     + "Optimizing options:\n"
                     + "  -noevents             Do not fire any events in the generated code.\n"
@@ -304,7 +310,7 @@ namespace de.unika.ipd.grGen.grGen
             int ret = 0;
             try
             {
-                backend.ProcessSpecification(specFile, destDir, dirname, flags, externalAssemblies.ToArray());
+                backend.ProcessSpecification(specFile, destDir, dirname, flags, deprecationNotes, externalAssemblies.ToArray());
             }
             catch(Exception ex)
             {

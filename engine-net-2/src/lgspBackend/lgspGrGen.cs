@@ -654,7 +654,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
 
-        ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, String[] externalAssemblies)
+        ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, String[] externalAssemblies, bool deprecationNotes)
         {
             Console.WriteLine("Building libraries...");
 
@@ -868,8 +868,8 @@ namespace de.unika.ipd.grGen.lgsp
                                 {
                                     EmbeddedSequenceInfo xgrsInfo = (EmbeddedSequenceInfo)ruleFields[i].GetValue(null);
                                     if(!seqGen.GenerateXGRSCode(ruleFields[i].Name.Substring("XGRSInfo_".Length),
-                                        xgrsInfo.XGRS, xgrsInfo.Parameters, xgrsInfo.ParameterTypes, 
-                                        xgrsInfo.OutParameters, xgrsInfo.OutParameterTypes, source))
+                                        xgrsInfo.XGRS, xgrsInfo.Parameters, xgrsInfo.ParameterTypes,
+                                        xgrsInfo.OutParameters, xgrsInfo.OutParameterTypes, source, deprecationNotes))
                                     {
                                         return ErrorType.GrGenNetError;
                                     }
@@ -996,7 +996,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
                 {
-                    seqGen.GenerateDefinedSequences(source, sequence);
+                    seqGen.GenerateDefinedSequences(source, sequence, deprecationNotes);
 
                     endSource.AppendFrontFormat("RegisterGraphRewriteSequenceDefinition("
                             + "Sequence_{0}.Instance);\n", sequence.Name);
@@ -1102,12 +1102,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <param name="externalAssemblies">External assemblies to reference</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        public static void ProcessSpecification(String specPath, String destDir, String intermediateDir, ProcessSpecFlags flags, params String[] externalAssemblies)
+        public static void ProcessSpecification(String specPath, String destDir, String intermediateDir, ProcessSpecFlags flags, bool deprecationNotes, params String[] externalAssemblies)
         {
             ErrorType ret;
             try
             {
-                ret = new LGSPGrGen(flags).ProcessSpecificationImpl(specPath, destDir, intermediateDir, externalAssemblies);
+                ret = new LGSPGrGen(flags).ProcessSpecificationImpl(specPath, destDir, intermediateDir, externalAssemblies, deprecationNotes);
             }
             catch(Exception ex)
             {
@@ -1135,7 +1135,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="specPath">The path to the rule specification file (.grg).</param>
         /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <param name="externalAssemblies">External assemblies to reference</param>
-        public static void ProcessSpecification(String specPath, ProcessSpecFlags flags, params String[] externalAssemblies)
+        public static void ProcessSpecification(String specPath, ProcessSpecFlags flags, bool deprecationNotes, params String[] externalAssemblies)
         {
             specPath = FixDirectorySeparators(specPath);
 
@@ -1169,7 +1169,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             try
             {
-                ProcessSpecification(specPath, specDir, dirname, flags, externalAssemblies);
+                ProcessSpecification(specPath, specDir, dirname, flags, deprecationNotes, externalAssemblies);
             }
             finally
             {
