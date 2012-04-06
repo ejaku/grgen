@@ -1,4 +1,45 @@
-﻿v3.1 beta 3 (2012-02-12)
+﻿v3.1 beta 4 (2012-04-06)
+ Several procedures for basic graph manipulation added to sequence computations:
+  - add(:NodeType):Node - creates node of given type and adds it to the graph
+  - add(:EdgeType, src:Node, tgt:Node):Edge - creates edge of given type 
+     from src to tgt and adds it to the graph
+  - rem(node:Node) - removes node from graph
+  - rem(edge:Edge) - removes edge from graph
+  - clear() - clears graph
+
+ Several procedures for graph element neighborhood queries added to sequence computations:
+  - source(edge:Edge):Node - returns the source node of the edge
+  - target(edge:Edge):Node - returns the target node of the edge
+  - adjacentIncoming, adjacentOutgoing - in addition to adjacent, restricted to incoming or outgoing edges
+     of type (source:Node):set<Edge> or (source:Node, incident:EdgeType):set<Edge> 
+     or (source:Node, incident:EdgeType, adjacent:NodeType):set<Edge>
+  - incident, incoming, outgoing returning the edges incident to the source given the constraints specified
+     of type (source:Node):set<Edge>, or (source:Node, incident:EdgeType):set<Edge>,
+     or (source:Node, incident:EdgeType, adjacent:NodeType):set<Edge>
+
+ Several procedures for computing and cloning induced graphs added to sequence computations:
+  - inducedSubgraph(:set<Node>):Graph - returns the subgraph induced from the node set given
+     inducedSubgraph replaces induced
+  - definedSubgraph(:set<Edge>):Graph - returns the subgraph defined by the edge set given
+  - insertInduced(:set<Node>,anchor:Node):Node - adds a clone of the induced subgraph to the host graph,
+     returns the clone of the anchor node given
+  - insertDefined(:set<Edge>,anchor:Edge):Edge - adds a clone of the defined subgraph to the host graph,
+     returns the clone of the anchor edge given
+
+ Some further miscellaneous procedures and operators added to sequence computations:
+  - binary operator ~~, checks for structural equality of graphs,
+     i.e. isomorphy but does not check attributes for value equality as == does
+  - added cast operator "(type)element" for node and edge types
+  - added .peek(n) method for container types, returning the nth element of a container
+
+ Bugfixes:
+  - edge redirection and thus node merging was broken when used in transactions/backtracking
+  - compiling external attribute evaluation functions from dynamic search plans gave a compiler error
+  - one-of/some-of-set operator ${(...)}, {(...)} now handled correctly in compiled sequences, too
+  - further small fixes and improvements
+
+
+v3.1 beta 3 (2012-02-12)
  Isomorphy checking for state space enumeration now supported (to purge duplicate graphs/states):
   - Added subgraph typed variables and attributes, which allow to store and retrieve IGraph values,
     (they are for coping with subgraphs of the host graph, not multiple host graphs,)
@@ -99,6 +140,14 @@ v3.1 beta 1 (2011-12-12)
 
 --------------------------------------------------------------------------------------------------------
 
+v3.0.1 (2012-04-06)
+ - Added -deprecated option to grshell and grgen (as migration helper towards 3.1):
+    When sequence constructs are found which are only available as sequence computations in 3.1
+	a deprecation warning message is printed to stderr (in case this option is given)
+ - Some minor fixes
+ - Note: when using transactions or backtracking, you are strongly recommended to switch to 3.1,
+    they contain bugs which won't be fixed on 3.0 any more
+	
 v3.0 (2011-07-29)
  New datatypes introduced:
   byte - 8bit signed, literals are denoted by Y-suffix, e.g. 42y

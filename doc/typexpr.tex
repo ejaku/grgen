@@ -140,7 +140,7 @@ The bind stronger than the boolean expressions but weaker than all the other non
 \end{rail}\ixnterm{RelationalExpr}
 
 The \emph{CompareOperator} is one of the following operators:
-\[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
+\[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \;\;\;\;\; \texttt{\textasciitilde\textasciitilde} \]
 Their semantics are type dependent.
 
 For arithmetic expressions on \texttt{int} and \texttt{float} or \texttt{double} types
@@ -160,11 +160,10 @@ the semantics is given by Table~\ref{compandarithmetic} (by implicit casting the
   \label{compandarithmetic}
 \end{table}
 
-\texttt{String} types, \texttt{boolean} types, \texttt{object} types, and \textt{graph} types support only the \texttt{==} and the \texttt{!=} operators;
+\texttt{String} types, \texttt{boolean} types, and \texttt{object} types support only the \texttt{==} and the \texttt{!=} operators;
 for strings they denote whether the strings are the same or not,
 on boolean values they denote equivalence and antivalence,
-on object types the tell whether the references are the same, thus the objects identical,
-and on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}).
+and on object types they tell whether the references are the same, thus the objects identical.
 
 For set/map/array expressions, table~\ref{compandsetmap} describes the semantics of the compare operators.
 Some set A is a subset of B iff all elements in A are contained in B, too.
@@ -211,6 +210,19 @@ the rule to remember is: types grow larger with extension/refinement. An example
   \end{itemize}
 \end{note}
 
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ is isomorphic to $B$. \\
+    \texttt{A != B} & True, iff $A$ is not isomorphic to $B$. \\
+    \texttt{A \textasciitilde\textasciitilde{ } B} & True, iff $A$ is structurally the same as $B$ but maybe different regarding the attributes. \\ \hline
+  \end{tabularx}
+  \caption{Compare operators on graph expressions}
+  \label{compandgraph}
+\end{table}
+
+\texttt{Graph} types support only the \texttt{==}, the \texttt{!=}, and the \texttt{\textasciitilde\textasciitilde} operators;
+on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}) or not, including the attributes, or whether the (sub)graphs are isomorphic disregarding the attributes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Arithmetic and Bitwise Expressions}

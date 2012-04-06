@@ -12,9 +12,15 @@ They are available
 If they appear in rules, they get compiled, otherwise they get interpreted.
 Iff used within \GrShell, they are amenable to debugging.
 
-Graph rewrite sequences are written down with a syntax similar to boolean and regular expressions.
-They are a means of composing complex graph transformations out of single graph rewrite rules; 
-they determine the control flow by the evaluation order of the operands.
+Graph rewrite sequences are built from a pure \emph{rule control} language,
+written down in a syntax similar to boolean and regular expressions, with rule applications as atoms,
+and a \emph{computations} sublanguage,
+noted down as a sequence of assignments, function calls, or procedure calls.
+A computation is given as an atom of the rule control language, nested in curly braces.
+(The syntactical separation into two sublanguages was carried out in version 3.1, you might be interested in the \texttt{-deprecated} flag available for the generator and the shell in version 3.0.1 in case you got old code; when the flag is set the sequence constructs which were moved to the computations sublanguage employed in your solution are reported.)
+
+The graph rewrite sequences are a means of composing complex graph transformations out of single graph rewrite rules and further computations.
+The control flow in the rule control language is determined by the evaluation order of the operands.
 Graph rewrite sequences have a boolean return value; for a single rule, \texttt{true} means the rule was successfully applied to the host graph.
 A \texttt{false} return value means that the pattern was not found in the host graph. 
 
@@ -399,11 +405,11 @@ The boolean operators have the same semantics and same priority as in \ref{sub:e
 
 \begin{rail}
   RelationalSequenceExpression: 
-    SequenceExpression ('==' | '!=' | '<' | '<='| '>' | '>=' | 'in') SequenceExpression;
+    SequenceExpression ('==' | '!=' | '<' | '<='| '>' | '>=' | 'in' | titilde) SequenceExpression;
 \end{rail}\ixnterm{RelationalSequenceExpression}
 
 The equality operators work for every type and return whether the values to compare are equal or unequal.
-The relational operators on numerical and set/map/array types work as specified in \ref{sub:expr}.
+The relational operators on numerical, graph, and set/map/array types work as specified in \ref{sub:expr}.
 
 \begin{rail}
   ArithmeticSequenceExpression:
@@ -450,15 +456,54 @@ The special sequence expressions are used for storage and visited flag handling,
 The storage and visited flag oriented ones are used to check whether a value is marked, to access a storage, or to call a method on a storage (note: here it is not possible to build method call chains). 
 They will be explained in more detail in chapter \ref{cha:storagesvisited}.
 
-The graph and subgraph oriented ones are used to compute sets from the graph for the incidence and adjacency relationships, and for computing an induced subgraph from the host graph given a set of nodes. They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
+The graph and subgraph oriented ones can be separated into several groups.
+The first group is built from basic graph manipulation operators used for adding or removing elements:
 
 \begin{description}
-\item[\texttt{adjacent(.)}] returns the set of the nodes which are incident to the node given as argument value.
-\item[\texttt{adjacent(.,.)}] as above, but only nodes incident to an edge of the type given as second argument are contained.
-\item[\texttt{adjacent(.,.,.)}] as above, but only nodes of the node type given as third argument are contained.
-\item[\texttt{induced(.)}] returns the induced subgraph (type: \texttt{graph}) of the host graph for the set of nodes given as argument value.
+\item[\texttt{add(.)}] creates a node of the given type and adds it to the host graph.
+\item[\texttt{add(.,.,.)}] creates an edge of the given type and adds it to the host graph, starting at the node given as second argument, ending at the node given as third argument.
+\item[\texttt{rem(.)}] removes the given node or edge from the graph.
+\item[\texttt{clear()}] clears the host graph.
 \end{description}
 
+The second group is built from the operators querying the connectedness of graph elements.
+It contains functions to ask for the source or target node of an edge: 
+
+\begin{description}
+\item[\texttt{source(.)}] returns the source node of the given edge.
+\item[\texttt{target(.)}] returns the target node of the given edge.
+\end{description}
+
+Furthermore, it contains functions which allow to compute the set of edges incident to a node:
+
+\begin{description}
+\item[\texttt{incident(.)}] returns the set of the edges which are incident to the node given as argument value.
+\item[\texttt{incident(.,.)}] as above, but only edges of the type given as second argument are contained.
+\item[\texttt{indicent(.,.,.)}] as above, but only edges incident to an opposite node of the type given as third argument are contained.
+\item[\texttt{incoming}] same as any of the incidents above, but restricted to incoming edges.
+\item[\texttt{outgoing}] same as any of the incidents above, but restricted to outgoing edges.
+\end{description}
+
+In addition, it contains functions which allow to compute the set of nodes adjacent to a node:
+
+\begin{description}
+\item[\texttt{adjacent(.)}] returns the set of the nodes which are adjacent to the node given as argument value.
+\item[\texttt{adjacent(.,.)}] as above, but only nodes incident to an edge of the type given as second argument are contained.
+\item[\texttt{adjacent(.,.,.)}] as above, but only nodes of the node type given as third argument are contained.
+\item[\texttt{adjacentIncoming}] same as any of the adjacents above, but restricted to nodes reachable via incoming edges.
+\item[\texttt{adjacentOutgoing}] same as any of the adjacents above, but restricted to nodes reachable via outgoing edges.
+\end{description}
+
+The third group is defined by functions which operate on (sub-)graphs:
+It contains functions which allow to compute (node-or-edge) induced subgraphs, and to insert clones of induced subgraphs.
+They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
+
+\begin{description}
+\item[\texttt{inducedSubgraph(.)}] returns the induced subgraph (type: \texttt{graph}) of the host graph for the set of nodes given as argument value.
+\item[\texttt{definedSubgraph(.)}] returns the defined (edge-induced) subgraph (type: \texttt{graph}) of the host graph for the set of edges given as argument value.
+\item[\texttt{insertInduced(.,.)}] adds a clone of the subgraph induced by the set of nodes given as first argument to the host graph, returns the clone of the anchor node given as second argument.
+\item[\texttt{insertDefined(.,.)}] adds a clone of the subgraph defined (edge-induced) by the set of edges given as first argument to the host, returns the clone of the anchor edge given as second argument.
+\end{description}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -550,6 +595,14 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \texttt{u.empty()} & Returns whether storage set \texttt{u} is empty.\\
 \texttt{u=map<N,Edge>\{\}}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
 \texttt{u[e]}	& Target value of \texttt{e} in \texttt{u}. Fails if \texttt{!(e in u)}. Assignment target or expression.\\
+\hline
+\texttt{add(T)}	& Adds a node to the graph.\\
+\texttt{add(T,src,tgt)}	& Adds an edge to the graph.\\
+\texttt{rem(e)}	& Remove the node or edge \texttt{e} from the graph.\\
+\texttt{clear()}	& Clears the graph.\\
+\texttt{incident(n)}	& Returns the set of edges incident to \texttt{n}.\\
+\texttt{adjacent(n)} & Returns the set of nodes adjacent to \texttt{n}.\\
+\texttt{subgraph operations} & The subgraph operations allow to compute an induced or defined subgraph, or allow to replicate an induced or defined subgraph.\\
 \hline
 \end{tabularx}
 \end{minipage}\\
