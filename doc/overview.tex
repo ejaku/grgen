@@ -503,7 +503,7 @@ The \GrG\ generator parses a rule set and its model files and compiles them into
 The compiled assemblies form a specific graph rewriting system together with the \GrG\ backend.
 
 \begin{description}
-  \item[Usage] \begin{tabular*}{\linewidth}{@{}l@{}l}\texttt{[mono] GrGen.exe } & \texttt{[-keep [<dest-dir>]] [-use <existing-dir>] [-debug]}\\
+  \item[Usage] \begin{tabular*}{\linewidth}{@{}l@{}l}\texttt{[mono] GrGen.exe } & \texttt{[-keep [<dest-dir>]] [-use <existing-dir>] [-debug] [-deprecated]}\\
         &\texttt{[-b <backend-dll>] [-o <output-dir>] [-r <assembly-path>]}\\
         &\texttt{<rule-set>}\end{tabular*}
     \emph{rule-set} is a file containing a rule set specification according to Chapter~\ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.
@@ -520,6 +520,7 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
 \end{itemize}\\
       \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.\\
       \texttt{-debug} & Compile the assemblies with debug information.\\
+      \texttt{-deprecated} & Prints a deprecation warning when sequence constructs are found which are only available as sequence computations in 3.1.\\
       \texttt{-b} & Use the backend library \emph{backend-dll} (default is LGSPBackend).\\
       \texttt{-r} & Link the assembly \emph{assembly-path} as reference to the compilation result.\\
       \texttt{-o} & Store generated assemblies in \emph{output-dir}.
@@ -557,12 +558,13 @@ you may need to install a JDK to a non system path and add the bin folder of the
 For further information about the \GrShell\ language see Chapter~\ref{chapgrshell}.
 
 \begin{description}
-  \item[Usage] \texttt{[mono] grShell.exe [-N] [-C "<commands>"] <grshell-script>*} \\
+  \item[Usage] \texttt{[mono] grShell.exe [-N] [-deprecated] [-C "<commands>"] <grshell-script>*} \\
      Opens the interactive shell. The \GrShell\ will include and execute the commands in the optional list of \emph{grshell-script}s\indexmain{graph rewrite script} (usually \texttt{*\indexed{.grs}} files) in the given order.
 	 The \texttt{grs} suffixes may be omitted. \GrShell\ returns 0 on successful execution, or in non-interactive mode -1 if the specified shell script could not be executed, or -2 if a \texttt{validate} with \texttt{exitonfailure} failed.
   \item[Options] \mbox{}
     \begin{tabularx}{\linewidth}{lX}
       \texttt{-N} & Enables non-debug non-gui mode which exits on error with an error code instead of waiting for user input.\\
+      \texttt{-deprecated} & Prints a deprecation warning when sequence constructs are found which are only available as sequence computations in 3.1.\\
       \texttt{-C} & Execute the quoted \GrShell\ commands immediately (before the first script file). Instead of a line break use a double semicolon \texttt{;;} to separate commands.
     \end{tabularx}
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above).

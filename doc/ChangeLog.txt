@@ -1,4 +1,12 @@
-﻿v3.0 (2011-07-29)
+﻿v3.0.1 (2012-04-06)
+ - Added -deprecated option to grshell and grgen (as migration helper towards 3.1):
+    When sequence constructs are found which are only available as sequence computations in 3.1
+	a deprecation warning message is printed to stderr (in case this option is given)
+ - Some minor fixes
+ - Note: when using transactions or backtracking, you are strongly recommended to switch to 3.1,
+    they contain bugs which won't be fixed on 3.0 any more
+
+v3.0 (2011-07-29)
  New datatypes introduced:
   byte - 8bit signed, literals are denoted by Y-suffix, e.g. 42y
   short - 16bis signed, literals are denoted by S-suffix, e.g. 0x4242s
