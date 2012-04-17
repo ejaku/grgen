@@ -49,6 +49,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             ComputeMaxNegLevel(matchingPattern.patternGraph);
 
+            PrepareInline(matchingPattern.patternGraph);
+
             matchingPatterns.Add(matchingPattern);
         }
 
@@ -92,6 +94,11 @@ namespace de.unika.ipd.grGen.lgsp
         public void AnalyzeWithInterPatternRelationsKnown(LGSPMatchingPattern matchingPattern)
         {
             AddSubpatternInformationToPatternpathInformation(matchingPattern.patternGraph);
+
+            if(matchingPattern is LGSPRulePattern)
+                InlineSubpatternUsages(matchingPattern.patternGraph);
+            // TODO: inline subpatterns used in subpatterns, too
+            // maybe the subpattern is recursive, but parts are not, and they are disconnecting
         }
 
         ///////////////////////////////////////////////////////////////////////////////
@@ -609,6 +616,235 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return changed;
+        }
+
+        public static void PrepareInline(PatternGraph patternGraph)
+        {
+            // fill the inlined fields with the content from the non-inlined fields,
+            // so we can just use the inlined fields for the rest of processing (outside of the user interface)
+            patternGraph.PrepareInline();
+
+            // walk all patterns used in the current pattern and prepare inline there, too
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                PrepareInline(neg);
+            }
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                PrepareInline(idpt);
+            }
+
+            foreach(Alternative alt in patternGraph.alternatives)
+            {
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    PrepareInline(altCase);
+                }
+            }
+            foreach(Iterated iter in patternGraph.iterateds)
+            {
+                PrepareInline(iter.iteratedPattern);
+            }
+        }
+
+
+        void InlineSubpatternUsages(PatternGraph patternGraph)
+        {
+            // for each subpattern used/embedded decide whether to online or not
+            // for the ones to inline do the inlining by adding the content of the subpattern 
+            // directly to the using/embedding pattern
+            // TODO: the iterator is destroyed when an inlined pattern contains subpatterns
+            // TODO: inlining may create new inline possibilities, to be inlined, too
+            foreach(PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
+            {
+                LGSPMatchingPattern embeddedMatchingPattern = embedding.matchingPatternOfEmbeddedGraph;
+                PatternGraph embeddedPatternGraph = embeddedMatchingPattern.patternGraph;
+                // only non-recursive patterns are candidates for inlining
+                // TODO: relax this, one level of inlining should be allowed even for recursive patterns 
+                if(!embeddedPatternGraph.usedSubpatterns.ContainsKey(embedding.matchingPatternOfEmbeddedGraph))
+                {
+                    // primary cause for inlining: connectedness, major performance gain if pattern gets connected
+                    // if pattern is disconnected we ruthlessly inline, maybe it gets connected, if not we still gain because of early pruning
+                    // secondary cause for inlining: save subpattern matching setup cost, minor impact to be balanced against code bloat cost
+                    if(!IsConnected(patternGraph) || PatternInliningCost(embeddedMatchingPattern) <= INLINE_THRESHOLD)
+                    {
+                        // rewrite pattern graph to include the content of the embedded graph
+                        // modulo name changes to avoid conflicts
+                        // InlineSubpatternUsage(patternGraph, embedding);
+                    }
+                }
+            }
+
+            // walk all patterns used in the current pattern and inline there, too
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                InlineSubpatternUsages(neg);
+            }
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                InlineSubpatternUsages(idpt);
+            }
+
+            foreach(Alternative alt in patternGraph.alternatives)
+            {
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    InlineSubpatternUsages(altCase);
+                }
+            }
+            foreach(Iterated iter in patternGraph.iterateds)
+            {
+                InlineSubpatternUsages(iter.iteratedPattern);
+            }
+        }
+
+        bool IsConnected(PatternGraph patternGraph)
+        {
+            Dictionary<PatternNode, PatternNode> nodes = new Dictionary<PatternNode, PatternNode>();
+            PatternGraph cur = patternGraph;
+            do
+            {
+                foreach(PatternNode node in cur.nodes)
+                {
+                    nodes[node] = node;
+                }
+                cur = cur.embeddingGraph;
+            }
+            while(cur != null);
+
+            Dictionary<PatternNode, List<PatternEdge>> nodeToEdges = new Dictionary<PatternNode, List<PatternEdge>>();
+            foreach(KeyValuePair<PatternNode, PatternNode> node in nodes)
+            {
+                nodeToEdges.Add(node.Key, new List<PatternEdge>());
+            }
+
+            Dictionary<PatternEdge, PatternEdge> edges = new Dictionary<PatternEdge, PatternEdge>();
+            cur = patternGraph;
+            do
+            {
+                foreach(PatternEdge edge in cur.edges)
+                {
+                    edges[edge] = edge;
+
+                    PatternNode source = cur.GetSource(edge);
+                    if(source!=null && !nodeToEdges[source].Contains(edge))
+                        nodeToEdges[source].Add(edge);
+                    PatternNode target = cur.GetTarget(edge);
+                    if(target != null && !nodeToEdges[target].Contains(edge))
+                        nodeToEdges[target].Add(edge);
+                }
+                cur = cur.embeddingGraph;
+            }
+            while(cur != null);
+
+            Dictionary<PatternEdge, List<PatternNode>> edgeToNodes = new Dictionary<PatternEdge, List<PatternNode>>();
+            foreach(KeyValuePair<PatternEdge,PatternEdge> edge in edges)
+            {
+                edgeToNodes.Add(edge.Key, new List<PatternNode>());
+            }
+
+            cur = patternGraph;
+            do
+            {
+                foreach(PatternEdge edge in cur.edges)
+                {
+                    PatternNode source = cur.GetSource(edge);
+                    if(source!=null && !edgeToNodes[edge].Contains(source))
+                        edgeToNodes[edge].Add(source);
+                    PatternNode target = cur.GetTarget(edge);
+                    if(target != null && !edgeToNodes[edge].Contains(target))
+                        edgeToNodes[edge].Add(source);
+                }
+                cur = cur.embeddingGraph;
+            }
+            while(cur != null);
+
+            if(nodes.Count==0)
+                return edges.Count<=1;
+
+            Dictionary<PatternNode, PatternNode>.Enumerator enumerator = nodes.GetEnumerator();
+            enumerator.MoveNext();
+            PatternNode root = enumerator.Current.Key;
+            root.visited = true;
+            Visit(root, nodeToEdges, edgeToNodes);
+
+            bool connected = true;
+            foreach(KeyValuePair<PatternNode, PatternNode> node in nodes)
+                connected &= node.Key.visited;
+            foreach(KeyValuePair<PatternEdge, PatternEdge> edge in edges)
+                connected &= edge.Key.visited;
+
+            foreach(KeyValuePair<PatternNode, PatternNode> node in nodes)
+                node.Key.visited = false;
+            foreach(KeyValuePair<PatternEdge, PatternEdge> edge in edges)
+                edge.Key.visited = false;
+
+            return connected;
+        }
+
+        void Visit(PatternNode parent, 
+            Dictionary<PatternNode, List<PatternEdge>> nodeToEdges, 
+            Dictionary<PatternEdge, List<PatternNode>> edgeToNodes)
+        {
+            foreach(PatternEdge edge in nodeToEdges[parent])
+            {
+                foreach(PatternNode node in edgeToNodes[edge])
+                {
+                    if(node == parent)
+                        continue;
+                    if(node.visited)
+                        continue;
+                    node.visited = true;
+                    Visit(node, nodeToEdges, edgeToNodes);
+                }
+            }
+        }
+
+        const int INLINE_THRESHOLD = 15;
+
+        int PatternInliningCost(LGSPMatchingPattern embeddedMatchingPattern)
+        {
+            // compute size of pattern graph and count all the occurences            
+            return PatternCost(embeddedMatchingPattern.patternGraph) * embeddedMatchingPattern.uses;
+        }
+
+        private int PatternCost(PatternGraph patternGraph)
+        {
+            int cost = patternGraph.nodes.Length + patternGraph.edges.Length;
+
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                cost += 1 + PatternCost(neg);
+            }
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                cost += 1 + PatternCost(idpt);
+            }
+
+            foreach(Alternative alt in patternGraph.alternatives)
+            {
+                int maxSize = 0;
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    maxSize = Math.Max(PatternCost(altCase), maxSize);
+                }
+                cost += 1 + maxSize;
+            }
+            foreach(Iterated iter in patternGraph.iterateds)
+            {
+                cost += 1 + PatternCost(iter.iteratedPattern);
+            }
+
+            for(int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
+            {
+                PatternGraph embeddedPatternGraph = patternGraph.embeddedGraphs[i].matchingPatternOfEmbeddedGraph.patternGraph;
+                cost += 1 + embeddedPatternGraph.nodes.Length + embeddedPatternGraph.edges.Length 
+                    + embeddedPatternGraph.negativePatternGraphs.Length + embeddedPatternGraph.independentPatternGraphs.Length
+                    + embeddedPatternGraph.alternatives.Length + embeddedPatternGraph.iterateds.Length
+                    + embeddedPatternGraph.embeddedGraphs.Length;
+            }
+
+            return cost;
         }
 
         // ----------------------------------------------------------------

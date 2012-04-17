@@ -87,7 +87,7 @@ namespace de.unika.ipd.grGen.lgsp
                 rulePatternClassName,
                 patternGraph.name, parameterTypes, parameterNames, name,
                 rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
-                patternGraph.embeddedGraphs.Length > 0 || patternGraph.iterateds.Length > 0 || patternGraph.alternatives.Length > 0,
+                patternGraph.embeddedGraphsPlusInlined.Length > 0 || patternGraph.iteratedsPlusInlined.Length > 0 || patternGraph.alternativesPlusInlined.Length > 0,
                 patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
  
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
@@ -344,7 +344,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertVariableDeclarations(SearchProgramOperation insertionPoint, PatternGraph patternGraph)
         {
-            foreach(PatternVariable var in patternGraph.variables)
+            foreach(PatternVariable var in patternGraph.variablesPlusInlined)
             {
                 if(var.defToBeYieldedTo)
                 {
@@ -373,7 +373,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            foreach(PatternNode node in patternGraph.nodes)
+            foreach(PatternNode node in patternGraph.nodesPlusInlined)
             {
                 if(node.defToBeYieldedTo)
                 {
@@ -383,7 +383,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            foreach(PatternEdge edge in patternGraph.edges)
+            foreach(PatternEdge edge in patternGraph.edgesPlusInlined)
             {
                 if(edge.defToBeYieldedTo)
                 {
@@ -1811,9 +1811,9 @@ namespace de.unika.ipd.grGen.lgsp
             negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
 
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
-            bool negativeContainsSubpatterns = negativePatternGraph.EmbeddedGraphs.Length >= 1
-                || negativePatternGraph.Alternatives.Length >= 1
-                || negativePatternGraph.Iterateds.Length >= 1;
+            bool negativeContainsSubpatterns = negativePatternGraph.embeddedGraphsPlusInlined.Length >= 1
+                || negativePatternGraph.alternativesPlusInlined.Length >= 1
+                || negativePatternGraph.iteratedsPlusInlined.Length >= 1;
             InitializeNegativeIndependentMatching initNeg = new InitializeNegativeIndependentMatching(
                 negativeContainsSubpatterns, 
                 negativeIndependentNamePrefix, 
@@ -1893,9 +1893,9 @@ namespace de.unika.ipd.grGen.lgsp
             negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
 
             string independentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
-            bool independentContainsSubpatterns = independentPatternGraph.EmbeddedGraphs.Length >= 1
-                || independentPatternGraph.Alternatives.Length >= 1
-                || independentPatternGraph.Iterateds.Length >= 1;
+            bool independentContainsSubpatterns = independentPatternGraph.embeddedGraphsPlusInlined.Length >= 1
+                || independentPatternGraph.alternativesPlusInlined.Length >= 1
+                || independentPatternGraph.iteratedsPlusInlined.Length >= 1;
             InitializeNegativeIndependentMatching initIdpt = new InitializeNegativeIndependentMatching(
                 independentContainsSubpatterns,
                 independentNamePrefix,
@@ -2016,14 +2016,16 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
+            // todo: only count non-inlined subpatterns
+
             // is subpattern gives information about type of top level enclosing pattern (action vs. subpattern)
             // contains subpatterns gives informations about current pattern graph (might be negative, independent itself, too)
             bool isSubpattern = programType == SearchProgramType.Subpattern
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated;
-            bool containsSubpatterns = patternGraph.embeddedGraphs.Length >= 1
-                || patternGraph.alternatives.Length >= 1
-                || patternGraph.iterateds.Length >= 1;
+            bool containsSubpatterns = patternGraph.embeddedGraphsPlusInlined.Length >= 1
+                || patternGraph.alternativesPlusInlined.Length >= 1
+                || patternGraph.iteratedsPlusInlined.Length >= 1;
 
             // increase iterated matched counter if it is iterated
             if(programType==SearchProgramType.Iterated) {
@@ -2254,17 +2256,17 @@ namespace de.unika.ipd.grGen.lgsp
             }
             String enumPrefix = patternGraph.pathPrefix + patternGraph.name + "_";
 
-            for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
                 // in defElements pass only def elements, in non defElements pass only non def elements
-                if(defElements == patternGraph.nodes[i].defToBeYieldedTo)
+                if(defElements == patternGraph.nodesPlusInlined[i].defToBeYieldedTo)
                 {
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Node,
-                            patternGraph.nodes[i].typeName,
-                            patternGraph.nodes[i].UnprefixedName,
-                            patternGraph.nodes[i].Name,
+                            patternGraph.nodesPlusInlined[i].typeName,
+                            patternGraph.nodesPlusInlined[i].UnprefixedName,
+                            patternGraph.nodesPlusInlined[i].Name,
                             rulePatternClassName,
                             enumPrefix,
                             matchObjectName,
@@ -2273,17 +2275,17 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint = insertionPoint.Append(buildMatch);
                 }
             }
-            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
                 // in defElements pass only def elements, in non defElements pass only non def elements
-                if(defElements == patternGraph.edges[i].defToBeYieldedTo)
+                if(defElements == patternGraph.edgesPlusInlined[i].defToBeYieldedTo)
                 {
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Edge,
-                            patternGraph.edges[i].typeName,
-                            patternGraph.edges[i].UnprefixedName,
-                            patternGraph.edges[i].Name,
+                            patternGraph.edgesPlusInlined[i].typeName,
+                            patternGraph.edgesPlusInlined[i].UnprefixedName,
+                            patternGraph.edgesPlusInlined[i].Name,
                             rulePatternClassName,
                             enumPrefix,
                             matchObjectName,
@@ -2298,7 +2300,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return insertionPoint;
             }
 
-            foreach (PatternVariable var in patternGraph.variables)
+            foreach (PatternVariable var in patternGraph.variablesPlusInlined)
             {
                 // in defElements pass only def elements, in non defElements pass only non def elements
                 if(defElements == var.defToBeYieldedTo)
@@ -2323,16 +2325,16 @@ namespace de.unika.ipd.grGen.lgsp
                 return insertionPoint;
             }
 
-            for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
+            for (int i = 0; i < patternGraph.embeddedGraphsPlusInlined.Length; ++i)
             {
-                string subpatternContainingType = NamesOfEntities.RulePatternClassName(patternGraph.embeddedGraphs[i].EmbeddedGraph.Name, true);
-                string subpatternType = NamesOfEntities.MatchClassName(patternGraph.embeddedGraphs[i].EmbeddedGraph.Name);
+                string subpatternContainingType = NamesOfEntities.RulePatternClassName(patternGraph.embeddedGraphsPlusInlined[i].EmbeddedGraph.Name, true);
+                string subpatternType = NamesOfEntities.MatchClassName(patternGraph.embeddedGraphsPlusInlined[i].EmbeddedGraph.Name);
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Subpattern,
                         subpatternContainingType+"."+subpatternType,
-                        patternGraph.embeddedGraphs[i].name,
-                        patternGraph.embeddedGraphs[i].name,
+                        patternGraph.embeddedGraphsPlusInlined[i].name,
+                        patternGraph.embeddedGraphsPlusInlined[i].name,
                         rulePatternClassName,
                         enumPrefix,
                         matchObjectName,
@@ -2340,33 +2342,33 @@ namespace de.unika.ipd.grGen.lgsp
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
-            for (int i = 0; i < patternGraph.iterateds.Length; ++i)
+            for (int i = 0; i < patternGraph.iteratedsPlusInlined.Length; ++i)
             {
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Iteration,
-                        patternGraph.pathPrefix + patternGraph.name + "_" + patternGraph.iterateds[i].iteratedPattern.name,
-                        patternGraph.iterateds[i].iteratedPattern.name,
-                        patternGraph.iterateds[i].iteratedPattern.name,
+                        patternGraph.pathPrefix + patternGraph.name + "_" + patternGraph.iteratedsPlusInlined[i].iteratedPattern.name,
+                        patternGraph.iteratedsPlusInlined[i].iteratedPattern.name,
+                        patternGraph.iteratedsPlusInlined[i].iteratedPattern.name,
                         rulePatternClassName,
                         enumPrefix,
                         matchObjectName,
-                        patternGraph.embeddedGraphs.Length
+                        patternGraph.embeddedGraphsPlusInlined.Length
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
-            for (int i = 0; i < patternGraph.alternatives.Length; ++i)
+            for (int i = 0; i < patternGraph.alternativesPlusInlined.Length; ++i)
             {
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Alternative,
-                        patternGraph.pathPrefix+patternGraph.name+"_"+patternGraph.alternatives[i].name,
-                        patternGraph.alternatives[i].name,
-                        patternGraph.alternatives[i].name,
+                        patternGraph.pathPrefix+patternGraph.name+"_"+patternGraph.alternativesPlusInlined[i].name,
+                        patternGraph.alternativesPlusInlined[i].name,
+                        patternGraph.alternativesPlusInlined[i].name,
                         rulePatternClassName,
                         enumPrefix,
                         matchObjectName,
-                        patternGraph.embeddedGraphs.Length
+                        patternGraph.embeddedGraphsPlusInlined.Length
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
@@ -2410,7 +2412,7 @@ namespace de.unika.ipd.grGen.lgsp
             // and the match objects of our children
             // now 1. copy all def entities we share with children to us
 
-            foreach(PatternGraphEmbedding patternEmbedding in patternGraph.embeddedGraphs)
+            foreach(PatternGraphEmbedding patternEmbedding in patternGraph.embeddedGraphsPlusInlined)
             {
                 // if the pattern embedding does not contain a def entity it can't yield to us
                 if(!((PatternGraph)patternEmbedding.EmbeddedGraph).isDefEntityExisting)
@@ -2431,7 +2433,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            foreach(Iterated iterated in patternGraph.iterateds)
+            foreach(Iterated iterated in patternGraph.iteratedsPlusInlined)
             {
                 // if the iterated does not contain a non local def entity it can't yield to us
                 if(!iterated.iteratedPattern.isNonLocalDefEntityExisting)
@@ -2448,7 +2450,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 insertionPoint = continuationPoint;
             }
-            foreach(Alternative alternative in patternGraph.alternatives)
+            foreach(Alternative alternative in patternGraph.alternativesPlusInlined)
             {
                 bool first = true;
                 foreach(PatternGraph alternativeCase in alternative.alternativeCases)
@@ -2477,7 +2479,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            foreach(PatternGraph independent in patternGraph.independentPatternGraphs)
+            foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
             {
                 // if the independent does not contain a non local def entity it can't yield to us
                 if(!independent.isNonLocalDefEntityExisting)
@@ -2491,7 +2493,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             //////////////////////////////////////////////////////
             // then 2. compute all local yields
-            foreach(PatternYielding yielding in patternGraph.Yieldings)
+            foreach(PatternYielding yielding in patternGraph.YieldingsPlusInlined)
             {
                 // iterated potentially matching more than once can't be bubbled up normally,
                 // they need accumulation with a for loop into a variable of the nesting pattern, 
@@ -2499,7 +2501,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(yielding.YieldAssignment is IteratedAccumulationYield)
                 {
                     IteratedAccumulationYield accumulationYield = (IteratedAccumulationYield)yielding.YieldAssignment;
-                    foreach(Iterated iterated in patternGraph.iterateds)
+                    foreach(Iterated iterated in patternGraph.iteratedsPlusInlined)
                     {
                         // skip the iterateds we're not interested in
                         if(accumulationYield.Iterated != iterated.iteratedPattern.Name)
@@ -2550,12 +2552,12 @@ namespace de.unika.ipd.grGen.lgsp
             String nestedMatchObjectName,
             PatternGraph nestedPatternGraph)
         {
-            foreach(PatternNode node in patternGraph.nodes)
+            foreach(PatternNode node in patternGraph.nodesPlusInlined)
             {
                 if(!node.DefToBeYieldedTo)
                     continue;
 
-                foreach(PatternNode nestedNode in nestedPatternGraph.nodes)
+                foreach(PatternNode nestedNode in nestedPatternGraph.nodesPlusInlined)
                 {
                     if(nestedNode == node)
                     {
@@ -2570,12 +2572,12 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            foreach(PatternEdge edge in patternGraph.edges)
+            foreach(PatternEdge edge in patternGraph.edgesPlusInlined)
             {
                 if(!edge.DefToBeYieldedTo)
                     continue;
 
-                foreach(PatternEdge nestedEdge in nestedPatternGraph.edges)
+                foreach(PatternEdge nestedEdge in nestedPatternGraph.edgesPlusInlined)
                 {
                     if(nestedEdge == edge)
                     {
@@ -2590,12 +2592,12 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
             
-            foreach(PatternVariable var in patternGraph.variables)
+            foreach(PatternVariable var in patternGraph.variablesPlusInlined)
             {
                 if(!var.DefToBeYieldedTo)
                     continue;
 
-                foreach(PatternVariable nestedVar in nestedPatternGraph.variables)
+                foreach(PatternVariable nestedVar in nestedPatternGraph.variablesPlusInlined)
                 {
                     if(nestedVar == var)
                     {
@@ -2640,9 +2642,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             // first alternatives, so that they get processed last
             // to handle subpatterns in linear order we've to push them in reverse order on the stack
-            for (int i = patternGraph.alternatives.Length - 1; i >= 0; --i)
+            for (int i = patternGraph.alternativesPlusInlined.Length - 1; i >= 0; --i)
             {
-                Alternative alternative = patternGraph.alternatives[i];
+                Alternative alternative = patternGraph.alternativesPlusInlined[i];
 
                 Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
                 Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
@@ -2704,9 +2706,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             // then iterated patterns of the pattern
             // to handle iterated in linear order we've to push them in reverse order on the stack
-            for (int i = patternGraph.iterateds.Length - 1; i >= 0; --i)
+            for (int i = patternGraph.iteratedsPlusInlined.Length - 1; i >= 0; --i)
             {
-                PatternGraph iter = patternGraph.iterateds[i].iteratedPattern;
+                PatternGraph iter = patternGraph.iteratedsPlusInlined[i].iteratedPattern;
 
                 int numElements = iter.neededNodes.Count + iter.neededEdges.Count + iter.neededVariables.Count;
                 string[] connectionName = new string[numElements];
@@ -2755,9 +2757,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             // and finally subpatterns of the pattern
             // to handle subpatterns in linear order we've to push them in reverse order on the stack
-            for (int i = patternGraph.embeddedGraphs.Length - 1; i >= 0; --i)
+            for (int i = patternGraph.embeddedGraphsPlusInlined.Length - 1; i >= 0; --i)
             {
-                PatternGraphEmbedding subpattern = patternGraph.embeddedGraphs[i];
+                PatternGraphEmbedding subpattern = patternGraph.embeddedGraphsPlusInlined[i];
                 Debug.Assert(subpattern.matchingPatternOfEmbeddedGraph.inputNames.Length == subpattern.connections.Length);
                 string[] connectionName = subpattern.matchingPatternOfEmbeddedGraph.inputNames;
                 string[] argumentExpressions = new string[subpattern.connections.Length];
@@ -2795,7 +2797,7 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
-            foreach (PatternGraphEmbedding subpattern in patternGraph.embeddedGraphs)
+            foreach (PatternGraphEmbedding subpattern in patternGraph.embeddedGraphsPlusInlined)
             {
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
@@ -2807,7 +2809,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(popTask);
             }
 
-            foreach (Iterated iterated in patternGraph.iterateds)
+            foreach (Iterated iterated in patternGraph.iteratedsPlusInlined)
             {
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
@@ -2819,7 +2821,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(popTask);
             }
 
-            foreach (Alternative alternative in patternGraph.alternatives)
+            foreach (Alternative alternative in patternGraph.alternativesPlusInlined)
             {
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
@@ -2887,15 +2889,15 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
-            for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                if (patternGraph.nodes[i].PointOfDefinition == patternGraph
-                    || patternGraph.nodes[i].PointOfDefinition == null && isAction)
+                if (patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
+                    || patternGraph.nodesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.nodes[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicNodes[i])
+                    if(!patternGraph.nodesPlusInlined[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicNodes[i])
                     {
                         AcceptCandidateGlobal acceptGlobal =
-                            new AcceptCandidateGlobal(patternGraph.nodes[i].name,
+                            new AcceptCandidateGlobal(patternGraph.nodesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             true,
                             negLevelNeverAboveMaxNegLevel);
@@ -2903,15 +2905,15 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
             }
-            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                if (patternGraph.edges[i].PointOfDefinition == patternGraph
-                    || patternGraph.edges[i].PointOfDefinition == null && isAction)
+                if (patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
+                    || patternGraph.edgesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.edges[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicEdges[i])
+                    if(!patternGraph.edgesPlusInlined[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicEdges[i])
                     {
                         AcceptCandidateGlobal acceptGlobal =
-                            new AcceptCandidateGlobal(patternGraph.edges[i].name,
+                            new AcceptCandidateGlobal(patternGraph.edgesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             false,
                             negLevelNeverAboveMaxNegLevel);
@@ -2933,30 +2935,30 @@ namespace de.unika.ipd.grGen.lgsp
             bool isAction = programType == SearchProgramType.Action;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
-            for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                if (patternGraph.nodes[i].PointOfDefinition == patternGraph
-                    || patternGraph.nodes[i].PointOfDefinition == null && isAction)
+                if (patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
+                    || patternGraph.nodesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.nodes[i].defToBeYieldedTo)
+                    if(!patternGraph.nodesPlusInlined[i].defToBeYieldedTo)
                     {
                         AcceptCandidatePatternpath acceptPatternpath =
-                            new AcceptCandidatePatternpath(patternGraph.nodes[i].name,
+                            new AcceptCandidatePatternpath(patternGraph.nodesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             true);
                         insertionPoint = insertionPoint.Append(acceptPatternpath);
                     }
                 }
             }
-            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                if (patternGraph.edges[i].PointOfDefinition == patternGraph
-                    || patternGraph.edges[i].PointOfDefinition == null && isAction)
+                if (patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
+                    || patternGraph.edgesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.edges[i].defToBeYieldedTo)
+                    if(!patternGraph.edgesPlusInlined[i].defToBeYieldedTo)
                     {
                         AcceptCandidatePatternpath acceptPatternpath =
-                            new AcceptCandidatePatternpath(patternGraph.edges[i].name,
+                            new AcceptCandidatePatternpath(patternGraph.edgesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             false);
                         insertionPoint = insertionPoint.Append(acceptPatternpath);
@@ -2978,15 +2980,15 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
             // global abandon of all candidate elements (remove isomorphy information)
-            for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                if (patternGraph.nodes[i].PointOfDefinition == patternGraph
-                    || patternGraph.nodes[i].PointOfDefinition == null && isAction)
+                if (patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
+                    || patternGraph.nodesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.nodes[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicNodes[i])
+                    if(!patternGraph.nodesPlusInlined[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicNodes[i])
                     {
                         AbandonCandidateGlobal abandonGlobal =
-                            new AbandonCandidateGlobal(patternGraph.nodes[i].name,
+                            new AbandonCandidateGlobal(patternGraph.nodesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             true,
                             negLevelNeverAboveMaxNegLevel);
@@ -2994,15 +2996,15 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
             }
-            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                if (patternGraph.edges[i].PointOfDefinition == patternGraph
-                    || patternGraph.edges[i].PointOfDefinition == null && isAction)
+                if (patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
+                    || patternGraph.edgesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.edges[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicEdges[i])
+                    if(!patternGraph.edgesPlusInlined[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicEdges[i])
                     {
                         AbandonCandidateGlobal abandonGlobal =
-                            new AbandonCandidateGlobal(patternGraph.edges[i].name,
+                            new AbandonCandidateGlobal(patternGraph.edgesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             false,
                             negLevelNeverAboveMaxNegLevel);
@@ -3025,30 +3027,30 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
             // patternpath abandon of all candidate elements (remove isomorphy information)
-            for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                if (patternGraph.nodes[i].PointOfDefinition == patternGraph
-                    || patternGraph.nodes[i].PointOfDefinition == null && isAction)
+                if (patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
+                    || patternGraph.nodesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.nodes[i].defToBeYieldedTo)
+                    if(!patternGraph.nodesPlusInlined[i].defToBeYieldedTo)
                     {
                         AbandonCandidatePatternpath abandonPatternpath =
-                            new AbandonCandidatePatternpath(patternGraph.nodes[i].name,
+                            new AbandonCandidatePatternpath(patternGraph.nodesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             true);
                         insertionPoint = insertionPoint.Append(abandonPatternpath);
                     }
                 }
             }
-            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                if (patternGraph.edges[i].PointOfDefinition == patternGraph
-                    || patternGraph.edges[i].PointOfDefinition == null && isAction)
+                if (patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
+                    || patternGraph.edgesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.edges[i].defToBeYieldedTo)
+                    if(!patternGraph.edgesPlusInlined[i].defToBeYieldedTo)
                     {
                         AbandonCandidatePatternpath abandonPatternpath =
-                            new AbandonCandidatePatternpath(patternGraph.edges[i].name,
+                            new AbandonCandidatePatternpath(patternGraph.edgesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             false);
                         insertionPoint = insertionPoint.Append(abandonPatternpath);

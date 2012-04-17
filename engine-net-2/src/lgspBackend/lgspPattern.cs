@@ -142,9 +142,22 @@ namespace de.unika.ipd.grGen.lgsp
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
+        /// Links to the original pattern element in case this element was inlined, otherwise null;
+        /// the point of definition of the original element references the original containing pattern
+        /// </summary>
+        public PatternElement originalElement;
+
+        ////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
         /// plan graph node corresponding to this pattern element, used in plan graph generation, just hacked into this place
         /// </summary>
         public PlanNode TempPlanMapping;
+
+        /// <summary>
+        /// visited flag used to compute pattern connectedness for inlining, just hacked into this place
+        /// </summary>
+        public bool visited;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -260,6 +273,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             return Name + ":" + TypeID;
         }
+
+        /// <summary>
+        /// Links to the original pattern node in case this node was inlined, otherwise null;
+        /// the point of definition of the original node references the original containing pattern
+        /// </summary>
+        public PatternNode originalNode { get { return (PatternNode)originalElement; } }
     }
 
     /// <summary>
@@ -323,6 +342,12 @@ namespace de.unika.ipd.grGen.lgsp
             else
                 return "<-" + Name + ":" + TypeID + "->";
         }
+
+        /// <summary>
+        /// Links to the original pattern edge in case this node was inlined, otherwise null;
+        /// the point of definition of the original edge references the original containing pattern
+        /// </summary>
+        public PatternEdge originalEdge { get { return (PatternEdge)originalElement; } }
     }
 
     /// <summary>
@@ -397,6 +422,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public int ParameterIndex;
 
+        ////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Links to the original pattern variable in case this node was inlined, otherwise null;
+        /// the point of definition of the original variable references the original containing pattern
+        /// </summary>
+        public PatternVariable originalVariable;
+
+        ////////////////////////////////////////////////////////////////////////////
+
         /// <summary>
         /// Instantiates a new PatternVariable object.
         /// </summary>
@@ -449,6 +484,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public VarType[] NeededVariableTypes;
 
+        ////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Links to the original pattern condition in case this condition was inlined, otherwise null
+        /// </summary>
+        public PatternCondition originalCondition;
+
+        ////////////////////////////////////////////////////////////////////////////
+
         /// <summary>
         /// Constructs a PatternCondition object.
         /// </summary>
@@ -497,6 +541,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of variable types (corresponding to the variable names) needed by this yielding assignment.
         /// </summary>
         public VarType[] NeededVariableTypes;
+
+        ////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Links to the original pattern yielding in case this yielding was inlined, otherwise null
+        /// </summary>
+        public PatternYielding originalYielding;
+
+        ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Constructs a PatternYielding object.
@@ -657,6 +710,11 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternNode[] nodes;
 
         /// <summary>
+        /// An array of all pattern nodes plus the nodes inlined into this pattern.
+        /// </summary>
+        public PatternNode[] nodesPlusInlined;
+
+        /// <summary>
         /// Normally null. In case this is a pattern created from a graph,
         /// an array of all nodes which created the pattern nodes in nodes, coupled by position.
         /// </summary>
@@ -668,6 +726,11 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternEdge[] edges;
 
         /// <summary>
+        /// An array of all pattern edges plus the edges inlined into this pattern.
+        /// </summary>
+        public PatternEdge[] edgesPlusInlined;
+
+        /// <summary>
         /// Normally null. In case this is a pattern created from a graph,
         /// an array of all edges which created the pattern edges in edges, coupled by position.
         /// </summary>
@@ -677,6 +740,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of all pattern variables.
         /// </summary>
         public PatternVariable[] variables;
+
+        /// <summary>
+        /// An array of all pattern variables plus the variables inlined into this pattern.
+        /// </summary>
+        public PatternVariable[] variablesPlusInlined;
 
         /// <summary>
         /// Returns the source pattern node of the given edge, null if edge dangles to the left
@@ -717,44 +785,52 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// contains the source node of the pattern edges in this graph if specified 
+        /// Contains the source node of the pattern edges in this graph if specified.
+        /// Including the additional information from inlined stuff.
         /// </summary>
         public Dictionary<PatternEdge, PatternNode> edgeToSourceNode = new Dictionary<PatternEdge,PatternNode>();
         
         /// <summary>
-        /// contains the target node of the pattern edges in this graph if specified 
+        /// Contains the target node of the pattern edges in this graph if specified.
+        /// Including the additional information from inlined stuff.
         /// </summary>
         public Dictionary<PatternEdge, PatternNode> edgeToTargetNode = new Dictionary<PatternEdge,PatternNode>();
 
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node.
+        /// Including the additional information from inlined stuff.
         /// </summary>
         public bool[,] homomorphicNodes;
 
         /// <summary>
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge.
+        /// Including the additional information from inlined stuff.
         /// </summary>
         public bool[,] homomorphicEdges;
 
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
         /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases, iterateds).
+        /// Including the additional information from inlined stuff.
         /// </summary>
         public bool[,] homomorphicNodesGlobal;
 
         /// <summary>
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
         /// i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
+        /// Including the additional information from inlined stuff.
         /// </summary>
         public bool[,] homomorphicEdgesGlobal;
 
         /// <summary>
         /// An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.
+        /// Including the additional information from inlined stuff.
         /// </summary>
         public bool[] totallyHomomorphicNodes;
 
         /// <summary>
         /// An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.
+        /// Including the additional information from inlined stuff.
         /// </summary>
         public bool[] totallyHomomorphicEdges;
         
@@ -764,14 +840,29 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraphEmbedding[] embeddedGraphs;
 
         /// <summary>
+        /// An array of all embedded graphs plus the embedded graphs inlined into this pattern.
+        /// </summary>
+        public PatternGraphEmbedding[] embeddedGraphsPlusInlined;
+
+        /// <summary>
         /// An array of alternatives, each alternative contains in its cases the subpatterns to choose out of.
         /// </summary>
         public Alternative[] alternatives;
 
         /// <summary>
+        /// An array of all alternatives plus the alternatives inlined into this pattern.
+        /// </summary>
+        public Alternative[] alternativesPlusInlined;
+
+        /// <summary>
         /// An array of iterateds, each iterated is matched as often as possible within the specified bounds.
         /// </summary>
         public Iterated[] iterateds;
+
+        /// <summary>
+        /// An array of all iterateds plus the iterateds inlined into this pattern.
+        /// </summary>
+        public Iterated[] iteratedsPlusInlined;
 
         /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
@@ -780,10 +871,20 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph[] negativePatternGraphs;
 
         /// <summary>
+        /// An array of all negative pattern graphs plus the negative pattern graphs inlined into this pattern.
+        /// </summary>
+        public PatternGraph[] negativePatternGraphsPlusInlined;
+
+        /// <summary>
         /// An array of independent pattern graphs which must get matched in addition to the main pattern
         /// (PACs - Positive Application Conditions).
         /// </summary>
         public PatternGraph[] independentPatternGraphs;
+
+        /// <summary>
+        /// An array of all independent pattern graphs plus the pattern graphs inlined into this pattern.
+        /// </summary>
+        public PatternGraph[] independentPatternGraphsPlusInlined;
 
         /// <summary>
         /// The pattern graph which contains this pattern graph, null if this is a top-level-graph 
@@ -796,9 +897,19 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternCondition[] Conditions;
 
         /// <summary>
+        /// An array of all conditions plus the conditions inlined into this pattern.
+        /// </summary>
+        public PatternCondition[] ConditionsPlusInlined;
+
+        /// <summary>
         /// The yielding assignments used in this pattern graph or it's nested graphs
         /// </summary>
         public PatternYielding[] Yieldings;
+
+        /// <summary>
+        /// An array of all yielding assignments plus the yielding assignments inlined into this pattern.
+        /// </summary>
+        public PatternYielding[] YieldingsPlusInlined;
 
         /// <summary>
         /// Tells whether a def entity (node, edge, variable) is existing in this pattern graph
@@ -810,6 +921,57 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public bool isNonLocalDefEntityExisting = false;
 
+        ////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Links to the original pattern graph in case this pattern graph was inlined, otherwise null;
+        /// the embeddingGraph of the original pattern graph references the original containing pattern
+        /// </summary>
+        public PatternGraph originalPatternGraph;
+
+        /// <summary>
+        /// Copies all the elements in the pattern graph to the XXXPlusInlined attributes.
+        /// This duplicates the pattern, the duplicate is used for the computing and emitting the real code,
+        /// whereas the original version is retained as interface to the user.
+        /// When subpatterns/embedded graphs get inlined, only the duplicate is changed.
+        /// </summary>
+        public void PrepareInline()
+        {
+            // nodes,edges,variables:
+            // werden einfach als referenz übernommen, weil zeigen auf das gleiche parent
+            // die geinlined müssen kopiert werden, zeigen auf neues pattern
+            nodesPlusInlined = (PatternNode[])nodes.Clone();
+            edgesPlusInlined = (PatternEdge[])edges.Clone();
+            variablesPlusInlined = (PatternVariable[])variables.Clone();
+
+            // alternative,iterated,negative,independent als referenz übernommen,
+            // existieren nur einmal, deren elemente werden geinlined
+            alternativesPlusInlined = (Alternative[])alternatives.Clone();
+            iteratedsPlusInlined = (Iterated[])iterateds.Clone();
+            negativePatternGraphsPlusInlined = (PatternGraph[])negativePatternGraphs.Clone();
+            independentPatternGraphsPlusInlined = (PatternGraph[])independentPatternGraphs.Clone();
+
+            // condition, yielding; the inlined ones need to be rewritten
+            // parameter passing needs to be rewritten
+            ConditionsPlusInlined = (PatternCondition[])Conditions.Clone();
+            YieldingsPlusInlined = (PatternYielding[])Yieldings.Clone();
+
+            // subpattern embeddings werden tief kopiert, weil geshared
+            // für den fall dass sie geinlined werden, elemente von ihnen geinlined werden
+            embeddedGraphsPlusInlined = (PatternGraphEmbedding[])embeddedGraphs.Clone();
+        }
+
+        /// <summary>
+        /// Copies the pattern graph, renaming all elements with the given prefix.
+        /// Needed to avoid name clashes during inlining.
+        /// </summary>
+        public void Inline(PatternGraphEmbedding embeddedGraph)
+        {
+            // inline the given embedding, prefixing its elements to avoid name clashes
+            string prefix = embeddedGraph.name;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Constructs a PatternGraph object.
@@ -1173,6 +1335,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public VarType[] neededVariableTypes;
 
+        ////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Tells whether this pattern usage was inlined.
+        /// In this case it is ignored in matcher generation, 
+        /// as all elements of the pattern used were added to the elementAndInlined-members of the using pattern.
+        /// </summary>
+        public bool inlined = false;
+
+        ////////////////////////////////////////////////////////////////////////////
+
         /// <summary>
         /// Constructs a PatternGraphEmbedding object.
         /// </summary>
@@ -1180,7 +1353,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="matchingPatternOfEmbeddedGraph">The embedded subpattern.</param>
         /// <param name="connections">An array with the expressions defining how the subpattern is connected
         /// to the containing pattern (graph elements and basic variables) .</param>
-        /// <param name="connections">An array with the def elements and variables 
+        /// <param name="yields">An array with the def elements and variables 
         /// from the containing pattern yielded to from the subpattern.</param>
         /// <param name="neededNodes">An array with names of nodes needed by this embedding.</param>
         /// <param name="neededEdges">An array with names of edges  needed by this embedding.</param>
@@ -1199,6 +1372,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.neededEdges = neededEdges;
             this.neededVariables = neededVariables;
             this.neededVariableTypes = neededVariableTypes;
+
+            this.matchingPatternOfEmbeddedGraph.uses += 1;
         }
     }
 
@@ -1227,6 +1402,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// Array with the alternative cases.
         /// </summary>
         public PatternGraph[] alternativeCases;
+
+        ////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Links to the original alternative in case this alternative was inlined, otherwise null
+        /// </summary>
+        public Alternative originalAlternative;
+
+        ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Constructs an Alternative object.
@@ -1277,6 +1461,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// The upper bound to stop matching at, 0 means unlimited.
         /// </summary>
         public int maxMatches;
+
+        ////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Links to the original iterated in case this iterated was inlined, otherwise null
+        /// </summary>
+        public Iterated originalIterated;
+
+        ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Constructs an Iterated object.
@@ -1354,6 +1547,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// Our name
         /// </summary>
         public string name;
+
+        /// <summary>
+        /// A count of using occurances of this subpattern
+        /// </summary>
+        public int uses;
     }
 
     /// <summary>

@@ -28,6 +28,11 @@ namespace de.unika.ipd.grGen.expression
         public abstract void Emit(SourceBuilder sourceCode);
 
         /// <summary>
+        /// copies the expression or yielding, renaming all variables with the given prefix
+        /// </summary>
+        //public abstract ExpressionOrYielding Copy(string prefix);
+
+        /// <summary>
         /// returns an enumerator over the contained children of this construct
         /// </summary>
         public virtual IEnumerator<ExpressionOrYielding> GetEnumerator()

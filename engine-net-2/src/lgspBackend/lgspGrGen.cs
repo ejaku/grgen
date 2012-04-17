@@ -182,6 +182,8 @@ namespace de.unika.ipd.grGen.lgsp
             // todo: unify it with GeneratePlanGraph in LGSPMatcherGenerator
             //
 
+            // todo: use the PlusInlined fields
+
             // Create root node
             // Create plan graph nodes for all pattern graph nodes and all pattern graph edges
             // Create "lookup" plan graph edge from root node to each plan graph node
@@ -204,16 +206,16 @@ namespace de.unika.ipd.grGen.lgsp
             // Create "cast" plan graph edge from element before casting to cast result,
             //     no lookup, no other plan graph edge having this node as target
 
-            PlanNode[] planNodes = new PlanNode[patternGraph.nodes.Length + patternGraph.edges.Length];
-            List<PlanEdge> planEdges = new List<PlanEdge>(patternGraph.nodes.Length + 5 * patternGraph.edges.Length);   // upper bound for num of edges
+            PlanNode[] planNodes = new PlanNode[patternGraph.nodesPlusInlined.Length + patternGraph.edgesPlusInlined.Length];
+            List<PlanEdge> planEdges = new List<PlanEdge>(patternGraph.nodesPlusInlined.Length + 5 * patternGraph.edgesPlusInlined.Length);   // upper bound for num of edges
 
             int nodesIndex = 0;
 
             // create plan nodes and lookup plan edges for all pattern graph nodes
             PlanNode planRoot = new PlanNode("root");
-            for(int i = 0; i < patternGraph.nodes.Length; ++i)
+            for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                PatternNode node = patternGraph.nodes[i];
+                PatternNode node = patternGraph.nodesPlusInlined[i];
 
                 float cost;
                 bool isPreset;
@@ -282,9 +284,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // create plan nodes and necessary plan edges for all pattern graph edges
-            for(int i = 0; i < patternGraph.edges.Length; ++i)
+            for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                PatternEdge edge = patternGraph.edges[i];
+                PatternEdge edge = patternGraph.edgesPlusInlined[i];
 
                 float cost;
                 bool isPreset;
@@ -420,9 +422,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             // create map with storage plan edges for all pattern graph nodes 
             // which are the result of a mapping/picking from attribute operation or element type casting
-            for(int i = 0; i < patternGraph.Nodes.Length; ++i)
+            for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                PatternNode node = patternGraph.nodes[i];
+                PatternNode node = patternGraph.nodesPlusInlined[i];
                 if(node.PointOfDefinition == patternGraph)
                 {
                     if(node.Accessor != null)
@@ -450,9 +452,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // create map with storage plan edges for all pattern graph edges which are the result of a mapping/picking from attribute operation
-            for(int i = 0; i < patternGraph.Edges.Length; ++i)
+            for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                PatternEdge edge = patternGraph.edges[i];
+                PatternEdge edge = patternGraph.edgesPlusInlined[i];
                 if(edge.PointOfDefinition == patternGraph)
                 {
                     if(edge.Accessor != null)
@@ -504,17 +506,17 @@ namespace de.unika.ipd.grGen.lgsp
                 patternGraph.schedules[i] = scheduledSearchPlan;
                 patternGraph.RevertMaybeNullAdaption(i);
 
-                foreach(PatternGraph neg in patternGraph.negativePatternGraphs)
+                foreach(PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
                 {
                     GenerateScheduledSearchPlans(neg, matcherGen, isSubpattern, true);
                 }
 
-                foreach(PatternGraph idpt in patternGraph.independentPatternGraphs)
+                foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
                 {
                     GenerateScheduledSearchPlans(idpt, matcherGen, isSubpattern, true);
                 }
 
-                foreach(Alternative alt in patternGraph.alternatives)
+                foreach(Alternative alt in patternGraph.alternativesPlusInlined)
                 {
                     foreach(PatternGraph altCase in alt.alternativeCases)
                     {
@@ -522,7 +524,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                foreach(Iterated iter in patternGraph.iterateds)
+                foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
                 {
                     GenerateScheduledSearchPlans(iter.iteratedPattern, matcherGen, true, false);
                 }

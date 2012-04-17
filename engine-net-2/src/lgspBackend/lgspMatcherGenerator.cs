@@ -185,6 +185,8 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraph.correspondingNodes = correspondingNodes;
             patternGraph.correspondingEdges = correspondingEdges;
 
+            PatternGraphAnalyzer.PrepareInline(patternGraph);
+
             return patternGraph;
         }
 
@@ -203,6 +205,8 @@ namespace de.unika.ipd.grGen.lgsp
             // look there for version without ifdef junk
             // todo: unify it with GenerateStaticPlanGraph in LGSPGrGen
             // 
+
+            // todo: use the PlusInlined fields
 
             // Create root node
             // Create plan graph nodes for all pattern graph nodes and all pattern graph edges
@@ -226,18 +230,18 @@ namespace de.unika.ipd.grGen.lgsp
             // Create "cast" plan graph edge from element before casting to cast result,
             //     no lookup, no other plan graph edge having this node as target
 
-            PlanNode[] planNodes = new PlanNode[patternGraph.Nodes.Length + patternGraph.Edges.Length];
+            PlanNode[] planNodes = new PlanNode[patternGraph.nodesPlusInlined.Length + patternGraph.edgesPlusInlined.Length];
             // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)
-            List<PlanEdge> planEdges = new List<PlanEdge>(patternGraph.Nodes.Length + 5 * patternGraph.Edges.Length);
+            List<PlanEdge> planEdges = new List<PlanEdge>(patternGraph.nodesPlusInlined.Length + 5 * patternGraph.edgesPlusInlined.Length);
 
             int nodesIndex = 0;
 
             PlanNode planRoot = new PlanNode("root");
 
             // create plan nodes and lookup plan edges for all pattern graph nodes
-            for(int i = 0; i < patternGraph.Nodes.Length; i++)
+            for(int i = 0; i < patternGraph.nodesPlusInlined.Length; i++)
             {
-                PatternNode node = patternGraph.nodes[i];
+                PatternNode node = patternGraph.nodesPlusInlined[i];
 
                 float cost;
                 bool isPreset;
@@ -338,9 +342,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // create plan nodes and necessary plan edges for all pattern graph edges
-            for(int i = 0; i < patternGraph.Edges.Length; ++i)
+            for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                PatternEdge edge = patternGraph.edges[i];
+                PatternEdge edge = patternGraph.edgesPlusInlined[i];
 
                 bool isPreset;
 #if !NO_EDGE_LOOKUP
@@ -591,9 +595,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             // create map with storage plan edges for all pattern graph nodes
             // which are the result of a mapping/picking from attribute operation or element type casting
-            for(int i = 0; i < patternGraph.Nodes.Length; ++i)
+            for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                PatternNode node = patternGraph.nodes[i];
+                PatternNode node = patternGraph.nodesPlusInlined[i];
                 if(node.PointOfDefinition == patternGraph)
                 {
                     if(node.Accessor != null)
@@ -636,9 +640,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // create map with storage plan edges for all pattern graph edges which are the result of a mapping/picking from attribute operation
-            for(int i = 0; i < patternGraph.Edges.Length; ++i)
+            for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                PatternEdge edge = patternGraph.edges[i];
+                PatternEdge edge = patternGraph.edgesPlusInlined[i];
                 if(edge.PointOfDefinition == patternGraph)
                 {
                     if(edge.Accessor != null)
@@ -1173,7 +1177,7 @@ exitSecondLoop: ;
             }
 
             // insert conditions into the schedule
-            InsertConditionsIntoSchedule(patternGraph.Conditions, operations);
+            InsertConditionsIntoSchedule(patternGraph.ConditionsPlusInlined, operations);
 
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
             return new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
@@ -1232,7 +1236,7 @@ exitSecondLoop: ;
             bool homToAll = true;
             if (spn_j.NodeType == PlanNodeType.Node)
             {
-                for (int i = 0; i < ssp.PatternGraph.nodes.Length; ++i)
+                for (int i = 0; i < ssp.PatternGraph.nodesPlusInlined.Length; ++i)
                 {
                     if (!ssp.PatternGraph.homomorphicNodes[spn_j.ElementID - 1, i])
                     {
@@ -1243,7 +1247,7 @@ exitSecondLoop: ;
             }
             else // (spn_j.NodeType == PlanNodeType.Edge)
             {
-                for (int i = 0; i < ssp.PatternGraph.edges.Length; ++i)
+                for (int i = 0; i < ssp.PatternGraph.edgesPlusInlined.Length; ++i)
                 {
                     if (!ssp.PatternGraph.homomorphicEdges[spn_j.ElementID - 1, i])
                     {
@@ -1270,11 +1274,11 @@ exitSecondLoop: ;
 
             if (spn_j.NodeType == PlanNodeType.Node) {
                 types = model.NodeModel.Types;
-                hom = ssp.PatternGraph.HomomorphicNodes;
+                hom = ssp.PatternGraph.homomorphicNodes;
             }
             else { // (spn_j.NodeType == PlanNodeType.Edge)
                 types = model.EdgeModel.Types;
-                hom = ssp.PatternGraph.HomomorphicEdges;
+                hom = ssp.PatternGraph.homomorphicEdges;
             }
 
             // order operation to check against all elements it's not allowed to be homomorph to
@@ -1382,10 +1386,10 @@ exitSecondLoop: ;
 
             bool[,] homGlobal;
             if (spn_j.NodeType == PlanNodeType.Node) {
-                homGlobal = ssp.PatternGraph.HomomorphicNodesGlobal;
+                homGlobal = ssp.PatternGraph.homomorphicNodesGlobal;
             }
             else { // (spn_j.NodeType == PlanNodeType.Edge)
-                homGlobal = ssp.PatternGraph.HomomorphicEdgesGlobal;
+                homGlobal = ssp.PatternGraph.homomorphicEdgesGlobal;
             }
 
             // iterate through the operations before our position
@@ -1427,17 +1431,17 @@ exitSecondLoop: ;
         /// </summary>
         public void MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(PatternGraph patternGraph)
         {
-            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
             {
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(neg);
             }
 
-            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
             {
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(idpt);
             }
 
-            foreach (Alternative alt in patternGraph.alternatives)
+            foreach (Alternative alt in patternGraph.alternativesPlusInlined)
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
@@ -1445,7 +1449,7 @@ exitSecondLoop: ;
                 }
             }
 
-            foreach (Iterated iter in patternGraph.iterateds)
+            foreach (Iterated iter in patternGraph.iteratedsPlusInlined)
             {
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(iter.iteratedPattern);
             }
@@ -1488,9 +1492,9 @@ exitSecondLoop: ;
             }
 
             // iterate over all negative scheduled search plans (TODO: order?)
-            for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
+            for (int i = 0; i < patternGraph.negativePatternGraphsPlusInlined.Length; ++i)
             {
-                ScheduledSearchPlan negSchedule = patternGraph.negativePatternGraphs[i].schedulesIncludingNegativesAndIndependents[0];
+                ScheduledSearchPlan negSchedule = patternGraph.negativePatternGraphsPlusInlined[i].schedulesIncludingNegativesAndIndependents[0];
                 int bestFitIndex = operations.Count;
                 float bestFitCostToEnd = 0;
 
@@ -1514,8 +1518,8 @@ exitSecondLoop: ;
                         break; // LockLocalElementsForPatternpath is barrier for neg/idpt
                     }
 
-                    if (patternGraph.negativePatternGraphs[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
-                        || patternGraph.negativePatternGraphs[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    if (patternGraph.negativePatternGraphsPlusInlined[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
+                        || patternGraph.negativePatternGraphsPlusInlined[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     {
                         break;
                     }
@@ -1538,9 +1542,9 @@ exitSecondLoop: ;
             }
 
             // iterate over all independent scheduled search plans (TODO: order?)
-            for (int i = 0; i < patternGraph.independentPatternGraphs.Length; ++i)
+            for (int i = 0; i < patternGraph.independentPatternGraphsPlusInlined.Length; ++i)
             {
-                ScheduledSearchPlan idptSchedule = patternGraph.independentPatternGraphs[i].schedulesIncludingNegativesAndIndependents[0];
+                ScheduledSearchPlan idptSchedule = patternGraph.independentPatternGraphsPlusInlined[i].schedulesIncludingNegativesAndIndependents[0];
                 int bestFitIndex = operations.Count;
                 float bestFitCostToEnd = 0;
 
@@ -1564,8 +1568,8 @@ exitSecondLoop: ;
                         break; // LockLocalElementsForPatternpath is barrier for neg/idpt
                     }
 
-                    if (patternGraph.independentPatternGraphs[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
-                        || patternGraph.independentPatternGraphs[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    if (patternGraph.independentPatternGraphsPlusInlined[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
+                        || patternGraph.independentPatternGraphsPlusInlined[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     {
                         break;
                     }
@@ -1669,19 +1673,19 @@ exitSecondLoop: ;
 
             // finally generate matcher source for all the nested alternatives or iterateds of the pattern graph
             // nested inside the alternatives,iterateds,negatives,independents
-            foreach(Alternative alt in matchingPattern.patternGraph.alternatives)
+            foreach(Alternative alt in matchingPattern.patternGraph.alternativesPlusInlined)
             {
                 GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
-            foreach (Iterated iter in matchingPattern.patternGraph.iterateds)
+            foreach (Iterated iter in matchingPattern.patternGraph.iteratedsPlusInlined)
             {
                 GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter.iteratedPattern, isInitialStatic);
             }
-            foreach (PatternGraph neg in matchingPattern.patternGraph.negativePatternGraphs)
+            foreach (PatternGraph neg in matchingPattern.patternGraph.negativePatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, neg, isInitialStatic);
             }
-            foreach (PatternGraph idpt in matchingPattern.patternGraph.independentPatternGraphs)
+            foreach (PatternGraph idpt in matchingPattern.patternGraph.independentPatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, idpt, isInitialStatic);
             }
@@ -1706,19 +1710,19 @@ exitSecondLoop: ;
             foreach (PatternGraph altCase in alt.alternativeCases)
             {
                 // nested inside the alternatives,iterateds,negatives,independents
-                foreach (Alternative nestedAlt in altCase.alternatives)
+                foreach (Alternative nestedAlt in altCase.alternativesPlusInlined)
                 {
                     GenerateActionAndMatcherOfAlternative(sb, matchingPattern, nestedAlt, isInitialStatic);
                 }
-                foreach (Iterated iter in altCase.iterateds)
+                foreach (Iterated iter in altCase.iteratedsPlusInlined)
                 {
                     GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter.iteratedPattern, isInitialStatic);
                 }
-                foreach (PatternGraph neg in altCase.negativePatternGraphs)
+                foreach (PatternGraph neg in altCase.negativePatternGraphsPlusInlined)
                 {
                     GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, neg, isInitialStatic);
                 }
-                foreach (PatternGraph idpt in altCase.independentPatternGraphs)
+                foreach (PatternGraph idpt in altCase.independentPatternGraphsPlusInlined)
                 {
                     GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, idpt, isInitialStatic);
                 }
@@ -1742,19 +1746,19 @@ exitSecondLoop: ;
 
             // finally generate matcher source for all the nested alternatives or iterateds of the iterated pattern graph
             // nested inside the alternatives,iterateds,negatives,independents
-            foreach (Alternative alt in iter.alternatives)
+            foreach (Alternative alt in iter.alternativesPlusInlined)
             {
                 GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
-            foreach (Iterated nestedIter in iter.iterateds)
+            foreach (Iterated nestedIter in iter.iteratedsPlusInlined)
             {
                 GenerateActionAndMatcherOfIterated(sb, matchingPattern, nestedIter.iteratedPattern, isInitialStatic);
             }
-            foreach (PatternGraph neg in iter.negativePatternGraphs)
+            foreach (PatternGraph neg in iter.negativePatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, neg, isInitialStatic);
             }
-            foreach (PatternGraph idpt in iter.independentPatternGraphs)
+            foreach (PatternGraph idpt in iter.independentPatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, idpt, isInitialStatic);
             }
@@ -1770,19 +1774,19 @@ exitSecondLoop: ;
             // nothing to do locally ..
 
             // .. just move on to the nested alternatives or iterateds
-            foreach (Alternative alt in negOrIdpt.alternatives)
+            foreach (Alternative alt in negOrIdpt.alternativesPlusInlined)
             {
                 GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
-            foreach (Iterated iter in negOrIdpt.iterateds)
+            foreach (Iterated iter in negOrIdpt.iteratedsPlusInlined)
             {
                 GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter.iteratedPattern, isInitialStatic);
             }
-            foreach (PatternGraph nestedNeg in negOrIdpt.negativePatternGraphs)
+            foreach (PatternGraph nestedNeg in negOrIdpt.negativePatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, nestedNeg, isInitialStatic);
             }
-            foreach (PatternGraph nestedIdpt in negOrIdpt.independentPatternGraphs)
+            foreach (PatternGraph nestedIdpt in negOrIdpt.independentPatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, nestedIdpt, isInitialStatic);
             }
@@ -2376,25 +2380,25 @@ exitSecondLoop: ;
 
             GenerateTasksMemoryPool(sb, className, false, false);
 
-            for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                PatternNode node = patternGraph.nodes[i];
+                PatternNode node = patternGraph.nodesPlusInlined[i];
                 if (node.PointOfDefinition == null)
                 {
                     sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.name + ";\n");
                 }
             }
-            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                PatternEdge edge = patternGraph.edges[i];
+                PatternEdge edge = patternGraph.edgesPlusInlined[i];
                 if (edge.PointOfDefinition == null)
                 {
                     sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.name + ";\n");
                 }
             }
-            for (int i = 0; i < patternGraph.variables.Length; ++i)
+            for (int i = 0; i < patternGraph.variablesPlusInlined.Length; ++i)
             {
-                PatternVariable variable = patternGraph.variables[i];
+                PatternVariable variable = patternGraph.variablesPlusInlined[i];
                 sb.AppendFront("public " +TypesHelper.TypeName(variable.Type) + " " + variable.name + ";\n");
             }
 
@@ -2486,11 +2490,11 @@ exitSecondLoop: ;
             sb.AppendFront("actionEnv = actionEnv_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
             int index = -1;
-            for (int i=0; i<iter.embeddingGraph.iterateds.Length; ++i) {
-                if (iter.embeddingGraph.iterateds[i].iteratedPattern == iter) index = i;
+            for (int i=0; i<iter.embeddingGraph.iteratedsPlusInlined.Length; ++i) {
+                if (iter.embeddingGraph.iteratedsPlusInlined[i].iteratedPattern == iter) index = i;
             }
-            sb.AppendFrontFormat("minMatchesIter = {0};\n", iter.embeddingGraph.iterateds[index].minMatches);
-            sb.AppendFrontFormat("maxMatchesIter = {0};\n", iter.embeddingGraph.iterateds[index].maxMatches);
+            sb.AppendFrontFormat("minMatchesIter = {0};\n", iter.embeddingGraph.iteratedsPlusInlined[index].minMatches);
+            sb.AppendFrontFormat("maxMatchesIter = {0};\n", iter.embeddingGraph.iteratedsPlusInlined[index].maxMatches);
             sb.AppendFront("numMatchesIter = 0;\n");
             if(iter.isIterationBreaking)
                 sb.AppendFront("breakIteration = false;\n");
@@ -2550,7 +2554,7 @@ exitSecondLoop: ;
                 }
             }
 
-            foreach (PatternGraph idpt in patternGraph.IndependentPatternGraphs)
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
             {
                 GenerateIndependentsMatchObjects(sb, matchingPatternClassName, idpt);
             }
@@ -2646,17 +2650,17 @@ exitSecondLoop: ;
                 patternGraph.schedules[i] = scheduledSearchPlan;
                 patternGraph.RevertMaybeNullAdaption(i);
 
-                foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+                foreach (PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
                 {
                     GenerateScheduledSearchPlans(neg, graph, isSubpattern, true);
                 }
 
-                foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+                foreach (PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
                 {
                     GenerateScheduledSearchPlans(idpt, graph, isSubpattern, true);
                 }
 
-                foreach (Alternative alt in patternGraph.alternatives)
+                foreach (Alternative alt in patternGraph.alternativesPlusInlined)
                 {
                     foreach (PatternGraph altCase in alt.alternativeCases)
                     {
@@ -2664,7 +2668,7 @@ exitSecondLoop: ;
                     }
                 }
 
-                foreach (Iterated iter in patternGraph.iterateds)
+                foreach (Iterated iter in patternGraph.iteratedsPlusInlined)
                 {
                     GenerateScheduledSearchPlans(iter.iteratedPattern, graph, isSubpattern, false);
                 }
@@ -2700,7 +2704,7 @@ exitSecondLoop: ;
             GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, action.rulePattern.GetType().Namespace);
 
             // can't generate new subpattern matchers due to missing scheduled search plans for them / missing graph analyze data
-            Debug.Assert(action.rulePattern.patternGraph.embeddedGraphs.Length == 0);
+            Debug.Assert(action.rulePattern.patternGraph.embeddedGraphsPlusInlined.Length == 0);
 
             GenerateActionAndMatcher(sourceCode, action.rulePattern, false);
 
