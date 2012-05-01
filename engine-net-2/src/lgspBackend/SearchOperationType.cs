@@ -59,6 +59,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         Cast,
         /// <summary>
+        /// Assign element from old element, needs old element (used for former parameters of inlined subpatterns).
+        /// </summary>
+        Assign,
+        /// <summary>
+        /// Assign var from expression (used for former var parameters of inlined subpatterns).
+        /// </summary>
+        AssignVar,
+        /// <summary>
         /// Follow outgoing edges of given node.
         /// </summary>
         Outgoing,

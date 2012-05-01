@@ -111,12 +111,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// If Type is NegativePattern or IndependentPattern, Element is a negative ScheduledSearchPlan object.
         /// If Type is Condition, Element is a Condition object.
+        /// If Type is AssignVar, Element is a Variable object.
         /// Otherwise Element is the target SearchPlanNode for this operation.
         /// </summary>
         public object Element;
         public SearchPlanNode SourceSPNode;
         public PatternVariable Storage;
         public AttributeType StorageAttribute;
+        public expression.Expression Expression;
         public float CostToEnd;
 
         // used in check for isomorphic elements
@@ -136,6 +138,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchOperation so = new SearchOperation(Type, Element, SourceSPNode, CostToEnd);
             so.Isomorphy = (IsomorphyInformation)Isomorphy.Clone();
             so.Storage = Storage;
+            so.StorageAttribute = StorageAttribute;
+            so.Expression = Expression;
             return so;
         }
 

@@ -99,6 +99,7 @@ namespace de.unika.ipd.grGen.lgsp
                 InlineSubpatternUsages(matchingPattern.patternGraph);
             // TODO: inline subpatterns used in subpatterns, too
             // maybe the subpattern is recursive, but parts are not, and they are disconnecting
+            // first inline the rules using plain subpatterns, then inline the subpatterns, too (using maybe inlined subpatterns there)
         }
 
         ///////////////////////////////////////////////////////////////////////////////
@@ -670,7 +671,9 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         // rewrite pattern graph to include the content of the embedded graph
                         // modulo name changes to avoid conflicts
-                        // InlineSubpatternUsage(patternGraph, embedding);
+
+                        // TODO: uncomment
+                        //InlineSubpatternUsage(patternGraph, embedding);
                     }
                 }
             }
@@ -845,6 +848,255 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return cost;
+        }
+
+        void InlineSubpatternUsage(PatternGraph patternGraph, PatternGraphEmbedding embedding)
+        {
+            PatternGraph embeddedGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
+            string renameSuffix = "_inlined_" + embedding.Name;
+
+            Dictionary<PatternNode, PatternNode> nodeToCopy = new Dictionary<PatternNode,PatternNode>();
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy = new Dictionary<PatternEdge,PatternEdge>();
+            Dictionary<PatternVariable, PatternVariable> variableToCopy = new Dictionary<PatternVariable,PatternVariable>();
+            CopyNodesEdgesVariablesOfSubpattern(patternGraph, embedding, renameSuffix, 
+                nodeToCopy, edgeToCopy, variableToCopy);
+
+            patternGraph.PatchUsersOfCopiedElements(nodeToCopy, edgeToCopy, variableToCopy);
+
+            CopyConditionsYieldingsOfSubpattern(patternGraph, embeddedGraph, renameSuffix,
+                nodeToCopy, edgeToCopy, variableToCopy);
+
+            // TODO: elemente müssen auf das kopierte definierende pattern zeigen
+            // nicht einfach auf das umschließende
+
+            // TODO: der rekursivschritt fehlt!
+
+            CopyNegativesIndependentsOfSubpattern(patternGraph, embeddedGraph, renameSuffix,
+                nodeToCopy, edgeToCopy, variableToCopy);
+
+            CopyAlternativesIteratedsOfSubpattern(patternGraph, embeddedGraph, renameSuffix,
+                nodeToCopy, edgeToCopy, variableToCopy);
+
+            CopySubpatternUsagesOfSubpattern(patternGraph, embeddedGraph, renameSuffix, 
+                nodeToCopy, edgeToCopy, variableToCopy);
+
+            embedding.inlined = true;
+        }
+
+        private static void CopyNodesEdgesVariablesOfSubpattern(PatternGraph patternGraph, 
+            PatternGraphEmbedding embedding, string renameSuffix, 
+            Dictionary<PatternNode, PatternNode> nodeToCopy, 
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy, 
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            PatternGraph embeddedGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
+            if(embeddedGraph.nodesPlusInlined.Length > 0)
+            {
+                PatternNode[] newNodes = new PatternNode[patternGraph.nodesPlusInlined.Length + embeddedGraph.nodesPlusInlined.Length];
+                patternGraph.nodesPlusInlined.CopyTo(newNodes, 0);
+                for(int i = 0; i < embeddedGraph.nodesPlusInlined.Length; ++i)
+                {
+                    PatternNode node = embeddedGraph.nodesPlusInlined[i];
+                    PatternNode newNode = new PatternNode(node, patternGraph, renameSuffix);
+                    newNodes[patternGraph.nodesPlusInlined.Length + i] = newNode;
+                    nodeToCopy[node] = newNode;
+
+                    if(newNode.pointOfDefinition==null)
+                    {
+                        newNode.pointOfDefinition = patternGraph;
+                        newNode.AssignmentSource = getBoundNode(embedding, node.ParameterIndex,
+                            patternGraph.nodesPlusInlined);
+                    }
+                }
+                patternGraph.nodesPlusInlined = newNodes;
+            }
+            if(embeddedGraph.edgesPlusInlined.Length > 0)
+            {
+                PatternEdge[] newEdges = new PatternEdge[patternGraph.edgesPlusInlined.Length + embeddedGraph.edgesPlusInlined.Length];
+                patternGraph.edgesPlusInlined.CopyTo(newEdges, 0);
+                for(int i = 0; i < embeddedGraph.edgesPlusInlined.Length; ++i)
+                {
+                    PatternEdge edge = embeddedGraph.edgesPlusInlined[i];
+                    PatternEdge newEdge = new PatternEdge(edge, patternGraph, renameSuffix);
+                    newEdges[patternGraph.edgesPlusInlined.Length + i] = newEdge;
+                    edgeToCopy[edge] = newEdge;
+
+                    if(newEdge.pointOfDefinition==null)
+                    {
+                        newEdge.pointOfDefinition = patternGraph;
+                        newEdge.AssignmentSource = getBoundEdge(embedding, edge.ParameterIndex,
+                            patternGraph.edgesPlusInlined);
+                    }
+                }
+                patternGraph.edgesPlusInlined = newEdges;
+            }
+            if(embeddedGraph.variablesPlusInlined.Length > 0)
+            {
+                PatternVariable[] newVariables = new PatternVariable[patternGraph.variablesPlusInlined.Length + embeddedGraph.variablesPlusInlined.Length];
+                patternGraph.variablesPlusInlined.CopyTo(newVariables, 0);
+                for(int i = 0; i < embeddedGraph.variablesPlusInlined.Length; ++i)
+                {
+                    PatternVariable variable = embeddedGraph.variablesPlusInlined[i];
+                    PatternVariable newVariable = new PatternVariable(variable, patternGraph, renameSuffix);
+                    newVariables[patternGraph.variablesPlusInlined.Length + i] = newVariable;
+                    variableToCopy[variable] = newVariable;
+
+                    if(newVariable.pointOfDefinition==null)
+                    {
+                        newVariable.pointOfDefinition = patternGraph;
+                        newVariable.AssignmentSource = embedding.connections[variable.ParameterIndex];
+                        newVariable.AssignmentDependencies = embedding;
+                    }
+                }
+                patternGraph.variablesPlusInlined = newVariables;
+            }
+        }
+
+        private static void CopyConditionsYieldingsOfSubpattern(PatternGraph patternGraph,
+            PatternGraph embeddedGraph, string renameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy,
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            if(embeddedGraph.ConditionsPlusInlined.Length > 0)
+            {
+                PatternCondition[] newConditions = new PatternCondition[patternGraph.ConditionsPlusInlined.Length + embeddedGraph.ConditionsPlusInlined.Length];
+                patternGraph.ConditionsPlusInlined.CopyTo(newConditions, 0);
+                for(int i = 0; i < embeddedGraph.ConditionsPlusInlined.Length; ++i)
+                {
+                    PatternCondition cond = embeddedGraph.ConditionsPlusInlined[i];
+                    PatternCondition newCond = new PatternCondition(cond, renameSuffix);
+                    newConditions[patternGraph.ConditionsPlusInlined.Length + i] = newCond;
+                }
+                patternGraph.ConditionsPlusInlined = newConditions;
+            }
+            if(embeddedGraph.YieldingsPlusInlined.Length > 0)
+            {
+                PatternYielding[] newYieldings = new PatternYielding[patternGraph.YieldingsPlusInlined.Length + embeddedGraph.YieldingsPlusInlined.Length];
+                patternGraph.YieldingsPlusInlined.CopyTo(newYieldings, 0);
+                for(int i = 0; i < embeddedGraph.YieldingsPlusInlined.Length; ++i)
+                {
+                    PatternYielding yield = embeddedGraph.YieldingsPlusInlined[i];
+                    PatternYielding newYield = new PatternYielding(yield, renameSuffix);
+                    newYieldings[patternGraph.YieldingsPlusInlined.Length + i] = newYield;
+                }
+                patternGraph.YieldingsPlusInlined = newYieldings;
+            }
+        }
+
+        private static void CopyNegativesIndependentsOfSubpattern(PatternGraph patternGraph, 
+            PatternGraph embeddedGraph, string renameSuffix, 
+            Dictionary<PatternNode, PatternNode> nodeToCopy, 
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy, 
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            if(embeddedGraph.negativePatternGraphsPlusInlined.Length > 0)
+            {
+                PatternGraph[] newNegativePatternGraphs = new PatternGraph[patternGraph.negativePatternGraphsPlusInlined.Length + embeddedGraph.negativePatternGraphsPlusInlined.Length];
+                patternGraph.negativePatternGraphsPlusInlined.CopyTo(newNegativePatternGraphs, 0);
+                for(int i = 0; i < embeddedGraph.negativePatternGraphsPlusInlined.Length; ++i)
+                {
+                    PatternGraph neg = embeddedGraph.negativePatternGraphsPlusInlined[i];
+                    PatternGraph newNeg = new PatternGraph(neg, patternGraph, renameSuffix,
+                        nodeToCopy, edgeToCopy, variableToCopy);
+                    newNegativePatternGraphs[patternGraph.negativePatternGraphsPlusInlined.Length + i] = newNeg;
+                }
+                patternGraph.negativePatternGraphsPlusInlined = newNegativePatternGraphs;
+            }
+            if(embeddedGraph.independentPatternGraphsPlusInlined.Length > 0)
+            {
+                PatternGraph[] newIndependentPatternGraphs = new PatternGraph[patternGraph.independentPatternGraphsPlusInlined.Length + embeddedGraph.independentPatternGraphsPlusInlined.Length];
+                patternGraph.independentPatternGraphsPlusInlined.CopyTo(newIndependentPatternGraphs, 0);
+                for(int i = 0; i < embeddedGraph.independentPatternGraphsPlusInlined.Length; ++i)
+                {
+                    PatternGraph idpt = embeddedGraph.independentPatternGraphsPlusInlined[i];
+                    PatternGraph newIdpt = new PatternGraph(idpt, patternGraph, renameSuffix,
+                        nodeToCopy, edgeToCopy, variableToCopy);
+                    newIndependentPatternGraphs[patternGraph.independentPatternGraphsPlusInlined.Length + i] = newIdpt;
+                }
+                patternGraph.independentPatternGraphsPlusInlined = newIndependentPatternGraphs;
+            }
+        }
+
+        private static void CopyAlternativesIteratedsOfSubpattern(PatternGraph patternGraph, 
+            PatternGraph embeddedGraph, string renameSuffix, 
+            Dictionary<PatternNode, PatternNode> nodeToCopy, 
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy, 
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            if(embeddedGraph.alternativesPlusInlined.Length > 0)
+            {
+                Alternative[] newAlternatives = new Alternative[patternGraph.alternativesPlusInlined.Length + embeddedGraph.alternativesPlusInlined.Length];
+                patternGraph.alternativesPlusInlined.CopyTo(newAlternatives, 0);
+                for(int i = 0; i < embeddedGraph.alternativesPlusInlined.Length; ++i)
+                {
+                    Alternative alt = embeddedGraph.alternativesPlusInlined[i];
+                    Alternative newAlt = new Alternative(alt, patternGraph, renameSuffix,
+                        nodeToCopy, edgeToCopy, variableToCopy);
+                    newAlternatives[patternGraph.alternativesPlusInlined.Length + i] = newAlt;
+                }
+                patternGraph.alternativesPlusInlined = newAlternatives;
+            }
+            if(embeddedGraph.iteratedsPlusInlined.Length > 0)
+            {
+                Iterated[] newIterateds = new Iterated[patternGraph.iteratedsPlusInlined.Length + embeddedGraph.iteratedsPlusInlined.Length];
+                patternGraph.iteratedsPlusInlined.CopyTo(newIterateds, 0);
+                for(int i = 0; i < embeddedGraph.iteratedsPlusInlined.Length; ++i)
+                {
+                    Iterated iter = embeddedGraph.iteratedsPlusInlined[i];
+                    Iterated newIter = new Iterated(iter, patternGraph, renameSuffix,
+                        nodeToCopy, edgeToCopy, variableToCopy);
+                    newIterateds[patternGraph.iteratedsPlusInlined.Length + i] = newIter;
+                }
+                patternGraph.iteratedsPlusInlined = newIterateds;
+            }
+        }
+
+        private static void CopySubpatternUsagesOfSubpattern(PatternGraph patternGraph, 
+            PatternGraph embeddedGraph, string renameSuffix, 
+            Dictionary<PatternNode, PatternNode> nodeToCopy, 
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy, 
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            if(embeddedGraph.embeddedGraphsPlusInlined.Length > 0)
+            {
+                PatternGraphEmbedding[] newEmbeddings = new PatternGraphEmbedding[patternGraph.embeddedGraphsPlusInlined.Length + embeddedGraph.iteratedsPlusInlined.Length];
+                patternGraph.embeddedGraphsPlusInlined.CopyTo(newEmbeddings, 0);
+                for(int i = 0; i < embeddedGraph.embeddedGraphsPlusInlined.Length; ++i)
+                {
+                    PatternGraphEmbedding sub = embeddedGraph.embeddedGraphsPlusInlined[i];
+                    PatternGraphEmbedding newSub = new PatternGraphEmbedding(sub, patternGraph, renameSuffix,
+                        nodeToCopy, edgeToCopy, variableToCopy);
+                    newEmbeddings[patternGraph.embeddedGraphsPlusInlined.Length + i] = newSub;
+                }
+                patternGraph.embeddedGraphsPlusInlined = newEmbeddings;
+            }
+        }
+
+        private static PatternElement getBoundNode(PatternGraphEmbedding embedding, int parameterIndex,
+            PatternNode[] nodes)
+        {
+            expression.Expression exp = embedding.connections[parameterIndex];
+            expression.GraphEntityExpression elem = (expression.GraphEntityExpression)exp;
+            foreach(PatternNode node in nodes)
+            {
+                if(node.name == elem.Entity)
+                    return node;
+            }
+            return null;
+        }
+
+        private static PatternElement getBoundEdge(PatternGraphEmbedding embedding, int parameterIndex,
+            PatternEdge[] edges)
+        {
+            expression.Expression exp = embedding.connections[parameterIndex];
+            expression.GraphEntityExpression elem = (expression.GraphEntityExpression)exp;
+            foreach(PatternEdge edge in edges)
+            {
+                if(edge.name == elem.Entity)
+                    return edge;
+            }
+            return null;
         }
 
         // ----------------------------------------------------------------

@@ -198,15 +198,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="graph">The host graph to optimize the matcher program for, 
         /// providing statistical information about its structure </param>
-        public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpattern)
+        public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, 
+            bool isNegativeOrIndependent, bool isSubpatternLike)
         {
             // 
             // If you change this method, chances are high you also want to change GenerateStaticPlanGraph in LGSPGrGen
             // look there for version without ifdef junk
             // todo: unify it with GenerateStaticPlanGraph in LGSPGrGen
             // 
-
-            // todo: use the PlusInlined fields
 
             // Create root node
             // Create plan graph nodes for all pattern graph nodes and all pattern graph edges
@@ -264,9 +263,9 @@ namespace de.unika.ipd.grGen.lgsp
                     cost = 1;
 #endif
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
+                    searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
                 }
-                else if (node.PointOfDefinition != patternGraph)
+                else if(node.PointOfDefinition != patternGraph)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;
@@ -275,6 +274,16 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
                     isPreset = true;
                     searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
+                }
+                else if(node.AssignmentSource != null)
+                {
+#if OPCOST_WITH_GEO_MEAN 
+                    cost = 0;
+#else
+                    cost = 1;
+#endif
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the assignment source  is needed, so there is no lookup like operation
                 }
                 else if(node.Storage != null)
                 {
@@ -368,7 +377,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cost = 1;
 #endif
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
+                    searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
                 }
                 else if (edge.PointOfDefinition != patternGraph)
                 {
@@ -379,6 +388,16 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
                     isPreset = true;
                     searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
+                }
+                else if(edge.AssignmentSource != null)
+                {
+#if OPCOST_WITH_GEO_MEAN 
+                    cost = 0;
+#else
+                    cost = 1;
+#endif
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the assignment source  is needed, so there is no lookup like operation
                 }
                 else if(edge.Storage != null)
                 {
@@ -483,12 +502,13 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 #endif
 
-                // only add implicit source operation if edge source is needed and the edge source is not a preset node and not a storage node and not a cast node
+                // only add implicit source operation if edge source is needed and the edge source is not a preset node and not a storage node and not a cast node and not an assigned node
                 if(patternGraph.GetSource(edge) != null 
                     && !patternGraph.GetSource(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetSource(edge).Storage == null
                     && patternGraph.GetSource(edge).StorageAttributeOwner == null
-                    && patternGraph.GetSource(edge).ElementBeforeCasting == null)
+                    && patternGraph.GetSource(edge).ElementBeforeCasting == null
+                    && patternGraph.GetSource(edge).AssignmentSource == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
@@ -503,12 +523,13 @@ namespace de.unika.ipd.grGen.lgsp
                     planEdges.Add(implSrcPlanEdge);
                     patternGraph.GetSource(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
-                // only add implicit target operation if edge target is needed and the edge target is not a preset node and not a storage node and not a cast node
+                // only add implicit target operation if edge target is needed and the edge target is not a preset node and not a storage node and not a cast node and not an assigned node
                 if(patternGraph.GetTarget(edge) != null 
                     && !patternGraph.GetTarget(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetTarget(edge).Storage == null
                     && patternGraph.GetTarget(edge).StorageAttributeOwner == null
-                    && patternGraph.GetTarget(edge).ElementBeforeCasting == null)
+                    && patternGraph.GetTarget(edge).ElementBeforeCasting == null
+                    && patternGraph.GetTarget(edge).AssignmentSource == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
@@ -523,8 +544,12 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.GetTarget(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
                 }
 
-                // edge must only be reachable from other nodes if it's not a preset and not storage determined and not a cast
-                if(!isPreset && edge.Storage == null && edge.StorageAttributeOwner == null && edge.ElementBeforeCasting == null)
+                // edge must only be reachable from other nodes if it's not a preset and not storage determined and not a cast and not an assigned edge
+                if(!isPreset 
+                    && edge.Storage == null 
+                    && edge.StorageAttributeOwner == null 
+                    && edge.ElementBeforeCasting == null
+                    && edge.AssignmentSource == null)
                 {
                     // no outgoing on source node if no source
                     if(patternGraph.GetSource(edge) != null)
@@ -594,7 +619,7 @@ namespace de.unika.ipd.grGen.lgsp
             // second run handling storage mapping (can't be done in first run due to dependencies between elements)
 
             // create map with storage plan edges for all pattern graph nodes
-            // which are the result of a mapping/picking from attribute operation or element type casting
+            // which are the result of a mapping/picking from attribute operation or element type casting or assignment
             for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
                 PatternNode node = patternGraph.nodesPlusInlined[i];
@@ -636,10 +661,23 @@ namespace de.unika.ipd.grGen.lgsp
                         planEdges.Add(castPlanEdge);
                         node.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
                     }
+                    else if(node.AssignmentSource != null)
+                    {
+#if OPCOST_WITH_GEO_MEAN 
+                        PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
+                            node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 0);
+#else
+                        PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
+                            node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 1);
+#endif
+                        planEdges.Add(assignPlanEdge);
+                        node.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+                    }
                 }
             }
 
-            // create map with storage plan edges for all pattern graph edges which are the result of a mapping/picking from attribute operation
+            // create map with storage plan edges for all pattern graph edges 
+            // which are the result of a mapping/picking from attribute operation or element type casting or assignment
             for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
                 PatternEdge edge = patternGraph.edgesPlusInlined[i];
@@ -680,6 +718,18 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
                         planEdges.Add(castPlanEdge);
                         edge.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
+                    }
+                    else if(edge.AssignmentSource != null)
+                    {
+#if OPCOST_WITH_GEO_MEAN 
+                        PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
+                            edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 0);
+#else
+                        PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
+                            edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 1);
+#endif
+                        planEdges.Add(assignPlanEdge);
+                        edge.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
                     }
                 }
             }
@@ -1179,6 +1229,9 @@ exitSecondLoop: ;
             // insert conditions into the schedule
             InsertConditionsIntoSchedule(patternGraph.ConditionsPlusInlined, operations);
 
+            // insert inlined variable assignments into the schedule
+            InsertInlinedVariableAssignmentsIntoSchedule(patternGraph, operations);
+
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
             return new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
         }
@@ -1645,6 +1698,75 @@ exitSecondLoop: ;
 
                 operations.Insert(j + 1, new SearchOperation(SearchOperationType.Condition,
                     conditions[i], null, costToEnd));
+            }
+        }
+
+        /// <summary>
+        /// Inserts inlined variable assignments into the schedule given by the operations list at their earliest possible position
+        /// </summary>
+        public void InsertInlinedVariableAssignmentsIntoSchedule(PatternGraph patternGraph, List<SearchOperation> operations)
+        {
+            // compute the number of inlined parameter variables
+            int numInlinedParameterVariables = 0;
+            foreach(PatternVariable var in patternGraph.variables)
+            {
+                if(var.AssignmentSource != null)
+                    ++numInlinedParameterVariables;
+            }
+
+            if(numInlinedParameterVariables == 0)
+                return;
+
+            // get the inlined parameter variables and the elements needed in order to compute their defining expression
+            Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[numInlinedParameterVariables];
+            PatternVariable[] inlinedParameterVariables = new PatternVariable[numInlinedParameterVariables];
+            int curInlParamVar = 0;
+            foreach(PatternVariable var in patternGraph.variables)
+            {
+                if(var.AssignmentSource == null)
+                    continue;
+
+                neededElements[curInlParamVar] = new Dictionary<string, bool>();
+                foreach(String neededNode in var.AssignmentDependencies.neededNodes)
+                    neededElements[curInlParamVar][neededNode] = true;
+                foreach(String neededEdge in var.AssignmentDependencies.neededEdges)
+                    neededElements[curInlParamVar][neededEdge] = true;
+                inlinedParameterVariables[curInlParamVar] = var;
+                
+                ++curInlParamVar;
+            }
+
+            // iterate over all inlined parameter variables
+            for(int i = 0; i < inlinedParameterVariables.Length; ++i)
+            {
+                int j;
+                float costToEnd = 0;
+
+                // find leftmost place in scheduled search plan for current assignment
+                // by search from end of schedule forward until the first element the expression assigned is dependent on is found
+                for(j = operations.Count - 1; j >= 0; --j)
+                {
+                    SearchOperation op = operations[j];
+                    if(op.Type == SearchOperationType.Condition
+                        || op.Type == SearchOperationType.Assign
+                        || op.Type == SearchOperationType.AssignVar
+                        || op.Type == SearchOperationType.NegativePattern
+                        || op.Type == SearchOperationType.IndependentPattern)
+                    {
+                        continue;
+                    }
+
+                    if(neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    {
+                        costToEnd = op.CostToEnd;
+                        break;
+                    }
+                }
+
+                SearchOperation so = new SearchOperation(SearchOperationType.AssignVar,
+                    inlinedParameterVariables[i], null, costToEnd);
+                so.Expression = inlinedParameterVariables[i].AssignmentSource;
+                operations.Insert(j + 1, so);
             }
         }
 
@@ -2635,13 +2757,13 @@ exitSecondLoop: ;
         /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
         public void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPGraph graph,
-            bool isSubpattern, bool isNegativeOrIndependent)
+            bool isSubpatternLike, bool isNegativeOrIndependent)
         {
             for(int i=0; i<patternGraph.schedules.Length; ++i)
             {
                 patternGraph.AdaptToMaybeNull(i);
                 PlanGraph planGraph = GeneratePlanGraph(graph, patternGraph,
-                    isNegativeOrIndependent, isSubpattern);
+                    isNegativeOrIndependent, isSubpatternLike);
                 MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
                 SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
                 ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(
@@ -2652,25 +2774,25 @@ exitSecondLoop: ;
 
                 foreach (PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(neg, graph, isSubpattern, true);
+                    GenerateScheduledSearchPlans(neg, graph, isSubpatternLike, true);
                 }
 
                 foreach (PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(idpt, graph, isSubpattern, true);
+                    GenerateScheduledSearchPlans(idpt, graph, isSubpatternLike, true);
                 }
 
                 foreach (Alternative alt in patternGraph.alternativesPlusInlined)
                 {
                     foreach (PatternGraph altCase in alt.alternativeCases)
                     {
-                        GenerateScheduledSearchPlans(altCase, graph, isSubpattern, false);
+                        GenerateScheduledSearchPlans(altCase, graph, isSubpatternLike, false);
                     }
                 }
 
                 foreach (Iterated iter in patternGraph.iteratedsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(iter.iteratedPattern, graph, isSubpattern, false);
+                    GenerateScheduledSearchPlans(iter.iteratedPattern, graph, isSubpatternLike, false);
                 }
             }
         }

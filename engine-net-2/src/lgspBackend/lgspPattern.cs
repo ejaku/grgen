@@ -46,6 +46,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
 
+        ////////////////////////////////////////////////////////////////////////////
+
         /// <summary>
         /// The type ID of the pattern element.
         /// </summary>
@@ -135,9 +137,15 @@ namespace de.unika.ipd.grGen.lgsp
         public AttributeType StorageAttribute;
 
         /// <summary>
-        /// If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.
+        /// If not null this pattern element is to be bound by casting the given ElementBeforeCasting to the pattern element type or causing matching to fail.
         /// </summary>
         public PatternElement ElementBeforeCasting;
+
+        /// <summary>
+        /// If not null this pattern element is to be bound by assigning the given assignmentSource to the pattern element.
+        /// This is needed to fill the pattern parameters of a pattern embedding which was inlined.
+        /// </summary>
+        public PatternElement AssignmentSource;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -214,6 +222,35 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Instantiates a new PatternElement object as a copy from an original element, used for inlining.
+        /// </summary>
+        /// <param name="original">The original pattern element to be copy constructed.</param>
+        /// <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the pattern element (to avoid name collisions).</param>
+        public PatternElement(PatternElement original, PatternGraph newHost, String nameSuffix)
+        {
+            TypeID = original.TypeID;
+            typeName = original.typeName;
+            name = original.name + nameSuffix;
+            unprefixedName = original.unprefixedName + nameSuffix;
+            pointOfDefinition = newHost;
+            defToBeYieldedTo = original.defToBeYieldedTo;
+            annotations = original.annotations;
+            AllowedTypes = original.AllowedTypes;
+            IsAllowedType = original.IsAllowedType;
+            Cost = original.Cost;
+            ParameterIndex = original.ParameterIndex;
+            MaybeNull = original.MaybeNull;
+            Storage = original.Storage;
+            Accessor = original.Accessor;
+            StorageAttributeOwner = original.StorageAttributeOwner;
+            StorageAttribute = original.StorageAttribute;
+            ElementBeforeCasting = original.ElementBeforeCasting;
+            AssignmentSource = original.AssignmentSource;
+            originalElement = original;
+        }
+
+        /// <summary>
         /// Converts this instance into a string representation.
         /// </summary>
         /// <returns>The string representation of this instance.</returns>
@@ -262,6 +299,17 @@ namespace de.unika.ipd.grGen.lgsp
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, 
                 cost, parameterIndex, maybeNull, storage, accessor,
                 storageAttributeOwner, storageAttribute, elementBeforeCasting, defToBeYieldedTo)
+        {
+        }
+
+        /// <summary>
+        /// Instantiates a new PatternNode object as a copy from an original node, used for inlining.
+        /// </summary>
+        /// <param name="original">The original pattern node to be copy constructed.</param>
+        /// <param name="newHost">The pattern graph the new pattern node will be contained in.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the pattern node (to avoid name collisions).</param>
+        public PatternNode(PatternNode original, PatternGraph newHost, String nameSuffix)
+            : base(original, newHost, nameSuffix)
         {
         }
 
@@ -332,6 +380,17 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Instantiates a new PatternEdge object as a copy from an original edge, used for inlining.
+        /// </summary>
+        /// <param name="original">The original pattern edge to be copy constructed.</param>
+        /// <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the pattern edge (to avoid name collisions).</param>
+        public PatternEdge(PatternEdge original, PatternGraph newHost, String nameSuffix)
+            : base(original, newHost, nameSuffix)
+        {
+        }
+
+        /// <summary>
         /// Converts this instance into a string representation.
         /// </summary>
         /// <returns>The string representation of this instance.</returns>
@@ -381,6 +440,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
 
+        ////////////////////////////////////////////////////////////////////////////
+
         /// <summary>
         /// The GrGen type of the variable.
         /// </summary>
@@ -422,6 +483,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public int ParameterIndex;
 
+        /// <summary>
+        /// If not null this pattern element is to be bound by assigning the value of the given assignmentSource expression to the variable.
+        /// This is needed to fill the pattern parameters of a pattern embedding which was inlined.
+        /// </summary>
+        public Expression AssignmentSource;
+
+        /// <summary>
+        /// If AssignmentSource is not null this gives the original embedding which was inlined.
+        /// It is given as quick access to the needed nodes, edges, and variables for scheduling.
+        /// </summary>
+        public PatternGraphEmbedding AssignmentDependencies;
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -451,6 +524,25 @@ namespace de.unika.ipd.grGen.lgsp
             this.ParameterIndex = parameterIndex;
             this.defToBeYieldedTo = defToBeYieldedTo;
             this.initialization = initialization;
+        }
+
+        /// <summary>
+        /// Instantiates a new PatternVariable object as a copy from an original variable, used for inlining.
+        /// </summary>
+        /// <param name="original">The original pattern variable to be copy constructed.</param>
+        /// <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the pattern variable (to avoid name collisions).</param>
+        public PatternVariable(PatternVariable original, PatternGraph newHost, String nameSuffix)
+        {
+            Type = original.Type;
+            name = original.name + nameSuffix;
+            unprefixedName = original.unprefixedName + nameSuffix;
+            pointOfDefinition = newHost;
+            defToBeYieldedTo = original.defToBeYieldedTo;
+            initialization = original.initialization;
+            annotations = original.annotations;
+            ParameterIndex = original.ParameterIndex;
+            originalVariable = original.originalVariable;
         }
     }
 
@@ -510,6 +602,27 @@ namespace de.unika.ipd.grGen.lgsp
             NeededVariables = neededVariables;
             NeededVariableTypes = neededVariableTypes;
         }
+
+        /// <summary>
+        /// Instantiates a new PatternCondition object as a copy from an original condition, used for inlining.
+        /// </summary>
+        /// <param name="original">The original condition to be copy constructed.</param>
+        /// <param name="renameSuffix">The rename suffix to be applied to all the nodes, edges, and variables used.</param>
+        public PatternCondition(PatternCondition original, string renameSuffix)
+        {
+            originalCondition = original;
+            ConditionExpression = (Expression)original.ConditionExpression.Copy(renameSuffix);
+            NeededNodes = new String[original.NeededNodes.Length];
+            for(int i = 0; i < original.NeededNodes.Length; ++i)
+                NeededNodes[i] = original.NeededNodes[i] + renameSuffix;
+            NeededEdges = new String[original.NeededEdges.Length];
+            for(int i = 0; i < original.NeededEdges.Length; ++i)
+                NeededEdges[i] = original.NeededEdges[i] + renameSuffix;
+            NeededVariables = new String[original.NeededVariables.Length];
+            for(int i = 0; i < original.NeededVariables.Length; ++i)
+                NeededVariables[i] = original.NeededVariables[i] + renameSuffix;
+            NeededVariableTypes = (VarType[])original.NeededVariableTypes.Clone();
+        }
     }
 
     /// <summary>
@@ -567,6 +680,27 @@ namespace de.unika.ipd.grGen.lgsp
             NeededEdges = neededEdges;
             NeededVariables = neededVariables;
             NeededVariableTypes = neededVariableTypes;
+        }
+
+        /// <summary>
+        /// Instantiates a new PatternYielding object as a copy from an original yielding, used for inlining.
+        /// </summary>
+        /// <param name="original">The original yielding to be copy constructed.</param>
+        /// <param name="renameSuffix">The rename suffix to be applied to all the nodes, edges, and variables used.</param>
+        public PatternYielding(PatternYielding original, string renameSuffix)
+        {
+            originalYielding = original;
+            YieldAssignment = (Yielding)original.YieldAssignment.Copy(renameSuffix);
+            NeededNodes = new String[original.NeededNodes.Length];
+            for(int i = 0; i < original.NeededNodes.Length; ++i)
+                NeededNodes[i] = original.NeededNodes[i] + renameSuffix;
+            NeededEdges = new String[original.NeededEdges.Length];
+            for(int i = 0; i < original.NeededEdges.Length; ++i)
+                NeededEdges[i] = original.NeededEdges[i] + renameSuffix;
+            NeededVariables = new String[original.NeededVariables.Length];
+            for(int i = 0; i < original.NeededVariables.Length; ++i)
+                NeededVariables[i] = original.NeededVariables[i] + renameSuffix;
+            NeededVariableTypes = (VarType[])original.NeededVariableTypes.Clone();
         }
     }
 
@@ -932,7 +1066,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Copies all the elements in the pattern graph to the XXXPlusInlined attributes.
         /// This duplicates the pattern, the duplicate is used for the computing and emitting the real code,
-        /// whereas the original version is retained as interface to the user.
+        /// whereas the original version is retained as interface to the user (and used in generating the match building).
         /// When subpatterns/embedded graphs get inlined, only the duplicate is changed.
         /// </summary>
         public void PrepareInline()
@@ -962,13 +1096,220 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Copies the pattern graph, renaming all elements with the given prefix.
-        /// Needed to avoid name clashes during inlining.
+        /// Instantiates a new PatternGraph object as a copy from an original pattern graph, used for inlining.
         /// </summary>
-        public void Inline(PatternGraphEmbedding embeddedGraph)
+        /// <param name="original">The original pattern graph to be copy constructed.</param>
+        /// <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the pattern graph and its elements (to avoid name collisions).</param>
+        /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
+        public PatternGraph(PatternGraph original, PatternGraph newHost, String nameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy,
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
-            // inline the given embedding, prefixing its elements to avoid name clashes
-            string prefix = embeddedGraph.name;
+            nodes = (PatternNode[])original.nodes.Clone();
+            nodesPlusInlined = new PatternNode[original.nodesPlusInlined.Length];
+            for(int i = 0; i < original.nodesPlusInlined.Length; ++i)
+            {
+                PatternNode node = original.nodesPlusInlined[i];
+                if(nodeToCopy.ContainsKey(node))
+                {
+                    nodesPlusInlined[i] = nodeToCopy[node];
+                }
+                else
+                {
+                    PatternNode newNode = new PatternNode(node, this, nameSuffix);
+                    nodes[i] = newNode;
+                    nodeToCopy[node] = newNode;
+                }
+            }
+
+            edges = (PatternEdge[])original.edges.Clone();
+            edgesPlusInlined = new PatternEdge[original.edgesPlusInlined.Length];
+            for(int i = 0; i < original.edgesPlusInlined.Length; ++i)
+            {
+                PatternEdge edge = original.edgesPlusInlined[i];
+                if(edgeToCopy.ContainsKey(edge))
+                {
+                    edgesPlusInlined[i] = edgeToCopy[edge];
+                }
+                else
+                {
+                    PatternEdge newEdge = new PatternEdge(edge, this, nameSuffix);
+                    edges[i] = newEdge;
+                    edgeToCopy[edge] = newEdge;
+                }
+            }
+
+            variables = (PatternVariable[])original.variables.Clone();
+            variablesPlusInlined = new PatternVariable[original.variablesPlusInlined.Length];
+            for(int i = 0; i < original.variablesPlusInlined.Length; ++i)
+            {
+                PatternVariable variable = original.variablesPlusInlined[i];
+                if(variableToCopy.ContainsKey(variable))
+                {
+                    variablesPlusInlined[i] = variableToCopy[variable];
+                }
+                else
+                {
+                    PatternVariable newVariable = new PatternVariable(variable, this, nameSuffix);
+                    variables[i] = newVariable;
+                    variableToCopy[variable] = newVariable;
+                }
+            }
+
+            PatchUsersOfCopiedElements(nodeToCopy, edgeToCopy, variableToCopy);
+
+            Conditions = (PatternCondition[])original.Conditions.Clone();
+            ConditionsPlusInlined = new PatternCondition[original.ConditionsPlusInlined.Length];
+            for(int i = 0; i < original.ConditionsPlusInlined.Length; ++i)
+            {
+                PatternCondition cond = original.ConditionsPlusInlined[i];
+                PatternCondition newCond = new PatternCondition(cond, nameSuffix);
+                ConditionsPlusInlined[i] = newCond;
+            }
+
+            Yieldings = (PatternYielding[])original.Yieldings.Clone();
+            YieldingsPlusInlined = new PatternYielding[original.YieldingsPlusInlined.Length];
+            for(int i = 0; i < original.YieldingsPlusInlined.Length; ++i)
+            {
+                PatternYielding yield = original.YieldingsPlusInlined[i];
+                PatternYielding newYield = new PatternYielding(yield, nameSuffix);
+                YieldingsPlusInlined[i] = newYield;
+            }
+
+            negativePatternGraphs = (PatternGraph[])original.negativePatternGraphs.Clone();
+            negativePatternGraphsPlusInlined = new PatternGraph[original.negativePatternGraphsPlusInlined.Length];
+            for(int i = 0; i < original.negativePatternGraphsPlusInlined.Length; ++i)
+            {
+                PatternGraph neg = original.negativePatternGraphsPlusInlined[i];
+                PatternGraph newNeg = new PatternGraph(neg, this, nameSuffix,
+                    nodeToCopy, edgeToCopy, variableToCopy);
+                negativePatternGraphsPlusInlined[i] = newNeg;
+            }
+
+            independentPatternGraphs = (PatternGraph[])original.independentPatternGraphs.Clone();
+            independentPatternGraphsPlusInlined = new PatternGraph[original.independentPatternGraphsPlusInlined.Length];
+            for(int i = 0; i < original.independentPatternGraphsPlusInlined.Length; ++i)
+            {
+                PatternGraph idpt = original.independentPatternGraphsPlusInlined[i];
+                PatternGraph newIdpt = new PatternGraph(idpt, this, nameSuffix,
+                    nodeToCopy, edgeToCopy, variableToCopy);
+                independentPatternGraphsPlusInlined[i] = newIdpt;
+            }
+
+            alternatives = (Alternative[])original.alternatives.Clone();
+            alternativesPlusInlined = new Alternative[original.alternativesPlusInlined.Length];
+            for(int i = 0; i < original.alternativesPlusInlined.Length; ++i)
+            {
+                Alternative alt = original.alternativesPlusInlined[i];
+                Alternative newAlt = new Alternative(alt, this, nameSuffix,
+                    nodeToCopy, edgeToCopy, variableToCopy);
+                alternativesPlusInlined[i] = newAlt;
+            }
+
+            iterateds = (Iterated[])original.iterateds.Clone();
+            iteratedsPlusInlined = new Iterated[original.iteratedsPlusInlined.Length];
+            for(int i = 0; i < original.iteratedsPlusInlined.Length; ++i)
+            {
+                Iterated iter = original.iteratedsPlusInlined[i];
+                Iterated newIter = new Iterated(iter, this, nameSuffix,
+                    nodeToCopy, edgeToCopy, variableToCopy);
+                iteratedsPlusInlined[i] = newIter;
+            }
+
+            embeddedGraphs = (PatternGraphEmbedding[])original.embeddedGraphs.Clone();
+            embeddedGraphsPlusInlined = new PatternGraphEmbedding[original.embeddedGraphsPlusInlined.Length];
+            for(int i = 0; i < original.embeddedGraphsPlusInlined.Length; ++i)
+            {
+                PatternGraphEmbedding sub = original.embeddedGraphsPlusInlined[i];
+                PatternGraphEmbedding newSub = new PatternGraphEmbedding(sub, this, nameSuffix,
+                    nodeToCopy, edgeToCopy, variableToCopy);
+                embeddedGraphsPlusInlined[i] = newSub;
+            }
+
+            originalPatternGraph = original;
+
+            // TODO: hom et al
+
+            // TODO: das zeugs das vom analyzer berechnet wird, das bei der konstruktion berechnet wird
+        }
+
+        public void PatchUsersOfCopiedElements(
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy,
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            foreach(PatternNode node in nodesPlusInlined)
+            {
+                if(variableToCopy.ContainsKey(node.Storage))
+                    node.Storage = variableToCopy[node.Storage];
+                if(node.Accessor is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)node.Accessor))
+                        node.Accessor = nodeToCopy[(PatternNode)node.Accessor];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)node.Accessor))
+                        node.Accessor = edgeToCopy[(PatternEdge)node.Accessor];
+                }
+                if(node.StorageAttributeOwner is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)node.StorageAttributeOwner))
+                        node.StorageAttributeOwner = nodeToCopy[(PatternNode)node.StorageAttributeOwner];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)node.StorageAttributeOwner))
+                        node.StorageAttributeOwner = edgeToCopy[(PatternEdge)node.StorageAttributeOwner];
+                }
+                if(node.ElementBeforeCasting is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)node.ElementBeforeCasting))
+                        node.ElementBeforeCasting = nodeToCopy[(PatternNode)node.ElementBeforeCasting];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)node.ElementBeforeCasting))
+                        node.ElementBeforeCasting = edgeToCopy[(PatternEdge)node.ElementBeforeCasting];
+                }
+            }
+            foreach(PatternEdge edge in edgesPlusInlined)
+            {
+                if(variableToCopy.ContainsKey(edge.Storage))
+                    edge.Storage = variableToCopy[edge.Storage];
+                if(edge.Accessor is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)edge.Accessor))
+                        edge.Accessor = nodeToCopy[(PatternNode)edge.Accessor];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)edge.Accessor))
+                        edge.Accessor = edgeToCopy[(PatternEdge)edge.Accessor];
+                }
+                if(edge.StorageAttributeOwner is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)edge.StorageAttributeOwner))
+                        edge.StorageAttributeOwner = nodeToCopy[(PatternNode)edge.StorageAttributeOwner];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)edge.StorageAttributeOwner))
+                        edge.StorageAttributeOwner = edgeToCopy[(PatternEdge)edge.StorageAttributeOwner];
+                }
+                if(edge.ElementBeforeCasting is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)edge.ElementBeforeCasting))
+                        edge.ElementBeforeCasting = nodeToCopy[(PatternNode)edge.ElementBeforeCasting];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)edge.ElementBeforeCasting))
+                        edge.ElementBeforeCasting = edgeToCopy[(PatternEdge)edge.ElementBeforeCasting];
+                }
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////////
@@ -994,6 +1335,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="iterateds">An array of iterated patterns, each iterated is matched as often as possible within the specified bounds.</param>
         /// <param name="negativePatternGraphs">An array of negative pattern graphs which make the
         /// search fail if they get matched (NACs - Negative Application Conditions).</param>
+        /// <param name="independentPatternGraphs">An array of independent pattern graphs which make the
+        /// search fail if they don't get matched (PACs - Positive sApplication Conditions).</param>
         /// <param name="conditions">The conditions used in this pattern graph or its nested graphs.</param>
         /// <param name="yieldings">The yieldings used in this pattern graph or its nested graphs.</param>
         /// <param name="homomorphicNodes">A two-dimensional array describing which pattern node may
@@ -1344,6 +1687,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public bool inlined = false;
 
+        /// <summary>
+        /// Links to the original embedding in case this embedding was inlined, otherwise null.
+        /// This tells that this embedding was used in another subpattern which was inlined.
+        /// </summary>
+        public PatternGraphEmbedding originalEmbedding;
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -1356,7 +1705,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="yields">An array with the def elements and variables 
         /// from the containing pattern yielded to from the subpattern.</param>
         /// <param name="neededNodes">An array with names of nodes needed by this embedding.</param>
-        /// <param name="neededEdges">An array with names of edges  needed by this embedding.</param>
+        /// <param name="neededEdges">An array with names of edges needed by this embedding.</param>
         /// <param name="neededVariables">An array with names of variables needed by this embedding.</param>
         /// <param name="neededVariableTypes">An array with types of variables needed by this embedding.</param>
         public PatternGraphEmbedding(String name, LGSPMatchingPattern matchingPatternOfEmbeddedGraph,
@@ -1374,6 +1723,34 @@ namespace de.unika.ipd.grGen.lgsp
             this.neededVariableTypes = neededVariableTypes;
 
             this.matchingPatternOfEmbeddedGraph.uses += 1;
+        }
+
+        /// <summary>
+        /// Instantiates a new pattern graph embedding object as a copy from an original embedding, used for inlining.
+        /// </summary>
+        /// <param name="original">The original embedding to be copy constructed.</param>
+        /// <param name="newHost">The pattern graph the new embedding will be contained in.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the embedding (to avoid name collisions).</param>
+        /// Elements were already copied in the containing pattern(s), their copies have to be reused here.
+        public PatternGraphEmbedding(PatternGraphEmbedding original, PatternGraph newHost, String nameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy,
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            // TODO: implement
+
+            /*
+            PatternGraph PointOfDefinition;
+            String name;
+            LGSPMatchingPattern matchingPatternOfEmbeddedGraph;
+            IDictionary<string, string> annotations = new Dictionary<string, string>();
+            Expression[] connections;
+            String[] yields;
+            String[] neededNodes;
+            String[] neededEdges;
+            String[] neededVariables;
+            VarType[] neededVariableTypes;
+            */
         }
     }
 
@@ -1423,6 +1800,32 @@ namespace de.unika.ipd.grGen.lgsp
             this.name = name;
             this.pathPrefix = pathPrefix;
             this.alternativeCases = cases;
+        }
+
+        /// <summary>
+        /// Instantiates a new alternative object as a copy from an original alternative, used for inlining.
+        /// </summary>
+        /// <param name="original">The original alternative to be copy constructed.</param>
+        /// <param name="newHost">The pattern graph the new alternative will be contained in.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the alternative and its elements (to avoid name collisions).</param>
+        /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
+        public Alternative(Alternative original, PatternGraph newHost, String nameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy,
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            name = original.name + nameSuffix;
+            pathPrefix = pathPrefix; // ohoh
+
+            alternativeCases = new PatternGraph[original.alternativeCases.Length];
+            for(int i = 0; i < original.alternativeCases.Length; ++i)
+            {
+                PatternGraph altCase = original.alternativeCases[i];
+                alternativeCases[i] = new PatternGraph(altCase, newHost, nameSuffix, 
+                    nodeToCopy, edgeToCopy, variableToCopy);
+            }
+
+            originalAlternative = original;
         }
     }
 
@@ -1480,6 +1883,26 @@ namespace de.unika.ipd.grGen.lgsp
             this.iteratedPattern = iteratedPattern;
             this.minMatches = minMatches;
             this.maxMatches = maxMatches;
+        }
+
+        /// <summary>
+        /// Instantiates a new iterated object as a copy from an original iterated, used for inlining.
+        /// </summary>
+        /// <param name="original">The original iterated to be copy constructed.</param>
+        /// <param name="newHost">The pattern graph the new iterated will be contained in.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the iterated and its elements (to avoid name collisions).</param>
+        /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
+        public Iterated(Iterated original, PatternGraph newHost, String nameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy,
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            iteratedPattern = new PatternGraph(original.iteratedPattern, newHost, nameSuffix, 
+                    nodeToCopy, edgeToCopy, variableToCopy);
+            minMatches = original.minMatches;
+            maxMatches = original.maxMatches;
+
+            originalIterated = original;
         }
     }
 

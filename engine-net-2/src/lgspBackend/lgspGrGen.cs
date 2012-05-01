@@ -175,14 +175,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
         PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, int index,
-            bool isNegativeOrIndependent, bool isSubpattern)
+            bool isNegativeOrIndependent, bool isSubpatternLike)
         {
             //
             // If you change this method, chances are high you also want to change GeneratePlanGraph in LGSPMatcherGenerator
             // todo: unify it with GeneratePlanGraph in LGSPMatcherGenerator
             //
-
-            // todo: use the PlusInlined fields
 
             // Create root node
             // Create plan graph nodes for all pattern graph nodes and all pattern graph edges
@@ -230,13 +228,19 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
+                    searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
                 }
                 else if (node.PointOfDefinition != patternGraph)
                 {
                     cost = 0;
                     isPreset = true;
                     searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
+                }
+                else if(node.AssignmentSource != null)
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the assignment source  is needed, so there is no lookup like operation
                 }
                 else if(node.Storage != null)
                 {
@@ -301,13 +305,19 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
+                    searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
                 }
-                else if (edge.PointOfDefinition != patternGraph)
+                else if(edge.PointOfDefinition != patternGraph)
                 {
                     cost = 0;
                     isPreset = true;
                     searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
+                }
+                else if(edge.AssignmentSource != null)
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the assignment source  is needed, so there is no lookup like operation
                 }
                 else if(edge.Storage != null)
                 {
@@ -359,12 +369,13 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 #endif
 
-                // only add implicit source operation if edge source is needed and the edge source is not a preset node and not a storage node and not a cast node
+                // only add implicit source operation if edge source is needed and the edge source is not a preset node and not a storage node and not a cast node and not an assigned node
                 if(patternGraph.GetSource(edge) != null 
                     && !patternGraph.GetSource(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetSource(edge).Storage == null
                     && patternGraph.GetSource(edge).StorageAttributeOwner == null
-                    && patternGraph.GetSource(edge).ElementBeforeCasting == null)
+                    && patternGraph.GetSource(edge).ElementBeforeCasting == null
+                    && patternGraph.GetSource(edge).AssignmentSource == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ? 
                         SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
@@ -373,12 +384,13 @@ namespace de.unika.ipd.grGen.lgsp
                     planEdges.Add(implSrcPlanEdge);
                     patternGraph.GetSource(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
-                // only add implicit target operation if edge target is needed and the edge target is not a preset node and not a storage node and not a cast node
+                // only add implicit target operation if edge target is needed and the edge target is not a preset node and not a storage node and not a cast node and not an assinged node
                 if(patternGraph.GetTarget(edge) != null
                     && !patternGraph.GetTarget(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetTarget(edge).Storage == null
                     && patternGraph.GetTarget(edge).StorageAttributeOwner == null
-                    && patternGraph.GetTarget(edge).ElementBeforeCasting == null)
+                    && patternGraph.GetTarget(edge).ElementBeforeCasting == null
+                    && patternGraph.GetTarget(edge).AssignmentSource== null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
@@ -388,8 +400,12 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.GetTarget(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
                 }
 
-                // edge must only be reachable from other nodes if it's not a preset and not storage determined and not a cast
-                if(!isPreset && edge.Storage == null && edge.StorageAttributeOwner == null && edge.ElementBeforeCasting == null)
+                // edge must only be reachable from other nodes if it's not a preset and not storage determined and not a cast and not an assigned edge
+                if(!isPreset 
+                    && edge.Storage == null 
+                    && edge.StorageAttributeOwner == null 
+                    && edge.ElementBeforeCasting == null
+                    && edge.AssignmentSource == null)
                 {
                     // no outgoing on source node if no source
                     if(patternGraph.GetSource(edge) != null)
@@ -421,7 +437,7 @@ namespace de.unika.ipd.grGen.lgsp
             // second run handling storage mapping (can't be done in first run due to dependencies between elements)
 
             // create map with storage plan edges for all pattern graph nodes 
-            // which are the result of a mapping/picking from attribute operation or element type casting
+            // which are the result of a mapping/picking from attribute operation or element type casting or assignment
             for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
                 PatternNode node = patternGraph.nodesPlusInlined[i];
@@ -448,10 +464,18 @@ namespace de.unika.ipd.grGen.lgsp
                         planEdges.Add(castPlanEdge);
                         node.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
                     }
+                    else if(node.AssignmentSource != null)
+                    {
+                        PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
+                            node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 0);
+                        planEdges.Add(assignPlanEdge);
+                        node.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+                    }
                 }
             }
 
-            // create map with storage plan edges for all pattern graph edges which are the result of a mapping/picking from attribute operation
+            // create map with storage plan edges for all pattern graph edges 
+            // which are the result of a mapping/picking from attribute operation or element type casting or assignment
             for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
                 PatternEdge edge = patternGraph.edgesPlusInlined[i];
@@ -478,6 +502,13 @@ namespace de.unika.ipd.grGen.lgsp
                         planEdges.Add(castPlanEdge);
                         edge.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
                     }
+                    else if(edge.AssignmentSource != null)
+                    {
+                        PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
+                            edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 0);
+                        planEdges.Add(assignPlanEdge);
+                        edge.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+                    }
                 }
             }
 
@@ -491,13 +522,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
         protected void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPMatcherGenerator matcherGen,
-            bool isSubpattern, bool isNegativeOrIndependent)
+            bool isSubpatternLike, bool isNegativeOrIndependent)
         {
             for(int i=0; i<patternGraph.schedules.Length; ++i)
             {
                 patternGraph.AdaptToMaybeNull(i);
                 PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, i,
-                    isNegativeOrIndependent, isSubpattern);
+                    isNegativeOrIndependent, isSubpatternLike);
                 matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
                 SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
                 ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
@@ -508,12 +539,12 @@ namespace de.unika.ipd.grGen.lgsp
 
                 foreach(PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(neg, matcherGen, isSubpattern, true);
+                    GenerateScheduledSearchPlans(neg, matcherGen, isSubpatternLike, true);
                 }
 
                 foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(idpt, matcherGen, isSubpattern, true);
+                    GenerateScheduledSearchPlans(idpt, matcherGen, isSubpatternLike, true);
                 }
 
                 foreach(Alternative alt in patternGraph.alternativesPlusInlined)
