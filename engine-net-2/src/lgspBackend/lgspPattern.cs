@@ -1051,9 +1051,19 @@ namespace de.unika.ipd.grGen.lgsp
         public bool isDefEntityExisting = false;
 
         /// <summary>
+        /// Tells whether a def entity (node, edge, variable) is existing in this pattern graph after inlining
+        /// </summary>
+        public bool isDefEntityExistingPlusInlined = false;
+
+        /// <summary>
         /// Tells whether a non local def entity (node, edge, variable) is existing in this pattern graph
         /// </summary>
         public bool isNonLocalDefEntityExisting = false;
+
+        /// <summary>
+        /// Tells whether a non local def entity (node, edge, variable) is existing in this pattern graph after inlining
+        /// </summary>
+        public bool isNonLocalDefEntityExistingPlusInlined = false;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1107,6 +1117,11 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<PatternEdge, PatternEdge> edgeToCopy,
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
+            name = original.name + nameSuffix;
+            pathPrefix = original.pathPrefix;
+            isPatternpathLocked = original.isPatternpathLocked;
+            isIterationBreaking = original.isIterationBreaking;
+
             nodes = (PatternNode[])original.nodes.Clone();
             nodesPlusInlined = new PatternNode[original.nodesPlusInlined.Length];
             for(int i = 0; i < original.nodesPlusInlined.Length; ++i)
@@ -1159,6 +1174,28 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             PatchUsersOfCopiedElements(nodeToCopy, edgeToCopy, variableToCopy);
+
+
+            edgeToSourceNode = new Dictionary<PatternEdge,PatternNode>();
+            foreach(KeyValuePair<PatternEdge, PatternNode> esn in original.edgeToSourceNode)
+            {
+                edgeToSourceNode.Add(edgeToCopy[esn.Key], nodeToCopy[esn.Value]);
+            }
+            edgeToTargetNode = new Dictionary<PatternEdge,PatternNode>();
+            foreach(KeyValuePair<PatternEdge, PatternNode> etn in original.edgeToTargetNode)
+            {
+                edgeToTargetNode.Add(edgeToCopy[etn.Key], nodeToCopy[etn.Value]);
+            }
+
+            homomorphicNodes = (bool[,])original.homomorphicNodes.Clone();
+            homomorphicEdges = (bool[,])original.homomorphicEdges.Clone();
+
+            homomorphicNodesGlobal = (bool[,])original.homomorphicNodesGlobal.Clone();
+            homomorphicEdgesGlobal = (bool[,])original.homomorphicEdgesGlobal.Clone();
+
+            totallyHomomorphicNodes = (bool[])original.totallyHomomorphicNodes.Clone();
+            totallyHomomorphicEdges = (bool[])original.totallyHomomorphicEdges.Clone();
+
 
             Conditions = (PatternCondition[])original.Conditions.Clone();
             ConditionsPlusInlined = new PatternCondition[original.ConditionsPlusInlined.Length];
@@ -1223,14 +1260,11 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < original.embeddedGraphsPlusInlined.Length; ++i)
             {
                 PatternGraphEmbedding sub = original.embeddedGraphsPlusInlined[i];
-                PatternGraphEmbedding newSub = new PatternGraphEmbedding(sub, this, nameSuffix,
-                    nodeToCopy, edgeToCopy, variableToCopy);
+                PatternGraphEmbedding newSub = new PatternGraphEmbedding(sub, this, nameSuffix);
                 embeddedGraphsPlusInlined[i] = newSub;
             }
 
             originalPatternGraph = original;
-
-            // TODO: hom et al
 
             // TODO: das zeugs das vom analyzer berechnet wird, das bei der konstruktion berechnet wird
         }
@@ -1490,38 +1524,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public void SetDefEntityExistanceAndNonLocalDefEntityExistance()
-        {
-            foreach(PatternNode node in nodes)
-                if(node.DefToBeYieldedTo) {
-                    isDefEntityExisting = true;
-                    if(node.pointOfDefinition != this)
-                        isNonLocalDefEntityExisting = true;
-                }
-            foreach(PatternEdge edge in edges)
-                if(edge.DefToBeYieldedTo) {
-                    isDefEntityExisting = true;
-                    if(edge.pointOfDefinition != this)
-                        isNonLocalDefEntityExisting = true;
-                }
-            foreach(PatternVariable var in variables)
-                if(var.DefToBeYieldedTo) {
-                    isDefEntityExisting = true;
-                    if(var.pointOfDefinition != this)
-                        isNonLocalDefEntityExisting = true;
-                }
-
-            foreach(Alternative alternative in alternatives)
-                foreach(PatternGraph alternativeCase in alternative.alternativeCases)
-                    alternativeCase.SetDefEntityExistanceAndNonLocalDefEntityExistance();
-            foreach(Iterated iterated in iterateds)
-                iterated.iteratedPattern.SetDefEntityExistanceAndNonLocalDefEntityExistance();
-            foreach(PatternGraph independent in independentPatternGraphs)
-                independent.SetDefEntityExistanceAndNonLocalDefEntityExistance();
-        }
-
         // -------- intermediate results of matcher generation ----------------------------------
-
+        // all of the following is only used in generating the matcher, 
+        // the inlined versions plain overwrite the original versions (computed by extending original versions or again from scratch)
+        // (with exception of the patternpath informations, which is still safe, as these prevent any inlining)
+        
         /// <summary>
         /// Names of the elements which may be null
         /// The following members are ordered along it/generated along this order
@@ -1558,19 +1565,22 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// The nodes from the enclosing graph(s) used in this graph or one of it's subgraphs.
+        /// Includes inlined elements after inlining.
         /// Set of names, with dummy bool due to lacking set class in c#
         /// </summary>
         public Dictionary<String, bool> neededNodes;
 
         /// <summary>
         /// The edges from the enclosing graph(s) used in this graph or one of it's subgraphs.
+        /// Includes inlined elements after inlining.
         /// Set of names, with dummy bool due to lacking set class in c#
         /// </summary>
         public Dictionary<String, bool> neededEdges;
 
         /// <summary>
         /// The variables from the enclosing graph(s) used in this graph or one of it's subgraphs.
-        /// Map of names to types
+        /// Includes inlined elements after inlining.
+        /// Map of names to types.
         /// </summary>
         public Dictionary<String, GrGenType> neededVariables;
 
@@ -1732,25 +1742,40 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newHost">The pattern graph the new embedding will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the embedding (to avoid name collisions).</param>
         /// Elements were already copied in the containing pattern(s), their copies have to be reused here.
-        public PatternGraphEmbedding(PatternGraphEmbedding original, PatternGraph newHost, String nameSuffix,
-            Dictionary<PatternNode, PatternNode> nodeToCopy,
-            Dictionary<PatternEdge, PatternEdge> edgeToCopy,
-            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        public PatternGraphEmbedding(PatternGraphEmbedding original, PatternGraph newHost, String nameSuffix)
         {
-            // TODO: implement
+            PointOfDefinition = newHost;
+            name = original.name + nameSuffix;
+            matchingPatternOfEmbeddedGraph = original.matchingPatternOfEmbeddedGraph;
+            annotations = original.annotations;
+            connections = new Expression[original.connections.Length];
+            for(int i = 0; i < original.connections.Length; ++i)
+            {
+                connections[i] = original.connections[i].Copy(nameSuffix);
+            }
+            yields = new String[original.yields.Length];
+            for(int i = 0; i < original.yields.Length; ++i)
+            {
+                yields[i] = original.yields[i] + nameSuffix;
+            }
+            neededNodes = new String[original.neededNodes.Length];
+            for(int i = 0; i < original.neededNodes.Length; ++i)
+            {
+                neededNodes[i] = original.neededNodes[i] + nameSuffix;
+            }
+            neededEdges = new String[original.neededEdges.Length];
+            for(int i = 0; i < original.neededEdges.Length; ++i)
+            {
+                neededEdges[i] = original.neededEdges[i] + nameSuffix;
+            }
+            neededVariables = new String[original.neededVariables.Length];
+            for(int i = 0; i < original.neededVariables.Length; ++i)
+            {
+                neededVariables[i] = original.neededVariables[i] + nameSuffix;
+            }
+            neededVariableTypes = (VarType[])original.neededVariableTypes.Clone();
 
-            /*
-            PatternGraph PointOfDefinition;
-            String name;
-            LGSPMatchingPattern matchingPatternOfEmbeddedGraph;
-            IDictionary<string, string> annotations = new Dictionary<string, string>();
-            Expression[] connections;
-            String[] yields;
-            String[] neededNodes;
-            String[] neededEdges;
-            String[] neededVariables;
-            VarType[] neededVariableTypes;
-            */
+            originalEmbedding = original;
         }
     }
 
@@ -1815,7 +1840,7 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
             name = original.name + nameSuffix;
-            pathPrefix = pathPrefix; // ohoh
+            pathPrefix = original.pathPrefix; // ohoh
 
             alternativeCases = new PatternGraph[original.alternativeCases.Length];
             for(int i = 0; i < original.alternativeCases.Length; ++i)

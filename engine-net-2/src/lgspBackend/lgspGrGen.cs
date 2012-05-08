@@ -974,6 +974,7 @@ namespace de.unika.ipd.grGen.lgsp
                 endSource.AppendFront("{\n");
                 endSource.Indent();
 
+                // the analyzer must be run before the matcher generation
                 PatternGraphAnalyzer analyzer = new PatternGraphAnalyzer();
                 LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
                 if ((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
@@ -981,14 +982,35 @@ namespace de.unika.ipd.grGen.lgsp
 
                 foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {
-                    analyzer.AnalyzeNestingOfAndRemember(matchingPattern);
+                    analyzer.AnalyzeNestingOfPatternGraph(matchingPattern.patternGraph, false);
+                    PatternGraphAnalyzer.PrepareInline(matchingPattern.patternGraph);
+                    analyzer.RememberMatchingPattern(matchingPattern);
                 }
-                analyzer.ComputeInterPatternRelations();
+                analyzer.ComputeInterPatternRelations(false);
                 foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {
-                    analyzer.AnalyzeWithInterPatternRelationsKnown(matchingPattern);
+                    // computes patternpath information, thus only in original pass
+                    analyzer.AnalyzeWithInterPatternRelationsKnown(matchingPattern.patternGraph);
                 }
 
+                foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                {
+                    analyzer.InlineSubpatternUsages(matchingPattern.patternGraph);
+                    // TODO: one step inlining only, with the embedding being always replaced by the non-inlined original
+                }
+
+                // hardcore/ugly parameterization for inlined case, working on inlined members in inlined pass, and original members on original pass
+                // working with accessors encapsulating the inlined versions and the original version behind a common interface to keep the analyze code without case distinctions gets terribly extensive
+                foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                    matchingPattern.patternGraph.maxNegLevel = 0; // reset of max neg level for computation of max neg level of inlined patterns
+                foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                {
+                    analyzer.AnalyzeNestingOfPatternGraph(matchingPattern.patternGraph, true);
+                }
+                analyzer.ComputeInterPatternRelations(true);
+
+                // we generate analyzer calls, so the runtime structures needed for dynamic matcher (re-)generation
+                // are prepared in the same way as the compile time structures were by the analyzer calls above
                 endSource.AppendFront("GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();\n");
                 foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {
@@ -1000,7 +1022,11 @@ namespace de.unika.ipd.grGen.lgsp
 
                     if (matchingPattern is LGSPRulePattern) // normal rule
                     {
-                        endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfAndRemember(Rule_{0}.Instance);\n",
+                        endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfPatternGraph(Rule_{0}.Instance.patternGraph, false);\n",
+                                matchingPattern.name);
+                        endSource.AppendFrontFormat("GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_{0}.Instance.patternGraph);\n",
+                                matchingPattern.name);
+                        endSource.AppendFrontFormat("analyzer.RememberMatchingPattern(Rule_{0}.Instance);\n",
                                 matchingPattern.name);
                         endSource.AppendFrontFormat("actions.Add(\"{0}\", (GRGEN_LGSP.LGSPAction) "
                                 + "Action_{0}.Instance);\n", matchingPattern.name);
@@ -1009,24 +1035,70 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else
                     {
-                        endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfAndRemember(Pattern_{0}.Instance);\n",
+                        endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfPatternGraph(Pattern_{0}.Instance.patternGraph, false);\n",
+                                matchingPattern.name);
+                        endSource.AppendFrontFormat("GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Pattern_{0}.Instance.patternGraph);\n",
+                                matchingPattern.name);
+                        endSource.AppendFrontFormat("analyzer.RememberMatchingPattern(Pattern_{0}.Instance);\n",
                                 matchingPattern.name);
                     }
                 }
-                endSource.AppendFront("analyzer.ComputeInterPatternRelations();\n");
+                endSource.AppendFront("analyzer.ComputeInterPatternRelations(false);\n");
                 foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {
                     if (matchingPattern is LGSPRulePattern) // normal rule
                     {
-                        endSource.AppendFrontFormat("analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_{0}.Instance);\n",
+                        endSource.AppendFrontFormat("analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_{0}.Instance.patternGraph);\n",
                                 matchingPattern.name);
                     }
                     else
                     {
-                        endSource.AppendFrontFormat("analyzer.AnalyzeWithInterPatternRelationsKnown(Pattern_{0}.Instance);\n",
+                        endSource.AppendFrontFormat("analyzer.AnalyzeWithInterPatternRelationsKnown(Pattern_{0}.Instance.patternGraph);\n",
                                 matchingPattern.name);
                     }
                 }
+
+                foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                {
+                    if(matchingPattern is LGSPRulePattern) // normal rule
+                    {
+                        endSource.AppendFrontFormat("analyzer.InlineSubpatternUsages(Rule_{0}.Instance.patternGraph);\n",
+                                matchingPattern.name);
+                    }
+                    else
+                    {
+                        endSource.AppendFrontFormat("analyzer.InlineSubpatternUsages(Pattern_{0}.Instance.patternGraph);\n",
+                                matchingPattern.name);
+                    }
+                }
+
+                foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                {
+                    if(matchingPattern is LGSPRulePattern) // normal rule
+                    {
+                        endSource.AppendFrontFormat("Rule_{0}.Instance.patternGraph.maxNegLevel = 0;\n",
+                                matchingPattern.name);
+                    }
+                    else
+                    {
+                        endSource.AppendFrontFormat("Pattern_{0}.Instance.patternGraph.maxNegLevel = 0;\n",
+                                matchingPattern.name);
+                    }
+                }
+                foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                {
+                    if(matchingPattern is LGSPRulePattern) // normal rule
+                    {
+                        endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfPatternGraph(Rule_{0}.Instance.patternGraph, true);\n",
+                                matchingPattern.name);
+                    }
+                    else
+                    {
+                        endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfPatternGraph(Pattern_{0}.Instance.patternGraph, true);\n",
+                                matchingPattern.name);
+                    }
+                }
+                endSource.AppendFront("analyzer.ComputeInterPatternRelations(true);\n");
 
                 foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
                 {
