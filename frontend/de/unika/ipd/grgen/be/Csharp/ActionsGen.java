@@ -1421,8 +1421,9 @@ public class ActionsGen extends CSharpBase {
 				sb.append(") {\n");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					if(neededEntity.isDefToBeYieldedTo()) {
-						sb.append("\t\t\t" + formatEntity(neededEntity));
-						sb.append(" = null;\n"); // TODO: as of now only graph entities supported (?)
+						sb.append("\t\t\t" + formatEntity(neededEntity) + " = ");
+						sb.append(getInitializationValue(neededEntity.getType()) + ";\n");
+						sb.append(";\n");
 					}
 				}
 				sb.append("\t\t\treturn true;\n");

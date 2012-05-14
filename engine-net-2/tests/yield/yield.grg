@@ -1,0 +1,16 @@
+rule testreturn:(int)
+{
+    modify
+    {
+        return (22);
+    }
+}
+
+rule testyield:(int)
+{
+    modify {
+        def var res:int;
+        exec ( (::r)=testreturn ;> yield res=::r );
+        return (res);
+    }
+} 

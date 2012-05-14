@@ -1065,6 +1065,22 @@ public abstract class CSharpBase {
 		}
 	}
 
+	protected String getInitializationValue(Type type)
+	{
+		if(type instanceof ByteType || type instanceof ShortType || type instanceof IntType 
+				|| type instanceof EnumType || type instanceof DoubleType) {
+			return "0";
+		} else if(type instanceof FloatType) {
+			return "0f";
+		} else if(type instanceof LongType) {
+			return "0l";
+		} else if(type instanceof BooleanType) {
+			return "false";
+		} else {
+			return "null";
+		}
+	}
+
 	protected String getTypeNameForCast(Cast cast)
 	{
 		Type type = cast.getType();

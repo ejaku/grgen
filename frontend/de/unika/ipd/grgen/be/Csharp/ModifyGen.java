@@ -1025,22 +1025,7 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, var.initialization, state);
 				sb.append(";\n");
 			} else {
-				if(var.getType() instanceof ByteType || var.getType() instanceof ShortType || var.getType() instanceof IntType 
-						|| var.getType() instanceof EnumType || var.getType() instanceof DoubleType) {
-					sb.append("0;\n");
-				} else if(var.getType() instanceof FloatType) {
-					sb.append("0f;\n");
-				} else if(var.getType() instanceof LongType) {
-					sb.append("0l;\n");
-				} else if(var.getType() instanceof BooleanType) {
-					sb.append("false;\n");
-				} else if(var.getType() instanceof StringType || var.getType() instanceof ObjectType || var.getType() instanceof GraphType
-						|| var.getType() instanceof VoidType || var.getType() instanceof ExternalType 
-						|| var.getType() instanceof MapType || var.getType() instanceof SetType || var.getType() instanceof ArrayType) {
-					sb.append("null;\n");
-				} else {
-					throw new IllegalArgumentException("Unknown type: " + var.getType());
-				}			
+				sb.append(getInitializationValue(var.getType()) + ";\n");
 			}
 		}
 	}
@@ -1130,10 +1115,18 @@ public class ModifyGen extends CSharpBase {
 				} else {
 					for(Entity neededEntity : exec.getNeededEntities()) {
 						if(neededEntity.isDefToBeYieldedTo()) {
-							sb.append("\t\t\t" + formatElementInterfaceRef(neededEntity.getType()) + " ");
-							sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID + " = ");
-							sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
-							sb.append(formatEntity(neededEntity) + ";\n");
+							if(neededEntity instanceof GraphEntity) {
+								sb.append("\t\t\t" + formatElementInterfaceRef(neededEntity.getType()) + " ");
+								sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID + " = ");
+								sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
+								sb.append(formatEntity(neededEntity) + ";\n");
+							}
+							else { // if(neededEntity instanceof Variable) 
+								sb.append("\t\t\t" + formatAttributeType(neededEntity.getType()) + " ");
+								sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID + " = ");
+								sb.append("("+formatAttributeType(neededEntity.getType())+")");
+								sb.append(formatEntity(neededEntity) + ";\n");
+							}
 						}
 					}
 					sb.append("\t\t\tApplyXGRS_" + task.left.getNameOfGraph() + "_" + xgrsID + "(procEnv");

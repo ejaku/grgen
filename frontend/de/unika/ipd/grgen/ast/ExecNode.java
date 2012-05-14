@@ -26,6 +26,8 @@ import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.VariableExpression;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Symbol;
 
@@ -253,9 +255,12 @@ public class ExecNode extends BaseNode {
 		for(ExecVarDeclNode node : varDecls.getChildren())
 			localVars.add(node);
 		Set<Expression> parameters = new LinkedHashSet<Expression>();
-		for(DeclNode dn : usage.getChildren())
+		for(DeclNode dn : usage.getChildren()) {
 			if(dn instanceof ConstraintDeclNode)
 				parameters.add(new GraphEntityExpression(dn.checkIR(GraphEntity.class)));
+			else if(dn instanceof VarDeclNode)
+				parameters.add(new VariableExpression(dn.checkIR(Variable.class)));
+		}
 		for(CallActionNode callActionNode : callActions.getChildren()) {
 			callActionNode.checkPost();
 			for(ExprNode param : callActionNode.getParams().getChildren()) {
