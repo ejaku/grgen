@@ -106,7 +106,7 @@ public class ModelGen extends CSharpBase {
 
 		// generate the external functions stub file
 		// only if there are external functions required
-		if(model.getExternalFunctions().isEmpty())
+		if(model.getExternalTypes().isEmpty() && model.getExternalFunctions().isEmpty())
 			return;
 
 		filename = model.getIdent() + "ModelExternalFunctions.cs";
@@ -124,29 +124,36 @@ public class ModelGen extends CSharpBase {
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n");
 
-		sb.append("\n");
-		sb.append("namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n"
-				+ "{\n");
+		if(!model.getExternalTypes().isEmpty())
+		{
+			sb.append("\n");
+			sb.append("namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n"
+					+ "{\n");
 
-		genExternalClasses();
+			genExternalClasses();
 
-		sb.append("}\n\n");
+			sb.append("}\n");
+		}
 
-		sb.append("namespace de.unika.ipd.grGen.expression\n"
-				+ "{\n"
-				+ "\tusing GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n"
-				+ "\n");
+		if(!model.getExternalFunctions().isEmpty())
+		{
+			sb.append("\n");
+			sb.append("namespace de.unika.ipd.grGen.expression\n"
+					+ "{\n"
+					+ "\tusing GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n"
+					+ "\n");
 
-		sb.append("\tpublic partial class ExternalFunctions\n");
-		sb.append("\t{\n");
-		sb.append("\t\t// You must implement the following functions in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n"
-				+ "\n");
+			sb.append("\tpublic partial class ExternalFunctions\n");
+			sb.append("\t{\n");
+			sb.append("\t\t// You must implement the following functions in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n"
+					+ "\n");
 
-		genExternalFunctionHeaders();
+			genExternalFunctionHeaders();
 
-		sb.append("\t}\n");
+			sb.append("\t}\n");
 
-		sb.append("}\n");
+			sb.append("}\n");
+		}
 
 		writeFile(new File("."), filename, sb);
 	}

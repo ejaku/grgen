@@ -40,6 +40,8 @@ public class Model extends Identifiable {
 		usedModels.add(model);
 		for(Type type : model.getTypes())
 			addType(type);
+		for(ExternalFunction externalFunc : model.getExternalFunctions())
+			addExternalFunction(externalFunc);
 	}
 
 	/** Add the given type to the type model. */
