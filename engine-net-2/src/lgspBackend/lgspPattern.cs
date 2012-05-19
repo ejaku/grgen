@@ -155,6 +155,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternElement originalElement;
 
+        /// <summary>
+        /// Links to the original subpattern embedding which was inlined in case this element was inlined, otherwise null.
+        /// </summary>
+        public PatternGraphEmbedding originalSubpatternEmbedding;
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -225,9 +230,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternElement object as a copy from an original element, used for inlining.
         /// </summary>
         /// <param name="original">The original pattern element to be copy constructed.</param>
+        /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern element (to avoid name collisions).</param>
-        public PatternElement(PatternElement original, PatternGraph newHost, String nameSuffix)
+        public PatternElement(PatternElement original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
         {
             TypeID = original.TypeID;
             typeName = original.typeName;
@@ -248,6 +254,7 @@ namespace de.unika.ipd.grGen.lgsp
             ElementBeforeCasting = original.ElementBeforeCasting;
             AssignmentSource = original.AssignmentSource;
             originalElement = original;
+            originalSubpatternEmbedding = inlinedSubpatternEmbedding;
         }
 
         /// <summary>
@@ -306,10 +313,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternNode object as a copy from an original node, used for inlining.
         /// </summary>
         /// <param name="original">The original pattern node to be copy constructed.</param>
+        /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new pattern node will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern node (to avoid name collisions).</param>
-        public PatternNode(PatternNode original, PatternGraph newHost, String nameSuffix)
-            : base(original, newHost, nameSuffix)
+        public PatternNode(PatternNode original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
+            : base(original, inlinedSubpatternEmbedding, newHost, nameSuffix)
         {
         }
 
@@ -383,10 +391,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternEdge object as a copy from an original edge, used for inlining.
         /// </summary>
         /// <param name="original">The original pattern edge to be copy constructed.</param>
+        /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern edge (to avoid name collisions).</param>
-        public PatternEdge(PatternEdge original, PatternGraph newHost, String nameSuffix)
-            : base(original, newHost, nameSuffix)
+        public PatternEdge(PatternEdge original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
+            : base(original, inlinedSubpatternEmbedding, newHost, nameSuffix)
         {
         }
 
@@ -498,10 +507,15 @@ namespace de.unika.ipd.grGen.lgsp
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
-        /// Links to the original pattern variable in case this node was inlined, otherwise null;
+        /// Links to the original pattern variable in case this variable was inlined, otherwise null;
         /// the point of definition of the original variable references the original containing pattern
         /// </summary>
         public PatternVariable originalVariable;
+
+        /// <summary>
+        /// Links to the original subpattern embedding which was inlined in case this variable was inlined, otherwise null.
+        /// </summary>
+        public PatternGraphEmbedding originalSubpatternEmbedding;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -530,9 +544,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternVariable object as a copy from an original variable, used for inlining.
         /// </summary>
         /// <param name="original">The original pattern variable to be copy constructed.</param>
+        /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern variable (to avoid name collisions).</param>
-        public PatternVariable(PatternVariable original, PatternGraph newHost, String nameSuffix)
+        public PatternVariable(PatternVariable original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
         {
             Type = original.Type;
             name = original.name + nameSuffix;
@@ -543,6 +558,7 @@ namespace de.unika.ipd.grGen.lgsp
             annotations = original.annotations;
             ParameterIndex = original.ParameterIndex;
             originalVariable = original.originalVariable;
+            originalSubpatternEmbedding = inlinedSubpatternEmbedding;
         }
     }
 
@@ -583,6 +599,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternCondition originalCondition;
 
+        /// <summary>
+        /// Links to the original subpattern embedding which was inlined in case this condition was inlined, otherwise null.
+        /// </summary>
+        public PatternGraphEmbedding originalSubpatternEmbedding;
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -607,10 +628,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternCondition object as a copy from an original condition, used for inlining.
         /// </summary>
         /// <param name="original">The original condition to be copy constructed.</param>
+        /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="renameSuffix">The rename suffix to be applied to all the nodes, edges, and variables used.</param>
-        public PatternCondition(PatternCondition original, string renameSuffix)
+        public PatternCondition(PatternCondition original, PatternGraphEmbedding inlinedSubpatternEmbedding, string renameSuffix)
         {
             originalCondition = original;
+            originalSubpatternEmbedding = inlinedSubpatternEmbedding;
             ConditionExpression = (Expression)original.ConditionExpression.Copy(renameSuffix);
             NeededNodes = new String[original.NeededNodes.Length];
             for(int i = 0; i < original.NeededNodes.Length; ++i)
@@ -662,6 +685,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternYielding originalYielding;
 
+        /// <summary>
+        /// Links to the original subpattern embedding which was inlined in case this yielding was inlined, otherwise null.
+        /// </summary>
+        public PatternGraphEmbedding originalSubpatternEmbedding;
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -686,10 +714,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternYielding object as a copy from an original yielding, used for inlining.
         /// </summary>
         /// <param name="original">The original yielding to be copy constructed.</param>
+        /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="renameSuffix">The rename suffix to be applied to all the nodes, edges, and variables used.</param>
-        public PatternYielding(PatternYielding original, string renameSuffix)
+        public PatternYielding(PatternYielding original, PatternGraphEmbedding inlinedSubpatternEmbedding, string renameSuffix)
         {
             originalYielding = original;
+            originalSubpatternEmbedding = inlinedSubpatternEmbedding;
             YieldAssignment = (Yielding)original.YieldAssignment.Copy(renameSuffix);
             NeededNodes = new String[original.NeededNodes.Length];
             for(int i = 0; i < original.NeededNodes.Length; ++i)
@@ -1074,6 +1104,11 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph originalPatternGraph;
 
         /// <summary>
+        /// Links to the original subpattern embedding which was inlined in case this (negative or independent) pattern graph was inlined, otherwise null.
+        /// </summary>
+        public PatternGraphEmbedding originalSubpatternEmbedding;
+
+        /// <summary>
         /// Copies all the elements in the pattern graph to the XXXPlusInlined attributes.
         /// This duplicates the pattern, the duplicate is used for the computing and emitting the real code,
         /// whereas the original version is retained as interface to the user (and used in generating the match building).
@@ -1109,15 +1144,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternGraph object as a copy from an original pattern graph, used for inlining.
         /// </summary>
         /// <param name="original">The original pattern graph to be copy constructed.</param>
+        /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern graph and its elements (to avoid name collisions).</param>
         /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
-        public PatternGraph(PatternGraph original, PatternGraph newHost, String nameSuffix,
+        public PatternGraph(PatternGraph original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix,
             Dictionary<PatternNode, PatternNode> nodeToCopy,
             Dictionary<PatternEdge, PatternEdge> edgeToCopy,
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
             name = original.name + nameSuffix;
+            originalSubpatternEmbedding = inlinedSubpatternEmbedding;
             pathPrefix = original.pathPrefix;
             isPatternpathLocked = original.isPatternpathLocked;
             isIterationBreaking = original.isIterationBreaking;
@@ -1133,7 +1170,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    PatternNode newNode = new PatternNode(node, this, nameSuffix);
+                    PatternNode newNode = new PatternNode(node, inlinedSubpatternEmbedding, this, nameSuffix);
                     nodes[i] = newNode;
                     nodeToCopy[node] = newNode;
                 }
@@ -1150,7 +1187,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    PatternEdge newEdge = new PatternEdge(edge, this, nameSuffix);
+                    PatternEdge newEdge = new PatternEdge(edge, inlinedSubpatternEmbedding, this, nameSuffix);
                     edges[i] = newEdge;
                     edgeToCopy[edge] = newEdge;
                 }
@@ -1167,7 +1204,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    PatternVariable newVariable = new PatternVariable(variable, this, nameSuffix);
+                    PatternVariable newVariable = new PatternVariable(variable, inlinedSubpatternEmbedding, this, nameSuffix);
                     variables[i] = newVariable;
                     variableToCopy[variable] = newVariable;
                 }
@@ -1202,7 +1239,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < original.ConditionsPlusInlined.Length; ++i)
             {
                 PatternCondition cond = original.ConditionsPlusInlined[i];
-                PatternCondition newCond = new PatternCondition(cond, nameSuffix);
+                PatternCondition newCond = new PatternCondition(cond, inlinedSubpatternEmbedding, nameSuffix);
                 ConditionsPlusInlined[i] = newCond;
             }
 
@@ -1211,7 +1248,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < original.YieldingsPlusInlined.Length; ++i)
             {
                 PatternYielding yield = original.YieldingsPlusInlined[i];
-                PatternYielding newYield = new PatternYielding(yield, nameSuffix);
+                PatternYielding newYield = new PatternYielding(yield, inlinedSubpatternEmbedding, nameSuffix);
                 YieldingsPlusInlined[i] = newYield;
             }
 
@@ -1220,7 +1257,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < original.negativePatternGraphsPlusInlined.Length; ++i)
             {
                 PatternGraph neg = original.negativePatternGraphsPlusInlined[i];
-                PatternGraph newNeg = new PatternGraph(neg, this, nameSuffix,
+                PatternGraph newNeg = new PatternGraph(neg, inlinedSubpatternEmbedding, this, nameSuffix,
                     nodeToCopy, edgeToCopy, variableToCopy);
                 negativePatternGraphsPlusInlined[i] = newNeg;
             }
@@ -1230,7 +1267,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < original.independentPatternGraphsPlusInlined.Length; ++i)
             {
                 PatternGraph idpt = original.independentPatternGraphsPlusInlined[i];
-                PatternGraph newIdpt = new PatternGraph(idpt, this, nameSuffix,
+                PatternGraph newIdpt = new PatternGraph(idpt, inlinedSubpatternEmbedding, this, nameSuffix,
                     nodeToCopy, edgeToCopy, variableToCopy);
                 independentPatternGraphsPlusInlined[i] = newIdpt;
             }
@@ -1240,7 +1277,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < original.alternativesPlusInlined.Length; ++i)
             {
                 Alternative alt = original.alternativesPlusInlined[i];
-                Alternative newAlt = new Alternative(alt, this, nameSuffix,
+                Alternative newAlt = new Alternative(alt, inlinedSubpatternEmbedding, this, nameSuffix,
                     nodeToCopy, edgeToCopy, variableToCopy);
                 alternativesPlusInlined[i] = newAlt;
             }
@@ -1250,7 +1287,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < original.iteratedsPlusInlined.Length; ++i)
             {
                 Iterated iter = original.iteratedsPlusInlined[i];
-                Iterated newIter = new Iterated(iter, this, nameSuffix,
+                Iterated newIter = new Iterated(iter, inlinedSubpatternEmbedding, this, nameSuffix,
                     nodeToCopy, edgeToCopy, variableToCopy);
                 iteratedsPlusInlined[i] = newIter;
             }
@@ -1558,10 +1595,12 @@ namespace de.unika.ipd.grGen.lgsp
         // it might be because you didn't run a PatternGraphAnalyzer before the LGSPMatcherGenerator
 
         /// <summary>
-        /// The path prefixes and names of the independents nested within this pattern graph
-        /// only in top-level-patterns, alternatives, iterateds, only independents not nested within negatives 
+        /// The independents nested within this pattern graph,
+        /// but only independents not nested within negatives.
+        /// Set of pattern graphs, with dummy null pattern graph due to lacking set class in c#.
+        /// Contains first the nested independents before inlinig, afterwards the ones after inlining.
         /// </summary>
-        public List<Pair<String, String>> pathPrefixesAndNamesOfNestedIndependents;
+        public Dictionary<PatternGraph, PatternGraph> nestedIndependents;
 
         /// <summary>
         /// The nodes from the enclosing graph(s) used in this graph or one of it's subgraphs.
@@ -1588,6 +1627,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// The subpatterns used by this pattern (directly as well as indirectly),
         /// only filled/valid if this is a top level pattern graph of a rule or subpattern.
         /// Set of matching patterns, with dummy null matching pattern due to lacking set class in c#
+        /// Contains first the used subpatterns before inlinnig, afterwards the ones after inlining.
         /// </summary>
         public Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpatterns;
 
@@ -1812,6 +1852,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public Alternative originalAlternative;
 
+        /// <summary>
+        /// Links to the original subpattern embedding which was inlined in case this alternative was inlined, otherwise null.
+        /// </summary>
+        public PatternGraphEmbedding originalSubpatternEmbedding;
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -1831,22 +1876,24 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new alternative object as a copy from an original alternative, used for inlining.
         /// </summary>
         /// <param name="original">The original alternative to be copy constructed.</param>
+        /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new alternative will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the alternative and its elements (to avoid name collisions).</param>
         /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
-        public Alternative(Alternative original, PatternGraph newHost, String nameSuffix,
+        public Alternative(Alternative original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix,
             Dictionary<PatternNode, PatternNode> nodeToCopy,
             Dictionary<PatternEdge, PatternEdge> edgeToCopy,
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
             name = original.name + nameSuffix;
+            originalSubpatternEmbedding = inlinedSubpatternEmbedding; 
             pathPrefix = original.pathPrefix; // ohoh
 
             alternativeCases = new PatternGraph[original.alternativeCases.Length];
             for(int i = 0; i < original.alternativeCases.Length; ++i)
             {
                 PatternGraph altCase = original.alternativeCases[i];
-                alternativeCases[i] = new PatternGraph(altCase, newHost, nameSuffix, 
+                alternativeCases[i] = new PatternGraph(altCase, inlinedSubpatternEmbedding, newHost, nameSuffix, 
                     nodeToCopy, edgeToCopy, variableToCopy);
             }
 
@@ -1897,6 +1944,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public Iterated originalIterated;
 
+        /// <summary>
+        /// Links to the original subpattern embedding which was inlined in case this iterated was inlined, otherwise null.
+        /// </summary>
+        public PatternGraphEmbedding originalSubpatternEmbedding;
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -1914,20 +1966,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new iterated object as a copy from an original iterated, used for inlining.
         /// </summary>
         /// <param name="original">The original iterated to be copy constructed.</param>
+        /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new iterated will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the iterated and its elements (to avoid name collisions).</param>
         /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
-        public Iterated(Iterated original, PatternGraph newHost, String nameSuffix,
+        public Iterated(Iterated original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix,
             Dictionary<PatternNode, PatternNode> nodeToCopy,
             Dictionary<PatternEdge, PatternEdge> edgeToCopy,
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
-            iteratedPattern = new PatternGraph(original.iteratedPattern, newHost, nameSuffix, 
+            iteratedPattern = new PatternGraph(original.iteratedPattern, inlinedSubpatternEmbedding, newHost, nameSuffix, 
                     nodeToCopy, edgeToCopy, variableToCopy);
             minMatches = original.minMatches;
             maxMatches = original.maxMatches;
 
             originalIterated = original;
+            originalSubpatternEmbedding = inlinedSubpatternEmbedding;
         }
     }
 

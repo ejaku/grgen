@@ -2908,6 +2908,42 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing create inlined subpattern matches operations
+    /// </summary>
+    class CreateInlinedSubpatternMatch : SearchProgramOperation
+    {
+        public CreateInlinedSubpatternMatch(
+            string rulePatternClassName,
+            string patternName,
+            string matchName,
+            string matchOfEnclosingPatternName)
+        {
+            RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            MatchName = matchName;
+            MatchOfEnclosingPatternName = matchOfEnclosingPatternName;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("CreateInlinedSubpatternMatch \n");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}.{1} match_{2} = new {0}.{1}();\n",
+                RulePatternClassName, NamesOfEntities.MatchClassName(PatternName), MatchName);
+            sourceCode.AppendFrontFormat("match_{0}.SetMatchOfEnclosingPattern({1});\n",
+                MatchName, MatchOfEnclosingPatternName);
+        }
+
+        string RulePatternClassName;
+        string PatternName;
+        string MatchName;
+        string MatchOfEnclosingPatternName;
+    }
+
+    /// <summary>
     /// Class yielding operations to be executed 
     /// when a positive pattern without contained subpatterns was matched
     /// </summary>

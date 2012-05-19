@@ -996,7 +996,6 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {
                     analyzer.InlineSubpatternUsages(matchingPattern.patternGraph);
-                    // TODO: one step inlining only, with the embedding being always replaced by the non-inlined original
                 }
 
                 // hardcore/ugly parameterization for inlined case, working on inlined members in inlined pass, and original members on original pass

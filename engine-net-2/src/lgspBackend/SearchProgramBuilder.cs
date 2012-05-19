@@ -2184,14 +2184,16 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
-            // todo: only count non-inlined subpatterns
-
             // is subpattern gives information about type of top level enclosing pattern (action vs. subpattern)
             // contains subpatterns gives informations about current pattern graph (might be negative, independent itself, too)
             bool isSubpattern = programType == SearchProgramType.Subpattern
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated;
-            bool containsSubpatterns = patternGraph.embeddedGraphsPlusInlined.Length >= 1
+            bool existsNonInlinedSubpattern = false;
+            foreach(PatternGraphEmbedding sub in patternGraph.embeddedGraphsPlusInlined)
+                if(!sub.inlined)
+                    existsNonInlinedSubpattern = true;
+            bool containsSubpatterns = existsNonInlinedSubpattern
                 || patternGraph.alternativesPlusInlined.Length >= 1
                 || patternGraph.iteratedsPlusInlined.Length >= 1;
 
@@ -2395,6 +2397,39 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Inserts code to create the match objects of the inlined subpatterns
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertInlinedMatchObjectCreation(
+            SearchProgramOperation insertionPoint,
+            PatternGraph patternGraph,
+            MatchObjectType matchObjectType)
+        {
+            String matchOfEnclosingPatternName;
+            if(matchObjectType == MatchObjectType.Independent) {
+                matchOfEnclosingPatternName = NamesOfEntities.MatchedIndependentVariable(patternGraph.pathPrefix + patternGraph.name);
+            } else { //if(matchObjectType==MatchObjectType.Normal)
+                matchOfEnclosingPatternName = "match";
+            }
+
+            for(int i = 0; i < patternGraph.embeddedGraphsPlusInlined.Length; ++i)
+            {
+                if(patternGraph.embeddedGraphsPlusInlined[i].inlined)
+                {
+                    insertionPoint = insertionPoint.Append(
+                        new CreateInlinedSubpatternMatch(
+                            rulePatternClassName, 
+                            patternGraph.pathPrefix + patternGraph.name,
+                            patternGraph.embeddedGraphsPlusInlined[i].originalEmbedding.Name,
+                            matchOfEnclosingPatternName)
+                    );
+                }
+            }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
         /// the types of match objects there are, to be filled by insertMatchObjectBuilding
         /// </summary>
         enum MatchObjectType
@@ -2429,6 +2464,11 @@ namespace de.unika.ipd.grGen.lgsp
                 // in defElements pass only def elements, in non defElements pass only non def elements
                 if(defElements == patternGraph.nodesPlusInlined[i].defToBeYieldedTo)
                 {
+                    string inlinedMatchObjectName = null;
+                    if(patternGraph.nodesPlusInlined[i].originalElement != null)
+                    {
+                        inlinedMatchObjectName = "match_" + patternGraph.nodesPlusInlined[i].originalSubpatternEmbedding.Name;
+                    }
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Node,
@@ -2437,7 +2477,7 @@ namespace de.unika.ipd.grGen.lgsp
                             patternGraph.nodesPlusInlined[i].Name,
                             rulePatternClassName,
                             enumPrefix,
-                            matchObjectName,
+                            inlinedMatchObjectName ?? matchObjectName,
                             -1
                         );
                     insertionPoint = insertionPoint.Append(buildMatch);
@@ -2448,6 +2488,11 @@ namespace de.unika.ipd.grGen.lgsp
                 // in defElements pass only def elements, in non defElements pass only non def elements
                 if(defElements == patternGraph.edgesPlusInlined[i].defToBeYieldedTo)
                 {
+                    string inlinedMatchObjectName = null;
+                    if(patternGraph.edgesPlusInlined[i].originalElement != null)
+                    {
+                        inlinedMatchObjectName = "match_" + patternGraph.edgesPlusInlined[i].originalSubpatternEmbedding.Name;
+                    }
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Edge,
@@ -2456,7 +2501,7 @@ namespace de.unika.ipd.grGen.lgsp
                             patternGraph.edgesPlusInlined[i].Name,
                             rulePatternClassName,
                             enumPrefix,
-                            matchObjectName,
+                            inlinedMatchObjectName ?? matchObjectName,
                             -1
                         );
                     insertionPoint = insertionPoint.Append(buildMatch);
@@ -2473,6 +2518,11 @@ namespace de.unika.ipd.grGen.lgsp
                 // in defElements pass only def elements, in non defElements pass only non def elements
                 if(defElements == var.defToBeYieldedTo)
                 {
+                    string inlinedMatchObjectName = null;
+                    if(var.originalVariable != null)
+                    {
+                        inlinedMatchObjectName = "match_" + var.originalSubpatternEmbedding.Name;
+                    }
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Variable,
@@ -2481,7 +2531,7 @@ namespace de.unika.ipd.grGen.lgsp
                             var.Name,
                             rulePatternClassName,
                             enumPrefix,
-                            matchObjectName,
+                            inlinedMatchObjectName ?? matchObjectName,
                             -1
                         );
                     insertionPoint = insertionPoint.Append(buildMatch);
@@ -2495,6 +2545,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             for (int i = 0; i < patternGraph.embeddedGraphsPlusInlined.Length; ++i)
             {
+                string inlinedMatchObjectName = null;
+                if(patternGraph.embeddedGraphsPlusInlined[i].originalEmbedding != null)
+                {
+                    inlinedMatchObjectName = "match_" + patternGraph.embeddedGraphsPlusInlined[i].originalEmbedding.Name;
+                }
                 string subpatternContainingType = NamesOfEntities.RulePatternClassName(patternGraph.embeddedGraphsPlusInlined[i].EmbeddedGraph.Name, true);
                 string subpatternType = NamesOfEntities.MatchClassName(patternGraph.embeddedGraphsPlusInlined[i].EmbeddedGraph.Name);
                 BuildMatchObject buildMatch =
@@ -2505,13 +2560,18 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.embeddedGraphsPlusInlined[i].name,
                         rulePatternClassName,
                         enumPrefix,
-                        matchObjectName,
+                        inlinedMatchObjectName ?? matchObjectName,
                         -1
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
             for (int i = 0; i < patternGraph.iteratedsPlusInlined.Length; ++i)
             {
+                string inlinedMatchObjectName = null;
+                if(patternGraph.iteratedsPlusInlined[i].originalIterated != null)
+                {
+                    inlinedMatchObjectName = "match_" + patternGraph.iteratedsPlusInlined[i].originalSubpatternEmbedding.Name;
+                }
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Iteration,
@@ -2520,13 +2580,18 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.iteratedsPlusInlined[i].iteratedPattern.name,
                         rulePatternClassName,
                         enumPrefix,
-                        matchObjectName,
+                        inlinedMatchObjectName ?? matchObjectName,
                         patternGraph.embeddedGraphsPlusInlined.Length
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
             for (int i = 0; i < patternGraph.alternativesPlusInlined.Length; ++i)
             {
+                string inlinedMatchObjectName = null;
+                if(patternGraph.alternativesPlusInlined[i].originalAlternative != null)
+                {
+                    inlinedMatchObjectName = "match_" + patternGraph.alternativesPlusInlined[i].originalSubpatternEmbedding.Name;
+                }
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Alternative,
@@ -2535,22 +2600,27 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.alternativesPlusInlined[i].name,
                         rulePatternClassName,
                         enumPrefix,
-                        matchObjectName,
+                        inlinedMatchObjectName ?? matchObjectName,
                         patternGraph.embeddedGraphsPlusInlined.Length
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
-            if (patternGraph.pathPrefixesAndNamesOfNestedIndependents != null)
+            if (patternGraph.nestedIndependents != null)
             {
-                foreach (Pair<String,String> pathPrefixAndName in patternGraph.pathPrefixesAndNamesOfNestedIndependents)
+                foreach (KeyValuePair<PatternGraph,PatternGraph> nestedIndependent in patternGraph.nestedIndependents)
                 {
+                    string inlinedMatchObjectName = null;
+                    if(nestedIndependent.Key.originalPatternGraph != null)
+                    {
+                        inlinedMatchObjectName = "match_" + nestedIndependent.Key.originalSubpatternEmbedding.Name;
+                    }
                     BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Independent,
-                        pathPrefixAndName.snd,
-                        pathPrefixAndName.fst + pathPrefixAndName.snd,
+                        nestedIndependent.Key.name,
+                        nestedIndependent.Key.pathPrefix + nestedIndependent.Key.name,
                         rulePatternClassName,
-                        matchObjectName
+                        inlinedMatchObjectName ?? matchObjectName
                     );
                     insertionPoint = insertionPoint.Append(buildMatch);
                 }
@@ -2561,7 +2631,13 @@ namespace de.unika.ipd.grGen.lgsp
             if(matchObjectType != MatchObjectType.Patternpath
                 && patternGraph.isDefEntityExisting)
             {
-                return insertYields(insertionPoint, patternGraph, matchObjectName);
+                // first compute the yieldings which were inlined from subpatterns to us
+                insertionPoint = insertYields(insertionPoint, patternGraph, matchObjectName, true);
+                
+                // then the yieldings of the current pattern
+                return insertYields(insertionPoint, patternGraph, matchObjectName, false);
+
+                // in the def-elements pass the yieldings computed into local variables are written to the match
             }
 
             return insertionPoint;
@@ -2574,136 +2650,237 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation insertYields(
             SearchProgramOperation insertionPoint,
             PatternGraph patternGraph,
-            String matchObjectName)
+            String matchObjectName,
+            bool inlined)
         {
             // the match object is built now with our local elements
             // and the match objects of our children
-            // now 1. copy all def entities we share with children to us
+            // now 1. copy all def entities we share with children to our local variables
 
             foreach(PatternGraphEmbedding patternEmbedding in patternGraph.embeddedGraphsPlusInlined)
             {
-                // if the pattern embedding does not contain a def entity it can't yield to us
-                if(!((PatternGraph)patternEmbedding.EmbeddedGraph).isDefEntityExisting)
-                    continue;
-
-                LGSPMatchingPattern matchingPattern = patternEmbedding.matchingPatternOfEmbeddedGraph;
-                String nestedMatchObjectName = matchObjectName + "._" + patternEmbedding.Name;
-                Debug.Assert(matchingPattern.defNames.Length == patternEmbedding.yields.Length);
-                for(int i = 0; i < patternEmbedding.yields.Length; ++i)
+                // in the inlined pass only the elements which were inlined into this pattern, in the non-inlined pass the original elements
+                bool wasInlined = patternEmbedding.originalEmbedding != null;
+                if(inlined == wasInlined)
                 {
-                    BubbleUpYieldAssignment bubble = new BubbleUpYieldAssignment(
-                        toBubbleUpYieldAssignmentType(matchingPattern.defs[i]),
-                        patternEmbedding.yields[i],
-                        nestedMatchObjectName,
-                        matchingPattern.defNames[i]
-                        );
-                    insertionPoint = insertionPoint.Append(bubble);
+                    // if the pattern embedding does not contain a def entity it can't yield to us
+                    if(!((PatternGraph)patternEmbedding.EmbeddedGraph).isDefEntityExisting)
+                        continue;
+                    // skip inlined embeddings (will be handled in 3.)
+                    if(patternEmbedding.inlined)
+                        continue;
+
+                    // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
+                    // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
+                    string inlinedMatchObjectName = null;
+                    if(patternEmbedding.originalEmbedding != null)
+                    {
+                        inlinedMatchObjectName = "match_" + patternEmbedding.originalEmbedding.Name;
+                    }
+
+                    LGSPMatchingPattern matchingPattern = patternEmbedding.matchingPatternOfEmbeddedGraph;
+                    String nestedMatchObjectName = (inlinedMatchObjectName ?? matchObjectName) + "._" + patternEmbedding.Name;
+                    Debug.Assert(matchingPattern.defNames.Length == patternEmbedding.yields.Length);
+                    for(int i = 0; i < patternEmbedding.yields.Length; ++i)
+                    {
+                        BubbleUpYieldAssignment bubble = new BubbleUpYieldAssignment(
+                            toBubbleUpYieldAssignmentType(matchingPattern.defs[i]),
+                            patternEmbedding.yields[i],
+                            nestedMatchObjectName,
+                            matchingPattern.defNames[i]
+                            );
+                        insertionPoint = insertionPoint.Append(bubble);
+                    }
                 }
             }
 
             foreach(Iterated iterated in patternGraph.iteratedsPlusInlined)
             {
-                // if the iterated does not contain a non local def entity it can't yield to us
-                if(!iterated.iteratedPattern.isNonLocalDefEntityExisting)
-                    continue;
+                // in the inlined pass only the elements which were inlined into this pattern, in the non-inlined pass the original elements
+                bool wasInlined = iterated.originalIterated != null;
+                if(inlined == wasInlined)
+                {
+                    // if the iterated does not contain a non local def entity it can't yield to us
+                    if(!iterated.iteratedPattern.isNonLocalDefEntityExisting)
+                        continue;
 
-                String nestedMatchObjectName = matchObjectName + "._" + iterated.iteratedPattern.Name;
-                BubbleUpYieldIterated bubbleUpIterated = new BubbleUpYieldIterated(nestedMatchObjectName);
-                bubbleUpIterated.NestedOperationsList = new SearchProgramList(bubbleUpIterated);
-                SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpIterated);
-                insertionPoint = bubbleUpIterated.NestedOperationsList;
+                    // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
+                    // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
+                    string inlinedMatchObjectName = null;
+                    if(iterated.originalIterated != null)
+                    {
+                        inlinedMatchObjectName = "match_" + iterated.originalSubpatternEmbedding.Name;
+                    }
 
-                insertYieldAssignments(insertionPoint,
-                    patternGraph, nestedMatchObjectName+".Root", iterated.iteratedPattern);
+                    String nestedMatchObjectName = (inlinedMatchObjectName ?? matchObjectName) + "._" + iterated.iteratedPattern.Name;
+                    BubbleUpYieldIterated bubbleUpIterated = new BubbleUpYieldIterated(nestedMatchObjectName);
+                    bubbleUpIterated.NestedOperationsList = new SearchProgramList(bubbleUpIterated);
+                    SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpIterated);
+                    insertionPoint = bubbleUpIterated.NestedOperationsList;
 
-                insertionPoint = continuationPoint;
+                    insertYieldAssignments(insertionPoint,
+                        patternGraph, nestedMatchObjectName + ".Root", iterated.iteratedPattern);
+
+                    insertionPoint = continuationPoint;
+                }
             }
             foreach(Alternative alternative in patternGraph.alternativesPlusInlined)
             {
-                bool first = true;
-                foreach(PatternGraph alternativeCase in alternative.alternativeCases)
+                // in the inlined pass only the elements which were inlined into this pattern, in the non-inlined pass the original elements
+                bool wasInlined = alternative.originalAlternative != null;
+                if(inlined == wasInlined)
                 {
-                    // if the alternative case does not contain a non local def entity it can't yield to us
-                    if(!alternativeCase.isNonLocalDefEntityExisting)
-                        continue;
+                    bool first = true;
+                    foreach(PatternGraph alternativeCase in alternative.alternativeCases)
+                    {
+                        // if the alternative case does not contain a non local def entity it can't yield to us
+                        if(!alternativeCase.isNonLocalDefEntityExisting)
+                            continue;
 
-                    String nestedMatchObjectName = "_" + alternative.name;
-                    BubbleUpYieldAlternativeCase bubbleUpAlternativeCase = 
-                        new BubbleUpYieldAlternativeCase(
-                            matchObjectName,
-                            nestedMatchObjectName,
-                            rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + alternative.name + "_" + alternativeCase.name,
-                            "altCaseMatch",
-                            first);
-                    bubbleUpAlternativeCase.NestedOperationsList = new SearchProgramList(bubbleUpAlternativeCase);
-                    SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpAlternativeCase);
-                    insertionPoint = bubbleUpAlternativeCase.NestedOperationsList;
-                    first = false;
+                        // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
+                        // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
+                        string inlinedMatchObjectName = null;
+                        if(alternative.originalAlternative != null)
+                        {
+                            inlinedMatchObjectName = "match_" + alternative.originalSubpatternEmbedding.Name;
+                        }
 
-                    insertYieldAssignments(insertionPoint,
-                        patternGraph, "altCaseMatch", alternativeCase);
+                        String nestedMatchObjectName = "_" + alternative.name;
+                        BubbleUpYieldAlternativeCase bubbleUpAlternativeCase =
+                            new BubbleUpYieldAlternativeCase(
+                                matchObjectName,
+                                inlinedMatchObjectName ?? nestedMatchObjectName,
+                                rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + alternative.name + "_" + alternativeCase.name,
+                                "altCaseMatch",
+                                first);
+                        bubbleUpAlternativeCase.NestedOperationsList = new SearchProgramList(bubbleUpAlternativeCase);
+                        SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpAlternativeCase);
+                        insertionPoint = bubbleUpAlternativeCase.NestedOperationsList;
+                        first = false;
 
-                    insertionPoint = continuationPoint;
+                        insertYieldAssignments(insertionPoint,
+                            patternGraph, "altCaseMatch", alternativeCase);
+
+                        insertionPoint = continuationPoint;
+                    }
                 }
             }
 
             foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
             {
-                // if the independent does not contain a non local def entity it can't yield to us
-                if(!independent.isNonLocalDefEntityExisting)
-                    continue;
+                // in the inlined pass only the elements which were inlined into this pattern, in the non-inlined pass the original elements
+                bool wasInlined = independent.originalPatternGraph != null;
+                if(inlined == wasInlined)
+                {
+                    // if the independent does not contain a non local def entity it can't yield to us
+                    if(!independent.isNonLocalDefEntityExisting)
+                        continue;
 
-                String nestedMatchObjectName = NamesOfEntities.MatchedIndependentVariable(independent.pathPrefix + independent.name); ;
+                    // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
+                    // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
+                    string inlinedMatchObjectName = null;
+                    if(independent.originalPatternGraph != null)
+                    {
+                        inlinedMatchObjectName = "match_" + independent.originalSubpatternEmbedding.Name;
+                    }
 
-                insertionPoint = insertYieldAssignments(insertionPoint,
-                    patternGraph, nestedMatchObjectName, independent);
+                    String nestedMatchObjectName = NamesOfEntities.MatchedIndependentVariable(independent.pathPrefix + independent.name); ;
+
+                    insertionPoint = insertYieldAssignments(insertionPoint,
+                        patternGraph, inlinedMatchObjectName ?? nestedMatchObjectName, independent);
+                }
             }
 
             //////////////////////////////////////////////////////
             // then 2. compute all local yields
             foreach(PatternYielding yielding in patternGraph.YieldingsPlusInlined)
             {
-                // iterated potentially matching more than once can't be bubbled up normally,
-                // they need accumulation with a for loop into a variable of the nesting pattern, 
-                // that's done in/with the yield statements of the parent
-                if(yielding.YieldAssignment is IteratedAccumulationYield)
+                // in the inlined pass only the elements which were inlined into this pattern, in the non-inlined pass the original elements
+                bool wasInlined = yielding.originalYielding != null;
+                if(inlined == wasInlined)
                 {
-                    IteratedAccumulationYield accumulationYield = (IteratedAccumulationYield)yielding.YieldAssignment;
-                    foreach(Iterated iterated in patternGraph.iteratedsPlusInlined)
+                    // iterated potentially matching more than once can't be bubbled up normally,
+                    // they need accumulation with a for loop into a variable of the nesting pattern, 
+                    // that's done in/with the yield statements of the parent
+                    if(yielding.YieldAssignment is IteratedAccumulationYield)
                     {
-                        // skip the iterateds we're not interested in
-                        if(accumulationYield.Iterated != iterated.iteratedPattern.Name)
-                            continue;
+                        IteratedAccumulationYield accumulationYield = (IteratedAccumulationYield)yielding.YieldAssignment;
+                        foreach(Iterated iterated in patternGraph.iteratedsPlusInlined)
+                        {
+                            // skip the iterateds we're not interested in
+                            if(accumulationYield.Iterated != iterated.iteratedPattern.Name)
+                                continue;
 
-                        String nestedMatchObjectName = matchObjectName + "._" + iterated.iteratedPattern.Name;
-                        AccumulateUpYieldIterated accumulateUpIterated = 
-                            new AccumulateUpYieldIterated(
-                                nestedMatchObjectName,
-                                rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + iterated.iteratedPattern.name,
-                                "iteratedMatch");
-                        accumulateUpIterated.NestedOperationsList = new SearchProgramList(accumulateUpIterated);
-                        SearchProgramOperation continuationPoint = insertionPoint.Append(accumulateUpIterated);
-                        insertionPoint = accumulateUpIterated.NestedOperationsList;
+                            // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
+                            // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
+                            string inlinedMatchObjectName = null;
+                            if(iterated.originalIterated != null)
+                            {
+                                inlinedMatchObjectName = "match_" + iterated.originalSubpatternEmbedding.Name;
+                            }
 
-                        accumulationYield.IteratedMatchVariable = "iteratedMatch._" + NamesOfEntities.Variable(accumulationYield.UnprefixedVariable);
-                        accumulationYield.ReplaceVariableByIterationVariable(accumulationYield);
+                            String nestedMatchObjectName = (inlinedMatchObjectName ?? matchObjectName) + "._" + iterated.iteratedPattern.Name;
+                            AccumulateUpYieldIterated accumulateUpIterated =
+                                new AccumulateUpYieldIterated(
+                                    nestedMatchObjectName,
+                                    rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + iterated.iteratedPattern.name,
+                                    "iteratedMatch");
+                            accumulateUpIterated.NestedOperationsList = new SearchProgramList(accumulateUpIterated);
+                            SearchProgramOperation continuationPoint = insertionPoint.Append(accumulateUpIterated);
+                            insertionPoint = accumulateUpIterated.NestedOperationsList;
 
+                            accumulationYield.IteratedMatchVariable = "iteratedMatch._" + NamesOfEntities.Variable(accumulationYield.UnprefixedVariable);
+                            accumulationYield.ReplaceVariableByIterationVariable(accumulationYield);
+
+                            SourceBuilder yieldAssignmentSource = new SourceBuilder();
+                            accumulationYield.Emit(yieldAssignmentSource);
+                            LocalYieldAssignment yieldAssignment =
+                                new LocalYieldAssignment(yieldAssignmentSource.ToString());
+                            insertionPoint = insertionPoint.Append(yieldAssignment);
+
+                            insertionPoint = continuationPoint;
+                        }
+                    }
+                    else
+                    {
                         SourceBuilder yieldAssignmentSource = new SourceBuilder();
-                        accumulationYield.Emit(yieldAssignmentSource);
+                        yielding.YieldAssignment.Emit(yieldAssignmentSource);
                         LocalYieldAssignment yieldAssignment =
                             new LocalYieldAssignment(yieldAssignmentSource.ToString());
                         insertionPoint = insertionPoint.Append(yieldAssignment);
-
-                        insertionPoint = continuationPoint;
                     }
                 }
-                else
+            }
+
+            //////////////////////////////////////////////////////
+            // 3. at the end of the inlined pass:
+            // assign the def parameters from a subpattern which was inlined to the arguments yielded to
+            // we can't read from the match objects of the inlined subpatterns cause they are not written yet, but from the corresponding local variables
+            if(inlined)
+            {
+                foreach(PatternGraphEmbedding patternEmbedding in patternGraph.embeddedGraphsPlusInlined)
                 {
-                    SourceBuilder yieldAssignmentSource = new SourceBuilder();
-                    yielding.YieldAssignment.Emit(yieldAssignmentSource);
-                    LocalYieldAssignment yieldAssignment =
-                        new LocalYieldAssignment(yieldAssignmentSource.ToString());
-                    insertionPoint = insertionPoint.Append(yieldAssignment);
+                    // only inlined embeddings
+                    if(!patternEmbedding.inlined)
+                        continue;
+
+                    for(int i = 0; i < patternEmbedding.yields.Length; ++i)
+                    {
+                        String targetName = patternEmbedding.yields[i];
+                        String sourceName = patternEmbedding.matchingPatternOfEmbeddedGraph.defNames[i];
+                        bool isVariable = patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i] is VarType;
+                        YieldAssignment assignment = new YieldAssignment(
+                            targetName,
+                            isVariable,
+                            isVariable ? (Expression)new VariableExpression(sourceName) : (Expression)new GraphEntityExpression(sourceName)
+                        );
+
+                        SourceBuilder yieldAssignmentSource = new SourceBuilder();
+                        assignment.Emit(yieldAssignmentSource);
+                        LocalYieldAssignment yieldAssignment =
+                            new LocalYieldAssignment(yieldAssignmentSource.ToString());
+                        insertionPoint = insertionPoint.Append(yieldAssignment);
+                    }
                 }
             }
 
@@ -2928,6 +3105,8 @@ namespace de.unika.ipd.grGen.lgsp
             for (int i = patternGraph.embeddedGraphsPlusInlined.Length - 1; i >= 0; --i)
             {
                 PatternGraphEmbedding subpattern = patternGraph.embeddedGraphsPlusInlined[i];
+                if(subpattern.inlined)
+                    continue;
                 Debug.Assert(subpattern.matchingPatternOfEmbeddedGraph.inputNames.Length == subpattern.connections.Length);
                 string[] connectionName = subpattern.matchingPatternOfEmbeddedGraph.inputNames;
                 string[] argumentExpressions = new string[subpattern.connections.Length];
@@ -2967,6 +3146,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach (PatternGraphEmbedding subpattern in patternGraph.embeddedGraphsPlusInlined)
             {
+                if(subpattern.inlined)
+                    continue;
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
                         negativeIndependentNamePrefix,
@@ -3031,6 +3212,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- ---- fill the match object with the candidates 
             // ---- ---- which have passed all the checks for being a match
+            insertionPoint = insertInlinedMatchObjectCreation(insertionPoint, 
+                patternGraph, MatchObjectType.Normal);
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
                 patternGraph, MatchObjectType.Normal, false);
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
@@ -3269,6 +3452,8 @@ namespace de.unika.ipd.grGen.lgsp
             // ---- ---- which have passed all the checks for being a match
             if (!isIteratedNullMatch)
             {
+                insertionPoint = insertInlinedMatchObjectCreation(insertionPoint, 
+                    patternGraph, MatchObjectType.Normal);
                 insertionPoint = insertMatchObjectBuilding(insertionPoint,
                     patternGraph, MatchObjectType.Normal, false);
                 insertionPoint = insertMatchObjectBuilding(insertionPoint,
@@ -3340,6 +3525,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     // ---- fill the match object with the candidates 
                     // ---- which have passed all the checks for being a match
+                    insertionPoint = insertInlinedMatchObjectCreation(insertionPoint, 
+                        patternGraph, MatchObjectType.Independent);
                     insertionPoint = insertMatchObjectBuilding(insertionPoint,
                         patternGraph, MatchObjectType.Independent, false);
                     insertionPoint = insertMatchObjectBuilding(insertionPoint,
@@ -3377,6 +3564,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- fill the match object with the candidates 
             // ---- which have passed all the checks for being a match
+            insertionPoint = insertInlinedMatchObjectCreation(insertionPoint, 
+                patternGraph, MatchObjectType.Normal);
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
                 patternGraph, MatchObjectType.Normal, false);
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
@@ -3432,6 +3621,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     // fill the match object with the candidates 
                     // which have passed all the checks for being a match
+                    insertionPoint = insertInlinedMatchObjectCreation(insertionPoint,
+                        patternGraph, MatchObjectType.Independent);
                     insertionPoint = insertMatchObjectBuilding(insertionPoint, 
                         patternGraph, MatchObjectType.Independent, false);
                     insertionPoint = insertMatchObjectBuilding(insertionPoint,

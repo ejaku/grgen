@@ -2666,13 +2666,13 @@ exitSecondLoop: ;
         private void GenerateIndependentsMatchObjects(SourceBuilder sb,
             string matchingPatternClassName, PatternGraph patternGraph)
         {
-            if (patternGraph.pathPrefixesAndNamesOfNestedIndependents != null)
+            if (patternGraph.nestedIndependents != null)
             {
-                foreach (Pair<String, String> independentName in patternGraph.pathPrefixesAndNamesOfNestedIndependents)
+                foreach (KeyValuePair<PatternGraph, PatternGraph> nestedIndependent in patternGraph.nestedIndependents)
                 {
                     sb.AppendFrontFormat("private {0} {1} = new {0}();",
-                        matchingPatternClassName + "." + NamesOfEntities.MatchClassName(independentName.fst + independentName.snd),
-                        NamesOfEntities.MatchedIndependentVariable(independentName.fst + independentName.snd));
+                        matchingPatternClassName + "." + NamesOfEntities.MatchClassName(nestedIndependent.Key.pathPrefix + nestedIndependent.Key.name),
+                        NamesOfEntities.MatchedIndependentVariable(nestedIndependent.Key.pathPrefix + nestedIndependent.Key.name));
                 }
             }
 

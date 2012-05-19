@@ -12,6 +12,7 @@ using System.Text;
 
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.expression;
 
 
 namespace de.unika.ipd.grGen.lgsp
@@ -42,7 +43,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             CalculateNeededElements(patternGraph, inlined);
 
-            AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(patternGraph, inlined);
+            AnnotateIndependentsAtNestingPattern(patternGraph, inlined);
 
             if(!inlined) // no inlining will occur in case the pattern is on a patternpath, so nothing to adapt to in the after-inline run
                 ComputePatternGraphsOnPathToEnclosedPatternpath(patternGraph);
@@ -109,23 +110,20 @@ namespace de.unika.ipd.grGen.lgsp
         /// Insert names of independents nested within the pattern graph
         /// to the matcher generation skeleton data structure pattern graph
         /// </summary>
-        public void AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(
+        public void AnnotateIndependentsAtNestingPattern(
             PatternGraph patternGraph, bool inlined)
         {
             PatternGraph[] independentPatternGraphs = inlined ? patternGraph.independentPatternGraphsPlusInlined : patternGraph.independentPatternGraphs;
+            patternGraph.nestedIndependents = null; // at inlined pass reset values from pass before (nop when used first)
             foreach (PatternGraph idpt in independentPatternGraphs)
             {
                 // annotate path prefix and name
-                if(patternGraph.pathPrefixesAndNamesOfNestedIndependents == null)
-                    patternGraph.pathPrefixesAndNamesOfNestedIndependents = new List<Pair<String, String>>();
-                bool containsAlready = false;
-                foreach(Pair<String, String> pathPrefixAndName in patternGraph.pathPrefixesAndNamesOfNestedIndependents)
-                    if(pathPrefixAndName.fst == idpt.pathPrefix && pathPrefixAndName.snd == idpt.name)
-                        containsAlready = true;
-                if(!containsAlready) // prevent re-adding in inlined run
-                    patternGraph.pathPrefixesAndNamesOfNestedIndependents.Add(new Pair<String, String>(idpt.pathPrefix, idpt.name));
+                if(patternGraph.nestedIndependents == null)
+                    patternGraph.nestedIndependents = new Dictionary<PatternGraph, PatternGraph>();
+                patternGraph.nestedIndependents[idpt] = null;
+
                 // handle nested independents
-                AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(idpt, inlined);
+                AnnotateIndependentsAtNestingPattern(idpt, inlined);
             }
 
             // alternative cases represent new annotation point
@@ -134,7 +132,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(altCase, inlined);
+                    AnnotateIndependentsAtNestingPattern(altCase, inlined);
                 }
             }
 
@@ -142,7 +140,7 @@ namespace de.unika.ipd.grGen.lgsp
             Iterated[] iterateds = inlined ? patternGraph.iteratedsPlusInlined : patternGraph.iterateds;
             foreach (Iterated iter in iterateds)
             {
-                AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(iter.iteratedPattern, inlined);
+                AnnotateIndependentsAtNestingPattern(iter.iteratedPattern, inlined);
             }
         }
 
@@ -752,19 +750,17 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void InlineSubpatternUsages(PatternGraph patternGraph)
         {
-            // for each subpattern used/embedded decide whether to online or not
-            // for the ones to inline do the inlining by adding the content of the subpattern 
+            // we do one step of inlining only, with the embedding being always replaced by the non-inlined original
+            // multiple step inlining would be nice but would require some generalizations in the current code, following chains of original elements instead of one step only
+            // unbounded depth inlining would require taking care of direct or indirect recursion, would be a dubious approach
+
+            // for each subpattern used/embedded decide whether to inline or not
+            // for the ones to inline do the inlining by adding the original content of the subpattern 
             // directly to the using/embedding pattern
-            // TODO: the iterator is destroyed when an inlined pattern contains subpatterns
-            // TODO: inlining may create new inline possibilities, to be inlined, too
             foreach(PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
             {
                 LGSPMatchingPattern embeddedMatchingPattern = embedding.matchingPatternOfEmbeddedGraph;
                 PatternGraph embeddedPatternGraph = embeddedMatchingPattern.patternGraph;
-                // only non-recursive patterns are candidates for inlining
-                // TODO: relax this, one level of inlining should be allowed even for recursive patterns 
-                if(embeddedPatternGraph.usedSubpatterns.ContainsKey(embedding.matchingPatternOfEmbeddedGraph))
-                    continue;
 
                 // pattern path locked patterns would be too much programming effort to inline
                 if(embeddedMatchingPattern.patternGraph.isPatternpathLocked)
@@ -977,11 +973,11 @@ namespace de.unika.ipd.grGen.lgsp
                 patternGraph.edgeToTargetNode.Add(edgeToCopy[etn.Key], nodeToCopy[etn.Value]);
             }
 
-            if(embeddedGraph.nodesPlusInlined.Length > 0)
+            if(embeddedGraph.nodes.Length > 0)
             {
-                patternGraph.homomorphicNodes = ExtendHomMatrix(patternGraph.homomorphicNodes, embeddedGraph.homomorphicNodes);
-                patternGraph.homomorphicNodesGlobal = ExtendHomMatrix(patternGraph.homomorphicNodesGlobal, embeddedGraph.homomorphicNodesGlobal);
-                patternGraph.totallyHomomorphicNodes = ExtendTotallyHomArray(patternGraph.totallyHomomorphicNodes, embeddedGraph.totallyHomomorphicNodes);
+                patternGraph.homomorphicNodes = ExtendHomMatrix(patternGraph.homomorphicNodes, embeddedGraph.homomorphicNodes, embeddedGraph.nodes.Length);
+                patternGraph.homomorphicNodesGlobal = ExtendHomMatrix(patternGraph.homomorphicNodesGlobal, embeddedGraph.homomorphicNodesGlobal, embeddedGraph.nodes.Length);
+                patternGraph.totallyHomomorphicNodes = ExtendTotallyHomArray(patternGraph.totallyHomomorphicNodes, embeddedGraph.totallyHomomorphicNodes, embeddedGraph.nodes.Length);
 
                 // make arguments/connections of original pattern graph hom to parameters of embedded graph
                 for(int i = 0; i < embedding.connections.Length; ++i)
@@ -989,21 +985,21 @@ namespace de.unika.ipd.grGen.lgsp
                     PatternNode nodeArgument = getBoundNode(embedding, i, patternGraph.nodesPlusInlined);
                     if(nodeArgument == null)
                         continue;
-                    PatternNode nodeParameter = getParameterNode(embeddedGraph.nodesPlusInlined, i);
+                    PatternNode nodeParameter = getParameterNode(embeddedGraph.nodes, i);
                     PatternNode nodeParameterCopy = nodeToCopy[nodeParameter];
                     int indexOfArgument = Array.IndexOf(patternGraph.nodesPlusInlined, nodeArgument);
                     int indexOfParameterCopy = Array.IndexOf(patternGraph.nodesPlusInlined, nodeParameterCopy);
-                    int numOldNodes = patternGraph.nodesPlusInlined.Length - embeddedGraph.nodesPlusInlined.Length;
+                    int numOldNodes = patternGraph.nodesPlusInlined.Length - embeddedGraph.nodes.Length;
                     patternGraph.homomorphicNodes[indexOfArgument, numOldNodes + indexOfParameterCopy] = true;
                     patternGraph.homomorphicNodes[numOldNodes + indexOfParameterCopy, indexOfArgument] = true;
                 }
             }
 
-            if(embeddedGraph.edgesPlusInlined.Length > 0)
+            if(embeddedGraph.edges.Length > 0)
             {
-                patternGraph.homomorphicEdges = ExtendHomMatrix(patternGraph.homomorphicEdges, embeddedGraph.homomorphicEdges);
-                patternGraph.homomorphicEdgesGlobal = ExtendHomMatrix(patternGraph.homomorphicEdgesGlobal, embeddedGraph.homomorphicEdgesGlobal);
-                patternGraph.totallyHomomorphicEdges = ExtendTotallyHomArray(patternGraph.totallyHomomorphicEdges, embeddedGraph.totallyHomomorphicEdges);
+                patternGraph.homomorphicEdges = ExtendHomMatrix(patternGraph.homomorphicEdges, embeddedGraph.homomorphicEdges, embeddedGraph.edges.Length);
+                patternGraph.homomorphicEdgesGlobal = ExtendHomMatrix(patternGraph.homomorphicEdgesGlobal, embeddedGraph.homomorphicEdgesGlobal, embeddedGraph.edges.Length);
+                patternGraph.totallyHomomorphicEdges = ExtendTotallyHomArray(patternGraph.totallyHomomorphicEdges, embeddedGraph.totallyHomomorphicEdges, embeddedGraph.edges.Length);
 
                 // make arguments/connections of original pattern graph hom to parameters of embedded graph
                 for(int i = 0; i < embedding.connections.Length; ++i)
@@ -1011,34 +1007,31 @@ namespace de.unika.ipd.grGen.lgsp
                     PatternEdge edgeArgument = getBoundEdge(embedding, i, patternGraph.edgesPlusInlined);
                     if(edgeArgument == null)
                         continue;
-                    PatternEdge edgeParameter = getParameterEdge(embeddedGraph.edgesPlusInlined, i);
+                    PatternEdge edgeParameter = getParameterEdge(embeddedGraph.edges, i);
                     PatternEdge edgeParameterCopy = edgeToCopy[edgeParameter];
                     int indexOfArgument = Array.IndexOf(patternGraph.nodesPlusInlined, edgeArgument);
                     int indexOfParameterCopy = Array.IndexOf(patternGraph.nodesPlusInlined, edgeParameterCopy);
-                    int numOldEdges = patternGraph.edgesPlusInlined.Length - embeddedGraph.edgesPlusInlined.Length;
+                    int numOldEdges = patternGraph.edgesPlusInlined.Length - embeddedGraph.edges.Length;
                     patternGraph.homomorphicEdges[indexOfArgument, numOldEdges + indexOfParameterCopy] = true;
                     patternGraph.homomorphicEdges[numOldEdges + indexOfParameterCopy, indexOfArgument] = true;
                 }
             }
 
-            CopyConditionsYieldingsOfSubpattern(patternGraph, embeddedGraph, renameSuffix,
+            CopyConditionsYieldingsOfSubpattern(patternGraph, embedding, renameSuffix,
                 nodeToCopy, edgeToCopy, variableToCopy);
 
-            // TODO: elemente müssen auf das kopierte definierende pattern zeigen
-            // nicht einfach auf das umschließende
-
-            // TODO: der rekursivschritt fehlt!
-
-            CopyNegativesIndependentsOfSubpattern(patternGraph, embeddedGraph, renameSuffix,
+            CopyNegativesIndependentsOfSubpattern(patternGraph, embedding, renameSuffix,
                 nodeToCopy, edgeToCopy, variableToCopy);
 
-            CopyAlternativesIteratedsOfSubpattern(patternGraph, embeddedGraph, renameSuffix,
+            CopyAlternativesIteratedsOfSubpattern(patternGraph, embedding, renameSuffix,
                 nodeToCopy, edgeToCopy, variableToCopy);
 
             CopySubpatternUsagesOfSubpattern(patternGraph, embeddedGraph, renameSuffix, 
                 nodeToCopy, edgeToCopy, variableToCopy);
 
             // TODO: das zeugs das vom analyzer berechnet wird, das bei der konstruktion berechnet wird
+            // TODO: einfach für alles nicht-konstante PlusInlined einrichten, damit das schön getrennt ist, keine Probleme auftreten können; das hom extended ist unsauber
+            // TODO: die copy-konstruktoren prüfen, über die das rekursive kopieren erfolgt
 
             embedding.inlined = true;
         }
@@ -1050,14 +1043,14 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
             PatternGraph embeddedGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
-            if(embeddedGraph.nodesPlusInlined.Length > 0)
+            if(embeddedGraph.nodes.Length > 0)
             {
-                PatternNode[] newNodes = new PatternNode[patternGraph.nodesPlusInlined.Length + embeddedGraph.nodesPlusInlined.Length];
+                PatternNode[] newNodes = new PatternNode[patternGraph.nodesPlusInlined.Length + embeddedGraph.nodes.Length];
                 patternGraph.nodesPlusInlined.CopyTo(newNodes, 0);
-                for(int i = 0; i < embeddedGraph.nodesPlusInlined.Length; ++i)
+                for(int i = 0; i < embeddedGraph.nodes.Length; ++i)
                 {
-                    PatternNode node = embeddedGraph.nodesPlusInlined[i];
-                    PatternNode newNode = new PatternNode(node, patternGraph, renameSuffix);
+                    PatternNode node = embeddedGraph.nodes[i];
+                    PatternNode newNode = new PatternNode(node, embedding, patternGraph, renameSuffix);
                     newNodes[patternGraph.nodesPlusInlined.Length + i] = newNode;
                     nodeToCopy[node] = newNode;
 
@@ -1070,14 +1063,14 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 patternGraph.nodesPlusInlined = newNodes;
             }
-            if(embeddedGraph.edgesPlusInlined.Length > 0)
+            if(embeddedGraph.edges.Length > 0)
             {
-                PatternEdge[] newEdges = new PatternEdge[patternGraph.edgesPlusInlined.Length + embeddedGraph.edgesPlusInlined.Length];
+                PatternEdge[] newEdges = new PatternEdge[patternGraph.edgesPlusInlined.Length + embeddedGraph.edges.Length];
                 patternGraph.edgesPlusInlined.CopyTo(newEdges, 0);
-                for(int i = 0; i < embeddedGraph.edgesPlusInlined.Length; ++i)
+                for(int i = 0; i < embeddedGraph.edges.Length; ++i)
                 {
-                    PatternEdge edge = embeddedGraph.edgesPlusInlined[i];
-                    PatternEdge newEdge = new PatternEdge(edge, patternGraph, renameSuffix);
+                    PatternEdge edge = embeddedGraph.edges[i];
+                    PatternEdge newEdge = new PatternEdge(edge, embedding, patternGraph, renameSuffix);
                     newEdges[patternGraph.edgesPlusInlined.Length + i] = newEdge;
                     edgeToCopy[edge] = newEdge;
 
@@ -1090,14 +1083,14 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 patternGraph.edgesPlusInlined = newEdges;
             }
-            if(embeddedGraph.variablesPlusInlined.Length > 0)
+            if(embeddedGraph.variables.Length > 0)
             {
-                PatternVariable[] newVariables = new PatternVariable[patternGraph.variablesPlusInlined.Length + embeddedGraph.variablesPlusInlined.Length];
+                PatternVariable[] newVariables = new PatternVariable[patternGraph.variablesPlusInlined.Length + embeddedGraph.variables.Length];
                 patternGraph.variablesPlusInlined.CopyTo(newVariables, 0);
-                for(int i = 0; i < embeddedGraph.variablesPlusInlined.Length; ++i)
+                for(int i = 0; i < embeddedGraph.variables.Length; ++i)
                 {
-                    PatternVariable variable = embeddedGraph.variablesPlusInlined[i];
-                    PatternVariable newVariable = new PatternVariable(variable, patternGraph, renameSuffix);
+                    PatternVariable variable = embeddedGraph.variables[i];
+                    PatternVariable newVariable = new PatternVariable(variable, embedding, patternGraph, renameSuffix);
                     newVariables[patternGraph.variablesPlusInlined.Length + i] = newVariable;
                     variableToCopy[variable] = newVariable;
 
@@ -1113,31 +1106,32 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private static void CopyConditionsYieldingsOfSubpattern(PatternGraph patternGraph,
-            PatternGraph embeddedGraph, string renameSuffix,
+            PatternGraphEmbedding embedding, string renameSuffix,
             Dictionary<PatternNode, PatternNode> nodeToCopy,
             Dictionary<PatternEdge, PatternEdge> edgeToCopy,
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
-            if(embeddedGraph.ConditionsPlusInlined.Length > 0)
+            PatternGraph embeddedGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
+            if(embeddedGraph.Conditions.Length > 0)
             {
-                PatternCondition[] newConditions = new PatternCondition[patternGraph.ConditionsPlusInlined.Length + embeddedGraph.ConditionsPlusInlined.Length];
+                PatternCondition[] newConditions = new PatternCondition[patternGraph.ConditionsPlusInlined.Length + embeddedGraph.Conditions.Length];
                 patternGraph.ConditionsPlusInlined.CopyTo(newConditions, 0);
-                for(int i = 0; i < embeddedGraph.ConditionsPlusInlined.Length; ++i)
+                for(int i = 0; i < embeddedGraph.Conditions.Length; ++i)
                 {
-                    PatternCondition cond = embeddedGraph.ConditionsPlusInlined[i];
-                    PatternCondition newCond = new PatternCondition(cond, renameSuffix);
+                    PatternCondition cond = embeddedGraph.Conditions[i];
+                    PatternCondition newCond = new PatternCondition(cond, embedding, renameSuffix);
                     newConditions[patternGraph.ConditionsPlusInlined.Length + i] = newCond;
                 }
                 patternGraph.ConditionsPlusInlined = newConditions;
             }
-            if(embeddedGraph.YieldingsPlusInlined.Length > 0)
+            if(embeddedGraph.Yieldings.Length > 0)
             {
-                PatternYielding[] newYieldings = new PatternYielding[patternGraph.YieldingsPlusInlined.Length + embeddedGraph.YieldingsPlusInlined.Length];
+                PatternYielding[] newYieldings = new PatternYielding[patternGraph.YieldingsPlusInlined.Length + embeddedGraph.Yieldings.Length];
                 patternGraph.YieldingsPlusInlined.CopyTo(newYieldings, 0);
-                for(int i = 0; i < embeddedGraph.YieldingsPlusInlined.Length; ++i)
+                for(int i = 0; i < embeddedGraph.Yieldings.Length; ++i)
                 {
-                    PatternYielding yield = embeddedGraph.YieldingsPlusInlined[i];
-                    PatternYielding newYield = new PatternYielding(yield, renameSuffix);
+                    PatternYielding yield = embeddedGraph.Yieldings[i];
+                    PatternYielding newYield = new PatternYielding(yield, embedding, renameSuffix);
                     newYieldings[patternGraph.YieldingsPlusInlined.Length + i] = newYield;
                 }
                 patternGraph.YieldingsPlusInlined = newYieldings;
@@ -1145,32 +1139,33 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private static void CopyNegativesIndependentsOfSubpattern(PatternGraph patternGraph, 
-            PatternGraph embeddedGraph, string renameSuffix, 
+            PatternGraphEmbedding embedding, string renameSuffix, 
             Dictionary<PatternNode, PatternNode> nodeToCopy, 
             Dictionary<PatternEdge, PatternEdge> edgeToCopy, 
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
-            if(embeddedGraph.negativePatternGraphsPlusInlined.Length > 0)
+            PatternGraph embeddedGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
+            if(embeddedGraph.negativePatternGraphs.Length > 0)
             {
-                PatternGraph[] newNegativePatternGraphs = new PatternGraph[patternGraph.negativePatternGraphsPlusInlined.Length + embeddedGraph.negativePatternGraphsPlusInlined.Length];
+                PatternGraph[] newNegativePatternGraphs = new PatternGraph[patternGraph.negativePatternGraphsPlusInlined.Length + embeddedGraph.negativePatternGraphs.Length];
                 patternGraph.negativePatternGraphsPlusInlined.CopyTo(newNegativePatternGraphs, 0);
-                for(int i = 0; i < embeddedGraph.negativePatternGraphsPlusInlined.Length; ++i)
+                for(int i = 0; i < embeddedGraph.negativePatternGraphs.Length; ++i)
                 {
-                    PatternGraph neg = embeddedGraph.negativePatternGraphsPlusInlined[i];
-                    PatternGraph newNeg = new PatternGraph(neg, patternGraph, renameSuffix,
+                    PatternGraph neg = embeddedGraph.negativePatternGraphs[i];
+                    PatternGraph newNeg = new PatternGraph(neg, embedding, patternGraph, renameSuffix,
                         nodeToCopy, edgeToCopy, variableToCopy);
                     newNegativePatternGraphs[patternGraph.negativePatternGraphsPlusInlined.Length + i] = newNeg;
                 }
                 patternGraph.negativePatternGraphsPlusInlined = newNegativePatternGraphs;
             }
-            if(embeddedGraph.independentPatternGraphsPlusInlined.Length > 0)
+            if(embeddedGraph.independentPatternGraphs.Length > 0)
             {
-                PatternGraph[] newIndependentPatternGraphs = new PatternGraph[patternGraph.independentPatternGraphsPlusInlined.Length + embeddedGraph.independentPatternGraphsPlusInlined.Length];
+                PatternGraph[] newIndependentPatternGraphs = new PatternGraph[patternGraph.independentPatternGraphsPlusInlined.Length + embeddedGraph.independentPatternGraphs.Length];
                 patternGraph.independentPatternGraphsPlusInlined.CopyTo(newIndependentPatternGraphs, 0);
-                for(int i = 0; i < embeddedGraph.independentPatternGraphsPlusInlined.Length; ++i)
+                for(int i = 0; i < embeddedGraph.independentPatternGraphs.Length; ++i)
                 {
-                    PatternGraph idpt = embeddedGraph.independentPatternGraphsPlusInlined[i];
-                    PatternGraph newIdpt = new PatternGraph(idpt, patternGraph, renameSuffix,
+                    PatternGraph idpt = embeddedGraph.independentPatternGraphs[i];
+                    PatternGraph newIdpt = new PatternGraph(idpt, embedding, patternGraph, renameSuffix,
                         nodeToCopy, edgeToCopy, variableToCopy);
                     newIndependentPatternGraphs[patternGraph.independentPatternGraphsPlusInlined.Length + i] = newIdpt;
                 }
@@ -1179,32 +1174,33 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private static void CopyAlternativesIteratedsOfSubpattern(PatternGraph patternGraph, 
-            PatternGraph embeddedGraph, string renameSuffix, 
+            PatternGraphEmbedding embedding, string renameSuffix, 
             Dictionary<PatternNode, PatternNode> nodeToCopy, 
             Dictionary<PatternEdge, PatternEdge> edgeToCopy, 
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
-            if(embeddedGraph.alternativesPlusInlined.Length > 0)
+            PatternGraph embeddedGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
+            if(embeddedGraph.alternatives.Length > 0)
             {
-                Alternative[] newAlternatives = new Alternative[patternGraph.alternativesPlusInlined.Length + embeddedGraph.alternativesPlusInlined.Length];
+                Alternative[] newAlternatives = new Alternative[patternGraph.alternativesPlusInlined.Length + embeddedGraph.alternatives.Length];
                 patternGraph.alternativesPlusInlined.CopyTo(newAlternatives, 0);
-                for(int i = 0; i < embeddedGraph.alternativesPlusInlined.Length; ++i)
+                for(int i = 0; i < embeddedGraph.alternatives.Length; ++i)
                 {
-                    Alternative alt = embeddedGraph.alternativesPlusInlined[i];
-                    Alternative newAlt = new Alternative(alt, patternGraph, renameSuffix,
+                    Alternative alt = embeddedGraph.alternatives[i];
+                    Alternative newAlt = new Alternative(alt, embedding, patternGraph, renameSuffix,
                         nodeToCopy, edgeToCopy, variableToCopy);
                     newAlternatives[patternGraph.alternativesPlusInlined.Length + i] = newAlt;
                 }
                 patternGraph.alternativesPlusInlined = newAlternatives;
             }
-            if(embeddedGraph.iteratedsPlusInlined.Length > 0)
+            if(embeddedGraph.iterateds.Length > 0)
             {
-                Iterated[] newIterateds = new Iterated[patternGraph.iteratedsPlusInlined.Length + embeddedGraph.iteratedsPlusInlined.Length];
+                Iterated[] newIterateds = new Iterated[patternGraph.iteratedsPlusInlined.Length + embeddedGraph.iterateds.Length];
                 patternGraph.iteratedsPlusInlined.CopyTo(newIterateds, 0);
-                for(int i = 0; i < embeddedGraph.iteratedsPlusInlined.Length; ++i)
+                for(int i = 0; i < embeddedGraph.iterateds.Length; ++i)
                 {
-                    Iterated iter = embeddedGraph.iteratedsPlusInlined[i];
-                    Iterated newIter = new Iterated(iter, patternGraph, renameSuffix,
+                    Iterated iter = embeddedGraph.iterateds[i];
+                    Iterated newIter = new Iterated(iter, embedding, patternGraph, renameSuffix,
                         nodeToCopy, edgeToCopy, variableToCopy);
                     newIterateds[patternGraph.iteratedsPlusInlined.Length + i] = newIter;
                 }
@@ -1218,13 +1214,13 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<PatternEdge, PatternEdge> edgeToCopy, 
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
-            if(embeddedGraph.embeddedGraphsPlusInlined.Length > 0)
+            if(embeddedGraph.embeddedGraphs.Length > 0)
             {
-                PatternGraphEmbedding[] newEmbeddings = new PatternGraphEmbedding[patternGraph.embeddedGraphsPlusInlined.Length + embeddedGraph.iteratedsPlusInlined.Length];
+                PatternGraphEmbedding[] newEmbeddings = new PatternGraphEmbedding[patternGraph.embeddedGraphsPlusInlined.Length + embeddedGraph.embeddedGraphs.Length];
                 patternGraph.embeddedGraphsPlusInlined.CopyTo(newEmbeddings, 0);
-                for(int i = 0; i < embeddedGraph.embeddedGraphsPlusInlined.Length; ++i)
+                for(int i = 0; i < embeddedGraph.embeddedGraphs.Length; ++i)
                 {
-                    PatternGraphEmbedding sub = embeddedGraph.embeddedGraphsPlusInlined[i];
+                    PatternGraphEmbedding sub = embeddedGraph.embeddedGraphs[i];
                     PatternGraphEmbedding newSub = new PatternGraphEmbedding(sub, patternGraph, renameSuffix);
                     newEmbeddings[patternGraph.embeddedGraphsPlusInlined.Length + i] = newSub;
                 }
@@ -1235,8 +1231,8 @@ namespace de.unika.ipd.grGen.lgsp
         private static PatternNode getBoundNode(PatternGraphEmbedding embedding, int parameterIndex,
             PatternNode[] nodes)
         {
-            expression.Expression exp = embedding.connections[parameterIndex];
-            expression.GraphEntityExpression elem = (expression.GraphEntityExpression)exp;
+            Expression exp = embedding.connections[parameterIndex];
+            GraphEntityExpression elem = (GraphEntityExpression)exp;
             foreach(PatternNode node in nodes)
             {
                 if(node.name == elem.Entity)
@@ -1248,8 +1244,8 @@ namespace de.unika.ipd.grGen.lgsp
         private static PatternEdge getBoundEdge(PatternGraphEmbedding embedding, int parameterIndex,
             PatternEdge[] edges)
         {
-            expression.Expression exp = embedding.connections[parameterIndex];
-            expression.GraphEntityExpression elem = (expression.GraphEntityExpression)exp;
+            Expression exp = embedding.connections[parameterIndex];
+            GraphEntityExpression elem = (GraphEntityExpression)exp;
             foreach(PatternEdge edge in edges)
             {
                 if(edge.name == elem.Entity)
@@ -1258,28 +1254,29 @@ namespace de.unika.ipd.grGen.lgsp
             return null;
         }
 
-        private static PatternNode getParameterNode(PatternNode[] nodesPlusInlined, int parameterIndex)
+        private static PatternNode getParameterNode(PatternNode[] nodes, int parameterIndex)
         {
-            foreach(PatternNode node in nodesPlusInlined)
+            foreach(PatternNode node in nodes)
                 if(node.ParameterIndex == parameterIndex)
                     return node;
 
             return null;
         }
 
-        private static PatternEdge getParameterEdge(PatternEdge[] edgesPlusInlined, int parameterIndex)
+        private static PatternEdge getParameterEdge(PatternEdge[] edges, int parameterIndex)
         {
-            foreach(PatternEdge edge in edgesPlusInlined)
+            foreach(PatternEdge edge in edges)
                 if(edge.ParameterIndex == parameterIndex)
                     return edge;
 
             return null;
         }
 
-        bool[,] ExtendHomMatrix(bool[,] homOriginal, bool[,] homExtension)
+        // extensionLength prevents us from copying the hom-information of already inlined stuff if the pattern to be inlined was inlined before
+        bool[,] ExtendHomMatrix(bool[,] homOriginal, bool[,] homExtension, int extensionLength)
         {
             int numOld = homOriginal.GetLength(0);
-            int numNew = homExtension.GetLength(0);
+            int numNew = extensionLength;
             int numTotal = numOld + numNew;
 
             bool[,] newHom = new bool[numTotal, numTotal];
@@ -1307,11 +1304,13 @@ namespace de.unika.ipd.grGen.lgsp
             return newHom;
         }
 
-        bool[] ExtendTotallyHomArray(bool[] totallyHomOriginal, bool[] totallyHomExtension)
+        // extensionLength prevents us from copying the hom-information of already inlined stuff if the pattern to be inlined was inlined before
+        bool[] ExtendTotallyHomArray(bool[] totallyHomOriginal, bool[] totallyHomExtension, int extensionLength)
         {
-            bool[] newTotallyHom = new bool[totallyHomOriginal.Length + totallyHomExtension.Length];
+            bool[] newTotallyHom = new bool[totallyHomOriginal.Length + extensionLength];
             totallyHomOriginal.CopyTo(newTotallyHom, 0);
-            totallyHomExtension.CopyTo(newTotallyHom, totallyHomOriginal.Length);
+            for(int i = 0; i < extensionLength; ++i)
+                newTotallyHom[totallyHomOriginal.Length + i] = totallyHomExtension[i];
             return newTotallyHom;
         }
 
