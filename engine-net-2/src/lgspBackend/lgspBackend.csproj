@@ -76,6 +76,7 @@
     <Compile Include="lgspMatches.cs" />
     <Compile Include="lgspNamedGraph.cs" />
     <Compile Include="lgspPattern.cs" />
+    <Compile Include="lgspPatternElements.cs" />
     <Compile Include="lgspSequenceGenerator.cs" />
     <Compile Include="lgspTransactionManager.cs" />
     <Compile Include="NamesOfEntities.cs" />
