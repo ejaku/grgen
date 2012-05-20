@@ -1,0 +1,352 @@
+using inline;
+
+rule createPure
+{
+	modify
+	{
+		n1:intNode --> n2:intNode --> n3:intNode --> n4:intNode;
+		eval {
+			n1.val = 1;
+			n2.val = 2;
+			n3.val = 3;
+			n4.val = 4;
+		}
+	}
+}
+
+rule createWithBeginEnd
+{
+	modify
+	{
+		n0:intNode --> n1:intNode --> n2:intNode --> n3:intNode --> n4:intNode --> n5:intNode;
+		eval {
+			n0.val = 0;
+			n1.val = 1;
+			n2.val = 2;
+			n3.val = 3;
+			n4.val = 4;
+			n5.val = 5;
+		}
+	}
+}
+
+
+// test inlined subpattern is matched correctly
+
+rule inline1
+{
+	n1:intNode;	n3:intNode; n4:intNode;
+	if {
+		n1.val == 1;
+		n3.val == 3;
+		n4.val == 4;
+	}
+	
+	m:Middle1(n1, n3, n4);
+	
+	modify {
+		m();
+	}
+}
+
+pattern Middle1(n1:intNode, n3:intNode, n4:intNode)
+{
+	n1 --> n2:intNode --> n3 -e:Edge-> n4;
+	if { n2.val == 2; }
+	
+	modify {
+		:Node<n2>;
+		delete(e);
+		eval { n1.val = n3.val - 3 + 42; }
+	}
+}
+
+
+// test inlined subpattern with yielding is matched correctly
+
+rule inline2
+{
+	n1:intNode;	n3:intNode; n4:intNode;
+	if {
+		n1.val == 1;
+		n3.val == 3;
+		n4.val == 4;
+	}
+	
+	def n2:intNode; def var v2:int;
+	m:Middle2(n1, n3, n4, 2, yield v2, yield n2);
+	
+	modify {
+		m();
+	}
+}
+
+pattern Middle2(n1:intNode, n3:intNode, n4:intNode, var val:int, def var v2:int, def nout:intNode)
+{
+	n1 --> n2:intNode --> n3 -e:Edge-> n4;
+	if { n2.val == val; }
+	
+	yield {
+		yield v2 = n2.val;
+		yield nout = n2;
+	}
+	
+	modify {
+		:Node<n2>;
+		delete(e);
+		eval { n1.val = n3.val - 3 + 42; }
+	}
+}
+
+
+// test multiple inlined subpatterns are matched correctly
+
+rule inline3
+{
+	n1:intNode;	n3:intNode; n4:intNode;
+	if {
+		n1.val == 1;
+		n3.val == 3;
+		n4.val == 4;
+	}
+	
+	ma:Middle3a(n1, n3);
+	mb:Middle3b(n3, n4);
+	
+	modify {
+		ma();
+		mb();
+	}
+}
+
+pattern Middle3a(n1:intNode, n3:intNode)
+{
+	n1 --> n2:intNode --> n3;
+	if { n2.val == 2; }
+	
+	modify {
+		:Node<n2>;
+		eval { n1.val = n3.val - 3 + 42; }
+	}
+}
+
+pattern Middle3b(n3:intNode, n4:intNode)
+{
+	n3 -e:Edge-> n4;
+	
+	modify {
+		delete(e);
+	}
+}
+
+
+// test subpattern nested inside inlined subpattern is matched correctly
+
+rule inline4
+{
+	n1:intNode;	n3:intNode; n4:intNode;
+	if {
+		n1.val == 1;
+		n3.val == 3;
+		n4.val == 4;
+	}
+	
+	m:Middle4(n1, n3, n4);
+	
+	modify {
+		m();
+	}
+}
+
+pattern Middle4(n1:intNode, n3:intNode, n4:intNode)
+{
+	n1 --> n2:intNode --> n3;
+	if { n2.val == 2; }
+	
+	m:Middle3b(n3, n4);
+	
+	modify {
+		:Node<n2>;
+		eval { n1.val = n3.val - 3 + 42; }
+		m();
+	}
+}
+
+
+// test negative and independent nested inside inlined subpattern are generated correctly
+
+rule inline5
+{
+	n1:intNode;	n3:intNode; n4:intNode;
+	if {
+		n1.val == 1;
+		n3.val == 3;
+		n4.val == 4;
+	}
+	
+	def var val:int;
+	m:Middle5(n1, n3, n4, yield val);
+	
+	modify {
+		m();
+	}
+}
+
+pattern Middle5(n1:intNode, n3:intNode, n4:intNode, def var res:int)
+{
+	n1 --> n2:intNode --> n3 -e:Edge-> n4;
+	if { n2.val == 2; }
+	
+	negative {
+		negative {
+			--> n1;
+		}
+	}
+	independent {
+		n4 --> n5:intNode;
+		yield { yield res = n5.val; }
+	}
+	
+	modify {
+		:Node<n2>;
+		delete(e);
+		eval { n1.val = n3.val - 3 + 42; }
+	}
+}
+
+
+// test alternative and iterated nested inside inlined subpattern are generated correctly
+
+rule inline6
+{
+	n1:intNode;	n3:intNode; n4:intNode;
+	if {
+		n1.val == 1;
+		n3.val == 3;
+		n4.val == 4;
+	}
+	
+	def n0:intNode; def var n0val:int;
+	def n5:intNode; def var n5val:int;
+	m:Middle6(n1, n3, n4, 2, yield n0, yield n0val, yield n5, yield n5val);
+	
+	modify {
+		m();
+	}
+}
+
+pattern Middle6(n1:intNode, n3:intNode, n4:intNode, var val:int, 
+				def n0out:intNode, def var n0val:int, def n5out:intNode, def var n5val:int)
+{
+	n1 --> n2:intNode --> n3 -e:Edge-> n4;
+	if { n2.val == val; }
+	
+	alternative {
+		empty {
+			negative {
+				n0:intNode --> n1;
+			}
+			
+			modify {
+			}
+		}
+		begin {
+			n0:intNode --> n1;
+			yield { yield n0out = n0; yield n0val = n0.val; }
+			
+			modify {
+			}
+		}
+	}
+	iterated {
+		n4 --> n5:intNode;
+		yield { yield n5out = n5; yield n5val = n5.val; }
+		
+		modify {
+		}
+	}
+		
+	modify {
+		:Node<n2>;
+		delete(e);
+		eval { n1.val = n3.val - 3 + 42; }
+	}
+}
+
+
+// test stuff nested nested inside inlined subpattern is generated correctly
+
+rule inline7 
+{
+	n1:intNode;	n3:intNode; n4:intNode;
+	if {
+		n1.val == 1;
+		n3.val == 3;
+		n4.val == 4;
+	}
+	
+	def var val:int;
+	m:Middle7(n1, n3, n4, yield val);
+	
+	modify {
+		m();
+	}
+}
+
+pattern Middle7(n1:intNode, n3:intNode, n4:intNode, def var val:int)
+{
+	n1 --> n2:intNode --> n3 -e:Edge-> n4;
+	if { n2.val == 2; }
+	:Begin(n1);
+	
+	alternative {
+		empty {
+			negative {
+				n4 -->;
+			}
+
+			modify {
+			}
+		}
+		begin {
+			independent {
+				n0:intNode --> n1;
+				yield { yield val = n0.val; }
+			}
+			
+			modify {
+			}
+		}
+	}
+	iterated {
+		n4 --> n5:intNode;
+		alternative {
+			empty2 {
+				modify {
+				}
+			}
+			stuff {
+				n5 -->;
+				modify {
+				}
+			}
+		}
+		
+		modify {
+		}
+	}
+		
+	modify {
+		:Node<n2>;
+		delete(e);
+		eval { n1.val = n3.val - 3 + 42; }
+	}
+}
+
+pattern Begin(n1:intNode)
+{
+	n0:intNode --> n1;
+
+	modify {
+	}
+}
