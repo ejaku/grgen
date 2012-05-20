@@ -964,14 +964,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             patternGraph.PatchUsersOfCopiedElements(nodeToCopy, edgeToCopy, variableToCopy);
 
-            foreach(KeyValuePair<PatternEdge, PatternNode> esn in embeddedGraph.edgeToSourceNode)
-            {
-                patternGraph.edgeToSourceNode.Add(edgeToCopy[esn.Key], nodeToCopy[esn.Value]);
-            }
-            foreach(KeyValuePair<PatternEdge, PatternNode> etn in embeddedGraph.edgeToTargetNode)
-            {
-                patternGraph.edgeToTargetNode.Add(edgeToCopy[etn.Key], nodeToCopy[etn.Value]);
-            }
+            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in embeddedGraph.edgeToSourceNode)
+                patternGraph.edgeToSourceNodePlusInlined.Add(edgeToCopy[edgeAndSource.Key], nodeToCopy[edgeAndSource.Value]);
+            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in embeddedGraph.edgeToTargetNode)
+                patternGraph.edgeToTargetNodePlusInlined.Add(edgeToCopy[edgeAndTarget.Key], nodeToCopy[edgeAndTarget.Value]);
 
             if(embeddedGraph.nodes.Length > 0)
             {
@@ -989,9 +985,8 @@ namespace de.unika.ipd.grGen.lgsp
                     PatternNode nodeParameterCopy = nodeToCopy[nodeParameter];
                     int indexOfArgument = Array.IndexOf(patternGraph.nodesPlusInlined, nodeArgument);
                     int indexOfParameterCopy = Array.IndexOf(patternGraph.nodesPlusInlined, nodeParameterCopy);
-                    int numOldNodes = patternGraph.nodesPlusInlined.Length - embeddedGraph.nodes.Length;
-                    patternGraph.homomorphicNodes[indexOfArgument, numOldNodes + indexOfParameterCopy] = true;
-                    patternGraph.homomorphicNodes[numOldNodes + indexOfParameterCopy, indexOfArgument] = true;
+                    patternGraph.homomorphicNodes[indexOfArgument, indexOfParameterCopy] = true;
+                    patternGraph.homomorphicNodes[indexOfParameterCopy, indexOfArgument] = true;
                 }
             }
 
@@ -1011,9 +1006,8 @@ namespace de.unika.ipd.grGen.lgsp
                     PatternEdge edgeParameterCopy = edgeToCopy[edgeParameter];
                     int indexOfArgument = Array.IndexOf(patternGraph.nodesPlusInlined, edgeArgument);
                     int indexOfParameterCopy = Array.IndexOf(patternGraph.nodesPlusInlined, edgeParameterCopy);
-                    int numOldEdges = patternGraph.edgesPlusInlined.Length - embeddedGraph.edges.Length;
-                    patternGraph.homomorphicEdges[indexOfArgument, numOldEdges + indexOfParameterCopy] = true;
-                    patternGraph.homomorphicEdges[numOldEdges + indexOfParameterCopy, indexOfArgument] = true;
+                    patternGraph.homomorphicEdges[indexOfArgument, indexOfParameterCopy] = true;
+                    patternGraph.homomorphicEdges[indexOfParameterCopy, indexOfArgument] = true;
                 }
             }
 
@@ -1232,6 +1226,8 @@ namespace de.unika.ipd.grGen.lgsp
             PatternNode[] nodes)
         {
             Expression exp = embedding.connections[parameterIndex];
+            if(!(exp is GraphEntityExpression))
+                return null;
             GraphEntityExpression elem = (GraphEntityExpression)exp;
             foreach(PatternNode node in nodes)
             {
@@ -1245,6 +1241,8 @@ namespace de.unika.ipd.grGen.lgsp
             PatternEdge[] edges)
         {
             Expression exp = embedding.connections[parameterIndex];
+            if(!(exp is GraphEntityExpression))
+                return null;
             GraphEntityExpression elem = (GraphEntityExpression)exp;
             foreach(PatternEdge edge in edges)
             {

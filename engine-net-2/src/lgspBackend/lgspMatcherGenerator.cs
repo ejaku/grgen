@@ -446,17 +446,17 @@ namespace de.unika.ipd.grGen.lgsp
                 {
 #if VSTRUCT_VAL_FOR_EDGE_LOOKUP
                     int sourceTypeID;
-                    if(patternGraph.GetSource(edge) != null) sourceTypeID = patternGraph.GetSource(edge).TypeID;
+                    if(patternGraph.GetSourcePlusInlined(edge) != null) sourceTypeID = patternGraph.GetSourcePlusInlined(edge).TypeID;
                     else sourceTypeID = model.NodeModel.RootType.TypeID;
                     int targetTypeID;
-                    if(patternGraph.GetTarget(edge) != null) targetTypeID = patternGraph.GetTarget(edge).TypeID;
+                    if(patternGraph.GetTargetPlusInlined(edge) != null) targetTypeID = patternGraph.GetTargetPlusInlined(edge).TypeID;
                     else targetTypeID = model.NodeModel.RootType.TypeID;
-  #if MONO_MULTIDIMARRAY_WORKAROUND
+#if MONO_MULTIDIMARRAY_WORKAROUND
                     cost = graph.vstructs[((sourceTypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                         + targetTypeID) * 2 + (int) LGSPDir.Out];
-  #else
+#else
                     cost = graph.vstructs[sourceTypeID, edge.TypeID, targetTypeID, (int) LGSPDir.Out];
-  #endif
+#endif
 #elif OPCOST_WITH_GEO_MEAN 
                     cost = graph.edgeLookupCosts[edge.TypeID];
 #else
@@ -467,8 +467,8 @@ namespace de.unika.ipd.grGen.lgsp
                     searchOperationType = SearchOperationType.Lookup;
                 }
                 planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
-                    patternGraph.GetSource(edge)!=null ? patternGraph.GetSource(edge).TempPlanMapping : null,
-                    patternGraph.GetTarget(edge)!=null ? patternGraph.GetTarget(edge).TempPlanMapping : null);
+                    patternGraph.GetSourcePlusInlined(edge) != null ? patternGraph.GetSourcePlusInlined(edge).TempPlanMapping : null,
+                    patternGraph.GetTargetPlusInlined(edge) != null ? patternGraph.GetTargetPlusInlined(edge).TempPlanMapping : null);
                 if(searchOperationType != SearchOperationType.Void)
                 {
                     PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
@@ -492,8 +492,8 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = false;
                 }
                 planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
-                    patternGraph.GetSource(edge)!=null ? patternGraph.GetSource(edge).TempPlanMapping : null,
-                    patternGraph.GetTarget(edge)!=null ? patternGraph.GetTarget(edge).TempPlanMapping : null);
+                    patternGraph.GetSourcePlusInlined(edge)!=null ? patternGraph.GetSourcePlusInlined(edge).TempPlanMapping : null,
+                    patternGraph.GetTargetPlusInlined(edge)!=null ? patternGraph.GetTargetPlusInlined(edge).TempPlanMapping : null);
                 if(isPreset)
                 {
                     PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], 0);
@@ -503,45 +503,45 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                 // only add implicit source operation if edge source is needed and the edge source is not a preset node and not a storage node and not a cast node and not an assigned node
-                if(patternGraph.GetSource(edge) != null 
-                    && !patternGraph.GetSource(edge).TempPlanMapping.IsPreset
-                    && patternGraph.GetSource(edge).Storage == null
-                    && patternGraph.GetSource(edge).StorageAttributeOwner == null
-                    && patternGraph.GetSource(edge).ElementBeforeCasting == null
-                    && patternGraph.GetSource(edge).AssignmentSource == null)
+                if(patternGraph.GetSourcePlusInlined(edge) != null
+                    && !patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IsPreset
+                    && patternGraph.GetSourcePlusInlined(edge).Storage == null
+                    && patternGraph.GetSourcePlusInlined(edge).StorageAttributeOwner == null
+                    && patternGraph.GetSourcePlusInlined(edge).ElementBeforeCasting == null
+                    && patternGraph.GetSourcePlusInlined(edge).AssignmentSource == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
 
 #if OPCOST_WITH_GEO_MEAN 
                     PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        patternGraph.GetSource(edge).TempPlanMapping, 0);
+                        patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, 0);
 #else
                     PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        patternGraph.GetSource(edge).TempPlanMapping, 1);
+                        patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, 1);
 #endif
                     planEdges.Add(implSrcPlanEdge);
-                    patternGraph.GetSource(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
+                    patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
                 // only add implicit target operation if edge target is needed and the edge target is not a preset node and not a storage node and not a cast node and not an assigned node
-                if(patternGraph.GetTarget(edge) != null 
-                    && !patternGraph.GetTarget(edge).TempPlanMapping.IsPreset
-                    && patternGraph.GetTarget(edge).Storage == null
-                    && patternGraph.GetTarget(edge).StorageAttributeOwner == null
-                    && patternGraph.GetTarget(edge).ElementBeforeCasting == null
-                    && patternGraph.GetTarget(edge).AssignmentSource == null)
+                if(patternGraph.GetTargetPlusInlined(edge) != null
+                    && !patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IsPreset
+                    && patternGraph.GetTargetPlusInlined(edge).Storage == null
+                    && patternGraph.GetTargetPlusInlined(edge).StorageAttributeOwner == null
+                    && patternGraph.GetTargetPlusInlined(edge).ElementBeforeCasting == null
+                    && patternGraph.GetTargetPlusInlined(edge).AssignmentSource == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
 #if OPCOST_WITH_GEO_MEAN 
                     PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        patternGraph.GetTarget(edge).TempPlanMapping, 0);
+                        patternGraph.GetTargetPlusInlined(edge).TempPlanMapping, 0);
 #else
                     PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        patternGraph.GetTarget(edge).TempPlanMapping, 1);
+                        patternGraph.GetTargetPlusInlined(edge).TempPlanMapping, 1);
 #endif
                     planEdges.Add(implTgtPlanEdge);
-                    patternGraph.GetTarget(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
+                    patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
                 }
 
                 // edge must only be reachable from other nodes if it's not a preset and not storage determined and not a cast and not an assigned edge
@@ -552,60 +552,60 @@ namespace de.unika.ipd.grGen.lgsp
                     && edge.AssignmentSource == null)
                 {
                     // no outgoing on source node if no source
-                    if(patternGraph.GetSource(edge) != null)
+                    if(patternGraph.GetSourcePlusInlined(edge) != null)
                     {
                         int targetTypeID;
-                        if(patternGraph.GetTarget(edge) != null) targetTypeID = patternGraph.GetTarget(edge).TypeID;
+                        if(patternGraph.GetTargetPlusInlined(edge) != null) targetTypeID = patternGraph.GetTargetPlusInlined(edge).TypeID;
                         else targetTypeID = model.NodeModel.RootType.TypeID;
                         // cost of walking along edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
-                        float normCost = graph.vstructs[((patternGraph.GetSource(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                        float normCost = graph.vstructs[((patternGraph.GetSourcePlusInlined(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                             + targetTypeID) * 2 + (int) LGSPDir.Out];
                         if (!edge.fixedDirection) {
-                            normCost += graph.vstructs[((patternGraph.GetSource(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                            normCost += graph.vstructs[((patternGraph.GetSourcePlusInlined(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                                 + targetTypeID) * 2 + (int)LGSPDir.In];
                         }
 #else
-                        float normCost = graph.vstructs[patternGraph.GetSource(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDir.Out];
+                        float normCost = graph.vstructs[patternGraph.GetSourcePlusInlined(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDir.Out];
                         if (!edge.fixedDirection) {
-                            normCost += graph.vstructs[patternGraph.GetSource(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDir.In];
+                            normCost += graph.vstructs[patternGraph.GetSourcePlusInlined(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDir.In];
                         }
 #endif
-                        if (graph.nodeCounts[patternGraph.GetSource(edge).TypeID] != 0)
-                            normCost /= graph.nodeCounts[patternGraph.GetSource(edge).TypeID];
+                        if(graph.nodeCounts[patternGraph.GetSourcePlusInlined(edge).TypeID] != 0)
+                            normCost /= graph.nodeCounts[patternGraph.GetSourcePlusInlined(edge).TypeID];
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Outgoing : SearchOperationType.Incident;
-                        PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSource(edge).TempPlanMapping, 
+                        PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, 
                             planNodes[nodesIndex], normCost);
                         planEdges.Add(outPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
                     }
 
                     // no incoming on target node if no target
-                    if(patternGraph.GetTarget(edge) != null)
+                    if(patternGraph.GetTargetPlusInlined(edge) != null)
                     {
                         int sourceTypeID;
-                        if(patternGraph.GetSource(edge) != null) sourceTypeID = patternGraph.GetSource(edge).TypeID;
+                        if(patternGraph.GetSourcePlusInlined(edge) != null) sourceTypeID = patternGraph.GetSourcePlusInlined(edge).TypeID;
                         else sourceTypeID = model.NodeModel.RootType.TypeID;
                         // cost of walking in opposite direction of edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
-                        float revCost = graph.vstructs[((patternGraph.GetTarget(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                        float revCost = graph.vstructs[((patternGraph.GetTargetPlusInlined(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                             + sourceTypeID) * 2 + (int) LGSPDir.In];
                         if (!edge.fixedDirection) {
-                            revCost += graph.vstructs[((patternGraph.GetTarget(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                            revCost += graph.vstructs[((patternGraph.GetTargetPlusInlined(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                                 + sourceTypeID) * 2 + (int)LGSPDir.Out];
                         }
 #else
-                        float revCost = graph.vstructs[patternGraph.GetTarget(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDir.In];
+                        float revCost = graph.vstructs[patternGraph.GetTargetPlusInlined(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDir.In];
                         if (!edge.fixedDirection) {
-                            revCost += graph.vstructs[patternGraph.GetTarget(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDir.Out];
+                            revCost += graph.vstructs[patternGraph.GetTargetPlusInlined(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDir.Out];
                         }
 #endif
-                        if (graph.nodeCounts[patternGraph.GetTarget(edge).TypeID] != 0)
-                            revCost /= graph.nodeCounts[patternGraph.GetTarget(edge).TypeID];
+                        if(graph.nodeCounts[patternGraph.GetTargetPlusInlined(edge).TypeID] != 0)
+                            revCost /= graph.nodeCounts[patternGraph.GetTargetPlusInlined(edge).TypeID];
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Incoming : SearchOperationType.Incident;
-                        PlanEdge inPlanEdge = new PlanEdge(operation, patternGraph.GetTarget(edge).TempPlanMapping,
+                        PlanEdge inPlanEdge = new PlanEdge(operation, patternGraph.GetTargetPlusInlined(edge).TempPlanMapping,
                             planNodes[nodesIndex], revCost);
                         planEdges.Add(inPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(inPlanEdge);

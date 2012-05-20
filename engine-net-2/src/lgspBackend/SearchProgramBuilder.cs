@@ -2420,7 +2420,7 @@ namespace de.unika.ipd.grGen.lgsp
                         new CreateInlinedSubpatternMatch(
                             rulePatternClassName, 
                             patternGraph.pathPrefix + patternGraph.name,
-                            patternGraph.embeddedGraphsPlusInlined[i].originalEmbedding.Name,
+                            patternGraph.embeddedGraphsPlusInlined[i].Name,
                             matchOfEnclosingPatternName)
                     );
                 }

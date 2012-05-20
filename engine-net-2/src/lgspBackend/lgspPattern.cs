@@ -192,7 +192,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternVariable[] variablesPlusInlined;
 
         /// <summary>
-        /// Returns the source pattern node of the given edge, null if edge dangles to the left
+        /// Returns the source pattern node of the given edge, null if edge dangles to the left.
         /// </summary>
         public PatternNode GetSource(PatternEdge edge)
         {
@@ -211,7 +211,27 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns the target pattern node of the given edge, null if edge dangles to the right
+        /// Returns the source pattern node of the given edge, null if edge dangles to the left.
+        /// Taking inlined stuff into account.
+        /// </summary>
+        public PatternNode GetSourcePlusInlined(PatternEdge edge)
+        {
+            if (edgeToSourceNodePlusInlined.ContainsKey(edge))
+            {
+                return edgeToSourceNodePlusInlined[edge];
+            }
+
+            if (edge.PointOfDefinition != this
+                && embeddingGraph != null)
+            {
+                return embeddingGraph.GetSourcePlusInlined(edge);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the target pattern node of the given edge, null if edge dangles to the right.
         /// </summary>
         public PatternNode GetTarget(PatternEdge edge)
         {
@@ -230,16 +250,46 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns the target pattern node of the given edge, null if edge dangles to the right.
+        /// Taking inlined stuff into account.
+        /// </summary>
+        public PatternNode GetTargetPlusInlined(PatternEdge edge)
+        {
+            if(edgeToTargetNodePlusInlined.ContainsKey(edge))
+            {
+                return edgeToTargetNodePlusInlined[edge];
+            }
+
+            if(edge.PointOfDefinition != this
+                && embeddingGraph != null)
+            {
+                return embeddingGraph.GetTargetPlusInlined(edge);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Contains the source node of the pattern edges in this graph if specified.
-        /// Including the additional information from inlined stuff.
         /// </summary>
         public Dictionary<PatternEdge, PatternNode> edgeToSourceNode = new Dictionary<PatternEdge,PatternNode>();
-        
+
+        /// <summary>
+        /// Contains the source node of the pattern edges in this graph if specified.
+        /// Plus the additional information from inlined stuff.
+        /// </summary>
+        public Dictionary<PatternEdge, PatternNode> edgeToSourceNodePlusInlined = new Dictionary<PatternEdge, PatternNode>();
+
         /// <summary>
         /// Contains the target node of the pattern edges in this graph if specified.
-        /// Including the additional information from inlined stuff.
         /// </summary>
         public Dictionary<PatternEdge, PatternNode> edgeToTargetNode = new Dictionary<PatternEdge,PatternNode>();
+
+        /// <summary>
+        /// Contains the target node of the pattern edges in this graph if specified.
+        /// Plus the additional information from inlined stuff.
+        /// </summary>
+        public Dictionary<PatternEdge, PatternNode> edgeToTargetNodePlusInlined = new Dictionary<PatternEdge, PatternNode>();
 
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node.
@@ -399,10 +449,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // nodes,edges,variables:
             // werden einfach als referenz übernommen, weil zeigen auf das gleiche parent
-            // die geinlined müssen kopiert werden, zeigen auf neues pattern
+            // diejenigen die geinlined werden müssen kopiert werden, zeigen auf neues pattern
             nodesPlusInlined = (PatternNode[])nodes.Clone();
             edgesPlusInlined = (PatternEdge[])edges.Clone();
             variablesPlusInlined = (PatternVariable[])variables.Clone();
+            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in edgeToSourceNode)
+                edgeToSourceNodePlusInlined.Add(edgeAndSource.Key, edgeAndSource.Value);
+            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in edgeToTargetNode)
+                edgeToTargetNodePlusInlined.Add(edgeAndTarget.Key, edgeAndTarget.Value);
 
             // alternative,iterated,negative,independent als referenz übernommen,
             // existieren nur einmal, deren elemente werden geinlined
@@ -423,6 +477,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Instantiates a new PatternGraph object as a copy from an original pattern graph, used for inlining.
+        /// We create the inlined elements as clones from the original stuff so a maybe already done inlining pass inside a subpattern does not influence us when we inline that subpattern.
         /// </summary>
         /// <param name="original">The original pattern graph to be copy constructed.</param>
         /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
@@ -441,10 +496,10 @@ namespace de.unika.ipd.grGen.lgsp
             isIterationBreaking = original.isIterationBreaking;
 
             nodes = (PatternNode[])original.nodes.Clone();
-            nodesPlusInlined = new PatternNode[original.nodesPlusInlined.Length];
-            for(int i = 0; i < original.nodesPlusInlined.Length; ++i)
+            nodesPlusInlined = new PatternNode[original.nodes.Length];
+            for(int i = 0; i < original.nodes.Length; ++i)
             {
-                PatternNode node = original.nodesPlusInlined[i];
+                PatternNode node = original.nodes[i];
                 if(nodeToCopy.ContainsKey(node))
                 {
                     nodesPlusInlined[i] = nodeToCopy[node];
@@ -452,16 +507,16 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     PatternNode newNode = new PatternNode(node, inlinedSubpatternEmbedding, this, nameSuffix);
-                    nodes[i] = newNode;
+                    nodesPlusInlined[i] = newNode;
                     nodeToCopy[node] = newNode;
                 }
             }
 
             edges = (PatternEdge[])original.edges.Clone();
-            edgesPlusInlined = new PatternEdge[original.edgesPlusInlined.Length];
-            for(int i = 0; i < original.edgesPlusInlined.Length; ++i)
+            edgesPlusInlined = new PatternEdge[original.edges.Length];
+            for(int i = 0; i < original.edges.Length; ++i)
             {
-                PatternEdge edge = original.edgesPlusInlined[i];
+                PatternEdge edge = original.edges[i];
                 if(edgeToCopy.ContainsKey(edge))
                 {
                     edgesPlusInlined[i] = edgeToCopy[edge];
@@ -469,16 +524,16 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     PatternEdge newEdge = new PatternEdge(edge, inlinedSubpatternEmbedding, this, nameSuffix);
-                    edges[i] = newEdge;
+                    edgesPlusInlined[i] = newEdge;
                     edgeToCopy[edge] = newEdge;
                 }
             }
 
             variables = (PatternVariable[])original.variables.Clone();
-            variablesPlusInlined = new PatternVariable[original.variablesPlusInlined.Length];
-            for(int i = 0; i < original.variablesPlusInlined.Length; ++i)
+            variablesPlusInlined = new PatternVariable[original.variables.Length];
+            for(int i = 0; i < original.variables.Length; ++i)
             {
-                PatternVariable variable = original.variablesPlusInlined[i];
+                PatternVariable variable = original.variables[i];
                 if(variableToCopy.ContainsKey(variable))
                 {
                     variablesPlusInlined[i] = variableToCopy[variable];
@@ -486,7 +541,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     PatternVariable newVariable = new PatternVariable(variable, inlinedSubpatternEmbedding, this, nameSuffix);
-                    variables[i] = newVariable;
+                    variablesPlusInlined[i] = newVariable;
                     variableToCopy[variable] = newVariable;
                 }
             }
@@ -494,16 +549,14 @@ namespace de.unika.ipd.grGen.lgsp
             PatchUsersOfCopiedElements(nodeToCopy, edgeToCopy, variableToCopy);
 
 
-            edgeToSourceNode = new Dictionary<PatternEdge,PatternNode>();
-            foreach(KeyValuePair<PatternEdge, PatternNode> esn in original.edgeToSourceNode)
-            {
-                edgeToSourceNode.Add(edgeToCopy[esn.Key], nodeToCopy[esn.Value]);
-            }
-            edgeToTargetNode = new Dictionary<PatternEdge,PatternNode>();
-            foreach(KeyValuePair<PatternEdge, PatternNode> etn in original.edgeToTargetNode)
-            {
-                edgeToTargetNode.Add(edgeToCopy[etn.Key], nodeToCopy[etn.Value]);
-            }
+            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in original.edgeToSourceNode)
+                edgeToSourceNode.Add(edgeAndSource.Key, edgeAndSource.Value);
+            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in original.edgeToTargetNode)
+                edgeToTargetNode.Add(edgeAndTarget.Key, edgeAndTarget.Value);
+            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in original.edgeToSourceNodePlusInlined)
+                edgeToSourceNodePlusInlined.Add(edgeToCopy[edgeAndSource.Key], nodeToCopy[edgeAndSource.Value]);
+            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in original.edgeToTargetNodePlusInlined)
+                edgeToTargetNodePlusInlined.Add(edgeToCopy[edgeAndTarget.Key], nodeToCopy[edgeAndTarget.Value]);
 
             homomorphicNodes = (bool[,])original.homomorphicNodes.Clone();
             homomorphicEdges = (bool[,])original.homomorphicEdges.Clone();
@@ -516,75 +569,83 @@ namespace de.unika.ipd.grGen.lgsp
 
 
             Conditions = (PatternCondition[])original.Conditions.Clone();
-            ConditionsPlusInlined = new PatternCondition[original.ConditionsPlusInlined.Length];
-            for(int i = 0; i < original.ConditionsPlusInlined.Length; ++i)
+            ConditionsPlusInlined = new PatternCondition[original.Conditions.Length];
+            for(int i = 0; i < original.Conditions.Length; ++i)
             {
-                PatternCondition cond = original.ConditionsPlusInlined[i];
+                PatternCondition cond = original.Conditions[i];
                 PatternCondition newCond = new PatternCondition(cond, inlinedSubpatternEmbedding, nameSuffix);
                 ConditionsPlusInlined[i] = newCond;
             }
 
             Yieldings = (PatternYielding[])original.Yieldings.Clone();
-            YieldingsPlusInlined = new PatternYielding[original.YieldingsPlusInlined.Length];
-            for(int i = 0; i < original.YieldingsPlusInlined.Length; ++i)
+            YieldingsPlusInlined = new PatternYielding[original.Yieldings.Length];
+            for(int i = 0; i < original.Yieldings.Length; ++i)
             {
-                PatternYielding yield = original.YieldingsPlusInlined[i];
+                PatternYielding yield = original.Yieldings[i];
                 PatternYielding newYield = new PatternYielding(yield, inlinedSubpatternEmbedding, nameSuffix);
                 YieldingsPlusInlined[i] = newYield;
             }
 
             negativePatternGraphs = (PatternGraph[])original.negativePatternGraphs.Clone();
-            negativePatternGraphsPlusInlined = new PatternGraph[original.negativePatternGraphsPlusInlined.Length];
-            for(int i = 0; i < original.negativePatternGraphsPlusInlined.Length; ++i)
+            negativePatternGraphsPlusInlined = new PatternGraph[original.negativePatternGraphs.Length];
+            for(int i = 0; i < original.negativePatternGraphs.Length; ++i)
             {
-                PatternGraph neg = original.negativePatternGraphsPlusInlined[i];
+                PatternGraph neg = original.negativePatternGraphs[i];
                 PatternGraph newNeg = new PatternGraph(neg, inlinedSubpatternEmbedding, this, nameSuffix,
                     nodeToCopy, edgeToCopy, variableToCopy);
                 negativePatternGraphsPlusInlined[i] = newNeg;
             }
 
             independentPatternGraphs = (PatternGraph[])original.independentPatternGraphs.Clone();
-            independentPatternGraphsPlusInlined = new PatternGraph[original.independentPatternGraphsPlusInlined.Length];
-            for(int i = 0; i < original.independentPatternGraphsPlusInlined.Length; ++i)
+            independentPatternGraphsPlusInlined = new PatternGraph[original.independentPatternGraphs.Length];
+            for(int i = 0; i < original.independentPatternGraphs.Length; ++i)
             {
-                PatternGraph idpt = original.independentPatternGraphsPlusInlined[i];
+                PatternGraph idpt = original.independentPatternGraphs[i];
                 PatternGraph newIdpt = new PatternGraph(idpt, inlinedSubpatternEmbedding, this, nameSuffix,
                     nodeToCopy, edgeToCopy, variableToCopy);
                 independentPatternGraphsPlusInlined[i] = newIdpt;
             }
 
             alternatives = (Alternative[])original.alternatives.Clone();
-            alternativesPlusInlined = new Alternative[original.alternativesPlusInlined.Length];
-            for(int i = 0; i < original.alternativesPlusInlined.Length; ++i)
+            alternativesPlusInlined = new Alternative[original.alternatives.Length];
+            for(int i = 0; i < original.alternatives.Length; ++i)
             {
-                Alternative alt = original.alternativesPlusInlined[i];
+                Alternative alt = original.alternatives[i];
                 Alternative newAlt = new Alternative(alt, inlinedSubpatternEmbedding, this, nameSuffix,
                     nodeToCopy, edgeToCopy, variableToCopy);
                 alternativesPlusInlined[i] = newAlt;
             }
 
             iterateds = (Iterated[])original.iterateds.Clone();
-            iteratedsPlusInlined = new Iterated[original.iteratedsPlusInlined.Length];
-            for(int i = 0; i < original.iteratedsPlusInlined.Length; ++i)
+            iteratedsPlusInlined = new Iterated[original.iterateds.Length];
+            for(int i = 0; i < original.iterateds.Length; ++i)
             {
-                Iterated iter = original.iteratedsPlusInlined[i];
+                Iterated iter = original.iterateds[i];
                 Iterated newIter = new Iterated(iter, inlinedSubpatternEmbedding, this, nameSuffix,
                     nodeToCopy, edgeToCopy, variableToCopy);
                 iteratedsPlusInlined[i] = newIter;
             }
 
             embeddedGraphs = (PatternGraphEmbedding[])original.embeddedGraphs.Clone();
-            embeddedGraphsPlusInlined = new PatternGraphEmbedding[original.embeddedGraphsPlusInlined.Length];
-            for(int i = 0; i < original.embeddedGraphsPlusInlined.Length; ++i)
+            embeddedGraphsPlusInlined = new PatternGraphEmbedding[original.embeddedGraphs.Length];
+            for(int i = 0; i < original.embeddedGraphs.Length; ++i)
             {
-                PatternGraphEmbedding sub = original.embeddedGraphsPlusInlined[i];
+                PatternGraphEmbedding sub = original.embeddedGraphs[i];
                 PatternGraphEmbedding newSub = new PatternGraphEmbedding(sub, this, nameSuffix);
                 embeddedGraphsPlusInlined[i] = newSub;
             }
 
+            embeddingGraph = newHost;
             originalPatternGraph = original;
 
+            maybeNullElementNames = new String[0];
+            schedules = new ScheduledSearchPlan[1];
+            schedulesIncludingNegativesAndIndependents = new ScheduledSearchPlan[1];
+            availabilityOfMaybeNullElements = new Dictionary<String, bool>[1];
+            FillElementsAvailability(new List<PatternElement>(), 0, new Dictionary<String, bool>(), 0);
+
             // TODO: das zeugs das vom analyzer berechnet wird, das bei der konstruktion berechnet wird
+            patternGraphsOnPathToEnclosedPatternpath = new List<string>();
         }
 
         public void PatchUsersOfCopiedElements(
@@ -594,71 +655,71 @@ namespace de.unika.ipd.grGen.lgsp
         {
             foreach(PatternNode node in nodesPlusInlined)
             {
-                if(variableToCopy.ContainsKey(node.Storage))
+                if(node.Storage!=null && variableToCopy.ContainsKey(node.Storage))
                     node.Storage = variableToCopy[node.Storage];
                 if(node.Accessor is PatternNode)
                 {
-                    if(nodeToCopy.ContainsKey((PatternNode)node.Accessor))
+                    if(node.Accessor!=null && nodeToCopy.ContainsKey((PatternNode)node.Accessor))
                         node.Accessor = nodeToCopy[(PatternNode)node.Accessor];
                 }
                 else
                 {
-                    if(edgeToCopy.ContainsKey((PatternEdge)node.Accessor))
+                    if(node.Accessor!=null && edgeToCopy.ContainsKey((PatternEdge)node.Accessor))
                         node.Accessor = edgeToCopy[(PatternEdge)node.Accessor];
                 }
                 if(node.StorageAttributeOwner is PatternNode)
                 {
-                    if(nodeToCopy.ContainsKey((PatternNode)node.StorageAttributeOwner))
+                    if(node.StorageAttributeOwner!=null && nodeToCopy.ContainsKey((PatternNode)node.StorageAttributeOwner))
                         node.StorageAttributeOwner = nodeToCopy[(PatternNode)node.StorageAttributeOwner];
                 }
                 else
                 {
-                    if(edgeToCopy.ContainsKey((PatternEdge)node.StorageAttributeOwner))
+                    if(node.StorageAttributeOwner!=null && edgeToCopy.ContainsKey((PatternEdge)node.StorageAttributeOwner))
                         node.StorageAttributeOwner = edgeToCopy[(PatternEdge)node.StorageAttributeOwner];
                 }
                 if(node.ElementBeforeCasting is PatternNode)
                 {
-                    if(nodeToCopy.ContainsKey((PatternNode)node.ElementBeforeCasting))
+                    if(node.ElementBeforeCasting!=null && nodeToCopy.ContainsKey((PatternNode)node.ElementBeforeCasting))
                         node.ElementBeforeCasting = nodeToCopy[(PatternNode)node.ElementBeforeCasting];
                 }
                 else
                 {
-                    if(edgeToCopy.ContainsKey((PatternEdge)node.ElementBeforeCasting))
+                    if(node.ElementBeforeCasting!=null && edgeToCopy.ContainsKey((PatternEdge)node.ElementBeforeCasting))
                         node.ElementBeforeCasting = edgeToCopy[(PatternEdge)node.ElementBeforeCasting];
                 }
             }
             foreach(PatternEdge edge in edgesPlusInlined)
             {
-                if(variableToCopy.ContainsKey(edge.Storage))
+                if(edge.Storage!=null && variableToCopy.ContainsKey(edge.Storage))
                     edge.Storage = variableToCopy[edge.Storage];
                 if(edge.Accessor is PatternNode)
                 {
-                    if(nodeToCopy.ContainsKey((PatternNode)edge.Accessor))
+                    if(edge.Accessor!=null && nodeToCopy.ContainsKey((PatternNode)edge.Accessor))
                         edge.Accessor = nodeToCopy[(PatternNode)edge.Accessor];
                 }
                 else
                 {
-                    if(edgeToCopy.ContainsKey((PatternEdge)edge.Accessor))
+                    if(edge.Accessor!=null && edgeToCopy.ContainsKey((PatternEdge)edge.Accessor))
                         edge.Accessor = edgeToCopy[(PatternEdge)edge.Accessor];
                 }
                 if(edge.StorageAttributeOwner is PatternNode)
                 {
-                    if(nodeToCopy.ContainsKey((PatternNode)edge.StorageAttributeOwner))
+                    if(edge.StorageAttributeOwner!=null && nodeToCopy.ContainsKey((PatternNode)edge.StorageAttributeOwner))
                         edge.StorageAttributeOwner = nodeToCopy[(PatternNode)edge.StorageAttributeOwner];
                 }
                 else
                 {
-                    if(edgeToCopy.ContainsKey((PatternEdge)edge.StorageAttributeOwner))
+                    if(edge.StorageAttributeOwner!=null && edgeToCopy.ContainsKey((PatternEdge)edge.StorageAttributeOwner))
                         edge.StorageAttributeOwner = edgeToCopy[(PatternEdge)edge.StorageAttributeOwner];
                 }
                 if(edge.ElementBeforeCasting is PatternNode)
                 {
-                    if(nodeToCopy.ContainsKey((PatternNode)edge.ElementBeforeCasting))
+                    if(edge.ElementBeforeCasting!=null && nodeToCopy.ContainsKey((PatternNode)edge.ElementBeforeCasting))
                         edge.ElementBeforeCasting = nodeToCopy[(PatternNode)edge.ElementBeforeCasting];
                 }
                 else
                 {
-                    if(edgeToCopy.ContainsKey((PatternEdge)edge.ElementBeforeCasting))
+                    if(edge.ElementBeforeCasting!=null && edgeToCopy.ContainsKey((PatternEdge)edge.ElementBeforeCasting))
                         edge.ElementBeforeCasting = edgeToCopy[(PatternEdge)edge.ElementBeforeCasting];
                 }
             }
