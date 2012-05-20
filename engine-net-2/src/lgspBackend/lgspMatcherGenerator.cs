@@ -1226,11 +1226,11 @@ exitSecondLoop: ;
                 operations.Add(newOp);
             }
 
-            // insert conditions into the schedule
-            InsertConditionsIntoSchedule(patternGraph.ConditionsPlusInlined, operations);
-
             // insert inlined variable assignments into the schedule
             InsertInlinedVariableAssignmentsIntoSchedule(patternGraph, operations);
+
+            // insert conditions into the schedule
+            InsertConditionsIntoSchedule(patternGraph.ConditionsPlusInlined, operations);
 
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
             return new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
@@ -1251,6 +1251,11 @@ exitSecondLoop: ;
             for (int i = 0; i < ssp.Operations.Length; ++i)
             {
                 if (ssp.Operations[i].Type == SearchOperationType.Condition)
+                {
+                    continue;
+                }
+
+                if(ssp.Operations[i].Type == SearchOperationType.AssignVar)
                 {
                     continue;
                 }
@@ -1666,6 +1671,8 @@ exitSecondLoop: ;
                     neededElements[i][neededNode] = true;
                 foreach (String neededEdge in conditions[i].NeededEdges)
                     neededElements[i][neededEdge] = true;
+                foreach(String neededVariable in conditions[i].NeededVariables)
+                    neededElements[i][neededVariable] = true;
             }
 
             // iterate over all conditions
@@ -1689,6 +1696,16 @@ exitSecondLoop: ;
                     if (LazyNegativeIndependentConditionEvaluation)
                         break;
 
+                    if (op.Type == SearchOperationType.AssignVar)
+                    {
+                        if(neededElements[i].ContainsKey(((PatternVariable)op.Element).Name))
+                        {
+                            costToEnd = op.CostToEnd;
+                            break;
+                        }
+                        continue;
+                    }
+
                     if (neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     {
                         costToEnd = op.CostToEnd;
@@ -1708,7 +1725,7 @@ exitSecondLoop: ;
         {
             // compute the number of inlined parameter variables
             int numInlinedParameterVariables = 0;
-            foreach(PatternVariable var in patternGraph.variables)
+            foreach(PatternVariable var in patternGraph.variablesPlusInlined)
             {
                 if(var.AssignmentSource != null)
                     ++numInlinedParameterVariables;
@@ -1721,7 +1738,7 @@ exitSecondLoop: ;
             Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[numInlinedParameterVariables];
             PatternVariable[] inlinedParameterVariables = new PatternVariable[numInlinedParameterVariables];
             int curInlParamVar = 0;
-            foreach(PatternVariable var in patternGraph.variables)
+            foreach(PatternVariable var in patternGraph.variablesPlusInlined)
             {
                 if(var.AssignmentSource == null)
                     continue;
@@ -2469,7 +2486,7 @@ exitSecondLoop: ;
                 sb.AppendFront("private static " + className + " instance = new " + className + "();\n");
             }
 
-            GenerateIndependentsMatchObjects(sb, rulePatternClassName, patternGraph);
+            GenerateIndependentsMatchObjects(sb, rulePattern, patternGraph);
 
             sb.AppendFront("\n");
         }
@@ -2524,7 +2541,7 @@ exitSecondLoop: ;
                 sb.AppendFront("public " +TypesHelper.TypeName(variable.Type) + " " + variable.name + ";\n");
             }
 
-            GenerateIndependentsMatchObjects(sb, matchingPatternClassName, patternGraph);
+            GenerateIndependentsMatchObjects(sb, matchingPattern, patternGraph);
 
             sb.AppendFront("\n");
         }
@@ -2584,7 +2601,7 @@ exitSecondLoop: ;
     
             foreach (PatternGraph altCase in alternative.alternativeCases)
             {
-                GenerateIndependentsMatchObjects(sb, matchingPattern.GetType().Name, altCase);
+                GenerateIndependentsMatchObjects(sb, matchingPattern, altCase);
             }
 
             sb.AppendFront("\n");
@@ -2655,7 +2672,7 @@ exitSecondLoop: ;
                 sb.AppendFront("public " + TypesHelper.TypeName(variable.Value) + " " + variable.Key + ";\n");
             }
 
-            GenerateIndependentsMatchObjects(sb, matchingPattern.GetType().Name, iter);
+            GenerateIndependentsMatchObjects(sb, matchingPattern, iter);
 
             sb.AppendFront("\n");
         }
@@ -2664,21 +2681,30 @@ exitSecondLoop: ;
         /// Generates match objects of independents (one pre-allocated is part of action class)
         /// </summary>
         private void GenerateIndependentsMatchObjects(SourceBuilder sb,
-            string matchingPatternClassName, PatternGraph patternGraph)
+            LGSPMatchingPattern matchingPatternClass, PatternGraph patternGraph)
         {
             if (patternGraph.nestedIndependents != null)
             {
                 foreach (KeyValuePair<PatternGraph, PatternGraph> nestedIndependent in patternGraph.nestedIndependents)
                 {
-                    sb.AppendFrontFormat("private {0} {1} = new {0}();",
-                        matchingPatternClassName + "." + NamesOfEntities.MatchClassName(nestedIndependent.Key.pathPrefix + nestedIndependent.Key.name),
-                        NamesOfEntities.MatchedIndependentVariable(nestedIndependent.Key.pathPrefix + nestedIndependent.Key.name));
+                    if(nestedIndependent.Key.originalPatternGraph != null)
+                    {
+                        sb.AppendFrontFormat("private {0} {1} = new {0}();",
+                            nestedIndependent.Key.originalSubpatternEmbedding.matchingPatternOfEmbeddedGraph.GetType().Name + "." + NamesOfEntities.MatchClassName(nestedIndependent.Key.originalPatternGraph.pathPrefix + nestedIndependent.Key.originalPatternGraph.name),
+                            NamesOfEntities.MatchedIndependentVariable(nestedIndependent.Key.pathPrefix + nestedIndependent.Key.name));
+                    }
+                    else
+                    {
+                        sb.AppendFrontFormat("private {0} {1} = new {0}();",
+                            matchingPatternClass.GetType().Name + "." + NamesOfEntities.MatchClassName(nestedIndependent.Key.pathPrefix + nestedIndependent.Key.name),
+                            NamesOfEntities.MatchedIndependentVariable(nestedIndependent.Key.pathPrefix + nestedIndependent.Key.name));
+                    }
                 }
             }
 
             foreach (PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
             {
-                GenerateIndependentsMatchObjects(sb, matchingPatternClassName, idpt);
+                GenerateIndependentsMatchObjects(sb, matchingPatternClass, idpt);
             }
         }
 

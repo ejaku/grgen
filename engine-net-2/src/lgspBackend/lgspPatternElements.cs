@@ -557,7 +557,7 @@ namespace de.unika.ipd.grGen.lgsp
             initialization = original.initialization;
             annotations = original.annotations;
             ParameterIndex = original.ParameterIndex;
-            originalVariable = original.originalVariable;
+            originalVariable = original;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding;
         }
     }

@@ -367,9 +367,12 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    insertionPoint = insertionPoint.Append(
-                        new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name)
-                    );
+                    if(var.originalVariable==null) // inlined variables are handled later, cause they may depend on elements matched
+                    {
+                        insertionPoint = insertionPoint.Append(
+                            new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name)
+                        );
+                    }
                 }
             }
 
@@ -2416,10 +2419,12 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(patternGraph.embeddedGraphsPlusInlined[i].inlined)
                 {
+                    LGSPMatchingPattern matchingPattern = patternGraph.embeddedGraphsPlusInlined[i].matchingPatternOfEmbeddedGraph;
+                    string inlinedPatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, true);
                     insertionPoint = insertionPoint.Append(
                         new CreateInlinedSubpatternMatch(
-                            rulePatternClassName, 
-                            patternGraph.pathPrefix + patternGraph.name,
+                            inlinedPatternClassName,
+                            matchingPattern.patternGraph.pathPrefix + matchingPattern.patternGraph.name,
                             patternGraph.embeddedGraphsPlusInlined[i].Name,
                             matchOfEnclosingPatternName)
                     );
@@ -2465,15 +2470,18 @@ namespace de.unika.ipd.grGen.lgsp
                 if(defElements == patternGraph.nodesPlusInlined[i].defToBeYieldedTo)
                 {
                     string inlinedMatchObjectName = null;
-                    if(patternGraph.nodesPlusInlined[i].originalElement != null)
+                    string unprefixedName = patternGraph.nodesPlusInlined[i].UnprefixedName;
+                    if(patternGraph.nodesPlusInlined[i].originalNode != null)
                     {
-                        inlinedMatchObjectName = "match_" + patternGraph.nodesPlusInlined[i].originalSubpatternEmbedding.Name;
+                        if(matchObjectType == MatchObjectType.Normal)
+                            inlinedMatchObjectName = "match_" + patternGraph.nodesPlusInlined[i].originalSubpatternEmbedding.Name;
+                        unprefixedName = patternGraph.nodesPlusInlined[i].originalElement.UnprefixedName;
                     }
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Node,
                             patternGraph.nodesPlusInlined[i].typeName,
-                            patternGraph.nodesPlusInlined[i].UnprefixedName,
+                            unprefixedName,
                             patternGraph.nodesPlusInlined[i].Name,
                             rulePatternClassName,
                             enumPrefix,
@@ -2489,15 +2497,18 @@ namespace de.unika.ipd.grGen.lgsp
                 if(defElements == patternGraph.edgesPlusInlined[i].defToBeYieldedTo)
                 {
                     string inlinedMatchObjectName = null;
-                    if(patternGraph.edgesPlusInlined[i].originalElement != null)
+                    string unprefixedName = patternGraph.edgesPlusInlined[i].UnprefixedName;
+                    if(patternGraph.edgesPlusInlined[i].originalEdge != null)
                     {
-                        inlinedMatchObjectName = "match_" + patternGraph.edgesPlusInlined[i].originalSubpatternEmbedding.Name;
+                        if(matchObjectType == MatchObjectType.Normal)
+                            inlinedMatchObjectName = "match_" + patternGraph.edgesPlusInlined[i].originalSubpatternEmbedding.Name;
+                        unprefixedName = patternGraph.edgesPlusInlined[i].originalElement.UnprefixedName;
                     }
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Edge,
                             patternGraph.edgesPlusInlined[i].typeName,
-                            patternGraph.edgesPlusInlined[i].UnprefixedName,
+                            unprefixedName,
                             patternGraph.edgesPlusInlined[i].Name,
                             rulePatternClassName,
                             enumPrefix,
@@ -2519,15 +2530,18 @@ namespace de.unika.ipd.grGen.lgsp
                 if(defElements == var.defToBeYieldedTo)
                 {
                     string inlinedMatchObjectName = null;
+                    string unprefixedName = var.UnprefixedName;
                     if(var.originalVariable != null)
                     {
-                        inlinedMatchObjectName = "match_" + var.originalSubpatternEmbedding.Name;
+                        if(matchObjectType == MatchObjectType.Normal)
+                            inlinedMatchObjectName = "match_" + var.originalSubpatternEmbedding.Name;
+                        unprefixedName = var.originalVariable.UnprefixedName;
                     }
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Variable,
                             var.Type.Type.FullName,
-                            var.UnprefixedName,
+                            unprefixedName,
                             var.Name,
                             rulePatternClassName,
                             enumPrefix,
@@ -2545,10 +2559,16 @@ namespace de.unika.ipd.grGen.lgsp
 
             for (int i = 0; i < patternGraph.embeddedGraphsPlusInlined.Length; ++i)
             {
+                // skip inlined embeddings
+                if(patternGraph.embeddedGraphsPlusInlined[i].inlined)
+                    continue;
                 string inlinedMatchObjectName = null;
+                string unprefixedName = patternGraph.embeddedGraphsPlusInlined[i].name;
                 if(patternGraph.embeddedGraphsPlusInlined[i].originalEmbedding != null)
                 {
-                    inlinedMatchObjectName = "match_" + patternGraph.embeddedGraphsPlusInlined[i].originalEmbedding.Name;
+                    if(matchObjectType == MatchObjectType.Normal)
+                        inlinedMatchObjectName = "match_" + patternGraph.embeddedGraphsPlusInlined[i].originalEmbedding.Name;
+                    unprefixedName = patternGraph.embeddedGraphsPlusInlined[i].originalEmbedding.name;
                 }
                 string subpatternContainingType = NamesOfEntities.RulePatternClassName(patternGraph.embeddedGraphsPlusInlined[i].EmbeddedGraph.Name, true);
                 string subpatternType = NamesOfEntities.MatchClassName(patternGraph.embeddedGraphsPlusInlined[i].EmbeddedGraph.Name);
@@ -2556,7 +2576,7 @@ namespace de.unika.ipd.grGen.lgsp
                     new BuildMatchObject(
                         BuildMatchObjectType.Subpattern,
                         subpatternContainingType+"."+subpatternType,
-                        patternGraph.embeddedGraphsPlusInlined[i].name,
+                        unprefixedName,
                         patternGraph.embeddedGraphsPlusInlined[i].name,
                         rulePatternClassName,
                         enumPrefix,
@@ -2610,17 +2630,24 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach (KeyValuePair<PatternGraph,PatternGraph> nestedIndependent in patternGraph.nestedIndependents)
                 {
                     string inlinedMatchObjectName = null;
+                    string unprefixedName = nestedIndependent.Key.name;
+                    string inlinedPatternClassName = rulePatternClassName;
+                    string matchClassName = nestedIndependent.Key.pathPrefix + nestedIndependent.Key.name;
                     if(nestedIndependent.Key.originalPatternGraph != null)
                     {
                         inlinedMatchObjectName = "match_" + nestedIndependent.Key.originalSubpatternEmbedding.Name;
+                        unprefixedName = nestedIndependent.Key.originalPatternGraph.Name;
+                        inlinedPatternClassName = nestedIndependent.Key.originalSubpatternEmbedding.matchingPatternOfEmbeddedGraph.GetType().Name;
+                        matchClassName = nestedIndependent.Key.pathPrefix + unprefixedName;
                     }
                     BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Independent,
-                        nestedIndependent.Key.name,
+                        unprefixedName,
                         nestedIndependent.Key.pathPrefix + nestedIndependent.Key.name,
-                        rulePatternClassName,
-                        inlinedMatchObjectName ?? matchObjectName
+                        inlinedPatternClassName,
+                        inlinedMatchObjectName ?? matchObjectName,
+                        matchClassName
                     );
                     insertionPoint = insertionPoint.Append(buildMatch);
                 }
@@ -2868,11 +2895,14 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         String targetName = patternEmbedding.yields[i];
                         String sourceName = patternEmbedding.matchingPatternOfEmbeddedGraph.defNames[i];
+                        IPatternElement elem = getInlinedElementByOriginalUnprefixedName(patternGraph, patternEmbedding, sourceName);
+                        
+                        // find the one which was originating from inlining patternEmbedding, because of same originator
                         bool isVariable = patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i] is VarType;
                         YieldAssignment assignment = new YieldAssignment(
                             targetName,
                             isVariable,
-                            isVariable ? (Expression)new VariableExpression(sourceName) : (Expression)new GraphEntityExpression(sourceName)
+                            isVariable ? (Expression)new VariableExpression(elem.Name) : (Expression)new GraphEntityExpression(elem.Name)
                         );
 
                         SourceBuilder yieldAssignmentSource = new SourceBuilder();
@@ -4477,6 +4507,58 @@ namespace de.unika.ipd.grGen.lgsp
                 return EntityType.Node;
             else //if(type is EdgeType)
                 return EntityType.Edge;
+        }
+
+        /// <summary>
+        /// Returns the element from the pattern graph which was inserted by inlining the patternEmbedding
+        /// and which originally bears the unprefixed name given
+        /// </summary>
+        private IPatternElement getInlinedElementByOriginalUnprefixedName(
+            PatternGraph patternGraph, PatternGraphEmbedding patternEmbedding, string name)
+        {
+            foreach(PatternNode node in patternGraph.nodesPlusInlined)
+            {
+                if(node.originalNode != null)
+                {
+                    foreach(PatternNode embeddedNode in patternEmbedding.matchingPatternOfEmbeddedGraph.patternGraph.nodes)
+                    {
+                        if(node.originalNode == embeddedNode
+                            && embeddedNode.unprefixedName == name)
+                        {
+                            return node;
+                        }
+                    }
+                }
+            }
+            foreach(PatternEdge edge in patternGraph.edgesPlusInlined)
+            {
+                if(edge.originalEdge != null)
+                {
+                    foreach(PatternEdge embeddedEdge in patternEmbedding.matchingPatternOfEmbeddedGraph.patternGraph.edges)
+                    {
+                        if(edge.originalEdge == embeddedEdge
+                            && embeddedEdge.unprefixedName == name)
+                        {
+                            return edge;
+                        }
+                    }
+                }
+            }
+            foreach(PatternVariable var in patternGraph.variablesPlusInlined)
+            {
+                if(var.originalVariable != null)
+                {
+                    foreach(PatternVariable embeddedVar in patternEmbedding.matchingPatternOfEmbeddedGraph.patternGraph.variables)
+                    {
+                        if(var.originalVariable == embeddedVar
+                            && embeddedVar.unprefixedName == name)
+                        {
+                            return var;
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 }

@@ -3273,7 +3273,8 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementUnprefixedName,
             string patternElementName,
             string rulePatternClassName,
-            string matchObjectName)
+            string matchObjectName,
+            string matchClassName)
         {
             Debug.Assert(type == BuildMatchObjectType.Independent);
             Type = type;
@@ -3281,6 +3282,7 @@ namespace de.unika.ipd.grGen.lgsp
             PatternElementName = patternElementName;
             RulePatternClassName = rulePatternClassName;
             MatchObjectName = matchObjectName;
+            MatchClassName = matchClassName;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -3356,7 +3358,7 @@ namespace de.unika.ipd.grGen.lgsp
                     MatchObjectName, matchName, NamesOfEntities.MatchedIndependentVariable(PatternElementName));
                 sourceCode.AppendFrontFormat("{0} = new {1}({0});\n",
                     NamesOfEntities.MatchedIndependentVariable(PatternElementName),
-                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternElementName));
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(MatchClassName));
                 sourceCode.AppendFrontFormat("{0}._{1}.SetMatchOfEnclosingPattern({0});\n",
                     MatchObjectName, matchName);
             }
@@ -3367,6 +3369,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string PatternElementUnprefixedName;
         public string PatternElementName;
         public string RulePatternClassName;
+        public string MatchClassName;
         public string PathPrefixForEnum;
         public string MatchObjectName;
         public int NumSubpatterns;

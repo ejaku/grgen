@@ -1050,7 +1050,6 @@ namespace de.unika.ipd.grGen.lgsp
 
                     if(newNode.pointOfDefinition==null)
                     {
-                        newNode.pointOfDefinition = patternGraph;
                         newNode.AssignmentSource = getBoundNode(embedding, node.ParameterIndex,
                             patternGraph.nodesPlusInlined);
                     }
@@ -1070,7 +1069,6 @@ namespace de.unika.ipd.grGen.lgsp
 
                     if(newEdge.pointOfDefinition==null)
                     {
-                        newEdge.pointOfDefinition = patternGraph;
                         newEdge.AssignmentSource = getBoundEdge(embedding, edge.ParameterIndex,
                             patternGraph.edgesPlusInlined);
                     }
@@ -1088,11 +1086,13 @@ namespace de.unika.ipd.grGen.lgsp
                     newVariables[patternGraph.variablesPlusInlined.Length + i] = newVariable;
                     variableToCopy[variable] = newVariable;
 
-                    if(newVariable.pointOfDefinition==null)
+                    if(variable.pointOfDefinition==null)
                     {
-                        newVariable.pointOfDefinition = patternGraph;
-                        newVariable.AssignmentSource = embedding.connections[variable.ParameterIndex];
-                        newVariable.AssignmentDependencies = embedding;
+                        if(!variable.defToBeYieldedTo)
+                        {
+                            newVariable.AssignmentSource = embedding.connections[variable.ParameterIndex];
+                            newVariable.AssignmentDependencies = embedding;
+                        }
                     }
                 }
                 patternGraph.variablesPlusInlined = newVariables;
