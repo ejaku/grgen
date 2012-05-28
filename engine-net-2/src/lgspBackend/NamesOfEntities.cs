@@ -195,6 +195,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case BuildMatchObjectType.Edge: return "edge_" + unprefixedElementName;
                 case BuildMatchObjectType.Variable: return "var_" + unprefixedElementName;
                 case BuildMatchObjectType.Subpattern: return unprefixedElementName;
+                case BuildMatchObjectType.InlinedSubpattern: return unprefixedElementName;
                 case BuildMatchObjectType.Iteration: return unprefixedElementName;
                 case BuildMatchObjectType.Alternative: return unprefixedElementName;
                 case BuildMatchObjectType.Independent: return unprefixedElementName;

@@ -1,0 +1,25 @@
+new graph "transkriptionReducedForConnectedness\Transkription"
+
+debug set layout Organic
+
+xgrs createDNAChain
+
+show num nodes C
+show num nodes H
+show num nodes O
+show num nodes N
+show num nodes P
+show num nodes Beg
+show num nodes End
+
+xgrs Transkription
+
+show num nodes C
+show num nodes H
+show num nodes O
+show num nodes N
+show num nodes P
+show num nodes Beg
+show num nodes End
+
+quit

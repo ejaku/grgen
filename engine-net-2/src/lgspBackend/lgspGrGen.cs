@@ -6,6 +6,7 @@
  */
 
 //#define NO_EDGE_LOOKUP
+//#define DUMP_PATTERNS
 
 using System;
 using System.Collections.Generic;
@@ -238,6 +239,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(node.AssignmentSource != null)
                 {
+                    // TODO: ever reached?
                     cost = 0;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the assignment source  is needed, so there is no lookup like operation
@@ -315,6 +317,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(edge.AssignmentSource != null)
                 {
+                    // TODO: ever reached?
                     cost = 0;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the assignment source  is needed, so there is no lookup like operation
@@ -995,7 +998,23 @@ namespace de.unika.ipd.grGen.lgsp
 
                 foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {
+#if DUMP_PATTERNS
+                    // dump patterns for debugging - first original version without inlining
+                    SourceBuilder builder = new SourceBuilder(true);
+                    matchingPattern.patternGraph.DumpOriginal(builder);
+                    StreamWriter writer = new StreamWriter(matchingPattern.name + "_pattern_dump.txt");
+                    writer.Write(builder.ToString());
+#endif
+
                     analyzer.InlineSubpatternUsages(matchingPattern.patternGraph);
+
+#if DUMP_PATTERNS
+                    // - then inlined version
+                    builder = new SourceBuilder(true);
+                    matchingPattern.patternGraph.DumpInlined(builder);
+                    writer.Write(builder.ToString());
+                    writer.Close();
+#endif
                 }
 
                 // hardcore/ugly parameterization for inlined case, working on inlined members in inlined pass, and original members on original pass

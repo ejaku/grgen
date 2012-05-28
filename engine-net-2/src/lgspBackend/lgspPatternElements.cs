@@ -397,6 +397,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternEdge(PatternEdge original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
             : base(original, inlinedSubpatternEmbedding, newHost, nameSuffix)
         {
+            fixedDirection = original.fixedDirection;
         }
 
         /// <summary>
@@ -824,6 +825,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternGraphEmbedding originalEmbedding;
 
+        /// <summary>
+        /// Links to the original subpattern embedding which was inlined in case this alternative was inlined, otherwise null.
+        /// </summary>
+        public PatternGraphEmbedding originalSubpatternEmbedding;
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -860,13 +866,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new pattern graph embedding object as a copy from an original embedding, used for inlining.
         /// </summary>
         /// <param name="original">The original embedding to be copy constructed.</param>
+        /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new embedding will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the embedding (to avoid name collisions).</param>
         /// Elements were already copied in the containing pattern(s), their copies have to be reused here.
-        public PatternGraphEmbedding(PatternGraphEmbedding original, PatternGraph newHost, String nameSuffix)
+        public PatternGraphEmbedding(PatternGraphEmbedding original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
         {
             PointOfDefinition = newHost;
             name = original.name + nameSuffix;
+            originalSubpatternEmbedding = inlinedSubpatternEmbedding;
             matchingPatternOfEmbeddedGraph = original.matchingPatternOfEmbeddedGraph;
             annotations = original.annotations;
             connections = new Expression[original.connections.Length];
@@ -961,14 +969,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newHost">The pattern graph the new alternative will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the alternative and its elements (to avoid name collisions).</param>
         /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
-        public Alternative(Alternative original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix,
+        public Alternative(Alternative original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix, String pathPrefix_,
             Dictionary<PatternNode, PatternNode> nodeToCopy,
             Dictionary<PatternEdge, PatternEdge> edgeToCopy,
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
             name = original.name + nameSuffix;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding; 
-            pathPrefix = original.pathPrefix; // ohoh
+            pathPrefix = pathPrefix_;
 
             alternativeCases = new PatternGraph[original.alternativeCases.Length];
             for(int i = 0; i < original.alternativeCases.Length; ++i)

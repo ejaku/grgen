@@ -1175,7 +1175,7 @@ exitSecondLoop: ;
             // first schedule all preset elements
             foreach (SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
             {
-                if (edge.Target.IsPreset)
+                if (edge.Target.IsPreset && edge.Type!=SearchOperationType.DefToBeYieldedTo)
                 {
                     foreach (SearchPlanEdge edgeOutgoingFromPresetElement in edge.Target.OutgoingEdges)
                         activeEdges.Add(edgeOutgoingFromPresetElement);
@@ -1348,7 +1348,9 @@ exitSecondLoop: ;
                 // only check operations computing nodes or edges
                 if (ssp.Operations[i].Type == SearchOperationType.Condition
                     || ssp.Operations[i].Type == SearchOperationType.NegativePattern
-                    || ssp.Operations[i].Type == SearchOperationType.IndependentPattern)
+                    || ssp.Operations[i].Type == SearchOperationType.IndependentPattern
+                    || ssp.Operations[i].Type == SearchOperationType.Assign
+                    || ssp.Operations[i].Type == SearchOperationType.AssignVar)
                 {
                     continue;
                 }
@@ -1456,7 +1458,9 @@ exitSecondLoop: ;
                 // only check operations computing nodes or edges
                 if (ssp.Operations[i].Type == SearchOperationType.Condition
                     || ssp.Operations[i].Type == SearchOperationType.NegativePattern
-                    || ssp.Operations[i].Type == SearchOperationType.IndependentPattern)
+                    || ssp.Operations[i].Type == SearchOperationType.IndependentPattern
+                    || ssp.Operations[i].Type == SearchOperationType.Assign 
+                    || ssp.Operations[i].Type == SearchOperationType.AssignVar)
                 {
                     continue;
                 }
@@ -1727,7 +1731,7 @@ exitSecondLoop: ;
             int numInlinedParameterVariables = 0;
             foreach(PatternVariable var in patternGraph.variablesPlusInlined)
             {
-                if(var.AssignmentSource != null)
+                if(var.AssignmentSource != null && patternGraph.WasInlinedHere(var.originalSubpatternEmbedding))
                     ++numInlinedParameterVariables;
             }
 
@@ -1741,6 +1745,8 @@ exitSecondLoop: ;
             foreach(PatternVariable var in patternGraph.variablesPlusInlined)
             {
                 if(var.AssignmentSource == null)
+                    continue;
+                if(!patternGraph.WasInlinedHere(var.originalSubpatternEmbedding))
                     continue;
 
                 neededElements[curInlParamVar] = new Dictionary<string, bool>();
@@ -2328,7 +2334,7 @@ exitSecondLoop: ;
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
             SourceBuilder builder = new SourceBuilder(CommentSourceCode);
-            searchProgram.Dump(builder);
+            searchProgramRoot.Dump(builder);
             StreamWriter writer = new StreamWriter(matchingPattern.name + "_" + searchProgramRoot.Name + "_built_dump.txt");
             writer.Write(builder.ToString());
             writer.Close();

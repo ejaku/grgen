@@ -1,0 +1,151 @@
+using Transkription;
+
+rule Transkription
+{
+	pLink:P;
+	b:DNAChainBegin(pLink); 
+	c:DNAChain(pLink); 
+	
+	modify {
+		oOfNext:O; 
+		b(oOfNext); 
+		c(oOfNext); 
+	}
+}
+
+pattern DNAChainBegin(pOfNext:P) modify(oOfNext:O)
+{
+	c5:Beg --> :O --> pOfNext; 
+	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+
+	modify {
+		rep_c1:C; 
+		:RNAChainBegin(oOfNext, rep_c1); 
+	}
+}
+
+pattern DNAChain(pOfPrev:P) modify(oOfPrev:O)
+{
+	alternative {
+		Chain {
+			e:DNAChainElement(pOfPrev, pOfNext); 
+			pOfNext:P; // test is for checking whether this phosphor atom is handled correctly
+			c:DNAChain(pOfNext); 
+
+			modify {
+				e(oOfPrev, oOfNext); 
+				oOfNext:O;
+				c(oOfNext); 
+			}
+		}
+		End {
+			f:DNAChainEnd(pOfPrev); 
+
+			modify {
+				f(oOfPrev); 
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+pattern DNAChainElement(pOfPrev:P, pOfNext:P) modify(oOfPrev:O, oOfNext:O)
+{
+	pOfPrev --> :O --> pOfNext; 
+	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+
+	modify {
+		:RNAChainElement(oOfPrev, oOfNext, rep_c1); 
+		rep_c1:C;
+	}
+}
+
+pattern DNAChainEnd(pOfPrev:P) modify(oOfPrev:O)
+{
+	pOfPrev --> :O --> c3:End;
+
+	modify {
+		:RNAChainEnd(oOfPrev, rep_c1); 
+		rep_c1:C;
+	}    
+}
+
+pattern RNAChainElement(oOfPrev:O, oOfNext:O, c1:C)
+{
+	oOfPrev --> p:P; 
+	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> :O --> c5; 
+	
+	// Ribose core
+	o:O --> c1 --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :O --> :H; 
+
+	c3 --> oOfNext; 
+}
+
+pattern RNAChainBegin(oOfNext:O, c1:C)
+{
+	p:P --> :O --> :H; 
+	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> :O --> c5; 
+
+	// Ribose core
+	o:O --> c1 --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :O --> :H; 
+
+	c3 --> oOfNext; 
+}
+
+pattern RNAChainEnd(oOfPrev:O, c1:C)
+{
+	oOfPrev --> p:P; 
+	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> :O --> c5; 
+
+	// Ribose core
+	o:O --> c1 --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :O --> :H; 
+
+	c3 --> :O --> :H; 
+}
+
+pattern DNAChainBeginW(pOfNext:P)
+{
+	c5:Beg --> :O --> pOfNext; 
+	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+}
+
+pattern DNAChainElementW(pOfPrev:P, pOfNext:P)
+{
+	pOfPrev --> :O --> pOfNext; 
+	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+}
+
+pattern DNAChainEndW(pOfPrev:P)
+{
+	pOfPrev --> :O --> c3:End;
+}
+
+rule createDNAChain
+{
+	replace {
+		:DNAChainBeginW(pLink1);
+		pLink1:P;
+		:DNAChainElementW(pLink1, pLink2);
+		pLink2:P;
+		:DNAChainElementW(pLink2, pLink3);
+		pLink3:P;
+		:DNAChainEndW(pLink3);
+	}
+}

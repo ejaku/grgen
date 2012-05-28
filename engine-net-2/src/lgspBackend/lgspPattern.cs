@@ -453,8 +453,10 @@ namespace de.unika.ipd.grGen.lgsp
             nodesPlusInlined = (PatternNode[])nodes.Clone();
             edgesPlusInlined = (PatternEdge[])edges.Clone();
             variablesPlusInlined = (PatternVariable[])variables.Clone();
+            edgeToSourceNodePlusInlined.Clear();
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in edgeToSourceNode)
                 edgeToSourceNodePlusInlined.Add(edgeAndSource.Key, edgeAndSource.Value);
+            edgeToTargetNodePlusInlined.Clear();
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in edgeToTargetNode)
                 edgeToTargetNodePlusInlined.Add(edgeAndTarget.Key, edgeAndTarget.Value);
 
@@ -485,10 +487,21 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern graph and its elements (to avoid name collisions).</param>
         /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
         public PatternGraph(PatternGraph original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix,
-            Dictionary<PatternNode, PatternNode> nodeToCopy,
-            Dictionary<PatternEdge, PatternEdge> edgeToCopy,
-            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+            Dictionary<PatternNode, PatternNode> nodeToCopy_,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy_,
+            Dictionary<PatternVariable, PatternVariable> variableToCopy_)
         {
+            // changes should be visible top-down, but not for siblings or parents, so we add to/use clones 
+            Dictionary<PatternNode, PatternNode> nodeToCopy = new Dictionary<PatternNode,PatternNode>(nodeToCopy_.Count);
+            foreach(KeyValuePair<PatternNode, PatternNode> kvp in nodeToCopy_)
+                nodeToCopy.Add(kvp.Key, kvp.Value);
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy = new Dictionary<PatternEdge,PatternEdge>(edgeToCopy_.Count);
+            foreach(KeyValuePair<PatternEdge, PatternEdge> kvp in edgeToCopy_)
+                edgeToCopy.Add(kvp.Key, kvp.Value);
+            Dictionary<PatternVariable, PatternVariable> variableToCopy = new Dictionary<PatternVariable, PatternVariable>(variableToCopy_.Count);
+            foreach(KeyValuePair<PatternVariable, PatternVariable> kvp in variableToCopy_)
+                variableToCopy.Add(kvp.Key, kvp.Value);
+            
             name = original.name + nameSuffix;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding;
             pathPrefix = original.pathPrefix;
@@ -553,9 +566,9 @@ namespace de.unika.ipd.grGen.lgsp
                 edgeToSourceNode.Add(edgeAndSource.Key, edgeAndSource.Value);
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in original.edgeToTargetNode)
                 edgeToTargetNode.Add(edgeAndTarget.Key, edgeAndTarget.Value);
-            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in original.edgeToSourceNodePlusInlined)
+            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in original.edgeToSourceNode)
                 edgeToSourceNodePlusInlined.Add(edgeToCopy[edgeAndSource.Key], nodeToCopy[edgeAndSource.Value]);
-            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in original.edgeToTargetNodePlusInlined)
+            foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in original.edgeToTargetNode)
                 edgeToTargetNodePlusInlined.Add(edgeToCopy[edgeAndTarget.Key], nodeToCopy[edgeAndTarget.Value]);
 
             homomorphicNodes = (bool[,])original.homomorphicNodes.Clone();
@@ -611,7 +624,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < original.alternatives.Length; ++i)
             {
                 Alternative alt = original.alternatives[i];
-                Alternative newAlt = new Alternative(alt, inlinedSubpatternEmbedding, this, nameSuffix,
+                Alternative newAlt = new Alternative(alt, inlinedSubpatternEmbedding, this, nameSuffix, this.pathPrefix + this.name + "_",
                     nodeToCopy, edgeToCopy, variableToCopy);
                 alternativesPlusInlined[i] = newAlt;
             }
@@ -631,7 +644,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < original.embeddedGraphs.Length; ++i)
             {
                 PatternGraphEmbedding sub = original.embeddedGraphs[i];
-                PatternGraphEmbedding newSub = new PatternGraphEmbedding(sub, this, nameSuffix);
+                PatternGraphEmbedding newSub = new PatternGraphEmbedding(sub, inlinedSubpatternEmbedding, this, nameSuffix);
                 embeddedGraphsPlusInlined[i] = newSub;
             }
 
@@ -994,6 +1007,118 @@ namespace de.unika.ipd.grGen.lgsp
         /// direct or indirect recursion on it including a negative/independent which gets passed.
         /// </summary>
         public int maxNegLevel = 0;
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public bool WasInlinedHere(PatternGraphEmbedding embedding)
+        {
+            for(int i = 0; i < embeddedGraphsPlusInlined.Length; ++i)
+            {
+                if(embeddedGraphsPlusInlined[i] == embedding)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void DumpOriginal(SourceBuilder sb)
+        {
+            sb.AppendFrontFormat("PatternGraph {0}: {1}\n", GetObjectId(this), name);
+            sb.Indent();
+
+            foreach(PatternNode node in nodesPlusInlined)
+                sb.AppendFrontFormat("{0}: {1}, pod: {2}\n", GetObjectId(node), node.name, GetObjectId(node.pointOfDefinition));
+            foreach(PatternEdge edge in edgesPlusInlined)
+                sb.AppendFrontFormat("{0}: {1}, pod: {2}\n", GetObjectId(edge), edge.name, GetObjectId(edge.pointOfDefinition));
+            foreach(PatternVariable var in variablesPlusInlined)
+                sb.AppendFrontFormat("{0}: {1}, pod: {2}\n", GetObjectId(var), var.name, GetObjectId(var.pointOfDefinition));
+
+            foreach(PatternGraphEmbedding sub in embeddedGraphsPlusInlined)
+            {
+                sb.AppendFrontFormat("sub {0}: {1} of {2}, pod: {3}\n", GetObjectId(sub), sub.name, GetObjectId(sub.matchingPatternOfEmbeddedGraph.patternGraph), GetObjectId(sub.PointOfDefinition));
+            }
+
+            foreach(PatternGraph neg in negativePatternGraphsPlusInlined)
+            {
+                sb.AppendFrontFormat("neg {0}: {1}, parent: {2}\n", GetObjectId(neg), neg.name, GetObjectId(neg.embeddingGraph));
+                neg.DumpOriginal(sb);
+            }
+            foreach(PatternGraph idpt in independentPatternGraphsPlusInlined)
+            {
+                sb.AppendFrontFormat("idpt {0}: {1}, parent: {2}\n", GetObjectId(idpt), idpt.name, GetObjectId(idpt.embeddingGraph));
+                idpt.DumpOriginal(sb);
+            }
+
+            foreach(Alternative alt in alternativesPlusInlined)
+            {
+                sb.AppendFrontFormat("alt {0}: {1}\n", GetObjectId(alt), alt.name);
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    altCase.DumpOriginal(sb);
+                }
+            }
+            foreach(Iterated iter in iteratedsPlusInlined)
+            {
+                sb.AppendFrontFormat("iter {0}: {1}\n", GetObjectId(iter), iter.iteratedPattern.name);
+                iter.iteratedPattern.DumpOriginal(sb);
+            }
+
+            sb.Unindent();
+        }
+
+        public void DumpInlined(SourceBuilder sb)
+        {
+            sb.AppendFrontFormat("PatternGraph {0}: {1}\n", GetObjectId(this), name);
+            sb.Indent();
+
+            foreach(PatternNode node in nodesPlusInlined)
+                sb.AppendFrontFormat("{0}: {1}, pod: {2}, ori: {3}, ori-embed: {4}\n", GetObjectId(node), node.name, GetObjectId(node.pointOfDefinition), GetObjectId(node.originalNode), GetObjectId(node.originalSubpatternEmbedding));
+            foreach(PatternEdge edge in edgesPlusInlined)
+                sb.AppendFrontFormat("{0}: {1}, pod: {2}, ori: {3}, ori-embed: {4}\n", GetObjectId(edge), edge.name, GetObjectId(edge.pointOfDefinition), GetObjectId(edge.originalEdge), GetObjectId(edge.originalSubpatternEmbedding));
+            foreach(PatternVariable var in variablesPlusInlined)
+                sb.AppendFrontFormat("{0}: {1}, pod: {2}, ori: {3}, ori-embed: {4}\n", GetObjectId(var), var.name, GetObjectId(var.pointOfDefinition), GetObjectId(var.originalVariable), GetObjectId(var.originalSubpatternEmbedding));
+
+            foreach(PatternGraphEmbedding sub in embeddedGraphsPlusInlined)
+            {
+                sb.AppendFrontFormat("sub {0}: {1} of {2}, pod: {3}, ori: {4}, ori-embed: {5} inlined: {6}\n", GetObjectId(sub), sub.name, GetObjectId(sub.matchingPatternOfEmbeddedGraph.patternGraph), GetObjectId(sub.PointOfDefinition), GetObjectId(sub.originalEmbedding), GetObjectId(sub.originalSubpatternEmbedding), sub.inlined);
+            }
+
+            foreach(PatternGraph neg in negativePatternGraphsPlusInlined)
+            {
+                sb.AppendFrontFormat("neg {0}: {1}, parent: {2}, ori: {3}, ori-embed: {4}\n", GetObjectId(neg), neg.name, GetObjectId(neg.embeddingGraph), GetObjectId(neg.originalPatternGraph), GetObjectId(neg.originalSubpatternEmbedding));
+                neg.DumpInlined(sb);
+            }
+            foreach(PatternGraph idpt in independentPatternGraphsPlusInlined)
+            {
+                sb.AppendFrontFormat("idpt {0}: {1}, parent: {2}, ori: {3}, ori-embed: {4}\n", GetObjectId(idpt), idpt.name, GetObjectId(idpt.embeddingGraph), GetObjectId(idpt.originalPatternGraph), GetObjectId(idpt.originalSubpatternEmbedding));
+                idpt.DumpInlined(sb);
+            }
+
+            foreach(Alternative alt in alternativesPlusInlined)
+            {
+                sb.AppendFrontFormat("alt {0}: {1}, ori: {2}, ori-embed: {3}\n", GetObjectId(alt), alt.name, GetObjectId(alt.originalAlternative), GetObjectId(alt.originalSubpatternEmbedding));
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    altCase.DumpInlined(sb);
+                }
+            }
+            foreach(Iterated iter in iteratedsPlusInlined)
+            {
+                sb.AppendFrontFormat("iter {0}: {1}, ori: {2}, ori-embed: {3}\n", GetObjectId(iter), iter.iteratedPattern.name, GetObjectId(iter.originalIterated), GetObjectId(iter.originalSubpatternEmbedding));
+                iter.iteratedPattern.DumpInlined(sb);
+            }
+
+            sb.Unindent();
+        }
+
+        private string GetObjectId(object obj)
+        {
+            if(obj != null)
+                return String.Format("0x{0:X}", obj.GetHashCode());
+            else
+                return "0x00000000";
+        }
     }
 
 

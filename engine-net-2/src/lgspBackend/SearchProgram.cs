@@ -290,7 +290,7 @@ namespace de.unika.ipd.grGen.lgsp
             OperationsList.Emit(sourceCode);
 
 #if ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
-            sourceCode.AppendFront("graph.EnsureEmptyFlags();\n");
+            sourceCode.AppendFront("graph.CheckEmptyFlags();\n");
 #endif
             sourceCode.AppendFront("return matches;\n");
             sourceCode.Unindent();
@@ -1341,7 +1341,7 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.AppendFormat("on {0} of {1} from {2} implicit node type:{3}\n",
                     PatternElementName, PatternElementTypeName, 
                     StartingPointEdgeName, NodeType.ToString());
-            } if(Type==GetCandidateByDrawingType.MapWithStorage) {
+            } else if(Type==GetCandidateByDrawingType.MapWithStorage) {
                 builder.Append("MapWithStorage ");
                 builder.AppendFormat("on {0} by {1} from {2} node:{3}\n",
                     PatternElementName, SourcePatternElementName, 
@@ -1656,15 +1656,25 @@ namespace de.unika.ipd.grGen.lgsp
             string rulePatternTypeNameOrTypeName,
             bool isNode)
         {
+            Debug.Assert(type == CheckCandidateForTypeType.ByIsMyType);
             Type = type;
             PatternElementName = patternElementName;
-            if (type == CheckCandidateForTypeType.ByIsAllowedType) {
-                RulePatternTypeName = rulePatternTypeNameOrTypeName;
-            } else if (type == CheckCandidateForTypeType.ByIsMyType) {
-                TypeName = rulePatternTypeNameOrTypeName;
-            } else { // CheckCandidateForTypeType.ByTypeID
-                Debug.Assert(false);
-            }
+            TypeName = rulePatternTypeNameOrTypeName;
+            IsNode = isNode;
+        }
+
+        public CheckCandidateForType(
+            CheckCandidateForTypeType type,
+            string patternElementName,
+            string rulePatternTypeNameOrTypeName,
+            string isAllowedArrayName,
+            bool isNode)
+        {
+            Debug.Assert(type == CheckCandidateForTypeType.ByIsAllowedType);
+            Type = type;
+            PatternElementName = patternElementName;
+            RulePatternTypeName = rulePatternTypeNameOrTypeName;
+            IsAllowedArrayName = isAllowedArrayName;
             IsNode = isNode;
         }
 
@@ -1715,7 +1725,7 @@ namespace de.unika.ipd.grGen.lgsp
             if (Type == CheckCandidateForTypeType.ByIsAllowedType)
             {
                 string isAllowedTypeArrayMemberOfRulePattern =
-                    PatternElementName + "_IsAllowedType";
+                    IsAllowedArrayName + "_IsAllowedType";
                 sourceCode.AppendFrontFormat("if(!{0}.{1}[{2}.lgspType.TypeID]) ",
                     RulePatternTypeName, isAllowedTypeArrayMemberOfRulePattern,
                     variableContainingCandidate);
@@ -1750,6 +1760,7 @@ namespace de.unika.ipd.grGen.lgsp
         public CheckCandidateForTypeType Type;
 
         public string RulePatternTypeName; // only valid if ByIsAllowedType
+        public string IsAllowedArrayName; // only valid if ByIsAllowedType
         public string TypeName; // only valid if ByIsMyType
         public string[] TypeIDs; // only valid if ByTypeID
 
@@ -3237,6 +3248,7 @@ namespace de.unika.ipd.grGen.lgsp
         Edge,        // build match object with match for edge
         Variable,    // build match object with match for variable
         Subpattern,  // build match object with match for subpattern
+        InlinedSubpattern, // build match object with match of an inlined subpattern
         Iteration,   // build match object with match for iteration
         Alternative, // build match object with match for alternative
         Independent  // build match object with match for independent
@@ -3290,14 +3302,15 @@ namespace de.unika.ipd.grGen.lgsp
             string typeDescr;
             switch(Type)
             {
-                case BuildMatchObjectType.Node:        typeDescr = "Node";        break;
-                case BuildMatchObjectType.Edge:        typeDescr = "Edge";        break;
-                case BuildMatchObjectType.Variable:    typeDescr = "Variable";    break;
-                case BuildMatchObjectType.Subpattern:  typeDescr = "Subpattern";  break;
-                case BuildMatchObjectType.Iteration:   typeDescr = "Iteration";   break;
-                case BuildMatchObjectType.Alternative: typeDescr = "Alternative"; break;
-                case BuildMatchObjectType.Independent: typeDescr = "Independent"; break;
-                default:                               typeDescr = ">>UNKNOWN<<"; break;
+                case BuildMatchObjectType.Node:              typeDescr = "Node";        break;
+                case BuildMatchObjectType.Edge:              typeDescr = "Edge";        break;
+                case BuildMatchObjectType.Variable:          typeDescr = "Variable";    break;
+                case BuildMatchObjectType.Subpattern:        typeDescr = "Subpattern";  break;
+                case BuildMatchObjectType.InlinedSubpattern: typeDescr = "InlinedSubpattern"; break;
+                case BuildMatchObjectType.Iteration:         typeDescr = "Iteration"; break;
+                case BuildMatchObjectType.Alternative:       typeDescr = "Alternative"; break;
+                case BuildMatchObjectType.Independent:       typeDescr = "Independent"; break;
+                default:                                     typeDescr = ">>UNKNOWN<<"; break;
             }
 
             builder.AppendFrontFormat("BuildMatchObject {0} name {1} with {2} within {3}\n",
@@ -3325,6 +3338,11 @@ namespace de.unika.ipd.grGen.lgsp
                     MatchObjectName, matchName, PatternElementType);
                 sourceCode.AppendFrontFormat("{0}._{1}._matchOfEnclosingPattern = {0};\n",
                     MatchObjectName, matchName);
+            }
+            else if(Type == BuildMatchObjectType.InlinedSubpattern)
+            {
+                sourceCode.AppendFrontFormat("{0}._{1} = match_{2};\n",
+                    MatchObjectName, matchName, PatternElementName);
             }
             else if(Type == BuildMatchObjectType.Iteration)
             {
@@ -4039,7 +4057,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if (ReturnMatches)
                 {
 #if ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
-                    sourceCode.AppendFront("graph.EnsureEmptyFlags();\n");
+                    sourceCode.AppendFront("graph.CheckEmptyFlags();\n");
 #endif
                     sourceCode.AppendFront("return matches;\n");
                 }
@@ -4304,6 +4322,8 @@ namespace de.unika.ipd.grGen.lgsp
             string pathPrefix,
             string alternativeOrIteratedName,
             string rulePatternClassName,
+            string pathPrefixInRulePatternClass,
+            string alternativeNameInRulePatternClass,
             string[] connectionName,
             string[] argumentExpressions,
             string negativeIndependentNamePrefix,
@@ -4318,6 +4338,8 @@ namespace de.unika.ipd.grGen.lgsp
             PathPrefix = pathPrefix;
             AlternativeOrIteratedName = alternativeOrIteratedName;
             RulePatternClassName = rulePatternClassName;
+            PathPrefixInRulePatternClass = pathPrefixInRulePatternClass;
+            AlternativeNameInRulePatternClass = alternativeNameInRulePatternClass;
 
             ConnectionName = connectionName;
             ArgumentExpressions = argumentExpressions;
@@ -4381,12 +4403,12 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
                 string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, true, false);
                 string patternGraphPath = RulePatternClassName + ".Instance.";
-                if(RulePatternClassName.Substring(RulePatternClassName.IndexOf('_')+1) == PathPrefix.Substring(0, PathPrefix.Length-1))
+                if(RulePatternClassName.Substring(RulePatternClassName.IndexOf('_')+1) == PathPrefixInRulePatternClass.Substring(0, PathPrefixInRulePatternClass.Length-1))
                     patternGraphPath += "patternGraph";
                 else
-                    patternGraphPath += PathPrefix.Substring(0, PathPrefix.Length - 1);
+                    patternGraphPath += PathPrefixInRulePatternClass.Substring(0, PathPrefixInRulePatternClass.Length - 1);
                 string alternativeCases = patternGraphPath + ".alternatives[(int)" + RulePatternClassName + "."
-                    + PathPrefix + "AltNums.@" + AlternativeOrIteratedName + "].alternativeCases";
+                    + PathPrefixInRulePatternClass + "AltNums.@" + AlternativeNameInRulePatternClass + "].alternativeCases";
                 sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(actionEnv, {2}openTasks, {3});\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, alternativeCases);
             }
@@ -4424,6 +4446,8 @@ namespace de.unika.ipd.grGen.lgsp
         string PathPrefix; // only valid if Type==Alternative|Iterated
         string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
         string RulePatternClassName; // only valid if Type==Alternative|Iterated
+        string PathPrefixInRulePatternClass; // only valid if Type==Alternative
+        string AlternativeNameInRulePatternClass; // only valid if Type==Alternative
         public string[] ConnectionName;
         public string[] ArgumentExpressions;
         public string NegativeIndependentNamePrefix;
@@ -4820,6 +4844,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if(sourceCode.CommentSourceCode)
+                sourceCode.AppendFrontFormat("// Variable {0} assigned from expression {1} \n",
+                    VariableName, SourceExpression);
+            
             // emit declaration of variable initialized with expression
             sourceCode.AppendFrontFormat("{0} {1} = ({0}){2};\n",
                 VariableType, NamesOfEntities.Variable(VariableName), SourceExpression);

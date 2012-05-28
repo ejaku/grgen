@@ -754,17 +754,20 @@ namespace de.unika.ipd.grGen.lgsp
             // multiple step inlining would be nice but would require some generalizations in the current code, following chains of original elements instead of one step only
             // unbounded depth inlining would require taking care of direct or indirect recursion, would be a dubious approach
 
+            // pattern path locked patterns would be too much programming effort to inline
+            // we shy away from anything in this regard
+            if(patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count > 0)
+                return;
+            foreach(PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
+                if(embedding.matchingPatternOfEmbeddedGraph.patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count > 0)
+                    return;
+
             // for each subpattern used/embedded decide whether to inline or not
             // for the ones to inline do the inlining by adding the original content of the subpattern 
             // directly to the using/embedding pattern
             foreach(PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
             {
                 LGSPMatchingPattern embeddedMatchingPattern = embedding.matchingPatternOfEmbeddedGraph;
-                PatternGraph embeddedPatternGraph = embeddedMatchingPattern.patternGraph;
-
-                // pattern path locked patterns would be too much programming effort to inline
-                if(embeddedMatchingPattern.patternGraph.isPatternpathLocked)
-                    continue;
 
                 // primary cause for inlining: connectedness, major performance gain if pattern gets connected
                 // if pattern is disconnected we ruthlessly inline, maybe it gets connected, if not we still gain because of early pruning
@@ -1004,8 +1007,8 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
                     PatternEdge edgeParameter = getParameterEdge(embeddedGraph.edges, i);
                     PatternEdge edgeParameterCopy = edgeToCopy[edgeParameter];
-                    int indexOfArgument = Array.IndexOf(patternGraph.nodesPlusInlined, edgeArgument);
-                    int indexOfParameterCopy = Array.IndexOf(patternGraph.nodesPlusInlined, edgeParameterCopy);
+                    int indexOfArgument = Array.IndexOf(patternGraph.edgesPlusInlined, edgeArgument);
+                    int indexOfParameterCopy = Array.IndexOf(patternGraph.edgesPlusInlined, edgeParameterCopy);
                     patternGraph.homomorphicEdges[indexOfArgument, indexOfParameterCopy] = true;
                     patternGraph.homomorphicEdges[indexOfParameterCopy, indexOfArgument] = true;
                 }
@@ -1020,7 +1023,7 @@ namespace de.unika.ipd.grGen.lgsp
             CopyAlternativesIteratedsOfSubpattern(patternGraph, embedding, renameSuffix,
                 nodeToCopy, edgeToCopy, variableToCopy);
 
-            CopySubpatternUsagesOfSubpattern(patternGraph, embeddedGraph, renameSuffix, 
+            CopySubpatternUsagesOfSubpattern(patternGraph, embedding, embeddedGraph, renameSuffix, 
                 nodeToCopy, edgeToCopy, variableToCopy);
 
             // TODO: das zeugs das vom analyzer berechnet wird, das bei der konstruktion berechnet wird
@@ -1048,7 +1051,7 @@ namespace de.unika.ipd.grGen.lgsp
                     newNodes[patternGraph.nodesPlusInlined.Length + i] = newNode;
                     nodeToCopy[node] = newNode;
 
-                    if(newNode.pointOfDefinition==null)
+                    if(node.pointOfDefinition==null)
                     {
                         newNode.AssignmentSource = getBoundNode(embedding, node.ParameterIndex,
                             patternGraph.nodesPlusInlined);
@@ -1067,7 +1070,7 @@ namespace de.unika.ipd.grGen.lgsp
                     newEdges[patternGraph.edgesPlusInlined.Length + i] = newEdge;
                     edgeToCopy[edge] = newEdge;
 
-                    if(newEdge.pointOfDefinition==null)
+                    if(edge.pointOfDefinition==null)
                     {
                         newEdge.AssignmentSource = getBoundEdge(embedding, edge.ParameterIndex,
                             patternGraph.edgesPlusInlined);
@@ -1181,7 +1184,7 @@ namespace de.unika.ipd.grGen.lgsp
                 for(int i = 0; i < embeddedGraph.alternatives.Length; ++i)
                 {
                     Alternative alt = embeddedGraph.alternatives[i];
-                    Alternative newAlt = new Alternative(alt, embedding, patternGraph, renameSuffix,
+                    Alternative newAlt = new Alternative(alt, embedding, patternGraph, renameSuffix, patternGraph.pathPrefix + patternGraph.name + "_",
                         nodeToCopy, edgeToCopy, variableToCopy);
                     newAlternatives[patternGraph.alternativesPlusInlined.Length + i] = newAlt;
                 }
@@ -1202,7 +1205,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private static void CopySubpatternUsagesOfSubpattern(PatternGraph patternGraph, 
+        private static void CopySubpatternUsagesOfSubpattern(PatternGraph patternGraph, PatternGraphEmbedding embedding, 
             PatternGraph embeddedGraph, string renameSuffix, 
             Dictionary<PatternNode, PatternNode> nodeToCopy, 
             Dictionary<PatternEdge, PatternEdge> edgeToCopy, 
@@ -1215,7 +1218,7 @@ namespace de.unika.ipd.grGen.lgsp
                 for(int i = 0; i < embeddedGraph.embeddedGraphs.Length; ++i)
                 {
                     PatternGraphEmbedding sub = embeddedGraph.embeddedGraphs[i];
-                    PatternGraphEmbedding newSub = new PatternGraphEmbedding(sub, patternGraph, renameSuffix);
+                    PatternGraphEmbedding newSub = new PatternGraphEmbedding(sub, embedding, patternGraph, renameSuffix);
                     newEmbeddings[patternGraph.embeddedGraphsPlusInlined.Length + i] = newSub;
                 }
                 patternGraph.embeddedGraphsPlusInlined = newEmbeddings;
