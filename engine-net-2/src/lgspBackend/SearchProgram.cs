@@ -3422,7 +3422,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             string targetPatternElement = Type==EntityType.Variable ? NamesOfEntities.Variable(TargetPatternElementName) : NamesOfEntities.CandidateVariable(TargetPatternElementName);
             string sourcePatternElement = NamesOfEntities.MatchName(SourcePatternElementUnprefixedName, Type);
-            sourceCode.AppendFrontFormat("{0} = {1}._{2};\n",
+            sourceCode.AppendFrontFormat("{0} = {1}._{2}; // bubble up\n",
                 targetPatternElement, NestedMatchObjectName, sourcePatternElement);
         }
 
@@ -3618,7 +3618,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("{0};\n", Assignment);
+            sourceCode.AppendFrontFormat("{0}; // local yield\n", Assignment);
         }
 
         string Assignment;

@@ -2667,7 +2667,7 @@ namespace de.unika.ipd.grGen.lgsp
             // we only have to take care of yielding in case of normal and independent matches 
             // and if we contain a def entity (and if we are not in the defElements pass)
             if(matchObjectType != MatchObjectType.Patternpath
-                && patternGraph.isDefEntityExisting)
+                && patternGraph.isDefEntityExistingPlusInlined)
             {
                 // first compute the yieldings which were inlined from subpatterns to us
                 insertionPoint = insertYields(insertionPoint, patternGraph, matchObjectName, true);
@@ -2702,7 +2702,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(inlined == wasInlined)
                 {
                     // if the pattern embedding does not contain a def entity it can't yield to us
-                    if(!((PatternGraph)patternEmbedding.EmbeddedGraph).isDefEntityExisting)
+                    if(!((PatternGraph)patternEmbedding.EmbeddedGraph).isDefEntityExistingPlusInlined)
                         continue;
                     // skip inlined embeddings (will be handled in 3.)
                     if(patternEmbedding.inlined)
@@ -2711,13 +2711,16 @@ namespace de.unika.ipd.grGen.lgsp
                     // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
                     // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
                     string inlinedMatchObjectName = null;
+                    string patternEmbeddingName = patternEmbedding.Name;
                     if(patternEmbedding.originalEmbedding != null)
                     {
-                        inlinedMatchObjectName = "match_" + patternEmbedding.originalEmbedding.Name;
+                        if(patternGraph.WasInlinedHere(patternEmbedding.originalEmbedding))
+                            inlinedMatchObjectName = "match_" + patternEmbedding.originalEmbedding.Name;
+                        patternEmbeddingName = patternEmbedding.originalEmbedding.name;
                     }
 
                     LGSPMatchingPattern matchingPattern = patternEmbedding.matchingPatternOfEmbeddedGraph;
-                    String nestedMatchObjectName = (inlinedMatchObjectName ?? matchObjectName) + "._" + patternEmbedding.Name;
+                    String nestedMatchObjectName = (inlinedMatchObjectName ?? matchObjectName) + "._" + patternEmbeddingName;
                     Debug.Assert(matchingPattern.defNames.Length == patternEmbedding.yields.Length);
                     for(int i = 0; i < patternEmbedding.yields.Length; ++i)
                     {
@@ -2739,18 +2742,21 @@ namespace de.unika.ipd.grGen.lgsp
                 if(inlined == wasInlined)
                 {
                     // if the iterated does not contain a non local def entity it can't yield to us
-                    if(!iterated.iteratedPattern.isNonLocalDefEntityExisting)
+                    if(!iterated.iteratedPattern.isNonLocalDefEntityExistingPlusInlined)
                         continue;
 
                     // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
                     // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
                     string inlinedMatchObjectName = null;
+                    string iteratedName = iterated.iteratedPattern.Name;
                     if(iterated.originalIterated != null)
                     {
-                        inlinedMatchObjectName = "match_" + iterated.originalSubpatternEmbedding.Name;
+                        if(patternGraph.WasInlinedHere(iterated.originalSubpatternEmbedding))
+                            inlinedMatchObjectName = "match_" + iterated.originalSubpatternEmbedding.Name;
+                        iteratedName = iterated.originalIterated.iteratedPattern.name;
                     }
 
-                    String nestedMatchObjectName = (inlinedMatchObjectName ?? matchObjectName) + "._" + iterated.iteratedPattern.Name;
+                    String nestedMatchObjectName = (inlinedMatchObjectName ?? matchObjectName) + "._" + iteratedName;
                     BubbleUpYieldIterated bubbleUpIterated = new BubbleUpYieldIterated(nestedMatchObjectName);
                     bubbleUpIterated.NestedOperationsList = new SearchProgramList(bubbleUpIterated);
                     SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpIterated);
@@ -2772,23 +2778,29 @@ namespace de.unika.ipd.grGen.lgsp
                     foreach(PatternGraph alternativeCase in alternative.alternativeCases)
                     {
                         // if the alternative case does not contain a non local def entity it can't yield to us
-                        if(!alternativeCase.isNonLocalDefEntityExisting)
+                        if(!alternativeCase.isNonLocalDefEntityExistingPlusInlined)
                             continue;
 
                         // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
                         // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
-                        string inlinedMatchObjectName = null;
+                        string inlinedMatchObjectName = matchObjectName;
+                        string inlinedNestedMatchObjectName = "_" + alternative.name;
+                        string inlinedPatternClassName = rulePatternClassName;
+                        string patternElementType = patternGraph.pathPrefix + patternGraph.name + "_" + alternative.name + "_" + alternativeCase.name;
                         if(alternative.originalAlternative != null)
                         {
-                            inlinedMatchObjectName = "match_" + alternative.originalSubpatternEmbedding.Name;
+                            if(patternGraph.WasInlinedHere(alternative.originalSubpatternEmbedding))
+                                inlinedMatchObjectName = "match_" + alternative.originalSubpatternEmbedding.name;
+                            inlinedNestedMatchObjectName = "_" + alternative.originalAlternative.name;
+                            inlinedPatternClassName = alternative.originalSubpatternEmbedding.matchingPatternOfEmbeddedGraph.GetType().Name;
+                            patternElementType = alternative.originalAlternative.pathPrefix + alternative.originalAlternative.name + "_" + alternativeCase.originalPatternGraph.name;
                         }
-
-                        String nestedMatchObjectName = "_" + alternative.name;
+                        
                         BubbleUpYieldAlternativeCase bubbleUpAlternativeCase =
                             new BubbleUpYieldAlternativeCase(
-                                matchObjectName,
-                                inlinedMatchObjectName ?? nestedMatchObjectName,
-                                rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + alternative.name + "_" + alternativeCase.name,
+                                inlinedMatchObjectName,
+                                inlinedNestedMatchObjectName,
+                                inlinedPatternClassName + ".Match_" + patternElementType,
                                 "altCaseMatch",
                                 first);
                         bubbleUpAlternativeCase.NestedOperationsList = new SearchProgramList(bubbleUpAlternativeCase);
@@ -2811,13 +2823,13 @@ namespace de.unika.ipd.grGen.lgsp
                 if(inlined == wasInlined)
                 {
                     // if the independent does not contain a non local def entity it can't yield to us
-                    if(!independent.isNonLocalDefEntityExisting)
+                    if(!independent.isNonLocalDefEntityExistingPlusInlined)
                         continue;
 
                     // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
                     // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
                     string inlinedMatchObjectName = null;
-                    if(independent.originalPatternGraph != null)
+                    if(independent.originalPatternGraph != null && patternGraph.WasInlinedHere(independent.originalSubpatternEmbedding))
                     {
                         inlinedMatchObjectName = "match_" + independent.originalSubpatternEmbedding.Name;
                     }
@@ -2951,7 +2963,7 @@ namespace de.unika.ipd.grGen.lgsp
                             EntityType.Node,
                             node.Name,
                             nestedMatchObjectName,
-                            nestedNode.UnprefixedName
+                            nestedNode.originalNode!=null && patternGraph.WasInlinedHere(nestedNode.originalSubpatternEmbedding) ? nestedNode.originalNode.UnprefixedName : nestedNode.UnprefixedName
                             );
                         insertionPoint = insertionPoint.Append(bubble);
                     }
@@ -2971,7 +2983,7 @@ namespace de.unika.ipd.grGen.lgsp
                             EntityType.Edge,
                             edge.Name,
                             nestedMatchObjectName,
-                            nestedEdge.UnprefixedName
+                            nestedEdge.originalElement!=null ? nestedEdge.originalEdge.UnprefixedName : nestedEdge.UnprefixedName
                             );
                         insertionPoint = insertionPoint.Append(bubble);
                     }
@@ -2991,7 +3003,7 @@ namespace de.unika.ipd.grGen.lgsp
                             EntityType.Variable,
                             var.Name,
                             nestedMatchObjectName,
-                            nestedVar.UnprefixedName
+                            nestedVar.originalVariable!=null ? nestedVar.originalVariable.UnprefixedName : nestedVar.UnprefixedName
                             );
                         insertionPoint = insertionPoint.Append(bubble);
                     }
