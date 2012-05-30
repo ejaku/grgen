@@ -974,7 +974,7 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<PatternEdge, PatternEdge> edgeToCopy,
             Dictionary<PatternVariable, PatternVariable> variableToCopy)
         {
-            name = original.name + nameSuffix;
+            name = original.name + nameSuffix + "_in_" + inlinedSubpatternEmbedding.PointOfDefinition.pathPrefix + inlinedSubpatternEmbedding.PointOfDefinition.name;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding; 
             pathPrefix = pathPrefix_;
 

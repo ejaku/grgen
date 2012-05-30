@@ -501,8 +501,8 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<PatternVariable, PatternVariable> variableToCopy = new Dictionary<PatternVariable, PatternVariable>(variableToCopy_.Count);
             foreach(KeyValuePair<PatternVariable, PatternVariable> kvp in variableToCopy_)
                 variableToCopy.Add(kvp.Key, kvp.Value);
-            
-            name = original.name + nameSuffix;
+
+            name = original.name + nameSuffix + "_in_" + inlinedSubpatternEmbedding.PointOfDefinition.pathPrefix + inlinedSubpatternEmbedding.PointOfDefinition.name;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding;
             pathPrefix = original.pathPrefix;
             isPatternpathLocked = original.isPatternpathLocked;

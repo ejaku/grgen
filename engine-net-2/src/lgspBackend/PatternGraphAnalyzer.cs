@@ -43,7 +43,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             CalculateNeededElements(patternGraph, inlined);
 
-            AnnotateIndependentsAtNestingPattern(patternGraph, inlined);
+            AnnotateIndependentsAtNestingPattern(patternGraph, inlined, false);
 
             if(!inlined) // no inlining will occur in case the pattern is on a patternpath, so nothing to adapt to in the after-inline run
                 ComputePatternGraphsOnPathToEnclosedPatternpath(patternGraph);
@@ -111,19 +111,30 @@ namespace de.unika.ipd.grGen.lgsp
         /// to the matcher generation skeleton data structure pattern graph
         /// </summary>
         public void AnnotateIndependentsAtNestingPattern(
-            PatternGraph patternGraph, bool inlined)
+            PatternGraph patternGraph, bool inlined, bool nestedInNegative)
         {
-            PatternGraph[] independentPatternGraphs = inlined ? patternGraph.independentPatternGraphsPlusInlined : patternGraph.independentPatternGraphs;
             patternGraph.nestedIndependents = null; // at inlined pass reset values from pass before (nop when used first)
+            
+            PatternGraph[] independentPatternGraphs = inlined ? patternGraph.independentPatternGraphsPlusInlined : patternGraph.independentPatternGraphs;
             foreach (PatternGraph idpt in independentPatternGraphs)
             {
-                // annotate path prefix and name
-                if(patternGraph.nestedIndependents == null)
-                    patternGraph.nestedIndependents = new Dictionary<PatternGraph, PatternGraph>();
-                patternGraph.nestedIndependents[idpt] = null;
+                if(!nestedInNegative)
+                {
+                    // annotate path prefix and name
+                    if(patternGraph.nestedIndependents == null)
+                        patternGraph.nestedIndependents = new Dictionary<PatternGraph, PatternGraph>();
+                    patternGraph.nestedIndependents[idpt] = null;
+                }
 
                 // handle nested independents
-                AnnotateIndependentsAtNestingPattern(idpt, inlined);
+                AnnotateIndependentsAtNestingPattern(idpt, inlined, nestedInNegative);
+            }
+
+            PatternGraph[] negativePatternGraphs = inlined ? patternGraph.negativePatternGraphsPlusInlined : patternGraph.negativePatternGraphs;
+            foreach(PatternGraph neg in negativePatternGraphs)
+            {
+                // handle nested independents
+                AnnotateIndependentsAtNestingPattern(neg, inlined, true);
             }
 
             // alternative cases represent new annotation point
@@ -132,7 +143,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    AnnotateIndependentsAtNestingPattern(altCase, inlined);
+                    AnnotateIndependentsAtNestingPattern(altCase, inlined, false);
                 }
             }
 
@@ -140,7 +151,7 @@ namespace de.unika.ipd.grGen.lgsp
             Iterated[] iterateds = inlined ? patternGraph.iteratedsPlusInlined : patternGraph.iterateds;
             foreach (Iterated iter in iterateds)
             {
-                AnnotateIndependentsAtNestingPattern(iter.iteratedPattern, inlined);
+                AnnotateIndependentsAtNestingPattern(iter.iteratedPattern, inlined, false);
             }
         }
 
@@ -777,8 +788,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // rewrite pattern graph to include the content of the embedded graph
                     // modulo name changes to avoid conflicts
 
-                    // TODO: uncomment
-                    //InlineSubpatternUsage(patternGraph, embedding);
+                    InlineSubpatternUsage(patternGraph, embedding);
                 }
             }
 
