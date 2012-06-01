@@ -1768,6 +1768,53 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing "check whether candidate is identical to another element" operation
+    /// </summary>
+    class CheckCandidateForIdentity : CheckCandidate
+    {
+        public CheckCandidateForIdentity(
+            string patternElementName,
+            string otherPatternElementName)
+        {
+            PatternElementName = patternElementName;
+            OtherPatternElementName = otherPatternElementName;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump check
+            builder.Append("CheckCandidate ForIdentity ");
+            builder.AppendFormat("by {0} == {1}\n", PatternElementName, OtherPatternElementName);
+            
+            // then operations for case check failed
+            if (CheckFailedOperations != null)
+            {
+                builder.Indent();
+                CheckFailedOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            // emit check decision
+            string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+            string variableContainingOtherElement = NamesOfEntities.CandidateVariable(OtherPatternElementName);
+            sourceCode.AppendFrontFormat("if({0}!={1}) ", 
+                variableContainingCandidate, variableContainingOtherElement);
+            
+            // emit check failed code
+            sourceCode.Append("{\n");
+            sourceCode.Indent();
+            CheckFailedOperations.Emit(sourceCode);
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public string OtherPatternElementName;
+    }
+
+    /// <summary>
     /// Class representing some check candidate operation,
     /// which was determined at generation time to always fail 
     /// </summary>

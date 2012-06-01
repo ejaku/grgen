@@ -205,6 +205,10 @@ namespace de.unika.ipd.grGen.grGen
                             flags |= ProcessSpecFlags.LazyNIC;
                             break;
 
+                        case "-noinline":
+                            flags |= ProcessSpecFlags.Noinline;
+                            break;
+
                         default:
                             Console.Error.WriteLine("Illegal option: " + args[i]);
                             specFile = null;
@@ -242,6 +246,7 @@ namespace de.unika.ipd.grGen.grGen
                     + "                        the generated assembly\n"
                     + "  -lazynic              Negatives, Independents, and Conditions are only\n"
                     + "                        executed at the end of matching (normally asap)\n"
+                    + "  -noinline             disables subpattern inlining\n"
                     + "  -mission              Uncovers the tool's evil mission\n\n"
                     + "Optimizing options:\n"
                     + "  -noevents             Do not fire any events in the generated code.\n"

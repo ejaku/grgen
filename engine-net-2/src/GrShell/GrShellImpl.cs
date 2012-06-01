@@ -234,6 +234,7 @@ namespace de.unika.ipd.grGen.grShell
         List<String> newGraphExternalAssembliesReferenced = new List<String>();
         bool newGraphKeepDebug = false;
         bool newGraphLazyNIC = false;
+        bool newGraphNoinline = false;
 
         /// <summary>
         /// Maps layouts to layout option names to their values.
@@ -1217,6 +1218,12 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
+        public bool NewGraphSetNoinline(bool on)
+        {
+            newGraphNoinline = on;
+            return true;
+        }
+
         public bool NewGraph(String specFilename, String graphName)
         {
             if(!BackendExists()) return false;
@@ -1275,6 +1282,7 @@ namespace de.unika.ipd.grGen.grShell
                     {
                         ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
+                        if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
                         graph = curGraphBackend.CreateFromSpec(specFilename, graphName, 
                             flags, newGraphExternalAssembliesReferenced);
                     }
@@ -1305,6 +1313,7 @@ namespace de.unika.ipd.grGen.grShell
                     {
                         ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
+                        if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
                         curGraphBackend.CreateNamedFromSpec(specFilename, graphName, 
                             flags, newGraphExternalAssembliesReferenced,
                             out graph, out actions);

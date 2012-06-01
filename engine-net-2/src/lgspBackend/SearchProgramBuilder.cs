@@ -561,6 +561,13 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNode)op.Element,
                         op.Isomorphy);
 
+                case SearchOperationType.Identity:
+                    return buildIdentity(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        op.SourceSPNode,
+                        (SearchPlanNode)op.Element,
+                        op.Isomorphy);
+
                 case SearchOperationType.AssignVar:
                     return buildAssignVar(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
@@ -1456,6 +1463,34 @@ namespace de.unika.ipd.grGen.lgsp
 
             // unmark element for possibly following run
             target.Visited = false;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// Identity search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildIdentity(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode source,
+            SearchPlanNode target,
+            IsomorphyInformation isomorphy)
+        {
+            // check candidate is identical to other element
+            CheckCandidateForIdentity checkIdentical = new CheckCandidateForIdentity(
+                target.PatternElement.Name,
+                source.PatternElement.Name);
+            insertionPoint = insertionPoint.Append(checkIdentical);
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
 
             return insertionPoint;
         }

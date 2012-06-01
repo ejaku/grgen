@@ -69,7 +69,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Execute the negatives, independents, and conditionals only at the end of matching.
         /// </summary>
-        LazyNIC = 256
+        LazyNIC = 256,
+
+        /// <summary>
+        /// Forbids inlining of subpatterns (inlining has quite some potential for bugs, this gives the user a quick workaround in case there's a real bug).
+        /// </summary>
+        Noinline = 512
     }
 
     /// <summary>

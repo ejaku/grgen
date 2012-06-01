@@ -237,13 +237,6 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = true;
                     searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
                 }
-                else if(node.AssignmentSource != null)
-                {
-                    // TODO: ever reached?
-                    cost = 0;
-                    isPreset = false;
-                    searchOperationType = SearchOperationType.Void; // the assignment source  is needed, so there is no lookup like operation
-                }
                 else if(node.Storage != null)
                 {
                     if(node.Accessor != null)
@@ -315,13 +308,6 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = true;
                     searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
                 }
-                else if(edge.AssignmentSource != null)
-                {
-                    // TODO: ever reached?
-                    cost = 0;
-                    isPreset = false;
-                    searchOperationType = SearchOperationType.Void; // the assignment source  is needed, so there is no lookup like operation
-                }
                 else if(edge.Storage != null)
                 {
                     if(edge.Accessor != null)
@@ -372,13 +358,12 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 #endif
 
-                // only add implicit source operation if edge source is needed and the edge source is not a preset node and not a storage node and not a cast node and not an assigned node
+                // only add implicit source operation if edge source is needed and the edge source is not a preset node and not a storage node and not a cast node
                 if(patternGraph.GetSourcePlusInlined(edge) != null 
                     && !patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetSourcePlusInlined(edge).Storage == null
                     && patternGraph.GetSourcePlusInlined(edge).StorageAttributeOwner == null
-                    && patternGraph.GetSourcePlusInlined(edge).ElementBeforeCasting == null
-                    && patternGraph.GetSourcePlusInlined(edge).AssignmentSource == null)
+                    && patternGraph.GetSourcePlusInlined(edge).ElementBeforeCasting == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ? 
                         SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
@@ -387,13 +372,12 @@ namespace de.unika.ipd.grGen.lgsp
                     planEdges.Add(implSrcPlanEdge);
                     patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
-                // only add implicit target operation if edge target is needed and the edge target is not a preset node and not a storage node and not a cast node and not an assinged node
+                // only add implicit target operation if edge target is needed and the edge target is not a preset node and not a storage node and not a cast node
                 if(patternGraph.GetTargetPlusInlined(edge) != null
                     && !patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetTargetPlusInlined(edge).Storage == null
                     && patternGraph.GetTargetPlusInlined(edge).StorageAttributeOwner == null
-                    && patternGraph.GetTargetPlusInlined(edge).ElementBeforeCasting == null
-                    && patternGraph.GetTargetPlusInlined(edge).AssignmentSource== null)
+                    && patternGraph.GetTargetPlusInlined(edge).ElementBeforeCasting == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
@@ -403,12 +387,11 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
                 }
 
-                // edge must only be reachable from other nodes if it's not a preset and not storage determined and not a cast and not an assigned edge
+                // edge must only be reachable from other nodes if it's not a preset and not storage determined and not a cast
                 if(!isPreset 
                     && edge.Storage == null 
                     && edge.StorageAttributeOwner == null 
-                    && edge.ElementBeforeCasting == null
-                    && edge.AssignmentSource == null)
+                    && edge.ElementBeforeCasting == null)
                 {
                     // no outgoing on source node if no source
                     if(patternGraph.GetSourcePlusInlined(edge) != null)
@@ -471,8 +454,12 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
                             node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 0);
+                        PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
+                            node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 1);
                         planEdges.Add(assignPlanEdge);
                         node.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+                        planEdges.Add(assignPlanEdgeOpposite);
+                        node.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdgeOpposite);
                     }
                 }
             }
@@ -509,8 +496,12 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
                             edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 0);
+                        PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
+                            edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 1);
                         planEdges.Add(assignPlanEdge);
                         edge.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+                        planEdges.Add(assignPlanEdgeOpposite);
+                        edge.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
                     }
                 }
             }
@@ -996,25 +987,28 @@ namespace de.unika.ipd.grGen.lgsp
                     analyzer.AnalyzeWithInterPatternRelationsKnown(matchingPattern.patternGraph);
                 }
 
-                foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                if((flags & ProcessSpecFlags.Noinline) != 0)
                 {
+                    foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                    {
 #if DUMP_PATTERNS
-                    // dump patterns for debugging - first original version without inlining
-                    SourceBuilder builder = new SourceBuilder(true);
-                    matchingPattern.patternGraph.DumpOriginal(builder);
-                    StreamWriter writer = new StreamWriter(matchingPattern.name + "_pattern_dump.txt");
-                    writer.Write(builder.ToString());
+                        // dump patterns for debugging - first original version without inlining
+                        SourceBuilder builder = new SourceBuilder(true);
+                        matchingPattern.patternGraph.DumpOriginal(builder);
+                        StreamWriter writer = new StreamWriter(matchingPattern.name + "_pattern_dump.txt");
+                        writer.Write(builder.ToString());
 #endif
 
-                    analyzer.InlineSubpatternUsages(matchingPattern.patternGraph);
+                        analyzer.InlineSubpatternUsages(matchingPattern.patternGraph);
 
 #if DUMP_PATTERNS
-                    // - then inlined version
-                    builder = new SourceBuilder(true);
-                    matchingPattern.patternGraph.DumpInlined(builder);
-                    writer.Write(builder.ToString());
-                    writer.Close();
+                        // - then inlined version
+                        builder = new SourceBuilder(true);
+                        matchingPattern.patternGraph.DumpInlined(builder);
+                        writer.Write(builder.ToString());
+                        writer.Close();
 #endif
+                    }
                 }
 
                 // hardcore/ugly parameterization for inlined case, working on inlined members in inlined pass, and original members on original pass
