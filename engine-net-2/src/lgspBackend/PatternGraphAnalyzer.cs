@@ -759,6 +759,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
 
+        const int PATTERN_SIZE_BEYOND_WHICH_TO_INLINE = 7;
+        const int OVERALL_PATTERN_SIZE_GROWTH_TO_ACCEPT = 19;
+
         public void InlineSubpatternUsages(PatternGraph patternGraph)
         {
             // we do one step of inlining only, with the embedding being always replaced by the non-inlined original
@@ -782,12 +785,14 @@ namespace de.unika.ipd.grGen.lgsp
 
                 // primary cause for inlining: connectedness, major performance gain if pattern gets connected
                 // if pattern is disconnected we ruthlessly inline, maybe it gets connected, if not we still gain because of early pruning
-                // secondary cause for inlining: save subpattern matching setup cost, minor impact to be balanced against code bloat cost
-                if(!IsConnected(patternGraph) || PatternInliningCost(embeddedMatchingPattern) <= INLINE_THRESHOLD)
+                // secondary cause for inlining: save subpattern matching setup cost, small impact to be balanced against code bloat cost
+                if(!IsConnected(patternGraph) 
+                    || IsOfLowSelectiveness(patternGraph) // hosting pattern would benefit?
+                    || PatternCost(embeddedMatchingPattern.patternGraph) <= PATTERN_SIZE_BEYOND_WHICH_TO_INLINE // small patterns are inlined irrespective of their number of occurances
+                    || OverallPatternInliningCost(embeddedMatchingPattern) <= OVERALL_PATTERN_SIZE_GROWTH_TO_ACCEPT) // pattern mul num occurances must be acceptable for the rest
                 {
                     // rewrite pattern graph to include the content of the embedded graph
                     // modulo name changes to avoid conflicts
-
                     InlineSubpatternUsage(patternGraph, embedding);
                 }
             }
@@ -917,9 +922,30 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        const int INLINE_THRESHOLD = 15;
+        const int SELECTIVENESS_THRESHOLD = 5;
 
-        int PatternInliningCost(LGSPMatchingPattern embeddedMatchingPattern)
+        bool IsOfLowSelectiveness(PatternGraph patternGraph)
+        {
+            // crude approximation: low selectiveness if nothing handed in and pattern is small
+
+            int numHandedIn = 0;
+            foreach(PatternNode node in patternGraph.nodes)
+                if(node.ParameterIndex != -1 || node.pointOfDefinition != patternGraph)
+                    ++numHandedIn;
+            foreach(PatternEdge edge in patternGraph.edges)
+                if(edge.ParameterIndex != -1 || edge.pointOfDefinition != patternGraph)
+                    ++numHandedIn;
+
+            if(numHandedIn == patternGraph.nodes.Length + patternGraph.edges.Length)
+                return false; // all handed in? -> nothing to search locally, no selectivity problem
+            else if(numHandedIn == 0)
+                // we must search the entire graph, a tiny pattern would benefit from growing
+                return patternGraph.nodes.Length + patternGraph.edges.Length <= SELECTIVENESS_THRESHOLD;
+            else
+                return false; // one element handed in -> we can search from that element on
+        }
+
+        private int OverallPatternInliningCost(LGSPMatchingPattern embeddedMatchingPattern)
         {
             // compute size of pattern graph and count all the occurences            
             return PatternCost(embeddedMatchingPattern.patternGraph) * embeddedMatchingPattern.uses;
