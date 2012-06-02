@@ -2599,6 +2599,57 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a remove from an array
+    /// </summary>
+    public class ArrayRemove : YieldMethod
+    {
+        public ArrayRemove(String left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public ArrayRemove(String left)
+            : base(left, null)
+        {
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new ArrayRemove(Left + renameSuffix, null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(".RemoveAt(");
+            sourceCode.Append(NamesOfEntities.Variable(Left) + ".Count-1");
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing a clearing of a set or a map or an array
+    /// </summary>
+    public class Clear : YieldMethod
+    {
+        public Clear(String left)
+            : base(left, null)
+        {
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new Clear(Left + renameSuffix);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(".Clear()");
+        }
+    }
+
+    /// <summary>
     /// Class representing an add to set
     /// </summary>
     public class SetAdd : YieldMethod

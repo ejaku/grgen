@@ -97,6 +97,18 @@ public class MethodCallNode extends EvalStatementNode
   						result = new MapVarRemoveItemNode(getCoords(), targetVar, params.get(0));
   				}
 			}
+			else if(methodName.equals("clear")) {
+				if(params.size() != 0) {
+  					reportError("map<S,T>.clear() takes no parameters.");
+					return false;
+				}
+  				else {
+  					if(targetQual!=null)
+  						result = new MapClearNode(getCoords(), targetQual);
+  					else
+  						result = new MapVarClearNode(getCoords(), targetVar);
+  				}
+			}
   			else {
   				reportError("map<S,T> does not have a statement method named \"" + methodName + "\"");
   				return false;
@@ -127,6 +139,18 @@ public class MethodCallNode extends EvalStatementNode
   						result = new SetVarRemoveItemNode(getCoords(), targetVar, params.get(0));
   				}
 			}
+			else if(methodName.equals("clear")) {
+				if(params.size() != 0) {
+  					reportError("set<T>.clear() takes no parameters.");
+					return false;
+				}
+  				else {
+  					if(targetQual!=null)
+  						result = new SetClearNode(getCoords(), targetQual);
+  					else
+  						result = new SetVarClearNode(getCoords(), targetVar);
+  				}
+			}
   			else {
   				reportError("set<T> does not have a method named \"" + methodName + "\"");
   				return false;
@@ -155,6 +179,18 @@ public class MethodCallNode extends EvalStatementNode
   						result = new ArrayRemoveItemNode(getCoords(), targetQual, params.size()!=0 ? params.get(0) : null);
   					else
   						result = new ArrayVarRemoveItemNode(getCoords(), targetVar, params.size()!=0 ? params.get(0) : null);
+  				}
+			}
+			else if(methodName.equals("clear")) {
+				if(params.size() != 0) {
+  					reportError("array<T>.clear() takes no parameters.");
+					return false;
+				}
+  				else {
+  					if(targetQual!=null)
+  						result = new ArrayClearNode(getCoords(), targetQual);
+  					else
+  						result = new ArrayVarClearNode(getCoords(), targetVar);
   				}
 			}
 		}

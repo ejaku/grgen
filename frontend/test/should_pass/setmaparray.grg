@@ -1,0 +1,39 @@
+rule clear_array(ref element_array:array<string>):()
+{
+	modify {
+		eval {
+			element_array.add("1");
+			element_array.add("2");
+			element_array.add("3");
+			element_array.rem(3);
+			element_array.rem();
+			element_array.clear();
+		}
+	}
+}
+
+rule clear_map(ref element_map:map<string,int>):()
+{
+	modify {
+		eval {
+			element_map.add("1",1);
+			element_map.add("2",2);
+			element_map.add("3",3);
+			element_map.rem("2");
+			element_map.clear();
+		}
+	}
+}
+
+rule clear_set(ref element_set:set<double>):()
+{
+	modify {
+		eval {
+			element_set.add(1.0);
+			element_set.add(2.0);
+			element_set.add(3.0);
+			element_set.rem(2.0);
+			element_set.clear();
+		}
+	}
+}

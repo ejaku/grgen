@@ -181,10 +181,25 @@ public class Dumper {
 				else if(e instanceof MapRemoveItem) {
 					// MAP TODO
 				}
+				else if(e instanceof MapClear) {
+					// MAP TODO
+				}
 				else if(e instanceof SetAddItem) {
 					// MAP TODO
 				}
 				else if(e instanceof SetRemoveItem) {
+					// MAP TODO
+				}
+				else if(e instanceof SetClear) {
+					// MAP TODO
+				}
+				else if(e instanceof ArrayAddItem) {
+					// MAP TODO
+				}
+				else if(e instanceof ArrayRemoveItem) {
+					// MAP TODO
+				}
+				else if(e instanceof ArrayClear) {
 					// MAP TODO
 				}
 				else if(e instanceof MapVarAddItem) {
@@ -193,10 +208,25 @@ public class Dumper {
 				else if(e instanceof MapVarRemoveItem) {
 					// MAP TODO
 				}
+				else if(e instanceof MapVarClear) {
+					// MAP TODO
+				}
 				else if(e instanceof SetVarAddItem) {
 					// MAP TODO
 				}
 				else if(e instanceof SetVarRemoveItem) {
+					// MAP TODO
+				}
+				else if(e instanceof SetClear) {
+					// MAP TODO
+				}
+				else if(e instanceof ArrayVarAddItem) {
+					// MAP TODO
+				}
+				else if(e instanceof ArrayVarRemoveItem) {
+					// MAP TODO
+				}
+				else if(e instanceof ArrayClear) {
 					// MAP TODO
 				}
 				else {

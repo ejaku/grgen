@@ -1,0 +1,84 @@
+using set_map_array;
+
+rule testSet
+{
+	n:Gaggl;
+	
+	modify {
+		eval {
+			n.s1.add(n);
+			n.s1.rem(n);
+			n.s1.clear();
+
+			n.s2.add(n);
+			n.s2.rem(n);
+			n.s2.clear();
+
+			n.s3.add(Lol::Lal);
+			n.s3.rem(Lol::Lal);
+			n.s3.clear();
+
+			n.s4.add("foo");
+			n.s4.rem("foo");
+			n.s4.clear();
+		}
+	}
+}
+
+rule testMap
+{
+	n:Gaggl -e:Edge-> ;
+	
+	modify {
+		eval {
+			n.m1.add(n,e);
+			n.m1.rem(n);
+			n.m1.clear();
+
+			n.m2.add(n,e);
+			n.m2.rem(n);
+			n.m2.clear();
+
+			n.m3.add(Lol::Lal, 1);
+			n.m3.rem(Lol::Lal);
+			n.m3.clear();
+
+			n.m4.add("foo", 1.0);
+			n.m4.rem("foo");
+			n.m4.clear();
+		}
+	}
+}
+
+rule testArray
+{
+	n:Gaggl;
+	
+	modify {
+		eval {
+			n.a1.add(n);
+			n.a1.add(n);
+			n.a1.rem(0);
+			n.a1.rem();
+			n.a1.clear();
+
+			n.a2.add(n);
+			n.a2.add(n);
+			n.a2.rem(0);
+			n.a2.rem();
+			n.a2.clear();
+
+			n.a3.add(Lol::Lal);
+			n.a3.add(Lol::Lal);
+			n.a3.rem(0);
+			n.a3.rem();
+			n.a3.clear();
+
+			n.a4.add("foo");
+			n.a4.add("foo");
+			n.a4.rem(0);
+			n.a4.rem();
+			n.a4.clear();
+		}
+	}
+}

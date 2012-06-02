@@ -1,0 +1,8 @@
+rule clear_array(ref element_array:array<string>):()
+{
+	modify {
+		eval {
+			element_array.clear();
+		}
+	}
+}

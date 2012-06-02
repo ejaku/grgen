@@ -1820,11 +1820,17 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof MapRemoveItem) {
 			genMapRemoveItem(sb, state, (MapRemoveItem) evalStmt);
 		} 
+		else if(evalStmt instanceof MapClear) {
+			genMapClear(sb, state, (MapClear) evalStmt);
+		} 
 		else if(evalStmt instanceof MapAddItem) {
 			genMapAddItem(sb, state, (MapAddItem) evalStmt);
 		} 
 		else if(evalStmt instanceof SetRemoveItem) {
 			genSetRemoveItem(sb, state, (SetRemoveItem) evalStmt);
+		} 
+		else if(evalStmt instanceof SetClear) {
+			genSetClear(sb, state, (SetClear) evalStmt);
 		} 
 		else if(evalStmt instanceof SetAddItem) {
 			genSetAddItem(sb, state, (SetAddItem) evalStmt);
@@ -1832,11 +1838,17 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof ArrayRemoveItem) {
 			genArrayRemoveItem(sb, state, (ArrayRemoveItem) evalStmt);
 		} 
+		else if(evalStmt instanceof ArrayClear) {
+			genArrayClear(sb, state, (ArrayClear) evalStmt);
+		} 
 		else if(evalStmt instanceof ArrayAddItem) {
 			genArrayAddItem(sb, state, (ArrayAddItem) evalStmt);
 		}
 		else if(evalStmt instanceof MapVarRemoveItem) {
 			genMapVarRemoveItem(sb, state, (MapVarRemoveItem) evalStmt);
+		} 
+		else if(evalStmt instanceof MapVarClear) {
+			genMapVarClear(sb, state, (MapVarClear) evalStmt);
 		} 
 		else if(evalStmt instanceof MapVarAddItem) {
 			genMapVarAddItem(sb, state, (MapVarAddItem) evalStmt);
@@ -1844,11 +1856,17 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof SetVarRemoveItem) {
 			genSetVarRemoveItem(sb, state, (SetVarRemoveItem) evalStmt);
 		}
+		else if(evalStmt instanceof SetVarClear) {
+			genSetVarClear(sb, state, (SetVarClear) evalStmt);
+		}
 		else if(evalStmt instanceof SetVarAddItem) {
 			genSetVarAddItem(sb, state, (SetVarAddItem) evalStmt);
 		}
 		else if(evalStmt instanceof ArrayVarRemoveItem) {
 			genArrayVarRemoveItem(sb, state, (ArrayVarRemoveItem) evalStmt);
+		}
+		else if(evalStmt instanceof ArrayVarClear) {
+			genArrayVarClear(sb, state, (ArrayVarClear) evalStmt);
 		}
 		else if(evalStmt instanceof ArrayVarAddItem) {
 			genArrayVarAddItem(sb, state, (ArrayVarAddItem) evalStmt);
@@ -2307,6 +2325,20 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void genMapClear(StringBuffer sb, ModifyGenerationStateConst state, MapClear mc) {
+		Qualification target = mc.getTarget();
+
+		genClearAttribute(sb, state, target);
+
+		sb.append("\t\t\t");
+		genExpression(sb, target, state);
+		sb.append(".Clear();\n");
+
+		if(mc.getNext()!=null) {
+			genEvalStmt(sb, state, mc.getNext());
+		}
+	}
+
 	private void genMapAddItem(StringBuffer sb, ModifyGenerationStateConst state, MapAddItem mai) {
 		Qualification target = mai.getTarget();
 
@@ -2361,6 +2393,20 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void genSetClear(StringBuffer sb, ModifyGenerationStateConst state, SetClear sc) {
+		Qualification target = sc.getTarget();
+
+		genClearAttribute(sb, state, target);
+
+		sb.append("\t\t\t");
+		genExpression(sb, target, state);
+		sb.append(".Clear();\n");
+
+		if(sc.getNext()!=null) {
+			genEvalStmt(sb, state, sc.getNext());
+		}
+	}
+
 	private void genSetAddItem(StringBuffer sb, ModifyGenerationStateConst state, SetAddItem sai) {
 		Qualification target = sai.getTarget();
 
@@ -2410,6 +2456,20 @@ public class ModifyGen extends CSharpBase {
 
 		if(ari.getNext()!=null) {
 			genEvalStmt(sb, state, ari.getNext());
+		}
+	}
+
+	private void genArrayClear(StringBuffer sb, ModifyGenerationStateConst state, ArrayClear ac) {
+		Qualification target = ac.getTarget();
+
+		genClearAttribute(sb, state, target);
+
+		sb.append("\t\t\t");
+		genExpression(sb, target, state);
+		sb.append(".Clear();\n");
+
+		if(ac.getNext()!=null) {
+			genEvalStmt(sb, state, ac.getNext());
 		}
 	}
 
@@ -2467,6 +2527,15 @@ public class ModifyGen extends CSharpBase {
 		assert mvri.getNext()==null;
 	}
 
+	private void genMapVarClear(StringBuffer sb, ModifyGenerationStateConst state, MapVarClear mvc) {
+		Variable target = mvc.getTarget();
+
+		sb.append("\t\t\tvar_" + target.getIdent());
+		sb.append(".Clear();\n");
+		
+		assert mvc.getNext()==null;
+	}
+
 	private void genMapVarAddItem(StringBuffer sb, ModifyGenerationStateConst state, MapVarAddItem mvai) {
 		Variable target = mvai.getTarget();
 
@@ -2511,6 +2580,15 @@ public class ModifyGen extends CSharpBase {
 		assert svri.getNext()==null;
 	}
 
+	private void genSetVarClear(StringBuffer sb, ModifyGenerationStateConst state, SetVarClear svc) {
+		Variable target = svc.getTarget();
+
+		sb.append("\t\t\tvar_" + target.getIdent());
+		sb.append(".Clear();\n");
+		
+		assert svc.getNext()==null;
+	}
+
 	private void genSetVarAddItem(StringBuffer sb, ModifyGenerationStateConst state, SetVarAddItem svai) {
 		Variable target = svai.getTarget();
 
@@ -2552,6 +2630,15 @@ public class ModifyGen extends CSharpBase {
 		sb.append(");\n");
 		
 		assert avri.getNext()==null;
+	}
+
+	private void genArrayVarClear(StringBuffer sb, ModifyGenerationStateConst state, ArrayVarClear avc) {
+		Variable target = avc.getTarget();
+
+		sb.append("\t\t\tvar_" + target.getIdent());
+		sb.append(".Clear();\n");
+		
+		assert avc.getNext()==null;
 	}
 
 	private void genArrayVarAddItem(StringBuffer sb, ModifyGenerationStateConst state, ArrayVarAddItem avai) {
@@ -2612,6 +2699,63 @@ public class ModifyGen extends CSharpBase {
 					formatAttributeTypeName(attribute) + ", " +
 					"GRGEN_LIBGR.AttributeChangeType." + attributeChangeType + ", " +
 					newValue + ", " + keyValue + ");\n");
+		}
+	}
+
+	protected void genClearAttribute(StringBuffer sb, ModifyGenerationStateConst state, Qualification target)
+	{		
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, target, state);
+		String targetStr = sbtmp.toString();
+
+		Entity element = target.getOwner();
+		Entity attribute = target.getMember();
+		Type elementType = attribute.getOwner();
+
+		String kindStr = null;
+		boolean isDeletedElem = false;
+		if(element instanceof Node) {
+			kindStr = "Node";
+			isDeletedElem = state.delNodes().contains(element);
+		}
+		else if(element instanceof Edge) {
+			kindStr = "Edge";
+			isDeletedElem = state.delEdges().contains(element);
+		}
+		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
+
+		if(!isDeletedElem && be.system.mayFireEvents()) {
+			if(attribute.getType() instanceof MapType) {
+				MapType attributeType = (MapType)attribute.getType();
+				sb.append("\t\t\tforeach(KeyValuePair<" + formatType(attributeType.getKeyType()) + "," + formatType(attributeType.getValueType()) + "> kvp " +
+						"in " + targetStr + ")\n");
+				sb.append("\t\t\t\tgraph.Changing" + kindStr + "Attribute(" +
+						formatEntity(element) +	", " +
+						formatTypeClassRef(elementType) + "." +
+						formatAttributeTypeName(attribute) + ", " +
+						"GRGEN_LIBGR.AttributeChangeType.RemoveElement, " +
+						"null, kvp.Key);\n");
+			} else if(attribute.getType() instanceof SetType) {
+				SetType attributeType = (SetType)attribute.getType();
+				sb.append("\t\t\tforeach(KeyValuePair<" + formatType(attributeType.getValueType()) + ", GRGEN_LIBGR.SetValueType> kvp " +
+						"in " + targetStr + ")\n");
+				sb.append("\t\t\t\tgraph.Changing" + kindStr + "Attribute(" +
+						formatEntity(element) +	", " +
+						formatTypeClassRef(elementType) + "." +
+						formatAttributeTypeName(attribute) + ", " +
+						"GRGEN_LIBGR.AttributeChangeType.RemoveElement, " +
+						"kvp.Key, null);\n");
+			} else if(attribute.getType() instanceof ArrayType) {
+				sb.append("\t\t\tfor(int i = " + targetStr + ".Count; i>=0; --i)\n");
+				sb.append("\t\t\t\tgraph.Changing" + kindStr + "Attribute(" +
+						formatEntity(element) +	", " +
+						formatTypeClassRef(elementType) + "." +
+						formatAttributeTypeName(attribute) + ", " +
+						"GRGEN_LIBGR.AttributeChangeType.RemoveElement, " +
+						"null, i);\n");
+			} else {
+				assert(false);
+			}
 		}
 	}
 

@@ -2598,6 +2598,9 @@ public class ActionsGen extends CSharpBase {
 			genMapVarRemoveItem(sb, (MapVarRemoveItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		} 
+		else if(evalStmt instanceof MapVarClear) {
+			genMapVarClear(sb, (MapVarClear) evalStmt);
+		} 
 		else if(evalStmt instanceof MapVarAddItem) {
 			genMapVarAddItem(sb, (MapVarAddItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -2606,6 +2609,9 @@ public class ActionsGen extends CSharpBase {
 			genSetVarRemoveItem(sb, (SetVarRemoveItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
+		else if(evalStmt instanceof SetVarClear) {
+			genSetVarClear(sb, (SetVarClear) evalStmt);
+		}
 		else if(evalStmt instanceof SetVarAddItem) {
 			genSetVarAddItem(sb, (SetVarAddItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -2613,6 +2619,9 @@ public class ActionsGen extends CSharpBase {
 		else if(evalStmt instanceof ArrayVarRemoveItem) {
 			genArrayVarRemoveItem(sb, (ArrayVarRemoveItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof ArrayVarClear) {
+			genArrayVarClear(sb, (ArrayVarClear) evalStmt);
 		}
 		else if(evalStmt instanceof ArrayVarAddItem) {
 			genArrayVarAddItem(sb, (ArrayVarAddItem) evalStmt,
@@ -2721,6 +2730,16 @@ public class ActionsGen extends CSharpBase {
 		assert mvri.getNext()==null;
 	}
 
+	private void genMapVarClear(StringBuffer sb, MapVarClear mvc) {
+		Variable target = mvc.getTarget();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.Clear(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(")");
+		
+		assert mvc.getNext()==null;
+	}
+
 	private void genMapVarAddItem(StringBuffer sb, MapVarAddItem mvai,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		Variable target = mvai.getTarget();
@@ -2760,6 +2779,16 @@ public class ActionsGen extends CSharpBase {
 		assert svri.getNext()==null;
 	}
 
+	private void genSetVarClear(StringBuffer sb, SetVarClear svc) {
+		Variable target = svc.getTarget();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.Clear(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(")");
+		
+		assert svc.getNext()==null;
+	}
+
 	private void genSetVarAddItem(StringBuffer sb, SetVarAddItem svai,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		Variable target = svai.getTarget();
@@ -2793,6 +2822,16 @@ public class ActionsGen extends CSharpBase {
 		sb.append(")");
 		
 		assert avri.getNext()==null;
+	}
+
+	private void genArrayVarClear(StringBuffer sb, ArrayVarClear avc) {
+		Variable target = avc.getTarget();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.Clear(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(")");
+		
+		assert avc.getNext()==null;
 	}
 
 	private void genArrayVarAddItem(StringBuffer sb, ArrayVarAddItem avai,
