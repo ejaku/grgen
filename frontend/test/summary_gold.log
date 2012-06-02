@@ -1,5 +1,6 @@
 OK     should_pass/MaybeNull.grg
 OK     should_pass/ProgramGraphs.grg
+OK     should_pass/ProofLangAnalysis.grg
 OK     should_pass/abstract_replace_parameter.grg
 OK     should_pass/alternative_001.grg
 OK     should_pass/alternative_002.grg
@@ -140,6 +141,7 @@ OK     should_pass/deleteInOptional.grg
 OK     should_pass/deleteInOptional_e.grg
 OK     should_pass/deleteInSubpattern.grg
 OK     should_pass/deleteInSubpattern_e.grg
+OK     should_pass/dominik.grg
 OK     should_pass/dot_001.grg
 OK     should_pass/dot_002.grg
 OK     should_pass/dpo_001.grg
@@ -328,6 +330,7 @@ OK     should_pass/merge_bw.grg
 OK     should_pass/minmax.grg
 OK     should_pass/model_init_001.grg
 OK     should_pass/model_init_002.grg
+OK     should_pass/nadeem.grg
 OK     should_pass/nameof_001.grg
 OK     should_pass/negative_001.grg
 OK     should_pass/negative_002.grg
@@ -423,6 +426,7 @@ OK     should_pass/reuse_007.grg
 OK     should_pass/reuse_008.grg
 OK     should_pass/rewriteparametereval.grg
 OK     should_pass/rule_empty.grg
+OK     should_pass/rules4.grg
 OK     should_pass/same_node_name_as_model_name.grg
 OK     should_pass/sequence_nary_operators.grg
 OK     should_pass/sequence_some_from_set.grg
@@ -436,6 +440,8 @@ OK     should_pass/set_element_parameters_and_addrem.grg
 OK     should_pass/set_identical_assignment.grg
 OK     should_pass/set_node_edge.grg
 OK     should_pass/set_node_edge2.grg
+OK     should_pass/setmaparray.grg
+OK     should_pass/setmaparrayGaggl.grg
 OK     should_pass/snowflakeAGTIVE.grg
 OK     should_pass/strfunc_001.grg
 OK     should_pass/successfulTermination_002.grg
@@ -746,6 +752,7 @@ ERROR  should_fail/delretypesame_004b.grg
 ERROR  should_fail/delretypesame_004b_e.grg
 ERROR  should_fail/delretypesame_004c.grg
 ERROR  should_fail/delretypesame_004c_e.grg
+ERROR  should_fail/dominik.grg
 ERROR  should_fail/dpo_001.grg
 ERROR  should_fail/dpo_002.grg
 ERROR  should_fail/edge_001.grg
