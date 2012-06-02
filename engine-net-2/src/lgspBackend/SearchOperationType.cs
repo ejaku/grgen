@@ -63,7 +63,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         Assign,
         /// <summary>
-        /// Check that element is identical to other element (used for former parameters of inlined subpatterns, which were scheduled without assignments (should be theoretically possible)).
+        /// Check that element is identical to other element (used for former parameters of inlined subpatterns, which were scheduled without assignments).
         /// </summary>
         Identity,
         /// <summary>

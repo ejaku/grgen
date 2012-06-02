@@ -643,18 +643,25 @@ namespace de.unika.ipd.grGen.lgsp
 #if OPCOST_WITH_GEO_MEAN 
                         PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
                             node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 0);
-                        PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                            node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 0);
 #else
                         PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
                             node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 1);
-                        PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                            node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 1);
 #endif
                         planEdges.Add(assignPlanEdge);
                         node.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
-                        planEdges.Add(assignPlanEdgeOpposite);
-                        node.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdgeOpposite);
+
+                        if(!node.AssignmentSource.TempPlanMapping.IsPreset)
+                        {
+#if OPCOST_WITH_GEO_MEAN 
+                            PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
+                                node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 0);
+#else
+                            PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
+                                node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 1);
+#endif
+                            planEdges.Add(assignPlanEdgeOpposite);
+                            node.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdgeOpposite);
+                        }
                     }
                 }
             }
@@ -707,18 +714,25 @@ namespace de.unika.ipd.grGen.lgsp
 #if OPCOST_WITH_GEO_MEAN 
                         PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
                             edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 0);
-                        PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                            edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 0);
 #else
                         PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
                             edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 1);
-                        PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                            edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 1);
 #endif
                         planEdges.Add(assignPlanEdge);
                         edge.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
-                        planEdges.Add(assignPlanEdgeOpposite);
-                        edge.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+
+                        if(!edge.AssignmentSource.TempPlanMapping.IsPreset)
+                        {
+#if OPCOST_WITH_GEO_MEAN 
+                            PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
+                                edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 0);
+#else
+                            PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
+                                edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 1);
+#endif
+                            planEdges.Add(assignPlanEdgeOpposite);
+                            edge.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+                        }
                     }
                 }
             }
@@ -1233,11 +1247,12 @@ exitSecondLoop: ;
             for(int i = 0; i < operations.Count; ++i)
             {
                 PatternElement assignmentSource = ((SearchPlanNode)operations[i].Element).PatternElement.AssignmentSource;
-                if(assignmentSource != null)
+                if(assignmentSource != null && operations[i].Type != SearchOperationType.Identity)
                 {
                     for(int j = 0; j < operations.Count; ++j)
                     {
-                        if(((SearchPlanNode)operations[j].Element).PatternElement == assignmentSource)
+                        if(((SearchPlanNode)operations[j].Element).PatternElement == assignmentSource
+                            && operations[j].Type != SearchOperationType.Identity)
                         {
                             if(operations[i].Type != SearchOperationType.Assign 
                                 && operations[j].Type != SearchOperationType.Assign)
@@ -1246,6 +1261,7 @@ exitSecondLoop: ;
                                 SearchOperation so = new SearchOperation(SearchOperationType.Identity,
                                     operations[i].Element, (SearchPlanNode)operations[j].Element, operations[indexOfSecond].CostToEnd);
                                 operations.Insert(indexOfSecond + 1, so);
+                                break;
                             }
                         }
                     }

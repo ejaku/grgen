@@ -454,12 +454,16 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
                             node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 0);
-                        PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                            node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 1);
                         planEdges.Add(assignPlanEdge);
                         node.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
-                        planEdges.Add(assignPlanEdgeOpposite);
-                        node.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdgeOpposite);
+
+                        if(!node.AssignmentSource.TempPlanMapping.IsPreset)
+                        {
+                            PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
+                                node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 1);
+                            planEdges.Add(assignPlanEdgeOpposite);
+                            node.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdgeOpposite);
+                        }
                     }
                 }
             }
@@ -496,12 +500,16 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
                             edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 0);
-                        PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                            edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 1);
                         planEdges.Add(assignPlanEdge);
                         edge.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
-                        planEdges.Add(assignPlanEdgeOpposite);
-                        edge.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+                        
+                        if(!edge.AssignmentSource.TempPlanMapping.IsPreset)
+                        {
+                            PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
+                                edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 1);
+                            planEdges.Add(assignPlanEdgeOpposite);
+                            edge.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+                        }
                     }
                 }
             }
@@ -987,7 +995,7 @@ namespace de.unika.ipd.grGen.lgsp
                     analyzer.AnalyzeWithInterPatternRelationsKnown(matchingPattern.patternGraph);
                 }
 
-                if((flags & ProcessSpecFlags.Noinline) != 0)
+                if((flags & ProcessSpecFlags.Noinline) == 0)
                 {
                     foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                     {
