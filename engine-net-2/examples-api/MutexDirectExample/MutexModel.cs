@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Feb 05 16:26:23 CET 2012
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sat Jun 02 15:35:06 CEST 2012
 
 using System;
 using System.Collections.Generic;

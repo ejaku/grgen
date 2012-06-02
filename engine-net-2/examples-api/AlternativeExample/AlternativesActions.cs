@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Feb 05 16:25:57 CET 2012
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sat Jun 02 15:34:31 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -15872,50 +15872,62 @@ label3: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Lookup XtoAorB_node_x 
-            foreach(GRGEN_LIBGR.NodeType type_candidate_XtoAorB_node_x in GRGEN_MODEL.NodeType_Node.typeVar.SubOrSameTypes)
+            // Lookup toAorB_edge_y_inlined__sub0 
+            int type_id_candidate_toAorB_edge_y_inlined__sub0 = 1;
+            for(GRGEN_LGSP.LGSPEdge head_candidate_toAorB_edge_y_inlined__sub0 = graph.edgesByTypeHeads[type_id_candidate_toAorB_edge_y_inlined__sub0], candidate_toAorB_edge_y_inlined__sub0 = head_candidate_toAorB_edge_y_inlined__sub0.lgspTypeNext; candidate_toAorB_edge_y_inlined__sub0 != head_candidate_toAorB_edge_y_inlined__sub0; candidate_toAorB_edge_y_inlined__sub0 = candidate_toAorB_edge_y_inlined__sub0.lgspTypeNext)
             {
-                int type_id_candidate_XtoAorB_node_x = type_candidate_XtoAorB_node_x.TypeID;
-                for(GRGEN_LGSP.LGSPNode head_candidate_XtoAorB_node_x = graph.nodesByTypeHeads[type_id_candidate_XtoAorB_node_x], candidate_XtoAorB_node_x = head_candidate_XtoAorB_node_x.lgspTypeNext; candidate_XtoAorB_node_x != head_candidate_XtoAorB_node_x; candidate_XtoAorB_node_x = candidate_XtoAorB_node_x.lgspTypeNext)
-                {
-                    // Push subpattern matching task for _sub0
-                    PatternAction_toAorB taskFor__sub0 = PatternAction_toAorB.getNewTask(actionEnv, openTasks);
-                    taskFor__sub0.toAorB_node_x = candidate_XtoAorB_node_x;
-                    taskFor__sub0.searchPatternpath = false;
-                    taskFor__sub0.matchOfNestingPattern = null;
-                    taskFor__sub0.lastMatchAtPreviousNestingLevel = null;
-                    openTasks.Push(taskFor__sub0);
-                    uint prevGlobal__candidate_XtoAorB_node_x;
-                    prevGlobal__candidate_XtoAorB_node_x = candidate_XtoAorB_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                    candidate_XtoAorB_node_x.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                    // Match subpatterns 
-                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                    // Pop subpattern matching task for _sub0
-                    openTasks.Pop();
-                    PatternAction_toAorB.releaseTask(taskFor__sub0);
-                    // Check whether subpatterns were found 
-                    if(matchesList.Count>0) {
-                        // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
-                        foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
-                        {
-                            Rule_XtoAorB.Match_XtoAorB match = matches.GetNextUnfilledPosition();
-                            match._node_x = candidate_XtoAorB_node_x;
-                            match.__sub0 = (@Pattern_toAorB.Match_toAorB)currentFoundPartialMatch.Pop();
-                            match.__sub0._matchOfEnclosingPattern = match;
-                            matches.PositionWasFilledFixIt();
-                        }
-                        matchesList.Clear();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.Count >= maxMatches)
-                        {
-                            candidate_XtoAorB_node_x.lgspFlags = candidate_XtoAorB_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_XtoAorB_node_x;
-                            return matches;
-                        }
-                        candidate_XtoAorB_node_x.lgspFlags = candidate_XtoAorB_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_XtoAorB_node_x;
-                        continue;
+                // Implicit Source toAorB_node_x_inlined__sub0 from toAorB_edge_y_inlined__sub0 
+                GRGEN_LGSP.LGSPNode candidate_toAorB_node_x_inlined__sub0 = candidate_toAorB_edge_y_inlined__sub0.lgspSource;
+                // Element XtoAorB_node_x assigned from other element toAorB_node_x_inlined__sub0 
+                GRGEN_LGSP.LGSPNode candidate_XtoAorB_node_x = candidate_toAorB_node_x_inlined__sub0;
+                // Push alternative matching task for XtoAorB_alt_0_inlined__sub0_in_XtoAorB
+                AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB taskFor_alt_0_inlined__sub0_in_XtoAorB = AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB.getNewTask(actionEnv, openTasks, Pattern_toAorB.Instance.patternGraph.alternatives[(int)Pattern_toAorB.toAorB_AltNums.@alt_0].alternativeCases);
+                taskFor_alt_0_inlined__sub0_in_XtoAorB.toAorB_edge_y_inlined__sub0 = candidate_toAorB_edge_y_inlined__sub0;
+                taskFor_alt_0_inlined__sub0_in_XtoAorB.searchPatternpath = false;
+                taskFor_alt_0_inlined__sub0_in_XtoAorB.matchOfNestingPattern = null;
+                taskFor_alt_0_inlined__sub0_in_XtoAorB.lastMatchAtPreviousNestingLevel = null;
+                openTasks.Push(taskFor_alt_0_inlined__sub0_in_XtoAorB);
+                uint prevGlobal__candidate_XtoAorB_node_x;
+                prevGlobal__candidate_XtoAorB_node_x = candidate_XtoAorB_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                candidate_XtoAorB_node_x.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                uint prevGlobal__candidate_toAorB_edge_y_inlined__sub0;
+                prevGlobal__candidate_toAorB_edge_y_inlined__sub0 = candidate_toAorB_edge_y_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                candidate_toAorB_edge_y_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
+                // Pop alternative matching task for XtoAorB_alt_0_inlined__sub0_in_XtoAorB
+                openTasks.Pop();
+                AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB.releaseTask(taskFor_alt_0_inlined__sub0_in_XtoAorB);
+                // Check whether subpatterns were found 
+                if(matchesList.Count>0) {
+                    // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
+                    foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
+                    {
+                        Rule_XtoAorB.Match_XtoAorB match = matches.GetNextUnfilledPosition();
+                        Pattern_toAorB.Match_toAorB match__sub0 = new Pattern_toAorB.Match_toAorB();
+                        match__sub0.SetMatchOfEnclosingPattern(match);
+                        match._node_x = candidate_XtoAorB_node_x;
+                        match__sub0._node_x = candidate_toAorB_node_x_inlined__sub0;
+                        match__sub0._edge_y = candidate_toAorB_edge_y_inlined__sub0;
+                        match.__sub0 = match__sub0;
+                        match__sub0._alt_0 = (Pattern_toAorB.IMatch_toAorB_alt_0)currentFoundPartialMatch.Pop();
+                        match__sub0._alt_0.SetMatchOfEnclosingPattern(match__sub0);
+                        matches.PositionWasFilledFixIt();
                     }
+                    matchesList.Clear();
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
+                    {
+                        candidate_toAorB_edge_y_inlined__sub0.lgspFlags = candidate_toAorB_edge_y_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_toAorB_edge_y_inlined__sub0;
+                        candidate_XtoAorB_node_x.lgspFlags = candidate_XtoAorB_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_XtoAorB_node_x;
+                        return matches;
+                    }
+                    candidate_toAorB_edge_y_inlined__sub0.lgspFlags = candidate_toAorB_edge_y_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_toAorB_edge_y_inlined__sub0;
                     candidate_XtoAorB_node_x.lgspFlags = candidate_XtoAorB_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_XtoAorB_node_x;
+                    continue;
                 }
+                candidate_XtoAorB_node_x.lgspFlags = candidate_XtoAorB_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_XtoAorB_node_x;
+                candidate_toAorB_edge_y_inlined__sub0.lgspFlags = candidate_toAorB_edge_y_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_toAorB_edge_y_inlined__sub0;
             }
             return matches;
         }
@@ -16059,6 +16071,198 @@ label3: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max);
+        }
+    }
+
+    public class AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB : GRGEN_LGSP.LGSPSubpatternAction
+    {
+        private AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            actionEnv = actionEnv_; openTasks = openTasks_;
+            patternGraphs = patternGraphs_;
+        }
+
+        public static AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB(actionEnv_, openTasks_, patternGraphs_);
+            }
+            return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.actionEnv = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_XtoAorB_alt_0_inlined__sub0_in_XtoAorB next = null;
+
+        public GRGEN_LGSP.LGSPEdge toAorB_edge_y_inlined__sub0;
+        
+        public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
+        {
+            GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            openTasks.Pop();
+            List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
+            if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // Alternative case toAorB_alt_0_toA 
+            do {
+                patternGraph = patternGraphs[(int)Pattern_toAorB.toAorB_alt_0_CaseNums.@toA];
+                // SubPreset toAorB_edge_y_inlined__sub0 
+                GRGEN_LGSP.LGSPEdge candidate_toAorB_edge_y_inlined__sub0 = toAorB_edge_y_inlined__sub0;
+                // Implicit Target toAorB_alt_0_toA_node_a_inlined__sub0 from toAorB_edge_y_inlined__sub0 
+                GRGEN_LGSP.LGSPNode candidate_toAorB_alt_0_toA_node_a_inlined__sub0 = candidate_toAorB_edge_y_inlined__sub0.lgspTarget;
+                if(candidate_toAorB_alt_0_toA_node_a_inlined__sub0.lgspType.TypeID!=1) {
+                    continue;
+                }
+                if((candidate_toAorB_alt_0_toA_node_a_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                {
+                    continue;
+                }
+                // Check whether there are subpattern matching tasks left to execute
+                if(openTasks.Count==0)
+                {
+                    Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
+                    foundPartialMatches.Add(currentFoundPartialMatch);
+                    Pattern_toAorB.Match_toAorB_alt_0_toA match = new Pattern_toAorB.Match_toAorB_alt_0_toA();
+                    match._node_a = candidate_toAorB_alt_0_toA_node_a_inlined__sub0;
+                    match._edge_y = candidate_toAorB_edge_y_inlined__sub0;
+                    currentFoundPartialMatch.Push(match);
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                    {
+                        openTasks.Push(this);
+                        return;
+                    }
+                    continue;
+                }
+                uint prevGlobal__candidate_toAorB_alt_0_toA_node_a_inlined__sub0;
+                prevGlobal__candidate_toAorB_alt_0_toA_node_a_inlined__sub0 = candidate_toAorB_alt_0_toA_node_a_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                candidate_toAorB_alt_0_toA_node_a_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
+                // Check whether subpatterns were found 
+                if(matchesList.Count>0) {
+                    // subpatterns/alternatives were found, extend the partial matches by our local match object
+                    foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
+                    {
+                        Pattern_toAorB.Match_toAorB_alt_0_toA match = new Pattern_toAorB.Match_toAorB_alt_0_toA();
+                        match._node_a = candidate_toAorB_alt_0_toA_node_a_inlined__sub0;
+                        match._edge_y = candidate_toAorB_edge_y_inlined__sub0;
+                        currentFoundPartialMatch.Push(match);
+                    }
+                    if(matchesList==foundPartialMatches) {
+                        matchesList = new List<Stack<GRGEN_LIBGR.IMatch>>();
+                    } else {
+                        foreach(Stack<GRGEN_LIBGR.IMatch> match in matchesList) {
+                            foundPartialMatches.Add(match);
+                        }
+                        matchesList.Clear();
+                    }
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                    {
+                        candidate_toAorB_alt_0_toA_node_a_inlined__sub0.lgspFlags = candidate_toAorB_alt_0_toA_node_a_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_toAorB_alt_0_toA_node_a_inlined__sub0;
+                        openTasks.Push(this);
+                        return;
+                    }
+                    candidate_toAorB_alt_0_toA_node_a_inlined__sub0.lgspFlags = candidate_toAorB_alt_0_toA_node_a_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_toAorB_alt_0_toA_node_a_inlined__sub0;
+                    continue;
+                }
+                candidate_toAorB_alt_0_toA_node_a_inlined__sub0.lgspFlags = candidate_toAorB_alt_0_toA_node_a_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_toAorB_alt_0_toA_node_a_inlined__sub0;
+            } while(false);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<GRGEN_LIBGR.IMatch>>();
+                } else {
+                    foreach(Stack<GRGEN_LIBGR.IMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
+                }
+            }
+            // Alternative case toAorB_alt_0_toB 
+            do {
+                patternGraph = patternGraphs[(int)Pattern_toAorB.toAorB_alt_0_CaseNums.@toB];
+                // SubPreset toAorB_edge_y_inlined__sub0 
+                GRGEN_LGSP.LGSPEdge candidate_toAorB_edge_y_inlined__sub0 = toAorB_edge_y_inlined__sub0;
+                // Implicit Target toAorB_alt_0_toB_node_b_inlined__sub0 from toAorB_edge_y_inlined__sub0 
+                GRGEN_LGSP.LGSPNode candidate_toAorB_alt_0_toB_node_b_inlined__sub0 = candidate_toAorB_edge_y_inlined__sub0.lgspTarget;
+                if(candidate_toAorB_alt_0_toB_node_b_inlined__sub0.lgspType.TypeID!=2) {
+                    continue;
+                }
+                if((candidate_toAorB_alt_0_toB_node_b_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                {
+                    continue;
+                }
+                // Check whether there are subpattern matching tasks left to execute
+                if(openTasks.Count==0)
+                {
+                    Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
+                    foundPartialMatches.Add(currentFoundPartialMatch);
+                    Pattern_toAorB.Match_toAorB_alt_0_toB match = new Pattern_toAorB.Match_toAorB_alt_0_toB();
+                    match._node_b = candidate_toAorB_alt_0_toB_node_b_inlined__sub0;
+                    match._edge_y = candidate_toAorB_edge_y_inlined__sub0;
+                    currentFoundPartialMatch.Push(match);
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                    {
+                        openTasks.Push(this);
+                        return;
+                    }
+                    continue;
+                }
+                uint prevGlobal__candidate_toAorB_alt_0_toB_node_b_inlined__sub0;
+                prevGlobal__candidate_toAorB_alt_0_toB_node_b_inlined__sub0 = candidate_toAorB_alt_0_toB_node_b_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                candidate_toAorB_alt_0_toB_node_b_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
+                // Check whether subpatterns were found 
+                if(matchesList.Count>0) {
+                    // subpatterns/alternatives were found, extend the partial matches by our local match object
+                    foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
+                    {
+                        Pattern_toAorB.Match_toAorB_alt_0_toB match = new Pattern_toAorB.Match_toAorB_alt_0_toB();
+                        match._node_b = candidate_toAorB_alt_0_toB_node_b_inlined__sub0;
+                        match._edge_y = candidate_toAorB_edge_y_inlined__sub0;
+                        currentFoundPartialMatch.Push(match);
+                    }
+                    if(matchesList==foundPartialMatches) {
+                        matchesList = new List<Stack<GRGEN_LIBGR.IMatch>>();
+                    } else {
+                        foreach(Stack<GRGEN_LIBGR.IMatch> match in matchesList) {
+                            foundPartialMatches.Add(match);
+                        }
+                        matchesList.Clear();
+                    }
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                    {
+                        candidate_toAorB_alt_0_toB_node_b_inlined__sub0.lgspFlags = candidate_toAorB_alt_0_toB_node_b_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_toAorB_alt_0_toB_node_b_inlined__sub0;
+                        openTasks.Push(this);
+                        return;
+                    }
+                    candidate_toAorB_alt_0_toB_node_b_inlined__sub0.lgspFlags = candidate_toAorB_alt_0_toB_node_b_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_toAorB_alt_0_toB_node_b_inlined__sub0;
+                    continue;
+                }
+                candidate_toAorB_alt_0_toB_node_b_inlined__sub0.lgspFlags = candidate_toAorB_alt_0_toB_node_b_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_toAorB_alt_0_toB_node_b_inlined__sub0;
+            } while(false);
+            openTasks.Push(this);
+            return;
         }
     }
 
@@ -17135,77 +17339,168 @@ maxMatchesIterReached:
         private void InitActions()
         {
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
-            analyzer.AnalyzeNestingOfAndRemember(Pattern_toAorB.Instance);
-            analyzer.AnalyzeNestingOfAndRemember(Rule_createA.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Pattern_toAorB.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Pattern_toAorB.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Pattern_toAorB.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createA.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_createA.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_createA.Instance);
             actions.Add("createA", (GRGEN_LGSP.LGSPAction) Action_createA.Instance);
             @createA = Action_createA.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_createB.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createB.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_createB.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_createB.Instance);
             actions.Add("createB", (GRGEN_LGSP.LGSPAction) Action_createB.Instance);
             @createB = Action_createB.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_createC.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createC.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_createC.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_createC.Instance);
             actions.Add("createC", (GRGEN_LGSP.LGSPAction) Action_createC.Instance);
             @createC = Action_createC.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_createAtoB.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createAtoB.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_createAtoB.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_createAtoB.Instance);
             actions.Add("createAtoB", (GRGEN_LGSP.LGSPAction) Action_createAtoB.Instance);
             @createAtoB = Action_createAtoB.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_leer.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_leer.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_leer.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_leer.Instance);
             actions.Add("leer", (GRGEN_LGSP.LGSPAction) Action_leer.Instance);
             @leer = Action_leer.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_AorB.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_AorB.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_AorB.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_AorB.Instance);
             actions.Add("AorB", (GRGEN_LGSP.LGSPAction) Action_AorB.Instance);
             @AorB = Action_AorB.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_AandnotCorB.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_AandnotCorB.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_AandnotCorB.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_AandnotCorB.Instance);
             actions.Add("AandnotCorB", (GRGEN_LGSP.LGSPAction) Action_AandnotCorB.Instance);
             @AandnotCorB = Action_AandnotCorB.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_AorBorC.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_AorBorC.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_AorBorC.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_AorBorC.Instance);
             actions.Add("AorBorC", (GRGEN_LGSP.LGSPAction) Action_AorBorC.Instance);
             @AorBorC = Action_AorBorC.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_AtoAorB.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_AtoAorB.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_AtoAorB.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_AtoAorB.Instance);
             actions.Add("AtoAorB", (GRGEN_LGSP.LGSPAction) Action_AtoAorB.Instance);
             @AtoAorB = Action_AtoAorB.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_createComplex.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createComplex.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_createComplex.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_createComplex.Instance);
             actions.Add("createComplex", (GRGEN_LGSP.LGSPAction) Action_createComplex.Instance);
             @createComplex = Action_createComplex.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_Complex.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_Complex.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_Complex.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_Complex.Instance);
             actions.Add("Complex", (GRGEN_LGSP.LGSPAction) Action_Complex.Instance);
             @Complex = Action_Complex.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_ComplexMax.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_ComplexMax.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_ComplexMax.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_ComplexMax.Instance);
             actions.Add("ComplexMax", (GRGEN_LGSP.LGSPAction) Action_ComplexMax.Instance);
             @ComplexMax = Action_ComplexMax.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_createABA.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createABA.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_createABA.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_createABA.Instance);
             actions.Add("createABA", (GRGEN_LGSP.LGSPAction) Action_createABA.Instance);
             @createABA = Action_createABA.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_homm.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_homm.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_homm.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_homm.Instance);
             actions.Add("homm", (GRGEN_LGSP.LGSPAction) Action_homm.Instance);
             @homm = Action_homm.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_XtoAorB.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_XtoAorB.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_XtoAorB.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_XtoAorB.Instance);
             actions.Add("XtoAorB", (GRGEN_LGSP.LGSPAction) Action_XtoAorB.Instance);
             @XtoAorB = Action_XtoAorB.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_alternative_in_negative.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_alternative_in_negative.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_alternative_in_negative.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_alternative_in_negative.Instance);
             actions.Add("alternative_in_negative", (GRGEN_LGSP.LGSPAction) Action_alternative_in_negative.Instance);
             @alternative_in_negative = Action_alternative_in_negative.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_alternative_in_iterated.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_alternative_in_iterated.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_alternative_in_iterated.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_alternative_in_iterated.Instance);
             actions.Add("alternative_in_iterated", (GRGEN_LGSP.LGSPAction) Action_alternative_in_iterated.Instance);
             @alternative_in_iterated = Action_alternative_in_iterated.Instance;
-            analyzer.ComputeInterPatternRelations();
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Pattern_toAorB.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createA.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createB.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createC.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createAtoB.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_leer.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_AorB.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_AandnotCorB.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_AorBorC.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_AtoAorB.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createComplex.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_Complex.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_ComplexMax.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createABA.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_homm.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_XtoAorB.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_alternative_in_negative.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_alternative_in_iterated.Instance);
+            analyzer.ComputeInterPatternRelations(false);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Pattern_toAorB.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createA.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createB.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createC.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createAtoB.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_leer.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_AorB.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_AandnotCorB.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_AorBorC.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_AtoAorB.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createComplex.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_Complex.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_ComplexMax.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_createABA.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_homm.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_XtoAorB.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_alternative_in_negative.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_alternative_in_iterated.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Pattern_toAorB.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_createA.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_createB.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_createC.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_createAtoB.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_leer.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_AorB.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_AandnotCorB.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_AorBorC.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_AtoAorB.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_createComplex.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_Complex.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_ComplexMax.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_createABA.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_homm.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_XtoAorB.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_alternative_in_negative.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_alternative_in_iterated.Instance.patternGraph);
+            Pattern_toAorB.Instance.patternGraph.maxNegLevel = 0;
+            Rule_createA.Instance.patternGraph.maxNegLevel = 0;
+            Rule_createB.Instance.patternGraph.maxNegLevel = 0;
+            Rule_createC.Instance.patternGraph.maxNegLevel = 0;
+            Rule_createAtoB.Instance.patternGraph.maxNegLevel = 0;
+            Rule_leer.Instance.patternGraph.maxNegLevel = 0;
+            Rule_AorB.Instance.patternGraph.maxNegLevel = 0;
+            Rule_AandnotCorB.Instance.patternGraph.maxNegLevel = 0;
+            Rule_AorBorC.Instance.patternGraph.maxNegLevel = 0;
+            Rule_AtoAorB.Instance.patternGraph.maxNegLevel = 0;
+            Rule_createComplex.Instance.patternGraph.maxNegLevel = 0;
+            Rule_Complex.Instance.patternGraph.maxNegLevel = 0;
+            Rule_ComplexMax.Instance.patternGraph.maxNegLevel = 0;
+            Rule_createABA.Instance.patternGraph.maxNegLevel = 0;
+            Rule_homm.Instance.patternGraph.maxNegLevel = 0;
+            Rule_XtoAorB.Instance.patternGraph.maxNegLevel = 0;
+            Rule_alternative_in_negative.Instance.patternGraph.maxNegLevel = 0;
+            Rule_alternative_in_iterated.Instance.patternGraph.maxNegLevel = 0;
+            analyzer.AnalyzeNestingOfPatternGraph(Pattern_toAorB.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createA.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createB.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createC.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createAtoB.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_leer.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_AorB.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_AandnotCorB.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_AorBorC.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_AtoAorB.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createComplex.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_Complex.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_ComplexMax.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_createABA.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_homm.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_XtoAorB.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_alternative_in_negative.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_alternative_in_iterated.Instance.patternGraph, true);
+            analyzer.ComputeInterPatternRelations(true);
         }
         
         public IAction_createA @createA;

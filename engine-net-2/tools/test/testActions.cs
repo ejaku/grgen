@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Feb 05 16:26:05 CET 2012
+// Generated from "test.grg" on Sat Jun 02 15:34:40 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -571,11 +571,17 @@ namespace de.unika.ipd.grGen.Action_test
         private void InitActions()
         {
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
-            analyzer.AnalyzeNestingOfAndRemember(Rule_testRule.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_testRule.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_testRule.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_testRule.Instance);
             actions.Add("testRule", (GRGEN_LGSP.LGSPAction) Action_testRule.Instance);
             @testRule = Action_testRule.Instance;
-            analyzer.ComputeInterPatternRelations();
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_testRule.Instance);
+            analyzer.ComputeInterPatternRelations(false);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_testRule.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_testRule.Instance.patternGraph);
+            Rule_testRule.Instance.patternGraph.maxNegLevel = 0;
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_testRule.Instance.patternGraph, true);
+            analyzer.ComputeInterPatternRelations(true);
         }
         
         public IAction_testRule @testRule;

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Feb 05 16:26:07 CET 2012
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sat Jun 02 15:34:47 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -4246,39 +4246,80 @@ namespace de.unika.ipd.grGen.Action_Turing3
         private void InitActions()
         {
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
-            analyzer.AnalyzeNestingOfAndRemember(Rule_readZeroRule.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_readZeroRule.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_readZeroRule.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_readZeroRule.Instance);
             actions.Add("readZeroRule", (GRGEN_LGSP.LGSPAction) Action_readZeroRule.Instance);
             @readZeroRule = Action_readZeroRule.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_readOneRule.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_readOneRule.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_readOneRule.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_readOneRule.Instance);
             actions.Add("readOneRule", (GRGEN_LGSP.LGSPAction) Action_readOneRule.Instance);
             @readOneRule = Action_readOneRule.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_ensureMoveLeftValidRule.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_ensureMoveLeftValidRule.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_ensureMoveLeftValidRule.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_ensureMoveLeftValidRule.Instance);
             actions.Add("ensureMoveLeftValidRule", (GRGEN_LGSP.LGSPAction) Action_ensureMoveLeftValidRule.Instance);
             @ensureMoveLeftValidRule = Action_ensureMoveLeftValidRule.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_ensureMoveRightValidRule.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_ensureMoveRightValidRule.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_ensureMoveRightValidRule.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_ensureMoveRightValidRule.Instance);
             actions.Add("ensureMoveRightValidRule", (GRGEN_LGSP.LGSPAction) Action_ensureMoveRightValidRule.Instance);
             @ensureMoveRightValidRule = Action_ensureMoveRightValidRule.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_moveLeftRule.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_moveLeftRule.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_moveLeftRule.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_moveLeftRule.Instance);
             actions.Add("moveLeftRule", (GRGEN_LGSP.LGSPAction) Action_moveLeftRule.Instance);
             @moveLeftRule = Action_moveLeftRule.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_moveRightRule.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_moveRightRule.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_moveRightRule.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_moveRightRule.Instance);
             actions.Add("moveRightRule", (GRGEN_LGSP.LGSPAction) Action_moveRightRule.Instance);
             @moveRightRule = Action_moveRightRule.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_countZeros.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_countZeros.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_countZeros.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_countZeros.Instance);
             actions.Add("countZeros", (GRGEN_LGSP.LGSPAction) Action_countZeros.Instance);
             @countZeros = Action_countZeros.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_countOnes.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_countOnes.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_countOnes.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_countOnes.Instance);
             actions.Add("countOnes", (GRGEN_LGSP.LGSPAction) Action_countOnes.Instance);
             @countOnes = Action_countOnes.Instance;
-            analyzer.ComputeInterPatternRelations();
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_readZeroRule.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_readOneRule.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_ensureMoveLeftValidRule.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_ensureMoveRightValidRule.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_moveLeftRule.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_moveRightRule.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_countZeros.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_countOnes.Instance);
+            analyzer.ComputeInterPatternRelations(false);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_readZeroRule.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_readOneRule.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_ensureMoveLeftValidRule.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_ensureMoveRightValidRule.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_moveLeftRule.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_moveRightRule.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_countZeros.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_countOnes.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_readZeroRule.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_readOneRule.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_ensureMoveLeftValidRule.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_ensureMoveRightValidRule.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_moveLeftRule.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_moveRightRule.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_countZeros.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_countOnes.Instance.patternGraph);
+            Rule_readZeroRule.Instance.patternGraph.maxNegLevel = 0;
+            Rule_readOneRule.Instance.patternGraph.maxNegLevel = 0;
+            Rule_ensureMoveLeftValidRule.Instance.patternGraph.maxNegLevel = 0;
+            Rule_ensureMoveRightValidRule.Instance.patternGraph.maxNegLevel = 0;
+            Rule_moveLeftRule.Instance.patternGraph.maxNegLevel = 0;
+            Rule_moveRightRule.Instance.patternGraph.maxNegLevel = 0;
+            Rule_countZeros.Instance.patternGraph.maxNegLevel = 0;
+            Rule_countOnes.Instance.patternGraph.maxNegLevel = 0;
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_readZeroRule.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_readOneRule.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_ensureMoveLeftValidRule.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_ensureMoveRightValidRule.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_moveLeftRule.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_moveRightRule.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_countZeros.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_countOnes.Instance.patternGraph, true);
+            analyzer.ComputeInterPatternRelations(true);
         }
         
         public IAction_readZeroRule @readZeroRule;

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Feb 05 16:26:12 CET 2012
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sat Jun 02 15:34:53 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -917,15 +917,26 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         private void InitActions()
         {
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
-            analyzer.AnalyzeNestingOfAndRemember(Rule_init.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_init.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_init.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_init.Instance);
             actions.Add("init", (GRGEN_LGSP.LGSPAction) Action_init.Instance);
             @init = Action_init.Instance;
-            analyzer.AnalyzeNestingOfAndRemember(Rule_r.Instance);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_r.Instance.patternGraph, false);
+            GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_r.Instance.patternGraph);
+            analyzer.RememberMatchingPattern(Rule_r.Instance);
             actions.Add("r", (GRGEN_LGSP.LGSPAction) Action_r.Instance);
             @r = Action_r.Instance;
-            analyzer.ComputeInterPatternRelations();
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_init.Instance);
-            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_r.Instance);
+            analyzer.ComputeInterPatternRelations(false);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_init.Instance.patternGraph);
+            analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_r.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_init.Instance.patternGraph);
+            analyzer.InlineSubpatternUsages(Rule_r.Instance.patternGraph);
+            Rule_init.Instance.patternGraph.maxNegLevel = 0;
+            Rule_r.Instance.patternGraph.maxNegLevel = 0;
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_init.Instance.patternGraph, true);
+            analyzer.AnalyzeNestingOfPatternGraph(Rule_r.Instance.patternGraph, true);
+            analyzer.ComputeInterPatternRelations(true);
         }
         
         public IAction_init @init;
