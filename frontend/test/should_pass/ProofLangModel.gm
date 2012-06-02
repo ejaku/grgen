@@ -1,0 +1,26 @@
+node class NamedItem {
+  id : string = "";
+  content : string = "";
+}
+
+node class Theory extends NamedItem {}
+node class Definition extends NamedItem {}
+node class Theorem extends NamedItem {}
+node class Lemma extends NamedItem {}
+node class Proof extends NamedItem {}
+node class Have extends NamedItem {}
+node class Label extends NamedItem {}
+node class Assume extends NamedItem {}
+node class Hyp extends NamedItem {}
+node class Thus extends NamedItem {}
+node class URef extends NamedItem {}
+
+node class Impact extends NamedItem {}
+
+edge class deflink {}
+edge class hyplink {}
+edge class proof {}
+edge class thdeflink {}
+edge class next {}
+edge class support {}
+edge class has {}

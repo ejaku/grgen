@@ -18,7 +18,9 @@ import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EvalStatement;
+import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
@@ -413,6 +415,25 @@ public class GraphNode extends BaseNode {
 
 		for(BaseNode imp : imperativeStmts.getChildren()) {
 			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
+		}
+
+		// add deferred exec elements only mentioned there to the IR
+		// (they're declared in an enclosing graph and locally only show up in the deferred exec)
+		for(ImperativeStmt impStmt : gr.getImperativeStmts()) {
+			if(impStmt instanceof Exec) {
+				Set<Entity> neededEntities = ((Exec)impStmt).getNeededEntities();
+				for(Entity entity : neededEntities) {
+					if(entity instanceof Node) {
+						addNodeIfNotYetContained(gr, (Node)entity);
+					} else if(entity instanceof Edge) {
+						addEdgeIfNotYetContained(gr, (Edge)entity);
+					} else {
+						if(!gr.hasVar((Variable)entity)) {
+							gr.addVariable((Variable)entity);
+						}
+					}
+				}
+			}
 		}
 
 		// ensure def to be yielded to elements are hom to all others

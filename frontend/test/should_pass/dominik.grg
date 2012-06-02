@@ -1,0 +1,17 @@
+pattern gnodes(var counter:int)
+{
+    alternative {
+        Base {
+            if { counter==0; }
+          modify {}
+        }
+        Step {
+            if { counter!=0; }
+            sub:gnodes(counter-1);
+            modify {
+                sub();
+            }
+        }
+    }
+    modify {}
+} 

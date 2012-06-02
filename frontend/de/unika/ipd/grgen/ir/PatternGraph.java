@@ -872,6 +872,18 @@ edgeHom:
 			return; // edge which must get matched found -> can't build empty path
 		}
 		
+		for(Expression cond : getConditions()) {
+			if(cond instanceof Constant) {
+				if(((Constant)cond).value instanceof Boolean) {
+					Constant constCond = (Constant)cond; 
+					if(((Boolean)constCond.value)==true) {
+						continue;
+					}
+				}
+			}
+			return; // a non-const or non-true const condition is a sign that the recursion will terminate
+		}
+		
 		for(Alternative alternative : getAlts()) {
 			for(Rule altCase : alternative.getAlternativeCases()) {
 				HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);

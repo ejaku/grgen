@@ -1,0 +1,40 @@
+using ProofLangModel;
+
+rule getLabels (successor:NamedItem, uref:URef, ref x:set<NamedItem>)
+{
+  alternative {
+      NoParent {  // there is no parent node wrt. to next relation
+          negative {
+              current : NamedItem -:next-> successor;
+            }
+            modify {}
+        }
+      FoundCorrectLabel { // we have found a defining link
+          current : NamedItem -:next-> successor;
+            label : Label -:deflink-> current;
+            if { label.id == uref.content; }
+            modify {
+              eval { x.add(current); }
+              exec( getLabels(current, uref, ::labels) );
+          }
+        }
+        FoundInCorrectLabel { // we have found a defining link
+          current : NamedItem -:next-> successor;
+            label : Label -:deflink-> current;
+            if { label.id != uref.content; }
+            modify {
+              exec( getLabels(current, uref, ::labels) );
+                }
+        }
+        NoLabel { // there is no label to current
+          current : NamedItem -:next-> successor;
+            negative
+            {
+              label : Label -:deflink-> current;
+          }
+            modify {
+              exec( getLabels(current, uref, ::labels) );
+                }
+        }
+  }
+} 
