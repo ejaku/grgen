@@ -1,4 +1,24 @@
-﻿v3.1 beta 4 (2012-04-06)
+﻿v3.5 beta (2012-06-02)
+ Subpattern inlining supported now:
+  - potential to speed up transformations with subpattern usages dramatically,
+    esp. when subpatterns were used for extracting common parts, structuring transformations,
+	causing the containing patterns to become disconnected
+  - required some hefty internal changes, as a quick workaround against bugs in case some show up
+    it can be disabled with the -noinline parameters to the grgen compiler, 
+    and a corresponding shell command: set noinline on|off
+
+ Bugfixes/misc. stuff:
+  - generate FooModelExternalFunctions.cs even when only external classes (and no external functions) are declared
+  - copy external functions when adding models to models
+  - clear method on set/map/array was only implemented in parser, now complete
+  - allowed to yield to non-node/edge variables in exec (of rules)
+  - parameters occuring only in deferred execs but not their containing pattern now work
+  - the detection for a recursion of empty subpatterns now assumes a recursion will eventually terminate
+    if conditions which are not statically known to be true are found on such an otherwise empty recursive path
+  - enough fundamental technical changes to call the child v3.5 instead of v3.1 by now
+
+  
+v3.1 beta 4 (2012-04-06)
  Several procedures for basic graph manipulation added to sequence computations:
   - add(:NodeType):Node - creates node of given type and adds it to the graph
   - add(:EdgeType, src:Node, tgt:Node):Edge - creates edge of given type 
