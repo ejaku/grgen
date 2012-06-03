@@ -1,6 +1,6 @@
 ﻿/*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 3.0
- * Copyright (C) 2003-2011 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 3.5
+ * Copyright (C) 2003-2012 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("test")]
 [assembly: AssemblyProduct("test")]
 [assembly: AssemblyCompany("Universität Karlsruhe, IPD Goos")]
-[assembly: AssemblyCopyright("Copyright © 2003-2011 Universität Karlsruhe, IPD Goos")]
+[assembly: AssemblyCopyright("Copyright © 2003-2012 Universität Karlsruhe, IPD Goos")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -37,6 +37,6 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 3.0")]
-[assembly: AssemblyFileVersion("3.0.0.0")]
+[assembly: AssemblyVersion("3.5.0.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 3.5")]
+[assembly: AssemblyFileVersion("3.5.0.0")]
