@@ -1734,6 +1734,11 @@
             Execute the negatives, independents, and conditionals only at the end of matching.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ProcessSpecFlags.Noinline">
+            <summary>
+            Forbids inlining of subpatterns (inlining has quite some potential for bugs, this gives the user a quick workaround in case there's a real bug).
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IBackend">
             <summary>
             A helper class for backend independent graph and rule handling.
