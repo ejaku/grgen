@@ -505,8 +505,9 @@ The processing is done in several passes in \texttt{lgsp\-Matcher\-Generator.cs}
   \label{figbackendcodegen1}
 \end{figure}
 
-First a \texttt{PlanGraph} is created from the \texttt{PatternGraph} and data from analysing the host graph
-(for generating the initial matcher some default data given from the frontend is used).
+First the subpattern usages are inlined when inlining is assumed to be benefitial; this allows the programmer to extract common patterns into subpatterns increasing readability and modularity without loosing performance (but as of now only one level of inlining is supported, so beware of too much subpattern extraction, especially if the containing pattern would get disconnected by this). 
+After (and partly before) this pattern rewriting the patterns and their relations are analyzed by the \texttt{PatternGraphAnalyzer} -- the analyze results are used for emitting better code later on (choosing more efficient but more limited implementations for language features which are not sufficient in the general case but are so for the specification at hand).
+Then a \texttt{PlanGraph} is created from the \texttt{PatternGraph} and data from analyzing the host graph (for generating the initial matcher some default data given from the frontend is used).
 A mimimum spanning arborescence is computed defining a hopefully optimal set of operations for matching the pattern (the hopes are founded, see \cite{BKG:07}).
 A \texttt{SearchPlanGraph} is built from the arborescence marked in the \texttt{PlanGraph} and used thereafter for scheduling the operations into a \texttt{ScheduledSearchPlan}, which gets completed by \texttt{Append\-Homomorphy\-Information} with isomorphy checking information.
 The \texttt{ScheduledSearchPlan} is then stored in the \texttt{PatternGraph} it was computed from.

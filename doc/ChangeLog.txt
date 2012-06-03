@@ -1,4 +1,4 @@
-﻿v3.5 beta (2012-06-02)
+﻿v3.5 beta (2012-06-03)
  Subpattern inlining supported now:
   - potential to speed up transformations with subpattern usages dramatically,
     esp. when subpatterns were used for extracting common parts, structuring transformations,

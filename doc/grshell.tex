@@ -218,11 +218,12 @@ In this case the necessary assemblies will be created on the fly.
 Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 \begin{rail}
-  'new' 'set' ('keepdebug'|'lazynic') ('on'|'off')
+  'new' 'set' ('keepdebug'|'lazynic'|'noinline') ('on'|'off')
 \end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{on}\ixkeyw{off}
 Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols,
-or configures the generation of the matchers to execute negatives, independents, and conditions only at the end of matching (normally asap).
-Maps to the \texttt{-keep} and the \texttt{-debug} options or to the \texttt{-lazynic} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+or configures the generation of the matchers to execute negatives, independents, and conditions only at the end of matching (normally asap),
+or configures the generation of the matchers to never inline subpatterns.
+Maps to the \texttt{-keep} and the \texttt{-debug} options or to the \texttt{-lazynic} or to the \texttt{-noinline} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 \begin{rail}
   'show' 'graphs'
