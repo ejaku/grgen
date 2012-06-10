@@ -1207,6 +1207,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         public GrGenType[] outputs;
+
+        /// <summary>
+        /// An array of the names of the available filters (external extensions)
+        /// </summary>
+        public String[] Filters { get { return filters; } }
+
+        /// <summary>
+        /// An array of the names of the available filters (external extensions)
+        /// </summary>
+        public String[] filters;
     }
 
     /// <summary>

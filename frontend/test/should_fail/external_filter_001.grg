@@ -1,0 +1,13 @@
+rule test1
+{
+    replace {
+		exec(test2\f1);
+    }
+} \ f1
+
+rule test2
+{
+	modify {
+	}
+}
+

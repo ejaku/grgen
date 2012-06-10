@@ -1,0 +1,20 @@
+new graph ExternalFiltersAndSequences
+
+exec init
+
+# test rule which calls all the external sequences and filtered rules in an exec
+exec r
+
+# test the external sequences directly
+exec (::x,::y,::z,::u,::v)=foo(42, 3.141, Enu::hurz, "S21-heiteitei", true)
+exec (::obj) = bar(null, ::obj)
+exec isnull(::obj)
+exec (::a,::b) = bla(::a, ::b)
+exec (::a,::b) = blo(::a, ::b)
+exec huh
+
+# test the filtered rules/filtering of rule matches directly
+exec filterBase\f1
+exec [filterBass\f2]
+exec $::x[filterBass\f3]
+exec (::ee)=filterHass(::m)\f4;

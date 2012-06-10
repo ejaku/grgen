@@ -264,6 +264,11 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         GrGenType[] Outputs { get; }
+
+        /// <summary>
+        /// An array of the names of the available filters (external extensions)
+        /// </summary>
+        String[] Filters { get; }
     }
 }
 

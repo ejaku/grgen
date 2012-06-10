@@ -37,6 +37,7 @@ public class TestDeclNode extends ActionDeclNode {
 
 	protected CollectNode<BaseNode> returnFormalParametersUnresolved;
 	protected CollectNode<TypeNode> returnFormalParameters;
+	protected CollectNode<IdentNode> filters;
 	private TestTypeNode type;
 	protected PatternGraphNode pattern;
 
@@ -51,9 +52,14 @@ public class TestDeclNode extends ActionDeclNode {
 		becomeParent(this.pattern);
 	}
 
-	public TestDeclNode(IdentNode id, PatternGraphNode pattern,
-						CollectNode<BaseNode> rets) {
+	public TestDeclNode(IdentNode id, PatternGraphNode pattern, 
+			CollectNode<BaseNode> rets) {
 		this(id, testType, pattern, rets);
+	}
+
+	public void addFilters(CollectNode<IdentNode> filters) {
+		this.filters = filters;
+		becomeParent(this.filters);
 	}
 
 	/** returns children of this node */
@@ -64,6 +70,7 @@ public class TestDeclNode extends ActionDeclNode {
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(getValidVersion(returnFormalParametersUnresolved, returnFormalParameters));
 		children.add(pattern);
+		children.add(filters);
 		return children;
 	}
 
@@ -75,6 +82,7 @@ public class TestDeclNode extends ActionDeclNode {
 		childrenNames.add("type");
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
+		childrenNames.add("filters");
 		return childrenNames;
 	}
 
@@ -303,6 +311,10 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			Expression aReturn = aReturnAST.checkIR(Expression.class);
 			// actual return-parameter
 			ma.addReturn(aReturn);
+		}
+		
+		for(IdentNode filter : filters.getChildren()) {
+			ma.addFilter(filter.toString());
 		}
 	}
 

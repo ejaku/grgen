@@ -1,0 +1,15 @@
+sequence seq { true }
+
+rule test1
+{
+    replace {
+		exec(seq\f2);
+    }
+} \ f1
+
+rule test2
+{
+	modify {
+		exec(test1\f1);
+	}
+} \ f2

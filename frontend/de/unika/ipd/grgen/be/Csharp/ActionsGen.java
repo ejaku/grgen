@@ -205,8 +205,10 @@ public class ActionsGen extends CSharpBase {
 	private void genSequence(StringBuffer sb, Sequence sequence) {
 		String sequenceName = formatIdentifiable(sequence);
 		String className = "SequenceInfo_"+sequenceName;
+		boolean isExternalSequence = sequence.getExec().getXGRSString().length()==0;
+		String baseClass = isExternalSequence ? "GRGEN_LIBGR.ExternalDefinedSequenceInfo" : "GRGEN_LIBGR.DefinedSequenceInfo";
 
-		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.DefinedSequenceInfo\n");
+		sb.append("\tpublic class " + className + " : " + baseClass + "\n");
 		sb.append("\t{\n");
 		sb.append("\t\tprivate static " + className + " instance = null;\n");
 		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
@@ -244,7 +246,8 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\t\"" + sequenceName + "\",\n");
-		sb.append("\t\t\t\t\t\t\"" + sequence.getExec().getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\",\n");
+		if(!isExternalSequence)
+			sb.append("\t\t\t\t\t\t\"" + sequence.getExec().getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\",\n");
 		sb.append("\t\t\t\t\t\t" + sequence.getExec().getLineNr() + "\n");
 		sb.append("\t\t\t\t\t  )\n");
 		sb.append("\t\t{\n");
@@ -1312,6 +1315,12 @@ public class ActionsGen extends CSharpBase {
 					sb.append(formatTypeClassRef(expr.getType()) + ".typeVar, ");
 				else
 					sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(expr.getType()) + ")), ");
+			}
+			sb.append("};\n");
+			
+			sb.append("\t\t\tfilters = new String[] { ");
+			for(String name : action.getFilters()) {
+				sb.append("\"" + name + "\", ");
 			}
 			sb.append("};\n");
 		}

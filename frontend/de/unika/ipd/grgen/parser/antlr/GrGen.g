@@ -305,12 +305,15 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 		CollectNode<BaseNode> modifyParams = new CollectNode<BaseNode>();
 		ExecNode exec = null;
 		AnonymousPatternNamer namer = new AnonymousPatternNamer(env);
+		TestDeclNode actionDecl = null;
 	}
 
-	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] ret=returnTypes LBRACE
+	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
+		ret=returnTypes LBRACE
 		left=patternPart[getCoords(t), params, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 			{
-				id.setDecl(new TestDeclNode(id, left, ret));
+				actionDecl = new TestDeclNode(id, left, ret);
+				id.setDecl(actionDecl);
 				actionChilds.addChild(id);
 			}
 		RBRACE popScope
@@ -319,27 +322,34 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 				reportError(getCoords(t), "no \"dpo\" or \"dangling\" or \"identification\" modifier allowed for test");
 			}
 		}
-	| r=RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] ret=returnTypes LBRACE
+		externalFilters[id, actionDecl]
+	| r=RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
+		ret=returnTypes LBRACE
 		left=patternPart[getCoords(r), params, namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
-				id.setDecl(new RuleDeclNode(id, left, rightReplace, ret));
+				actionDecl = new RuleDeclNode(id, left, rightReplace, ret);
+				id.setDecl(actionDecl);
 				actionChilds.addChild(id);
 			}
 		| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
-				id.setDecl(new RuleDeclNode(id, left, rightModify, ret));
+				actionDecl = new RuleDeclNode(id, left, rightModify, ret);
+				id.setDecl(actionDecl);
 				actionChilds.addChild(id);
 			}
 		| emptyRightModify=emptyModifyPart[getCoords(r), dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
-				id.setDecl(new RuleDeclNode(id, left, emptyRightModify, ret));
+				actionDecl = new RuleDeclNode(id, left, emptyRightModify, ret);
+				id.setDecl(actionDecl);
 				actionChilds.addChild(id);
 			}
 		)
 		RBRACE popScope
+		externalFilters[id, actionDecl]
 	| p=PATTERN id=patIdentDecl pushScope[id] params=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
-		((MODIFY|REPLACE) mp=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })? LBRACE
+		((MODIFY|REPLACE) mp=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })?
+		LBRACE
 		left=patternPart[getCoords(p), params, namer, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[modifyParams, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
@@ -357,13 +367,15 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 		RBRACE popScope
 	| s=SEQUENCE id=actionIdentDecl pushScope[id] { exec = new ExecNode(getCoords(s)); }
 		inParams=execInParameters[exec] outParams=execOutParameters[exec]
-		LBRACE
-			xgrs[exec] 
-			{
-				id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
-				sequenceChilds.addChild(id);
-			}
-		RBRACE popScope
+		(LBRACE 
+			xgrs[exec]
+		RBRACE
+		| SEMI // no body? -> external sequence (externally implemented)
+		) popScope
+		{
+			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
+			sequenceChilds.addChild(id);
+		}
 	;
 
 parameters [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
@@ -446,6 +458,20 @@ returnType returns [ BaseNode res = env.initNode() ]
 		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 			res = ArrayTypeNode.getArrayType(keyType);
 		}
+	;
+
+externalFilters [ IdentNode actionIdent, TestDeclNode actionDecl ]
+	@init {
+		CollectNode<IdentNode> extFilters = new CollectNode<IdentNode>();
+		actionDecl.addFilters(extFilters);
+	}
+	: BACKSLASH externalFilterList[actionIdent, extFilters]
+	|
+	;
+
+externalFilterList [ IdentNode actionIdent, CollectNode<IdentNode> extFilters ]
+	: id=actionIdentDecl { extFilters.addChild(id); id.setDecl(new FilterDeclNode(id, actionIdent)); } 
+		( COMMA id=actionIdentDecl { extFilters.addChild(id); id.setDecl(new FilterDeclNode(id, actionIdent)); } )*
 	;
 
 patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousPatternNamer namer, int mod,
@@ -1583,7 +1609,7 @@ simpleSequence[ExecNode xg]
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
 	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] ( (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
 		IN { xg.append(" in "); } xgrsEntity[xg] )? SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
-	| LBRACE { xg.append("{"); } seqCompoundComputation[xg] RBRACE { xg.append("}"); } 
+	| LBRACE { xg.append("{"); } seqCompoundComputation[xg] (SEMI)? RBRACE { xg.append("}"); } 
 	;
 
 seqCompoundComputation[ExecNode xg]
@@ -1760,7 +1786,7 @@ xgrsConstant[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	| tt=TRUE { xg.append(tt.getText()); res = new BoolConstNode(getCoords(tt), true); }
 	| ff=FALSE { xg.append(ff.getText()); res = new BoolConstNode(getCoords(ff), false); }
 	| n=NULL { xg.append(n.getText()); res = new NullConstNode(getCoords(n)); }
-	| tid=typeIdentUse d=DOUBLECOLON id=entIdentUse { xg.append(tid + "::" + id); }
+	| tid=typeIdentUse d=DOUBLECOLON id=entIdentUse { xg.append(tid + "::" + id); res = new DeclExprNode(new EnumExprNode(getCoords(d), tid, id)); }
 	| MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT LBRACE RBRACE { xg.append("map<"+typeName+","+toTypeName+">{ }"); }
 	| SET LT typeName=typeIdentUse GT LBRACE RBRACE { xg.append("set<"+typeName+">{ }"); }
 	| ARRAY LT typeName=typeIdentUse GT LBRACK RBRACK { xg.append("array<"+typeName+">[ ]"); }
@@ -1786,8 +1812,9 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
 		id=actionIdentUse {xg.append(id);}
 		(LPAREN {xg.append("(");} ruleParams[xg, params] RPAREN {xg.append(")");})?
+		(BACKSLASH filterId=actionIdentUse {xg.append("\\"); xg.append(filterId);})?
 		{
-			xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns));
+			xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns, filterId));
 		}
 	;
 

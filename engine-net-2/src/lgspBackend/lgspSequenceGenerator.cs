@@ -1756,12 +1756,11 @@ namespace de.unika.ipd.grGen.lgsp
             for(int j = 0; j < sequencesToOutputTypes[paramBindings.Name].Count; j++)
             {
                 String varName;
-                if(paramBindings.ReturnVars.Length != 0) {
-                    varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].PureName;
-                } else {
+                if(paramBindings.ReturnVars.Length != 0)
+                    varName = tmpVarCtr.ToString() + paramBindings.ReturnVars[j].PureName;
+                else
                     varName = tmpVarCtr.ToString();
-                    ++tmpVarCtr;
-                }
+                ++tmpVarCtr;
                 String typeName = sequencesToOutputTypes[paramBindings.Name][j];
                 outParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName
                     + " = " + TypesHelper.DefaultValueString(typeName, model) + ";";
@@ -1784,12 +1783,11 @@ namespace de.unika.ipd.grGen.lgsp
             for(int j = 0; j < rulesToOutputTypes[paramBindings.Name].Count; j++)
             {
                 String varName;
-                if(paramBindings.ReturnVars.Length != 0) {
-                    varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].PureName;
-                } else {
+                if(paramBindings.ReturnVars.Length != 0)
+                    varName = tmpVarCtr.ToString() + paramBindings.ReturnVars[j].PureName;
+                else
                     varName = tmpVarCtr.ToString();
-                    ++tmpVarCtr;
-                }
+                ++tmpVarCtr;
                 String typeName = rulesToOutputTypes[paramBindings.Name][j];
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
@@ -2504,7 +2502,7 @@ namespace de.unika.ipd.grGen.lgsp
 			return true;
 		}
 
-        public bool GenerateDefinedSequences(SourceBuilder source, DefinedSequenceInfo sequence)
+        public bool GenerateDefinedSequence(SourceBuilder source, DefinedSequenceInfo sequence)
         {
             Dictionary<String, String> varDecls = new Dictionary<String, String>();
             for(int i = 0; i < sequence.Parameters.Length; i++)
@@ -2569,6 +2567,42 @@ namespace de.unika.ipd.grGen.lgsp
             return true;
         }
 
+        public bool GenerateExternalDefinedSequence(SourceBuilder source, ExternalDefinedSequenceInfo sequence)
+        {
+            // exact sequence definition compiled class
+            source.Append("\n");
+            source.AppendFront("public partial class Sequence_" + sequence.Name + " : GRGEN_LIBGR.SequenceDefinitionCompiled\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            GenerateSequenceDefinedSingleton(source, sequence);
+
+            source.Append("\n");
+            GenerateExactExternalDefinedSequenceApplicationMethod(source, sequence);
+
+            source.Append("\n");
+            GenerateGenericExternalDefinedSequenceApplicationMethod(source, sequence);
+
+            // end of exact sequence definition compiled class
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            return true;
+        }
+
+        public void GenerateExternalDefinedSequencePlaceholder(SourceBuilder source, ExternalDefinedSequenceInfo sequence, String externalActionsExtensionFilename)
+        {
+            source.Append("\n");
+            source.AppendFront("public partial class Sequence_" + sequence.Name + "\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            GenerateInternalDefinedSequenceApplicationMethodStub(source, sequence, externalActionsExtensionFilename);
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
         private void GenerateSequenceDefinedSingleton(SourceBuilder source, DefinedSequenceInfo sequence)
         {
             String className = "Sequence_" + sequence.Name;
@@ -2608,6 +2642,24 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("return " + GetResultVar(seq) + ";\n");
             source.Unindent();
             source.AppendFront("}\n");
+        }
+
+        private void GenerateInternalDefinedSequenceApplicationMethodStub(SourceBuilder source, DefinedSequenceInfo sequence, String externalActionsExtensionFilename)
+        {
+            source.AppendFrontFormat("// You must implement the following function in the same partial class in ./{0}\n", externalActionsExtensionFilename);
+
+            source.AppendFront("//public static bool ApplyXGRS_" + sequence.Name + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+            for(int i = 0; i < sequence.Parameters.Length; ++i)
+            {
+                source.Append(", " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.ParameterTypes[i]), model) + " var_");
+                source.Append(sequence.Parameters[i]);
+            }
+            for(int i = 0; i < sequence.OutParameters.Length; ++i)
+            {
+                source.Append(", ref " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.OutParameterTypes[i]), model) + " var_");
+                source.Append(sequence.OutParameters[i]);
+            }
+            source.Append(")\n");
         }
 
         private void GenerateExactExternalDefinedSequenceApplicationMethod(SourceBuilder source, DefinedSequenceInfo sequence)
@@ -2706,6 +2758,19 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("return result;\n");
             source.Unindent();
             source.AppendFront("}\n");
+        }
+
+        public void GenerateFilterStubs(SourceBuilder source, LGSPRulePattern rulePattern)
+        {
+            String rulePatternClassName = rulePattern.GetType().Name;
+            String matchClassName = rulePatternClassName + "." + "Match_" + rulePattern.name;
+            String matchInterfaceName = rulePatternClassName + "." + "IMatch_" + rulePattern.name;
+            String matchesListType = "GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + ">";
+
+            foreach(string filterName in rulePattern.Filters)
+            {
+                source.AppendFrontFormat("//public static void Filter_{0}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {1} matches)\n", filterName, matchesListType);
+            }
         }
 
         void HandleSequenceParserException(SequenceParserException ex)

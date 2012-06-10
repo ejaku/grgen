@@ -776,6 +776,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             String actionsName = Path.GetFileNameWithoutExtension(actionsFilename);
             actionsName = actionsName.Substring(0, actionsName.Length - 13);    // remove "_intermediate" suffix
+            String baseName = actionsName.Substring(0, actionsName.Length - 7); // remove "Actions" suffix
             String actionsOutputFilename = tmpDir + Path.DirectorySeparatorChar + actionsName + ".cs";
 
             CSharpCodeProvider compiler = new CSharpCodeProvider();
@@ -784,6 +785,9 @@ namespace de.unika.ipd.grGen.lgsp
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
             compParams.ReferencedAssemblies.Add(modelAssemblyName);
+
+            string externalActionsExtensionOutputFilename = null;
+            string externalActionsExtensionFilename = null;
 
             String actionsOutputSource;
             if((flags & ProcessSpecFlags.UseExistingMask) != ProcessSpecFlags.UseAllGeneratedFiles)
@@ -870,6 +874,49 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model,
                     rulesToInputTypes, rulesToOutputTypes,
                     sequencesToInputTypes, sequencesToOutputTypes);
+
+                ///////////////////////////////////////////////
+                // generate external extension source if needed (cause there are external action extension)
+                SourceBuilder externalSource = null;
+                bool isFilterExisting = false;
+                foreach(IRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
+                {
+                    if(rulePattern.Filters.Length > 0)
+                    {
+                        isFilterExisting = true;
+                        break;
+                    }
+                }
+                bool isExternalSequenceExisting = false;
+                foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
+                {
+                    if(sequence is ExternalDefinedSequenceInfo)
+                    {
+                        isExternalSequenceExisting = true;
+                        break;
+                    }
+                }
+                if(isFilterExisting || isExternalSequenceExisting)
+                {
+                    externalActionsExtensionOutputFilename = actionsName + "ExternalFunctions.cs";
+                    externalActionsExtensionFilename = actionsName + "ExternalFunctionsImpl.cs";
+                    externalSource = new SourceBuilder((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0);
+
+                    // generate external action extension file header
+                    externalSource.AppendFront("// This file has been generated automatically by GrGen (www.grgen.net)\n");
+                    externalSource.AppendFront("// Do not modify this file! Any changes will be lost!\n");
+                    externalSource.AppendFrontFormat("// Generated from \"{0}.grg\" on {1} {2}\n", baseName, DateTime.Now.ToString(), System.TimeZone.CurrentTimeZone.StandardName);
+
+                    externalSource.AppendFront("using System;\n");
+                    externalSource.AppendFront("using System.Collections.Generic;\n");
+                    externalSource.AppendFront("using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n");
+                    externalSource.AppendFront("using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n");
+                    externalSource.AppendFrontFormat("using GRGEN_MODEL = de.unika.ipd.grGen.Model_"+model.ModelName+";\n");
+
+                    externalSource.AppendFront("\nnamespace de.unika.ipd.grGen.Action_"+baseName+"\n");
+                    externalSource.AppendFront("{");
+                    externalSource.Indent();
+                }
 
                 ///////////////////////////////////////////////
                 // take action intermediate file until action insertion point as base for action file 
@@ -1122,7 +1169,39 @@ namespace de.unika.ipd.grGen.lgsp
 
                 foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
                 {
-                    seqGen.GenerateDefinedSequences(source, sequence);
+                    if(sequence is ExternalDefinedSequenceInfo)
+                        seqGen.GenerateExternalDefinedSequencePlaceholder(externalSource, (ExternalDefinedSequenceInfo)sequence, externalActionsExtensionFilename);
+                }
+
+                if(isFilterExisting)
+                {
+                    externalSource.Append("\n");
+                    externalSource.AppendFrontFormat("public partial class MatchFilters\n");
+                    externalSource.AppendFront("{\n");
+                    externalSource.Indent();
+
+                    externalSource.AppendFrontFormat("// You must implement the following functions in the same partial class in ./{0}\n", externalActionsExtensionFilename);
+                    foreach(LGSPRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
+                    {
+                        seqGen.GenerateFilterStubs(externalSource, rulePattern);
+                    }
+
+                    externalSource.Unindent();
+                    externalSource.AppendFront("}\n");
+                }
+
+                if(externalSource != null)
+                {
+                    externalSource.Append("\n");
+                    externalSource.AppendFront("// ------------------------------------------------------\n");
+                }
+
+                foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
+                {
+                    if(sequence is ExternalDefinedSequenceInfo)
+                        seqGen.GenerateExternalDefinedSequence(externalSource, (ExternalDefinedSequenceInfo)sequence);
+                    else
+                        seqGen.GenerateDefinedSequence(source, sequence);
 
                     endSource.AppendFrontFormat("RegisterGraphRewriteSequenceDefinition("
                             + "Sequence_{0}.Instance);\n", sequence.Name);
@@ -1137,9 +1216,7 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {
                     if (matchingPattern is LGSPRulePattern) // normal rule
-                    {
                         endSource.AppendFrontFormat("public IAction_{0} @{0};\n", matchingPattern.name);
-                    }
                 }
                 endSource.AppendFront("\n");
                 
@@ -1162,6 +1239,15 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     StreamWriter writer = new StreamWriter(actionsOutputFilename);
                     writer.Write(actionsOutputSource);
+                    writer.Close();
+                }
+
+                if(externalSource!=null)
+                {
+                    externalSource.Unindent();
+                    externalSource.AppendFront("}\n");
+                    StreamWriter writer = new StreamWriter(externalActionsExtensionOutputFilename);
+                    writer.Write(externalSource.ToString());
                     writer.Close();
                 }
             }
@@ -1200,18 +1286,48 @@ namespace de.unika.ipd.grGen.lgsp
             CompilerResults compResults;
             if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
             {
-                compResults = compiler.CompileAssemblyFromFile(compParams, actionsOutputFilename);
+                if(externalActionsExtensionOutputFilename != null)
+                    compResults = compiler.CompileAssemblyFromFile(compParams, actionsOutputFilename, externalActionsExtensionOutputFilename, externalActionsExtensionFilename);
+                else
+                    compResults = compiler.CompileAssemblyFromFile(compParams, actionsOutputFilename);
             }
             else
             {
-                compResults = compiler.CompileAssemblyFromSource(compParams, actionsOutputSource);
+                if(externalActionsExtensionOutputFilename != null)
+                {
+                    String externalActionsExtensionOutputSource;
+                    String externalActionsExtensionSource;
+                    try
+                    {
+                        using(StreamReader reader = new StreamReader(externalActionsExtensionOutputFilename))
+                            externalActionsExtensionOutputSource = reader.ReadToEnd();
+                    }
+                    catch(Exception)
+                    {
+                        Console.Error.WriteLine("Unable to read from file \"" + externalActionsExtensionOutputFilename + "\"!");
+                        return ErrorType.GrGenNetError;
+                    }
+                    try
+                    {
+                        using(StreamReader reader = new StreamReader(externalActionsExtensionFilename))
+                            externalActionsExtensionSource = reader.ReadToEnd();
+                    }
+                    catch(Exception)
+                    {
+                        Console.Error.WriteLine("Unable to read from file \"" + externalActionsExtensionFilename + "\"!");
+                        return ErrorType.GrGenNetError;
+                    }
+                    compResults = compiler.CompileAssemblyFromSource(compParams, actionsOutputSource, externalActionsExtensionOutputSource, externalActionsExtensionSource);
+                }
+                else
+                    compResults = compiler.CompileAssemblyFromSource(compParams, actionsOutputSource);
             }
             if(compResults.Errors.HasErrors)
             {
                 String errorMsg = compResults.Errors.Count + " Errors:";
                 foreach(CompilerError error in compResults.Errors)
-                    errorMsg += String.Format("\r\nLine: {0} - {1}", error.Line, error.ErrorText);
-                Console.Error.WriteLine("Illegal generated actions C# source code: " + errorMsg);
+                    errorMsg += String.Format("\r\n{0} at line {1} of {2}: {3}", error.IsWarning?"Warning":"ERROR", error.Line, error.FileName, error.ErrorText);
+                Console.Error.WriteLine("Illegal generated actions C# source code (or erroneous programmed extension), " + errorMsg);
                 return ErrorType.GrGenNetError;
             }
 

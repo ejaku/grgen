@@ -1,0 +1,22 @@
+// we declare the external sequences
+// signature only, external implementation!
+sequence foo(v1:int, v2:double, v3:string, v4:boolean) : (r1:int, r2:double, r3:string, r4:boolean);
+sequence bar(v1:object, v2:object) : (r1:object);
+sequence isnull(v3:object);
+sequence blo(v1:Node, v2:Edge) : (r1:Node, r2:Edge);
+sequence huh;
+
+rule r
+{
+	n:Node -e:Edge-> n;
+
+	modify {
+		m:Node;
+
+		exec((::x,::y,::u,::v)=foo(42, 3.141, "S21-heiteitei", true)
+				;> (::nu) = bar(null, ::nu)
+				;> isnull(::nu)
+				;> (::a,::b) = blo(m, e)
+				;> huh);
+	}
+}

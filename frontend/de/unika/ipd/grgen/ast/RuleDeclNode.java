@@ -45,7 +45,6 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param id The identifier of this rule.
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
-	 * @param neg The context preventing the rule to match.
 	 */
 	public RuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right,
 			CollectNode<BaseNode> rets) {
@@ -62,6 +61,7 @@ public class RuleDeclNode extends TestDeclNode {
 		children.add(getValidVersion(returnFormalParametersUnresolved, returnFormalParameters));
 		children.add(pattern);
 		children.add(right);
+		children.add(filters);
 		return children;
 	}
 
@@ -73,6 +73,7 @@ public class RuleDeclNode extends TestDeclNode {
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
 		childrenNames.add("right");
+		childrenNames.add("filters");
 		return childrenNames;
 	}
 

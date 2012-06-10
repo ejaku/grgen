@@ -36,7 +36,10 @@ public abstract class MatchingAction extends Action {
 	/** A list of the return-parameters */
 	private final List<Expression> returns = new LinkedList<Expression>();
 
+	/** A list of the filters (their names) */
+	private final List<String> filters = new LinkedList<String>();
 
+	
 	/**
 	 * @param name The name of this action.
 	 * @param ident The identifier that identifies this object.
@@ -82,5 +85,15 @@ public abstract class MatchingAction extends Action {
 	/** Get all Returns of this graph. */
 	public List<Expression> getReturns() {
 		return Collections.unmodifiableList(returns);
+	}
+	
+	/** Add a filter to the action. */
+	public void addFilter(String name) {
+		filters.add(name);
+	}
+
+	/** Get all filters of this action. */
+	public List<String> getFilters() {
+		return Collections.unmodifiableList(filters);
 	}
 }

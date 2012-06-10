@@ -279,9 +279,11 @@ namespace de.unika.ipd.grGen.libGr
 
             foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
-                if ("ENUM_" + enumAttrType.Name == typeName)
+                if("ENUM_" + enumAttrType.Name == typeName)
                     return "(GRGEN_MODEL.ENUM_" + enumAttrType.Name + ")0";
-                if (enumAttrType.Name == typeName)
+                if(enumAttrType.Name == typeName)
+                    return "(GRGEN_MODEL.ENUM_" + enumAttrType.Name + ")0";
+                if("GRGEN_MODEL.ENUM_" + enumAttrType.Name == typeName)
                     return "(GRGEN_MODEL.ENUM_" + enumAttrType.Name + ")0";
             }
 

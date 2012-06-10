@@ -98,4 +98,26 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public string Name;
     }
+
+    /// <summary>
+    /// Represents a sequence definition implemented externally.
+    /// </summary>
+    public class ExternalDefinedSequenceInfo : DefinedSequenceInfo
+    {
+        /// <summary>
+        /// Constructs an ExternalDefinedSequenceInfo object.
+        /// </summary>
+        /// <param name="parameters">The names of the graph elements needed from the calling action.</param>
+        /// <param name="parameterTypes">The types of the graph elements needed from the calling action.</param>
+        /// <param name="outParameters">The names of the graph elements returned to the calling action.</param>
+        /// <param name="outParameterTypes">The types of the graph elements returned to the calling action.</param>
+        /// <param name="name">The name the sequence was defined with.</param>
+        /// <param name="lineNr">The line number the sequence appears on in the source.</param>
+        public ExternalDefinedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
+            String[] outParameters, GrGenType[] outParameterTypes,
+            String name, int lineNr)
+            : base(parameters, parameterTypes, outParameters, outParameterTypes, name, "", lineNr)
+        {
+        }
+    }
 }

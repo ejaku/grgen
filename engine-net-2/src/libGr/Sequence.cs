@@ -691,12 +691,14 @@ namespace de.unika.ipd.grGen.libGr
         public RuleInvocationParameterBindings ParamBindings;
 
         public bool Test;
+        public string Filter;
 
-        public SequenceRuleCall(RuleInvocationParameterBindings paramBindings, bool special, bool test)
+        public SequenceRuleCall(RuleInvocationParameterBindings paramBindings, bool special, bool test, string filter)
             : base(special, SequenceType.RuleCall)
         {
             ParamBindings = paramBindings;
             Test = test;
+            Filter = filter;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -859,8 +861,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleAllCall(RuleInvocationParameterBindings paramBindings, bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
-            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
-            : base(paramBindings, special, test)
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, string filter)
+            : base(paramBindings, special, test, filter)
         {
             SequenceType = SequenceType.RuleAllCall;
             ChooseRandom = chooseRandom;

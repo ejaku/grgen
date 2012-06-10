@@ -43,7 +43,7 @@ public class ExecNode extends BaseNode {
 		new CollectQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode>(
 		new DeclarationQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode>(ExecVarDeclNode.class, NodeDeclNode.class, EdgeDeclNode.class, VarDeclNode.class));
 
-	private StringBuilder sb = new StringBuilder();
+	private StringBuilder sb = new StringBuilder(); // if sb.length()==0 this is an external exec implemented externally
 	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 	private CollectNode<ExecVarDeclNode> varDecls = new CollectNode<ExecVarDeclNode>();
 	private CollectNode<IdentNode> usageUnresolved = new CollectNode<IdentNode>();

@@ -104,8 +104,10 @@ public class ModelGen extends CSharpBase {
 			writeFile(be.path, stubFilename, stubsb);
 		}
 
-		// generate the external functions stub file
-		// only if there are external functions required
+		
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// generate the external functions and types stub file
+		// only if there are external functions or external types required
 		if(model.getExternalTypes().isEmpty() && model.getExternalFunctions().isEmpty())
 			return;
 

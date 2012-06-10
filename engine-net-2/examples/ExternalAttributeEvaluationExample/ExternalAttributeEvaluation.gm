@@ -19,6 +19,7 @@ node class N
 	enu:Enu;
 	si:set<int>;
 	mso:map<string,object>;
+	a:array<double>;
 	ow:Own; // attributes of type externally defined
 	op:OwnPown; // attributes of type externally defined
 }

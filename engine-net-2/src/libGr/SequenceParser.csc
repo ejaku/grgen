@@ -156,6 +156,7 @@ TOKEN: {
 |	< STAR: "*" >
 |	< PLUS: "+" >
 |	< DIV: "/" >
+|	< BACKSLASH: "\\" >
 |	< EXCLAMATIONMARK: "!" >
 |	< LPARENTHESIS: "(" >
 |	< RPARENTHESIS: ")" >
@@ -976,7 +977,7 @@ Sequence SimpleSequence():
         return new SequenceFor(fromVar, fromVar2, fromVar3, seq, variableList1);
     }
 |
-	("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); } comp=CompoundComputation() { varDecls.PopScope(variableList1); } "}"
+	("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); } comp=CompoundComputation() { varDecls.PopScope(variableList1); } (";")? "}"
 	{
 		return new SequenceBooleanComputation(comp, variableList1, special);
 	}
@@ -1446,7 +1447,7 @@ void RuleLookahead():
 Sequence Rule():
 {
 	bool special = false, test = false;
-	String str;
+	String str, filter = null;
 	bool chooseRandSpecified = false, chooseRandSpecified2 = false, choice = false;
 	SequenceVariable varChooseRand = null, varChooseRand2 = null;
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
@@ -1458,8 +1459,9 @@ Sequence Rule():
 		(
 			"$" ("%" { choice = true; })? ( varChooseRand=Variable() ("," (varChooseRand2=Variable() | "*") { chooseRandSpecified2 = true; })? )? { chooseRandSpecified = true; }
 		)?
-		"[" ("%" { special = true; } | "?" { test = true; })* str=Word()
-		("(" Arguments(argExprs) ")")?
+		"[" ("%" { special = true; } | "?" { test = true; })* 
+		str=Word() ("(" Arguments(argExprs) ")")?
+			("\\" filter=Word())?
 		"]"
 		{
 			// No variable with this name may exist
@@ -1467,11 +1469,12 @@ Sequence Rule():
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
 			return new SequenceRuleAllCall(CreateRuleInvocationParameterBindings(str, argExprs, returnVars),
-					special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice);
+					special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice, filter);
 		}
 	|
 		("%" { special = true; } | "?" { test = true; })*
 		str=Word() ("(" Arguments(argExprs) ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
+			("\\" filter=Word())?
 		{
 			if(argExprs.Count==0 && returnVars.Count==0)
 			{
@@ -1495,7 +1498,7 @@ Sequence Rule():
 			else
 				return new SequenceRuleCall(
 								CreateRuleInvocationParameterBindings(str, argExprs, returnVars),
-								special, test);
+								special, test, filter);
 		}
 	)
 }

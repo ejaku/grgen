@@ -1,0 +1,62 @@
+using ExternalFiltersAndSequences;
+
+// we declare the external sequences
+// signature only, external implementation!
+sequence foo(v1:int, v2:double, v3:Enu, v4:string, v5:boolean) : (r1:int, r2:double, r3:Enu, r4:string, r5:boolean);
+sequence bar(v1:object, v2:object) : (r1:object);
+sequence isnull(v1:object);
+sequence bla(v1:N, v2:E) : (r1:N, r2:E);
+sequence blo(v1:Node, v2:Edge) : (r1:Node, r2:Edge);
+sequence huh;
+
+sequence counterExample1(v1:int, v2:Node) : (r1:int, r2:Node) { {r1=v1; r2=v2;} }
+sequence counterExample2 { true }
+
+rule filterBase
+{
+} \ f1 // we declare an external matches filter for the matches of the filterBase rule
+
+rule filterBass
+{
+	n:N -e:E-> n;
+	
+	modify {
+	}
+} \ f2,f3 // we declare two external matches filter for the matches of the filterBass rule
+
+test filterHass(n:N):(E)
+{
+	n -e:E-> n;
+	return(e);
+} \ f4 // we declare an external matches filter for the matches of the filterHass test
+
+rule init
+{
+	replace {
+		n1:N -:E-> n1;
+		n2:N -:E-> n2;
+	}
+}
+
+rule r
+{
+	n:N -e:E-> n;
+
+	modify {
+		m:N;
+
+		exec((::x,::y,::z,::u,::v)=foo(42, 3.141, Enu::hurz, "S21-heiteitei", true)
+				;> foo(n.i, n.d, n.enu, n.s, n.b)
+				;> (::nul) = bar(null, n.o)
+				;> isnull(::x)
+				;> (::a,::b) = bla(m, e)
+				;> (::a,::b) = blo(m, e)
+				;> huh
+		);
+		exec(filterBase\f1
+				;> [filterBass\f2]
+				;> $::x[filterBass\f3]
+				;> (::ee)=filterHass(::m)\f4
+		);
+	}
+}
