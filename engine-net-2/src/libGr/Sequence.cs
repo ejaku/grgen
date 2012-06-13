@@ -722,7 +722,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Applying rule " + GetRuleCallString(procEnv));
 #endif
-                res = procEnv.ApplyRewrite(ParamBindings, 0, 1, Special, Test) > 0;
+                res = procEnv.ApplyRewrite(ParamBindings, 0, 1, Special, Test, Filter) > 0;
             }
             catch (NullReferenceException)
             {
@@ -903,7 +903,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                     procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
 #endif
-                    res = procEnv.ApplyRewrite(ParamBindings, -1, -1, Special, Test) > 0;
+                    res = procEnv.ApplyRewrite(ParamBindings, -1, -1, Special, Test, Filter) > 0;
                 }
                 catch (NullReferenceException)
                 {
@@ -942,6 +942,8 @@ namespace de.unika.ipd.grGen.libGr
                 try
                 {
                     matches = ParamBindings.Action.Match(procEnv, curMaxMatches, parameters);
+                    if(Filter != null)
+                        ParamBindings.Action.Filter(procEnv, matches, Filter);
                 }
                 catch (NullReferenceException)
                 {
@@ -1620,6 +1622,8 @@ namespace de.unika.ipd.grGen.libGr
 
                 if (procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
                 IMatches matches = rule.ParamBindings.Action.Match(procEnv, maxMatches, parameters);
+                if(rule.Filter != null)
+                    rule.ParamBindings.Action.Filter(procEnv, matches, rule.Filter);
                 if (procEnv.PerformanceInfo != null)
                 {
                     procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
@@ -1729,6 +1733,8 @@ namespace de.unika.ipd.grGen.libGr
 
             if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
             IMatches matches = Rule.ParamBindings.Action.Match(procEnv, procEnv.MaxMatches, parameters);
+            if(Rule.Filter != null)
+                Rule.ParamBindings.Action.Filter(procEnv, matches, Rule.Filter);
             if(procEnv.PerformanceInfo != null)
             {
                 procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore

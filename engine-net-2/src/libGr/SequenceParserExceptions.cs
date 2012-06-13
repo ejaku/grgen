@@ -57,7 +57,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The operator is not available for the given types
         /// </summary>
-        OperatorNotFound
+        OperatorNotFound,
+
+        /// <summary>
+        /// The given filter can't be applied to the given rule 
+        /// </summary>
+        FilterError
     }
 
     /// <summary>
@@ -75,6 +80,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The name of the rule/sequence.
         /// </summary>
         public String Name;
+
+        /// <summary>
+        /// The name of the filter which was mis-applied.
+        /// </summary>
+        public String FilterName;
 
         /// <summary>
         /// The associated action instance. If it is null, there was no rule with the name specified in RuleName.
@@ -216,13 +226,27 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, 
+        /// when the filter with the given name can't be applied to the rule/sequence/variable of the given name.
+        /// </summary>
+        /// <param name="ruleName">Name of the rule or sequence or variable.</param>
+        /// <param name="filterName">Name of the filter which was mis-applied.</param>
+        /// <param name="errorKind">The kind of error.</param>
+        public SequenceParserException(String name, String filterName, SequenceParserError errorKind)
+        {
+            Name = name;
+            FilterName = filterName;
+            Kind = errorKind;
+        }
+
+        /// <summary>
         /// The error message of the exception.
         /// </summary>
         public override string Message
         {
             get
             {
-                if (this.Action == null && this.Kind != SequenceParserError.TypeMismatch) {
+                if (this.Action == null && this.Kind != SequenceParserError.TypeMismatch && this.Kind != SequenceParserError.FilterError) {
                     return "Unknown rule/sequence: \"" + this.Name + "\"";
                 }
 
@@ -262,6 +286,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.OperatorNotFound:
                     return "No operator " + this.LeftType + this.VariableOrFunctionName + this.RightType + " available (for \"" + this.Expression + "\")!";
+
+                case SequenceParserError.FilterError:
+                    return "The filter \"" + this.FilterName + "\" can't be applied to \"" + this.Name + "\"!";
 
                 default:
                     return "Invalid error kind: " + this.Kind;

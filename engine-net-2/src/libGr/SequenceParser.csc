@@ -1483,6 +1483,8 @@ Sequence Rule():
 				{
 					if(var.Type!="" && var.Type!="boolean")
 						throw new SequenceParserException(str, "untyped or bool", var.Type);
+					if(filter!=null)
+						throw new SequenceParserException(str, filter, SequenceParserError.FilterError);
 					return new SequenceBooleanComputation(new SequenceExpressionVariable(var), null, special);
 				}
 			}
@@ -1491,14 +1493,17 @@ Sequence Rule():
 			if(varDecls.Lookup(str)!=null)
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-			if(IsSequenceName(str))
+			if(IsSequenceName(str)) {
+				if(filter!=null)
+					throw new SequenceParserException(str, filter, SequenceParserError.FilterError);
 				return new SequenceSequenceCall(
 								CreateSequenceInvocationParameterBindings(str, argExprs, returnVars),
 								special);
-			else
+			} else {
 				return new SequenceRuleCall(
 								CreateRuleInvocationParameterBindings(str, argExprs, returnVars),
 								special, test, filter);
+			}
 		}
 	)
 }

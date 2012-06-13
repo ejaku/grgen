@@ -2321,6 +2321,21 @@ exitSecondLoop: ;
             sb.AppendFrontFormat("return ApplyMinMax(actionEnv, min, max{0});\n", inArgumentsFromArray);
             sb.Unindent(); 
             sb.AppendFront("}\n");
+
+            sb.AppendFront("void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("switch(filterName) {\n");
+            sb.Indent();
+            foreach(string filterName in matchingPattern.Filters)
+            {
+                sb.AppendFrontFormat("case \"{0}\": MatchFilters.Filter_{0}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({1})matches); break;\n", filterName, matchesType);
+            }
+            sb.AppendFront("default: throw new Exception(\"Unknown filter name\");\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
         }
 
         /// <summary>

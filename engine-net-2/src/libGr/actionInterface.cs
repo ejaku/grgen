@@ -166,5 +166,13 @@ namespace de.unika.ipd.grGen.libGr
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>True, if the rule was applied at least min times.</returns>
         bool ApplyMinMax(IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters);
+
+        /// <summary>
+        /// Filters the matches found by this action 
+        /// </summary>
+        /// <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
+        /// <param name="matches">The matches to inspect and filter</param>
+        /// <param name="filterName">The name of the filter function to apply</param>
+        void Filter(IActionExecutionEnvironment actionEnv, IMatches matches, string filterName);
     }
 }

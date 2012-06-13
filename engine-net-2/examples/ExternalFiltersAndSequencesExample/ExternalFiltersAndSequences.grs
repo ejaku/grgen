@@ -1,6 +1,6 @@
 new graph ExternalFiltersAndSequences
 
-exec init
+exec (::n)=init
 
 # test rule which calls all the external sequences and filtered rules in an exec
 exec r
@@ -15,6 +15,11 @@ exec huh
 
 # test the filtered rules/filtering of rule matches directly
 exec filterBase\f1
+exec filterBase\nomnomnom
 exec [filterBass\f2]
 exec $::x[filterBass\f3]
-exec (::ee)=filterHass(::m)\f4;
+exec (::ee)=filterHass(::n)\f4
+exec <<filterBase\f1;filterBase\f1>>
+exec ${(filterBase\f1,[filterBass\f2])}
+
+exit

@@ -230,7 +230,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
 
-        public int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test)
+        public int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test, string filter)
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
@@ -249,6 +249,9 @@ namespace de.unika.ipd.grGen.lgsp
             if(PerformanceInfo != null) PerformanceInfo.StartLocal();
             IMatches matches = paramBindings.Action.Match(this, curMaxMatches, parameters);
             if(PerformanceInfo != null) PerformanceInfo.StopMatch();
+
+            if(filter != null)
+                paramBindings.Action.Filter(this, matches, filter);
 
             Matched(matches, special);
             if(matches.Count == 0) return 0;

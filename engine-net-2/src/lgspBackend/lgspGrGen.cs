@@ -839,6 +839,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 Dictionary<String, List<String>> rulesToInputTypes = new Dictionary<String, List<String>>();
                 Dictionary<String, List<String>> rulesToOutputTypes = new Dictionary<String, List<String>>();
+                Dictionary<String, List<String>> rulesToFilters = new Dictionary<String, List<String>>();
                 Dictionary<String, List<String>> sequencesToInputTypes = new Dictionary<String, List<String>>();
                 Dictionary<String, List<String>> sequencesToOutputTypes = new Dictionary<String, List<String>>();
                 foreach (IRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
@@ -854,6 +855,12 @@ namespace de.unika.ipd.grGen.lgsp
                     foreach (GrGenType outputType in rulePattern.Outputs)
                     {
                         outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
+                    }
+                    List<String> filters = new List<String>();
+                    rulesToFilters.Add(rulePattern.PatternGraph.Name, filters);
+                    foreach(String filter in rulePattern.Filters)
+                    {
+                        filters.Add(filter);
                     }
                 }
                 foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
@@ -872,7 +879,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
                 LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model,
-                    rulesToInputTypes, rulesToOutputTypes,
+                    rulesToInputTypes, rulesToOutputTypes, rulesToFilters,
                     sequencesToInputTypes, sequencesToOutputTypes);
 
                 ///////////////////////////////////////////////

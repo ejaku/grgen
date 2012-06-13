@@ -110,6 +110,12 @@ namespace de.unika.ipd.grGen.libGr
                     throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
             }
 
+            // Check filter in case there is one
+            if(seq is SequenceRuleCall)
+                if((seq as SequenceRuleCall).Filter!=null)
+                    if(!IsFilterExisting(seq as SequenceRuleCall))
+                        throw new SequenceParserException(paramBindings.Name, (seq as SequenceRuleCall).Filter, SequenceParserError.FilterError);
+    
             // ok, this is a well-formed rule invocation
         }
 
@@ -126,6 +132,7 @@ namespace de.unika.ipd.grGen.libGr
         protected abstract int NumOutputParameters(InvocationParameterBindings paramBindings);
         protected abstract string InputParameterType(int i, InvocationParameterBindings paramBindings);
         protected abstract string OutputParameterType(int i, InvocationParameterBindings paramBindings);
+        protected abstract bool IsFilterExisting(SequenceRuleCall seq);
     }
 
     /// <summary>
@@ -253,6 +260,11 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
         }
+
+        protected override bool IsFilterExisting(SequenceRuleCall seq)
+        {
+            return Array.IndexOf(seq.ParamBindings.Action.RulePattern.Filters, seq.Filter) != -1;
+        }
     }
 
     /// <summary>
@@ -263,7 +275,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         // constructor for compiled sequences
         public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames,
-            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
+            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
             IGraphModel model)
         {
@@ -271,6 +283,7 @@ namespace de.unika.ipd.grGen.libGr
             this.sequenceNames = sequenceNames;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
+            this.rulesToFilters = rulesToFilters;
             this.sequencesToInputTypes = sequencesToInputTypes;
             this.sequencesToOutputTypes = sequencesToOutputTypes;
             this.model = model;
@@ -288,6 +301,8 @@ namespace de.unika.ipd.grGen.libGr
         private Dictionary<String, List<String>> rulesToInputTypes;
         // maps rule names available in the .grg to compile to the list of the output typ names
         private Dictionary<String, List<String>> rulesToOutputTypes;
+        // maps rule names available in the .grg to compile to the list of the match filter names
+        private Dictionary<String, List<String>> rulesToFilters;
 
         // maps sequence names available in the .grg to compile to the list of the input typ names
         private Dictionary<String, List<String>> sequencesToInputTypes;
@@ -378,6 +393,11 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 return sequencesToOutputTypes[seqParamBindings.Name][i];
             }
+        }
+
+        protected override bool IsFilterExisting(SequenceRuleCall seq)
+        {
+            return rulesToFilters[seq.ParamBindings.Name].Contains(seq.Filter);
         }
     }
 

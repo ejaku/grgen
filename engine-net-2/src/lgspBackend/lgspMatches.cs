@@ -453,6 +453,42 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        /// <summary>
+        /// Returns the content of the current matches list in form of an array which can be efficiently indexed and reordered.
+        /// The array is destroyed when this method is called again, the content is destroyed when the rule is matched again (there is only one array existing).
+        /// </summary>
+        public List<MatchInterface> ToList()
+        {
+            array.Clear();
+            Match cur = root;
+            for(int i = 0; i < count; i++, cur = cur.next)
+                array.Add(cur);
+            return array;
+        }
+
+        /// <summary>
+        /// Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
+        /// (The list might have been reordered, matches might have been removed, or even added.)
+        /// </summary>
+        public void FromList()
+        {
+            // remove the matches currently stored in the matches list, they were handed out in ToList
+            for(int i = 0; i < count; ++i)
+                root = root.next;
+            // prepend the matches stored in the array handed out (keep the "free tail" remaining)
+            if(array.Count == 0)
+                return;
+            Match oldRoot = root;
+            root = (Match)array[0];
+            Match cur = root;
+            for(int i = 1; i < array.Count; ++i)
+            {
+                cur.next = (Match)array[i];
+                cur = cur.next;
+            }
+            cur.next = oldRoot;
+            count = array.Count;
+        }
 
         /// <summary>
         /// the action object used to generate this LGSPMatchesList object
@@ -475,5 +511,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// number of found matches in the list
         /// </summary>
         private int count;
+
+        /// <summary>
+        /// the array returned in a call of ToList
+        /// </summary>
+        private List<MatchInterface> array = new List<MatchInterface>();
     }
 }

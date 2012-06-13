@@ -49,6 +49,8 @@ namespace de.unika.ipd.grGen.lgsp
         Dictionary<String, List<String>> rulesToInputTypes;
         // maps rule names available in the .grg to compile to the list of the output typ names
         Dictionary<String, List<String>> rulesToOutputTypes;
+        // maps rule names available in the .grg to compile to the list of the match filter names
+        Dictionary<String, List<String>> rulesToFilters;
 
         // maps sequence names available in the .grg to compile to the list of the input typ names
         Dictionary<String, List<String>> sequencesToInputTypes;
@@ -75,13 +77,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs the sequence generator
         /// </summary>
         public LGSPSequenceGenerator(LGSPGrGen gen, IGraphModel model,
-            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
+            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters,
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes)
         {
             this.gen = gen;
             this.model = model;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
+            this.rulesToFilters = rulesToFilters;
             this.sequencesToInputTypes = sequencesToInputTypes;
             this.sequencesToOutputTypes = sequencesToOutputTypes;
 
@@ -105,7 +108,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // create the environment for (type) checking the compiled sequences after parsing
             env = new SequenceCheckingEnvironmentCompiled(ruleNames, sequenceNames, 
-                rulesToInputTypes, rulesToOutputTypes,
+                rulesToInputTypes, rulesToOutputTypes, rulesToFilters,
                 sequencesToInputTypes, sequencesToOutputTypes,
                 model);
         }
@@ -408,6 +411,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                 + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                 + parameters + ");\n");
+            if(seqRule.Filter != null)
+                source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filter, matchesName);
+
             if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + specialStr + ");\n");
             if(seqRule is SequenceRuleAllCall
                 && ((SequenceRuleAllCall)seqRule).ChooseRandom
@@ -941,6 +947,8 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesName = "matches_" + seq.Id;
             source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
+            if(seq.Rule.Filter != null)
+                source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seq.Rule.Filter, matchesName);
 
             source.AppendFront("if(" + matchesName + ".Count==0) {\n");
             source.Indent();
@@ -1070,6 +1078,8 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                     + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                     + parameters + ");\n");
+                if(seqRule.Filter != null)
+                    source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filter, matchesName);
                 if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
                 source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
                 source.Indent();
@@ -2763,9 +2773,8 @@ namespace de.unika.ipd.grGen.lgsp
         public void GenerateFilterStubs(SourceBuilder source, LGSPRulePattern rulePattern)
         {
             String rulePatternClassName = rulePattern.GetType().Name;
-            String matchClassName = rulePatternClassName + "." + "Match_" + rulePattern.name;
-            String matchInterfaceName = rulePatternClassName + "." + "IMatch_" + rulePattern.name;
-            String matchesListType = "GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + ">";
+            String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
+            String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
 
             foreach(string filterName in rulePattern.Filters)
             {

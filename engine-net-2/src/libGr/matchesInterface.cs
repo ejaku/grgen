@@ -289,6 +289,18 @@ namespace de.unika.ipd.grGen.libGr
         /// Removes the match of exact type at the given index and returns it.
         /// </summary>
         MatchInterface RemoveMatchExact(int index);
+
+        /// <summary>
+        /// Returns the content of the current matches list in form of an array which can be efficiently indexed and reordered.
+        /// The array is destroyed when this method is called again, the content is destroyed when the rule is matched again (there is only one array existing).
+        /// </summary>
+        List<MatchInterface> ToList();
+
+        /// <summary>
+        /// Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
+        /// (The list might have been reordered, matches might have been removed, or even added.)
+        /// </summary>
+        void FromList();
     }
 
     public class MatchPrinter
