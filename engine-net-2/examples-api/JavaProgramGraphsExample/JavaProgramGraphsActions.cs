@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sat Jun 02 15:35:01 CEST 2012
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Wed Jun 13 11:06:41 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -7156,6 +7156,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -7927,6 +7928,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -8148,6 +8150,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -8381,6 +8384,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -8610,6 +8614,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -8843,6 +8848,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -9080,6 +9086,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -9296,6 +9303,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -9517,6 +9525,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -9738,6 +9747,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -9963,6 +9973,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -10179,6 +10190,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -10400,6 +10412,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -10616,6 +10629,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -10832,6 +10846,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -11053,6 +11068,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -11273,6 +11289,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -11521,6 +11538,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -11769,6 +11787,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -12017,6 +12036,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -12265,6 +12285,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -12513,6 +12534,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -12761,6 +12783,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -13009,6 +13032,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -13257,6 +13281,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -13505,6 +13530,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -13772,6 +13798,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -14309,6 +14336,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -14662,6 +14690,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -15895,6 +15924,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -16300,6 +16330,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -16710,6 +16741,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -16924,6 +16956,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(bool)), };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -17170,6 +17203,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -17418,6 +17452,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -17626,6 +17661,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -17882,6 +17918,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -18159,6 +18196,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -18379,6 +18417,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -18806,6 +18845,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -19244,6 +19284,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -19500,6 +19541,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -19771,6 +19813,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -19992,6 +20035,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -20221,6 +20265,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Variable.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -20490,6 +20535,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Parameter.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -20756,6 +20802,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -21059,6 +21106,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -21342,6 +21390,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -21621,6 +21670,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -21823,6 +21873,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -22023,6 +22074,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -22247,6 +22299,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -22497,6 +22550,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -22851,6 +22905,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Parameter.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -23077,6 +23132,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -23447,6 +23503,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -23664,6 +23721,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -23908,6 +23966,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -24191,6 +24250,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -24484,6 +24544,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -24746,6 +24807,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Call.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -24995,6 +25057,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -25243,6 +25306,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -25539,6 +25603,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -25832,6 +25897,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -26068,6 +26134,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Call.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -26532,6 +26599,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -26952,6 +27020,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -37457,6 +37526,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -37659,6 +37734,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -37863,6 +37944,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -38065,6 +38152,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -38269,6 +38362,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -38471,6 +38570,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -38675,6 +38780,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -38877,6 +38988,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -39081,6 +39198,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -39283,6 +39406,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -39487,6 +39616,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -39689,6 +39824,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -39893,6 +40034,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -40095,6 +40242,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -40299,6 +40452,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -40501,6 +40660,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -40721,6 +40886,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -40939,6 +41110,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -41159,6 +41336,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -41377,6 +41560,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -41597,6 +41786,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -41815,6 +42010,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -42035,6 +42236,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -42253,6 +42460,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -42473,6 +42686,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -42691,6 +42910,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (System.Int32) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -42919,6 +43144,12 @@ maxMatchesIterReached:
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -43678,6 +43909,12 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -44079,6 +44316,12 @@ label26: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -44344,6 +44587,12 @@ label31: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -44656,6 +44905,12 @@ label33: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -44867,6 +45122,12 @@ label33: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IVariable) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -45123,6 +45384,12 @@ label33: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IVariable) parameters[1]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -45372,6 +45639,12 @@ label33: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (System.String) parameters[1]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -45577,6 +45850,12 @@ label33: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IVariable) parameters[0], (GRGEN_MODEL.IOperation) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -45788,6 +46067,12 @@ label33: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IVariable) parameters[1], (System.String) parameters[2], (System.Boolean) parameters[3]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -46030,6 +46315,12 @@ label33: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IVariable) parameters[1], (System.String) parameters[2], (System.Boolean) parameters[3]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -46225,6 +46516,12 @@ label33: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IVariable) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -46502,6 +46799,12 @@ label36: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IVariable) parameters[1], (GRGEN_MODEL.IOperation) parameters[2]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -47170,6 +47473,12 @@ label39: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IVariable) parameters[1], (GRGEN_MODEL.IOperation) parameters[2]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     public class AlternativeAction_adaptUpdate_neg_0_alt_0_inlined__sub0_in_adaptUpdate_neg_0 : GRGEN_LGSP.LGSPSubpatternAction
@@ -47758,6 +48067,12 @@ label39: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IVariable) parameters[1], (GRGEN_MODEL.IOperation) parameters[2]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -48017,6 +48332,12 @@ label39: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IVariable) parameters[1], (GRGEN_MODEL.IOperation) parameters[2]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -48252,6 +48573,12 @@ label39: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IClass) parameters[1], (GRGEN_MODEL.IMethodBody) parameters[2]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -48473,6 +48800,12 @@ label39: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IMethodBody) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -48761,6 +49094,12 @@ label39: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IMethodBody) parameters[0], (GRGEN_MODEL.IClass) parameters[1]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -49028,6 +49367,12 @@ label39: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IMethodBody) parameters[0], (GRGEN_MODEL.IClass) parameters[1]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -49279,6 +49624,12 @@ label39: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IMethodBody) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -49508,6 +49859,12 @@ label39: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IExpression) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -49739,6 +50096,12 @@ label39: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IExpression) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -49951,6 +50314,12 @@ label39: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -50159,6 +50528,12 @@ label39: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -50380,6 +50755,12 @@ label39: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IMethodBody) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -50722,6 +51103,12 @@ label39: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IMethodBody) parameters[0], (GRGEN_MODEL.IClass) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -51166,6 +51553,12 @@ label40: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -51372,6 +51765,12 @@ label40: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IOperation) parameters[0], (GRGEN_MODEL.IClass) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -51602,6 +52001,12 @@ label41: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IParameter) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -51808,6 +52213,12 @@ label41: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IOperation) parameters[0], (GRGEN_MODEL.IClass) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -52042,6 +52453,12 @@ label41: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IOperation) parameters[0], (GRGEN_MODEL.IOperation) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -52325,6 +52742,12 @@ label41: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IMethodBody) parameters[0], (GRGEN_MODEL.IClass) parameters[1], (GRGEN_MODEL.IClass) parameters[2], (GRGEN_MODEL.IOperation) parameters[3], (GRGEN_MODEL.IOperation) parameters[4]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -52628,6 +53051,12 @@ label41: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IMethodBody) parameters[0], (GRGEN_MODEL.IOperation) parameters[1], (GRGEN_MODEL.IOperation) parameters[2]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -52890,6 +53319,12 @@ label41: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IOperation) parameters[0], (GRGEN_MODEL.IMethodBody) parameters[1], (GRGEN_MODEL.IClass) parameters[2], (GRGEN_MODEL.IClass) parameters[3]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -53137,6 +53572,12 @@ label41: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IOperation) parameters[1], (GRGEN_MODEL.IOperation) parameters[2], (GRGEN_LIBGR.INode) parameters[3]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -53359,6 +53800,12 @@ label41: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.ICall) parameters[0], (GRGEN_MODEL.IOperation) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -53624,6 +54071,12 @@ label41: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IOperation) parameters[0], (GRGEN_MODEL.IVariable) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -53896,6 +54349,12 @@ label41: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IOperation) parameters[0], (GRGEN_MODEL.IVariable) parameters[1], (GRGEN_MODEL.IParameter) parameters[2]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -54097,6 +54556,12 @@ label41: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.ICall) parameters[0], (GRGEN_MODEL.IParameter) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -54442,6 +54907,12 @@ label43: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IOperation) parameters[0], (GRGEN_MODEL.IParameter) parameters[1]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -54739,6 +55210,12 @@ label44: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.ICall) parameters[0], (GRGEN_MODEL.IExpression) parameters[1]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -55029,6 +55506,12 @@ label44: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.ICall) parameters[0], (GRGEN_MODEL.IExpression) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 

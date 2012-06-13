@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sat Jun 02 15:34:43 CEST 2012
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Wed Jun 13 11:06:21 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -40,6 +40,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -304,6 +305,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -545,6 +547,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -802,6 +805,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -1043,6 +1047,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -1299,6 +1304,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -1558,6 +1564,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -1945,6 +1952,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -2321,6 +2329,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -2553,6 +2562,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -2871,6 +2881,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -3154,6 +3165,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -3651,6 +3663,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -4087,6 +4100,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -4322,6 +4336,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -4542,6 +4557,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -4762,6 +4778,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -4965,6 +4982,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -5190,9 +5208,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                                 if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_66.Count;
                                 procEnv.Finishing(matches_66, false);
                                 Rule_GetNextAnt.IMatch_GetNextAnt match_66 = matches_66.FirstExact;
-                                GRGEN_MODEL.IAnt tmpvar_curAnt; 
-                                rule_GetNextAnt.Modify(procEnv, match_66, out tmpvar_curAnt);
-                                var_curAnt = (GRGEN_MODEL.IAnt)(tmpvar_curAnt);
+                                GRGEN_MODEL.IAnt tmpvar_0curAnt; 
+                                rule_GetNextAnt.Modify(procEnv, match_66, out tmpvar_0curAnt);
+                                var_curAnt = (GRGEN_MODEL.IAnt)(tmpvar_0curAnt);
 
                                 if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
                                 procEnv.Finished(matches_66, false);
@@ -5212,9 +5230,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                         if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_69.Count;
                         procEnv.Finishing(matches_69, false);
                         Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match_69 = matches_69.FirstExact;
-                        GRGEN_MODEL.IGridNode tmpvar_cur; 
-                        rule_ReachedEndOfWorldAnywhere.Modify(procEnv, match_69, out tmpvar_cur);
-                        var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_cur);
+                        GRGEN_MODEL.IGridNode tmpvar_1cur; 
+                        rule_ReachedEndOfWorldAnywhere.Modify(procEnv, match_69, out tmpvar_1cur);
+                        var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_1cur);
 
                         if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_69, false);
@@ -5232,10 +5250,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                             if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_72.Count;
                             procEnv.Finishing(matches_72, false);
                             Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match_72 = matches_72.FirstExact;
-                            GRGEN_MODEL.IGridNode tmpvar_cur; GRGEN_MODEL.IGridNode tmpvar_curOuter; 
-                            rule_GrowWorldFirstNotAtCorner.Modify(procEnv, match_72, out tmpvar_cur, out tmpvar_curOuter);
-                            var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_cur);
-var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
+                            GRGEN_MODEL.IGridNode tmpvar_2cur; GRGEN_MODEL.IGridNode tmpvar_3curOuter; 
+                            rule_GrowWorldFirstNotAtCorner.Modify(procEnv, match_72, out tmpvar_2cur, out tmpvar_3curOuter);
+                            var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_2cur);
+var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_3curOuter);
 
                             if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_72, false);
@@ -5253,10 +5271,10 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
                                 if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_75.Count;
                                 procEnv.Finishing(matches_75, false);
                                 Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match_75 = matches_75.FirstExact;
-                                GRGEN_MODEL.IGridNode tmpvar_cur; GRGEN_MODEL.IGridNode tmpvar_curOuter; 
-                                rule_GrowWorldFirstAtCorner.Modify(procEnv, match_75, out tmpvar_cur, out tmpvar_curOuter);
-                                var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_cur);
-var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
+                                GRGEN_MODEL.IGridNode tmpvar_4cur; GRGEN_MODEL.IGridNode tmpvar_5curOuter; 
+                                rule_GrowWorldFirstAtCorner.Modify(procEnv, match_75, out tmpvar_4cur, out tmpvar_5curOuter);
+                                var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_4cur);
+var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_5curOuter);
 
                                 if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
                                 procEnv.Finished(matches_75, false);
@@ -5281,10 +5299,10 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
                                 if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_82.Count;
                                 procEnv.Finishing(matches_82, false);
                                 Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match_82 = matches_82.FirstExact;
-                                GRGEN_MODEL.IGridNode tmpvar_cur; GRGEN_MODEL.IGridNode tmpvar_curOuter; 
-                                rule_GrowWorldNextNotAtCorner.Modify(procEnv, match_82, out tmpvar_cur, out tmpvar_curOuter);
-                                var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_cur);
-var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
+                                GRGEN_MODEL.IGridNode tmpvar_6cur; GRGEN_MODEL.IGridNode tmpvar_7curOuter; 
+                                rule_GrowWorldNextNotAtCorner.Modify(procEnv, match_82, out tmpvar_6cur, out tmpvar_7curOuter);
+                                var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_6cur);
+var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_7curOuter);
 
                                 if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
                                 procEnv.Finished(matches_82, false);
@@ -5302,10 +5320,10 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
                                     if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_87.Count;
                                     procEnv.Finishing(matches_87, false);
                                     Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match_87 = matches_87.FirstExact;
-                                    GRGEN_MODEL.IGridNode tmpvar_cur; GRGEN_MODEL.IGridNode tmpvar_curOuter; 
-                                    rule_GrowWorldNextAtCorner.Modify(procEnv, match_87, out tmpvar_cur, out tmpvar_curOuter);
-                                    var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_cur);
-var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
+                                    GRGEN_MODEL.IGridNode tmpvar_8cur; GRGEN_MODEL.IGridNode tmpvar_9curOuter; 
+                                    rule_GrowWorldNextAtCorner.Modify(procEnv, match_87, out tmpvar_8cur, out tmpvar_9curOuter);
+                                    var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_8cur);
+var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 
                                     if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
                                     procEnv.Finished(matches_87, false);
@@ -5350,9 +5368,9 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
                             if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_100.Count;
                             procEnv.Finishing(matches_100, false);
                             Rule_Food2Ant.IMatch_Food2Ant match_100 = matches_100.FirstExact;
-                            GRGEN_MODEL.IAnt tmpvar_curAnt; 
-                            rule_Food2Ant.Modify(procEnv, match_100, out tmpvar_curAnt);
-                            var_curAnt = (GRGEN_MODEL.IAnt)(tmpvar_curAnt);
+                            GRGEN_MODEL.IAnt tmpvar_10curAnt; 
+                            rule_Food2Ant.Modify(procEnv, match_100, out tmpvar_10curAnt);
+                            var_curAnt = (GRGEN_MODEL.IAnt)(tmpvar_10curAnt);
 
                             if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_100, false);
@@ -5765,6 +5783,12 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         {
             return ApplyMinMax(actionEnv, min, max);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -5985,6 +6009,12 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IAnt) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -6237,6 +6267,12 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IAnt) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -6457,6 +6493,12 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IAnt) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -6708,6 +6750,12 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IAnt) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -6964,6 +7012,12 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IAnt) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -7207,6 +7261,12 @@ label0: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IAnt) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -7454,6 +7514,12 @@ label1: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -7671,6 +7737,12 @@ label1: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IGridNode) parameters[0], (System.Int32) parameters[1]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -7924,6 +7996,12 @@ label1: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IGridNode) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -8175,6 +8253,12 @@ label1: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IGridNode) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 
@@ -8467,6 +8551,12 @@ label1: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IGridNode) parameters[0], (GRGEN_MODEL.IGridNode) parameters[1]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -8758,6 +8848,12 @@ label1: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IGridNode) parameters[0], (GRGEN_MODEL.IGridNode) parameters[1]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -9001,6 +9097,12 @@ label1: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IGridNode) parameters[0], (GRGEN_MODEL.IGridNode) parameters[1]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -9232,6 +9334,12 @@ label1: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IAnt) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -9444,6 +9552,12 @@ label1: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IAnt) parameters[0]);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -9652,6 +9766,12 @@ label1: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -9847,6 +9967,12 @@ label1: ;
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max, params object[] parameters)
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IAnt) parameters[0]);
+        }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
         }
     }
 

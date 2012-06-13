@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sat Jun 02 15:34:53 CEST 2012
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Wed Jun 13 11:06:33 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -40,6 +40,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -231,6 +232,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+			filters = new String[] { };
 
 		}
 		private void initialize()
@@ -661,6 +663,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             return ApplyMinMax(actionEnv, min, max);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
     /// <summary>
@@ -894,6 +902,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             return ApplyMinMax(actionEnv, min, max);
         }
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        {
+            switch(filterName) {
+                default: throw new Exception("Unknown filter name");
+            }
+        }
     }
 
 
@@ -944,6 +958,6 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         
         
         public override string Name { get { return "ExternalAttributeEvaluationActions"; } }
-        public override string ModelMD5Hash { get { return "34311a93174c6d719d04895ac04ab578"; } }
+        public override string ModelMD5Hash { get { return "db86caa6f56562fce2e049bc688d715f"; } }
     }
 }
