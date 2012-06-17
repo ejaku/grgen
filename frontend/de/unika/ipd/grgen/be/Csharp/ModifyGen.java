@@ -621,6 +621,8 @@ public class ModifyGen extends CSharpBase {
 		genIteratedModificationCalls(sb2, task, pathPrefix);
 
 		genAlternativeModificationCalls(sb2, task, pathPrefix);
+		
+		genYieldedElementsInterfaceAccess(sb2, stateConst, pathPrefix);
 
 		genRedirectEdges(sb2, task, stateConst, 
 				state.edgesNeededAsElements, state.nodesNeededAsElements);
@@ -922,12 +924,16 @@ public class ModifyGen extends CSharpBase {
 				accessViaInterface.add(node);
 			else if(node.changesType(task.right))
 				accessViaInterface.add(node.getRetypedEntity(task.right));
+			else if(node.isDefToBeYieldedTo())
+				accessViaInterface.add(node);
 		}
 		for(Edge edge : task.right.getEdges()) {
 			if(edge.inheritsType())
 				accessViaInterface.add(edge);
 			else if(edge.changesType(task.right))
 				accessViaInterface.add(edge.getRetypedEntity(task.right));
+			else if(edge.isDefToBeYieldedTo())
+				accessViaInterface.add(edge);
 		}
 	}
 
@@ -1141,7 +1147,7 @@ public class ModifyGen extends CSharpBase {
 					}
 					for(Entity neededEntity : exec.getNeededEntities()) {
 						if(neededEntity.isDefToBeYieldedTo()) {
-							sb.append(", out ");
+							sb.append(", ref ");
 							sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID);
 						}
 					}
@@ -1526,6 +1532,19 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void genYieldedElementsInterfaceAccess(StringBuffer sb, ModifyGenerationStateConst state, String pathPrefix) {
+		for(Node node : state.yieldedNodes()) {
+			sb.append("\t\t\t"
+					+ formatVarDeclWithCast(formatElementInterfaceRef(node.getType()), "i" + formatEntity(node))
+					+ formatEntity(node) + ";\n");
+		}
+		for(Edge edge : state.yieldedEdges()) {
+			sb.append("\t\t\t"
+					+ formatVarDeclWithCast(formatElementInterfaceRef(edge.getType()), "i" + formatEntity(edge))
+					+ formatEntity(edge) + ";\n");
+		}
+	}
+	
 	private void genAddedGraphElementsArray(StringBuffer sb, String pathPrefix, boolean isNode, Collection<? extends GraphEntity> set) {
 		String NodesOrEdges = isNode?"Node":"Edge";
 		sb.append("\t\tprivate static string[] " + pathPrefix + "added" + NodesOrEdges + "Names = new string[] ");

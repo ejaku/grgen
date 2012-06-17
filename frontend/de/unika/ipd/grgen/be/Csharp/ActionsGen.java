@@ -1424,7 +1424,7 @@ public class ActionsGen extends CSharpBase {
 				}
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					if(neededEntity.isDefToBeYieldedTo()) {
-						sb.append(", out " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
+						sb.append(", ref " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
 					}
 				}
 				sb.append(") {\n");

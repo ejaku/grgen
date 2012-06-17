@@ -24,3 +24,5 @@ edge class thdeflink {}
 edge class next {}
 edge class support {}
 edge class has {}
+
+edge class ast;

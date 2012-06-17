@@ -2489,7 +2489,7 @@ namespace de.unika.ipd.grGen.lgsp
 			}
             for(int i = 0; i < defToBeYieldedToTypes.Length; i++)
             {
-                source.Append(", out " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(defToBeYieldedToTypes[i]), model) + " var_");
+                source.Append(", ref " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(defToBeYieldedToTypes[i]), model) + " var_");
                 source.Append(defToBeYieldedToNames[i]);
             }
             source.Append(")\n");
