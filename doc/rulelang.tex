@@ -298,14 +298,17 @@ There is (unfortunately) no built-in conflict resolution mechanism for models li
 If necessary you must use prefixes as you might do in C.
 
 \begin{rail}
-  TestDeclaration: TestModifier 'test' ActionSignature lbrace Pattern rbrace ;
-  RuleDeclaration: RuleModifier 'rule' ActionSignature lbrace Pattern Replace rbrace ;
+  TestDeclaration: TestModifier 'test' ActionSignature lbrace Pattern rbrace MatchFilter;
+  RuleDeclaration: RuleModifier 'rule' ActionSignature lbrace Pattern Replace rbrace MatchFilter;
 \end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixkeyw{dangling}\ixkeyw{identification}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
 Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}.
 It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{sec:replacemodify}).
 A \newterm{test} has no rewrite specification.
 It's intended to check whether (and maybe how many times) a pattern occurs (see example \ref{ex:rulelang:testrule}).
-For an explanation of the available modifiers see Section~\ref{sct:patternmodifier}.
+For an explanation of the available modifiers see Section~\ref{sct:patternmodifier},
+for an explanation of the external match filters see Section~\ref{sub:extflt}.
+
+
 \begin{example}
 \label{ex:rulelang:testrule}
 We define a test \texttt{SomeCond}

@@ -9,6 +9,7 @@ We'll have a look at
 \item the interface of the graph processing environment
 \item the porter module for importing and exporting of graphs and miscellaneous stuff
 \item implementing external class and function declarations
+\item implementing external match filter and external sequence declarations
 \end{itemize}
 
 \noindent From the input file \texttt{Foo.grg} \texttt{grgen.exe} generates the output files \texttt{FooModel.cs} for the model and \texttt{FooActions.cs} for the actions,
@@ -214,30 +215,6 @@ But normally you want to use your favourite .NET programming language for contro
 \texttt{examples-api/YCompExample/YCompExample.cs}.
 \end{itemize}
 
-\begin{note}
-\LibGr\ allows for splitting a rule application into two steps:
-Find all the subgraphs of the host graph that match the pattern first, then rewrite one of these matches. 
-By returning a collection of all matches, the \LibGr\ retains the complete graph rewrite process under control.
-As a \LibGr\ user have a look at the following methods of the \texttt{IAction} interface:
-\begin{csharplet}
-IMatches Match(IGraph graph, int maxMatches, object[] parameters);
-object[] Modify(IGraph graph, IMatch match);
-\end{csharplet}
-
-In C\#, this might look like:
-\begin{csharplet}
-IMatches myMatches = myAction.Match(myGraph, -1, null); /* -1: get all the matches */
-for(int i=0; i<myMatches.NumMatches; ++i)
-{
-	if(inspectCarefully(myMatches.GetMatch(i))
-	{
-		myAction.Modify(myGraph, myMatches.GetMatch(i));
-		break;
-  	}
-}
-\end{csharplet}
-\end{note}
-
 \begin{warning}
 While C\# allows input arguments values to be of a subtype of the declared interface parameter type (OO), 
 it requires that the argument variables for the \texttt{out} parameters are of exactly the type declared (non-OO).
@@ -266,7 +243,7 @@ b = bla;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{External Class and Function Implementation}\label{sub:extclsfctimpl}\indexmain{external class implementation}\indexmain{external function implementation}
 
-For a model \texttt{Foo} which contains external functions and/or classes (cf. \ref{sub:extfct} and \ref{sub:extcls}), \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files, which contains
+For a model file \texttt{Foo} which contains external functions (cf. \ref{sub:extfct}) and/or classes (cf. \ref{sub:extcls}), \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files, which contains
 \begin{itemize}
 	\item within the model namespace public partial classes named as given in the external class declaration,
 inherting from each other as stated in the external class declarations.
@@ -284,3 +261,52 @@ In \texttt{examples/ExternalAttributeEvaluationExample} and \texttt{examples-api
 you find a fabricated example showing how to use the external classes and functions.
 
 When you use third-party assemblies in your source code you must inform GrGen.NET about them so references to them are included into the assembly generated; this can be done with the \texttt{-r} parameter when calling \texttt{grgen.exe} directly (cf. \ref{grgenoptions}) or with the \texttt{new} command configurations available in GrShell (cf. \ref{graphcommands}). Using the \texttt{keepdebug} configuration of the \texttt{new} command is recommended as it allows for easier debugging.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{External Filter and Sequence Implementation}\label{sub:extfltseqimpl}\indexmain{external match filter implementation}\indexmain{external sequence implementation}
+
+For an actions file \texttt{Bar} which contains match filter declarations (cf. \ref{sub:extflt}) and/or external sequence declarations (\ref{sub:extseq}), \GrG~generates a file \texttt{BarActionsExternalFunctions.cs} located besides the model and rule files, which contains within the action namespace 
+\begin{itemize}
+	\item a public partial class named \texttt{MatchFilters} with a body of comments giving the expected function prototypes.
+	\item public partial classes, named \texttt{Sequence\_foo} for a sequence \texttt{foo}, with a body containing a comment specifying the expected function prototype of the sequence application function.
+\end{itemize}
+
+\noindent The partial classes are empty, you must implement them in a file named \texttt{BarActionsExternal\-FunctionsImpl.cs} located in the folder of the \texttt{BarActionsExternalFunctions.cs} file by
+\begin{itemize}
+	\item fleshing out the \texttt{MatchFilters} partial class skeleton with the match filter functions you declared, obeying the function signatures as specified; you might want to convert the received matches object to an \texttt{IList} in case you want to reorder the list and reinject it into the matches object afterwards.
+	\item fleshing out the partial classes skeletons of the external sequence with the \texttt{ApplyXGRS\_foo} methods needed.
+\end{itemize}
+
+\noindent Don't forget that the source code file \texttt{BarActionsExternalFunctionsImpl.cs} is an integral part of your \GrG~graph transformation project, in contrast to the other C\# files generated (and overwritten) for you.
+In \texttt{examples/ExternalFiltersAndSequencesExample} and \texttt{examples-api/ExternalFiltersAndSequencesExample}
+you find a fabricated example showing how to use the external classes and functions.
+
+When you use third-party assemblies in your source code you must inform GrGen.NET about them so references to them are included into the assembly generated; this can be done with the \texttt{-r} parameter when calling \texttt{grgen.exe} directly (cf. \ref{grgenoptions}) or with the \texttt{new} command configurations available in GrShell (cf. \ref{graphcommands}). Using the \texttt{keepdebug} configuration of the \texttt{new} command is recommended as it allows for easier debugging.
+
+
+\begin{note}\label{note:inspect}
+\LibGr\ allows for splitting a rule application into two steps:
+Find all the subgraphs of the host graph that match the pattern first, then rewrite one of these matches. 
+By returning a collection of all matches, the \LibGr\ retains the complete graph rewrite process under control.
+As a \LibGr\ user have a look at the following methods of the \texttt{IAction} interface:
+\begin{csharplet}
+IMatches Match(IGraph graph, int maxMatches, object[] parameters);
+object[] Modify(IGraph graph, IMatch match);
+\end{csharplet}
+
+In C\#, this might look like:
+\begin{csharplet}
+IMatches myMatches = myAction.Match(myGraph, -1, null); /* -1: get all the matches */
+for(int i=0; i<myMatches.NumMatches; ++i)
+{
+	if(inspectCarefully(myMatches.GetMatch(i))
+	{
+		myAction.Modify(myGraph, myMatches.GetMatch(i));
+		break;
+  	}
+}
+\end{csharplet}
+
+The external match filters are hooking in between the \texttt{Match} and \texttt{Modify} functions, they allow you to do this kind of inspection without being forced to resort to fully external control.
+\end{note}

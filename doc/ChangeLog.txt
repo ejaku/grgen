@@ -1,4 +1,20 @@
-﻿v3.5 beta (2012-06-03)
+﻿v3.5 beta2 (2012-06-18)
+ Improved customization, extension of GrGen with C# code:
+ - External match filter functions added, declared with a backslash after a rule/test body,
+   plus match filter function applications at a rule application, with a backslash, too.
+   To be executed after matching and before rewriting, allowed to alter the matches list.
+   With them, external code may be notified about, inspect, and filter, matches of rule applications.
+ - External sequences added, declared as sequences without sequence body,
+   plus external sequence applications in a sequence as any other application of a defined sequence.
+   With them, arbitrary external code may be called from the sequences, passing parameters.
+ - The match filter and external sequence functions need to be implemented 
+   in a <Name>ActionsExternalFunctionsImpl.cs file.
+
+ Bugfixes/Improvements:
+  Some fixes/generalizations in sequence application parameter passing, def elements, and yields.
+
+ 
+v3.5 beta (2012-06-03)
  Subpattern inlining supported now:
   - potential to speed up transformations with subpattern usages dramatically,
     esp. when subpatterns were used for extracting common parts, structuring transformations,

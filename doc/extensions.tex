@@ -1,6 +1,8 @@
 \chapter{Extensions}\indexmain{extensions}\label{chapextensions}
 
-This chapter lists the ways you can customize \GrG without \GrG-means, the things which allow to interact with the external world outside of \GrG: attribute types, functions, annotations, and command line parameters.
+This chapter lists the ways you can customize \GrG~without \GrG-language constructs and
+shows how to interact with the external world outside of \GrG.
+The primary means available are: external attribute types, external functions, match filters, and external sequences; the secondary helpers available are annotations, command line parameters, and external shell commands.
 
 %-----------------------------------------------------------------------------------------------
 \section{External Attribute Types}\label{sub:extcls}
@@ -20,15 +22,44 @@ An external function call (cf. \ref{sec:primexpr}) may receive and return values
 You may extend \GrG~with external functions if the built-in attribute computation capabilities (cf. \ref{sub:expr}) are insufficient for your needs.
 
 %-----------------------------------------------------------------------------------------------
-\section{Shell Commands and Compiler Parameters}
-\label{shell commands}
+\section{External match filters}\label{sub:extflt}
+
+\begin{rail}
+  MatchFilter: ( backslash (IdentDecl + ',') )?;
+\end{rail}\ixnterm{MatchFilter}
+
+Registers one or multiple \indexed{external match filter}s with \GrG~, for the rule the match filters are appended at, to be used from selected applications of that rule (cf. \emph{FilterIdent} in \ref{sec:ruleapplication}).
+The \indexed{match filter} function must be implemented externally, see \ref{sub:extfltseqimpl}.
+You may extend \GrG~with match filters if you need to inspect the matches found for a rule in order to decide which to apply (see note \ref{note:inspect}) or if you just need a post-match hook which informs you about the found matches.
+
+%-----------------------------------------------------------------------------------------------
+\section{External sequences}\label{sub:extseq}
+\begin{rail}
+  ExternalSequenceDeclaration: 
+    'sequence' RewriteSequenceSignature ';';
+\end{rail}\ixnterm{ExternalSequenceDeclaration}
+Registers an \indexed{external sequence} similar to a defined sequence (cf. \ref{sec:sequencedefinition}) but in contrast to that it must or can be implemented outside in C\# code.
+An external sequence declaration specifies the expected input types and the output types. The sequence must be implemented externally, see \ref{sub:extfltseqimpl}.
+You may extend \GrG~with external sequences if you want to call into external code to interface with libraries from outside the domain of graph rewriting, or if the \GrG-languages are not well suited for parts of the task at hand.
+
+%-----------------------------------------------------------------------------------------------
+\section{Shell commands}
+
+\begin{rail}
+  '!' CommandLine
+\end{rail}\indexmain{\texttt{"!}}
+\emph{CommandLine} is execute as-is by the shell of the operating system.
+
+%-----------------------------------------------------------------------------------------------
+\section{Shell and Compiler Parameters}
 
 \noindent When executing the \GrG\ generator/compiler \texttt{GrGen.exe}, the follwing parameters are admissible:
 
-\noindent \texttt{[mono] GrGen.exe } \texttt{[-keep [<dest-dir>]] [-debug]} \texttt{[-r <assembly-path>]}
+\noindent \texttt{[mono] GrGen.exe } \texttt{[-keep [<dest-dir>]] [-debug]} \texttt{[-lazynic] [-noinline]} \texttt{[-r <assembly-path>]}
 
 The assembly \emph{assembly-path} is linked as reference to the compilation result with the \texttt{-r} parameter.
 
+These compiler parameters can be configured in the GrShell to be used, too:
 \begin{rail}
   'new' 'add' 'reference' Filename
 \end{rail}\ixkeyw{new}\ixkeyw{add}\ixkeyw{reference}
@@ -40,10 +71,10 @@ Configures a reference to an external assembly \emph{Filename} to be linked into
 Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols,
 or configures the generation of the matchers to execute negatives, independents, and conditions only at the end of matching (normally asap),
 or configures the generation of the matchers to never inline subpatterns.
-Maps to the \texttt{-keep} and the \texttt{-debug} options or to the \texttt{-lazynic} or to the \texttt{-noinline} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+Maps to the \texttt{-keep} and the \texttt{-debug} options or to the \texttt{-lazynic} or to the \texttt{-noinline} option of \texttt{grgen.exe}.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----------------------------------------------------------------------------------------------
 \section{Annotations}\indexmain{annotation}
 \label{annotations}
 
