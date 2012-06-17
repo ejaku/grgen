@@ -736,6 +736,22 @@
             The name the sequence was defined with
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ExternalDefinedSequenceInfo">
+            <summary>
+            Represents a sequence definition implemented externally.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ExternalDefinedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String,System.Int32)">
+            <summary>
+            Constructs an ExternalDefinedSequenceInfo object.
+            </summary>
+            <param name="parameters">The names of the graph elements needed from the calling action.</param>
+            <param name="parameterTypes">The types of the graph elements needed from the calling action.</param>
+            <param name="outParameters">The names of the graph elements returned to the calling action.</param>
+            <param name="outParameterTypes">The types of the graph elements returned to the calling action.</param>
+            <param name="name">The name the sequence was defined with.</param>
+            <param name="lineNr">The line number the sequence appears on in the source.</param>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.EnterSequenceHandler">
             <summary>
             Represents a method called directly after a sequence has been entered.
@@ -873,7 +889,7 @@
             <param name="old">The old graph.</param>
             <param name="clone">The new, cloned version of the graph.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,System.Int32,System.Int32,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,System.Int32,System.Int32,System.Boolean,System.Boolean,System.String)">
             <summary>
             Apply a rewrite rule (first computing the parameters with sequence expressions, last assigning result variables).
             </summary>
@@ -884,6 +900,7 @@
             <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
             the application</param>
             <param name="test">If true, no rewrite step is performed.</param>
+            <param name="filter">The name of the filter to apply to the matches before rewriting, or null.</param>
             <returns>The number of matches found</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.GetElementVariables(de.unika.ipd.grGen.libGr.IGraphElement)">
@@ -1377,6 +1394,11 @@
             The operator is not available for the given types
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.FilterError">
+            <summary>
+            The given filter can't be applied to the given rule 
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceParserException">
             <summary>
             An exception thrown by SequenceParser,
@@ -1391,6 +1413,11 @@
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.Name">
             <summary>
             The name of the rule/sequence.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.FilterName">
+            <summary>
+            The name of the filter which was mis-applied.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.Action">
@@ -1492,6 +1519,15 @@
             Creates an instance of a SequenceParserException used by the SequenceParser,
             when an operator is not available for the supplied types.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(System.String,System.String,de.unika.ipd.grGen.libGr.SequenceParserError)">
+            <summary>
+            Creates an instance of a SequenceParserException used by the SequenceParser, 
+            when the filter with the given name can't be applied to the rule/sequence/variable of the given name.
+            </summary>
+            <param name="ruleName">Name of the rule or sequence or variable.</param>
+            <param name="filterName">Name of the filter which was mis-applied.</param>
+            <param name="errorKind">The kind of error.</param>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.SequenceParserException.Message">
             <summary>
@@ -2377,6 +2413,18 @@
         <member name="M:de.unika.ipd.grGen.libGr.IMatchesExact`1.RemoveMatchExact(System.Int32)">
             <summary>
             Removes the match of exact type at the given index and returns it.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatchesExact`1.ToList">
+            <summary>
+            Returns the content of the current matches list in form of an array which can be efficiently indexed and reordered.
+            The array is destroyed when this method is called again, the content is destroyed when the rule is matched again (there is only one array existing).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatchesExact`1.FromList">
+            <summary>
+            Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
+            (The list might have been reordered, matches might have been removed, or even added.)
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatchesExact`1.FirstExact">
@@ -4934,6 +4982,11 @@
             An array of GrGen types corresponding to rule return values.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IRulePattern.Filters">
+            <summary>
+            An array of the names of the available filters (external extensions)
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceVariable">
             <summary>
             A variable declared/used within a sequence,
@@ -5471,6 +5524,14 @@
             <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
             The array must contain at least RulePattern.Inputs.Length elements.</param>
             <returns>True, if the rule was applied at least min times.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IAction.Filter(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IMatches,System.String)">
+            <summary>
+            Filters the matches found by this action 
+            </summary>
+            <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
+            <param name="matches">The matches to inspect and filter</param>
+            <param name="filterName">The name of the filter function to apply</param>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IAction.Name">
             <summary>
