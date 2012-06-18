@@ -1,0 +1,10 @@
+node class NamedItem {
+  id : string = "";
+  content : string = "";
+}
+
+node class Label extends NamedItem {}
+
+edge class deflink {}
+edge class next extends ordering {}
+edge class ordering {}

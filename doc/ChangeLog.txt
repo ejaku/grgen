@@ -11,7 +11,8 @@
    in a <Name>ActionsExternalFunctionsImpl.cs file.
 
  Bugfixes/Improvements:
-  Some fixes/generalizations in sequence application parameter passing, def elements, and yields.
+ - Some fixes/generalizations in sequence application parameter passing, def elements, and yields.
+ - Inlining fix (bad negative / inlined subpattern interaction).
 
  
 v3.5 beta (2012-06-03)

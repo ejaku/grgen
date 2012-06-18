@@ -1600,7 +1600,9 @@ exitSecondLoop: ;
                     SearchOperation op = operations[j];
                     if (op.Type == SearchOperationType.Condition
                         || op.Type == SearchOperationType.NegativePattern
-                        || op.Type == SearchOperationType.IndependentPattern)
+                        || op.Type == SearchOperationType.IndependentPattern
+                        || op.Type == SearchOperationType.Assign 
+                        || op.Type == SearchOperationType.AssignVar)
                     {
                         continue;
                     }

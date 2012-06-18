@@ -1,0 +1,21 @@
+using minimal;
+
+pattern NextDefLabel(current:NamedItem, var refname:string)
+{
+  alternative {
+    LabeledStepWrongLabel {
+      label : Label -:deflink-> pred : NamedItem -:next-> current;
+      if { label.id != refname; }			
+      :NextDefLabel(pred, refname);
+		}
+		LabeledStepCorrectLabel {
+   		label : Label -:deflink-> pred : NamedItem -:next-> current;
+			if { label.id == refname; }
+		}
+		UnLabeledStep {
+      pred : NamedItem -:next-> current;
+			negative { label : Label -:deflink-> pred; }
+      :NextDefLabel(pred, refname);
+		}
+	}
+}
