@@ -185,6 +185,15 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraph.correspondingNodes = correspondingNodes;
             patternGraph.correspondingEdges = correspondingEdges;
 
+            foreach(IEdge edge in graph.Edges)
+            {
+                int edgeIndex = Array.IndexOf<IEdge>(correspondingEdges, edge);
+                int sourceIndex = Array.IndexOf<INode>(correspondingNodes, edge.Source);
+                int targetIndex = Array.IndexOf<INode>(correspondingNodes, edge.Target);
+                patternGraph.edgeToSourceNode.Add(edges[edgeIndex], nodes[sourceIndex]);
+                patternGraph.edgeToTargetNode.Add(edges[edgeIndex], nodes[targetIndex]);
+            }
+
             PatternGraphAnalyzer.PrepareInline(patternGraph);
 
             return patternGraph;
