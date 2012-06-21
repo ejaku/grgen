@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.libGr
         ContainerAdd, ContainerRem, ContainerClear,
         Assignment,
         VariableDeclaration,
-        Emit, Record, GraphRem, GraphClear,
+        Emit, Record, Export, GraphRem, GraphClear,
         AssignmentTarget, // every assignment target (lhs value) is a computation
         Expression // every expression (rhs value) is a computation
     }
@@ -718,6 +718,59 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceComputation> Children { get { yield return Expression; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "record(" + Expression.Symbol + ")"; } }
+    }
+
+    public class SequenceComputationExport : SequenceComputation
+    {
+        public SequenceExpression Name;
+        public SequenceExpression Graph;
+
+        public SequenceComputationExport(SequenceExpression expr1, SequenceExpression expr2)
+            : base(SequenceComputationType.Export)
+        {
+            if(expr2 != null)
+            {
+                Graph = expr1;
+                Name = expr2;
+            }
+            else
+            {
+                Name = expr1;
+            }
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationExport copy = (SequenceComputationExport)MemberwiseClone();
+            copy.Name = Name.CopyExpression(originalToCopy, procEnv);
+            if(Graph!=null)
+                copy.Graph = Graph.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object value = Name.Evaluate(procEnv);
+            List<string> arguments = new List<string>();
+            arguments.Add(value.ToString());
+            IGraph graph = Graph != null ? (IGraph)Graph.Evaluate(procEnv) : procEnv.Graph;
+            if(graph is INamedGraph)
+                Porter.Export((INamedGraph)graph, arguments);
+            else
+                Porter.Export(graph, arguments);
+            return value;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Name.GetLocalVariables(variables);
+            if(Graph!=null)
+                Graph.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield return Name; if(Graph != null) yield return Graph; else yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "export(" + (Graph!=null ? Graph.Symbol + ", " : "") + Name.Symbol + ")"; } }
     }
 
     public class SequenceComputationGraphRem : SequenceComputation

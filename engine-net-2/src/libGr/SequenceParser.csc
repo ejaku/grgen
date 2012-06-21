@@ -1029,7 +1029,7 @@ SequenceComputation Computation():
 |
 	LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(2).kind==LPARENTHESIS 
 				&& (GetToken(1).image=="vfree" || GetToken(1).image=="vreset"
-					|| GetToken(1).image=="emit" || GetToken(1).image=="record"
+					|| GetToken(1).image=="emit" || GetToken(1).image=="record" || GetToken(1).image=="export"
 					|| GetToken(1).image=="rem" || GetToken(1).image=="clear")})
 	comp=ProcedureCall()
 	{
@@ -1275,31 +1275,34 @@ SequenceExpression ExpressionBasic():
 SequenceComputation ProcedureCall():
 {
 	String procedure;
-	SequenceExpression fromExpr = null;
+	SequenceExpression fromExpr = null, fromExpr2 = null;
 }
 {
-	procedure=Word() "(" ( fromExpr=Expression() )? ")"
+	procedure=Word() "(" ( fromExpr=Expression() ("," fromExpr2=Expression())? )? ")"
 	{
 		if(procedure=="vfree") {
-			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 			return new SequenceComputationVFree(fromExpr);
 		} else if(procedure=="vreset") {
-			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 			return new SequenceComputationVReset(fromExpr);
 		} else if(procedure=="emit") {
-			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 			return new SequenceComputationEmit(fromExpr);
 		} else if(procedure=="record") {
-			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 			return new SequenceComputationRecord(fromExpr);
+		} else if(procedure=="export") {
+			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 (name of file only) or 2 (graph to export, name of file) parameters)");
+			return new SequenceComputationExport(fromExpr, fromExpr2);
 		} else if(procedure=="rem") {
-			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 			return new SequenceComputationGraphRem(fromExpr);
 		} else if(procedure=="clear") {
-			if(fromExpr!=null) throw new ParseException("\"" + procedure + "\" expects no parameters)");
+			if(fromExpr!=null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects no parameters)");
 			return new SequenceComputationGraphClear();
 		} else {
-			throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are vfree|vreset|emit|record|rem|clear)");
+			throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are vfree|vreset|emit|record|export|rem|clear)");
 		}
     }
 }
