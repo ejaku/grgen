@@ -2229,6 +2229,11 @@ invalidCommand:
             bool result = interpretationPlan.Execute(this);
 
 #if LOG_ISOMORPHY_CHECKING
+            SourceBuilder sb = new SourceBuilder();
+            interpretationPlan.Dump(sb);
+            writer.WriteLine();
+            writer.WriteLine(sb.ToString());
+            writer.WriteLine();
             writer.WriteLine("Result of matching: " + (result ? "Isomorph" : "Different"));
             writer.Flush();
 #endif

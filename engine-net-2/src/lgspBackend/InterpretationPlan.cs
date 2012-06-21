@@ -25,6 +25,12 @@ namespace de.unika.ipd.grGen.lgsp
     public abstract class InterpretationPlan
     {
         /// <summary>
+        /// dumps interpretation plan operation (as string) into source builder
+        /// to be implemented by concrete subclasses
+        /// </summary>
+        public abstract void Dump(SourceBuilder builder);
+
+        /// <summary>
         /// Executes the interpretation plan (starting with this operation)
         /// </summary>
         /// <param name="graph">The graph over which the plan is to be interpreted</param>
@@ -79,6 +85,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
         }
 
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("Start\n");
+            next.Dump(builder);
+        }
+
         public override bool Execute(LGSPGraph graph)
         {
             return next.Execute(graph);
@@ -93,6 +105,12 @@ namespace de.unika.ipd.grGen.lgsp
         public InterpretationPlanLookupNode(int targetType)
         {
             this.targetType = targetType;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("{0}: LookupNode {1}\n", this.GetHashCode(), targetType);
+            next.Dump(builder);
         }
 
         public override bool Execute(LGSPGraph graph)
@@ -124,6 +142,12 @@ namespace de.unika.ipd.grGen.lgsp
             this.targetType = targetType;
         }
 
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("{0}: LookupEdge {1}\n", this.GetHashCode(), targetType);
+            next.Dump(builder);
+        }
+
         public override bool Execute(LGSPGraph graph)
         {
             for(LGSPEdge head = graph.edgesByTypeHeads[targetType], candidate = head.lgspTypeNext; candidate != head; candidate = candidate.lgspTypeNext)
@@ -153,6 +177,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
         }
 
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("{0}: BothDirections\n", this.GetHashCode());
+            next.Dump(builder);
+        }
+
         public override bool Execute(LGSPGraph graph)
         {
             for(direction = 0; direction < 2; ++direction)
@@ -174,6 +204,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             this.targetType = targetType;
             this.source = source;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("{0}: Incoming {1} from {2}\n", this.GetHashCode(), targetType, source.GetHashCode());
+            next.Dump(builder);
         }
 
         public override bool Execute(LGSPGraph graph)
@@ -213,6 +249,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             this.targetType = targetType;
             this.source = source;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("{0}: Outgoing {1} to {2}\n", this.GetHashCode(), targetType, source.GetHashCode());
+            next.Dump(builder);
         }
 
         public override bool Execute(LGSPGraph graph)
@@ -255,6 +297,12 @@ namespace de.unika.ipd.grGen.lgsp
             this.directionVariable = directionVariable;
         }
 
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("{0}: IncomingOrOutgoing {1} from/to {2} direction {3}\n", this.GetHashCode(), targetType, source.GetHashCode(), directionVariable.GetHashCode());
+            next.Dump(builder);
+        }
+
         public override bool Execute(LGSPGraph graph)
         {
             LGSPEdge head = directionVariable.direction==0 ? source.node.lgspInhead : source.node.lgspOuthead;
@@ -295,6 +343,12 @@ namespace de.unika.ipd.grGen.lgsp
             this.source = source;
         }
 
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("{0}: ImplicitTarget {1} of {2}\n", this.GetHashCode(), targetType, source.GetHashCode());
+            next.Dump(builder);
+        }
+
         public override bool Execute(LGSPGraph graph)
         {
             LGSPNode candidate = source.edge.lgspTarget;
@@ -322,6 +376,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             this.targetType = targetType;
             this.source = source;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("{0}: ImplicitSource {1} of {2}\n", this.GetHashCode(), targetType, source.GetHashCode());
+            next.Dump(builder);
         }
 
         public override bool Execute(LGSPGraph graph)
@@ -353,6 +413,12 @@ namespace de.unika.ipd.grGen.lgsp
             this.targetType = targetType;
             this.source = source;
             this.directionVariable = directionVariable;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("{0}: ImplicitSourceOrTarget {1} of {2} direction {3}\n", this.GetHashCode(), targetType, source.GetHashCode(), directionVariable.GetHashCode());
+            next.Dump(builder);
         }
 
         public override bool Execute(LGSPGraph graph)
@@ -387,6 +453,12 @@ namespace de.unika.ipd.grGen.lgsp
             this.theOther = theOther;
         }
 
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("{0}: ImplicitTheOther {1} of {2} the other is {3}\n", this.GetHashCode(), targetType, source.GetHashCode(), theOther.GetHashCode());
+            next.Dump(builder);
+        }
+
         public override bool Execute(LGSPGraph graph)
         {
             LGSPNode candidate = theOther.node == source.edge.lgspSource ? source.edge.lgspTarget : source.edge.lgspSource;
@@ -417,6 +489,12 @@ namespace de.unika.ipd.grGen.lgsp
             this.edge = edge;
         }
 
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("CheckConnectedness {0} -{1}->\n", node.GetHashCode(), edge.GetHashCode());
+            next.Dump(builder);
+        }
+
         public override bool Execute(LGSPGraph graph)
         {
             if(edge.edge.lgspSource == node.node)
@@ -438,6 +516,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             this.node = node;
             this.edge = edge;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("CheckConnectedness -{0}-> {1}\n", edge.GetHashCode(), node.GetHashCode());
+            next.Dump(builder);
         }
 
         public override bool Execute(LGSPGraph graph)
@@ -465,6 +549,12 @@ namespace de.unika.ipd.grGen.lgsp
             this.directionVariable = directionVariable;
         }
 
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("CheckConnectedness {0}? <-{1}-> ?{0} direction {2}\n", node.GetHashCode(), edge.GetHashCode(), directionVariable.GetHashCode());
+            next.Dump(builder);
+        }
+
         public override bool Execute(LGSPGraph graph)
         {
             if((directionVariable.direction == 0 ? edge.edge.lgspSource : edge.edge.lgspTarget) == node.node)
@@ -489,6 +579,12 @@ namespace de.unika.ipd.grGen.lgsp
             this.node = node;
             this.edge = edge;
             this.theOther = theOther;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("CheckConnectedness {0}? <-{1}-> ?{0} the other {2}\n", node.GetHashCode(), edge.GetHashCode(), theOther.GetHashCode());
+            next.Dump(builder);
         }
 
         public override bool Execute(LGSPGraph graph)
@@ -521,6 +617,15 @@ namespace de.unika.ipd.grGen.lgsp
             this.edgeMatcher = edgeMatcher;
         }
 
+        public override void Dump(SourceBuilder builder)
+        {
+            if(nodeMatcher != null)
+                builder.AppendFrontFormat("CheckCondition on node {0}\n", nodeMatcher.GetHashCode());
+            else
+                builder.AppendFrontFormat("CheckCondition on edge {0}\n", edgeMatcher.GetHashCode());
+            next.Dump(builder);
+        }
+
         public override bool Execute(LGSPGraph graph)
         {
             if(condition.Execute(nodeMatcher!=null ? (IGraphElement)nodeMatcher.node : (IGraphElement)edgeMatcher.edge))
@@ -542,6 +647,11 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public InterpretationPlanMatchComplete()
         {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("MatchComplete\n");
         }
 
         public override bool Execute(LGSPGraph graph)
