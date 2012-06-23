@@ -1,6 +1,8 @@
 OK     should_pass/MaybeNull.grg
 OK     should_pass/ProgramGraphs.grg
 OK     should_pass/ProofLangAnalysis.grg
+OK     should_pass/ProofLangAnalysis2.grg
+OK     should_pass/ProofLangAnalysis3.grg
 OK     should_pass/abstract_replace_parameter.grg
 OK     should_pass/alternative_001.grg
 OK     should_pass/alternative_002.grg
@@ -327,6 +329,7 @@ OK     should_pass/map_identical_assignment.grg
 OK     should_pass/map_node_edge.grg
 OK     should_pass/mapset_001.grg
 OK     should_pass/merge_bw.grg
+OK     should_pass/minimal.grg
 OK     should_pass/minmax.grg
 OK     should_pass/model_init_001.grg
 OK     should_pass/model_init_002.grg
@@ -896,6 +899,8 @@ ERROR  should_fail/exectype_SetmapRem3.grg
 FAILED should_fail/exectype_VFree.grg
 FAILED should_fail/exectype_VReset.grg
 FAILED should_fail/exectype_VarPredicate.grg
+ERROR  should_fail/external_filter_001.grg
+ERROR  should_fail/external_filter_002.grg
 ERROR  should_fail/from_storage_001.grg
 ERROR  should_fail/from_storage_002.grg
 ERROR  should_fail/from_storage_003a.grg
