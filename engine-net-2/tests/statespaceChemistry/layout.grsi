@@ -1,0 +1,12 @@
+debug set layout Circular
+
+dump set node C color green
+dump set node N color blue
+dump set node O color red
+dump set node H color grey
+dump set node S color yellow
+
+dump set node Bond shape rhomb
+
+dump add node Molecule group by hidden outgoing contains
+dump set node Molecule color lightgrey

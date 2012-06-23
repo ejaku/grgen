@@ -1,0 +1,15 @@
+node class Bond;
+	
+abstract node class Atom;
+
+node class H extends Atom;
+node class C extends Atom;
+node class N extends Atom;
+node class O extends Atom;
+node class S extends Atom;
+
+node class Molecule
+{
+	sub:graph;
+}
+edge class contains;

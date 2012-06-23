@@ -1,0 +1,68 @@
+cd statespaceChemistry
+
+include "molecule0.grsi"
+
+show num edges
+show num edges contains
+show num nodes
+show num nodes Atom
+show num nodes H
+show num nodes C
+show num nodes N
+show num nodes O
+show num nodes S
+show num nodes Molecule
+
+include "molecule1.grsi"
+
+show num edges
+show num edges contains
+show num nodes
+show num nodes Atom
+show num nodes H
+show num nodes C
+show num nodes N
+show num nodes O
+show num nodes S
+show num nodes Molecule
+
+include "molecule2.grsi"
+
+show num edges
+show num edges contains
+show num nodes
+show num nodes Atom
+show num nodes H
+show num nodes C
+show num nodes N
+show num nodes O
+show num nodes S
+show num nodes Molecule
+
+include "molecule3.grsi"
+
+show num edges
+show num edges contains
+show num nodes
+show num nodes Atom
+show num nodes H
+show num nodes C
+show num nodes N
+show num nodes O
+show num nodes S
+show num nodes Molecule
+
+include "molecule4.grsi"
+
+show num edges
+show num edges contains
+show num nodes
+show num nodes Atom
+show num nodes H
+show num nodes C
+show num nodes N
+show num nodes O
+show num nodes S
+show num nodes Molecule
+
+quit

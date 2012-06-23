@@ -1,0 +1,33 @@
+#include "Reactions.gri"
+
+rule lysine : (Atom) {
+modify  {
+H1:H-->b1H1O2:Bond<--O2:O;
+O2-->b1O2C3:Bond<--C3:C;
+C3-->b1C3O4:Bond<--O4:O;
+C3-->b2C3O4:Bond<--O4;
+C3-->b1C3C5:Bond<--C5:C;
+C5-->b1C5H6:Bond<--H6:H;
+C5-->b1C5N7:Bond<--N7:N;
+N7-->b1N7H8:Bond<--H8:H;
+N7-->b1N7H9:Bond<--H9:H;
+C5-->b1C5C10:Bond<--C10:C;
+C10-->b1C10H11:Bond<--H11:H;
+C10-->b1C10H12:Bond<--H12:H;
+C10-->b1C10C13:Bond<--C13:C;
+C13-->b1C13H14:Bond<--H14:H;
+C13-->b1C13H15:Bond<--H15:H;
+C13-->b1C13C16:Bond<--C16:C;
+C16-->b1C16H17:Bond<--H17:H;
+C16-->b1C16H18:Bond<--H18:H;
+C16-->b1C16C19:Bond<--C19:C;
+C19-->b1C19H20:Bond<--H20:H;
+C19-->b1C19H21:Bond<--H21:H;
+C19-->b1C19N22:Bond<--N22:N;
+N22-->b1N22H23:Bond<--H23:H;
+N22-->b1N22H24:Bond<--H24:H;
+//b1C3C5--b1C5H6;
+//b1C5N7--b1C5C10;
+return(H1);
+  }
+}

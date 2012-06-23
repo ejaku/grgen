@@ -1,0 +1,95 @@
+using Chemistry;
+
+rule amideFormation(ref molecules:set<Molecule>) : (Molecule, Molecule)  {
+	C1:C-->:Bond<--N1:N-->n1h1:Bond<--H1:H;
+	N1-->:Bond<--H2:H;
+	
+	C2:C-->:Bond<--O1:O;
+	C2-->:Bond<--O1;
+	C2-->c2o2:Bond<--O2:O;
+	O2-->o2h3:Bond<--H3:H;
+
+	molecule1:Molecule{molecules} -:contains-> C1;
+	molecule2:Molecule{molecules} -:contains-> C2;
+	hom(molecule1,molecule2); // allow molecule1==molecule2
+	
+	modify  {
+		N1-->:Bond<--C2;
+		delete(H1);
+		delete(n1h1);
+		delete(c2o2);
+		delete(O2);
+		delete(o2h3);
+		delete(H3);
+		
+		return(molecule1,molecule2); // give back the two (or one) originating molecules
+	}
+}
+
+rule buildMolecule(root:Node) : (Molecule)
+{
+	bm:BuildMolecule(root);
+	
+	modify {
+		newMolecule:Molecule;
+		bm(newMolecule);
+		return(newMolecule);
+	}
+}
+
+rule buildMoleculeFromReactionResult(ancestor:Molecule) : (Molecule)
+{
+	ancestor -:contains-> root:Node;
+	bm:BuildMolecule(root);
+	
+	modify {
+		newMolecule:Molecule;
+		bm(newMolecule);
+		return(newMolecule);
+	}
+}
+
+pattern BuildMolecule(root:Node) modify(newMolecule:Molecule)
+{
+	iterated { // find connected component along spanning tree from root on, then link everything to new molecule
+		root <-:Edge\contains-> child:Node;
+		rec:BuildMolecule(child);
+
+		modify {
+			rec(newMolecule);
+		}
+	}
+  
+	modify {
+		newMolecule -:contains-> root;
+	}
+}
+
+test existsChild(root:Molecule)
+{
+	root -:contains-> child:Node; 
+}
+
+rule deleteTree(root:Molecule)
+{
+	iterated {
+		root -:contains-> child:Node;
+		modify {
+			delete(child);
+		}
+	}  
+	
+	modify {
+		delete(root);
+	}
+}
+
+rule collectMolecule(ref molecules:set<Molecule>)
+{
+	m:Molecule;
+	modify {
+		eval {
+			molecules.add(m);
+		}
+	}
+}
