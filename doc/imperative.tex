@@ -624,7 +624,7 @@ GrGen.NET always operates on one host graph, over one combined model, applying a
 That is by far the most simple approach to graph transformation, and for a tool which is not specially geared towards enumerating state spaces what makes most sense.
 Thus state space enumeration (or transformation between different graphs/models) must be realized within the one host graph.
 This can be achieved by virtually partitioning the host graph into smaller graphs or subgraphs, following a convention like this one:
-There are nodes of type \texttt{Graph} which are representing a state of the statespace; each such representative is an  anchor node for a subgraph.
+There are nodes of type \texttt{Graph} which are representing a state of the statespace; each such representative is an anchor node for a subgraph.
 The containment in the subgraph is denoted by a \texttt{contains} edge from a node of type \texttt{Graph} to all the nodes contained in this (sub)graph.
 The edges between the \texttt{Graph} nodes give the relationship between the subgraphs, i.e. successorship between the states of the statespace.
 The edges between the non-\texttt{Graph} nodes are the "normal" graph edges inside the subgraphs.
@@ -644,4 +644,8 @@ The modelling given above allows to employ the ability of GrGen.NET/yComp to vis
 
 An example implementation of this approach with a variant utilizing isomorphy checking and a variant without isomorphy checking can be found in the \texttt{tests/statespace} folder.
 Feel free to drop in some \texttt{debug} prefixes before the \texttt{exec} (/\texttt{xgrs}) used to watch the assembling of the state space graph.
+Another example implementation can be found in the \texttt{tests/statespaceChemistry} folder.
+It shows how to enumerate all possible reaction results derivable from a set of start molecules according to some reaction rules.
+The molecules are just accumulated in the host graph, it is taken care by storage sets that each step only processes the ones available at the start of the step.
+At the end, each resulting molecule (i.e. connected component) is exported as a \texttt{.grsi} file.
 

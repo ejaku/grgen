@@ -360,7 +360,11 @@ This is possible with storage changing methods which return the variable again, 
 They will be introduced in \ref{sec:storages} in more details.
 A function call executes a (predefined) function, passing further arguments.
 In addition to the visited flag functions which will be explained in more detail in \ref{sec:visited},
-\texttt{emit} and \texttt{record} function calls can be given here: the emit function writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}). The record function writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
+\texttt{emit}, \texttt{record}, and \texttt{export} function calls can be given here: the emit function writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
+The record function writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
+The export function exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
+It behaves like the export command from the GrShell, see \ref{outputcmds}.
+Having it available in the sequences allows for programmed exporting, and exporting of parts of the graph, with the subgraph containment just computed.
 Finally, an expression (without side effects) can be evaluated, this allows to return a (boolean) value from a computation.
 
 \begin{rail}
@@ -581,6 +585,7 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \texttt{@(name)} & Return graph element of given name.\\
 \texttt{emit(v)} & Emits value of v to stdout.\\
 \texttt{record(v)} & Records value of v to the replay log.\\
+\texttt{export(graph, path)} & Exports the (sub)graph given to the path given.\\
 \texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \hline
 \texttt{v=valloc()} & Allocates a visited-flag, assigns its id to v.\\

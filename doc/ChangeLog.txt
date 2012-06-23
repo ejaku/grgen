@@ -1,4 +1,16 @@
-﻿v3.5 beta2 (2012-06-18)
+﻿v3.5 beta3 (2012-06-23)
+ Fixed massive bug in graph comparison: now taking connectedness into account
+ Fixed crash in interpreted sequences when calling a sequence containing an all-bracketed rule
+
+ Added export command to sequences:
+  export(filename) exports the current graph as file of the name given, in the format given
+  export(graph, filename) exports the graph specified as file of the name given, in the format given
+  
+ Added statespace chemistry test which shows how to model chemical reactions,
+ enumerating all possible reaction results
+
+ 
+v3.5 beta2 (2012-06-18)
  Improved customization, extension of GrGen with C# code:
  - External match filter functions added, declared with a backslash after a rule/test body,
    plus match filter function applications at a rule application, with a backslash, too.
