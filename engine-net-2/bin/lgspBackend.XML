@@ -638,6 +638,12 @@
             The interpretation plan is only used in isomorphy checking.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Dump(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            dumps interpretation plan operation (as string) into source builder
+            to be implemented by concrete subclasses
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Execute(de.unika.ipd.grGen.lgsp.LGSPGraph)">
             <summary>
             Executes the interpretation plan (starting with this operation)
