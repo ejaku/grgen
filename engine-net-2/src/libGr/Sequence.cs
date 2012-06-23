@@ -884,8 +884,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceRuleAllCall copy = (SequenceRuleAllCall)MemberwiseClone();
             copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
-            copy.MinVarChooseRandom = MinVarChooseRandom.Copy(originalToCopy, procEnv);
-            copy.MaxVarChooseRandom = MaxVarChooseRandom.Copy(originalToCopy, procEnv);
+            if(MinVarChooseRandom!=null)
+                copy.MinVarChooseRandom = MinVarChooseRandom.Copy(originalToCopy, procEnv);
+            if(MaxVarChooseRandom!=null)
+                copy.MaxVarChooseRandom = MaxVarChooseRandom.Copy(originalToCopy, procEnv);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
