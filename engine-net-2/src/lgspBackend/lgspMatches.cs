@@ -368,6 +368,7 @@ namespace de.unika.ipd.grGen.lgsp
             count = that.count;
             Match curThat = that.root;
             Match cur = root = (Match)curThat.Clone();
+            curThat = curThat.next;
             for(int i = 1; i < that.count; i++, curThat = curThat.next)
             {
                 cur.next = (Match)curThat.Clone();
