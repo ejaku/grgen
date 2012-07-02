@@ -1,0 +1,45 @@
+new graph "formatch/formatch"
+
+new n0:Node
+
+new n1:N(val=1)
+new n0 -e1:Edge-> n1
+new n2:N(val=2)
+new n0 -e2:Edge-> n2
+new n3:N(val=3)
+new n0 -e3:Edge-> n3
+new n4:N(val=4)
+new n0 -e4:Edge-> n4
+new n5:N(val=5)
+new n0 -e5:Edge-> n5
+
+show num nodes Node
+show num nodes N
+show num nodes NN
+show num edges
+
+exec for{m:match<retype> in [?retype(null)]; true}
+
+show num nodes Node
+show num nodes N
+show num nodes NN
+show num edges
+
+exec for{m:match<retype> in [?retype(null)]; retype2(m.n)}
+
+show num nodes Node
+show num nodes N
+show num nodes NN
+show num edges
+
+exec for{m:match<retype> in [?retype(null)]; retype(m.n)}
+
+show num nodes Node
+show num nodes N
+show num nodes NN
+show num edges
+
+exec {::c=0} ;> for{m:match<retype2> in [?retype2(null)]; for{mm:match<retype> in [?retype(null)]; {::c=::c+1}}}
+show var c
+
+quit

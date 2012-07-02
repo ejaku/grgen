@@ -1,0 +1,53 @@
+using formatch;
+
+rule retype(n:N<null>)
+{	
+	def var dummy:int;
+	
+	root:Node --> n;
+
+	modify {
+		:NN<n>;
+	}
+}
+
+rule retype2(n:N<null>)
+{	
+	def var dummy:int;
+
+	root:Node --> n;
+	if{n.val==2;}
+
+	modify {
+		:NN<n>;
+	}
+}
+
+/*rule exec1
+{
+	modify {
+		exec(for{m:match<retype> in [?retype(null)]; true});
+	}
+}
+
+rule exec2
+{
+	modify {
+		exec(for{m:match<retype> in [?retype(null)]; retype2(m.n)});
+	}
+}
+
+rule exec3
+{
+	modify {
+		exec(for{m:match<retype> in [?retype(null)]; retype(m.n)});
+	}
+}
+
+rule exec4
+{
+	modify {
+		exec({::c=0} ;> for{m:match<retype2> in [?retype2(null)]; for{mm:match<retype> in [?retype(null)]; {::c=::c+1}});
+	}
+}
+*/

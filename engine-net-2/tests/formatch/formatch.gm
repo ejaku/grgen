@@ -1,0 +1,9 @@
+node class N
+{
+	val:int;
+}
+
+node class NN extends N
+{
+	strval:string;
+}

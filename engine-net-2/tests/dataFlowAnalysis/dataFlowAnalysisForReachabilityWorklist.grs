@@ -9,11 +9,11 @@ dump set edge "then" color red
 
 xgrs init
 
-xgrs match
+xgrs matchpattern
 
 xgrs [directReachability]
 
-xgrs match
+xgrs matchpattern
 
 # add final nodes to worklist starting with some special head
 xgrs ::todo=set<N>{} ;> (::head)=initWorklist ;> ::last=::head ;> (::last)=addFinalNodesToWorklist(::last, ::todo)*
@@ -31,6 +31,6 @@ xgrs ( [successors(::pos, ::succs)] ;> ::changed=false ;> for{::s in ::succs; (:
 # finally remove special head
 xgrs uninitWorklist
 
-xgrs match
+xgrs matchpattern
 
 quit

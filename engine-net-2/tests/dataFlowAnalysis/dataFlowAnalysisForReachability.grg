@@ -21,7 +21,7 @@ rule init
   }
 }
 
-rule match
+rule matchpattern
 {
   na1:N --> na2:N --> na3:N;
 

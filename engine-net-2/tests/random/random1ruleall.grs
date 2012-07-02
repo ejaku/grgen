@@ -6,24 +6,24 @@ xgrs ::one=1
 xgrs ::two=2
 xgrs ::three=3
 
-xgrs $[match]
-xgrs $::three[match]
-xgrs $::two,::three[match]
-xgrs $::three,::three[match]
+xgrs $[matcht]
+xgrs $::three[matcht]
+xgrs $::two,::three[matcht]
+xgrs $::three,::three[matcht]
 
 new n1:A
 
-xgrs $[match]
-xgrs $::three[match]
-xgrs $::two,::three[match]
-xgrs $::three,::three[match]
+xgrs $[matcht]
+xgrs $::three[matcht]
+xgrs $::two,::three[matcht]
+xgrs $::three,::three[matcht]
 
 new n2:A
 
-xgrs $[match]
-xgrs $::three[match]
-xgrs $::two,::three[match]
-xgrs $::three,::three[match]
+xgrs $[matcht]
+xgrs $::three[matcht]
+xgrs $::two,::three[matcht]
+xgrs $::three,::three[matcht]
 
 new n3:A
 
