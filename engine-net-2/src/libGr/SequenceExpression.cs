@@ -32,6 +32,7 @@ namespace de.unika.ipd.grGen.libGr
         ElementFromGraph,
         Source, Target,
         GraphElementAttribute,
+        ElementOfMatch,
         AdjacentNodes, AdjacentNodesViaIncoming, AdjacentNodesViaOutgoing,
         IncidentEdges, IncomingEdges, OutgoingEdges,
         InducedSubgraph, DefinedSubgraph,
@@ -1411,12 +1412,12 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "target(" + Edge.Symbol + ")"; } }
     }
 
-    public class SequenceExpressionAttribute : SequenceExpression
+    public class SequenceExpressionAttributeAccess : SequenceExpression
     {
         public SequenceVariable SourceVar;
         public String AttributeName;
 
-        public SequenceExpressionAttribute(SequenceVariable sourceVar, String attributeName)
+        public SequenceExpressionAttributeAccess(SequenceVariable sourceVar, String attributeName)
             : base(SequenceExpressionType.GraphElementAttribute)
         {
             SourceVar = sourceVar;
@@ -1457,7 +1458,7 @@ namespace de.unika.ipd.grGen.libGr
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            SequenceExpressionAttribute copy = (SequenceExpressionAttribute)MemberwiseClone();
+            SequenceExpressionAttributeAccess copy = (SequenceExpressionAttributeAccess)MemberwiseClone();
             copy.SourceVar = SourceVar.Copy(originalToCopy, procEnv);
             return copy;
         }
@@ -1479,6 +1480,68 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return SourceVar.Name + "." + AttributeName; } }
+    }
+
+    public class SequenceExpressionMatchAccess : SequenceExpression
+    {
+        public SequenceVariable SourceVar;
+        public String ElementName;
+
+        public SequenceExpressionMatchAccess(SequenceVariable sourceVar, String elementName)
+            : base(SequenceExpressionType.ElementOfMatch)
+        {
+            SourceVar = sourceVar;
+            ElementName = elementName;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(!SourceVar.Type.StartsWith("match<"))
+                throw new Exception("SequenceExpression MatchAccess can only access a variable of type match<rulename>");
+
+            string ruleName = TypesHelper.ExtractSrc(SourceVar.Type);
+
+            // throws exceptions in case the rule does not exist, or it does not contain an element of the given name
+            string elementType = env.TypeOfTopLevelEntityInRule(ruleName, ElementName);
+
+            if(elementType == "")
+                throw new Exception("Internal failure, static type of element in match type not known");
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            string ruleName = TypesHelper.ExtractSrc(SourceVar.Type);
+            return env.TypeOfTopLevelEntityInRule(ruleName, ElementName);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionAttributeAccess copy = (SequenceExpressionAttributeAccess)MemberwiseClone();
+            copy.SourceVar = SourceVar.Copy(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            IMatch match = (IMatch)SourceVar.GetVariableValue(procEnv);
+            object value = match.getNode(ElementName);
+            if(value != null) return value;
+            value = match.getEdge(ElementName);
+            if(value != null) return value;
+            value = match.getVariable(ElementName);
+            return value;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            SourceVar.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return SourceVar.Name + "." + ElementName; } }
     }
 
     public class SequenceExpressionAdjacentIncident : SequenceExpression

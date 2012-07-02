@@ -792,12 +792,16 @@ namespace de.unika.ipd.grGen.lgsp
                 Dictionary<String, List<String>> rulesToFilters;
                 Dictionary<String, List<String>> sequencesToInputTypes;
                 Dictionary<String, List<String>> sequencesToOutputTypes;
-                CollectActionParameterTypes(ruleAndMatchingPatterns, 
+                Dictionary<String, List<String>> rulesToTopLevelEntities;
+                Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
+                CollectActionParameterTypes(ruleAndMatchingPatterns, model,
                     out rulesToInputTypes, out rulesToOutputTypes, out rulesToFilters, 
+                    out rulesToTopLevelEntities, out rulesToTopLevelEntityTypes,
                     out sequencesToInputTypes, out sequencesToOutputTypes);
 
                 LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model,
                     rulesToInputTypes, rulesToOutputTypes, rulesToFilters,
+                    rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
                     sequencesToInputTypes, sequencesToOutputTypes);
 
                 ///////////////////////////////////////////////
@@ -1378,14 +1382,23 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private static void CollectActionParameterTypes(LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, out Dictionary<String, List<String>> rulesToInputTypes, out Dictionary<String, List<String>> rulesToOutputTypes, out Dictionary<String, List<String>> rulesToFilters, out Dictionary<String, List<String>> sequencesToInputTypes, out Dictionary<String, List<String>> sequencesToOutputTypes)
+        private static void CollectActionParameterTypes(LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, IGraphModel model,
+            out Dictionary<String, List<String>> rulesToInputTypes, out Dictionary<String, List<String>> rulesToOutputTypes, out Dictionary<String, List<String>> rulesToFilters,
+            out Dictionary<String, List<String>> rulesToTopLevelEntities, out Dictionary<String, List<String>> rulesToTopLevelEntityTypes,
+            out Dictionary<String, List<String>> sequencesToInputTypes, out Dictionary<String, List<String>> sequencesToOutputTypes)
         {
             rulesToInputTypes = new Dictionary<String, List<String>>();
             rulesToOutputTypes = new Dictionary<String, List<String>>();
+            
             rulesToFilters = new Dictionary<String, List<String>>();
+            
+            rulesToTopLevelEntities = new Dictionary<String, List<String>>();
+            rulesToTopLevelEntityTypes = new Dictionary<String, List<String>>();
+            
             sequencesToInputTypes = new Dictionary<String, List<String>>();
             sequencesToOutputTypes = new Dictionary<String, List<String>>();
-            foreach(IRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
+            
+            foreach(LGSPRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
             {
                 List<String> inputTypes = new List<String>();
                 rulesToInputTypes.Add(rulePattern.PatternGraph.Name, inputTypes);
@@ -1393,19 +1406,52 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     inputTypes.Add(TypesHelper.DotNetTypeToXgrsType(inputType));
                 }
+                
                 List<String> outputTypes = new List<String>();
                 rulesToOutputTypes.Add(rulePattern.PatternGraph.Name, outputTypes);
                 foreach(GrGenType outputType in rulePattern.Outputs)
                 {
                     outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
                 }
+                
                 List<String> filters = new List<String>();
                 rulesToFilters.Add(rulePattern.PatternGraph.Name, filters);
                 foreach(String filter in rulePattern.Filters)
                 {
                     filters.Add(filter);
                 }
+
+                List<String> topLevelEntities = new List<String>();
+                rulesToTopLevelEntities.Add(rulePattern.PatternGraph.Name, topLevelEntities);
+                foreach(IPatternNode node in rulePattern.PatternGraph.Nodes)
+                {
+                    topLevelEntities.Add(node.UnprefixedName);
+                }
+                foreach(IPatternEdge edge in rulePattern.PatternGraph.Edges)
+                {
+                    topLevelEntities.Add(edge.UnprefixedName);
+                }
+                foreach(IPatternVariable var in rulePattern.PatternGraph.Variables)
+                {
+                    topLevelEntities.Add(var.UnprefixedName);
+                }
+                
+                List<String> topLevelEntityTypes = new List<String>();
+                rulesToTopLevelEntityTypes.Add(rulePattern.PatternGraph.Name, topLevelEntityTypes);
+                foreach(IPatternNode node in rulePattern.PatternGraph.Nodes)
+                {
+                    topLevelEntityTypes.Add(TypesHelper.DotNetTypeToXgrsType(node.Type));
+                }
+                foreach(IPatternEdge edge in rulePattern.PatternGraph.Edges)
+                {
+                    topLevelEntityTypes.Add(TypesHelper.DotNetTypeToXgrsType(edge.Type));
+                }
+                foreach(IPatternVariable var in rulePattern.PatternGraph.Variables)
+                {
+                    topLevelEntityTypes.Add(TypesHelper.DotNetTypeToXgrsType(var.Type));
+                }
             }
+            
             foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
             {
                 List<String> inputTypes = new List<String>();
@@ -1414,6 +1460,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     inputTypes.Add(TypesHelper.DotNetTypeToXgrsType(inputType));
                 }
+
                 List<String> outputTypes = new List<String>();
                 sequencesToOutputTypes.Add(sequence.Name, outputTypes);
                 foreach(GrGenType outputType in sequence.OutParameterTypes)

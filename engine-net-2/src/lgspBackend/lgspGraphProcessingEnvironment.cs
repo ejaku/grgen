@@ -253,7 +253,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(filter != null)
                 paramBindings.Action.Filter(this, matches, filter);
 
-            Matched(matches, special);
+            Matched(matches, null, special);
             if(matches.Count == 0) return 0;
 
             if(PerformanceInfo != null) PerformanceInfo.MatchesFound += matches.Count;

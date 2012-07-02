@@ -180,6 +180,7 @@ TOKEN: {
 |   < SET: "set" >
 |   < MAP: "map" >
 |   < ARRAY: "array" >
+|   < MATCH: "match" >
 |   < ARROW: "->" >
 |   < FOR: "for" >
 |   < IF: "if" >
@@ -582,6 +583,8 @@ String Type():
 		("{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
 	| LOOKAHEAD("array" "<" Word() ">=") "array" "<" typeParam=Word() { type = "array<"+typeParam+">"; }
 		(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
+	// the match type exists only for the loop variable of the for matches loop
+	| LOOKAHEAD("match" "<" Word() ">") "match" "<" typeParam=Word() ">" { type = "match<"+typeParam+">"; }	
 	)
 	{
 		return type;
@@ -971,11 +974,26 @@ Sequence SimpleSequence():
         else return new SequenceIfThenElse(seq, seq2, seq3, variableList1, variableList2);
     }
 |
-	"for" "{" { varDecls.PushScope(ScopeType.For); } fromVar=Variable() ( ("->" fromVar2=Variable())? "in" fromVar3=VariableUse() )? ";"
-		seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
-	{
-        return new SequenceFor(fromVar, fromVar2, fromVar3, seq, variableList1);
-    }
+	"for" "{" { varDecls.PushScope(ScopeType.For); } fromVar=Variable()
+	( 
+		LOOKAHEAD(2) "in" "[" "?" seq=Rule() "]" ";" seq2=RewriteSequence()
+			{ varDecls.PopScope(variableList1); } "}"
+		{
+			return new SequenceForMatch(fromVar, seq, seq2, variableList1);
+		}
+	|
+		("->" fromVar2=Variable())? "in" fromVar3=VariableUse() ";" seq=RewriteSequence()
+			{ varDecls.PopScope(variableList1); } "}"
+		{
+			return new SequenceForContainer(fromVar, fromVar2, fromVar3, seq, variableList1);
+		}
+	|
+		";" seq=RewriteSequence()
+			{ varDecls.PopScope(variableList1); } "}"
+		{
+			return new SequenceForLookup(fromVar, seq, variableList1);
+		}
+	)
 |
 	("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); } comp=CompoundComputation() { varDecls.PopScope(variableList1); } (";")? "}"
 	{
@@ -1230,7 +1248,10 @@ SequenceExpression ExpressionBasic():
 	LOOKAHEAD(VariableUse() ".")
 	fromVar=VariableUse() "." attrName=Word()
 	{
-		return new SequenceExpressionAttribute(fromVar, attrName);
+		if(fromVar.Type.StartsWith("match<"))
+			return new SequenceExpressionMatchAccess(fromVar, attrName);
+		else
+			return new SequenceExpressionAttributeAccess(fromVar, attrName);
 	}
 |
 	LOOKAHEAD(VariableUse() "[")
@@ -1516,8 +1537,11 @@ RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String rul
 				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
 {
 	IAction action = null;
-	if(actions != null)
+	if(actions != null) {
 		action = actions.GetAction(ruleName);
+		if(action == null)
+			throw new Exception("Unknown rule: " + ruleName);
+	}
 
 	RuleInvocationParameterBindings paramBindings = new RuleInvocationParameterBindings(action,
 			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());

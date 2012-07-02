@@ -40,6 +40,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The annotations of the pattern element.
         /// </summary>
         IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+
+        /// <summary>
+        /// The base GrGenType of the pattern element (matching may be constrained further, this is only the base type)
+        /// </summary>
+        GrGenType Type { get; }
     }
 
     /// <summary>
@@ -47,7 +52,10 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public interface IPatternNode : IPatternElement
     {
-        // currently empty
+        /// <summary>
+        /// The base NodeType of the pattern node (matching may be constrained further, this is only the base type)
+        /// </summary>
+        new NodeType Type { get; }
     }
 
     /// <summary>
@@ -55,7 +63,10 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public interface IPatternEdge : IPatternElement
     {
-        // currently empty
+        /// <summary>
+        /// The base EdgeType of the pattern edge (matching may be constrained further, this is only the base type)
+        /// </summary>
+        new EdgeType Type { get; }
     }
 
     /// <summary>
@@ -63,7 +74,10 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public interface IPatternVariable : IPatternElement
     {
-        // currently empty
+        /// <summary>
+        /// The base VarType of the pattern variable (matching may be constrained further, this is only the base type)
+        /// </summary>
+        new VarType Type { get; }
     }
 
     /// <summary>

@@ -317,44 +317,50 @@ namespace de.unika.ipd.grGen.libGr
             return DotNetTypeToXgrsType(constant.GetType().Name);
         }
 
-        public static String ExtractSrc(String setmaparrayType)
+        public static String ExtractSrc(String genericType)
         {
-            if (setmaparrayType == null) return null;
-            if (setmaparrayType.StartsWith("set<")) // set<srcType>
+            if (genericType == null) return null;
+            if (genericType.StartsWith("set<")) // set<srcType>
             {
-                setmaparrayType = setmaparrayType.Remove(0, 4);
-                setmaparrayType = setmaparrayType.Remove(setmaparrayType.Length - 1);
-                return setmaparrayType;
+                genericType = genericType.Remove(0, 4);
+                genericType = genericType.Remove(genericType.Length - 1);
+                return genericType;
             }
-            else if (setmaparrayType.StartsWith("map<")) // map<srcType,dstType>
+            else if (genericType.StartsWith("map<")) // map<srcType,dstType>
             {
-                setmaparrayType = setmaparrayType.Remove(0, 4);
-                setmaparrayType = setmaparrayType.Remove(setmaparrayType.IndexOf(","));
-                return setmaparrayType;
+                genericType = genericType.Remove(0, 4);
+                genericType = genericType.Remove(genericType.IndexOf(","));
+                return genericType;
             }
-            else if(setmaparrayType.StartsWith("array<")) // array<srcType>
+            else if(genericType.StartsWith("array<")) // array<srcType>
             {
-                setmaparrayType = setmaparrayType.Remove(0, 6);
-                setmaparrayType = setmaparrayType.Remove(setmaparrayType.Length - 1);
-                return setmaparrayType;
+                genericType = genericType.Remove(0, 6);
+                genericType = genericType.Remove(genericType.Length - 1);
+                return genericType;
+            }
+            else if(genericType.StartsWith("match<")) // match<srcType>
+            {
+                genericType = genericType.Remove(0, 6);
+                genericType = genericType.Remove(genericType.Length - 1);
+                return genericType;
             }
             return null;
         }
 
-        public static String ExtractDst(String setmapType)
+        public static String ExtractDst(String genericType)
         {
-            if (setmapType == null) return null;
-            if (setmapType.StartsWith("set<")) // set<srcType>
+            if (genericType == null) return null;
+            if (genericType.StartsWith("set<")) // set<srcType>
             {
                 return "SetValueType";
             }
-            else if (setmapType.StartsWith("map<")) // map<srcType,dstType>
+            else if (genericType.StartsWith("map<")) // map<srcType,dstType>
             {
-                setmapType = setmapType.Remove(0, setmapType.IndexOf(",") + 1);
-                setmapType = setmapType.Remove(setmapType.Length - 1);
-                return setmapType;
+                genericType = genericType.Remove(0, genericType.IndexOf(",") + 1);
+                genericType = genericType.Remove(genericType.Length - 1);
+                return genericType;
             }
-            else if (setmapType.StartsWith("array<")) // array<srcType>
+            else if (genericType.StartsWith("array<")) // array<srcType>
             {
                 return "int"; // bullshit int return so the type checks testing that src and dst are available don't fail
             }
@@ -431,6 +437,12 @@ namespace de.unika.ipd.grGen.libGr
             if(xgrsTypeSameOrSub.StartsWith("array<"))
             {
                 if(!xgrsTypeBase.StartsWith("array<")) return false;
+                return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
+            }
+
+            if(xgrsTypeSameOrSub.StartsWith("match<"))
+            {
+                if(!xgrsTypeBase.StartsWith("match<")) return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
 

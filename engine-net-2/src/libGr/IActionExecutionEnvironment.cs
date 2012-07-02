@@ -17,8 +17,10 @@ namespace de.unika.ipd.grGen.libGr
     /// Represents a method called after all requested matches of an action have been matched.
     /// </summary>
     /// <param name="matches">The matches found.</param>
+    /// <param name="match">If not null, specifies the one current match from the matches 
+    /// (to highlight the currently processed match during backtracking and the for matches loop).</param>
     /// <param name="special">Specifies whether the "special" flag has been used.</param>
-    public delegate void AfterMatchHandler(IMatches matches, bool special);
+    public delegate void AfterMatchHandler(IMatches matches, IMatch match, bool special);
 
     /// <summary>
     /// Represents a method called before the rewrite step of an action, when at least one match has been found.
@@ -139,8 +141,10 @@ namespace de.unika.ipd.grGen.libGr
         /// Fires an OnMatched event.
         /// </summary>
         /// <param name="matches">The IMatches object returned by the matcher.</param>
+        /// <param name="match">If not null, specifies the one current match from the matches 
+        /// (to highlight the currently processed match during backtracking and the for matches loop).</param>
         /// <param name="special">Whether this is a 'special' match (user defined).</param>
-        void Matched(IMatches matches, bool special);
+        void Matched(IMatches matches, IMatch match, bool special);
 
         /// <summary>
         /// Fires an OnFinishing event.

@@ -46,6 +46,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
 
+        /// <summary>
+        /// The GrGen type of the pattern element, fake implementation overriden in subclasses
+        /// </summary>
+        GrGenType IPatternElement.Type { get { throw new NotImplementedException(); } }
+        
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -273,9 +278,15 @@ namespace de.unika.ipd.grGen.lgsp
     public class PatternNode : PatternElement, IPatternNode
     {
         /// <summary>
+        /// The GrGen type of the pattern node
+        /// </summary>
+        public NodeType type;
+
+        /// <summary>
         /// Instantiates a new PatternNode object
         /// </summary>
         /// <param name="typeID">The type ID of the pattern node</param>
+        /// <param name="type">The GrGen type of the pattern node.</param>
         /// <param name="typeName">The name of the type interface of the pattern element.</param>
         /// <param name="name">The name of the pattern node</param>
         /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
@@ -296,7 +307,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
-        public PatternNode(int typeID, String typeName,
+        public PatternNode(int typeID, NodeType type, String typeName,
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
@@ -307,6 +318,7 @@ namespace de.unika.ipd.grGen.lgsp
                 cost, parameterIndex, maybeNull, storage, accessor,
                 storageAttributeOwner, storageAttribute, elementBeforeCasting, defToBeYieldedTo)
         {
+            this.type = type;
         }
 
         /// <summary>
@@ -320,6 +332,12 @@ namespace de.unika.ipd.grGen.lgsp
             : base(original, inlinedSubpatternEmbedding, newHost, nameSuffix)
         {
         }
+
+        /// <summary>
+        /// The GrGen type of the pattern node.
+        /// </summary>
+        public NodeType Type { get { return type; } }
+        GrGenType IPatternElement.Type { get { return type; } }
 
         /// <summary>
         /// Converts this instance into a string representation.
@@ -343,6 +361,11 @@ namespace de.unika.ipd.grGen.lgsp
     public class PatternEdge : PatternElement, IPatternEdge
     {
         /// <summary>
+        /// The GrGen type of the pattern edge
+        /// </summary>
+        public EdgeType type;
+        
+        /// <summary>
         /// Indicates, whether this pattern edge should be matched with a fixed direction or not.
         /// </summary>
         public bool fixedDirection;
@@ -352,6 +375,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="fixedDirection">Whether this pattern edge should be matched with a fixed direction or not.</param>
         /// <param name="typeID">The type ID of the pattern edge.</param>
+        /// <param name="type">The GrGen type of the pattern edge.</param>
         /// <param name="typeName">The name of the type interface of the pattern element.</param>
         /// <param name="name">The name of the pattern edge.</param>
         /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
@@ -373,7 +397,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         public PatternEdge(bool fixedDirection,
-            int typeID, String typeName, 
+            int typeID, EdgeType type, String typeName, 
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex, bool maybeNull,
@@ -385,6 +409,7 @@ namespace de.unika.ipd.grGen.lgsp
                 storageAttributeOwner, storageAttribute, elementBeforeCasting, defToBeYieldedTo)
         {
             this.fixedDirection = fixedDirection;
+            this.type = type;
         }
 
         /// <summary>
@@ -399,6 +424,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             fixedDirection = original.fixedDirection;
         }
+
+        /// <summary>
+        /// The GrGen type of the pattern edge.
+        /// </summary>
+        public EdgeType Type { get { return type; } }
+        GrGenType IPatternElement.Type { get { return type; } }
 
         /// <summary>
         /// Converts this instance into a string representation.
@@ -450,12 +481,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
 
+        /// <summary>
+        /// The GrGen type of the pattern variable.
+        /// </summary>
+        public VarType Type { get { return type; } }
+        GrGenType IPatternElement.Type { get { return type; } }
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
-        /// The GrGen type of the variable.
+        /// The GrGen type of the pattern variable.
         /// </summary>
-        public VarType Type;
+        public VarType type;
 
         /// <summary>
         /// The name of the variable.
@@ -533,7 +570,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternVariable(VarType type, String name, String unprefixedName,
             int parameterIndex, bool defToBeYieldedTo, Expression initialization)
         {
-            this.Type = type;
+            this.type = type;
             this.name = name;
             this.unprefixedName = unprefixedName;
             this.ParameterIndex = parameterIndex;
@@ -550,7 +587,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern variable (to avoid name collisions).</param>
         public PatternVariable(PatternVariable original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
         {
-            Type = original.Type;
+            type = original.type;
             name = original.name + nameSuffix;
             unprefixedName = original.unprefixedName + nameSuffix;
             pointOfDefinition = newHost;

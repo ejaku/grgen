@@ -59,7 +59,7 @@ namespace de.unika.ipd.grGen.libGr
         new NodeType RootType { get; }
 
         /// <summary>
-        /// Returns the element type with the given type name or null, if no type with this name exists.
+        /// Returns the node type with the given type name or null, if no type with this name exists.
         /// </summary>
         new NodeType GetType(String name);
 
@@ -80,7 +80,7 @@ namespace de.unika.ipd.grGen.libGr
         new EdgeType RootType { get; }
 
         /// <summary>
-        /// Returns the element type with the given type name or null, if no type with this name exists.
+        /// Returns the edge type with the given type name or null, if no type with this name exists.
         /// </summary>
         new EdgeType GetType(String name);
 

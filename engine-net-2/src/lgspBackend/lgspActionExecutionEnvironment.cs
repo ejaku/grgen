@@ -133,10 +133,10 @@ namespace de.unika.ipd.grGen.lgsp
         public event RewriteNextMatchHandler OnRewritingNextMatch;
         public event AfterFinishHandler OnFinished;
 
-        public void Matched(IMatches matches, bool special)
+        public void Matched(IMatches matches, IMatch match, bool special)
         {
             AfterMatchHandler handler = OnMatched;
-            if(handler != null) handler(matches, special);
+            if(handler != null) handler(matches, match, special);
         }
 
         public void Finishing(IMatches matches, bool special)

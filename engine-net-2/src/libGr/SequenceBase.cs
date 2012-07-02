@@ -73,7 +73,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seq">The sequence to check, must be a rule call, a rule all call, or a sequence call</param>
-        public void CheckRuleCallRuleAllCallSequenceCall(Sequence seq)
+        public void CheckCall(Sequence seq)
         {
             InvocationParameterBindings paramBindings = ExtractParameterBindings(seq);
 
@@ -119,6 +119,13 @@ namespace de.unika.ipd.grGen.libGr
             // ok, this is a well-formed rule invocation
         }
 
+        /// <summary>
+        /// Helper which returns the type of the given top level entity of the given rule.
+        /// Throws an exception in case the rule of the given name does not exist 
+        /// or in case it does not contain an entity of the given name.
+        /// </summary>
+        public abstract string TypeOfTopLevelEntityInRule(string ruleName, string entityName);
+
         private InvocationParameterBindings ExtractParameterBindings(Sequence seq)
         {
             if(seq is SequenceRuleCall) // hint: a rule all call is a rule call, too
@@ -154,6 +161,27 @@ namespace de.unika.ipd.grGen.libGr
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public override IGraphModel Model { get { return actions.Graph.Model; } }
+
+        public override string TypeOfTopLevelEntityInRule(string ruleName, string entityName)
+        {
+            IAction rule = actions.GetAction(ruleName);
+            if(rule==null)
+                throw new SequenceParserException(ruleName, SequenceParserError.UnknownRule);
+
+            foreach(IPatternNode node in rule.RulePattern.PatternGraph.Nodes)
+                if(node.UnprefixedName==entityName)
+                    return TypesHelper.DotNetTypeToXgrsType(node.Type);
+
+            foreach(IPatternEdge edge in rule.RulePattern.PatternGraph.Edges)
+                if(edge.UnprefixedName==entityName)
+                    return TypesHelper.DotNetTypeToXgrsType(edge.Type);
+
+            foreach(IPatternVariable var in rule.RulePattern.PatternGraph.Variables)
+                if(var.UnprefixedName==entityName)
+                    return TypesHelper.DotNetTypeToXgrsType(var.Type);
+
+            throw new SequenceParserException(ruleName, entityName, SequenceParserError.UnknownPatternElement);
+        }
 
         protected override bool IsRuleOrSequenceExisting(InvocationParameterBindings paramBindings)
         {
@@ -275,7 +303,8 @@ namespace de.unika.ipd.grGen.libGr
     {
         // constructor for compiled sequences
         public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames,
-            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters, 
+            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters,
+            Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
             IGraphModel model)
         {
@@ -284,6 +313,8 @@ namespace de.unika.ipd.grGen.libGr
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
             this.rulesToFilters = rulesToFilters;
+            this.rulesToTopLevelEntities = rulesToTopLevelEntities;
+            this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
             this.sequencesToOutputTypes = sequencesToOutputTypes;
             this.model = model;
@@ -301,8 +332,14 @@ namespace de.unika.ipd.grGen.libGr
         private Dictionary<String, List<String>> rulesToInputTypes;
         // maps rule names available in the .grg to compile to the list of the output typ names
         private Dictionary<String, List<String>> rulesToOutputTypes;
+
         // maps rule names available in the .grg to compile to the list of the match filter names
         private Dictionary<String, List<String>> rulesToFilters;
+
+        // maps rule names available in the .grg to compile to the list of the top level entity names (nodes,edges,variables)
+        private Dictionary<String, List<String>> rulesToTopLevelEntities;
+        // maps rule names available in the .grg to compile to the list of the top level entity types
+        private Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
 
         // maps sequence names available in the .grg to compile to the list of the input typ names
         private Dictionary<String, List<String>> sequencesToInputTypes;
@@ -324,6 +361,18 @@ namespace de.unika.ipd.grGen.libGr
         /// the model giving access to graph element types for checking
         /// </summary>
         public override IGraphModel Model { get { return model; } }
+
+        public override string TypeOfTopLevelEntityInRule(string ruleName, string entityName)
+        {
+            if(!rulesToTopLevelEntities.ContainsKey(ruleName))
+                throw new SequenceParserException(ruleName, SequenceParserError.UnknownRule);
+
+            if(!rulesToTopLevelEntities[ruleName].Contains(entityName))
+                throw new SequenceParserException(ruleName, entityName, SequenceParserError.UnknownPatternElement);
+
+            int indexOfEntity = rulesToTopLevelEntities[ruleName].IndexOf(entityName);
+            return rulesToTopLevelEntityTypes[ruleName][indexOfEntity];
+        }
 
         protected override bool IsRuleOrSequenceExisting(InvocationParameterBindings paramBindings)
         {

@@ -59,6 +59,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The node at the given index</returns>
         INode getNodeAt(int index);
 
+        /// <summary>
+        /// Returns node bound to the pattern node of the given name or null if no such pattern node exists
+        /// </summary>
+        INode getNode(string name);
+
 
         //////////////////////////////////////////////////////////////////////////
         // Edges
@@ -84,6 +89,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="index">The position of the edge to return</param>
         /// <returns>The edge at the given index</returns>
         IEdge getEdgeAt(int index);
+
+        /// <summary>
+        /// Returns edge bound to the pattern edge of the given name or null if no such pattern edge exists
+        /// </summary>
+        IEdge getEdge(string name);
 
 
         //////////////////////////////////////////////////////////////////////////
@@ -111,6 +121,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The variable at the given index</returns>
         object getVariableAt(int index);
 
+        /// <summary>
+        /// Returns value bound to the pattern variable of the given name or null if no such pattern variable exists
+        /// </summary>
+        object getVariable(string name);
+
 
         //////////////////////////////////////////////////////////////////////////
         // Embedded Graphs
@@ -136,6 +151,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="index">The position of the submatch due to subpattern to return</param>
         /// <returns>The submatch due to subpattern at the given index</returns>
         IMatch getEmbeddedGraphAt(int index);
+
+        /// <summary>
+        /// Returns submatch bound to the subpattern of the given name or null if no such subpattern exists
+        /// </summary>
+        IMatch getEmbeddedGraph(string name);
 
 
         //////////////////////////////////////////////////////////////////////////
@@ -163,6 +183,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="index">The position of the submatch due to alternatives to return</param>
         /// <returns>The submatch due to alternatives at the given index</returns>
         IMatch getAlternativeAt(int index);
+
+        /// <summary>
+        /// Returns submatch bound to the pattern alternative of the given name or null if no such pattern alternative exists
+        /// </summary>
+        IMatch getAlternative(string name);
 
 
         //////////////////////////////////////////////////////////////////////////
@@ -194,6 +219,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The submatch due to iterateds at the given index</returns>
         IMatches getIteratedAt(int index);
 
+        /// <summary>
+        /// Returns submatch bound to the iterated pattern of the given name or null if no such iterated pattern exists
+        /// </summary>
+        IMatches getIterated(string name);
+
 
         //////////////////////////////////////////////////////////////////////////
         // Independents
@@ -219,6 +249,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="index">The position of the submatch due to independents to return</param>
         /// <returns>The submatch due to independents at the given index</returns>
         IMatch getIndependentAt(int index);
+
+        /// <summary>
+        /// Returns submatch bound to the independent pattern of the given name or null if no such independent pattern exists
+        /// </summary>
+        IMatch getIndependent(string name);
     }
 
     /// <summary>

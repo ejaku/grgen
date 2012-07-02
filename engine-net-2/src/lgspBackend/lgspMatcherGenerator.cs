@@ -93,7 +93,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 LGSPNode n = (LGSPNode)node;
                 nodes[count] = new PatternNode(
-                    n.Type.TypeID, n.Type.Name,
+                    n.Type.TypeID, n.Type, n.Type.Name,
                     graph.Name+"_node_"+count, "node_"+count,
                     null, null,
                     1.0f, -1, false,
@@ -112,7 +112,7 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPEdge e = (LGSPEdge)edge;
                 edges[count] = new PatternEdge(
                     true,
-                    e.Type.TypeID, e.Type.Name,
+                    e.Type.TypeID, e.Type, e.Type.Name,
                     graph.Name+"_edge_"+count, "edge_"+count,
                     null, null,
                     1.0f, -1, false,
@@ -2603,7 +2603,7 @@ exitSecondLoop: ;
             for (int i = 0; i < patternGraph.variablesPlusInlined.Length; ++i)
             {
                 PatternVariable variable = patternGraph.variablesPlusInlined[i];
-                sb.AppendFront("public " +TypesHelper.TypeName(variable.Type) + " " + variable.name + ";\n");
+                sb.AppendFront("public " +TypesHelper.TypeName(variable.type) + " " + variable.name + ";\n");
             }
 
             GenerateIndependentsMatchObjects(sb, matchingPattern, patternGraph);

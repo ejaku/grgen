@@ -1048,7 +1048,9 @@ public class ActionsGen extends CSharpBase {
 				
 				String nodeName = formatEntity(node, pathPrefixForElements);
 				sb.append("\t\t\tGRGEN_LGSP.PatternNode " + nodeName + " = new GRGEN_LGSP.PatternNode(");
-				sb.append("(int) GRGEN_MODEL.NodeTypes.@" + formatIdentifiable(node.getType()) + ", \"" + formatElementInterfaceRef(node.getType()) + "\", ");
+				sb.append("(int) GRGEN_MODEL.NodeTypes.@" + formatIdentifiable(node.getType()) 
+						+ ", " + formatTypeClassRef(node.getType()) + ".typeVar"
+						+ ", \"" + formatElementInterfaceRef(node.getType()) + "\", ");
 				sb.append("\"" + nodeName + "\", \"" + formatIdentifiable(node) + "\", ");
 				sb.append(nodeName + "_AllowedTypes, ");
 				sb.append(nodeName + "_IsAllowedType, ");
@@ -1087,7 +1089,9 @@ public class ActionsGen extends CSharpBase {
 				String edgeName = formatEntity(edge, pathPrefixForElements);
 				sb.append("\t\t\tGRGEN_LGSP.PatternEdge " + edgeName + " = new GRGEN_LGSP.PatternEdge(");
 				sb.append((edge.hasFixedDirection() ? "true" : "false") + ", ");
-				sb.append("(int) GRGEN_MODEL.EdgeTypes.@" + formatIdentifiable(edge.getType()) + ", \"" + formatElementInterfaceRef(edge.getType()) + "\", ");
+				sb.append("(int) GRGEN_MODEL.EdgeTypes.@" + formatIdentifiable(edge.getType()) 
+						+ ", " + formatTypeClassRef(edge.getType()) + ".typeVar"
+						+ ", \"" + formatElementInterfaceRef(edge.getType()) + "\", ");
 				sb.append("\"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");
 				sb.append(edgeName + "_AllowedTypes, ");
 				sb.append(edgeName + "_IsAllowedType, ");
@@ -2368,6 +2372,9 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tpublic IEnumerable<"+typeOfMatchedEntities+"> "+matchedEntitiesNamePlural+" { get { return new "+enumerableName+"(this); } }\n");
 		sb.append("\t\t\tpublic IEnumerator<"+typeOfMatchedEntities+"> "+matchedEntitiesNamePlural+"Enumerator { get { return new " + enumeratorName + "(this); } }\n");
 		sb.append("\t\t\tpublic int NumberOf"+matchedEntitiesNamePlural+" { get { return " + numberOfMatchedEntities + ";} }\n");
+
+	    // -----------------------------
+
 		sb.append("\t\t\tpublic "+typeOfMatchedEntities+" get"+matchedEntitiesNameSingular+"At(int index)\n");
 		sb.append("\t\t\t{\n");
 		sb.append("\t\t\t\tswitch(index) {\n");
@@ -2410,6 +2417,61 @@ public class ActionsGen extends CSharpBase {
 			for(PatternGraph idpt : pattern.getIdpts()) {
 				String idptName = idpt.getNameOfGraph();
 				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + idptName + ": return _" + idptName + ";\n");
+			}
+			break;
+		default:
+			assert(false);
+			break;
+		}
+
+		sb.append("\t\t\t\tdefault: return null;\n");
+		sb.append("\t\t\t\t}\n");
+	    sb.append("\t\t\t}\n");
+	    
+	    // -----------------------------
+	    
+		sb.append("\t\t\tpublic "+typeOfMatchedEntities+" get"+matchedEntitiesNameSingular+"(string name)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tswitch(name) {\n");
+
+		switch(which)
+		{
+		case MATCH_PART_NODES:
+			for(Node node : pattern.getNodes()) {
+				sb.append("\t\t\t\tcase \"" + formatIdentifiable(node) + "\": return " + formatEntity(node, "_") + ";\n");
+			}
+			break;
+		case MATCH_PART_EDGES:
+			for(Edge edge : pattern.getEdges()) {
+				sb.append("\t\t\t\tcase \"" + formatIdentifiable(edge) + "\": return " + formatEntity(edge, "_") + ";\n");
+			}
+			break;
+		case MATCH_PART_VARIABLES:
+			for(Variable var : pattern.getVars()) {
+				sb.append("\t\t\t\tcase \"" + formatIdentifiable(var) + "\": return " + formatEntity(var, "_") + ";\n");
+			}
+			break;
+		case MATCH_PART_EMBEDDED_GRAPHS:
+			for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+				sb.append("\t\t\t\tcase \"" + formatIdentifiable(sub) + "\": return " + formatIdentifiable(sub, "_") + ";\n");
+			}
+			break;
+		case MATCH_PART_ALTERNATIVES:
+			for(Alternative alt : pattern.getAlts()) {
+				String altName = alt.getNameOfGraph();
+				sb.append("\t\t\t\tcase \"" + altName + "\": return _" + altName+ ";\n");
+			}
+			break;
+		case MATCH_PART_ITERATEDS:
+			for(Rule iter : pattern.getIters()) {
+				String iterName = iter.getLeft().getNameOfGraph();
+				sb.append("\t\t\t\tcase \"" + iterName + "\": return _" + iterName + ";\n");
+			}
+			break;
+		case MATCH_PART_INDEPENDENTS:
+			for(PatternGraph idpt : pattern.getIdpts()) {
+				String idptName = idpt.getNameOfGraph();
+				sb.append("\t\t\t\tcase \"" + idptName + "\": return _" + idptName + ";\n");
 			}
 			break;
 		default:

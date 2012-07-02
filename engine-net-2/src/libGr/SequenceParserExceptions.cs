@@ -62,7 +62,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The given filter can't be applied to the given rule 
         /// </summary>
-        FilterError
+        FilterError,
+
+        /// <summary>
+        /// The element is not contained in the rule pattern (thus in the match of the rule)
+        /// </summary>
+        UnknownPatternElement,
+
+        /// <summary>
+        /// The rule is unknown (only rule name available, originating from match type)
+        /// </summary>
+        UnknownRule
     }
 
     /// <summary>
@@ -85,6 +95,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The name of the filter which was mis-applied.
         /// </summary>
         public String FilterName;
+
+        /// <summary>
+        /// The name of the entity which does not exist in the pattern of the rule.
+        /// </summary>
+        public String EntityName;
 
         /// <summary>
         /// The associated action instance. If it is null, there was no rule with the name specified in RuleName.
@@ -227,15 +242,19 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Creates an instance of a SequenceParserException used by the SequenceParser, 
-        /// when the filter with the given name can't be applied to the rule/sequence/variable of the given name.
+        /// when the filter with the given name can't be applied to the rule of the given name
+        /// or when the pattern of the rule of the given name does not contain an entity of the given name.
         /// </summary>
-        /// <param name="ruleName">Name of the rule or sequence or variable.</param>
-        /// <param name="filterName">Name of the filter which was mis-applied.</param>
+        /// <param name="ruleName">Name of the rule.</param>
+        /// <param name="filterNameOrEntityName">Name of the filter which was mis-applied or name of the entity which is not conained in the rule.</param>
         /// <param name="errorKind">The kind of error.</param>
-        public SequenceParserException(String name, String filterName, SequenceParserError errorKind)
+        public SequenceParserException(String ruleName, String filterNameOrEntityName, SequenceParserError errorKind)
         {
-            Name = name;
-            FilterName = filterName;
+            if(errorKind == SequenceParserError.FilterError)
+                FilterName = filterNameOrEntityName;
+            else
+                FilterName = filterNameOrEntityName;
+            Name = ruleName;
             Kind = errorKind;
         }
 
@@ -289,6 +308,12 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.FilterError:
                     return "The filter \"" + this.FilterName + "\" can't be applied to \"" + this.Name + "\"!";
+
+                case SequenceParserError.UnknownRule:
+                    return "Unknown rule \"" + this.Name + "\" (in match<" + this.Name + ">)!";
+
+                case SequenceParserError.UnknownPatternElement:
+                    return "The rule \"" + this.Name + "\" does not contain a (top-level) element \"" + this.EntityName + "\" (so type match<" + this.Name + "> does not)!";
 
                 default:
                     return "Invalid error kind: " + this.Kind;

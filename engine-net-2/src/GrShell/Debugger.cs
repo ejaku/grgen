@@ -876,14 +876,36 @@ namespace de.unika.ipd.grGen.grShell
                         Console.Write("/");
                         break;
                     }
-                case SequenceType.For:
+                case SequenceType.ForContainer:
                     {
-                        SequenceFor seqFor = (SequenceFor)seq;
+                        SequenceForContainer seqFor = (SequenceForContainer)seq;
                         Console.Write("for{");
                         Console.Write(seqFor.Var.Name);
                         if(seqFor.VarDst != null) Console.Write("->" + seqFor.VarDst.Name);
-                        if(seqFor.Container != null) Console.Write(" in " + seqFor.Container.Name);
+                        Console.Write(" in " + seqFor.Container.Name);
                         Console.Write("; ");
+                        PrintSequence(seqFor.Seq, seq, context);
+                        Console.Write("}");
+                        break;
+                    }
+                case SequenceType.ForLookup:
+                    {
+                        SequenceForLookup seqFor = (SequenceForLookup)seq;
+                        Console.Write("for{");
+                        Console.Write(seqFor.Var.Name);
+                        Console.Write("; ");
+                        PrintSequence(seqFor.Seq, seq, context);
+                        Console.Write("}");
+                        break;
+                    }
+                case SequenceType.ForMatch:
+                    {
+                        SequenceForMatch seqFor = (SequenceForMatch)seq;
+                        Console.Write("for{");
+                        Console.Write(seqFor.Var.Name);
+                        Console.Write(" in [?");
+                        PrintSequence(seqFor.Rule, seq, context);
+                        Console.Write("]; ");
                         PrintSequence(seqFor.Seq, seq, context);
                         Console.Write("}");
                         break;
@@ -2028,7 +2050,7 @@ namespace de.unika.ipd.grGen.grShell
             nextAddedEdgeIndex = 0;
         }
 
-        void DebugMatched(IMatches matches, bool special)
+        void DebugMatched(IMatches matches, IMatch match, bool special)
         {
             if(matches.Count == 0) // todo: how can this happen?
                 return;
@@ -2069,15 +2091,24 @@ namespace de.unika.ipd.grGen.grShell
 
             curRulePattern = matches.Producer.RulePattern;
 
-            MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-            AnnotateMatches(matches, true);
+            if(match!=null)
+                MarkMatch(match, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+            else
+                MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+            if(match!=null)
+                AnnotateMatch(match, true);
+            else
+                AnnotateMatches(matches, true);
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
             Console.WriteLine("Press any key to apply rewrite...");
             ReadKeyWithCancel();
 
-            MarkMatches(matches, null, null);
+            if(match!=null)
+                MarkMatch(match, null, null);
+            else
+                MarkMatches(matches, null, null);
 
             recordMode = true;
             ycompClient.NodeRealizerOverride = realizers.NewNodeRealizer;
@@ -2158,7 +2189,9 @@ namespace de.unika.ipd.grGen.grShell
             // Entering a loop?
             if(seq.SequenceType == SequenceType.IterationMin
                 || seq.SequenceType == SequenceType.IterationMinMax
-                || seq.SequenceType == SequenceType.For
+                || seq.SequenceType == SequenceType.ForContainer
+                || seq.SequenceType == SequenceType.ForLookup
+                || seq.SequenceType == SequenceType.ForMatch
                 || seq.SequenceType == SequenceType.Backtrack)
             {
                 loopList.AddFirst(seq);
@@ -2212,7 +2245,9 @@ namespace de.unika.ipd.grGen.grShell
 
             if(seq.SequenceType == SequenceType.IterationMin
                 || seq.SequenceType == SequenceType.IterationMinMax
-                || seq.SequenceType == SequenceType.For
+                || seq.SequenceType == SequenceType.ForContainer
+                || seq.SequenceType == SequenceType.ForLookup
+                || seq.SequenceType == SequenceType.ForMatch
                 || seq.SequenceType == SequenceType.Backtrack)
             {
                 loopList.RemoveFirst();

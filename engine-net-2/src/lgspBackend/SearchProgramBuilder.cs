@@ -367,11 +367,11 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else
                     {
-                        string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(var.Type), model);
+                        string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(var.type), model);
                         initializationExpression = TypesHelper.DefaultValueString(typeName, model);
                     }
                     insertionPoint = insertionPoint.Append(
-                        new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.Type), var.Name, 
+                        new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.type), var.Name, 
                             initializationExpression)
                     );
                 }
@@ -381,7 +381,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(var.originalVariable==null || !patternGraph.WasInlinedHere(var.originalSubpatternEmbedding))
                     {
                         insertionPoint = insertionPoint.Append(
-                            new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name)
+                            new ExtractVariable(TypesHelper.TypeName(var.type), var.Name)
                         );
                     }
                 }
@@ -1010,16 +1010,16 @@ namespace de.unika.ipd.grGen.lgsp
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            bool isDict = !TypesHelper.DotNetTypeToXgrsType(storage.Type).StartsWith("array");
+            bool isDict = !TypesHelper.DotNetTypeToXgrsType(storage.type).StartsWith("array");
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
             // iterate available storage elements
             string iterationType;
             if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<" 
-                + TypesHelper.GetStorageKeyTypeName(storage.Type) + ","
-                + TypesHelper.GetStorageValueTypeName(storage.Type) + ">";
+                + TypesHelper.GetStorageKeyTypeName(storage.type) + ","
+                + TypesHelper.GetStorageValueTypeName(storage.type) + ">";
             else
-                iterationType = TypesHelper.GetStorageKeyTypeName(storage.Type);
+                iterationType = TypesHelper.GetStorageKeyTypeName(storage.type);
             GetCandidateByIteration elementsIteration =
                 new GetCandidateByIteration(
                     GetCandidateByIterationType.StorageElements,
@@ -1514,7 +1514,7 @@ namespace de.unika.ipd.grGen.lgsp
             AssignVariableFromExpression assignVar =
                 new AssignVariableFromExpression(
                     variable.Name,
-                    TypesHelper.TypeName(variable.Type),
+                    TypesHelper.TypeName(variable.type),
                     assignmentExpression.ToString());
             insertionPoint = insertionPoint.Append(assignVar);
 
@@ -1551,7 +1551,7 @@ namespace de.unika.ipd.grGen.lgsp
                     target.PatternElement.Name,
                     source.PatternElement.Name,
                     storage.Name,
-                    TypesHelper.GetStorageValueTypeName(storage.Type),
+                    TypesHelper.GetStorageValueTypeName(storage.type),
                     isNode);
             insertionPoint = insertionPoint.Append(elementFromStorage);
 
@@ -1561,7 +1561,7 @@ namespace de.unika.ipd.grGen.lgsp
                     target.PatternElement.Name,
                     source.PatternElement.Name,
                     storage.Name,
-                    TypesHelper.GetStorageKeyTypeName(storage.Type),
+                    TypesHelper.GetStorageKeyTypeName(storage.type),
                     isNode);
             insertionPoint = insertionPoint.Append(checkElementInStorage);
 
@@ -2110,11 +2110,11 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else
                     {
-                        string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(var.Type), model);
+                        string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(var.type), model);
                         initializationExpression = TypesHelper.DefaultValueString(typeName, model);
                     }
                     insertionPoint = insertionPoint.Append(
-                        new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.Type), var.Name,
+                        new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.type), var.Name,
                             initializationExpression)
                     );
                 }
@@ -2556,7 +2556,7 @@ namespace de.unika.ipd.grGen.lgsp
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Variable,
-                            TypesHelper.TypeName(var.Type),
+                            TypesHelper.TypeName(var.type),
                             unprefixedName,
                             var.Name,
                             rulePatternClassName,

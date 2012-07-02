@@ -49,8 +49,14 @@ namespace de.unika.ipd.grGen.lgsp
         Dictionary<String, List<String>> rulesToInputTypes;
         // maps rule names available in the .grg to compile to the list of the output typ names
         Dictionary<String, List<String>> rulesToOutputTypes;
+
         // maps rule names available in the .grg to compile to the list of the match filter names
         Dictionary<String, List<String>> rulesToFilters;
+        
+        // maps rule names available in the .grg to compile to the list of the top level entity names (nodes,edges,variables)
+        Dictionary<String, List<String>> rulesToTopLevelEntities;
+        // maps rule names available in the .grg to compile to the list of the top level entity types
+        Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
 
         // maps sequence names available in the .grg to compile to the list of the input typ names
         Dictionary<String, List<String>> sequencesToInputTypes;
@@ -78,6 +84,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public LGSPSequenceGenerator(LGSPGrGen gen, IGraphModel model,
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters,
+            Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes)
         {
             this.gen = gen;
@@ -85,6 +92,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
             this.rulesToFilters = rulesToFilters;
+            this.rulesToTopLevelEntities = rulesToTopLevelEntities;
+            this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
             this.sequencesToOutputTypes = sequencesToOutputTypes;
 
@@ -108,7 +117,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             // create the environment for (type) checking the compiled sequences after parsing
             env = new SequenceCheckingEnvironmentCompiled(ruleNames, sequenceNames, 
-                rulesToInputTypes, rulesToOutputTypes, rulesToFilters,
+                rulesToInputTypes, rulesToOutputTypes, rulesToFilters, 
+                rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
                 sequencesToInputTypes, sequencesToOutputTypes,
                 model);
         }
@@ -277,11 +287,27 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.For:
+                case SequenceType.ForContainer:
                 {
-                    SequenceFor seqFor = (SequenceFor)seq;
+                    SequenceForContainer seqFor = (SequenceForContainer)seq;
                     EmitVarIfNew(seqFor.Var, source);
                     if (seqFor.VarDst != null) EmitVarIfNew(seqFor.VarDst, source);
+                    EmitNeededVarAndRuleEntities(seqFor.Seq, source);
+                    break;
+                }
+
+                case SequenceType.ForLookup:
+                {
+                    SequenceForLookup seqFor = (SequenceForLookup)seq;
+                    EmitVarIfNew(seqFor.Var, source);
+                    EmitNeededVarAndRuleEntities(seqFor.Seq, source);
+                    break;
+                }
+
+                case SequenceType.ForMatch:
+                {
+                    SequenceForMatch seqFor = (SequenceForMatch)seq;
+                    EmitVarIfNew(seqFor.Var, source);
                     EmitNeededVarAndRuleEntities(seqFor.Seq, source);
                     break;
                 }
@@ -414,7 +440,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqRule.Filter != null)
                 source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filter, matchesName);
 
-            if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + specialStr + ");\n");
+            if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
             if(seqRule is SequenceRuleAllCall
                 && ((SequenceRuleAllCall)seqRule).ChooseRandom
                 && ((SequenceRuleAllCall)seqRule).MinSpecified)
@@ -645,32 +671,13 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.For:
+                case SequenceType.ForContainer:
                 {
-                    SequenceFor seqFor = (SequenceFor)seq;
+                    SequenceForContainer seqFor = (SequenceForContainer)seq;
 
                     source.AppendFront(SetResultVar(seqFor, "true"));
 
-                    if(seqFor.Container == null)
-                    {
-                        NodeType nodeType = TypesHelper.GetNodeType(seqFor.Var.Type, model);
-                        EdgeType edgeType = TypesHelper.GetEdgeType(seqFor.Var.Type, model);
-                        if(nodeType != null)
-                            source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode elem_{0} in graph.GetCompatibleNodes(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + seqFor.Var.Type + "\", graph.Model)))\n", seqFor.Id);
-                        else // further check/case is needed in case variables of dynamic type would be allowed
-                            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge elem_{0} in graph.GetCompatibleEdges(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + seqFor.Var.Type + "\", graph.Model)))\n", seqFor.Id);
-                        source.AppendFront("{\n");
-                        source.Indent();
-                        source.AppendFront(SetVar(seqFor.Var, "elem_" + seqFor.Id));
-
-                        EmitSequence(seqFor.Seq, source);
-
-                        source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
-                        source.Unindent();
-                        source.AppendFront("}\n");
-
-                    }
-                    else if(seqFor.Container.Type == "")
+                    if(seqFor.Container.Type == "")
                     {
                         // type not statically known? -> might be Dictionary or List dynamically, must decide at runtime
                         source.AppendFront("if(" + GetVar(seqFor.Container) + " is IList) {\n");
@@ -756,6 +763,80 @@ namespace de.unika.ipd.grGen.lgsp
                         source.Unindent();
                         source.AppendFront("}\n");
                     }
+
+                    break;
+                }
+
+                case SequenceType.ForLookup:
+                {
+                    SequenceForLookup seqFor = (SequenceForLookup)seq;
+
+                    source.AppendFront(SetResultVar(seqFor, "true"));
+
+                    NodeType nodeType = TypesHelper.GetNodeType(seqFor.Var.Type, model);
+                    EdgeType edgeType = TypesHelper.GetEdgeType(seqFor.Var.Type, model);
+                    if(nodeType != null)
+                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode elem_{0} in graph.GetCompatibleNodes(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + seqFor.Var.Type + "\", graph.Model)))\n", seqFor.Id);
+                    else // further check/case is needed in case variables of dynamic type would be allowed
+                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge elem_{0} in graph.GetCompatibleEdges(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + seqFor.Var.Type + "\", graph.Model)))\n", seqFor.Id);
+                    source.AppendFront("{\n");
+                    source.Indent();
+                    source.AppendFront(SetVar(seqFor.Var, "elem_" + seqFor.Id));
+
+                    EmitSequence(seqFor.Seq, source);
+
+                    source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
+                    source.Unindent();
+                    source.AppendFront("}\n");
+
+                    break;
+                }
+
+                case SequenceType.ForMatch:
+                {
+                    SequenceForMatch seqFor = (SequenceForMatch)seq;
+
+                    source.AppendFront(SetResultVar(seqFor, "true"));
+
+                    RuleInvocationParameterBindings paramBindings = seqFor.Rule.ParamBindings;
+                    String specialStr = seqFor.Rule.Special ? "true" : "false";
+                    String parameters = BuildParameters(paramBindings);
+                    String matchingPatternClassName = "Rule_" + paramBindings.Name;
+                    String patternName = paramBindings.Name;
+                    String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
+                    String matchName = "match_" + seqFor.Id;
+                    String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+                    String matchesName = "matches_" + seqFor.Id;
+                    source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
+                        + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
+                    if(seqFor.Rule.Filter != null)
+                        source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqFor.Rule.Filter, matchesName);
+
+                    source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
+                    source.Indent();
+                    source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
+                    if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
+                    if(gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+
+                    String returnParameterDeclarations;
+                    String returnArguments;
+                    String returnAssignments;
+                    BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+
+                    // apply the sequence for every match found
+                    String enumeratorName = "enum_" + seqFor.Id;
+                    source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
+                    source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+                    source.AppendFront("{\n");
+                    source.Indent();
+                    source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
+                    source.AppendFront(SetVar(seqFor.Var, matchName));
+
+                    EmitSequence(seqFor.Seq, source);
+
+                    source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
+                    source.Unindent();
+                    source.AppendFront("}\n");
 
                     break;
                 }
@@ -983,7 +1064,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("int transID_" + seq.Id + " = procEnv.TransactionManager.StartTransaction();\n");
             source.AppendFront("int oldRewritesPerformed_" + seq.Id + " = -1;\n");
             source.AppendFront("if(procEnv.PerformanceInfo!=null) oldRewritesPerformed_"+seq.Id+" = procEnv.PerformanceInfo.RewritesPerformed;\n");
-            if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + specialStr + ");\n");
+            if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
             if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
 
             source.AppendFront("rule_" + paramBindings.Name + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
@@ -1145,7 +1226,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
 
                     source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
-                    if (gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + specialStr + ");\n");
+                    if (gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
                     if (gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
@@ -1175,7 +1256,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
                     source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                    if (gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + specialStr + ");\n");
+                    if (gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
                     if (gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
@@ -1206,7 +1287,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("if(" + curTotalMatch + "==" + totalMatchToApply + ") {\n");
                         source.Indent();
                         source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                        if (gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + specialStr + ");\n");
+                        if (gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
                         if (gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
@@ -1224,7 +1305,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         // randomly choose match, rewrite it and remove it from available matches
                         source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".GetMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
-                        if (gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + specialStr + ");\n");
+                        if (gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
                         if (gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
@@ -2350,7 +2431,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 case SequenceExpressionType.GraphElementAttribute:
                 {
-                    SequenceExpressionAttribute seqAttr = (SequenceExpressionAttribute)expr;
+                    SequenceExpressionAttributeAccess seqAttr = (SequenceExpressionAttributeAccess)expr;
                     string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqAttr.SourceVar) + ")";
                     string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
                     return "GRGEN_LIBGR.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(" + element + ", \"" + seqAttr.AttributeName + "\", " + value + ")";

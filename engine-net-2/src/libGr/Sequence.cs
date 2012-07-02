@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-//#define LOG_SEQUENCE_EXECUTION // you must uncomment it in SequenceBase.cs, too
+//#define LOG_SEQUENCE_EXECUTION
 
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not,
         LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll, SomeFromSet,
-        IfThenElse, IfThen, For,
+        IfThenElse, IfThen, ForContainer, ForLookup, ForMatch,
         Transaction, Backtrack, Pause,
         IterationMin, IterationMinMax,
         RuleCall, RuleAllCall,
@@ -703,7 +703,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            env.CheckRuleCallRuleAllCallSequenceCall(this);
+            env.CheckCall(this);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -958,7 +958,7 @@ namespace de.unika.ipd.grGen.libGr
                     procEnv.PerformanceInfo.MatchesFound += matches.Count;
                 }
 
-                procEnv.Matched(matches, Special);
+                procEnv.Matched(matches, null, Special);
 
                 return Rewrite(procEnv, matches, null);
             }
@@ -1644,7 +1644,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
 #endif
-            procEnv.Matched(matches, rule.Special);
+            procEnv.Matched(matches, null, rule.Special);
             result = rule.Rewrite(procEnv, matches, match);
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
@@ -1698,6 +1698,15 @@ namespace de.unika.ipd.grGen.libGr
         {
             Rule = (SequenceRuleCall)seqRule;
             Seq = seq;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Rule is SequenceRuleAllCall)
+                throw new Exception("Sequence Backtrack can't contain a bracketed rule all call");
+            if(Rule.Test)
+                throw new Exception("Sequence Backtrack can't contain a call to a rule reduced to a test");
+            base.Check(env);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -1762,6 +1771,13 @@ namespace de.unika.ipd.grGen.libGr
             // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires call analysis
             matches = matches.Clone();
 
+#if LOG_SEQUENCE_EXECUTION
+            for(int i = 0; i < matches.Count; ++i)
+            {
+                procEnv.Recorder.WriteLine("cloned match " + i + ": " + MatchPrinter.ToString(matches.GetMatch(i), procEnv.Graph, ""));
+            }
+#endif
+
             // apply the rule and the following sequence for every match found,
             // until the first rule and sequence execution succeeded
             // rolling back the changes of failing executions until then
@@ -1785,7 +1801,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Before executing sequence " + Rule.Id + ": " + Rule.Symbol);
 #endif
-                procEnv.Matched(matches, Rule.Special);
+                procEnv.Matched(matches, match, Rule.Special);
                 bool result = Rule.Rewrite(procEnv, matches, match);
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("After executing sequence " + Rule.Id + ": " + Rule.Symbol + " result " + result);
@@ -2013,7 +2029,7 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "if{ ... ; ...}"; } }
     }
 
-    public class SequenceFor : SequenceUnary
+    public class SequenceForContainer : SequenceUnary
     {
         public SequenceVariable Var;
         public SequenceVariable VarDst;
@@ -2021,9 +2037,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
 
-        public SequenceFor(SequenceVariable var, SequenceVariable varDst, SequenceVariable container, Sequence seq,
+        public SequenceForContainer(SequenceVariable var, SequenceVariable varDst, SequenceVariable container, Sequence seq,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
-            : base(seq, SequenceType.For)
+            : base(seq, SequenceType.ForContainer)
         {
             Var = var;
             VarDst = varDst;
@@ -2033,28 +2049,16 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            if(Container == null)
-            {
-                if(Var.Type == "")
-                {
-                    throw new SequenceParserException(Var.Name, "a node or edge type", "statically unknown type");
-                }
-                if(TypesHelper.GetNodeOrEdgeType(Var.Type, env.Model) == null)
-                {
-                    throw new SequenceParserException(Var.Name, "a node or edge type", Var.Type);
-                }
-            }
             base.Check(env);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            SequenceFor copy = (SequenceFor)MemberwiseClone();
+            SequenceForContainer copy = (SequenceForContainer)MemberwiseClone();
             copy.Var = Var.Copy(originalToCopy, procEnv);
             if(VarDst!=null)
                 copy.VarDst = VarDst.Copy(originalToCopy, procEnv);
-            if(Container!=null)
-                copy.Container = Container.Copy(originalToCopy, procEnv);
+            copy.Container = Container.Copy(originalToCopy, procEnv);
             copy.Seq = Seq.Copy(originalToCopy, procEnv);
             copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
             foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
@@ -2066,38 +2070,7 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
             bool res = true;
-            if(Container == null)
-            {
-                NodeType nodeType = TypesHelper.GetNodeType(Var.Type, procEnv.Graph.Model);
-                if(nodeType!=null)
-                {
-                    bool first = true;
-                    foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(node, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    procEnv.EndOfIteration(false, this);
-                }
-                else
-                {
-                    EdgeType edgeType = TypesHelper.GetEdgeType(Var.Type, procEnv.Graph.Model);
-                    bool first = true;
-                    foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    procEnv.EndOfIteration(false, this);
-                }
-            }
-            else if(Container.GetVariableValue(procEnv) is IList)
+            if(Container.GetVariableValue(procEnv) is IList)
             {
                 IList array = (IList)Container.GetVariableValue(procEnv);
                 bool first = true;
@@ -2154,7 +2127,228 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "for{"+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+(Container!=null?" in "+Container.Name:"")+"; ...}"; } }
+        public override string Symbol { get { return "for{"+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+" in "+Container.Name+"; ...}"; } }
+    }
+
+    public class SequenceForLookup : SequenceUnary
+    {
+        public SequenceVariable Var;
+
+        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+
+        public SequenceForLookup(SequenceVariable var, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(seq, SequenceType.ForLookup)
+        {
+            Var = var;
+            VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Var.Type == "")
+                throw new SequenceParserException(Var.Name, "a node or edge type", "statically unknown type");
+            if(TypesHelper.GetNodeOrEdgeType(Var.Type, env.Model) == null)
+                throw new SequenceParserException(Var.Name, "a node or edge type", Var.Type);
+            base.Check(env);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceForLookup copy = (SequenceForLookup)MemberwiseClone();
+            copy.Var = Var.Copy(originalToCopy, procEnv);
+            copy.Seq = Seq.Copy(originalToCopy, procEnv);
+            copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
+            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
+                copy.VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            bool res = true;
+            NodeType nodeType = TypesHelper.GetNodeType(Var.Type, procEnv.Graph.Model);
+            if(nodeType != null)
+            {
+                bool first = true;
+                foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
+                {
+                    if(!first) procEnv.EndOfIteration(true, this);
+                    Var.SetVariableValue(node, procEnv);
+                    Seq.ResetExecutionState();
+                    res &= Seq.Apply(procEnv);
+                    first = false;
+                }
+                procEnv.EndOfIteration(false, this);
+            }
+            else
+            {
+                EdgeType edgeType = TypesHelper.GetEdgeType(Var.Type, procEnv.Graph.Model);
+                bool first = true;
+                foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
+                {
+                    if(!first) procEnv.EndOfIteration(true, this);
+                    Var.SetVariableValue(edge, procEnv);
+                    Seq.ResetExecutionState();
+                    res &= Seq.Apply(procEnv);
+                    first = false;
+                }
+                procEnv.EndOfIteration(false, this);
+            }
+            return res;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            Var.GetLocalVariables(variables);
+            if(Seq.GetLocalVariables(variables, target))
+                return true;
+            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
+                variables.Remove(seqVar);
+            variables.Remove(Var);
+            return this == target;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "for{" + Var.Name + "; ...}"; } }
+    }
+
+    public class SequenceForMatch : SequenceUnary
+    {
+        public SequenceVariable Var;
+        public SequenceRuleCall Rule;
+
+        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+
+        public SequenceForMatch(SequenceVariable var, Sequence rule, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(seq, SequenceType.ForMatch)
+        {
+            Var = var;
+            Rule = (SequenceRuleCall)rule;
+            VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Rule is SequenceRuleAllCall)
+                throw new Exception("Sequence ForMatch must be of the form for{v in [?r]; seq}, rule maybe with input parameters, or a breakpoint");
+            if(Rule.ParamBindings.ReturnVars.Length > 0)
+                throw new Exception("No output parameters allowed for the rule used in the for matches iteration sequence");
+            if(Var.Type == "")
+                throw new SequenceParserException(Var.Name, "a match type (match<rulename>)", "statically unknown type");
+            if(!TypesHelper.IsSameOrSubtype(Var.Type, "match<"+Rule.ParamBindings.Name+">", env.Model))
+                throw new SequenceParserException(Symbol, "match<" + Rule.ParamBindings.Name + ">", Var.Type);
+            base.Check(env);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceForMatch copy = (SequenceForMatch)MemberwiseClone();
+            copy.Var = Var.Copy(originalToCopy, procEnv);
+            copy.Rule = (SequenceRuleCall)Rule.Copy(originalToCopy, procEnv);
+            copy.Seq = Seq.Copy(originalToCopy, procEnv);
+            copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
+            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
+                copy.VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            bool res = true;
+
+            // first get all matches of the rule
+            object[] parameters;
+            if(Rule.ParamBindings.ArgumentExpressions.Length > 0)
+            {
+                parameters = Rule.ParamBindings.Arguments;
+                for(int j = 0; j < Rule.ParamBindings.ArgumentExpressions.Length; j++)
+                {
+                    if(Rule.ParamBindings.ArgumentExpressions[j] != null)
+                        parameters[j] = Rule.ParamBindings.ArgumentExpressions[j].Evaluate(procEnv);
+                }
+            }
+            else parameters = null;
+
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("Matching for rule " + Rule.GetRuleCallString(procEnv));
+#endif
+
+            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
+            IMatches matches = Rule.ParamBindings.Action.Match(procEnv, procEnv.MaxMatches, parameters);
+            if(Rule.Filter != null)
+                Rule.ParamBindings.Action.Filter(procEnv, matches, Rule.Filter);
+            if(procEnv.PerformanceInfo != null)
+            {
+                procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
+                procEnv.PerformanceInfo.MatchesFound += matches.Count;
+            }
+
+            if(matches.Count == 0)
+            {
+                procEnv.EndOfIteration(false, this);
+                Rule.executionState = SequenceExecutionState.Fail;
+                return res;
+            }
+
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("Rule " + Rule.GetRuleCallString(procEnv) + " matched " + matches.Count + " times");
+#endif
+
+            // the rule might be called again in the sequence, overwriting the matches object of the action
+            // normally it's safe to assume the rule is not called again until its matches were processed,
+            // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
+            // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires call analysis
+            matches = matches.Clone();
+
+            // apply the sequence for every match found
+            bool first = true;
+            foreach(IMatch match in matches)
+            {
+                if(!first) procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(match, procEnv);
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Iterating match: " + MatchPrinter.ToString(match, procEnv.Graph, ""));
+#endif
+
+                procEnv.EnteringSequence(Rule);
+                Rule.executionState = SequenceExecutionState.Underway;
+                procEnv.Matched(matches, match, Rule.Special);
+                Rule.executionState = SequenceExecutionState.Success;
+                procEnv.ExitingSequence(Rule);
+
+                // rule matching simulated so it can be shown in the debugger, now execute the sequence
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            Var.GetLocalVariables(variables);
+            if(Rule.GetLocalVariables(variables, target))
+                return true;
+            if(Seq.GetLocalVariables(variables, target))
+                return true;
+            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
+                variables.Remove(seqVar);
+            variables.Remove(Var);
+            return this == target;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get { yield return Rule; yield return Seq; }
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "for{" + Var.Name + " in [?" + Rule.Symbol + "]; ...}"; } }
     }
 
     /// <summary>
@@ -2457,7 +2651,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            env.CheckRuleCallRuleAllCallSequenceCall(this);
+            env.CheckCall(this);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)

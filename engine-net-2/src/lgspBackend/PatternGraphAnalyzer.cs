@@ -330,7 +330,7 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(PatternVariable variable in variables)
                 if (variable.PointOfDefinition != patternGraph)
                     if(!variable.DefToBeYieldedTo)
-                        patternGraph.neededVariables[variable.name] = variable.Type;
+                        patternGraph.neededVariables[variable.name] = variable.type;
             //    - as subpattern connections
             PatternGraphEmbedding[] embeddedGraphs = inlined ? patternGraph.embeddedGraphsPlusInlined : patternGraph.embeddedGraphs;
             foreach (PatternGraphEmbedding sub in embeddedGraphs)
