@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Wed Jun 13 11:06:19 CEST 2012
+// Generated from "test.grg" on Mon Jul 02 00:39:35 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -66,11 +66,11 @@ namespace de.unika.ipd.grGen.Action_test
 			};
 			bool[] testRule_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] testRule_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode testRule_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D231_4121, "GRGEN_MODEL.ID231_4121", "testRule_node_a", "a", testRule_node_a_AllowedTypes, testRule_node_a_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode testRule_node_f = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B21, "GRGEN_MODEL.IB21", "testRule_node_f", "f", testRule_node_f_AllowedTypes, testRule_node_f_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode testRule_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D2211_2222_31, "GRGEN_MODEL.ID2211_2222_31", "testRule_node_m", "m", testRule_node_m_AllowedTypes, testRule_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge testRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "testRule_edge__edge0", "_edge0", testRule_edge__edge0_AllowedTypes, testRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge testRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "testRule_edge__edge1", "_edge1", testRule_edge__edge1_AllowedTypes, testRule_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode testRule_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D231_4121, GRGEN_MODEL.NodeType_D231_4121.typeVar, "GRGEN_MODEL.ID231_4121", "testRule_node_a", "a", testRule_node_a_AllowedTypes, testRule_node_a_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode testRule_node_f = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B21, GRGEN_MODEL.NodeType_B21.typeVar, "GRGEN_MODEL.IB21", "testRule_node_f", "f", testRule_node_f_AllowedTypes, testRule_node_f_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode testRule_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D2211_2222_31, GRGEN_MODEL.NodeType_D2211_2222_31.typeVar, "GRGEN_MODEL.ID2211_2222_31", "testRule_node_m", "m", testRule_node_m_AllowedTypes, testRule_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge testRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "testRule_edge__edge0", "_edge0", testRule_edge__edge0_AllowedTypes, testRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge testRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "testRule_edge__edge1", "_edge1", testRule_edge__edge1_AllowedTypes, testRule_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_testRule = new GRGEN_LGSP.PatternGraph(
 				"testRule",
 				"",
@@ -185,6 +185,15 @@ namespace de.unika.ipd.grGen.Action_test
 				default: return null;
 				}
 			}
+			public GRGEN_LIBGR.INode getNode(string name)
+			{
+				switch(name) {
+				case "a": return _node_a;
+				case "f": return _node_f;
+				case "m": return _node_m;
+				default: return null;
+				}
+			}
 			
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
@@ -202,6 +211,14 @@ namespace de.unika.ipd.grGen.Action_test
 				default: return null;
 				}
 			}
+			public GRGEN_LIBGR.IEdge getEdge(string name)
+			{
+				switch(name) {
+				case "_edge0": return _edge__edge0;
+				case "_edge1": return _edge__edge1;
+				default: return null;
+				}
+			}
 			
 			public enum testRule_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -210,6 +227,12 @@ namespace de.unika.ipd.grGen.Action_test
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				default: return null;
+				}
+			}
+			public object getVariable(string name)
+			{
+				switch(name) {
 				default: return null;
 				}
 			}
@@ -224,6 +247,12 @@ namespace de.unika.ipd.grGen.Action_test
 				default: return null;
 				}
 			}
+			public GRGEN_LIBGR.IMatch getEmbeddedGraph(string name)
+			{
+				switch(name) {
+				default: return null;
+				}
+			}
 			
 			public enum testRule_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
@@ -232,6 +261,12 @@ namespace de.unika.ipd.grGen.Action_test
 			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
+				default: return null;
+				}
+			}
+			public GRGEN_LIBGR.IMatch getAlternative(string name)
+			{
+				switch(name) {
 				default: return null;
 				}
 			}
@@ -246,6 +281,12 @@ namespace de.unika.ipd.grGen.Action_test
 				default: return null;
 				}
 			}
+			public GRGEN_LIBGR.IMatches getIterated(string name)
+			{
+				switch(name) {
+				default: return null;
+				}
+			}
 			
 			public enum testRule_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
@@ -254,6 +295,12 @@ namespace de.unika.ipd.grGen.Action_test
 			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
+				default: return null;
+				}
+			}
+			public GRGEN_LIBGR.IMatch getIndependent(string name)
+			{
+				switch(name) {
 				default: return null;
 				}
 			}

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalFiltersAndSequences.grg" on 17.06.2012 17:17:19 Mitteleuropäische Zeit
+// Generated from "ExternalFiltersAndSequences.grg" on 02.07.2012 00:39:57 Mitteleuropäische Zeit
 using System;
 using System.Collections.Generic;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
