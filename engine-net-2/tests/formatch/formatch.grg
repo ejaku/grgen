@@ -23,7 +23,7 @@ rule retype2(n:N<null>)
 	}
 }
 
-/*rule exec1
+rule exec1
 {
 	modify {
 		exec(for{m:match<retype> in [?retype(null)]; true});
@@ -47,7 +47,6 @@ rule exec3
 rule exec4
 {
 	modify {
-		exec({::c=0} ;> for{m:match<retype2> in [?retype2(null)]; for{mm:match<retype> in [?retype(null)]; {::c=::c+1}});
+		exec({::c=0} ;> for{m:match<retype2> in [?retype2(null)]; for{mm:match<retype> in [?retype(null)]; {::c=::c+1}}});
 	}
 }
-*/
