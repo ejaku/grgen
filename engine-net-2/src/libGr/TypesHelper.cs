@@ -407,6 +407,7 @@ namespace de.unika.ipd.grGen.libGr
             if(type == "boolean") return "bool";
             if(type.StartsWith("set<") || type.StartsWith("map<")) return "Dictionary<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + "," + XgrsTypeToCSharpType(ExtractDst(type), model) + ">";
             if(type.StartsWith("array<")) return "List<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
+            if(type.StartsWith("match<")) return "Rule_" + ExtractSrc(type) + ".IMatch_" + ExtractSrc(type);
             if(type == "SetValueType") return "GRGEN_LIBGR.SetValueType";
             if(type == "graph") return "GRGEN_LIBGR.IGraph"; 
 

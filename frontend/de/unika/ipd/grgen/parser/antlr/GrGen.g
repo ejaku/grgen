@@ -1607,8 +1607,15 @@ simpleSequence[ExecNode xg]
 	| IF l=LBRACE pushScopeStr["if/exec", getCoords(l)] { xg.append("if{"); } xgrs[xg] s=SEMI 
 		pushScopeStr["if/then-part", getCoords(s)] { xg.append("; "); } xgrs[xg] popScope
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
-	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] ( (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
-		IN { xg.append(" in "); } xgrsEntity[xg] )? SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
+	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg]
+		(
+			(RARROW { xg.append(" -> "); } xgrsEntity[xg])? IN { xg.append(" in "); } xgrsEntity[xg] SEMI 
+				{ xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
+			| SEMI 
+				{ xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
+			| IN LBRACK QUESTION { xg.append(" in [?"); } callRule[xg, returns] RBRACK { xg.append("]"); } SEMI 
+				{ xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
+		)
 	| LBRACE { xg.append("{"); } seqCompoundComputation[xg] (SEMI)? RBRACE { xg.append("}"); } 
 	;
 
@@ -1726,9 +1733,12 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	}
 	
 	: (methodCall[null]) => methodCall[xg]
-	| (xgrsVarUse[null] DOT VISITED) => xgrsVarUse[xg] DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); }
-	| (xgrsVarUse[null] DOT IDENT) => target=xgrsVarUse[xg] d=DOT attr=memberIdentUse { xg.append("."+attr.getSymbol().getText()); res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
-	| (xgrsVarUse[null] LBRACK) => target=xgrsVarUse[xg] l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); res = new IndexedAccessExprNode(getCoords(l), new IdentExprNode((IdentNode)target), key); }
+	| (xgrsVarUse[null] DOT VISITED) => xgrsVarUse[xg] DOT VISITED LBRACK 
+		{ xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); }
+	| (xgrsVarUse[null] DOT IDENT) => target=xgrsVarUse[xg] d=DOT attr=memberIdentUse 
+		{ xg.append("."+attr.getSymbol().getText()); res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
+	| (xgrsVarUse[null] LBRACK) => target=xgrsVarUse[xg] l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK 
+		{ xg.append("]"); res = new IndexedAccessExprNode(getCoords(l), new IdentExprNode((IdentNode)target), key); }
 	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
 	| (functionCall[null]) => functionCall[xg]
 	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
@@ -1907,6 +1917,14 @@ options { k = *; }
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, ArrayTypeNode.getArrayType(type));
 			if(emit) xg.append(id.toString()+":array<"+type.toString());
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+	|
+		id=entIdentDecl COLON MATCH LT type=actionIdentUse GT // match decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, MatchTypeNode.getMatchType(type));
+			if(emit) xg.append(id.toString()+":match<"+type.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -3212,6 +3230,7 @@ INDEPENDENT : 'independent';
 INDUCED : 'induced';
 ITERATED : 'iterated';
 MAP : 'map';
+MATCH : 'match';
 MODEL : 'model';
 MODIFY : 'modify';
 MULTIPLE : 'multiple';

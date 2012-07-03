@@ -309,6 +309,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceForMatch seqFor = (SequenceForMatch)seq;
                     EmitVarIfNew(seqFor.Var, source);
                     EmitNeededVarAndRuleEntities(seqFor.Seq, source);
+                    EmitNeededVarAndRuleEntities(seqFor.Rule, source);
                     break;
                 }
 
@@ -835,6 +836,9 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitSequence(seqFor.Seq, source);
 
                     source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
+                    source.Unindent();
+                    source.AppendFront("}\n");
+
                     source.Unindent();
                     source.AppendFront("}\n");
 
@@ -2435,6 +2439,20 @@ namespace de.unika.ipd.grGen.lgsp
                     string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqAttr.SourceVar) + ")";
                     string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
                     return "GRGEN_LIBGR.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(" + element + ", \"" + seqAttr.AttributeName + "\", " + value + ")";
+                }
+
+                case SequenceExpressionType.ElementOfMatch:
+                {
+                    SequenceExpressionMatchAccess seqMA = (SequenceExpressionMatchAccess)expr;
+                    String rulePatternClassName = "Rule_" + TypesHelper.ExtractSrc(seqMA.SourceVar.Type);
+                    String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(TypesHelper.ExtractSrc(seqMA.SourceVar.Type));                     
+                    string match = "((" + matchInterfaceName + ")" + GetVar(seqMA.SourceVar) + ")";
+                    if(TypesHelper.GetNodeType(seqMA.Type(env), model) != null)
+                        return match + ".node_" + seqMA.ElementName;
+                    else if(TypesHelper.GetNodeType(seqMA.Type(env), model) != null)
+                        return match + ".edge_" + seqMA.ElementName;
+                    else
+                        return match + ".var_" + seqMA.ElementName;
                 }
 
                 case SequenceExpressionType.ElementFromGraph:

@@ -19,7 +19,9 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MatchAccess;
 import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.UntypedExecVarType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MemberAccessExprNode extends ExprNode
@@ -41,6 +43,9 @@ public class MemberAccessExprNode extends ExprNode
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
+		if(isResolved() && resolutionResult() && targetExpr.getType() instanceof MatchTypeNode) {
+			return children; // behave like a nop in case we're a match access
+		}
 		children.add(targetExpr);
 		children.add(memberIdent);
 		return children;
@@ -62,6 +67,11 @@ public class MemberAccessExprNode extends ExprNode
 		if(!targetExpr.resolve()) return false;
 
 		TypeNode ownerType = targetExpr.getType();
+		
+		if(ownerType instanceof MatchTypeNode) {
+			return true; // behave like a nop in case we're a match access
+		}
+		
 		if(!(ownerType instanceof ScopeOwner)) {
 			reportError("Left hand side of '.' has no members.");
 			return false;
@@ -101,11 +111,17 @@ public class MemberAccessExprNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
+		if(targetExpr.getType() instanceof MatchTypeNode) {
+			return new UntypedExecVarTypeNode(); // behave like a nop in case we're a match access
+		}
+
 		return member.getDecl().getDeclType();
 	}
 
 	@Override
 	protected IR constructIR() {
+		if(targetExpr.getType() instanceof MatchTypeNode)
+			return new MatchAccess((UntypedExecVarType) new UntypedExecVarTypeNode().getType()); // behave like a nop in case we're a match access
 		return new Qualification(targetExpr.checkIR(GraphEntityExpression.class).getGraphEntity(), member.checkIR(Entity.class));
 	}
 
