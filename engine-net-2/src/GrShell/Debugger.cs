@@ -495,6 +495,9 @@ namespace de.unika.ipd.grGen.grShell
                     PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                     break;
+                case 'h':
+                    HandleHighlight(seq);
+                    break;
                 case 't':
                     HandleStackTrace();
                     PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
@@ -507,7 +510,7 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 default:
                     Console.WriteLine("Illegal command (Key = " + key.Key
-                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state and (a)bort allowed!");
+                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight and (a)bort allowed!");
                     break;
                 }
             }
@@ -578,6 +581,213 @@ namespace de.unika.ipd.grGen.grShell
         {
             PrintVariables(null, null);
             PrintVariables(debugSequences.Peek(), seq);
+            PrintVisited();
+        }
+
+        void HandleHighlight(Sequence seq)
+        {
+            Console.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
+            String str = Console.ReadLine();
+
+            if(str.Length > 0)
+            {
+                string[] arguments = str.Split(',');
+
+                for(int i = 0; i < arguments.Length; ++i)
+                {
+                    string argument = arguments[i].Trim();
+                    HandleHighlightArgument(seq, argument, true);
+                }
+
+                foreach(KeyValuePair<INode, string> nodeToName in annotatedNodes)
+                    ycompClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
+                foreach(KeyValuePair<IEdge, string> edgeToName in annotatedEdges)
+                    ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
+
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+                Console.WriteLine("Press any key to continue...");
+                ReadKeyWithCancel();
+
+                for(int i = 0; i < arguments.Length; ++i)
+                {
+                    string argument = arguments[i].Trim();
+                    HandleHighlightArgument(seq, argument, false);
+                }
+
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+            }
+
+            Console.WriteLine("End of highlighting");
+        }
+
+        private void HandleHighlightArgument(Sequence seq, string argument, bool addAnnotation)
+        {
+            // visited flag directly given
+            int num;
+            if(int.TryParse(argument, out num))
+            {
+                HighlightValue(num, num.ToString(), addAnnotation);
+                return;
+            }
+
+            // variable
+            Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
+            (debugSequences.Peek()).GetLocalVariables(seqVars, seq);
+            foreach(SequenceVariable var in seqVars.Keys)
+            {
+                if(var.Name == argument)
+                {
+                    HighlightValue(var.Value, var.Name, addAnnotation);
+                    return;
+                }
+            }
+            foreach(Variable var in shellProcEnv.ProcEnv.Variables)
+            {
+                if(var.Name == argument)
+                {
+                    HighlightValue(var.Value, var.Name, addAnnotation);
+                    return;
+                }
+            }
+            Console.WriteLine("Unknown variable " + argument + "!");
+            Console.WriteLine("Use v(ariables) to print variables and visited flags.");
+        }
+
+        void HighlightValue(object value, string name, bool addAnnotation)
+        {
+            if(value is IDictionary)
+                HighlightDictionary((IDictionary)value, name, addAnnotation);
+            else if(value is IList)
+                HighlightList((IList)value, name, addAnnotation);
+            else
+                HighlightSingleValue(value, name, addAnnotation);
+        }
+
+        void HighlightDictionary(IDictionary value, string name, bool addAnnotation)
+        {
+            Type keyType;
+            Type valueType;
+            DictionaryListHelper.GetDictionaryTypes(value.GetType(), out keyType, out valueType);
+            if(valueType == typeof(de.unika.ipd.grGen.libGr.SetValueType))
+            {
+                foreach(DictionaryEntry entry in value)
+                {
+                    if(entry.Key is IGraphElement)
+                        HighlightSingleValue(entry.Key, name, addAnnotation);
+                }
+            }
+            else
+            {
+                int cnt = 0;
+                foreach(DictionaryEntry entry in value)
+                {
+                    if(entry.Key is INode && entry.Value is INode)
+                    {
+                        HighlightMapping((INode)entry.Key, (INode)entry.Value, name, cnt, addAnnotation);
+                        ++cnt;
+                    }
+                    else
+                    {
+                        if(entry.Key is IGraphElement)
+                            HighlightSingleValue(entry.Key, name + ".Domain -> " + DictionaryListHelper.ToString(entry.Value, shellProcEnv.Graph), addAnnotation);
+                        if(entry.Value is IGraphElement)
+                            HighlightSingleValue(entry.Value, DictionaryListHelper.ToString(entry.Key, shellProcEnv.Graph) + " -> " + name + ".Range", addAnnotation);
+                    }
+                }
+            }
+        }
+
+        void HighlightList(IList value, string name, bool addAnnotation)
+        {
+            for(int i=0; i<value.Count; ++i)
+            {
+                if(value[i] is IGraphElement)
+                    HighlightSingleValue(value[i], name + "[" + i + "]", addAnnotation);
+            }
+        }
+
+        void HighlightMapping(INode source, INode target, string name, int cnt, bool addAnnotation)
+        {
+            HighlightSingleValue(source, name + ".Domain", addAnnotation);
+            HighlightSingleValue(target, name + ".Range", addAnnotation);
+            if(addAnnotation)
+                ycompClient.AddEdge(name + cnt, name, source, target);
+            else
+                ycompClient.DeleteEdge(name + cnt);
+        }
+
+        void HighlightSingleValue(object value, string name, bool addAnnotation)
+        {
+            if(value is int)
+            {
+                List<int> allocatedVisitedFlags = shellProcEnv.Graph.GetAllocatedVisitedFlags();
+                if(allocatedVisitedFlags.Contains((int)value))
+                {
+                    foreach(INode node in shellProcEnv.Graph.Nodes)
+                        if(shellProcEnv.Graph.IsVisited(node, (int)value))
+                            HighlightNode(node, "visited[" + name + "]", addAnnotation);
+                    foreach(IEdge edge in shellProcEnv.Graph.Edges)
+                        if(shellProcEnv.Graph.IsVisited(edge, (int)value))
+                            HighlightEdge(edge, "visited[" + name + "]", addAnnotation);
+                }
+                else
+                {
+                    Console.WriteLine("Unknown visited flag id " + (int)(value) + "!");
+                    if(name!=null)
+                        Console.WriteLine("Which is contained in variable " + name + ".");
+                    Console.WriteLine("Use v(ariables) to print variables and visited flags.");
+                }
+            }
+            else if(value is IGraphElement)
+            {
+                if(value is INode)
+                    HighlightNode((INode)value, name, addAnnotation);
+                else //value is IEdge
+                    HighlightEdge((IEdge)value, name, addAnnotation);
+            }
+            else
+            {
+                Console.WriteLine("The value " + value + (name!=null ? " contained in " + name : "") + " is neither an integer visited flag id nor a graph element, can't highlight!");
+                Console.WriteLine("Use v(ariables) to print variables and visited flags.");
+            }
+        }
+
+        private void HighlightNode(INode node, string name, bool addAnnotation)
+        {
+            if(addAnnotation)
+            {
+                ycompClient.ChangeNode(node, realizers.MatchedNodeRealizer);
+                if(annotatedNodes.ContainsKey(node))
+                    annotatedNodes[node] += ", " + name;
+                else
+                    annotatedNodes[node] = name;
+            }
+            else
+            {
+                ycompClient.ChangeNode(node, null);
+                ycompClient.AnnotateElement(node, null);
+                annotatedNodes.Remove(node);
+            }
+        }
+
+        private void HighlightEdge(IEdge edge, string name, bool addAnnotation)
+        {
+            if(addAnnotation)
+            {
+                ycompClient.ChangeEdge(edge, realizers.MatchedEdgeRealizer);
+                if(annotatedEdges.ContainsKey(edge))
+                    annotatedEdges[edge] += ", " + name;
+                else
+                    annotatedEdges[edge] = name;
+            }
+            else
+            {
+                ycompClient.ChangeEdge(edge, null);
+                ycompClient.AnnotateElement(edge, null);
+                annotatedEdges.Remove(edge);
+            }
         }
 
         void HandleStackTrace()
@@ -608,6 +818,7 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine();
                 PrintVariables(callStack[i], currSeq != null ? currSeq : callStack[i]);
             }
+            PrintVisited();
             Console.WriteLine("continuing execution with:");
         }
 
@@ -1261,6 +1472,21 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
+        }
+
+        void PrintVisited()
+        {
+            List<int> allocatedVisitedFlags = shellProcEnv.Graph.GetAllocatedVisitedFlags();
+            Console.Write("Allocated visited flags are: ");
+            bool first = true;
+            foreach(int allocatedVisitedFlag in allocatedVisitedFlags)
+            {
+                if(!first)
+                    Console.Write(", ");
+                Console.Write(allocatedVisitedFlag);
+                first = false;
+            }
+            Console.WriteLine(".");
         }
 
         #endregion Print sequence and variables
@@ -2179,7 +2405,7 @@ namespace de.unika.ipd.grGen.grShell
                 PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
                 context.workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
-                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state and (a)bort (plus Ctrl+C for forced abort).");
+                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight and (a)bort (plus Ctrl+C for forced abort).");
                 QueryUser(seq);
             }
 

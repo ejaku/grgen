@@ -93,6 +93,7 @@ namespace de.unika.ipd.grGen.libGr
         public abstract void ResetVisitedFlag(int visitorID);
         public abstract void SetVisited(IGraphElement elem, int visitorID, bool visited);
         public abstract bool IsVisited(IGraphElement elem, int visitorID);
+        public abstract List<int> GetAllocatedVisitedFlags();
 
 
         #region Events

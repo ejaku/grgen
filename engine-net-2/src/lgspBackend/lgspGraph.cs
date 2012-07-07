@@ -1220,6 +1220,23 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        /// <summary>
+        /// Returns the ids of the allocated visited flags.
+        /// </summary>
+        /// <returns>A dynamic array of the visitor ids allocated.</returns>
+        public override List<int> GetAllocatedVisitedFlags()
+        {
+            List<int> result = new List<int>(numUsedVisitorIDs);
+            for(int i = 0; result.Count < numUsedVisitorIDs; ++i)
+            {
+                if(freeVisitorIDs.Contains(i))
+                    continue;
+
+                result.Add(i);
+            }
+            return result;
+        }
+
         #endregion Visited flags management
 
 

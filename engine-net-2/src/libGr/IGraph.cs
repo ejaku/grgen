@@ -401,6 +401,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>True for visited, false for not visited.</returns>
         bool IsVisited(IGraphElement elem, int visitorID);
 
+        /// <summary>
+        /// Returns the ids of the allocated visited flags.
+        /// </summary>
+        /// <returns>A dynamic array of the visitor ids allocated.</returns>
+        List<int> GetAllocatedVisitedFlags();
+
         #endregion Visited flags management
 
 

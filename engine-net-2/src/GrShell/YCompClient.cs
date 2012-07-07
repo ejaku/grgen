@@ -415,6 +415,20 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
+        /// Adding of helper edge used in debugging, for visualization of map content
+        /// </summary>
+        public void AddEdge(string edgeName, string edgeLabel, INode source, INode target)
+        {
+            String srcName = graph.GetElementName(source);
+            String tgtName = graph.GetElementName(target);
+
+            ycompStream.Write("addEdge \"e" + edgeName + "\" \"n" + srcName + "\" \"n" + tgtName
+                + "\" \"" + realizers.MatchedEdgeRealizer + "\" \"" + edgeLabel + "\"\n");
+            isDirty = true;
+            isLayoutDirty = true;
+        }
+
+        /// <summary>
         /// Annotates the given element with the given string in double angle brackets
         /// </summary>
         /// <param name="elem">The element to be annotated</param>

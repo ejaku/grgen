@@ -1,0 +1,33 @@
+rule init(ref m1:map<Node, Node>, ref m2:map<Node,int>, ref m3:map<string,Node>, 
+			ref s1:set<Node>, ref s2:set<Edge>, 
+			ref a1:array<Node>, ref a2:array<Edge>,
+			var visId:int, var visId2:int)
+			: (Node, Edge, Node, Edge)
+{
+	modify {
+		n1:Node -e1:Edge-> n2:Node -e2:Edge-> n3:Node --> n1 --> n4:Node --> n5:Node --> n1;
+		eval {
+			m1.add(n1, n4);
+			m1.add(n2, n5);
+			m2.add(n1, 42);
+			m2.add(n2, 43);
+			m3.add("foo", n1);
+			m3.add("bar", n2);
+			s1.add(n1);
+			s1.add(n2);
+			s2.add(e1);
+			s2.add(e2);
+			a1.add(n1);
+			a1.add(n2);
+			a2.add(e1);
+			a2.add(e2);
+			n1.visited[visId] = true;
+			n2.visited[visId] = true;
+			e1.visited[visId] = true;
+			e2.visited[visId] = true;
+			n4.visited[visId2] = true;
+			n5.visited[visId2] = true;
+		}
+		return(n1,e1,n2,e2);
+	}
+}
