@@ -1607,16 +1607,23 @@ simpleSequence[ExecNode xg]
 	| IF l=LBRACE pushScopeStr["if/exec", getCoords(l)] { xg.append("if{"); } xgrs[xg] s=SEMI 
 		pushScopeStr["if/then-part", getCoords(s)] { xg.append("; "); } xgrs[xg] popScope
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
-	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg]
-		(
-			(RARROW { xg.append(" -> "); } xgrsEntity[xg])? IN { xg.append(" in "); } xgrsEntity[xg] SEMI 
-				{ xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
-			| SEMI 
-				{ xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
-			| IN LBRACK QUESTION { xg.append(" in [?"); } callRule[xg, returns] RBRACK { xg.append("]"); } SEMI 
-				{ xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
-		)
+	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] forSeqRemainder[xg, returns]
 	| LBRACE { xg.append("{"); } seqCompoundComputation[xg] (SEMI)? RBRACE { xg.append("}"); } 
+	;
+
+forSeqRemainder[ExecNode xg, CollectNode<BaseNode> returns]
+options { k = 3; }
+	: (RARROW { xg.append(" -> "); } xgrsEntity[xg])? IN { xg.append(" in "); } xgrsEntity[xg]
+			SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
+	| IN { xg.append(" in "); } { input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
+			|| input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing") }?
+			i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); }
+			expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] (COMMA { xg.append(","); } expr3=seqExpression[xg])? )?
+			RPAREN { xg.append(")"); }
+			SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
+	| SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
+	| IN LBRACK QUESTION { xg.append(" in [?"); } callRule[xg, returns] RBRACK { xg.append("]"); }
+			SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
 	;
 
 seqCompoundComputation[ExecNode xg]

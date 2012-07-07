@@ -826,7 +826,7 @@ Sequence SimpleSequence():
 	List<SequenceVariable> variableList2 = new List<SequenceVariable>();
 	List<Sequence> sequences = new List<Sequence>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
-	SequenceExpression expr;
+	SequenceExpression expr, expr2 = null, expr3 = null;
 	SequenceComputation comp;
 	int num = 0;
 	String str;
@@ -980,6 +980,24 @@ Sequence SimpleSequence():
 			{ varDecls.PopScope(variableList1); } "}"
 		{
 			return new SequenceForMatch(fromVar, seq, seq2, variableList1);
+		}
+	|
+		LOOKAHEAD(3) "in" str=Word() "(" expr=Expression() ("," expr2=Expression() ("," expr3=Expression())? )? ")" ";" seq=RewriteSequence()
+			{ varDecls.PopScope(variableList1); } "}"
+		{
+			if(str=="adjacent") {
+				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForAdjacentNodes, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="adjacentIncoming") {
+				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForAdjacentNodesViaIncoming, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="adjacentOutgoing") {
+				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForAdjacentNodesViaOutgoing, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="incident") {
+				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForIncidentEdges, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="incoming") {
+				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForIncomingEdges, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="outgoing") {
+				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForOutgoingEdges, expr, expr2, expr3, seq, variableList1);
+			}
 		}
 	|
 		("->" fromVar2=Variable())? "in" fromVar3=VariableUse() ";" seq=RewriteSequence()

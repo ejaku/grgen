@@ -1643,7 +1643,7 @@ namespace de.unika.ipd.grGen.libGr
                 object tmp = EdgeType.Evaluate(procEnv);
                 if(tmp is string) edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
                 else if(tmp is EdgeType) edgeType = (EdgeType)tmp;
-                if(edgeType == null) throw new Exception("edge argument to adjacent is not an edge type");
+                if(edgeType == null) throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
             }
             else
             {
@@ -1655,7 +1655,7 @@ namespace de.unika.ipd.grGen.libGr
                 object tmp = OppositeNodeType.Evaluate(procEnv);
                 if(tmp is string) nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
                 else if(tmp is NodeType) nodeType = (NodeType)tmp;
-                if(nodeType == null) throw new Exception("node argument to adjacent is not a node type");
+                if(nodeType == null) throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
             }
             else
             {
@@ -1690,21 +1690,26 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return SourceNode; if(EdgeType != null) yield return EdgeType; if(OppositeNodeType != null) yield return OppositeNodeType; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get 
+        public string FunctionSymbol
         {
-            string name;
-            switch(SequenceExpressionType)
+            get
             {
-                case SequenceExpressionType.AdjacentNodes: name = "adjacent("; break;
-                case SequenceExpressionType.AdjacentNodesViaIncoming: name = "adjacentIncoming("; break;
-                case SequenceExpressionType.AdjacentNodesViaOutgoing: name = "adjacentOutgoing("; break;
-                case SequenceExpressionType.IncidentEdges: name = "incident("; break;
-                case SequenceExpressionType.IncomingEdges: name = "incoming("; break;
-                case SequenceExpressionType.OutgoingEdges: name = "outgoing("; break;
-                default: name = "INTERNAL FAILURE!"; break;
+                switch(SequenceExpressionType)
+                {
+                case SequenceExpressionType.AdjacentNodes: return "adjacent";
+                case SequenceExpressionType.AdjacentNodesViaIncoming: return "adjacentIncoming";
+                case SequenceExpressionType.AdjacentNodesViaOutgoing: return "adjacentOutgoing";
+                case SequenceExpressionType.IncidentEdges: return "incident";
+                case SequenceExpressionType.IncomingEdges: return "incoming";
+                case SequenceExpressionType.OutgoingEdges: return "outgoing";
+                default: return "INTERNAL FAILURE!";
+                }
             }
-            return name + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")";
-        } }
+        }
+        public override string Symbol
+        {
+            get { return FunctionSymbol + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+        }
     }
 
     public class SequenceExpressionInducedSubgraph : SequenceExpression

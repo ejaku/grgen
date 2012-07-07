@@ -1,0 +1,91 @@
+new graph "exec2/exec2.grg"
+
+exec (::c,::c2,::c3)=Init
+
+show var ::c
+show var ::c2
+show var ::c3
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num edges "ee"
+
+
+exec {::s=incident(::c, ee)}
+show var ::s
+exec for{::s in incident(::c, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=incoming(::c, ee)}
+show var ::s
+exec for{::s in incoming(::c, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=outgoing(::c, ee)}
+show var ::s
+exec for{::s in outgoing(::c, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=adjacent(::c, ee)}
+show var ::s
+exec for{::s in adjacent(::c, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=adjacentIncoming(::c, ee)}
+show var ::s
+exec for{::s in adjacentIncoming(::c, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=adjacentOutgoing(::c, ee)}
+show var ::s
+exec for{::s in adjacentOutgoing(::c, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+
+exec {::s=incident(::c2, ee)}
+show var ::s
+exec for{::s in incident(::c2, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=incoming(::c2, ee)}
+show var ::s
+exec for{::s in incoming(::c2, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=outgoing(::c2, ee)}
+show var ::s
+exec for{::s in outgoing(::c2, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=adjacent(::c2, ee)}
+show var ::s
+exec for{::s in adjacent(::c2, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=adjacentIncoming(::c2, ee)}
+show var ::s
+exec for{::s in adjacentIncoming(::c2, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=adjacentOutgoing(::c2, ee)}
+show var ::s
+exec for{::s in adjacentOutgoing(::c2, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+
+exec {::s=incident(::c3, ee)}
+show var ::s
+exec for{::s in incident(::c3, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=incoming(::c3, ee)}
+show var ::s
+exec for{::s in incoming(::c3, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=outgoing(::c3, ee)}
+show var ::s
+exec for{::s in outgoing(::c3, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=adjacent(::c3, ee)}
+show var ::s
+exec for{::s in adjacent(::c3, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=adjacentIncoming(::c3, ee)}
+show var ::s
+exec for{::s in adjacentIncoming(::c3, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+exec {::s=adjacentOutgoing(::c3, ee)}
+show var ::s
+exec for{::s in adjacentOutgoing(::c3, ee); {emit("value of variable ::s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")}}
+
+
+quit
