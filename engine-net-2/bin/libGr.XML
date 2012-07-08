@@ -811,11 +811,13 @@
             or -1, if all matches are to be applied.</param>
             <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Matched(de.unika.ipd.grGen.libGr.IMatches,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Matched(de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.IMatch,System.Boolean)">
             <summary>
             Fires an OnMatched event.
             </summary>
             <param name="matches">The IMatches object returned by the matcher.</param>
+            <param name="match">If not null, specifies the one current match from the matches 
+            (to highlight the currently processed match during backtracking and the for matches loop).</param>
             <param name="special">Whether this is a 'special' match (user defined).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Finishing(de.unika.ipd.grGen.libGr.IMatches,System.Boolean)">
@@ -1164,6 +1166,11 @@
             no random input value is supplied, the user must give a value
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution.Highlight(System.String,de.unika.ipd.grGen.libGr.Sequence)">
+            <summary>
+            highlights the arguments in the graphs if debugging is active
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.Recorder">
             <summary>
             A class for recording changes (and their causes) applied to a graph into a file,
@@ -1237,6 +1244,13 @@
         <member name="M:de.unika.ipd.grGen.libGr.Recorder.#ctor(de.unika.ipd.grGen.libGr.INamedGraph,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Create a recorder
+            </summary>
+            <param name="graph">The named graph whose changes are to be recorded</param>
+            <param name="procEnv">The graph processing environment receiving some of the action events, may be null if only graph changes are requested</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.Initialize(de.unika.ipd.grGen.libGr.INamedGraph,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+            <summary>
+            Initializes a recorder after creation, needed if actions are selected later
             </summary>
             <param name="graph">The named graph whose changes are to be recorded</param>
             <param name="procEnv">The graph processing environment receiving some of the action events, may be null if only graph changes are requested</param>
@@ -1399,6 +1413,16 @@
             The given filter can't be applied to the given rule 
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.UnknownPatternElement">
+            <summary>
+            The element is not contained in the rule pattern (thus in the match of the rule)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.UnknownRule">
+            <summary>
+            The rule is unknown (only rule name available, originating from match type)
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceParserException">
             <summary>
             An exception thrown by SequenceParser,
@@ -1418,6 +1442,11 @@
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.FilterName">
             <summary>
             The name of the filter which was mis-applied.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.EntityName">
+            <summary>
+            The name of the entity which does not exist in the pattern of the rule.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.Action">
@@ -1523,10 +1552,11 @@
         <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(System.String,System.String,de.unika.ipd.grGen.libGr.SequenceParserError)">
             <summary>
             Creates an instance of a SequenceParserException used by the SequenceParser, 
-            when the filter with the given name can't be applied to the rule/sequence/variable of the given name.
+            when the filter with the given name can't be applied to the rule of the given name
+            or when the pattern of the rule of the given name does not contain an entity of the given name.
             </summary>
-            <param name="ruleName">Name of the rule or sequence or variable.</param>
-            <param name="filterName">Name of the filter which was mis-applied.</param>
+            <param name="ruleName">Name of the rule.</param>
+            <param name="filterNameOrEntityName">Name of the filter which was mis-applied or name of the entity which is not conained in the rule.</param>
             <param name="errorKind">The kind of error.</param>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.SequenceParserException.Message">
@@ -2190,12 +2220,22 @@
             <param name="index">The position of the node to return</param>
             <returns>The node at the given index</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getNode(System.String)">
+            <summary>
+            Returns node bound to the pattern node of the given name or null if no such pattern node exists
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatch.getEdgeAt(System.Int32)">
             <summary>
             Returns edge at position index (most efficient access)
             </summary>
             <param name="index">The position of the edge to return</param>
             <returns>The edge at the given index</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getEdge(System.String)">
+            <summary>
+            Returns edge bound to the pattern edge of the given name or null if no such pattern edge exists
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatch.getVariableAt(System.Int32)">
             <summary>
@@ -2204,6 +2244,11 @@
             <param name="index">The position of the variable to return</param>
             <returns>The variable at the given index</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getVariable(System.String)">
+            <summary>
+            Returns value bound to the pattern variable of the given name or null if no such pattern variable exists
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatch.getEmbeddedGraphAt(System.Int32)">
             <summary>
             Returns submatch due to subpattern at position index (most efficient access)
@@ -2211,12 +2256,22 @@
             <param name="index">The position of the submatch due to subpattern to return</param>
             <returns>The submatch due to subpattern at the given index</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getEmbeddedGraph(System.String)">
+            <summary>
+            Returns submatch bound to the subpattern of the given name or null if no such subpattern exists
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatch.getAlternativeAt(System.Int32)">
             <summary>
             Returns submatch due to alternatives at position index (most efficient access)
             </summary>
             <param name="index">The position of the submatch due to alternatives to return</param>
             <returns>The submatch due to alternatives at the given index</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getAlternative(System.String)">
+            <summary>
+            Returns submatch bound to the pattern alternative of the given name or null if no such pattern alternative exists
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatch.getIteratedAt(System.Int32)">
             <summary>
@@ -2226,12 +2281,22 @@
             <param name="index">The position of the submatch due to iterateds to return</param>
             <returns>The submatch due to iterateds at the given index</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getIterated(System.String)">
+            <summary>
+            Returns submatch bound to the iterated pattern of the given name or null if no such iterated pattern exists
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatch.getIndependentAt(System.Int32)">
             <summary>
             Returns submatch due to independents at position index (most efficient access)
             </summary>
             <param name="index">The position of the submatch due to independents to return</param>
             <returns>The submatch due to independents at the given index</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getIndependent(System.String)">
+            <summary>
+            Returns submatch bound to the independent pattern of the given name or null if no such independent pattern exists
+            </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.Pattern">
             <summary>
@@ -2840,7 +2905,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.INodeModel.GetType(System.String)">
             <summary>
-            Returns the element type with the given type name or null, if no type with this name exists.
+            Returns the node type with the given type name or null, if no type with this name exists.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.INodeModel.RootType">
@@ -2860,7 +2925,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IEdgeModel.GetType(System.String)">
             <summary>
-            Returns the element type with the given type name or null, if no type with this name exists.
+            Returns the edge type with the given type name or null, if no type with this name exists.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IEdgeModel.RootType">
@@ -4173,6 +4238,12 @@
             <param name="visitorID">The ID of the visited flag.</param>
             <returns>True for visited, false for not visited.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.GetAllocatedVisitedFlags">
+            <summary>
+            Returns the ids of the allocated visited flags.
+            </summary>
+            <returns>A dynamic array of the visitor ids allocated.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.ChangingNodeAttribute(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object)">
             <summary>
             Fires an OnChangingNodeAttribute event.
@@ -4776,9 +4847,19 @@
             The annotations of the pattern element.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternElement.Type">
+            <summary>
+            The base GrGenType of the pattern element (matching may be constrained further, this is only the base type)
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IPatternNode">
             <summary>
             A pattern node of a rule pattern.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternNode.Type">
+            <summary>
+            The base NodeType of the pattern node (matching may be constrained further, this is only the base type)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IPatternEdge">
@@ -4786,9 +4867,19 @@
             A pattern edge of a rule pattern.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternEdge.Type">
+            <summary>
+            The base EdgeType of the pattern edge (matching may be constrained further, this is only the base type)
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IPatternVariable">
             <summary>
             A pattern variable of a rule pattern.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternVariable.Type">
+            <summary>
+            The base VarType of the pattern variable (matching may be constrained further, this is only the base type)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IPatternGraph">
@@ -5357,6 +5448,8 @@
             Represents a method called after all requested matches of an action have been matched.
             </summary>
             <param name="matches">The matches found.</param>
+            <param name="match">If not null, specifies the one current match from the matches 
+            (to highlight the currently processed match during backtracking and the for matches loop).</param>
             <param name="special">Specifies whether the "special" flag has been used.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.BeforeFinishHandler">
@@ -5677,13 +5770,20 @@
             Abstract base class, there are two concrete subclasses, one for interpreted, one for compiled sequences
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckRuleCallRuleAllCallSequenceCall(de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckCall(de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             Helper for checking rule calls, rule all calls, and sequence calls.
             Checks whether called entity exists, type checks the input, type checks the output.
             Throws an exception when an error is found.
             </summary>
             <param name="seq">The sequence to check, must be a rule call, a rule all call, or a sequence call</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.TypeOfTopLevelEntityInRule(System.String,System.String)">
+            <summary>
+            Helper which returns the type of the given top level entity of the given rule.
+            Throws an exception in case the rule of the given name does not exist 
+            or in case it does not contain an entity of the given name.
+            </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.Model">
             <summary>

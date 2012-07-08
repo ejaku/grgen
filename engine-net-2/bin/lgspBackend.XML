@@ -925,7 +925,7 @@
             The C#-part responsible for compiling the XGRSs of the exec statements.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.#ctor(de.unika.ipd.grGen.lgsp.LGSPGrGen,de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.#ctor(de.unika.ipd.grGen.lgsp.LGSPGrGen,de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}})">
             <summary>
             Constructs the sequence generator
             </summary>
@@ -1935,6 +1935,12 @@
             <param name="elem">The graph element to be examined.</param>
             <param name="visitorID">The ID of the visited flag.</param>
             <returns>True for visited, false for not visited.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetAllocatedVisitedFlags">
+            <summary>
+            Returns the ids of the allocated visited flags.
+            </summary>
+            <returns>A dynamic array of the visitor ids allocated.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AnalyzeGraph">
             <summary>
@@ -3107,16 +3113,27 @@
             The annotations of the pattern element
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternElement.de#unika#ipd#grGen#libGr#IPatternElement#Type">
+            <summary>
+            The GrGen type of the pattern element, fake implementation overriden in subclasses
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternNode">
             <summary>
             A pattern node of a rule pattern.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternNode.type">
+            <summary>
+            The GrGen type of the pattern node
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,de.unika.ipd.grGen.libGr.NodeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
             <summary>
             Instantiates a new PatternNode object
             </summary>
             <param name="typeID">The type ID of the pattern node</param>
+            <param name="type">The GrGen type of the pattern node.</param>
             <param name="typeName">The name of the type interface of the pattern element.</param>
             <param name="name">The name of the pattern node</param>
             <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
@@ -3153,6 +3170,11 @@
             </summary>
             <returns>The string representation of this instance.</returns>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternNode.Type">
+            <summary>
+            The GrGen type of the pattern node.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternNode.originalNode">
             <summary>
             Links to the original pattern node in case this node was inlined, otherwise null;
@@ -3164,17 +3186,23 @@
             A pattern edge of a rule pattern.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternEdge.type">
+            <summary>
+            The GrGen type of the pattern edge
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternEdge.fixedDirection">
             <summary>
             Indicates, whether this pattern edge should be matched with a fixed direction or not.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
             <summary>
             Instantiates a new PatternEdge object
             </summary>
             <param name="fixedDirection">Whether this pattern edge should be matched with a fixed direction or not.</param>
             <param name="typeID">The type ID of the pattern edge.</param>
+            <param name="type">The GrGen type of the pattern edge.</param>
             <param name="typeName">The name of the type interface of the pattern element.</param>
             <param name="name">The name of the pattern edge.</param>
             <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
@@ -3211,6 +3239,11 @@
             </summary>
             <returns>The string representation of this instance.</returns>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternEdge.Type">
+            <summary>
+            The GrGen type of the pattern edge.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternEdge.originalEdge">
             <summary>
             Links to the original pattern edge in case this node was inlined, otherwise null;
@@ -3222,9 +3255,9 @@
             A pattern variable of a rule pattern.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.Type">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.type">
             <summary>
-            The GrGen type of the variable.
+            The GrGen type of the pattern variable.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.name">
@@ -3331,6 +3364,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternVariable.Annotations">
             <summary>
             The annotations of the pattern element
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternVariable.Type">
+            <summary>
+            The GrGen type of the pattern variable.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternCondition">
