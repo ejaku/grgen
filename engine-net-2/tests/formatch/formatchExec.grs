@@ -42,4 +42,6 @@ show num edges
 exec exec4
 show var c
 
+exec exec5
+
 quit

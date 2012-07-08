@@ -50,3 +50,10 @@ rule exec4
 		exec({::c=0} ;> for{m:match<retype2> in [?retype2(null)]; for{mm:match<retype> in [?retype(null)]; {::c=::c+1}}});
 	}
 }
+
+rule exec5
+{
+	modify {
+		exec(for{m:match<retype> in [?retype(null)]; {nn:N=m.n; emit("value of variable nn.val 5 6 7 8 9 "); emit(nn.val); emit("\n")}});
+	}
+}
