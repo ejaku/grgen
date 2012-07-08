@@ -221,6 +221,7 @@ The breakpoint and choicepoint commands of the debugger allow to toggle them at 
 The user input commands \texttt{\$\%(type)} define choice points which can't be toggled off.
 
 Further commands allow to print the variables at a given situation, the sequence call stack, or a full state dump of the call stack and the variables.
+Or allow to highlight elements in the graph, defined by being contained in a (possibly container valued) variable, or being visited according to a visited flag.
 
 \pagebreak
 
@@ -238,9 +239,10 @@ Further commands allow to print the variables at a given situation, the sequence
   (toggle) \texttt{b}(reakpoint) & Toggle a breakpoint at one of the breakpointable locations.\\
   (toggle) \texttt{c}(choicepoint) & Toggle a choicepoint at one of the choicepointable locations.\\
 \hline
-  \texttt{v}(ariables) & Prints the global variables and the local variables of the sequence currently executed, which is the topmost sequence of the sequence call stack. To be more precise regarding local variables: all variables which were defined (and have not fallen out of scope again) up to the sequence position focussed.\\
+  \texttt{v}(ariables) & Prints the global variables and the local variables of the sequence currently executed, which is the topmost sequence of the sequence call stack. Plus the allocated visited flags. To be more precise regarding local variables: all variables which were defined (and have not fallen out of scope again) up to the sequence position focussed.\\
   \texttt{t}(race) & Prints the stack trace of the current sequence call stack; the stack trace includes the body of each sequence called at its execution state.\\
   \texttt{f}(ull dump) & Prints the stack trace including the local variables of each stack frame plus the global variables.\\
+  \texttt{h}(ighlight)\label{highlight} & Highlights the elements in the graph which are marked with the visited flag given, or are contained in the variable given (which might be a simple scalar variable containing a graph element, or a set/map/array valued container of graph elements). Multiple variables of visited flags may be given separated by commas.\\
 \hline
   \end{tabularx}
   \caption{\GrShell\ debug commands}

@@ -1,4 +1,48 @@
-﻿v3.5 beta3 (2012-06-23)
+﻿v3.5 RC (2012-07-08)
+ Improved graph querying from the sequences with for matches loop:
+  - added for{m:match<r> in [?r]; sequence} looping over matches found
+  - added m.n access to elements of match, distinguished from attribute access by type of the variable
+  - the loop variable must be of type match<r>
+ 
+ Improved graph querying from the sequences with neighbourhood iteration loops:
+  - basic form is for{var in function(parameters); sequence}
+  - var iterates over the incident edges in case of the incidency functions,
+    which are incident, incoming, outgoing
+  - var iterates over the adjacent nodes in case of the adjacency functions,
+    which are adjacent, adjacentIncoming, adjacentOutgoing
+  - the parameters are (source:Node) or (source:Node, incident:EdgeType)
+    or (source:Node, incident:EdgeType, adjacent:NodeType)
+  - the nodes or edges returned are filtered according to the incident/adjacent types if given
+  - in contrast to the functions in the sequence expressions of the same name,
+    these functions enumerate nodes/edges multiple times in case of reflexive or multi edges
+
+ Added (h)ighlight command to the debugger:
+  - it accepts one or multiple comma separated variables or visited flag ids
+    and then highlights the variable content (must reference graph elements) in the graph
+  - for plain variables and sets the contained elements are annotated with the variable name
+  - for arrays the contained elements are annotated with the variable name and index
+  - for maps the contained elements are annotated with the variable name and the Domain/Range role,
+    for node to node maps edges are inserted pointing from the source to the target elements
+  - for visited flags all elements visited according to that flag are annotated 
+    with the id or the variable containing the id
+
+ Added highlight command to sequences:
+  - highlight("text") behaves like the (h)ighlight command in the debugger, 
+    just that it's called from a sequence instead of being interactively applied with (h)
+ 
+ Bugfixes:
+  - fixed bug in backtracking (cloning of matches list)
+  - the user choice constructs from the sequences crashed without a debugger session before their execution
+  - fixed bug: select actions command was broken since the graph processing environment introduction
+
+ Further additions:
+  - simple Emacs syntax highlighting added
+  - added support in debugger for cycling through the matches found, 
+    of transaction double angles and the for-matches-loop
+  - the print (v)ariables command in the debugger now additionally prints the allocated visited flags
+
+
+v3.5 beta3 (2012-06-23)
  Fixed massive bug in graph comparison: now taking connectedness into account
  Fixed crash in interpreted sequences when calling a sequence containing an all-bracketed rule
 

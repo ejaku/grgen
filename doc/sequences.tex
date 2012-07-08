@@ -243,7 +243,7 @@ If \texttt{s} failed then rollback and continue with the loop.
 If \texttt{s} succeeded then commit and break from the loop.
 A normal or backtracking transaction can be paused temporarily with the \indexed{pause insertion} \texttt{/ s /}.
 The effects of the sequence inside the pause insertion are written to the graph and kept even if the transaction fails and is rolled back.
-This behaviour allows to generate a spate space by iterating all matches with nested backtracking brackets (either statically nested, or dynamically nested via sequence calls, with the body of the sequence called containing one backtracking step), copying during the backtracking pauses the states which are reached during the backtracking enumeration and which should be kept.
+This behaviour allows to generate a state space (see \ref{sec:statespaceenum} for more on this) by iterating all matches with nested backtracking brackets (either statically nested, or dynamically nested via sequence calls, with the body of the sequence called containing one backtracking step), copying during the backtracking pauses the states which are reached during the backtracking enumeration and which should be kept.
 
 \begin{note}
 While a transaction or a backtrack is pending, all changes to the graph are recorded into some kind of undo log, which is used to reverse the effects on the graph in the case of rollback (and is thrown away when the nesting root gets committed).
@@ -284,15 +284,40 @@ A \indexed{choice point} may be used on the one-of-set; it allows you to inspect
 
 \begin{rail}
   ExtendedControl:
-    'for' lbrace Variable ':' Type ';' RewriteSequence rbrace
+    'for' lbrace Variable ':' Type\\
+    (';' |
+    'in' Function '(' Parameters ')' ';' |
+    'in' '[' '?' r ']' ';')\\
+    RewriteSequence rbrace
     ;
-\end{rail}\ixkeyw{for}\label{forgraphelem}
+\end{rail}\ixkeyw{for}\label{forgraphelem}\label{forincidentadjacent}\label{formatch}
 
-The \texttt{for} loop without container is iterating over all the elements in the current host graph which are compatible to the type given.
-Its sibling, the \texttt{for} loop with container, for iterating storages, is introduced here: \ref{forstorage}.
+The \texttt{for} loop without containment is iterating over all the elements in the current host graph which are compatible to the type given.
 The iteration variable is bound to the currently enumerated graph element, then the sequence in the body is executed.
-The \texttt{for} loop fails if one of the sequence executions failed.
+The type of the iteration variable must be statically known to be of a node or edge type.
+If you iterate a node type from a graph, you may be interested in iterating its incident edges or its adjacent nodes.
+This can be achieved with a for neighbouring elements loop, which binds the iteration variable to an edge in case the \emph{Function} is one of \texttt{incoming}, \texttt{outgoing}, or \texttt{incident}. 
+Or which binds the iteration variable to a node in case the \emph{Function} is one of \texttt{adjacentIncoming}, \texttt{adjacentOutgoing}, or \texttt{adjacent}.
+The admissible \emph{Parameters} are the source node, or the source node plus the incident edge type, or the source node plus the incident edge type, plus the adjacent node type ---
+that's the same as for the sequence expression functions explained in \ref{neighbouringelementsfunctions}/Connectedness queries.
+In contrast to these set returning functions, this loop contained functions enumerate nodes/edges multiple times in case of reflexive or multi edges.
+The third \texttt{for} loop introduced here, the for matches loop, allows to iterate through the matches found for an all-bracketed rule reduced to a test; i.e. the rule is not applied, we only iterate its matches.
+The loop variable must be of a statically known \texttt{match<r>} type with \texttt{r} being the name of the rule matched.
+The elements (esp. the nodes and edges) of the pattern of the matched rule can then be accessed by applying the \texttt{.}-operator on the loop variable, giving the name of the element of interest after the dot.
+Note: the elements must be assigned to a variable in order to access their attributes, a direct attribute access after the match access is not possible.
+Note: the match object allows only to access the top level nodes, edges, or variables.
+If you use subpatterns or nested patterns and want to access elements found by them, you have to \texttt{yield}(\ref{sub:yield}) them out to the top-level pattern.
+The most important \texttt{for} loop, the one iterating a container, for enumerating the elements contained in storages, will be introduced later on here: \ref{forstorage}.
+All \texttt{for} loops fail if one of the sequence executions failed, and succeed otherwise.
 
+\begin{rail}
+  ExtendedControl:
+		'highlight' '(' Arguments ')'
+    ;
+\end{rail}\ixkeyw{highlight}
+The \texttt{highlight} sequence highlights the arguments given as a quoted text in the graph;
+it does what the \texttt{(h)ighlight} command does in the debugger, see \ref{highlight}, just programmed from the sequences. 
+Arguments is a comma-separated list of variable names or visited flag ids, the graph elements contained in the variables are highlighted, as are the graph elements marked by the visited flag.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Procedural abstraction (Sequence definitions)} \label{sec:sequencedefinition}
@@ -461,7 +486,9 @@ The special sequence expressions are used for storage and visited flag handling,
 The storage and visited flag oriented ones are used to check whether a value is marked, to access a storage, or to call a method on a storage (note: here it is not possible to build method call chains). 
 They will be explained in more detail in chapter \ref{cha:storagesvisited}.
 
-The graph and subgraph oriented ones can be separated into several groups.
+The graph and subgraph oriented ones can be separated into three groups.
+
+\subsubsection*{Basic graph manipulation}
 The first group is built from basic graph manipulation operators used for adding or removing elements:
 
 \begin{description}
@@ -471,6 +498,7 @@ The first group is built from basic graph manipulation operators used for adding
 \item[\texttt{clear()}] clears the host graph.
 \end{description}
 
+\subsubsection*{Connectedness queries}\label{neighbouringelementsfunctions}
 The second group is built from the operators querying the connectedness of graph elements.
 It contains functions to ask for the source or target node of an edge: 
 
@@ -479,7 +507,8 @@ It contains functions to ask for the source or target node of an edge:
 \item[\texttt{target(.)}] returns the target node of the given edge.
 \end{description}
 
-Furthermore, it contains functions which allow to compute the set of edges incident to a node:
+Furthermore, it contains functions to query the neighbouring elements.
+They allow to compute the set of edges incident to a node:
 
 \begin{description}
 \item[\texttt{incident(.)}] returns the set of the edges which are incident to the node given as argument value.
@@ -489,7 +518,7 @@ Furthermore, it contains functions which allow to compute the set of edges incid
 \item[\texttt{outgoing}] same as any of the incidents above, but restricted to outgoing edges.
 \end{description}
 
-In addition, it contains functions which allow to compute the set of nodes adjacent to a node:
+In addition, they allow to compute the set of nodes adjacent to a node:
 
 \begin{description}
 \item[\texttt{adjacent(.)}] returns the set of the nodes which are adjacent to the node given as argument value.
@@ -499,6 +528,7 @@ In addition, it contains functions which allow to compute the set of nodes adjac
 \item[\texttt{adjacentOutgoing}] same as any of the adjacents above, but restricted to nodes reachable via outgoing edges.
 \end{description}
 
+\subsubsection*{Subgraph operations}
 The third group is defined by functions which operate on (sub-)graphs:
 It contains functions which allow to compute (node-or-edge) induced subgraphs, and to insert clones of induced subgraphs.
 They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
@@ -542,6 +572,7 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \texttt{s[m:*]}	& Same as \texttt{s*} but fails if executed less than m times.\\
 \texttt{?\emph{Rule}} & Switches \emph{Rule} to a test. \\
 \texttt{\%\emph{Rule}} & This is the multi-purpose flag when accessed from \LibGr. Also used for graph dumping and break points. \\
+\texttt{highlight(vars)} & Highlights the content of the variables in the graph. \\
 \texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\
@@ -553,6 +584,7 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \hline
 \texttt{for\{v in u; t\}}	& Execute \texttt{t} for every \texttt{v} in storage set \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
 \texttt{for\{v->w in u; t\}}	& Execute \texttt{t} for every pair (\texttt{v},\texttt{w} in storage map \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
+\texttt{for\{v:match<r> in [?r]; t\}}	& Execute \texttt{t} for every match \texttt{v} from rule \texttt{r}. One \texttt{t} failing pins the execution result to failure.\\
 \hline
 \end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}}\indexmain{\texttt{"|}}
 \indexmain{\texttt{\&}}\indexmain{\texttt{"|"|}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}\indexmain{\texttt{;>}}\indexmain{\texttt{<;}}\indexmain{\texttt{+}}\indexmain{\texttt{[]}}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}\indexmain{\texttt{()}}

@@ -1,4 +1,4 @@
-GrGen.NET v3.0 (2011-07-29)
+GrGen.NET v3.5 (2012-07-29)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -117,12 +117,18 @@ Adam Szalkowski
 Nicholas Tung
 
 
+CONTRIBUTORS
+-------
+
+TODO
+
+
 COPYING
 -------
 
-Copyright (C) 2003-2011 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+Copyright (C) 2003-2012 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
 
-This file is part of GrGen, Version GrGen.NET 3.0
+This file is part of GrGen, Version GrGen.NET 3.5
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
