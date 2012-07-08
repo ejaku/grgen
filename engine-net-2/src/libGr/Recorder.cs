@@ -31,6 +31,16 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="procEnv">The graph processing environment receiving some of the action events, may be null if only graph changes are requested</param>
         public Recorder(INamedGraph graph, IGraphProcessingEnvironment procEnv)
         {
+            Initialize(graph, procEnv);
+        }
+
+        /// <summary>
+        /// Initializes a recorder after creation, needed if actions are selected later
+        /// </summary>
+        /// <param name="graph">The named graph whose changes are to be recorded</param>
+        /// <param name="procEnv">The graph processing environment receiving some of the action events, may be null if only graph changes are requested</param>
+        public void Initialize(INamedGraph graph, IGraphProcessingEnvironment procEnv)
+        {
             this.graph = graph;
             this.procEnv = procEnv;
         }

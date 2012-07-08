@@ -44,6 +44,14 @@ namespace de.unika.ipd.grGen.lgsp
             SetClearVariables(true);
         }
 
+        public void Initialize(LGSPGraph graph, LGSPActions actions)
+        {
+            SetClearVariables(false);
+            this.graph = graph;
+            this.Actions = actions;
+            ((Recorder)recorder).Initialize(graph as LGSPNamedGraph, this);
+            SetClearVariables(true);
+        }
 
         void RemovingNodeListener(INode node)
         {

@@ -1,0 +1,12 @@
+new graph "laura/lgsp-MyModelModel.dll" "G"
+
+new n:N
+show num nodes N
+
+select actions "laura/lgsp-ModelRulesActions.dll"
+show num nodes N
+
+exec foo
+show num nodes N
+
+quit

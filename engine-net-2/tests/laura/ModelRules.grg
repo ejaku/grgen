@@ -1,0 +1,9 @@
+using MyModel;
+
+rule foo {
+	n:N;
+	
+	modify {
+		nn:N;
+	}
+}

@@ -1373,6 +1373,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 curShellProcEnv.Actions = LGSPActions.LoadActions(actionFilename, (LGSPGraph)curShellProcEnv.Graph);
                 curShellProcEnv.ActionsFilename = actionFilename;
+                ((LGSPGraphProcessingEnvironment)curShellProcEnv.ProcEnv).Initialize((LGSPGraph)curShellProcEnv.Graph, (LGSPActions)curShellProcEnv.Actions);
             }
             catch(Exception ex)
             {

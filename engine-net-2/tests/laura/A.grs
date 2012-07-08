@@ -1,0 +1,9 @@
+new graph laura/ModelRules "G"
+
+new n:N
+show num nodes N
+
+exec foo
+show num nodes N
+
+quit
