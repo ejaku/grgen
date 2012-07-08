@@ -38,6 +38,7 @@ namespace de.unika.ipd.grGen.libGr
         AssignUserInputToVar, AssignRandomToVar, // needed as sequence because of debugger integration
         DeclareVariable, AssignConstToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
+        Highlight,
         BooleanComputation
     }
 
@@ -3035,6 +3036,35 @@ namespace de.unika.ipd.grGen.libGr
                 return (Special ? "%" : "") + GetSequenceString();
             }
         }
+    }
+
+    public class SequenceHighlight : Sequence
+    {
+        public String Arguments;
+
+        public SequenceHighlight(String arguments)
+            : base(SequenceType.Highlight)
+        {
+            Arguments = arguments;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceHighlight copy = (SequenceHighlight)MemberwiseClone();
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            procEnv.UserProxy.Highlight(Arguments, this);
+            return true;
+        }
+
+        public override string Symbol { get { return "highlight(" + Arguments + ")"; } }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
     }
 
     public class SequenceBooleanComputation : SequenceSpecial

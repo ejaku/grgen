@@ -192,6 +192,7 @@ TOKEN: {
 |   < DOUBLESEMI: ";;" >
 |   < VISITED: "visited" >
 |   < YIELD: "yield" >
+|   < HIGHLIGHT: "highlight" >
 }
 
 TOKEN: {
@@ -1012,6 +1013,11 @@ Sequence SimpleSequence():
 			return new SequenceForLookup(fromVar, seq, variableList1);
 		}
 	)
+|
+	"highlight" "(" str=Text() ")"
+	{
+		return new SequenceHighlight(str);
+	}
 |
 	("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); } comp=CompoundComputation() { varDecls.PopScope(variableList1); } (";")? "}"
 	{

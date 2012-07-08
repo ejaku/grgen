@@ -53,6 +53,11 @@ namespace de.unika.ipd.grGen.libGr
         /// no random input value is supplied, the user must give a value
         /// </summary>
         object ChooseValue(string type, Sequence seq);
+
+        /// <summary>
+        /// highlights the arguments in the graphs if debugging is active
+        /// </summary>
+        void Highlight(string arguments, Sequence seq);
     }
 
 

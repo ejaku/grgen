@@ -342,5 +342,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             throw new Exception("Can only query the user for a value if a debugger is available");
         }
+
+        public void Highlight(string arguments, Sequence seq)
+        {
+            // nop
+        }
     }
 }

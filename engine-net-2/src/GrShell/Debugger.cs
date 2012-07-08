@@ -496,7 +496,7 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine();
                     break;
                 case 'h':
-                    HandleHighlight(seq);
+                    HandleUserHighlight(seq);
                     break;
                 case 't':
                     HandleStackTrace();
@@ -584,11 +584,15 @@ namespace de.unika.ipd.grGen.grShell
             PrintVisited();
         }
 
-        void HandleHighlight(Sequence seq)
+        void HandleUserHighlight(Sequence seq)
         {
             Console.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
             String str = Console.ReadLine();
+            HandleHighlight(seq, str);
+        }
 
+        void HandleHighlight(Sequence seq, String str)
+        {
             if(str.Length > 0)
             {
                 string[] arguments = str.Split(',');
@@ -1372,6 +1376,14 @@ namespace de.unika.ipd.grGen.grShell
                         break;
                     }
 
+                // highlight highlighting if current
+                case SequenceType.Highlight:
+                    {
+                        HighlightingMode mode = seq==context.highlightSeq ? HighlightingMode.Focus : HighlightingMode.None;
+                        context.workaround.PrintHighlighted(seq.Symbol, mode); 
+                        break;
+                    }
+
                 default:
                     {
                         Debug.Assert(false);
@@ -2149,6 +2161,18 @@ namespace de.unika.ipd.grGen.grShell
             return value;
         }
 
+        /// <summary>
+        /// highlights the arguments in the graphs if debugging is active
+        /// </summary>
+        public void Highlight(string arguments, Sequence seq)
+        {
+            context.highlightSeq = seq;
+            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            Console.WriteLine();
+            Console.WriteLine("Highlighting \"" + arguments + "\"...");
+            HandleHighlight(seq, arguments);
+        }
+
         #endregion Possible user choices during sequence execution
 
 
@@ -2590,7 +2614,7 @@ namespace de.unika.ipd.grGen.grShell
             shellProcEnv.ProcEnv.OnFinished -= DebugFinished;
             shellProcEnv.ProcEnv.OnEntereringSequence -= DebugEnteringSequence;
             shellProcEnv.ProcEnv.OnExitingSequence -= DebugExitingSequence;
-            shellProcEnv.ProcEnv.OnEndOfIteration += DebugEndOfIteration;
+            shellProcEnv.ProcEnv.OnEndOfIteration -= DebugEndOfIteration;
         }
 
         #endregion Event Handling

@@ -611,7 +611,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public IUserProxyForSequenceExecution UserProxy
         {
-            get { return userProxy; }
+            get { return userProxy ?? compliantUserProxy; }
             set { userProxy = value; }
         }
 

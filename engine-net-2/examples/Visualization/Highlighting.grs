@@ -3,6 +3,7 @@ new graph Highlighting
 exec ::m2=map<Node,int>{} ;> ::m3=map<string,Node>{} ;> ::s2=set<Edge>{} ;> ::a1=array<Node>[] ;> {::visId=valloc(); ::visId2=valloc()}
 
 debug exec m1:map<Node,Node>=map<Node,Node>{} ;> s1:set<Node>=set<Node>{} ;> a2:array<Edge>=array<Edge>[] ;>\
-(n1:Node,e1:Edge,::n2,::e2)=init(m1,::m2,::m3,s1,::s2,::a1,a2,::visId,::visId2) ;> %true
+(n1:Node,e1:Edge,::n2,::e2)=init(m1,::m2,::m3,s1,::s2,::a1,a2,::visId,::visId2) ;> %true ;>\
+highlight(m1) ;> highlight("m1,m2,m3") ;> highlight('s1,a1') ;> highlight(e1) ;> highlight("visID,1") ;> highlight("0,visId2")
 
 quit

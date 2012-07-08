@@ -3063,7 +3063,7 @@ namespace de.unika.ipd.grGen.grShell
                     return true;
                 }
 
-                curShellProcEnv.ProcEnv.UserProxy = curShellProcEnv.ProcEnv.CompliantUserProxy;
+                curShellProcEnv.ProcEnv.UserProxy = null;
                 debugger.Close();
                 debugger = null;
             }
