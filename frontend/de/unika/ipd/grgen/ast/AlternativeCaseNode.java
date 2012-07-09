@@ -451,14 +451,35 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		for (int i = 0; i < right.getChildren().size(); i++) {
     		GraphNode right = this.right.children.get(i).graph;
 
-    		for(NodeDeclNode node : right.getNodes()) {
-    			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node) && (node.context&CONTEXT_PARAMETER)!=CONTEXT_PARAMETER) {
-    				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
-    				abstr = false;
-    			}
-    		}
-    		for(EdgeDeclNode edge : right.getEdges()) {
-    			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge) && (edge.context&CONTEXT_PARAMETER)!=CONTEXT_PARAMETER) {
+nodeAbstrLoop:
+            for (NodeDeclNode node : right.getNodes()) {
+    			if (!node.inheritsType() && node.getDeclType().isAbstract()) {
+                    if ((node.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
+                        continue;
+                    }
+                    for (PatternGraphNode pattern = this.pattern; pattern != null;
+                            pattern = getParentPatternGraph(pattern)) {
+                        if (pattern.getNodes().contains(node)) {
+                            continue nodeAbstrLoop;
+                        }
+                    }
+                    error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
+                    abstr = false;
+                }
+            }
+
+edgeAbstrLoop:
+            for (EdgeDeclNode edge : right.getEdges()) {
+                if (!edge.inheritsType() && edge.getDeclType().isAbstract()) {
+                    if ((edge.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
+                        continue;
+                    }
+                    for (PatternGraphNode pattern = this.pattern; pattern != null;
+                            pattern = getParentPatternGraph(pattern)) {
+                        if (pattern.getEdges().contains(edge)) {
+                            continue edgeAbstrLoop;
+                        }
+                    }
     				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
     				abstr = false;
     			}

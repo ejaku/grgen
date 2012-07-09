@@ -3,6 +3,7 @@ OK     should_pass/ProgramGraphs.grg
 OK     should_pass/ProofLangAnalysis.grg
 OK     should_pass/ProofLangAnalysis2.grg
 OK     should_pass/ProofLangAnalysis3.grg
+OK     should_pass/abstract_element_reference_in_nested_pattern.grg
 OK     should_pass/abstract_replace_parameter.grg
 OK     should_pass/alternative_001.grg
 OK     should_pass/alternative_002.grg
