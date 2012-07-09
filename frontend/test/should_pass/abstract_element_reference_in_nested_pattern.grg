@@ -1,0 +1,36 @@
+using abstract_element_reference_in_nested_pattern;
+
+rule r1
+{
+	n1:AbstractNode -e:AbstractEdge->;
+
+	iterated {
+		n1 --> n2:Node;
+		modify {
+			n2 !-e->! n1;
+		}
+	}
+}
+
+rule r2
+{
+	n1:AbstractNode -e1:AbstractEdge->;
+	n2:AbstractNode;
+
+	alternative {
+		Alternative1 {
+			negative {
+				n1 -e1-> n2;
+			}
+			modify {
+				-e1->! n1;
+			}
+		}
+		Alternative2 {
+			n1 -e1-> n2;
+			modify {
+				n2 !-e1->;
+			}
+		}
+	}
+}
