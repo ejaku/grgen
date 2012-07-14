@@ -40,10 +40,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Builds interpretation plan from scheduled search plan.
         /// </summary>
-        public InterpretationPlan BuildInterpretationPlan()
+        public InterpretationPlan BuildInterpretationPlan(string comparisonMatcherName)
         {
             // create the start operation which is a nop but needed as first insertion point
-            InterpretationPlan plan = new InterpretationPlanStart();
+            InterpretationPlan plan = new InterpretationPlanStart(comparisonMatcherName);
 
             // build the interpretation plan into it, starting with the search operation at position 0 in the scheduled search plan
             BuildInterpretationPlan(plan, 0);
@@ -273,13 +273,13 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         SearchPlanNodeNode nodeNode = (SearchPlanNodeNode)spn;
                         checkCondition = new InterpretationPlanCheckCondition(
-                            aae, nodeNode.nodeMatcher);
+                            aae, nodeNode.nodeMatcher, Array.IndexOf(aae.thisInPattern.pointOfDefinition.nodes, aae.thisInPattern));
                     }
                     else
                     {
                         SearchPlanEdgeNode edgeNode = (SearchPlanEdgeNode)spn;
                         checkCondition = new InterpretationPlanCheckCondition(
-                            aae, edgeNode.edgeMatcher);
+                            aae, edgeNode.edgeMatcher, Array.IndexOf(aae.thisInPattern.pointOfDefinition.edges, aae.thisInPattern));
                     }
 
                     insertionPoint.next = checkCondition;

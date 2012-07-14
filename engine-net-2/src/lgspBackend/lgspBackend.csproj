@@ -61,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Expression.cs" />
+    <Compile Include="GraphComparisonMatcher.cs" />
+    <Compile Include="GraphMatchingState.cs" />
     <Compile Include="InterpretationPlan.cs" />
     <Compile Include="InterpretationPlanBuilder.cs" />
     <Compile Include="lgspActionExecutionEnvironment.cs" />

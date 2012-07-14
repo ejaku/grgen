@@ -332,6 +332,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns whether this graph is isomorph to that graph (including the attribute values)
         /// Each graph must be either unanalyzed or unchanged since the last analyze,
         /// otherwise results will be wrong!
+        /// Graph comparison is for constant graphs only!
         /// </summary>
         /// <param name="that">The other graph we check for isomorphy against</param>
         /// <returns>true if that is isomorph (structure and attributes) to this, false otherwise</returns>
@@ -341,6 +342,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
         /// Each graph must be either unanalyzed or unchanged since the last analyze,
         /// otherwise results will be wrong!
+        /// Graph comparison is for constant graphs only!
         /// </summary>
         /// <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
         /// <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
