@@ -154,17 +154,20 @@ namespace de.unika.ipd.grGen.lgsp
             PatternCondition[] patternConditions = new PatternCondition[0];
             if(includingAttributes)
             {
-                patternConditions = new PatternCondition[numNodes + numEdges];
+                List<PatternCondition> pcs = new List<PatternCondition>();
                 for(int i = 0; i < numNodes; ++i)
                 {
-                    patternConditions[i] = new PatternCondition(new expression.AreAttributesEqual(correspondingNodes[i], nodes[i]),
-                        new string[] { nodes[i].name }, new string[] { }, new string[] { }, new VarType[] { });
+                    if(nodes[i].Type.NumAttributes > 0)
+                        pcs.Add(new PatternCondition(new expression.AreAttributesEqual(correspondingNodes[i], nodes[i]),
+                            new string[] { nodes[i].name }, new string[] { }, new string[] { }, new VarType[] { }));
                 }
-                for(int i = numNodes; i < numNodes + numEdges; ++i)
+                for(int i = 0; i < numEdges; ++i)
                 {
-                    patternConditions[i] = new PatternCondition(new expression.AreAttributesEqual(correspondingEdges[i - numNodes], edges[i - numNodes]),
-                        new string[] { }, new string[] { edges[i - numNodes].name }, new string[] { }, new VarType[] { });
+                    if(edges[i].Type.NumAttributes > 0)
+                        pcs.Add(new PatternCondition(new expression.AreAttributesEqual(correspondingEdges[i], edges[i]),
+                            new string[] { }, new string[] { edges[i].name }, new string[] { }, new VarType[] { }));
                 }
+                patternConditions = pcs.ToArray();
             }
 
             PatternGraph patternGraph = new PatternGraph(
