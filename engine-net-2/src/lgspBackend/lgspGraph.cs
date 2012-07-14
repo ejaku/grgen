@@ -308,6 +308,18 @@ namespace de.unika.ipd.grGen.lgsp
 
             modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
 
+#if LOG_ISOMORPHY_CHECKING
+            // print out the names of the type ids referenced in the interpretation plan when the first graph is initialized
+            if(graphID<=1)
+            {
+                foreach(NodeType nodeType in model.NodeModel.Types)
+                    writer.WriteLine(nodeType.TypeID + " is node type " + nodeType.Name);
+                foreach(EdgeType edgeType in model.EdgeModel.Types)
+                    writer.WriteLine(edgeType.TypeID + " is edge type " + edgeType.Name);
+                writer.Flush();
+            }
+#endif
+
             InitializeGraph();
         }
 
