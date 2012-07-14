@@ -8,16 +8,11 @@
 #define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
 //#define OPCOST_WITH_GEO_MEAN
 //#define CHECK_RINGLISTS
-//#define LOG_ISOMORPHY_CHECKING
 
 using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.Reflection;
-using System.IO;
 using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
@@ -63,10 +58,11 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
         /// <summary>
-        /// The interpretation plan in case this graph was used in an isomorphy check,
-        /// otherwise=most normally null
+        /// Normally null, contains some data which allows for efficient graph comparison,
+        /// in case this is a constant graph which was used for isomorphy checking
         /// </summary>
-        public InterpretationPlan interpretationPlan;
+        public GraphMatchingState matchingState;
+
 
         /// <summary>
         /// The number of compatible nodes in the graph for each type at the time of the last analysis.
@@ -127,10 +123,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         protected static String GetNextGraphName() { return "lgspGraph_" + graphID; }
 
-#if LOG_ISOMORPHY_CHECKING
-        private static StreamWriter writer;
-#endif
-
 
         /// <summary>
         /// Constructs an LGSPGraph object with the given model and an automatically generated name.
@@ -180,10 +172,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             atNegLevelMatchedElements = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
             atNegLevelMatchedElementsGlobal = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
-
-#if LOG_ISOMORPHY_CHECKING
-            if(writer==null) writer = new StreamWriter(Name + "_isocheck_log.txt");
-#endif
         }
 
         /// <summary>
@@ -198,10 +186,6 @@ namespace de.unika.ipd.grGen.lgsp
             ++graphID;
             
             Copy(dataSource, newName, out oldToNewMap);
-
-#if LOG_ISOMORPHY_CHECKING
-            if(writer == null) writer = new StreamWriter(Name + "_isocheck_log.txt");
-#endif
         }
 
         /// <summary>
@@ -216,10 +200,6 @@ namespace de.unika.ipd.grGen.lgsp
             
             IDictionary<IGraphElement, IGraphElement> oldToNewMap;
             Copy(dataSource, newName, out oldToNewMap);
-
-#if LOG_ISOMORPHY_CHECKING
-            if(writer == null) writer = new StreamWriter(Name + "_isocheck_log.txt");
-#endif
         }
 
         /// <summary>
@@ -307,18 +287,6 @@ namespace de.unika.ipd.grGen.lgsp
             model = grmodel;
 
             modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
-
-#if LOG_ISOMORPHY_CHECKING
-            // print out the names of the type ids referenced in the interpretation plan when the first graph is initialized
-            if(graphID<=1)
-            {
-                foreach(NodeType nodeType in model.NodeModel.Types)
-                    writer.WriteLine(nodeType.TypeID + " is node type " + nodeType.Name);
-                foreach(EdgeType edgeType in model.EdgeModel.Types)
-                    writer.WriteLine(edgeType.TypeID + " is edge type " + edgeType.Name);
-                writer.Flush();
-            }
-#endif
 
             InitializeGraph();
         }
@@ -2113,267 +2081,36 @@ invalidCommand:
         /// Returns whether this graph is isomorph to that graph
         /// Each graph must be either unanalyzed or unchanged since the last analyze,
         /// otherwise results will be wrong!
+        /// Graph comparison is for constant graphs only!
         /// </summary>
         /// <param name="that">The other graph we check for isomorphy against</param>
         /// <returns>true if that is isomorph to this, false otherwise</returns>
         public override bool IsIsomorph(IGraph that)
         {
-            return IsIsomorph(that, true);
+            if(this.matchingState == null)
+                this.matchingState = new GraphMatchingState(this);
+            if(((LGSPGraph)that).matchingState == null)
+                ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
+
+            return matchingState.IsIsomorph(this, (LGSPGraph)that, true);
         }
 
         /// <summary>
         /// Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
         /// Each graph must be either unanalyzed or unchanged since the last analyze,
         /// otherwise results will be wrong!
+        /// Graph comparison is for constant graphs only!
         /// </summary>
         /// <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
         /// <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
         public override bool HasSameStructure(IGraph that)
         {
-            return IsIsomorph(that, false);
-        }
+            if(this.matchingState == null)
+                this.matchingState = new GraphMatchingState(this);
+            if(((LGSPGraph)that).matchingState == null)
+                ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
 
-        public bool IsIsomorph(IGraph that, bool includingAttributes)
-        {
-#if LOG_ISOMORPHY_CHECKING
-            writer.WriteLine("Check " + this.Name + " == " + that.Name);
-            writer.Flush();
-#endif
-
-            if(this == that)
-            {
-#if LOG_ISOMORPHY_CHECKING
-                writer.WriteLine("this == that, identical graphs are isomorph");
-                writer.Flush();
-#endif
-                return true;
-            }
-
-            // compare number of elements per type
-            if(!AreNumberOfElementsEqual((LGSPGraph)that))
-                return false;
-
-#if LOG_ISOMORPHY_CHECKING
-            writer.WriteLine("Undecided after type counts");
-            writer.Flush();
-#endif
-
-            // ensure graphs are analyzed
-            // if they were analyzed but changed since the analyze, results will be wrong!
-            if(vstructs == null)
-                AnalyzeGraph();
-            if(((LGSPGraph)that).vstructs == null)
-                ((LGSPGraph)that).AnalyzeGraph();
-
-            // compare analyze statistics
-            if(!AreVstructsEqual((LGSPGraph)that))
-                return false;
-
-#if LOG_ISOMORPHY_CHECKING
-            writer.WriteLine("Undecided after vstructs comparison");
-            writer.Flush();
-#endif
-
-            // they were the same? then we must try to match this in that, or that in this
-            // if an interpretation plan is already existing, we reuse it to save the costs of search planning,
-            // otherwise we build an interpretation plan out of the older and match thereafter
-            // if interpretation plans were built but changed since the analyze, results will be wrong!
-            bool result;
-            if(interpretationPlan != null)
-            {
-                // execute the interpretation plan, matching this in that
-                // that's sufficient for isomorphy because 
-                // - element numbers are the same 
-                // - we match only exact types
-                result = interpretationPlan.Execute((LGSPGraph)that);
-            }
-            else
-            {
-                if(((LGSPGraph)that).interpretationPlan != null)
-                {
-                    // execute the interpretation plan, matching that in this
-                    result = ((LGSPGraph)that).interpretationPlan.Execute(this);
-                }
-                else
-                {
-                    // we build the interpretation plan for the older graph, 
-                    // assuming it will survive while the younger one is the candidate for purging
-                    if(GraphID < ((LGSPGraph)that).GraphID)
-                    {
-                        interpretationPlan = BuildInterpretationPlan(this, includingAttributes);
-                        // execute the interpretation plan, matching this in that
-                        result = interpretationPlan.Execute((LGSPGraph)that);
-                    }
-                    else
-                    {
-                        ((LGSPGraph)that).interpretationPlan = BuildInterpretationPlan((LGSPGraph)that, includingAttributes);
-                        // execute the interpretation plan, matching that in this
-                        result = ((LGSPGraph)that).interpretationPlan.Execute(this);
-                    }
-                }
-            }
-
-#if LOG_ISOMORPHY_CHECKING
-            SourceBuilder sb = new SourceBuilder();
-            if(interpretationPlan != null)
-                interpretationPlan.Dump(sb);
-            else
-                ((LGSPGraph)that).interpretationPlan.Dump(sb);
-            writer.WriteLine();
-            writer.WriteLine(sb.ToString());
-            writer.WriteLine();
-            writer.WriteLine("Result of matching: " + (result ? "Isomorph" : "Different"));
-            writer.Flush();
-#endif
-
-            return result;
-        }
-
-        private bool AreNumberOfElementsEqual(LGSPGraph that)
-        {
-            for(int i = 0; i < nodesByTypeCounts.Length; ++i)
-            {
-                if(nodesByTypeCounts[i] != that.nodesByTypeCounts[i])
-                {
-#if LOG_ISOMORPHY_CHECKING
-                    writer.WriteLine(model.NodeModel.Types[i].Name + ":" + nodesByTypeCounts[i] + " != " + that.nodesByTypeCounts[i]);
-                    writer.WriteLine("out due to type of node count");
-#endif
-                    return false;
-                }
-                else
-                {
-#if LOG_ISOMORPHY_CHECKING
-                    writer.WriteLine(model.NodeModel.Types[i].Name + ":" + nodesByTypeCounts[i] + " == " + that.nodesByTypeCounts[i]);
-#endif
-                }
-            }
-            for(int i = 0; i < edgesByTypeCounts.Length; ++i)
-            {
-                if(edgesByTypeCounts[i] != that.edgesByTypeCounts[i])
-                {
-#if LOG_ISOMORPHY_CHECKING
-                    writer.WriteLine(model.EdgeModel.Types[i].Name + ":" + edgesByTypeCounts[i] + " != " + that.edgesByTypeCounts[i]);
-                    writer.WriteLine("out due to type of edge count");
-#endif
-                    return false;
-                }
-                else
-                {
-#if LOG_ISOMORPHY_CHECKING
-                    writer.WriteLine(model.EdgeModel.Types[i].Name + ":" + edgesByTypeCounts[i] + " == " + that.edgesByTypeCounts[i]);
-#endif
-                }
-            }
-
-            return true;
-        }
-
-        private bool AreVstructsEqual(LGSPGraph that)
-        {
-            int numNodeTypes = Model.NodeModel.Types.Length;
-            int numEdgeTypes = Model.EdgeModel.Types.Length;
-            for(int sourceType = 0; sourceType < numNodeTypes; ++sourceType)
-            {
-                if(nodesByTypeCounts[sourceType] == 0)
-                {
-#if LOG_ISOMORPHY_CHECKING
-                    writer.WriteLine("source == 0");
-#endif
-                    continue;
-                }
-
-                for(int edgeType = 0; edgeType < numEdgeTypes; ++edgeType)
-                {
-                    if(edgesByTypeCounts[edgeType] == 0)
-                    {
-#if LOG_ISOMORPHY_CHECKING
-                        writer.WriteLine("edge == 0");
-#endif
-                        continue;
-                    }
-
-                    for(int targetType = 0; targetType < numNodeTypes; ++targetType)
-                    {
-                        if(nodesByTypeCounts[targetType] == 0)
-                        {
-#if LOG_ISOMORPHY_CHECKING
-                            writer.WriteLine("target == 0");
-#endif
-                            continue;
-                        }
-
-                        for(int direction = 0; direction < 2; ++direction)
-                        {
-#if MONO_MULTIDIMARRAY_WORKAROUND
-                            int vthis = vstructs[((sourceType * dim1size + edgeType) * dim2size + targetType) * 2 + direction];
-                            int vthat = that.vstructs[((sourceType * dim1size + edgeType) * dim2size + targetType) * 2 + direction];
-#else
-                            int vthis = vstructs[sourceType, edgeType, targetType, direction];
-                            int vthat = that.vstructs[sourceType, edgeType, targetType, direction];
-#endif
-                            if(Model.EdgeModel.Types[edgeType].Directedness != Directedness.Directed)
-                            {
-                                // for not directed edges the direction information is meaningless, even worse: random, so we must merge before comparing
-#if MONO_MULTIDIMARRAY_WORKAROUND
-                                vthis += vstructs[((targetType * dim1size + edgeType) * dim2size + sourceType) * 2 + 1];
-                                vthat += that.vstructs[((targetType * dim1size + edgeType) * dim2size + sourceType) * 2 + 1];
-#else
-                                vthis += vstructs[targetType, edgeType, sourceType, 1];
-                                vthat += that.vstructs[targetType, edgeType, sourceType, 1];
-#endif
-                                if(vthis != vthat)
-                                {
-#if LOG_ISOMORPHY_CHECKING
-                                    writer.WriteLine(vthis + " != " + vthat);
-                                    writer.WriteLine("out due to vstruct undirected");
-#endif
-                                    return false;
-                                }
-                                else
-                                {
-#if LOG_ISOMORPHY_CHECKING
-                                    writer.WriteLine(vthis + " == " + vthat);
-#endif
-                                    continue;
-                                }
-                            }
-                            else
-                            {
-                                if(vthis != vthat)
-                                {
-#if LOG_ISOMORPHY_CHECKING
-                                    writer.WriteLine(vthis + " != " + vthat);
-                                    writer.WriteLine("out due to vstruct");
-#endif
-                                    return false;
-                                }
-                                else
-                                {
-#if LOG_ISOMORPHY_CHECKING
-                                    writer.WriteLine(vthis + " == " + vthat);
-#endif
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        private static InterpretationPlan BuildInterpretationPlan(LGSPGraph graph, bool includingAttributes)
-        {
-            LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(graph.model);
-            PatternGraph patternGraph = matcherGen.BuildPatternGraph(graph, includingAttributes);
-            PlanGraph planGraph = matcherGen.GeneratePlanGraph(graph, patternGraph, false, false);
-            matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
-            SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
-            ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
-                searchPlanGraph, patternGraph, false);
-            InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan, searchPlanGraph);
-            return builder.BuildInterpretationPlan();
+            return matchingState.IsIsomorph(this, (LGSPGraph)that, false);
         }
 
         public override void Check()
