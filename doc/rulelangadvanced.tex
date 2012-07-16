@@ -139,14 +139,10 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Static Type Constraint and Exact Dynamic Type}
-
-In the following section we'll have a look at a language construct to statically constrain the types to match by excluding forbidden types and at a language construct which allows to require an element to be typed the same as another element or to create an element with the same exact dynamic type as another element.
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Static Type Constraint}
+\section{Static Type Constraint}
 \label{sec:typeconstr}
-A static type constraint given at a node or edge declaration limits the types on which the pattern element will match.
+ 
+A static type constraint given at a node or edge declaration limits the types on which the pattern element will match (by excluding forbidden types).
 
 \begin{rail}
   TypeConstraint: backslash ( '(' (TypeExpr + '+')  ')' | TypeExpr );
@@ -179,8 +175,11 @@ A \indexed{type constraint} is used to exclude parts of the \indexed{type hierar
 \end{tabularx}
 \end{example}
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Exact Dynamic Type}\indexmainsee{exact dynamic type}{dynamic type}\indexmain{dynamic type}\label{sec:typeof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exact Dynamic Type}\indexmainsee{exact dynamic type}{dynamic type}\indexmain{dynamic type}\label{sec:typeof}
+
+In the following section we'll have a look at a language construct which allows to require an element to be typed the same as another element or to create an element with the same exact dynamic type as another element.
 
 \begin{rail}
   Type: TypeIdent | 'typeof' '(' NodeOrEdge ')' ;
@@ -211,15 +210,7 @@ Remember that we have several subtypes of \texttt{street}. By the aid of the \te
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Retyping and Copying}
-
-In the following section we'll have a look at a language construct which retypes an element to another type
-(either to a type statically given or the runtime type of another element),
-changing the accessible attributes while keeping incident elements.
-And at the copy operator which allows to create a new element of the runtime type of another matched element, transferring the attribute values.
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Retyping} \label{sec:retype}
+\section{Retyping} \label{sec:retype}
 In addition to graph rewriting, \GrG\ allows graph relabeling\cite{Relabelling}, too; we prefer to call it retyping.
 Nodes as well as edges may be retyped to a different type; attributes common to the initial and final type are kept.
 The target type does not need to be a subtype or supertype of the original type.
@@ -269,6 +260,8 @@ rule oneway {
 \end{grgen}
 \end{example}
 
+TODO: give example of elem:typeof(y)<old>, retyping to statically not known type.
+
 The retyping clause \texttt{new:type<old>} can be used on the LHS, too.
 When it appears on the left hand side, the node(/edge) \texttt{old} is not changed in any way,
 instead a further node(/edge) \texttt{new} is made available for querying,
@@ -279,8 +272,10 @@ if successful \texttt{new} allows to access \texttt{old} as \texttt{type},
 otherwise matching fails for this \texttt{old} (and binding another graph element to \texttt{old} is tried out).
 Please have a look at example \ref{ex:retypelhs} for more on this.
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Copy} \label{sec:copy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Copy} \label{sec:copy}
+
 \indexmain{copy}The copy operator allows to create a node or edge of the type of another node/edge, bearing the same attributes as that other node. It can be seen as an extended version of the \texttt{typeof} construct not only copying the exact dynamic type but also the attributes of the matched graph element. Together with the \texttt{iterated} construct it allows to simulate node replacement grammars or to copy entire structures, see \ref{sub:mergesplit} and \ref{sub:copyflow}.
 
 \begin{rail}
@@ -307,16 +302,11 @@ rule oneway {
 %todo: if you match an arbitrary directed edge, the edge direction is kept on copy; niy
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Node Merging and Edge Redirection}
-
+\section{Node Merging} \label{sec:merge}
 The retyping construct for nodes can be extended into a node merging construct,
 which internally redirects edges.
-In addition, edges can be redirected with a redirection statement to a new source and/or target node (keeping their identity).
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Merging} \label{sec:merge}
 \begin{rail}
   Merging: '<' (Ident*',') '>' ;
 \end{rail}\ixnterm{Merging}
@@ -343,8 +333,10 @@ rule merge {
 \end{grgen}
 \end{example}
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Redirection} \label{sec:redirect}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Redirection} \label{sec:redirect}
+
 \indexmain{redirect}The redirect statement allows to exchange the source or the target node of a directed edge (or both) with a different node;
 it can be seen as syntactic sugar for removing one edge and creating a new one with the source/target node being replaced by a different node, with the additional effect of keeping edge identity.
 

@@ -22,7 +22,7 @@ An external function call (cf. \ref{sec:primexpr}) may receive and return values
 You may extend \GrG~with external functions if the built-in attribute computation capabilities (cf. \ref{sub:expr}) are insufficient for your needs.
 
 %-----------------------------------------------------------------------------------------------
-\section{External match filters}\label{sub:extflt}
+\section{External Match Filters}\label{sub:extflt}
 
 \begin{rail}
   MatchFilter: ( backslash (IdentDecl + ',') )?;
@@ -33,7 +33,7 @@ The \indexed{match filter} function must be implemented externally, see \ref{sub
 You may extend \GrG~with match filters if you need to inspect the matches found for a rule in order to decide which to apply (see note \ref{note:inspect}) or if you just need a post-match hook which informs you about the found matches.
 
 %-----------------------------------------------------------------------------------------------
-\section{External sequences}\label{sub:extseq}
+\section{External Sequences}\label{sub:extseq}
 \begin{rail}
   ExternalSequenceDeclaration: 
     'sequence' RewriteSequenceSignature ';';
