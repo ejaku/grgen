@@ -2,10 +2,7 @@
 \label{cha:techniques}
 \label{sub:mergesplit}
 
-In this chapter we'll have a look at transformation techniques.
-We apply the language constructs introduced so far to accomplish certain common transformation tasks.
-
-In this and the following section we'll have a look at several common graph rewriting tasks and how to accomplish them in \GrG.
+In this chapter we'll have a look at transformation techniques to solve common graph rewriting tasks utilizing the constructs introduces so far.
 They could be offered directly by some dedicated operators,
 but these would need so much customization to be useful in the different situations one needs them,
 that we decided against dedicated operators;
@@ -22,8 +19,8 @@ for deferred rule execution to do work later on you can't do while executing the
 to store elements collected in one run and reuse them as input in another run, i.e. using multi-value variables to break up the transformation into passes. (This is the half point, as they are not a means to build a complex rule, but a means to communicate between rules building complex transformations.)
 \end{description}
 
-\noindent In the following we'll employ them to merge and split nodes, emulate node replacement grammars, copy substructures and compute flow equations over the graph structure with sets in the nodes.
-Further examples can be found in \cite{CompilerOptimization} employing two storagesets switched in between for computing a wavefront running over a compiler graph and \cite{ProgramUnderstanding} using the nested and subpatterns for extracting a state machine model from a program graph.
+\noindent In the following we'll employ them to merge and split nodes, emulate node replacement grammars, execute transformations in a narrow sense, copy substructures, compute flow equations over the graph structure with sets in the nodes, and enumerate state spaces.
+Further examples can be found in \cite{CompilerOptimization} employing two storagesets switched in between for computing a wavefront running over a compiler graph and \cite{ProgramUnderstanding} using the nested and subpatterns for elegantly extracting a state machine model from a program graph.
 
 \begin{note}
 You should use the means to build complex transformations in the order given, first try to solve the problem with nested and subpatterns, if they don't get the job done (often because of the isomorphy constraint locking of already matched elements) or feel awkward then embedded graph rewrite sequences, and if these are still inadequate then storages and storagemaps; i.e. from declarative-local to imperative-global. This helps in keeping the code readable and easily adaptable. And don't forget the last resort if you must solve a task so complex that rules, control and storages are not sufficient: adding helper nodes, edges, or attributes to the graph model and the graph itself (with the visited flags being a light version of this tactic). Note: storages and storagemaps might be useful when you are experiencing performance problems, replacing a search in the graph by a lookup in a dictionary. But beware of elements already deleted from the graph still hanging out in your storage because you forgot to remove them.
@@ -41,7 +38,7 @@ The visited flags on the other hand are extremely memory efficient (for free as 
 \end{note}
 
 
-\section{Merge and Split nodes}\indexmain{merge node}\indexmain{split node}
+\section{Merge and Split Nodes}\indexmain{merge node}\indexmain{split node}
 Merging a node \texttt{m} into a node \texttt{n} means transferring all edges from node \texttt{m} to node \texttt{n}, then deleting node \texttt{m}.
 Splitting a node \texttt{m} off from a node \texttt{n} means creating a node \texttt{m} and transferring some edges from node \texttt{n} to \texttt{m}.
 
@@ -268,14 +265,46 @@ rule cliqueTerminal
 The examples can be found in the \texttt{tests/nodeReplacementGrammar} directory.
 
 
-\section{Copy structures}\label{subsub:copystructure}\indexmain{subgraph copying}\indexmainsee{copy structure}{subgraph copying}
+\section{Transformation in a Rewriting Tool}\label{sec:transfo}\indexmain{transformation in a narrow sense}
+\GrG{} is a \emph{rewrite} tool, i.e. you modify \emph{one} graph.
+This is in contrast to \emph{transformation} tools, which are used for specifying mappings in between \emph{two} (or more) graphs. (Graphs are typically called models in this kind of tools. Don't confuse this with the notion of graph model in \GrG as introduced in chapter \ref{chapmodellang}. In model transformation parlance our graph model denotes a meta model, with a model adhering to a meta model, which in turn adheres to a meta meta model, climbing a ladder of bullshit abstraction leading right into the land of the hot-air merchants, eh, real software engineers.))
+The graph model might be a union of multiple graph models, and the graph may consist of multiple unconnected components, so you don't loose anything regarding expressiveness here.
+
+What you loose is the automatic construction of the \indexed{tracebility} links which allow to retrieve the source node from a mapped node or the mapped node from a source node, which is normally carried out by a real transformation tool in the background.
+And there are no built-in annotations by which you specify the model in which to match the elements.
+But again neither means a loss in expressiveness.
+
+You can construct the tracebality links on your own.
+Either by using simple edges between the nodes (this is not possible in a transformation tool as edges can only exist within a graph/model).
+Or by using maps of node type to node type (or from edge type to edge type) which you must fill manually:
+when you map a source node to a target node (i.e. for a matched source node you create a target node), you fill a global map from source to target nodes with this pair, and/or a global map from target to source nodes.
+When you need this information, you look it up easily with \texttt{target=map[source]} or \texttt{source=map[target]}.
+In some situations you are even better off: if the retype operator is sufficient, you can easily transform the graph in-place. A given, named graph element then denotes the source and the target, just at different points in time.
+
+The lack of built-in model annotations can be overcome by several ways of partitioning the graph. 
+Often the types of the source and the target model are disjoint.
+This is the most convenient case, as you save any extra notational effort, the types alone define the source and target.
+In cases they are not disjoint (because you are forced to use certain non-disjoint graph models),
+you can tell the elements from different graphs apart by either using visited flags --- then each ``graph'' is marked to be visited with its own flag.
+Or you may use anchor nodes representing subgraphs, with an edge from such an anchor node to all nodes contained in its subgraph.
+Thus all nodes of a subgraph are adjacent to an anchor node, and the subgraph consists exactly of the induced subgraph of these adjacent nodes (see \ref{builtingraphcopying} for more on this kind of modelling).
+
+
+\section{Copy Structures}\label{subsub:copystructure}\indexmain{subgraph copying}\indexmainsee{copy structure}{subgraph copying}
 Structures are copied in two passes, the first copying and collecting all nodes of interest, the second copying all edges of interest in between the nodes.
 
 The first pass consists of covering the nodes of the structure one wants to copy with iterated subpatterns,
 i.e. subpatterns which match from a root node on with iterateds along the incident edges into breadth,
-employing a subpattern again on the node opposite to the root node to match into depth.
+employing a subpattern again on the node opposite to the root node to match into depth (see Fig. \ref{figspanningtree} for an illustration).
 In the example we match the entire subgraph from a root node on, if one wants to copy a more constrained subgraph one can simple constrain the types, directions, and structures in the iterated subpattern covering the nodes.
 The nodes are copied with the \texttt{copy} operators and a storagemap is filled, storing for every node copied its copy.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{fig/SpanningTree}
+  \caption{Matching a spanning tree in a graph}
+  \label{figspanningtree}
+\end{figure}
 
 The second pass is started after the structure matching ended by executing the deferred execs which were issued for every node handled.
 Each \texttt{exec} copies all outgoing edges (one could process all incoming edges instead) of a node:
@@ -322,7 +351,23 @@ rule CopyOutgoingEdge(n:Node, ref oldToNew:map<Node, Node>)
 The example can be found in the \texttt{tests/copyStructure} directory.
 Without storagemaps one would have to pollute the graph model with helper edges linking the original to the copied nodes.
 
-\subsection{Data flow analysis for computing reachability}\label{subsub:flow}\indexmain{flow equations}\indexmain{data flow analysis}\indexmain{reachability}
+\subsection{Built-In Graph Copying}\label{builtingraphcopying}
+In contrast to the just introduced general copying of an entire graph, you may choose a limited form of copying subgraphs.
+This is enabled by the \texttt{insertInduced} and \texttt{insertDefined} operations introduced in \ref{subgraphoperations}, which add a clone of the subgraph induced by the set of nodes or set of edges given as first argument to the host graph.
+The clone of the second argument node or edge which was inserted into the host graph is returned as anchor element for further operations.
+
+Before you can apply these operations you must collect the nodes or edges which are used to compute the induced subgraph.
+Besides building the sets element-by-element with \texttt{add}-methods you may use set returning functions, e.g. \texttt{adjacent} introduced in \ref{neighbouringelementsfunctions}, which returns the set of all the nodes adjacent to the node given as (first) argument.
+
+Employing \texttt{insertInduced(adjacent())} is a common idiom for copying a subgraph when the host graph is partitioned into multiple subgraphs in the following way:
+A special node type \texttt{Graph} and a special edge type \texttt{contains} are introduced into the graph model. 
+Every subgraph is represented by a \texttt{Graph} anchor node.
+From these anchor nodes on \texttt{contains} edges lead to all the non-subgraph nodes contained in the corresponding subgraph.
+With this modelling, all nodes in a subgraph are easily reachable from one anchor node via \texttt{adjacent}, and the entire subgraph can be easily retrieved by using \texttt{inducedSubgraph} or copied by \texttt{insertInduced}.
+Besides this simplified manipulation, the graph can be easily visualized as being partitioned into multiple subgraphs with a \texttt{dump add node Graph group by contains} graph visualization command (see \ref{sub:visual} for more on this).
+
+
+\section{Data Flow Analysis for Computing Reachability}\label{subsub:flow}\indexmain{flow equations}\indexmain{data flow analysis}\indexmain{reachability}
 %todo: refine this nightly hacked section
 %add dominance computation
 
@@ -395,7 +440,7 @@ The subgraph at the top-left is already handled as you can see by the reachable 
   \label{figdataflow}
 \end{figure}
 
-\subsubsection*{Worklist based data flow analysis}\indexmain{worklist}
+\subsubsection*{Worklist Based Data Flow Analysis}\indexmain{worklist}
 
 The approach introduced above implements the basics but will not scale well to large graphs -- even medium sized graphs -- due to the random order the nodes are visited.
 What is used in practice instead is a version employing a worklist built in postorder, so that a node is only visited after all its successor nodes have been processed.
@@ -463,8 +508,8 @@ The subgraph at the top-left is already handled as you can see by the reachable 
 \end{figure}
 
 
-%todo: extend, refine this quick-hacked text
 \section{State Space Enumeration}\label{sec:statespaceenum}\indexmain{state space enumeration}
+%todo: extend, refine this quick-hacked text
 
 State space enumeration can be programmed in GrGen.NET utilizing the sequence constructs introduced up so far.
 GrGen.NET always operates on one host graph, over one combined model, applying actions from one combined rule set --- so everything is always within reach.
@@ -479,12 +524,12 @@ The edges between the non-\texttt{Graph} nodes are the "normal" graph edges insi
 The key ingredients for state space enumeration then are
 \begin{itemize}
 	\item The aforementioned modelling with anchor nodes linking to the subgraphs, i.e. states
-	\item Backtracking angles --- they allow to recursively enumerate and apply the matches of a rule found, exhaustively stepping through the state space, rolling back the effects on the graph of the previous match tried before carrying out the next step
-	\item Pause insertions --- they allow to write the interesting subgraphs found during state space search out into the host graph while effects recording of backtracking supervision is paused, so that they are not rolled back during backtracking
-	\item Recursive sequences --- they allow to nest backtracking angles dynamically, so it becomes possible to enumerate an entire state space with a sequence just implementing one backtracking step
-	\item The capability to create a copy of a subgraph and insert it into the host graph
-	\item A subgraph attribute in the anchor nodes which contains a copy of the subgraph in the host graph, ready to be compared to the current graph, in order to decide whether that one should be inserted into the state space or purged for being an isomorphic copy of an already available instance; and of course such an equality comparison
-	\item Adjacency and induced functions to compute the subgraphs from the host graph following the \texttt{contains} edges from the anchor nodes
+	\item Backtracking angles --- they allow to recursively enumerate and apply the matches of a rule found, exhaustively stepping through the state space, rolling back the effects on the graph of the previous match tried before carrying out the next step (see \ref{sec:extctrl})
+	\item Pause insertions --- they allow to write the interesting subgraphs found during state space search out into the host graph while effects recording of backtracking supervision is paused, so that they are not rolled back during backtracking (see \ref{sec:extctrl})
+	\item Recursive sequences --- they allow to nest backtracking angles dynamically, so it becomes possible to enumerate an entire state space with a sequence just implementing one backtracking step (see \ref{sec:sequencedefinition})
+	\item The capability to create a copy of a subgraph and insert it into the host graph (see \ref{subsub:copystructure}, esp. \ref{builtingraphcopying})
+	\item A subgraph attribute in the anchor nodes which contains a copy of the subgraph in the host graph, ready to be compared to the current graph, in order to decide whether that one should be inserted into the state space or purged for being an isomorphic copy of an already available instance; and of course such an equality comparison (see \ref{cha:container}, esp. \ref{sec:relationalcontainer})
+	\item Adjacency and induced functions to compute the subgraphs from the host graph following the \texttt{contains} edges from the anchor nodes (see \ref{neighbouringelementsfunctions} and \ref{subgraphoperations})
 \end{itemize}
 
 The modelling given above allows to employ the ability of GrGen.NET/yComp to visualize nested graphs from a flat graph by interpreting node containment along edges of a special type (cf. \ref{sub:visual}), ballooning the anchor node up to a subgraph. 

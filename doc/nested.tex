@@ -209,7 +209,7 @@ The \indexmain{pattern cardinality} blocks allow to specify how often the nested
 Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done.
 (The nested body will be explained in Section~\ref{sec:nestedrewrite}.)
 
-\subsection*{The iterated block} 
+\subsection*{The Iterated Block} 
 The iterated block is matching the contained subpattern as often as possible, succeeding even in the case the contained pattern is not available (thus it will never fail).
 It was included in the language to allow for matching breadth-splitting structures, as in capturing all methods of a class in a program graph.
 
@@ -225,7 +225,7 @@ test methods
   \end{grgen}
 \end{example}
 
-\subsection*{The multiple block}
+\subsection*{The Multiple Block}
 The multiple block is working like the iterated block, but expects the contained subpattern to be available at least once; if it is not, matching of the multiple block and thus its enclosing pattern fails.
 
 \begin{example}
@@ -240,7 +240,7 @@ test oneOrMoreMethods
   \end{grgen}
 \end{example}
 
-\subsection*{The optional block}
+\subsection*{The Optional Block}
 The optional block is working like the iterated block, but matches the contained subpattern at most once; further occurences of the subpattern are left unmatched.
 If the nested pattern is available, it will get matched, otherwise it won't; matching of the optional block will succeed either way.
 
@@ -256,7 +256,7 @@ test variableMaybeInitialized
   \end{grgen}
 \end{example}
 
-\subsection*{Iteration breaking} 
+\subsection*{Iteration Breaking} 
 If an application condition inside an iteration block fails, then that potential match of the iterated pattern is thrown away and matching continues trying to find further matches.
 Sometimes a different behaviour is wanted, with an application condition terminating the iteration and causing it to fail.
 This would allow to check with a single rule that "every pattern X must also satisfy Y" holds.

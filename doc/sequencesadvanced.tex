@@ -1,18 +1,49 @@
-\chapter{Advanced Control and Computations}\indexmain{advanced control}\indexmain{sequence computations}
+\chapter{Advanced Control and Sequence Computations}\indexmain{advanced control}\indexmain{sequence computations}
 \label{cha:transaction}
 
 In this chapter we'll have a look at advanced graph rewrite sequence constructs,
-with the transaction double angles as the central statement;
-and sequence computations, which are not concerned with controling rules,
+with the \indexed{subsequences} and the backtracking double angles as the central statements;
+and at sequence computations, which are not concerned with directly controling rules,
 but with computing values or creating side effects.
 
-Transaction: temporal succession.
-With copy statements and modelling the temporal succession can be transformed into one step of spatial splitting, defining a state space.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Extended control}\label{sec:extctrl}
+\section{Sequence Definitions (Procedural Abstraction )} \label{sec:sequencedefinition}
+\begin{rail}
+  RewriteSequenceDefinition: 
+    ('def' | 'sequence') RewriteSequenceSignature lbrace RewriteSequence rbrace;
+  RewriteSequenceSignature: 
+    SequenceName ('(' ((InVariable ':' Type)*',') ')')? \\ (':' '(' ((OutVariable ':' Type)*',') ')')?
+	;
+\end{rail}\ixnterm{RewriteSequenceDefinition}\ixnterm{RewriteSequenceSignature}
 
-The extended control constructs offer further rule application control in the form of \indexed{transaction}s and \indexed{backtracking}, parenthesis, \indexed{sequence constant}s, and \indexed{indeterministic choice} from a sets of rules or sequences.
+If you want to use a sequence or sequence part at several locations, just factor it out into a \indexed{sequence definition} and reuse with its name as if it were a rule.
+A sequence definition declares input and output variables; 
+when the sequence gets called the input variables are bound to the values it was called with.
+If and only if the sequences succeeds, the values from the output variables get assigned to the assignment target of the sequence call.
+Thus a \indexed{sequence call} behaves as a rule call, cf. \ref{sec:ruleapplication}.
+
+A sequence definition may call itself recursively, as can be seen in example \ref{ex:recseq}.
+
+The compiled sequences must start with the \texttt{sequence} keyword in the rule file.
+The interpreted sequences in the shell must start with the \texttt{def} keyword; a shell sequences can be overwritten with another shell sequence in case the signature is identical. (Overwriting is needed in the shell to define direct or mutually recursive sequences as a sequence must be defined before it can get used; apart from that it allows for a more rapid-prototyping like style of development in the shell.)
+
+\begin{example}
+\label{ex:recseq}
+\begin{grgen}
+def rec(depth:int) {\
+  if{ {depth<::MAXDEPTH}; foo() ;> rec(depth+1); bar() }\
+}
+\end{grgen}
+This example shows a sequence defined in the shell which is executing itself recursively.
+The host graph is transformed by applying \texttt{MAXDEPTH} times the rule \texttt{foo}, until finally the rule \textttt{bar} is executed. The result of the sequence is the result of \textt{bar}, returned back from recursion step to recursion step while unwinding the sequence call stack. 
+\end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Transactions, Backtracking, and Pause Insertions}\label{sec:extctrl}
+
+The extended control constructs offer further rule application control in the form of \indexed{transaction}s, \indexed{backtracking}, and \indexed{pause insertions}.
 
 \begin{rail} 
   ExtendedControl: 
@@ -23,54 +54,64 @@ The extended control constructs offer further rule application control in the fo
 \end{rail}
 
 Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}), i.e.
-if the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
+if the return value of the nested sequence is \texttt{false}, all the changes carried out on the host graph will be rolled back.
 Nested transactions\indexmainsee{nested transaction}{transaction} are supported, i.e. a transaction which was committed is rolled back again if an enclosing transaction fails.
-Transactions are a key ingredient for backtracking, which is syntactically specified by double angle brackets (\texttt{<<r;;s>>}.
+
+Transactions as such are only helpful in a limited number of cases, but they are a key ingredient for backtracking, which is syntactically specified by double angle brackets (\texttt{<<r;;s>>}.
 The semantics of the construct are:
 First compute all matches for rule \texttt{r}, then start a transaction.
 For each match: execute the rewrite of the match, then execute \texttt{s}.
 If \texttt{s} failed then rollback and continue with the loop.
 If \texttt{s} succeeded then commit and break from the loop.
-A normal or backtracking transaction can be paused temporarily with the \indexed{pause insertion} \texttt{/ s /}.
-The effects of the sequence inside the pause insertion are written to the graph and kept even if the transaction fails and is rolled back.
-This behaviour allows to generate a state space (see \ref{sec:statespaceenum} for more on this) by iterating all matches with nested backtracking brackets (either statically nested, or dynamically nested via sequence calls, with the body of the sequence called containing one backtracking step), copying during the backtracking pauses the states which are reached during the backtracking enumeration and which should be kept.
+On first sight this may not look very impressive, but this construct in combination with recursive sequences is the key operation for crawling through \indexed{search space}s or for the unfolding of \indexed{state space}s.
+
+The backtracking double angles separate matching from rewriting: first all matches are found, but then only one after the other is applied, without interference of the other matches.
+The ``without interference of other matches'' statement is ensured by rolling back the changes of the application of the previous match, and much more, of the entire sequence which followed the rewriting of the previous match.
+
+If you are just interested in the first goal state stumbled upon which satisfies your requirements during a search,
+then you only need to give a condition as last statement of the sequence which returns true if the goal was reached; the iteration stops exactly in the target state.
+When you are interested in finding all states which satisfy your requirements, or even in enumerating each and every state, just force backtracking by noting down the constant false as last element of the sequence.
+
+The backtracking construct encodes a single decision point of a search, splitting into breadth along the different choices available at that point, and further continuing the search in the sequence.
+When this point of splitting into breadth is contained in a sequence,
+and this sequence calls itself again recursively on each branch of the descision taken,
+you get a recursion which is able to search into depth,
+continuing decision making on the resulting graph of the previous decision. 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{fig/SearchSpace}
+  \caption{Search space illustration, a bullet stands for a graph}
+  \label{figsearchspace}
+\end{figure}
+
+With each sequence call advancing one step into depth and each backtracking angle advancing into breadth, you receive a depth-first enumeration of an entire search space (as sketched in \ref{figsearchspace}).
+Each state is visited in \emph{temporal succession}, with only the most recent state being available in the graph.
+But maybe you want to keep each state visited, because you are interested in viewing all results at once, or because you want to compare the different states.
+As there is only one host graph in \GrG, keeping each visited state requires a partition of the host graph into separate subgraphs, each denoting a state.
+
+After you changed the modeling from a host graph to a state space graph consisting of multiple subgraphs, each representing one of the graphs you normally work with, 
+you can materialize the search space visited in temporal succession into a state space graph,
+by copying the subgraphs (which are normally only existing at one point in time) during \indexed{pause insertion}s out into space.
+When subgraphs would be copied without pause insertions, they would be rolled back during backtracking; but effects applied on the graph from \texttt{/ in between here /} are bypassing the recording of the transaction undo log and thus stay in the graph, even if the transaction fails and is rolled back. 
+
+When you have switched from a depth-first search over one single current graph to the unfolding of a state space graph containing all the subgraphs reached, you may compare each subgraph which gets enumerated with all the already available subgraphs, and if the new subgraph already exists (i.e. is isomorph to another already generated subgraph), you may refrain from inserting it.
+This symmetry reduction allows to save the space and time needed for storing and computing equivalent branches otherwise generated from the equivalent states. 
+But please note that the \texttt{==} operator on graphs is optimized for returning early when the graphs are different; when the graphs are isomorphic you have to pay the full price of graph isomorphy checking.
+This will happen steadily with automorphic patterns and then degrade performance massively.
+Merging states with already computed ones yields a DAG-formed state space, instead of the always tree like search space.
+Have a look at the transformation techniques chapter for more on state space enumeration \ref{sec:statespaceenum} and copying \ref{subsub:copystructure}.
+One caveat of the transactions and backtracking must be mentioned: rollback might lead to an incorrect graph visualization when employed from the debugger.
+This holds especially when using grouping nodes to visualize subgraph containment (\ref{sub:visual}). You must be aware that you can't rely on the online display as much as you can normally, and that you maybe need to fall back to an offline display by opening a \texttt{.vcg}-dump of the graph written in a situation when the online graph looked suspicious. 
 
 \begin{note}
 While a transaction or a backtrack is pending, all changes to the graph are recorded into some kind of undo log, which is used to reverse the effects on the graph in the case of rollback (and is thrown away when the nesting root gets committed).
 So these constructs are not horribly inefficient, but they do have their price --- if you need them, use them, but evaluate first if you really do.
 \end{note}
 
-\begin{rail} 
-  ExtendedControl: 
-    '(' RewriteSequence ')' |
-    (percent)? BoolLit
-	;
-\end{rail}
 
-Forcing execution order can be achived by parentheses.
-Boolean literals \texttt{true}/\texttt{false} come in handy if a sequence is to be evaluated 
-but its result must be a predefined value; furtheron a \indexed{break point} may be attached to them.
-
-\begin{rail} 
-  ExtendedControl: 
-	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')' |
-	(dollar (percent)? )? lbrace '(' ((RuleExecution)+(',')) ')' rbrace
-	;
-  SequencesList:
-	RewriteSequence ((',' RewriteSequence)*())
-	;
-\end{rail}\ixnterm{SequencesList}
-
-The \indexed{random-all-of operators} given in function call notation with the dollar sign plus operator symbol as name have the following semantics:
-The strict operators \verb/|/ and \verb/&/ evaluate all their subsequences in random order returning the disjunction resp. conjunction of their truth values.
-The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed or every subsequence was executed 
-(which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule).
-A \indexed{choice point} may be used to define the subsequence to be executed next.
-The \indexed{some-of-set braces} \verb/{(r,[s],$[t]=}/ matches all contained rules and then executes the ones which matched.
-The \indexed{one-of-set braces} \verb/${(r,[s],$[t])}/ (some-of-set with random choice applied) matches all contained rules and then executes at random one of the rules which matched
-(i.e. the one match of a rule, all matches of an all bracketed rule, or one randomly chosen match of an all bracketed rule with random choice).
-The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
-A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{For Loops and Indeterministic Choice}
 
 \begin{rail}
   ExtendedControl:
@@ -85,19 +126,22 @@ A \indexed{choice point} may be used on the one-of-set; it allows you to inspect
 The \texttt{for} loop without containment is iterating over all the elements in the current host graph which are compatible to the type given.
 The iteration variable is bound to the currently enumerated graph element, then the sequence in the body is executed.
 The type of the iteration variable must be statically known to be of a node or edge type.
+
 If you iterate a node type from a graph, you may be interested in iterating its incident edges or its adjacent nodes.
 This can be achieved with a for neighbouring elements loop, which binds the iteration variable to an edge in case the \emph{Function} is one of \texttt{incoming}, \texttt{outgoing}, or \texttt{incident}. 
 Or which binds the iteration variable to a node in case the \emph{Function} is one of \texttt{adjacentIncoming}, \texttt{adjacentOutgoing}, or \texttt{adjacent}.
 The admissible \emph{Parameters} are the source node, or the source node plus the incident edge type, or the source node plus the incident edge type, plus the adjacent node type ---
 that's the same as for the sequence expression functions explained in \ref{neighbouringelementsfunctions}/Connectedness queries.
 In contrast to these set returning functions, this loop contained functions enumerate nodes/edges multiple times in case of reflexive or multi edges.
+
 The third \texttt{for} loop introduced here, the for matches loop, allows to iterate through the matches found for an all-bracketed rule reduced to a test; i.e. the rule is not applied, we only iterate its matches.
 The loop variable must be of a statically known \texttt{match<r>} type with \texttt{r} being the name of the rule matched.
 The elements (esp. the nodes and edges) of the pattern of the matched rule can then be accessed by applying the \texttt{.}-operator on the loop variable, giving the name of the element of interest after the dot.
 Note: the elements must be assigned to a variable in order to access their attributes, a direct attribute access after the match access is not possible.
 Note: the match object allows only to access the top level nodes, edges, or variables.
 If you use subpatterns or nested patterns and want to access elements found by them, you have to \texttt{yield}(\ref{sub:yield}) them out to the top-level pattern.
-The most important \texttt{for} loop, the one iterating a container, for enumerating the elements contained in storages, will be introduced later on here: \ref{forstorage}.
+
+The most important \texttt{for} loop, the one iterating a container, for enumerating the elements contained in storages, was already introduced here: \ref{forstorage}.
 All \texttt{for} loops fail if one of the sequence executions failed, and succeed otherwise.
 
 \begin{rail}
@@ -109,28 +153,32 @@ The \texttt{highlight} sequence highlights the arguments given as a quoted text 
 it does what the \texttt{(h)ighlight} command does in the debugger, see \ref{highlight}, just programmed from the sequences. 
 Arguments is a comma-separated list of variable names or visited flag ids, the graph elements contained in the variables are highlighted, as are the graph elements marked by the visited flag.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Procedural abstraction (Sequence definitions)} \label{sec:sequencedefinition}
-\begin{rail}
-  RewriteSequenceDefinition: 
-    ('def' | 'sequence') RewriteSequenceSignature lbrace RewriteSequence rbrace;
-  RewriteSequenceSignature: 
-    SequenceName ('(' ((InVariable ':' Type)*',') ')')? \\ (':' '(' ((OutVariable ':' Type)*',') ')')?
+\begin{rail} 
+  ExtendedControl: 
+	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')' |
+	(dollar (percent)? )? lbrace '(' ((RuleExecution)+(',')) ')' rbrace
 	;
-\end{rail}\ixnterm{RewriteSequenceDefinition}\ixnterm{RewriteSequenceSignature}
+  SequencesList:
+	RewriteSequence ((',' RewriteSequence)*())
+	;
+\end{rail}\ixnterm{SequencesList}
 
-If you want to use a sequence or sequence part at several locations, factor it out into a \indexed{sequence definition} and reuse with its name as if it were a rule.
-A sequence definition declares input and output variables; 
-when the sequence gets called the input variables are bound to the values it was called with.
-If and only if the sequences succeeds, the values from the output variables get assigned to the assignment target of the sequence call.
-Thus a sequence call behaves as a rule call, cf. \ref{sec:ruleapplication}.
+The \indexed{indeterministic choice} operators execute chosen elements from a sets of rules or sequences.
+The \indexed{random-all-of operators} given in function call notation with the dollar sign plus operator symbol as name have the following semantics:
+The strict operators \verb/|/ and \verb/&/ evaluate all their subsequences in random order returning the disjunction resp. conjunction of their truth values.
+The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed or every subsequence was executed 
+(which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule).
+A \indexed{choice point} may be used to define the subsequence to be executed next.
 
-The compiled sequences must start with the \texttt{sequence} keyword in the rule file.
-The interpreted sequences in the shell must start with the \texttt{def} keyword; a shell sequences can be overwritten with another shell sequence in case the signature is identical. (Overwriting is needed in the shell to define direct or mutually recursive sequences as a sequence must be defined before it can get used; furthermore it allows for a more rapid-prototyping like style of development in the shell.)
+The \indexed{some-of-set braces} \verb/{(r,[s],$[t]=}/ matches all contained rules and then executes the ones which matched.
+The \indexed{one-of-set braces} \verb/${(r,[s],$[t])}/ (some-of-set with random choice applied) matches all contained rules and then executes at random one of the rules which matched
+(i.e. the one match of a rule, all matches of an all bracketed rule, or one randomly chosen match of an all bracketed rule with random choice).
+The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
+A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Sequence computation} \label{sec:seqcomp}
+\section{Sequence Computation} \label{sec:seqcomp}
 
 \begin{rail} 
   RewriteComputationUsage: (percent)? lbrace CompoundComputation rbrace; 
@@ -169,17 +217,20 @@ A variable declaration declares a local variable in the same way as in the seque
 An assignment assigns the value of a sequence expression to an assignment target.
 It may be chained; such an assignment chain is executed from right to left, assigning the rightmost value to all the assignment targets given.
 The form of expressions and assignment targets will be specifed below.
+
 A method call executes a (predefined) method on a variable, passing further arguments.
-If may be chained; such a method call chain is executed from left to right. 
+It may be chained; such a method call chain is executed from left to right. 
 This is possible with storage changing methods which return the variable again, better: which return the then altered variable. 
-They will be introduced in \ref{sec:storages} in more details.
+They were already explained in \ref{sec:storages}.
+
 A function call executes a (predefined) function, passing further arguments.
-In addition to the visited flag functions which will be explained in more detail in \ref{sec:visited},
+In addition to the visited flag functions which was already explained in more detail in \ref{sec:visited},
 \texttt{emit}, \texttt{record}, and \texttt{export} function calls can be given here: the emit function writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
 The record function writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
 The export function exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
 It behaves like the export command from the GrShell, see \ref{outputcmds}.
 Having it available in the sequences allows for programmed exporting, and exporting of parts of the graph, with the subgraph containment just computed.
+
 Finally, an expression (without side effects) can be evaluated, this allows to return a (boolean) value from a computation.
 
 \begin{rail}
@@ -229,7 +280,7 @@ The boolean operators have the same semantics and same priority as in \ref{sub:e
 \end{rail}\ixnterm{RelationalSequenceExpression}
 
 The equality operators work for every type and return whether the values to compare are equal or unequal.
-The relational operators on numerical, graph, and set/map/array types work as specified in \ref{sub:expr}.
+The relational operators on numerical, graph, and set/map/array types work as specified in \ref{sub:expr} and \ref{cha:container}.
 
 \begin{rail}
   ArithmeticSequenceExpression:
@@ -278,7 +329,7 @@ They will be explained in more detail in chapter \ref{cha:storagesvisited}.
 
 The graph and subgraph oriented ones can be separated into three groups.
 
-\subsubsection*{Basic graph manipulation}
+\subsubsection*{Basic Graph Manipulation}
 The first group is built from basic graph manipulation operators used for adding or removing elements:
 
 \begin{description}
@@ -288,7 +339,7 @@ The first group is built from basic graph manipulation operators used for adding
 \item[\texttt{clear()}] clears the host graph.
 \end{description}
 
-\subsubsection*{Connectedness queries}\label{neighbouringelementsfunctions}
+\subsubsection*{Connectedness Queries}\label{neighbouringelementsfunctions}
 The second group is built from the operators querying the connectedness of graph elements.
 It contains functions to ask for the source or target node of an edge: 
 
@@ -318,7 +369,7 @@ In addition, they allow to compute the set of nodes adjacent to a node:
 \item[\texttt{adjacentOutgoing}] same as any of the adjacents above, but restricted to nodes reachable via outgoing edges.
 \end{description}
 
-\subsubsection*{Subgraph operations}
+\subsubsection*{Subgraph Operations}\label{subgraphoperations}
 The third group is defined by functions which operate on (sub-)graphs:
 It contains functions which allow to compute (node-or-edge) induced subgraphs, and to insert clones of induced subgraphs.
 They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
@@ -332,7 +383,7 @@ They are especially useful in state space enumeration, cf. \ref{sec:statespaceen
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Quick reference table}
+\section{Quick Reference Table}
 
 Table~\ref{seqtab} lists most of the operations of the graph rewrite sequences at a glance,
 whereas Table~\ref{comptab} lists most of the operations of the graph rewrite computations at a glance.
@@ -342,21 +393,23 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
+\texttt{(w)=s(w)} & Calls a sequence \texttt{s} handing in \texttt{w} as input and writing its output to \texttt{w}; defined e.g. with \texttt{sequence s(u:Node):(v:Node)} \texttt{\{ v=u \}}.\\
+\hline
 \texttt{<s>}	& Execute \texttt{s} transactionally (rollback on failure).\\
 \texttt{<<r;;s>>}	& Backtracking: try the matches of rule \texttt{r} until \texttt{s} succeeds.\\
+\texttt{/ s /}	& Pause insetion: execute \texttt{s} outside of the enclosing transactions and sequences, i.e. the changes of \texttt{s} are not rolled back.\\
 \hline
 \texttt{highlight(vars)} & Highlights the content of the variables in the graph. \\
-\texttt{export(filename)} & Exports the current graph to a file with the specified name. \\
 \hline
 \texttt{\$\{(r1,[r2],\$[r3])\}}	& Tries to match all contained rules, then rewrites indeterministically one of the rules which matched. True if at least one matched.\\
 \hline
 \texttt{for\{v in u; t\}}	& Execute \texttt{t} for every \texttt{v} in storage set \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
 \texttt{for\{v->w in u; t\}}	& Execute \texttt{t} for every pair (\texttt{v},\texttt{w} in storage map \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
 \texttt{for\{v:match<r> in [?r]; t\}}	& Execute \texttt{t} for every match \texttt{v} from rule \texttt{r}. One \texttt{t} failing pins the execution result to failure.\\
+\texttt{for\{v:T; s\}}	& Execute \texttt{s} for every \texttt{v} of type \texttt{T} available in the graph. One \texttt{s} failing pins the execution result to failure.\\
+\texttt{for\{v in func(w); s\}}	& Execute \texttt{s} for every edge/node incident/adjacent to \texttt{w} . One \texttt{s} failing pins the execution result to failure.\\
 \hline
 \texttt{\{comp\}}	& An unspecified sequence computation (see following table).\\
-\hline
-\texttt{(w)=s(w)} & Calls a sequence \texttt{s} handing in \texttt{w} as input and writing its output to \texttt{w}; defined e.g. with \texttt{sequence s(u:Node):(v:Node)} \texttt{\{ v=u \}}.\\
 \hline
 \end{tabularx}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}
 \end{minipage}\\
@@ -388,6 +441,7 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \texttt{@(name)} & Return graph element of given name.\\
 \texttt{emit(v)} & Emits value of v to stdout.\\
 \texttt{record(v)} & Records value of v to the replay log.\\
+\texttt{export(filename)} & Exports the current graph to a file with the specified name. \\
 \texttt{export(graph, path)} & Exports the (sub)graph given to the path given.\\
 \texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \hline
