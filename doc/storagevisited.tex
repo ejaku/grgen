@@ -9,14 +9,13 @@ used for marking already visited elements or for partitioning a graph;
 and at the sequence computation and rule constructs concerned with them.
 
 %-----------------------------------------------------------------------------------------------
-\section{Storage handling in the sequences}\label{sec:storages}\indexmain{storage}
+\section{Storage Handling in the Sequences}\label{sec:storages}\indexmain{storage}
 
 Storages are variables of set or map or array type (cf. \ref{sec:builtintypes}) storing nodes or edges.
-They are primarily used in the sequences, from where they are handed in to the rules via parameters
-(but additionally set/map/array attributes in graph elements may be used as storages,
+They are primarily used in the sequences, from where they are handed in to the rules via \texttt{ref} parameters (but additionally set/map/array attributes in graph elements may be used as storages,
 esp. for doing data flow analyses, cf. \ref{subsub:flow}).
 They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the set.
-A difference of storage sets and maps in the sequences to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction.
+A difference of storage sets and maps in the sequences to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction, and only empty constructors without initializing elements.
 The splitting of transformations into passes mediated by set/map/array valued global variables allows for subgraph copying without model pollution, cf. \ref{subsub:copystructure}; please have a look at \ref{sub:mergesplit}, \ref{subsub:copystructure} and \ref{subsub:flow} regarding a discussion on when to use which transformation combinators and for storage examples.
 The syntax diagrams given in the Rule Application Control Language chapter \ref{cha:xgrs} already contained the storage constructs.
 Here we only give some refinements and explanations of the semantics.
@@ -113,7 +112,7 @@ The set/map/array over which the for loop iterates must stay untouched during it
 
 
 %-----------------------------------------------------------------------------------------------
-\section{Storage access in the rules} \label{sub:storageaccess}\indexmain{storage access}
+\section{Storage Access in the Rules} \label{sub:storageaccess}\indexmain{storage access}
 
 Storages can be used in the rule application control language as introduced above \ref{sec:storages}, they can get filled or emptied in the rules as defined here \ref{replstmt}, a discussion about their usage and examples are given here \ref{sub:mergesplit}, here \ref{subsub:copystructure}, and here \ref{subsub:flow}.
 In the pattern part you may ask for an element to get bound to an element from a storage or a storage attribute;
@@ -242,7 +241,7 @@ rule foo(ref storage:set<Node>)
 
 
 %-----------------------------------------------------------------------------------------------
-\section{Visited flag handling in the sequences}\label{sec:visited}
+\section{Visited Flag Handling in the Sequences}\label{sec:visited}
 
 Visited flags are flags available for/in each graph element which can be set, reset, and queried in the rules and in the sequences and must be allocated and deallocated in the sequences;
 they allow to mark already visited elements during a run over the graph.
@@ -275,7 +274,7 @@ The value stored in the variable must be of integer type, stemming from a previo
 
 
 %-----------------------------------------------------------------------------------------------
-\section{Visited flag access in the rules} \label{sub:visitedaccess}\indexmain{visited access}
+\section{Visited Flag Access in the Rules} \label{sub:visitedaccess}\indexmain{visited access}
 
 The visited flag queries available in the \texttt{if} attribute evaluation clause of the pattern part are given in the Types and Expressions chapter \ref{cha:typeexpr}.
 

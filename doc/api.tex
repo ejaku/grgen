@@ -29,7 +29,7 @@ Use the \texttt{-keep} option when you call \texttt{grgen.exe} to do so.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Interface to the host graph}
+\section{Interface to the Host Graph}
 
 The generated file \texttt{FooModel.cs} opens the namespace \texttt{de.unika.ipd.grGen.Model\_Foo} containing all the generated entities.
 It contains for every node or edge class \texttt{Bar} an interface \texttt{IBar}, which offers C\# properties giving access to the attributes, and is inheriting in the same way as specified in the model file.
@@ -49,7 +49,7 @@ If you want to use the generic interface, your entry point is the \texttt{IGraph
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Interface to rules}
+\section{Interface to the Rules}
 
 The generated file \texttt{FooActions.cs} opens the \texttt{namespace de.unika.ipd.grGen.Action\_Foo} containing all the generated entities.
 It contains for every rule or test \texttt{bar}
@@ -152,15 +152,14 @@ LGSPGraph graph = new LGSPNamedGraph(model);
 \end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Interface of the graph processing environment}
+\section{Interface of the Graph Processing Environment}
 
 The interface \texttt{IGraphProcessingEnvironment} implemented by the \texttt{LGSPGraphProcessing\-Environment} class offers all the additional functionality of \GrG~exceeding what is offered by the graph and the actions.
 It is constructed as \texttt{LGSPGraphProcessingEnvironment} given the graph and the actions.
 It offers execution of the sequences and variable handling, combining actions into transformations
 (the former regarding control flow, the latter regarding data flow).
-Further on, the environment offers driver or helper objects for transaction management, deferred sequence execution, graph change recording, and emitting.
 
-\begin{example}
+\begin{example}\label{ex:procenv}
 For all but the simplest transformations you'll end up constructing a graph processing environment from the graph and the actions constructed until now, executing a graph rewrite sequence on the graph processing environment:
 \begin{verbatim}
 LGSPGraphProcessingEnvironment procEnv = 
@@ -169,8 +168,28 @@ procEnv.ApplyGraphRewriteSequence("<(::x)=foo && (::y)=bar(::x) | bla(::y)>");
 \end{verbatim}
 \end{example}
 
+In addition to sequences and variables handling, the graph processing environment offers driver or helper objects for transaction management, deferred sequence execution, graph change recording, and emitting.
+The most important of these is the transaction manager which is utilized when \GrG is used for crawling through a search space or for enumerating a state space, see section \label{sec:extctrl}.
+The operations mentioned there are implemented by calling the function given in example \ref{ex:transman}.
+
+\begin{example}\label{ex:transman}
+\begin{verbatim}
+LGSPGraphProcessingEnvironment procEnv = ...;
+ITransactionManager tm = procEnv.TransactionManager;
+public interface ITransactionManager
+{
+    int StartTransaction();
+    void Pause();
+    void Resume();
+    void Commit(int transactionID);
+    void Rollback(int transactionID);
+}
+\end{verbatim}
+\end{example}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Import/Export and miscellaneous stuff}\label{sub:imexport}\indexmain{import}\indexmain{export}
+\section{Import/Export and Miscellaneous Stuff}\label{sub:imexport}\indexmain{import}\indexmain{export}
 
 GrGen natively supports the following formats:
 \begin{description}

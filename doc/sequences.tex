@@ -63,7 +63,7 @@ assign the two returned graph elements from rule \texttt{R} to variables \texttt
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Rule application} \label{sec:ruleapplication}
+\section{Rule Application} \label{sec:ruleapplication}
 
 \begin{rail} 
   RewriteFactor: RuleExecution
@@ -77,7 +77,7 @@ Rewrite factors are the building blocks of graph rewrite sequences.
 They are split into four major areas: rule (and sequence) application, simple variable handling, extended control, and sequence computation usages.
 Here we start with the most import one, applying rules.
 In section \ref{sec:simplevarhandling} we visit simple variable handling.
-In chapter \ref{cha:transaction} we have a look at extended control \ref{sec:extctrl} and sequence computations \ref{sec:seqcomp}.
+In chapter \ref{cha:transaction} we have a look at advanced control \ref{sec:extctrl} and sequence computations \ref{sec:seqcomp}.
 
 \begin{rail}    
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') (Rule | (RandomSelection)? '[' Rule ']');
@@ -126,13 +126,14 @@ The sequence \verb#$[t]# determines all matches of the parameterless rule \textt
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Logical and sequential connectives}
+\section{Logical and Sequential Connectives}
 
 \makeatletter
 
 \begin{rail}
   RewriteSequence: 
     (RewriteNegTerm) (( (dollar (percent)?)? (ampersand | xorhat | '|' | doubleampersand | '||' | ';>' | '<;') RewriteNegTerm )*)
+|    '(' RewriteSequence ')'
 	;
   RewriteNegTerm: 
     ('!')? RewriteTerm ( ('=''>' | ampersand'>' | '|''>') Variable)?
@@ -141,10 +142,12 @@ The sequence \verb#$[t]# determines all matches of the parameterless rule \textt
 
 A graph rewrite sequence consists of several rewrite terms linked by operators.
 Table \ref{tbl:sequ:op} gives the priorities and semantics of the operators, priorities in ascending order.
+Forcing execution order against the priorities can be achived by parentheses.
 The modifier \texttt{\$} changes the semantics of the following operator to randomly execute the left or the right operand first (i.e. flags the operator to act commutative);
 usually operands are executed / evaluated from left to right if not altered by bracketing.
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
 The modifier \texttt{\%} appended to the \texttt{\$} overrides the random selection by a user selection (cf. see Chapter~\ref{chapdebugger}, \indexed{choice point}s).
+
 The assign-to operator \texttt{=>} optionally available at the end of the $RewriteNegTerm$ assigns the (negated in case of \texttt{!}) result of the $RewriteTerm$ execution to the given variable; the and-to \texttt{\&>} operator assigns the conjunction and the or-to \texttt{|>} operator assigns the disjunction of the original value of the variable with the sequence result to the variable.
 
 \begin{table}[htbp]
@@ -174,6 +177,7 @@ The assign-to operator \texttt{=>} optionally available at the end of the $Rewri
 	SimpleOrInteractiveExpression:
 		Variable |  
 		Literal | 
+    (percent)? BoolLit |
 		dollar (percent)? '(' Number ')' |
 		dollar percent '(' Type ')'
   ;
@@ -182,6 +186,9 @@ The assign-to operator \texttt{=>} optionally available at the end of the $Rewri
 
 The simple variable handling in the sequences allows to assign a variable or a constant to a variable, to interactively query for an element of a given type or a number and assign it to a variable, or to declare a local variable; these constructs always result in true/success.
 In addition, a boolean variable may be used as a predicate; using such a variable predicate together with the sequence result assignment allows to directly transmit execution results from one part of the sequence to another one.
+Furtheron, a boolean constant may be used as a predicate. 
+These \indexed{sequence constant}s being one of the boolean literals \texttt{true} or \texttt{false} come in handy if a sequence is to be evaluated but its result must be a predefined value; furtheron a \indexed{break point} may be attached to them.
+
 Variables can hold graph elements, or values of value/attribute types, including booleans.
 The typed explicit declaration (which may be given at an assignment, rendering that assignment into an initialization) introduces a sequence local variable, the name alone references a sequence local variable.
 A global variable is accessed with the double colon prefix, it gets implicitely declared if not existing yet (you can't declare a graph global variable).
@@ -218,7 +225,7 @@ The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its executi
 the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \emph{n} of iterations was not reached.
 
 \begin{note}
-Consider all-bracketing introduced in the next section for rewriting all matches of a rule instead of iteration if they are independent.
+Consider all-bracketing introduced in the first section for rewriting all matches of a rule instead of iteration if they are independent.
 \end{note}
 
 

@@ -176,7 +176,7 @@ pattern SpanningTree(root:Class)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Subpattern rewriting}
+\section{Subpattern Rewriting}
 \indexmain{subrule}\label{sec:subrule}
 
 Alongside the separation into subpattern declaration and subpattern entity declaration, 
@@ -360,9 +360,9 @@ rule createSubpattern
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Local variables, ordered evaluation, and yielding outwards} \label{sec:localvarorderedevalyield}\indexmain{local variable}\indexmainsee{evalhere}{ordered evaluation}\indexmain{yielding outwards}
+\section{Local Variables, Ordered Evaluation, and Yielding Outwards} \label{sec:localvarorderedevalyield}\indexmain{local variable}\indexmainsee{evalhere}{ordered evaluation}\indexmain{yielding outwards}
 
-\subsection*{Local variables and ordered evaluation} 
+\subsection*{Local Variables and Ordered Evaluation} 
 Sometimes attribute evaluation becomes easier with temporary variables;
 such local variables can be introduced on a right hand side employing the known variable syntax \texttt{var name:type}, prefixed with the \texttt{def}\indexmain{def} keyword.
 From then on they can be read and assigned to in eval statements of the RHS, or used as variable parameters in subpattern rewrite calls.
@@ -479,7 +479,7 @@ Top down attribute evaluation operates on the already matched elements and attri
 Bottom up attribute evalutaion operates on the matched elements and attribute values locally available or the ones received into def elements yielded implicitely upwards from the nested patterns or explicitely accumulating iterated results or with assigning out parameters of subpatterns. (The same depth first run, but with attributes computed while ascending, comparable to an SAG run in compiler construction.)
 \end{note}
 
-\subsection*{Yielding outwards during rewriting}\label{sub:yield} 
+\subsection*{Yielding Outwards During Rewriting}\label{sub:yield} 
 
 Sometimes one needs to bring something matched within a nested or subpattern to an outer pattern containing it (nested patterns) or calling it (subpatterns).
 So that one can do there (in the using pattern) operations on it, e.g. attaching a further edge to an end node of a chain matched with recursive patterns (thus modularizing the graph rewrite specification into chain matching patterns and patterns using chains doing things on the chain ends), or summing attributes matched in iterated pattern instances. 
@@ -560,7 +560,7 @@ rule outCount(head:Node) : (int)
   Second example for RHS yielding: counting the number of edges matched with an iterated.
 \end{example}
 
-\subsection*{Yielding outwards during match object construction} 
+\subsection*{Yielding Outwards During Match Object Construction} 
 
 Bubbeling up the elements from nested patterns and called patterns during rewriting might be too late or inconvenient.
 Luckily it can be done before, at the end pattern matching when the match object tree gets constructed.
@@ -745,7 +745,7 @@ pattern Expression(root:Expr)
     \end{grgen}
   \end{example}\label{introexampleregexp}
 
-\subsubsection*{Isomorphy locking} \label{locking}
+\subsubsection*{Isomorphy Locking} \label{locking}
 When matching a program graph as in the introductory example \ref{ex:proggraph} one might be satisfied with matching a tree structure.
 But on other occasions one wants to match \emph{backlinks} and especially the targets of the backlinks, too, 
 from \emph{uses} nested somewhere in the syntax graph to \emph{definitions} whose nodes were already matched earlier in the subpattern derivation (subpatterns can be seen as an equivalent of grammar rules known from parser generators).
@@ -756,7 +756,7 @@ In order to handle this case the \texttt{independent} \emph{operator} (cf. \ref{
 --- when you declare the backlink target node \texttt{n} as \texttt{independent(n)} it can be matched once again.
 Thus it is possible to match e.g. a class attribute definition node which was already matched when collecting the attributes of the class again later on in a subpattern when matching an expression containing a usage of that attribute, allowing to e.g. add further edges to it.
 
-\subsubsection*{Patternpath locking} 
+\subsubsection*{Patternpath Locking} 
 As stated in the sections on the negative and independent constructs (\ref{nac}, \ref{pac}), they get matched homomorphically to all already matched elements. By referencing an element from outside you can isomorphy lock that element to prevent it to get matched again.
 
 Maybe you want to lock all elements from the directly enclosing pattern, in this case you can just insert \texttt{pattern;} in the position of a graphlet into the NAC or PAC.
