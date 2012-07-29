@@ -337,7 +337,8 @@ The external match filters are hooking in between the \texttt{Match} and \texttt
 
 Before or after the host graph is changed, events are fired, notifying listeners about the changes.
 The GrShell debugger, the transaction handler, and the graph change recorder implement their functionality by listening and reacting to these events.
-A programmer may add own event handlers to insert custom-made, event-based functionality.
+A programmer may add own event handlers to insert custom-made, event-based functionality;
+or may even implement an event-driven rule execution engine on top of it.
 The events are fired automatically by the \texttt{LGSPGraph} implementing the \texttt{IGraph},
 or by the rules which get applied.
 If you operate on API level or with e.g. external sequences, it's your responsibility to fire the events for attribute changes before changing an attribute.
