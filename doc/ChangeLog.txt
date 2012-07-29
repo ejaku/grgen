@@ -1,4 +1,15 @@
-﻿v3.5 RC (2012-07-08)
+﻿v3.5 (2012-07-29)
+ Some improvements in the user manual:
+  - split several chapters into better digestible, more coherent parts
+  - better explanation of the bracktracking angles, the central construct for crawling search spaces
+ 
+ Bugfix: abstract nodes/edges could not be referenced in the rewrite specification of a nested pattern, 
+  until the matching graphlet was directly contained by that nested pattern
+
+ Performance optimization: isomorphy checking, i.e. the graph comparison operators are much faster now
+
+  
+v3.5 RC (2012-07-08)
  Improved graph querying from the sequences with for matches loop:
   - added for{m:match<r> in [?r]; sequence} looping over matches found
   - added m.n access to elements of match, distinguished from attribute access by type of the variable
