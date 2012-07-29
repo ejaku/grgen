@@ -644,6 +644,12 @@
             to be implemented by concrete subclasses
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            emits the interpretation plan operation (as c# code string) into source builder
+            to be implemented by concrete subclasses
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Execute(de.unika.ipd.grGen.lgsp.LGSPGraph)">
             <summary>
             Executes the interpretation plan (starting with this operation)
@@ -654,6 +660,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlan.next">
             <summary>
             The next interpretation plan operation
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlan.Id">
+            <summary>
+            A unique identifier denoting this interpretation plan operation
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanNodeMatcher">
@@ -775,6 +786,58 @@
             <summary>
             Interpretation plan operation which completes a match;
             no own functionality, it just succeeds when execution reaches it
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.GraphMatchingState">
+            <summary>
+            Helper class with stuff needed for IsIsomorph checking of graphs
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.MATCHES_NEEDED_TO_BECOME_A_CANDIDATE_FOR_COMPILATION">
+            <summary>
+            We gather the oftenly compared "hot" graphs in a candidate set 
+            for getting isomorphy-checked with a compiled matcher instead of an interpreted matcher
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.TOTAL_CANDIDATE_MATCHES_NEEDED_TO_START_A_COMPILATION">
+            <summary>
+            And when the candidates were compared often enough, we compile them.
+            We can't do this often cause compilation is very expensive.
+            Using ILGenerator to build a dynamic method would be much better, but is much harder, too :(
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.patternGraph">
+            <summary>
+            A pattern graph created out of the original graph, for isomorphy checking
+            not null if/after comparing type counts and vstructs was insufficient
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.interpretationPlan">
+            <summary>
+            The interpretation plan used for isomorphy checking, built from the pattern graph
+            not null if/after comparing type counts and vstructs was insufficient
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.compiledMatcher">
+            <summary>
+            The compiled graph comparison matcher, built from the interpretation plan
+            not null if/after the interpretation plan was emitted and compiled
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.numChecks">
+            <summary>
+            Tells how many iso checks where done with this graph as one partner
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.numMatchings">
+             <summary>
+            Tells how many matches were carried out with this interpretation plan or compiled matches
+             </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.candidatesForCompilation">
+            <summary>
+            The graphs which were matched so often they gained the status of a candidate 
+            for the next compilation run
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchOperationType">
@@ -1393,7 +1456,7 @@
             <param name="ssp">the scheduled search plan to build an interpretation plan for</param>
             <param name="spg">the search plan graph for determining the pattern element needed for attribute checking</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.BuildInterpretationPlan">
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.BuildInterpretationPlan(System.String)">
             <summary>
             Builds interpretation plan from scheduled search plan.
             </summary>
@@ -1549,9 +1612,25 @@
             were already computed; only of interest for edges of unfixed direction
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.GraphComparisonMatcher">
+            <summary>
+            Interface implemented by the compiled graph matchers
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.GraphComparisonMatcher.IsIsomorph(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Returns whether the graph which resulted in thisPattern is isomorph to the graph given.        
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPGraph">
             <summary>
             An implementation of the IGraph interface.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.matchingState">
+            <summary>
+            Normally null, contains some data which allows for efficient graph comparison,
+            in case this is a constant graph which was used for isomorphy checking
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.nodeCounts">
@@ -2017,6 +2096,7 @@
             Returns whether this graph is isomorph to that graph
             Each graph must be either unanalyzed or unchanged since the last analyze,
             otherwise results will be wrong!
+            Graph comparison is for constant graphs only!
             </summary>
             <param name="that">The other graph we check for isomorphy against</param>
             <returns>true if that is isomorph to this, false otherwise</returns>
@@ -2026,6 +2106,7 @@
             Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
             Each graph must be either unanalyzed or unchanged since the last analyze,
             otherwise results will be wrong!
+            Graph comparison is for constant graphs only!
             </summary>
             <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
             <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
