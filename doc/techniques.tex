@@ -279,6 +279,7 @@ Either by using simple edges between the nodes (this is not possible in a transf
 Or by using maps of node type to node type (or from edge type to edge type) which you must fill manually:
 when you map a source node to a target node (i.e. for a matched source node you create a target node), you fill a global map from source to target nodes with this pair, and/or a global map from target to source nodes.
 When you need this information, you look it up easily with \texttt{target=map[source]} or \texttt{source=map[target]}.
+The highlight command \ref{highlight} of the debugger can visualize this storage map neatly by marking the contained nodes and adding directed edges in between the source and domain elements.
 In some situations you are even better off: if the retype operator is sufficient, you can easily transform the graph in-place. A given, named graph element then denotes the source and the target, just at different points in time.
 
 The lack of built-in model annotations can be overcome by several ways of partitioning the graph. 
@@ -290,21 +291,69 @@ Or you may use anchor nodes representing subgraphs, with an edge from such an an
 Thus all nodes of a subgraph are adjacent to an anchor node, and the subgraph consists exactly of the induced subgraph of these adjacent nodes (see \ref{builtingraphcopying} for more on this kind of modelling).
 
 
-\section{Copy Structures}\label{subsub:copystructure}\indexmain{subgraph copying}\indexmainsee{copy structure}{subgraph copying}
-Structures are copied in two passes, the first copying and collecting all nodes of interest, the second copying all edges of interest in between the nodes.
+\section{Comparing Structures}\label{subsub:comparestructure}\indexmain{subgraph comparison}\indexmainsee{compare structure}{subgraph comparison}
+Structures are compared in three steps, the first is to collect all nodes of interest in a storage set, the second is to compute an induced subgraph from that set, and the third is to compare the subgraphs with the built in graph comparison operators.
 
-The first pass consists of covering the nodes of the structure one wants to copy with iterated subpatterns,
+The first step typically consists of covering the nodes of the structure one wants to compare with iterated subpatterns,
 i.e. subpatterns which match from a root node on with iterateds along the incident edges into breadth,
-employing a subpattern again on the node opposite to the root node to match into depth (see Fig. \ref{figspanningtree} for an illustration).
-In the example we match the entire subgraph from a root node on, if one wants to copy a more constrained subgraph one can simple constrain the types, directions, and structures in the iterated subpattern covering the nodes.
-The nodes are copied with the \texttt{copy} operators and a storagemap is filled, storing for every node copied its copy.
+employing a subpattern again on the node adjacent to the root node to match into depth (see Fig. \ref{figspanningtree} for an illustration of how example \ref{graphcompex} matches the DAG reachable from the root node \verb#$1# on via outgoing edges).
+In case the structure to compare consists of multiple connected components or is difficult to capture with iterated and subpatterns, you can collect it step by step with a sequence of rule applications building up the node set.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig/SpanningTree}
-  \caption{Matching a spanning tree in a graph}
+  \caption{Matching a \indexed{spanning tree} in a graph}
   \label{figspanningtree}
 \end{figure}
+
+  \begin{example}\label{graphcompex}
+    \begin{grgen}
+pattern MatchSubgraph(root:Node, ref nodes:set<Node>)
+{
+  iterated { // match spanning tree of graph from root on
+    root --> ch:Node;
+    ms:MatchSubgraph(ch, nodes);
+
+    modify {
+      ms();
+    }
+  }
+
+  modify {
+    eval { nodes.add(root); } // build node set inducing graph
+  }
+}
+    \end{grgen}
+  \end{example}
+
+The second step is to compute an induced subgraph from the node set collected, that can be done easily with the \texttt{inducedSubgraph} subgraph operation introduced in \ref{subgraphoperations}:\\ \verb#exec sub:graph=inducedSubgraph(nodes)#.
+
+The third step consists of comparing the subgraphs we filleted out of the common host graph with the graph comparison operators introduced in table \ref{compandgraph} (of section \ref{sec:relationalcontainer}):\\
+\verb#exec if{sub1==sub2; doIso; doNonIso}#.
+
+In case each such subgraph needs to be compared more than once it is recommended to add an attribute of type \texttt{graph} (see chapter \ref{cha:container}) to the subgraph starting anchor nodes, to assign the induced subgraph to this attribute, and to compare the subgraphs stored in these attribute.
+This saves us the cost of computing the attributes and allows for further internal optimizations which 
+may result in huge speedups.
+
+\begin{warning}
+The subgraph is not adapted automatically when the host graph changes, if this happens you must compute the stored subgraph anew manually.
+\end{warning}
+
+\noindent The comparison is then typically done with an idiom as such:\\
+\verb#exec if{ for{other:AnchorNodeType; {curSub!=other.sub}} ; doNonIso(curSub)}# 
+or such:\\
+\verb#exec if{ for{other:graph in setOfCandidates; {curSub!=other}} ; doNonIso(curSub)}#.
+
+
+\section{Copying Structures}\label{subsub:copystructure}\indexmain{subgraph copying}\indexmainsee{copy structure}{subgraph copying}
+Structures are copied in two passes, the first consists of copying and collecting all nodes of interest, the second of copying all edges of interest in between the nodes.
+
+The first pass consists of covering the nodes of the structure one wants to copy with iterated subpatterns,
+in the same way as already introduced in \ref{subsub:comparestructure},
+i.e. subpatterns which match from a root node on with iterateds along the incident edges into breadth,
+employing a subpattern again on the node opposite to the root node to match into depth.
+In the example we match the entire subgraph from a root node on, if one wants to copy a more constrained subgraph one can simple constrain the types, directions, and structures in the iterated subpattern covering the nodes.
+The nodes are copied with the \texttt{copy} operators and a storagemap is filled, storing for every node copied its copy.
 
 The second pass is started after the structure matching ended by executing the deferred execs which were issued for every node handled.
 Each \texttt{exec} copies all outgoing edges (one could process all incoming edges instead) of a node:
@@ -314,7 +363,7 @@ Here too one could constrain the subgraph copied by filtering certain edges.
 In case of undirected edges one would have to prevent that edges get copied twice (once for every incident node). This would require a visited flag for marking the already copied edges or a storage receiving them, queried in the edge copying pattern and set/filled in the edge copying rewrite part.
 
   \begin{example}
-The example shows very generally how a subgraph reachable from a root node by incident edges can get copied, collecting and copying the nodes along a spanning tree from the root node on, then copying the edges in between the nodes in a second run afterwards. The edges get connected to the correct node copies via a mapping from the old to the new nodes remembered in a storage-map.
+The example shows very generally how a subgraph reachable from a root node by incident edges can get copied, collecting and copying the nodes along a \indexed{spanning tree} from the root node on, then copying the edges in between the nodes in a second run afterwards. The edges get connected to the correct node copies via a mapping from the old to the new nodes remembered in a storage-map (\indexed{tracebility} map).
     \begin{grgen}
 pattern CopySubgraph(root:Node, ref oldToNew:map<Node, Node>)
 {
@@ -524,12 +573,13 @@ The edges between the non-\texttt{Graph} nodes are the "normal" graph edges insi
 The key ingredients for state space enumeration then are
 \begin{itemize}
 	\item The aforementioned modelling with anchor nodes linking to the subgraphs, i.e. states
-	\item Backtracking angles --- they allow to recursively enumerate and apply the matches of a rule found, exhaustively stepping through the state space, rolling back the effects on the graph of the previous match tried before carrying out the next step (see \ref{sec:extctrl})
-	\item Pause insertions --- they allow to write the interesting subgraphs found during state space search out into the host graph while effects recording of backtracking supervision is paused, so that they are not rolled back during backtracking (see \ref{sec:extctrl})
-	\item Recursive sequences --- they allow to nest backtracking angles dynamically, so it becomes possible to enumerate an entire state space with a sequence just implementing one backtracking step (see \ref{sec:sequencedefinition})
-	\item The capability to create a copy of a subgraph and insert it into the host graph (see \ref{subsub:copystructure}, esp. \ref{builtingraphcopying})
-	\item A subgraph attribute in the anchor nodes which contains a copy of the subgraph in the host graph, ready to be compared to the current graph, in order to decide whether that one should be inserted into the state space or purged for being an isomorphic copy of an already available instance; and of course such an equality comparison (see \ref{cha:container}, esp. \ref{sec:relationalcontainer})
-	\item Adjacency and induced functions to compute the subgraphs from the host graph following the \texttt{contains} edges from the anchor nodes (see \ref{neighbouringelementsfunctions} and \ref{subgraphoperations})
+	\item Backtracking angles --- they allow to recursively enumerate and apply the matches of a rule found, exhaustively stepping through the state space, rolling back the effects on the graph of the previous match tried before carrying out the next step (see section \ref{sec:extctrl})
+	\item Pause insertions --- they allow to write the interesting subgraphs found during state space search out into the host graph while effects recording of backtracking supervision is paused, so that they are not rolled back during backtracking (see section \ref{sec:extctrl})
+	\item Recursive sequences --- they allow to nest backtracking angles dynamically, so it becomes possible to enumerate an entire state space with a sequence just implementing one backtracking step (see section \ref{sec:sequencedefinition})
+	\item The capability to create a copy of a subgraph and insert it into the host graph (see section \ref{subsub:copystructure}, esp. subsection \ref{builtingraphcopying})
+	\item The ability to compare subgraphs (see section \ref{subsub:comparestructure}).
+Implemented in an optimized way with a subgraph attribute in the anchor nodes which contains a copy of the subgraph in the host graph, ready to be compared to the current graph, in order to decide whether that one should be inserted into the state space or purged for being an isomorphic copy of an already available instance. 
+	\item Adjacency and induced functions to compute the subgraphs from the host graph following the \texttt{contains} edges from the anchor nodes (see section \ref{neighbouringelementsfunctions}, Connectedness Queries and section \ref{subgraphoperations}, Subgraph Operations)
 \end{itemize}
 
 The modelling given above allows to employ the ability of GrGen.NET/yComp to visualize nested graphs from a flat graph by interpreting node containment along edges of a special type (cf. \ref{sub:visual}), ballooning the anchor node up to a subgraph. 

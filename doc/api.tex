@@ -169,7 +169,7 @@ procEnv.ApplyGraphRewriteSequence("<(::x)=foo && (::y)=bar(::x) | bla(::y)>");
 \end{example}
 
 In addition to sequences and variables handling, the graph processing environment offers driver or helper objects for transaction management, deferred sequence execution, graph change recording, and emitting.
-The most important of these is the transaction manager which is utilized when \GrG is used for crawling through a search space or for enumerating a state space, see section \label{sec:extctrl}.
+The most important of these is the transaction manager which is utilized when \GrG is used for crawling through a search space or for enumerating a state space, see section \ref{sec:extctrl}.
 The operations mentioned there are implemented by calling the function given in example \ref{ex:transman}.
 
 \begin{example}\label{ex:transman}
