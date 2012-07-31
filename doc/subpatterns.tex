@@ -71,9 +71,9 @@ test methodWithTwoParameters
 \subsection{Recursive Patterns}\indexmain{recursive pattern}\indexmain{structural recursion}
 
 Subpatterns can be combined with alternative patterns or the cardinality patterns into recursive subpatterns, i.e. subpatterns which may contain themselves.
-Subpatterns containing themselves alone -- directly or indirectly -- would never yield a match.
+Subpatterns containing themselves alone -- directly or indirectly -- would never yield a match as an infinite pattern can't be found in a limited graph.
 
-\begin{example}
+\begin{example}\label{exiterpath}
   \begin{grgen}
 test iteratedPath
 {
@@ -91,8 +91,8 @@ pattern IteratedPath(prev:Node)
 }
   \end{grgen}
   
-Searches an iterated path from the root node on, here an assignment list. 
-The iterated path with the optional is equivalent to the code below (note the negative which ensures you get a longest match -- without it the empty case may be chosen lazily just in the beginning)
+The code above searches an \indexed{iterated path} from the root node on, here an assignment list. 
+The iterated \indexed{path} with the optional is equivalent to the code below. Note the negative which ensures you get a longest match -- without it the empty case may be chosen lazily just in the beginning.
 
   \begin{grgen}
 pattern IteratedPath(prev:Node)
@@ -110,8 +110,29 @@ pattern IteratedPath(prev:Node)
   }
 }
   \end{grgen}
-\end{example}
 
+The code below searches an iterated path like the code above, just that it stops when a maximum length is reached.
+The \indexed{bounded iterated path} is realized by 
+calling a pattern with the requested maximum depth,
+counting the depth parameter down with each recursion step,
+until the limit checked by a condition is reached.
+
+  \begin{grgen}
+test boundedIteratedPath(root:Assign)
+{
+  :BoundedIteratedPath(root, 3); // match iterated path of depth 3
+}
+
+pattern BoundedIteratedPath(prev:Node, var depth:int)
+{
+  optional { // nothing or a linked assignment and again a list
+    prev --> a:Assign; // assignment node 
+    :IteratedPath(a, depth-1); // next one, plz
+    if{ depth >= 1; } // stop when we have reached max depth
+  }
+}
+  \end{grgen}
+\end{example}
 
 \begin{example}
   \begin{grgen}
@@ -152,7 +173,7 @@ The same path specified in the pattern of the rule -- not in the independent -- 
 With recursive subpatterns you can already capture neatly structures extending into depth (as iterated paths)
 and also structures extending into breadth (as forking patterns, although the cardinality statements are often much better suited to this task).
 But combined with an iterated block, you may even match structures extending into breadth and depth,
-like e.g. an inheritance hierarchy of classes in our example domain of program graphs, see ex. \ref{exsptree}, i.e. you can match a \indexed{spanning tree} in the graph.
+like e.g. an inheritance hierarchy of classes in our example domain of program graphs, see example \ref{exsptree}, i.e. you can match a \indexed{spanning tree} in the graph.
 This gives you a very powerful and flexible notation to capture large, complex patterns
 built up in a structured way from simple, connected pieces (as e.g. abstract syntax trees of programming languages). 
 
