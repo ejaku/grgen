@@ -152,9 +152,9 @@ The same path specified in the pattern of the rule -- not in the independent -- 
 With recursive subpatterns you can already capture neatly structures extending into depth (as iterated paths)
 and also structures extending into breadth (as forking patterns, although the cardinality statements are often much better suited to this task).
 But combined with an iterated block, you may even match structures extending into breadth and depth,
-like e.g. a hierarchy of classes (i.e. match a \indexed{spanning tree} in the graph)
-giving you a very powerful and flexible notation to capture large, complex patterns
-built up in a structured way from simple, connected pieces (as e.g. abstract syntax trees of programming languages).
+like e.g. an inheritance hierarchy of classes in our example domain of program graphs, see ex. \ref{exsptree}, i.e. you can match a \indexed{spanning tree} in the graph.
+This gives you a very powerful and flexible notation to capture large, complex patterns
+built up in a structured way from simple, connected pieces (as e.g. abstract syntax trees of programming languages). 
 
 \begin{note}
 If you are working with hierarchic structures like that, 
@@ -162,7 +162,7 @@ you might be interested in the capablities of GrShell/yComp for nested layout
 as described and shown in \ref{sub:visual}/\ref{note:visual}).
 \end{note}
 
-\begin{example}
+\begin{example}\label{exsptree}
   \begin{grgen}
 pattern SpanningTree(root:Class)
 {
