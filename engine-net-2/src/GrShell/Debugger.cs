@@ -495,6 +495,9 @@ namespace de.unika.ipd.grGen.grShell
                     PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                     break;
+                case 'p':
+                    HandleDump();
+                    break;
                 case 'h':
                     HandleUserHighlight(seq);
                     break;
@@ -510,7 +513,7 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 default:
                     Console.WriteLine("Illegal command (Key = " + key.Key
-                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight and (a)bort allowed!");
+                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, and (a)bort allowed!");
                     break;
                 }
             }
@@ -582,6 +585,12 @@ namespace de.unika.ipd.grGen.grShell
             PrintVariables(null, null);
             PrintVariables(debugSequences.Peek(), seq);
             PrintVisited();
+        }
+
+        void HandleDump()
+        {
+            string filename = grShellImpl.ShowGraphWith("ycomp", "");
+            Console.WriteLine("Showing dumped graph " + filename + " with ycomp");
         }
 
         void HandleUserHighlight(Sequence seq)
@@ -2429,7 +2438,7 @@ namespace de.unika.ipd.grGen.grShell
                 PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
                 context.workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
-                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight and (a)bort (plus Ctrl+C for forced abort).");
+                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, and (a)bort (plus Ctrl+C for forced abort).");
                 QueryUser(seq);
             }
 

@@ -621,7 +621,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - edge type <e1> is <e2>    Tells whether the edge e1 has a type compatible\n"
                 + "                             to the type of e2\n"
                 + " - debug ...                 Debugging related commands\n"
-                + " - xgrs <xgrs>               Executes the given extended graph rewrite sequence\n"
+                + " - (exec | xgrs) <xgrs>      Executes the given extended graph rewrite sequence\n"
                 + " - validate ...              Validate related commands\n"
                 + " - dump ...                  Dump related commands\n"
                 + " - save graph <filename>     Saves the current graph as a GrShell script\n"
@@ -799,7 +799,7 @@ namespace de.unika.ipd.grGen.grShell
             // Not mentioned: debug grs
 
             debugOut.WriteLine("\nList of available commands for \"debug\":\n"
-                + " - debug xgrs <xgrs>\n"
+                + " - debug (exec | xgrs) <xgrs>\n"
                 + "   Debugs the given XGRS.\n\n"
                 + " - debug (enable | disable)\n"
                 + "   Enables/disables debug mode.\n\n"
@@ -896,7 +896,7 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             debugOut.WriteLine("List of available commands for \"validate\":\n"
-                + " - validate [exitonfailure] xgrs <xgrs>\n"
+                + " - validate [exitonfailure] (exec | xgrs) <xgrs>\n"
                 + "   Validates the current graph according to the given XGRS (true = valid)\n"
                 + "   The xgrs is applied to a clone of the original graph\n"
                 + "   If exitonfailure is specified and the graph is invalid the shell is exited\n\n"
@@ -2240,10 +2240,10 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void ShowGraphWith(String programName, String arguments)
+        public string ShowGraphWith(String programName, String arguments)
         {
-            if(!GraphExists()) return;
-            if(nonDebugNonGuiExitOnError) return;
+            if(!GraphExists()) return "";
+            if(nonDebugNonGuiExitOnError) return "";
 
             String filename;
             int id = 0;
@@ -2260,6 +2260,8 @@ namespace de.unika.ipd.grGen.grShell
 
             Thread t = new Thread(new ParameterizedThreadStart(ShowGraphThread));
             t.Start(new ShowGraphParam(programName, arguments, filename));
+
+            return filename;
         }
 
         public void ShowGraphs()
