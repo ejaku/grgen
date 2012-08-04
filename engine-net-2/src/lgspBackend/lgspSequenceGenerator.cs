@@ -1494,24 +1494,10 @@ namespace de.unika.ipd.grGen.lgsp
                         if(destinationValue != null)
                             source.AppendFront("object " + destinationValue + " = " + GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
                         string dictionary = "((System.Collections.IDictionary)" + container + ")";
-                        source.AppendFront("if(" + dictionary + ".Contains(" + sourceValue + "))\n");
-                        source.AppendFront("{\n");
-                        source.Indent();
                         if(destinationValue == null)
                             source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
                         else
                             source.AppendFront(dictionary + "[" + sourceValue + "] = " + destinationValue + ";\n");
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                        source.AppendFront("else\n");
-                        source.AppendFront("{\n");
-                        source.Indent();
-                        if(seqAdd.ExprDst == null)
-                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", null);\n");
-                        else
-                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", " + destinationValue + ");\n");
-                        source.Unindent();
-                        source.AppendFront("}\n");
 
                         source.Unindent();
                         source.AppendFront("}\n");
@@ -1541,24 +1527,10 @@ namespace de.unika.ipd.grGen.lgsp
                         if(destinationValue != null)
                             source.AppendFront(dictDstType + " " + destinationValue + " = (" + dictDstType + ")" + GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
 
-                        source.AppendFront("if(" + dictionary + ".ContainsKey(" + sourceValue + "))\n");
-                        source.AppendFront("{\n");
-                        source.Indent();
                         if(seqAdd.ExprDst == null)
                             source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
                         else
                             source.AppendFront(dictionary + "[" + sourceValue + "] = " + destinationValue + ";\n");
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                        source.AppendFront("else\n");
-                        source.AppendFront("{\n");
-                        source.Indent();
-                        if(seqAdd.ExprDst == null)
-                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", null);\n");
-                        else
-                            source.AppendFront(dictionary + ".Add(" + sourceValue + ", " + destinationValue + ");\n");
-                        source.Unindent();
-                        source.AppendFront("}\n");
                     }
                     source.AppendFront(SetResultVar(seqAdd, container));
                     break;
