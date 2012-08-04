@@ -718,6 +718,13 @@ namespace de.unika.ipd.grGen.grShell
             {
                 if(value[i] is IGraphElement)
                     HighlightSingleValue(value[i], name + "[" + i + "]", addAnnotation);
+                if(value[i] is INode && i >= 1)
+                {
+                    if(addAnnotation)
+                        ycompClient.AddEdge(name + i, name + "[->]", (INode)value[i-1], (INode)value[i]);
+                    else
+                        ycompClient.DeleteEdge(name + i);
+                }
             }
         }
 
