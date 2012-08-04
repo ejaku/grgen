@@ -1800,7 +1800,7 @@ namespace de.unika.ipd.grGen.grShell
                             typeof(de.unika.ipd.grGen.libGr.SetValueType));
                         foreach(object val in par.Values)
                         {
-                            setmap.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key), null);
+                            setmap[ParseAttributeValue(attrType.ValueType, (String)val, par.Key)] = null;
                         }
                         value = setmap;
                         break;
@@ -1816,8 +1816,8 @@ namespace de.unika.ipd.grGen.grShell
                         foreach(object val in par.Values)
                         {
                             tgtValEnum.MoveNext();
-                            setmap.Add(ParseAttributeValue(attrType.KeyType, (String)val, par.Key),
-                                ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key));
+                            setmap[ParseAttributeValue(attrType.KeyType, (String)val, par.Key)] =
+                                ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key);
                         }
                         value = setmap;
                         break;
@@ -1874,7 +1874,7 @@ namespace de.unika.ipd.grGen.grShell
                             typeof(de.unika.ipd.grGen.libGr.SetValueType));
                         foreach(object val in par.Values)
                         {
-                            setmap.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key), null);
+                            setmap[ParseAttributeValue(attrType.ValueType, (String)val, par.Key)] = null;
                         }
                         value = setmap;
                         break;
@@ -1890,8 +1890,8 @@ namespace de.unika.ipd.grGen.grShell
                         foreach(object val in par.Values)
                         {
                             tgtValEnum.MoveNext();
-                            setmap.Add(ParseAttributeValue(attrType.KeyType, (String)val, par.Key),
-                                ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key));
+                            setmap[ParseAttributeValue(attrType.KeyType, (String)val, par.Key)] =
+                                ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key);
                         }
                         value = setmap;
                         break;

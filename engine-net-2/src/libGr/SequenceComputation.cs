@@ -368,10 +368,7 @@ namespace de.unika.ipd.grGen.libGr
             else
             {
                 IDictionary setmap = (IDictionary)container;
-                if(setmap.Contains(Expr.Evaluate(procEnv)))
-                    setmap[Expr.Evaluate(procEnv)] = (ExprDst == null ? null : ExprDst.Evaluate(procEnv));
-                else
-                    setmap.Add(Expr.Evaluate(procEnv), (ExprDst == null ? null : ExprDst.Evaluate(procEnv)));
+                setmap[Expr.Evaluate(procEnv)] = (ExprDst == null ? null : ExprDst.Evaluate(procEnv));
                 return setmap;
             }
         }

@@ -383,7 +383,7 @@ PARSER_BEGIN(GRSImporter)
 	                    typeof(de.unika.ipd.grGen.libGr.SetValueType));
 	                foreach(object val in par.Values)
 	                {
-                        setmap.Add( ParseAttributeValue(attrType.ValueType, (String)val), null );
+                        setmap[ParseAttributeValue(attrType.ValueType, (String)val)] = null;
 	                }
 	                value = setmap;
 	                break;
@@ -396,8 +396,8 @@ PARSER_BEGIN(GRSImporter)
 	                foreach(object val in par.Values)
 	                {
 	                    tgtValEnum.MoveNext();
-                        setmap.Add( ParseAttributeValue(attrType.KeyType, (String)val),
-                            ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current) );
+                        setmap[ParseAttributeValue(attrType.KeyType, (String)val)] =
+                            ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current);
 	                }
 	                value = setmap;
 	                break;

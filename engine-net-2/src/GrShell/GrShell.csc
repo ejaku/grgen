@@ -926,8 +926,8 @@ object Constant():
 				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
 		}
 		"{"
-			( src=SimpleConstant() { ((IDictionary)constant).Add(src, null); } )?
-				( "," src=SimpleConstant() { ((IDictionary)constant).Add(src, null); })*
+			( src=SimpleConstant() { ((IDictionary)constant)[src] = null; } )?
+				( "," src=SimpleConstant() { ((IDictionary)constant)[src] = null; })*
 		"}"
 	|
 		"map" "<" typeName=WordOrText() "," typeNameDst=WordOrText() ">"
@@ -940,8 +940,8 @@ object Constant():
 				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
 		}
 		"{"
-			( src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )?
-				( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )*
+			( src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant)[src] = dst; } )?
+				( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant)[src] = dst; } )*
 		"}"
 	|
 		"array" "<" typeName=WordOrText() ">"
