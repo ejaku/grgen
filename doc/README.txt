@@ -1,5 +1,5 @@
-GrGen.NET v3.5 (2012-07-29)
----------------------------
+GrGen.NET v3.5.1 (2012-08-05)
+-----------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
@@ -7,6 +7,7 @@ It consists of two parts of components:
   specifications into efficient .NET assemblies performing the rewrites,
   which are supported by the runtime environment LibGr.
 - the rapid prototyping environment offered by GrShell and yComp
+
 
 INSTALL
 -------
@@ -96,37 +97,68 @@ at http://www.grgen.net.
 If you find any bugs or have a suggestion, please send an email to:
     grgen@ipd.info.uni-karlsruhe.de
 
-
-AUTHORS
--------
+	
+MAIN AUTHORS FROM IPD
+---------------------
 
 Veit Batz
-Michael Beck
 Jakob Blomer
 Sebastian Buchwald
-Rubino Geiss
+Rubino Geiß
 Daniel Grund
 Sebastian Hack
-Enno Hofmann
 Edgar Jakumeit
 Moritz Kroll
-Christoph Mallon
-Jens Mueller
-Andreas Schoesser
 Adam Szalkowski
+
+
+FURTHER AUTHORS FROM IPD
+------------------------
+
+Michael Beck
+Christoph Mallon
+Jens Müller
+Andreas Schösser
+Andreas Zwinkau
+
+
+FURTHER EXTERNAL CODE/BUGFIX CONTRIBUTIONS
+------------------------------------------
+
+Paolo Bonzini
+Philip Daubmeier
+Philip Lorenz
+Julian Reich
 Nicholas Tung
 
 
-CONTRIBUTORS
--------
+BUGREPORTS AND OTHER CONTRIBUTIONS
+----------------------------------
 
-TODO
+Nadeem Ahmed
+Serge Autexier
+Paul Bedaride
+Maxim Bendiks
+Bugra Derre
+Dominik Dietrich
+Gerhard Goos
+Pieter van Gorp
+Thomas Grasl
+Enno Hofmann
+Tassilo Horn
+Yuan Jochen Kang
+Mathias Landhäußer
+Robert C. Metzger
+Normen Müller
+Laura Perez
+Caroline von Totth
+Maneesh Yadav
 
 
 COPYING
 -------
 
-Copyright (C) 2003-2012 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+Copyright (C) 2003-2012 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos
 
 This file is part of GrGen, Version GrGen.NET 3.5
 
