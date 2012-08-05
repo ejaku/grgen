@@ -1,4 +1,12 @@
-﻿v3.5 (2012-07-29)
+﻿v3.5.1 (2012-08-05)
+ Multiple improvements in the user manual in various sections
+
+ Added "dum(p) graph" command to the debugger
+
+ Bugfix: abstract nodes/edges could not be referenced in the rewrite specification of a nested pattern, 
+  until the matching graphlet was directly contained by that nested pattern  
+
+v3.5 (2012-07-29)
  Some improvements in the user manual:
   - split several chapters into better digestible, more coherent parts
   - better explanation of the bracktracking angles, the central construct for crawling search spaces
