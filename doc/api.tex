@@ -21,11 +21,18 @@ We'll have a look at
 \item and implementing the generic interface from \texttt{de.unika.ipd.grGen.libGr} using the entities mentioned in both points above.
 \end{itemize}
 
-\begin{note}
-If you work on the API level it is helpful to keep the generated source code which normally is thrown away 
-after it was compiled into the assemblies lgsp-FooModel.dll and lgsp-FooActions.dll.
-Use the \texttt{-keep} option when you call \texttt{grgen.exe} to do so.
-\end{note}
+\noindent This generative approach bears a great deal of the responsibility for the high execution speed of GrGen.NET, but it comes at the price of flexibility: you can't extend the rule set at runtime with new rules.
+What you can do at runtime on the other hand is to generate a new rule set file, apply the compiler, and dynamically link the resulting assemblies/dlls.
+
+When working with the API, you could reference the generated binary dlls in your project, in the same way as you have to reference the \texttt{libGr.dll} and \texttt{lgspBackend.dll}.
+For easier debugging though, especially when you are integrating the generated code with own extensions (as described in chapter \ref{chapextensions}), it is recommended to directly include the source code generated (which is thrown away normally after it was compiled into the assemblies lgsp-FooModel.dll and lgsp-FooActions.dll).
+For this, use the \texttt{-keep} option when you call \texttt{grgen.exe}, and include the model and the actions file (excluding the intermediate actions file) directly as C\# source code files.
+
+The matcher code generated contains the initial, static search plans.
+When you analyze the graph at runtime and generate new matchers, see section \ref{custom} for more on this, you can request the dumping of the source code of the improved matchers.
+The custom commands are available at API level via the \texttt{Custom} operation of the \texttt{IGraph} interface for the graph commands and the \texttt{Custom} operation of the \texttt{BaseActions} class for the actions commands, just handing in the same parameters as otherwise specified on the command line.
+If the intended workflow of ``i) loading a typical graph or doing a warm-up run creating a typical graph, ii) analyzing that graph, iii) compiling new matchers which are better suited to the graph'' is not easily achievable, or you want to start with the optimized matchers straight from the beginning, you may copy and paste the dumped dynamic matchers of an example run to the existing static code. 
+But this is only a last resort, as the price is that your manual editing is overwritten again with the static search plans at the next time you call \texttt{grgen}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,6 +64,7 @@ It contains for every rule or test \texttt{bar}
 \item a class \texttt{Rule\_bar} inheriting from \texttt{de.unika.ipd.grGen.lgsp.LGSPRulePattern}, which contains
 the exact match interface \texttt{IMatch\_bar} which defines how a match of the rule looks like,
 extending the generic rule-unspecific \texttt{IMatch} interface.
+Have a look at section \ref{sub:extflt} for an extended introduction to the matches interfaces. 
 Furtheron there are (but meant only for internal use): a match class \texttt{Match\_bar} implementing the exact and inexact interface,
 a description of the pattern to match, and the modify methods doing the rewriting.
 \item an exact action interface \texttt{IAction\_bar} which contains the methods:
@@ -169,7 +177,7 @@ procEnv.ApplyGraphRewriteSequence("<(::x)=foo && (::y)=bar(::x) | bla(::y)>");
 \end{example}
 
 In addition to sequences and variables handling, the graph processing environment offers driver or helper objects for transaction management, deferred sequence execution, graph change recording, and emitting.
-The most important of these is the transaction manager which is utilized when \GrG is used for crawling through a search space or for enumerating a state space, see section \ref{sec:extctrl}.
+The most important of these is the transaction manager which is utilized when \GrG~ is used for crawling through a search space or for enumerating a state space, see section \ref{sec:extctrl}.
 The operations mentioned there are implemented by calling the function given in example \ref{ex:transman}.
 
 \begin{example}\label{ex:transman}
@@ -187,6 +195,9 @@ public interface ITransactionManager
 \end{verbatim}
 \end{example}
 
+The \texttt{StartTransaction} starts a transaction and returns its id; it may be called multiple times returning different ids for the then nested transactions (i.e. a failing outer one rolls back the changes of an inner transaction which succeeded).
+Changes to the graph are recorded thereafter into an undo log, unless a \texttt{Pause} was called not yet followed by a \texttt{Resume}.
+When the changes of interest were carried out the transaction identified by its id is either \texttt{Commit}ed, which causes the changes recorded since the corresponding \texttt{StartTransaction} to stay in the graph, or rolled back by calling \texttt{Rollback}, in that case all the changes recorded since the corresponding \texttt{StartTransaction} are undone.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Import/Export and Miscellaneous Stuff}\label{sub:imexport}\indexmain{import}\indexmain{export}

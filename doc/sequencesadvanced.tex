@@ -102,7 +102,7 @@ This will happen steadily with automorphic patterns and then degrade performance
 Merging states with already computed ones yields a DAG-formed state space, instead of the always tree like search space.
 Have a look at the transformation techniques chapter for more on state space enumeration \ref{sec:statespaceenum} and copying \ref{subsub:copystructure}.
 One caveat of the transactions and backtracking must be mentioned: rollback might lead to an incorrect graph visualization when employed from the debugger.
-This holds especially when using grouping nodes to visualize subgraph containment (\ref{sub:visual}). You must be aware that you can't rely on the online display as much as you can normally, and that you maybe need to fall back to an offline display by opening a \texttt{.vcg}-dump of the graph written in a situation when the online graph looked suspicious. 
+This holds especially when using grouping nodes to visualize subgraph containment (\ref{sub:visual}). You must be aware that you can't rely on the online display as much as you can normally, and that you maybe need to fall back to an offline display by opening a \texttt{.vcg}-dump of the graph written in a situation when the online graph looked suspicious; a dump can be written easily in a situation of doubt from the debugger pressing the \texttt{p} key. 
 
 \begin{note}
 While a transaction or a backtrack is pending, all changes to the graph are recorded into some kind of undo log, which is used to reverse the effects on the graph in the case of rollback (and is thrown away when the nesting root gets committed).

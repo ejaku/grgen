@@ -345,7 +345,7 @@ If the input type specification type is given, but the more specific pattern ele
 If null is declared in the input type specification and given at runtime, the element is searched in the host graph.
 Don't use null parameters unless you need them, because every null parameter doubles the number of matcher routines which get generated.
 Non-graph element parameters must be prefixed by the \texttt{var} or \texttt{ref}-keyword;
-VarType is one of the attribute types supported by \GrG\ (\ref{sec:builtintypes}).
+VarType is one of the attribute types supported by \GrG\ (cf. \ref{sec:builtintypes} and \ref{sec:builtingenerictypes}).
 The primitive types require the \texttt{var} prefix and are handed in \indexed{by-value};
 the generic types require the \texttt{ref} prefix and are handed in \indexed{by-reference}.
 Please note that the effect of assigning to a var/ref parameter in \texttt{eval} (see \ref{sec:replacemodify}) is undefined (concerning the parameters as well as the argument);

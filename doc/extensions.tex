@@ -32,6 +32,15 @@ Registers one or multiple \indexed{external match filter}s with \GrG~, for the r
 The \indexed{match filter} function must be implemented externally, see \ref{sub:extfltseqimpl}.
 You may extend \GrG~with match filters if you need to inspect the matches found for a rule in order to decide which to apply (see note \ref{note:inspect}) or if you just need a post-match hook which informs you about the found matches.
 
+\subsubsection*{Match object}
+
+For a rule or subpattern \texttt{r} GrGen generates a match interface \texttt{IMatch\_r} extending the generic \texttt{IMatch} interface from the \texttt{libGr}.
+The basic constituents, i.e. nodes, edges and variables are mapped directly to members of their name and type, containing the graph element matched or the value computed.
+For alternatives nested inside the pattern a common base interface \texttt{IMatch\_r\_altName} is generated, plus for each alternative case an interface \texttt{IMatch\_r\_altName\_altCaseName}. When you walk the matches tree using the type exact interface (which is recommended), you must type switch on the match object in the alternative variable, to determine the case which was finally matched, and cast to its match type.
+For iterateds nested inside the pattern, in the pattern match object an iterated variable of type \texttt{IMatchesExact<IMatch\_r\_iteratedName>} is created; the IMatchesExact allows you to iterate over the patterns finally found. 
+A subpattern usage is mapped directly to a variable in the match object typed with the match interface of the subpattern.
+The same holds for independent patterns; negative patterns do not appear in the match objects, for they prevent the matching and thus the building of a match object in the first place.
+
 %-----------------------------------------------------------------------------------------------
 \section{External Sequences}\label{sub:extseq}
 \begin{rail}

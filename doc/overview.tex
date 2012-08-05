@@ -577,8 +577,14 @@ For further information about the \GrShell\ language see Chapter~\ref{chapgrshel
 \subsection{\texttt{LibGr.dll}}
 \label{sct:API}
 The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}.
-See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_2_7/};
+See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_3_5/};
 a short introduction is given in chaper \ref{cha:api}.
+
+%-----------------------------------------------------------------------------------------------
+\subsection{\texttt{lgspBackend.dll}}
+The \LGSPBackend\indexmain{lgspBackend} is a .NET assembly containing the libGr SearchPlan backend, the only backend supported by \GrG~as of now, implementing together with the generated assemblies the API offered by \LibGr.
+It allows to analyze the graph and to regenerate the matcher programs at runtime, on user request, see \ref{custom}.
+For a more detailed introduction have a look at chapter \ref{cha:developing}.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{\texttt{yComp.jar}}
@@ -595,8 +601,8 @@ It is well integrated and shipped with \GrG, but it's not a part of \GrG.
   Or by executing the batch file \texttt{ycomp} under Linux / \texttt{ycomp.bat} under Windows,
   which will start \yComp\ on the given file with increased heap space.
   The \emph{graph-file} may be any graph file in a supported format. \yComp\ will open this file on startup.
-  \item[Hints] The \indexed{layout algorithm}\indexmainsee{layout}{layout algorithm} \indexedsee{compiler graph}{layout algorithm} (\yComp's default setting, a version of (\texttt{\indexedsee{hierarchic}{layout algorithm}} optimized for graph based compiler intermediate representations) may not be a good choice for your graph at hand.
-  Instead \texttt{\indexedsee{organic}{layout algorithm}} or \texttt{\indexedsee{orthogonal}{layout algorithm}} might be worth trying).
+  \item[Hints] The \indexed{layout algorithm}\indexmainsee{layout}{layout algorithm} \indexedsee{compiler graph}{layout algorithm} (\yComp's default setting, a version of \texttt{\indexedsee{hierarchic}{layout algorithm}} optimized for graph based compiler intermediate representations) may not be a good choice for your graph at hand.
+  Instead \texttt{\indexedsee{organic}{layout algorithm}} or \texttt{\indexedsee{orthogonal}{layout algorithm}} might be worth trying.
   Use the rightmost blue play button to start the layout process. Depending on the graph size this may take a while.
   \item[Requires] Java Runtime Environment 1.5 (or above).
 \end{description}
