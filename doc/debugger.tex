@@ -6,6 +6,7 @@ This chapter gives an introduction into the visualization capabilites of yComp a
 Other commands of use for debugging were already introduced in the shell chapter:
 \verb#show var <Variable># to print the content of a variable (but pressing the \texttt{v} key in the shell debugger is a lot more convenient) and \verb#show <GraphElement>.<AttributeName># to print the content of an attribute (but searching with \texttt{Ctrl-f} or \texttt{/} in yComp for the persistent name or an attribute value, hovering over the then highlighted graph element is more convenient, again); furthermore \verb#record# and \verb#replay# are interesting when you are debugging a transformation where you are choosing from the available matches by hand and want to try other paths later by choosing differently on a previous match: they allow you to save and restore graph states of interest, and to inspect the sequence of changes which lead to them in the \texttt{.grs}.
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Visualization Commands (Nested Layout)}\label{sub:visual}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}\indexmain{nested layout}\indexmainsee{nested layout}{group node}\indexmain{nested graph}\indexmainsee{nested graph}{group node}
 
@@ -134,6 +135,25 @@ The following example shows several of the layout options employed to considerab
 
 \pagebreak 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{yComp Usage}
+
+\yComp\indexmain{yComp} \cite{ycomp} is the default graph viewer of GrGen, and -- when started as a server process -- can be controlled by the debugger of GrShell via a TCP/IP connection.
+Besides the things already mentioned in \ref{tools:ycomp}, we want to give the following hints:
+\begin{itemize}
+	\item when started on a dump, you must press the rightmost play button to start layout
+	\item play with the layout options offered in the \texttt{Layout} menu until you find a good visualization, configure it then in the GrShell; don't forget to press the play button to apply the changes
+	\item you can pane by pressing and holding the middle mouse button while moving the mouse
+	\item you can zoom with the mouse wheel at the position of the cursor
+	\item hovering over graph elements displays the attributes
+	\item you can select graph elements with the left mouse button and delete them with \texttt{del} to gain a better overview
+	\item by activating edit mode with the 3rd rightmost button you can move nodes around, which allows you to fix a bad layout (rather seldom needed)
+	\item the context menu opened by pressing the right mouse button over a graph element allows you to explore the adjacent nodes in non-edit-mode, or delete the element in edit mode
+	\item you can search with \texttt{Ctrl-f} or \texttt{/} for the persistent name or an attribute value (or by clicking into the left search field), the matching elements get highlighted
+\end{itemize}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Debugging Related Commands}
 
@@ -202,6 +222,8 @@ the user determines with the debug commands where to continue the execution
 The debug commands are given in Table~\ref{tabdebug}.
 A run is shown in the following example \ref{ex:debug}.
 
+\pagebreak %manual break to get two pages with halfway broken layout instead of one with deeply broken
+
 In addition to the commands for actively stepping or skipping through the sequence exection,
 there are breakpoints and choicepoints available (toggled with the \texttt{b} and \texttt{c} commands)
 which are only processed when they are reached, but on the other hand are also processed if a user command would skip them.
@@ -209,6 +231,7 @@ The \indexed{break point}s halt execution, focus the reached sequence, and cause
 (e.g. \texttt{d} to inspect the rule execution en detail versus \texttt{s} for just applying it).
 The \indexed{choice point}s halt execution, focus the reached sequence in magenta, and ask for some user input;
 after the input was received, execution continues according to the command previously issued.
+
 Both break points and choice points are denoted by the \texttt{\%} modifier.
 The \texttt{\%} modifier works as a break point if it is given before: a rule, an all bracketed rule, a variable predicate, or the constants \texttt{true}/\texttt{false}.
 The \texttt{\%} modifier works as a choice point if it is appended to the \texttt{\$} randomize modifier switching a random decision into a user decision.
@@ -221,7 +244,7 @@ The breakpoint and choicepoint commands of the debugger allow to toggle them at 
 The user input commands \texttt{\$\%(type)} define choice points which can't be toggled off.
 
 Further commands allow to print the variables at a given situation, the sequence call stack, or a full state dump of the call stack and the variables.
-Or allow to highlight elements in the graph, defined by being contained in a (possibly container valued) variable, or being visited according to a visited flag.
+Or allow to dump the current graph, or highlight elements in the graph, defined by being contained in a (possibly container valued) variable, or being visited according to a visited flag.
 
 \pagebreak
 
@@ -242,6 +265,7 @@ Or allow to highlight elements in the graph, defined by being contained in a (po
   \texttt{v}(ariables) & Prints the global variables and the local variables of the sequence currently executed, which is the topmost sequence of the sequence call stack. Plus the allocated visited flags. To be more precise regarding local variables: all variables which were defined (and have not fallen out of scope again) up to the sequence position focussed.\\
   \texttt{t}(race) & Prints the stack trace of the current sequence call stack; the stack trace includes the body of each sequence called at its execution state.\\
   \texttt{f}(ull dump) & Prints the stack trace including the local variables of each stack frame plus the global variables.\\
+  (dum)\texttt{p} (graph)\label{dumpgraph} & Dumps the current graph as a \texttt{.vcg} file and shows it in yComp. This can be used as a workaround to check the real state in case transaction/backtracking rollback is used on a graph with node nesting, which may lead to a buggy display.\\
   \texttt{h}(ighlight)\label{highlight} & Highlights the elements in the graph which are marked with the visited flag given, or are contained in the variable given (which might be a simple scalar variable containing a graph element, or a set/map/array valued container of graph elements). Multiple variables of visited flags may be given separated by commas.\\
 \hline
   \end{tabularx}

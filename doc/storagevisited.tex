@@ -11,7 +11,7 @@ and at the sequence computation and rule constructs concerned with them.
 %-----------------------------------------------------------------------------------------------
 \section{Storage Handling in the Sequences}\label{sec:storages}\indexmain{storage}
 
-Storages are variables of set or map or array type (cf. \ref{sec:builtintypes}) storing nodes or edges.
+Storages are variables of set or map or array type (cf. \ref{sec:builtingenerictypes}) storing nodes or edges.
 They are primarily used in the sequences, from where they are handed in to the rules via \texttt{ref} parameters (but additionally set/map/array attributes in graph elements may be used as storages,
 esp. for doing data flow analyses, cf. \ref{subsub:flow}).
 They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the set.

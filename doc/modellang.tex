@@ -147,7 +147,7 @@ Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following hold
 \end{note}
 
 %-----------------------------------------------------------------------------------------------
-\subsection{Node and Edge Types}
+\subsection{Node and Edge Types}\label{nodeandedgetypes}
 \begin{rail}
   ClassDeclaration: (() | 'abstract') (() | 'const') \\
     (NodeClass | (() | ('arbitrary' | 'directed' | 'undirected')) EdgeClass);
@@ -282,7 +282,7 @@ Then just do the same, edges are first class citizens.
 \end{rail}\ixnterm{AttributeDeclaration}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}\ixkeyw{const}
 Defines a node or edge \indexed{attribute}.
 Possible types are enumeration types (\texttt{enum}) and primitive types or generic types.
-See Section~\ref{sec:builtintypes} for a list of built-in primitive and generic types.
+See Section~\ref{sec:builtintypes} for a list of built-in primitive and Section~\ref{sec:builtingenerictypes} for a list of built-in generic types.
 Optionally attributes may be initialized with a \emph{constant} expression.
 The expression has to be of a compatible type of the declared attribute.
 See Chapter~\ref{cha:typeexpr} for the \GrG\ types and expressions reference.

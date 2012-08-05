@@ -4,7 +4,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Built-In Types}
-\label{sec:builtintypes}
+\label{sec:builtingenerictypes}
 Besides the types already introduced, \GrG\ supports the built-in \indexed{generic types}\indexmainsee{built-in generic types}{generic types} in Table~\ref{builtingenerictypes}.
 The exact type format is \indexed{backend} specific.
 The \indexed{LGSPBackend} maps the generic types to generic C\#-Dictionaries (i.e. hashmaps) or C\#-Lists (misnamed dynamic arrays) of their corresponding primitive types, with \texttt{de.unika.ipd.grGen.libGr.SetValueType} as target type for sets, only used with the value \texttt{null}.
@@ -190,6 +190,18 @@ An array A is a subarray of B iff it is smaller or equal in size and the values 
 
 \texttt{Graph} types support only the \texttt{==}, the \texttt{!=}, and the \texttt{\textasciitilde\textasciitilde} operators;
 on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}) or not, including the attributes, or whether the (sub)graphs are isomorphic disregarding the attributes.
+
+These operators consist just of two charactes, but don't underestimate their impact on performance:
+they do graph isomorphy checking, which is expensive.
+They are implemented in an early out style, i.e. the more different the graphs are, the earlier does the check return with the result they are not isomorphic.
+But if the graphs you are checking are isomorphic (which will happen easily if you use automorphic patterns), then you have to pay the full price for isomorphy checking; if this occurs often, your solution may become prohibitively costly (including an external graph canonization library may be of interest in that case).
+
+Some notes on the early out implementation: first the number of nodes and edges per type are checked, if they are different the graphs can't be isomorphic. The numbers are directly supplied by the \texttt{lgspBackend}, refuting isomorphy based on them is extremely cheap.
+Then the \indexed{V-Structure}s (see \ref{searchplanning}) used in computing better matchers at runtime are first computed and then compared; if they are different the graphs can't be isomorphic. They are a good deal less expensive to compute than trying to match the one graph in the other; on well typed graphs the V-Structure counts are highly discriminating.
+
+If these two pruning methods failed, a matcher is computed from one graph with search planning based on the V-Structure information just computed, and then applied on the other graph.
+The matchers are stored in the graphs from which they originated, so if you do repeated comparisons of a subgraph which does not change, take care to extract that subgraph only once, store it, e.g. as an attribute in the graph, and continue to compare against it. 
+This will save you from the cost of repeated search planning; in addition, often-used isomorphy matchers get eventually compiled resulting in a further speed up.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

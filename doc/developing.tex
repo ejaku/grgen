@@ -2,10 +2,10 @@
 
 This chapter describes the inner workings of \GrG~to allow external developers
 \begin{itemize}
-\item to understand how \GrG~works, just out of curiosity or in order to optimize their code
+\item to understand how \GrG~works, maybe just out of curiosity, but especially in order to write more efficient graph rewrite specifications
 \item extend \GrG~with new features, maybe being of general interest, maybe being only special extensions not of interest to other users
 \end{itemize}
-It starts with a section on describing how to build \GrG, followed by a section giving an introduction into the generated code, then an introduction into the mechanism of search planning, ending in a section giving some details of the struture of, and the data flow in the \GrG-code generator.
+It starts with a section on describing how to build \GrG, followed by a section giving an introduction into the generated code, then an introduction into the mechanism of search planning, followed by a section giving some details of the structure of, and the data flow in the \GrG-code generator, ending in a discussion of performance optimizations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{How to Build}\label{sub:building}\indexmain{building GrGen}
@@ -126,8 +126,8 @@ With this optimization the pattern matching during an iteration \texttt{r*} will
 
 \vspace{1cm} %manual layout so the pushdown machine simulation starts on its own page
 
-\subsection*{Pushdown Machine for Nested and Subpatterns}\indexmain{pushdown machine}\indexmain{stack machine}
-Every subpatterns is handled with a search program corresponding to its pattern as introduced in the previous section. 
+\subsection*{Pushdown Machine for Nested and Subpatterns}\indexmain{pushdown machine}\indexmain{stack machine}\label{pushdownmachine}
+Every subpattern (as introduced in chapter \ref{cha:sub}) is handled with a search program corresponding to its pattern as introduced in the previous section. 
 The interesting part is how the subpatterns used get combined, which happens with a $2+n$ pushdown machine.
 It consists of a call stack, containing the subpattern instances found with the bound elements in the local variables of the search program frame, an open tasks stack containing the subpatterns to match (when a subpattern was matched its contained subpatterns are pushed to that open tasks stack, then the top of the stack gets processed), and $n$ result stacks containing the (partial) match object trees; for a normal rule application $n=1$, for an all-bracketed rule the number of matches is unbound.
 A simulation of this machine, i.e. the matching process of a pattern using subpatterns is shown on the following pages.
@@ -248,7 +248,7 @@ In the following, an example run of the $2+n$ pushdown machine is given:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Search Planning in Code Generation}\indexmain{search plan}\indexmain{schedule}\indexmain{arborescence}\indexmain{search program}
-\indexmain{host graph sensitive search plan driven graph pattern matching}
+\indexmain{host graph sensitive search plan driven graph pattern matching}\label{searchplanning}
 
 In the previous section a search program for the pattern (repeated in figure \ref{figpatterntosearch}) was given.
 It follows the schedule\\
@@ -302,7 +302,7 @@ foreach(v3:C in graph) {
 The mechanism of search planning works by computing from the pattern graph a search plan graph.
 A search plan graph is an edge-weighted graph, with nodes corresponding to the pattern elements -- both nodes and edges -- and edges corresponding to operations to match them, with weight attributes giving an estimated cost of the operation. 
 A search plan graph contains an additional root node, with an outgoing edge to each other node defining a \texttt{lookup} operation. From plan nodes created for nodes there are \texttt{outgoing} and \texttt{incoming} operations leaving towards plan nodes created from edges, from plan nodes created for edges there are \texttt{source} and \texttt{target} operations leaving towards plan nodes created from nodes.
-The cost is determined by analyzing the amount of splitting between adjacent nodes for every triple of $(node type, edge type, node type)$ in the graph and by counting the number of elements of every node type or edge type.
+The cost is determined by analyzing the amount of splitting between adjacent nodes for every triple of $(node type, edge type, node type)$ in the graph -- called a \indexed{V-Structure} -- and by counting the number of elements of every node type or edge type.
 In the plan graph a minimum spanning arborescence, i.e. directed tree is computed. 
 The arborescence defining the matching operations causing least cost is then linearized into a schedule, which is a list of the search operations chosen as already introduced with the good and the bad schedules.
 The details of search planning and some evaluation how well it works are given in \cite{searchplangrgen} and in \cite{BKG:07}.
@@ -366,15 +366,6 @@ Furthermore it contains exact locations where to continue at, which might be dif
 
 A remark on isomorphy handling: As a consequence of the simple loop based graph element binding to pattern elements, without an explicit check all pattern elements could get matched completely homomorphically to each other (due to the loops starting with the same elements, the homomorphic matches \emph{are} normally the first to be found).
 To ensure that two pattern elements are not bound to the same graph element, flags contained in the graph elments are set when a graph element is bound to a pattern variable and reset when the binding is given up again (one flag for each negative/independent nesting level, until the implementation defined limit of flags available in the graph elements is reached, then a list of dictionaries is used); the flags are checked then in the following, nested matching operations. An iso-check scheduling pass ensures that checks are only inserted if the elements must be isomorphic and their types do not already ensure that they can't get matched to the same elements.
-
-\begin{note}
-Corollary from what you've seen: Use types!
-
-The more fine grain a graph is typed, the better are the statistics regarding the splitting structures and the number of elements of a certain type, yielding better search plans evading splitting structures and employing least-cost lookups, pruning non matches earlier in the search.
-
-Even if only the initial static schedules are used which do not know about the splitting factors or the type weights, fine grain types cause a quicker search pruning with the type checks.
-You may improve the static schedules by explicitely giving search priorities.
-\end{note}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -611,3 +602,50 @@ In case you want to contribute and got further questions don't hesitate to conta
 (via email to \texttt{grgen} at the host given by \texttt{ipd.info.uni-karlsruhe.de}).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Performance Optimization}\label{sec:performance} \indexmain{performance}\indexmain{optimization}
+
+The most important point to understand when optimizing for speed is that the expensive task is the search carried out during pattern matching. The effort for rewriting, the dominant theme in graph rewriting literature, is negligible.
+
+\subsubsection*{Use Types}
+A corollary from what you've seen especially in section \ref{searchplanning} is: \emph{Use types!}\\
+The more fine grain a graph is typed, the better are the statistics regarding the splitting structures (V-Structures) and the number of elements of a certain type, yielding better search plans evading splitting structures and employing least-cost lookups, pruning non-matches earlier in the search.
+Even if only the initial static schedules are used which do not know about the splitting factors or the type weights, fine grain types cause a quicker search pruning with the type checks.
+You may improve the static schedules by explicitely giving search priorities.
+Using fine-grain types is easy in GrGen, for multiple inheritance on node and edge types (cf. \ref{nodeandedgetypes}) is supported.
+
+\begin{warning}
+Search planning is only carried out on request!
+You must analyze the graph and then re-generate the matchers at runtime.
+See subsection \ref{custom}.
+\end{warning}
+
+\subsubsection*{Memorize, Don't Search}
+Often in a transformation you know the location you want to process from a previous step.
+In this case, store these locations in variables of node (or edge) type, and hand them in as parameters to the rules and return them out from the rules.
+In case of a statically not known number of locations as they appear e.g. in wavefront algorithm, you may store the locations in storages (cf. chapter \ref{cha:storagesvisited}), i.e. collection valued variables (which are iterated over in the sequences or passed to the rules as \texttt{ref} parameters).
+Search will then start from these parameters, instead of a looking up a value in the graph by type (unless search planning taking the statistics about the graph into account comes to the conclusion  that a lookup on a very seldom type is still the better approach).
+
+A sophisticated way of remembering facts about non-local properties is to computed them with data flow analyses (see section \ref{subsub:flow}) and store them as attributes in the graph elements.
+This allows to replace searching for distant values, or global properties like reachability, by checking a local property, at the price of re-running an analysis every time the graph changes in an important way.
+
+Speaking in database parlance, with storages you can build indices into the graph, indices which are more selective than the automatically built indices by graph element type; but in contrast to the automatically built ones, you must maintain them by hand.
+
+The approach of remembering state instead of searching when needed has a clear caveat: the code becomes less readable and more brittle. As in normal programming, you must balance performance optimizations against maintainability.
+
+\subsubsection*{Use Compiled Sequences}
+The compiled sequences given in the rules file are executed a good deal faster than the interpreted sequences given in the shell.
+So if you need speed, replace interpreted sequences by compiled ones.
+The price you pay is a loss of debuggability, a compiled sequence can only be executed as one big step.
+
+\subsubsection*{Subpatterns and Miscellaneous Things}
+
+\begin{itemize}
+	\item Take into account that subpatterns are searched top-down (cf. \ref{pushdownmachine}), from the input parameters on. If the input arguments are disconnected in the pattern containing the subpattern, it enumerates the cross product of the matches of the disconnected parts, which is then filtered in the nested parts.
+	It might be more efficient to just search from a start parameter a connected end location, and yield the found one out (cf. \ref{sec:localvarorderedevalyield}), or to search from a start parameter all connected end locations, collecting the found ones in a result set; and to check the found ones in a second step.
+  \item Take into account that the subpattern inlining implemented in GrGen is limited to depth one.
+When a local pattern gets disconnected by factoring a common part out, matching performance will suffer dramatically as the cross product of the disconnected components needs to be enumerated.
+For a single subpattern this will be circumvented by the subpattern inlining, but if this occurs for a subpattern nested in a subpattern (as is for sure the case if this happens on a subpattern recursion path), it will hit performance.
+	\item Prefer all-bracketing (cf. \ref{sec:ruleapplication}) over iteration for rule application. This is only possible if the parts of the matches which are to be modified, e.g. retyped, are disjoint.
+  \item Visited flags are the most efficient way of marking elements, if a large number of the elements gets marked. Otherwise they are inefficient, cause a lot of elements need to be iterated, just to filter the visited ones out.
+\end{itemize}
