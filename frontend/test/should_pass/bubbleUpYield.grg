@@ -1,0 +1,37 @@
+using Chemistry;
+
+pattern nucleophile(mg:MolecularGraph, def a:Atom)  {
+  mg-:contains->n:N;
+  yield{ yield a=n;}
+}
+
+pattern electrophile(mg:MolecularGraph, def a:Atom)  {
+  mg-:contains->c0:C-->b_c0o0_0:Bond<--o0:O;
+  b_c0o0_0<--:Bond;
+  yield{ yield a=c0;}
+}
+
+pattern nucleophileAddition (mg1:MolecularGraph, mg2:MolecularGraph) {
+  def nuc:Atom;
+  def elec:Atom;
+  
+  nucSP:nucleophile(mg1, yield nuc);
+  elecSP:electrophile(mg2, yield elec);
+
+  modify  {
+    nuc-->:Bond<--elec;
+  }
+}
+
+
+rule sptest (ref sReactants:set<MolecularGraph>) {
+
+  mgr1:MolecularGraph{sReactants};
+  mgr2:MolecularGraph{sReactants};
+ 
+  nucAddSP:nucleophileAddition(mgr1,mgr2);
+
+  modify  {
+    nucAddSP();
+  }
+}
