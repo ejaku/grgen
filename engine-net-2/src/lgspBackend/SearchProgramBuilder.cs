@@ -2749,8 +2749,8 @@ namespace de.unika.ipd.grGen.lgsp
                     string patternEmbeddingName = patternEmbedding.Name;
                     if(patternEmbedding.originalEmbedding != null)
                     {
-                        if(patternGraph.WasInlinedHere(patternEmbedding.originalEmbedding))
-                            inlinedMatchObjectName = "match_" + patternEmbedding.originalEmbedding.Name;
+                        if(patternGraph.WasInlinedHere(patternEmbedding.originalSubpatternEmbedding))
+                            inlinedMatchObjectName = "match_" + patternEmbedding.originalSubpatternEmbedding.Name;
                         patternEmbeddingName = patternEmbedding.originalEmbedding.name;
                     }
 
