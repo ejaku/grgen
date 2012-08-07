@@ -35,3 +35,24 @@ rule sptest (ref sReactants:set<MolecularGraph>) {
     nucAddSP();
   }
 }
+
+pattern psptest (ref sReactants:set<MolecularGraph>, var bIntraMolecular:boolean) {
+
+  mgr1:MolecularGraph{sReactants};
+  mgr2:MolecularGraph{sReactants};
+  hom(mgr1,mgr2);
+  if{bIntraMolecular ^ set<MolecularGraph>{mgr1,mgr2}.size()>1;}
+
+  nucAddSP:nucleophileAddition(mgr1,mgr2);
+
+  modify  {
+    nucAddSP();
+  }
+}
+
+rule applysptest (ref sReactants:set<MolecularGraph>) {
+  :psptest(sReactants, true);
+  modify  {
+  }
+}
+

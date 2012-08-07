@@ -2008,7 +2008,7 @@ namespace de.unika.ipd.grGen.expression
         {
             return new MapItem(Key.Copy(renameSuffix), KeyType, 
                 Value.Copy(renameSuffix), ValueType,
-                (MapItem)Next.Copy(renameSuffix));
+                Next!=null ? (MapItem)Next.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2096,7 +2096,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new SetItem(Value.Copy(renameSuffix), ValueType, (SetItem)Next.Copy(renameSuffix));
+            return new SetItem(Value.Copy(renameSuffix), ValueType, Next!=null ? (SetItem)Next.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2173,7 +2173,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayItem(Value.Copy(renameSuffix), ValueType, (ArrayItem)Next.Copy(renameSuffix));
+            return new ArrayItem(Value.Copy(renameSuffix), ValueType, Next!=null ? (ArrayItem)Next.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
