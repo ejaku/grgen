@@ -75,25 +75,17 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        bool ProcessModel(String modelFilename, String modelStubFilename, String destDir, String[] externalAssemblies, 
-                out Assembly modelAssembly, out String modelAssemblyName)
+        bool ProcessModel(CompileConfiguration cc)
         {
-            String modelName = Path.GetFileNameWithoutExtension(modelFilename);
-            String modelExtension = Path.GetExtension(modelFilename);
+            String modelName = Path.GetFileNameWithoutExtension(cc.modelFilename);
+            String modelExtension = Path.GetExtension(cc.modelFilename);
 
-            modelAssembly = null;
-            modelAssemblyName = null;
-
-            CSharpCodeProvider compiler = new CSharpCodeProvider();
-            CompilerParameters compParams = new CompilerParameters();
-
-            compParams.ReferencedAssemblies.Add("System.dll");
-            compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
-            compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
-            compParams.ReferencedAssemblies.AddRange(externalAssemblies);
-
+            CSharpCodeProvider compiler;
+            CompilerParameters compParams;
+            SetupCompiler(null, out compiler, out compParams);
+            compParams.ReferencedAssemblies.AddRange(cc.externalAssemblies);
             compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
-            compParams.OutputAssembly = destDir  + "lgsp-" + modelName + ".dll";
+            compParams.OutputAssembly = cc.destDir  + "lgsp-" + modelName + ".dll";
 
             CompilerResults compResults;
             try
@@ -102,17 +94,17 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     String externalFunctionsFile = modelName + "ExternalFunctions.cs";
                     String externalFunctionsImplFile = modelName + "ExternalFunctionsImpl.cs";
-                    if(modelStubFilename != null)
-                        compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename, modelStubFilename, externalFunctionsFile, externalFunctionsImplFile);
+                    if(cc.modelStubFilename != null)
+                        compResults = compiler.CompileAssemblyFromFile(compParams, cc.modelFilename, cc.modelStubFilename, externalFunctionsFile, externalFunctionsImplFile);
                     else
-                        compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename, externalFunctionsFile, externalFunctionsImplFile);
+                        compResults = compiler.CompileAssemblyFromFile(compParams, cc.modelFilename, externalFunctionsFile, externalFunctionsImplFile);
                 }
                 else
                 {
-                    if(modelStubFilename != null)
-                        compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename, modelStubFilename);
+                    if(cc.modelStubFilename != null)
+                        compResults = compiler.CompileAssemblyFromFile(compParams, cc.modelFilename, cc.modelStubFilename);
                     else
-                        compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename);
+                        compResults = compiler.CompileAssemblyFromFile(compParams, cc.modelFilename);
                 }
                 if(compResults.Errors.HasErrors)
                 {
@@ -128,11 +120,11 @@ namespace de.unika.ipd.grGen.lgsp
                 return false;
             }
 
-            modelAssembly = compResults.CompiledAssembly;
-            modelAssemblyName = compParams.OutputAssembly;
-            AddAssembly(modelAssembly);
+            cc.modelAssembly = compResults.CompiledAssembly;
+            cc.modelAssemblyName = compParams.OutputAssembly;
+            AddAssembly(cc.modelAssembly);
 
-            Console.WriteLine(" - Model assembly \"{0}\" generated.", modelAssemblyName);
+            Console.WriteLine(" - Model assembly \"{0}\" generated.", cc.modelAssemblyName);
             return true;
         }
 
@@ -690,211 +682,305 @@ namespace de.unika.ipd.grGen.lgsp
 
         enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
 
+        class CompileConfiguration
+        {
+            public CompileConfiguration(String specFile, String destDir, String tmpDir, String[] externalAssemblies)
+            {
+                _specFile = specFile;
+                _destDir = destDir;
+                _tmpDir = tmpDir;
+                _externalAssemblies = externalAssemblies;
+            }
+
+            public String specFile { get { return _specFile; } }
+            public String destDir { get { return _destDir; } }
+            public String tmpDir { get { return _tmpDir; } }
+            public String[] externalAssemblies { get { return _externalAssemblies; } }
+
+            public String modelFilename { get { return _modelFilename; } set { _modelFilename = value; } }
+            public String modelStubFilename { get { return _modelStubFilename; } set { _modelStubFilename = value; } }
+            public String modelAssemblyName { get { return _modelAssemblyName; } set { _modelAssemblyName = value; } }
+            public Assembly modelAssembly { get { return _modelAssembly; } set { _modelAssembly = value; } }
+
+            public String actionsName { get { return _actionsName; } }
+            public String actionsFilename { get { return _actionsFilename; } 
+                set { 
+                    _actionsFilename = value;
+                    _actionsName = Path.GetFileNameWithoutExtension(_actionsFilename); 
+                    _actionsName = _actionsName.Substring(0, _actionsName.Length - 13); // remove "_intermediate" suffix
+                    _baseName = _actionsName.Substring(0, _actionsName.Length - 7); // remove "Actions" suffix
+                    _actionsOutputFilename = _tmpDir + Path.DirectorySeparatorChar + _actionsName + ".cs";
+                }
+            }
+            public String actionsOutputFilename { get { return _actionsOutputFilename; } }
+            public String baseName { get { return _baseName; } }
+
+            public String externalActionsExtensionFilename { get { return _externalActionsExtensionFilename; } set { _externalActionsExtensionFilename = value; } }
+            public String externalActionsExtensionOutputFilename { get { return _externalActionsExtensionOutputFilename; } set { _externalActionsExtensionOutputFilename = value; } }
+
+
+            private String _specFile;
+            private String _destDir;
+            private String _tmpDir;
+            private String[] _externalAssemblies;
+
+            private String _modelFilename;
+            private String _modelStubFilename;
+            private String _modelAssemblyName;
+            private Assembly _modelAssembly;
+
+            private String _actionsName;
+            private String _actionsFilename;
+            private String _actionsOutputFilename;
+            private String _baseName;
+
+            private String _externalActionsExtensionFilename;
+            private String _externalActionsExtensionOutputFilename;
+        }
+
         ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, String[] externalAssemblies)
         {
             Console.WriteLine("Building libraries...");
 
+            CompileConfiguration cc = new CompileConfiguration(specFile, destDir, tmpDir, externalAssemblies);
+
             ///////////////////////////////////////////////
             // use java frontend to build the model and intermediate action source files
-            ///////////////////////////////////////////////
 
-            String modelFilename = null;
-            String modelStubFilename = null;
-            String actionsFilename = null;
-
-            ErrorType res = GenerateModelAndIntermediateActions(specFile, tmpDir,
-                ref modelFilename, ref modelStubFilename, ref actionsFilename);
+            ErrorType res = GenerateModelAndIntermediateActions(cc);
             if(res != ErrorType.NoError)
                 return res;
 
             ///////////////////////////////////////////////
-            // compile the model and intermediate action files generated by the java frontend
-            // to gain access via reflection to their content needed for matcher code generation
-            ///////////////////////////////////////////////
+            // compile the model 
 
-            Assembly modelAssembly;
-            String modelAssemblyName;
-            if(!ProcessModel(modelFilename, modelStubFilename, destDir, externalAssemblies,
-                out modelAssembly, out modelAssemblyName))
-            {
+            if(!ProcessModel(cc))
                 return ErrorType.GrGenNetError;
-            }
 
-            IGraphModel model = GetGraphModel(modelAssembly);
+            IGraphModel model = GetGraphModel(cc.modelAssembly);
             if(model == null)
                 return ErrorType.GrGenNetError;
 
             if((flags & ProcessSpecFlags.NoProcessActions) != 0)
                 return ErrorType.NoError;
 
-            String actionsName = Path.GetFileNameWithoutExtension(actionsFilename);
-            actionsName = actionsName.Substring(0, actionsName.Length - 13);    // remove "_intermediate" suffix
-            String baseName = actionsName.Substring(0, actionsName.Length - 7); // remove "Actions" suffix
-            String actionsOutputFilename = tmpDir + Path.DirectorySeparatorChar + actionsName + ".cs";
-
-            CSharpCodeProvider compiler = new CSharpCodeProvider();
-            CompilerParameters compParams = new CompilerParameters();
-            compParams.ReferencedAssemblies.Add("System.dll");
-            compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
-            compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
-            compParams.ReferencedAssemblies.Add(modelAssemblyName);
-
-            string externalActionsExtensionOutputFilename = null;
-            string externalActionsExtensionFilename = null;
+            ///////////////////////////////////////////////
+            // get the actions source code
 
             String actionsOutputSource;
+            res = GetActionsSourceCode(cc, model, out actionsOutputSource);
+            if(res != ErrorType.NoError)
+                return res;
+
+            if((flags & ProcessSpecFlags.NoCreateActionsAssembly) != 0)
+                return ErrorType.NoError;
+
+            ///////////////////////////////////////////////
+            // finally compile the actions source file into an action assembly
+
+            res = CompileActions(cc, actionsOutputSource);
+            if(res != ErrorType.NoError)
+                return res;
+
+            return ErrorType.NoError;
+        }
+
+        private ErrorType GetActionsSourceCode(CompileConfiguration cc, IGraphModel model, 
+            out String actionsOutputSource)
+        {
+            ErrorType res;
             if((flags & ProcessSpecFlags.UseExistingMask) == ProcessSpecFlags.UseAllGeneratedFiles)
             {
-                try
-                {
-                    using(StreamReader reader = new StreamReader(actionsOutputFilename))
-                        actionsOutputSource = reader.ReadToEnd();
-                }
-                catch(Exception)
-                {
-                    Console.Error.WriteLine("Unable to read from file \"" + actionsOutputFilename + "\"!");
-                    return ErrorType.GrGenNetError;
-                }
+                res = ReuseExistingActionsSourceCode(cc.actionsOutputFilename, out actionsOutputSource);
             }
             else
             {
-                compParams.GenerateInMemory = true;
-                compParams.CompilerOptions = "/optimize /d:INITIAL_WARMUP";
-                compParams.TreatWarningsAsErrors = false;
+                res = GenerateActionsSourceCode(cc, model, out actionsOutputSource);
+            }
+            return res;
+        }
 
-                CompilerResults compResultsWarmup;
-                try
+        private static void SetupCompiler(String modelAssemblyName, 
+            out CSharpCodeProvider compiler, out CompilerParameters compParams)
+        {
+            compiler = new CSharpCodeProvider();
+            compParams = new CompilerParameters();
+            compParams.ReferencedAssemblies.Add("System.dll");
+            compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
+            compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
+            if(modelAssemblyName!=null)
+                compParams.ReferencedAssemblies.Add(modelAssemblyName);
+        }
+
+        private static ErrorType CompileIntermediateActions(String modelAssemblyName, String actionsFilename, 
+            out Assembly initialAssembly)
+        {
+            CSharpCodeProvider compiler;
+            CompilerParameters compParams;
+            SetupCompiler(modelAssemblyName, out compiler, out compParams);
+            compParams.GenerateInMemory = true;
+            compParams.CompilerOptions = "/optimize /d:INITIAL_WARMUP";
+            compParams.TreatWarningsAsErrors = false;
+
+            initialAssembly = null;
+            CompilerResults compResultsWarmup;
+            try
+            {
+                compResultsWarmup = compiler.CompileAssemblyFromFile(compParams, actionsFilename);
+                if(compResultsWarmup.Errors.HasErrors)
                 {
-                    compResultsWarmup = compiler.CompileAssemblyFromFile(compParams, actionsFilename);
-                    if(compResultsWarmup.Errors.HasErrors)
-                    {
-                        String errorMsg = compResultsWarmup.Errors.Count + " Errors:";
-                        foreach(CompilerError error in compResultsWarmup.Errors)
-                            errorMsg += String.Format("\r\nLine: {0} - {1}", error.Line, error.ErrorText);
-                        Console.Error.WriteLine("Illegal actions C# input source code: " + errorMsg);
-                        return ErrorType.GrGenNetError;
-                    }
-                }
-                catch(Exception ex)
-                {
-                    Console.Error.WriteLine("Unable to compile initial actions: {0}", ex.Message);
+                    String errorMsg = compResultsWarmup.Errors.Count + " Errors:";
+                    foreach(CompilerError error in compResultsWarmup.Errors)
+                        errorMsg += String.Format("\r\nLine: {0} - {1}", error.Line, error.ErrorText);
+                    Console.Error.WriteLine("Illegal actions C# input source code: " + errorMsg);
                     return ErrorType.GrGenNetError;
                 }
-
-                Assembly initialAssembly = compResultsWarmup.CompiledAssembly;
-
-                Dictionary<String, Type> actionTypes;
-                LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns;
-                CollectActionTypes(initialAssembly, out actionTypes, out ruleAndMatchingPatterns);
-
-                Dictionary<String, List<String>> rulesToInputTypes;
-                Dictionary<String, List<String>> rulesToOutputTypes;
-                Dictionary<String, List<String>> rulesToFilters;
-                Dictionary<String, List<String>> sequencesToInputTypes;
-                Dictionary<String, List<String>> sequencesToOutputTypes;
-                Dictionary<String, List<String>> rulesToTopLevelEntities;
-                Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
-                CollectActionParameterTypes(ruleAndMatchingPatterns, model,
-                    out rulesToInputTypes, out rulesToOutputTypes, out rulesToFilters, 
-                    out rulesToTopLevelEntities, out rulesToTopLevelEntityTypes,
-                    out sequencesToInputTypes, out sequencesToOutputTypes);
-
-                LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model,
-                    rulesToInputTypes, rulesToOutputTypes, rulesToFilters,
-                    rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
-                    sequencesToInputTypes, sequencesToOutputTypes);
-
-                ///////////////////////////////////////////////
-                // generate external extension source if needed (cause there are external action extension)
-                bool isFilterExisting;
-                bool isExternalSequenceExisting;
-                DetermineWhetherExternalActionsFileIsNeeded(ruleAndMatchingPatterns,
-                    out isFilterExisting, out isExternalSequenceExisting);
-
-                SourceBuilder externalSource = null;
-                if(isFilterExisting || isExternalSequenceExisting)
-                {
-                    EmitExternalActionsFileHeader(model, actionsName, baseName,
-                        ref externalActionsExtensionOutputFilename,
-                        ref externalActionsExtensionFilename,
-                        ref externalSource);
-                }
-
-                ///////////////////////////////////////////////
-                // take action intermediate file until action insertion point as base for action file 
-                ///////////////////////////////////////////////
-
-                SourceBuilder source = new SourceBuilder((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0);
-                source.Indent();
-                source.Indent();
-
-                bool actionPointFound;
-                String actionsNamespace;
-                ErrorType result = CopyIntermediateCodeInsertingSequencesCode(actionsFilename, actionTypes, seqGen, 
-                    source, out actionPointFound, out actionsNamespace);
-                if(result != ErrorType.NoError)
-                    return result;
-
-                if(!actionPointFound)
-                {
-                    Console.Error.WriteLine("Illegal actions C# input source code: Actions insertion point not found!");
-                    return ErrorType.GrGenJavaError;
-                }
-
-                source.Unindent();
-                source.Append("\n");
-
-                ///////////////////////////////////////////////
-                // generate and insert the matcher source code into the action file
-                // already filled with the content of the action intermediate file until the action insertion point
-                ///////////////////////////////////////////////
-
-                String unitName;
-                int lastDot = actionsNamespace.LastIndexOf(".");
-                if(lastDot == -1) unitName = "";
-                else unitName = actionsNamespace.Substring(lastDot + 8);  // skip ".Action_"
-
-                GenerateAndInsertMatcherSourceCode(model, actionsName, unitName,
-                    externalActionsExtensionFilename, ruleAndMatchingPatterns, seqGen, 
-                    isFilterExisting, externalSource, source);
-
-                actionsOutputSource = WriteSourceAndExternalSource(externalSource, source, 
-                    actionsOutputFilename, externalActionsExtensionOutputFilename);
+            }
+            catch(Exception ex)
+            {
+                Console.Error.WriteLine("Unable to compile initial actions: {0}", ex.Message);
+                return ErrorType.GrGenNetError;
             }
 
-            if((flags & ProcessSpecFlags.NoCreateActionsAssembly) != 0) return ErrorType.NoError;
+            initialAssembly = compResultsWarmup.CompiledAssembly;
+            return ErrorType.NoError;
+        }
+
+        private static ErrorType ReuseExistingActionsSourceCode(String actionsOutputFilename,
+            out String actionsOutputSource)
+        {
+            try
+            {
+                using(StreamReader reader = new StreamReader(actionsOutputFilename))
+                    actionsOutputSource = reader.ReadToEnd();
+                return ErrorType.NoError;
+            }
+            catch(Exception)
+            {
+                Console.Error.WriteLine("Unable to read from file \"" + actionsOutputFilename + "\"!");
+                actionsOutputSource = null;
+                return ErrorType.GrGenNetError;
+            }
+        }
+
+        private ErrorType GenerateActionsSourceCode(CompileConfiguration cc, IGraphModel model,
+            out String actionsOutputSource)
+        {
+            ///////////////////////////////////////////////
+            // compile the intermediate action files generated by the java frontend
+            // to gain access via reflection to their content needed for matcher code generation
+            // and collect that content
+
+            actionsOutputSource = null;
+
+            Assembly initialAssembly;
+            ErrorType result = CompileIntermediateActions(cc.modelAssemblyName, cc.actionsFilename, 
+                out initialAssembly);
+            if(result != ErrorType.NoError)
+                return result;
+
+            Dictionary<String, Type> actionTypes;
+            LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns;
+            CollectActionTypes(initialAssembly, out actionTypes, out ruleAndMatchingPatterns);
+
+            Dictionary<String, List<String>> rulesToInputTypes;
+            Dictionary<String, List<String>> rulesToOutputTypes;
+            Dictionary<String, List<String>> rulesToFilters;
+            Dictionary<String, List<String>> sequencesToInputTypes;
+            Dictionary<String, List<String>> sequencesToOutputTypes;
+            Dictionary<String, List<String>> rulesToTopLevelEntities;
+            Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
+            CollectActionParameterTypes(ruleAndMatchingPatterns, model,
+                out rulesToInputTypes, out rulesToOutputTypes, out rulesToFilters,
+                out rulesToTopLevelEntities, out rulesToTopLevelEntityTypes,
+                out sequencesToInputTypes, out sequencesToOutputTypes);
+
+            LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model,
+                rulesToInputTypes, rulesToOutputTypes, rulesToFilters,
+                rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
+                sequencesToInputTypes, sequencesToOutputTypes);
 
             ///////////////////////////////////////////////
-            // finally compile the action source file into action assembly
-            ///////////////////////////////////////////////
-            // action source file was built this way:
-            // the rule pattern code was copied from the action intermediate file, 
-            // action code was appended by matcher generation,
-            // which needed access to the rule pattern objects, 
-            // given via reflection of the compiled action intermediate file)
-            ///////////////////////////////////////////////
+            // generate external extension source if needed (cause there are external action extension)
 
+            bool isFilterExisting;
+            bool isExternalSequenceExisting;
+            DetermineWhetherExternalActionsFileIsNeeded(ruleAndMatchingPatterns,
+                out isFilterExisting, out isExternalSequenceExisting);
+
+            SourceBuilder externalSource = null;
+            if(isFilterExisting || isExternalSequenceExisting)
+            {
+                EmitExternalActionsFileHeader(cc, model, ref externalSource);
+            }
+
+            ///////////////////////////////////////////////
+            // take action intermediate file until action insertion point as base for action file 
+
+            SourceBuilder source = new SourceBuilder((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0);
+            source.Indent();
+            source.Indent();
+
+            bool actionPointFound;
+            String actionsNamespace;
+            result = CopyIntermediateCodeInsertingSequencesCode(cc.actionsFilename, actionTypes, seqGen,
+                source, out actionPointFound, out actionsNamespace);
+            if(result != ErrorType.NoError)
+                return result;
+
+            if(!actionPointFound)
+            {
+                Console.Error.WriteLine("Illegal actions C# input source code: Actions insertion point not found!");
+                return ErrorType.GrGenJavaError;
+            }
+
+            source.Unindent();
+            source.Append("\n");
+
+            ///////////////////////////////////////////////
+            // generate and insert the matcher source code into the action file
+            // already filled with the content of the action intermediate file until the action insertion point
+
+            String unitName;
+            int lastDot = actionsNamespace.LastIndexOf(".");
+            if(lastDot == -1) unitName = "";
+            else unitName = actionsNamespace.Substring(lastDot + 8);  // skip ".Action_"
+
+            GenerateAndInsertMatcherSourceCode(model, cc.actionsName, unitName,
+                cc.externalActionsExtensionFilename, ruleAndMatchingPatterns, seqGen,
+                isFilterExisting, externalSource, source);
+
+            actionsOutputSource = WriteSourceAndExternalSource(externalSource, source,
+                cc.actionsOutputFilename, cc.externalActionsExtensionOutputFilename);
+            return ErrorType.NoError;
+        }
+
+        private ErrorType CompileActions(CompileConfiguration cc, String actionsOutputSource)
+        {
+            CSharpCodeProvider compiler;
+            CompilerParameters compParams;
+            SetupCompiler(cc.modelAssemblyName, out compiler, out compParams);
             compParams.GenerateInMemory = false;
             compParams.IncludeDebugInformation = (flags & ProcessSpecFlags.CompileWithDebug) != 0;
             compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
             compParams.TreatWarningsAsErrors = false;
-            compParams.OutputAssembly = destDir + "lgsp-" + actionsName + ".dll";
+            compParams.OutputAssembly = cc.destDir + "lgsp-" + cc.actionsName + ".dll";
 
             CompilerResults compResults;
             if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
             {
-                if(externalActionsExtensionOutputFilename != null)
-                    compResults = compiler.CompileAssemblyFromFile(compParams, actionsOutputFilename, externalActionsExtensionOutputFilename, externalActionsExtensionFilename);
+                if(cc.externalActionsExtensionOutputFilename != null)
+                    compResults = compiler.CompileAssemblyFromFile(compParams, cc.actionsOutputFilename, cc.externalActionsExtensionOutputFilename, cc.externalActionsExtensionFilename);
                 else
-                    compResults = compiler.CompileAssemblyFromFile(compParams, actionsOutputFilename);
+                    compResults = compiler.CompileAssemblyFromFile(compParams, cc.actionsOutputFilename);
             }
             else
             {
-                if(externalActionsExtensionOutputFilename != null)
+                if(cc.externalActionsExtensionOutputFilename != null)
                 {
                     String externalActionsExtensionOutputSource;
                     String externalActionsExtensionSource;
-                    ErrorType result = ReadExternalActionExtensionSources(externalActionsExtensionOutputFilename, externalActionsExtensionFilename, 
+                    ErrorType result = ReadExternalActionExtensionSources(cc.externalActionsExtensionOutputFilename, cc.externalActionsExtensionFilename,
                         out externalActionsExtensionOutputSource, out externalActionsExtensionSource);
                     if(result != ErrorType.NoError)
                         return result;
@@ -907,7 +993,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String errorMsg = compResults.Errors.Count + " Errors:";
                 foreach(CompilerError error in compResults.Errors)
-                    errorMsg += String.Format("\r\n{0} at line {1} of {2}: {3}", error.IsWarning?"Warning":"ERROR", error.Line, error.FileName, error.ErrorText);
+                    errorMsg += String.Format("\r\n{0} at line {1} of {2}: {3}", error.IsWarning ? "Warning" : "ERROR", error.Line, error.FileName, error.ErrorText);
                 Console.Error.WriteLine("Illegal generated actions C# source code (or erroneous programmed extension), " + errorMsg);
                 return ErrorType.GrGenNetError;
             }
@@ -1160,35 +1246,34 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append("}");
         }
 
-        private ErrorType GenerateModelAndIntermediateActions(String specFile, String tmpDir,
-            ref String modelFilename, ref String modelStubFilename, ref String actionsFilename)
+        private ErrorType GenerateModelAndIntermediateActions(CompileConfiguration cc)
         {
             if((flags & ProcessSpecFlags.UseExistingMask) == ProcessSpecFlags.UseNoExistingFiles)
             {
                 List<String> genModelFiles, genModelStubFiles, genActionsFiles;
 
-                if(!ExecuteGrGenJava(tmpDir, flags,
+                if(!ExecuteGrGenJava(cc.tmpDir, flags,
                     out genModelFiles, out genModelStubFiles,
-                    out genActionsFiles, specFile))
+                    out genActionsFiles, cc.specFile))
                 {
                     return ErrorType.GrGenJavaError;
                 }
 
-                if(genModelFiles.Count == 1) modelFilename = genModelFiles[0];
+                if(genModelFiles.Count == 1) cc.modelFilename = genModelFiles[0];
                 else if(genModelFiles.Count > 1)
                 {
                     Console.Error.WriteLine("Multiple models are not supported by ProcessSpecification, yet!");
                     return ErrorType.GrGenNetError;
                 }
 
-                if(genModelStubFiles.Count == 1) modelStubFilename = genModelStubFiles[0];
+                if(genModelStubFiles.Count == 1) cc.modelStubFilename = genModelStubFiles[0];
                 else if(genModelStubFiles.Count > 1)
                 {
                     Console.Error.WriteLine("Multiple model stubs are not supported by ProcessSpecification, yet!");
                     return ErrorType.GrGenNetError;
                 }
 
-                if(genActionsFiles.Count == 1) actionsFilename = genActionsFiles[0];
+                if(genActionsFiles.Count == 1) cc.actionsFilename = genActionsFiles[0];
                 else if(genActionsFiles.Count > 1)
                 {
                     Console.Error.WriteLine("Multiple action sets are not supported by ProcessSpecification, yet!");
@@ -1197,28 +1282,28 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
-                String[] producedFiles = Directory.GetFiles(tmpDir);
+                String[] producedFiles = Directory.GetFiles(cc.tmpDir);
                 foreach(String file in producedFiles)
                 {
                     if(file.EndsWith("Model.cs"))
                     {
-                        if(modelFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(modelFilename))
-                            modelFilename = file;
+                        if(cc.modelFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(cc.modelFilename))
+                            cc.modelFilename = file;
                     }
                     else if(file.EndsWith("Actions_intermediate.cs"))
                     {
-                        if(actionsFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(actionsFilename))
-                            actionsFilename = file;
+                        if(cc.actionsFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(cc.actionsFilename))
+                            cc.actionsFilename = file;
                     }
                     else if(file.EndsWith("ModelStub.cs"))
                     {
-                        if(modelStubFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(modelStubFilename))
-                            modelStubFilename = file;
+                        if(cc.modelStubFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(cc.modelStubFilename))
+                            cc.modelStubFilename = file;
                     }
                 }
             }
 
-            if(modelFilename == null || actionsFilename == null)
+            if(cc.modelFilename == null || cc.actionsFilename == null)
             {
                 Console.Error.WriteLine("Not all required files have been generated!");
                 return ErrorType.GrGenJavaError;
@@ -1338,16 +1423,17 @@ namespace de.unika.ipd.grGen.lgsp
             return ErrorType.NoError;
         }
 
-        private void EmitExternalActionsFileHeader(IGraphModel model, String actionsName, String baseName, ref string externalActionsExtensionOutputFilename, ref string externalActionsExtensionFilename, ref SourceBuilder externalSource)
+        private void EmitExternalActionsFileHeader(CompileConfiguration cc, IGraphModel model, 
+            ref SourceBuilder externalSource)
         {
-            externalActionsExtensionOutputFilename = actionsName + "ExternalFunctions.cs";
-            externalActionsExtensionFilename = actionsName + "ExternalFunctionsImpl.cs";
+            cc.externalActionsExtensionOutputFilename = cc.actionsName + "ExternalFunctions.cs";
+            cc.externalActionsExtensionFilename = cc.actionsName + "ExternalFunctionsImpl.cs";
             externalSource = new SourceBuilder((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0);
 
             // generate external action extension file header
             externalSource.AppendFront("// This file has been generated automatically by GrGen (www.grgen.net)\n");
             externalSource.AppendFront("// Do not modify this file! Any changes will be lost!\n");
-            externalSource.AppendFrontFormat("// Generated from \"{0}.grg\" on {1} {2}\n", baseName, DateTime.Now.ToString(), System.TimeZone.CurrentTimeZone.StandardName);
+            externalSource.AppendFrontFormat("// Generated from \"{0}.grg\" on {1} {2}\n", cc.baseName, DateTime.Now.ToString(), System.TimeZone.CurrentTimeZone.StandardName);
 
             externalSource.AppendFront("using System;\n");
             externalSource.AppendFront("using System.Collections.Generic;\n");
@@ -1355,7 +1441,7 @@ namespace de.unika.ipd.grGen.lgsp
             externalSource.AppendFront("using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n");
             externalSource.AppendFrontFormat("using GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.ModelName + ";\n");
 
-            externalSource.AppendFront("\nnamespace de.unika.ipd.grGen.Action_" + baseName + "\n");
+            externalSource.AppendFront("\nnamespace de.unika.ipd.grGen.Action_" + cc.baseName + "\n");
             externalSource.AppendFront("{");
             externalSource.Indent();
         }
