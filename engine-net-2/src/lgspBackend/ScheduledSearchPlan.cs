@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
 
@@ -150,6 +151,94 @@ namespace de.unika.ipd.grGen.lgsp
             else if (diff > 0) return 1;
             else return 0;
         }
+
+        public void Explain(SourceBuilder sb, IGraphModel model)
+        {
+            SearchPlanNode src = SourceSPNode as SearchPlanNode;
+            SearchPlanNode tgt = Element as SearchPlanNode;
+            switch(Type)
+            {
+                case SearchOperationType.Outgoing:
+                    sb.AppendFront("from " + src.PatternElement.UnprefixedName + " outgoing -" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "->");
+                    break;
+                case SearchOperationType.Incoming:
+                    sb.AppendFront("from " + src.PatternElement.UnprefixedName + " incoming <-" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "-");
+                    break;
+                case SearchOperationType.Incident:
+                    sb.AppendFront("from " + src.PatternElement.UnprefixedName + " incident <-" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "->"); 
+                    break;
+                case SearchOperationType.ImplicitSource:
+                    sb.AppendFront("from <-" + src.PatternElement.UnprefixedName + "- get source " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name);
+                    break;
+                case SearchOperationType.ImplicitTarget:
+                    sb.AppendFront("from -" + src.PatternElement.UnprefixedName + "-> get target " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name);
+                    break;
+                case SearchOperationType.Implicit:
+                    sb.AppendFront("from <-" + src.PatternElement.UnprefixedName + "-> get implicit " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name); 
+                    break;
+                case SearchOperationType.Lookup:
+                    if(tgt.PatternElement is PatternNode)
+                        sb.AppendFront("lookup " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name + " in graph");
+                    else
+                        sb.AppendFront("lookup -" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "-> in graph");
+                    break;
+                case SearchOperationType.ActionPreset:
+                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + ")");
+                    break;
+                case SearchOperationType.NegIdptPreset:
+                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + ")");
+                    break;
+                case SearchOperationType.SubPreset:
+                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + ")");
+                    break;
+                case SearchOperationType.Condition:
+                    sb.AppendFront("if { depending on " + String.Join(",", ((PatternCondition)Element).NeededNodes) + ","
+                        + String.Join(",", ((PatternCondition)Element).NeededEdges) + " }");
+                    break;
+                case SearchOperationType.NegativePattern:
+                    sb.AppendFront("negative {\n");
+                    sb.Indent();
+                    ((ScheduledSearchPlan)Element).Explain(sb, model);
+                    ((ScheduledSearchPlan)Element).PatternGraph.ExplainNested(sb, model);
+                    sb.Unindent();
+                    sb.AppendFront("}");
+                    break;
+                case SearchOperationType.IndependentPattern:
+                    sb.AppendFront("independent {\n");
+                    sb.Indent();
+                    ((ScheduledSearchPlan)Element).Explain(sb, model);
+                    ((ScheduledSearchPlan)Element).PatternGraph.ExplainNested(sb, model);
+                    sb.Unindent();
+                    sb.AppendFront("}");
+                    break;
+                case SearchOperationType.PickFromStorage:
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.UnprefixedName + "}");
+                    break;
+                case SearchOperationType.MapWithStorage:
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.UnprefixedName + "[" + src.PatternElement.UnprefixedName + "]}");
+                    break;
+                case SearchOperationType.PickFromStorageAttribute:
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + src.PatternElement.UnprefixedName + "." + StorageAttribute.Name + "}");
+                    break;
+                case SearchOperationType.Cast:
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "<" + src.PatternElement.UnprefixedName + ">");
+                    break;
+                case SearchOperationType.Assign:
+                    sb.AppendFront("(" + tgt.PatternElement.UnprefixedName + " = " + src.PatternElement.UnprefixedName + ")");
+                    break;
+                case SearchOperationType.Identity:
+                    sb.AppendFront("(" + tgt.PatternElement.UnprefixedName + " == " + src.PatternElement.UnprefixedName + ")");
+                    break;
+                case SearchOperationType.AssignVar:
+                    sb.AppendFront("(" + tgt.PatternElement.UnprefixedName + " = expr" + ")");
+                    break;
+                case SearchOperationType.LockLocalElementsForPatternpath:
+                    sb.AppendFront("lock for patternpath");
+                    break;
+                case SearchOperationType.DefToBeYieldedTo:
+                    break;
+            }
+        }
     }
 
     /// <summary>
@@ -184,6 +273,15 @@ namespace de.unika.ipd.grGen.lgsp
                 ssp.Operations[i] = (SearchOperation)Operations[i].Clone();
             }
             return ssp;
+        }
+
+        public void Explain(SourceBuilder sb, IGraphModel model)
+        {
+            foreach(SearchOperation searchOp in Operations)
+            {
+                searchOp.Explain(sb, model);
+                sb.Append("\n");
+            }
         }
     }
 }
