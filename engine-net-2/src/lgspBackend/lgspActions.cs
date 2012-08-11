@@ -362,12 +362,40 @@ namespace de.unika.ipd.grGen.lgsp
                     if(!bool.TryParse((String) args[1], out matcherGenerator.DumpSearchPlan))
                         throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
                     return;
+
+                case "explain":
+                {
+                    if(args.Length != 2)
+                        throw new ArgumentException("Usage: explain <name>\n"
+                                + "Explains the searchplan of the given action.");
+
+                    LGSPAction action = (LGSPAction)GetAction((String)args[1]);
+                    if(action == null)
+                        throw new ArgumentException("'" + (String)args[1] + "' is not the name of an action!\n"
+                            + "Please use 'show actions' to get a list of the available names.");
+
+                    if(action.patternGraph.schedules[0] == null)
+                    {
+                        LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(graph.Model);
+                        matcherGen.FillInStaticSearchPlans(action);
+                    }
+                    SourceBuilder sb = new SourceBuilder();
+                    foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern
+                        in action.rulePattern.patternGraph.usedSubpatterns)
+                    {
+                        usedSubpattern.Key.patternGraph.Explain(sb, graph.Model);
+                    }
+                    action.patternGraph.Explain(sb, graph.Model);
+                    Console.WriteLine(sb.ToString());
+                    return;
+                }
             }
 
 invalidCommand:
             throw new ArgumentException("Possible commands:\n"
                 + "- gen_searchplan:  Generates a new searchplan for a given action\n"
                 + "     depending on a previous graph analysis\n"
+                + "- explain: explains the searchplan in use for a given action\n"
                 + "- dump_sourcecode: Sets dumping of C# files for new searchplans\n"
                 + "- dump_searchplan: Sets dumping of VCG and TXT files of new\n"
                 + "     searchplans (with some intermediate steps)");

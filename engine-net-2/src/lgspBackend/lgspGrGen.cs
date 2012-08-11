@@ -167,7 +167,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// and edges representing the matching operations to get the elements by.
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
-        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, int index,
+        private static PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, int index,
             bool isNegativeOrIndependent, bool isSubpatternLike)
         {
             //
@@ -515,7 +515,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// utilizing code of the lgsp matcher generator.
         /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
-        protected void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPMatcherGenerator matcherGen,
+        internal static void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPMatcherGenerator matcherGen,
             bool isSubpatternLike, bool isNegativeOrIndependent)
         {
             for(int i=0; i<patternGraph.schedules.Length; ++i)

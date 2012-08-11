@@ -1119,6 +1119,58 @@ namespace de.unika.ipd.grGen.lgsp
             else
                 return "0x00000000";
         }
+
+        public void Explain(SourceBuilder sb, IGraphModel model)
+        {
+            sb.AppendFrontFormat("{0}:\n", name);
+            sb.Indent();
+
+            foreach(ScheduledSearchPlan ssp in schedulesIncludingNegativesAndIndependents)
+                ssp.Explain(sb, model);
+
+            foreach(PatternGraphEmbedding sub in embeddedGraphsPlusInlined)
+                sb.AppendFrontFormat("subpattern usage {0}:{1}\n", sub.name, sub.EmbeddedGraph.Name);
+
+            foreach(Alternative alt in alternativesPlusInlined)
+            {
+                sb.AppendFront("alternative {\n");
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    altCase.Explain(sb, model);
+                }
+                sb.AppendFront("}\n");
+            }
+            foreach(Iterated iter in iteratedsPlusInlined)
+            {
+                sb.AppendFront("iterated[" + iter.minMatches + ":" + iter.maxMatches + "] {\n"); 
+                iter.iteratedPattern.Explain(sb, model);
+                sb.AppendFront("}\n");
+            }
+
+            sb.Unindent();
+        }
+
+        public void ExplainNested(SourceBuilder sb, IGraphModel model)
+        {
+            foreach(PatternGraphEmbedding sub in embeddedGraphsPlusInlined)
+                sb.AppendFrontFormat("subpattern usage {0}:{1}\n", sub.name, sub.EmbeddedGraph.Name);
+
+            foreach(Alternative alt in alternativesPlusInlined)
+            {
+                sb.AppendFront("alternative {\n");
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    altCase.Explain(sb, model);
+                }
+                sb.AppendFront("}\n");
+            }
+            foreach(Iterated iter in iteratedsPlusInlined)
+            {
+                sb.AppendFront("iterated[" + iter.minMatches + ":" + iter.maxMatches + "] {\n");
+                iter.iteratedPattern.Explain(sb, model);
+                sb.AppendFront("}\n");
+            }
+        }
     }
 
 

@@ -1013,54 +1013,12 @@ exitSecondLoop: ;
                 GetDumpName(source), GetDumpName(target), typeStr, cost, markRed ? " color:red" : "");
         }
 
-        private String SearchOpToString(SearchOperation op)
-        {
-            String typeStr = "  ";
-            SearchPlanNode src = op.SourceSPNode as SearchPlanNode;
-            SearchPlanNode tgt = op.Element as SearchPlanNode;
-            switch(op.Type)
-            {
-                case SearchOperationType.Outgoing: typeStr = src.PatternElement.Name + " -" + tgt.PatternElement.Name + "->"; break;
-                case SearchOperationType.Incoming: typeStr = src.PatternElement.Name + " <-" + tgt.PatternElement.Name + "-"; break;
-                case SearchOperationType.Incident: typeStr = src.PatternElement.Name + " <-" + tgt.PatternElement.Name + "->"; break;
-                case SearchOperationType.ImplicitSource: typeStr = "<-" + src.PatternElement.Name + "- " + tgt.PatternElement.Name; break;
-                case SearchOperationType.ImplicitTarget: typeStr = "-" + src.PatternElement.Name + "-> " + tgt.PatternElement.Name; break;
-                case SearchOperationType.Implicit: typeStr = "<-" + src.PatternElement.Name + "-> " + tgt.PatternElement.Name; break;
-                case SearchOperationType.Lookup: typeStr = "*" + tgt.PatternElement.Name; break;
-                case SearchOperationType.ActionPreset: typeStr = "p(" + tgt.PatternElement.Name + ")"; break;
-                case SearchOperationType.NegIdptPreset: typeStr = "np(" + tgt.PatternElement.Name + ")"; break;
-                case SearchOperationType.SubPreset: typeStr = "sp(" + tgt.PatternElement.Name + ")"; break;
-                case SearchOperationType.Condition:
-                    typeStr = " ?(" + String.Join(",", ((PatternCondition) op.Element).NeededNodes) + ")("
-                        + String.Join(",", ((PatternCondition) op.Element).NeededEdges) + ")";
-                    break;
-                case SearchOperationType.NegativePattern:
-                    typeStr = " !(" + ScheduleToString(((ScheduledSearchPlan) op.Element).Operations) + " )";
-                    break;
-                case SearchOperationType.IndependentPattern:
-                    typeStr = " &(" + ScheduleToString(((ScheduledSearchPlan)op.Element).Operations) + " )";
-                    break;
-                case SearchOperationType.LockLocalElementsForPatternpath:
-                    typeStr = ".LPP.";
-                    break;
-            }
-            return typeStr;
-        }
-
-        private String ScheduleToString(IEnumerable<SearchOperation> schedule)
-        {
-            StringBuilder str = new StringBuilder();
-
-            foreach(SearchOperation searchOp in schedule)
-                str.Append(' ').Append(SearchOpToString(searchOp));
-
-            return str.ToString();
-        }
-
         private void DumpScheduledSearchPlan(ScheduledSearchPlan ssp, String dumpname)
         {
             StreamWriter sw = new StreamWriter(dumpname + "-scheduledsp.txt", false);
-            sw.WriteLine(ScheduleToString(ssp.Operations));
+            SourceBuilder sb = new SourceBuilder();
+            ssp.Explain(sb, model);
+            sw.WriteLine(sb.ToString());
             sw.Close();
 
 /*            StreamWriter sw = new StreamWriter(dumpname + "-scheduledsp.vcg", false);
@@ -1582,8 +1540,8 @@ exitSecondLoop: ;
         public void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph, int index)
         {
             // todo: erst implicit node, dann negative/independent, auch wenn negative/independent mit erstem implicit moeglich wird
+            patternGraph.schedulesIncludingNegativesAndIndependents[index] = null; // an explain might have filled this
 
-            Debug.Assert(patternGraph.schedulesIncludingNegativesAndIndependents[index] == null);
             List<SearchOperation> operations = new List<SearchOperation>();
             for(int i = 0; i < patternGraph.schedules[index].Operations.Length; ++i)
                 operations.Add(patternGraph.schedules[index].Operations[i]);
@@ -2957,6 +2915,44 @@ exitSecondLoop: ;
 //            long compSourceTicks = compilerWatch.ElapsedTicks;
 //            Console.WriteLine("GenMatcher: Compile source: {0} us", compSourceTicks / (Stopwatch.Frequency / 1000000));
             return (LGSPAction) obj;
+        }
+
+        /// <summary>
+        /// Do the static search planning again so we can explain the search plan
+        /// </summary>
+        public void FillInStaticSearchPlans(params LGSPAction[] actions)
+        {
+            if(actions.Length == 0) throw new ArgumentException("No actions provided!");
+
+            // use domain of dictionary as set with rulepatterns of the subpatterns of the actions, get them from pattern graph
+            Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns 
+                = new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
+            foreach (LGSPAction action in actions)
+            {
+                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern 
+                    in action.rulePattern.patternGraph.usedSubpatterns)
+                {
+                    subpatternMatchingPatterns[usedSubpattern.Key] = usedSubpattern.Value;
+                }
+            }
+
+            // build search plans for the subpatterns
+            foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPattern in subpatternMatchingPatterns)
+            {
+                LGSPMatchingPattern smp = subpatternMatchingPattern.Key;
+
+                LGSPGrGen.GenerateScheduledSearchPlans(smp.patternGraph, this, true, false);
+
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
+            }
+
+            // build search plans code for actions
+            foreach(LGSPAction action in actions)
+            {
+                LGSPGrGen.GenerateScheduledSearchPlans(action.rulePattern.patternGraph, this, false, false);
+
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
+            }
         }
 
         /// <summary>
