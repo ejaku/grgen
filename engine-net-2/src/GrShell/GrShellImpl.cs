@@ -1234,10 +1234,10 @@ namespace de.unika.ipd.grGen.grShell
 
             if(specFilename.EndsWith(".cs", StringComparison.OrdinalIgnoreCase) || specFilename.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
             {
-                IGraph graph;
+                INamedGraph graph;
                 try
                 {
-                    graph = curGraphBackend.CreateGraph(specFilename, graphName, backendParameters);
+                    graph = curGraphBackend.CreateNamedGraph(specFilename, graphName, backendParameters);
                 }
                 catch(Exception e)
                 {
@@ -1277,13 +1277,13 @@ namespace de.unika.ipd.grGen.grShell
 
                 if(specFilename.EndsWith(".gm", StringComparison.OrdinalIgnoreCase))
                 {
-                    IGraph graph;
+                    INamedGraph graph;
                     try
                     {
                         ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
-                        graph = curGraphBackend.CreateFromSpec(specFilename, graphName, 
+                        graph = curGraphBackend.CreateNamedFromSpec(specFilename, graphName, 
                             flags, newGraphExternalAssembliesReferenced);
                     }
                     catch(Exception e)
@@ -4128,6 +4128,7 @@ showavail:
                 else // constructor building named graph
                     curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
                 INamedGraph importedNamedGraph = (INamedGraph)curShellProcEnv.Graph;
+                if(actions!=null) actions.Graph = importedNamedGraph;
                 debugOut.WriteLine("shell import done after: " + (Environment.TickCount - startTime) + " ms");
                 debugOut.WriteLine("shell graph size after import: " + System.GC.GetTotalMemory(true) + " bytes");
                 curShellProcEnv.ProcEnv.Actions = actions;
