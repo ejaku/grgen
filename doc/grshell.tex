@@ -185,6 +185,14 @@ Switches the new node / edge created / deleted messages on(default) or off.
 Switching them off allows for much faster execution of scripts containing a lot of creation commands.
 
 \begin{rail}
+'silence' 'exec' ('on'|'off')
+\end{rail}\ixkeyw{silence}\ixkeyw{exec}\ixkeyw{on}\ixkeyw{off}
+During non-debug sequence execution every second match statistics are printed to the console;
+they allow to assess the progress of long-running transformations.
+With this command they can be disabled (or enabled again).
+Switching them off may be of interest if own debug messages printed via emit from the sequences (or rules) should not be disturbed.
+
+\begin{rail}
 'randomseed' (Number | 'time')
 \end{rail}\ixkeyw{randomseed}\ixkeyw{time}
 Sets the random seed to the given number for reproducible results when using the \$-operator-prefix or the random-match-selector, whereas time sets the random seed to the current time in ms.
