@@ -175,6 +175,15 @@ namespace de.unika.ipd.grGen.lgsp
             // todo: unify it with GeneratePlanGraph in LGSPMatcherGenerator
             //
 
+            // the frontend delivers costs in between 1.0 and 10.0
+            // the highest prio gets 1.0, zero prio gets 10.0, the others about in between
+            // the default if no prio is given is cost 5.5
+
+            // here we assign to a lookup the node.cost or edge.cost from frontend
+            // for implicit source/target cost 0
+            // and for following incoming/outgoing edges cost (5.5 + edge.cost) / 2
+            // this way high prio edges tend to be looked up
+
             // Create root node
             // Create plan graph nodes for all pattern graph nodes and all pattern graph edges
             // Create "lookup" plan graph edge from root node to each plan graph node
@@ -258,7 +267,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    cost = 2 * node.Cost + 10;
+                    cost = node.Cost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Lookup;
                 }
@@ -329,7 +338,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    cost = 2 * edge.Cost + 10;
+                    cost = edge.Cost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Lookup;
                 }
@@ -391,7 +400,7 @@ namespace de.unika.ipd.grGen.lgsp
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Outgoing : SearchOperationType.Incident;
                         PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSourcePlusInlined(edge).TempPlanMapping,
-                            planNodes[nodesIndex], edge.Cost);
+                            planNodes[nodesIndex], (edge.Cost+5.5f)/2);
                         planEdges.Add(outPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
                     }
@@ -401,7 +410,7 @@ namespace de.unika.ipd.grGen.lgsp
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Incoming: SearchOperationType.Incident;
                         PlanEdge inPlanEdge = new PlanEdge(operation, patternGraph.GetTargetPlusInlined(edge).TempPlanMapping,
-                            planNodes[nodesIndex], edge.Cost);
+                            planNodes[nodesIndex], (edge.Cost+5.5f)/2);
                         planEdges.Add(inPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(inPlanEdge);
                     }
