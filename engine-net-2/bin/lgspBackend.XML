@@ -1431,6 +1431,11 @@
             <param name="action">Needed for the rule pattern and the name</param>
             <param name="sourceOutputFilename">null if no output file needed</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.FillInStaticSearchPlans(de.unika.ipd.grGen.lgsp.LGSPAction[])">
+            <summary>
+            Do the static search planning again so we can explain the search plan
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActions(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String,System.String,de.unika.ipd.grGen.lgsp.LGSPAction[])">
             <summary>
             Generate new actions for the given actions, doing the same work, 
