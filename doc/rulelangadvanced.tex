@@ -258,9 +258,18 @@ rule oneway {
   }
 }
 \end{grgen}
-\end{example}
 
-TODO: give example of elem:typeof(y)<old>, retyping to statically not known type.
+The following rule will retype the matched city \texttt{x} to the exacty dynamic type of \texttt{z} (which might be e.g. \texttt{Metropolis}).
+\begin{grgen}
+rule retypeToTypeof {
+  x:City; z:City;
+
+  modify {
+    x_rt:typeof(z)<x>;
+  }
+}
+\end{grgen}
+\end{example}
 
 The retyping clause \texttt{new:type<old>} can be used on the LHS, too.
 When it appears on the left hand side, the node(/edge) \texttt{old} is not changed in any way,
