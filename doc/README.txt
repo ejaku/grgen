@@ -1,4 +1,4 @@
-GrGen.NET v3.5.1 (2012-08-05)
+GrGen.NET v3.5.2 (2012-08-12)
 -----------------------------
 
 This is the GrGen.NET system for graph rewriting.
