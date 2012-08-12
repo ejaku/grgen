@@ -218,6 +218,7 @@ namespace de.unika.ipd.grGen.grShell
         ShellGraphProcessingEnvironment curShellProcEnv = null;
 
         bool silence = false; // node/edge created successfully messages
+        bool silenceExec = false; // print match statistics during sequence execution on timer
         bool cancelSequence = false;
 
         public ElementRealizers realizers = new ElementRealizers();
@@ -321,6 +322,20 @@ namespace de.unika.ipd.grGen.grShell
                 silence = value;
                 if (silence) errOut.WriteLine("Disabled \"new node/edge created successfully\"-messages");
                 else errOut.WriteLine("Enabled \"new node/edge created successfully\"-messages");
+            }
+        }
+
+        public bool SilenceExec
+        {
+            get
+            {
+                return silenceExec;
+            }
+            set
+            {
+                silenceExec = value;
+                if(silenceExec) errOut.WriteLine("Disabled printing match statistics during non-debug sequence execution every second");
+                else errOut.WriteLine("Enabled printing match statistics during non-debug sequence execution every second");
             }
         }
 
@@ -612,6 +627,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - select ...                Selection commands\n"
                 + " - include <filename>        Includes and executes the given .grs-script\n"
                 + " - silence (on | off)        Switches \"new ... created\" messages on/off\n"
+                + " - silence exec (on | off)   Print match statistics during execution every sec?\n"
                 + " - delete ...                Deletes something\n"
                 + " - retype ...                Retype commands\n"
                 + " - clear graph [<graph>]     Clears the current or the given graph\n"
@@ -2858,14 +2874,18 @@ namespace de.unika.ipd.grGen.grShell
             curGRS = seq;
             curRule = null;
 
-            debugOut.WriteLine("Executing Graph Rewrite Sequence... (CTRL+C for abort)");
+            debugOut.WriteLine("Executing Graph Rewrite Sequence (CTRL+C for abort) ...");
             cancelSequence = false;
             workaround.PreventComputerGoingIntoSleepMode(true);
             PerformanceInfo perfInfo = new PerformanceInfo();
             curShellProcEnv.ProcEnv.PerformanceInfo = perfInfo;
+            Timer timer = null;
+            if(!debug && !silenceExec) timer = new Timer(new TimerCallback(PrintNumMatchesRewrites), perfInfo, 1000, 1000);
+
             try
             {
                 bool result = curShellProcEnv.ProcEnv.ApplyGraphRewriteSequence(seq);
+                if(timer != null) timer.Dispose();
 
                 seq.ResetExecutionState();
                 debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:", perfInfo.TotalTimeMS, result);
@@ -2884,6 +2904,7 @@ namespace de.unika.ipd.grGen.grShell
             catch(OperationCanceledException)
             {
                 cancelSequence = true;      // make sure cancelSequence is set to true
+                if(timer != null) timer.Dispose();
                 if(curRule == null)
                     errOut.WriteLine("Rewrite sequence aborted!");
                 else
@@ -2914,6 +2935,13 @@ namespace de.unika.ipd.grGen.grShell
                 curShellProcEnv.ProcEnv.OnExitingSequence -= DumpOnExitingSequence;
             }
             else curShellProcEnv.ProcEnv.OnEntereringSequence -= NormalEnteringSequenceHandler;
+        }
+
+        // called from a timer while a sequence is executed outside of the debugger
+        static void PrintNumMatchesRewrites(Object state)
+        {
+            PerformanceInfo perfInfo = (PerformanceInfo)state;
+            Console.WriteLine(" ... {0} matches {1} rewrites until now ...", perfInfo.MatchesFound, perfInfo.RewritesPerformed);
         }
 
         public void Cancel()

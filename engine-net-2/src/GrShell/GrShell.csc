@@ -1002,7 +1002,7 @@ void ShellCommand():
 	ShellGraphProcessingEnvironment shellGraph = null;
 	Sequence seq;
 	SequenceDefinition seqDef;
-	bool shellGraphSpecified = false, boolVal, boolVal2;
+	bool shellGraphSpecified = false, boolVal = false, boolVal2 = false;
 	bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
 	int num;
 	List<String> parameters;
@@ -1152,11 +1152,11 @@ void ShellCommand():
 |
 	"show" ShowCommand()
 |
-	"silence"
+	"silence" ("exec" { boolVal = true; } )?
 	(
-		"on" { impl.Silence = true; }
+		"on" { if(boolVal) impl.SilenceExec = true; else impl.Silence = true; }
 	|
-		"off" { impl.Silence = false; }
+		"off" { if(boolVal) impl.SilenceExec = false; else impl.Silence = false;}
 	)
 |
 	"sync" "io" LineEnd()
