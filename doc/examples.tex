@@ -286,7 +286,7 @@ We have an initial host graph now. The graph rewrite sequence is quite straight 
 \end{center}
 In order to improve the performance we generate better \indexed{search plan}s. This is a crucial step for execution time: With the initial search plans the beaver runs for 1 minute and 30 seconds. With improved search plans after the first 32 steps he takes about 8.5 seconds\footnote{On a Pentium 4, 3.2Ghz, with 2GiB RAM.}.
 \begin{grshell}[firstnumber=last]
-custom graph analyze_graph
+custom graph analyze
 custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
 
 \end{grshell}

@@ -694,8 +694,8 @@ If \emph{SpacedParameters} is omitted, a list of available commands will be disp
 The \indexed{LGSPBackend} supports the following custom commands:
 
 \begin{rail}
-  'custom' 'graph' (analyzegraph | 'analyze')
-\end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{analyze}\ixkeyw{analyzegraph}
+  'custom' 'graph' 'analyze'
+\end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{analyze}
 Analyzes\indexmain{analyzing graph} the current working graph.
 The analysis data provides vital information for efficient \indexed{search plan}s.
 Analysis data is available as long as \GrShell\ is running, i.e.\ when the host graph changes, the analysis data is still available but maybe obsolete.
@@ -719,12 +719,20 @@ If set to true, new elements may not be discriminable anymore from already delet
 Creates a search plan (and executable code from it) for each rewrite rule \emph{Action} using the data from analyzing the graph (\texttt{custom graph analyze}).
 Otherwise a \indexed{default search plan} is used.
 If no rewrite rule is specified, all rewrite rules are compiled anew.
-Analyzing and search plan/code generation themselves take some time, but they can lead to (massively) faster pattern matching, thus overall execution times
-(the less uniform the type distribution and edge wiring between the nodes, the higher the improvements).
+Analyzing and search plan/code generation themselves take some time, but they can lead to (massively) faster pattern matching, thus overall execution times;
+the less uniform the type distribution and edge wiring between the nodes, the higher the improvements.
 During the analysis phase the host graph must be in a shape ``similar'' to its shape when the main amount of work is done
 (there may be some trial-and-error steps at different time points needed to get the overall most efficient search plan.)
 A search plan is available as long as the current rule set remains loaded.
 Specify multiple rewrite rules instead of using multiple commands for each rule to improve the search plan generation performance.
+
+\begin{rail}
+  'custom' 'actions' 'explain' Action
+\end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{explain}
+Shows the search plan currently in use for \emph{Action}, plus the subpatterns called by it.
+This is an inspection tool comparable to the \texttt{explain} command offered by SQL-databases to inspect the search plans of their queries.
+The explain command allows to evaluate the effects of performance optimization, esp. it allows to change the graph which serves as analysis data source for matcher regeneration, or to annotate the static rules with priorities (cf. \ref{annotations}), until a good search plan is built.
+The search plan is shown as a list of search commands (with commands not doing real matching work shown in parenthesis), which is executed from top to bottom; for more on the search commands have a look at section \ref{searchplanning}.
 
 \begin{rail}
   'custom' 'actions' dumpsourcecode BoolLit

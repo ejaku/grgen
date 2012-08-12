@@ -496,7 +496,7 @@ The processing is done in several passes in \texttt{lgsp\-Matcher\-Generator.cs}
   \label{figbackendcodegen1}
 \end{figure}
 
-First the subpattern usages are inlined when inlining is assumed to be benefitial; this allows the programmer to extract common patterns into subpatterns increasing readability and modularity without loosing performance (but as of now only one level of inlining is supported, so beware of too much subpattern extraction, especially if the containing pattern would get disconnected by this). 
+First the subpattern usages are inlined when \indexed{inlining} is assumed to be benefitial; this allows the programmer to extract common patterns into subpatterns increasing readability and modularity without loosing performance (but as of now only one level of inlining is supported, so beware of too much subpattern extraction, especially if the containing pattern would get disconnected by this). 
 After (and partly before) this pattern rewriting the patterns and their relations are analyzed by the \texttt{PatternGraphAnalyzer} -- the analyze results are used for emitting better code later on (choosing more efficient but more limited implementations for language features which are not sufficient in the general case but are so for the specification at hand).
 Then a \texttt{PlanGraph} is created from the \texttt{PatternGraph} and data from analyzing the host graph (for generating the initial matcher some default data given from the frontend is used).
 A mimimum spanning arborescence is computed defining a hopefully optimal set of operations for matching the pattern (the hopes are founded, see \cite{BKG:07}).
@@ -616,8 +616,10 @@ Using fine-grain types is easy in GrGen, for multiple inheritance on node and ed
 
 \begin{warning}
 Search planning is only carried out on request!
-You must analyze the graph and then re-generate the matchers at runtime.
-See subsection \ref{custom}.
+You must analyze the graph and then re-generate the matchers at runtime,
+with \texttt{custom graph analyze} and \texttt{custom actions gen\_searchplans} (issued on the command line or to the \texttt{Custom} methods of the graph and the actions objects);
+you may have a look at the effects of replanning with the \texttt{custom actions explain <actionname>} command.
+See subsection \ref{custom} for more on this.
 \end{warning}
 
 \subsubsection*{Memorize, Don't Search}
@@ -638,14 +640,25 @@ The compiled sequences given in the rules file are executed a good deal faster t
 So if you need speed, replace interpreted sequences by compiled ones.
 The price you pay is a loss of debuggability, a compiled sequence can only be executed as one big step.
 
-\subsubsection*{Subpatterns and Miscellaneous Things}
+\subsubsection*{Beware of Disconnected Patterns}
+Subpatterns are searched top-down (cf. \ref{pushdownmachine}), from the input parameters on.
+If the input arguments are disconnected in the pattern containing the subpattern, the containing pattern enumerates the cross product of the matches of the disconnected parts, which is then later on filtered in the subpattern called for the ones which are connected.
+This will likely wreak havoc on the search performance.
+It might be more efficient to just search from a start parameter a connected end location, and yield the found one out (cf. \ref{sec:localvarorderedevalyield}), or to search from a start parameter all connected end locations, collecting the found ones in a result set; and to check the ones found alongside connectedness in a second step.
 
+The same holds for the nested patterns, just that parameter passing is implicit there, the elements from the containing pattern which are referenced in the nested pattern are passed in automatically as arguments.
+The holds especially for the \texttt{alternative} and \texttt{iterated} constructs which are matched with the pushdown machine (cf. \ref{pushdownmachine}), too, but also for the \texttt{negative} and \texttt{independent} constructs which are matched with nested local code embedded into the matcher code of their containing pattern.
+
+Just as a side remark: the performance issue is raised by the local disconnected pattern and the caused multiplication of the part matches.
+This combinatorial explosions appears even within a single local pattern, only that it is more obvious there what is going on compared to the case that you disconnected a pattern later on by factoring out a common part into a subpattern.
+Luckily in this situation a performance hit is unlikely due to the subpattern \indexed{inlining} supported by GrGen; which in addition to connecting disconnected patterns removes the pushdown machine overhead.
+
+But take into account that the \emph{subpattern inlining} implemented in GrGen is limited to depth one.
+If a pattern is disconnected over two or more levels of subpattern usage (which might happen statically with one subpattern using another subpattern, and will for sure dynamically on a subpattern recursion path), it will hit performance.
+You may have a look at the output of the \texttt{explain} command (cf. \ref{custom}) to see  if the subpatterns are disconnected; this is indicated by multiple lookups in the containing pattern, and the fact that the starting points passed as preset parameters to the nested or subpatterns get connected only there with search commands.
+
+\subsubsection*{Miscellaneous Things}
 \begin{itemize}
-	\item Take into account that subpatterns are searched top-down (cf. \ref{pushdownmachine}), from the input parameters on. If the input arguments are disconnected in the pattern containing the subpattern, it enumerates the cross product of the matches of the disconnected parts, which is then filtered in the nested parts.
-	It might be more efficient to just search from a start parameter a connected end location, and yield the found one out (cf. \ref{sec:localvarorderedevalyield}), or to search from a start parameter all connected end locations, collecting the found ones in a result set; and to check the found ones in a second step.
-  \item Take into account that the subpattern inlining implemented in GrGen is limited to depth one.
-When a local pattern gets disconnected by factoring a common part out, matching performance will suffer dramatically as the cross product of the disconnected components needs to be enumerated.
-For a single subpattern this will be circumvented by the subpattern inlining, but if this occurs for a subpattern nested in a subpattern (as is for sure the case if this happens on a subpattern recursion path), it will hit performance.
+  \item Visited flags are the most efficient way of marking elements, if a large number of the elements gets marked. Otherwise they are inefficient, cause a lot of elements need to be iterated, just to filter the visited ones out. Storages which give quick access to their contained elements are better then. Or even reflexive marker edges of a special type in the graph.
 	\item Prefer all-bracketing (cf. \ref{sec:ruleapplication}) over iteration for rule application. This is only possible if the parts of the matches which are to be modified, e.g. retyped, are disjoint.
-  \item Visited flags are the most efficient way of marking elements, if a large number of the elements gets marked. Otherwise they are inefficient, cause a lot of elements need to be iterated, just to filter the visited ones out.
 \end{itemize}
