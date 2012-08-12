@@ -148,12 +148,25 @@ public class SubpatternUsageNode extends DeclNode {
 						ident.reportError("The " + (i + 1) + ". subpattern usage argument is yielded but the parameter at this position is not declared as def");
 					}
 				}
-				if(formalParameter instanceof VarDeclNode) {
+				else if(formalParameter instanceof VarDeclNode) {
 					if(!((VarDeclNode)formalParameter).defEntityToBeYieldedTo) {
 						res = false;
 						ident.reportError("The " + (i + 1) + ". subpattern usage argument is yielded but the parameter at this position is not declared as def");
 					}
 				}
+
+				if(((IdentExprNode)actualParameter).decl instanceof VarDeclNode) {
+					if(!((VarDeclNode)((IdentExprNode)actualParameter).decl).defEntityToBeYieldedTo) {
+						res = false;
+						ident.reportError("Can't yield to non-def arguments - the " + (i + 1) + ". subpattern usage argument is yielded to but not declared as def");
+					}
+				} else if(((IdentExprNode)actualParameter).decl instanceof ConstraintDeclNode) {
+					if(!((ConstraintDeclNode)((IdentExprNode)actualParameter).decl).defEntityToBeYieldedTo) {
+						res = false;
+						ident.reportError("Can't yield to non-def arguments - the " + (i + 1) + ". subpattern usage argument is yielded to but not declared as def");
+					}
+				}
+				
 				if(!formalParameterType.isCompatibleTo(actualParameterType)) {
 					res = false;
 					String exprTypeName = getTypeName(actualParameterType);
@@ -168,12 +181,13 @@ public class SubpatternUsageNode extends DeclNode {
 						ident.reportError("The " + (i + 1) + ". subpattern usage argument is not yielded but the parameter at this position is declared as def");
 					}
 				}
-				if(formalParameter instanceof VarDeclNode) {
+				else if(formalParameter instanceof VarDeclNode) {
 					if(((VarDeclNode)formalParameter).defEntityToBeYieldedTo) {
 						res = false;
 						ident.reportError("The " + (i + 1) + ". subpattern usage argument is not yielded but the parameter at this position is declared as def");
 					}
 				}
+				
 				if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 					res = false;
 					String exprTypeName = getTypeName(actualParameterType);
@@ -181,7 +195,29 @@ public class SubpatternUsageNode extends DeclNode {
 					ident.reportError("Cannot convert " + (i + 1) + ". subpattern usage argument from \""
 							+ exprTypeName + "\" to \"" + paramTypeName + "\"");
 				}
-			}			
+			}
+			
+			if(actualParameter instanceof IdentExprNode) {
+				if(((IdentExprNode)actualParameter).decl instanceof VarDeclNode) {
+					if(((VarDeclNode)((IdentExprNode)actualParameter).decl).defEntityToBeYieldedTo) {
+						if(formalParameter instanceof VarDeclNode) {
+							if(!((VarDeclNode)formalParameter).defEntityToBeYieldedTo) {
+								res = false;
+								ident.reportError("Can't use def elements as non-def arguments to subpatterns - the " + (i + 1) + ". subpattern usage argument is declared as def, but the parameter at this position is not declared as def");
+							}
+						}
+					}
+				} else if(((IdentExprNode)actualParameter).decl instanceof ConstraintDeclNode) {
+					if(((ConstraintDeclNode)((IdentExprNode)actualParameter).decl).defEntityToBeYieldedTo) {
+						if(formalParameter instanceof ConstraintDeclNode) {
+							if(!((ConstraintDeclNode)formalParameter).defEntityToBeYieldedTo) {
+								res = false;
+								ident.reportError("Can't use def elements as non-def arguments to subpatterns - the " + (i + 1) + ". subpattern usage argument is declared as def, but the parameter at this position is not declared as def");
+							}
+						}
+					}
+				}
+			}
 		}
 
 		return res;

@@ -1,0 +1,43 @@
+using Chemistry;
+
+pattern minBondPathLength(def aStart:Atom, def aEnd:Atom)  {
+	start:Atom;
+	end:Atom;
+	yield {
+		yield aStart = start;
+		yield aEnd = end;
+	}
+} 
+
+pattern nucleophileAddition (mg1:MolecularGraph, mg2:MolecularGraph) {
+  nuc:Atom;
+  elec:Atom;
+
+  negative  {
+    :minBondPathLength(yield nuc, yield elec);
+  }
+
+  modify  {
+    nuc-->:Bond<--elec;
+  }
+}
+
+pattern sptest (ref sReactants:set<MolecularGraph>, var bIntraMolecular:boolean) {
+  mgr1:MolecularGraph{sReactants};
+  mgr2:MolecularGraph{sReactants};
+  hom(mgr1,mgr2);
+  if{bIntraMolecular ^ set<MolecularGraph>{mgr1,mgr2}.size()>1;}
+
+  nucAddSP:nucleophileAddition(mgr1,mgr2);
+  
+  modify  {
+    emit("SPTEST EXECING!!!\n");
+    nucAddSP();
+  }
+}
+
+rule react(ref sReactants:set<MolecularGraph>, var bIntraMolecular:boolean) {
+  alternative  {
+      testingyield{r:sptest(sReactants, bIntraMolecular); modify{emit("in test modify\n");r();}}
+  }
+}
