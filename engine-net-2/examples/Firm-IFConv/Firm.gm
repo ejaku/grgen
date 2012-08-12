@@ -208,7 +208,7 @@ edge class init_node extends FIRM_edge;
 edge class init_entity extends FIRM_edge;
 //	connect Entity --> Entity (of Init);	// TODO arity ???
 
-edge class graph extends FIRM_edge
+edge class graph_ extends FIRM_edge
 	connect Entity [0:1] --> Method_IRG [*];
 
 edge class type extends FIRM_edge
@@ -437,7 +437,7 @@ node class V2Store extends V2;
 
 node class V2Sub extends V2;
 
-edge class match {
+edge class match_ {
 	nr : int;
 }
 
