@@ -112,6 +112,7 @@ OK     should_pass/basic_100.grg
 OK     should_pass/basic_300.grg
 OK     should_pass/basic_400.grg
 OK     should_pass/break.grg
+OK     should_pass/bubbleUpYield.grg
 OK     should_pass/cast.grg
 OK     should_pass/cast_001.grg
 OK     should_pass/cast_002.grg
@@ -509,6 +510,8 @@ WARNED should_warn/typeof_003.grg
 WARNED should_warn/typeof_101.grg
 WARNED should_warn/typeof_102.grg
 WARNED should_warn/typeof_103.grg
+ERROR  should_fail/Reactions.grg
+ERROR  should_fail/ReactionsInverted.grg
 ERROR  should_fail/alternative_001.grg
 ERROR  should_fail/alternative_002.grg
 ERROR  should_fail/alternative_003.grg
