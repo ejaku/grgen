@@ -875,7 +875,7 @@ namespace de.unika.ipd.grGen.lgsp
                         edgeToNodes[edge].Add(source);
                     PatternNode target = cur.GetTarget(edge);
                     if(target != null && !edgeToNodes[edge].Contains(target))
-                        edgeToNodes[edge].Add(source);
+                        edgeToNodes[edge].Add(target);
                 }
                 cur = cur.embeddingGraph;
             }
