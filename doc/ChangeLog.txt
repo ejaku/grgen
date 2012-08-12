@@ -1,4 +1,16 @@
-﻿v3.5.1 (2012-08-05)
+﻿v3.5.2 (2012-08-12)
+ Added "custom actions explain <actionname>" command to the GrShell/Actions in API
+  printing the currently used scheduled search plan to the console
+  (should be useful in optimizing performance, similar to the mysql/sqlite explain commands)
+
+ Bugfixes:  
+  - fixed bug on importing ecore or GXL in the GrShell (split-brain GrGen with two graphs)
+  - fixed bug in inlining of subpatterns yielding outwards
+  - fixed crash when a set/map/array-constructor was used in an inlined subpattern
+  - give error message on wrong usage of def arguments for normal subpattern parameters,
+    and of normal arguments for def subpattern parameters, instead of failing later internally 
+ 
+v3.5.1 (2012-08-05)
  Multiple improvements in the user manual in various sections
 
  Added "dum(p) graph" command to the debugger
