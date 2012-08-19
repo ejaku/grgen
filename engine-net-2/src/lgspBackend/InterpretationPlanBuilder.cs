@@ -161,6 +161,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // get candidate = iterate available nodes
             target.nodeMatcher = new InterpretationPlanLookupNode(target.PatternElement.TypeID);
+            target.nodeMatcher.prev = insertionPoint;
             insertionPoint.next = target.nodeMatcher;
             insertionPoint = insertionPoint.next;
 
@@ -185,6 +186,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // get candidate = iterate available edges
             target.edgeMatcher = new InterpretationPlanLookupEdge(target.PatternElement.TypeID);
+            target.edgeMatcher.prev = insertionPoint;
             insertionPoint.next = target.edgeMatcher;
             insertionPoint = insertionPoint.next;
 
@@ -282,6 +284,7 @@ namespace de.unika.ipd.grGen.lgsp
                             aae, edgeNode.edgeMatcher, Array.IndexOf(aae.thisInPattern.pointOfDefinition.edges, aae.thisInPattern));
                     }
 
+                    checkCondition.prev = insertionPoint;
                     insertionPoint.next = checkCondition;
                     insertionPoint = insertionPoint.next;
 
@@ -298,7 +301,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private void buildMatchComplete(InterpretationPlan insertionPoint)
         {
-            insertionPoint.next = new InterpretationPlanMatchComplete();
+            insertionPoint.next = new InterpretationPlanMatchComplete(
+                ssp.PatternGraph.nodesPlusInlined.Length,
+                ssp.PatternGraph.edgesPlusInlined.Length);
+            insertionPoint.next.prev = insertionPoint;
         }
 
         ///////////////////////////////////////////////////////////////////////////////////
@@ -348,6 +354,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
+            currentNode.nodeMatcher.prev = insertionPoint;
             insertionPoint.next = currentNode.nodeMatcher;
             insertionPoint = insertionPoint.next;
             return insertionPoint;
@@ -388,6 +395,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
+            currentEdge.edgeMatcher.prev = insertionPoint;
             insertionPoint.next = currentEdge.edgeMatcher;
             insertionPoint = insertionPoint.next;
             return insertionPoint;

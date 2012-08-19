@@ -177,12 +177,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(this_.matchingState.interpretationPlan != null)
             {
-                result = this_.matchingState.interpretationPlan.Execute(that);
+                result = this_.matchingState.interpretationPlan.Execute(that, null);
                 matchedWithThis = true;
             }
             else if(that.matchingState.interpretationPlan != null)
             {
-                result = that.matchingState.interpretationPlan.Execute(this_);
+                result = that.matchingState.interpretationPlan.Execute(this_, null);
                 matchedWithThis = false;
             }
             else
@@ -192,13 +192,13 @@ namespace de.unika.ipd.grGen.lgsp
                 if(this_.GraphID < that.GraphID)
                 {
                     BuildInterpretationPlan(this_, includingAttributes);
-                    result = this_.matchingState.interpretationPlan.Execute(that);
+                    result = this_.matchingState.interpretationPlan.Execute(that, null);
                     matchedWithThis = true;
                 }
                 else
                 {
                     BuildInterpretationPlan(that, includingAttributes);
-                    result = that.matchingState.interpretationPlan.Execute(this_);
+                    result = that.matchingState.interpretationPlan.Execute(this_, null);
                     matchedWithThis = false;
                 }
             }
