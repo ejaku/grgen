@@ -1191,6 +1191,7 @@ array_init_loop:
 				sb.append("false, ");
 		}
 		sb.append("};\n");
+		sb.append("\t\tpublic override bool IsA(int typeID) { return isA[typeID]; }\n");
 	}
 
 	private void genIsMyType(Collection<? extends InheritanceType> types, InheritanceType type) {
@@ -1202,6 +1203,7 @@ array_init_loop:
 				sb.append("false, ");
 		}
 		sb.append("};\n");
+		sb.append("\t\tpublic override bool IsMyType(int typeID) { return isMyType[typeID]; }\n");
 	}
 
 	private void genAttributeAttributes(InheritanceType type) {

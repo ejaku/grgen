@@ -853,6 +853,16 @@ namespace de.unika.ipd.grGen.libGr
         public new NodeType[] DirectSuperTypes { [DebuggerStepThrough] get { return directSuperTypes; } }
 
         /// <summary>
+        /// Tells whether the given type is the same or a subtype of this type
+        /// </summary>
+        public abstract bool IsMyType(int typeID);
+
+        /// <summary>
+        /// Tells whether this type is the same or a subtype of the given type
+        /// </summary>
+        public abstract bool IsA(int typeID);
+
+        /// <summary>
         /// The annotations of the node type
         /// </summary>
         public abstract IEnumerable<KeyValuePair<string, string>> Annotations { get; }
@@ -957,6 +967,16 @@ namespace de.unika.ipd.grGen.libGr
         /// Array containing all direct super types of this type.
         /// </summary>
         public new EdgeType[] DirectSuperTypes { [DebuggerStepThrough] get { return directSuperTypes; } }
+
+        /// <summary>
+        /// Tells whether the given type is the same or a subtype of this type
+        /// </summary>
+        public abstract bool IsMyType(int typeID);
+
+        /// <summary>
+        /// Tells whether this type is the same or a subtype of the given type
+        /// </summary>
+        public abstract bool IsA(int typeID);
 
         /// <summary>
         /// The annotations of the edge type

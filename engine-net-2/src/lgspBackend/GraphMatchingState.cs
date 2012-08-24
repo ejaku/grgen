@@ -375,7 +375,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
             ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
                 searchPlanGraph, graph.matchingState.patternGraph, false);
-            InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan, searchPlanGraph);
+            InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan, searchPlanGraph, graph.Model);
             graph.matchingState.interpretationPlan = builder.BuildInterpretationPlan("ComparisonMatcher_" + graph.GraphID);
             ++GraphMatchingState.numInterpretationPlans;
 

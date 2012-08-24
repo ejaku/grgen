@@ -25,16 +25,22 @@ namespace de.unika.ipd.grGen.lgsp
         // the search plan graph for determining the pattern element needed for attribute checking
         private SearchPlanGraph spg;
 
+        // the model over which the patterns are to be searched
+        private IGraphModel model;
+
+
         /// <summary>
         /// Creates an interpretation plan builder for the given scheduled search plan.
         /// Only a limited amount of search operations is supported, the ones needed for isomorphy checking.
         /// </summary>
         /// <param name="ssp">the scheduled search plan to build an interpretation plan for</param>
         /// <param name="spg">the search plan graph for determining the pattern element needed for attribute checking</param>
-        public InterpretationPlanBuilder(ScheduledSearchPlan ssp, SearchPlanGraph spg)
+        /// <param name="model">the model over which the patterns are to be searched</param>
+        public InterpretationPlanBuilder(ScheduledSearchPlan ssp, SearchPlanGraph spg, IGraphModel model)
         {
             this.ssp = ssp;
             this.spg = spg;
+            this.model = model;
         }
 
         /// <summary>
@@ -160,7 +166,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNodeNode target)
         {
             // get candidate = iterate available nodes
-            target.nodeMatcher = new InterpretationPlanLookupNode(target.PatternElement.TypeID);
+            target.nodeMatcher = new InterpretationPlanLookupNode(target.PatternElement.TypeID, target);
             target.nodeMatcher.prev = insertionPoint;
             insertionPoint.next = target.nodeMatcher;
             insertionPoint = insertionPoint.next;
@@ -185,7 +191,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanEdgeNode target)
         {
             // get candidate = iterate available edges
-            target.edgeMatcher = new InterpretationPlanLookupEdge(target.PatternElement.TypeID);
+            target.edgeMatcher = new InterpretationPlanLookupEdge(target.PatternElement.TypeID, target);
             target.edgeMatcher.prev = insertionPoint;
             insertionPoint.next = target.edgeMatcher;
             insertionPoint = insertionPoint.next;
@@ -322,11 +328,13 @@ namespace de.unika.ipd.grGen.lgsp
             int targetType = currentNode.PatternElement.TypeID;
             if (nodeType == ImplicitNodeType.Source)
             {
-                currentNode.nodeMatcher = new InterpretationPlanImplicitSource(targetType, edge.edgeMatcher);
+                currentNode.nodeMatcher = new InterpretationPlanImplicitSource(targetType, edge.edgeMatcher,
+                    currentNode);
             }
             else if(nodeType == ImplicitNodeType.Target)
             {
-                currentNode.nodeMatcher = new InterpretationPlanImplicitTarget(targetType, edge.edgeMatcher);
+                currentNode.nodeMatcher = new InterpretationPlanImplicitTarget(targetType, edge.edgeMatcher,
+                    currentNode);
             }
             else
             {
@@ -335,21 +343,24 @@ namespace de.unika.ipd.grGen.lgsp
                 if (currentNodeIsSecondIncidentNodeOfEdge(currentNode, edge))
                 {
                     currentNode.nodeMatcher = new InterpretationPlanImplicitTheOther(targetType, edge.edgeMatcher,
-                        edge.PatternEdgeSource == currentNode ? edge.PatternEdgeTarget.nodeMatcher : edge.PatternEdgeSource.nodeMatcher);
+                        edge.PatternEdgeSource == currentNode ? edge.PatternEdgeTarget.nodeMatcher : edge.PatternEdgeSource.nodeMatcher,
+                        currentNode);
                 }
                 else // edge connects to first incident node
                 {
                     if (edge.PatternEdgeSource == edge.PatternEdgeTarget)
                     {
                         // reflexive edge without direction iteration as we don't want 2 matches 
-                        currentNode.nodeMatcher = new InterpretationPlanImplicitSource(targetType, edge.edgeMatcher);
+                        currentNode.nodeMatcher = new InterpretationPlanImplicitSource(targetType, edge.edgeMatcher,
+                            currentNode);
                     }
                     else
                     {
                         edge.directionVariable = new InterpretationPlanBothDirections();
                         insertionPoint.next = edge.directionVariable;
                         insertionPoint = insertionPoint.next;
-                        currentNode.nodeMatcher = new InterpretationPlanImplicitSourceOrTarget(targetType, edge.edgeMatcher, edge.directionVariable);
+                        currentNode.nodeMatcher = new InterpretationPlanImplicitSourceOrTarget(targetType, edge.edgeMatcher, 
+                            edge.directionVariable, currentNode);
                     }
                 }
             }
@@ -373,25 +384,29 @@ namespace de.unika.ipd.grGen.lgsp
             int targetType = currentEdge.PatternElement.TypeID;
             if (incidentType == IncidentEdgeType.Incoming)
             {
-                currentEdge.edgeMatcher = new InterpretationPlanIncoming(targetType, node.nodeMatcher);
+                currentEdge.edgeMatcher = new InterpretationPlanIncoming(targetType, node.nodeMatcher,
+                    currentEdge);
             }
             else if(incidentType == IncidentEdgeType.Outgoing)
             {
-                currentEdge.edgeMatcher = new InterpretationPlanOutgoing(targetType, node.nodeMatcher);
+                currentEdge.edgeMatcher = new InterpretationPlanOutgoing(targetType, node.nodeMatcher,
+                    currentEdge);
             }
             else // IncidentEdgeType.IncomingOrOutgoing
             {
                 if (currentEdge.PatternEdgeSource == currentEdge.PatternEdgeTarget)
                 {
                     // reflexive edge without direction iteration as we don't want 2 matches 
-                    currentEdge.edgeMatcher = new InterpretationPlanIncoming(targetType, node.nodeMatcher);
+                    currentEdge.edgeMatcher = new InterpretationPlanIncoming(targetType, node.nodeMatcher,
+                        currentEdge);
                 }
                 else
                 {
                     currentEdge.directionVariable = new InterpretationPlanBothDirections();
                     insertionPoint.next = currentEdge.directionVariable;
                     insertionPoint = insertionPoint.next;
-                    currentEdge.edgeMatcher = new InterpretationPlanIncomingOrOutgoing(targetType, node.nodeMatcher, currentEdge.directionVariable);
+                    currentEdge.edgeMatcher = new InterpretationPlanIncomingOrOutgoing(targetType, node.nodeMatcher, 
+                        currentEdge.directionVariable, currentEdge);
                 }
             }
 
