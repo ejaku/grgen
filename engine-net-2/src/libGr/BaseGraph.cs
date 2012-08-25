@@ -90,6 +90,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public abstract int AllocateVisitedFlag();
         public abstract void FreeVisitedFlag(int visitorID);
+        public abstract void FreeVisitedFlagNonReset(int visitorID);
         public abstract void ResetVisitedFlag(int visitorID);
         public abstract void SetVisited(IGraphElement elem, int visitorID, bool visited);
         public abstract bool IsVisited(IGraphElement elem, int visitorID);

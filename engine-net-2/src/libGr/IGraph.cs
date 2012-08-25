@@ -365,21 +365,29 @@ namespace de.unika.ipd.grGen.libGr
         #region Visited flags management
 
         /// <summary>
-        /// Allocates a clean visited flag on the graph elements.
-        /// If needed the flag is cleared on all graph elements, so this is an O(n) operation.
+        /// Allocates a visited flag on the graph elements.
         /// </summary>
         /// <returns>A visitor ID to be used in
-        /// visited conditions in patterns ("if { !visited(elem, id); }"),
-        /// visited expressions in evals ("visited(elem, id) = true; b.flag = visited(elem, id) || c.flag; "}
+        /// visited conditions in patterns ("if { !elem.visited[id]; }"),
+        /// visited expressions in evals ("elem.visited[id] = true; b.flag = elem.visited[id] || c.flag; "}
         /// and calls to other visitor functions.</returns>
         int AllocateVisitedFlag();
 
         /// <summary>
         /// Frees a visited flag.
-        /// This is an O(1) operation.
+        /// This is a safe but O(n) operation, as it resets the visited flag in the graph.
         /// </summary>
         /// <param name="visitorID">The ID of the visited flag to be freed.</param>
         void FreeVisitedFlag(int visitorID);
+
+        /// <summary>
+        /// Frees a clean visited flag.
+        /// This is an O(1) but potentially unsafe operation.
+        /// Attention! A marked element stays marked, so a later allocation hands out a dirty visited flag! 
+        /// Use only if you can ensure that all elements of that flag are unmarked before calling.
+        /// </summary>
+        /// <param name="visitorID">The ID of the visited flag to be freed.</param>
+        void FreeVisitedFlagNonReset(int visitorID);
 
         /// <summary>
         /// Resets the visited flag with the given ID on all graph elements, if necessary.

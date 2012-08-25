@@ -1043,16 +1043,18 @@ namespace de.unika.ipd.grGen.lgsp
         {
             /// <summary>
             /// Specifies whether this visitor has already marked any nodes.
+            /// This is unused, if the dictionary is used for this visitor ID.
             /// </summary>
             public bool NodesMarked;
 
             /// <summary>
             /// Specifies whether this visitor has already marked any edges.
+            /// This is unused, if the dictionary is used for this visitor ID.
             /// </summary>
             public bool EdgesMarked;
 
             /// <summary>
-            /// A hash map containing all visited elements (the values are not used).
+            /// A hash map containing all visited elements (in the keys, the dictionary values are not used).
             /// This is unused (and thus null), if the graph element flags are used for this visitor ID.
             /// </summary>
             public Dictionary<IGraphElement, bool> VisitedElements;
@@ -1063,12 +1065,11 @@ namespace de.unika.ipd.grGen.lgsp
         List<VisitorData> visitorDataList = new List<VisitorData>();
 
         /// <summary>
-        /// Allocates a clean visited flag on the graph elements.
-        /// If needed the flag is cleared on all graph elements, so this is an O(n) operation.
+        /// Allocates a visited flag on the graph elements.
         /// </summary>
         /// <returns>A visitor ID to be used in
-        /// visited conditions in patterns ("if { !visited(elem, id); }"),
-        /// visited expressions in evals ("visited(elem, id) = true; b.flag = visited(elem, id) || c.flag; "}
+        /// visited conditions in patterns ("if { !elem.visited[id]; }"),
+        /// visited expressions in evals ("elem.visited[id] = true; b.flag = elem.visited[id] || c.flag; "}
         /// and calls to other visitor functions.</returns>
         public override int AllocateVisitedFlag()
         {
@@ -1077,6 +1078,10 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 newID = freeVisitorIDs.First.Value;
                 freeVisitorIDs.RemoveFirst();
+
+                if(newID >= (int)LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)
+                    if(visitorDataList[newID].VisitedElements.Count > 0)
+                        throw new Exception("Elements are still marked from previous usage!");
             }
             else
             {
@@ -1086,21 +1091,30 @@ namespace de.unika.ipd.grGen.lgsp
             }
             numUsedVisitorIDs++;
 
-            ResetVisitedFlag(newID);
-
             return newID;
         }
 
         /// <summary>
         /// Frees a visited flag.
-        /// This is an O(1) operation.
-        /// It adds visitor flags supported by the element flags to the front of the list
-        /// to prefer them when allocating a new one.
+        /// This is a safe but O(n) operation, as it resets the visited flag in the graph.
         /// </summary>
         /// <param name="visitorID">The ID of the visited flag to be freed.</param>
         public override void FreeVisitedFlag(int visitorID)
         {
-            if(visitorID < (int) LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)
+            ResetVisitedFlag(visitorID);
+            FreeVisitedFlagNonReset(visitorID);
+        }
+
+        /// <summary>
+        /// Frees a clean visited flag.
+        /// This is an O(1) but potentially unsafe operation.
+        /// Attention! A marked element stays marked, so a later allocation hands out a dirty visited flag! 
+        /// Use only if you can ensure that all elements of that flag are unmarked before calling.
+        /// </summary>
+        /// <param name="visitorID">The ID of the visited flag to be freed.</param>
+        public override void FreeVisitedFlagNonReset(int visitorID)
+        {
+            if(visitorID < (int)LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)
                 freeVisitorIDs.AddFirst(visitorID);
             else
                 freeVisitorIDs.AddLast(visitorID);
@@ -1137,7 +1151,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else                                                    // no, use hash map
             {
-                data.NodesMarked = data.EdgesMarked = false;
                 if(data.VisitedElements != null) data.VisitedElements.Clear();
                 else data.VisitedElements = new Dictionary<IGraphElement, bool>();
             }
@@ -1180,10 +1193,6 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(visited)
                 {
-                    if(node != null)
-                        data.NodesMarked = true;
-                    else
-                        data.EdgesMarked = true;
                     data.VisitedElements[elem] = true;
                 }
                 else data.VisitedElements.Remove(elem);
