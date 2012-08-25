@@ -33,6 +33,20 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IMatch Clone();
 
+        //////////////////////////////////////////////////////////////////////////
+                
+        /// <summary>
+        /// Writes a flag to the match, which is remembered; helper for symmetry checking
+        /// </summary>
+        /// <param name="flag">The boolean value to write</param>
+        void Mark(bool flag);
+
+        /// <summary>
+        /// Reads a previously written flag (intially false); helper for symmetry checking
+        /// </summary>
+        /// <returns></returns>
+        bool IsMarked();
+
 
         //////////////////////////////////////////////////////////////////////////
         // Nodes
