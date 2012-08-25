@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -37,7 +38,7 @@ namespace de.unika.ipd.grGen.libGr
             if(!allElementsWereMarked)
                 return false;
 
-            // if we'd know there was no hom used, locally and in the subpatterns employed, we could get along without this counter direction check
+            // if we'd know there was no hom used, locally and in the subpatterns employed, we could get along without this counter direction check, which is needed to reject containment
             id = Mark(that, graph);
             allElementsWereMarked = AreAllMarked(this_, graph, id);
             Unmark(that, graph, id);
@@ -45,8 +46,27 @@ namespace de.unika.ipd.grGen.libGr
                 return false;
 
             // locally the match this_ was a permutation of the match that
+            // now check globally the nested and subpatterns
+            
+            // independents must be in a 1:1 correspondence
+            for(int i = 0; i < this_.NumberOfIndependents; ++i)
+                if(!AreSymmetric(this_.getIndependentAt(i), that.getIndependentAt(i), graph))
+                    return false;
 
-            // TODO: check subpatterns et al
+            // alternatives/alternative cases must be in a 1:1 correspondence (equal cases are ensured by the identical pattern check)
+            for(int i = 0; i < this_.NumberOfAlternatives; ++i)
+                if(!AreSymmetric(this_.getAlternativeAt(i), that.getAlternativeAt(i), graph))
+                    return false;
+
+            // the iterateds must be in a 1:1 correspondence -- but the iterations may be permuted, that's handled in the call
+            for(int i = 0; i < this_.NumberOfIterateds; ++i)
+                if(!AreIterationsSymmetric(this_.getIteratedAt(i), that.getIteratedAt(i), graph))
+                    return false;
+
+            // the subpatterns of equal type may be permuted, the rest must be in a 1:1 correspondence
+            // (by encapsulating the elements above in a subpattern instead of duplicating their content locally they can get symmetry checked)
+            if(!AreSubpatternsSymmetric(this_, that, graph))
+                return false;
 
             return true;
         }
@@ -58,7 +78,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="match">The match to mark in the graph with a visited flag</param>
         /// <param name="graph">The graph in which the match was found, needed for visited flag access</param>
         /// <returns>The visited flag id, for later checks and the unmarking</returns>
-        public static int Mark(IMatch match, IGraph graph)
+        private static int Mark(IMatch match, IGraph graph)
         {
             int id = graph.AllocateVisitedFlag();
 
@@ -78,7 +98,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="match">The match to mark in the graph with a visited flag</param>
         /// <param name="graph">The graph in which the match was found, needed for visited flag access</param>
         /// <param name="id">The visited flag id</param>
-        public static void Unmark(IMatch match, IGraph graph, int id)
+        private static void Unmark(IMatch match, IGraph graph, int id)
         {
             for(int i = match.NumberOfNodes; i < match.NumberOfNodes; ++i)
                 graph.SetVisited(match.getNodeAt(i), id, false);
@@ -95,7 +115,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="match">The match to check for being marked</param>
         /// <param name="graph">The graph in which the match was found, needed for visited flag access</param>
         /// <param name="id">The visited flag id</param>
-        public static bool AreAllMarked(IMatch match, IGraph graph, int id)
+        private static bool AreAllMarked(IMatch match, IGraph graph, int id)
         {
             for(int i = match.NumberOfNodes; i < match.NumberOfNodes; ++i)
                 if(!graph.IsVisited(match.getNodeAt(i), id))
@@ -106,6 +126,123 @@ namespace de.unika.ipd.grGen.libGr
                     return false;
 
             return true;
+        }
+
+        /// <summary>
+        /// Checks whether the iterated matches are symmetric, 
+        /// i.e. are covering the same spot in the graph with a permutation of the single matches
+        /// </summary>
+        private static bool AreIterationsSymmetric(IMatches this_, IMatches that, IGraph graph)
+        {
+            if(this_.Count != that.Count)
+                return false;
+
+            return AreIterationsSymmetric(this_, that, graph, 0);
+        }
+
+        /// <summary>
+        /// Searches for a symmetric partner for the match at the index in this
+        /// Returns true if it was possible in the end to map every match in this to a match in that
+        /// </summary>
+        private static bool AreIterationsSymmetric(IMatches this_, IMatches that, IGraph graph, int index)
+        {
+            if(index >= this_.Count)
+                return true;
+
+            for(int j = 0; j < that.Count; ++j)
+            {
+                if(that.GetMatch(j).IsMarked())
+                    continue;
+                if(!AreSymmetric(this_.GetMatch(index), that.GetMatch(j), graph))
+                    continue;
+
+                that.GetMatch(j).Mark(true);
+                bool wereSymmetric = AreIterationsSymmetric(this_, that, graph, index + 1);
+                that.GetMatch(j).Mark(false);
+
+                if(wereSymmetric)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks whether the subpattern matches are symmetric, 
+        /// i.e. are covering the same spot in the graph with a permutation of the matches of same subpattern type
+        /// </summary>
+        private static bool AreSubpatternsSymmetric(IMatch this_, IMatch that, IGraph graph)
+        {
+            switch(this_.NumberOfEmbeddedGraphs)
+            {
+                case 0:
+                    return true;
+                case 1:
+                    return AreSymmetric(this_.getEmbeddedGraphAt(0), that.getEmbeddedGraphAt(0), graph);
+                case 2:
+                {
+                    if(this_.getEmbeddedGraphAt(0).Pattern != this_.getEmbeddedGraphAt(1).Pattern)
+                    {
+                        return AreSymmetric(this_.getEmbeddedGraphAt(0), that.getEmbeddedGraphAt(0), graph)
+                            && AreSymmetric(this_.getEmbeddedGraphAt(1), that.getEmbeddedGraphAt(1), graph);
+                    }
+                    else
+                    {
+                        return ( AreSymmetric(this_.getEmbeddedGraphAt(0), that.getEmbeddedGraphAt(0), graph)
+                            && AreSymmetric(this_.getEmbeddedGraphAt(1), that.getEmbeddedGraphAt(1), graph) )
+                            || ( AreSymmetric(this_.getEmbeddedGraphAt(0), that.getEmbeddedGraphAt(1), graph)
+                            && AreSymmetric(this_.getEmbeddedGraphAt(1), that.getEmbeddedGraphAt(0), graph) );
+                    }
+                }
+                default:
+                {
+                    // compute partition of subpatterns according to type
+                    Dictionary<IPatternGraph, List<int>> partitions = new Dictionary<IPatternGraph, List<int>>();
+                    for(int i = 0; i < this_.NumberOfEmbeddedGraphs; ++i)
+                    {
+                        IMatch match = this_.getEmbeddedGraphAt(i);
+                        if(!partitions.ContainsKey(match.Pattern))
+                            partitions.Add(match.Pattern, new List<int>());
+                        partitions[match.Pattern].Add(i);
+                    }
+
+                    // the subpatterns of equal type may be permuted, the rest must be in a 1:1 correspondence
+                    foreach(KeyValuePair<IPatternGraph, List<int>> kvp in partitions)
+                        if(!AreSubpatternsSymmetric(this_, that, graph, kvp.Value, 0))
+                            return false;
+
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks whether the subpattern matches of the partition are symmetric, 
+        /// i.e. are covering the same spot in the graph with a permutation of the matches in the partition
+        /// Searches for a symmetric partner for the subpattern match at the index in the partition in this
+        /// Returns true if it was possible in the end to map every match in the partition in this to a match in that
+        /// </summary>
+        private static bool AreSubpatternsSymmetric(IMatch this_, IMatch that, IGraph graph, List<int> partition, int index)
+        {
+            if(index >= partition.Count)
+                return true;
+
+            for(int j = 0; j < partition.Count; ++j)
+            {
+                if(that.getEmbeddedGraphAt(partition[j]).IsMarked())
+                    continue;
+                if(!AreSymmetric(this_.getEmbeddedGraphAt(partition[index]), that.getEmbeddedGraphAt(partition[j]), graph))
+                    continue;
+
+                that.getEmbeddedGraphAt(partition[j]).Mark(true);
+                bool wereSymmetric = AreSubpatternsSymmetric(this_, that, graph, partition, index + 1);
+                that.getEmbeddedGraphAt(partition[j]).Mark(false);
+
+                if(wereSymmetric)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

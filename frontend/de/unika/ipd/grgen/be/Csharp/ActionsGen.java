@@ -2163,6 +2163,9 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;\n");
 		sb.append("\t\t\tpublic void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }\n");
 		sb.append("\t\t\tpublic override string ToString() { return \"Match of \" + Pattern.Name; }\n");
+		sb.append("\t\t\tpublic bool _flag;\n");
+		sb.append("\t\t\tpublic void Mark(bool flag) { _flag = flag; }\n");
+		sb.append("\t\t\tpublic bool IsMarked() { return _flag; }\n");
 
 		sb.append("\n\t\t\tpublic "+className+"("+className +" that)\n");
 		sb.append("\t\t\t{\n");
