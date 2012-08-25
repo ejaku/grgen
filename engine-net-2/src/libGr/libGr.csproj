@@ -114,6 +114,7 @@
     <Compile Include="SimpleCharStream.cs" />
     <Compile Include="SingleLinkedList.cs" />
     <Compile Include="SymbolTable.cs" />
+    <Compile Include="SymmetryChecker.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="TokenMgrError.cs" />
     <Compile Include="TypesHelper.cs" />
