@@ -167,8 +167,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override bool Execute(LGSPGraph graph, List<FoundMatch> matches)
         {
-            if(matches != null)
-                match = null; // ensure we don't reuse a preallocated match object from another interpretation plan
             return next.Execute(graph, matches);
         }
 
