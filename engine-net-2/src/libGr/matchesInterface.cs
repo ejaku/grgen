@@ -347,7 +347,8 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
-        /// (The list might have been reordered, matches might have been removed, or even added.)
+        /// The list might have been reordered, matches might have been removed, or even added.
+        /// Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
         /// </summary>
         void FromList();
     }
