@@ -1675,9 +1675,13 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 case SequenceComputationType.VFree:
+                case SequenceComputationType.VFreeNonReset:
                 {
                     SequenceComputationVFree seqVFree = (SequenceComputationVFree)seqComp;
-                    source.AppendFront("graph.FreeVisitedFlag((int)" + GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
+                    if(seqVFree.Reset)
+                        source.AppendFront("graph.FreeVisitedFlag((int)" + GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
+                    else
+                        source.AppendFront("graph.FreeVisitedFlagNonReset((int)" + GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
                     source.AppendFront(SetResultVar(seqVFree, "null"));
                     break;
                 }

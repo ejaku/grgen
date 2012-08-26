@@ -1078,7 +1078,7 @@ SequenceComputation Computation():
 	}
 |
 	LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(2).kind==LPARENTHESIS 
-				&& (GetToken(1).image=="vfree" || GetToken(1).image=="vreset"
+				&& (GetToken(1).image=="vfree" || GetToken(1).image=="vfreenonreset" || GetToken(1).image=="vreset"
 					|| GetToken(1).image=="emit" || GetToken(1).image=="record" || GetToken(1).image=="export"
 					|| GetToken(1).image=="rem" || GetToken(1).image=="clear")})
 	comp=ProcedureCall()
@@ -1335,7 +1335,10 @@ SequenceComputation ProcedureCall():
 	{
 		if(procedure=="vfree") {
 			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationVFree(fromExpr);
+			return new SequenceComputationVFree(fromExpr, true);
+		} else if(procedure=="vfreenonreset") {
+			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationVFree(fromExpr, false);
 		} else if(procedure=="vreset") {
 			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 			return new SequenceComputationVReset(fromExpr);
@@ -1355,7 +1358,7 @@ SequenceComputation ProcedureCall():
 			if(fromExpr!=null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects no parameters)");
 			return new SequenceComputationGraphClear();
 		} else {
-			throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are vfree|vreset|emit|record|export|rem|clear)");
+			throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are vfree|vfreenonreset|vreset|emit|record|export|rem|clear)");
 		}
     }
 }
