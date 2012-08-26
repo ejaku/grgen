@@ -96,9 +96,10 @@ by copying the subgraphs (which are normally only existing at one point in time)
 When subgraphs would be copied without pause insertions, they would be rolled back during backtracking; but effects applied on the graph from \texttt{/ in between here /} are bypassing the recording of the transaction undo log and thus stay in the graph, even if the transaction fails and is rolled back. 
 
 When you have switched from a depth-first search over one single current graph to the unfolding of a state space graph containing all the subgraphs reached, you may compare each subgraph which gets enumerated with all the already available subgraphs, and if the new subgraph already exists (i.e. is isomorph to another already generated subgraph), you may refrain from inserting it.
-This symmetry reduction allows to save the space and time needed for storing and computing equivalent branches otherwise generated from the equivalent states. 
+This \indexed{symmetry reduction} allows to save the space and time needed for storing and computing equivalent branches otherwise generated from the equivalent states. 
 But please note that the \texttt{==} operator on graphs is optimized for returning early when the graphs are different; when the graphs are isomorphic you have to pay the full price of graph isomorphy checking.
-This will happen steadily with automorphic patterns and then degrade performance massively.
+This will happen steadily with \indexed{automorphic pattern}s and then degrade performance.
+To counter this filter the matches which cover the same spot in different ways, see \ref{sub:extflt} on how to do this.
 Merging states with already computed ones yields a DAG-formed state space, instead of the always tree like search space.
 Have a look at the transformation techniques chapter for more on state space enumeration \ref{sec:statespaceenum} and copying \ref{subsub:copystructure}.
 One caveat of the transactions and backtracking must be mentioned: rollback might lead to an incorrect graph visualization when employed from the debugger.
@@ -224,7 +225,7 @@ This is possible with storage changing methods which return the variable again, 
 They were already explained in \ref{sec:storages}.
 
 A function call executes a (predefined) function, passing further arguments.
-In addition to the visited flag functions which was already explained in more detail in \ref{sec:visited},
+In addition to the visited flag functions which were already explained in more detail in \ref{sec:visited},
 \texttt{emit}, \texttt{record}, and \texttt{export} function calls can be given here: the emit function writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
 The record function writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
 The export function exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
@@ -322,10 +323,13 @@ The variable and literal basic expressions are the same as in the SimpleOrIntera
   ;
 \end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{visited}
 
-The special sequence expressions are used for storage and visited flag handling, plus for graph and subgraph handling.
+The special sequence expressions are used for storage and visited flag handling, for random value queries, and for graph and subgraph handling.
 
 The storage and visited flag oriented ones are used to check whether a value is marked, to access a storage, or to call a method on a storage (note: here it is not possible to build method call chains). 
-They will be explained in more detail in chapter \ref{cha:storagesvisited}.
+They were explained in chapter \ref{cha:storagesvisited}.
+
+The random value function \texttt{random} behaves like the random function from the expressions, see \ref{sec:primexpr};
+i.e. if noted down with an integer as argument it returns a random integer in between 0 and that upper bound, exclusive; if given without an argument it returns a random double in between 0.0 and 1.0, exclusive.
 
 The graph and subgraph oriented ones can be separated into three groups.
 
@@ -444,6 +448,7 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \texttt{export(filename)} & Exports the current graph to a file with the specified name. \\
 \texttt{export(graph, path)} & Exports the (sub)graph given to the path given.\\
 \texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
+\texttt{random(upperBound)} & Returns random number from [0;upper bound[, if upper bound is missing from [0.0;1.0[.\\
 \hline
 \texttt{v=valloc()} & Allocates a visited-flag, assigns its id to v.\\
 \texttt{vfree(e)} & Frees the visited-flag given.\\
