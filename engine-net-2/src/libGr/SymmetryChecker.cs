@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+//#define LOG_MATCHES
+
 using System;
 using System.Collections.Generic;
 
@@ -29,6 +31,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>True if the matches are symmetric, i.e. covering the same spot in the graph, otherwise false.</returns>
         public static bool AreSymmetric(IMatch this_, IMatch that, IGraph graph)
         {
+#if LOG_MATCHES
+            Console.WriteLine("match this: " + MatchPrinter.ToString(this_, graph, ""));
+            Console.WriteLine("match that: " + MatchPrinter.ToString(that, graph, ""));
+#endif
             if(this_.Pattern != that.Pattern)
                 return false;
 
@@ -68,6 +74,9 @@ namespace de.unika.ipd.grGen.libGr
             if(!AreSubpatternsSymmetric(this_, that, graph))
                 return false;
 
+#if LOG_MATCHES
+            Console.WriteLine("this is symmetric to that");
+#endif
             return true;
         }
 
@@ -82,10 +91,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             int id = graph.AllocateVisitedFlag();
 
-            for(int i = match.NumberOfNodes; i < match.NumberOfNodes; ++i)
+            for(int i = 0; i < match.NumberOfNodes; ++i)
                 graph.SetVisited(match.getNodeAt(i), id, true);
 
-            for(int i = match.NumberOfEdges; i < match.NumberOfEdges; ++i)
+            for(int i = 0; i < match.NumberOfEdges; ++i)
                 graph.SetVisited(match.getEdgeAt(i), id, true);
 
             return id;
@@ -100,10 +109,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="id">The visited flag id</param>
         private static void Unmark(IMatch match, IGraph graph, int id)
         {
-            for(int i = match.NumberOfNodes; i < match.NumberOfNodes; ++i)
+            for(int i = 0; i < match.NumberOfNodes; ++i)
                 graph.SetVisited(match.getNodeAt(i), id, false);
 
-            for(int i = match.NumberOfEdges; i < match.NumberOfEdges; ++i)
+            for(int i = 0; i < match.NumberOfEdges; ++i)
                 graph.SetVisited(match.getEdgeAt(i), id, false);
 
             graph.FreeVisitedFlagNonReset(id);
@@ -117,11 +126,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="id">The visited flag id</param>
         private static bool AreAllMarked(IMatch match, IGraph graph, int id)
         {
-            for(int i = match.NumberOfNodes; i < match.NumberOfNodes; ++i)
+            for(int i = 0; i < match.NumberOfNodes; ++i)
                 if(!graph.IsVisited(match.getNodeAt(i), id))
                     return false;
 
-            for(int i = match.NumberOfEdges; i < match.NumberOfEdges; ++i)
+            for(int i = 0; i < match.NumberOfEdges; ++i)
                 if(!graph.IsVisited(match.getEdgeAt(i), id))
                     return false;
 
