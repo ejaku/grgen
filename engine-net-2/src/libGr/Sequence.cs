@@ -802,6 +802,8 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sb.Append(")");
             }
+            if(Filter != null)
+                sb.Append("\\").Append(Filter);
             return sb.ToString();
         }
 
@@ -832,6 +834,8 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sb.Append(")");
             }
+            if(Filter != null)
+                sb.Append("\\").Append(Filter);
             return sb.ToString();
         }
 
