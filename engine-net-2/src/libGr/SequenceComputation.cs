@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.libGr
     public enum SequenceComputationType
     {
         Then,
-        VFree, VReset,
+        VFree, VFreeNonReset, VReset,
         ContainerAdd, ContainerRem, ContainerClear,
         Assignment,
         VariableDeclaration,
@@ -199,11 +199,13 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceComputationVFree : SequenceComputation
     {
         public SequenceExpression VisitedFlagExpression;
+        public bool Reset;
 
-        public SequenceComputationVFree(SequenceExpression visitedFlagExpr)
-            : base(SequenceComputationType.VFree)
+        public SequenceComputationVFree(SequenceExpression visitedFlagExpr, bool reset)
+            : base(reset ? SequenceComputationType.VFree : SequenceComputationType.VFreeNonReset)
         {
             VisitedFlagExpression = visitedFlagExpr;
+            Reset = reset;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -226,7 +228,10 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             int visitedFlag = (int)VisitedFlagExpression.Evaluate(procEnv);
-            procEnv.Graph.FreeVisitedFlag(visitedFlag);
+            if(Reset)
+                procEnv.Graph.FreeVisitedFlag(visitedFlag);
+            else
+                procEnv.Graph.FreeVisitedFlagNonReset(visitedFlag);
             return null;
         }
 
@@ -237,7 +242,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceComputation> Children { get { yield return VisitedFlagExpression; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "vfree(" + VisitedFlagExpression.Symbol + ")"; } }
+        public override string Symbol { get { return (Reset ? "vfree" : "vfreenonreset") + "(" + VisitedFlagExpression.Symbol + ")"; } }
     }
 
     public class SequenceComputationVReset : SequenceComputation

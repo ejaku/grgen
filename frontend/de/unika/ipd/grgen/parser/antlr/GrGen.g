@@ -1763,8 +1763,9 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	;
 
 procedureCall[ExecNode xg]
-	: { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vreset") || input.LT(1).getText().equals("record")
-		|| input.LT(1).getText().equals("emit") || input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
+	: { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vfreenonreset") || input.LT(1).getText().equals("vreset") 
+		|| input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") 
+		|| input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
 		(i=IDENT | i=EMIT) LPAREN { xg.append(i.getText()); xg.append("("); } ( seqExpression[xg] )? RPAREN { xg.append(")"); }
 	;
 
