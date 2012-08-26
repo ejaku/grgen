@@ -664,6 +664,77 @@
             type might be a string denoting an EdgeType or an EdgeType
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SymmetryChecker">
+            <summary>
+            A class which contains the AreSymmetric function to check to matches of a pattern for being symmetric,
+            i.e. to be matches of a pattern which is automorph to itself.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SymmetryChecker.AreSymmetric(de.unika.ipd.grGen.libGr.IMatch,de.unika.ipd.grGen.libGr.IMatch,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Checks whether the matches are symmetric, 
+            i.e. are covering the same spot in the graph with a permutation of the pattern to graph mapping; 
+            that might be the case if they are matches of a pattern which is automorph to itself.
+            This function is employed by the generated automorph filters for rule \ auto.
+            Ths subpattern derivations must be structurally identical, modulo permutations of matches of the same subpattern type.
+            </summary>
+            <param name="this_">The one match to check for being symmetric to the other</param>
+            <param name="that">The other match to check for being symmetric to the one match</param>
+            <param name="graph">The graph in which the matches were found</param>
+            <returns>True if the matches are symmetric, i.e. covering the same spot in the graph, otherwise false.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SymmetryChecker.Mark(de.unika.ipd.grGen.libGr.IMatch,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Mark the elements of the match in the graph with a visited flag.
+            Allocates a visited flag.
+            </summary>
+            <param name="match">The match to mark in the graph with a visited flag</param>
+            <param name="graph">The graph in which the match was found, needed for visited flag access</param>
+            <returns>The visited flag id, for later checks and the unmarking</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SymmetryChecker.Unmark(de.unika.ipd.grGen.libGr.IMatch,de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Unmark the elements of the match in the graph, regarding the given visited flag.
+            Deallocates the visited flag.
+            </summary>
+            <param name="match">The match to mark in the graph with a visited flag</param>
+            <param name="graph">The graph in which the match was found, needed for visited flag access</param>
+            <param name="id">The visited flag id</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SymmetryChecker.AreAllMarked(de.unika.ipd.grGen.libGr.IMatch,de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Checks whether all elements of the match are marked in the graph, regarding the given visited flag.
+            </summary>
+            <param name="match">The match to check for being marked</param>
+            <param name="graph">The graph in which the match was found, needed for visited flag access</param>
+            <param name="id">The visited flag id</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SymmetryChecker.AreIterationsSymmetric(de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Checks whether the iterated matches are symmetric, 
+            i.e. are covering the same spot in the graph with a permutation of the single matches
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SymmetryChecker.AreIterationsSymmetric(de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Searches for a symmetric partner for the match at the index in this
+            Returns true if it was possible in the end to map every match in this to a match in that
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SymmetryChecker.AreSubpatternsSymmetric(de.unika.ipd.grGen.libGr.IMatch,de.unika.ipd.grGen.libGr.IMatch,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Checks whether the subpattern matches are symmetric, 
+            i.e. are covering the same spot in the graph with a permutation of the matches of same subpattern type
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SymmetryChecker.AreSubpatternsSymmetric(de.unika.ipd.grGen.libGr.IMatch,de.unika.ipd.grGen.libGr.IMatch,de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.List{System.Int32},System.Int32)">
+            <summary>
+            Checks whether the subpattern matches of the partition are symmetric, 
+            i.e. are covering the same spot in the graph with a permutation of the matches in the partition
+            Searches for a symmetric partner for the subpattern match at the index in the partition in this
+            Returns true if it was possible in the end to map every match in the partition in this to a match in that
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo">
             <summary>
             Represents an XGRS used in an exec statement.
@@ -1157,6 +1228,12 @@
         <member name="M:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution.ChooseRandomNumber(System.Int32,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns the maybe user altered random number in the range 0 - upperBound exclusive for the sequence given
+            the random number chosen is supplied
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution.ChooseRandomNumber(System.Double,de.unika.ipd.grGen.libGr.Sequence)">
+            <summary>
+            returns the maybe user altered random number in the range 0.0 - 1.0 exclusive for the sequence given
             the random number chosen is supplied
             </summary>
         </member>
@@ -2213,6 +2290,18 @@
             Clone the match
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.Mark(System.Boolean)">
+            <summary>
+            Writes a flag to the match, which is remembered; helper for symmetry checking
+            </summary>
+            <param name="flag">The boolean value to write</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.IsMarked">
+            <summary>
+            Reads a previously written flag (intially false); helper for symmetry checking
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatch.getNodeAt(System.Int32)">
             <summary>
             Returns node at position index (most efficient access)
@@ -2489,7 +2578,8 @@
         <member name="M:de.unika.ipd.grGen.libGr.IMatchesExact`1.FromList">
             <summary>
             Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
-            (The list might have been reordered, matches might have been removed, or even added.)
+            The list might have been reordered, matches might have been removed, or even added.
+            Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatchesExact`1.FirstExact">
@@ -3531,6 +3621,16 @@
             Array containing all direct super types of this type.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NodeType.IsMyType(System.Int32)">
+            <summary>
+            Tells whether the given type is the same or a subtype of this type
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NodeType.IsA(System.Int32)">
+            <summary>
+            Tells whether this type is the same or a subtype of the given type
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.NodeType.IsNodeType">
             <summary>
             Always returns true.
@@ -3633,6 +3733,16 @@
         <member name="F:de.unika.ipd.grGen.libGr.EdgeType.directSuperTypes">
             <summary>
             Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.IsMyType(System.Int32)">
+            <summary>
+            Tells whether the given type is the same or a subtype of this type
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.IsA(System.Int32)">
+            <summary>
+            Tells whether this type is the same or a subtype of the given type
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.EdgeType.IsNodeType">
@@ -4203,18 +4313,26 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.AllocateVisitedFlag">
             <summary>
-            Allocates a clean visited flag on the graph elements.
-            If needed the flag is cleared on all graph elements, so this is an O(n) operation.
+            Allocates a visited flag on the graph elements.
             </summary>
             <returns>A visitor ID to be used in
-            visited conditions in patterns ("if { !visited(elem, id); }"),
-            visited expressions in evals ("visited(elem, id) = true; b.flag = visited(elem, id) || c.flag; "}
+            visited conditions in patterns ("if { !elem.visited[id]; }"),
+            visited expressions in evals ("elem.visited[id] = true; b.flag = elem.visited[id] || c.flag; "}
             and calls to other visitor functions.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.FreeVisitedFlag(System.Int32)">
             <summary>
             Frees a visited flag.
-            This is an O(1) operation.
+            This is a safe but O(n) operation, as it resets the visited flag in the graph.
+            </summary>
+            <param name="visitorID">The ID of the visited flag to be freed.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.FreeVisitedFlagNonReset(System.Int32)">
+            <summary>
+            Frees a clean visited flag.
+            This is an O(1) but potentially unsafe operation.
+            Attention! A marked element stays marked, so a later allocation hands out a dirty visited flag! 
+            Use only if you can ensure that all elements of that flag are unmarked before calling.
             </summary>
             <param name="visitorID">The ID of the visited flag to be freed.</param>
         </member>

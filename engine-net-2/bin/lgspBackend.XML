@@ -628,6 +628,21 @@
             Class representing "assign variable from expression" operation,
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.FoundMatch">
+            <summary>
+            A helper class containing a match found by iteration plan execution
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.FoundMatch.nodes">
+            <summary>
+            The nodes found, linked to their corresponding pattern nodes in the pattern graph by index
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.FoundMatch.edges">
+            <summary>
+            The edges found, linked to their corresponding pattern edges in the pattern graph by index
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlan">
             <summary>
             Base class of the interpretation plan data structure,
@@ -650,11 +665,12 @@
             to be implemented by concrete subclasses
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Execute(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Execute(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Collections.Generic.List{de.unika.ipd.grGen.lgsp.FoundMatch})">
             <summary>
             Executes the interpretation plan (starting with this operation)
             </summary>
             <param name="graph">The graph over which the plan is to be interpreted</param>
+            <param name="matches">If not null, the list is filled with the matches; only in this case are all matches iterated</param>
             <returns>true if execution succeeded, i.e. a match was found; false otherwise</returns>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlan.next">
@@ -662,11 +678,12 @@
             The next interpretation plan operation
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlan.Id">
+        <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlan.prev">
             <summary>
-            A unique identifier denoting this interpretation plan operation
+            The previous interpretation plan operation
             </summary>
         </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "F:de.unika.ipd.grGen.lgsp.InterpretationPlan.Id" ignoriert -->
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanNodeMatcher">
             <summary>
             An interpretation plan operation which matches a node
@@ -677,6 +694,11 @@
             The node matched by this interpretation plan operation during execution
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlanNodeMatcher.planNodeNode">
+            <summary>
+            The node representation in the search plan; the elementID - 1 is the index in the nodes array of the pattern graph
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanEdgeMatcher">
             <summary>
             An interpretation plan operation which matches an edge
@@ -685,6 +707,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlanEdgeMatcher.edge">
             <summary>
             The edge matched by this interpretation plan operation during execution
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlanEdgeMatcher.planEdgeNode">
+            <summary>
+            The edge representation in the search plan; the elementID - 1 is the index in the edges array of the pattern graph
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanDirectionVariable">
@@ -1453,13 +1480,14 @@
             A class for building the interpretation plan data structure from a scheduled search plan
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.#ctor(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan,de.unika.ipd.grGen.lgsp.SearchPlanGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.#ctor(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan,de.unika.ipd.grGen.lgsp.SearchPlanGraph,de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
             Creates an interpretation plan builder for the given scheduled search plan.
             Only a limited amount of search operations is supported, the ones needed for isomorphy checking.
             </summary>
             <param name="ssp">the scheduled search plan to build an interpretation plan for</param>
             <param name="spg">the search plan graph for determining the pattern element needed for attribute checking</param>
+            <param name="model">the model over which the patterns are to be searched</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlanBuilder.BuildInterpretationPlan(System.String)">
             <summary>
@@ -1981,20 +2009,26 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AllocateVisitedFlag">
             <summary>
-            Allocates a clean visited flag on the graph elements.
-            If needed the flag is cleared on all graph elements, so this is an O(n) operation.
+            Allocates a visited flag on the graph elements.
             </summary>
             <returns>A visitor ID to be used in
-            visited conditions in patterns ("if { !visited(elem, id); }"),
-            visited expressions in evals ("visited(elem, id) = true; b.flag = visited(elem, id) || c.flag; "}
+            visited conditions in patterns ("if { !elem.visited[id]; }"),
+            visited expressions in evals ("elem.visited[id] = true; b.flag = elem.visited[id] || c.flag; "}
             and calls to other visitor functions.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.FreeVisitedFlag(System.Int32)">
             <summary>
             Frees a visited flag.
-            This is an O(1) operation.
-            It adds visitor flags supported by the element flags to the front of the list
-            to prefer them when allocating a new one.
+            This is a safe but O(n) operation, as it resets the visited flag in the graph.
+            </summary>
+            <param name="visitorID">The ID of the visited flag to be freed.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.FreeVisitedFlagNonReset(System.Int32)">
+            <summary>
+            Frees a clean visited flag.
+            This is an O(1) but potentially unsafe operation.
+            Attention! A marked element stays marked, so a later allocation hands out a dirty visited flag! 
+            Use only if you can ensure that all elements of that flag are unmarked before calling.
             </summary>
             <param name="visitorID">The ID of the visited flag to be freed.</param>
         </member>
@@ -2138,16 +2172,18 @@
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.VisitorData.NodesMarked">
             <summary>
             Specifies whether this visitor has already marked any nodes.
+            This is unused, if the dictionary is used for this visitor ID.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.VisitorData.EdgesMarked">
             <summary>
             Specifies whether this visitor has already marked any edges.
+            This is unused, if the dictionary is used for this visitor ID.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.VisitorData.VisitedElements">
             <summary>
-            A hash map containing all visited elements (the values are not used).
+            A hash map containing all visited elements (in the keys, the dictionary values are not used).
             This is unused (and thus null), if the graph element flags are used for this visitor ID.
             </summary>
         </member>
@@ -5611,7 +5647,8 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FromList">
             <summary>
             Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
-            (The list might have been reordered, matches might have been removed, or even added.)
+            The list might have been reordered, matches might have been removed, or even added.
+            Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.producer">
