@@ -300,7 +300,7 @@ When you use third-party assemblies in your source code you must inform GrGen.NE
 
 For an actions file \texttt{Bar} which contains match filter declarations (cf. \ref{sub:extflt}) and/or external sequence declarations (\ref{sub:extseq}), \GrG~generates a file \texttt{BarActionsExternalFunctions.cs} located besides the model and rule files, which contains within the action namespace 
 \begin{itemize}
-	\item a public partial class named \texttt{MatchFilters} with a body of comments giving the expected function prototypes.
+	\item a public partial class named \texttt{MatchFilters} with a body of comments giving the expected function prototypes, and for the \texttt{auto} filters even the implementation.
 	\item public partial classes, named \texttt{Sequence\_foo} for a sequence \texttt{foo}, with a body containing a comment specifying the expected function prototype of the sequence application function.
 \end{itemize}
 
@@ -340,6 +340,7 @@ for(int i=0; i<myMatches.NumMatches; ++i)
 \end{csharplet}
 
 The external match filters are hooking in between the \texttt{Match} and \texttt{Modify} functions, they allow you to do this kind of inspection without being forced to resort to fully external control.
+The most interesting filter can be automatically generated for you, the \texttt{auto} filter for filtering symmetric matches of automorphic patterns, see \ref{sub:extflt} for more on this.
 \end{note}
 
 

@@ -1,4 +1,36 @@
-﻿v3.5.2 (2012-08-12)
+﻿v3.6.ms1 (2012-08-27)
+ Added automorphic pattern filtering / symmetry reduction of matches:
+  - a rule declaration may now be annotated with a special filter auto, this
+    makes GrGen.NET generate a matches filter auto which can be applied to calls of that rule
+  - when applied it removes matches which are only permutations of other available matches,
+    which is the case when the pattern is automorphic (and multiple matches are requested)
+   (This renders GrGen much better suited to molecule matching for chemistry applications.)
+
+ Improved random support in the sequences:
+    (now that we got comparison operators to decide based on them)
+  - added a random(upperBound:int):int function to the sequence expressions, 
+    returning a random value in between 0 and upper bound exclusive
+  - added a random():double function to the sequences expressions, 
+    returning a random value in between 0.0 and 1.0 exclusive
+  - added $(1.0) to the sequences returning a random value in between 0.0 and 1.0 exclusive;
+    it is choicepointable like the $%(upperBound:int) available since a while now
+
+ Visited flag handling changed / improved:
+  - visited flags are reset on deallocation now, instead of on (re-)allocation
+  - added deallocation procedure vfreenonreset without flag resetting to the sequence computations,
+    this gives better performance on large graphs, leaving it at the responsibility of the user 
+    to ensure the corresponding visited flag is unset/false on deallocation for all graph elements
+
+ Bugfixes and API improvements: 
+  - entries in the matches list handed out on request may now be overwritten with null, 
+    they then count as deleted entries when materializing the matches collection again from the list 
+    (this saves subarray copying on entry deletion in a user implemented filter)
+  - replacing the matches with the changed list handed out was buggy in case the list was empty
+  - the filter applied to a rule call is now displayed in debugger
+
+--------------------------------------------------------------------------------------------------------
+
+v3.5.2 (2012-08-12)
  Added "custom actions explain <actionname>" command to the GrShell/Actions in API
   printing the currently used scheduled search plan to the console
   (should be useful in optimizing performance, similar to the mysql/sqlite explain commands)
