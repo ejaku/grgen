@@ -338,6 +338,11 @@ namespace de.unika.ipd.grGen.libGr
             return randomNumber;
         }
 
+        public double ChooseRandomNumber(double randomNumber, Sequence seq)
+        {
+            return randomNumber;
+        }
+
         public object ChooseValue(string type, Sequence seq)
         {
             throw new Exception("Can only query the user for a value if a debugger is available");

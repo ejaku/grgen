@@ -35,7 +35,7 @@ namespace de.unika.ipd.grGen.libGr
         IterationMin, IterationMinMax,
         RuleCall, RuleAllCall,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
-        AssignUserInputToVar, AssignRandomToVar, // needed as sequence because of debugger integration
+        AssignUserInputToVar, AssignRandomIntToVar, AssignRandomDoubleToVar, // needed as sequence because of debugger integration
         DeclareVariable, AssignConstToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
         Highlight,
@@ -1113,16 +1113,16 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return DestVar.Name + "=" + "$%(" + Type + ")"; } }
     }
 
-    public class SequenceAssignRandomToVar : SequenceAssignToVar, SequenceRandomChoice
+    public class SequenceAssignRandomIntToVar : SequenceAssignToVar, SequenceRandomChoice
     {
         public int Number;
 
-        public bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceAssignRandomToVar"); } }
+        public bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceAssignRandomIntToVar"); } }
         public bool Choice { get { return choice; } set { choice = value; } }
         private bool choice;
 
-        public SequenceAssignRandomToVar(SequenceVariable destVar, int number, bool choice)
-            : base(destVar, SequenceType.AssignRandomToVar)
+        public SequenceAssignRandomIntToVar(SequenceVariable destVar, int number, bool choice)
+            : base(destVar, SequenceType.AssignRandomIntToVar)
         {
             Number = number;
             this.choice = choice;
@@ -1144,6 +1144,36 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override string Symbol { get { return DestVar.Name + "=" + (Choice ? "$%" : "$") + "(" + Number + ")"; } }
+    }
+
+    public class SequenceAssignRandomDoubleToVar : SequenceAssignToVar, SequenceRandomChoice
+    {
+        public bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceAssignRandomDoubleToVar"); } }
+        public bool Choice { get { return choice; } set { choice = value; } }
+        private bool choice;
+
+        public SequenceAssignRandomDoubleToVar(SequenceVariable destVar, bool choice)
+            : base(destVar, SequenceType.AssignRandomDoubleToVar)
+        {
+            this.choice = choice;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "double", env.Model))
+            {
+                throw new SequenceParserException(Symbol, "double", DestVar.Type);
+            }
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            double randomNumber = randomGenerator.NextDouble();
+            if(Choice) randomNumber = procEnv.UserProxy.ChooseRandomNumber(randomNumber, this);
+            return Assign(randomNumber, procEnv);
+        }
+
+        public override string Symbol { get { return DestVar.Name + "=" + (Choice ? "$%" : "$") + "(1.0)"; } }
     }
 
     public class SequenceDeclareVariable : SequenceAssignConstToVar

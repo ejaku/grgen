@@ -235,7 +235,8 @@ namespace de.unika.ipd.grGen.lgsp
 			switch(seq.SequenceType)
 			{
                 case SequenceType.AssignUserInputToVar:
-                case SequenceType.AssignRandomToVar:
+                case SequenceType.AssignRandomIntToVar:
+                case SequenceType.AssignRandomDoubleToVar:
                 case SequenceType.DeclareVariable:
                 case SequenceType.AssignConstToVar:
                 case SequenceType.AssignVarToVar:
@@ -1032,10 +1033,18 @@ namespace de.unika.ipd.grGen.lgsp
                     throw new Exception("Internal Error: the AssignUserInputToVar is interpreted only (no Debugger available at lgsp level)");
                 }
 
-                case SequenceType.AssignRandomToVar:
+                case SequenceType.AssignRandomIntToVar:
                 {
-                    SequenceAssignRandomToVar seqRandomToVar = (SequenceAssignRandomToVar)seq;
+                    SequenceAssignRandomIntToVar seqRandomToVar = (SequenceAssignRandomIntToVar)seq;
                     source.AppendFront(SetVar(seqRandomToVar.DestVar, "GRGEN_LIBGR.Sequence.randomGenerator.Next(" + seqRandomToVar.Number + ")"));
+                    source.AppendFront(SetResultVar(seqRandomToVar, "true"));
+                    break;
+                }
+
+                case SequenceType.AssignRandomDoubleToVar:
+                {
+                    SequenceAssignRandomDoubleToVar seqRandomToVar = (SequenceAssignRandomDoubleToVar)seq;
+                    source.AppendFront(SetVar(seqRandomToVar.DestVar, "GRGEN_LIBGR.Sequence.randomGenerator.NextDouble()"));
                     source.AppendFront(SetResultVar(seqRandomToVar, "true"));
                     break;
                 }
@@ -2294,6 +2303,15 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionDefinedSubgraph seqDefined = (SequenceExpressionDefinedSubgraph)expr;
                     return "GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
+                }
+
+                case SequenceExpressionType.Random:
+                {
+                    SequenceExpressionRandom seqRandom = (SequenceExpressionRandom)expr;
+                    if(seqRandom.UpperBound != null)
+                        return "GRGEN_LIBGR.Sequence.randomGenerator.Next((int)" + GetSequenceExpression(seqRandom.UpperBound, source) + ")";
+                    else
+                        return "GRGEN_LIBGR.Sequence.randomGenerator.NextDouble()";
                 }
 
                 case SequenceExpressionType.VAlloc:

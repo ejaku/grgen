@@ -49,6 +49,12 @@ namespace de.unika.ipd.grGen.libGr
         int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq);
 
         /// <summary>
+        /// returns the maybe user altered random number in the range 0.0 - 1.0 exclusive for the sequence given
+        /// the random number chosen is supplied
+        /// </summary>
+        double ChooseRandomNumber(double randomNumber, Sequence seq);
+
+        /// <summary>
         /// returns a user chosen/input value of the given type
         /// no random input value is supplied, the user must give a value
         /// </summary>
