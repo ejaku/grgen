@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jul 02 00:39:49 CEST 2012
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Aug 26 13:48:31 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -115,7 +115,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Node() : base((int) NodeTypes.@Node)
 		{
 		}
@@ -265,7 +267,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.NodeType_BandPosition typeVar = new GRGEN_MODEL.NodeType_BandPosition();
 		public static bool[] isA = new bool[] { true, true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_BandPosition() : base((int) NodeTypes.@BandPosition)
 		{
@@ -421,7 +425,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.NodeType_State typeVar = new GRGEN_MODEL.NodeType_State();
 		public static bool[] isA = new bool[] { true, false, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_State() : base((int) NodeTypes.@State)
 		{
 		}
@@ -571,7 +577,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.NodeType_WriteValue typeVar = new GRGEN_MODEL.NodeType_WriteValue();
 		public static bool[] isA = new bool[] { true, false, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_WriteValue() : base((int) NodeTypes.@WriteValue)
 		{
@@ -741,7 +749,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
 		{
 		}
@@ -864,7 +874,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, true, false, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
 		{
 		}
@@ -988,7 +1000,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
 		{
 		}
@@ -1121,7 +1135,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.EdgeType_right typeVar = new GRGEN_MODEL.EdgeType_right();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_right() : base((int) EdgeTypes.@right)
 		{
 		}
@@ -1254,7 +1270,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.EdgeType_readZero typeVar = new GRGEN_MODEL.EdgeType_readZero();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_readZero() : base((int) EdgeTypes.@readZero)
 		{
 		}
@@ -1387,7 +1405,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.EdgeType_readOne typeVar = new GRGEN_MODEL.EdgeType_readOne();
 		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_readOne() : base((int) EdgeTypes.@readOne)
 		{
 		}
@@ -1520,7 +1540,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.EdgeType_moveLeft typeVar = new GRGEN_MODEL.EdgeType_moveLeft();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_moveLeft() : base((int) EdgeTypes.@moveLeft)
 		{
 		}
@@ -1653,7 +1675,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		public static GRGEN_MODEL.EdgeType_moveRight typeVar = new GRGEN_MODEL.EdgeType_moveRight();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_moveRight() : base((int) EdgeTypes.@moveRight)
 		{
 		}

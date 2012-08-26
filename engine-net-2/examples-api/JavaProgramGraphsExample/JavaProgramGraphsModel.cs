@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon Jul 02 00:40:05 CEST 2012
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Aug 26 13:48:51 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -115,7 +115,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Node() : base((int) NodeTypes.@Node)
 		{
 		}
@@ -265,7 +267,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Package typeVar = new GRGEN_MODEL.NodeType_Package();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_name;
 		public NodeType_Package() : base((int) NodeTypes.@Package)
 		{
@@ -472,7 +476,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Classifier typeVar = new GRGEN_MODEL.NodeType_Classifier();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_name;
 		public static GRGEN_LIBGR.AttributeType AttributeType_visibility;
 		public static GRGEN_LIBGR.AttributeType AttributeType_isAbstract;
@@ -709,7 +715,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Class typeVar = new GRGEN_MODEL.NodeType_Class();
 		public static bool[] isA = new bool[] { true, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_isFinal;
 		public NodeType_Class() : base((int) NodeTypes.@Class)
 		{
@@ -938,7 +946,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Interface typeVar = new GRGEN_MODEL.NodeType_Interface();
 		public static bool[] isA = new bool[] { true, false, true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Interface() : base((int) NodeTypes.@Interface)
 		{
 		}
@@ -1174,7 +1184,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Variable typeVar = new GRGEN_MODEL.NodeType_Variable();
 		public static bool[] isA = new bool[] { true, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_name;
 		public static GRGEN_LIBGR.AttributeType AttributeType_visibility;
 		public static GRGEN_LIBGR.AttributeType AttributeType_isStatic;
@@ -1426,7 +1438,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Operation typeVar = new GRGEN_MODEL.NodeType_Operation();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_name;
 		public static GRGEN_LIBGR.AttributeType AttributeType_visibility;
 		public static GRGEN_LIBGR.AttributeType AttributeType_isAbstract;
@@ -1602,7 +1616,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_MethodBody typeVar = new GRGEN_MODEL.NodeType_MethodBody();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_MethodBody() : base((int) NodeTypes.@MethodBody)
 		{
 		}
@@ -1731,7 +1747,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Expression typeVar = new GRGEN_MODEL.NodeType_Expression();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Expression() : base((int) NodeTypes.@Expression)
 		{
 		}
@@ -1887,7 +1905,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Access typeVar = new GRGEN_MODEL.NodeType_Access();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_this;
 		public NodeType_Access() : base((int) NodeTypes.@Access)
 		{
@@ -2070,7 +2090,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Update typeVar = new GRGEN_MODEL.NodeType_Update();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_this;
 		public NodeType_Update() : base((int) NodeTypes.@Update)
 		{
@@ -2268,7 +2290,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Call typeVar = new GRGEN_MODEL.NodeType_Call();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, true, false, false, true, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_this;
 		public static GRGEN_LIBGR.AttributeType AttributeType_super;
 		public NodeType_Call() : base((int) NodeTypes.@Call)
@@ -2435,7 +2459,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Instantiation typeVar = new GRGEN_MODEL.NodeType_Instantiation();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Instantiation() : base((int) NodeTypes.@Instantiation)
 		{
 		}
@@ -2591,7 +2617,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Operator typeVar = new GRGEN_MODEL.NodeType_Operator();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, true, false, false, false, false, true, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_name;
 		public NodeType_Operator() : base((int) NodeTypes.@Operator)
 		{
@@ -2753,7 +2781,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Return typeVar = new GRGEN_MODEL.NodeType_Return();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, true, false, false, false, false, false, true, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Return() : base((int) NodeTypes.@Return)
 		{
 		}
@@ -2888,7 +2918,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Block typeVar = new GRGEN_MODEL.NodeType_Block();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Block() : base((int) NodeTypes.@Block)
 		{
 		}
@@ -3038,7 +3070,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Literal typeVar = new GRGEN_MODEL.NodeType_Literal();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_Literal() : base((int) NodeTypes.@Literal)
 		{
@@ -3194,7 +3228,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.NodeType_Parameter typeVar = new GRGEN_MODEL.NodeType_Parameter();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Parameter() : base((int) NodeTypes.@Parameter)
 		{
 		}
@@ -3611,7 +3647,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
 		{
 		}
@@ -3734,7 +3772,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, true, false, true, true, true, true, true, true, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
 		{
 		}
@@ -3858,7 +3898,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
 		{
 		}
@@ -3991,7 +4033,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_belongsTo typeVar = new GRGEN_MODEL.EdgeType_belongsTo();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_belongsTo() : base((int) EdgeTypes.@belongsTo)
 		{
 		}
@@ -4124,7 +4168,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_type_ typeVar = new GRGEN_MODEL.EdgeType_type_();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_type_() : base((int) EdgeTypes.@type_)
 		{
 		}
@@ -4257,7 +4303,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_extends_ typeVar = new GRGEN_MODEL.EdgeType_extends_();
 		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_extends_() : base((int) EdgeTypes.@extends_)
 		{
 		}
@@ -4390,7 +4438,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_imports typeVar = new GRGEN_MODEL.EdgeType_imports();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_imports() : base((int) EdgeTypes.@imports)
 		{
 		}
@@ -4523,7 +4573,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_implements typeVar = new GRGEN_MODEL.EdgeType_implements();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_implements() : base((int) EdgeTypes.@implements)
 		{
 		}
@@ -4677,7 +4729,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_parameter typeVar = new GRGEN_MODEL.EdgeType_parameter();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, true, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_order;
 		public EdgeType_parameter() : base((int) EdgeTypes.@parameter)
 		{
@@ -4837,7 +4891,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_actualParameter typeVar = new GRGEN_MODEL.EdgeType_actualParameter();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, true, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_actualParameter() : base((int) EdgeTypes.@actualParameter)
 		{
 		}
@@ -4970,7 +5026,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_binding typeVar = new GRGEN_MODEL.EdgeType_binding();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, true, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_binding() : base((int) EdgeTypes.@binding)
 		{
 		}
@@ -5103,7 +5161,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_link typeVar = new GRGEN_MODEL.EdgeType_link();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, true, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_link() : base((int) EdgeTypes.@link)
 		{
 		}
@@ -5257,7 +5317,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_expression typeVar = new GRGEN_MODEL.EdgeType_expression();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_order;
 		public EdgeType_expression() : base((int) EdgeTypes.@expression)
 		{
@@ -5417,7 +5479,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_inBlock typeVar = new GRGEN_MODEL.EdgeType_inBlock();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_inBlock() : base((int) EdgeTypes.@inBlock)
 		{
 		}
@@ -5550,7 +5614,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_inClass typeVar = new GRGEN_MODEL.EdgeType_inClass();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_inClass() : base((int) EdgeTypes.@inClass)
 		{
 		}

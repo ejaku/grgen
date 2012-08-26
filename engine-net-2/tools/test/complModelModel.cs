@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Mon Jul 02 00:39:35 CEST 2012
+// Generated from "test.grg" on Sun Aug 26 13:48:33 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -115,7 +115,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Node() : base((int) NodeTypes.@Node)
 		{
 		}
@@ -265,7 +267,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_A1 typeVar = new GRGEN_MODEL.NodeType_A1();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_a1;
 		public NodeType_A1() : base((int) NodeTypes.@A1)
 		{
@@ -443,7 +447,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_A2 typeVar = new GRGEN_MODEL.NodeType_A2();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, true, true, true, false, false, false, true, true, false, false, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_a2;
 		public NodeType_A2() : base((int) NodeTypes.@A2)
 		{
@@ -628,7 +634,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_A3 typeVar = new GRGEN_MODEL.NodeType_A3();
 		public static bool[] isA = new bool[] { true, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_a3;
 		public NodeType_A3() : base((int) NodeTypes.@A3)
 		{
@@ -806,7 +814,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_A4 typeVar = new GRGEN_MODEL.NodeType_A4();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, true, true, true, false, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_a4;
 		public NodeType_A4() : base((int) NodeTypes.@A4)
 		{
@@ -992,7 +1002,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_A5 typeVar = new GRGEN_MODEL.NodeType_A5();
 		public static bool[] isA = new bool[] { true, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, false, false, false, false, false, true, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_a5;
 		public NodeType_A5() : base((int) NodeTypes.@A5)
 		{
@@ -1191,7 +1203,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_B21 typeVar = new GRGEN_MODEL.NodeType_B21();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_b21;
 		public NodeType_B21() : base((int) NodeTypes.@B21)
 		{
@@ -1405,7 +1419,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_B22 typeVar = new GRGEN_MODEL.NodeType_B22();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, true, true, false, false, true, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_b22;
 		public NodeType_B22() : base((int) NodeTypes.@B22)
 		{
@@ -1619,7 +1635,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_B23 typeVar = new GRGEN_MODEL.NodeType_B23();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_b23;
 		public NodeType_B23() : base((int) NodeTypes.@B23)
 		{
@@ -1833,7 +1851,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_B41 typeVar = new GRGEN_MODEL.NodeType_B41();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, false, false, false, true, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, true, false, false, false, true, true, false, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_b41;
 		public NodeType_B41() : base((int) NodeTypes.@B41)
 		{
@@ -2048,7 +2068,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_B42 typeVar = new GRGEN_MODEL.NodeType_B42();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, false, false, false, false, true, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, true, false, false, false, true, true, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_b42;
 		public NodeType_B42() : base((int) NodeTypes.@B42)
 		{
@@ -2248,7 +2270,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_B43 typeVar = new GRGEN_MODEL.NodeType_B43();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, true, false, false, true, true, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_B43() : base((int) NodeTypes.@B43)
 		{
 		}
@@ -2478,7 +2502,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_C221 typeVar = new GRGEN_MODEL.NodeType_C221();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, true, false, false, false, false, true, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_c221;
 		public NodeType_C221() : base((int) NodeTypes.@C221)
 		{
@@ -2762,7 +2788,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_C222_411 typeVar = new GRGEN_MODEL.NodeType_C222_411();
 		public static bool[] isA = new bool[] { true, false, true, false, true, false, false, true, false, true, false, false, false, true, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, true, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_c222_411;
 		public NodeType_C222_411() : base((int) NodeTypes.@C222_411)
 		{
@@ -3074,7 +3102,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_C412_421_431_51 typeVar = new GRGEN_MODEL.NodeType_C412_421_431_51();
 		public static bool[] isA = new bool[] { true, false, false, false, true, true, false, false, false, true, true, true, false, false, true, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_C412_421_431_51() : base((int) NodeTypes.@C412_421_431_51)
 		{
 		}
@@ -3355,7 +3385,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_C432_422 typeVar = new GRGEN_MODEL.NodeType_C432_422();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, false, false, false, false, true, true, false, false, false, true, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_c432_422;
 		public NodeType_C432_422() : base((int) NodeTypes.@C432_422)
 		{
@@ -3695,7 +3727,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_D11_2221 typeVar = new GRGEN_MODEL.NodeType_D11_2221();
 		public static bool[] isA = new bool[] { true, true, true, false, true, false, false, true, false, true, false, false, false, true, false, false, true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_d11_2221;
 		public NodeType_D11_2221() : base((int) NodeTypes.@D11_2221)
 		{
@@ -4099,7 +4133,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_D2211_2222_31 typeVar = new GRGEN_MODEL.NodeType_D2211_2222_31();
 		public static bool[] isA = new bool[] { true, false, true, true, true, false, false, true, false, true, false, false, true, true, false, false, false, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_d2211_2222_31;
 		public NodeType_D2211_2222_31() : base((int) NodeTypes.@D2211_2222_31)
 		{
@@ -4437,7 +4473,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.NodeType_D231_4121 typeVar = new GRGEN_MODEL.NodeType_D231_4121();
 		public static bool[] isA = new bool[] { true, false, true, false, true, true, false, false, true, true, true, true, false, false, true, false, false, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_d231_4121;
 		public NodeType_D231_4121() : base((int) NodeTypes.@D231_4121)
 		{
@@ -5084,7 +5122,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
 		{
 		}
@@ -5207,7 +5247,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
 		{
 		}
@@ -5331,7 +5373,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
 		{
 		}

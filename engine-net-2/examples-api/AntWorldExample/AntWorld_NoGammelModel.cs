@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon Jul 02 00:39:46 CEST 2012
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Aug 26 13:48:26 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -115,7 +115,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Node() : base((int) NodeTypes.@Node)
 		{
 		}
@@ -280,7 +282,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.NodeType_GridNode typeVar = new GRGEN_MODEL.NodeType_GridNode();
 		public static bool[] isA = new bool[] { true, true, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, true, true, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_food;
 		public static GRGEN_LIBGR.AttributeType AttributeType_pheromones;
 		public NodeType_GridNode() : base((int) NodeTypes.@GridNode)
@@ -483,7 +487,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.NodeType_GridCornerNode typeVar = new GRGEN_MODEL.NodeType_GridCornerNode();
 		public static bool[] isA = new bool[] { true, true, true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_GridCornerNode() : base((int) NodeTypes.@GridCornerNode)
 		{
 		}
@@ -708,7 +714,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.NodeType_AntHill typeVar = new GRGEN_MODEL.NodeType_AntHill();
 		public static bool[] isA = new bool[] { true, true, false, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_foodCountdown;
 		public NodeType_AntHill() : base((int) NodeTypes.@AntHill)
 		{
@@ -900,7 +908,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.NodeType_Ant typeVar = new GRGEN_MODEL.NodeType_Ant();
 		public static bool[] isA = new bool[] { true, false, false, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_hasFood;
 		public NodeType_Ant() : base((int) NodeTypes.@Ant)
 		{
@@ -1093,7 +1103,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
 		{
 		}
@@ -1216,7 +1228,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, true, false, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
 		{
 		}
@@ -1340,7 +1354,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
 		{
 		}
@@ -1473,7 +1489,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.EdgeType_GridEdge typeVar = new GRGEN_MODEL.EdgeType_GridEdge();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, true, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_GridEdge() : base((int) EdgeTypes.@GridEdge)
 		{
 		}
@@ -1612,7 +1630,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.EdgeType_PathToHill typeVar = new GRGEN_MODEL.EdgeType_PathToHill();
 		public static bool[] isA = new bool[] { true, true, false, true, true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_PathToHill() : base((int) EdgeTypes.@PathToHill)
 		{
 		}
@@ -1745,7 +1765,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.EdgeType_AntPosition typeVar = new GRGEN_MODEL.EdgeType_AntPosition();
 		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_AntPosition() : base((int) EdgeTypes.@AntPosition)
 		{
 		}
@@ -1878,7 +1900,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		public static GRGEN_MODEL.EdgeType_NextAnt typeVar = new GRGEN_MODEL.EdgeType_NextAnt();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_NextAnt() : base((int) EdgeTypes.@NextAnt)
 		{
 		}
