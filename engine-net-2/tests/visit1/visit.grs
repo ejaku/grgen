@@ -226,4 +226,10 @@ show num nodes "A"
 show num nodes "B"
 xgrs removeVisited*
 xgrs {vfree(::visID)}
+
+# smoke test
+xgrs (::foo)=smokeTest
+xgrs { vid:int=valloc(); vreset(vid); vfreenonreset(vid) }
+xgrs { vid:int=valloc(); ::foo.visited[vid] = ::foo.visited[vid] ? false : true; vfree(vid) }
+
 quit
