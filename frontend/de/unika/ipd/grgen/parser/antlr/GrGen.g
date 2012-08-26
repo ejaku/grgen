@@ -462,16 +462,20 @@ returnType returns [ BaseNode res = env.initNode() ]
 
 externalFilters [ IdentNode actionIdent, TestDeclNode actionDecl ]
 	@init {
-		CollectNode<IdentNode> extFilters = new CollectNode<IdentNode>();
+		ArrayList<String> extFilters = new ArrayList<String>();
 		actionDecl.addFilters(extFilters);
 	}
 	: BACKSLASH externalFilterList[actionIdent, extFilters]
 	|
 	;
 
-externalFilterList [ IdentNode actionIdent, CollectNode<IdentNode> extFilters ]
-	: id=actionIdentDecl { extFilters.addChild(id); id.setDecl(new FilterDeclNode(id, actionIdent)); } 
-		( COMMA id=actionIdentDecl { extFilters.addChild(id); id.setDecl(new FilterDeclNode(id, actionIdent)); } )*
+externalFilterList [ IdentNode actionIdent, ArrayList<String> extFilters ]
+	: (id=actionIdentDecl { extFilters.add(id.getSymbol().getText()); id.setDecl(new FilterDeclNode(id, actionIdent)); } 
+		| AUTO { extFilters.add("auto"); }
+		)
+		( COMMA id=actionIdentDecl { extFilters.add(id.getSymbol().getText()); id.setDecl(new FilterDeclNode(id, actionIdent)); } 
+		| COMMA AUTO { extFilters.add("auto"); }
+		)*
 	;
 
 patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousPatternNamer namer, int mod,
@@ -1829,7 +1833,7 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
 		id=actionIdentUse {xg.append(id);}
 		(LPAREN {xg.append("(");} ruleParams[xg, params] RPAREN {xg.append(")");})?
-		(BACKSLASH filterId=actionIdentUse {xg.append("\\"); xg.append(filterId);})?
+		(BACKSLASH filterId=actionIdentUse {xg.append("\\"); xg.append(filterId);} | BACKSLASH AUTO {xg.append("\\"); xg.append("auto");})?
 		{
 			xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns, filterId));
 		}
@@ -3211,6 +3215,7 @@ ACTIONS : 'actions';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
 ARRAY : 'array';
+AUTO : 'auto';
 BREAK : 'break';
 CLASS : 'class';
 COPY : 'copy';

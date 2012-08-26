@@ -2301,7 +2301,10 @@ exitSecondLoop: ;
             sb.Indent();
             foreach(string filterName in matchingPattern.Filters)
             {
-                sb.AppendFrontFormat("case \"{0}\": MatchFilters.Filter_{0}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({1})matches); break;\n", filterName, matchesType);
+                if(filterName == "auto")
+                    sb.AppendFrontFormat("case \"{1}\": MatchFilters.Filter_{0}_{1}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({2})matches); break;\n", patternName, filterName, matchesType);
+                else
+                    sb.AppendFrontFormat("case \"{0}\": MatchFilters.Filter_{0}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({1})matches); break;\n", filterName, matchesType);
             }
             sb.AppendFront("default: throw new Exception(\"Unknown filter name\");\n");
             sb.Unindent();

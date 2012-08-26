@@ -61,7 +61,6 @@ public class RuleDeclNode extends TestDeclNode {
 		children.add(getValidVersion(returnFormalParametersUnresolved, returnFormalParameters));
 		children.add(pattern);
 		children.add(right);
-		children.add(filters);
 		return children;
 	}
 
@@ -73,7 +72,6 @@ public class RuleDeclNode extends TestDeclNode {
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
 		childrenNames.add("right");
-		childrenNames.add("filters");
 		return childrenNames;
 	}
 
