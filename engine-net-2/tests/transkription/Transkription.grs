@@ -9,23 +9,37 @@ custom graph analyze_graph
 custom actions gen_searchplan Transkription
 
 xgrs [?findDesoxyriboseCore]
+xgrs [?findDesoxyriboseCore\auto]
 xgrs [?findRiboseCore]
+xgrs [?findRiboseCore\auto]
 xgrs [?findAdenin]
+xgrs [?findAdenin\auto]
 xgrs [?findCytosin]
+xgrs [?findCytosin\auto]
 xgrs [?findGuanin]
+xgrs [?findGuanin\auto]
 xgrs [?findThymin]
+xgrs [?findThymin\auto]
 xgrs [?findUracil]
+xgrs [?findUracil\auto]
 
 #A->U, C->G, G->C, T->A
 xgrs Transkription
 # ACGTA + UGCAU
 
 xgrs [?findDesoxyriboseCore]
+xgrs [?findDesoxyriboseCore\auto]
 xgrs [?findRiboseCore]
+xgrs [?findRiboseCore\auto]
 xgrs [?findAdenin]
+xgrs [?findAdenin\auto]
 xgrs [?findCytosin]
+xgrs [?findCytosin\auto]
 xgrs [?findGuanin]
+xgrs [?findGuanin\auto]
 xgrs [?findThymin]
+xgrs [?findThymin\auto]
 xgrs [?findUracil]
+xgrs [?findUracil\auto]
 
 quit
