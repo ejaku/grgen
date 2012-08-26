@@ -799,13 +799,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             ErrorType res;
             if((flags & ProcessSpecFlags.UseExistingMask) == ProcessSpecFlags.UseAllGeneratedFiles)
-            {
                 res = ReuseExistingActionsSourceCode(cc.actionsOutputFilename, out actionsOutputSource);
-            }
             else
-            {
                 res = GenerateActionsSourceCode(cc, model, out actionsOutputSource);
-            }
             return res;
         }
 
@@ -912,15 +908,17 @@ namespace de.unika.ipd.grGen.lgsp
             ///////////////////////////////////////////////
             // generate external extension source if needed (cause there are external action extension)
 
-            bool isFilterExisting;
+            bool isAutoFilterExisting;
+            bool isNonAutoFilterExisting;
             bool isExternalSequenceExisting;
             DetermineWhetherExternalActionsFileIsNeeded(ruleAndMatchingPatterns,
-                out isFilterExisting, out isExternalSequenceExisting);
+                out isAutoFilterExisting, out isNonAutoFilterExisting, out isExternalSequenceExisting);
 
             SourceBuilder externalSource = null;
-            if(isFilterExisting || isExternalSequenceExisting)
+            if(isAutoFilterExisting || isNonAutoFilterExisting || isExternalSequenceExisting)
             {
-                EmitExternalActionsFileHeader(cc, model, ref externalSource);
+                EmitExternalActionsFileHeader(cc, model, isNonAutoFilterExisting || isExternalSequenceExisting,
+                    ref externalSource);
             }
 
             ///////////////////////////////////////////////
@@ -957,7 +955,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             GenerateAndInsertMatcherSourceCode(model, cc.actionsName, unitName,
                 cc.externalActionsExtensionFilename, ruleAndMatchingPatterns, seqGen,
-                isFilterExisting, externalSource, source);
+                isAutoFilterExisting, isNonAutoFilterExisting, externalSource, source);
 
             actionsOutputSource = WriteSourceAndExternalSource(externalSource, source,
                 cc.actionsOutputFilename, cc.externalActionsExtensionOutputFilename);
@@ -979,7 +977,12 @@ namespace de.unika.ipd.grGen.lgsp
             if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
             {
                 if(cc.externalActionsExtensionOutputFilename != null)
-                    compResults = compiler.CompileAssemblyFromFile(compParams, cc.actionsOutputFilename, cc.externalActionsExtensionOutputFilename, cc.externalActionsExtensionFilename);
+                {
+                    if(cc.externalActionsExtensionFilename != null)
+                        compResults = compiler.CompileAssemblyFromFile(compParams, cc.actionsOutputFilename, cc.externalActionsExtensionOutputFilename, cc.externalActionsExtensionFilename);
+                    else
+                        compResults = compiler.CompileAssemblyFromFile(compParams, cc.actionsOutputFilename, cc.externalActionsExtensionOutputFilename);
+                }
                 else
                     compResults = compiler.CompileAssemblyFromFile(compParams, cc.actionsOutputFilename);
             }
@@ -993,7 +996,10 @@ namespace de.unika.ipd.grGen.lgsp
                         out externalActionsExtensionOutputSource, out externalActionsExtensionSource);
                     if(result != ErrorType.NoError)
                         return result;
-                    compResults = compiler.CompileAssemblyFromSource(compParams, actionsOutputSource, externalActionsExtensionOutputSource, externalActionsExtensionSource);
+                    if(cc.externalActionsExtensionFilename != null)
+                        compResults = compiler.CompileAssemblyFromSource(compParams, actionsOutputSource, externalActionsExtensionOutputSource, externalActionsExtensionSource);
+                    else
+                        compResults = compiler.CompileAssemblyFromSource(compParams, actionsOutputSource, externalActionsExtensionOutputSource);
                 }
                 else
                     compResults = compiler.CompileAssemblyFromSource(compParams, actionsOutputSource);
@@ -1013,7 +1019,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void GenerateAndInsertMatcherSourceCode(IGraphModel model, String actionsName, String unitName,
             string externalActionsExtensionFilename, LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, 
-            LGSPSequenceGenerator seqGen, bool isFilterExisting, 
+            LGSPSequenceGenerator seqGen, bool isAutoFilterExisting, bool isNonAutoFilterExisting,
             SourceBuilder externalSource, SourceBuilder source)
         {
             // analyze the matching patterns, inline the subpatterns when expected to be benefitial
@@ -1026,16 +1032,17 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
             {
-                GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen, !(matchingPattern is LGSPRulePattern), false);
+                GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen,
+                    !(matchingPattern is LGSPRulePattern), false);
 
                 matcherGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph);
 
                 matcherGen.GenerateActionAndMatcher(source, matchingPattern, true);
             }
 
-            if(seqGen != null)
-                GenerateDefinedSequencesAndFilterStubs(externalActionsExtensionFilename, isFilterExisting, 
-                    ruleAndMatchingPatterns, seqGen, externalSource, source);
+            GenerateDefinedSequencesAndFiltersAndFilterStubs(externalActionsExtensionFilename, 
+                isAutoFilterExisting, isNonAutoFilterExisting,
+                ruleAndMatchingPatterns, seqGen, externalSource, source);
 
             // the actions class referencing the generated stuff is generated now into 
             // a source builder which is appended at the end of the other generated stuff
@@ -1099,7 +1106,8 @@ namespace de.unika.ipd.grGen.lgsp
             analyzer.ComputeInterPatternRelations(true);
         }
 
-        private static void GenerateDefinedSequencesAndFilterStubs(string externalActionsExtensionFilename, bool isFilterExisting,
+        private static void GenerateDefinedSequencesAndFiltersAndFilterStubs(string externalActionsExtensionFilename, 
+            bool isAutoFilterExisting, bool isNonAutoFilterExisting,
             LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, LGSPSequenceGenerator seqGen,
             SourceBuilder externalSource, SourceBuilder source)
         {
@@ -1109,17 +1117,32 @@ namespace de.unika.ipd.grGen.lgsp
                     seqGen.GenerateExternalDefinedSequencePlaceholder(externalSource, (ExternalDefinedSequenceInfo)sequence, externalActionsExtensionFilename);
             }
 
-            if(isFilterExisting)
+            if(isAutoFilterExisting || isNonAutoFilterExisting)
             {
                 externalSource.Append("\n");
                 externalSource.AppendFrontFormat("public partial class MatchFilters\n");
                 externalSource.AppendFront("{\n");
                 externalSource.Indent();
 
-                externalSource.AppendFrontFormat("// You must implement the following functions in the same partial class in ./{0}\n", externalActionsExtensionFilename);
-                foreach(LGSPRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
+                if(isNonAutoFilterExisting)
                 {
-                    seqGen.GenerateFilterStubs(externalSource, rulePattern);
+                    externalSource.AppendFrontFormat("// You must implement the following filter functions in the same partial class in ./{0}\n", externalActionsExtensionFilename);
+                    foreach(LGSPRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
+                    {
+                        seqGen.GenerateFilterStubs(externalSource, rulePattern);
+                    }
+                }
+
+                if(isAutoFilterExisting)
+                {
+                    if(isNonAutoFilterExisting)
+                        externalSource.Append("\n").AppendFront("// ------------------------------------------------------\n\n");
+
+                    externalSource.AppendFront("// The following filter functions are automatically generated, you don't need to supply any further implementation\n");
+                    foreach(LGSPRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
+                    {
+                        seqGen.GenerateAutomorphyFilters(externalSource, rulePattern);
+                    }
                 }
 
                 externalSource.Unindent();
@@ -1356,6 +1379,9 @@ namespace de.unika.ipd.grGen.lgsp
         private static ErrorType ReadExternalActionExtensionSources(string externalActionsExtensionOutputFilename, string externalActionsExtensionFilename,
             out String externalActionsExtensionOutputSource, out String externalActionsExtensionSource)
         {
+            externalActionsExtensionOutputSource = null;
+            externalActionsExtensionSource = null;
+            
             try
             {
                 using(StreamReader reader = new StreamReader(externalActionsExtensionOutputFilename))
@@ -1364,21 +1390,21 @@ namespace de.unika.ipd.grGen.lgsp
             catch(Exception)
             {
                 Console.Error.WriteLine("Unable to read from file \"" + externalActionsExtensionOutputFilename + "\"!");
-                externalActionsExtensionOutputSource = null;
-                externalActionsExtensionSource = null;
                 return ErrorType.GrGenNetError;
             }
 
-            try
+            if(externalActionsExtensionFilename != null)
             {
-                using(StreamReader reader = new StreamReader(externalActionsExtensionFilename))
-                    externalActionsExtensionSource = reader.ReadToEnd();
-            }
-            catch(Exception)
-            {
-                Console.Error.WriteLine("Unable to read from file \"" + externalActionsExtensionFilename + "\"!");
-                externalActionsExtensionSource = null;
-                return ErrorType.GrGenNetError;
+                try
+                {
+                    using(StreamReader reader = new StreamReader(externalActionsExtensionFilename))
+                        externalActionsExtensionSource = reader.ReadToEnd();
+                }
+                catch(Exception)
+                {
+                    Console.Error.WriteLine("Unable to read from file \"" + externalActionsExtensionFilename + "\"!");
+                    return ErrorType.GrGenNetError;
+                }
             }
 
             return ErrorType.NoError;
@@ -1468,11 +1494,10 @@ namespace de.unika.ipd.grGen.lgsp
             return ErrorType.NoError;
         }
 
-        private void EmitExternalActionsFileHeader(CompileConfiguration cc, IGraphModel model, 
+        private void EmitExternalActionsFileHeader(CompileConfiguration cc, IGraphModel model, bool implementationNeeded,
             ref SourceBuilder externalSource)
         {
             cc.externalActionsExtensionOutputFilename = cc.actionsName + "ExternalFunctions.cs";
-            cc.externalActionsExtensionFilename = cc.actionsName + "ExternalFunctionsImpl.cs";
             externalSource = new SourceBuilder((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0);
 
             // generate external action extension file header
@@ -1489,19 +1514,27 @@ namespace de.unika.ipd.grGen.lgsp
             externalSource.AppendFront("\nnamespace de.unika.ipd.grGen.Action_" + cc.baseName + "\n");
             externalSource.AppendFront("{");
             externalSource.Indent();
+
+            if(implementationNeeded) // not needed if only auto filters exist, then the generated file is sufficient
+                cc.externalActionsExtensionFilename = cc.actionsName + "ExternalFunctionsImpl.cs";
         }
 
-        private static void DetermineWhetherExternalActionsFileIsNeeded(LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, out bool isFilterExisting, out bool isExternalSequenceExisting)
+        private static void DetermineWhetherExternalActionsFileIsNeeded(LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns,
+            out bool isAutoFilterExisting, out bool isNonAutoFilterExisting, out bool isExternalSequenceExisting)
         {
-            isFilterExisting = false;
+            isAutoFilterExisting = false;
+            isNonAutoFilterExisting = false;
             foreach(IRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
             {
-                if(rulePattern.Filters.Length > 0)
+                foreach(string filter in rulePattern.Filters)
                 {
-                    isFilterExisting = true;
-                    break;
+                    if(filter == "auto")
+                        isAutoFilterExisting = true;
+                    else
+                        isNonAutoFilterExisting = true;
                 }
             }
+
             isExternalSequenceExisting = false;
             foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
             {

@@ -20,6 +20,8 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -37,7 +39,7 @@ public class TestDeclNode extends ActionDeclNode {
 
 	protected CollectNode<BaseNode> returnFormalParametersUnresolved;
 	protected CollectNode<TypeNode> returnFormalParameters;
-	protected CollectNode<IdentNode> filters;
+	protected ArrayList<String> filters;
 	private TestTypeNode type;
 	protected PatternGraphNode pattern;
 
@@ -57,9 +59,8 @@ public class TestDeclNode extends ActionDeclNode {
 		this(id, testType, pattern, rets);
 	}
 
-	public void addFilters(CollectNode<IdentNode> filters) {
+	public void addFilters(ArrayList<String> filters) {
 		this.filters = filters;
-		becomeParent(this.filters);
 	}
 
 	/** returns children of this node */
@@ -70,7 +71,6 @@ public class TestDeclNode extends ActionDeclNode {
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(getValidVersion(returnFormalParametersUnresolved, returnFormalParameters));
 		children.add(pattern);
-		children.add(filters);
 		return children;
 	}
 
@@ -82,7 +82,6 @@ public class TestDeclNode extends ActionDeclNode {
 		childrenNames.add("type");
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
-		childrenNames.add("filters");
 		return childrenNames;
 	}
 
@@ -313,8 +312,8 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			ma.addReturn(aReturn);
 		}
 		
-		for(IdentNode filter : filters.getChildren()) {
-			ma.addFilter(filter.toString());
+		for(String filter : filters) {
+			ma.addFilter(filter);
 		}
 	}
 

@@ -452,7 +452,12 @@ namespace de.unika.ipd.grGen.lgsp
                 + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                 + parameters + ");\n");
             if(seqRule.Filter != null)
-                source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filter, matchesName);
+            {
+                if(seqRule.Filter == "auto")
+                    source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seqRule.Filter, matchesName);
+                else
+                    source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filter, matchesName);
+            }
 
             if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
             if(seqRule is SequenceRuleAllCall
@@ -901,7 +906,12 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                         + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
                     if(seqFor.Rule.Filter != null)
-                        source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqFor.Rule.Filter, matchesName);
+                    {
+                        if(seqFor.Rule.Filter == "auto")
+                            source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seqFor.Rule.Filter, matchesName);
+                        else
+                            source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqFor.Rule.Filter, matchesName);
+                    }
 
                     source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
                     source.Indent();
@@ -1123,7 +1133,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
             if(seq.Rule.Filter != null)
-                source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seq.Rule.Filter, matchesName);
+            {
+                if(seq.Rule.Filter == "auto")
+                    source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seq.Rule.Filter, matchesName);
+                else
+                    source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seq.Rule.Filter, matchesName);
+            }
 
             source.AppendFront("if(" + matchesName + ".Count==0) {\n");
             source.Indent();
@@ -1254,7 +1269,12 @@ namespace de.unika.ipd.grGen.lgsp
                     + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                     + parameters + ");\n");
                 if(seqRule.Filter != null)
-                    source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filter, matchesName);
+                {
+                    if(seqRule.Filter == "auto")
+                        source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seqRule.Filter, matchesName);
+                    else
+                        source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filter, matchesName);
+                }
                 if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
                 source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
                 source.Indent();
@@ -2973,7 +2993,58 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach(string filterName in rulePattern.Filters)
             {
+                if(filterName == "auto")
+                    continue;
+
                 source.AppendFrontFormat("//public static void Filter_{0}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {1} matches)\n", filterName, matchesListType);
+            }
+        }
+
+        public void GenerateAutomorphyFilters(SourceBuilder source, LGSPRulePattern rulePattern)
+        {
+            String rulePatternClassName = rulePattern.GetType().Name;
+            String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
+            String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
+
+            foreach(string filterName in rulePattern.Filters)
+            {
+                if(filterName != "auto")
+                    continue;
+
+                source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
+                source.AppendFront("{\n");
+                source.Indent();
+
+                source.AppendFront("if(matches.Count<2)\n");
+                source.AppendFront("\treturn;\n");
+
+                source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+                source.AppendFront("for(int i = 0; i < matchesArray.Count; ++i)\n");
+                source.AppendFront("{\n");
+                source.Indent();
+
+                source.AppendFront("if(matchesArray[i] == null)\n");
+                source.AppendFront("\tcontinue;\n");
+                
+                source.AppendFront("for(int j = i + 1; j < matchesArray.Count; ++j)\n");
+                source.AppendFront("{\n");
+                source.Indent();
+
+                source.AppendFront("if(matchesArray[j] == null)\n");
+                source.AppendFront("\tcontinue;\n");
+
+                source.AppendFront("if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(matchesArray[i], matchesArray[j], procEnv.graph))\n");
+                source.AppendFront("\tmatchesArray[j] = null;\n");
+                
+                source.Unindent();
+                source.AppendFront("}\n");
+
+                source.Unindent();
+                source.AppendFront("}\n");
+                source.AppendFront("matches.FromList();\n");
+
+                source.Unindent();
+                source.AppendFront("}\n");
             }
         }
 
