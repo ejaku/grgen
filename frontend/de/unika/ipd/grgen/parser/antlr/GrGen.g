@@ -1585,8 +1585,11 @@ simpleSequence[ExecNode xg]
 			d=DOLLAR MOD LPAREN typeIdentUse RPAREN
 			{ reportError(getCoords(d), "user input is only requestable in the GrShell, not at lgsp(libgr search plan backend)-level"); }
 		|
-			d=DOLLAR LPAREN n=NUM_INTEGER RPAREN
-			{ xg.append("$("); xg.append(n.getText()); xg.append(")"); }
+			d=DOLLAR LPAREN 
+			(
+				n=NUM_INTEGER RPAREN { xg.append("$("); xg.append(n.getText()); xg.append(")"); }
+				| f=NUM_DOUBLE RPAREN { xg.append("$("); xg.append(f.getText()); xg.append(")"); }
+			)
 		|
 			LPAREN { xg.append('('); } xgrs[xg] RPAREN { xg.append(')'); }
 		)
@@ -1752,6 +1755,7 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 		{ xg.append("]"); res = new IndexedAccessExprNode(getCoords(l), new IdentExprNode((IdentNode)target), key); }
 	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
 	| (functionCall[null]) => functionCall[xg]
+	| RANDOM LPAREN { xg.append("random"); xg.append("("); } ( fromExpr=seqExpression[xg] )? RPAREN { xg.append(")"); }
 	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
 	| (xgrsVarUse[null])=> exp=xgrsVarUse[xg] { res = new IdentExprNode((IdentNode)exp); }
 	| a=AT LPAREN { xg.append("@("); } (i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }

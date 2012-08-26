@@ -26,6 +26,7 @@ namespace de.unika.ipd.grGen.libGr
         Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual, StructuralEqual,
         Plus, // todo: all the other operators and functions/methods from the expressions - as time allows
         Constant, Variable,
+        Random,
         Def,
         IsVisited,
         InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
@@ -852,6 +853,64 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Variable.Name; } }
+    }
+
+    public class SequenceExpressionRandom : SequenceExpression
+    {
+        public SequenceExpression UpperBound;
+
+        public SequenceExpressionRandom(SequenceExpression upperBound)
+            : base(SequenceExpressionType.Random)
+        {
+            UpperBound = upperBound; // might be null
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            if(UpperBound != null)
+                return "int";
+            else
+                return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(UpperBound != null)
+            {
+                base.Check(env); // check children
+
+                if(!TypesHelper.IsSameOrSubtype(UpperBound.Type(env), "int", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "int", UpperBound.Type(env));
+                }
+            }
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionRandom copy = (SequenceExpressionRandom)MemberwiseClone();
+            if(UpperBound != null)
+                copy.UpperBound = UpperBound.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(UpperBound != null)
+                return Sequence.randomGenerator.Next((int)UpperBound.Evaluate(procEnv));
+            else
+                return Sequence.randomGenerator.NextDouble();
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            if(UpperBound != null) 
+                UpperBound.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { if(UpperBound != null) yield return UpperBound; else yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "random(" + (UpperBound!=null? "..." : "") + ")"; } }
     }
 
     public class SequenceExpressionDef : SequenceExpression

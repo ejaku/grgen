@@ -830,6 +830,7 @@ Sequence SimpleSequence():
 	SequenceExpression expr, expr2 = null, expr3 = null;
 	SequenceComputation comp;
 	int num = 0;
+	double numDouble = 0.0;
 	String str;
 	object constant;
 }
@@ -859,10 +860,17 @@ Sequence SimpleSequence():
             return new SequenceAssignUserInputToVar(toVar, str);
         }
     |
-        "$" ("%" { choice = true; } )? "(" num=Number() ")"
-        {
-            return new SequenceAssignRandomToVar(toVar, num, choice);
-        }
+        LOOKAHEAD(4) "$" ("%" { choice = true; } )? "(" num=Number() ")" 
+		{
+			return new SequenceAssignRandomIntToVar(toVar, num, choice);
+		}
+	|
+		"$" ("%" { choice = true; } )? "(" numDouble=DoubleNumber() ")" 
+		{
+			if(numDouble!=1.0)
+				throw new ParseException("The random assignment of type double only supports 1.0 as upper bound");
+			return new SequenceAssignRandomDoubleToVar(toVar, choice);
+		}
 	|
 		"(" seq=RewriteSequence() ")"
 		{
@@ -1402,6 +1410,9 @@ SequenceExpression FunctionCall():
 		} else if(function=="target") {
 			if(fromExpr==null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 1 parameter (the edge to get the target node from)");
 			return new SequenceExpressionTarget(fromExpr);
+		} else if(function=="random") {
+			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects none (returns double in [0..1[) or 1 parameter (returns int in [0..parameter[)");
+			return new SequenceExpressionRandom(fromExpr);
 		} else {
 			throw new ParseException("Unknown function name: \"" + function + "\"! (available are valloc|add|insertInduced|insertDefined|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|inducedSubgraph|definedSubgraph|source|target)");
 		}

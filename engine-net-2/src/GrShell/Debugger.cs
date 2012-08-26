@@ -1355,9 +1355,11 @@ namespace de.unika.ipd.grGen.grShell
 
                 // Choice highlightable user assignments
                 case SequenceType.AssignUserInputToVar:
-                case SequenceType.AssignRandomToVar:
+                case SequenceType.AssignRandomIntToVar:
+                case SequenceType.AssignRandomDoubleToVar:
                     {
-                        if(context.cpPosCounter >= 0 && seq is SequenceAssignRandomToVar)
+                        if(context.cpPosCounter >= 0 
+                            && (seq is SequenceAssignRandomIntToVar || seq is SequenceAssignRandomDoubleToVar))
                         {
                             PrintChoice((SequenceRandomChoice)seq, context);
                             Console.Write(seq.Symbol);
@@ -2099,6 +2101,41 @@ namespace de.unika.ipd.grGen.grShell
                     return num;
                 }
                 Console.WriteLine("You must enter a valid integer number!");
+            }
+        }
+
+        /// <summary>
+        /// returns the maybe user altered random number in the range 0.0 - 1.0 exclusive for the sequence given
+        /// the random number chosen is supplied
+        /// </summary>
+        public double ChooseRandomNumber(double randomNumber, Sequence seq)
+        {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            context.highlightSeq = seq;
+            context.choice = true;
+            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            Console.WriteLine();
+            context.choice = false;
+
+            while(true)
+            {
+                Console.Write("Enter number in range [0.0 .. 1.0[ or press enter to use " + randomNumber + ": ");
+                String numStr = Console.ReadLine();
+                if(numStr == "")
+                    return randomNumber;
+                double num;
+                if(double.TryParse(numStr, out num))
+                {
+                    if(num < 0.0 || num >= 1.0)
+                    {
+                        Console.WriteLine("You must specify a number between 0.0 and 1.0 exclusive !");
+                        continue;
+                    }
+                    return num;
+                }
+                Console.WriteLine("You must enter a valid double number!");
             }
         }
 
