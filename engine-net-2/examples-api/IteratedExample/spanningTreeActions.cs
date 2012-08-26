@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon Jul 02 00:40:02 CEST 2012
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Aug 26 13:48:47 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -392,6 +392,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_SpanningTree(Match_SpanningTree that)
 			{
@@ -548,6 +551,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_SpanningTree_iter_0(Match_SpanningTree_iter_0 that)
 			{
@@ -943,6 +949,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_SpanningTreeReverse(Match_SpanningTreeReverse that)
 			{
@@ -1099,6 +1108,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_SpanningTreeReverse_iter_0(Match_SpanningTreeReverse_iter_0 that)
 			{
@@ -1456,6 +1468,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_SpanningTreeOutgoing(Match_SpanningTreeOutgoing that)
 			{
@@ -1612,6 +1627,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_SpanningTreeOutgoing_iter_0(Match_SpanningTreeOutgoing_iter_0 that)
 			{
@@ -1969,6 +1987,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_SpanningTreeIncoming(Match_SpanningTreeIncoming that)
 			{
@@ -2125,6 +2146,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_SpanningTreeIncoming_iter_0(Match_SpanningTreeIncoming_iter_0 that)
 			{
@@ -2379,6 +2403,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_initTree(Match_initTree that)
 			{
@@ -2623,6 +2650,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_initUndirected(Match_initUndirected that)
 			{
@@ -2867,6 +2897,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_initDirected(Match_initDirected that)
 			{
@@ -3123,6 +3156,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_spanningTree(Match_spanningTree that)
 			{
@@ -3364,6 +3400,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_edgesVisited(Match_edgesVisited that)
 			{
@@ -3604,6 +3643,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_nodesVisited(Match_nodesVisited that)
 			{
@@ -3859,6 +3901,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_spanningTreeReverse(Match_spanningTreeReverse that)
 			{
@@ -4110,6 +4155,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_spanningTreeOutgoing(Match_spanningTreeOutgoing that)
 			{
@@ -4361,6 +4409,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_spanningTreeIncoming(Match_spanningTreeIncoming that)
 			{

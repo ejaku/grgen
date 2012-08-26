@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jul 02 00:39:49 CEST 2012
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Aug 26 13:48:31 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -291,6 +291,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_readZeroRule(Match_readZeroRule that)
 			{
@@ -584,6 +587,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_readOneRule(Match_readOneRule that)
 			{
@@ -941,6 +947,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_ensureMoveLeftValidRule(Match_ensureMoveLeftValidRule that)
 			{
@@ -1093,6 +1102,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_ensureMoveLeftValidRule_neg_0(Match_ensureMoveLeftValidRule_neg_0 that)
 			{
@@ -1449,6 +1461,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_ensureMoveRightValidRule(Match_ensureMoveRightValidRule that)
 			{
@@ -1601,6 +1616,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_ensureMoveRightValidRule_neg_0(Match_ensureMoveRightValidRule_neg_0 that)
 			{
@@ -1910,6 +1928,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_moveLeftRule(Match_moveLeftRule that)
 			{
@@ -2222,6 +2243,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_moveRightRule(Match_moveRightRule that)
 			{
@@ -2472,6 +2496,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_countZeros(Match_countZeros that)
 			{
@@ -2717,6 +2744,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_countOnes(Match_countOnes that)
 			{

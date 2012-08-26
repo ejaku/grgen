@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Jul 02 00:40:10 CEST 2012
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Aug 26 13:48:58 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -115,7 +115,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Node() : base((int) NodeTypes.@Node)
 		{
 		}
@@ -244,7 +246,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.NodeType_Process typeVar = new GRGEN_MODEL.NodeType_Process();
 		public static bool[] isA = new bool[] { true, true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Process() : base((int) NodeTypes.@Process)
 		{
 		}
@@ -373,7 +377,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.NodeType_Resource typeVar = new GRGEN_MODEL.NodeType_Resource();
 		public static bool[] isA = new bool[] { true, false, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Resource() : base((int) NodeTypes.@Resource)
 		{
 		}
@@ -502,7 +508,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.NodeType_AnnotationTestNode typeVar = new GRGEN_MODEL.NodeType_AnnotationTestNode();
 		public static bool[] isA = new bool[] { true, false, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_AnnotationTestNode() : base((int) NodeTypes.@AnnotationTestNode)
 		{
 			annotations.Add("bla", "blubb");
@@ -644,7 +652,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
 		{
 		}
@@ -767,7 +777,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, true, false, true, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
 		{
 		}
@@ -891,7 +903,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
 		{
 		}
@@ -1024,7 +1038,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.EdgeType_next typeVar = new GRGEN_MODEL.EdgeType_next();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_next() : base((int) EdgeTypes.@next)
 		{
 		}
@@ -1157,7 +1173,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.EdgeType_blocked typeVar = new GRGEN_MODEL.EdgeType_blocked();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_blocked() : base((int) EdgeTypes.@blocked)
 		{
 		}
@@ -1290,7 +1308,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.EdgeType_held_by typeVar = new GRGEN_MODEL.EdgeType_held_by();
 		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_held_by() : base((int) EdgeTypes.@held_by)
 		{
 		}
@@ -1423,7 +1443,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.EdgeType_token typeVar = new GRGEN_MODEL.EdgeType_token();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_token() : base((int) EdgeTypes.@token)
 		{
 		}
@@ -1556,7 +1578,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.EdgeType_release typeVar = new GRGEN_MODEL.EdgeType_release();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_release() : base((int) EdgeTypes.@release)
 		{
 		}
@@ -1689,7 +1713,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.EdgeType_request typeVar = new GRGEN_MODEL.EdgeType_request();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public EdgeType_request() : base((int) EdgeTypes.@request)
 		{
 		}
@@ -1847,7 +1873,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public static GRGEN_MODEL.EdgeType_annotationTestEdge typeVar = new GRGEN_MODEL.EdgeType_annotationTestEdge();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_attrib;
 		public EdgeType_annotationTestEdge() : base((int) EdgeTypes.@annotationTestEdge)
 		{

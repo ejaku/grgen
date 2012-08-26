@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalFiltersAndSequences.grg" on 02.07.2012 00:39:57 Mitteleuropäische Zeit
+// Generated from "ExternalFiltersAndSequences.grg" on 26.08.2012 13:48:41 Mitteleuropäische Zeit
 using System;
 using System.Collections.Generic;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -47,12 +47,54 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 
     public partial class MatchFilters
     {
-        // You must implement the following functions in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+        // You must implement the following filter functions in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
         //public static void Filter_f1(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
         //public static void Filter_nomnomnom(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
         //public static void Filter_f2(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
         //public static void Filter_f3(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
         //public static void Filter_f4(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> matches)
+
+        // ------------------------------------------------------
+
+        // The following filter functions are automatically generated, you don't need to supply any further implementation
+        public static void Filter_filterBase_auto(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
+        {
+            if(matches.Count<2)
+            	return;
+            List<Rule_filterBase.IMatch_filterBase> matchesArray = matches.ToList();
+            for(int i = 0; i < matchesArray.Count; ++i)
+            {
+                if(matchesArray[i] == null)
+                	continue;
+                for(int j = i + 1; j < matchesArray.Count; ++j)
+                {
+                    if(matchesArray[j] == null)
+                    	continue;
+                    if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(matchesArray[i], matchesArray[j], procEnv.graph))
+                    	matchesArray[j] = null;
+                }
+            }
+            matches.FromList();
+        }
+        public static void Filter_filterBass_auto(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
+        {
+            if(matches.Count<2)
+            	return;
+            List<Rule_filterBass.IMatch_filterBass> matchesArray = matches.ToList();
+            for(int i = 0; i < matchesArray.Count; ++i)
+            {
+                if(matchesArray[i] == null)
+                	continue;
+                for(int j = i + 1; j < matchesArray.Count; ++j)
+                {
+                    if(matchesArray[j] == null)
+                    	continue;
+                    if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(matchesArray[i], matchesArray[j], procEnv.graph))
+                    	matchesArray[j] = null;
+                }
+            }
+            matches.FromList();
+        }
     }
 
     // ------------------------------------------------------

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Jul 02 00:40:10 CEST 2012
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Aug 26 13:48:58 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -277,6 +277,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_newRule(Match_newRule that)
 			{
@@ -581,6 +584,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_killRule(Match_killRule that)
 			{
@@ -830,6 +836,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_mountRule(Match_mountRule that)
 			{
@@ -1104,6 +1113,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_unmountRule(Match_unmountRule that)
 			{
@@ -1472,6 +1484,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_passRule(Match_passRule that)
 			{
@@ -1625,6 +1640,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_passRule_neg_0(Match_passRule_neg_0 that)
 			{
@@ -2024,6 +2042,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_requestRule(Match_requestRule that)
 			{
@@ -2174,6 +2195,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_requestRule_neg_0(Match_requestRule_neg_0 that)
 			{
@@ -2325,6 +2349,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_requestRule_neg_1(Match_requestRule_neg_1 that)
 			{
@@ -2616,6 +2643,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_takeRule(Match_takeRule that)
 			{
@@ -2965,6 +2995,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_releaseRule(Match_releaseRule that)
 			{
@@ -3116,6 +3149,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_releaseRule_neg_0(Match_releaseRule_neg_0 that)
 			{
@@ -3416,6 +3452,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_giveRule(Match_giveRule that)
 			{
@@ -3716,6 +3755,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_blockedRule(Match_blockedRule that)
 			{
@@ -4056,6 +4098,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_waitingRule(Match_waitingRule that)
 			{
@@ -4406,6 +4451,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_ignoreRule(Match_ignoreRule that)
 			{
@@ -4557,6 +4605,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_ignoreRule_neg_0(Match_ignoreRule_neg_0 that)
 			{
@@ -4848,6 +4899,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_unlockRule(Match_unlockRule that)
 			{
@@ -5238,6 +5292,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_requestStarRule(Match_requestStarRule that)
 			{
@@ -5393,6 +5450,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_requestStarRule_neg_0(Match_requestStarRule_neg_0 that)
 			{
@@ -5716,6 +5776,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_releaseStarRule(Match_releaseStarRule that)
 			{
@@ -6062,6 +6125,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_requestSimpleRule(Match_requestSimpleRule that)
 			{
@@ -6213,6 +6279,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_requestSimpleRule_neg_0(Match_requestSimpleRule_neg_0 that)
 			{
@@ -6532,6 +6601,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_aux_attachResource(Match_aux_attachResource that)
 			{
@@ -6681,6 +6753,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_aux_attachResource_neg_0(Match_aux_attachResource_neg_0 that)
 			{
@@ -6943,6 +7018,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_annotationTestRule(Match_annotationTestRule that)
 			{
@@ -8552,31 +8630,31 @@ label2: ;
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
             int negLevel = 0;
-            // Lookup takeRule_edge_req 
-            int type_id_candidate_takeRule_edge_req = 8;
-            for(GRGEN_LGSP.LGSPEdge head_candidate_takeRule_edge_req = graph.edgesByTypeHeads[type_id_candidate_takeRule_edge_req], candidate_takeRule_edge_req = head_candidate_takeRule_edge_req.lgspTypeNext; candidate_takeRule_edge_req != head_candidate_takeRule_edge_req; candidate_takeRule_edge_req = candidate_takeRule_edge_req.lgspTypeNext)
+            // Lookup takeRule_edge_t 
+            int type_id_candidate_takeRule_edge_t = 6;
+            for(GRGEN_LGSP.LGSPEdge head_candidate_takeRule_edge_t = graph.edgesByTypeHeads[type_id_candidate_takeRule_edge_t], candidate_takeRule_edge_t = head_candidate_takeRule_edge_t.lgspTypeNext; candidate_takeRule_edge_t != head_candidate_takeRule_edge_t; candidate_takeRule_edge_t = candidate_takeRule_edge_t.lgspTypeNext)
             {
-                // Implicit Target takeRule_node_r from takeRule_edge_req 
-                GRGEN_LGSP.LGSPNode candidate_takeRule_node_r = candidate_takeRule_edge_req.lgspTarget;
+                // Implicit Source takeRule_node_r from takeRule_edge_t 
+                GRGEN_LGSP.LGSPNode candidate_takeRule_node_r = candidate_takeRule_edge_t.lgspSource;
                 if(candidate_takeRule_node_r.lgspType.TypeID!=2) {
                     continue;
                 }
-                // Extend Outgoing takeRule_edge_t from takeRule_node_r 
-                GRGEN_LGSP.LGSPEdge head_candidate_takeRule_edge_t = candidate_takeRule_node_r.lgspOuthead;
-                if(head_candidate_takeRule_edge_t != null)
+                // Implicit Target takeRule_node_p from takeRule_edge_t 
+                GRGEN_LGSP.LGSPNode candidate_takeRule_node_p = candidate_takeRule_edge_t.lgspTarget;
+                if(candidate_takeRule_node_p.lgspType.TypeID!=1) {
+                    continue;
+                }
+                // Extend Outgoing takeRule_edge_req from takeRule_node_p 
+                GRGEN_LGSP.LGSPEdge head_candidate_takeRule_edge_req = candidate_takeRule_node_p.lgspOuthead;
+                if(head_candidate_takeRule_edge_req != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_takeRule_edge_t = head_candidate_takeRule_edge_t;
+                    GRGEN_LGSP.LGSPEdge candidate_takeRule_edge_req = head_candidate_takeRule_edge_req;
                     do
                     {
-                        if(candidate_takeRule_edge_t.lgspType.TypeID!=6) {
+                        if(candidate_takeRule_edge_req.lgspType.TypeID!=8) {
                             continue;
                         }
-                        // Implicit Target takeRule_node_p from takeRule_edge_t 
-                        GRGEN_LGSP.LGSPNode candidate_takeRule_node_p = candidate_takeRule_edge_t.lgspTarget;
-                        if(candidate_takeRule_node_p.lgspType.TypeID!=1) {
-                            continue;
-                        }
-                        if(candidate_takeRule_edge_req.lgspSource != candidate_takeRule_node_p) {
+                        if(candidate_takeRule_edge_req.lgspTarget != candidate_takeRule_node_r) {
                             continue;
                         }
                         Rule_takeRule.Match_takeRule match = matches.GetNextUnfilledPosition();
@@ -8588,12 +8666,12 @@ label2: ;
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
-                            candidate_takeRule_node_r.MoveOutHeadAfter(candidate_takeRule_edge_t);
-                            graph.MoveHeadAfter(candidate_takeRule_edge_req);
+                            candidate_takeRule_node_p.MoveOutHeadAfter(candidate_takeRule_edge_req);
+                            graph.MoveHeadAfter(candidate_takeRule_edge_t);
                             return matches;
                         }
                     }
-                    while( (candidate_takeRule_edge_t = candidate_takeRule_edge_t.lgspOutNext) != head_candidate_takeRule_edge_t );
+                    while( (candidate_takeRule_edge_req = candidate_takeRule_edge_req.lgspOutNext) != head_candidate_takeRule_edge_req );
                 }
             }
             return matches;
@@ -9043,42 +9121,40 @@ label3: ;
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
             int negLevel = 0;
-            // Lookup giveRule_edge_n 
-            int type_id_candidate_giveRule_edge_n = 3;
-            for(GRGEN_LGSP.LGSPEdge head_candidate_giveRule_edge_n = graph.edgesByTypeHeads[type_id_candidate_giveRule_edge_n], candidate_giveRule_edge_n = head_candidate_giveRule_edge_n.lgspTypeNext; candidate_giveRule_edge_n != head_candidate_giveRule_edge_n; candidate_giveRule_edge_n = candidate_giveRule_edge_n.lgspTypeNext)
+            // Lookup giveRule_edge_rel 
+            int type_id_candidate_giveRule_edge_rel = 7;
+            for(GRGEN_LGSP.LGSPEdge head_candidate_giveRule_edge_rel = graph.edgesByTypeHeads[type_id_candidate_giveRule_edge_rel], candidate_giveRule_edge_rel = head_candidate_giveRule_edge_rel.lgspTypeNext; candidate_giveRule_edge_rel != head_candidate_giveRule_edge_rel; candidate_giveRule_edge_rel = candidate_giveRule_edge_rel.lgspTypeNext)
             {
-                // Implicit Source giveRule_node_p1 from giveRule_edge_n 
-                GRGEN_LGSP.LGSPNode candidate_giveRule_node_p1 = candidate_giveRule_edge_n.lgspSource;
+                // Implicit Source giveRule_node_r from giveRule_edge_rel 
+                GRGEN_LGSP.LGSPNode candidate_giveRule_node_r = candidate_giveRule_edge_rel.lgspSource;
+                if(candidate_giveRule_node_r.lgspType.TypeID!=2) {
+                    continue;
+                }
+                // Implicit Target giveRule_node_p1 from giveRule_edge_rel 
+                GRGEN_LGSP.LGSPNode candidate_giveRule_node_p1 = candidate_giveRule_edge_rel.lgspTarget;
                 if(candidate_giveRule_node_p1.lgspType.TypeID!=1) {
                     continue;
                 }
                 uint prev__candidate_giveRule_node_p1;
                 prev__candidate_giveRule_node_p1 = candidate_giveRule_node_p1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_giveRule_node_p1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target giveRule_node_p2 from giveRule_edge_n 
-                GRGEN_LGSP.LGSPNode candidate_giveRule_node_p2 = candidate_giveRule_edge_n.lgspTarget;
-                if(candidate_giveRule_node_p2.lgspType.TypeID!=1) {
-                    candidate_giveRule_node_p1.lgspFlags = candidate_giveRule_node_p1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_giveRule_node_p1;
-                    continue;
-                }
-                if((candidate_giveRule_node_p2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                // Extend Outgoing giveRule_edge_n from giveRule_node_p1 
+                GRGEN_LGSP.LGSPEdge head_candidate_giveRule_edge_n = candidate_giveRule_node_p1.lgspOuthead;
+                if(head_candidate_giveRule_edge_n != null)
                 {
-                    candidate_giveRule_node_p1.lgspFlags = candidate_giveRule_node_p1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_giveRule_node_p1;
-                    continue;
-                }
-                // Extend Incoming giveRule_edge_rel from giveRule_node_p1 
-                GRGEN_LGSP.LGSPEdge head_candidate_giveRule_edge_rel = candidate_giveRule_node_p1.lgspInhead;
-                if(head_candidate_giveRule_edge_rel != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_giveRule_edge_rel = head_candidate_giveRule_edge_rel;
+                    GRGEN_LGSP.LGSPEdge candidate_giveRule_edge_n = head_candidate_giveRule_edge_n;
                     do
                     {
-                        if(candidate_giveRule_edge_rel.lgspType.TypeID!=7) {
+                        if(candidate_giveRule_edge_n.lgspType.TypeID!=3) {
                             continue;
                         }
-                        // Implicit Source giveRule_node_r from giveRule_edge_rel 
-                        GRGEN_LGSP.LGSPNode candidate_giveRule_node_r = candidate_giveRule_edge_rel.lgspSource;
-                        if(candidate_giveRule_node_r.lgspType.TypeID!=2) {
+                        // Implicit Target giveRule_node_p2 from giveRule_edge_n 
+                        GRGEN_LGSP.LGSPNode candidate_giveRule_node_p2 = candidate_giveRule_edge_n.lgspTarget;
+                        if(candidate_giveRule_node_p2.lgspType.TypeID!=1) {
+                            continue;
+                        }
+                        if((candidate_giveRule_node_p2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        {
                             continue;
                         }
                         Rule_giveRule.Match_giveRule match = matches.GetNextUnfilledPosition();
@@ -9091,13 +9167,13 @@ label3: ;
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
-                            candidate_giveRule_node_p1.MoveInHeadAfter(candidate_giveRule_edge_rel);
-                            graph.MoveHeadAfter(candidate_giveRule_edge_n);
+                            candidate_giveRule_node_p1.MoveOutHeadAfter(candidate_giveRule_edge_n);
+                            graph.MoveHeadAfter(candidate_giveRule_edge_rel);
                             candidate_giveRule_node_p1.lgspFlags = candidate_giveRule_node_p1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_giveRule_node_p1;
                             return matches;
                         }
                     }
-                    while( (candidate_giveRule_edge_rel = candidate_giveRule_edge_rel.lgspInNext) != head_candidate_giveRule_edge_rel );
+                    while( (candidate_giveRule_edge_n = candidate_giveRule_edge_n.lgspOutNext) != head_candidate_giveRule_edge_n );
                 }
                 candidate_giveRule_node_p1.lgspFlags = candidate_giveRule_node_p1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_giveRule_node_p1;
             }

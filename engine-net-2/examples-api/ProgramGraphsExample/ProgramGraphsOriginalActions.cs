@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Mon Jul 02 00:40:13 CEST 2012
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Aug 26 13:49:02 CEST 2012
 
 using System;
 using System.Collections.Generic;
@@ -355,6 +355,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Subclasses(Match_Subclasses that)
 			{
@@ -511,6 +514,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Subclasses_iter_0(Match_Subclasses_iter_0 that)
 			{
@@ -784,6 +790,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Subclass(Match_Subclass that)
 			{
@@ -1117,6 +1126,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Features(Match_Features that)
 			{
@@ -1265,6 +1277,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Features_iter_0(Match_Features_iter_0 that)
 			{
@@ -1910,6 +1925,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_FeaturePattern(Match_FeaturePattern that)
 			{
@@ -2068,6 +2086,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_FeaturePattern_alt_0_MethodBody(Match_FeaturePattern_alt_0_MethodBody that)
 			{
@@ -2221,6 +2242,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_FeaturePattern_alt_0_MethodSignature(Match_FeaturePattern_alt_0_MethodSignature that)
 			{
@@ -2372,6 +2396,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_FeaturePattern_alt_0_Variable(Match_FeaturePattern_alt_0_Variable that)
 			{
@@ -2523,6 +2550,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_FeaturePattern_alt_0_Konstante(Match_FeaturePattern_alt_0_Konstante that)
 			{
@@ -2856,6 +2886,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Parameters(Match_Parameters that)
 			{
@@ -3004,6 +3037,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Parameters_iter_0(Match_Parameters_iter_0 that)
 			{
@@ -3449,6 +3485,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Parameter(Match_Parameter that)
 			{
@@ -3599,6 +3638,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Parameter_alt_0_Variable(Match_Parameter_alt_0_Variable that)
 			{
@@ -3750,6 +3792,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Parameter_alt_0_Konstante(Match_Parameter_alt_0_Konstante that)
 			{
@@ -4083,6 +4128,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Statements(Match_Statements that)
 			{
@@ -4231,6 +4279,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Statements_iter_0(Match_Statements_iter_0 that)
 			{
@@ -4815,6 +4866,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Statement(Match_Statement that)
 			{
@@ -4973,6 +5027,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Statement_alt_0_Assignment(Match_Statement_alt_0_Assignment that)
 			{
@@ -5134,6 +5191,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Statement_alt_0_Call(Match_Statement_alt_0_Call that)
 			{
@@ -5291,6 +5351,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Statement_alt_0_Return(Match_Statement_alt_0_Return that)
 			{
@@ -5625,6 +5688,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Expressions(Match_Expressions that)
 			{
@@ -5773,6 +5839,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Expressions_iter_0(Match_Expressions_iter_0 that)
 			{
@@ -6238,6 +6307,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_ExpressionPattern(Match_ExpressionPattern that)
 			{
@@ -6390,6 +6462,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_ExpressionPattern_alt_0_Call(Match_ExpressionPattern_alt_0_Call that)
 			{
@@ -6537,6 +6612,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_ExpressionPattern_alt_0_Use(Match_ExpressionPattern_alt_0_Use that)
 			{
@@ -6920,6 +6998,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Bodies(Match_Bodies that)
 			{
@@ -7073,6 +7154,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Bodies_iter_0(Match_Bodies_iter_0 that)
 			{
@@ -7458,6 +7542,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_Body(Match_Body that)
 			{
@@ -7757,6 +7844,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_createProgramGraphExample(Match_createProgramGraphExample that)
 			{
@@ -8034,6 +8124,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_createProgramGraphPullUp(Match_createProgramGraphPullUp that)
 			{
@@ -8368,6 +8461,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_pullUpMethod(Match_pullUpMethod that)
 			{
@@ -8625,6 +8721,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_matchAll(Match_matchAll that)
 			{
@@ -8974,6 +9073,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_InsertHelperEdgesForNestedLayout(Match_InsertHelperEdgesForNestedLayout that)
 			{
@@ -9312,6 +9414,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_LinkMethodBodyToContainedEntity(Match_LinkMethodBodyToContainedEntity that)
 			{
@@ -9463,6 +9568,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_LinkMethodBodyToContainedEntity_neg_0(Match_LinkMethodBodyToContainedEntity_neg_0 that)
 			{
@@ -9830,6 +9938,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_LinkMethodBodyToContainedExpressionTransitive(Match_LinkMethodBodyToContainedExpressionTransitive that)
 			{
@@ -9983,6 +10094,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_LinkMethodBodyToContainedExpressionTransitive_neg_0(Match_LinkMethodBodyToContainedExpressionTransitive_neg_0 that)
 			{
@@ -10255,6 +10369,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_RemoveMethodBodyContainsBetweenExpressions(Match_RemoveMethodBodyContainsBetweenExpressions that)
 			{
@@ -10527,6 +10644,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
+			public bool _flag;
+			public void Mark(bool flag) { _flag = flag; }
+			public bool IsMarked() { return _flag; }
 
 			public Match_RetypeClassContainment(Match_RetypeClassContainment that)
 			{
