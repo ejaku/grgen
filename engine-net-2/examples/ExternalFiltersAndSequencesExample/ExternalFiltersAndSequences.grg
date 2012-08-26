@@ -14,7 +14,7 @@ sequence counterExample2 { true }
 
 rule filterBase
 {
-} \ f1, nomnomnom // we declare two external matches filter for the matches of the filterBase rule
+} \ f1,nomnomnom,auto // we declare two external matches filter for the matches of the filterBase rule, plus the auto filter
 
 rule filterBass
 {
@@ -22,7 +22,7 @@ rule filterBass
 	
 	modify {
 	}
-} \ f2,f3 // we declare two external matches filter for the matches of the filterBass rule
+} \ f2,f3,auto // we declare two external matches filter for the matches of the filterBass rule, plus the auto filter
 
 test filterHass(n:N):(E)
 {
@@ -56,8 +56,10 @@ rule r
 		);
 		exec(filterBase\f1
 				;> filterBase\nomnomnom
+				;> filterBase\auto
 				;> [filterBass\f2]
 				;> $::x[filterBass\f3]
+				;> [filterBass\auto]
 				;> (::ee)=filterHass(::n)\f4
 				;> <<filterBase\f1;filterBase\f1>>
 				;> ${(filterBase\f1,[filterBass\f2])}

@@ -110,7 +110,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
             List<Rule_filterBass.IMatch_filterBass> matchesArray = matches.ToList();
             matchesArray.Reverse();
             Rule_filterBass.IMatch_filterBass match = matchesArray[matchesArray.Count-1];
-            matchesArray.RemoveAt(matchesArray.Count - 1);
+            matchesArray[matchesArray.Count - 1] = null; // setting to null is an efficient way to delete, better than List.RemoveAt
             ++match.node_n.i;
             matchesArray.Add(match);
             matchesArray.Reverse();
