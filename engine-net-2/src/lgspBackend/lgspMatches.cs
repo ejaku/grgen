@@ -469,26 +469,45 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
-        /// (The list might have been reordered, matches might have been removed, or even added.)
+        /// The list might have been reordered, matches might have been removed, or even added.
+        /// Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
         /// </summary>
         public void FromList()
         {
-            // remove the matches currently stored in the matches list, they were handed out in ToList
+            // forget about the matches currently stored in the matches list which were handed out in ToList, keeping the "free tail" remaining
             for(int i = 0; i < count; ++i)
                 root = root.next;
-            // prepend the matches stored in the array handed out (keep the "free tail" remaining)
+            count = 0;
+
+            // that's it if the array is empty
             if(array.Count == 0)
                 return;
+            int startIndex = 0;
+            for(; startIndex < array.Count; ++startIndex) // fast forward to first non-null entry
+                if(array[startIndex] != null)
+                    break;
+            if(startIndex >= array.Count) // only null-entries were in array
+                return;
+
+            // prepend the matches stored in the array handed out
+
+            // employ the first non-null entry in the array as new list head
             Match oldRoot = root;
-            root = (Match)array[0];
+            root = (Match)array[startIndex];
+            ++count;
             Match cur = root;
-            for(int i = 1; i < array.Count; ++i)
+            // add all further, non-null entries to list
+            for(int i = startIndex + 1; i < array.Count; ++i)
             {
+                if(array[i] == null)
+                    continue;
                 cur.next = (Match)array[i];
                 cur = cur.next;
+                ++count;
             }
+
+            // append the free tail remaining to new current list
             cur.next = oldRoot;
-            count = array.Count;
         }
 
         /// <summary>
