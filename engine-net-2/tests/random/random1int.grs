@@ -5,17 +5,77 @@ randomseed 0 # get deterministic random for tests
 new n:A
 
 n.i
-xgrs randomi
+exec randomi
 n.i
-xgrs randomi
+exec randomi
 n.i
-xgrs randomi
+exec randomi
 n.i
-xgrs randomi
+exec randomi
 n.i
-xgrs randomi
+exec randomi
 n.i
-xgrs randomi
+exec randomi
+n.i
+
+randomseed 0 # get deterministic random for tests
+
+exec randomiexec
+n.i
+exec randomiexec
+n.i
+exec randomiexec
+n.i
+exec randomiexec
+n.i
+exec randomiexec
+n.i
+exec randomiexec
+n.i
+
+randomseed 0 # get deterministic random for tests
+
+exec {::x=random(42)}
+show var ::x
+exec {::x=random(42)}
+show var ::x
+exec {::x=random(42)}
+show var ::x
+exec {::x=random(42)}
+show var ::x
+exec {::x=random(42)}
+show var ::x
+exec {::x=random(42)}
+show var ::x
+
+randomseed 0 # get deterministic random for tests
+
+exec ::x=$(42)
+show var ::x
+exec ::x=$(42)
+show var ::x
+exec ::x=$(42)
+show var ::x
+exec ::x=$(42)
+show var ::x
+exec ::x=$(42)
+show var ::x
+exec ::x=$(42)
+show var ::x
+
+randomseed 0 # get deterministic random for tests
+
+exec randomiexec2
+n.i
+exec randomiexec2
+n.i
+exec randomiexec2
+n.i
+exec randomiexec2
+n.i
+exec randomiexec2
+n.i
+exec randomiexec2
 n.i
 
 exit
