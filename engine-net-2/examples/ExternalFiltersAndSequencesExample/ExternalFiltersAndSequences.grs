@@ -16,8 +16,10 @@ exec huh
 # test the filtered rules/filtering of rule matches directly
 exec filterBase\f1
 exec filterBase\nomnomnom
+exec filterBase\auto
 exec [filterBass\f2]
 exec $::x[filterBass\f3]
+exec [filterBass\auto]
 exec (::ee)=filterHass(::n)\f4
 exec <<filterBase\f1;filterBase\f1>>
 exec ${(filterBase\f1,[filterBass\f2])}
