@@ -17,55 +17,55 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.ArrayInit;
-import de.unika.ipd.grgen.ir.ArrayItem;
-import de.unika.ipd.grgen.ir.ArrayType;
+import de.unika.ipd.grgen.ir.QueueInit;
+import de.unika.ipd.grgen.ir.QueueItem;
+import de.unika.ipd.grgen.ir.QueueType;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayInitNode extends ExprNode
+public class QueueInitNode extends ExprNode
 {
 	static {
-		setName(ArrayInitNode.class, "array init");
+		setName(QueueInitNode.class, "queue init");
 	}
 
-	private CollectNode<ArrayItemNode> arrayItems = new CollectNode<ArrayItemNode>();
+	private CollectNode<QueueItemNode> queueItems = new CollectNode<QueueItemNode>();
 
-	// if array init node is used in model, for member init
-	//     then lhs != null, arrayType == null
-	// if array init node is used in actions, for anonymous const array with specified type
-	//     then lhs == null, arrayType != null -- adjust type of array items to this type
-	// if array init node is used in actions, for anonymous const array without specified type
-	//     then lhs == null, arrayType == null -- determine array type from first item, all items must be exactly of this type
+	// if queue init node is used in model, for member init
+	//     then lhs != null, queueType == null
+	// if queue init node is used in actions, for anonymous const queue with specified type
+	//     then lhs == null, queueType != null -- adjust type of queue items to this type
+	// if queue init node is used in actions, for anonymous const queue without specified type
+	//     then lhs == null, queueType == null -- determine queue type from first item, all items must be exactly of this type
 	private BaseNode lhsUnresolved;
 	private DeclNode lhs;
-	private ArrayTypeNode arrayType;
+	private QueueTypeNode queueType;
 
-	public ArrayInitNode(Coords coords, IdentNode member, ArrayTypeNode arrayType) {
+	public QueueInitNode(Coords coords, IdentNode member, QueueTypeNode queueType) {
 		super(coords);
 
 		if(member!=null) {
 			lhsUnresolved = becomeParent(member);
 		} else {
-			this.arrayType = arrayType;
+			this.queueType = queueType;
 		}
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(arrayItems);
+		children.add(queueItems);
 		return children;
 	}
 
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("arrayItems");
+		childrenNames.add("queueItems");
 		return childrenNames;
 	}
 
-	public void addArrayItem(ArrayItemNode item) {
-		arrayItems.addChild(item);
+	public void addQueueItem(QueueItemNode item) {
+		queueItems.addChild(item);
 	}
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
@@ -76,8 +76,8 @@ public class ArrayInitNode extends ExprNode
 			if(!lhsResolver.resolve(lhsUnresolved)) return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
-		} else if(arrayType!=null) {
-			return arrayType.resolve();
+		} else if(queueType!=null) {
+			return queueType.resolve();
 		} else {
 			return true;
 		}
@@ -87,63 +87,63 @@ public class ArrayInitNode extends ExprNode
 	protected boolean checkLocal() {
 		boolean success = true;
 
-		ArrayTypeNode arrayType;
+		QueueTypeNode queueType;
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
-			assert type instanceof ArrayTypeNode: "Lhs should be a Array<Value>";
-			arrayType = (ArrayTypeNode) type;
-		} else if(this.arrayType!=null) {
-			arrayType = this.arrayType;
+			assert type instanceof QueueTypeNode: "Lhs should be a Queue<Value>";
+			queueType = (QueueTypeNode) type;
+		} else if(this.queueType!=null) {
+			queueType = this.queueType;
 		} else {
-			TypeNode arrayTypeNode = getArrayType();
-			if(arrayTypeNode instanceof ArrayTypeNode) {
-				arrayType = (ArrayTypeNode)arrayTypeNode;
+			TypeNode queueTypeNode = getQueueType();
+			if(queueTypeNode instanceof QueueTypeNode) {
+				queueType = (QueueTypeNode)queueTypeNode;
 			} else {
 				return false;
 			}
 		}
 
-		for(ArrayItemNode item : arrayItems.getChildren()) {
-			if(item.valueExpr.getType() != arrayType.valueType) {
-				if(this.arrayType!=null) {
+		for(QueueItemNode item : queueItems.getChildren()) {
+			if(item.valueExpr.getType() != queueType.valueType) {
+				if(this.queueType!=null) {
 					ExprNode oldValueExpr = item.valueExpr;
-					item.valueExpr = item.valueExpr.adjustType(arrayType.valueType, getCoords());
+					item.valueExpr = item.valueExpr.adjustType(queueType.valueType, getCoords());
 					item.switchParenthood(oldValueExpr, item.valueExpr);
 					if(item.valueExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
 								+ "\" of initializer doesn't fit to value type \""
-								+ arrayType.valueType + "\" of array.");
+								+ queueType.valueType + "\" of queue.");
 					}
 				} else {
 					success = false;
 					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
 							+ "\" of initializer doesn't fit to value type \""
-							+ arrayType.valueType + "\" of array (all items must be of exactly the same type).");
+							+ queueType.valueType + "\" of queue (all items must be of exactly the same type).");
 				}
 			}
 		}
 
-		if(lhs==null && this.arrayType==null) {
-			this.arrayType = arrayType;
+		if(lhs==null && this.queueType==null) {
+			this.queueType = queueType;
 		}
 
 		if(!isConstant() && lhs!=null) {
-			reportError("Only constant items allowed in array initialization in model");
+			reportError("Only constant items allowed in queue initialization in model");
 			success = false;
 		}
 
 		return success;
 	}
 
-	protected TypeNode getArrayType() {
-		TypeNode itemTypeNode = arrayItems.getChildren().iterator().next().valueExpr.getType();
+	protected TypeNode getQueueType() {
+		TypeNode itemTypeNode = queueItems.getChildren().iterator().next().valueExpr.getType();
 		if(!(itemTypeNode instanceof DeclaredTypeNode)) {
-			reportError("Array items have to be of basic or enum type");
+			reportError("Queue items have to be of basic or enum type");
 			return BasicTypeNode.errorType;
 		}
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
-		return ArrayTypeNode.getArrayType(itemTypeIdent);
+		return QueueTypeNode.getQueueType(itemTypeIdent);
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class ArrayInitNode extends ExprNode
 	 * @return True, if all set items are constant.
 	 */
 	protected boolean isConstant() {
-		for(ArrayItemNode item : arrayItems.getChildren()) {
+		for(QueueItemNode item : queueItems.getChildren()) {
 			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
 				return false;
 		}
@@ -167,7 +167,7 @@ public class ArrayInitNode extends ExprNode
 	}
 
 	protected boolean contains(ConstNode node) {
-		for(ArrayItemNode item : arrayItems.getChildren()) {
+		for(QueueItemNode item : queueItems.getChildren()) {
 			if(item.valueExpr instanceof ConstNode) {
 				ConstNode itemConst = (ConstNode) item.valueExpr;
 				if(node.getValue().equals(itemConst.getValue()))
@@ -183,33 +183,33 @@ public class ArrayInitNode extends ExprNode
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
 			return (SetTypeNode) type;
-		} else if(arrayType!=null) {
-			return arrayType;
+		} else if(queueType!=null) {
+			return queueType;
 		} else {
-			return getArrayType();
+			return getQueueType();
 		}
 	}
 
-	protected CollectNode<ArrayItemNode> getItems() {
-		return arrayItems;
+	protected CollectNode<QueueItemNode> getItems() {
+		return queueItems;
 	}
 
 	@Override
 	protected IR constructIR() {
-		Vector<ArrayItem> items = new Vector<ArrayItem>();
-		for(ArrayItemNode item : arrayItems.getChildren()) {
-			items.add(item.getArrayItem());
+		Vector<QueueItem> items = new Vector<QueueItem>();
+		for(QueueItemNode item : queueItems.getChildren()) {
+			items.add(item.getQueueItem());
 		}
 		Entity member = lhs!=null ? lhs.getEntity() : null;
-		ArrayType type = arrayType!=null ? (ArrayType)arrayType.getIR() : null;
-		return new ArrayInit(items, member, type, isConstant());
+		QueueType type = queueType!=null ? (QueueType)queueType.getIR() : null;
+		return new QueueInit(items, member, type, isConstant());
 	}
 
-	protected ArrayInit getArrayInit() {
-		return checkIR(ArrayInit.class);
+	protected QueueInit getQueueInit() {
+		return checkIR(QueueInit.class);
 	}
 
 	public static String getUseStr() {
-		return "array initialization";
+		return "queue initialization";
 	}
 }

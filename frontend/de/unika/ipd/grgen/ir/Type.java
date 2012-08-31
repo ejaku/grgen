@@ -51,13 +51,14 @@ public abstract class Type extends Identifiable {
 	public static final int IS_STRING  = 8;
 	public static final int IS_TYPE  = 9;
 	public static final int IS_OBJECT = 10;
-	public static final int IS_ARRAY = 11;
-	public static final int IS_SET = 12;
-	public static final int IS_MAP = 13;
-	public static final int IS_UNTYPED_EXEC_VAR_TYPE = 14;
-	public static final int IS_EXTERNAL_TYPE = 15;
-	public static final int IS_GRAPH = 16;
-	public static final int IS_MATCH = 17;
+	public static final int IS_SET = 11;
+	public static final int IS_MAP = 12;
+	public static final int IS_ARRAY = 13;
+	public static final int IS_QUEUE = 14;
+	public static final int IS_UNTYPED_EXEC_VAR_TYPE = 15;
+	public static final int IS_EXTERNAL_TYPE = 16;
+	public static final int IS_GRAPH = 17;
+	public static final int IS_MATCH = 18;
 
 	/**
 	 * Make a new type.
