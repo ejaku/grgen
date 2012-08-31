@@ -17,38 +17,38 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ArrayType;
+import de.unika.ipd.grgen.ir.QueueType;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
 
-public class ArrayTypeNode extends DeclaredTypeNode {
+public class QueueTypeNode extends DeclaredTypeNode {
 	static {
-		setName(ArrayTypeNode.class, "array type");
+		setName(QueueTypeNode.class, "queue type");
 	}
 
 	@Override
 	public String getName() {
-		return "array<" + valueTypeUnresolved.toString() + "> type";
+		return "queue<" + valueTypeUnresolved.toString() + "> type";
 	}
 
-	private static HashMap<String, ArrayTypeNode> arrayTypes = new HashMap<String, ArrayTypeNode>();
+	private static HashMap<String, QueueTypeNode> queueTypes = new HashMap<String, QueueTypeNode>();
 
-	public static ArrayTypeNode getArrayType(IdentNode valueTypeIdent) {
+	public static QueueTypeNode getQueueType(IdentNode valueTypeIdent) {
 		String keyStr = valueTypeIdent.toString();
-		ArrayTypeNode arrayTypeNode = arrayTypes.get(keyStr);
+		QueueTypeNode queueTypeNode = queueTypes.get(keyStr);
 
-		if(arrayTypeNode == null)
-			arrayTypes.put(keyStr, arrayTypeNode = new ArrayTypeNode(valueTypeIdent));
+		if(queueTypeNode == null)
+			queueTypes.put(keyStr, queueTypeNode = new QueueTypeNode(valueTypeIdent));
 
-		return arrayTypeNode;
+		return queueTypeNode;
 	}
 
 	private IdentNode valueTypeUnresolved;
 	protected TypeNode valueType;
 
-	// the array type node instances are created in ParserEnvironment as needed
-	public ArrayTypeNode(IdentNode valueTypeIdent) {
+	// the queue type node instances are created in ParserEnvironment as needed
+	public QueueTypeNode(IdentNode valueTypeIdent) {
 		valueTypeUnresolved = becomeParent(valueTypeIdent);
 	}
 
@@ -105,25 +105,25 @@ public class ArrayTypeNode extends DeclaredTypeNode {
 
 		if(valueType instanceof InheritanceTypeNode) {
 			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
-					BasicTypeNode.typeType, this, OperatorSignature.arrayEvaluator);
+					BasicTypeNode.typeType, this, OperatorSignature.queueEvaluator);
 		} else {
 			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
-					valueType, this, OperatorSignature.arrayEvaluator);
+					valueType, this, OperatorSignature.queueEvaluator);
 		}
 		OperatorSignature.makeBinOp(OperatorSignature.EQ, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.arrayEvaluator);
+				this, this, OperatorSignature.queueEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.NE, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.arrayEvaluator);
+				this, this, OperatorSignature.queueEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.GT, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.arrayEvaluator);
+				this, this, OperatorSignature.queueEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.GE, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.arrayEvaluator);
+				this, this, OperatorSignature.queueEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.LT, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.arrayEvaluator);
+				this, this, OperatorSignature.queueEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.arrayEvaluator);
+				this, this, OperatorSignature.queueEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.ADD, this, this, this,
-				OperatorSignature.arrayEvaluator);
+				OperatorSignature.queueEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 
@@ -136,9 +136,9 @@ public class ArrayTypeNode extends DeclaredTypeNode {
 
 		// return if the keyType or valueType construction already constructed the IR object
 		if (isIRAlreadySet()) {
-			return (ArrayType)getIR();
+			return (QueueType)getIR();
 		}
 
-		return new ArrayType(vt);
+		return new QueueType(vt);
 	}
 }

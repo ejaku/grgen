@@ -1,6 +1,6 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 2.6
- * Copyright (C) 2003-2010 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 3.6
+ * Copyright (C) 2003-2012 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
@@ -458,6 +458,11 @@ returnType returns [ BaseNode res = env.initNode() ]
 		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 			res = ArrayTypeNode.getArrayType(keyType);
 		}
+	|
+		QUEUE LT keyType=typeIdentUse GT
+		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+			res = QueueTypeNode.getQueueType(keyType);
+		}
 	;
 
 externalFilters [ IdentNode actionIdent, TestDeclNode actionDecl ]
@@ -776,7 +781,7 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 			{
 				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true);
 				if(!paramModifier.getText().equals("var")) 
-					{ reportError(getCoords(paramModifier), "var keyword needed before non set/map/array (and non graph element) parameter"); }
+					{ reportError(getCoords(paramModifier), "var keyword needed before non graph element and non container parameter"); }
 			}
 		|
 			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
@@ -798,6 +803,13 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 				var = new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), directlyNestingLHSGraph, context, true);
 				if(!paramModifier.getText().equals("ref")) 
 					{ reportError(getCoords(paramModifier), "ref keyword needed before array typed parameter"); }
+			}
+		|
+			QUEUE LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				var = new VarDeclNode(id, QueueTypeNode.getQueueType(keyType), directlyNestingLHSGraph, context, true);
+				if(!paramModifier.getText().equals("ref")) 
+					{ reportError(getCoords(paramModifier), "ref keyword needed before queue typed parameter"); }
 			}
 		)
 		{ if(var!=null) res = var; }
@@ -982,7 +994,7 @@ varDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Base
 			{
 				res = new VarDeclNode(id, type, directlyNestingLHSGraph, context);
 				if(!paramModifier.getText().equals("var")) 
-					{ reportError(getCoords(paramModifier), "var keyword needed before non set/map (and non graph element) parameter"); }
+					{ reportError(getCoords(paramModifier), "var keyword needed before non graph element and non container parameter"); }
 			}
 		|
 			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
@@ -1004,6 +1016,13 @@ varDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Base
 				res = new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), directlyNestingLHSGraph, context);
 				if(!paramModifier.getText().equals("ref")) 
 					{ reportWarning(getCoords(paramModifier), "ref keyword needed before array typed parameter"); } // TODO: next version -> error
+			}
+		|
+			QUEUE LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				res = new VarDeclNode(id, QueueTypeNode.getQueueType(keyType), directlyNestingLHSGraph, context);
+				if(!paramModifier.getText().equals("ref")) 
+					{ reportWarning(getCoords(paramModifier), "ref keyword needed before queue typed parameter"); } // TODO: next version -> error
 			}
 		)
 	;
@@ -1784,7 +1803,7 @@ methodCall[ExecNode xg]
 			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])? )? RPAREN { xg.append(")"); }
 		{ if(!method.getText().equals("add") && !method.getText().equals("rem") && !method.getText().equals("clear")
 				&& !method.getText().equals("size") && !method.getText().equals("empty") && !method.getText().equals("peek"))
-			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty|peek on set/map/array)");
+			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty|peek on set|map|array|queue)");
 		}
 	;
 
@@ -1793,7 +1812,7 @@ methodCallRepeated[ExecNode xg]
 			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])? )? RPAREN { xg.append(")"); }
 		{ if(!method.getText().equals("add") && !method.getText().equals("rem") && !method.getText().equals("clear")
 				&& !method.getText().equals("size") && !method.getText().equals("empty") && !method.getText().equals("peek"))
-			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty|peek on set/map/array)");
+			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty|peek on set|map|array|queue)");
 		}
 	)*
 	;
@@ -1816,6 +1835,7 @@ xgrsConstant[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	| MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT LBRACE RBRACE { xg.append("map<"+typeName+","+toTypeName+">{ }"); }
 	| SET LT typeName=typeIdentUse GT LBRACE RBRACE { xg.append("set<"+typeName+">{ }"); }
 	| ARRAY LT typeName=typeIdentUse GT LBRACK RBRACK { xg.append("array<"+typeName+">[ ]"); }
+	| QUEUE LT typeName=typeIdentUse GT RBRACK LBRACK { xg.append("queue<"+typeName+">] ["); }
 	;
 	
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
@@ -1933,6 +1953,23 @@ options { k = *; }
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, ArrayTypeNode.getArrayType(type));
 			if(emit) xg.append(id.toString()+":array<"+type.toString());
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+	|
+		id=entIdentDecl COLON QUEUE LT type=typeIdentUse GT // queue decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, QueueTypeNode.getQueueType(type));
+			if(emit) xg.append(id.toString()+":queue<"+type.toString()+">");
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+	|
+		(entIdentDecl COLON QUEUE LT typeIdentUse GE) => 
+		id=entIdentDecl COLON QUEUE LT type=typeIdentUse // queue decl; special to save user from splitting queue<S>=x to queue<S> =x as >= is GE not GT ASSIGN
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, QueueTypeNode.getQueueType(type));
+			if(emit) xg.append(id.toString()+":queue<"+type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -2356,6 +2393,21 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 							decl.setConstInitializer(init4);
 					}
 				)?
+			|
+				QUEUE LT valueType=typeIdentUse GT
+				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+					decl = new MemberDeclNode(id, QueueTypeNode.getQueueType(valueType), isConst);
+					id.setDecl(decl);
+					c.addChild(decl);
+				}
+				(
+					ASSIGN init5=initQueueExpr[decl.getIdentNode(), null]
+					{
+						c.addChild(init5);
+						if(isConst)
+							decl.setConstInitializer(init5);
+					}
+				)?
 			)
 		)
 	;
@@ -2392,6 +2444,13 @@ initArrayExpr [IdentNode id, ArrayTypeNode arrayType] returns [ ArrayInitNode re
 	  RBRACK
 	;
 
+initQueueExpr [IdentNode id, QueueTypeNode queueType] returns [ QueueInitNode res = null ]
+	: l=RBRACK { res = new QueueInitNode(getCoords(l), id, queueType); }	
+	          item1=queueItem { res.addQueueItem(item1); }
+	  ( COMMA item2=queueItem { res.addQueueItem(item2); } )*
+	  LBRACK
+	;
+
 mapItem returns [ MapItemNode res = null ]
 	: key=expr[false] a=RARROW value=expr[false]
 		{
@@ -2410,6 +2469,13 @@ arrayItem returns [ ArrayItemNode res = null ]
 	: value=expr[false]
 		{
 			res = new ArrayItemNode(value.getCoords(), value);
+		}
+	;
+
+queueItem returns [ QueueItemNode res = null ]
+	: value=expr[false]
+		{
+			res = new QueueItemNode(value.getCoords(), value);
 		}
 	;
 
@@ -2665,14 +2731,14 @@ options { k = 4; }
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
 			{ res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged); }
 			{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
-			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array concatenation."); }
+			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|queue concatenation."); }
 	|
 	  (y=YIELD { yielded = true; })? variable=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
 			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
 			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, yielded), cat, e, ccat, tgtChanged); }
-			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array concatenation."); }
+			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|queue concatenation."); }
 	|
 	  f=FOR LBRACE pushScopeStr["for iterated", getCoords(f)] variable=entIdentDecl IN i=iterIdentUse SEMI aomc=assignmentOrMethodCall[onLHS, context, directlyNestingLHSGraph] RBRACE popScope
 		{ res = new IteratedAccumulationYieldNode(getCoords(f), new VarDeclNode(variable, IdentNode.getInvalid(), directlyNestingLHSGraph, context), i, aomc); }
@@ -2835,7 +2901,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 		{
 			res = new CastNode(getCoords(p), id, op);
 		}
-	| e=primaryExpr[inEnumInit] (e=selectorExpr[e, inEnumInit])* { res = e; }
+	| e=primaryExpr[inEnumInit] ((LBRACK|DOT) => e=selectorExpr[e, inEnumInit])* { res = e; }
 	; 
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
@@ -2847,7 +2913,7 @@ options { k = 3; }
 	| e=constant { res = e; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
-	| e=initMapOrSetOrArrayExpr { res = e; }
+	| e=initContainerExpr { res = e; }
 	| e=externalFunctionInvocationExpr[inEnumInit] { res = e; }
 	| LPAREN e=expr[inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
@@ -2888,13 +2954,15 @@ typeOf returns [ ExprNode res = env.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
 	
-initMapOrSetOrArrayExpr returns [ ExprNode res = env.initExprNode() ]
+initContainerExpr returns [ ExprNode res = env.initExprNode() ]
 	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e1=initMapExpr[null, MapTypeNode.getMapType(keyType, valueType)] { res = e1; }
 	| SET LT valueType=typeIdentUse GT e2=initSetExpr[null, SetTypeNode.getSetType(valueType)] { res = e2; }
 	| ARRAY LT valueType=typeIdentUse GT e3=initArrayExpr[null, ArrayTypeNode.getArrayType(valueType)] { res = e3; }
+	| QUEUE LT valueType=typeIdentUse GT e4=initQueueExpr[null, QueueTypeNode.getQueueType(valueType)] { res = e4; }
 	| (LBRACE expr[false] RARROW) => e1=initMapExpr[null, null] { res = e1; }
 	| (LBRACE) => e2=initSetExpr[null, null] { res = e2; }
 	| (LBRACK) => e3=initArrayExpr[null, null] { res = e3; }
+	| (RBRACK) => e4=initQueueExpr[null, null] { res = e4; }
 	;
 	
 constant returns [ ExprNode res = env.initExprNode() ]
@@ -3258,6 +3326,7 @@ NULL : 'null';
 OPTIONAL : 'optional';
 PATTERN : 'pattern';
 PATTERNPATH : 'patternpath';
+QUEUE : 'queue';
 RANDOM : 'random';
 REPLACE : 'replace';
 RETURN : 'return';

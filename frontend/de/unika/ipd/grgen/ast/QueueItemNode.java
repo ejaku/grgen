@@ -16,17 +16,17 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ArrayItem;
+import de.unika.ipd.grgen.ir.QueueItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayItemNode extends BaseNode {
+public class QueueItemNode extends BaseNode {
 	static {
-		setName(ArrayItemNode.class, "array item");
+		setName(QueueItemNode.class, "queue item");
 	}
 
 	protected ExprNode valueExpr;
 
-	public ArrayItemNode(Coords coords, ExprNode valueExpr) {
+	public QueueItemNode(Coords coords, ExprNode valueExpr) {
 		super(coords);
 		this.valueExpr = becomeParent(valueExpr);
 	}
@@ -52,17 +52,17 @@ public class ArrayItemNode extends BaseNode {
 
 	@Override
 	protected boolean checkLocal() {
-		// All checks are done in ArrayInitNode
+		// All checks are done in QueueInitNode
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayItem(valueExpr.checkIR(Expression.class));
+		return new QueueItem(valueExpr.checkIR(Expression.class));
 	}
 
-	protected ArrayItem getArrayItem() {
-		return checkIR(ArrayItem.class);
+	protected QueueItem getQueueItem() {
+		return checkIR(QueueItem.class);
 	}
 	
 	public boolean noDefElementInCondition() {

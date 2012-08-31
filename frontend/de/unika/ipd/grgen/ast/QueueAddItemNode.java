@@ -16,24 +16,30 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ArrayItem;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.QueueAddItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayItemNode extends BaseNode {
+public class QueueAddItemNode extends EvalStatementNode
+{
 	static {
-		setName(ArrayItemNode.class, "array item");
+		setName(QueueAddItemNode.class, "queue add item statement");
 	}
 
-	protected ExprNode valueExpr;
+	private QualIdentNode target;
+	private ExprNode valueExpr;
 
-	public ArrayItemNode(Coords coords, ExprNode valueExpr) {
+	public QueueAddItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr)
+	{
 		super(coords);
+		this.target = becomeParent(target);
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(target);
 		children.add(valueExpr);
 		return children;
 	}
@@ -41,6 +47,7 @@ public class ArrayItemNode extends BaseNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("target");
 		childrenNames.add("valueExpr");
 		return childrenNames;
 	}
@@ -52,25 +59,24 @@ public class ArrayItemNode extends BaseNode {
 
 	@Override
 	protected boolean checkLocal() {
-		// All checks are done in ArrayInitNode
+		TypeNode targetType = target.getDecl().getDeclType();
+		TypeNode targetValueType = ((QueueTypeNode)targetType).valueType;
+		TypeNode valueType = valueExpr.getType();
+		if (!valueType.isEqual(targetValueType))
+		{
+			valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
+			if(valueExpr == ConstNode.getInvalid()) {
+				valueExpr.reportError("Argument value to "
+						+ "queue add item statement must be of type " +targetValueType.toString());
+				return false;
+			}
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayItem(valueExpr.checkIR(Expression.class));
-	}
-
-	protected ArrayItem getArrayItem() {
-		return checkIR(ArrayItem.class);
-	}
-	
-	public boolean noDefElementInCondition() {
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noDefElementInCondition();
-		}
-		return res;
+		return new QueueAddItem(target.checkIR(Qualification.class),
+				valueExpr.checkIR(Expression.class));
 	}
 }

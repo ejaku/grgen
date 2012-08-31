@@ -14,34 +14,36 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.QueueClear;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ArrayItem;
+import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayItemNode extends BaseNode {
+public class QueueClearNode extends EvalStatementNode
+{
 	static {
-		setName(ArrayItemNode.class, "array item");
+		setName(QueueClearNode.class, "queue clear statement");
 	}
 
-	protected ExprNode valueExpr;
+	private QualIdentNode target;
 
-	public ArrayItemNode(Coords coords, ExprNode valueExpr) {
+	public QueueClearNode(Coords coords, QualIdentNode target)
+	{
 		super(coords);
-		this.valueExpr = becomeParent(valueExpr);
+		this.target = becomeParent(target);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(valueExpr);
+		children.add(target);
 		return children;
 	}
 
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("valueExpr");
+		childrenNames.add("target");
 		return childrenNames;
 	}
 
@@ -52,25 +54,11 @@ public class ArrayItemNode extends BaseNode {
 
 	@Override
 	protected boolean checkLocal() {
-		// All checks are done in ArrayInitNode
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayItem(valueExpr.checkIR(Expression.class));
-	}
-
-	protected ArrayItem getArrayItem() {
-		return checkIR(ArrayItem.class);
-	}
-	
-	public boolean noDefElementInCondition() {
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noDefElementInCondition();
-		}
-		return res;
+		return new QueueClear(target.checkIR(Qualification.class));
 	}
 }

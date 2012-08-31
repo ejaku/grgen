@@ -16,61 +16,55 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ArrayItem;
+import de.unika.ipd.grgen.ir.QueueSizeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayItemNode extends BaseNode {
+public class QueueSizeNode extends ExprNode
+{
 	static {
-		setName(ArrayItemNode.class, "array item");
+		setName(QueueSizeNode.class, "queue size expression");
 	}
 
-	protected ExprNode valueExpr;
+	private ExprNode targetExpr;
 
-	public ArrayItemNode(Coords coords, ExprNode valueExpr) {
+	public QueueSizeNode(Coords coords, ExprNode targetExpr)
+	{
 		super(coords);
-		this.valueExpr = becomeParent(valueExpr);
+		this.targetExpr = becomeParent(targetExpr);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(valueExpr);
+		children.add(targetExpr);
 		return children;
 	}
 
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("valueExpr");
+		childrenNames.add("targetExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean checkLocal() {
+		TypeNode targetType = targetExpr.getType();
+		if(!(targetType instanceof QueueTypeNode)) {
+			targetExpr.reportError("This argument to queue size expression must be of type queue<T>");
+			return false;
+		}
 		return true;
+
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		// All checks are done in ArrayInitNode
-		return true;
+	public TypeNode getType() {
+		return BasicTypeNode.intType;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayItem(valueExpr.checkIR(Expression.class));
-	}
-
-	protected ArrayItem getArrayItem() {
-		return checkIR(ArrayItem.class);
-	}
-	
-	public boolean noDefElementInCondition() {
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noDefElementInCondition();
-		}
-		return res;
+		return new QueueSizeExpr(targetExpr.checkIR(Expression.class));
 	}
 }

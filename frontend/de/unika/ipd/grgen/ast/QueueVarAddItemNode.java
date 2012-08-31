@@ -16,24 +16,30 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ArrayItem;
+import de.unika.ipd.grgen.ir.QueueVarAddItem;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayItemNode extends BaseNode {
+public class QueueVarAddItemNode extends EvalStatementNode
+{
 	static {
-		setName(ArrayItemNode.class, "array item");
+		setName(QueueVarAddItemNode.class, "queue var add item statement");
 	}
 
-	protected ExprNode valueExpr;
+	private VarDeclNode target;
+	private ExprNode valueExpr;
 
-	public ArrayItemNode(Coords coords, ExprNode valueExpr) {
+	public QueueVarAddItemNode(Coords coords, VarDeclNode target, ExprNode valueExpr)
+	{
 		super(coords);
+		this.target = becomeParent(target);
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(target);
 		children.add(valueExpr);
 		return children;
 	}
@@ -41,6 +47,7 @@ public class ArrayItemNode extends BaseNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("target");
 		childrenNames.add("valueExpr");
 		return childrenNames;
 	}
@@ -52,25 +59,16 @@ public class ArrayItemNode extends BaseNode {
 
 	@Override
 	protected boolean checkLocal() {
-		// All checks are done in ArrayInitNode
-		return true;
+		boolean success = true;
+		TypeNode targetType = target.getDeclType();
+		TypeNode targetValueType = ((QueueTypeNode)targetType).valueType;
+		success &= checkType(valueExpr, targetValueType, "queue add item statement", "value");
+		return success;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayItem(valueExpr.checkIR(Expression.class));
-	}
-
-	protected ArrayItem getArrayItem() {
-		return checkIR(ArrayItem.class);
-	}
-	
-	public boolean noDefElementInCondition() {
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noDefElementInCondition();
-		}
-		return res;
+		return new QueueVarAddItem(target.checkIR(Variable.class),
+				valueExpr.checkIR(Expression.class));
 	}
 }
