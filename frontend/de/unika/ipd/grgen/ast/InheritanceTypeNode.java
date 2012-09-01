@@ -17,12 +17,13 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.ArrayInit;
+import de.unika.ipd.grgen.ast.containers.*;
+import de.unika.ipd.grgen.ir.containers.ArrayInit;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
-import de.unika.ipd.grgen.ir.MapInit;
-import de.unika.ipd.grgen.ir.SetInit;
+import de.unika.ipd.grgen.ir.containers.MapInit;
+import de.unika.ipd.grgen.ir.containers.SetInit;
 import de.unika.ipd.grgen.parser.Symbol;
 
 /**

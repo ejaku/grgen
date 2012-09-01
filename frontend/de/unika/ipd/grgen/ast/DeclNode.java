@@ -80,7 +80,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		return Color.BLUE;
 	}
 
-	protected Entity getEntity() {
+	public Entity getEntity() {
 		return checkIR(Entity.class);
 	}
 

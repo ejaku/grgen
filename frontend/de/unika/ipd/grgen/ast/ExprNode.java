@@ -90,7 +90,7 @@ public abstract class ExprNode extends BaseNode {
 		return ConstNode.getInvalid();
 	}
 
-	protected ExprNode adjustType(TypeNode targetType, Coords errorCoords)
+	public ExprNode adjustType(TypeNode targetType, Coords errorCoords)
 	{
 		ExprNode expr = adjustType(targetType);
 

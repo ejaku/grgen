@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

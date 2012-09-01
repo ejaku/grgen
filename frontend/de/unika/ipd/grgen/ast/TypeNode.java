@@ -123,7 +123,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @param t The type to check for.
 	 * @return true, if this and <code>t</code> are of the same type.
 	 */
-	protected boolean isEqual(TypeNode t) {
+	public boolean isEqual(TypeNode t) {
 		return t == this;
 	}
 

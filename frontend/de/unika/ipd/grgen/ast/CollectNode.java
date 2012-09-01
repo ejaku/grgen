@@ -17,6 +17,8 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.containers.*;
+
 /**
  * An AST node that represents a collection of other nodes.
  * children: *:BaseNode

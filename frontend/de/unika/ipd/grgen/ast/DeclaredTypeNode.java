@@ -29,7 +29,7 @@ public abstract class DeclaredTypeNode extends TypeNode
 	 * @return The identifier of the type declaration or an invalid
 	 * identifier, if the type declaration was not set.
 	 */
-	protected IdentNode getIdentNode() {
+	public IdentNode getIdentNode() {
 		return decl != null ? decl.getIdentNode() : IdentNode.getInvalid();
 	}
 

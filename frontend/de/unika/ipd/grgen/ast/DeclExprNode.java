@@ -145,6 +145,11 @@ public class DeclExprNode extends ExprNode {
 		assert isResolved();
 		return (BaseNode)decl;
 	}
+	
+	public boolean isEnumValue() {
+		return declUnresolved instanceof EnumExprNode;
+	}
+
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */
 	protected ExprNode evaluate() {

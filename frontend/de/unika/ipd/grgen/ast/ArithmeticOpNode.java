@@ -16,15 +16,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.MapAddItem;
-import de.unika.ipd.grgen.ir.MapRemoveItem;
+import de.unika.ipd.grgen.ir.containers.MapAddItem;
+import de.unika.ipd.grgen.ir.containers.MapRemoveItem;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.SetAddItem;
-import de.unika.ipd.grgen.ir.SetRemoveItem;
+import de.unika.ipd.grgen.ir.containers.SetAddItem;
+import de.unika.ipd.grgen.ir.containers.SetRemoveItem;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
