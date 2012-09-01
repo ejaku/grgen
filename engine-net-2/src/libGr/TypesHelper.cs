@@ -96,17 +96,23 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         Type keyType;
                         Type valueType;
-                        DictionaryListHelper.GetDictionaryTypes(typeOfVar, out keyType, out valueType);
+                        ContainerHelper.GetDictionaryTypes(typeOfVar, out keyType, out valueType);
                         if(valueType.Name == "SetValueType")
                             return "set<" + DotNetTypeToXgrsType(keyType.Name) + ">";
                         else
                             return "map<" + DotNetTypeToXgrsType(keyType.Name) + "," + DotNetTypeToXgrsType(valueType.Name) + ">";
                     }
-                    else //if(typeOfVar.Name == "List`1")
+                    else if(typeOfVar.Name == "List`1")
                     {
                         Type valueType;
-                        DictionaryListHelper.GetListType(typeOfVar, out valueType);
+                        ContainerHelper.GetListType(typeOfVar, out valueType);
                         return "array<" + DotNetTypeToXgrsType(valueType.Name) + ">";
+                    }
+                    else if(typeOfVar.Name == "Queue`1")
+                    {
+                        Type valueType;
+                        ContainerHelper.GetQueueType(typeOfVar, out valueType);
+                        return "queue<" + DotNetTypeToXgrsType(valueType.Name) + ">";
                     }
                 }
                 return DotNetTypeToXgrsType(type.Name);
@@ -169,6 +175,8 @@ namespace de.unika.ipd.grGen.libGr
                 return "map<" + AttributeTypeToXgrsType(attributeType.KeyType) + "," + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
             case AttributeKind.ArrayAttr:
                 return "array<" + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
+            case AttributeKind.QueueAttr:
+                return "queue<" + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
             case AttributeKind.NodeAttr:
                 return attributeType.TypeName;
             case AttributeKind.EdgeAttr:
@@ -300,17 +308,23 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     Type keyType;
                     Type valueType;
-                    DictionaryListHelper.GetDictionaryTypes(constant, out keyType, out valueType);
+                    ContainerHelper.GetDictionaryTypes(constant, out keyType, out valueType);
                     if(valueType == typeof(de.unika.ipd.grGen.libGr.SetValueType))
                         return "set<" + DotNetTypeToXgrsType(keyType.Name) + ">";
                     else
                         return "map<" + DotNetTypeToXgrsType(keyType.Name) + "," + DotNetTypeToXgrsType(valueType.Name) + ">";
                 }
-                else //if(typeOfVar.Name == "List`1")
+                else if(constant.GetType().Name == "List`1")
                 {
                     Type valueType;
-                    DictionaryListHelper.GetListType(constant.GetType(), out valueType);
+                    ContainerHelper.GetListType(constant.GetType(), out valueType);
                     return "array<" + DotNetTypeToXgrsType(valueType.Name) + ">";
+                }
+                else //if(constant.GetType().Name == "Queue`1")
+                {
+                    Type valueType;
+                    ContainerHelper.GetListType(constant.GetType(), out valueType);
+                    return "queue<" + DotNetTypeToXgrsType(valueType.Name) + ">";
                 }
             }
 
@@ -333,6 +347,12 @@ namespace de.unika.ipd.grGen.libGr
                 return genericType;
             }
             else if(genericType.StartsWith("array<")) // array<srcType>
+            {
+                genericType = genericType.Remove(0, 6);
+                genericType = genericType.Remove(genericType.Length - 1);
+                return genericType;
+            }
+            else if(genericType.StartsWith("queue<")) // queue<srcType>
             {
                 genericType = genericType.Remove(0, 6);
                 genericType = genericType.Remove(genericType.Length - 1);
@@ -364,6 +384,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "int"; // bullshit int return so the type checks testing that src and dst are available don't fail
             }
+            // on queue and the rest:
             return null;
         }
 
@@ -407,6 +428,7 @@ namespace de.unika.ipd.grGen.libGr
             if(type == "boolean") return "bool";
             if(type.StartsWith("set<") || type.StartsWith("map<")) return "Dictionary<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + "," + XgrsTypeToCSharpType(ExtractDst(type), model) + ">";
             if(type.StartsWith("array<")) return "List<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
+            if(type.StartsWith("queue<")) return "Queue<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
             if(type.StartsWith("match<")) return "Rule_" + ExtractSrc(type) + ".IMatch_" + ExtractSrc(type);
             if(type == "SetValueType") return "GRGEN_LIBGR.SetValueType";
             if(type == "graph") return "GRGEN_LIBGR.IGraph"; 
@@ -430,31 +452,36 @@ namespace de.unika.ipd.grGen.libGr
                 if(!xgrsTypeBase.StartsWith("set<")) return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
-            if(xgrsTypeSameOrSub.StartsWith("map<"))
+            else if(xgrsTypeSameOrSub.StartsWith("map<"))
             {
                 if(!xgrsTypeBase.StartsWith("map<")) return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase) && ExtractDst(xgrsTypeSameOrSub) == ExtractDst(xgrsTypeBase);
             }
-            if(xgrsTypeSameOrSub.StartsWith("array<"))
+            else if(xgrsTypeSameOrSub.StartsWith("array<"))
             {
                 if(!xgrsTypeBase.StartsWith("array<")) return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
+            else if(xgrsTypeSameOrSub.StartsWith("queue<"))
+            {
+                if(!xgrsTypeBase.StartsWith("queue<")) return false;
+                return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
+            }
 
-            if(xgrsTypeSameOrSub.StartsWith("match<"))
+            else if(xgrsTypeSameOrSub.StartsWith("match<"))
             {
                 if(!xgrsTypeBase.StartsWith("match<")) return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
 
-            if(xgrsTypeSameOrSub == "short" || xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "long" 
+            else if(xgrsTypeSameOrSub == "short" || xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "long" 
                 || xgrsTypeSameOrSub == "float" || xgrsTypeSameOrSub == "double"
                 || xgrsTypeSameOrSub == "string" || xgrsTypeSameOrSub == "object"
                 || xgrsTypeSameOrSub == "graph")
                 return xgrsTypeSameOrSub==xgrsTypeBase;
-            if (xgrsTypeSameOrSub == "byte" || xgrsTypeSameOrSub == "sbyte")
+            else if (xgrsTypeSameOrSub == "byte" || xgrsTypeSameOrSub == "sbyte")
                 return xgrsTypeBase == "byte" || xgrsTypeBase == "sbyte";
-            if (xgrsTypeSameOrSub == "bool" || xgrsTypeSameOrSub == "boolean")
+            else if (xgrsTypeSameOrSub == "bool" || xgrsTypeSameOrSub == "boolean")
                 return xgrsTypeBase=="bool" || xgrsTypeBase=="boolean";
 
             foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)

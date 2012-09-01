@@ -319,6 +319,7 @@ TOKEN: {
 |   < PARSE: "parse" >
 |   < PARSER: "parser" >
 |   < PWD: "pwd" >
+|   < QUEUE: "queue" >
 |   < QUIT: "quit" >
 |   < RANDOMSEED: "randomseed" >
 |   < RECORD: "record" >
@@ -918,10 +919,10 @@ object Constant():
     |
 		"set" "<" typeName=WordOrText() ">"
 		{
-			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, impl.CurrentGraph.Model);
+			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
 			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
 			if(srcType!=null)
-				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
+				constant = ContainerHelper.NewDictionary(srcType, dstType);
 			if(constant==null)
 				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
 		}
@@ -932,10 +933,10 @@ object Constant():
 	|
 		"map" "<" typeName=WordOrText() "," typeNameDst=WordOrText() ">"
 		{
-			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, impl.CurrentGraph.Model);
-			dstType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeNameDst, impl.CurrentGraph.Model);
+			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
+			dstType = ContainerHelper.GetTypeFromNameForContainer(typeNameDst, impl.CurrentGraph.Model);
 			if(srcType!=null && dstType!=null)
-				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
+				constant = ContainerHelper.NewDictionary(srcType, dstType);
 			if(constant==null)
 				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
 		}
@@ -946,9 +947,9 @@ object Constant():
 	|
 		"array" "<" typeName=WordOrText() ">"
 		{
-			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, impl.CurrentGraph.Model);
+			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
 			if(srcType!=null)
-				constant = DictionaryListHelper.NewList(srcType);
+				constant = ContainerHelper.NewList(srcType);
 			if(constant==null)
 				throw new ParseException("Invalid constant \"array<"+typeName+">\"!");
 		}
@@ -956,6 +957,19 @@ object Constant():
 			( src=SimpleConstant() { ((IList)constant).Add(src); } )?
 				( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
 		"]"
+	|
+		"queue" "<" typeName=WordOrText() ">"
+		{
+			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
+			if(srcType!=null)
+				constant = ContainerHelper.NewQueue(srcType);
+			if(constant==null)
+				throw new ParseException("Invalid constant \"queue<"+typeName+">\"!");
+		}
+		"]"
+			( src=SimpleConstant() { ((Queue)constant).Enqueue(src); } )?
+				( "," src=SimpleConstant() { ((Queue)constant).Enqueue(src); })*
+		"["
 	)
 	{
 		return constant;
@@ -1303,7 +1317,7 @@ void ShellCommand():
 			|
 				")" LineEnd()
 				{
-					impl.SetArrayAdd(elem, str1, obj);
+					impl.SetArrayQueueAdd(elem, str1, obj);
 				}
 			)
 		|
@@ -1311,12 +1325,12 @@ void ShellCommand():
 			(
 				obj=SimpleConstant() ")" LineEnd()
 				{
-					impl.SetMapArrayRemove(elem, str1, obj);
+					impl.SetMapArrayQueueRemove(elem, str1, obj);
 				}
 			|
 				")" LineEnd()
 				{
-					impl.SetMapArrayRemove(elem, str1, null);
+					impl.SetMapArrayQueueRemove(elem, str1, null);
 				}
 			)
 	    )
@@ -1346,6 +1360,12 @@ void ShellCommand():
 				"array" "<" str2=WordOrText() ">"
 				{
 					obj = impl.Askfor("array<"+str2+">");
+					if(obj == null) noError = false;
+				}
+			|
+				"queue" "<" str2=WordOrText() ">"
+				{
+					obj = impl.Askfor("queue<"+str2+">");
 					if(obj == null) noError = false;
 				}
 			) LineEnd()
@@ -1513,6 +1533,14 @@ void AttributeParamValue(ref Param param):
 		}
 		"[" ( value=AttributeValue() { param.Values.Add(value); } )?
 			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "]"
+	| "queue" "<" type=WordOrText() ">"
+		{
+			param.Value = "queue";
+			param.Type = type;
+			param.Values = new ArrayList();
+		}
+		"]" ( value=AttributeValue() { param.Values.Add(value); } )?
+			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "["
 }
 
 //////////////////////

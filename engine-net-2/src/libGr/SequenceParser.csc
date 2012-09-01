@@ -180,6 +180,7 @@ TOKEN: {
 |   < SET: "set" >
 |   < MAP: "map" >
 |   < ARRAY: "array" >
+|   < QUEUE: "queue" >
 |   < MATCH: "match" >
 |   < ARROW: "->" >
 |   < FOR: "for" >
@@ -402,10 +403,10 @@ object Constant():
     |
 		"set" "<" typeName=Word() ">"
 		{
-			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, model);
+			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, model);
 			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
 			if(srcType!=null)
-				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
+				constant = ContainerHelper.NewDictionary(srcType, dstType);
 			if(constant==null)
 				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
 		}
@@ -416,10 +417,10 @@ object Constant():
 	|
 		"map" "<" typeName=Word() "," typeNameDst=Word() ">"
 		{
-			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, model);
-			dstType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeNameDst, model);
+			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, model);
+			dstType = ContainerHelper.GetTypeFromNameForContainer(typeNameDst, model);
 			if(srcType!=null && dstType!=null)
-				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
+				constant = ContainerHelper.NewDictionary(srcType, dstType);
 			if(constant==null)
 				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
 		}
@@ -430,9 +431,9 @@ object Constant():
 	|
 		"array" "<" typeName=Word() ">"
 		{
-			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, model);
+			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, model);
 			if(srcType!=null)
-				constant = DictionaryListHelper.NewList(srcType);
+				constant = ContainerHelper.NewList(srcType);
 			if(constant==null)
 				throw new ParseException("Invalid constant \"array<"+typeName+">\"!");
 		}
@@ -440,6 +441,19 @@ object Constant():
 			( src=SimpleConstant() { ((IList)constant).Add(src); } )?
 				( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
 		"]"
+	|
+		"queue" "<" typeName=Word() ">"
+		{
+			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, model);
+			if(srcType!=null)
+				constant = ContainerHelper.NewQueue(srcType);
+			if(constant==null)
+				throw new ParseException("Invalid constant \"queue<"+typeName+">\"!");
+		}
+		"]"
+			( src=SimpleConstant() { ((Queue)constant).Enqueue(src); } )?
+				( "," src=SimpleConstant() { ((Queue)constant).Enqueue(src); })*
+		"["
 	)
 	{
 		return constant;
@@ -577,6 +591,8 @@ String Type():
 		("{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
 	| LOOKAHEAD("array" "<" Word() ">") "array" "<" typeParam=Word() ">" { type = "array<"+typeParam+">"; }
 		(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
+	| LOOKAHEAD("queue" "<" Word() ">") "queue" "<" typeParam=Word() ">" { type = "queue<"+typeParam+">"; }
+		(LOOKAHEAD(2) "]" { throw new ParseException("no ][ allowed at queue declaration, use q:queue<T> = queue<T>][ for initialization"); })?
 	// for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
 	| LOOKAHEAD("set" "<" Word() ">=") "set" "<" typeParam=Word() { type = "set<"+typeParam+">"; }
 		("{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
@@ -584,6 +600,8 @@ String Type():
 		("{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
 	| LOOKAHEAD("array" "<" Word() ">=") "array" "<" typeParam=Word() { type = "array<"+typeParam+">"; }
 		(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
+	| LOOKAHEAD("queue" "<" Word() ">=") "queue" "<" typeParam=Word() { type = "queue<"+typeParam+">"; }
+		(LOOKAHEAD(2) "]" { throw new ParseException("no ][ allowed at array declaration, use q:queue<T> = queue<T>][ for initialization"); })?
 	// the match type exists only for the loop variable of the for matches loop
 	| LOOKAHEAD("match" "<" Word() ">") "match" "<" typeParam=Word() ">" { type = "match<"+typeParam+">"; }	
 	)
@@ -1052,7 +1070,7 @@ SequenceComputation Computation():
 {
 	// this is a special case of the special case solution to accept e.g. s:set<int>= as s:set<int> = and not s:set<int >= which is what the lexer gives
 	// it is not correct, I just assume that one doesn't want to compare a just defined but not assigned variable to something, 
-	// so it's pretty safe to assume it's a set/map/array declaration with the ">=" != ">""=" issue
+	// so it's pretty safe to assume it's a set/map/array/queue declaration with the ">=" != ">""=" issue
 	LOOKAHEAD(VariableDefinition() ">=")
 	toVar=VariableDefinition() ">=" assignOrExpr=ExpressionOrAssignment()
 	{
@@ -1432,10 +1450,10 @@ SequenceComputation MethodCall():
 	fromVar=VariableUse() "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
 	{
 		if(method=="add") {
-			if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,array end) or 2(for map,array with index) parameters)");
+			if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,queue,array end) or 2(for map,array with index) parameters)");
 			return new SequenceComputationContainerAdd(fromVar, fromExpr2, fromExpr3);
 		} else if(method=="rem") {
-			if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for array end) parameters )");
+			if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for queue,array end) parameters )");
 			return new SequenceComputationContainerRem(fromVar, fromExpr2);
 		} else if(method=="clear") {
 			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
@@ -1450,7 +1468,7 @@ SequenceComputation MethodCall():
 			if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1 parameter)");
 			return new SequenceExpressionContainerPeek(fromVar, fromExpr2);
 		} else {
-			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty|peek as expressions on set/map/array)");
+			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty|peek as expressions on set/map/array/queue)");
 		}
     }
 }
@@ -1466,11 +1484,11 @@ SequenceComputation MethodCallRepeated():
 	( "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
 		{
 			if(method=="add") {
-				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,array end) or 2(for map,array with index) parameters)");
+				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,queue,array end) or 2(for map,array with index) parameters)");
 				methodCall = new SequenceComputationContainerAdd(methodCall, fromExpr2, fromExpr3);
 				fromExpr2 = null; fromExpr3 = null;
 			} else if(method=="rem") {
-				if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for array end) parameters )");
+				if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for queue,array end) parameters )");
 				methodCall = new SequenceComputationContainerRem(methodCall, fromExpr2);
 				fromExpr2 = null;
 			} else if(method=="clear") {
@@ -1486,7 +1504,7 @@ SequenceComputation MethodCallRepeated():
 				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1 parameter)");
 				return new SequenceExpressionContainerPeek(methodCall, fromExpr2);
 			} else {
-				throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty|peek as expressions on set/map/array)");
+				throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty|peek as expressions on set/map/array/queue)");
 			}
 		}
 	)*
@@ -1497,8 +1515,8 @@ void RuleLookahead():
 {
 }
 {
-	("(" ( Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">"))? | "::" Word() ) 
-			("," ( Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">"))? | "::" Word() ) )* ")" "=")?
+	("(" ( Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">" | "queue" "<" Word() ">"))? | "::" Word() ) 
+			("," ( Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">" | "queue" "<" Word() ">"))? | "::" Word() ) )* ")" "=")?
 	(
 	    ( "$" ("%")? ( Variable() ("," (Variable() | "*"))? )? )? "["
 	|

@@ -156,9 +156,9 @@ namespace de.unika.ipd.grGen.lgsp
                 else // Assign
                 {
                     Type keyType, valueType;
-                    IDictionary dict = DictionaryListHelper.GetDictionaryTypes(
+                    IDictionary dict = ContainerHelper.GetDictionaryTypes(
                         _elem.GetAttribute(_attrType.Name), out keyType, out valueType);
-                    IDictionary clonedDict = DictionaryListHelper.NewDictionary(keyType, valueType, dict);
+                    IDictionary clonedDict = ContainerHelper.NewDictionary(keyType, valueType, dict);
                     _undoOperation = UndoOperation.Assign;
                     _value = clonedDict;
                 }
@@ -195,9 +195,9 @@ namespace de.unika.ipd.grGen.lgsp
                 else // Assign
                 {
                     Type valueType;
-                    IList array = DictionaryListHelper.GetListType(
+                    IList array = ContainerHelper.GetListType(
                         _elem.GetAttribute(_attrType.Name), out valueType);
-                    IList clonedArray = DictionaryListHelper.NewList(valueType, array);
+                    IList clonedArray = ContainerHelper.NewList(valueType, array);
                     _undoOperation = UndoOperation.Assign;
                     _value = clonedArray;
                 }
@@ -258,9 +258,9 @@ namespace de.unika.ipd.grGen.lgsp
                 else // Assign
                 {
                     Type keyType, valueType;
-                    IDictionary dict = DictionaryListHelper.GetDictionaryTypes(
+                    IDictionary dict = ContainerHelper.GetDictionaryTypes(
                         _elem.GetAttribute(_attrType.Name), out keyType, out valueType);
-                    IDictionary clonedDict = DictionaryListHelper.NewDictionary(keyType, valueType, dict);
+                    IDictionary clonedDict = ContainerHelper.NewDictionary(keyType, valueType, dict);
                     _undoOperation = UndoOperation.Assign;
                     _value = clonedDict;
                 }

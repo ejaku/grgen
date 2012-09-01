@@ -1804,6 +1804,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     IDictionary setmap = null;
                     IList array = null;
+                    Queue queue = null;
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
@@ -1811,8 +1812,8 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
                             throw new Exception("Set literal expected");
                         }
-                        setmap = DictionaryListHelper.NewDictionary(
-                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellProcEnv.Graph),
+                        setmap = ContainerHelper.NewDictionary(
+                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.Graph),
                             typeof(de.unika.ipd.grGen.libGr.SetValueType));
                         foreach(object val in par.Values)
                         {
@@ -1825,9 +1826,9 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
                             throw new Exception("Map literal expected");
                         }
-                        setmap = DictionaryListHelper.NewDictionary(
-                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellProcEnv.Graph),
-                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.TgtType, curShellProcEnv.Graph));
+                        setmap = ContainerHelper.NewDictionary(
+                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.Graph),
+                            ContainerHelper.GetTypeFromNameForContainer(par.TgtType, curShellProcEnv.Graph));
                         IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
                         foreach(object val in par.Values)
                         {
@@ -1842,13 +1843,27 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("Attribute \"{0}\" must be an array constructor!", par.Key);
                             throw new Exception("Array literal expected");
                         }
-                        array = DictionaryListHelper.NewList(
-                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellProcEnv.Graph));
+                        array = ContainerHelper.NewList(
+                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.Graph));
                         foreach(object val in par.Values)
                         {
                             array.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
                         }
                         value = array;
+                        break;
+                    case AttributeKind.QueueAttr:
+                        if(par.Value != "queue")
+                        {
+                            errOut.WriteLine("Attribute \"{0}\" must be a queue constructor!", par.Key);
+                            throw new Exception("Queue literal expected");
+                        }
+                        queue = ContainerHelper.NewQueue(
+                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.Graph));
+                        foreach(object val in par.Values)
+                        {
+                            queue.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
+                        }
+                        value = queue;
                         break;
                     default:
                         value = ParseAttributeValue(attrType, par.Value, par.Key);
@@ -1878,6 +1893,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     IDictionary setmap = null;
                     IList array = null;
+                    Queue queue = null;
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
@@ -1885,8 +1901,8 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
                             throw new Exception("Set literal expected");
                         }
-                        setmap = DictionaryListHelper.NewDictionary(
-                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellProcEnv.Graph),
+                        setmap = ContainerHelper.NewDictionary(
+                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.Graph),
                             typeof(de.unika.ipd.grGen.libGr.SetValueType));
                         foreach(object val in par.Values)
                         {
@@ -1899,9 +1915,9 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
                             throw new Exception("Map literal expected");
                         }
-                        setmap = DictionaryListHelper.NewDictionary(
-                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellProcEnv.Graph),
-                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.TgtType, curShellProcEnv.Graph));
+                        setmap = ContainerHelper.NewDictionary(
+                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.Graph),
+                            ContainerHelper.GetTypeFromNameForContainer(par.TgtType, curShellProcEnv.Graph));
                         IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
                         foreach(object val in par.Values)
                         {
@@ -1916,13 +1932,27 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("Attribute \"{0}\" must be an array constructor!", par.Key);
                             throw new Exception("Array literal expected");
                         }
-                        array = DictionaryListHelper.NewList(
-                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellProcEnv.Graph));
+                        array = ContainerHelper.NewList(
+                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.Graph));
                         foreach(object val in par.Values)
                         {
                             array.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
                         }
                         value = array;
+                        break;
+                    case AttributeKind.QueueAttr:
+                        if(par.Value != "queue")
+                        {
+                            errOut.WriteLine("Attribute \"{0}\" must be a queue constructor!", par.Key);
+                            throw new Exception("Queue literal expected");
+                        }
+                        queue = ContainerHelper.NewQueue(
+                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.Graph));
+                        foreach(object val in par.Values)
+                        {
+                            queue.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
+                        }
+                        value = queue;
                         break;
                     default:
                         value = ParseAttributeValue(attrType, par.Value, par.Key);
@@ -2465,7 +2495,7 @@ namespace de.unika.ipd.grGen.grShell
             if (attrType.Kind == AttributeKind.MapAttr)
             {
                 Type keyType, valueType;
-                IDictionary dict = DictionaryListHelper.GetDictionaryTypes(
+                IDictionary dict = ContainerHelper.GetDictionaryTypes(
                     elem.GetAttribute(attributeName), out keyType, out valueType);
                 debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"{");
                 bool first = true;
@@ -2482,7 +2512,7 @@ namespace de.unika.ipd.grGen.grShell
             else if (attrType.Kind == AttributeKind.SetAttr)
             {
                 Type keyType, valueType;
-                IDictionary dict = DictionaryListHelper.GetDictionaryTypes(
+                IDictionary dict = ContainerHelper.GetDictionaryTypes(
                     elem.GetAttribute(attributeName), out keyType, out valueType);
                 debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"{");
                 bool first = true;
@@ -2499,7 +2529,7 @@ namespace de.unika.ipd.grGen.grShell
             else if (attrType.Kind == AttributeKind.ArrayAttr)
             {
                 Type valueType;
-                IList array = DictionaryListHelper.GetListType(
+                IList array = ContainerHelper.GetListType(
                     elem.GetAttribute(attributeName), out valueType);
                 debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"[");
                 bool first = true;
@@ -2512,6 +2542,23 @@ namespace de.unika.ipd.grGen.grShell
                     debugOut.Write(entry);
                 }
                 debugOut.WriteLine("]\".");
+            }
+            else if (attrType.Kind == AttributeKind.QueueAttr)
+            {
+                Type valueType;
+                Queue queue = ContainerHelper.GetQueueType(
+                    elem.GetAttribute(attributeName), out valueType);
+                debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"]");
+                bool first = true;
+                foreach (Object entry in queue)
+                {
+                    if (first)
+                        first = false;
+                    else
+                        debugOut.Write(", ");
+                    debugOut.Write(entry);
+                }
+                debugOut.WriteLine("[\".");
             }
             else
             {
@@ -2528,33 +2575,40 @@ namespace de.unika.ipd.grGen.grShell
                 string content;
                 if(val.GetType().Name=="Dictionary`2")
                 {
-                    DictionaryListHelper.ToString((IDictionary)val, out type, out content,
+                    ContainerHelper.ToString((IDictionary)val, out type, out content,
                         null, curShellProcEnv!=null ? curShellProcEnv.Graph : null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
-                if(val.GetType().Name == "List`1")
+                else if(val.GetType().Name == "List`1")
                 {
-                    DictionaryListHelper.ToString((IList)val, out type, out content,
+                    ContainerHelper.ToString((IList)val, out type, out content,
                         null, curShellProcEnv != null ? curShellProcEnv.Graph : null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
-                if(val is LGSPNode && GraphExists())
+                else if(val.GetType().Name == "Queue`1")
+                {
+                    ContainerHelper.ToString((Queue)val, out type, out content,
+                        null, curShellProcEnv != null ? curShellProcEnv.Graph : null);
+                    debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
+                    return;
+                }
+                else if(val is LGSPNode && GraphExists())
                 {
                     LGSPNode node = (LGSPNode)val;
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + node.Type.Name + " is: \"" + curShellProcEnv.Graph.GetElementName((IGraphElement)val) + "\"");
                     //ShowElementAttributes((IGraphElement)val);
                     return;
                 }
-                if(val is LGSPEdge && GraphExists())
+                else if(val is LGSPEdge && GraphExists())
                 {
                     LGSPEdge edge = (LGSPEdge)val;
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + edge.Type.Name + " is: \"" + curShellProcEnv.Graph.GetElementName((IGraphElement)val) + "\"");
                     //ShowElementAttributes((IGraphElement)val);
                     return;
                 }
-                DictionaryListHelper.ToString(val, out type, out content,
+                ContainerHelper.ToString(val, out type, out content,
                     null, curShellProcEnv!=null ? curShellProcEnv.Graph : null);
                 debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                 return;
@@ -3756,7 +3810,7 @@ showavail:
         }
         #endregion "dump" commands
 
-        #region "setmaparray" commands
+        #region "container" commands
 
         public object GetAttribute(IGraphElement elem, String attrName)
         {
@@ -3766,7 +3820,7 @@ showavail:
             return elem.GetAttribute(attrName);
         }
 
-        public void SetArrayAdd(IGraphElement elem, String attrName, object keyObj)
+        public void SetArrayQueueAdd(IGraphElement elem, String attrName, object keyObj)
         {
             object attr = GetAttribute(elem, attrName);
             if(attr == null)
@@ -3775,7 +3829,7 @@ showavail:
             if(attr is IDictionary)
             {
                 Type keyType, valueType;
-                IDictionary dict = DictionaryListHelper.GetDictionaryTypes(attr, out keyType, out valueType);
+                IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
                 if(dict == null)
                 {
                     errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a set.");
@@ -3803,7 +3857,7 @@ showavail:
             else if(attr is IList)
             {
                 Type valueType;
-                IList array = DictionaryListHelper.GetListType(attr, out valueType);
+                IList array = ContainerHelper.GetListType(attr, out valueType);
                 if(array == null)
                 {
                     errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not an array.");
@@ -3823,9 +3877,32 @@ showavail:
                     curShellProcEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
                 array.Add(keyObj);
             }
+            else if(attr is Queue)
+            {
+                Type valueType;
+                Queue queue = ContainerHelper.GetQueueType(attr, out valueType);
+                if(queue == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a queue.");
+                    return;
+                }
+                if(valueType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Queue type must be " + valueType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellProcEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
+                else
+                    curShellProcEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+                queue.Enqueue(keyObj);
+            }
             else
             {
-                errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is neither a set nor an array.");
+                errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is neither a set nor an array nor a queue.");
             }
         }
 
@@ -3838,7 +3915,7 @@ showavail:
             if(attr is IDictionary)
             {
                 Type keyType, valueType;
-                IDictionary dict = DictionaryListHelper.GetDictionaryTypes(attr, out keyType, out valueType);
+                IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
                 if(dict == null)
                 {
                     errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a map.");
@@ -3866,7 +3943,7 @@ showavail:
             else if(attr is IList)
             {
                 Type valueType;
-                IList array = DictionaryListHelper.GetListType(attr, out valueType);
+                IList array = ContainerHelper.GetListType(attr, out valueType);
                 if(array == null)
                 {
                     errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not an array.");
@@ -3897,7 +3974,7 @@ showavail:
             }
         }
 
-        public void SetMapArrayRemove(IGraphElement elem, String attrName, object keyObj)
+        public void SetMapArrayQueueRemove(IGraphElement elem, String attrName, object keyObj)
         {
             object attr = GetAttribute(elem, attrName);
             if(attr == null)
@@ -3906,7 +3983,7 @@ showavail:
             if(attr is IDictionary)
             {
                 Type keyType, valueType;
-                IDictionary dict = DictionaryListHelper.GetDictionaryTypes(attr, out keyType, out valueType);
+                IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
                 if (dict == null) {
                     errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a set/map.");
                     return;
@@ -3928,7 +4005,7 @@ showavail:
             else if(attr is IList)
             {
                 Type valueType;
-                IList array = DictionaryListHelper.GetListType(attr, out valueType);
+                IList array = ContainerHelper.GetListType(attr, out valueType);
                 if(array == null)
                 {
                     errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not an array.");
@@ -3951,13 +4028,31 @@ showavail:
                 else
                     array.RemoveAt(array.Count - 1);
             }
+            else if(attr is Queue)
+            {
+                Type valueType;
+                Queue queue = ContainerHelper.GetQueueType(attr, out valueType);
+                if(queue == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a queue.");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
+                if(elem is INode)
+                    curShellProcEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, null);
+                else
+                    curShellProcEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, null);
+                queue.Dequeue();
+            }
             else
             {
                 errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is neither a map nor a set nor an array.");
             }
         }
 
-        #endregion "setmaparray" commands
+        #endregion "container" commands
 
         private String StringToTextToken(String str)
         {

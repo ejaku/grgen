@@ -240,6 +240,17 @@ PARSER_BEGIN(GRSImporter)
 					graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, index);
 				array[(int)index] = value;
 			}
+			else if(attrType.Kind == AttributeKind.QueueAttr)
+			{
+				Queue queue = (Queue)elem.GetAttribute(attr);
+				object value = ParseAttributeValue(attrType.ValueType, val);
+				AttributeChangeType changeType = AttributeChangeType.AssignElement;
+				if (elem is INode)
+					graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
+				else
+					graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
+				queue.Enqueue(value);
+			}
 			else
 			{
 				IDictionary setmap = (IDictionary)elem.GetAttribute(attr);
@@ -340,7 +351,7 @@ PARSER_BEGIN(GRSImporter)
 				return value;
 		}
 
-		private object ParseAttributeValue(AttributeType attrType, String valueString) // not set/map/array
+		private object ParseAttributeValue(AttributeType attrType, String valueString) // not set/map/array/queue
         {
             object value = null;
             if(attrType.Kind==AttributeKind.EnumAttr)
@@ -374,12 +385,13 @@ PARSER_BEGIN(GRSImporter)
                 object value = null;
                 IDictionary setmap = null;
 				IList array = null;
+				Queue queue = null;
                 switch(attrType.Kind)
                 {
                 case AttributeKind.SetAttr:
 	                if(par.Value!="set") throw new Exception("Set literal expected");
-	                setmap = DictionaryListHelper.NewDictionary(
-	                    DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, graph),
+	                setmap = ContainerHelper.NewDictionary(
+	                    ContainerHelper.GetTypeFromNameForContainer(par.Type, graph),
 	                    typeof(de.unika.ipd.grGen.libGr.SetValueType));
 	                foreach(object val in par.Values)
 	                {
@@ -389,9 +401,9 @@ PARSER_BEGIN(GRSImporter)
 	                break;
                 case AttributeKind.MapAttr:
    	                if(par.Value!="map") throw new Exception("Map literal expected");
-	                setmap = DictionaryListHelper.NewDictionary(
-	                    DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, graph),
-	                    DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.TgtType, graph));
+	                setmap = ContainerHelper.NewDictionary(
+	                    ContainerHelper.GetTypeFromNameForContainer(par.Type, graph),
+	                    ContainerHelper.GetTypeFromNameForContainer(par.TgtType, graph));
 	                IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
 	                foreach(object val in par.Values)
 	                {
@@ -403,13 +415,23 @@ PARSER_BEGIN(GRSImporter)
 	                break;
 				case AttributeKind.ArrayAttr:
 					if(par.Value!="array") throw new Exception("Array literal expected");
-					array = DictionaryListHelper.NewList(
-						DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, graph));
+					array = ContainerHelper.NewList(
+						ContainerHelper.GetTypeFromNameForContainer(par.Type, graph));
 					foreach(object val in par.Values)
 					{
 						array.Add( ParseAttributeValue(attrType.ValueType, (String)val) );
 					}
 					value = array;
+					break;
+				case AttributeKind.QueueAttr:
+					if(par.Value!="queue") throw new Exception("Queue literal expected");
+					queue = ContainerHelper.NewQueue(
+						ContainerHelper.GetTypeFromNameForContainer(par.Type, graph));
+					foreach(object val in par.Values)
+					{
+						queue.Enqueue( ParseAttributeValue(attrType.ValueType, (String)val) );
+					}
+					value = queue;
 					break;
 				default:
 					value = ParseAttributeValue(attrType, par.Value);
@@ -461,12 +483,12 @@ TOKEN: {
     < FALSE: "false" >
 |   < GRAPH: "graph" >
 |   < NEW: "new" >
-|   < NODE: "node" >
 |   < NULL: "null" >
 |   < TRUE: "true" >
 |   < SET: "set" >
 |   < MAP: "map" >
 |   < ARRAY: "array" >
+|   < QUEUE: "queue" >
 }
 
 TOKEN: {

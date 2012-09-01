@@ -293,7 +293,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(procEnv);
             AttributeType attrType;
-            value = DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
+            value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
                 elem, AttributeName, value, out attrType);
             AttributeChangeType changeType = AttributeChangeType.Assign;
             if(elem is INode)

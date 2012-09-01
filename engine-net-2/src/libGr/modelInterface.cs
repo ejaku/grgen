@@ -313,6 +313,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>The attribute is an array.</summary>
         ArrayAttr,
 
+        /// <summary>The attribute is a queue.</summary>
+        QueueAttr,
+
         /// <summary>The attribute is a node (only valid for set/map/array key/value type).</summary>
         NodeAttr,
 
@@ -352,6 +355,7 @@ namespace de.unika.ipd.grGen.libGr
         /// The attribute type of the value of the set, if Kind == AttributeKind.SetAttr.
         /// The attribute type of the value of the map, if Kind == AttributeKind.MapAttr.
         /// The attribute type of the value of the array, if Kind == AttributeKind.ArrayAttr.
+        /// The attribute type of the value of the queue, if Kind == AttributeKind.QueueAttr.
         /// Undefined otherwise.
         /// </summary>
         public readonly AttributeType ValueType;
@@ -432,9 +436,10 @@ namespace de.unika.ipd.grGen.libGr
             switch(Kind)
             {
                 case AttributeKind.EnumAttr: return EnumType.Name;
+                case AttributeKind.MapAttr: return "map<" + KeyType.GetKindName() + "," + ValueType.GetKindName() + ">";
                 case AttributeKind.SetAttr: return "set<" + ValueType.GetKindName() + ">";
                 case AttributeKind.ArrayAttr: return "array<" + ValueType.GetKindName() + ">";
-                case AttributeKind.MapAttr: return "map<" + KeyType.GetKindName() + "," + ValueType.GetKindName() + ">";
+                case AttributeKind.QueueAttr: return "queue<" + ValueType.GetKindName() + ">";
                 case AttributeKind.NodeAttr: return TypeName;
                 case AttributeKind.EdgeAttr: return TypeName;
             }

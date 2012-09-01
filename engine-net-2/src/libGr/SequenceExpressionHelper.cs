@@ -372,15 +372,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return DictionaryListHelper.EqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.EqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return DictionaryListHelper.EqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.EqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return DictionaryListHelper.EqualIList((IList)leftValue, (IList)rightValue);
+                return ContainerHelper.EqualIList((IList)leftValue, (IList)rightValue);
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return ContainerHelper.EqualQueue((Queue)leftValue, (Queue)rightValue);
             }
             else
             {
@@ -427,15 +431,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.EqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.EqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.EqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.EqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.EqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.EqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return "GRGEN_LIBGR.ContainerHelper.EqualQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
             }
             else
             {
@@ -796,15 +804,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return DictionaryListHelper.NotEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.NotEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return DictionaryListHelper.NotEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.NotEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return DictionaryListHelper.NotEqualIList((IList)leftValue, (IList)rightValue);
+                return ContainerHelper.NotEqualIList((IList)leftValue, (IList)rightValue);
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return ContainerHelper.NotEqualQueue((Queue)leftValue, (Queue)rightValue);
             }
             else
             {
@@ -851,15 +863,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.NotEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.NotEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.NotEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.NotEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.NotEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.NotEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return "GRGEN_LIBGR.ContainerHelper.NotEqualQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
             }
             else
             {
@@ -1204,15 +1220,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return DictionaryListHelper.LessThanIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.LessThanIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return DictionaryListHelper.LessThanIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.LessThanIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return DictionaryListHelper.LessThanIList((IList)leftValue, (IList)rightValue);
+                return ContainerHelper.LessThanIList((IList)leftValue, (IList)rightValue);
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return ContainerHelper.LessThanQueue((Queue)leftValue, (Queue)rightValue);
             }
 
             throw new Exception("Invalid types for <");
@@ -1241,15 +1261,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.LessThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.LessThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.LessThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.LessThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.LessThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.LessThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return "GRGEN_LIBGR.ContainerHelper.LessThanQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
             }
 
             return null;
@@ -1592,15 +1616,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return DictionaryListHelper.GreaterThanIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.GreaterThanIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return DictionaryListHelper.GreaterThanIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.GreaterThanIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return DictionaryListHelper.GreaterThanIList((IList)leftValue, (IList)rightValue);
+                return ContainerHelper.GreaterThanIList((IList)leftValue, (IList)rightValue);
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return ContainerHelper.GreaterThanQueue((Queue)leftValue, (Queue)rightValue);
             }
 
             throw new Exception("Invalid types for >");
@@ -1629,15 +1657,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.GreaterThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.GreaterThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.GreaterThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.GreaterThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.GreaterThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.GreaterThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return "GRGEN_LIBGR.ContainerHelper.GreaterThanQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
             }
 
             return null;
@@ -1980,15 +2012,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return DictionaryListHelper.LessOrEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.LessOrEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return DictionaryListHelper.LessOrEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.LessOrEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return DictionaryListHelper.LessOrEqualIList((IList)leftValue, (IList)rightValue);
+                return ContainerHelper.LessOrEqualIList((IList)leftValue, (IList)rightValue);
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return ContainerHelper.LessOrEqualQueue((Queue)leftValue, (Queue)rightValue);
             }
 
             throw new Exception("Invalid types for <=");
@@ -2017,15 +2053,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.LessOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.LessOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.LessOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.LessOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.LessOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.LessOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return "GRGEN_LIBGR.ContainerHelper.LessOrEqualQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
             }
 
             return null;
@@ -2368,15 +2408,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return DictionaryListHelper.GreaterOrEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.GreaterOrEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return DictionaryListHelper.GreaterOrEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
+                return ContainerHelper.GreaterOrEqualIDictionary((IDictionary)leftValue, (IDictionary)rightValue);
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return DictionaryListHelper.GreaterOrEqualIList((IList)leftValue, (IList)rightValue);
+                return ContainerHelper.GreaterOrEqualIList((IList)leftValue, (IList)rightValue);
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return ContainerHelper.GreaterOrEqualQueue((Queue)leftValue, (Queue)rightValue);
             }
 
             throw new Exception("Invalid types for >=");
@@ -2405,15 +2449,19 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType.StartsWith("set<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.GreaterOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("map<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.GreaterOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.GreaterOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
             }
 
             return null;
@@ -2769,33 +2817,41 @@ namespace de.unika.ipd.grGen.libGr
                 if(leftType == "string")
                 {
                     if(rightType.StartsWith("set<"))
-                        return (string)leftValue + DictionaryListHelper.ToString((IDictionary)rightValue, graph);
+                        return (string)leftValue + ContainerHelper.ToString((IDictionary)rightValue, graph);
                     else if(rightType.StartsWith("map<"))
-                        return (string)leftValue + DictionaryListHelper.ToString((IDictionary)rightValue, graph);
+                        return (string)leftValue + ContainerHelper.ToString((IDictionary)rightValue, graph);
                     else if(rightType.StartsWith("array<"))
-                        return (string)leftValue + DictionaryListHelper.ToString((IList)rightValue, graph);
+                        return (string)leftValue + ContainerHelper.ToString((IList)rightValue, graph);
+                    else if(rightType.StartsWith("queue<"))
+                        return (string)leftValue + ContainerHelper.ToString((Queue)rightValue, graph);
                     else if(rightType == "string")
                         return (string)leftValue + (string)rightValue;
                     else
-                        return (string)leftValue + DictionaryListHelper.ToString(rightValue, graph);
+                        return (string)leftValue + ContainerHelper.ToString(rightValue, graph);
                 }
                 else //rightType == "string"
                 {
                     if(leftType.StartsWith("set<"))
-                        return DictionaryListHelper.ToString((IDictionary)leftValue, graph) + (string)rightValue;
+                        return ContainerHelper.ToString((IDictionary)leftValue, graph) + (string)rightValue;
                     else if(leftType.StartsWith("map<"))
-                        return DictionaryListHelper.ToString((IDictionary)leftValue, graph) + (string)rightValue;
+                        return ContainerHelper.ToString((IDictionary)leftValue, graph) + (string)rightValue;
                     else if(leftType.StartsWith("array<"))
-                        return DictionaryListHelper.ToString((IList)leftValue, graph) + (string)rightValue;
+                        return ContainerHelper.ToString((IList)leftValue, graph) + (string)rightValue;
+                    else if(leftType.StartsWith("queue<"))
+                        return ContainerHelper.ToString((Queue)leftValue, graph) + (string)rightValue;
                     else if(leftType == "string")
                         return (string)leftValue + (string)rightValue;
                     else
-                        return DictionaryListHelper.ToString(leftValue, graph) + (string)rightValue;
+                        return ContainerHelper.ToString(leftValue, graph) + (string)rightValue;
                 }
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return DictionaryListHelper.ConcatenateIList((IList)leftValue, (IList)rightValue);
+                return ContainerHelper.ConcatenateIList((IList)leftValue, (IList)rightValue);
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return ContainerHelper.ConcatenateQueue((Queue)leftValue, (Queue)rightValue);
             }
 
             throw new Exception("Invalid types for +");
@@ -2827,33 +2883,41 @@ namespace de.unika.ipd.grGen.libGr
                 if(leftType == "string")
                 {
                     if(rightType.StartsWith("set<"))
-                        return "("+leftValue+" + GRGEN_LIBGR.DictionaryListHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.ContainerHelper.ToString("+rightValue+", graph))";
                     else if(rightType.StartsWith("map<"))
-                        return "("+leftValue+" + GRGEN_LIBGR.DictionaryListHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.ContainerHelper.ToString("+rightValue+", graph))";
                     else if(rightType.StartsWith("array<"))
-                        return "("+leftValue+" + GRGEN_LIBGR.DictionaryListHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.ContainerHelper.ToString("+rightValue+", graph))";
+                    else if(rightType.StartsWith("queue<"))
+                        return "(" + leftValue + " + GRGEN_LIBGR.ContainerHelper.ToString(" + rightValue + ", graph))";
                     else if(rightType == "string")
                         return "("+leftValue+" + "+rightValue+")";
                     else
-                        return "("+leftValue+" + GRGEN_LIBGR.DictionaryListHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.ContainerHelper.ToString("+rightValue+", graph))";
                 }
                 else //rightType == "string"
                 {
                     if(leftType.StartsWith("set<"))
-                        return "(GRGEN_LIBGR.DictionaryListHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.ContainerHelper.ToString("+leftValue+", graph) + "+rightValue+")";
                     else if(leftType.StartsWith("map<"))
-                        return "(GRGEN_LIBGR.DictionaryListHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.ContainerHelper.ToString("+leftValue+", graph) + "+rightValue+")";
                     else if(leftType.StartsWith("array<"))
-                        return "(GRGEN_LIBGR.DictionaryListHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.ContainerHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                    else if(leftType.StartsWith("queue<"))
+                        return "(GRGEN_LIBGR.ContainerHelper.ToString(" + leftValue + ", graph) + " + rightValue + ")";
                     else if(leftType == "string")
                         return "("+leftValue+" + "+rightValue+")";
                     else
-                        return "(GRGEN_LIBGR.DictionaryListHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.ContainerHelper.ToString("+leftValue+", graph) + "+rightValue+")";
                 }
             }
             else if(balancedType.StartsWith("array<"))
             {
-                return "GRGEN_LIBGR.DictionaryListHelper.ConcatenateIList((IList)"+leftValue+", (IList)"+rightValue+")";
+                return "GRGEN_LIBGR.ContainerHelper.ConcatenateIList((IList)"+leftValue+", (IList)"+rightValue+")";
+            }
+            else if(balancedType.StartsWith("queue<"))
+            {
+                return "GRGEN_LIBGR.ContainerHelper.ConcatenateQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
             }
 
             return null;
@@ -2939,8 +3003,11 @@ namespace de.unika.ipd.grGen.libGr
                     result = BalanceArithmetic(left, right, model);
                     if(result == "-")
                     {
-                        if(left == right && (left.StartsWith("set<") || left.StartsWith("map<") || left.StartsWith("array<")))
+                        if(left == right && (left.StartsWith("set<") || left.StartsWith("map<")
+                            || left.StartsWith("array<") || left.StartsWith("queue<")))
+                        {
                             return left;
+                        }
                         else return "-";
                     }
                     return result;
@@ -2957,7 +3024,7 @@ namespace de.unika.ipd.grGen.libGr
                         if(result == "") return "";
                         if(result == "-")
                         {
-                            if(left == right && left.StartsWith("array<"))
+                            if(left == right && (left.StartsWith("array<") || left.StartsWith("queue<")))
                                 return left;
                             else return "-";
                         }

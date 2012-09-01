@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.libGr
 {
-    public static class DictionaryListHelper
+    public static class ContainerHelper
     {
         /// <summary>
         /// If dict is dictionary, the dictionary is returned together with its key and value type
@@ -55,6 +55,24 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// If queue is Queue, the Queue is returned together with its value type
+        /// </summary>
+        /// <param name="queue">The object which should be a Queue</param>
+        /// <param name="valueType">The value type of the Queue</param>
+        /// <returns>The casted input Queue, or null if not a Queue</returns>
+        public static Queue GetQueueType(object queue, out Type valueType)
+        {
+            if(!(queue is Queue))
+            {
+                valueType = null;
+                return null;
+            }
+            Type queueType = queue.GetType();
+            GetQueueType(queueType, out valueType);
+            return (Queue)queue;
+        }
+
+        /// <summary>
         /// The key and value types are returned of the dictionary
         /// </summary>
         /// <param name="dictType">The dictionary type</param>
@@ -71,7 +89,7 @@ namespace de.unika.ipd.grGen.libGr
         /// The value type of the List is returned
         /// </summary>
         /// <param name="arrayType">The List type</param>
-        /// <param name="valueType">The value type of the dictionary</param>
+        /// <param name="valueType">The value type of the List</param>
         public static void GetListType(Type arrayType, out Type valueType)
         {
             Type[] arrayTypeArgs = arrayType.GetGenericArguments();
@@ -79,23 +97,34 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns type object for type name string, to be used for dictionary or List
+        /// The value type of the Queue is returned
+        /// </summary>
+        /// <param name="queueType">The Queue type</param>
+        /// <param name="valueType">The value type of the Queue</param>
+        public static void GetQueueType(Type queueType, out Type valueType)
+        {
+            Type[] queueTypeArgs = queueType.GetGenericArguments();
+            valueType = queueTypeArgs[0];
+        }
+
+        /// <summary>
+        /// Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Queue
         /// </summary>
         /// <param name="typeName">Name of the type we want some type object for</param>
         /// <param name="graph">Graph to be search for enum,node,edge types / enum,node/edge type names</param>
         /// <returns>The type object corresponding to the given string, null if type was not found</returns>
-        public static Type GetTypeFromNameForDictionaryOrList(String typeName, IGraph graph)
+        public static Type GetTypeFromNameForContainer(String typeName, IGraph graph)
         {
-            return GetTypeFromNameForDictionaryOrList(typeName, graph.Model);
+            return GetTypeFromNameForContainer(typeName, graph.Model);
         }
 
         /// <summary>
-        /// Returns type object for type name string, to be used for dictionary or List
+        /// Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Queue
         /// </summary>
         /// <param name="typeName">Name of the type we want some type object for</param>
         /// <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
         /// <returns>The type object corresponding to the given string, null if type was not found</returns>
-        public static Type GetTypeFromNameForDictionaryOrList(String typeName, IGraphModel model)
+        public static Type GetTypeFromNameForContainer(String typeName, IGraphModel model)
         {
             if(typeName == null) return null;
 
@@ -156,7 +185,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(typeName=="de.unika.ipd.grGen.libGr.SetValueType" || typeName=="SetValueType")
                 return "de.unika.ipd.grGen.libGr.SetValueType";
-            Type type = GetTypeFromNameForDictionaryOrList(typeName, model);
+            Type type = GetTypeFromNameForContainer(typeName, model);
             return type!=null ? type.Namespace+"."+type.Name : null;
         }
 
@@ -187,6 +216,20 @@ namespace de.unika.ipd.grGen.libGr
             Type genListType = typeof(List<>);
             Type listType = genListType.MakeGenericType(valueType);
             return (IList)Activator.CreateInstance(listType);
+        }
+
+        /// <summary>
+        /// Creates a new Queue of the given value type
+        /// </summary>
+        /// <param name="valueType">The value type of the Queue to be created</param>
+        /// <returns>The newly created Queue, null if unsuccessfull</returns>
+        public static Queue NewQueue(Type valueType)
+        {
+            if(valueType == null) return null;
+
+            Type genQueueType = typeof(Queue<>);
+            Type queueType = genQueueType.MakeGenericType(valueType);
+            return (Queue)Activator.CreateInstance(queueType);
         }
 
         /// <summary>
@@ -222,6 +265,23 @@ namespace de.unika.ipd.grGen.libGr
             Type genListType = typeof(List<>);
             Type listType = genListType.MakeGenericType(valueType);
             return (IList)Activator.CreateInstance(listType, oldList);
+        }
+
+        /// <summary>
+        /// Creates a new Queue of the given value type,
+        /// initialized with the content of the old Queue (clones the old Queue)
+        /// </summary>
+        /// <param name="valueType">The value type of the Queue to be created</param>
+        /// <param name="oldQueue">The old Queue to be cloned</param>
+        /// <returns>The newly created Queue, containing the content of the old Queue,
+        /// null if unsuccessfull</returns>
+        public static Queue NewQueue(Type valueType, object oldQueue)
+        {
+            if(valueType == null || oldQueue == null) return null;
+
+            Type genQueueType = typeof(Queue<>);
+            Type queueType = genQueueType.MakeGenericType(valueType);
+            return (Queue)Activator.CreateInstance(queueType, oldQueue);
         }
 
         /// <summary>
@@ -831,6 +891,102 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates a new queue and appends all values first from
+        /// <paramref name="a"/> and then from <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A Queue.</param>
+        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <returns>A new Queue containing a concatenation of the parameter queues.</returns>
+        public static Queue<V> Concatenate<V>(Queue<V> a, Queue<V> b)
+        {
+            // create new queue as a copy of a
+            Queue<V> newQueue = new Queue<V>(a);
+
+            // then append b
+            foreach(V entry in b)
+            {
+                newQueue.Enqueue(entry);
+            }
+
+            return newQueue;
+        }
+
+        public static Queue ConcatenateQueue(Queue a, Queue b)
+        {
+            // create new list as a copy of a
+            Queue newQueue = (Queue)Activator.CreateInstance(a.GetType(), a);
+
+            // then append b
+            foreach(object entry in b)
+            {
+                newQueue.Enqueue(entry);
+            }
+
+            return newQueue;
+        }
+
+        /// <summary>
+        /// Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+        /// </summary>
+        /// <param name="a">A Queue to change.</param>
+        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
+        public static bool ConcatenateChanged<V>(Queue<V> a, Queue<V> b)
+        {
+            // Append b to a
+            foreach(V entry in b)
+            {
+                a.Enqueue(entry);
+            }
+
+            return b.Count > 0;
+        }
+
+        /// <summary>
+        /// Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+        /// </summary>
+        /// <param name="a">A Queue to change.</param>
+        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+        /// <param name="owner">The node containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
+        public static bool ConcatenateChanged<V>(Queue<V> a, Queue<V> b,
+            IGraph graph, INode owner, AttributeType attrType)
+        {
+            // Append b to a
+            foreach(V entry in b)
+            {
+                graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.PutElement, entry, null);
+                a.Enqueue(entry);
+            }
+
+            return b.Count > 0;
+        }
+
+        /// <summary>
+        /// Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+        /// </summary>
+        /// <param name="a">A Queue to change.</param>
+        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+        /// <param name="owner">The edge containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool ConcatenateChanged<V>(Queue<V> a, Queue<V> b,
+            IGraph graph, IEdge owner, AttributeType attrType)
+        {
+            // Append b to a
+            foreach(V entry in b)
+            {
+                graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.PutElement, entry, null);
+                a.Enqueue(entry);
+            }
+
+            return b.Count > 0;
+        }
+
+        /// <summary>
         /// Creates a new dictionary representing a set,
         /// containing all keys from the given dictionary representing a map <paramref name="map"/>.
         /// </summary>
@@ -889,9 +1045,9 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns the value from the dictionary or list at the nth position as defined by the iterator of the dictionary or the index of the list.
+        /// Returns the value from the dictionary or list or queue at the nth position as defined by the iterator of the dictionary or the index of the list or the iterator of the queue.
         /// </summary>
-        /// <param name="obj">A dictionary or a list.</param>
+        /// <param name="obj">A dictionary or a list or a queue.</param>
         /// <param name="num">The number of the element to get in the iteration sequence.</param>
         /// <returns>The element at the position to get.</returns>
         public static object Peek(object obj, int num)
@@ -907,12 +1063,25 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 return it.Key;
             }
-            else
+            else if(obj is IList)
             {
                 IList list = (IList)obj;
                 return list[num];
             }
+            else
+            {
+                Queue queue = (Queue)obj;
+                IEnumerator it = queue.GetEnumerator();
+                if(num >= 0) it.MoveNext();
+                for(int i = 0; i < num; ++i)
+                {
+                    it.MoveNext();
+                }
+                return it.Current;
+            }
         }
+
+        /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Checks if set/map <paramref name="a"/> equals set/map <paramref name="b"/>.
@@ -1049,7 +1218,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Type keyType;
             Type valueType;
-            DictionaryListHelper.GetDictionaryTypes(a, out keyType, out valueType);
+            ContainerHelper.GetDictionaryTypes(a, out keyType, out valueType);
             if(valueType.Name == "SetValueType")
             {
                 foreach(DictionaryEntry entry in a)
@@ -1067,6 +1236,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             return true;
         }
+
+        /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Checks if List <paramref name="a"/> equals List <paramref name="b"/>.
@@ -1194,6 +1365,139 @@ namespace de.unika.ipd.grGen.libGr
         /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
+        /// Checks if Queue <paramref name="a"/> equals Queue <paramref name="b"/>.
+        /// Requires same values at same position for being true.
+        /// </summary>
+        /// <param name="a">A Queue.</param>
+        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Queue comparison.</returns>
+        public static bool Equal<V>(Queue<V> a, Queue<V> b)
+        {
+            if(a.Count != b.Count) return false;
+            if(LessOrEqual(a, b)) return true;
+            else return false;
+        }
+
+        public static bool EqualQueue(Queue a, Queue b)
+        {
+            if(a.Count != b.Count) return false;
+            if(LessOrEqualQueue(a, b)) return true;
+            else return false;
+        }
+
+        /// <summary>
+        /// Checks if Queue <paramref name="a"/> is not equal Queue <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A Queue.</param>
+        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Queue comparison.</returns>
+        public static bool NotEqual<V>(Queue<V> a, Queue<V> b)
+        {
+            if(a.Count != b.Count) return true;
+            if(LessOrEqual(a, b)) return false;
+            else return true;
+        }
+
+        public static bool NotEqualQueue(Queue a, Queue b)
+        {
+            if(a.Count != b.Count) return true;
+            if(LessOrEqualQueue(a, b)) return false;
+            else return true;
+        }
+
+        /// <summary>
+        /// Checks if Queueu <paramref name="a"/> is a proper superqueue of <paramref name="b"/>.
+        /// Requires a to contain more entries than b and same values at same position for being true.
+        /// </summary>
+        /// <param name="a">A Queue.</param>
+        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Queue comparison.</returns>
+        public static bool GreaterThan<V>(Queue<V> a, Queue<V> b)
+        {
+            if(a.Count == b.Count) return false;
+            return GreaterOrEqual(a, b);
+        }
+
+        public static bool GreaterThanQueue(Queue a, Queue b)
+        {
+            if(a.Count == b.Count) return false;
+            return GreaterOrEqualQueue(a, b);
+        }
+
+        /// <summary>
+        /// Checks if Queue <paramref name="a"/> is a superqueue of <paramref name="b"/>.
+        /// Requires a to contain more or same number of entries than b and same values at same position for being true.
+        /// </summary>
+        /// <param name="a">A Queue.</param>
+        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Queue comparison.</returns>
+        public static bool GreaterOrEqual<V>(Queue<V> a, Queue<V> b)
+        {
+            return LessOrEqual(b, a);
+        }
+
+        public static bool GreaterOrEqualQueue(Queue a, Queue b)
+        {
+            return LessOrEqualQueue(b, a);
+        }
+
+        /// <summary>
+        /// Checks if Queue <paramref name="a"/> is a proper subqueue of <paramref name="b"/>.
+        /// Requires a to contain less entries than b and same values at same position for being true.
+        /// </summary>
+        /// <param name="a">A Queue.</param>
+        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Queue comparison.</returns>
+        public static bool LessThan<V>(Queue<V> a, Queue<V> b)
+        {
+            if(a.Count == b.Count) return false;
+            return LessOrEqual(a, b);
+        }
+
+        public static bool LessThanQueue(Queue a, Queue b)
+        {
+            if(a.Count == b.Count) return false;
+            return LessOrEqualQueue(a, b);
+        }
+
+        /// <summary>
+        /// Checks if Queue <paramref name="a"/> is a subqueue of <paramref name="b"/>.
+        /// Requires a to contain less or same number of entries than b and same values at same positions for being true.
+        /// </summary>
+        /// <param name="a">A Queue.</param>
+        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Queue comparison.</returns>
+        public static bool LessOrEqual<V>(Queue<V> a, Queue<V> b)
+        {
+            if(a.Count > b.Count) return false;
+            if(a.Count == 0) return true;
+            Queue<V>.Enumerator ita = a.GetEnumerator();
+            Queue<V>.Enumerator itb = b.GetEnumerator();
+            while(ita.MoveNext() & itb.MoveNext())
+            {
+                if(!EqualityComparer<V>.Default.Equals(ita.Current, itb.Current)) return false;
+            }
+            return true;
+        }
+
+        public static bool LessOrEqualQueue(Queue a, Queue b)
+        {
+            if(a.Count > b.Count) return false;
+            if(a.Count == 0) return true;
+            IEnumerator ita = a.GetEnumerator();
+            IEnumerator itb = b.GetEnumerator();
+            while(ita.MoveNext() & itb.MoveNext())
+            {
+                if(!Equals(ita.Current, itb.Current)) return false;
+            }
+            return true;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+
+        /// <summary>
         /// Returns a string representation of the given dictionary
         /// </summary>
         /// <param name="setmap">The dictionary of which to get the string representation</param>
@@ -1218,6 +1522,20 @@ namespace de.unika.ipd.grGen.libGr
             string type;
             string content;
             ToString(array, out type, out content, null, graph);
+            return content;
+        }
+
+        /// <summary>
+        /// Returns a string representation of the given Queue
+        /// </summary>
+        /// <param name="queue">The Queue of which to get the string representation</param>
+        /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        /// <returns>string representation of Queue</returns>
+        public static string ToString(Queue queue, IGraph graph)
+        {
+            string type;
+            string content;
+            ToString(queue, out type, out content, null, graph);
             return content;
         }
 
@@ -1419,6 +1737,42 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Returns a string representation of the given Queue
+        /// after the given operation with the given parameters was applied
+        /// </summary>
+        /// <param name="queue">The base Queue of the operation</param>
+        /// <param name="changeType">The type of the change operation</param>
+        /// <param name="newValue">The new value to be inserted/added if changeType==PutElement on array.</param>
+        /// <param name="type">The type as string, e.g queue<int></param>
+        /// <param name="content">The content as string, e.g. ] 42, 43 [ </param>
+        /// <param name="attrType">The attribute type of the Queue</param>
+        /// <param name="graph">The graph with the model and the element names</param>
+        public static void ToString(Queue queue,
+            AttributeChangeType changeType, Object newValue,
+            out string type, out string content,
+            AttributeType attrType, IGraph graph)
+        {
+            if(changeType == AttributeChangeType.PutElement)
+            {
+                Type valueType;
+                GetQueueType(queue, out valueType);
+                ToString(queue, out type, out content, attrType, graph);
+                content += ".add(" + ToString(newValue, attrType.ValueType, graph) + ")";
+            }
+            else if(changeType == AttributeChangeType.RemoveElement)
+            {
+                Type valueType;
+                GetQueueType(queue, out valueType);
+                ToString(queue, out type, out content, attrType, graph);
+                content += ".rem()";
+            }
+            else // changeType==AttributeChangeType.Assign
+            {
+                ToString((Queue)newValue, out type, out content, attrType, graph);
+            }
+        }
+
+        /// <summary>
         /// Returns a string representation of the given scalar value
         /// </summary>
         /// <param name="value">The scalar value of which to get the string representation</param>
@@ -1516,21 +1870,21 @@ namespace de.unika.ipd.grGen.libGr
         /// then return a clone of the given dictionary or list value, otherwise just return the original value;
         /// additionally returns the AttributeType of the attribute of the element.
         /// </summary>
-        public static object IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
+        public static object IfAttributeOfElementIsContainerThenCloneContainer(
                 IGraphElement element, String AttributeName, object value, out AttributeType attrType)
         {
             attrType = element.Type.GetAttributeType(AttributeName);
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
                 Type keyType, valueType;
-                DictionaryListHelper.GetDictionaryTypes(element.GetAttribute(AttributeName), out keyType, out valueType);
-                return DictionaryListHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
+                ContainerHelper.GetDictionaryTypes(element.GetAttribute(AttributeName), out keyType, out valueType);
+                return ContainerHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
             }
             else if(attrType.Kind == AttributeKind.ArrayAttr)
             {
                 Type valueType;
-                DictionaryListHelper.GetListType(element.GetAttribute(AttributeName), out valueType);
-                return DictionaryListHelper.NewList(valueType, value); // by-value-semantics -> clone array
+                ContainerHelper.GetListType(element.GetAttribute(AttributeName), out valueType);
+                return ContainerHelper.NewList(valueType, value); // by-value-semantics -> clone array
             }
             return value;
         }
@@ -1539,11 +1893,11 @@ namespace de.unika.ipd.grGen.libGr
         /// If the attribute of the given name of the given element is a set or map or array attribute
         /// then return a clone of the given dictionary or list value, otherwise just return the original value
         /// </summary>
-        public static object IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
+        public static object IfAttributeOfElementIsContainerThenCloneContainer(
                 IGraphElement element, String AttributeName, object value)
         {
             AttributeType attrType;
-            return IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
+            return IfAttributeOfElementIsContainerThenCloneContainer(
                 element, AttributeName, value, out attrType);
         }
 
@@ -1599,7 +1953,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns a string representation of the given value, might be a scalar, a dictionary, or a list
+        /// Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a queue
         /// </summary>
         /// <param name="value">The value of which to get the string representation</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
@@ -1618,6 +1972,13 @@ namespace de.unika.ipd.grGen.libGr
                 string type;
                 string content;
                 ToString((IList)value, out type, out content, null, graph);
+                return content;
+            }
+            else if(value is Queue)
+            {
+                string type;
+                string content;
+                ToString((Queue)value, out type, out content, null, graph);
                 return content;
             }
             else

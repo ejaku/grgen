@@ -650,11 +650,13 @@ namespace de.unika.ipd.grGen.libGr
             if(value != null)
             {
                 if(value is IDictionary)
-                    procEnv.EmitWriter.Write(DictionaryListHelper.ToString((IDictionary)value, procEnv.Graph));
+                    procEnv.EmitWriter.Write(ContainerHelper.ToString((IDictionary)value, procEnv.Graph));
                 else if(value is IList)
-                    procEnv.EmitWriter.Write(DictionaryListHelper.ToString((IList)value, procEnv.Graph));
+                    procEnv.EmitWriter.Write(ContainerHelper.ToString((IList)value, procEnv.Graph));
+                else if(value is Queue)
+                    procEnv.EmitWriter.Write(ContainerHelper.ToString((Queue)value, procEnv.Graph));
                 else
-                    procEnv.EmitWriter.Write(DictionaryListHelper.ToString(value, procEnv.Graph));
+                    procEnv.EmitWriter.Write(ContainerHelper.ToString(value, procEnv.Graph));
             }
             return value;
         }
@@ -703,11 +705,13 @@ namespace de.unika.ipd.grGen.libGr
             if(value != null)
             {
                 if(value is IDictionary)
-                    procEnv.Recorder.Write(DictionaryListHelper.ToString((IDictionary)value, procEnv.Graph));
+                    procEnv.Recorder.Write(ContainerHelper.ToString((IDictionary)value, procEnv.Graph));
                 else if(value is IList)
-                    procEnv.Recorder.Write(DictionaryListHelper.ToString((IList)value, procEnv.Graph));
+                    procEnv.Recorder.Write(ContainerHelper.ToString((IList)value, procEnv.Graph));
+                else if(value is Queue)
+                    procEnv.Recorder.Write(ContainerHelper.ToString((Queue)value, procEnv.Graph));
                 else
-                    procEnv.Recorder.Write(DictionaryListHelper.ToString(value, procEnv.Graph));
+                    procEnv.Recorder.Write(ContainerHelper.ToString(value, procEnv.Graph));
             }
             return value;
         }
