@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import de.unika.ipd.grgen.ir.containers.*;
+
+
 /**
  * Abstract base class for types that inherit from other types.
  */

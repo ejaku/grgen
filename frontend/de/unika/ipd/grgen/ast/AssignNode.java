@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.AssignmentGraphEntity;
 import de.unika.ipd.grgen.ir.AssignmentIdentical;

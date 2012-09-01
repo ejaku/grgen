@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;

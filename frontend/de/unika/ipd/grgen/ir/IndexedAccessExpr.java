@@ -12,6 +12,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.containers.*;
+
 public class IndexedAccessExpr extends Expression {
 	Expression targetExpr;
 	Expression keyExpr;

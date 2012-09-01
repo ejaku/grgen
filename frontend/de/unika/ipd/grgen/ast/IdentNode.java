@@ -118,7 +118,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	 * Set the definition of the symbol of this identifier.
 	 * @param def The definition.
 	 */
-	protected void setSymDef(Symbol.Definition def) {
+	public void setSymDef(Symbol.Definition def) {
 		occ.setDefinition(def);
 	}
 

@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.AssignmentIndexed;
 import de.unika.ipd.grgen.ir.AssignmentVarIndexed;
 import de.unika.ipd.grgen.ir.Edge;

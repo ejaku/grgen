@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.containers.*;
 
 public class ModelGen extends CSharpBase {
 	private final int MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING = 20;

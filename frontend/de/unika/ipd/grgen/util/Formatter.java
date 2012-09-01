@@ -13,31 +13,8 @@
 
 package de.unika.ipd.grgen.util;
 
-import de.unika.ipd.grgen.ir.ArrayInit;
-import de.unika.ipd.grgen.ir.ArraySizeExpr;
-import de.unika.ipd.grgen.ir.Cast;
-import de.unika.ipd.grgen.ir.Constant;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EnumExpression;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.ExternalFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.GraphEntityExpression;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.IndexedAccessExpr;
-import de.unika.ipd.grgen.ir.MapInit;
-import de.unika.ipd.grgen.ir.MapSizeExpr;
-import de.unika.ipd.grgen.ir.SetInit;
-import de.unika.ipd.grgen.ir.SetSizeExpr;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.Typeof;
-import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.VariableExpression;
-import de.unika.ipd.grgen.ir.Visited;
-import de.unika.ipd.grgen.ir.Nameof;
+import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.containers.*;
 
 public class Formatter {
 
