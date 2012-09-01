@@ -47,10 +47,9 @@ public abstract class InheritanceType extends CompoundType {
 	private List<MemberInit> memberInitializers = new LinkedList<MemberInit>();
 
 	private List<MapInit> mapInitializers = new LinkedList<MapInit>();
-
 	private List<SetInit> setInitializers = new LinkedList<SetInit>();
-
 	private List<ArrayInit> arrayInitializers = new LinkedList<ArrayInit>();
+	private List<QueueInit> queueInitializers = new LinkedList<QueueInit>();
 
 	/** Collection containing all members defined in that type and in its supertype.
 	 *  This field is used for caching. */
@@ -231,6 +230,14 @@ public abstract class InheritanceType extends CompoundType {
 
 	public Collection<ArrayInit> getArrayInits() {
 		return arrayInitializers;
+	}
+
+	public void addQueueInit(QueueInit init) {
+		queueInitializers.add(init);
+	}
+
+	public Collection<QueueInit> getQueueInits() {
+		return queueInitializers;
 	}
 
 	/**

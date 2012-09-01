@@ -203,6 +203,15 @@ public class Dumper {
 				else if(e instanceof ArrayClear) {
 					// MAP TODO
 				}
+				else if(e instanceof QueueAddItem) {
+					// MAP TODO
+				}
+				else if(e instanceof QueueRemoveItem) {
+					// MAP TODO
+				}
+				else if(e instanceof QueueClear) {
+					// MAP TODO
+				}
 				else if(e instanceof MapVarAddItem) {
 					// MAP TODO
 				}
@@ -228,6 +237,15 @@ public class Dumper {
 					// MAP TODO
 				}
 				else if(e instanceof ArrayClear) {
+					// MAP TODO
+				}
+				else if(e instanceof QueueVarAddItem) {
+					// MAP TODO
+				}
+				else if(e instanceof QueueVarRemoveItem) {
+					// MAP TODO
+				}
+				else if(e instanceof QueueClear) {
 					// MAP TODO
 				}
 				else {

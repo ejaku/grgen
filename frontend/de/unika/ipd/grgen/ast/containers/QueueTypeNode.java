@@ -46,7 +46,7 @@ public class QueueTypeNode extends DeclaredTypeNode {
 	}
 
 	private IdentNode valueTypeUnresolved;
-	protected TypeNode valueType;
+	public TypeNode valueType;
 
 	// the queue type node instances are created in ParserEnvironment as needed
 	public QueueTypeNode(IdentNode valueTypeIdent) {

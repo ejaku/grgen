@@ -123,7 +123,8 @@ public class MemberDeclNode extends DeclNode {
 	}
 
 	private static final Checker typeChecker = new SimpleChecker(
-			new Class[] { BasicTypeNode.class, EnumTypeNode.class, MapTypeNode.class, SetTypeNode.class, ArrayTypeNode.class, ExternalTypeNode.class });
+			new Class[] { BasicTypeNode.class, EnumTypeNode.class, ExternalTypeNode.class,
+					MapTypeNode.class, SetTypeNode.class, ArrayTypeNode.class, QueueTypeNode.class });
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override

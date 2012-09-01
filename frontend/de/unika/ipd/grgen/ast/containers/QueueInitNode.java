@@ -23,6 +23,9 @@ import de.unika.ipd.grgen.ir.containers.QueueItem;
 import de.unika.ipd.grgen.ir.containers.QueueType;
 import de.unika.ipd.grgen.parser.Coords;
 
+//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|queue 
+//should be unified in abstract base classes and algorithms working on them
+
 public class QueueInitNode extends ExprNode
 {
 	static {
@@ -206,7 +209,7 @@ public class QueueInitNode extends ExprNode
 		return new QueueInit(items, member, type, isConstant());
 	}
 
-	protected QueueInit getQueueInit() {
+	public QueueInit getQueueInit() {
 		return checkIR(QueueInit.class);
 	}
 

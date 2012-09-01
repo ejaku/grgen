@@ -14,6 +14,9 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.*;
 
+//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|queue 
+//should be unified in abstract base classes and algorithms working on them
+
 public class SetType extends Type {
 	Type valueType;
 

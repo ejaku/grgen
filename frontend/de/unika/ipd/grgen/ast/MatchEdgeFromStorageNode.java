@@ -95,8 +95,9 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 			return false;
 		}
 		TypeNode storageType = storage!=null ? storage.getDeclType() : storageAttribute.getDecl().getDeclType();
-		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode || storageType instanceof ArrayTypeNode)) {
-			reportError("match edge from storage expects a parameter variable of set/map/array type.");
+		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode 
+				|| storageType instanceof ArrayTypeNode || storageType instanceof QueueTypeNode)) {
+			reportError("match edge from storage expects a parameter variable of collection type (set|map|array|queue).");
 			return false;
 		}
 		TypeNode storageElementType = null;
@@ -104,8 +105,10 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 			storageElementType = ((SetTypeNode)storageType).valueType;
 		} else if(storageType instanceof MapTypeNode) {
 			storageElementType = ((MapTypeNode)storageType).keyType;
-		} else { //if(storageType instanceof ArrayTypeNode)
+		} else if(storageType instanceof ArrayTypeNode) {
 			storageElementType = ((ArrayTypeNode)storageType).valueType;
+		} else { //if(storageType instanceof QueueTypeNode)
+			storageElementType = ((QueueTypeNode)storageType).valueType;
 		}
 		if(!(storageElementType instanceof EdgeTypeNode)) {
 			reportError("match edge from storage expects the element type to be an edge type.");

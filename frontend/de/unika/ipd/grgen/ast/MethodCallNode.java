@@ -195,6 +195,44 @@ public class MethodCallNode extends EvalStatementNode
   				}
 			}
 		}
+		else if(targetType instanceof QueueTypeNode) {
+			if(methodName.equals("add")) {
+				if(params.size() !=1 ) {
+  					reportError("queue<T>.add(value) takes one parameter.");
+					return false;
+				}
+  				else {
+  					if(targetQual!=null)
+  						result = new QueueAddItemNode(getCoords(), targetQual, params.get(0));
+  					else
+  						result = new QueueVarAddItemNode(getCoords(), targetVar, params.get(0));
+  				}
+			}
+			else if(methodName.equals("rem")) {
+				if(params.size() !=0 ) {
+  					reportError("queue<T>.rem() takes no parameters.");
+					return false;
+				}
+  				else {
+  					if(targetQual!=null)
+  						result = new QueueRemoveItemNode(getCoords(), targetQual);
+  					else
+  						result = new QueueVarRemoveItemNode(getCoords(), targetVar);
+  				}
+			}
+			else if(methodName.equals("clear")) {
+				if(params.size() != 0) {
+  					reportError("queue<T>.clear() takes no parameters.");
+					return false;
+				}
+  				else {
+  					if(targetQual!=null)
+  						result = new QueueClearNode(getCoords(), targetQual);
+  					else
+  						result = new QueueVarClearNode(getCoords(), targetVar);
+  				}
+			}
+		}
 		else {
 			reportError(targetType.toString() + " does not have any methods");
 			return false;

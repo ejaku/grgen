@@ -23,6 +23,9 @@ import de.unika.ipd.grgen.ir.containers.SetItem;
 import de.unika.ipd.grgen.ir.containers.SetType;
 import de.unika.ipd.grgen.parser.Coords;
 
+//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|queue 
+//should be unified in abstract base classes and algorithms working on them
+
 public class SetInitNode extends ExprNode
 {
 	static {
