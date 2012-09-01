@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.containers.ArrayInit;
 import de.unika.ipd.grgen.ir.containers.MapInit;
+import de.unika.ipd.grgen.ir.containers.QueueInit;
 import de.unika.ipd.grgen.ir.containers.SetInit;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -123,6 +124,10 @@ public class MemberInitNode extends BaseNode {
 			ArrayInit arrayInit = rhs.checkIR(ArrayInit.class);
 			arrayInit.setMember(lhs.checkIR(Entity.class));
 			return arrayInit;
+		} else if(rhs instanceof QueueInitNode) {
+			QueueInit queueInit = rhs.checkIR(QueueInit.class);
+			queueInit.setMember(lhs.checkIR(Entity.class));
+			return queueInit;
 		} else {
 			return new MemberInit(lhs.checkIR(Entity.class), rhs.checkIR(Expression.class));
 		}

@@ -21,6 +21,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.containers.ArrayType;
+import de.unika.ipd.grgen.ir.containers.QueueType;
 import de.unika.ipd.grgen.ir.Bad;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
@@ -306,7 +307,7 @@ public class CallActionNode extends BaseNode {
 								incommensurable = true;
 							}
 						}
-						if(actualParamType instanceof MapType) {
+						else if(actualParamType instanceof MapType) {
 							MapType apt = (MapType)actualParamType;
 							MapType fpt = (MapType)formalParamType;
 							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
@@ -318,11 +319,19 @@ public class CallActionNode extends BaseNode {
 								incommensurable = true;
 							}
 						}
-						if(actualParamType instanceof ArrayType) {
+						else if(actualParamType instanceof ArrayType) {
 							ArrayType apt = (ArrayType)actualParamType;
 							ArrayType fpt = (ArrayType)formalParamType;
 							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
 								reportError("Array value types are incommensurable. ("+paramCounter+". argument)");
+								incommensurable = true;
+							}
+						}
+						else if(actualParamType instanceof QueueType) {
+							QueueType apt = (QueueType)actualParamType;
+							QueueType fpt = (QueueType)formalParamType;
+							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
+								reportError("Queue value types are incommensurable. ("+paramCounter+". argument)");
 								incommensurable = true;
 							}
 						}

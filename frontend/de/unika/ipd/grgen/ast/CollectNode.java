@@ -87,12 +87,14 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 	public boolean noDefElementInCondition() {
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
-			if(child instanceof ArrayItemNode)
-				res &= ((ArrayItemNode)child).noDefElementInCondition();
-			else if(child instanceof SetItemNode)
+			if(child instanceof SetItemNode)
 				res &= ((SetItemNode)child).noDefElementInCondition();
 			else if(child instanceof MapItemNode)
 				res &= ((MapItemNode)child).noDefElementInCondition();
+			else if(child instanceof ArrayItemNode)
+				res &= ((ArrayItemNode)child).noDefElementInCondition();
+			else if(child instanceof QueueItemNode)
+				res &= ((QueueItemNode)child).noDefElementInCondition();
 		}
 		return res;
 	}

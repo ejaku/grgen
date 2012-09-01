@@ -163,6 +163,12 @@ public class Formatter {
 		else if(cond instanceof ArrayInit) {
 			// MAP TODO
 		}
+		else if(cond instanceof QueueSizeExpr) {
+			// MAP TODO
+		}
+		else if(cond instanceof QueueInit) {
+			// MAP TODO
+		}
 		else if(cond instanceof GraphEntityExpression) {
 			// MAP TODO
 		}

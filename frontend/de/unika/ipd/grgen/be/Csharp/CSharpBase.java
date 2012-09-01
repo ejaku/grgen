@@ -290,6 +290,10 @@ public abstract class CSharpBase {
 			ArrayType arrayType = (ArrayType) t;
 			return "List<" + formatType(arrayType.getValueType()) + ">";
 		}
+		else if (t instanceof QueueType) {
+			QueueType queueType = (QueueType) t;
+			return "Queue<" + formatType(queueType.getValueType()) + ">";
+		}
 		else if (t instanceof GraphType) {
 			return "GRGEN_LIBGR.IGraph";
 		}
@@ -386,7 +390,8 @@ public abstract class CSharpBase {
 						{
 							Type opType = op.getOperand(1).getType();
 							genExpression(sb, op.getOperand(1), modifyGenerationState);
-							sb.append(opType instanceof ArrayType ? ".Contains(" : ".ContainsKey(");
+							boolean isDictionary = opType instanceof SetType || opType instanceof MapType;
+							sb.append(isDictionary ? ".ContainsKey(" : ".Contains(");
 							if(op.getOperand(0) instanceof GraphEntityExpression)
 								sb.append("(" + formatElementInterfaceRef(op.getOperand(0).getType()) + ")(");
 							genExpression(sb, op.getOperand(0), modifyGenerationState);
@@ -406,7 +411,15 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
-							else genBinOpDefault(sb, op, modifyGenerationState);
+							else if(opType instanceof QueueType) {
+								sb.append("GRGEN_LIBGR.DictionaryListHelper.Concatenate(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else 
+								genBinOpDefault(sb, op, modifyGenerationState);
 							break;
 						}
 
@@ -469,6 +482,13 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
+							else if(opType instanceof QueueType) {
+								sb.append("GRGEN_LIBGR.DictionaryListHelper.Equal(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
 							else if(opType instanceof GraphType) {
 								sb.append("((IGraph)");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
@@ -492,6 +512,13 @@ public abstract class CSharpBase {
 								sb.append(")");
 							}
 							else if(opType instanceof ArrayType) {
+								sb.append("GRGEN_LIBGR.DictionaryListHelper.NotEqual(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else if(opType instanceof QueueType) {
 								sb.append("GRGEN_LIBGR.DictionaryListHelper.NotEqual(");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
 								sb.append(", ");
@@ -528,6 +555,13 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
+							else if(opType instanceof QueueType) {
+								sb.append("GRGEN_LIBGR.DictionaryListHelper.GreaterThan(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
 							else {
 								genBinOpDefault(sb, op, modifyGenerationState);
 							}
@@ -545,6 +579,13 @@ public abstract class CSharpBase {
 								sb.append(")");
 							}
 							else if(opType instanceof ArrayType) {
+								sb.append("GRGEN_LIBGR.DictionaryListHelper.GreaterOrEqual(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else if(opType instanceof QueueType) {
 								sb.append("GRGEN_LIBGR.DictionaryListHelper.GreaterOrEqual(");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
 								sb.append(", ");
@@ -574,6 +615,13 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
+							else if(opType instanceof QueueType) {
+								sb.append("GRGEN_LIBGR.DictionaryListHelper.LessThan(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
 							else  {
 								genBinOpDefault(sb, op, modifyGenerationState);
 							}
@@ -591,6 +639,13 @@ public abstract class CSharpBase {
 								sb.append(")");
 							}
 							else if(opType instanceof ArrayType) {
+								sb.append("GRGEN_LIBGR.DictionaryListHelper.LessOrEqual(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else if(opType instanceof QueueType) {
 								sb.append("GRGEN_LIBGR.DictionaryListHelper.LessOrEqual(");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
 								sb.append(", ");
@@ -663,6 +718,10 @@ public abstract class CSharpBase {
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
 					sb.append(", graph)");
 				} else if(cast.getExpression().getType() instanceof ArrayType) {
+					sb.append("GRGEN_LIBGR.DictionaryListHelper.ToString(");
+					genExpression(sb, cast.getExpression(), modifyGenerationState);
+					sb.append(", graph)");
+				} else if(cast.getExpression().getType() instanceof QueueType) {
 					sb.append("GRGEN_LIBGR.DictionaryListHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
 					sb.append(", graph)");
@@ -903,6 +962,30 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
+		else if (expr instanceof QueueSizeExpr) {
+			QueueSizeExpr qs = (QueueSizeExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(qs));
+			}
+			else {
+				sb.append("(");
+				genExpression(sb, qs.getTargetExpr(), modifyGenerationState);
+				sb.append(").Count");
+			}
+		}
+		else if (expr instanceof QueuePeekExpr) {
+			QueuePeekExpr qp = (QueuePeekExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(qp));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.DictionaryListHelper.Peek(");
+				genExpression(sb, qp.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, qp.getNumberExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
 		else if (expr instanceof MapInit) {
 			MapInit mi = (MapInit)expr;
 			if(mi.isConstant()) {
@@ -963,6 +1046,28 @@ public abstract class CSharpBase {
 				sb.append("fill_" + ai.getAnonymousArrayName() + "(");
 				boolean first = true;
 				for(ArrayItem item : ai.getArrayItems()) {
+					if(first)
+						first = false;
+					else
+						sb.append(", ");
+
+					if(item.getValueExpr() instanceof GraphEntityExpression)
+						sb.append("(" + formatElementInterfaceRef(item.getValueExpr().getType()) + ")(");
+					genExpression(sb, item.getValueExpr(), modifyGenerationState);
+					if(item.getValueExpr() instanceof GraphEntityExpression)
+						sb.append(")");
+				}
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof QueueInit) {
+			QueueInit qi = (QueueInit)expr;
+			if(qi.isConstant()) {
+				sb.append(qi.getAnonymousQueueName());
+			} else {
+				sb.append("fill_" + qi.getAnonymousQueueName() + "(");
+				boolean first = true;
+				for(QueueItem item : qi.getQueueItems()) {
 					if(first)
 						first = false;
 					else

@@ -71,9 +71,8 @@ public class NodeTypeNode extends InheritanceTypeNode {
 
 	@SuppressWarnings("unchecked")
 	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
-			new DeclarationResolver<BaseNode>(MemberDeclNode.class,
-					MemberInitNode.class, MapInitNode.class, SetInitNode.class, ArrayInitNode.class,
-					ConstructorDeclNode.class));
+			new DeclarationResolver<BaseNode>(MemberDeclNode.class, MemberInitNode.class, ConstructorDeclNode.class,
+					MapInitNode.class, SetInitNode.class, ArrayInitNode.class, QueueInitNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override

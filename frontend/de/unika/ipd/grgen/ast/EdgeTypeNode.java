@@ -30,9 +30,8 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 
 	@SuppressWarnings("unchecked")
 	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
-			new DeclarationResolver<BaseNode>(MemberDeclNode.class,
-					MemberInitNode.class, MapInitNode.class, SetInitNode.class, ArrayInitNode.class,
-					ConstructorDeclNode.class));
+			new DeclarationResolver<BaseNode>(MemberDeclNode.class, MemberInitNode.class, ConstructorDeclNode.class,
+					MapInitNode.class, SetInitNode.class, ArrayInitNode.class, QueueInitNode.class));
 
 	private static final CollectResolver<EdgeTypeNode> extendResolver = new CollectResolver<EdgeTypeNode>(
     		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class));

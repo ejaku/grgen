@@ -284,14 +284,14 @@ public class ActionsGen extends CSharpBase {
 		PatternGraph pattern = rule.getPattern();
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
-		genLocalMapSetArray(sb, rule.getLeft(), staticInitializers,
+		genLocalContainers(sb, rule.getLeft(), staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
-		genLocalMapSetArray(sb, rule.getEvals(), staticInitializers,
+		genLocalContainers(sb, rule.getEvals(), staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
-		genLocalMapSetArrayJavaSucks(sb, rule.getReturns(), staticInitializers,
+		genLocalContainersJavaSucks(sb, rule.getReturns(), staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
 		if(rule.getRight()!=null) {
-			genLocalMapSetArray(sb, rule.getRight().getImperativeStmts(), staticInitializers,
+			genLocalContainers(sb, rule.getRight().getImperativeStmts(), staticInitializers,
 					pathPrefixForElements, alreadyDefinedEntityToName);
 		}
 		sb.append("\t\tpublic GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
@@ -340,7 +340,7 @@ public class ActionsGen extends CSharpBase {
 							String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
-		genLocalMapSetArray(sb, pattern, staticInitializers,
+		genLocalContainers(sb, pattern, staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
 		sb.append("\t\tpublic GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
@@ -518,16 +518,16 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 	}
 
-	private void genLocalMapSetArray(StringBuffer sb, PatternGraph pattern, List<String> staticInitializers,
+	private void genLocalContainers(StringBuffer sb, PatternGraph pattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
 		for(Expression expr : pattern.getConditions()) {
 			expr.collectNeededEntities(needs);
 		}
-		genLocalMapSetArray(sb, needs, staticInitializers);
+		genLocalContainers(sb, needs, staticInitializers);
 	}
 
-	private void genLocalMapSetArray(StringBuffer sb, Collection<EvalStatement> evals, List<String> staticInitializers,
+	private void genLocalContainers(StringBuffer sb, Collection<EvalStatement> evals, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
 		for(EvalStatement eval : evals) {
@@ -562,20 +562,20 @@ public class ActionsGen extends CSharpBase {
 				assignment.getExpression().collectNeededEntities(needs);
 			}
 		}
-		genLocalMapSetArray(sb, needs, staticInitializers);
+		genLocalContainers(sb, needs, staticInitializers);
 	}
 
 	// type collision with the method below cause java can't distinguish List<Expression> from List<ImperativeStmt>
-	private void genLocalMapSetArrayJavaSucks(StringBuffer sb, List<Expression> returns, List<String> staticInitializers,
+	private void genLocalContainersJavaSucks(StringBuffer sb, List<Expression> returns, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
 		for(Expression expr : returns) {
 			expr.collectNeededEntities(needs);
 		}
-		genLocalMapSetArray(sb, needs, staticInitializers);
+		genLocalContainers(sb, needs, staticInitializers);
 	}
 	
-	private void genLocalMapSetArray(StringBuffer sb, List<ImperativeStmt> istmts, List<String> staticInitializers,
+	private void genLocalContainers(StringBuffer sb, List<ImperativeStmt> istmts, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
@@ -592,18 +592,20 @@ public class ActionsGen extends CSharpBase {
 			}
 			else assert false : "unknown ImperativeStmt: " + istmt;
 		}
-		genLocalMapSetArray(sb, needs, staticInitializers);
+		genLocalContainers(sb, needs, staticInitializers);
 	}
 
-	private void genLocalMapSetArray(StringBuffer sb, NeededEntities needs, List<String> staticInitializers) {
+	private void genLocalContainers(StringBuffer sb, NeededEntities needs, List<String> staticInitializers) {
 		sb.append("\n");
-		for(Expression mapSetArrayExpr : needs.mapSetArrayExprs) {
-			if(mapSetArrayExpr instanceof MapInit) {
-				genLocalMap(sb, (MapInit)mapSetArrayExpr, staticInitializers);
-			} else if(mapSetArrayExpr instanceof SetInit) {
-				genLocalSet(sb, (SetInit)mapSetArrayExpr, staticInitializers);
-			} else if(mapSetArrayExpr instanceof ArrayInit) {
-				genLocalArray(sb, (ArrayInit)mapSetArrayExpr, staticInitializers);
+		for(Expression containerExpr : needs.containerExprs) {
+			if(containerExpr instanceof MapInit) {
+				genLocalMap(sb, (MapInit)containerExpr, staticInitializers);
+			} else if(containerExpr instanceof SetInit) {
+				genLocalSet(sb, (SetInit)containerExpr, staticInitializers);
+			} else if(containerExpr instanceof ArrayInit) {
+				genLocalArray(sb, (ArrayInit)containerExpr, staticInitializers);
+			} else if(containerExpr instanceof QueueInit) {
+				genLocalQueue(sb, (QueueInit)containerExpr, staticInitializers);
 			}
 		}
 	}
@@ -741,6 +743,50 @@ public class ActionsGen extends CSharpBase {
 				sb.append(".Add(" + "item" + itemCounter + ");\n");
 			}
 			sb.append("\t\t\treturn " + arrayName + ";\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	private void genLocalQueue(StringBuffer sb, QueueInit queueInit, List<String> staticInitializers) {
+		String queueName = queueInit.getAnonymousQueueName();
+		String attrType = formatAttributeType(queueInit.getType());
+		if(queueInit.isConstant()) {
+			sb.append("\t\tpublic static readonly " + attrType + " " + queueName + " = " +
+					"new " + attrType + "();\n");
+			staticInitializers.add("init_" + queueName);
+			sb.append("\t\tstatic void init_" + queueName + "() {\n");
+			for(QueueItem item : queueInit.getQueueItems()) {
+				sb.append("\t\t\t");
+				sb.append(queueName);
+				sb.append(".Add(");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append(");\n");
+			}
+			sb.append("\t\t}\n");
+		} else {
+			sb.append("\t\tpublic static " + attrType + " fill_" + queueName + "(");
+			int itemCounter = 0;
+			boolean first = true;
+			for(QueueItem item : queueInit.getQueueItems()) {
+				String itemType = formatType(item.getValueExpr().getType());
+				if(first) {
+					sb.append(itemType + " item" + itemCounter);
+					first = false;
+				} else {
+					sb.append(", " + itemType + " item" + itemCounter);
+				}
+				++itemCounter;
+			}
+			sb.append(") {\n");
+			sb.append("\t\t\t" + attrType + " " + queueName + " = " +
+					"new " + attrType + "();\n");
+
+			int itemLength = queueInit.getQueueItems().size();
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
+				sb.append("\t\t\t" + queueName);
+				sb.append(".Enqueue(" + "item" + itemCounter + ");\n");
+			}
+			sb.append("\t\t\treturn " + queueName + ";\n");
 			sb.append("\t\t}\n");
 		}
 	}
@@ -1541,6 +1587,8 @@ public class ActionsGen extends CSharpBase {
 				opNamePrefix = "DICT_";
 			if(op.getType() instanceof ArrayType)
 				opNamePrefix = "LIST_";
+			if(op.getType() instanceof QueueType)
+				opNamePrefix = "QUEUE_";
 			if(op.getOpCode()==Operator.EQ || op.getOpCode()==Operator.NE
 				|| op.getOpCode()==Operator.GT || op.getOpCode()==Operator.GE
 				|| op.getOpCode()==Operator.LT || op.getOpCode()==Operator.LE) {
@@ -1550,6 +1598,9 @@ public class ActionsGen extends CSharpBase {
 				}
 				if(opnd.getType() instanceof ArrayType) {
 					opNamePrefix = "LIST_";
+				}
+				if(opnd.getType() instanceof QueueType) {
+					opNamePrefix = "QUEUE_";
 				}
 			}
 
@@ -1565,7 +1616,8 @@ public class ActionsGen extends CSharpBase {
 					if(op.getOpCode()==Operator.IN) {
 						if(op.getOperand(0) instanceof GraphEntityExpression)
 							sb.append(", \"" + formatElementInterfaceRef(op.getOperand(0).getType()) + "\"");
-						sb.append(op.getOperand(1).getType() instanceof ArrayType ? ", false" : ", true");
+						boolean isDictionary = op.getOperand(1).getType() instanceof SetType || op.getOperand(1).getType() instanceof MapType;
+						sb.append(isDictionary ? ", true" : ", false");
 					}
 					break;
 				case 3:
@@ -1621,7 +1673,8 @@ public class ActionsGen extends CSharpBase {
 				genExpressionTree(sb, cast.getExpression(), className, pathPrefix, alreadyDefinedEntityToName);
 				if(cast.getExpression().getType() instanceof SetType 
 					|| cast.getExpression().getType() instanceof MapType
-					|| cast.getExpression().getType() instanceof ArrayType ) {
+					|| cast.getExpression().getType() instanceof ArrayType 
+					|| cast.getExpression().getType() instanceof QueueType) {
 					sb.append(", true");
 				} else {
 					sb.append(", false");
@@ -1787,6 +1840,20 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, asa.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof QueueSizeExpr) {
+			QueueSizeExpr qs = (QueueSizeExpr)expr;
+			sb.append("new GRGEN_EXPR.QueueSize(");
+			genExpressionTree(sb, qs.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof QueuePeekExpr) {
+			QueuePeekExpr qp = (QueuePeekExpr)expr;
+			sb.append("new GRGEN_EXPR.QueuePeek(");
+			genExpressionTree(sb, qp.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, qp.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof MapInit) {
 			MapInit mi = (MapInit)expr;
 			if(mi.isConstant()) {
@@ -1846,6 +1913,28 @@ public class ActionsGen extends CSharpBase {
 				int openParenthesis = 0;
 				for(ArrayItem item : ai.getArrayItems()) {
 					sb.append("new GRGEN_EXPR.ArrayItem(");
+					genExpressionTree(sb, item.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+					sb.append(", ");
+					if(item.getValueExpr() instanceof GraphEntityExpression)
+						sb.append("\"" + formatElementInterfaceRef(item.getValueExpr().getType()) + "\", ");
+					else
+						sb.append("null, ");
+					++openParenthesis;
+				}
+				sb.append("null");
+				for(int i=0; i<openParenthesis; ++i) sb.append(")");
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof QueueInit) {
+			QueueInit qi = (QueueInit)expr;
+			if(qi.isConstant()) {
+				sb.append("new GRGEN_EXPR.StaticQueue(\"" + className + "\", \"" + qi.getAnonymousQueueName() + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.QueueConstructor(\"" + className + "\", \"" + qi.getAnonymousQueueName() + "\", ");
+				int openParenthesis = 0;
+				for(QueueItem item : qi.getQueueItems()) {
+					sb.append("new GRGEN_EXPR.QueueItem(");
 					genExpressionTree(sb, item.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
 					if(item.getValueExpr() instanceof GraphEntityExpression)
@@ -2702,6 +2791,17 @@ public class ActionsGen extends CSharpBase {
 			genArrayVarAddItem(sb, (ArrayVarAddItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
+		else if(evalStmt instanceof QueueVarRemoveItem) {
+			genQueueVarRemoveItem(sb, (QueueVarRemoveItem) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof QueueVarClear) {
+			genQueueVarClear(sb, (QueueVarClear) evalStmt);
+		}
+		else if(evalStmt instanceof QueueVarAddItem) {
+			genQueueVarAddItem(sb, (QueueVarAddItem) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
 		else if(evalStmt instanceof IteratedAccumulationYield) {
 			genIteratedAccumulationYield(sb, (IteratedAccumulationYield) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -2931,6 +3031,44 @@ public class ActionsGen extends CSharpBase {
 		sb.append(")");
 		
 		assert avai.getNext()==null;
+	}
+
+	private void genQueueVarRemoveItem(StringBuffer sb, QueueVarRemoveItem qvri,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable target = qvri.getTarget();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.QueueRemove(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(")");
+		
+		assert qvri.getNext()==null;
+	}
+
+	private void genQueueVarClear(StringBuffer sb, QueueVarClear qvc) {
+		Variable target = qvc.getTarget();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.Clear(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(")");
+		
+		assert qvc.getNext()==null;
+	}
+
+	private void genQueueVarAddItem(StringBuffer sb, QueueVarAddItem qvai,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable target = qvai.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpressionTree(sbtmp, qvai.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		String valueExprStr = sbtmp.toString();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.QueueAdd(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(", ");
+		sb.append(valueExprStr);
+		sb.append(")");
+		
+		assert qvai.getNext()==null;
 	}
 
 	private void genIteratedAccumulationYield(StringBuffer sb, IteratedAccumulationYield iay,
