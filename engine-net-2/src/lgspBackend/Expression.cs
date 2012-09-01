@@ -227,7 +227,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.Union(";
+            return "GRGEN_LIBGR.ContainerHelper.Union(";
         }
     }
 
@@ -245,7 +245,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.Intersect(";
+            return "GRGEN_LIBGR.ContainerHelper.Intersect(";
         }
     }
 
@@ -263,7 +263,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.Except(";
+            return "GRGEN_LIBGR.ContainerHelper.Except(";
         }
     }
 
@@ -425,7 +425,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.Equal(";
+            return "GRGEN_LIBGR.ContainerHelper.Equal(";
         }
     }
 
@@ -443,7 +443,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.NotEqual(";
+            return "GRGEN_LIBGR.ContainerHelper.NotEqual(";
         }
     }
 
@@ -461,7 +461,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.LessThan(";
+            return "GRGEN_LIBGR.ContainerHelper.LessThan(";
         }
     }
 
@@ -479,7 +479,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.LessOrEqual(";
+            return "GRGEN_LIBGR.ContainerHelper.LessOrEqual(";
         }
     }
 
@@ -497,7 +497,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.GreaterThan(";
+            return "GRGEN_LIBGR.ContainerHelper.GreaterThan(";
         }
     }
 
@@ -515,7 +515,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.GreaterOrEqual(";
+            return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(";
         }
     }
 
@@ -533,7 +533,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.Equal(";
+            return "GRGEN_LIBGR.ContainerHelper.Equal(";
         }
     }
 
@@ -551,7 +551,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.NotEqual(";
+            return "GRGEN_LIBGR.ContainerHelper.NotEqual(";
         }
     }
 
@@ -569,7 +569,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.LessThan(";
+            return "GRGEN_LIBGR.ContainerHelper.LessThan(";
         }
     }
 
@@ -587,7 +587,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.LessOrEqual(";
+            return "GRGEN_LIBGR.ContainerHelper.LessOrEqual(";
         }
     }
 
@@ -605,7 +605,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.GreaterThan(";
+            return "GRGEN_LIBGR.ContainerHelper.GreaterThan(";
         }
     }
 
@@ -623,7 +623,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.GreaterOrEqual(";
+            return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(";
         }
     }
 
@@ -722,7 +722,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryListHelper.Concatenate(";
+            return "GRGEN_LIBGR.ContainerHelper.Concatenate(";
         }
     }
 
@@ -941,25 +941,25 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Cast : Expression
     {
-        public Cast(String typeName, Expression nested, bool isDictionary)
+        public Cast(String typeName, Expression nested, bool isContainer)
         {
             TypeName = typeName;
             Nested = nested;
-            IsDictionary = isDictionary;
+            IsContainer = isContainer;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Cast(TypeName, Nested.Copy(renameSuffix), IsDictionary);
+            return new Cast(TypeName, Nested.Copy(renameSuffix), IsContainer);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             if (TypeName == "string")
             {
-                if(IsDictionary)
+                if(IsContainer)
                 {
-                    sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.ToString(");
+                    sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ToString(");
                     Nested.Emit(sourceCode);
                     sourceCode.Append(", graph)");
                 }
@@ -983,7 +983,7 @@ namespace de.unika.ipd.grGen.expression
 
         String TypeName;
         Expression Nested;
-        bool IsDictionary;
+        bool IsContainer;
     }
 
     /// <summary>
@@ -1564,7 +1564,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.Peek(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Peek(");
             Target.Emit(sourceCode);
             sourceCode.Append(",");
             Number.Emit(sourceCode);
@@ -1598,7 +1598,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.Domain(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Domain(");
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }
@@ -1628,7 +1628,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.Range(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Range(");
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }
@@ -1689,7 +1689,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.Peek(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Peek(");
             Target.Emit(sourceCode);
             sourceCode.Append(",");
             Number.Emit(sourceCode);
@@ -1788,7 +1788,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.IndexOf(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.IndexOf(");
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
@@ -1823,7 +1823,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.LastIndexOf(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
@@ -1859,7 +1859,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.Subarray(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Subarray(");
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Start.Emit(sourceCode);
@@ -2725,7 +2725,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.UnionChanged(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.UnionChanged(");
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
@@ -2750,7 +2750,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.IntersectChanged(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.IntersectChanged(");
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
@@ -2775,7 +2775,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.ExceptChanged(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ExceptChanged(");
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(", ");
             Right.Emit(sourceCode);

@@ -1353,7 +1353,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            return DictionaryListHelper.Peek(ContainerValue(procEnv), (int)KeyExpr.Evaluate(procEnv)); 
+            return ContainerHelper.Peek(ContainerValue(procEnv), (int)KeyExpr.Evaluate(procEnv)); 
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -1526,7 +1526,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(procEnv);
             object value = elem.GetAttribute(AttributeName);
-            value = DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
+            value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
                 elem, AttributeName, value);
             return value;
         }

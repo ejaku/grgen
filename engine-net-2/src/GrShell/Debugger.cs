@@ -674,6 +674,8 @@ namespace de.unika.ipd.grGen.grShell
                 HighlightDictionary((IDictionary)value, name, addAnnotation);
             else if(value is IList)
                 HighlightList((IList)value, name, addAnnotation);
+            else if(value is Queue)
+                HighlightQueue((Queue)value, name, addAnnotation);
             else
                 HighlightSingleValue(value, name, addAnnotation);
         }
@@ -682,7 +684,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             Type keyType;
             Type valueType;
-            DictionaryListHelper.GetDictionaryTypes(value.GetType(), out keyType, out valueType);
+            ContainerHelper.GetDictionaryTypes(value.GetType(), out keyType, out valueType);
             if(valueType == typeof(de.unika.ipd.grGen.libGr.SetValueType))
             {
                 foreach(DictionaryEntry entry in value)
@@ -704,9 +706,9 @@ namespace de.unika.ipd.grGen.grShell
                     else
                     {
                         if(entry.Key is IGraphElement)
-                            HighlightSingleValue(entry.Key, name + ".Domain -> " + DictionaryListHelper.ToString(entry.Value, shellProcEnv.Graph), addAnnotation);
+                            HighlightSingleValue(entry.Key, name + ".Domain -> " + ContainerHelper.ToString(entry.Value, shellProcEnv.Graph), addAnnotation);
                         if(entry.Value is IGraphElement)
-                            HighlightSingleValue(entry.Value, DictionaryListHelper.ToString(entry.Key, shellProcEnv.Graph) + " -> " + name + ".Range", addAnnotation);
+                            HighlightSingleValue(entry.Value, ContainerHelper.ToString(entry.Key, shellProcEnv.Graph) + " -> " + name + ".Range", addAnnotation);
                     }
                 }
             }
@@ -725,6 +727,26 @@ namespace de.unika.ipd.grGen.grShell
                     else
                         ycompClient.DeleteEdge(name + i);
                 }
+            }
+        }
+
+        void HighlightQueue(Queue value, string name, bool addAnnotation)
+        {
+            int distanceToTop = 0;
+            object prevElem = null;
+            foreach(object elem in value)
+            {
+                if(elem is IGraphElement)
+                    HighlightSingleValue(elem, name + "@" + distanceToTop, addAnnotation);
+                if(elem is INode && distanceToTop >= 1)
+                {
+                    if(addAnnotation)
+                        ycompClient.AddEdge(name + distanceToTop, name + "[->]", (INode)prevElem, (INode)elem);
+                    else
+                        ycompClient.DeleteEdge(name + distanceToTop);
+                }
+                prevElem = elem;
+                ++distanceToTop;
             }
         }
 
@@ -1478,11 +1500,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        DictionaryListHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        ContainerHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else if(var.Value is IList)
-                        DictionaryListHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        ContainerHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
+                    else if(var.Value is Queue)
+                        ContainerHelper.ToString((Queue)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else
-                        DictionaryListHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
+                        ContainerHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -1494,11 +1518,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        DictionaryListHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        ContainerHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else if(var.Value is IList)
-                        DictionaryListHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        ContainerHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
+                    else if(var.Value is Queue)
+                        ContainerHelper.ToString((Queue)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else
-                        DictionaryListHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
+                        ContainerHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }

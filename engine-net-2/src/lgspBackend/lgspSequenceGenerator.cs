@@ -1701,16 +1701,19 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         string emitVal = "emitval_" + seqEmit.Id;
                         source.AppendFront("object " + emitVal + " = " + GetSequenceExpression(seqEmit.Expression, source) + ";\n");
-                        if(seqEmit.Expression.Type(env) == "" || seqEmit.Expression.Type(env).StartsWith("set<") 
-                            || seqEmit.Expression.Type(env).StartsWith("map<") || seqEmit.Expression.Type(env).StartsWith("array<"))
+                        if(seqEmit.Expression.Type(env) == "" 
+                            || seqEmit.Expression.Type(env).StartsWith("set<") || seqEmit.Expression.Type(env).StartsWith("map<") 
+                            || seqEmit.Expression.Type(env).StartsWith("array<") || seqEmit.Expression.Type(env).StartsWith("queue<"))
                         {
                             source.AppendFront("if(" + emitVal + " is IDictionary)\n");
-                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
+                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
                             source.AppendFront("else if(" + emitVal + " is IList)\n");
-                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IList)" + emitVal + ", graph));\n");
+                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString((IList)" + emitVal + ", graph));\n");
+                            source.AppendFront("else if(" + emitVal + " is Queue)\n");
+                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString((Queue)" + emitVal + ", graph));\n");
                             source.AppendFront("else\n\t");
                         }
-                        source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + emitVal + ", graph));\n");
+                        source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString(" + emitVal + ", graph));\n");
                     } else {
                         SequenceExpressionConstant constant = (SequenceExpressionConstant)seqEmit.Expression;
                         if(constant.Constant is string)
@@ -1722,7 +1725,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("procEnv.EmitWriter.Write(\"" + text + "\");\n");
                         }
                         else
-                            source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetSequenceExpression(seqEmit.Expression, source) + ", graph));\n");
+                            source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString(" + GetSequenceExpression(seqEmit.Expression, source) + ", graph));\n");
                     }
                     source.AppendFront(SetResultVar(seqEmit, "null"));
                     break;
@@ -1735,16 +1738,19 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         string recVal = "recval_" + seqRec.Id;
                         source.AppendFront("object " + recVal + " = " + GetSequenceExpression(seqRec.Expression, source) + ";\n");
-                        if(seqRec.Expression.Type(env) == "" || seqRec.Expression.Type(env).StartsWith("set<") 
-                            || seqRec.Expression.Type(env).StartsWith("map<") || seqRec.Expression.Type(env).StartsWith("array<"))
+                        if(seqRec.Expression.Type(env) == "" 
+                            || seqRec.Expression.Type(env).StartsWith("set<") || seqRec.Expression.Type(env).StartsWith("map<")
+                            || seqRec.Expression.Type(env).StartsWith("array<") || seqRec.Expression.Type(env).StartsWith("queue<"))
                         {
                             source.AppendFront("if(" + recVal + " is IDictionary)\n");
-                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IDictionary)" + recVal + ", graph));\n");
+                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString((IDictionary)" + recVal + ", graph));\n");
                             source.AppendFront("else if(" + recVal + " is IList)\n");
-                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString((IList)" + recVal + ", graph));\n");
+                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString((IList)" + recVal + ", graph));\n");
+                            source.AppendFront("else if(" + recVal + " is Queue)\n");
+                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString((Queue)" + recVal + ", graph));\n");
                             source.AppendFront("else\n\t");
                         }
-                        source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + recVal + ", graph));\n");
+                        source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString(" + recVal + ", graph));\n");
                     } else {
                         SequenceExpressionConstant constant = (SequenceExpressionConstant)seqRec.Expression;
                         if(constant.Constant is string)
@@ -1756,7 +1762,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("procEnv.Recorder.Write(\"" + text + "\");\n");
                         }
                         else
-                            source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.DictionaryListHelper.ToString(" + GetSequenceExpression(seqRec.Expression, source) + ", graph));\n");
+                            source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString(" + GetSequenceExpression(seqRec.Expression, source) + ", graph));\n");
                     }
                     source.AppendFront(SetResultVar(seqRec, "null"));
                     break;
@@ -1920,7 +1926,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("object value_" + tgtAttr.Id + " = " + sourceValueComputation + ";\n");
                     source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + tgtAttr.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(tgtAttr.DestVar) + ";\n");
                     source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + tgtAttr.Id + ";\n");
-                    source.AppendFront("value_" + tgtAttr.Id + " = GRGEN_LIBGR.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(elem_" + tgtAttr.Id + ", \"" + tgtAttr.AttributeName + "\", value_" + tgtAttr.Id + ", out attrType_" + tgtAttr.Id + ");\n");
+                    source.AppendFront("value_" + tgtAttr.Id + " = GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(elem_" + tgtAttr.Id + ", \"" + tgtAttr.AttributeName + "\", value_" + tgtAttr.Id + ", out attrType_" + tgtAttr.Id + ");\n");
                     source.AppendFront("GRGEN_LIBGR.AttributeChangeType changeType_" + tgtAttr.Id + " = GRGEN_LIBGR.AttributeChangeType.Assign;\n");
                     source.AppendFront("if(elem_" + tgtAttr.Id + " is GRGEN_LIBGR.INode)\n");
                     source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + tgtAttr.Id + ", attrType_" + tgtAttr.Id + ", changeType_" + tgtAttr.Id + ", value_" + tgtAttr.Id + ", null);\n");
@@ -2487,15 +2493,15 @@ namespace de.unika.ipd.grGen.lgsp
 
                     if(seqContainerPeek.ContainerType(env) == "")
                     {
-                        return "GRGEN_LIBGR.DictionaryListHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")"; 
+                        return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")"; 
                     }
                     else if(seqContainerPeek.ContainerType(env).StartsWith("array"))
                     {
                         return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
                     }
-                    else // statically known set/map
+                    else // statically known set/map/queue
                     {
-                        return "GRGEN_LIBGR.DictionaryListHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
+                        return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
                     }
                 }
 
@@ -2510,7 +2516,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceExpressionAttributeAccess seqAttr = (SequenceExpressionAttributeAccess)expr;
                     string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqAttr.SourceVar) + ")";
                     string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
-                    return "GRGEN_LIBGR.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(" + element + ", \"" + seqAttr.AttributeName + "\", " + value + ")";
+                    return "GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(" + element + ", \"" + seqAttr.AttributeName + "\", " + value + ")";
                 }
 
                 case SequenceExpressionType.ElementOfMatch:
@@ -2623,17 +2629,24 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 Type keyType;
                 Type valueType;
-                DictionaryListHelper.GetDictionaryTypes(constant, out keyType, out valueType);
+                ContainerHelper.GetDictionaryTypes(constant, out keyType, out valueType);
                 String srcType = "typeof(" + TypesHelper.PrefixedTypeFromType(keyType) + ")";
                 String dstType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
-                return "GRGEN_LIBGR.DictionaryListHelper.NewDictionary(" + srcType + "," + dstType + ")";
+                return "GRGEN_LIBGR.ContainerHelper.NewDictionary(" + srcType + "," + dstType + ")";
             }
             else if(constant is IList)
             {
                 Type valueType;
-                DictionaryListHelper.GetListType(constant, out valueType);
+                ContainerHelper.GetListType(constant, out valueType);
                 String arrayValueType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
-                return "GRGEN_LIBGR.DictionaryListHelper.NewList(" + arrayValueType + ")";
+                return "GRGEN_LIBGR.ContainerHelper.NewList(" + arrayValueType + ")";
+            }
+            else if(constant is Queue)
+            {
+                Type valueType;
+                ContainerHelper.GetListType(constant, out valueType);
+                String queueValueType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
+                return "GRGEN_LIBGR.ContainerHelper.NewQueue(" + queueValueType + ")";
             }
             else if(constant is string)
             {
