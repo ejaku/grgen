@@ -17,7 +17,6 @@ package de.unika.ipd.grgen.parser.antlr;
 import org.antlr.runtime.*;
 
 import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.util.Pair;
 import de.unika.ipd.grgen.ast.ModelNode;
 import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
@@ -32,8 +31,7 @@ import java.util.Stack;
  */
 public class GRParserEnvironment extends ParserEnvironment {
 	private boolean hadError = false;
-	private Stack<GrGenParser> parsers = new Stack<GrGenParser>();
-	private Stack<Pair<CharStream, Integer>> streams = new Stack<Pair<CharStream, Integer>>();
+	private Stack<SubunitInclude> includes = new Stack<SubunitInclude>();
 	private HashSet<String> filesOnStack = new HashSet<String>();
 	private HashSet<String> modelsOnStack = new HashSet<String>();
 	private HashMap<String, ModelNode> models = new HashMap<String, ModelNode>();
@@ -64,7 +62,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			// save current lexer's state
 			CharStream input = lexer.getCharStream();
 	        int marker = input.mark();
-	        streams.push(new Pair<CharStream, Integer>(input, marker));
+	        includes.push(new SubunitInclude(input, marker));
 
 	        // switch on new input stream
 	        ANTLRFileStream stream = new ANTLRFileStream(file.getPath());
@@ -79,13 +77,13 @@ public class GRParserEnvironment extends ParserEnvironment {
 	}
 
     public boolean popFile(Lexer lexer) {
-    	// We've got EOF and have a non empty stack.
-    	if(!streams.empty()){
+    	// We've got EOF on an include (not a model using or the initial parser).
+    	if(includes.size() > 1 && includes.peek().charStream != null){
 			filesOnStack.remove(lexer.getSourceName());
 
-			Pair<CharStream, Integer> stream = streams.pop();
-			lexer.setCharStream(stream.first);
-			lexer.getCharStream().rewind(stream.second);
+			SubunitInclude include = includes.pop();
+			lexer.setCharStream(include.charStream);
+			lexer.getCharStream().rewind(include.marking);
 			filename = lexer.getCharStream().getSourceName();
 			return true;
     	}
@@ -109,7 +107,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			lexer.setEnv(this);
 			CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 			GrGenParser parser = new GrGenParser(tokenStream);
-			parsers.push(parser);
+			includes.push(new SubunitInclude(parser));
 			filename = inputFile.getPath();
 
 			try {
@@ -123,7 +121,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 				System.exit(1);
 			}
 
-			parsers.pop();
+			includes.pop();
 		}
 		catch(IOException e) {
 			System.err.println("input file not found: " + e.getMessage());
@@ -155,7 +153,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			lexer.setEnv(this);
 			CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 			GrGenParser parser = new GrGenParser(tokenStream);
-			parsers.push(parser);
+			includes.push(new SubunitInclude(parser));
 			String oldFilename = filename;
 			filename = inputFile.getPath();
 
@@ -172,7 +170,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 
 			filename = oldFilename;
 
-			parsers.pop();
+			includes.pop();
 		}
 		catch(IOException e) {
 			System.err.println("cannot load graph model: " + e.getMessage());

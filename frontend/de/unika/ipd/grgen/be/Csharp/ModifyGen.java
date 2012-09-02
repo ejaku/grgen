@@ -2231,13 +2231,13 @@ public class ModifyGen extends CSharpBase {
 		if(!isDeletedElem && be.system.mayFireEvents()) {
 			sb.append(prefix);
 			if(cass.getOperation()==CompoundAssignment.UNION)
-				sb.append("GRGEN_LIBGR.DictionaryListHelper.UnionChanged(");
+				sb.append("GRGEN_LIBGR.ContainerHelper.UnionChanged(");
 			else if(cass.getOperation()==CompoundAssignment.INTERSECTION)
-				sb.append("GRGEN_LIBGR.DictionaryListHelper.IntersectChanged(");
+				sb.append("GRGEN_LIBGR.ContainerHelper.IntersectChanged(");
 			else if(cass.getOperation()==CompoundAssignment.WITHOUT)
-				sb.append("GRGEN_LIBGR.DictionaryListHelper.ExceptChanged(");
+				sb.append("GRGEN_LIBGR.ContainerHelper.ExceptChanged(");
 			else //if(cass.getOperation()==CompoundAssignment.CONCATENATE)
-				sb.append("GRGEN_LIBGR.DictionaryListHelper.ConcatenateChanged(");
+				sb.append("GRGEN_LIBGR.ContainerHelper.ConcatenateChanged(");
 			genExpression(sb, target, state);
 			sb.append(", ");
 			genExpression(sb, expr, state);
@@ -2331,13 +2331,13 @@ public class ModifyGen extends CSharpBase {
 
 		sb.append(prefix);
 		if(cass.getOperation()==CompoundAssignment.UNION)
-			sb.append("GRGEN_LIBGR.DictionaryListHelper.UnionChanged(");
+			sb.append("GRGEN_LIBGR.ContainerHelper.UnionChanged(");
 		else if(cass.getOperation()==CompoundAssignment.INTERSECTION)
-			sb.append("GRGEN_LIBGR.DictionaryListHelper.IntersectChanged(");
+			sb.append("GRGEN_LIBGR.ContainerHelper.IntersectChanged(");
 		else if(cass.getOperation()==CompoundAssignment.WITHOUT)
-			sb.append("GRGEN_LIBGR.DictionaryListHelper.ExceptChanged(");
+			sb.append("GRGEN_LIBGR.ContainerHelper.ExceptChanged(");
 		else //if(cass.getOperation()==CompoundAssignment.CONCATENATE)
-			sb.append("GRGEN_LIBGR.DictionaryListHelper.ConcatenateChanged(");
+			sb.append("GRGEN_LIBGR.ContainerHelper.ConcatenateChanged(");
 		sb.append("var_" + target.getIdent());
 		sb.append(", ");
 		genExpression(sb, expr, state);
@@ -2555,7 +2555,7 @@ public class ModifyGen extends CSharpBase {
 	private void genQueueRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, QueueRemoveItem qri) {
 		Qualification target = qri.getTarget();
 		
-		genChangingAttribute(sb, state, target, "RemoveElement", "null", "");
+		genChangingAttribute(sb, state, target, "RemoveElement", "null", "null");
 
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
@@ -2587,7 +2587,7 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sbtmp, qai.getValueExpr(), state);
 		String valueExprStr = sbtmp.toString();
 		
-		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, "");
+		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, "null");
 
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);

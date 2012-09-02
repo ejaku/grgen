@@ -51,14 +51,15 @@ tokens {
 	public Token nextToken() {
 		Token token = super.nextToken();
 
-		if(token==Token.EOF_TOKEN) {
+		if(token.getType()==Token.EOF) {
 			if(env.popFile(this)) {
-				token = super.nextToken();
+				token = this.nextToken();
 			}
 		}
 
 		// Skip first token after switching to another input.
-		if(((CommonToken)token).getStartIndex() < 0) {
+		int startIndex = ((CommonToken)token).getStartIndex();
+		if(startIndex < 0) {
 			token = this.nextToken();
 		}
 			
@@ -233,7 +234,7 @@ textActions returns [ UnitNode main = null ]
 usingDecl [ CollectNode<ModelNode> modelChilds ]
 	@init{ Collection<String> modelNames = new LinkedList<String>(); }
 
-	: u=USING identList[modelNames] SEMI
+	: u=USING identList[modelNames]
 		{
 			modelChilds.setCoords(getCoords(u));
 			for(Iterator<String> it = modelNames.iterator(); it.hasNext();)
@@ -249,6 +250,7 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 				}
 			}
 		}
+		SEMI // don't move before the semantic action, this would cause a following include to be processed before the using of the model
 	;
 
 patternOrActionOrSequenceDecls[ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> sequenceChilds ]
@@ -3277,7 +3279,6 @@ STRING_LITERAL
 
 INCLUDE
   : '#include' WS s=STRING_LITERAL {
-  	$channel=HIDDEN;
 	String file = s.getText();
 	file = file.substring(1,file.length()-1);
 	env.pushFile(this, new File(file));
