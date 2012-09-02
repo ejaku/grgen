@@ -1071,6 +1071,8 @@ namespace de.unika.ipd.grGen.libGr
             else
             {
                 Queue queue = (Queue)obj;
+                if(num == 0)
+                    return queue.Peek();
                 IEnumerator it = queue.GetEnumerator();
                 if(num >= 0) it.MoveNext();
                 for(int i = 0; i < num; ++i)
@@ -1594,9 +1596,9 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns a string representation of the given List
         /// </summary>
         /// <param name="array">The List of which to get the string representation</param>
-        /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
-        /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
-        /// <param name="attrType">The attribute type of the dictionary if available, otherwise null</param>
+        /// <param name="type">The type as string, e.g array<int></param>
+        /// <param name="content">The content as string, e.g. [ 42, 43 ]</param>
+        /// <param name="attrType">The attribute type of the array if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
         public static void ToString(IList array, out string type, out string content,
             AttributeType attrType, IGraph graph)
@@ -1625,6 +1627,44 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             sb.Append("]");
+            content = sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns a string representation of the given Queue
+        /// </summary>
+        /// <param name="queue">The Queue of which to get the string representation</param>
+        /// <param name="type">The type as string, e.g queue<int></param>
+        /// <param name="content">The content as string, e.g. ] 42, 43 [</param>
+        /// <param name="attrType">The attribute type of the queue if available, otherwise null</param>
+        /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        public static void ToString(Queue queue, out string type, out string content,
+            AttributeType attrType, IGraph graph)
+        {
+            Type valueType;
+            GetListType(queue, out valueType);
+
+            StringBuilder sb = new StringBuilder(256);
+            sb.Append("]");
+
+            AttributeType attrValueType = attrType != null ? attrType.ValueType : null;
+
+            if(queue != null)
+            {
+                type = "queue<" + valueType.Name + ">";
+                bool first = true;
+                foreach(Object entry in queue)
+                {
+                    if(first) { sb.Append(ToString(entry, attrValueType, graph)); first = false; }
+                    else { sb.Append(","); sb.Append(ToString(entry, attrValueType, graph)); }
+                }
+            }
+            else
+            {
+                type = "<INVALID>";
+            }
+
+            sb.Append("[");
             content = sb.ToString();
         }
 
@@ -1806,7 +1846,7 @@ namespace de.unika.ipd.grGen.libGr
                     return;
                 }
 
-                Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1");
+                Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1" && value.GetType().Name != "Queue`1");
                 switch(value.GetType().Name)
                 {
                     case "SByte": type = "sbyte"; break;
@@ -1921,7 +1961,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(graph!=null && value is Enum)
             {
-                Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1");
+                Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1" && value.GetType().Name != "Queue`1");
                 foreach(EnumAttributeType enumAttrType in graph.Model.EnumAttributeTypes)
                 {
                     if(value.GetType()==enumAttrType.EnumType)

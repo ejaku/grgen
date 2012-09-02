@@ -202,7 +202,30 @@ namespace de.unika.ipd.grGen.lgsp
                     _value = clonedArray;
                 }
             }
-            else if (_attrType.Kind == AttributeKind.MapAttr)
+            else if(_attrType.Kind == AttributeKind.QueueAttr)
+            {
+                if(changeType == AttributeChangeType.PutElement)
+                {
+                    Queue queue = (Queue)_elem.GetAttribute(_attrType.Name);
+                    _undoOperation = UndoOperation.RemoveElement;
+                }
+                else if(changeType == AttributeChangeType.RemoveElement)
+                {
+                    Queue queue = (Queue)_elem.GetAttribute(_attrType.Name);
+                    _undoOperation = UndoOperation.PutElement;
+                    _value = queue.Peek();
+                }
+                else // Assign
+                {
+                    Type valueType;
+                    Queue queue = ContainerHelper.GetQueueType(
+                        _elem.GetAttribute(_attrType.Name), out valueType);
+                    Queue clonedQueue = ContainerHelper.NewQueue(valueType, queue);
+                    _undoOperation = UndoOperation.Assign;
+                    _value = clonedQueue;
+                }
+            }
+            else if(_attrType.Kind == AttributeKind.MapAttr)
             {
                 if (changeType == AttributeChangeType.PutElement)
                 {
@@ -289,7 +312,7 @@ namespace de.unika.ipd.grGen.lgsp
                     IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
                     dict.Add(_keyOfValue, _value);
                 }
-                else //if (_attrType.Kind == AttributeKind.ArrayAttr)
+                else if (_attrType.Kind == AttributeKind.ArrayAttr)
                 {
                     ChangingElementAttribute(procEnv);
                     IList array = (IList)_elem.GetAttribute(_attrType.Name);
@@ -297,6 +320,20 @@ namespace de.unika.ipd.grGen.lgsp
                         array.Add(_value);
                     else
                         array.Insert((int)_keyOfValue, _value);
+                }
+                else //if(_attrType.Kind == AttributeKind.QueueAttr)
+                {
+                    // TODO: search for a deque once this is basically working
+                    // this is obviously total bullshit regarding performance
+                    // why is there no deque in the standard library?
+                    // when it comes to data structures, .NET is very poor
+                    ChangingElementAttribute(procEnv);
+                    Queue queue = (Queue)_elem.GetAttribute(_attrType.Name);
+                    Queue intermediate = new Queue(queue);
+                    queue.Clear();
+                    queue.Enqueue(_value);
+                    foreach(object entry in intermediate)
+                    queue.Enqueue(entry);
                 }
             }
             else if (_undoOperation == UndoOperation.RemoveElement)
@@ -313,7 +350,7 @@ namespace de.unika.ipd.grGen.lgsp
                     IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
                     dict.Remove(_keyOfValue);
                 }
-                else //if(_attrType.Kind == AttributeKind.ArrayAttr)
+                else if(_attrType.Kind == AttributeKind.ArrayAttr)
                 {
                     ChangingElementAttribute(procEnv);
                     IList array = (IList)_elem.GetAttribute(_attrType.Name);
@@ -321,6 +358,23 @@ namespace de.unika.ipd.grGen.lgsp
                         array.RemoveAt(array.Count - 1);
                     else
                         array.RemoveAt((int)_keyOfValue);
+                }
+                else //if(_attrType.Kind == AttributeKind.QueueAttr)
+                {
+                    // TODO: search for a deque once this is basically working
+                    // this is obviously total bullshit regarding performance
+                    // why is there no deque in the standard library?
+                    // when it comes to data structures, .NET is very poor
+                    ChangingElementAttribute(procEnv);
+                    Queue queue = (Queue)_elem.GetAttribute(_attrType.Name);
+                    Queue intermediate = new Queue(queue);
+                    queue.Clear();
+                    foreach(object entry in intermediate)
+                    {
+                        if(queue.Count >= intermediate.Count - 1)
+                            break; // don't copy last element
+                        queue.Enqueue(entry);
+                    }
                 }
             }
             else if(_undoOperation == UndoOperation.AssignElement)

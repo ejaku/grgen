@@ -431,7 +431,7 @@ public class ModelGen extends CSharpBase {
 			String attrName = formatIdentifiable(member);
 			if(member.getType() instanceof MapType || member.getType() instanceof SetType 
 					|| member.getType() instanceof ArrayType || member.getType() instanceof QueueType) {
-				routedSB.append("\t\t\t\t&& GRGEN_LIBGR.DictionaryListHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
+				routedSB.append("\t\t\t\t&& GRGEN_LIBGR.ContainerHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else {
 				routedSB.append("\t\t\t\t&& " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " == that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");

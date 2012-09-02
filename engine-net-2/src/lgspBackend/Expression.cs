@@ -411,6 +411,10 @@ namespace de.unika.ipd.grGen.expression
         }
     }
 
+    // TODO: a lot of the functions for the containers are mapping to the same code, 
+    // helper functions with the same name resolved by the types in the generated code,
+    // would make sense, safe code to not distinguish them
+
     /// <summary>
     /// Class representing set/map equality comparison.
     /// </summary>
@@ -520,7 +524,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing set/map equality comparison.
+    /// Class representing array equality comparison.
     /// </summary>
     public class LIST_EQ : BinFuncOperator
     {
@@ -538,7 +542,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing set/map inequality comparison.
+    /// Class representing array inequality comparison.
     /// </summary>
     public class LIST_NE : BinFuncOperator
     {
@@ -556,7 +560,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing proper subset/map comparison.
+    /// Class representing proper subarray comparison.
     /// </summary>
     public class LIST_LT : BinFuncOperator
     {
@@ -574,7 +578,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing subset/map comparison.
+    /// Class representing subarray comparison.
     /// </summary>
     public class LIST_LE : BinFuncOperator
     {
@@ -592,7 +596,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing proper superset comparison.
+    /// Class representing proper superarray comparison.
     /// </summary>
     public class LIST_GT : BinFuncOperator
     {
@@ -610,7 +614,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing superset comparison.
+    /// Class representing superarray comparison.
     /// </summary>
     public class LIST_GE : BinFuncOperator
     {
@@ -619,6 +623,114 @@ namespace de.unika.ipd.grGen.expression
         public override Expression Copy(string renameSuffix)
         {
             return new LIST_GE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing queue equality comparison.
+    /// </summary>
+    public class QUEUE_EQ : BinFuncOperator
+    {
+        public QUEUE_EQ(Expression left, Expression right) : base(left, right) { }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QUEUE_EQ(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.ContainerHelper.Equal(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing queue inequality comparison.
+    /// </summary>
+    public class QUEUE_NE : BinFuncOperator
+    {
+        public QUEUE_NE(Expression left, Expression right) : base(left, right) { }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QUEUE_NE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.ContainerHelper.NotEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing proper subqueue comparison.
+    /// </summary>
+    public class QUEUE_LT : BinFuncOperator
+    {
+        public QUEUE_LT(Expression left, Expression right) : base(left, right) { }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QUEUE_LT(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.ContainerHelper.LessThan(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing subqueue comparison.
+    /// </summary>
+    public class QUEUE_LE : BinFuncOperator
+    {
+        public QUEUE_LE(Expression left, Expression right) : base(left, right) { }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QUEUE_LE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.ContainerHelper.LessOrEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing proper superqueue comparison.
+    /// </summary>
+    public class QUEUE_GT : BinFuncOperator
+    {
+        public QUEUE_GT(Expression left, Expression right) : base(left, right) { }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QUEUE_GT(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.ContainerHelper.GreaterThan(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing superqueue comparison.
+    /// </summary>
+    public class QUEUE_GE : BinFuncOperator
+    {
+        public QUEUE_GE(Expression left, Expression right) : base(left, right) { }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QUEUE_GE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
         public override string GetFuncOperatorAndLParen()
@@ -709,7 +821,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a List concatenation.
+    /// Class representing an array concatenation.
     /// </summary>
     public class LIST_ADD : BinFuncOperator
     {
@@ -718,6 +830,24 @@ namespace de.unika.ipd.grGen.expression
         public override Expression Copy(string renameSuffix)
         {
             return new LIST_ADD(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.ContainerHelper.Concatenate(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing a Queue concatenation.
+    /// </summary>
+    public class QUEUE_ADD : BinFuncOperator
+    {
+        public QUEUE_ADD(Expression left, Expression right) : base(left, right) { }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QUEUE_ADD(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
         public override string GetFuncOperatorAndLParen()
@@ -1881,6 +2011,71 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a queue  size expression.
+    /// </summary>
+    public class QueueSize : Expression
+    {
+        public QueueSize(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QueueSize(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(").Count");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing a queue peek expression.
+    /// </summary>
+    public class QueuePeek : Expression
+    {
+        public QueuePeek(Expression target, Expression number)
+        {
+            Target = target;
+            Number = number;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QueuePeek(Target.Copy(renameSuffix), Number.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Peek(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(",");
+            Number.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Number;
+        }
+
+        Expression Target;
+        Expression Number;
+    }
+    
+    /// <summary>
     /// Class representing a constant rule-local map, available as initalized static class member.
     /// </summary>
     public class StaticMap : Expression
@@ -1953,6 +2148,31 @@ namespace de.unika.ipd.grGen.expression
 
         String ClassName;
         String ArrayName;
+    }
+
+    /// <summary>
+    /// Class representing a constant rule-local queue, available as initialized static class member.
+    /// </summary>
+    public class StaticQueue : Expression
+    {
+        public StaticQueue(String className, String queueName)
+        {
+            ClassName = className;
+            QueueName = queueName;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new StaticQueue(ClassName, QueueName);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(ClassName + "." + QueueName);
+        }
+
+        String ClassName;
+        String QueueName;
     }
 
     /// <summary>
@@ -2200,6 +2420,83 @@ namespace de.unika.ipd.grGen.expression
         Expression Value;
         String ValueType;
         ArrayItem Next;
+    }
+
+    /// <summary>
+    /// Class representing a rule-local queue to be filled with the given queue items.
+    /// </summary>
+    public class QueueConstructor : Expression
+    {
+        public QueueConstructor(String className, String queueName, QueueItem first)
+        {
+            ClassName = className;
+            QueueName = queueName;
+            First = first;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QueueConstructor(ClassName, QueueName, (QueueItem)First.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(ClassName + ".fill_" + QueueName + "(");
+            First.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return First;
+        }
+
+        String ClassName;
+        String QueueName;
+        QueueItem First;
+    }
+
+    /// <summary>
+    /// Class representing a queue item.
+    /// </summary>
+    public class QueueItem : Expression
+    {
+        public QueueItem(Expression value, String valueType, QueueItem next)
+        {
+            Value = value;
+            ValueType = valueType;
+            Next = next;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new QueueItem(Value.Copy(renameSuffix), ValueType, Next != null ? (QueueItem)Next.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(ValueType != null)
+                sourceCode.Append("(" + ValueType + ")(");
+            Value.Emit(sourceCode);
+            if(ValueType != null)
+                sourceCode.Append(")");
+
+            if(Next != null)
+            {
+                sourceCode.Append(", ");
+                Next.Emit(sourceCode);
+            }
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Value;
+            yield return Next;
+        }
+
+        Expression Value;
+        String ValueType;
+        QueueItem Next;
     }
 
     /// <summary>
@@ -2625,10 +2922,43 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(NamesOfEntities.Variable(Left) + ".Count-1");
             sourceCode.Append(")");
         }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            if(Right==null) yield return Right;
+            yield break;
+        }
     }
 
     /// <summary>
-    /// Class representing a clearing of a set or a map or an array
+    /// Class representing a remove from a queue
+    /// </summary>
+    public class QueueRemove : YieldMethod
+    {
+        public QueueRemove(String left)
+            : base(left, null)
+        {
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new QueueRemove(Left + renameSuffix);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(".Dequeue()");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield break;
+        }
+    }
+
+    /// <summary>
+    /// Class representing a clearing of a set or a map or an array or a queue
     /// </summary>
     public class Clear : YieldMethod
     {
@@ -2646,6 +2976,11 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(".Clear()");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield break;
         }
     }
 
@@ -2706,6 +3041,80 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing an add to an array
+    /// </summary>
+    public class ArrayAdd : YieldMethod
+    {
+        public ArrayAdd(String left, Expression value, Expression index)
+            : base(left, index)
+        {
+            Value = value;
+        }
+
+        public ArrayAdd(String left, Expression value)
+            : base(left, null)
+        {
+            Value = value;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new ArrayAdd(Left + renameSuffix, Value.Copy(renameSuffix), Right != null ? Right.Copy(renameSuffix) : Right);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            if(Right != null)
+            {
+                sourceCode.Append(".Insert(");
+                Right.Emit(sourceCode);
+                sourceCode.Append(", ");
+                Value.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
+            else
+            {
+                sourceCode.Append(".Add(");
+                Value.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            if(Right != null) yield return Right;
+            yield return Value;
+        }
+
+        Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing an add to a queue
+    /// </summary>
+    public class QueueAdd : YieldMethod
+    {
+        public QueueAdd(String left, Expression value)
+            : base(left, value)
+        {
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new QueueAdd(Left + renameSuffix, Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(".Enqueue(");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
     }
 
     /// <summary>

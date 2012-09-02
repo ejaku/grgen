@@ -1225,6 +1225,8 @@ namespace de.unika.ipd.grGen.libGr
                     return DestVar.Name + "=" + "{}"; // only empty set/map assignment possible as of now
                 else if(Constant.GetType().Name == "List`1")
                     return DestVar.Name + "=" + "[]"; // only empty array assignment possible as of now
+                else if(Constant.GetType().Name == "Queue`1")
+                    return DestVar.Name + "=" + "]["; // only empty queue assignment possible as of now
                 else
                     return DestVar.Name + "=" + Constant.ToString();
             }
