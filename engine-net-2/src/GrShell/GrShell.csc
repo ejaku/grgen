@@ -394,7 +394,7 @@ TOKEN: {
 }
 
 SPECIAL_TOKEN: {
-	< SINGLE_LINE_COMMENT: "#" (~["\n"])* >
+	< SINGLE_LINE_COMMENT: "#" (~["\n", "\r", "#"])* ("#")?>
 }
 
 <WithinFilename> SKIP: {
