@@ -1,4 +1,13 @@
-﻿v3.6.ms1 (2012-08-27)
+﻿v3.6.ms1b (2012-10-25)
+ Bugfixes:
+  - fixed bug on importing ecore or GXL in the GrShell
+    (another occurence of split-brain GrGen with two graphs)
+  - fixed inlining bug which occured when subpatterns were used anonymously at different nesting levels
+  - shell comments are now terminated at line end or at #
+     so ## gives an empty comment which can be used for terminating a sequence
+     when it appears in a shell input parameter string separated by ;; instead of line breaks
+  
+v3.6.ms1 (2012-08-27)
  Added automorphic pattern filtering / symmetry reduction of matches:
   - a rule declaration may now be annotated with a special filter auto, this
     makes GrGen.NET generate a matches filter auto which can be applied to calls of that rule
