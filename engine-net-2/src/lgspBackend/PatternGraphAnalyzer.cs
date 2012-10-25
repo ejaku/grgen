@@ -993,7 +993,7 @@ namespace de.unika.ipd.grGen.lgsp
         void InlineSubpatternUsage(PatternGraph patternGraph, PatternGraphEmbedding embedding)
         {
             PatternGraph embeddedGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
-            string renameSuffix = "_inlined_" + embedding.Name;
+            string renameSuffix = "_inlined_" + embedding.Name + "_" + (renameId++);
 
             Dictionary<PatternNode, PatternNode> nodeToCopy = new Dictionary<PatternNode,PatternNode>();
             Dictionary<PatternEdge, PatternEdge> edgeToCopy = new Dictionary<PatternEdge,PatternEdge>();
@@ -1354,5 +1354,6 @@ namespace de.unika.ipd.grGen.lgsp
         // ----------------------------------------------------------------
 
         private List<LGSPMatchingPattern> matchingPatterns;
+        private int renameId = 0; // an id to ensure that inlined elements of a subpattern are named differently for multiple instances of the inlined pattern
     }
 }
