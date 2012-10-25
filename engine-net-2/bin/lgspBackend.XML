@@ -5914,32 +5914,62 @@
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LIST_EQ">
             <summary>
-            Class representing set/map equality comparison.
+            Class representing array equality comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LIST_NE">
             <summary>
-            Class representing set/map inequality comparison.
+            Class representing array inequality comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LIST_LT">
             <summary>
-            Class representing proper subset/map comparison.
+            Class representing proper subarray comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LIST_LE">
             <summary>
-            Class representing subset/map comparison.
+            Class representing subarray comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LIST_GT">
             <summary>
-            Class representing proper superset comparison.
+            Class representing proper superarray comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LIST_GE">
             <summary>
-            Class representing superset comparison.
+            Class representing superarray comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QUEUE_EQ">
+            <summary>
+            Class representing queue equality comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QUEUE_NE">
+            <summary>
+            Class representing queue inequality comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QUEUE_LT">
+            <summary>
+            Class representing proper subqueue comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QUEUE_LE">
+            <summary>
+            Class representing subqueue comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QUEUE_GT">
+            <summary>
+            Class representing proper superqueue comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QUEUE_GE">
+            <summary>
+            Class representing superqueue comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SHL">
@@ -5964,7 +5994,12 @@
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LIST_ADD">
             <summary>
-            Class representing a List concatenation.
+            Class representing an array concatenation.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QUEUE_ADD">
+            <summary>
+            Class representing a Queue concatenation.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SUB">
@@ -6147,6 +6182,16 @@
             Class representing an array subarray expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.QueueSize">
+            <summary>
+            Class representing a queue  size expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QueuePeek">
+            <summary>
+            Class representing a queue peek expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.StaticMap">
             <summary>
             Class representing a constant rule-local map, available as initalized static class member.
@@ -6160,6 +6205,11 @@
         <member name="T:de.unika.ipd.grGen.expression.StaticArray">
             <summary>
             Class representing a constant rule-local array, available as initialized static class member.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StaticQueue">
+            <summary>
+            Class representing a constant rule-local queue, available as initialized static class member.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.MapConstructor">
@@ -6190,6 +6240,16 @@
         <member name="T:de.unika.ipd.grGen.expression.ArrayItem">
             <summary>
             Class representing an array item.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QueueConstructor">
+            <summary>
+            Class representing a rule-local queue to be filled with the given queue items.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QueueItem">
+            <summary>
+            Class representing a queue item.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ExternalFunctionInvocation">
@@ -6282,9 +6342,14 @@
             Class representing a remove from an array
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.QueueRemove">
+            <summary>
+            Class representing a remove from a queue
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Clear">
             <summary>
-            Class representing a clearing of a set or a map or an array
+            Class representing a clearing of a set or a map or an array or a queue
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SetAdd">
@@ -6295,6 +6360,16 @@
         <member name="T:de.unika.ipd.grGen.expression.MapAdd">
             <summary>
             Class representing an add to map
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayAdd">
+            <summary>
+            Class representing an add to an array
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.QueueAdd">
+            <summary>
+            Class representing an add to a queue
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SetMapUnion">
