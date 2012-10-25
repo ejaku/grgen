@@ -1435,6 +1435,663 @@
                 it must be conformant to the model used in the file to be imported.</param>
             <param name="actions">Receives the actions object in case a .grg model is given.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetDictionaryTypes(System.Object,System.Type@,System.Type@)">
+            <summary>
+            If dict is dictionary, the dictionary is returned together with its key and value type
+            </summary>
+            <param name="dict">The object which should be a dictionary</param>
+            <param name="keyType">The key type of the dictionary</param>
+            <param name="valueType">The value type of the dictionary</param>
+            <returns>The casted input dictionary, or null if not a dictionary</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetListType(System.Object,System.Type@)">
+            <summary>
+            If array is List, the List is returned together with its value type
+            </summary>
+            <param name="array">The object which should be a List</param>
+            <param name="valueType">The value type of the List</param>
+            <returns>The casted input List, or null if not a List</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetQueueType(System.Object,System.Type@)">
+            <summary>
+            If queue is Queue, the Queue is returned together with its value type
+            </summary>
+            <param name="queue">The object which should be a Queue</param>
+            <param name="valueType">The value type of the Queue</param>
+            <returns>The casted input Queue, or null if not a Queue</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetDictionaryTypes(System.Type,System.Type@,System.Type@)">
+            <summary>
+            The key and value types are returned of the dictionary
+            </summary>
+            <param name="dictType">The dictionary type</param>
+            <param name="keyType">The key type of the dictionary</param>
+            <param name="valueType">The value type of the dictionary</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetListType(System.Type,System.Type@)">
+            <summary>
+            The value type of the List is returned
+            </summary>
+            <param name="arrayType">The List type</param>
+            <param name="valueType">The value type of the List</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetQueueType(System.Type,System.Type@)">
+            <summary>
+            The value type of the Queue is returned
+            </summary>
+            <param name="queueType">The Queue type</param>
+            <param name="valueType">The value type of the Queue</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetTypeFromNameForContainer(System.String,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Queue
+            </summary>
+            <param name="typeName">Name of the type we want some type object for</param>
+            <param name="graph">Graph to be search for enum,node,edge types / enum,node/edge type names</param>
+            <returns>The type object corresponding to the given string, null if type was not found</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetTypeFromNameForContainer(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Queue
+            </summary>
+            <param name="typeName">Name of the type we want some type object for</param>
+            <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
+            <returns>The type object corresponding to the given string, null if type was not found</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetQualifiedTypeName(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Returns the qualified type name for the type name given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewDictionary(System.Type,System.Type)">
+            <summary>
+            Creates a new dictionary of the given key type and value type
+            </summary>
+            <param name="keyType">The key type of the dictionary to be created</param>
+            <param name="valueType">The value type of the dictionary to be created</param>
+            <returns>The newly created dictionary, null if unsuccessfull</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewList(System.Type)">
+            <summary>
+            Creates a new List of the given value type
+            </summary>
+            <param name="valueType">The value type of the List to be created</param>
+            <returns>The newly created List, null if unsuccessfull</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewQueue(System.Type)">
+            <summary>
+            Creates a new Queue of the given value type
+            </summary>
+            <param name="valueType">The value type of the Queue to be created</param>
+            <returns>The newly created Queue, null if unsuccessfull</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewDictionary(System.Type,System.Type,System.Object)">
+            <summary>
+            Creates a new dictionary of the given key type and value type,
+            initialized with the content of the old dictionary (clones the old dictionary)
+            </summary>
+            <param name="keyType">The key type of the dictionary to be created</param>
+            <param name="valueType">The value type of the dictionary to be created</param>
+            <param name="oldDictionary">The old dictionary to be cloned</param>
+            <returns>The newly created dictionary, containing the content of the old dictionary,
+            null if unsuccessfull</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewList(System.Type,System.Object)">
+            <summary>
+            Creates a new List of the given value type,
+            initialized with the content of the old List (clones the old List)
+            </summary>
+            <param name="valueType">The value type of the List to be created</param>
+            <param name="oldList">The old List to be cloned</param>
+            <returns>The newly created List, containing the content of the old List,
+            null if unsuccessfull</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewQueue(System.Type,System.Object)">
+            <summary>
+            Creates a new Queue of the given value type,
+            initialized with the content of the old Queue (clones the old Queue)
+            </summary>
+            <param name="valueType">The value type of the Queue to be created</param>
+            <param name="oldQueue">The old Queue to be cloned</param>
+            <returns>The newly created Queue, containing the content of the old Queue,
+            null if unsuccessfull</returns>
+        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.Union``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Intersect``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Creates a new dictionary containing all key/value pairs from
+            <paramref name="a"/> whose keys are also contained in <paramref name="b"/>.
+            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
+            </summary>
+            <param name="a">A dictionary.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>A new dictionary containing all elements from <paramref name="a"/>,
+            which are also in <paramref name="b"/>.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Except``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2})">
+            <summary>
+            Creates a new dictionary containing all key/value pairs from
+            <paramref name="a"/> whose keys are not contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <returns>A new dictionary containing all elements from <paramref name="a"/>,
+            which are not in <paramref name="b"/>.</returns>
+        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IntersectChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Removes all key/value pairs from set/map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ExceptChanged``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2})">
+            <summary>
+            Removes all key/value pairs from set/map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Adds all key/value pairs from set <paramref name="b"/> to <paramref name="a"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Adds all key/value pairs from set <paramref name="b"/> to <paramref name="a"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IntersectChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IntersectChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IntersectChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from set <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IntersectChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from set <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ExceptChanged``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ExceptChanged``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ExceptChanged``2(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from set <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ExceptChanged``2(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from set <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IndexOf``1(System.Collections.Generic.List{``0},``0)">
+            <summary>
+            Returns the first position of entry in the array a
+            </summary>
+            <param name="a">A List, i.e. dynamic array.</param>
+            <param name="entry">The value to search for.</param>
+            <returns>The first position of entry in the array a, -1 if entry not in a.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LastIndexOf``1(System.Collections.Generic.List{``0},``0)">
+            <summary>
+            Returns the first position from the end inwards of entry in the array a
+            </summary>
+            <param name="a">A List, i.e. dynamic array.</param>
+            <param name="entry">The value to search for.</param>
+            <returns>The first position from the end inwards of entry in the array a, -1 if entry not in a.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Subarray``1(System.Collections.Generic.List{``0},System.Int32,System.Int32)">
+            <summary>
+            Creates a new dynamic array with length values copied from a from index start on.
+            </summary>
+            <param name="a">A List, i.e. dynamic array.</param>
+            <param name="start">A start position in the dynamic array.</param>
+            <param name="length">The number of elements to copy from start on.</param>
+            <returns>A new List, i.e. dynamic array, containing the length first values from start on.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Concatenate``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
+            <summary>
+            Creates a new dynamic array and appends all values first from
+            <paramref name="a"/> and then from <paramref name="b"/>.
+            </summary>
+            <param name="a">A List, i.e. dynamic array.</param>
+            <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
+            <returns>A new List, i.e. dynamic array, containing a concatenation of the parameter arrays.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
+            <summary>
+            Appends all values from dynamic array <paramref name="b"/> to <paramref name="a"/>.
+            </summary>
+            <param name="a">A List, i.e. dynamic array to change.</param>
+            <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
+            <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Appends all values from dynamic array <paramref name="b"/> to <paramref name="a"/>.
+            </summary>
+            <param name="a">A List, i.e. dynamic array to change.</param>
+            <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Appends all values from dynamic array <paramref name="b"/> to <paramref name="a"/>.
+            </summary>
+            <param name="a">A List, i.e. dynamic array to change.</param>
+            <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Concatenate``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+            <summary>
+            Creates a new queue and appends all values first from
+            <paramref name="a"/> and then from <paramref name="b"/>.
+            </summary>
+            <param name="a">A Queue.</param>
+            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <returns>A new Queue containing a concatenation of the parameter queues.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+            <summary>
+            Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+            </summary>
+            <param name="a">A Queue to change.</param>
+            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+            </summary>
+            <param name="a">A Queue to change.</param>
+            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+            </summary>
+            <param name="a">A Queue to change.</param>
+            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Domain``2(System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Creates a new dictionary representing a set,
+            containing all keys from the given dictionary representing a map <paramref name="map"/>.
+            </summary>
+            <param name="map">A dictionary representing a map.</param>
+            <returns>A new set dictionary containing all keys from <paramref name="map"/>.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Range``2(System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Creates a new dictionary representing a set,
+            containing all values from the given dictionary representing a map <paramref name="map"/>.
+            </summary>
+            <param name="map">A dictionary representing a map.</param>
+            <returns>A new set dictionary containing all values from <paramref name="map"/>.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Peek``2(System.Collections.Generic.Dictionary{``0,``1},System.Int32)">
+            <summary>
+            Returns the value from the dictionary at the nth position as defined by the iterator of the dictionary.
+            </summary>
+            <param name="dict">A dictionary.</param>
+            <param name="num">The number of the element to get in the iteration sequence.</param>
+            <returns>The element at the position to get.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Peek(System.Object,System.Int32)">
+            <summary>
+            Returns the value from the dictionary or list or queue at the nth position as defined by the iterator of the dictionary or the index of the list or the iterator of the queue.
+            </summary>
+            <param name="obj">A dictionary or a list or a queue.</param>
+            <param name="num">The number of the element to get in the iteration sequence.</param>
+            <returns>The element at the position to get.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Equal``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Checks if set/map <paramref name="a"/> equals set/map <paramref name="b"/>.
+            For a map, key and value must be same to be equal.
+            </summary>
+            <param name="a">A dictionary.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of set/map comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.EqualIDictionary(System.Collections.IDictionary,System.Collections.IDictionary)">
+            <summary>
+            Checks if set/map <paramref name="a"/> equals set/map <paramref name="b"/>.
+            For a map, key and value must be same to be equal.
+            </summary>
+            <param name="a">A dictionary.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of set/map comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NotEqual``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Checks if set/map <paramref name="a"/> is not equal to set/map <paramref name="b"/>.
+            For a map, key and value must be same to be equal.
+            </summary>
+            <param name="a">A dictionary.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of set/map comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GreaterThan``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Checks if set/map <paramref name="a"/> is a proper superset/map of <paramref name="b"/>.
+            For a map, key and value must be same to be equal.
+            </summary>
+            <param name="a">A dictionary.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of set/map comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GreaterOrEqual``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Checks if set/map <paramref name="a"/> is a superset/map of <paramref name="b"/>.
+            For a map, key and value must be same to be equal.
+            </summary>
+            <param name="a">A dictionary.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of set/map comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LessThan``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Checks if set/map <paramref name="a"/> is a proper subset/map of <paramref name="b"/>.
+            For a map, key and value must be same to be equal.
+            </summary>
+            <param name="a">A dictionary.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of set/map comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LessOrEqual``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Checks if set/map <paramref name="a"/> is a subset/map of <paramref name="b"/>.
+            For a map, key and value must be same to be equal.
+            </summary>
+            <param name="a">A dictionary.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of set/map comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Equal``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
+            <summary>
+            Checks if List <paramref name="a"/> equals List <paramref name="b"/>.
+            Requires same values at same index for being true.
+            </summary>
+            <param name="a">A List.</param>
+            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of List comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NotEqual``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
+            <summary>
+            Checks if List <paramref name="a"/> is not equal List <paramref name="b"/>.
+            </summary>
+            <param name="a">A List.</param>
+            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of List comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GreaterThan``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
+            <summary>
+            Checks if List <paramref name="a"/> is a proper superlist of <paramref name="b"/>.
+            Requires a to contain more entries than b and same values at same index for being true.
+            </summary>
+            <param name="a">A List.</param>
+            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of List comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GreaterOrEqual``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
+            <summary>
+            Checks if List <paramref name="a"/> is a superlist of <paramref name="b"/>.
+            Requires a to contain more or same number of entries than b and same values at same index for being true.
+            </summary>
+            <param name="a">A List.</param>
+            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of List comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LessThan``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
+            <summary>
+            Checks if List <paramref name="a"/> is a proper sublist of <paramref name="b"/>.
+            Requires a to contain less entries than b and same values at same index for being true.
+            </summary>
+            <param name="a">A List.</param>
+            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of List comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LessOrEqual``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
+            <summary>
+            Checks if List <paramref name="a"/> is a sublist of <paramref name="b"/>.
+            Requires a to contain less or same number of entries than b and same values at same index for being true.
+            </summary>
+            <param name="a">A List.</param>
+            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of List comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Equal``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+            <summary>
+            Checks if Queue <paramref name="a"/> equals Queue <paramref name="b"/>.
+            Requires same values at same position for being true.
+            </summary>
+            <param name="a">A Queue.</param>
+            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Queue comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NotEqual``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+            <summary>
+            Checks if Queue <paramref name="a"/> is not equal Queue <paramref name="b"/>.
+            </summary>
+            <param name="a">A Queue.</param>
+            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Queue comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GreaterThan``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+            <summary>
+            Checks if Queueu <paramref name="a"/> is a proper superqueue of <paramref name="b"/>.
+            Requires a to contain more entries than b and same values at same position for being true.
+            </summary>
+            <param name="a">A Queue.</param>
+            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Queue comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GreaterOrEqual``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+            <summary>
+            Checks if Queue <paramref name="a"/> is a superqueue of <paramref name="b"/>.
+            Requires a to contain more or same number of entries than b and same values at same position for being true.
+            </summary>
+            <param name="a">A Queue.</param>
+            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Queue comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LessThan``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+            <summary>
+            Checks if Queue <paramref name="a"/> is a proper subqueue of <paramref name="b"/>.
+            Requires a to contain less entries than b and same values at same position for being true.
+            </summary>
+            <param name="a">A Queue.</param>
+            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Queue comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LessOrEqual``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+            <summary>
+            Checks if Queue <paramref name="a"/> is a subqueue of <paramref name="b"/>.
+            Requires a to contain less or same number of entries than b and same values at same positions for being true.
+            </summary>
+            <param name="a">A Queue.</param>
+            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Queue comparison.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given dictionary
+            </summary>
+            <param name="setmap">The dictionary of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of dictionary</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given List
+            </summary>
+            <param name="array">The List of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of List</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.Queue,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given Queue
+            </summary>
+            <param name="queue">The Queue of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of Queue</returns>
+        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.Queue,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.Queue,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar value of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of scalar value</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar value of which to get the string representation</param>
+            <param name="type">The type as string, e.g int,string,Foo </param>
+            <param name="content">The content as string, e.g. 42,"foo",bar } </param>
+            <param name="attrType">The attribute type of the value</param>
+            <param name="graph">The graph with the model and the element names</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object,de.unika.ipd.grGen.libGr.AttributeType@)">
+            <summary>
+            If the attribute of the given name of the given element is a set or map or array attribute
+            then return a clone of the given dictionary or list value, otherwise just return the original value;
+            additionally returns the AttributeType of the attribute of the element.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object)">
+            <summary>
+            If the attribute of the given name of the given element is a set or map or array attribute
+            then return a clone of the given dictionary or list value, otherwise just return the original value
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar of which to get the string representation</param>
+            <param name="attrType">The attribute type</param>
+            <param name="graph">The graph with the model and the element names</param>
+            <returns>String representation of the scalar.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a queue
+            </summary>
+            <param name="value">The value of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of value</returns>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceParserError">
             <summary>
             Specifies the kind of sequence parser error.
@@ -3231,6 +3888,9 @@
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.ArrayAttr">
             <summary>The attribute is an array.</summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.QueueAttr">
+            <summary>The attribute is a queue.</summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.NodeAttr">
             <summary>The attribute is a node (only valid for set/map/array key/value type).</summary>
         </member>
@@ -3270,6 +3930,7 @@
             The attribute type of the value of the set, if Kind == AttributeKind.SetAttr.
             The attribute type of the value of the map, if Kind == AttributeKind.MapAttr.
             The attribute type of the value of the array, if Kind == AttributeKind.ArrayAttr.
+            The attribute type of the value of the queue, if Kind == AttributeKind.QueueAttr.
             Undefined otherwise.
             </summary>
         </member>
@@ -5937,529 +6598,6 @@
             <summary>
             Method to adjust line and column numbers for the start of a token.
             </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GetDictionaryTypes(System.Object,System.Type@,System.Type@)">
-            <summary>
-            If dict is dictionary, the dictionary is returned together with its key and value type
-            </summary>
-            <param name="dict">The object which should be a dictionary</param>
-            <param name="keyType">The key type of the dictionary</param>
-            <param name="valueType">The value type of the dictionary</param>
-            <returns>The casted input dictionary, or null if not a dictionary</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GetListType(System.Object,System.Type@)">
-            <summary>
-            If array is List, the List is returned together with its value type
-            </summary>
-            <param name="array">The object which should be a List</param>
-            <param name="valueType">The value type of the List</param>
-            <returns>The casted input List, or null if not a List</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GetDictionaryTypes(System.Type,System.Type@,System.Type@)">
-            <summary>
-            The key and value types are returned of the dictionary
-            </summary>
-            <param name="dictType">The dictionary type</param>
-            <param name="keyType">The key type of the dictionary</param>
-            <param name="valueType">The value type of the dictionary</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GetListType(System.Type,System.Type@)">
-            <summary>
-            The value type of the List is returned
-            </summary>
-            <param name="arrayType">The List type</param>
-            <param name="valueType">The value type of the dictionary</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GetTypeFromNameForDictionaryOrList(System.String,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns type object for type name string, to be used for dictionary or List
-            </summary>
-            <param name="typeName">Name of the type we want some type object for</param>
-            <param name="graph">Graph to be search for enum,node,edge types / enum,node/edge type names</param>
-            <returns>The type object corresponding to the given string, null if type was not found</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GetTypeFromNameForDictionaryOrList(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
-            <summary>
-            Returns type object for type name string, to be used for dictionary or List
-            </summary>
-            <param name="typeName">Name of the type we want some type object for</param>
-            <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
-            <returns>The type object corresponding to the given string, null if type was not found</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GetQualifiedTypeName(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
-            <summary>
-            Returns the qualified type name for the type name given
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.NewDictionary(System.Type,System.Type)">
-            <summary>
-            Creates a new dictionary of the given key type and value type
-            </summary>
-            <param name="keyType">The key type of the dictionary to be created</param>
-            <param name="valueType">The value type of the dictionary to be created</param>
-            <returns>The newly created dictionary, null if unsuccessfull</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.NewList(System.Type)">
-            <summary>
-            Creates a new List of the given value type
-            </summary>
-            <param name="valueType">The value type of the List to be created</param>
-            <returns>The newly created List, null if unsuccessfull</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.NewDictionary(System.Type,System.Type,System.Object)">
-            <summary>
-            Creates a new dictionary of the given key type and value type,
-            initialized with the content of the old dictionary (clones the old dictionary)
-            </summary>
-            <param name="keyType">The key type of the dictionary to be created</param>
-            <param name="valueType">The value type of the dictionary to be created</param>
-            <param name="oldDictionary">The old dictionary to be cloned</param>
-            <returns>The newly created dictionary, containing the content of the old dictionary,
-            null if unsuccessfull</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.NewList(System.Type,System.Object)">
-            <summary>
-            Creates a new List of the given value type,
-            initialized with the content of the old List (clones the old List)
-            </summary>
-            <param name="valueType">The value type of the List to be created</param>
-            <param name="oldList">The old List to be cloned</param>
-            <returns>The newly created List, containing the content of the old List,
-            null if unsuccessfull</returns>
-        </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Union``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})" ignoriert -->
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Intersect``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
-            <summary>
-            Creates a new dictionary containing all key/value pairs from
-            <paramref name="a"/> whose keys are also contained in <paramref name="b"/>.
-            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
-            </summary>
-            <param name="a">A dictionary.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <returns>A new dictionary containing all elements from <paramref name="a"/>,
-            which are also in <paramref name="b"/>.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Except``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2})">
-            <summary>
-            Creates a new dictionary containing all key/value pairs from
-            <paramref name="a"/> whose keys are not contained in <paramref name="b"/>.
-            </summary>
-            <param name="a">A dictionary.</param>
-            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
-            <returns>A new dictionary containing all elements from <paramref name="a"/>,
-            which are not in <paramref name="b"/>.</returns>
-        </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryListHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})" ignoriert -->
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.IntersectChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
-            <summary>
-            Removes all key/value pairs from set/map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
-            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ExceptChanged``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2})">
-            <summary>
-            Removes all key/value pairs from set/map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryListHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryListHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.UnionChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Adds all key/value pairs from set <paramref name="b"/> to <paramref name="a"/>.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
-            <param name="owner">The node containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.UnionChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Adds all key/value pairs from set <paramref name="b"/> to <paramref name="a"/>.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
-            <param name="owner">The edge containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.IntersectChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Removes all key/value pairs from map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
-            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
-            <param name="owner">The node containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.IntersectChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Removes all key/value pairs from map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
-            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
-            <param name="owner">The edge containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.IntersectChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Removes all key/value pairs from set <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
-            <param name="owner">The node containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.IntersectChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Removes all key/value pairs from set <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
-            <param name="owner">The edge containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ExceptChanged``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Removes all key/value pairs from map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
-            <param name="owner">The node containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ExceptChanged``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Removes all key/value pairs from map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
-            <param name="owner">The edge containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ExceptChanged``2(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Removes all key/value pairs from set <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
-            <param name="owner">The node containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ExceptChanged``2(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Removes all key/value pairs from set <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
-            </summary>
-            <param name="a">A dictionary to change.</param>
-            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
-            <param name="owner">The edge containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.IndexOf``1(System.Collections.Generic.List{``0},``0)">
-            <summary>
-            Returns the first position of entry in the array a
-            </summary>
-            <param name="a">A List, i.e. dynamic array.</param>
-            <param name="entry">The value to search for.</param>
-            <returns>The first position of entry in the array a, -1 if entry not in a.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.LastIndexOf``1(System.Collections.Generic.List{``0},``0)">
-            <summary>
-            Returns the first position from the end inwards of entry in the array a
-            </summary>
-            <param name="a">A List, i.e. dynamic array.</param>
-            <param name="entry">The value to search for.</param>
-            <returns>The first position from the end inwards of entry in the array a, -1 if entry not in a.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Subarray``1(System.Collections.Generic.List{``0},System.Int32,System.Int32)">
-            <summary>
-            Creates a new dynamic array with length values copied from a from index start on.
-            </summary>
-            <param name="a">A List, i.e. dynamic array.</param>
-            <param name="start">A start position in the dynamic array.</param>
-            <param name="length">The number of elements to copy from start on.</param>
-            <returns>A new List, i.e. dynamic array, containing the length first values from start on.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Concatenate``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
-            <summary>
-            Creates a new dynamic array and appends all values first from
-            <paramref name="a"/> and then from <paramref name="b"/>.
-            </summary>
-            <param name="a">A List, i.e. dynamic array.</param>
-            <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
-            <returns>A new List, i.e. dynamic array, containing a concatenation of the parameter arrays.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ConcatenateChanged``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
-            <summary>
-            Appends all values from dynamic array <paramref name="b"/> to <paramref name="a"/>.
-            </summary>
-            <param name="a">A List, i.e. dynamic array to change.</param>
-            <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
-            <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ConcatenateChanged``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Appends all values from dynamic array <paramref name="b"/> to <paramref name="a"/>.
-            </summary>
-            <param name="a">A List, i.e. dynamic array to change.</param>
-            <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
-            <param name="owner">The node containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ConcatenateChanged``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Appends all values from dynamic array <paramref name="b"/> to <paramref name="a"/>.
-            </summary>
-            <param name="a">A List, i.e. dynamic array to change.</param>
-            <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
-            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
-            <param name="owner">The edge containing the attribute which gets changed.</param>
-            <param name="attrType">The attribute type of the attribute which gets changed.</param>
-            <returns>A truth value telling whether at least one element was changed in a</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Domain``2(System.Collections.Generic.Dictionary{``0,``1})">
-            <summary>
-            Creates a new dictionary representing a set,
-            containing all keys from the given dictionary representing a map <paramref name="map"/>.
-            </summary>
-            <param name="map">A dictionary representing a map.</param>
-            <returns>A new set dictionary containing all keys from <paramref name="map"/>.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Range``2(System.Collections.Generic.Dictionary{``0,``1})">
-            <summary>
-            Creates a new dictionary representing a set,
-            containing all values from the given dictionary representing a map <paramref name="map"/>.
-            </summary>
-            <param name="map">A dictionary representing a map.</param>
-            <returns>A new set dictionary containing all values from <paramref name="map"/>.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Peek``2(System.Collections.Generic.Dictionary{``0,``1},System.Int32)">
-            <summary>
-            Returns the value from the dictionary at the nth position as defined by the iterator of the dictionary.
-            </summary>
-            <param name="dict">A dictionary.</param>
-            <param name="num">The number of the element to get in the iteration sequence.</param>
-            <returns>The element at the position to get.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Peek(System.Object,System.Int32)">
-            <summary>
-            Returns the value from the dictionary or list at the nth position as defined by the iterator of the dictionary or the index of the list.
-            </summary>
-            <param name="obj">A dictionary or a list.</param>
-            <param name="num">The number of the element to get in the iteration sequence.</param>
-            <returns>The element at the position to get.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Equal``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
-            <summary>
-            Checks if set/map <paramref name="a"/> equals set/map <paramref name="b"/>.
-            For a map, key and value must be same to be equal.
-            </summary>
-            <param name="a">A dictionary.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of set/map comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.EqualIDictionary(System.Collections.IDictionary,System.Collections.IDictionary)">
-            <summary>
-            Checks if set/map <paramref name="a"/> equals set/map <paramref name="b"/>.
-            For a map, key and value must be same to be equal.
-            </summary>
-            <param name="a">A dictionary.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of set/map comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.NotEqual``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
-            <summary>
-            Checks if set/map <paramref name="a"/> is not equal to set/map <paramref name="b"/>.
-            For a map, key and value must be same to be equal.
-            </summary>
-            <param name="a">A dictionary.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of set/map comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GreaterThan``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
-            <summary>
-            Checks if set/map <paramref name="a"/> is a proper superset/map of <paramref name="b"/>.
-            For a map, key and value must be same to be equal.
-            </summary>
-            <param name="a">A dictionary.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of set/map comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GreaterOrEqual``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
-            <summary>
-            Checks if set/map <paramref name="a"/> is a superset/map of <paramref name="b"/>.
-            For a map, key and value must be same to be equal.
-            </summary>
-            <param name="a">A dictionary.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of set/map comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.LessThan``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
-            <summary>
-            Checks if set/map <paramref name="a"/> is a proper subset/map of <paramref name="b"/>.
-            For a map, key and value must be same to be equal.
-            </summary>
-            <param name="a">A dictionary.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of set/map comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.LessOrEqual``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
-            <summary>
-            Checks if set/map <paramref name="a"/> is a subset/map of <paramref name="b"/>.
-            For a map, key and value must be same to be equal.
-            </summary>
-            <param name="a">A dictionary.</param>
-            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of set/map comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.Equal``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
-            <summary>
-            Checks if List <paramref name="a"/> equals List <paramref name="b"/>.
-            Requires same values at same index for being true.
-            </summary>
-            <param name="a">A List.</param>
-            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of List comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.NotEqual``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
-            <summary>
-            Checks if List <paramref name="a"/> is not equal List <paramref name="b"/>.
-            </summary>
-            <param name="a">A List.</param>
-            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of List comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GreaterThan``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
-            <summary>
-            Checks if List <paramref name="a"/> is a proper superlist of <paramref name="b"/>.
-            Requires a to contain more entries than b and same values at same index for being true.
-            </summary>
-            <param name="a">A List.</param>
-            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of List comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.GreaterOrEqual``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
-            <summary>
-            Checks if List <paramref name="a"/> is a superlist of <paramref name="b"/>.
-            Requires a to contain more or same number of entries than b and same values at same index for being true.
-            </summary>
-            <param name="a">A List.</param>
-            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of List comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.LessThan``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
-            <summary>
-            Checks if List <paramref name="a"/> is a proper sublist of <paramref name="b"/>.
-            Requires a to contain less entries than b and same values at same index for being true.
-            </summary>
-            <param name="a">A List.</param>
-            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of List comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.LessOrEqual``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{``0})">
-            <summary>
-            Checks if List <paramref name="a"/> is a sublist of <paramref name="b"/>.
-            Requires a to contain less or same number of entries than b and same values at same index for being true.
-            </summary>
-            <param name="a">A List.</param>
-            <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of List comparison.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given dictionary
-            </summary>
-            <param name="setmap">The dictionary of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of dictionary</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given List
-            </summary>
-            <param name="array">The List of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of List</returns>
-        </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar value of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of scalar value</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar value of which to get the string representation</param>
-            <param name="type">The type as string, e.g int,string,Foo </param>
-            <param name="content">The content as string, e.g. 42,"foo",bar } </param>
-            <param name="attrType">The attribute type of the value</param>
-            <param name="graph">The graph with the model and the element names</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object,de.unika.ipd.grGen.libGr.AttributeType@)">
-            <summary>
-            If the attribute of the given name of the given element is a set or map or array attribute
-            then return a clone of the given dictionary or list value, otherwise just return the original value;
-            additionally returns the AttributeType of the attribute of the element.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object)">
-            <summary>
-            If the attribute of the given name of the given element is a set or map or array attribute
-            then return a clone of the given dictionary or list value, otherwise just return the original value
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar of which to get the string representation</param>
-            <param name="attrType">The attribute type</param>
-            <param name="graph">The graph with the model and the element names</param>
-            <returns>String representation of the scalar.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryListHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given value, might be a scalar, a dictionary, or a list
-            </summary>
-            <param name="value">The value of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of value</returns>
         </member>
     </members>
 </doc>
