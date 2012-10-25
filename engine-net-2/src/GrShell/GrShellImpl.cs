@@ -114,7 +114,7 @@ namespace de.unika.ipd.grGen.grShell
             BackendFilename = backendFilename;
             BackendParameters = backendParameters;
             ModelFilename = modelFilename;
-            ProcEnv = new LGSPGraphProcessingEnvironment((LGSPGraph)graph, null);
+            ProcEnv = new LGSPGraphProcessingEnvironment((LGSPGraph)Graph, null);
         }
 
         public ShellGraphProcessingEnvironment(INamedGraph graph, String backendFilename, String[] backendParameters, String modelFilename)
