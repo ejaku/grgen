@@ -1,4 +1,4 @@
-﻿v3.6.ms1b (2012-10-25)
+﻿v3.6.ms1b (2012-10-26)
  Bugfixes:
   - fixed bug on importing ecore or GXL in the GrShell
     (another occurence of split-brain GrGen with two graphs)
