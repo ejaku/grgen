@@ -85,15 +85,15 @@ namespace de.unika.ipd.grGen.lgsp
             SetupCompiler(null, out compiler, out compParams);
             compParams.ReferencedAssemblies.AddRange(cc.externalAssemblies);
             compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
-            compParams.OutputAssembly = cc.destDir  + "lgsp-" + modelName + ".dll";
+            compParams.OutputAssembly = cc.destDir + "lgsp-" + modelName + ".dll";
 
             CompilerResults compResults;
             try
             {
-                if(File.Exists(modelName + "ExternalFunctions.cs"))
+                if(File.Exists(cc.destDir + modelName + "ExternalFunctions.cs"))
                 {
-                    String externalFunctionsFile = modelName + "ExternalFunctions.cs";
-                    String externalFunctionsImplFile = modelName + "ExternalFunctionsImpl.cs";
+                    String externalFunctionsFile = cc.destDir + modelName + "ExternalFunctions.cs";
+                    String externalFunctionsImplFile = cc.destDir + modelName + "ExternalFunctionsImpl.cs";
                     if(cc.modelStubFilename != null)
                         compResults = compiler.CompileAssemblyFromFile(compParams, cc.modelFilename, cc.modelStubFilename, externalFunctionsFile, externalFunctionsImplFile);
                     else
