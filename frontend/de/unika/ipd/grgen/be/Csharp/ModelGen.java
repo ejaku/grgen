@@ -158,7 +158,7 @@ public class ModelGen extends CSharpBase {
 			sb.append("}\n");
 		}
 
-		writeFile(new File("."), filename, sb);
+		writeFile(be.path, filename, sb);
 	}
 
 	private StringBuffer getStubBuffer() {
