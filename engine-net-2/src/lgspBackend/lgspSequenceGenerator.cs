@@ -2315,6 +2315,12 @@ namespace de.unika.ipd.grGen.lgsp
                     return "GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
                 }
 
+                case SequenceExpressionType.Canonize:
+                {
+                    SequenceExpressionCanonize seqCanonize = (SequenceExpressionCanonize)expr;
+                    return "((GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqCanonize.Graph, source) + ").Canonize()";
+                }
+
                 case SequenceExpressionType.Random:
                 {
                     SequenceExpressionRandom seqRandom = (SequenceExpressionRandom)expr;
