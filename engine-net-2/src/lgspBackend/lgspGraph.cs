@@ -2122,6 +2122,16 @@ invalidCommand:
             return matchingState.IsIsomorph(this, (LGSPGraph)that, false);
         }
 
+        /// <summary>
+        /// Returns a canonical representation of the graph as a string
+        /// </summary>
+        /// <returns>a canonical representation of the graph as a string</returns>
+        public override string Canonize()
+        {
+            // TODO: implement, this is just a placeholder
+            throw new NotImplementedException();
+        }
+
         public override void Check()
         {
             CheckTypeRinglistsBroken();

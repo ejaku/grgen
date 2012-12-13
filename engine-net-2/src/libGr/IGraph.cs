@@ -349,6 +349,12 @@ namespace de.unika.ipd.grGen.libGr
         bool HasSameStructure(IGraph that);
 
         /// <summary>
+        /// Returns a canonical representation of the graph as a string
+        /// </summary>
+        /// <returns>a canonical representation of the graph as a string</returns>
+        string Canonize();
+
+        /// <summary>
         /// Checks whether a graph meets the connection assertions.
         /// </summary>
         /// <param name="mode">The validation mode to apply.</param>

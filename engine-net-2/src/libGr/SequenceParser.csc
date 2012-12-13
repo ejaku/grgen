@@ -1434,6 +1434,9 @@ SequenceExpression FunctionCall():
 		} else if(function=="random") {
 			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects none (returns double in [0..1[) or 1 parameter (returns int in [0..parameter[)");
 			return new SequenceExpressionRandom(fromExpr);
+		} else if(function=="canonize") {
+			if(fromExpr==null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 1 parameter (the graph to generate the canonical string representation for)");
+			return new SequenceExpressionCanonize(fromExpr);
 		} else {
 			throw new ParseException("Unknown function name: \"" + function + "\"! (available are valloc|add|insertInduced|insertDefined|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|inducedSubgraph|definedSubgraph|source|target)");
 		}

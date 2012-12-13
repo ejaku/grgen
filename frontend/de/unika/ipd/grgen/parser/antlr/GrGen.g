@@ -1797,7 +1797,8 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 		|| input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
 		|| input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing") 
 		|| input.LT(1).getText().equals("inducedSubgraph") || input.LT(1).getText().equals("definedSubgraph")
-		|| input.LT(1).getText().equals("source") || input.LT(1).getText().equals("target") }?
+		|| input.LT(1).getText().equals("source") || input.LT(1).getText().equals("target") 
+		|| input.LT(1).getText().equals("canonize") }?
 		i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); } ( fromExpr=seqExpression[xg] (COMMA { xg.append(","); } fromExpr2=seqExpression[xg] (COMMA { xg.append(","); } fromExpr3=seqExpression[xg])? )? )? RPAREN { xg.append(")"); }
 	;
 	

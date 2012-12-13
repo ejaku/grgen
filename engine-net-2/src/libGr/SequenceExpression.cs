@@ -37,6 +37,7 @@ namespace de.unika.ipd.grGen.libGr
         AdjacentNodes, AdjacentNodesViaIncoming, AdjacentNodesViaOutgoing,
         IncidentEdges, IncomingEdges, OutgoingEdges,
         InducedSubgraph, DefinedSubgraph,
+        Canonize,
         VAlloc, GraphAdd, InsertInduced, InsertDefined // has side effects, but parser accepts it only in assignments
     }
 
@@ -2204,5 +2205,56 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return EdgeSet; yield return RootEdge; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "insertDefined(" + EdgeSet.Symbol + "," + RootEdge.Symbol + ")"; } }
+    }
+
+    public class SequenceExpressionCanonize : SequenceExpression
+    {
+        public SequenceExpression Graph;
+
+        public SequenceExpressionCanonize(SequenceExpression graph)
+            : base(SequenceExpressionType.Canonize)
+        {
+            Graph = graph;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Graph.Type(env) == "")
+                return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+
+            if(Graph.Type(env) != "graph")
+            {
+                throw new SequenceParserException(Symbol, "graph type", Graph.Type(env));
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "string";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionCanonize copy = (SequenceExpressionCanonize)MemberwiseClone();
+            copy.Graph = Graph.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object graph = Graph.Evaluate(procEnv);
+            return ((IGraph)graph).Canonize();
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            Graph.GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Graph; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "canonize(" + Graph.Symbol + ")"; } }
     }
 }
