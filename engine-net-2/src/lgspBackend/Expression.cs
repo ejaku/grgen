@@ -632,15 +632,15 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing queue equality comparison.
+    /// Class representing deque equality comparison.
     /// </summary>
-    public class QUEUE_EQ : BinFuncOperator
+    public class DEQUE_EQ : BinFuncOperator
     {
-        public QUEUE_EQ(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_EQ(Expression left, Expression right) : base(left, right) { }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QUEUE_EQ(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            return new DEQUE_EQ(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
         public override string GetFuncOperatorAndLParen()
@@ -650,15 +650,15 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing queue inequality comparison.
+    /// Class representing deque inequality comparison.
     /// </summary>
-    public class QUEUE_NE : BinFuncOperator
+    public class DEQUE_NE : BinFuncOperator
     {
-        public QUEUE_NE(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_NE(Expression left, Expression right) : base(left, right) { }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QUEUE_NE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            return new DEQUE_NE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
         public override string GetFuncOperatorAndLParen()
@@ -668,15 +668,15 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing proper subqueue comparison.
+    /// Class representing proper subdeque comparison.
     /// </summary>
-    public class QUEUE_LT : BinFuncOperator
+    public class DEQUE_LT : BinFuncOperator
     {
-        public QUEUE_LT(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_LT(Expression left, Expression right) : base(left, right) { }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QUEUE_LT(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            return new DEQUE_LT(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
         public override string GetFuncOperatorAndLParen()
@@ -686,15 +686,15 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing subqueue comparison.
+    /// Class representing subdeque comparison.
     /// </summary>
-    public class QUEUE_LE : BinFuncOperator
+    public class DEQUE_LE : BinFuncOperator
     {
-        public QUEUE_LE(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_LE(Expression left, Expression right) : base(left, right) { }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QUEUE_LE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            return new DEQUE_LE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
         public override string GetFuncOperatorAndLParen()
@@ -704,15 +704,15 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing proper superqueue comparison.
+    /// Class representing proper superdeque comparison.
     /// </summary>
-    public class QUEUE_GT : BinFuncOperator
+    public class DEQUE_GT : BinFuncOperator
     {
-        public QUEUE_GT(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_GT(Expression left, Expression right) : base(left, right) { }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QUEUE_GT(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            return new DEQUE_GT(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
         public override string GetFuncOperatorAndLParen()
@@ -722,15 +722,15 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing superqueue comparison.
+    /// Class representing superdeque comparison.
     /// </summary>
-    public class QUEUE_GE : BinFuncOperator
+    public class DEQUE_GE : BinFuncOperator
     {
-        public QUEUE_GE(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_GE(Expression left, Expression right) : base(left, right) { }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QUEUE_GE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            return new DEQUE_GE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
         public override string GetFuncOperatorAndLParen()
@@ -839,15 +839,15 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a Queue concatenation.
+    /// Class representing a Deque concatenation.
     /// </summary>
-    public class QUEUE_ADD : BinFuncOperator
+    public class DEQUE_ADD : BinFuncOperator
     {
-        public QUEUE_ADD(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_ADD(Expression left, Expression right) : base(left, right) { }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QUEUE_ADD(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            return new DEQUE_ADD(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
         public override string GetFuncOperatorAndLParen()
@@ -2011,18 +2011,18 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a queue  size expression.
+    /// Class representing a deque size expression.
     /// </summary>
-    public class QueueSize : Expression
+    public class DequeSize : Expression
     {
-        public QueueSize(Expression target)
+        public DequeSize(Expression target)
         {
             Target = target;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QueueSize(Target.Copy(renameSuffix));
+            return new DequeSize(Target.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2041,11 +2041,11 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a queue peek expression.
+    /// Class representing a deque peek expression.
     /// </summary>
-    public class QueuePeek : Expression
+    public class DequePeek : Expression
     {
-        public QueuePeek(Expression target, Expression number)
+        public DequePeek(Expression target, Expression number)
         {
             Target = target;
             Number = number;
@@ -2053,7 +2053,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QueuePeek(Target.Copy(renameSuffix), Number.Copy(renameSuffix));
+            return new DequePeek(Target.Copy(renameSuffix), Number.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2151,28 +2151,28 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a constant rule-local queue, available as initialized static class member.
+    /// Class representing a constant rule-local deque, available as initialized static class member.
     /// </summary>
-    public class StaticQueue : Expression
+    public class StaticDeque : Expression
     {
-        public StaticQueue(String className, String queueName)
+        public StaticDeque(String className, String dequeName)
         {
             ClassName = className;
-            QueueName = queueName;
+            DequeName = dequeName;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new StaticQueue(ClassName, QueueName);
+            return new StaticDeque(ClassName, DequeName);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append(ClassName + "." + QueueName);
+            sourceCode.Append(ClassName + "." + DequeName);
         }
 
         String ClassName;
-        String QueueName;
+        String DequeName;
     }
 
     /// <summary>
@@ -2423,25 +2423,25 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a rule-local queue to be filled with the given queue items.
+    /// Class representing a rule-local deque to be filled with the given deque items.
     /// </summary>
-    public class QueueConstructor : Expression
+    public class DequeConstructor : Expression
     {
-        public QueueConstructor(String className, String queueName, QueueItem first)
+        public DequeConstructor(String className, String dequeName, DequeItem first)
         {
             ClassName = className;
-            QueueName = queueName;
+            DequeName = dequeName;
             First = first;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QueueConstructor(ClassName, QueueName, (QueueItem)First.Copy(renameSuffix));
+            return new DequeConstructor(ClassName, DequeName, (DequeItem)First.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append(ClassName + ".fill_" + QueueName + "(");
+            sourceCode.Append(ClassName + ".fill_" + DequeName + "(");
             First.Emit(sourceCode);
             sourceCode.Append(")");
         }
@@ -2452,16 +2452,16 @@ namespace de.unika.ipd.grGen.expression
         }
 
         String ClassName;
-        String QueueName;
-        QueueItem First;
+        String DequeName;
+        DequeItem First;
     }
 
     /// <summary>
-    /// Class representing a queue item.
+    /// Class representing a deque item.
     /// </summary>
-    public class QueueItem : Expression
+    public class DequeItem : Expression
     {
-        public QueueItem(Expression value, String valueType, QueueItem next)
+        public DequeItem(Expression value, String valueType, DequeItem next)
         {
             Value = value;
             ValueType = valueType;
@@ -2470,7 +2470,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new QueueItem(Value.Copy(renameSuffix), ValueType, Next != null ? (QueueItem)Next.Copy(renameSuffix) : null);
+            return new DequeItem(Value.Copy(renameSuffix), ValueType, Next != null ? (DequeItem)Next.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2496,7 +2496,7 @@ namespace de.unika.ipd.grGen.expression
 
         Expression Value;
         String ValueType;
-        QueueItem Next;
+        DequeItem Next;
     }
 
     /// <summary>
@@ -2931,18 +2931,18 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a remove from a queue
+    /// Class representing a remove from a deque
     /// </summary>
-    public class QueueRemove : YieldMethod
+    public class DequeRemove : YieldMethod
     {
-        public QueueRemove(String left)
+        public DequeRemove(String left)
             : base(left, null)
         {
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new QueueRemove(Left + renameSuffix);
+            return new DequeRemove(Left + renameSuffix);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2958,7 +2958,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a clearing of a set or a map or an array or a queue
+    /// Class representing a clearing of a set or a map or an array or a deque
     /// </summary>
     public class Clear : YieldMethod
     {
@@ -3094,18 +3094,18 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an add to a queue
+    /// Class representing an add to a deque
     /// </summary>
-    public class QueueAdd : YieldMethod
+    public class DequeAdd : YieldMethod
     {
-        public QueueAdd(String left, Expression value)
+        public DequeAdd(String left, Expression value)
             : base(left, value)
         {
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new QueueAdd(Left + renameSuffix, Right.Copy(renameSuffix));
+            return new DequeAdd(Left + renameSuffix, Right.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)

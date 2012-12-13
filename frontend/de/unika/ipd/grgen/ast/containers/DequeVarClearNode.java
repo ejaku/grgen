@@ -15,20 +15,20 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ir.containers.DequeVarClear;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.containers.QueueVarRemoveItem;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class QueueVarRemoveItemNode extends EvalStatementNode
+public class DequeVarClearNode extends EvalStatementNode
 {
 	static {
-		setName(QueueVarRemoveItemNode.class, "queue var remove item statement");
+		setName(DequeVarClearNode.class, "deque var clear statement");
 	}
 
 	private VarDeclNode target;
 
-	public QueueVarRemoveItemNode(Coords coords, VarDeclNode target)
+	public DequeVarClearNode(Coords coords, VarDeclNode target)
 	{
 		super(coords);
 		this.target = becomeParent(target);
@@ -60,6 +60,6 @@ public class QueueVarRemoveItemNode extends EvalStatementNode
 
 	@Override
 	protected IR constructIR() {
-		return new QueueVarRemoveItem(target.checkIR(Variable.class));
+		return new DequeVarClear(target.checkIR(Variable.class));
 	}
 }

@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.containers.MapInit;
-import de.unika.ipd.grgen.ir.containers.QueueInit;
+import de.unika.ipd.grgen.ir.containers.DequeInit;
 import de.unika.ipd.grgen.ir.containers.SetInit;
 import de.unika.ipd.grgen.parser.Symbol;
 
@@ -271,8 +271,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 					inhType.addSetInit(mi.checkIR(SetInit.class));
 				} else if(init instanceof ArrayInit) {
 					inhType.addArrayInit(mi.checkIR(ArrayInit.class));
-				} else if(init instanceof QueueInit) {
-					inhType.addQueueInit(mi.checkIR(QueueInit.class));
+				} else if(init instanceof DequeInit) {
+					inhType.addDequeInit(mi.checkIR(DequeInit.class));
 				} else {
 					inhType.addMemberInit(mi.checkIR(MemberInit.class));
 				}
@@ -289,9 +289,9 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 				ArrayInitNode ai = (ArrayInitNode) n;
 				inhType.addArrayInit(ai.getArrayInit());
 			}
-			else if(n instanceof QueueInitNode) {
-				QueueInitNode qi = (QueueInitNode) n;
-				inhType.addQueueInit(qi.getQueueInit());
+			else if(n instanceof DequeInitNode) {
+				DequeInitNode di = (DequeInitNode) n;
+				inhType.addDequeInit(di.getDequeInit());
 			}
 		}
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {

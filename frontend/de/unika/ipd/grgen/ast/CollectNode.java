@@ -93,8 +93,8 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 				res &= ((MapItemNode)child).noDefElementInCondition();
 			else if(child instanceof ArrayItemNode)
 				res &= ((ArrayItemNode)child).noDefElementInCondition();
-			else if(child instanceof QueueItemNode)
-				res &= ((QueueItemNode)child).noDefElementInCondition();
+			else if(child instanceof DequeItemNode)
+				res &= ((DequeItemNode)child).noDefElementInCondition();
 		}
 		return res;
 	}

@@ -149,8 +149,8 @@ public class CompoundAssignNode extends EvalStatementNode
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetQual!=null ? targetQual.getDecl().getDeclType() : targetVar.getDeclType();
-		if(compoundAssignmentType==CONCATENATE && !(targetType instanceof ArrayTypeNode || targetType instanceof QueueTypeNode)) {
-			(targetQual!=null?targetQual:targetVar).reportError("compound assignment expects a target of array or queue type.");
+		if(compoundAssignmentType==CONCATENATE && !(targetType instanceof ArrayTypeNode || targetType instanceof DequeTypeNode)) {
+			(targetQual!=null?targetQual:targetVar).reportError("compound assignment expects a target of array or deque type.");
 			return false;
 		}
 		if(compoundAssignmentType!=CONCATENATE && !(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {

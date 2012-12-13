@@ -812,8 +812,8 @@ namespace de.unika.ipd.grGen.libGr
                     return "{}"; // only empty set/map assignment possible as of now
                 else if(Constant.GetType().Name == "List`1")
                     return "[]"; // only empty array assignment possible as of now
-                else if(Constant.GetType().Name == "Queue`1")
-                    return "]["; // only empty queue assignment possible as of now
+                else if(Constant.GetType().Name == "Deque`1")
+                    return "]["; // only empty deque assignment possible as of now
                 else
                     return Constant.ToString();
             }
@@ -1053,9 +1053,9 @@ namespace de.unika.ipd.grGen.libGr
                 return; // we can't check further types if the variable is untyped, only runtime-check possible
 
             if(!Container.Type(env).StartsWith("set<") && !Container.Type(env).StartsWith("map<")
-                && !Container.Type(env).StartsWith("array<") && !Container.Type(env).StartsWith("queue<"))
+                && !Container.Type(env).StartsWith("array<") && !Container.Type(env).StartsWith("deque<"))
             {
-                throw new SequenceParserException(Container.Symbol, "set or map or array or queue type", Container.Type(env));
+                throw new SequenceParserException(Container.Symbol, "set or map or array or deque type", Container.Type(env));
             }
             if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(Container.Type(env)), env.Model))
             {
@@ -1079,10 +1079,10 @@ namespace de.unika.ipd.grGen.libGr
                 IList array = (IList)container;
                 return array.Contains(Expr.Evaluate(procEnv));
             }
-            else if(container is Queue)
+            else if(container is IDeque)
             {
-                Queue queue = (Queue)container;
-                return queue.Contains(Expr.Evaluate(procEnv));
+                IDeque deque = (IDeque)container;
+                return deque.Contains(Expr.Evaluate(procEnv));
             }
             else
             {
@@ -1120,7 +1120,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(ContainerType(env) != "" && (TypesHelper.ExtractSrc(ContainerType(env)) == null || TypesHelper.ExtractDst(ContainerType(env)) == null))
             {
-                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or queue<S> type", ContainerType(env));
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType(env));
             }
         }
 
@@ -1145,10 +1145,10 @@ namespace de.unika.ipd.grGen.libGr
                 IList array = (IList)container;
                 return array.Count;
             }
-            else if(container is Queue)
+            else if(container is IDeque)
             {
-                Queue queue = (Queue)container;
-                return queue.Count;
+                IDeque deque = (IDeque)container;
+                return deque.Count;
             }
             else
             {
@@ -1187,7 +1187,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(ContainerType(env) != "" && (TypesHelper.ExtractSrc(ContainerType(env)) == null || TypesHelper.ExtractDst(ContainerType(env)) == null))
             {
-                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or queue<S> type", ContainerType(env));
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType(env));
             }
         }
 
@@ -1212,10 +1212,10 @@ namespace de.unika.ipd.grGen.libGr
                 IList array = (IList)container;
                 return array.Count == 0;
             }
-            else if(container is Queue)
+            else if(container is IDeque)
             {
-                Queue queue = (Queue)container;
-                return queue.Count == 0;
+                IDeque deque = (IDeque)container;
+                return deque.Count == 0;
             }
             else
             {
@@ -1343,7 +1343,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(ContainerType(env) != "" && (TypesHelper.ExtractSrc(ContainerType(env)) == null || TypesHelper.ExtractDst(ContainerType(env)) == null))
             {
-                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or queue<S> type", ContainerType(env));
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType(env));
             }
 
             if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))

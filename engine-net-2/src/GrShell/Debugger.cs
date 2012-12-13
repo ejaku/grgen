@@ -674,8 +674,8 @@ namespace de.unika.ipd.grGen.grShell
                 HighlightDictionary((IDictionary)value, name, addAnnotation);
             else if(value is IList)
                 HighlightList((IList)value, name, addAnnotation);
-            else if(value is Queue)
-                HighlightQueue((Queue)value, name, addAnnotation);
+            else if(value is IDeque)
+                HighlightDeque((IDeque)value, name, addAnnotation);
             else
                 HighlightSingleValue(value, name, addAnnotation);
         }
@@ -730,7 +730,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void HighlightQueue(Queue value, string name, bool addAnnotation)
+        void HighlightDeque(IDeque value, string name, bool addAnnotation)
         {
             int distanceToTop = 0;
             object prevElem = null;
@@ -1503,8 +1503,8 @@ namespace de.unika.ipd.grGen.grShell
                         ContainerHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else if(var.Value is IList)
                         ContainerHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
-                    else if(var.Value is Queue)
-                        ContainerHelper.ToString((Queue)var.Value, out type, out content, null, shellProcEnv.Graph);
+                    else if(var.Value is IDeque)
+                        ContainerHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else
                         ContainerHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
@@ -1521,8 +1521,8 @@ namespace de.unika.ipd.grGen.grShell
                         ContainerHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else if(var.Value is IList)
                         ContainerHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
-                    else if(var.Value is Queue)
-                        ContainerHelper.ToString((Queue)var.Value, out type, out content, null, shellProcEnv.Graph);
+                    else if(var.Value is IDeque)
+                        ContainerHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else
                         ContainerHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);

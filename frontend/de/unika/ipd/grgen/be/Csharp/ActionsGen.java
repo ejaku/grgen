@@ -604,8 +604,8 @@ public class ActionsGen extends CSharpBase {
 				genLocalSet(sb, (SetInit)containerExpr, staticInitializers);
 			} else if(containerExpr instanceof ArrayInit) {
 				genLocalArray(sb, (ArrayInit)containerExpr, staticInitializers);
-			} else if(containerExpr instanceof QueueInit) {
-				genLocalQueue(sb, (QueueInit)containerExpr, staticInitializers);
+			} else if(containerExpr instanceof DequeInit) {
+				genLocalDeque(sb, (DequeInit)containerExpr, staticInitializers);
 			}
 		}
 	}
@@ -747,27 +747,27 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private void genLocalQueue(StringBuffer sb, QueueInit queueInit, List<String> staticInitializers) {
-		String queueName = queueInit.getAnonymousQueueName();
-		String attrType = formatAttributeType(queueInit.getType());
-		if(queueInit.isConstant()) {
-			sb.append("\t\tpublic static readonly " + attrType + " " + queueName + " = " +
+	private void genLocalDeque(StringBuffer sb, DequeInit dequeInit, List<String> staticInitializers) {
+		String dequeName = dequeInit.getAnonymousDequeName();
+		String attrType = formatAttributeType(dequeInit.getType());
+		if(dequeInit.isConstant()) {
+			sb.append("\t\tpublic static readonly " + attrType + " " + dequeName + " = " +
 					"new " + attrType + "();\n");
-			staticInitializers.add("init_" + queueName);
-			sb.append("\t\tstatic void init_" + queueName + "() {\n");
-			for(QueueItem item : queueInit.getQueueItems()) {
+			staticInitializers.add("init_" + dequeName);
+			sb.append("\t\tstatic void init_" + dequeName + "() {\n");
+			for(DequeItem item : dequeInit.getDequeItems()) {
 				sb.append("\t\t\t");
-				sb.append(queueName);
+				sb.append(dequeName);
 				sb.append(".Add(");
 				genExpression(sb, item.getValueExpr(), null);
 				sb.append(");\n");
 			}
 			sb.append("\t\t}\n");
 		} else {
-			sb.append("\t\tpublic static " + attrType + " fill_" + queueName + "(");
+			sb.append("\t\tpublic static " + attrType + " fill_" + dequeName + "(");
 			int itemCounter = 0;
 			boolean first = true;
-			for(QueueItem item : queueInit.getQueueItems()) {
+			for(DequeItem item : dequeInit.getDequeItems()) {
 				String itemType = formatType(item.getValueExpr().getType());
 				if(first) {
 					sb.append(itemType + " item" + itemCounter);
@@ -778,15 +778,15 @@ public class ActionsGen extends CSharpBase {
 				++itemCounter;
 			}
 			sb.append(") {\n");
-			sb.append("\t\t\t" + attrType + " " + queueName + " = " +
+			sb.append("\t\t\t" + attrType + " " + dequeName + " = " +
 					"new " + attrType + "();\n");
 
-			int itemLength = queueInit.getQueueItems().size();
+			int itemLength = dequeInit.getDequeItems().size();
 			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
-				sb.append("\t\t\t" + queueName);
+				sb.append("\t\t\t" + dequeName);
 				sb.append(".Enqueue(" + "item" + itemCounter + ");\n");
 			}
-			sb.append("\t\t\treturn " + queueName + ";\n");
+			sb.append("\t\t\treturn " + dequeName + ";\n");
 			sb.append("\t\t}\n");
 		}
 	}
@@ -1587,8 +1587,8 @@ public class ActionsGen extends CSharpBase {
 				opNamePrefix = "DICT_";
 			if(op.getType() instanceof ArrayType)
 				opNamePrefix = "LIST_";
-			if(op.getType() instanceof QueueType)
-				opNamePrefix = "QUEUE_";
+			if(op.getType() instanceof DequeType)
+				opNamePrefix = "DEQUE_";
 			if(op.getOpCode()==Operator.EQ || op.getOpCode()==Operator.NE
 				|| op.getOpCode()==Operator.GT || op.getOpCode()==Operator.GE
 				|| op.getOpCode()==Operator.LT || op.getOpCode()==Operator.LE) {
@@ -1599,8 +1599,8 @@ public class ActionsGen extends CSharpBase {
 				if(opnd.getType() instanceof ArrayType) {
 					opNamePrefix = "LIST_";
 				}
-				if(opnd.getType() instanceof QueueType) {
-					opNamePrefix = "QUEUE_";
+				if(opnd.getType() instanceof DequeType) {
+					opNamePrefix = "DEQUE_";
 				}
 			}
 
@@ -1674,7 +1674,7 @@ public class ActionsGen extends CSharpBase {
 				if(cast.getExpression().getType() instanceof SetType 
 					|| cast.getExpression().getType() instanceof MapType
 					|| cast.getExpression().getType() instanceof ArrayType 
-					|| cast.getExpression().getType() instanceof QueueType) {
+					|| cast.getExpression().getType() instanceof DequeType) {
 					sb.append(", true");
 				} else {
 					sb.append(", false");
@@ -1840,18 +1840,18 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, asa.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
-		else if (expr instanceof QueueSizeExpr) {
-			QueueSizeExpr qs = (QueueSizeExpr)expr;
-			sb.append("new GRGEN_EXPR.QueueSize(");
-			genExpressionTree(sb, qs.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		else if (expr instanceof DequeSizeExpr) {
+			DequeSizeExpr ds = (DequeSizeExpr)expr;
+			sb.append("new GRGEN_EXPR.DequeSize(");
+			genExpressionTree(sb, ds.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
-		else if (expr instanceof QueuePeekExpr) {
-			QueuePeekExpr qp = (QueuePeekExpr)expr;
-			sb.append("new GRGEN_EXPR.QueuePeek(");
-			genExpressionTree(sb, qp.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		else if (expr instanceof DequePeekExpr) {
+			DequePeekExpr dp = (DequePeekExpr)expr;
+			sb.append("new GRGEN_EXPR.DequePeek(");
+			genExpressionTree(sb, dp.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			genExpressionTree(sb, qp.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, dp.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof MapInit) {
@@ -1926,15 +1926,15 @@ public class ActionsGen extends CSharpBase {
 				sb.append(")");
 			}
 		}
-		else if (expr instanceof QueueInit) {
-			QueueInit qi = (QueueInit)expr;
-			if(qi.isConstant()) {
-				sb.append("new GRGEN_EXPR.StaticQueue(\"" + className + "\", \"" + qi.getAnonymousQueueName() + "\")");
+		else if (expr instanceof DequeInit) {
+			DequeInit di = (DequeInit)expr;
+			if(di.isConstant()) {
+				sb.append("new GRGEN_EXPR.StaticDeque(\"" + className + "\", \"" + di.getAnonymousDequeName() + "\")");
 			} else {
-				sb.append("new GRGEN_EXPR.QueueConstructor(\"" + className + "\", \"" + qi.getAnonymousQueueName() + "\", ");
+				sb.append("new GRGEN_EXPR.DequeConstructor(\"" + className + "\", \"" + di.getAnonymousDequeName() + "\", ");
 				int openParenthesis = 0;
-				for(QueueItem item : qi.getQueueItems()) {
-					sb.append("new GRGEN_EXPR.QueueItem(");
+				for(DequeItem item : di.getDequeItems()) {
+					sb.append("new GRGEN_EXPR.DequeItem(");
 					genExpressionTree(sb, item.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
 					if(item.getValueExpr() instanceof GraphEntityExpression)
@@ -2791,15 +2791,15 @@ public class ActionsGen extends CSharpBase {
 			genArrayVarAddItem(sb, (ArrayVarAddItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
-		else if(evalStmt instanceof QueueVarRemoveItem) {
-			genQueueVarRemoveItem(sb, (QueueVarRemoveItem) evalStmt,
+		else if(evalStmt instanceof DequeVarRemoveItem) {
+			genDequeVarRemoveItem(sb, (DequeVarRemoveItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
-		else if(evalStmt instanceof QueueVarClear) {
-			genQueueVarClear(sb, (QueueVarClear) evalStmt);
+		else if(evalStmt instanceof DequeVarClear) {
+			genDequeVarClear(sb, (DequeVarClear) evalStmt);
 		}
-		else if(evalStmt instanceof QueueVarAddItem) {
-			genQueueVarAddItem(sb, (QueueVarAddItem) evalStmt,
+		else if(evalStmt instanceof DequeVarAddItem) {
+			genDequeVarAddItem(sb, (DequeVarAddItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else if(evalStmt instanceof IteratedAccumulationYield) {
@@ -3033,42 +3033,42 @@ public class ActionsGen extends CSharpBase {
 		assert avai.getNext()==null;
 	}
 
-	private void genQueueVarRemoveItem(StringBuffer sb, QueueVarRemoveItem qvri,
+	private void genDequeVarRemoveItem(StringBuffer sb, DequeVarRemoveItem dvri,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
-		Variable target = qvri.getTarget();
+		Variable target = dvri.getTarget();
 
-		sb.append("\t\t\t\tnew GRGEN_EXPR.QueueRemove(");
+		sb.append("\t\t\t\tnew GRGEN_EXPR.DequeRemove(");
 		sb.append("\"" + target.getIdent() + "\"");
 		sb.append(")");
 		
-		assert qvri.getNext()==null;
+		assert dvri.getNext()==null;
 	}
 
-	private void genQueueVarClear(StringBuffer sb, QueueVarClear qvc) {
-		Variable target = qvc.getTarget();
+	private void genDequeVarClear(StringBuffer sb, DequeVarClear dvc) {
+		Variable target = dvc.getTarget();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.Clear(");
 		sb.append("\"" + target.getIdent() + "\"");
 		sb.append(")");
 		
-		assert qvc.getNext()==null;
+		assert dvc.getNext()==null;
 	}
 
-	private void genQueueVarAddItem(StringBuffer sb, QueueVarAddItem qvai,
+	private void genDequeVarAddItem(StringBuffer sb, DequeVarAddItem dvai,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
-		Variable target = qvai.getTarget();
+		Variable target = dvai.getTarget();
 
 		StringBuffer sbtmp = new StringBuffer();
-		genExpressionTree(sbtmp, qvai.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		genExpressionTree(sbtmp, dvai.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 		String valueExprStr = sbtmp.toString();
 
-		sb.append("\t\t\t\tnew GRGEN_EXPR.QueueAdd(");
+		sb.append("\t\t\t\tnew GRGEN_EXPR.DequeAdd(");
 		sb.append("\"" + target.getIdent() + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
 		sb.append(")");
 		
-		assert qvai.getNext()==null;
+		assert dvai.getNext()==null;
 	}
 
 	private void genIteratedAccumulationYield(StringBuffer sb, IteratedAccumulationYield iay,

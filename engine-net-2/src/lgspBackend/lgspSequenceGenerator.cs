@@ -1702,15 +1702,15 @@ namespace de.unika.ipd.grGen.lgsp
                         string emitVal = "emitval_" + seqEmit.Id;
                         source.AppendFront("object " + emitVal + " = " + GetSequenceExpression(seqEmit.Expression, source) + ";\n");
                         if(seqEmit.Expression.Type(env) == "" 
-                            || seqEmit.Expression.Type(env).StartsWith("set<") || seqEmit.Expression.Type(env).StartsWith("map<") 
-                            || seqEmit.Expression.Type(env).StartsWith("array<") || seqEmit.Expression.Type(env).StartsWith("queue<"))
+                            || seqEmit.Expression.Type(env).StartsWith("set<") || seqEmit.Expression.Type(env).StartsWith("map<")
+                            || seqEmit.Expression.Type(env).StartsWith("array<") || seqEmit.Expression.Type(env).StartsWith("deque<"))
                         {
                             source.AppendFront("if(" + emitVal + " is IDictionary)\n");
                             source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
                             source.AppendFront("else if(" + emitVal + " is IList)\n");
                             source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString((IList)" + emitVal + ", graph));\n");
-                            source.AppendFront("else if(" + emitVal + " is Queue)\n");
-                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString((Queue)" + emitVal + ", graph));\n");
+                            source.AppendFront("else if(" + emitVal + " is GRGEN_LIBGR.IDeque)\n");
+                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString((GRGEN_LIBGR.IDeque)" + emitVal + ", graph));\n");
                             source.AppendFront("else\n\t");
                         }
                         source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString(" + emitVal + ", graph));\n");
@@ -1740,14 +1740,14 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("object " + recVal + " = " + GetSequenceExpression(seqRec.Expression, source) + ";\n");
                         if(seqRec.Expression.Type(env) == "" 
                             || seqRec.Expression.Type(env).StartsWith("set<") || seqRec.Expression.Type(env).StartsWith("map<")
-                            || seqRec.Expression.Type(env).StartsWith("array<") || seqRec.Expression.Type(env).StartsWith("queue<"))
+                            || seqRec.Expression.Type(env).StartsWith("array<") || seqRec.Expression.Type(env).StartsWith("deque<"))
                         {
                             source.AppendFront("if(" + recVal + " is IDictionary)\n");
                             source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString((IDictionary)" + recVal + ", graph));\n");
                             source.AppendFront("else if(" + recVal + " is IList)\n");
                             source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString((IList)" + recVal + ", graph));\n");
-                            source.AppendFront("else if(" + recVal + " is Queue)\n");
-                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString((Queue)" + recVal + ", graph));\n");
+                            source.AppendFront("else if(" + recVal + " is GRGEN_LIBGR.IDeque)\n");
+                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString((GRGEN_LIBGR.IDeque)" + recVal + ", graph));\n");
                             source.AppendFront("else\n\t");
                         }
                         source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString(" + recVal + ", graph));\n");
@@ -2499,7 +2499,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
                     }
-                    else // statically known set/map/queue
+                    else // statically known set/map/deque
                     {
                         return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
                     }
@@ -2641,12 +2641,12 @@ namespace de.unika.ipd.grGen.lgsp
                 String arrayValueType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
                 return "GRGEN_LIBGR.ContainerHelper.NewList(" + arrayValueType + ")";
             }
-            else if(constant is Queue)
+            else if(constant is IDeque)
             {
                 Type valueType;
                 ContainerHelper.GetListType(constant, out valueType);
-                String queueValueType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
-                return "GRGEN_LIBGR.ContainerHelper.NewQueue(" + queueValueType + ")";
+                String dequeValueType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
+                return "GRGEN_LIBGR.ContainerHelper.NewDeque(" + dequeValueType + ")";
             }
             else if(constant is string)
             {

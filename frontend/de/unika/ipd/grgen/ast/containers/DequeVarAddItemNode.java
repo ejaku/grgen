@@ -17,20 +17,20 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.containers.QueueVarAddItem;
+import de.unika.ipd.grgen.ir.containers.DequeVarAddItem;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class QueueVarAddItemNode extends EvalStatementNode
+public class DequeVarAddItemNode extends EvalStatementNode
 {
 	static {
-		setName(QueueVarAddItemNode.class, "queue var add item statement");
+		setName(DequeVarAddItemNode.class, "deque var add item statement");
 	}
 
 	private VarDeclNode target;
 	private ExprNode valueExpr;
 
-	public QueueVarAddItemNode(Coords coords, VarDeclNode target, ExprNode valueExpr)
+	public DequeVarAddItemNode(Coords coords, VarDeclNode target, ExprNode valueExpr)
 	{
 		super(coords);
 		this.target = becomeParent(target);
@@ -62,14 +62,14 @@ public class QueueVarAddItemNode extends EvalStatementNode
 	protected boolean checkLocal() {
 		boolean success = true;
 		TypeNode targetType = target.getDeclType();
-		TypeNode targetValueType = ((QueueTypeNode)targetType).valueType;
-		success &= checkType(valueExpr, targetValueType, "queue add item statement", "value");
+		TypeNode targetValueType = ((DequeTypeNode)targetType).valueType;
+		success &= checkType(valueExpr, targetValueType, "deque add item statement", "value");
 		return success;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new QueueVarAddItem(target.checkIR(Variable.class),
+		return new DequeVarAddItem(target.checkIR(Variable.class),
 				valueExpr.checkIR(Expression.class));
 	}
 }

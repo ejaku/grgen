@@ -18,58 +18,58 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.containers.QueueInit;
-import de.unika.ipd.grgen.ir.containers.QueueItem;
-import de.unika.ipd.grgen.ir.containers.QueueType;
+import de.unika.ipd.grgen.ir.containers.DequeInit;
+import de.unika.ipd.grgen.ir.containers.DequeItem;
+import de.unika.ipd.grgen.ir.containers.DequeType;
 import de.unika.ipd.grgen.parser.Coords;
 
-//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|queue 
+//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque
 //should be unified in abstract base classes and algorithms working on them
 
-public class QueueInitNode extends ExprNode
+public class DequeInitNode extends ExprNode
 {
 	static {
-		setName(QueueInitNode.class, "queue init");
+		setName(DequeInitNode.class, "deque init");
 	}
 
-	private CollectNode<QueueItemNode> queueItems = new CollectNode<QueueItemNode>();
+	private CollectNode<DequeItemNode> dequeItems = new CollectNode<DequeItemNode>();
 
-	// if queue init node is used in model, for member init
-	//     then lhs != null, queueType == null
-	// if queue init node is used in actions, for anonymous const queue with specified type
-	//     then lhs == null, queueType != null -- adjust type of queue items to this type
-	// if queue init node is used in actions, for anonymous const queue without specified type
-	//     then lhs == null, queueType == null -- determine queue type from first item, all items must be exactly of this type
+	// if deque init node is used in model, for member init
+	//     then lhs != null, dequeType == null
+	// if deque init node is used in actions, for anonymous const deque with specified type
+	//     then lhs == null, dequeType != null -- adjust type of deque items to this type
+	// if qeque init node is used in actions, for anonymous const deque without specified type
+	//     then lhs == null, dequeType == null -- determine deque type from first item, all items must be exactly of this type
 	private BaseNode lhsUnresolved;
 	private DeclNode lhs;
-	private QueueTypeNode queueType;
+	private DequeTypeNode dequeType;
 
-	public QueueInitNode(Coords coords, IdentNode member, QueueTypeNode queueType) {
+	public DequeInitNode(Coords coords, IdentNode member, DequeTypeNode dequeType) {
 		super(coords);
 
 		if(member!=null) {
 			lhsUnresolved = becomeParent(member);
 		} else {
-			this.queueType = queueType;
+			this.dequeType = dequeType;
 		}
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(queueItems);
+		children.add(dequeItems);
 		return children;
 	}
 
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("queueItems");
+		childrenNames.add("dequeItems");
 		return childrenNames;
 	}
 
-	public void addQueueItem(QueueItemNode item) {
-		queueItems.addChild(item);
+	public void addDequeItem(DequeItemNode item) {
+		dequeItems.addChild(item);
 	}
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
@@ -80,8 +80,8 @@ public class QueueInitNode extends ExprNode
 			if(!lhsResolver.resolve(lhsUnresolved)) return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
-		} else if(queueType!=null) {
-			return queueType.resolve();
+		} else if(dequeType!=null) {
+			return dequeType.resolve();
 		} else {
 			return true;
 		}
@@ -91,63 +91,63 @@ public class QueueInitNode extends ExprNode
 	protected boolean checkLocal() {
 		boolean success = true;
 
-		QueueTypeNode queueType;
+		DequeTypeNode dequeType;
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
-			assert type instanceof QueueTypeNode: "Lhs should be a Queue<Value>";
-			queueType = (QueueTypeNode) type;
-		} else if(this.queueType!=null) {
-			queueType = this.queueType;
+			assert type instanceof DequeTypeNode: "Lhs should be a Deque<Value>";
+			dequeType = (DequeTypeNode) type;
+		} else if(this.dequeType!=null) {
+			dequeType = this.dequeType;
 		} else {
-			TypeNode queueTypeNode = getQueueType();
-			if(queueTypeNode instanceof QueueTypeNode) {
-				queueType = (QueueTypeNode)queueTypeNode;
+			TypeNode dequeTypeNode = getDequeType();
+			if(dequeTypeNode instanceof DequeTypeNode) {
+				dequeType = (DequeTypeNode)dequeTypeNode;
 			} else {
 				return false;
 			}
 		}
 
-		for(QueueItemNode item : queueItems.getChildren()) {
-			if(item.valueExpr.getType() != queueType.valueType) {
-				if(this.queueType!=null) {
+		for(DequeItemNode item : dequeItems.getChildren()) {
+			if(item.valueExpr.getType() != dequeType.valueType) {
+				if(this.dequeType!=null) {
 					ExprNode oldValueExpr = item.valueExpr;
-					item.valueExpr = item.valueExpr.adjustType(queueType.valueType, getCoords());
+					item.valueExpr = item.valueExpr.adjustType(dequeType.valueType, getCoords());
 					item.switchParenthoodOfItem(oldValueExpr, item.valueExpr);
 					if(item.valueExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
 								+ "\" of initializer doesn't fit to value type \""
-								+ queueType.valueType + "\" of queue.");
+								+ dequeType.valueType + "\" of deque.");
 					}
 				} else {
 					success = false;
 					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
 							+ "\" of initializer doesn't fit to value type \""
-							+ queueType.valueType + "\" of queue (all items must be of exactly the same type).");
+							+ dequeType.valueType + "\" of deque (all items must be of exactly the same type).");
 				}
 			}
 		}
 
-		if(lhs==null && this.queueType==null) {
-			this.queueType = queueType;
+		if(lhs==null && this.dequeType==null) {
+			this.dequeType = dequeType;
 		}
 
 		if(!isConstant() && lhs!=null) {
-			reportError("Only constant items allowed in queue initialization in model");
+			reportError("Only constant items allowed in deque initialization in model");
 			success = false;
 		}
 
 		return success;
 	}
 
-	protected TypeNode getQueueType() {
-		TypeNode itemTypeNode = queueItems.getChildren().iterator().next().valueExpr.getType();
+	protected TypeNode getDequeType() {
+		TypeNode itemTypeNode = dequeItems.getChildren().iterator().next().valueExpr.getType();
 		if(!(itemTypeNode instanceof DeclaredTypeNode)) {
-			reportError("Queue items have to be of basic or enum type");
+			reportError("Deque items have to be of basic or enum type");
 			return BasicTypeNode.errorType;
 		}
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
-		return QueueTypeNode.getQueueType(itemTypeIdent);
+		return DequeTypeNode.getDequeType(itemTypeIdent);
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class QueueInitNode extends ExprNode
 	 * @return True, if all set items are constant.
 	 */
 	protected boolean isConstant() {
-		for(QueueItemNode item : queueItems.getChildren()) {
+		for(DequeItemNode item : dequeItems.getChildren()) {
 			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
 				return false;
 		}
@@ -171,7 +171,7 @@ public class QueueInitNode extends ExprNode
 	}
 
 	protected boolean contains(ConstNode node) {
-		for(QueueItemNode item : queueItems.getChildren()) {
+		for(DequeItemNode item : dequeItems.getChildren()) {
 			if(item.valueExpr instanceof ConstNode) {
 				ConstNode itemConst = (ConstNode) item.valueExpr;
 				if(node.getValue().equals(itemConst.getValue()))
@@ -187,33 +187,33 @@ public class QueueInitNode extends ExprNode
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
 			return (SetTypeNode) type;
-		} else if(queueType!=null) {
-			return queueType;
+		} else if(dequeType!=null) {
+			return dequeType;
 		} else {
-			return getQueueType();
+			return getDequeType();
 		}
 	}
 
-	protected CollectNode<QueueItemNode> getItems() {
-		return queueItems;
+	protected CollectNode<DequeItemNode> getItems() {
+		return dequeItems;
 	}
 
 	@Override
 	protected IR constructIR() {
-		Vector<QueueItem> items = new Vector<QueueItem>();
-		for(QueueItemNode item : queueItems.getChildren()) {
-			items.add(item.getQueueItem());
+		Vector<DequeItem> items = new Vector<DequeItem>();
+		for(DequeItemNode item : dequeItems.getChildren()) {
+			items.add(item.getDequeItem());
 		}
 		Entity member = lhs!=null ? lhs.getEntity() : null;
-		QueueType type = queueType!=null ? queueType.checkIR(QueueType.class) : null;
-		return new QueueInit(items, member, type, isConstant());
+		DequeType type = dequeType!=null ? dequeType.checkIR(DequeType.class) : null;
+		return new DequeInit(items, member, type, isConstant());
 	}
 
-	public QueueInit getQueueInit() {
-		return checkIR(QueueInit.class);
+	public DequeInit getDequeInit() {
+		return checkIR(DequeInit.class);
 	}
 
 	public static String getUseStr() {
-		return "queue initialization";
+		return "deque initialization";
 	}
 }

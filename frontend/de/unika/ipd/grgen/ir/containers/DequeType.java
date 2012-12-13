@@ -13,14 +13,14 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.*;
 
-//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|queue 
+//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque 
 //should be unified in abstract base classes and algorithms working on them
 
-public class QueueType extends Type {
+public class DequeType extends Type {
 	Type valueType;
 
-	public QueueType(Type valueType) {
-		super("queue type", null);
+	public DequeType(Type valueType) {
+		super("deque type", null);
 		this.valueType = valueType;
 	}
 
@@ -30,6 +30,6 @@ public class QueueType extends Type {
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
-		return IS_QUEUE;
+		return IS_DEQUE;
 	}
 }

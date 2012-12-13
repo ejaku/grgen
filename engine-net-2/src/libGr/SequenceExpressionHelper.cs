@@ -382,9 +382,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.EqualIList((IList)leftValue, (IList)rightValue);
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return ContainerHelper.EqualQueue((Queue)leftValue, (Queue)rightValue);
+                return ContainerHelper.EqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
             else
             {
@@ -441,9 +441,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.EqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return "GRGEN_LIBGR.ContainerHelper.EqualQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.EqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
             else
             {
@@ -814,9 +814,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.NotEqualIList((IList)leftValue, (IList)rightValue);
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return ContainerHelper.NotEqualQueue((Queue)leftValue, (Queue)rightValue);
+                return ContainerHelper.NotEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
             else
             {
@@ -873,9 +873,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.NotEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return "GRGEN_LIBGR.ContainerHelper.NotEqualQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.NotEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
             else
             {
@@ -1230,9 +1230,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.LessThanIList((IList)leftValue, (IList)rightValue);
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return ContainerHelper.LessThanQueue((Queue)leftValue, (Queue)rightValue);
+                return ContainerHelper.LessThanIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
 
             throw new Exception("Invalid types for <");
@@ -1271,9 +1271,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.LessThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return "GRGEN_LIBGR.ContainerHelper.LessThanQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.LessThanDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
 
             return null;
@@ -1626,9 +1626,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.GreaterThanIList((IList)leftValue, (IList)rightValue);
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return ContainerHelper.GreaterThanQueue((Queue)leftValue, (Queue)rightValue);
+                return ContainerHelper.GreaterThanIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
 
             throw new Exception("Invalid types for >");
@@ -1667,9 +1667,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return "GRGEN_LIBGR.ContainerHelper.GreaterThanQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.GreaterThanDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
 
             return null;
@@ -2022,9 +2022,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.LessOrEqualIList((IList)leftValue, (IList)rightValue);
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return ContainerHelper.LessOrEqualQueue((Queue)leftValue, (Queue)rightValue);
+                return ContainerHelper.LessOrEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
 
             throw new Exception("Invalid types for <=");
@@ -2063,9 +2063,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.LessOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return "GRGEN_LIBGR.ContainerHelper.LessOrEqualQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.LessOrEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
 
             return null;
@@ -2418,9 +2418,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.GreaterOrEqualIList((IList)leftValue, (IList)rightValue);
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return ContainerHelper.GreaterOrEqualQueue((Queue)leftValue, (Queue)rightValue);
+                return ContainerHelper.GreaterOrEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
 
             throw new Exception("Invalid types for >=");
@@ -2459,9 +2459,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
 
             return null;
@@ -2822,8 +2822,8 @@ namespace de.unika.ipd.grGen.libGr
                         return (string)leftValue + ContainerHelper.ToString((IDictionary)rightValue, graph);
                     else if(rightType.StartsWith("array<"))
                         return (string)leftValue + ContainerHelper.ToString((IList)rightValue, graph);
-                    else if(rightType.StartsWith("queue<"))
-                        return (string)leftValue + ContainerHelper.ToString((Queue)rightValue, graph);
+                    else if(rightType.StartsWith("deque<"))
+                        return (string)leftValue + ContainerHelper.ToString((IDeque)rightValue, graph);
                     else if(rightType == "string")
                         return (string)leftValue + (string)rightValue;
                     else
@@ -2837,8 +2837,8 @@ namespace de.unika.ipd.grGen.libGr
                         return ContainerHelper.ToString((IDictionary)leftValue, graph) + (string)rightValue;
                     else if(leftType.StartsWith("array<"))
                         return ContainerHelper.ToString((IList)leftValue, graph) + (string)rightValue;
-                    else if(leftType.StartsWith("queue<"))
-                        return ContainerHelper.ToString((Queue)leftValue, graph) + (string)rightValue;
+                    else if(leftType.StartsWith("deque<"))
+                        return ContainerHelper.ToString((IDeque)leftValue, graph) + (string)rightValue;
                     else if(leftType == "string")
                         return (string)leftValue + (string)rightValue;
                     else
@@ -2849,9 +2849,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.ConcatenateIList((IList)leftValue, (IList)rightValue);
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return ContainerHelper.ConcatenateQueue((Queue)leftValue, (Queue)rightValue);
+                return ContainerHelper.ConcatenateIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
 
             throw new Exception("Invalid types for +");
@@ -2888,7 +2888,7 @@ namespace de.unika.ipd.grGen.libGr
                         return "("+leftValue+" + GRGEN_LIBGR.ContainerHelper.ToString("+rightValue+", graph))";
                     else if(rightType.StartsWith("array<"))
                         return "("+leftValue+" + GRGEN_LIBGR.ContainerHelper.ToString("+rightValue+", graph))";
-                    else if(rightType.StartsWith("queue<"))
+                    else if(rightType.StartsWith("deque<"))
                         return "(" + leftValue + " + GRGEN_LIBGR.ContainerHelper.ToString(" + rightValue + ", graph))";
                     else if(rightType == "string")
                         return "("+leftValue+" + "+rightValue+")";
@@ -2903,7 +2903,7 @@ namespace de.unika.ipd.grGen.libGr
                         return "(GRGEN_LIBGR.ContainerHelper.ToString("+leftValue+", graph) + "+rightValue+")";
                     else if(leftType.StartsWith("array<"))
                         return "(GRGEN_LIBGR.ContainerHelper.ToString("+leftValue+", graph) + "+rightValue+")";
-                    else if(leftType.StartsWith("queue<"))
+                    else if(leftType.StartsWith("deque<"))
                         return "(GRGEN_LIBGR.ContainerHelper.ToString(" + leftValue + ", graph) + " + rightValue + ")";
                     else if(leftType == "string")
                         return "("+leftValue+" + "+rightValue+")";
@@ -2915,9 +2915,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.ConcatenateIList((IList)"+leftValue+", (IList)"+rightValue+")";
             }
-            else if(balancedType.StartsWith("queue<"))
+            else if(balancedType.StartsWith("deque<"))
             {
-                return "GRGEN_LIBGR.ContainerHelper.ConcatenateQueue((Queue)" + leftValue + ", (Queue)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.ConcatenateDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
 
             return null;
@@ -3004,7 +3004,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(result == "-")
                     {
                         if(left == right && (left.StartsWith("set<") || left.StartsWith("map<")
-                            || left.StartsWith("array<") || left.StartsWith("queue<")))
+                            || left.StartsWith("array<") || left.StartsWith("deque<")))
                         {
                             return left;
                         }
@@ -3024,7 +3024,7 @@ namespace de.unika.ipd.grGen.libGr
                         if(result == "") return "";
                         if(result == "-")
                         {
-                            if(left == right && (left.StartsWith("array<") || left.StartsWith("queue<")))
+                            if(left == right && (left.StartsWith("array<") || left.StartsWith("deque<")))
                                 return left;
                             else return "-";
                         }

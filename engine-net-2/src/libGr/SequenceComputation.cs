@@ -316,9 +316,9 @@ namespace de.unika.ipd.grGen.libGr
                 return; // we can't check further types if the container is untyped, only runtime-check possible
 
             if(!ContainerType(env).StartsWith("set<") && !ContainerType(env).StartsWith("map<")
-                && !ContainerType(env).StartsWith("array<") && !ContainerType(env).StartsWith("queue<"))
+                && !ContainerType(env).StartsWith("array<") && !ContainerType(env).StartsWith("deque<"))
             {
-                throw new SequenceParserException(Symbol, ExprDst == null ? "set or array or queue type" : "map or array type", ContainerType(env));
+                throw new SequenceParserException(Symbol, ExprDst == null ? "set or array or deque type" : "map or array type", ContainerType(env));
             }
             if(ExprDst != null && TypesHelper.ExtractDst(ContainerType(env)) == "SetValueType")
             {
@@ -335,7 +335,7 @@ namespace de.unika.ipd.grGen.libGr
                     throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType(env)), ExprDst.Type(env));
                 }
             }
-            else if(ContainerType(env).StartsWith("queue<"))
+            else if(ContainerType(env).StartsWith("deque<"))
             {
                 if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType(env)), env.Model))
                 {
@@ -378,11 +378,11 @@ namespace de.unika.ipd.grGen.libGr
                     array.Insert((int)ExprDst.Evaluate(procEnv), Expr.Evaluate(procEnv));
                 return array;
             }
-            else if(container is Queue)
+            else if(container is IDeque)
             {
-                Queue queue = (Queue)container;
-                queue.Enqueue(Expr.Evaluate(procEnv));
-                return queue;
+                IDeque deque = (IDeque)container;
+                deque.Enqueue(Expr.Evaluate(procEnv));
+                return deque;
             }
             else
             {
@@ -428,9 +428,9 @@ namespace de.unika.ipd.grGen.libGr
                 return; // we can't check further types if the variable is untyped, only runtime-check possible
 
             if(!ContainerType(env).StartsWith("set<") && !ContainerType(env).StartsWith("map<")
-                && !ContainerType(env).StartsWith("array<") && !ContainerType(env).StartsWith("queue<"))
+                && !ContainerType(env).StartsWith("array<") && !ContainerType(env).StartsWith("deque<"))
             {
-                throw new SequenceParserException(Symbol, "set or map or array or queue type", ContainerType(env));
+                throw new SequenceParserException(Symbol, "set or map or array or deque type", ContainerType(env));
             }
             if(ContainerType(env).StartsWith("array<"))
             {
@@ -439,7 +439,7 @@ namespace de.unika.ipd.grGen.libGr
                     throw new SequenceParserException(Symbol, "int", Expr.Type(env));
                 }
             }
-            else if(ContainerType(env).StartsWith("queue<"))
+            else if(ContainerType(env).StartsWith("deque<"))
             {
             }
             else
@@ -472,11 +472,11 @@ namespace de.unika.ipd.grGen.libGr
                     array.RemoveAt((int)Expr.Evaluate(procEnv));
                 return array;
             }
-            else if(container is Queue)
+            else if(container is IDeque)
             {
-                Queue queue = (Queue)container;
-                queue.Dequeue();
-                return queue;
+                IDeque deque = (IDeque)container;
+                deque.Dequeue();
+                return deque;
             }
             else
             {
@@ -517,9 +517,9 @@ namespace de.unika.ipd.grGen.libGr
                 return; // we can't check further types if the variable is untyped, only runtime-check possible
 
             if(!ContainerType(env).StartsWith("set<") && !ContainerType(env).StartsWith("map<")
-                && !ContainerType(env).StartsWith("array<") && !ContainerType(env).StartsWith("queue<"))
+                && !ContainerType(env).StartsWith("array<") && !ContainerType(env).StartsWith("deque<"))
             {
-                throw new SequenceParserException(Symbol, "set or map or array or queue type", ContainerType(env));
+                throw new SequenceParserException(Symbol, "set or map or array or deque type", ContainerType(env));
             }
         }
 
@@ -539,11 +539,11 @@ namespace de.unika.ipd.grGen.libGr
                 array.Clear();
                 return array;
             }
-            else if(Container.GetVariableValue(procEnv) is Queue)
+            else if(Container.GetVariableValue(procEnv) is IDeque)
             {
-                Queue queue = (Queue)Container.GetVariableValue(procEnv);
-                queue.Clear();
-                return queue;
+                IDeque deque = (IDeque)Container.GetVariableValue(procEnv);
+                deque.Clear();
+                return deque;
             }
             else
             {
@@ -684,8 +684,8 @@ namespace de.unika.ipd.grGen.libGr
                     procEnv.EmitWriter.Write(ContainerHelper.ToString((IDictionary)value, procEnv.Graph));
                 else if(value is IList)
                     procEnv.EmitWriter.Write(ContainerHelper.ToString((IList)value, procEnv.Graph));
-                else if(value is Queue)
-                    procEnv.EmitWriter.Write(ContainerHelper.ToString((Queue)value, procEnv.Graph));
+                else if(value is IDeque)
+                    procEnv.EmitWriter.Write(ContainerHelper.ToString((IDeque)value, procEnv.Graph));
                 else
                     procEnv.EmitWriter.Write(ContainerHelper.ToString(value, procEnv.Graph));
             }
@@ -739,8 +739,8 @@ namespace de.unika.ipd.grGen.libGr
                     procEnv.Recorder.Write(ContainerHelper.ToString((IDictionary)value, procEnv.Graph));
                 else if(value is IList)
                     procEnv.Recorder.Write(ContainerHelper.ToString((IList)value, procEnv.Graph));
-                else if(value is Queue)
-                    procEnv.Recorder.Write(ContainerHelper.ToString((Queue)value, procEnv.Graph));
+                else if(value is IDeque)
+                    procEnv.Recorder.Write(ContainerHelper.ToString((IDeque)value, procEnv.Graph));
                 else
                     procEnv.Recorder.Write(ContainerHelper.ToString(value, procEnv.Graph));
             }

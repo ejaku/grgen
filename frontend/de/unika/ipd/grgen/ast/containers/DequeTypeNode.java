@@ -18,38 +18,38 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.containers.QueueType;
+import de.unika.ipd.grgen.ir.containers.DequeType;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
 
-public class QueueTypeNode extends DeclaredTypeNode {
+public class DequeTypeNode extends DeclaredTypeNode {
 	static {
-		setName(QueueTypeNode.class, "queue type");
+		setName(DequeTypeNode.class, "deque type");
 	}
 
 	@Override
 	public String getName() {
-		return "queue<" + valueTypeUnresolved.toString() + "> type";
+		return "deque<" + valueTypeUnresolved.toString() + "> type";
 	}
 
-	private static HashMap<String, QueueTypeNode> queueTypes = new HashMap<String, QueueTypeNode>();
+	private static HashMap<String, DequeTypeNode> dequeTypes = new HashMap<String, DequeTypeNode>();
 
-	public static QueueTypeNode getQueueType(IdentNode valueTypeIdent) {
+	public static DequeTypeNode getDequeType(IdentNode valueTypeIdent) {
 		String keyStr = valueTypeIdent.toString();
-		QueueTypeNode queueTypeNode = queueTypes.get(keyStr);
+		DequeTypeNode dequeTypeNode = dequeTypes.get(keyStr);
 
-		if(queueTypeNode == null)
-			queueTypes.put(keyStr, queueTypeNode = new QueueTypeNode(valueTypeIdent));
+		if(dequeTypeNode == null)
+			dequeTypes.put(keyStr, dequeTypeNode = new DequeTypeNode(valueTypeIdent));
 
-		return queueTypeNode;
+		return dequeTypeNode;
 	}
 
 	private IdentNode valueTypeUnresolved;
 	public TypeNode valueType;
 
-	// the queue type node instances are created in ParserEnvironment as needed
-	public QueueTypeNode(IdentNode valueTypeIdent) {
+	// the deque type node instances are created in ParserEnvironment as needed
+	public DequeTypeNode(IdentNode valueTypeIdent) {
 		valueTypeUnresolved = becomeParent(valueTypeIdent);
 	}
 
@@ -106,25 +106,25 @@ public class QueueTypeNode extends DeclaredTypeNode {
 
 		if(valueType instanceof InheritanceTypeNode) {
 			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
-					BasicTypeNode.typeType, this, OperatorSignature.queueEvaluator);
+					BasicTypeNode.typeType, this, OperatorSignature.dequeEvaluator);
 		} else {
 			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
-					valueType, this, OperatorSignature.queueEvaluator);
+					valueType, this, OperatorSignature.dequeEvaluator);
 		}
 		OperatorSignature.makeBinOp(OperatorSignature.EQ, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.queueEvaluator);
+				this, this, OperatorSignature.dequeEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.NE, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.queueEvaluator);
+				this, this, OperatorSignature.dequeEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.GT, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.queueEvaluator);
+				this, this, OperatorSignature.dequeEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.GE, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.queueEvaluator);
+				this, this, OperatorSignature.dequeEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.LT, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.queueEvaluator);
+				this, this, OperatorSignature.dequeEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.queueEvaluator);
+				this, this, OperatorSignature.dequeEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.ADD, this, this, this,
-				OperatorSignature.queueEvaluator);
+				OperatorSignature.dequeEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 
@@ -137,9 +137,9 @@ public class QueueTypeNode extends DeclaredTypeNode {
 
 		// return if the keyType or valueType construction already constructed the IR object
 		if (isIRAlreadySet()) {
-			return (QueueType)getIR();
+			return (DequeType)getIR();
 		}
 
-		return new QueueType(vt);
+		return new DequeType(vt);
 	}
 }

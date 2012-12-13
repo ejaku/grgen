@@ -13,19 +13,24 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class QueueItem extends IR {
-	Expression valueExpr;
+public class DequeVarRemoveItem extends EvalStatement {
+	Variable target;
 
-	public QueueItem(Expression valueExpr) {
-		super("queue item");
-		this.valueExpr = valueExpr;
+	public DequeVarRemoveItem(Variable target) {
+		super("deque var remove item");
+		this.target = target;
 	}
 
-	public Expression getValueExpr() {
-		return valueExpr;
+	public Variable getTarget() {
+		return target;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
-		valueExpr.collectNeededEntities(needs);
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		needs.add(target);
+
+		if(getNext()!=null) {
+			getNext().collectNeededEntities(needs);
+		}
 	}
 }

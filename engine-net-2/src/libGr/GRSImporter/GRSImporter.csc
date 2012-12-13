@@ -240,16 +240,16 @@ PARSER_BEGIN(GRSImporter)
 					graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, index);
 				array[(int)index] = value;
 			}
-			else if(attrType.Kind == AttributeKind.QueueAttr)
+			else if(attrType.Kind == AttributeKind.DequeAttr)
 			{
-				Queue queue = (Queue)elem.GetAttribute(attr);
+				IDeque deque = (IDeque)elem.GetAttribute(attr);
 				object value = ParseAttributeValue(attrType.ValueType, val);
 				AttributeChangeType changeType = AttributeChangeType.AssignElement;
 				if (elem is INode)
 					graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
 				else
 					graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
-				queue.Enqueue(value);
+				deque.Enqueue(value);
 			}
 			else
 			{
@@ -351,7 +351,7 @@ PARSER_BEGIN(GRSImporter)
 				return value;
 		}
 
-		private object ParseAttributeValue(AttributeType attrType, String valueString) // not set/map/array/queue
+		private object ParseAttributeValue(AttributeType attrType, String valueString) // not set/map/array/deque
         {
             object value = null;
             if(attrType.Kind==AttributeKind.EnumAttr)
@@ -385,7 +385,7 @@ PARSER_BEGIN(GRSImporter)
                 object value = null;
                 IDictionary setmap = null;
 				IList array = null;
-				Queue queue = null;
+				IDeque deque = null;
                 switch(attrType.Kind)
                 {
                 case AttributeKind.SetAttr:
@@ -423,15 +423,15 @@ PARSER_BEGIN(GRSImporter)
 					}
 					value = array;
 					break;
-				case AttributeKind.QueueAttr:
-					if(par.Value!="queue") throw new Exception("Queue literal expected");
-					queue = ContainerHelper.NewQueue(
+				case AttributeKind.DequeAttr:
+					if(par.Value!="deque") throw new Exception("Deque literal expected");
+					deque = ContainerHelper.NewDeque(
 						ContainerHelper.GetTypeFromNameForContainer(par.Type, graph));
 					foreach(object val in par.Values)
 					{
-						queue.Enqueue( ParseAttributeValue(attrType.ValueType, (String)val) );
+						deque.Enqueue( ParseAttributeValue(attrType.ValueType, (String)val) );
 					}
-					value = queue;
+					value = deque;
 					break;
 				default:
 					value = ParseAttributeValue(attrType, par.Value);
@@ -488,7 +488,7 @@ TOKEN: {
 |   < SET: "set" >
 |   < MAP: "map" >
 |   < ARRAY: "array" >
-|   < QUEUE: "queue" >
+|   < DEQUE: "deque" >
 }
 
 TOKEN: {

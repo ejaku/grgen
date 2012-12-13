@@ -14,35 +14,35 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import java.util.Collection;
 
-public class QueueInit extends Expression {
-	private Collection<QueueItem> queueItems;
+public class DequeInit extends Expression {
+	private Collection<DequeItem> dequeItems;
 	private Entity member;
-	private QueueType queueType;
+	private DequeType dequeType;
 	private boolean isConst;
-	private int anonymousQueueId;
-	private static int anonymousQueueCounter;
+	private int anonymousDequeId;
+	private static int anonymousDequeCounter;
 
-	public QueueInit(Collection<QueueItem> queueItems, Entity member, QueueType queueType, boolean isConst) {
-		super("queue init", member!=null ? member.getType() : queueType);
-		this.queueItems = queueItems;
+	public DequeInit(Collection<DequeItem> dequeItems, Entity member, DequeType dequeType, boolean isConst) {
+		super("deque init", member!=null ? member.getType() : dequeType);
+		this.dequeItems = dequeItems;
 		this.member = member;
-		this.queueType = queueType;
+		this.dequeType = dequeType;
 		this.isConst = isConst;
 		if(member==null) {
-			anonymousQueueId = anonymousQueueCounter;
-			++anonymousQueueCounter;
+			anonymousDequeId = anonymousDequeCounter;
+			++anonymousDequeCounter;
 		}
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.add(this);
-		for(QueueItem queueItem : queueItems) {
-			queueItem.collectNeededEntities(needs);
+		for(DequeItem dequeItem : dequeItems) {
+			dequeItem.collectNeededEntities(needs);
 		}
 	}
 
-	public Collection<QueueItem> getQueueItems() {
-		return queueItems;
+	public Collection<DequeItem> getDequeItems() {
+		return dequeItems;
 	}
 
 	public void setMember(Entity entity) {
@@ -54,15 +54,15 @@ public class QueueInit extends Expression {
 		return member;
 	}
 
-	public QueueType getQueueType() {
-		return queueType;
+	public DequeType getDequeType() {
+		return dequeType;
 	}
 
 	public boolean isConstant() {
 		return isConst;
 	}
 
-	public String getAnonymousQueueName() {
-		return "anonymous_queue_" + anonymousQueueId;
+	public String getAnonymousDequeName() {
+		return "anonymous_deque_" + anonymousDequeId;
 	}
 }

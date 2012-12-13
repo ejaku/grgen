@@ -28,7 +28,7 @@ public class NeededEntities {
 	 *      the graph entities used to access the attributes will not be
 	 *      automatically added to the nodes, edges, and entities sets, but only
 	 *      in the attrNodes and attrEdges sets.
-	 * @param collectContainerExprs Specifies, whether map, set, array, queue expressions shall be collected.
+	 * @param collectContainerExprs Specifies, whether map, set, array, deque expressions shall be collected.
 	 */
 	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars,
 			boolean collectAllEntities, boolean collectAllAttributes, boolean collectContainerExprs) {

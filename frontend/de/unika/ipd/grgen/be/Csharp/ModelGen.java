@@ -410,7 +410,7 @@ public class ModelGen extends CSharpBase {
 
 			String attrName = formatIdentifiable(member);
 			if(member.getType() instanceof MapType || member.getType() instanceof SetType 
-					|| member.getType() instanceof ArrayType || member.getType() instanceof QueueType) {
+					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
 				routedSB.append("\t\t\t" + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
 						+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
 			} else {
@@ -430,7 +430,7 @@ public class ModelGen extends CSharpBase {
 
 			String attrName = formatIdentifiable(member);
 			if(member.getType() instanceof MapType || member.getType() instanceof SetType 
-					|| member.getType() instanceof ArrayType || member.getType() instanceof QueueType) {
+					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
 				routedSB.append("\t\t\t\t&& GRGEN_LIBGR.ContainerHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else {
@@ -558,7 +558,7 @@ public class ModelGen extends CSharpBase {
 				Type t = member.getType();
 				// handled down below, as containers must be created independent of initialization
 				if(t instanceof MapType || t instanceof SetType
-						|| t instanceof ArrayType || t instanceof QueueType)
+						|| t instanceof ArrayType || t instanceof DequeType)
 					continue;
 
 				String attrName = formatIdentifiable(member);
@@ -580,14 +580,14 @@ public class ModelGen extends CSharpBase {
 			}
 		}
 
-		// create containers, i.e. maps, sets, arrays, queues
+		// create containers, i.e. maps, sets, arrays, deques
 		for(Entity member : type.getAllMembers()) {
 			if(member.isConst())
 				continue;
 
 			Type t = member.getType();
 			if(!(t instanceof MapType || t instanceof SetType
-					|| t instanceof ArrayType || t instanceof QueueType))
+					|| t instanceof ArrayType || t instanceof DequeType))
 				continue;
 
 			String attrName = formatIdentifiable(member);
@@ -601,9 +601,9 @@ public class ModelGen extends CSharpBase {
 			} else if(t instanceof ArrayType) {
 				ArrayType arrayType = (ArrayType) t;
 				sb.append("new " + formatAttributeType(arrayType) + "();\n");
-			} else if(t instanceof QueueType) {
-				QueueType queueType = (QueueType) t;
-				sb.append("new " + formatAttributeType(queueType) + "();\n");
+			} else if(t instanceof DequeType) {
+				DequeType dequeType = (DequeType) t;
+				sb.append("new " + formatAttributeType(dequeType) + "();\n");
 			}
 		}
 
@@ -663,15 +663,15 @@ array_init_loop:
 				}
 				initializationOperations += arrayInit.getArrayItems().size();
 			}
-queue_init_loop:
-			for(QueueInit queueInit : superType.getQueueInits()) {
-				if(queueInit.getMember().isConst())
+deque_init_loop:
+			for(DequeInit dequeInit : superType.getDequeInits()) {
+				if(dequeInit.getMember().isConst())
 					continue;
-				for(QueueInit tqi : targetType.getQueueInits()) {
-					if(queueInit.getMember() == tqi.getMember())
-						continue queue_init_loop;
+				for(DequeInit tdi : targetType.getDequeInits()) {
+					if(dequeInit.getMember() == tdi.getMember())
+						continue deque_init_loop;
 				}
-				initializationOperations += queueInit.getQueueItems().size();
+				initializationOperations += dequeInit.getDequeItems().size();
 			}
 		}
 
@@ -696,9 +696,9 @@ queue_init_loop:
 				initializationOperations += arrayInit.getArrayItems().size();
 		}
 
-		for(QueueInit queueInit : targetType.getQueueInits()) {
-			if(!queueInit.getMember().isConst())
-				initializationOperations += queueInit.getQueueItems().size();
+		for(DequeInit dequeInit : targetType.getDequeInits()) {
+			if(!dequeInit.getMember().isConst())
+				initializationOperations += dequeInit.getDequeItems().size();
 		}
 
 		return initializationOperations;
@@ -800,16 +800,16 @@ queue_init_loop:
 			}
 		}
 		
-		// init members of queue value with explicit initialization
-		for(QueueInit queueInit : type.getQueueInits()) {
-			Entity member = queueInit.getMember();
-			if(queueInit.getMember().isConst())
+		// init members of deque value with explicit initialization
+		for(DequeInit dequeInit : type.getDequeInits()) {
+			Entity member = dequeInit.getMember();
+			if(dequeInit.getMember().isConst())
 				continue;
 			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
 				continue;
 
-			String attrName = formatIdentifiable(queueInit.getMember());
-			for(QueueItem item : queueInit.getQueueItems()) {
+			String attrName = formatIdentifiable(dequeInit.getMember());
+			for(DequeItem item : dequeInit.getDequeItems()) {
 				sb.append(indentString + varName + ".@" + attrName + ".Add(");
 				genExpression(sb, item.getValueExpr(), null);
 				sb.append(");\n");
@@ -922,9 +922,9 @@ queue_init_loop:
 			initializedConstMembers.add(member);
 		}
 
-		// init const members of queue value with explicit initialization
-		for(QueueInit queueInit : type.getQueueInits()) {
-			Entity member = queueInit.getMember();
+		// init const members of deque value with explicit initialization
+		for(DequeInit dequeInit : type.getDequeInits()) {
+			Entity member = dequeInit.getMember();
 			if(!member.isConst())
 				continue;
 			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
@@ -936,7 +936,7 @@ queue_init_loop:
 					"new " + attrType + "();\n");
 			staticInitializers.add("init_" + attrName);
 			sb.append("\t\tstatic void init_" + attrName + "() {\n");
-			for(QueueItem item : queueInit.getQueueItems()) {
+			for(DequeItem item : dequeInit.getDequeItems()) {
 				sb.append("\t\t\t");
 				sb.append(attrName + ModelGen.ATTR_IMPL_SUFFIX);
 				sb.append(".Enqueue(");
@@ -963,7 +963,7 @@ queue_init_loop:
 			String attrName = formatIdentifiable(member);
 
 			if(memberType instanceof MapType || memberType instanceof SetType
-					|| memberType instanceof ArrayType || memberType instanceof QueueType)
+					|| memberType instanceof ArrayType || memberType instanceof DequeType)
 				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = " +
 						"new " + attrType + "();\n");
 			else
@@ -1012,8 +1012,8 @@ queue_init_loop:
 				if(member == tai.getMember())
 					return false;
 			}
-			for(QueueInit tqi : relevantChildrenOfFocusedType.getQueueInits()) {
-				if(member == tqi.getMember())
+			for(DequeInit tdi : relevantChildrenOfFocusedType.getDequeInits()) {
+				if(member == tdi.getMember())
 					return false;
 			}
 		}
@@ -1280,7 +1280,7 @@ queue_init_loop:
 		for(Entity member : type.getMembers()) { // only for locally defined members
 			sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member) + ";\n");
 
-			// attribute types T/S of map<T,S>/set<T>/array<T>/queue<T>
+			// attribute types T/S of map<T,S>/set<T>/array<T>/deque<T>
 			if(member.getType() instanceof MapType) {
 				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_domain_type;\n");
 				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_range_type;\n");
@@ -1291,8 +1291,8 @@ queue_init_loop:
 			if(member.getType() instanceof ArrayType) {
 				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_array_member_type;\n");
 			}
-			if(member.getType() instanceof QueueType) {
-				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_queue_member_type;\n");
+			if(member.getType() instanceof DequeType) {
+				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_deque_member_type;\n");
 			}
 		}
 	}
@@ -1335,12 +1335,12 @@ queue_init_loop:
 				genAttributeInitTypeDependentStuff(at.getValueType(), e);
 				sb.append(");\n");
 			}
-			else if (t instanceof QueueType) {
-				QueueType qt = (QueueType)t;
+			else if (t instanceof DequeType) {
+				DequeType qt = (DequeType)t;
 
-				// attribute type T of queue<T>
-				sb.append("\t\t\t" + attributeTypeName + "_queue_member_type = new GRGEN_LIBGR.AttributeType(");
-				sb.append("\"" + formatIdentifiable(e) + "_queue_member_type\", this, ");
+				// attribute type T of deque<T>
+				sb.append("\t\t\t" + attributeTypeName + "_deque_member_type = new GRGEN_LIBGR.AttributeType(");
+				sb.append("\"" + formatIdentifiable(e) + "_deque_member_type\", this, ");
 				genAttributeInitTypeDependentStuff(qt.getValueType(), e);
 				sb.append(");\n");
 			}
@@ -1372,9 +1372,9 @@ queue_init_loop:
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_array_member_type" + ", null, "
 					+ "null");
-		} else if (t instanceof QueueType) {
+		} else if (t instanceof DequeType) {
 			sb.append(getAttributeKind(t) + ", null, "
-					+ formatAttributeTypeName(e) + "_queue_member_type" + ", null, "
+					+ formatAttributeTypeName(e) + "_deque_member_type" + ", null, "
 					+ "null");
 		} else if (t instanceof NodeType || t instanceof EdgeType) {
 			sb.append(getAttributeKind(t) + ", null, "
@@ -1414,8 +1414,8 @@ queue_init_loop:
 			return "GRGEN_LIBGR.AttributeKind.SetAttr";
 		else if (t instanceof ArrayType)
 			return "GRGEN_LIBGR.AttributeKind.ArrayAttr";
-		else if (t instanceof QueueType)
-			return "GRGEN_LIBGR.AttributeKind.QueueAttr";
+		else if (t instanceof DequeType)
+			return "GRGEN_LIBGR.AttributeKind.DequeAttr";
 		else if (t instanceof NodeType)
 			return "GRGEN_LIBGR.AttributeKind.NodeAttr";
 		else if (t instanceof EdgeType)
@@ -1614,7 +1614,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 										+ ";   // Mono workaround (bug #357287)\n");
 							} else {
 								if(member.getType() instanceof MapType || member.getType() instanceof SetType 
-										|| member.getType() instanceof ArrayType || member.getType() instanceof QueueType) {
+										|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
 									sb.append("\t\t\t\t\t\tnew" + kindName + ".@" + memberName
 											+ " = new " + formatAttributeType(member.getType()) + "(old.@" + memberName + ");\n");
 								} else {
