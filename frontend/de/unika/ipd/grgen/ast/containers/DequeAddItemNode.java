@@ -15,29 +15,33 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.containers.QueueVarClear;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.containers.DequeAddItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class QueueVarClearNode extends EvalStatementNode
+public class DequeAddItemNode extends EvalStatementNode
 {
 	static {
-		setName(QueueVarClearNode.class, "queue var clear statement");
+		setName(DequeAddItemNode.class, "Deque add item statement");
 	}
 
-	private VarDeclNode target;
+	private QualIdentNode target;
+	private ExprNode valueExpr;
 
-	public QueueVarClearNode(Coords coords, VarDeclNode target)
+	public DequeAddItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr)
 	{
 		super(coords);
 		this.target = becomeParent(target);
+		this.valueExpr = becomeParent(valueExpr);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(target);
+		children.add(valueExpr);
 		return children;
 	}
 
@@ -45,6 +49,7 @@ public class QueueVarClearNode extends EvalStatementNode
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("target");
+		childrenNames.add("valueExpr");
 		return childrenNames;
 	}
 
@@ -55,11 +60,24 @@ public class QueueVarClearNode extends EvalStatementNode
 
 	@Override
 	protected boolean checkLocal() {
+		TypeNode targetType = target.getDecl().getDeclType();
+		TypeNode targetValueType = ((DequeTypeNode)targetType).valueType;
+		TypeNode valueType = valueExpr.getType();
+		if (!valueType.isEqual(targetValueType))
+		{
+			valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
+			if(valueExpr == ConstNode.getInvalid()) {
+				valueExpr.reportError("Argument value to "
+						+ "deque add item statement must be of type " +targetValueType.toString());
+				return false;
+			}
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new QueueVarClear(target.checkIR(Variable.class));
+		return new DequeAddItem(target.checkIR(Qualification.class),
+				valueExpr.checkIR(Expression.class));
 	}
 }

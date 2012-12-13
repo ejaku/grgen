@@ -1804,7 +1804,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     IDictionary setmap = null;
                     IList array = null;
-                    Queue queue = null;
+                    IDeque deque = null;
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
@@ -1851,19 +1851,19 @@ namespace de.unika.ipd.grGen.grShell
                         }
                         value = array;
                         break;
-                    case AttributeKind.QueueAttr:
-                        if(par.Value != "queue")
+                    case AttributeKind.DequeAttr:
+                        if(par.Value != "deque")
                         {
-                            errOut.WriteLine("Attribute \"{0}\" must be a queue constructor!", par.Key);
-                            throw new Exception("Queue literal expected");
+                            errOut.WriteLine("Attribute \"{0}\" must be a deque constructor!", par.Key);
+                            throw new Exception("Deque literal expected");
                         }
-                        queue = ContainerHelper.NewQueue(
+                        deque = ContainerHelper.NewDeque(
                             ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.Graph));
                         foreach(object val in par.Values)
                         {
-                            queue.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
+                            deque.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
                         }
-                        value = queue;
+                        value = deque;
                         break;
                     default:
                         value = ParseAttributeValue(attrType, par.Value, par.Key);
@@ -1893,7 +1893,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     IDictionary setmap = null;
                     IList array = null;
-                    Queue queue = null;
+                    IDeque deque = null;
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
@@ -1940,19 +1940,19 @@ namespace de.unika.ipd.grGen.grShell
                         }
                         value = array;
                         break;
-                    case AttributeKind.QueueAttr:
-                        if(par.Value != "queue")
+                    case AttributeKind.DequeAttr:
+                        if(par.Value != "deque")
                         {
-                            errOut.WriteLine("Attribute \"{0}\" must be a queue constructor!", par.Key);
-                            throw new Exception("Queue literal expected");
+                            errOut.WriteLine("Attribute \"{0}\" must be a deque constructor!", par.Key);
+                            throw new Exception("Deque literal expected");
                         }
-                        queue = ContainerHelper.NewQueue(
+                        deque = ContainerHelper.NewDeque(
                             ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.Graph));
                         foreach(object val in par.Values)
                         {
-                            queue.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
+                            deque.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
                         }
-                        value = queue;
+                        value = deque;
                         break;
                     default:
                         value = ParseAttributeValue(attrType, par.Value, par.Key);
@@ -2543,14 +2543,14 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 debugOut.WriteLine("]\".");
             }
-            else if (attrType.Kind == AttributeKind.QueueAttr)
+            else if (attrType.Kind == AttributeKind.DequeAttr)
             {
                 Type valueType;
-                Queue queue = ContainerHelper.GetQueueType(
+                IDeque deque = ContainerHelper.GetDequeType(
                     elem.GetAttribute(attributeName), out valueType);
                 debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"]");
                 bool first = true;
-                foreach (Object entry in queue)
+                foreach (Object entry in deque)
                 {
                     if (first)
                         first = false;
@@ -2587,9 +2587,9 @@ namespace de.unika.ipd.grGen.grShell
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
-                else if(val.GetType().Name == "Queue`1")
+                else if(val.GetType().Name == "Deque`1")
                 {
-                    ContainerHelper.ToString((Queue)val, out type, out content,
+                    ContainerHelper.ToString((IDeque)val, out type, out content,
                         null, curShellProcEnv != null ? curShellProcEnv.Graph : null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
@@ -3820,7 +3820,7 @@ showavail:
             return elem.GetAttribute(attrName);
         }
 
-        public void SetArrayQueueAdd(IGraphElement elem, String attrName, object keyObj)
+        public void SetArrayDequeAdd(IGraphElement elem, String attrName, object keyObj)
         {
             object attr = GetAttribute(elem, attrName);
             if(attr == null)
@@ -3877,18 +3877,18 @@ showavail:
                     curShellProcEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
                 array.Add(keyObj);
             }
-            else if(attr is Queue)
+            else if(attr is IDeque)
             {
                 Type valueType;
-                Queue queue = ContainerHelper.GetQueueType(attr, out valueType);
-                if(queue == null)
+                IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
+                if(deque == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a queue.");
+                    errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a deque.");
                     return;
                 }
                 if(valueType != keyObj.GetType())
                 {
-                    errOut.WriteLine("Queue type must be " + valueType + ", but is " + keyObj.GetType() + ".");
+                    errOut.WriteLine("Deque type must be " + valueType + ", but is " + keyObj.GetType() + ".");
                     return;
                 }
 
@@ -3898,11 +3898,11 @@ showavail:
                     curShellProcEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
                 else
                     curShellProcEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
-                queue.Enqueue(keyObj);
+                deque.Enqueue(keyObj);
             }
             else
             {
-                errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is neither a set nor an array nor a queue.");
+                errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is neither a set nor an array nor a deque.");
             }
         }
 
@@ -3974,7 +3974,7 @@ showavail:
             }
         }
 
-        public void SetMapArrayQueueRemove(IGraphElement elem, String attrName, object keyObj)
+        public void SetMapArrayDequeRemove(IGraphElement elem, String attrName, object keyObj)
         {
             object attr = GetAttribute(elem, attrName);
             if(attr == null)
@@ -4028,15 +4028,17 @@ showavail:
                 else
                     array.RemoveAt(array.Count - 1);
             }
-            else if(attr is Queue)
+            else if(attr is IDeque)
             {
                 Type valueType;
-                Queue queue = ContainerHelper.GetQueueType(attr, out valueType);
-                if(queue == null)
+                IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
+                if(deque == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a queue.");
+                    errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a deque.");
                     return;
                 }
+
+                // TODO: dequeue at key missing 
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
                 AttributeChangeType changeType = AttributeChangeType.RemoveElement;
@@ -4044,7 +4046,7 @@ showavail:
                     curShellProcEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, null);
                 else
                     curShellProcEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, null);
-                queue.Dequeue();
+                deque.Dequeue();
             }
             else
             {

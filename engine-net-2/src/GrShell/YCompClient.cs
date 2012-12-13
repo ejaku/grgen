@@ -805,9 +805,9 @@ namespace de.unika.ipd.grGen.grShell
                 ContainerHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
-            else if(attrType.Kind == AttributeKind.QueueAttr)
+            else if(attrType.Kind == AttributeKind.DequeAttr)
             {
-                ContainerHelper.ToString((Queue)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                ContainerHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
             else
@@ -830,9 +830,9 @@ namespace de.unika.ipd.grGen.grShell
                 ContainerHelper.ToString((IList)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
-            else if(attrType.Kind == AttributeKind.QueueAttr)
+            else if(attrType.Kind == AttributeKind.DequeAttr)
             {
-                ContainerHelper.ToString((Queue)elem.GetAttribute(attrType.Name), changeType, newValue, out attrTypeString, out attrValueString, attrType, graph);
+                ContainerHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), changeType, newValue, out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
             else

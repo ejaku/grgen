@@ -202,27 +202,43 @@ namespace de.unika.ipd.grGen.lgsp
                     _value = clonedArray;
                 }
             }
-            else if(_attrType.Kind == AttributeKind.QueueAttr)
+            else if(_attrType.Kind == AttributeKind.DequeAttr)
             {
                 if(changeType == AttributeChangeType.PutElement)
                 {
-                    Queue queue = (Queue)_elem.GetAttribute(_attrType.Name);
+                    IDeque deque = (IDeque)_elem.GetAttribute(_attrType.Name);
                     _undoOperation = UndoOperation.RemoveElement;
+                    _keyOfValue = keyValue;
                 }
                 else if(changeType == AttributeChangeType.RemoveElement)
                 {
-                    Queue queue = (Queue)_elem.GetAttribute(_attrType.Name);
+                    IDeque deque = (IDeque)_elem.GetAttribute(_attrType.Name);
                     _undoOperation = UndoOperation.PutElement;
-                    _value = queue.Peek();
+                    if(keyValue == null)
+                    {
+                        _value = deque.Front;
+                    }
+                    else
+                    {
+                        _value = deque[(int)keyValue];
+                        _keyOfValue = keyValue;
+                    }
+                }
+                else if(changeType == AttributeChangeType.AssignElement)
+                {
+                    IDeque deque = (IDeque)_elem.GetAttribute(_attrType.Name);
+                    _undoOperation = UndoOperation.AssignElement;
+                    _value = deque[(int)keyValue];
+                    _keyOfValue = keyValue;
                 }
                 else // Assign
                 {
                     Type valueType;
-                    Queue queue = ContainerHelper.GetQueueType(
+                    IDeque deque = ContainerHelper.GetDequeType(
                         _elem.GetAttribute(_attrType.Name), out valueType);
-                    Queue clonedQueue = ContainerHelper.NewQueue(valueType, queue);
+                    IDeque clonedDeque = ContainerHelper.NewDeque(valueType, deque);
                     _undoOperation = UndoOperation.Assign;
-                    _value = clonedQueue;
+                    _value = clonedDeque;
                 }
             }
             else if(_attrType.Kind == AttributeKind.MapAttr)
@@ -321,19 +337,14 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         array.Insert((int)_keyOfValue, _value);
                 }
-                else //if(_attrType.Kind == AttributeKind.QueueAttr)
+                else //if(_attrType.Kind == AttributeKind.DequeAttr)
                 {
-                    // TODO: search for a deque once this is basically working
-                    // this is obviously total bullshit regarding performance
-                    // why is there no deque in the standard library?
-                    // when it comes to data structures, .NET is very poor
                     ChangingElementAttribute(procEnv);
-                    Queue queue = (Queue)_elem.GetAttribute(_attrType.Name);
-                    Queue intermediate = new Queue(queue);
-                    queue.Clear();
-                    queue.Enqueue(_value);
-                    foreach(object entry in intermediate)
-                    queue.Enqueue(entry);
+                    IDeque deque = (IDeque)_elem.GetAttribute(_attrType.Name);
+                    if(_keyOfValue == null)
+                        deque.EnqueueFront(_value);
+                    else
+                        deque.EnqueueAt((int)_keyOfValue, _value);
                 }
             }
             else if (_undoOperation == UndoOperation.RemoveElement)
@@ -359,29 +370,30 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         array.RemoveAt((int)_keyOfValue);
                 }
-                else //if(_attrType.Kind == AttributeKind.QueueAttr)
+                else //if(_attrType.Kind == AttributeKind.DequeAttr)
                 {
-                    // TODO: search for a deque once this is basically working
-                    // this is obviously total bullshit regarding performance
-                    // why is there no deque in the standard library?
-                    // when it comes to data structures, .NET is very poor
                     ChangingElementAttribute(procEnv);
-                    Queue queue = (Queue)_elem.GetAttribute(_attrType.Name);
-                    Queue intermediate = new Queue(queue);
-                    queue.Clear();
-                    foreach(object entry in intermediate)
-                    {
-                        if(queue.Count >= intermediate.Count - 1)
-                            break; // don't copy last element
-                        queue.Enqueue(entry);
-                    }
+                    IDeque deque = (IDeque)_elem.GetAttribute(_attrType.Name);
+                    if(_keyOfValue == null)
+                        deque.DequeueBack();
+                    else
+                        deque.DequeueAt((int)_keyOfValue);
                 }
             }
             else if(_undoOperation == UndoOperation.AssignElement)
             {
-                ChangingElementAttribute(procEnv);
-                IList array = (IList)_elem.GetAttribute(_attrType.Name);
-                array[(int)_keyOfValue] = _value;
+                if(_attrType.Kind == AttributeKind.ArrayAttr)
+                {
+                    ChangingElementAttribute(procEnv);
+                    IList array = (IList)_elem.GetAttribute(_attrType.Name);
+                    array[(int)_keyOfValue] = _value;
+                }
+                else //if(_attrType.Kind == AttributeKind.DequeAttr)
+                {
+                    ChangingElementAttribute(procEnv);
+                    IDeque deque = (IDeque)_elem.GetAttribute(_attrType.Name);
+                    deque[(int)_keyOfValue] = _value;
+                }
             }
             else if(_undoOperation == UndoOperation.Assign)
             {

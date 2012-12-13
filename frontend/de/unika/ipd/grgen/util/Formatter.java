@@ -163,10 +163,10 @@ public class Formatter {
 		else if(cond instanceof ArrayInit) {
 			// MAP TODO
 		}
-		else if(cond instanceof QueueSizeExpr) {
+		else if(cond instanceof DequeSizeExpr) {
 			// MAP TODO
 		}
-		else if(cond instanceof QueueInit) {
+		else if(cond instanceof DequeInit) {
 			// MAP TODO
 		}
 		else if(cond instanceof GraphEntityExpression) {

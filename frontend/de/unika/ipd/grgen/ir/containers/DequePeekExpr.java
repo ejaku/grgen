@@ -8,25 +8,29 @@
 /**
  * @author Edgar Jakumeit
  */
-
 package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class QueueSizeExpr extends Expression {
-	Expression targetExpr;
+public class DequePeekExpr extends Expression {
+	private Expression targetExpr, numberExpr;
 
-	public QueueSizeExpr(Expression targetExpr) {
-		super("queue size expression", IntType.getType());
+	public DequePeekExpr(Expression targetExpr, Expression numberExpr) {
+		super("deque peek expr", ((DequeType)(targetExpr.getType())).valueType);
 		this.targetExpr = targetExpr;
-	}
-
-	public void collectNeededEntities(NeededEntities needs) {
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
+		this.numberExpr = numberExpr;
 	}
 
 	public Expression getTargetExpr() {
 		return targetExpr;
+	}
+
+	public Expression getNumberExpr() {
+		return numberExpr;
+	}
+
+	public void collectNeededEntities(NeededEntities needs) {
+		targetExpr.collectNeededEntities(needs);
+		numberExpr.collectNeededEntities(needs);
 	}
 }

@@ -108,11 +108,11 @@ namespace de.unika.ipd.grGen.libGr
                         ContainerHelper.GetListType(typeOfVar, out valueType);
                         return "array<" + DotNetTypeToXgrsType(valueType.Name) + ">";
                     }
-                    else if(typeOfVar.Name == "Queue`1")
+                    else if(typeOfVar.Name == "Deque`1")
                     {
                         Type valueType;
-                        ContainerHelper.GetQueueType(typeOfVar, out valueType);
-                        return "queue<" + DotNetTypeToXgrsType(valueType.Name) + ">";
+                        ContainerHelper.GetDequeType(typeOfVar, out valueType);
+                        return "deque<" + DotNetTypeToXgrsType(valueType.Name) + ">";
                     }
                 }
                 return DotNetTypeToXgrsType(type.Name);
@@ -175,8 +175,8 @@ namespace de.unika.ipd.grGen.libGr
                 return "map<" + AttributeTypeToXgrsType(attributeType.KeyType) + "," + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
             case AttributeKind.ArrayAttr:
                 return "array<" + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
-            case AttributeKind.QueueAttr:
-                return "queue<" + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
+            case AttributeKind.DequeAttr:
+                return "deque<" + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
             case AttributeKind.NodeAttr:
                 return attributeType.TypeName;
             case AttributeKind.EdgeAttr:
@@ -320,11 +320,11 @@ namespace de.unika.ipd.grGen.libGr
                     ContainerHelper.GetListType(constant.GetType(), out valueType);
                     return "array<" + DotNetTypeToXgrsType(valueType.Name) + ">";
                 }
-                else //if(constant.GetType().Name == "Queue`1")
+                else //if(constant.GetType().Name == "Deque`1")
                 {
                     Type valueType;
                     ContainerHelper.GetListType(constant.GetType(), out valueType);
-                    return "queue<" + DotNetTypeToXgrsType(valueType.Name) + ">";
+                    return "deque<" + DotNetTypeToXgrsType(valueType.Name) + ">";
                 }
             }
 
@@ -352,7 +352,7 @@ namespace de.unika.ipd.grGen.libGr
                 genericType = genericType.Remove(genericType.Length - 1);
                 return genericType;
             }
-            else if(genericType.StartsWith("queue<")) // queue<srcType>
+            else if(genericType.StartsWith("deque<")) // deque<srcType>
             {
                 genericType = genericType.Remove(0, 6);
                 genericType = genericType.Remove(genericType.Length - 1);
@@ -384,7 +384,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "int"; // bullshit int return so the type checks testing that src and dst are available don't fail
             }
-            // on queue and the rest:
+            // on deque and the rest:
             return null;
         }
 
@@ -428,7 +428,7 @@ namespace de.unika.ipd.grGen.libGr
             if(type == "boolean") return "bool";
             if(type.StartsWith("set<") || type.StartsWith("map<")) return "Dictionary<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + "," + XgrsTypeToCSharpType(ExtractDst(type), model) + ">";
             if(type.StartsWith("array<")) return "List<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
-            if(type.StartsWith("queue<")) return "Queue<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
+            if(type.StartsWith("deque<")) return "Deque<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
             if(type.StartsWith("match<")) return "Rule_" + ExtractSrc(type) + ".IMatch_" + ExtractSrc(type);
             if(type == "SetValueType") return "GRGEN_LIBGR.SetValueType";
             if(type == "graph") return "GRGEN_LIBGR.IGraph"; 
@@ -462,9 +462,9 @@ namespace de.unika.ipd.grGen.libGr
                 if(!xgrsTypeBase.StartsWith("array<")) return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
-            else if(xgrsTypeSameOrSub.StartsWith("queue<"))
+            else if(xgrsTypeSameOrSub.StartsWith("deque<"))
             {
-                if(!xgrsTypeBase.StartsWith("queue<")) return false;
+                if(!xgrsTypeBase.StartsWith("deque<")) return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
 

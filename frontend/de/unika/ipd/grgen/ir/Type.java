@@ -54,7 +54,7 @@ public abstract class Type extends Identifiable {
 	public static final int IS_SET = 11;
 	public static final int IS_MAP = 12;
 	public static final int IS_ARRAY = 13;
-	public static final int IS_QUEUE = 14;
+	public static final int IS_DEQUE = 14;
 	public static final int IS_UNTYPED_EXEC_VAR_TYPE = 15;
 	public static final int IS_EXTERNAL_TYPE = 16;
 	public static final int IS_GRAPH = 17;

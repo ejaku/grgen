@@ -15,57 +15,51 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.containers.QueueSizeExpr;
+import de.unika.ipd.grgen.ir.containers.DequeVarRemoveItem;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class QueueSizeNode extends ExprNode
+public class DequeVarRemoveItemNode extends EvalStatementNode
 {
 	static {
-		setName(QueueSizeNode.class, "queue size expression");
+		setName(DequeVarRemoveItemNode.class, "deque var remove item statement");
 	}
 
-	private ExprNode targetExpr;
+	private VarDeclNode target;
 
-	public QueueSizeNode(Coords coords, ExprNode targetExpr)
+	public DequeVarRemoveItemNode(Coords coords, VarDeclNode target)
 	{
 		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		this.target = becomeParent(target);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(targetExpr);
+		children.add(target);
 		return children;
 	}
 
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("targetExpr");
+		childrenNames.add("target");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof QueueTypeNode)) {
-			targetExpr.reportError("This argument to queue size expression must be of type queue<T>");
-			return false;
-		}
+	protected boolean resolveLocal() {
 		return true;
-
 	}
 
 	@Override
-	public TypeNode getType() {
-		return BasicTypeNode.intType;
+	protected boolean checkLocal() {
+		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new QueueSizeExpr(targetExpr.checkIR(Expression.class));
+		return new DequeVarRemoveItem(target.checkIR(Variable.class));
 	}
 }

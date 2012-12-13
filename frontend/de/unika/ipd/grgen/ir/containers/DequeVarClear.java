@@ -12,30 +12,22 @@
 package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.*;
-import java.util.HashSet;
 
-public class QueueClear extends EvalStatement {
-	Qualification target;
+public class DequeVarClear extends EvalStatement {
+	Variable target;
 
-	public QueueClear(Qualification target) {
-		super("queue clear");
+	public DequeVarClear(Variable target) {
+		super("deque var clear");
 		this.target = target;
 	}
 
-	public Qualification getTarget() {
+	public Variable getTarget() {
 		return target;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		Entity entity = target.getOwner();
-		needs.add((GraphEntity) entity);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.collectNeededEntities(needs);
-		needs.variables = varSet;
+		needs.add(target);
 
 		if(getNext()!=null) {
 			getNext().collectNeededEntities(needs);

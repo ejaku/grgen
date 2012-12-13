@@ -230,25 +230,25 @@ public class MethodInvocationExprNode extends ExprNode
   				return false;
   			}
 		}
-		else if(targetType instanceof QueueTypeNode) {
+		else if(targetType instanceof DequeTypeNode) {
 			if(methodName.equals("size")) {
   				if(params.size() != 0) {
-  					reportError("queue<T>.size() does not take any parameters.");
+  					reportError("deque<T>.size() does not take any parameters.");
 					return false;
 				}
   				else
-  					result = new QueueSizeNode(getCoords(), targetExpr);
+  					result = new DequeSizeNode(getCoords(), targetExpr);
   			}
 			else if(methodName.equals("peek")) {
 				if(params.size() != 1) {
-  					reportError("queue<T>.peek(index) takes one parameter.");
+  					reportError("deque<T>.peek(index) takes one parameter.");
 					return false;
 				}
   				else
-  					result = new QueuePeekNode(getCoords(), targetExpr, params.get(0));
+  					result = new DequePeekNode(getCoords(), targetExpr, params.get(0));
 			}
   			else {
-  				reportError("queue<T> does not have a method named \"" + methodName + "\"");
+  				reportError("deque<T> does not have a method named \"" + methodName + "\"");
   				return false;
   			}
 		}

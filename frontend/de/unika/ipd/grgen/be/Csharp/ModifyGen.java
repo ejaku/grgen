@@ -186,7 +186,7 @@ public class ModifyGen extends CSharpBase {
 			int i = 0;
 			for(Expression expr : needs.containerExprs) {
 				if(expr instanceof MapInit || expr instanceof SetInit 
-						|| expr instanceof ArrayInit || expr instanceof QueueInit)
+						|| expr instanceof ArrayInit || expr instanceof DequeInit)
 					continue;
 				mapExprToTempVar.put(expr, "tempcontainervar_" + i);
 				i++;
@@ -1186,7 +1186,7 @@ public class ModifyGen extends CSharpBase {
 			String grEntName = formatEntity(owner);
 			for(Entity entity : entry.getValue()) {
 				if(entity.getType() instanceof MapType || entity.getType() instanceof SetType 
-						|| entity.getType() instanceof ArrayType || entity.getType() instanceof QueueType)
+						|| entity.getType() instanceof ArrayType || entity.getType() instanceof DequeType)
 					continue;
 
 				genVariable(sb, grEntName, entity);
@@ -1866,14 +1866,14 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof ArrayAddItem) {
 			genArrayAddItem(sb, state, (ArrayAddItem) evalStmt);
 		}
-		else if(evalStmt instanceof QueueRemoveItem) {
-			genQueueRemoveItem(sb, state, (QueueRemoveItem) evalStmt);
+		else if(evalStmt instanceof DequeRemoveItem) {
+			genDequeRemoveItem(sb, state, (DequeRemoveItem) evalStmt);
 		} 
-		else if(evalStmt instanceof QueueClear) {
-			genQueueClear(sb, state, (QueueClear) evalStmt);
+		else if(evalStmt instanceof DequeClear) {
+			genDequeClear(sb, state, (DequeClear) evalStmt);
 		} 
-		else if(evalStmt instanceof QueueAddItem) {
-			genQueueAddItem(sb, state, (QueueAddItem) evalStmt);
+		else if(evalStmt instanceof DequeAddItem) {
+			genDequeAddItem(sb, state, (DequeAddItem) evalStmt);
 		}
 		else if(evalStmt instanceof MapVarRemoveItem) {
 			genMapVarRemoveItem(sb, state, (MapVarRemoveItem) evalStmt);
@@ -1902,14 +1902,14 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof ArrayVarAddItem) {
 			genArrayVarAddItem(sb, state, (ArrayVarAddItem) evalStmt);
 		}
-		else if(evalStmt instanceof QueueVarRemoveItem) {
-			genQueueVarRemoveItem(sb, state, (QueueVarRemoveItem) evalStmt);
+		else if(evalStmt instanceof DequeVarRemoveItem) {
+			genDequeVarRemoveItem(sb, state, (DequeVarRemoveItem) evalStmt);
 		}
-		else if(evalStmt instanceof QueueVarClear) {
-			genQueueVarClear(sb, state, (QueueVarClear) evalStmt);
+		else if(evalStmt instanceof DequeVarClear) {
+			genDequeVarClear(sb, state, (DequeVarClear) evalStmt);
 		}
-		else if(evalStmt instanceof QueueVarAddItem) {
-			genQueueVarAddItem(sb, state, (QueueVarAddItem) evalStmt);
+		else if(evalStmt instanceof DequeVarAddItem) {
+			genDequeVarAddItem(sb, state, (DequeVarAddItem) evalStmt);
 		}
 		else {
 			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
@@ -1924,7 +1924,7 @@ public class ModifyGen extends CSharpBase {
 		if((targetType instanceof MapType 
 			|| targetType instanceof SetType 
 			|| targetType instanceof ArrayType
-			|| targetType instanceof QueueType)
+			|| targetType instanceof DequeType)
 				&& !(ass instanceof AssignmentIndexed)) {
 			String typeName = formatAttributeType(targetType);
 			String varName = "tempcontainervar_" + containerVarID++;
@@ -2220,7 +2220,7 @@ public class ModifyGen extends CSharpBase {
 	{
 		Qualification target = cass.getTarget();
 		assert(target.getType() instanceof MapType || target.getType() instanceof SetType 
-				|| target.getType() instanceof ArrayType || target.getType() instanceof QueueType);
+				|| target.getType() instanceof ArrayType || target.getType() instanceof DequeType);
 		Expression expr = cass.getExpression();
 
 		Entity element = target.getOwner();
@@ -2326,7 +2326,7 @@ public class ModifyGen extends CSharpBase {
 	{
 		Variable target = cass.getTarget();
 		assert(target.getType() instanceof MapType || target.getType() instanceof SetType 
-				|| target.getType() instanceof ArrayType || target.getType() instanceof QueueType);
+				|| target.getType() instanceof ArrayType || target.getType() instanceof DequeType);
 		Expression expr = cass.getExpression();
 
 		sb.append(prefix);
@@ -2552,8 +2552,8 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genQueueRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, QueueRemoveItem qri) {
-		Qualification target = qri.getTarget();
+	private void genDequeRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, DequeRemoveItem dri) {
+		Qualification target = dri.getTarget();
 		
 		genChangingAttribute(sb, state, target, "RemoveElement", "null", "null");
 
@@ -2561,13 +2561,13 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sb, target, state);
 		sb.append(".Dequeue();\n");
 
-		if(qri.getNext()!=null) {
-			genEvalStmt(sb, state, qri.getNext());
+		if(dri.getNext()!=null) {
+			genEvalStmt(sb, state, dri.getNext());
 		}
 	}
 
-	private void genQueueClear(StringBuffer sb, ModifyGenerationStateConst state, QueueClear qc) {
-		Qualification target = qc.getTarget();
+	private void genDequeClear(StringBuffer sb, ModifyGenerationStateConst state, DequeClear dc) {
+		Qualification target = dc.getTarget();
 
 		genClearAttribute(sb, state, target);
 
@@ -2575,16 +2575,16 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sb, target, state);
 		sb.append(".Clear();\n");
 
-		if(qc.getNext()!=null) {
-			genEvalStmt(sb, state, qc.getNext());
+		if(dc.getNext()!=null) {
+			genEvalStmt(sb, state, dc.getNext());
 		}
 	}
 
-	private void genQueueAddItem(StringBuffer sb, ModifyGenerationStateConst state, QueueAddItem qai) {
-		Qualification target = qai.getTarget();
+	private void genDequeAddItem(StringBuffer sb, ModifyGenerationStateConst state, DequeAddItem dai) {
+		Qualification target = dai.getTarget();
 
 		StringBuffer sbtmp = new StringBuffer();
-		genExpression(sbtmp, qai.getValueExpr(), state);
+		genExpression(sbtmp, dai.getValueExpr(), state);
 		String valueExprStr = sbtmp.toString();
 		
 		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, "null");
@@ -2593,14 +2593,14 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sb, target, state);
 		sb.append(".Enqueue(");
 		
-		if(qai.getValueExpr() instanceof GraphEntityExpression)
-			sb.append("(" + formatElementInterfaceRef(qai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+		if(dai.getValueExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(dai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
 		else
 			sb.append(valueExprStr);
 		sb.append(");\n");
 		
-		if(qai.getNext()!=null) {
-			genEvalStmt(sb, state, qai.getNext());
+		if(dai.getNext()!=null) {
+			genEvalStmt(sb, state, dai.getNext());
 		}
 	}
 
@@ -2768,41 +2768,41 @@ public class ModifyGen extends CSharpBase {
 		assert avai.getNext()==null;
 	}
 
-	private void genQueueVarRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, QueueVarRemoveItem qvri) {
-		Variable target = qvri.getTarget();
+	private void genDequeVarRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, DequeVarRemoveItem dvri) {
+		Variable target = dvri.getTarget();
 
 		sb.append("\t\t\tvar_" + target.getIdent());
 		sb.append(".Dequeue();\n");
 		
-		assert qvri.getNext()==null;
+		assert dvri.getNext()==null;
 	}
 
-	private void genQueueVarClear(StringBuffer sb, ModifyGenerationStateConst state, QueueVarClear qvc) {
-		Variable target = qvc.getTarget();
+	private void genDequeVarClear(StringBuffer sb, ModifyGenerationStateConst state, DequeVarClear dvc) {
+		Variable target = dvc.getTarget();
 
 		sb.append("\t\t\tvar_" + target.getIdent());
 		sb.append(".Clear();\n");
 		
-		assert qvc.getNext()==null;
+		assert dvc.getNext()==null;
 	}
 
-	private void genQueueVarAddItem(StringBuffer sb, ModifyGenerationStateConst state, QueueVarAddItem qvai) {
-		Variable target = qvai.getTarget();
+	private void genDequeVarAddItem(StringBuffer sb, ModifyGenerationStateConst state, DequeVarAddItem dvai) {
+		Variable target = dvai.getTarget();
 
 		StringBuffer sbtmp = new StringBuffer();
-		genExpression(sbtmp, qvai.getValueExpr(), state);
+		genExpression(sbtmp, dvai.getValueExpr(), state);
 		String valueExprStr = sbtmp.toString();
 
 		sb.append("\t\t\t");
 		sb.append("\t\t\tvar_" + target.getIdent());
 		sb.append(".Enqueue(");
-		if(qvai.getValueExpr() instanceof GraphEntityExpression)
-			sb.append("(" + formatElementInterfaceRef(qvai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+		if(dvai.getValueExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(dvai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
 		else
 			sb.append(valueExprStr);
 		sb.append(");\n");
 
-		assert qvai.getNext()==null;
+		assert dvai.getNext()==null;
 	}
 
 	protected void genChangingAttribute(StringBuffer sb, ModifyGenerationStateConst state,
@@ -2885,8 +2885,8 @@ public class ModifyGen extends CSharpBase {
 						formatAttributeTypeName(attribute) + ", " +
 						"GRGEN_LIBGR.AttributeChangeType.RemoveElement, " +
 						"null, i);\n");
-			} else if(attribute.getType() instanceof QueueType) {
-				QueueType attributeType = (QueueType)attribute.getType();
+			} else if(attribute.getType() instanceof DequeType) {
+				DequeType attributeType = (DequeType)attribute.getType();
 				sb.append("\t\t\tforeach(" + formatType(attributeType.getValueType()) + " elem " +
 						"in " + targetStr + ")\n");
 				sb.append("\t\t\t\tgraph.Changing" + kindStr + "Attribute(" +

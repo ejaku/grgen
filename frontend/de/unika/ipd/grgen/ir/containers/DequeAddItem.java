@@ -14,16 +14,22 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import java.util.HashSet;
 
-public class QueueRemoveItem extends EvalStatement {
+public class DequeAddItem extends EvalStatement {
 	Qualification target;
+    Expression valueExpr;
 
-	public QueueRemoveItem(Qualification target) {
-		super("queue remove item");
+	public DequeAddItem(Qualification target, Expression valueExpr) {
+		super("deque add item");
 		this.target = target;
+		this.valueExpr = valueExpr;
 	}
 
 	public Qualification getTarget() {
 		return target;
+	}
+
+	public Expression getValueExpr() {
+		return valueExpr;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
@@ -36,6 +42,8 @@ public class QueueRemoveItem extends EvalStatement {
 		needs.variables = null;
 		target.collectNeededEntities(needs);
 		needs.variables = varSet;
+
+		getValueExpr().collectNeededEntities(needs);
 
 		if(getNext()!=null) {
 			getNext().collectNeededEntities(needs);

@@ -55,21 +55,21 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// If queue is Queue, the Queue is returned together with its value type
+        /// If deque is Deque, the Deque is returned together with its value type
         /// </summary>
-        /// <param name="queue">The object which should be a Queue</param>
-        /// <param name="valueType">The value type of the Queue</param>
-        /// <returns>The casted input Queue, or null if not a Queue</returns>
-        public static Queue GetQueueType(object queue, out Type valueType)
+        /// <param name="deque">The object which should be a Deque</param>
+        /// <param name="valueType">The value type of the Deque</param>
+        /// <returns>The casted input Deque, or null if not a Deque</returns>
+        public static IDeque GetDequeType(object deque, out Type valueType)
         {
-            if(!(queue is Queue))
+            if(!(deque is IDeque))
             {
                 valueType = null;
                 return null;
             }
-            Type queueType = queue.GetType();
-            GetQueueType(queueType, out valueType);
-            return (Queue)queue;
+            Type dequeType = deque.GetType();
+            GetDequeType(dequeType, out valueType);
+            return (IDeque)deque;
         }
 
         /// <summary>
@@ -97,18 +97,18 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// The value type of the Queue is returned
+        /// The value type of the Deque is returned
         /// </summary>
-        /// <param name="queueType">The Queue type</param>
-        /// <param name="valueType">The value type of the Queue</param>
-        public static void GetQueueType(Type queueType, out Type valueType)
+        /// <param name="dequeType">The Deque type</param>
+        /// <param name="valueType">The value type of the Deque</param>
+        public static void GetDequeType(Type dequeType, out Type valueType)
         {
-            Type[] queueTypeArgs = queueType.GetGenericArguments();
-            valueType = queueTypeArgs[0];
+            Type[] dequeTypeArgs = dequeType.GetGenericArguments();
+            valueType = dequeTypeArgs[0];
         }
 
         /// <summary>
-        /// Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Queue
+        /// Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Deque
         /// </summary>
         /// <param name="typeName">Name of the type we want some type object for</param>
         /// <param name="graph">Graph to be search for enum,node,edge types / enum,node/edge type names</param>
@@ -119,7 +119,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Queue
+        /// Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Deque
         /// </summary>
         /// <param name="typeName">Name of the type we want some type object for</param>
         /// <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
@@ -219,17 +219,17 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates a new Queue of the given value type
+        /// Creates a new Deque of the given value type
         /// </summary>
-        /// <param name="valueType">The value type of the Queue to be created</param>
-        /// <returns>The newly created Queue, null if unsuccessfull</returns>
-        public static Queue NewQueue(Type valueType)
+        /// <param name="valueType">The value type of the Deque to be created</param>
+        /// <returns>The newly created Deque, null if unsuccessfull</returns>
+        public static IDeque NewDeque(Type valueType)
         {
             if(valueType == null) return null;
 
-            Type genQueueType = typeof(Queue<>);
-            Type queueType = genQueueType.MakeGenericType(valueType);
-            return (Queue)Activator.CreateInstance(queueType);
+            Type genDequeType = typeof(Deque<>);
+            Type dequeType = genDequeType.MakeGenericType(valueType);
+            return (IDeque)Activator.CreateInstance(dequeType);
         }
 
         /// <summary>
@@ -268,20 +268,20 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates a new Queue of the given value type,
-        /// initialized with the content of the old Queue (clones the old Queue)
+        /// Creates a new Deque of the given value type,
+        /// initialized with the content of the old Deque (clones the old Deque)
         /// </summary>
-        /// <param name="valueType">The value type of the Queue to be created</param>
-        /// <param name="oldQueue">The old Queue to be cloned</param>
-        /// <returns>The newly created Queue, containing the content of the old Queue,
+        /// <param name="valueType">The value type of the Deque to be created</param>
+        /// <param name="oldDeque">The old Deque to be cloned</param>
+        /// <returns>The newly created Deque, containing the content of the old Deque,
         /// null if unsuccessfull</returns>
-        public static Queue NewQueue(Type valueType, object oldQueue)
+        public static IDeque NewDeque(Type valueType, object oldDeque)
         {
-            if(valueType == null || oldQueue == null) return null;
+            if(valueType == null || oldDeque == null) return null;
 
-            Type genQueueType = typeof(Queue<>);
-            Type queueType = genQueueType.MakeGenericType(valueType);
-            return (Queue)Activator.CreateInstance(queueType, oldQueue);
+            Type genDequeType = typeof(Deque<>);
+            Type dequeType = genDequeType.MakeGenericType(valueType);
+            return (IDeque)Activator.CreateInstance(dequeType, oldDeque);
         }
 
         /// <summary>
@@ -891,47 +891,47 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates a new queue and appends all values first from
+        /// Creates a new deque and appends all values first from
         /// <paramref name="a"/> and then from <paramref name="b"/>.
         /// </summary>
-        /// <param name="a">A Queue.</param>
-        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-        /// <returns>A new Queue containing a concatenation of the parameter queues.</returns>
-        public static Queue<V> Concatenate<V>(Queue<V> a, Queue<V> b)
+        /// <param name="a">A Deque.</param>
+        /// <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+        /// <returns>A new Deque containing a concatenation of the parameter deques.</returns>
+        public static Deque<V> Concatenate<V>(Deque<V> a, Deque<V> b)
         {
-            // create new queue as a copy of a
-            Queue<V> newQueue = new Queue<V>(a);
+            // create new deque as a copy of a
+            Deque<V> newDeque = new Deque<V>(a);
 
             // then append b
             foreach(V entry in b)
             {
-                newQueue.Enqueue(entry);
+                newDeque.Enqueue(entry);
             }
 
-            return newQueue;
+            return newDeque;
         }
 
-        public static Queue ConcatenateQueue(Queue a, Queue b)
+        public static IDeque ConcatenateIDeque(IDeque a, IDeque b)
         {
-            // create new list as a copy of a
-            Queue newQueue = (Queue)Activator.CreateInstance(a.GetType(), a);
+            // create new deque as a copy of a
+            IDeque newDeque = (IDeque)Activator.CreateInstance(a.GetType(), a);
 
             // then append b
             foreach(object entry in b)
             {
-                newQueue.Enqueue(entry);
+                newDeque.Enqueue(entry);
             }
 
-            return newQueue;
+            return newDeque;
         }
 
         /// <summary>
-        /// Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+        /// Appends all values from deque <paramref name="b"/> to <paramref name="a"/>.
         /// </summary>
-        /// <param name="a">A Queue to change.</param>
-        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <param name="a">A Deque to change.</param>
+        /// <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
         /// <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
-        public static bool ConcatenateChanged<V>(Queue<V> a, Queue<V> b)
+        public static bool ConcatenateChanged<V>(Deque<V> a, Deque<V> b)
         {
             // Append b to a
             foreach(V entry in b)
@@ -943,15 +943,15 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+        /// Appends all values from deque <paramref name="b"/> to <paramref name="a"/>.
         /// </summary>
-        /// <param name="a">A Queue to change.</param>
-        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <param name="a">A Deque to change.</param>
+        /// <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
         /// <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
         /// <param name="owner">The node containing the attribute which gets changed.</param>
         /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
         /// <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
-        public static bool ConcatenateChanged<V>(Queue<V> a, Queue<V> b,
+        public static bool ConcatenateChanged<V>(Deque<V> a, Deque<V> b,
             IGraph graph, INode owner, AttributeType attrType)
         {
             // Append b to a
@@ -965,15 +965,15 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+        /// Appends all values from deque <paramref name="b"/> to <paramref name="a"/>.
         /// </summary>
-        /// <param name="a">A Queue to change.</param>
-        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+        /// <param name="a">A Deque to change.</param>
+        /// <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
         /// <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
         /// <param name="owner">The edge containing the attribute which gets changed.</param>
         /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
         /// <returns>A truth value telling whether at least one element was changed in a</returns>
-        public static bool ConcatenateChanged<V>(Queue<V> a, Queue<V> b,
+        public static bool ConcatenateChanged<V>(Deque<V> a, Deque<V> b,
             IGraph graph, IEdge owner, AttributeType attrType)
         {
             // Append b to a
@@ -1045,9 +1045,9 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns the value from the dictionary or list or queue at the nth position as defined by the iterator of the dictionary or the index of the list or the iterator of the queue.
+        /// Returns the value from the dictionary or list or deque at the nth position as defined by the iterator of the dictionary or the index of the list or the iterator of the deque.
         /// </summary>
-        /// <param name="obj">A dictionary or a list or a queue.</param>
+        /// <param name="obj">A dictionary or a list or a deque.</param>
         /// <param name="num">The number of the element to get in the iteration sequence.</param>
         /// <returns>The element at the position to get.</returns>
         public static object Peek(object obj, int num)
@@ -1070,10 +1070,10 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                Queue queue = (Queue)obj;
+                IDeque deque = (IDeque)obj;
                 if(num == 0)
-                    return queue.Peek();
-                IEnumerator it = queue.GetEnumerator();
+                    return deque.Front;
+                IEnumerator it = deque.GetEnumerator();
                 if(num >= 0) it.MoveNext();
                 for(int i = 0; i < num; ++i)
                 {
@@ -1198,21 +1198,23 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of set/map comparison.</returns>
         public static bool LessOrEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
-            if(typeof(V)==typeof(de.unika.ipd.grGen.libGr.SetValueType))
+            if(typeof(V) == typeof(de.unika.ipd.grGen.libGr.SetValueType))
             {
                 foreach(KeyValuePair<K, V> entry in a)
-                {
-                    if(!b.ContainsKey(entry.Key)) return false;
-                }
+                    if(!b.ContainsKey(entry.Key))
+                        return false;
             }
             else
             {
                 foreach(KeyValuePair<K, V> entry in a)
                 {
-                    if(!b.ContainsKey(entry.Key)) return false;
-                    if(entry.Value!=null ? !entry.Value.Equals(b[entry.Key]) : b[entry.Key]!=null) return false;
+                    if(!b.ContainsKey(entry.Key))
+                        return false;
+                    if(entry.Value != null ? !entry.Value.Equals(b[entry.Key]) : b[entry.Key] != null)
+                        return false;
                 }
             }
+
             return true;
         }
 
@@ -1224,18 +1226,20 @@ namespace de.unika.ipd.grGen.libGr
             if(valueType.Name == "SetValueType")
             {
                 foreach(DictionaryEntry entry in a)
-                {
-                    if(!b.Contains(entry.Key)) return false;
-                }
+                    if(!b.Contains(entry.Key))
+                        return false;
             }
             else
             {
                 foreach(DictionaryEntry entry in a)
                 {
-                    if(!b.Contains(entry.Key)) return false;
-                    if(entry.Value != null ? !entry.Value.Equals(b[entry.Key]) : b[entry.Key] != null) return false;
+                    if(!b.Contains(entry.Key))
+                        return false;
+                    if(entry.Value != null ? !entry.Value.Equals(b[entry.Key]) : b[entry.Key] != null)
+                        return false;
                 }
             }
+
             return true;
         }
 
@@ -1347,151 +1351,149 @@ namespace de.unika.ipd.grGen.libGr
         public static bool LessOrEqual<V>(List<V> a, List<V> b)
         {
             if(a.Count > b.Count) return false;
+            
             for(int i=0; i<a.Count; ++i)
-            {
-                if(!EqualityComparer<V>.Default.Equals(a[i], b[i])) return false;
-            }
+                if(!EqualityComparer<V>.Default.Equals(a[i], b[i]))
+                    return false;
+
             return true;
         }
 
         public static bool LessOrEqualIList(IList a, IList b)
         {
             if(a.Count > b.Count) return false;
+
             for(int i = 0; i < a.Count; ++i)
-            {
-                if(!Equals(a[i], b[i])) return false;
-            }
+                if(!Equals(a[i], b[i]))
+                    return false;
+            
             return true;
         }
 
         /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
-        /// Checks if Queue <paramref name="a"/> equals Queue <paramref name="b"/>.
+        /// Checks if Deque <paramref name="a"/> equals Deque <paramref name="b"/>.
         /// Requires same values at same position for being true.
         /// </summary>
-        /// <param name="a">A Queue.</param>
-        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-        /// <returns>Boolean result of Queue comparison.</returns>
-        public static bool Equal<V>(Queue<V> a, Queue<V> b)
+        /// <param name="a">A Deque.</param>
+        /// <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Deque comparison.</returns>
+        public static bool Equal<V>(Deque<V> a, Deque<V> b)
         {
             if(a.Count != b.Count) return false;
             if(LessOrEqual(a, b)) return true;
             else return false;
         }
 
-        public static bool EqualQueue(Queue a, Queue b)
+        public static bool EqualIDeque(IDeque a, IDeque b)
         {
             if(a.Count != b.Count) return false;
-            if(LessOrEqualQueue(a, b)) return true;
+            if(LessOrEqualIDeque(a, b)) return true;
             else return false;
         }
 
         /// <summary>
-        /// Checks if Queue <paramref name="a"/> is not equal Queue <paramref name="b"/>.
+        /// Checks if Deque <paramref name="a"/> is not equal Deque <paramref name="b"/>.
         /// </summary>
-        /// <param name="a">A Queue.</param>
-        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-        /// <returns>Boolean result of Queue comparison.</returns>
-        public static bool NotEqual<V>(Queue<V> a, Queue<V> b)
+        /// <param name="a">A Deque.</param>
+        /// <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Deque comparison.</returns>
+        public static bool NotEqual<V>(Deque<V> a, Deque<V> b)
         {
             if(a.Count != b.Count) return true;
             if(LessOrEqual(a, b)) return false;
             else return true;
         }
 
-        public static bool NotEqualQueue(Queue a, Queue b)
+        public static bool NotEqualIDeque(IDeque a, IDeque b)
         {
             if(a.Count != b.Count) return true;
-            if(LessOrEqualQueue(a, b)) return false;
+            if(LessOrEqualIDeque(a, b)) return false;
             else return true;
         }
 
         /// <summary>
-        /// Checks if Queueu <paramref name="a"/> is a proper superqueue of <paramref name="b"/>.
+        /// Checks if Deque <paramref name="a"/> is a proper superdeque of <paramref name="b"/>.
         /// Requires a to contain more entries than b and same values at same position for being true.
         /// </summary>
-        /// <param name="a">A Queue.</param>
-        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-        /// <returns>Boolean result of Queue comparison.</returns>
-        public static bool GreaterThan<V>(Queue<V> a, Queue<V> b)
+        /// <param name="a">A Deque.</param>
+        /// <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Deque comparison.</returns>
+        public static bool GreaterThan<V>(Deque<V> a, Deque<V> b)
         {
             if(a.Count == b.Count) return false;
             return GreaterOrEqual(a, b);
         }
 
-        public static bool GreaterThanQueue(Queue a, Queue b)
+        public static bool GreaterThanIDeque(IDeque a, IDeque b)
         {
             if(a.Count == b.Count) return false;
-            return GreaterOrEqualQueue(a, b);
+            return GreaterOrEqualIDeque(a, b);
         }
 
         /// <summary>
-        /// Checks if Queue <paramref name="a"/> is a superqueue of <paramref name="b"/>.
+        /// Checks if Deque <paramref name="a"/> is a superdeque of <paramref name="b"/>.
         /// Requires a to contain more or same number of entries than b and same values at same position for being true.
         /// </summary>
-        /// <param name="a">A Queue.</param>
-        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-        /// <returns>Boolean result of Queue comparison.</returns>
-        public static bool GreaterOrEqual<V>(Queue<V> a, Queue<V> b)
+        /// <param name="a">A Deque.</param>
+        /// <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Deque comparison.</returns>
+        public static bool GreaterOrEqual<V>(Deque<V> a, Deque<V> b)
         {
             return LessOrEqual(b, a);
         }
 
-        public static bool GreaterOrEqualQueue(Queue a, Queue b)
+        public static bool GreaterOrEqualIDeque(IDeque a, IDeque b)
         {
-            return LessOrEqualQueue(b, a);
+            return LessOrEqualIDeque(b, a);
         }
 
         /// <summary>
-        /// Checks if Queue <paramref name="a"/> is a proper subqueue of <paramref name="b"/>.
+        /// Checks if Deque <paramref name="a"/> is a proper subseque of <paramref name="b"/>.
         /// Requires a to contain less entries than b and same values at same position for being true.
         /// </summary>
-        /// <param name="a">A Queue.</param>
-        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-        /// <returns>Boolean result of Queue comparison.</returns>
-        public static bool LessThan<V>(Queue<V> a, Queue<V> b)
+        /// <param name="a">A Deque.</param>
+        /// <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Deque comparison.</returns>
+        public static bool LessThan<V>(Deque<V> a, Deque<V> b)
         {
             if(a.Count == b.Count) return false;
             return LessOrEqual(a, b);
         }
 
-        public static bool LessThanQueue(Queue a, Queue b)
+        public static bool LessThanIDeque(IDeque a, IDeque b)
         {
             if(a.Count == b.Count) return false;
-            return LessOrEqualQueue(a, b);
+            return LessOrEqualIDeque(a, b);
         }
 
         /// <summary>
-        /// Checks if Queue <paramref name="a"/> is a subqueue of <paramref name="b"/>.
+        /// Checks if Deque <paramref name="a"/> is a subdeque of <paramref name="b"/>.
         /// Requires a to contain less or same number of entries than b and same values at same positions for being true.
         /// </summary>
-        /// <param name="a">A Queue.</param>
-        /// <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-        /// <returns>Boolean result of Queue comparison.</returns>
-        public static bool LessOrEqual<V>(Queue<V> a, Queue<V> b)
+        /// <param name="a">A Deque.</param>
+        /// <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of Deque comparison.</returns>
+        public static bool LessOrEqual<V>(Deque<V> a, Deque<V> b)
         {
             if(a.Count > b.Count) return false;
-            if(a.Count == 0) return true;
-            Queue<V>.Enumerator ita = a.GetEnumerator();
-            Queue<V>.Enumerator itb = b.GetEnumerator();
-            while(ita.MoveNext() & itb.MoveNext())
-            {
-                if(!EqualityComparer<V>.Default.Equals(ita.Current, itb.Current)) return false;
-            }
+
+            for(int i = 0; i < a.Count; ++i)
+                if(!EqualityComparer<V>.Default.Equals(a[i], b[i]))
+                    return false;
+
             return true;
         }
 
-        public static bool LessOrEqualQueue(Queue a, Queue b)
+        public static bool LessOrEqualIDeque(IDeque a, IDeque b)
         {
             if(a.Count > b.Count) return false;
-            if(a.Count == 0) return true;
-            IEnumerator ita = a.GetEnumerator();
-            IEnumerator itb = b.GetEnumerator();
-            while(ita.MoveNext() & itb.MoveNext())
-            {
-                if(!Equals(ita.Current, itb.Current)) return false;
-            }
+
+            for(int i = 0; i < a.Count; ++i)
+                if(!Equals(a[i], b[i]))
+                    return false;
+
             return true;
         }
 
@@ -1528,16 +1530,16 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns a string representation of the given Queue
+        /// Returns a string representation of the given Deque
         /// </summary>
-        /// <param name="queue">The Queue of which to get the string representation</param>
+        /// <param name="deque">The Deque of which to get the string representation</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-        /// <returns>string representation of Queue</returns>
-        public static string ToString(Queue queue, IGraph graph)
+        /// <returns>string representation of Deque</returns>
+        public static string ToString(IDeque deque, IGraph graph)
         {
             string type;
             string content;
-            ToString(queue, out type, out content, null, graph);
+            ToString(deque, out type, out content, null, graph);
             return content;
         }
 
@@ -1631,29 +1633,29 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns a string representation of the given Queue
+        /// Returns a string representation of the given Deque
         /// </summary>
-        /// <param name="queue">The Queue of which to get the string representation</param>
-        /// <param name="type">The type as string, e.g queue<int></param>
+        /// <param name="deque">The Deque of which to get the string representation</param>
+        /// <param name="type">The type as string, e.g deque<int></param>
         /// <param name="content">The content as string, e.g. ] 42, 43 [</param>
-        /// <param name="attrType">The attribute type of the queue if available, otherwise null</param>
+        /// <param name="attrType">The attribute type of the deque if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-        public static void ToString(Queue queue, out string type, out string content,
+        public static void ToString(IDeque deque, out string type, out string content,
             AttributeType attrType, IGraph graph)
         {
             Type valueType;
-            GetListType(queue, out valueType);
+            GetDequeType(deque, out valueType);
 
             StringBuilder sb = new StringBuilder(256);
             sb.Append("]");
 
             AttributeType attrValueType = attrType != null ? attrType.ValueType : null;
 
-            if(queue != null)
+            if(deque != null)
             {
-                type = "queue<" + valueType.Name + ">";
+                type = "deque<" + valueType.Name + ">";
                 bool first = true;
-                foreach(Object entry in queue)
+                foreach(Object entry in deque)
                 {
                     if(first) { sb.Append(ToString(entry, attrValueType, graph)); first = false; }
                     else { sb.Append(","); sb.Append(ToString(entry, attrValueType, graph)); }
@@ -1777,17 +1779,17 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns a string representation of the given Queue
+        /// Returns a string representation of the given Deque
         /// after the given operation with the given parameters was applied
         /// </summary>
-        /// <param name="queue">The base Queue of the operation</param>
+        /// <param name="deque">The base Deque of the operation</param>
         /// <param name="changeType">The type of the change operation</param>
-        /// <param name="newValue">The new value to be inserted/added if changeType==PutElement on array.</param>
-        /// <param name="type">The type as string, e.g queue<int></param>
+        /// <param name="newValue">The new value to be inserted/added if changeType==PutElement on deque.</param>
+        /// <param name="type">The type as string, e.g deque<int></param>
         /// <param name="content">The content as string, e.g. ] 42, 43 [ </param>
-        /// <param name="attrType">The attribute type of the Queue</param>
+        /// <param name="attrType">The attribute type of the Deque</param>
         /// <param name="graph">The graph with the model and the element names</param>
-        public static void ToString(Queue queue,
+        public static void ToString(IDeque deque,
             AttributeChangeType changeType, Object newValue,
             out string type, out string content,
             AttributeType attrType, IGraph graph)
@@ -1795,20 +1797,20 @@ namespace de.unika.ipd.grGen.libGr
             if(changeType == AttributeChangeType.PutElement)
             {
                 Type valueType;
-                GetQueueType(queue, out valueType);
-                ToString(queue, out type, out content, attrType, graph);
+                GetDequeType(deque, out valueType);
+                ToString(deque, out type, out content, attrType, graph);
                 content += ".add(" + ToString(newValue, attrType.ValueType, graph) + ")";
             }
             else if(changeType == AttributeChangeType.RemoveElement)
             {
                 Type valueType;
-                GetQueueType(queue, out valueType);
-                ToString(queue, out type, out content, attrType, graph);
+                GetDequeType(deque, out valueType);
+                ToString(deque, out type, out content, attrType, graph);
                 content += ".rem()";
             }
             else // changeType==AttributeChangeType.Assign
             {
-                ToString((Queue)newValue, out type, out content, attrType, graph);
+                ToString((IDeque)newValue, out type, out content, attrType, graph);
             }
         }
 
@@ -1846,7 +1848,7 @@ namespace de.unika.ipd.grGen.libGr
                     return;
                 }
 
-                Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1" && value.GetType().Name != "Queue`1");
+                Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1" && value.GetType().Name != "Deque`1");
                 switch(value.GetType().Name)
                 {
                     case "SByte": type = "sbyte"; break;
@@ -1961,7 +1963,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(graph!=null && value is Enum)
             {
-                Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1" && value.GetType().Name != "Queue`1");
+                Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1" && value.GetType().Name != "Deque`1");
                 foreach(EnumAttributeType enumAttrType in graph.Model.EnumAttributeTypes)
                 {
                     if(value.GetType()==enumAttrType.EnumType)
@@ -1993,7 +1995,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a queue
+        /// Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a deque
         /// </summary>
         /// <param name="value">The value of which to get the string representation</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
@@ -2014,11 +2016,11 @@ namespace de.unika.ipd.grGen.libGr
                 ToString((IList)value, out type, out content, null, graph);
                 return content;
             }
-            else if(value is Queue)
+            else if(value is IDeque)
             {
                 string type;
                 string content;
-                ToString((Queue)value, out type, out content, null, graph);
+                ToString((IDeque)value, out type, out content, null, graph);
                 return content;
             }
             else

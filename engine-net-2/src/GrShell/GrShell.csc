@@ -319,7 +319,7 @@ TOKEN: {
 |   < PARSE: "parse" >
 |   < PARSER: "parser" >
 |   < PWD: "pwd" >
-|   < QUEUE: "queue" >
+|   < DEQUE: "deque" >
 |   < QUIT: "quit" >
 |   < RANDOMSEED: "randomseed" >
 |   < RECORD: "record" >
@@ -958,17 +958,17 @@ object Constant():
 				( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
 		"]"
 	|
-		"queue" "<" typeName=WordOrText() ">"
+		"deque" "<" typeName=WordOrText() ">"
 		{
 			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
 			if(srcType!=null)
-				constant = ContainerHelper.NewQueue(srcType);
+				constant = ContainerHelper.NewDeque(srcType);
 			if(constant==null)
-				throw new ParseException("Invalid constant \"queue<"+typeName+">\"!");
+				throw new ParseException("Invalid constant \"deque<"+typeName+">\"!");
 		}
 		"]"
-			( src=SimpleConstant() { ((Queue)constant).Enqueue(src); } )?
-				( "," src=SimpleConstant() { ((Queue)constant).Enqueue(src); })*
+			( src=SimpleConstant() { ((IDeque)constant).Enqueue(src); } )?
+				( "," src=SimpleConstant() { ((IDeque)constant).Enqueue(src); })*
 		"["
 	)
 	{
@@ -1317,7 +1317,7 @@ void ShellCommand():
 			|
 				")" LineEnd()
 				{
-					impl.SetArrayQueueAdd(elem, str1, obj);
+					impl.SetArrayDequeAdd(elem, str1, obj);
 				}
 			)
 		|
@@ -1325,12 +1325,12 @@ void ShellCommand():
 			(
 				obj=SimpleConstant() ")" LineEnd()
 				{
-					impl.SetMapArrayQueueRemove(elem, str1, obj);
+					impl.SetMapArrayDequeRemove(elem, str1, obj);
 				}
 			|
 				")" LineEnd()
 				{
-					impl.SetMapArrayQueueRemove(elem, str1, null);
+					impl.SetMapArrayDequeRemove(elem, str1, null);
 				}
 			)
 	    )
@@ -1363,9 +1363,9 @@ void ShellCommand():
 					if(obj == null) noError = false;
 				}
 			|
-				"queue" "<" str2=WordOrText() ">"
+				"deque" "<" str2=WordOrText() ">"
 				{
-					obj = impl.Askfor("queue<"+str2+">");
+					obj = impl.Askfor("deque<"+str2+">");
 					if(obj == null) noError = false;
 				}
 			) LineEnd()
@@ -1533,9 +1533,9 @@ void AttributeParamValue(ref Param param):
 		}
 		"[" ( value=AttributeValue() { param.Values.Add(value); } )?
 			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "]"
-	| "queue" "<" type=WordOrText() ">"
+	| "deque" "<" type=WordOrText() ">"
 		{
-			param.Value = "queue";
+			param.Value = "deque";
 			param.Type = type;
 			param.Values = new ArrayList();
 		}

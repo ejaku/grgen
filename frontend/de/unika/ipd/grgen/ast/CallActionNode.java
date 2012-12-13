@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.containers.ArrayType;
-import de.unika.ipd.grgen.ir.containers.QueueType;
+import de.unika.ipd.grgen.ir.containers.DequeType;
 import de.unika.ipd.grgen.ir.Bad;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
@@ -327,11 +327,11 @@ public class CallActionNode extends BaseNode {
 								incommensurable = true;
 							}
 						}
-						else if(actualParamType instanceof QueueType) {
-							QueueType apt = (QueueType)actualParamType;
-							QueueType fpt = (QueueType)formalParamType;
+						else if(actualParamType instanceof DequeType) {
+							DequeType apt = (DequeType)actualParamType;
+							DequeType fpt = (DequeType)formalParamType;
 							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
-								reportError("Queue value types are incommensurable. ("+paramCounter+". argument)");
+								reportError("Deque value types are incommensurable. ("+paramCounter+". argument)");
 								incommensurable = true;
 							}
 						}

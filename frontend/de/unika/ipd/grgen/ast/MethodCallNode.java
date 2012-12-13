@@ -195,41 +195,41 @@ public class MethodCallNode extends EvalStatementNode
   				}
 			}
 		}
-		else if(targetType instanceof QueueTypeNode) {
+		else if(targetType instanceof DequeTypeNode) {
 			if(methodName.equals("add")) {
 				if(params.size() !=1 ) {
-  					reportError("queue<T>.add(value) takes one parameter.");
+  					reportError("deque<T>.add(value) takes one parameter.");
 					return false;
 				}
   				else {
   					if(targetQual!=null)
-  						result = new QueueAddItemNode(getCoords(), targetQual, params.get(0));
+  						result = new DequeAddItemNode(getCoords(), targetQual, params.get(0));
   					else
-  						result = new QueueVarAddItemNode(getCoords(), targetVar, params.get(0));
+  						result = new DequeVarAddItemNode(getCoords(), targetVar, params.get(0));
   				}
 			}
 			else if(methodName.equals("rem")) {
 				if(params.size() !=0 ) {
-  					reportError("queue<T>.rem() takes no parameters.");
+  					reportError("deque<T>.rem() takes no parameters.");
 					return false;
 				}
   				else {
   					if(targetQual!=null)
-  						result = new QueueRemoveItemNode(getCoords(), targetQual);
+  						result = new DequeRemoveItemNode(getCoords(), targetQual);
   					else
-  						result = new QueueVarRemoveItemNode(getCoords(), targetVar);
+  						result = new DequeVarRemoveItemNode(getCoords(), targetVar);
   				}
 			}
 			else if(methodName.equals("clear")) {
 				if(params.size() != 0) {
-  					reportError("queue<T>.clear() takes no parameters.");
+  					reportError("deque<T>.clear() takes no parameters.");
 					return false;
 				}
   				else {
   					if(targetQual!=null)
-  						result = new QueueClearNode(getCoords(), targetQual);
+  						result = new DequeClearNode(getCoords(), targetQual);
   					else
-  						result = new QueueVarClearNode(getCoords(), targetVar);
+  						result = new DequeVarClearNode(getCoords(), targetVar);
   				}
 			}
 		}

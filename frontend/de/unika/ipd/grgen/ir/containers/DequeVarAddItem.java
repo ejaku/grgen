@@ -13,21 +13,29 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class QueueVarClear extends EvalStatement {
+public class DequeVarAddItem extends EvalStatement {
 	Variable target;
+    Expression valueExpr;
 
-	public QueueVarClear(Variable target) {
-		super("queue var clear");
+	public DequeVarAddItem(Variable target, Expression valueExpr) {
+		super("deque var add item");
 		this.target = target;
+		this.valueExpr = valueExpr;
 	}
 
 	public Variable getTarget() {
 		return target;
 	}
 
+	public Expression getValueExpr() {
+		return valueExpr;
+	}
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(target);
+
+		getValueExpr().collectNeededEntities(needs);
 
 		if(getNext()!=null) {
 			getNext().collectNeededEntities(needs);

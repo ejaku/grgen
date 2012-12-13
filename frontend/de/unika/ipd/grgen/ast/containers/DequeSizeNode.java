@@ -17,30 +17,27 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.containers.QueuePeekExpr;
+import de.unika.ipd.grgen.ir.containers.DequeSizeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class QueuePeekNode extends ExprNode
+public class DequeSizeNode extends ExprNode
 {
 	static {
-		setName(QueuePeekNode.class, "queue peek");
+		setName(DequeSizeNode.class, "deque size expression");
 	}
 
 	private ExprNode targetExpr;
-	private ExprNode numberExpr;
 
-	public QueuePeekNode(Coords coords, ExprNode targetExpr, ExprNode numberExpr)
+	public DequeSizeNode(Coords coords, ExprNode targetExpr)
 	{
 		super(coords);
 		this.targetExpr = becomeParent(targetExpr);
-		this.numberExpr = becomeParent(numberExpr);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
-		children.add(numberExpr);
 		return children;
 	}
 
@@ -48,33 +45,27 @@ public class QueuePeekNode extends ExprNode
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
-		childrenNames.add("numberExpr");
 		return childrenNames;
 	}
 
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof QueueTypeNode)) {
-			targetExpr.reportError("This argument to queue peek expression must be of type queue<T>");
-			return false;
-		}
-		if(!numberExpr.getType().isEqual(BasicTypeNode.intType)) {
-			numberExpr.reportError("Argument (number) to "
-					+ "queue peek expression must be of type int");
+		if(!(targetType instanceof DequeTypeNode)) {
+			targetExpr.reportError("This argument to deque size expression must be of type deque<T>");
 			return false;
 		}
 		return true;
+
 	}
 
 	@Override
 	public TypeNode getType() {
-		return ((QueueTypeNode)targetExpr.getType()).valueType;
+		return BasicTypeNode.intType;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new QueuePeekExpr(targetExpr.checkIR(Expression.class),
-				numberExpr.checkIR(Expression.class));
+		return new DequeSizeExpr(targetExpr.checkIR(Expression.class));
 	}
 }

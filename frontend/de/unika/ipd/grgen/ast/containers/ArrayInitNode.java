@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ir.containers.ArrayItem;
 import de.unika.ipd.grgen.ir.containers.ArrayType;
 import de.unika.ipd.grgen.parser.Coords;
 
-//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|queue 
+//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque 
 //should be unified in abstract base classes and algorithms working on them
 
 public class ArrayInitNode extends ExprNode

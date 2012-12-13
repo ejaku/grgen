@@ -665,7 +665,7 @@ public class OperatorSignature extends FunctionSignature {
 		}
 	};
 
-	public static final Evaluator queueEvaluator = new Evaluator() {
+	public static final Evaluator dequeEvaluator = new Evaluator() {
 		protected ExprNode eval(Coords coords, OperatorSignature op,
 				ExprNode[] e) throws NotEvaluatableException {
 			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate
