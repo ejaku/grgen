@@ -1,0 +1,87 @@
+using deque1;
+
+test existsFooHuu
+{
+	nb:B;
+
+	if { "foo" in nb.b; }
+	if { "huu" in nb.b; }
+}
+
+rule addFooHuu
+{
+    nb:B;
+	modify {
+		eval {
+			nb.b = nb.b + ] "foo" [;
+			nb.b.add("huu");
+		}
+	}
+}
+
+test existsBar
+{
+	nb:B;
+	if { "bar" in nb.a; }
+}
+
+rule removeBar()
+{
+    nb:B;
+
+	modify {
+		eval {
+			nb.a.rem(1);
+			nb.a.rem();
+		}
+	}
+}
+
+test anonymousDeque
+{
+	na:A;
+	if { na.val in ] "foo", "argl" [; }
+}
+
+test anonymousDequeNA
+{
+	nb:B;
+	if { nb.val in ] "aha","oho","uh?" [; }
+}
+
+rule useDequeVar(ref niceDeque:deque<string>)
+{
+    if { "Hallo" in niceDeque; }
+    
+    modify {
+        emit("1 value of attribute 5 6 " + ("Handtuch" in niceDeque ? "yes" : "no") + "\n");
+    }
+}
+
+rule dequeIndexof
+{
+	a:A; b:B;
+
+	if {
+		a.a.subdeque(a.a.indexOf("foo"), 1).size()>=1 ;
+		a.a.subdeque(0, a.a.size()).size()>=1;
+	}		
+	
+	modify {
+		eval {
+			b.a = a.a.subdeque(a.a.indexOf("foo"), 1);
+			b.b = a.a.subdeque(0, a.a.size());
+		}		
+	}
+}
+
+rule dequeIteration
+{    
+    modify {
+		exec( ::a=deque<string>][ ;> ::tmp="a" ;> {::a.add(::tmp)} ;> ::tmp="b" ;> {::a.add(::tmp)} ;> ::tmp="c" ;> {::a.add(::tmp)} ;> ::tmp="d" ;> {::a.add(::tmp)} ;> ::tmp="e" ;> {::a.add(::tmp)} );
+		exec( for{::i->::e in ::a; {emit("1 value of attribute 5 6 ")} ;> {emit(::i)} ;> {emit("\n")} } );
+		exec( for{::i->::e in ::a; {emit("1 value of attribute 5 6 ")} ;> {emit(::e)} ;> {emit("\n")} } );
+		exec( for{::e in ::a; {emit("1 value of attribute 5 6 ")} ;> {emit(::e)} ;> {emit("\n")} } );
+    }
+}
+
