@@ -292,7 +292,7 @@ public abstract class CSharpBase {
 		}
 		else if (t instanceof DequeType) {
 			DequeType dequeType = (DequeType) t;
-			return "Deque<" + formatType(dequeType.getValueType()) + ">";
+			return "GRGEN_LIBGR.Deque<" + formatType(dequeType.getValueType()) + ">";
 		}
 		else if (t instanceof GraphType) {
 			return "GRGEN_LIBGR.IGraph";
@@ -979,10 +979,51 @@ public abstract class CSharpBase {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(dp));
 			}
 			else {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Peek(");
+				sb.append("(");
 				genExpression(sb, dp.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
+				sb.append("[");
 				genExpression(sb, dp.getNumberExpr(), modifyGenerationState);
+				sb.append("])");
+			}
+		}
+		else if (expr instanceof DequeIndexOfExpr) {
+			DequeIndexOfExpr di = (DequeIndexOfExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(di));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.IndexOf(");
+				genExpression(sb, di.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, di.getValueExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof DequeLastIndexOfExpr) {
+			DequeLastIndexOfExpr dli = (DequeLastIndexOfExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(dli));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
+				genExpression(sb, dli.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, dli.getValueExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof DequeSubdequeExpr) {
+			DequeSubdequeExpr dsd = (DequeSubdequeExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(dsd));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.Subdeque(");
+				genExpression(sb, dsd.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, dsd.getStartExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, dsd.getLengthExpr(), modifyGenerationState);
 				sb.append(")");
 			}
 		}

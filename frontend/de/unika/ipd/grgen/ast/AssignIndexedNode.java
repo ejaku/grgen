@@ -159,10 +159,18 @@ public class AssignIndexedNode extends EvalStatementNode {
 		TypeNode targetType = null;
 		if(lhsQual!=null) targetType = lhsQual.getDecl().getDeclType();
 		if(lhsVar!=null) targetType = lhsVar.getDeclType();
-		if(!(targetType instanceof ArrayTypeNode)) {
-			targetType.reportError("can only do an indexed assignment on an attribute/variable of array type");
+
+		TypeNode valueType;
+		if(targetType instanceof ArrayTypeNode) {
+			valueType = ((ArrayTypeNode)targetType).valueType;
 		}
-		TypeNode valueType = ((ArrayTypeNode)targetType).valueType;
+		else if (targetType instanceof DequeTypeNode) {
+			valueType = ((DequeTypeNode)targetType).valueType;
+		}
+		else {
+			targetType.reportError("can only do an indexed assignment on an attribute/variable of array/deque type");
+			return false;
+		}
 
 		TypeNode exprType = rhs.getType();
 

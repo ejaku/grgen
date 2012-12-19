@@ -5,7 +5,7 @@ rule concatenateWrongType {
 
 	modify {
 		eval {
-			a.stringArray = a.stringArray + { a.intValue }; // no implicit cast without the type prefix
+			a.stringArray = a.stringArray + [ a.intValue ]; // no implicit cast without the type prefix
 		}
 	}
 }

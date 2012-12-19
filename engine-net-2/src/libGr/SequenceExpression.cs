@@ -1258,9 +1258,16 @@ namespace de.unika.ipd.grGen.libGr
             
             if(TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == "SetValueType")
             {
-                throw new SequenceParserException(Symbol, "map<S,T> or array<S>", Container.Type);
+                throw new SequenceParserException(Symbol, "map<S,T> or array<S> or deque<S>", Container.Type);
             }
             if(Container.Type.StartsWith("array"))
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "int", KeyExpr.Type(env));
+                }
+            }
+            else if(Container.Type.StartsWith("deque"))
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
                 {
@@ -1281,7 +1288,7 @@ namespace de.unika.ipd.grGen.libGr
             if(Container.Type == "")
                 return ""; // we can't gain access to the container destination type if the variable is untyped, only runtime-check possible
 
-            if(Container.Type.StartsWith("array"))
+            if(Container.Type.StartsWith("array") || Container.Type.StartsWith("deque"))
                 return TypesHelper.ExtractSrc(Container.Type);
             else
                 return TypesHelper.ExtractDst(Container.Type);
@@ -1302,6 +1309,12 @@ namespace de.unika.ipd.grGen.libGr
                 IList array = (IList)Container.GetVariableValue(procEnv);
                 int key = (int)KeyExpr.Evaluate(procEnv);
                 return array[key];
+            }
+            else if(Container.GetVariableValue(procEnv) is IDeque)
+            {
+                IDeque deque = (IDeque)Container.GetVariableValue(procEnv);
+                int key = (int)KeyExpr.Evaluate(procEnv);
+                return deque[key];
             }
             else
             {

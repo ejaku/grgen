@@ -34,6 +34,7 @@ namespace de.unika.ipd.grGen.libGr
         //void CopyTo(Array array, int index); from ICollection
 
         int IndexOf(object item);
+        int LastIndexOf(object item);
         bool Contains(object item);
 
         // object Clone(); from IClonable
@@ -531,6 +532,32 @@ namespace de.unika.ipd.grGen.libGr
         int IDeque.IndexOf(object item)
         {
             return IndexOf((T)item);
+        }
+
+        public int LastIndexOf(T item)
+        {
+            if(begin <= end)
+            {
+                for(int pos = end - 1; pos >= begin; --pos)
+                    if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
+                        return pos - begin;
+            }
+            else
+            {
+                for(int pos = end - 1; pos >= 0; --pos)
+                    if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
+                        return pos + buffer.Length - begin;
+                for(int pos = buffer.Length - 1; pos >= begin; --pos)
+                    if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
+                        return pos - begin;
+            }
+
+            return -1;
+        }
+
+        int IDeque.LastIndexOf(object item)
+        {
+            return LastIndexOf((T)item);
         }
 
         public bool Contains(T item)

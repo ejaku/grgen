@@ -1,0 +1,34 @@
+using deque_model_001, container_node_edge;
+
+rule r(ref ss1:deque<string>, ref ss2:deque<string>, ref sa1:deque<A>, ref sa2:deque<A>)
+{
+	modify {
+		eval {
+			ss1 += ss2;
+			sa1 += sa2;
+		}
+	}
+}
+
+rule u
+{
+	a1:A; a2:A;
+	
+	modify {
+		eval {
+			a1.niceDeque += a2.niceDeque;
+		}
+	}
+}
+
+rule q
+{
+	a1:Gaggl; a2:Gaggl;
+	
+	modify {
+		eval {
+			a1.m += a2.m;
+			a1.n += a2.n;
+		}
+	}
+}

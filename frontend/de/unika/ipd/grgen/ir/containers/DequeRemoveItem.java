@@ -12,18 +12,25 @@
 package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.*;
+
 import java.util.HashSet;
 
 public class DequeRemoveItem extends EvalStatement {
 	Qualification target;
+	Expression indexExpr;
 
-	public DequeRemoveItem(Qualification target) {
+	public DequeRemoveItem(Qualification target, Expression indexExpr) {
 		super("deque remove item");
 		this.target = target;
+		this.indexExpr = indexExpr;
 	}
 
 	public Qualification getTarget() {
 		return target;
+	}
+
+	public Expression getIndexExpr() {
+		return indexExpr;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
@@ -36,6 +43,9 @@ public class DequeRemoveItem extends EvalStatement {
 		needs.variables = null;
 		target.collectNeededEntities(needs);
 		needs.variables = varSet;
+
+		if(getIndexExpr()!=null)
+			getIndexExpr().collectNeededEntities(needs);
 
 		if(getNext()!=null) {
 			getNext().collectNeededEntities(needs);

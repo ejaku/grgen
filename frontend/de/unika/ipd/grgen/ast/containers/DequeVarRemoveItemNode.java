@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeVarRemoveItem;
 import de.unika.ipd.grgen.ir.Variable;
@@ -27,17 +28,22 @@ public class DequeVarRemoveItemNode extends EvalStatementNode
 	}
 
 	private VarDeclNode target;
+	private ExprNode valueExpr;
 
-	public DequeVarRemoveItemNode(Coords coords, VarDeclNode target)
+	public DequeVarRemoveItemNode(Coords coords, VarDeclNode target, ExprNode valueExpr)
 	{
 		super(coords);
 		this.target = becomeParent(target);
+		if(valueExpr!=null)
+			this.valueExpr = becomeParent(valueExpr);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(target);
+		if(valueExpr!=null)
+			children.add(valueExpr);
 		return children;
 	}
 
@@ -45,6 +51,8 @@ public class DequeVarRemoveItemNode extends EvalStatementNode
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("target");
+		if(valueExpr!=null)
+			childrenNames.add("valueExpr");
 		return childrenNames;
 	}
 
@@ -55,11 +63,15 @@ public class DequeVarRemoveItemNode extends EvalStatementNode
 
 	@Override
 	protected boolean checkLocal() {
-		return true;
+		if(valueExpr!=null)
+			return checkType(valueExpr, IntTypeNode.intType, "index value", "deque remove item statement");
+		else
+			return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new DequeVarRemoveItem(target.checkIR(Variable.class));
+		return new DequeVarRemoveItem(target.checkIR(Variable.class),
+				valueExpr!=null ? valueExpr.checkIR(Expression.class) : null);
 	}
 }

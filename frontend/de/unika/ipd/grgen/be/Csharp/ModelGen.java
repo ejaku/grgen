@@ -16,7 +16,6 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
-import java.io.File;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.Comparator;

@@ -56,27 +56,55 @@ rule r6(ref m:map<N,Node>)
 }
 
 
-rule r7(ref s:array<Node>)
+rule r7(ref a:array<Node>)
 {
-	n:Node{s} --> l:Node;
+	n:Node{a} --> l:Node;
 	
 	modify {
 		delete(l);
 	}
 }
 
-rule r8(ref s:array<Node>)
+rule r8(ref a:array<Node>)
 {
-	n:N{s} --> l:Node;
+	n:N{a} --> l:Node;
 	
 	modify {
 		delete(l);
 	}
 }
 
-rule r9(ref s:array<N>)
+rule r9(ref a:array<N>)
 {
-	n:NN{s} --> l:Node;
+	n:NN{a} --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+
+rule r10(ref d:deque<Node>)
+{
+	n:Node{d} --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r11(ref d:deque<Node>)
+{
+	n:N{d} --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r12(ref d:deque<N>)
+{
+	n:NN{d} --> l:Node;
 	
 	modify {
 		delete(l);

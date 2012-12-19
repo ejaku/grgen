@@ -384,7 +384,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "int"; // bullshit int return so the type checks testing that src and dst are available don't fail
             }
-            // on deque and the rest:
+            else if (genericType.StartsWith("deque<")) // deque<srcType>
+            {
+                return "int"; // bullshit int return so the type checks testing that src and dst are available don't fail
+            }
             return null;
         }
 
@@ -428,7 +431,7 @@ namespace de.unika.ipd.grGen.libGr
             if(type == "boolean") return "bool";
             if(type.StartsWith("set<") || type.StartsWith("map<")) return "Dictionary<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + "," + XgrsTypeToCSharpType(ExtractDst(type), model) + ">";
             if(type.StartsWith("array<")) return "List<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
-            if(type.StartsWith("deque<")) return "Deque<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
+            if(type.StartsWith("deque<")) return "GRGEN_LIBGR.Deque<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
             if(type.StartsWith("match<")) return "Rule_" + ExtractSrc(type) + ".IMatch_" + ExtractSrc(type);
             if(type == "SetValueType") return "GRGEN_LIBGR.SetValueType";
             if(type == "graph") return "GRGEN_LIBGR.IGraph"; 

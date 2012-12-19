@@ -126,6 +126,7 @@ public class MemberInitNode extends BaseNode {
 			return arrayInit;
 		} else if(rhs instanceof DequeInitNode) {
 			DequeInit dequeInit = rhs.checkIR(DequeInit.class);
+			dequeInit.setMember(lhs.checkIR(Entity.class));
 			return dequeInit;
 		} else {
 			return new MemberInit(lhs.checkIR(Entity.class), rhs.checkIR(Expression.class));

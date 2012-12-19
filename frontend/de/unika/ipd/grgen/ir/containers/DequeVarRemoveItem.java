@@ -15,19 +15,28 @@ import de.unika.ipd.grgen.ir.*;
 
 public class DequeVarRemoveItem extends EvalStatement {
 	Variable target;
+	Expression indexExpr;
 
-	public DequeVarRemoveItem(Variable target) {
+	public DequeVarRemoveItem(Variable target, Expression indexExpr) {
 		super("deque var remove item");
 		this.target = target;
+		this.indexExpr = indexExpr;
 	}
 
 	public Variable getTarget() {
 		return target;
 	}
 
+	public Expression getIndexExpr() {
+		return indexExpr;
+	}
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(target);
+
+		if(getIndexExpr()!=null)
+			getIndexExpr().collectNeededEntities(needs);
 
 		if(getNext()!=null) {
 			getNext().collectNeededEntities(needs);

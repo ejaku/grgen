@@ -1,0 +1,11 @@
+using deque_model_001;
+
+rule concatenateWrongType {
+	a:A;
+
+	modify {
+		eval {
+			a.stringDeque = a.stringDeque + ] "hallo", a.intValue [; // no implicit cast without the type prefix
+		}
+	}
+}

@@ -1010,7 +1010,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            bool isDict = !TypesHelper.DotNetTypeToXgrsType(storage.type).StartsWith("array");
+            bool isDict = TypesHelper.DotNetTypeToXgrsType(storage.type).StartsWith("set") || TypesHelper.DotNetTypeToXgrsType(storage.type).StartsWith("map");
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
             // iterate available storage elements
@@ -1150,7 +1150,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            bool isDict = storageAttribute.Kind != AttributeKind.ArrayAttr;
+            bool isDict = storageAttribute.Kind == AttributeKind.SetAttr || storageAttribute.Kind == AttributeKind.MapAttr;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
             // iterate available storage elements

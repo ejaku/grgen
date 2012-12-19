@@ -29,12 +29,15 @@ public class DequeVarAddItemNode extends EvalStatementNode
 
 	private VarDeclNode target;
 	private ExprNode valueExpr;
+	private ExprNode indexExpr;
 
-	public DequeVarAddItemNode(Coords coords, VarDeclNode target, ExprNode valueExpr)
+	public DequeVarAddItemNode(Coords coords, VarDeclNode target, ExprNode valueExpr, ExprNode indexExpr)
 	{
 		super(coords);
 		this.target = becomeParent(target);
 		this.valueExpr = becomeParent(valueExpr);
+		if(indexExpr!=null)
+			this.indexExpr = becomeParent(indexExpr);
 	}
 
 	@Override
@@ -42,6 +45,8 @@ public class DequeVarAddItemNode extends EvalStatementNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(target);
 		children.add(valueExpr);
+		if(indexExpr!=null)
+			children.add(indexExpr);
 		return children;
 	}
 
@@ -50,6 +55,8 @@ public class DequeVarAddItemNode extends EvalStatementNode
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("target");
 		childrenNames.add("valueExpr");
+		if(indexExpr!=null)
+			childrenNames.add("indexExpr");
 		return childrenNames;
 	}
 
@@ -63,6 +70,8 @@ public class DequeVarAddItemNode extends EvalStatementNode
 		boolean success = true;
 		TypeNode targetType = target.getDeclType();
 		TypeNode targetValueType = ((DequeTypeNode)targetType).valueType;
+		if(indexExpr!=null)
+			success &= checkType(indexExpr, IntTypeNode.intType, "deque add item with index statement", "index");
 		success &= checkType(valueExpr, targetValueType, "deque add item statement", "value");
 		return success;
 	}
@@ -70,6 +79,7 @@ public class DequeVarAddItemNode extends EvalStatementNode
 	@Override
 	protected IR constructIR() {
 		return new DequeVarAddItem(target.checkIR(Variable.class),
-				valueExpr.checkIR(Expression.class));
+				valueExpr.checkIR(Expression.class),
+				indexExpr!=null ? indexExpr.checkIR(Expression.class) : null);
 	}
 }

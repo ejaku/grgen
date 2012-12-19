@@ -16,11 +16,13 @@ import de.unika.ipd.grgen.ir.*;
 public class DequeVarAddItem extends EvalStatement {
 	Variable target;
     Expression valueExpr;
+    Expression indexExpr;
 
-	public DequeVarAddItem(Variable target, Expression valueExpr) {
+	public DequeVarAddItem(Variable target, Expression valueExpr, Expression indexExpr) {
 		super("deque var add item");
 		this.target = target;
 		this.valueExpr = valueExpr;
+		this.indexExpr = indexExpr;
 	}
 
 	public Variable getTarget() {
@@ -31,11 +33,18 @@ public class DequeVarAddItem extends EvalStatement {
 		return valueExpr;
 	}
 
+	public Expression getIndexExpr() {
+		return indexExpr;
+	}
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(target);
 
 		getValueExpr().collectNeededEntities(needs);
+
+		if(getIndexExpr()!=null)
+			getIndexExpr().collectNeededEntities(needs);
 
 		if(getNext()!=null) {
 			getNext().collectNeededEntities(needs);

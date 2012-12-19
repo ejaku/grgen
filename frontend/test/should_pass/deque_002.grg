@@ -1,0 +1,29 @@
+using deque_model_002;
+
+rule concatenateWithCast {
+	a:A;
+
+	modify {
+		eval {
+			a.stringDeque = a.stringDeque + deque<string>] a.intValue [; // no implicit cast without the type prefix
+		}
+	}
+}
+
+test testWithCast {
+	a:A;
+
+	if { a.intValue in a.stringDeque; }
+}
+
+rule dequeSize {
+	a:A;
+
+	if { a.intDeque.size()==42; }
+
+	modify {
+		eval {
+			a.intValue = a.stringDeque.size();
+		}
+	}
+}

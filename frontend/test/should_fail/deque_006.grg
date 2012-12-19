@@ -1,0 +1,11 @@
+using deque_model_002;
+
+rule assignDequeToDeque {
+	a:A -e:E-> a;
+
+	modify {
+		eval {
+			a.niceDeque = e.spiceDeque;
+		}
+	}
+}

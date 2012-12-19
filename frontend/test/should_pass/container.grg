@@ -1,3 +1,17 @@
+rule clear_deque(ref element_deque:deque<string>):()
+{
+	modify {
+		eval {
+			element_deque.add("1");
+			element_deque.add("2");
+			element_deque.add("3");
+			element_deque.rem(2);
+			element_deque.rem();
+			element_deque.clear();
+		}
+	}
+}
+
 rule clear_array(ref element_array:array<string>):()
 {
 	modify {
@@ -5,7 +19,7 @@ rule clear_array(ref element_array:array<string>):()
 			element_array.add("1");
 			element_array.add("2");
 			element_array.add("3");
-			element_array.rem(3);
+			element_array.rem(2);
 			element_array.rem();
 			element_array.clear();
 		}

@@ -6,6 +6,7 @@ node class M
 	s:set<M>;
 	m:map<M,M>;
 	a:array<M>;
+	d:deque<M>;
 }
 
 edge class E;
@@ -16,6 +17,7 @@ edge class F
 	s:set<F>;
 	m:map<F,F>;
 	a:array<F>;
+	d:deque<F>;
 }
 undirected edge class G
 {

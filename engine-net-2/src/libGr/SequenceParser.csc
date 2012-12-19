@@ -601,7 +601,7 @@ String Type():
 	| LOOKAHEAD("array" "<" Word() ">=") "array" "<" typeParam=Word() { type = "array<"+typeParam+">"; }
 		(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
 	| LOOKAHEAD("deque" "<" Word() ">=") "deque" "<" typeParam=Word() { type = "deque<"+typeParam+">"; }
-		(LOOKAHEAD(2) "]" { throw new ParseException("no ][ allowed at array declaration, use d:deque<T> = deque<T>][ for initialization"); })?
+		(LOOKAHEAD(2) "]" { throw new ParseException("no ][ allowed at deque declaration, use d:deque<T> = deque<T>][ for initialization"); })?
 	// the match type exists only for the loop variable of the for matches loop
 	| LOOKAHEAD("match" "<" Word() ">") "match" "<" typeParam=Word() ">" { type = "match<"+typeParam+">"; }	
 	)
