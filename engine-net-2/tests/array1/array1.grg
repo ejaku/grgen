@@ -32,6 +32,27 @@ rule removeBar()
 	modify {
 		eval {
 			nb.a.rem(1);
+		}
+	}
+}
+
+rule addHarr()
+{
+    nb:B;
+
+	modify {
+		eval {
+			nb.a.add("harr");
+		}
+	}
+}
+
+rule remove()
+{
+    nb:B;
+
+	modify {
+		eval {
 			nb.a.rem();
 		}
 	}
