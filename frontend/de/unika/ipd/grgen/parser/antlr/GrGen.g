@@ -2905,7 +2905,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 		{
 			res = new CastNode(getCoords(p), id, op);
 		}
-	| e=primaryExpr[inEnumInit] ((LBRACK|DOT) => e=selectorExpr[e, inEnumInit])* { res = e; }
+	| e=primaryExpr[inEnumInit] ((LBRACK ~PLUS | DOT) => e=selectorExpr[e, inEnumInit])* { res = e; }
 	; 
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]

@@ -1,4 +1,4 @@
-using set_map_array;
+using container;
 
 rule testSet
 {
@@ -79,6 +79,39 @@ rule testArray
 			n.a4.rem(0);
 			n.a4.rem();
 			n.a4.clear();
+		}
+	}
+}
+
+rule testDeque
+{
+	n:Gaggl;
+	
+	modify {
+		eval {
+			n.d1.add(n);
+			n.d1.add(n);
+			n.d1.rem(0);
+			n.d1.rem();
+			n.d1.clear();
+
+			n.d2.add(n);
+			n.d2.add(n);
+			n.d2.rem(0);
+			n.d2.rem();
+			n.d2.clear();
+
+			n.d3.add(Lol::Lal);
+			n.d3.add(Lol::Lal);
+			n.d3.rem(0);
+			n.d3.rem();
+			n.d3.clear();
+
+			n.d4.add("foo");
+			n.d4.add("foo");
+			n.d4.rem(0);
+			n.d4.rem();
+			n.d4.clear();
 		}
 	}
 }

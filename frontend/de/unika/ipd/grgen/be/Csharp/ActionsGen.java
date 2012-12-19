@@ -1854,6 +1854,32 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, dp.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof DequeIndexOfExpr) {
+			DequeIndexOfExpr di = (DequeIndexOfExpr)expr;
+			sb.append("new GRGEN_EXPR.DequeIndexOf(");
+			genExpressionTree(sb, di.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, di.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof DequeLastIndexOfExpr) {
+			DequeLastIndexOfExpr dli = (DequeLastIndexOfExpr)expr;
+			sb.append("new GRGEN_EXPR.DequeLastIndexOf(");
+			genExpressionTree(sb, dli.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, dli.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof DequeSubdequeExpr) {
+			DequeSubdequeExpr dsd = (DequeSubdequeExpr)expr;
+			sb.append("new GRGEN_EXPR.DequeSubdeque(");
+			genExpressionTree(sb, dsd.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, dsd.getStartExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, dsd.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof MapInit) {
 			MapInit mi = (MapInit)expr;
 			if(mi.isConstant()) {
@@ -3039,6 +3065,13 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.DequeRemove(");
 		sb.append("\"" + target.getIdent() + "\"");
+		if(dvri.getIndexExpr()!=null) {
+			sb.append(", ");
+			StringBuffer sbtmp = new StringBuffer();
+			genExpressionTree(sbtmp, dvri.getIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			String indexExprStr = sbtmp.toString();
+			sb.append(indexExprStr);
+		}
 		sb.append(")");
 		
 		assert dvri.getNext()==null;
@@ -3066,6 +3099,13 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\"" + target.getIdent() + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
+		if(dvai.getIndexExpr()!=null) {
+			sbtmp = new StringBuffer();
+			genExpressionTree(sbtmp, dvai.getIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			String indexExprStr = sbtmp.toString();
+			sb.append(", ");
+			sb.append(indexExprStr);
+		}
 		sb.append(")");
 		
 		assert dvai.getNext()==null;

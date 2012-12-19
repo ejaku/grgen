@@ -11,4 +11,6 @@ node class Gaggl
 	v:map<A,E>;
 	k:array<Node>;
 	l:array<A>;
+	m:deque<Node>;
+	n:deque<A>;
 }

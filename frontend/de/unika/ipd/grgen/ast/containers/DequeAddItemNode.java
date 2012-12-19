@@ -29,12 +29,15 @@ public class DequeAddItemNode extends EvalStatementNode
 
 	private QualIdentNode target;
 	private ExprNode valueExpr;
+	private ExprNode indexExpr;
 
-	public DequeAddItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr)
+	public DequeAddItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr, ExprNode indexExpr)
 	{
 		super(coords);
 		this.target = becomeParent(target);
 		this.valueExpr = becomeParent(valueExpr);
+		if(indexExpr!=null)
+			this.indexExpr = becomeParent(indexExpr);
 	}
 
 	@Override
@@ -42,6 +45,8 @@ public class DequeAddItemNode extends EvalStatementNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(target);
 		children.add(valueExpr);
+		if(indexExpr!=null)
+			children.add(indexExpr);
 		return children;
 	}
 
@@ -50,6 +55,8 @@ public class DequeAddItemNode extends EvalStatementNode
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("target");
 		childrenNames.add("valueExpr");
+		if(indexExpr!=null)
+			childrenNames.add("indexExpr");
 		return childrenNames;
 	}
 
@@ -72,12 +79,24 @@ public class DequeAddItemNode extends EvalStatementNode
 				return false;
 			}
 		}
+		if (indexExpr!=null) {
+			TypeNode indexType = indexExpr.getType();
+			if (!indexType.isEqual(IntTypeNode.intType))
+			{
+				indexExpr = becomeParent(indexExpr.adjustType(IntTypeNode.intType, getCoords()));
+				if(indexExpr == ConstNode.getInvalid()) {
+					indexExpr.reportError("Argument index to deque add item statement must be of type int");
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
 		return new DequeAddItem(target.checkIR(Qualification.class),
-				valueExpr.checkIR(Expression.class));
+				valueExpr.checkIR(Expression.class),
+				indexExpr!=null ? indexExpr.checkIR(Expression.class) : null);
 	}
 }

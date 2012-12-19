@@ -17,4 +17,8 @@ node class Gaggl
 	a2:array<Gaggl>;
 	a3:array<Lol>;
 	a4:array<string>;
+	d1:deque<Node>;
+	d2:deque<Gaggl>;
+	d3:deque<Lol>;
+	d4:deque<string>;
 }

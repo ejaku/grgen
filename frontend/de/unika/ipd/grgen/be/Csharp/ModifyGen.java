@@ -1957,9 +1957,12 @@ public class ModifyGen extends CSharpBase {
 			return;
 		}
 
-		// indexed assignment to array/map, the target type is the array/map value type
+		// indexed assignment to array/deque/map, the target type is the array/deque/map value type
 		if(ass instanceof AssignmentIndexed && targetType instanceof ArrayType) {
 			targetType = ((ArrayType)targetType).getValueType();
+		}
+		if(ass instanceof AssignmentIndexed && targetType instanceof DequeType) {
+			targetType = ((DequeType)targetType).getValueType();
 		}
 		if(ass instanceof AssignmentIndexed && targetType instanceof MapType) {
 			targetType = ((MapType)targetType).getValueType();
@@ -2036,7 +2039,8 @@ public class ModifyGen extends CSharpBase {
 		{
 			AssignmentIndexed assIdx = (AssignmentIndexed)ass; 
 
-			if(target.getType() instanceof ArrayType) {
+			if(target.getType() instanceof ArrayType
+					|| target.getType() instanceof DequeType) {
 				String indexType = defined.contains("index") ? "" : "int ";
 				defined.add("index");
 				String indexName = "tempvar_index";
@@ -2554,12 +2558,23 @@ public class ModifyGen extends CSharpBase {
 
 	private void genDequeRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, DequeRemoveItem dri) {
 		Qualification target = dri.getTarget();
-		
-		genChangingAttribute(sb, state, target, "RemoveElement", "null", "null");
+
+		String indexStr = "null";
+		if(dri.getIndexExpr()!=null) {
+			StringBuffer sbtmp = new StringBuffer();
+			genExpression(sbtmp, dri.getIndexExpr(), state);
+			indexStr = sbtmp.toString();
+		}
+
+		genChangingAttribute(sb, state, target, "RemoveElement", "null", indexStr);
 
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
-		sb.append(".Dequeue();\n");
+		if(dri.getIndexExpr()!=null) {
+			sb.append(".DequeueAt(" + indexStr + ");\n");
+		} else {
+			sb.append(".Dequeue();\n");
+		}
 
 		if(dri.getNext()!=null) {
 			genEvalStmt(sb, state, dri.getNext());
@@ -2586,13 +2601,25 @@ public class ModifyGen extends CSharpBase {
 		StringBuffer sbtmp = new StringBuffer();
 		genExpression(sbtmp, dai.getValueExpr(), state);
 		String valueExprStr = sbtmp.toString();
-		
-		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, "null");
+
+		sbtmp = new StringBuffer();
+		String indexExprStr = "null";
+		if(dai.getIndexExpr()!=null) {
+			genExpression(sbtmp, dai.getIndexExpr(), state);
+			indexExprStr = sbtmp.toString();
+		}
+
+		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, indexExprStr);
 
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
-		sb.append(".Enqueue(");
-		
+		if(dai.getIndexExpr()==null) {
+			sb.append(".Enqueue(");
+		} else {
+			sb.append(".EnqueueAt(");
+			sb.append(indexExprStr);
+			sb.append(", ");
+		}		
 		if(dai.getValueExpr() instanceof GraphEntityExpression)
 			sb.append("(" + formatElementInterfaceRef(dai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
 		else
@@ -2771,9 +2798,21 @@ public class ModifyGen extends CSharpBase {
 	private void genDequeVarRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, DequeVarRemoveItem dvri) {
 		Variable target = dvri.getTarget();
 
+		String indexStr = "null";
+		if(dvri.getIndexExpr()!=null) {
+			StringBuffer sbtmp = new StringBuffer();
+			genExpression(sbtmp, dvri.getIndexExpr(), state);
+			indexStr = sbtmp.toString();
+		}
+
 		sb.append("\t\t\tvar_" + target.getIdent());
-		sb.append(".Dequeue();\n");
-		
+
+		if(dvri.getIndexExpr()!=null) {
+			sb.append(".DequeueAt(" + indexStr + ");\n");
+		} else {
+			sb.append(".Dequeue();\n");
+		}
+
 		assert dvri.getNext()==null;
 	}
 
@@ -2793,9 +2832,22 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sbtmp, dvai.getValueExpr(), state);
 		String valueExprStr = sbtmp.toString();
 
+		sbtmp = new StringBuffer();
+		String indexExprStr = "null";
+		if(dvai.getIndexExpr()!=null) {
+			genExpression(sbtmp, dvai.getIndexExpr(), state);
+			indexExprStr = sbtmp.toString();
+		}
+
 		sb.append("\t\t\t");
 		sb.append("\t\t\tvar_" + target.getIdent());
-		sb.append(".Enqueue(");
+		if(dvai.getIndexExpr()==null) {
+			sb.append(".Enqueue(");
+		} else {
+			sb.append(".EnqueueAt(");
+			sb.append(indexExprStr);
+			sb.append(", ");
+		}		
 		if(dvai.getValueExpr() instanceof GraphEntityExpression)
 			sb.append("(" + formatElementInterfaceRef(dvai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
 		else

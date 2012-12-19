@@ -1,0 +1,88 @@
+using deque_model_003;
+
+rule addToDeque {
+	-n:E->; -m:Edge->; -u:UEdge-;
+	
+	modify {
+		eval {
+			n.edgeDeque = n.edgeDeque + deque<Edge>] n [;
+			n.edgeDeque = n.edgeDeque + ] m [;
+			n.eDeque = n.eDeque + deque<E>] n [;
+			n.eDeque = n.eDeque + ] n [;
+			n.uDeque = n.uDeque + ] u [;
+		}
+	}
+}
+
+test containedInDeque {
+	-n:E->; -u:UEdge-;
+	
+	if { n in n.edgeDeque; }
+	if { n in n.eDeque; }
+	if { u in n.uDeque; }
+}
+
+// This clones the deques
+rule assignDequeToDeque {
+	-n:E->; -m:E->; -u:UEdge-;
+		
+	modify {
+		eval {
+			n.edgeDeque = m.edgeDeque;
+			m.eDeque = n.eDeque;
+			n.uDeque = m.uDeque;
+		}
+	}
+}
+
+rule anonymousDeque {
+	-n:E->; -m:E->; -u:UEdge-;
+	
+	if { n in deque<Edge>] n, m [; }
+	if { n in deque<E>] n, m [; }
+	if { u in deque<UEdge>] u [; }
+
+	modify {
+		eval {
+			n.val = (n in ]n, m[) ? 1 : 0;
+			m.val = (u in ]u[) ? 1 : 0;
+		}
+	}
+}
+
+rule dequeSize {
+	-n:E->; -u:UEdge-;
+	
+	if { n.edgeDeque.size()==42; }
+	if { n.eDeque.size()==42; }
+	if { n.uDeque.size()==42; }
+	
+	modify {
+		eval {
+			n.val = n.edgeDeque.size();
+			n.val = n.eDeque.size();
+			n.val = n.uDeque.size();
+		}
+	}
+}
+
+rule addToDeque2 {
+	-n:E->; -m:E->; -u:UEdge-;
+	
+	modify {
+		eval {
+			n.edgeDeque = (m.edgeDeque + deque<Edge>] n, m [) + deque<Edge>] m [;
+			n.uDeque = (m.uDeque + deque<UEdge>] u [) + deque<UEdge>] u [;
+		}
+	}
+}
+
+rule storage {
+	-n:E->;
+	-m:E{n.eDeque}->;
+	-l:Edge{n.edgeDeque}->;
+	-k:UEdge{m.uDeque}-;
+	
+	modify {
+	}
+}

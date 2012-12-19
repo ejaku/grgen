@@ -5,7 +5,7 @@ rule assignWrongType {
 
 	modify {
 		eval {
-			a.intArray = a.intArray + array<int>{ a.stringValue };
+			a.intArray = a.intArray + array<int>[ a.stringValue ];
 		}
 	}
 }

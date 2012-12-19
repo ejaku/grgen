@@ -948,11 +948,11 @@ namespace de.unika.ipd.grGen.lgsp
             } else if(Type == GetCandidateByIterationType.StorageElements) {
                 builder.Append("StorageElements ");
                 builder.AppendFormat("on {0} from {1} node:{2} {3}\n",
-                    PatternElementName, StorageName, IsNode, IsDict?"Dictionary":"List");
+                    PatternElementName, StorageName, IsNode, IsDict?"Dictionary":"List/Deque");
             } else if(Type == GetCandidateByIterationType.StorageAttributeElements) {
                 builder.Append("StorageAttributeElements ");
                 builder.AppendFormat("on {0} from {1}.{2} node:{3} {4}\n",
-                    PatternElementName, StorageOwnerName, StorageAttributeName, IsNode, IsDict?"Dictionary":"List");
+                    PatternElementName, StorageOwnerName, StorageAttributeName, IsNode, IsDict?"Dictionary":"List/Deque");
             } else { //Type==GetCandidateByIterationType.IncidentEdges
                 builder.Append("IncidentEdges ");
                 builder.AppendFormat("on {0} from {1} edge type:{2}\n",
@@ -1019,7 +1019,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(sourceCode.CommentSourceCode)
                 {
                     sourceCode.AppendFrontFormat("// Pick {0} {1} from {2} {3}\n",
-                        IsNode ? "node" : "edge", PatternElementName, IsDict?"Dictionary":"List", StorageName);
+                        IsNode ? "node" : "edge", PatternElementName, IsDict?"Dictionary":"List/Deque", StorageName);
                 }
 
                 // emit loop header with variable containing dictionary entry
@@ -1055,7 +1055,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(sourceCode.CommentSourceCode)
                 {
                     sourceCode.AppendFrontFormat("// Pick {0} {1} from {2} {3}.{4}\n",
-                        IsNode ? "node" : "edge", PatternElementName, IsDict?"Dictionary":"List", StorageOwnerName, StorageAttributeName);
+                        IsNode ? "node" : "edge", PatternElementName, IsDict?"Dictionary":"List/Deque", StorageOwnerName, StorageAttributeName);
                 }
 
                 // emit loop header with variable containing dictionary entry
@@ -1209,7 +1209,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public GetCandidateByIterationType Type;
         public bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements
-        public bool IsDict; // Dictionary|List - only available if StorageElements|StorageAttributeElements
+        public bool IsDict; // Dictionary(set/map)|List/Deque(array/deque) - only available if StorageElements|StorageAttributeElements
         public string StorageName; // only available if StorageElements
         public string StorageOwnerName; // only available if StorageAttributeElements
         public string StorageOwnerTypeName; // only available if StorageAttributeElements

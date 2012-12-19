@@ -1,0 +1,172 @@
+using deque_model_001;
+
+rule addToDeque {
+	a:A;
+	
+	modify {
+		eval {
+			a.niceDeque = a.niceDeque + deque<string>] "yeah" [;
+			a.niceDeque = a.niceDeque + ] "yeah" [;
+		}
+	}
+}
+
+test containedInDeque {
+	a:A;
+	
+	if { "yeah" in a.niceDeque; }
+}
+
+rule computedAddToDeque {
+	a:A; b:A;
+	
+	modify {
+		eval {
+			a.spiceDeque = a.spiceDeque + deque<int>] a.val + b.val*2 [;
+			a.spiceDeque = a.spiceDeque + ] a.val + b.val*2 [;
+		}
+	}
+}
+
+test computedContainedInDeque {
+	a:A; b:A;
+	
+	if { a.val+b.val*2 in a.spiceDeque; }
+}
+
+rule emitFromDeque {
+	a:A;
+	if { 5 in a.spiceDeque; }
+	
+	modify {
+		emit("is \"5\" contained? " + (5 in a.spiceDeque ? "yes" : "no") + ", dequesize = " + a.spiceDeque.size());
+	}
+}
+
+rule dequeVarContains(ref m:deque<string>) {
+	if { "yeah" in m; }
+	
+	modify {
+		emit("\"yeah\" is contained? " + ("yeah" in m) + ", dequesize = " + m.size());
+	}
+}
+
+// This clones the deques
+rule assignDequeToDeque {
+	a:A -e:E-> a; 
+		
+	modify {
+		eval {
+			a.niceDeque = e.niceDeque;
+			e.spiceDeque = a.spiceDeque;
+			e.niceDeque = a.niceDeque;
+		}
+	}
+}
+
+rule useEnumDeque {
+	a:A -e:E-> a;
+
+	if {
+		et::a in e.enumDeque;
+		et::c in a.enumDeque;
+	}
+	
+	modify {
+		eval {
+			e.val = (et::b in a.enumDeque) ? 7 : 19;
+			a.val = (et::b in e.enumDeque) ? 71 : 819;
+		}
+	}
+}
+
+test anonymousDeque {
+	a:A -e:E-> a;
+	
+	if { 
+            a.val in deque<int>] 1, 3, 5, 7, 11, 13, 17 [
+            && "blub" in deque<string>] "flap", "blab", "blub" [
+		||
+            e.strval in deque<string>] "foo", "bar", "blubb" [
+            && 13 in deque<int>] 2, 4, 13, 19 [
+		||
+            14 in deque<int>] 2, 4, 13, 19 [;
+	}
+	
+	if { 
+            a.val in ] 1, 3, 5, 7, 11, 13, 17 [
+            && "blub" in ] "flap", "blab", "blub" [
+		||
+            e.strval in ] "foo", "bar", "blubb" [
+            && 13 in ] 2, 4, 13, 19 [
+		||
+            14 in ] 2, 4, 13, 19 [;
+	}
+}
+
+rule anonymousDequeInRewrite {
+	a:A -e:E-> a;
+
+	modify {
+		eval {
+			a.val = (5 in deque<int>]1,2,3,4,5[) ? 1 : 0;
+			a.val = (5 in ]1,2,3,4,5[) ? 1 : 0;
+		}
+	}
+}
+
+rule constantDequeContainedInPatternAndRewrite {
+	a:A;
+	
+	if { "yeah" in a.constNiceDeque || a.val != 999 && "bar" in a.constNiceDeque; }
+	
+	modify {
+		eval {
+			a.val = ((13 in a.constSpiceDeque) ? 1 : 0) + ((42 in a.constSpiceDeque) ? 2 : 0);
+		}
+	}
+}
+
+rule dequeEqualityContainment {
+	a:A; b:A;
+	
+	if { a.niceDeque == b.niceDeque; }
+	if { a.niceDeque != b.niceDeque; }
+	if { a.niceDeque < b.niceDeque; }
+	if { a.niceDeque <= b.niceDeque; }
+	if { a.niceDeque > b.niceDeque; }
+	if { a.niceDeque >= b.niceDeque; }
+	
+	modify {
+		eval {
+			a.val = (a.niceDeque == b.niceDeque) ? 1 : 0;
+			b.val = (a.niceDeque != b.niceDeque) ? 1 : 0;
+			a.val = (a.niceDeque < b.niceDeque) ? 1 : 0;
+			b.val = (a.niceDeque <= b.niceDeque) ? 1 : 0;
+			a.val = (a.niceDeque > b.niceDeque) ? 1 : 0;
+			b.val = (a.niceDeque >= b.niceDeque) ? 1 : 0;
+		}
+	}
+}
+
+rule dequeEqualityContainment2 {	
+	a:A; b:A;
+	
+	if { ]1,2[ == ]1,2,a.val[; }
+	if { ]1,2[ != ]1,2,a.val[; }
+	if { ]1,2[ < ]1,2,a.val[; }
+	if { ]1,2[ <= ]1,2,a.val[; }
+	if { ]1,2[ > ]1,2,a.val[; }
+	if { ]1,2[ >= ]1,2,a.val[; }
+	
+	modify {
+		eval {
+			a.val = (]1,2[ == ]1,2,a.val[) ? 1 : 0;
+			b.val = (]1,2[ != ]1,2,a.val[) ? 1 : 0;
+			a.val = (]1,2[ < ]1,2,a.val[) ? 1 : 0;
+			b.val = (]1,2[ <= ]1,2,a.val[) ? 1 : 0;
+			a.val = (]1,2[> ]1,2,a.val[) ? 1 : 0;
+			b.val = (]1,2[ >= ]1,2,a.val[) ? 1 : 0;
+		}
+	}
+}

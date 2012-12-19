@@ -56,8 +56,10 @@ public class IndexedAccessExprNode extends ExprNode
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof MapTypeNode) && !(targetType instanceof ArrayTypeNode)) {
-			reportError("indexed access only supported on map and array type");
+		if(!(targetType instanceof MapTypeNode) 
+				&& !(targetType instanceof ArrayTypeNode)
+				&& !(targetType instanceof DequeTypeNode)) {
+			reportError("indexed access only supported on map, array, and deque type");
 		}
 
 		TypeNode keyType;
@@ -79,7 +81,7 @@ public class IndexedAccessExprNode extends ExprNode
 					expectedTypeName = ((InheritanceTypeNode) keyType).getIdentNode().toString();
 				else
 					expectedTypeName = keyType.toString();
-				reportError("Cannot convert map/array access argument from \""
+				reportError("Cannot convert map access argument from \""
 						+ givenTypeName + "\" to \"" + expectedTypeName + "\"");
 				return false;
 			}
@@ -102,8 +104,10 @@ public class IndexedAccessExprNode extends ExprNode
 		TypeNode targetExprType = targetExpr.getType();
 		if(targetExprType instanceof MapTypeNode)
 			return ((MapTypeNode)targetExprType).valueType;
-		else
+		else if(targetExprType instanceof ArrayTypeNode)
 			return ((ArrayTypeNode)targetExprType).valueType;
+		else
+			return ((DequeTypeNode)targetExprType).valueType;
 	}
 
 	@Override
