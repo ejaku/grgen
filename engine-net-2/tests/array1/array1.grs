@@ -35,6 +35,10 @@ xgrs existsBar
 nb.a
 xgrs removeBar
 nb.a
+xgrs addHarr
+nb.a
+xgrs remove
+nb.a
 
 xgrs existsBar
 
