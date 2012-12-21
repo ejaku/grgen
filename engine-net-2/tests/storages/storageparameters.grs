@@ -15,10 +15,10 @@ show var s
 xgrs {::st.rem(::n2)} <; {::s=::st.size()}
 show var s
 
-xgrs addNodeIfOtherNotContained(::st, ::n1) <; {::s=::st.size()}
+xgrs addNodeIfOtherContained(::st, ::n1) <; {::s=::st.size()}
 show var s
 
-xgrs addNodeIfOtherNotContained(::st, ::n1) <; {::s=::st.size()}
+xgrs addNodeIfOtherContained(::st, ::n1) <; {::s=::st.size()}
 show var s
 
 xgrs {::st.add(::n2)} <; {::s=::st.size()}

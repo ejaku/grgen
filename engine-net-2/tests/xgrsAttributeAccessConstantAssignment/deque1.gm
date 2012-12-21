@@ -1,0 +1,5 @@
+node class A
+{
+    a:deque<string> = ] "foo","bar" [ ;
+	val:string = "argl";
+}

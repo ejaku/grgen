@@ -4,6 +4,8 @@
 "{foo->bar}".
 "[foo]".
 "[foo]".
+"]foo[".
+"]foo[".
 2
 0
 "{foo}".
@@ -12,12 +14,16 @@
 "{foo->bar}".
 "[foo]".
 "[foo]".
+"]foo[".
+"]foo[".
 "{foo}".
 "{foo}".
 "{foo->bar}".
 "{foo->bar}".
 "[foo]".
 "[foo]".
+"]foo[".
+"]foo[".
 2
 2
 "{bar}".
@@ -26,12 +32,16 @@
 "{bar->foo}".
 "[foo, bar]".
 "[foo, bar]".
+"]foo, bar[".
+"]foo, bar[".
 "{foo}".
 "{foo}".
 "{foo->bar}".
 "{foo->bar}".
 "[foo]".
 "[foo]".
+"]foo[".
+"]foo[".
 2
 0
 "{foo}".
@@ -40,12 +50,16 @@
 "{foo->bar}".
 "[foo]".
 "[foo]".
+"]foo[".
+"]foo[".
 "{foo}".
 "{foo}".
 "{foo->bar}".
 "{foo->bar}".
 "[foo]".
 "[foo]".
+"]foo[".
+"]foo[".
 2
 2
 "{haha, hoho, huhu}".
@@ -54,3 +68,5 @@
 "{hui->buh}".
 "[haha, hoho, huhu]".
 "[haha, hoho, huhu]".
+"]haha, hoho, huhu[".
+"]haha, hoho, huhu[".

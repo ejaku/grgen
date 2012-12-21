@@ -2132,6 +2132,28 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 procEnv.EndOfIteration(false, this);
             }
+            else if(Container.GetVariableValue(procEnv) is IDeque)
+            {
+                IDeque deque = (IDeque)Container.GetVariableValue(procEnv);
+                bool first = true;
+                for(int i = 0; i < deque.Count; ++i)
+                {
+                    if(!first) procEnv.EndOfIteration(true, this);
+                    if(VarDst != null)
+                    {
+                        Var.SetVariableValue(i, procEnv);
+                        VarDst.SetVariableValue(deque[i], procEnv);
+                    }
+                    else
+                    {
+                        Var.SetVariableValue(deque[i], procEnv);
+                    }
+                    Seq.ResetExecutionState();
+                    res &= Seq.Apply(procEnv);
+                    first = false;
+                }
+                procEnv.EndOfIteration(false, this);
+            }
             else
             {
                 IDictionary setmap = (IDictionary)Container.GetVariableValue(procEnv);

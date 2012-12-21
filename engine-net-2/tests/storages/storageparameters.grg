@@ -20,7 +20,7 @@ rule remNode(ref st:set<Node>)
 	}
 }
 
-rule addNodeIfOtherNotContained(ref st:set<Node>, nn:NN)
+rule addNodeIfOtherContained(ref st:set<Node>, nn:NN)
 {
 	nnn:NNN;
 	if { nn in st; }
@@ -40,6 +40,7 @@ rule remNodeGiven(ref st:set<Node>, nn:NN)
 		}
 	}
 }
+
 
 rule addNodeEdge(ref st:map<Node, Edge>)
 {
@@ -61,7 +62,7 @@ rule remNodeEdge(ref st:map<Node, Edge>)
 	}
 }
 
-rule addNodeEdgeIfOtherNodeNotContained(ref st:map<Node,Edge>, nn:NN)
+rule addNodeEdgeIfOtherNodeContained(ref st:map<Node,Edge>, nn:NN)
 {
 	nnn:NNN -eee:EEE-> nnn;
 	if { nn in st; }
@@ -82,7 +83,7 @@ rule remNodeEdgeGiven(ref st:map<Node,Edge>, nn:NN)
 	}
 }
 
-rule addNodeEdgeIfOtherNodeEdgeNotContained(ref st:map<Node,Edge>, nn:NN, -ee:EE->)
+rule addNodeEdgeIfOtherNodeEdgeContained(ref st:map<Node,Edge>, nn:NN, -ee:EE->)
 {
 	nnn:NNN -eee:EEE-> nnn;
 	if { st[nn] == ee; }
@@ -93,6 +94,7 @@ rule addNodeEdgeIfOtherNodeEdgeNotContained(ref st:map<Node,Edge>, nn:NN, -ee:EE
 		}
 	}
 }
+
 
 rule addToArray(ref st:array<Node>)
 {
@@ -116,23 +118,76 @@ rule insertAtIndex(ref st:array<Node>, var index:int)
 
 rule remFromArray(ref st:array<Node>)
 {
+	nnn:NNN;
 	modify {
 		eval {
-			st.rem();
+			st.rem(st.indexOf(nnn));
 		}
 	}
 }
 
-rule remAtIndex(ref st:array<Node>, var index:int)
+rule remFromArrayNodeGiven(ref st:array<Node>, nn:NN)
 {
 	modify {
 		eval {
-			st.rem(index);
+			st.rem(st.indexOf(nn));
 		}
 	}
 }
 
-rule addNodeIfOtherNotContainedArray(ref st:array<Node>, nn:NN)
+rule addNodeIfOtherContainedArray(ref st:array<Node>, nn:NN)
+{
+	nnn:NNN;
+	if { nn in st; }
+	
+	modify {
+		eval {
+			st.add(nnn);
+		}
+	}
+}
+
+
+rule addToDeque(ref st:deque<Node>)
+{
+	nn:NN;
+	modify {
+		eval {
+			st.add(nn);
+		}
+	}
+}
+
+rule insertAtIndexDeque(ref st:deque<Node>, var index:int)
+{
+	nn:NN;
+	modify {
+		eval {
+			st.add(nn, index);
+		}
+	}
+}
+
+rule remFromDeque(ref st:deque<Node>)
+{
+	nnn:NNN;
+	modify {
+		eval {
+			st.rem(st.indexOf(nnn));
+		}
+	}
+}
+
+rule remFromDequeNodeGiven(ref st:deque<Node>, nn:NN)
+{
+	modify {
+		eval {
+			st.rem(st.indexOf(nn));
+		}
+	}
+}
+
+rule addNodeIfOtherContainedDeque(ref st:deque<Node>, nn:NN)
 {
 	nnn:NNN;
 	if { nn in st; }

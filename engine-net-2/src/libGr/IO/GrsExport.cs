@@ -80,7 +80,7 @@ namespace de.unika.ipd.grGen.libGr
 
             sw.WriteLine("new graph \"" + modelPathPrefix + graph.Model.ModelName + "\" \"" + graph.Name + "\"");
 
-            bool thereIsNodeOrEdgeValuedSetOrMap = false;
+            bool thereIsANodeOrEdgeValuedContainer = false;
 
             // emit nodes
             int numNodes = 0;
@@ -89,8 +89,8 @@ namespace de.unika.ipd.grGen.libGr
                 sw.Write("new :{0}($ = \"{1}\"", node.Type.Name, graph.GetElementName(node));
                 foreach (AttributeType attrType in node.Type.AttributeTypes)
                 {
-                    if(IsNodeOrEdgeValuedSetOrMapOrArray(attrType)) {
-                        thereIsNodeOrEdgeValuedSetOrMap = true;
+                    if(IsNodeOrEdgeValuedContainer(attrType)) {
+                        thereIsANodeOrEdgeValuedContainer = true;
                         continue;
                     }
 
@@ -116,8 +116,8 @@ namespace de.unika.ipd.grGen.libGr
                         edge.Type.Name, graph.GetElementName(edge));
                     foreach (AttributeType attrType in edge.Type.AttributeTypes)
                     {
-                        if(IsNodeOrEdgeValuedSetOrMapOrArray(attrType)) {
-                            thereIsNodeOrEdgeValuedSetOrMap = true;
+                        if(IsNodeOrEdgeValuedContainer(attrType)) {
+                            thereIsANodeOrEdgeValuedContainer = true;
                             continue;
                         }
 
@@ -135,13 +135,13 @@ namespace de.unika.ipd.grGen.libGr
             sw.WriteLine();
 
             // emit node/edge valued sets/maps/array
-            if(thereIsNodeOrEdgeValuedSetOrMap)
+            if(thereIsANodeOrEdgeValuedContainer)
             {
                 foreach(INode node in graph.Nodes)
                 {
                     foreach(AttributeType attrType in node.Type.AttributeTypes)
                     {
-                        if(!IsNodeOrEdgeValuedSetOrMapOrArray(attrType))
+                        if(!IsNodeOrEdgeValuedContainer(attrType))
                             continue;
 
                         object value = node.GetAttribute(attrType.Name);
@@ -154,7 +154,7 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         foreach(AttributeType attrType in edge.Type.AttributeTypes)
                         {
-                            if(!IsNodeOrEdgeValuedSetOrMapOrArray(attrType))
+                            if(!IsNodeOrEdgeValuedContainer(attrType))
                                 continue;
 
                             object value = edge.GetAttribute(attrType.Name);
@@ -225,6 +225,18 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sw.Write("]");
             }
+            else if(attrType.Kind == AttributeKind.DequeAttr)
+            {
+                IDeque deque = (IDeque)value;
+                sw.Write("{0}]", attrType.GetKindName());
+                bool first = true;
+                foreach(object entry in deque)
+                {
+                    if(first) { sw.Write(ToString(entry, attrType.ValueType, graph)); first = false; }
+                    else { sw.Write("," + ToString(entry, attrType.ValueType, graph)); }
+                }
+                sw.Write("[");
+            }
             else
             {
                 sw.Write("{0}", ToString(value, attrType, graph));
@@ -273,11 +285,12 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public static bool IsNodeOrEdgeValuedSetOrMapOrArray(AttributeType attrType)
+        public static bool IsNodeOrEdgeValuedContainer(AttributeType attrType)
         {
             if(attrType.Kind == AttributeKind.SetAttr
                 || attrType.Kind == AttributeKind.MapAttr
-                || attrType.Kind == AttributeKind.ArrayAttr)
+                || attrType.Kind == AttributeKind.ArrayAttr
+                || attrType.Kind == AttributeKind.DequeAttr)
             {
                 if(attrType.ValueType.Kind == AttributeKind.NodeAttr
                     || attrType.ValueType.Kind == AttributeKind.EdgeAttr)

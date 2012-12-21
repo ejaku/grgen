@@ -457,7 +457,7 @@ namespace de.unika.ipd.grGen.libGr
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            yield return GetEnumerator();
+            return GetEnumerator();
         }
 
         bool ICollection.IsSynchronized

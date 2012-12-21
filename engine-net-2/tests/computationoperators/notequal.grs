@@ -111,6 +111,16 @@ show var r
 exec ::r=({::a2 != ::a2})
 show var r
 
+exec ::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][
+exec ::r=({::d1 != ::d1})
+show var r
+exec ::r=({::d1 != ::d2})
+show var r
+exec ::r=({::d2 != ::d1})
+show var r
+exec ::r=({::d2 != ::d2})
+show var r
+
 exec ::r=({null != null})
 show var r
 

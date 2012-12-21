@@ -1312,12 +1312,12 @@ void ShellCommand():
 			(
 				"," obj2=SimpleConstant() ")" LineEnd()
 				{
-					impl.MapArrayAdd(elem, str1, obj, obj2);
+					impl.IndexedContainerAdd(elem, str1, obj, obj2);
 				}
 			|
 				")" LineEnd()
 				{
-					impl.SetArrayDequeAdd(elem, str1, obj);
+					impl.ContainerAdd(elem, str1, obj);
 				}
 			)
 		|
@@ -1325,12 +1325,12 @@ void ShellCommand():
 			(
 				obj=SimpleConstant() ")" LineEnd()
 				{
-					impl.SetMapArrayDequeRemove(elem, str1, obj);
+					impl.ContainerRemove(elem, str1, obj);
 				}
 			|
 				")" LineEnd()
 				{
-					impl.SetMapArrayDequeRemove(elem, str1, null);
+					impl.ContainerRemove(elem, str1, null);
 				}
 			)
 	    )

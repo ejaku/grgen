@@ -246,6 +246,22 @@ namespace de.unika.ipd.grGen.libGr
                             writer.WriteLine(")");
                         }
                         break;
+                    case AttributeKind.DequeAttr:
+                        if(keyValue == null)
+                        {
+                            writer.Write(".add(");
+                            writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
+                            writer.WriteLine(")");
+                        }
+                        else
+                        {
+                            writer.Write(".add(");
+                            writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
+                            writer.Write(", ");
+                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                            writer.WriteLine(")");
+                        }
+                        break;
                     default:
                          throw new Exception("Wrong attribute type for attribute change type");
                     }
@@ -270,6 +286,12 @@ namespace de.unika.ipd.grGen.libGr
                             writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
                         writer.WriteLine(")");
                         break;
+                    case AttributeKind.DequeAttr:
+                        writer.Write(".rem(");
+                        if(keyValue != null)
+                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                        writer.WriteLine(")");
+                        break;
                     default:
                          throw new Exception("Wrong attribute type for attribute change type");
                     }
@@ -279,6 +301,12 @@ namespace de.unika.ipd.grGen.libGr
                     switch(attrType.Kind)
                     {
                     case AttributeKind.ArrayAttr:
+                        writer.Write("[");
+                        writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                        writer.Write("] = ");
+                        writer.WriteLine(GRSExport.ToString(newValue, attrType.ValueType, graph));
+                        break;
+                    case AttributeKind.DequeAttr:
                         writer.Write("[");
                         writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
                         writer.Write("] = ");

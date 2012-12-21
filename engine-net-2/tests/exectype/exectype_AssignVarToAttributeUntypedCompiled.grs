@@ -11,6 +11,7 @@ x.st
 x.s
 x.m
 x.a
+x.dq
 x.fl
 x.d
 xgrs AssignVarToAttributeUntyped(::x)
@@ -24,6 +25,7 @@ x.st
 x.s
 x.m
 x.a
+x.dq
 x.fl
 x.d
 show var f
@@ -36,6 +38,7 @@ show var st
 show var s
 show var m
 show var a
+show var dq
 show var fl
 show var d
 quit

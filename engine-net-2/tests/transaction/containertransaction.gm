@@ -3,7 +3,9 @@ node class N
 	setVal:set<string> = {"foo"};
 	mapVal:map<string, string> = {"foo"->"bar"};
 	arrayVal:array<string> = ["foo"];
+	dequeVal:deque<string> = ]"foo"[;
 	setVal2:set<string> = {"haha","hoho","huhu"};
 	mapVal2:map<string, string> = {"hui"->"buh"};
 	arrayVal2:array<string> = ["haha","hoho","huhu"];
+	dequeVal2:deque<string> = ]"haha","hoho","huhu"[;
 }

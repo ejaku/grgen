@@ -1,7 +1,8 @@
 new graph "exectype/exectype"
 xgrs xby:byte=3Y && xsh:short=3S && x:int=3 && xl:long=3L && y:string="fool" && z:foo=foo::Bar \
 		&& u:double=3.141592654 && l:float=3.141f && v:boolean=true \
-		&& w:set<int>=set<int>{} && k:map<A,H>=map<A,H>{} && m:array<int>=array<int>[] \
+		&& w:set<int>=set<int>{} && k:map<A,H>=map<A,H>{} \
+		&& m:array<int>=array<int>[] && n:deque<int>=deque<int>][ \
 		&& {emit("value of variable xby 5 6 7 8 9 ")} && {emit(xby)} && {emit("\n")} \
 		&& {emit("value of variable xsh 5 6 7 8 9 ")} && {emit(xsh)} && {emit("\n")} \
 		&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")} \
@@ -13,5 +14,6 @@ xgrs xby:byte=3Y && xsh:short=3S && x:int=3 && xl:long=3L && y:string="fool" && 
 		&& {emit("value of variable v 5 6 7 8 9 ")} && {emit(v)} && {emit("\n")} \
 		&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")} \
 		&& {emit("value of variable k 5 6 7 8 9 ")} && {emit(k)} && {emit("\n")} \
-		&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")}
+		&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")} \
+		&& {emit("value of variable n 5 6 7 8 9 ")} && {emit(n)} && {emit("\n")}
 quit

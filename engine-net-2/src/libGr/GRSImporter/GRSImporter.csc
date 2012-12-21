@@ -265,7 +265,7 @@ PARSER_BEGIN(GRSImporter)
 			}
         }
 
-		private object ParseAttributeValue(AttributeKind attrKind, String valueString) // not set/map/array/enum
+		private object ParseAttributeValue(AttributeKind attrKind, String valueString) // not set/map/array/deque/enum
         {
             object value = null;
             switch(attrKind)
@@ -761,6 +761,11 @@ void SingleAttribute(ArrayList attributes):
 			{ param = new Param(attribName, "array", type.image); }
 			<LBOXBRACKET> ( value=AttributeValue() { param.Values.Add(value); } )? 
 			    (<COMMA> value=AttributeValue() { param.Values.Add(value); })* <RBOXBRACKET>
+			{ attributes.Add(param); }
+		| <DEQUE> <LANGLE> type=<WORD> <RANGLE> 
+			{ param = new Param(attribName, "deque", type.image); }
+			<RBOXBRACKET> ( value=AttributeValue() { param.Values.Add(value); } )? 
+			    (<COMMA> value=AttributeValue() { param.Values.Add(value); })* <LBOXBRACKET>
 			{ attributes.Add(param); }
 		)
 }
