@@ -758,6 +758,11 @@ namespace de.unika.ipd.grGen.libGr
             return a.IndexOf(entry);
         }
 
+        public static int IndexOf(IList a, object entry)
+        {
+            return a.IndexOf(entry);
+        }
+
         /// <summary>
         /// Returns the first position from the end inwards of entry in the array a
         /// </summary>
@@ -769,6 +774,17 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = a.Count-1; i >= 0; --i)
             {
                 if(EqualityComparer<V>.Default.Equals(a[i], entry))
+                    return i;
+            }
+
+            return -1;
+        }
+
+        public static int LastIndexOf(IList a, object entry)
+        {
+            for(int i = a.Count - 1; i >= 0; --i)
+            {
+                if(a[i] == entry)
                     return i;
             }
 
@@ -895,6 +911,11 @@ namespace de.unika.ipd.grGen.libGr
             return a.IndexOf(entry);
         }
 
+        public static int IndexOf(IDeque a, object entry)
+        {
+            return a.IndexOf(entry);
+        }
+
         /// <summary>
         /// Returns the first position from the end inwards of entry in the deque a
         /// </summary>
@@ -902,6 +923,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="entry">The value to search for.</param>
         /// <returns>The first position from the end inwards of entry in the deque a, -1 if entry not in a.</returns>
         public static int LastIndexOf<V>(Deque<V> a, V entry)
+        {
+            return a.LastIndexOf(entry);
+        }
+
+        public static int LastIndexOf(IDeque a, object entry)
         {
             return a.LastIndexOf(entry);
         }
@@ -1962,6 +1988,12 @@ namespace de.unika.ipd.grGen.libGr
                 Type valueType;
                 ContainerHelper.GetListType(element.GetAttribute(AttributeName), out valueType);
                 return ContainerHelper.NewList(valueType, value); // by-value-semantics -> clone array
+            }
+            else if(attrType.Kind == AttributeKind.DequeAttr)
+            {
+                Type valueType;
+                ContainerHelper.GetDequeType(element.GetAttribute(AttributeName), out valueType);
+                return ContainerHelper.NewDeque(valueType, value); // by-value-semantics -> clone deque
             }
             return value;
         }

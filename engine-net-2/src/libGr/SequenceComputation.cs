@@ -341,6 +341,10 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), Expr.Type(env));
                 }
+                if(ExprDst != null && !TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "int", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType(env)), ExprDst.Type(env));
+                }
             }
             else
             {
@@ -381,7 +385,10 @@ namespace de.unika.ipd.grGen.libGr
             else if(container is IDeque)
             {
                 IDeque deque = (IDeque)container;
-                deque.Enqueue(Expr.Evaluate(procEnv));
+                if(ExprDst == null)
+                    deque.Enqueue(Expr.Evaluate(procEnv));
+                else
+                    deque.EnqueueAt((int)ExprDst.Evaluate(procEnv), Expr.Evaluate(procEnv));
                 return deque;
             }
             else
@@ -441,6 +448,10 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(ContainerType(env).StartsWith("deque<"))
             {
+                if(Expr != null && !TypesHelper.IsSameOrSubtype(Expr.Type(env), "int", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "int", Expr.Type(env));
+                }
             }
             else
             {
@@ -475,7 +486,10 @@ namespace de.unika.ipd.grGen.libGr
             else if(container is IDeque)
             {
                 IDeque deque = (IDeque)container;
-                deque.Dequeue();
+                if(Expr == null)
+                    deque.Dequeue();
+                else
+                    deque.DequeueAt((int)Expr.Evaluate(procEnv));
                 return deque;
             }
             else

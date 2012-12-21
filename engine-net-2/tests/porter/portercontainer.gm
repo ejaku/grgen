@@ -45,6 +45,20 @@ node class N3
 	empty:array<FooBar>;
 }
 
+node class N4
+{
+	aby:deque<byte>;
+	ash:deque<short>;
+	a:deque<int>;
+	al:deque<long>;
+	b:deque<string>;
+	c:deque<double>;
+	cf:deque<float>;
+	d:deque<boolean>;
+	e:deque<FooBar>;
+	empty:deque<FooBar>;
+}
+
 ///////////////////////////////////////////
 
 edge class E1
@@ -87,4 +101,18 @@ edge class E3
 	d:array<boolean>;
 	e:array<FooBar>;
 	empty:array<FooBar>;
+}
+
+edge class E4
+{
+	aby:deque<byte>;
+	ash:deque<short>;
+	a:deque<int>;
+	al:deque<long>;
+	b:deque<string>;
+	c:deque<double>;
+	cf:deque<float>;
+	d:deque<boolean>;
+	e:deque<FooBar>;
+	empty:deque<FooBar>;
 }

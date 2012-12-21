@@ -1,10 +1,11 @@
-using setmaparraytransaction;
+using containertransaction;
 
 rule transform1 {
 	a:N;
 	if{ "foo" in a.setVal; }
 	if{ "foo" in a.mapVal; }
 	if{ "foo" in a.arrayVal; }
+	if{ "foo" in a.dequeVal; }
 	
 	modify {
 		eval {
@@ -13,6 +14,7 @@ rule transform1 {
 			a.mapVal = a.mapVal \ { "foo" };
 			a.mapVal = a.mapVal | { "bar"->"foo" };
 			a.arrayVal = a.arrayVal + [ "bar" ];
+			a.dequeVal = a.dequeVal + ] "bar" [;
 		}
 	}
 }
@@ -22,12 +24,14 @@ rule transform2 {
 	if{ "foo" in a.setVal; }
 	if{ "foo" in a.mapVal; }
 	if{ "foo" in a.arrayVal; }
+	if{ "foo" in a.dequeVal; }
 	
 	modify {
 		eval {
 			a.setVal = a.setVal2;
 			a.mapVal = a.mapVal2;
 			a.arrayVal = a.arrayVal2;
+			a.dequeVal = a.dequeVal2;
 		}
 	}
 }

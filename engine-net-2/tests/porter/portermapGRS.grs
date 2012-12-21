@@ -1,4 +1,4 @@
-new graph "porter/portersetmaparray"
+new graph "porter/portercontainer"
 
 xgrs (::n,::e)=createTestGraph2
 
@@ -53,12 +53,12 @@ e.d
 e.e
 e.empty
 
-import porter/testgraphmap.grs porter/portersetmaparray.gm
+import porter/testgraphmap.grs porter/portercontainer.gm
 
 show num nodes only N2
 show num edges only E2
 
-select actions porter/lgsp-portersetmaparrayActions.dll
+select actions porter/lgsp-portercontainerActions.dll
 
 xgrs (::n,::e)=[checkForTestGraph2]
 
