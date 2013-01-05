@@ -6,6 +6,8 @@ using model_init;
 ref ::g_s:string;
 ref ::g_i:int;
 ref ::g_m:map<string,CC>;
+ref ::g_ar:array<Node>;
+ref ::g_de:deque<Node>;
 
 test t
 {
@@ -14,7 +16,9 @@ test t
 	if { ::g_a.f + 1.0 < 2.0; }
 	if { ::g_s + "o" !="Foo"; }
 	if { ::g_i!=42; }
-//	if { ::g_m["Foo"]==::g_a; }
+	if { ::g_m["Foo"]==::g_a; }
+	if { ::g_ar[::g_i]==::g_n; }
+	if { ::g_de[::g_i]==::g_n; }
 }
 
 rule r
@@ -27,7 +31,9 @@ rule r
 		eval { ::g_a.f = 1.0f; }
 		eval { ::g_s = "muh"; }
 		eval { ::g_i = 42; }
-//		eval { ::g_m["foo"] = cc; }
+		eval { ::g_m["foo"] = cc; }
+		eval { ::g_ar[::g_i] = cc; }
+		eval { ::g_de[::g_i] = cc; }
 	}
 }
 
@@ -40,7 +46,9 @@ rule rt
 		eval { ::g_a.f = ::g_a.f + 1.0f; }
 		eval { ::g_s = ::g_s + "muh"; }
 		eval { ::g_i = ::g_i - 42; }
-//		eval { ::g_m["foo"] = cc; }
+		eval { ::g_m["foo"] = cc; }
+		eval { ::g_ar[::g_i] = cc; }
+		eval { ::g_de[::g_i] = ::g_ar[::g_i]; }
 	}
 }
 
@@ -54,19 +62,25 @@ rule re
 		exec ( { ::g_a.f + 1.0 < 2.0 } );
 		exec ( { ::g_s + "o" != "Foo" } );
 		exec ( { ::g_i!=42 } );
-//		exec ( { ::g_m["Foo"]==::g_a } );
+		exec ( { ::g_m["Foo"]==::g_a } );
+		exec ( { ::g_ar[::g_i]==::g_n; } );
+		exec ( { ::g_de[::g_i]==::g_n; } );
 
 		exec ( { ::g_n = cc } );
 		exec ( { ::g_e = ed } );
 		exec ( { ::g_a.f = 1.0f } );
 		exec ( { ::g_s = "muh" } );
 		exec ( { ::g_i = 42 } );
-//		exec ( { ::g_m["foo"] = cc } );
+		exec ( { ::g_m["foo"] = cc } );
+		exec ( { ::g_ar[::g_i] = cc } );
+		exec ( { ::g_de[::g_i] = cc } );
 
 		exec ( { ::g_a.b = ::g_e in incoming(::g_n) } );
 		exec ( { ::g_a.f = ::g_a.f + 1.0 } );
 		exec ( { ::g_s = ::g_s + "muh" } );
 //		exec ( { ::g_i = ::g_i - 42 } );
-//		exec ( { ::g_m["foo"] = cc } );
+		exec ( { ::g_m["foo"] = cc } );
+		exec ( { ::g_ar[::g_i] = cc } );
+		exec ( { ::g_de[::g_i] = ::g_ar[::g_i] } );
 	}
 }

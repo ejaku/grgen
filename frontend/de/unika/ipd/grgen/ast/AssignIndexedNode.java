@@ -26,7 +26,6 @@ import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * AST node representing an indexed assignment.
- * for now array only, MAP TODO: extend to map
  */
 public class AssignIndexedNode extends EvalStatementNode {
 	static {
@@ -160,25 +159,65 @@ public class AssignIndexedNode extends EvalStatementNode {
 		if(lhsQual!=null) targetType = lhsQual.getDecl().getDeclType();
 		if(lhsVar!=null) targetType = lhsVar.getDeclType();
 
+		boolean valueOk = checkValueType(targetType);
+		boolean indexOk = checkIndexType(targetType);
+		
+		return valueOk && indexOk;
+	}
+
+	private boolean checkValueType(TypeNode targetType) {
 		TypeNode valueType;
 		if(targetType instanceof ArrayTypeNode) {
 			valueType = ((ArrayTypeNode)targetType).valueType;
-		}
-		else if (targetType instanceof DequeTypeNode) {
+		} else if (targetType instanceof DequeTypeNode) {
 			valueType = ((DequeTypeNode)targetType).valueType;
-		}
-		else {
-			targetType.reportError("can only do an indexed assignment on an attribute/variable of array/deque type");
+		} else if (targetType instanceof MapTypeNode) {
+			valueType = ((MapTypeNode)targetType).valueType;
+		} else {
+			targetType.reportError("can only do an indexed assignment on an attribute/variable of array/deque/map type");
 			return false;
 		}
 
 		TypeNode exprType = rhs.getType();
-
 		if (exprType.isEqual(valueType))
 			return true;
 
 		rhs = becomeParent(rhs.adjustType(valueType, getCoords()));
 		return rhs != ConstNode.getInvalid();
+	}
+
+	private boolean checkIndexType(TypeNode targetType) {
+		TypeNode keyType;
+		if(targetType instanceof MapTypeNode)
+			keyType = ((MapTypeNode)targetType).keyType;
+		else
+			keyType = IntTypeNode.intType;
+		TypeNode keyExprType = index.getType();
+		
+		if (keyExprType instanceof InheritanceTypeNode) {
+			if(keyExprType.isCompatibleTo(keyType))
+				return true;
+			
+			String givenTypeName;
+			if(keyExprType instanceof InheritanceTypeNode)
+				givenTypeName = ((InheritanceTypeNode) keyExprType).getIdentNode().toString();
+			else
+				givenTypeName = keyExprType.toString();
+			String expectedTypeName;
+			if(keyType instanceof InheritanceTypeNode)
+				expectedTypeName = ((InheritanceTypeNode) keyType).getIdentNode().toString();
+			else
+				expectedTypeName = keyType.toString();
+			reportError("Cannot convert assign index from \""
+					+ givenTypeName + "\" to \"" + expectedTypeName + "\"");
+			return false;
+		} else {
+			if (keyExprType.isEqual(keyType))
+				return true;
+
+			index = becomeParent(index.adjustType(keyType, getCoords()));
+			return index != ConstNode.getInvalid();
+		}
 	}
 
 	/**

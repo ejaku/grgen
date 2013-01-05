@@ -69,34 +69,30 @@ public class IndexedAccessExprNode extends ExprNode
 			keyType = IntTypeNode.intType;
 		TypeNode keyExprType = keyExpr.getType();
 
-		if (keyType instanceof InheritanceTypeNode) {
-			if(!keyExprType.isCompatibleTo(keyType)) {
-				String givenTypeName;
-				if(keyExprType instanceof InheritanceTypeNode)
-					givenTypeName = ((InheritanceTypeNode) keyExprType).getIdentNode().toString();
-				else
-					givenTypeName = keyExprType.toString();
-				String expectedTypeName;
-				if(keyType instanceof InheritanceTypeNode)
-					expectedTypeName = ((InheritanceTypeNode) keyType).getIdentNode().toString();
-				else
-					expectedTypeName = keyType.toString();
-				reportError("Cannot convert map access argument from \""
-						+ givenTypeName + "\" to \"" + expectedTypeName + "\"");
-				return false;
-			}
-		}
-		else {
-			if (!keyExprType.isEqual(keyType)) {
-				keyExpr = becomeParent(keyExpr.adjustType(keyType, getCoords()));
+		if (keyExprType instanceof InheritanceTypeNode) {
+			if(keyExprType.isCompatibleTo(keyType))
+				return true;
+			
+			String givenTypeName;
+			if(keyExprType instanceof InheritanceTypeNode)
+				givenTypeName = ((InheritanceTypeNode) keyExprType).getIdentNode().toString();
+			else
+				givenTypeName = keyExprType.toString();
+			String expectedTypeName;
+			if(keyType instanceof InheritanceTypeNode)
+				expectedTypeName = ((InheritanceTypeNode) keyType).getIdentNode().toString();
+			else
+				expectedTypeName = keyType.toString();
+			reportError("Cannot convert map access argument from \""
+					+ givenTypeName + "\" to \"" + expectedTypeName + "\"");
+			return false;
+		} else {
+			if (keyExprType.isEqual(keyType))
+				return true;
 
-				if (keyExpr == ConstNode.getInvalid()) {
-					return false;
-				}
-			}
+			keyExpr = becomeParent(keyExpr.adjustType(keyType, getCoords()));
+			return keyExpr != ConstNode.getInvalid();
 		}
-
-		return true;
 	}
 
 	@Override

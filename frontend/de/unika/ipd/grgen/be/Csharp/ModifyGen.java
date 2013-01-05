@@ -2048,8 +2048,10 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, assIdx.getIndex(), state);
 				sb.append(";\n");
 
-				sb.append("\t\t\tif(true) {\n");
-
+				sb.append("\t\t\tif(" + indexName + " < ");
+				genExpression(sb, target, state);
+				sb.append(".Count) {\n");
+				
 				sb.append("\t");
 				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);
 
@@ -2106,6 +2108,20 @@ public class ModifyGen extends CSharpBase {
 	private void genAssignmentVar(StringBuffer sb, ModifyGenerationStateConst state, AssignmentVar ass) {
 		Variable target = ass.getTarget();
 		Expression expr = ass.getExpression();
+				
+		Type targetType = target.getType();
+		if(ass instanceof AssignmentVarIndexed) {
+			if(targetType instanceof ArrayType)
+				targetType = ((ArrayType)target.getType()).getValueType();
+			else if(targetType instanceof DequeType)
+				targetType = ((DequeType)target.getType()).getValueType();
+			else // targetType instanceof MapType
+				targetType = ((MapType)target.getType()).getValueType();
+		}
+
+		Type indexType = IntType.getType();
+		if(target.getType() instanceof MapType)
+			indexType = ((MapType)target.getType()).getKeyType();
 
 		sb.append("\t\t\t");
 		if(!Expression.isGlobalVariable(target)) {
@@ -2113,36 +2129,31 @@ public class ModifyGen extends CSharpBase {
 			if(ass instanceof AssignmentVarIndexed) {
 				AssignmentVarIndexed assIdx = (AssignmentVarIndexed)ass;
 				Expression index = assIdx.getIndex();
-				sb.append("[(int)");
+				sb.append("[(" + formatType(indexType) + ") (");
 				genExpression(sb, index, state);
-				sb.append("]");
+				sb.append(")]");
 			}
 			
 			sb.append(" = ");
-			if(target.getType() instanceof EnumType)
-				sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
+			sb.append("(" + formatType(targetType) + ") (");
 			genExpression(sb, expr, state);
-			sb.append(";\n");
+			sb.append(");\n");
 		} else {
 			if(ass instanceof AssignmentVarIndexed) {
 				AssignmentVarIndexed assIdx = (AssignmentVarIndexed)ass;
 				sb.append(formatGlobalVariableRead(target));
 				Expression index = assIdx.getIndex();
-				sb.append("[(int)");
+				sb.append("[(" + formatType(indexType) + ") (");
 				genExpression(sb, index, state);
-				sb.append("]");
+				sb.append(")]");
 				
 				sb.append(" = ");
-				if(target.getType() instanceof EnumType)
-					sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
+				sb.append("(" + formatType(targetType) + ") (");
 				genExpression(sb, expr, state);
-				sb.append(";\n");
+				sb.append(");\n");
 			} else {
 				StringBuffer tmp = new StringBuffer();
-				if(target.getType() instanceof EnumType)
-					tmp.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") (");
-				else
-					tmp.append("(");
+				tmp.append("(" + formatType(targetType) + ") (");
 				genExpression(tmp, expr, state);
 				tmp.append(")");
 				sb.append(formatGlobalVariableWrite(target, tmp.toString()));
