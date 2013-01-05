@@ -33,7 +33,8 @@ public class DequeVarRemoveItem extends EvalStatement {
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		needs.add(target);
+		if(!isGlobalVariable(target))
+			needs.add(target);
 
 		if(getIndexExpr()!=null)
 			getIndexExpr().collectNeededEntities(needs);

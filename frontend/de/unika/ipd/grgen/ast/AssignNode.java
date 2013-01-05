@@ -147,46 +147,46 @@ public class AssignNode extends EvalStatementNode {
 					return false;
 				}
 			}
-		} else {
-			if (lhsGraphElement!=null) {
-				if(lhsGraphElement.defEntityToBeYieldedTo) {
-					IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
-					if(!unresolved.yieldedTo) {
-						error.error(getCoords(), "only yield assignment allowed to a def graph element ("+lhsGraphElement.getIdentNode()+")");
-						return false;
-					}
-					if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
-							&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-						error.error(getCoords(), "can't yield from RHS to a LHS def graph element ("+lhsGraphElement.getIdentNode()+")");
-						return false;
-					}
-				} else {
-					IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
-					if(unresolved.yieldedTo) {
+		} else if (lhsGraphElement!=null) {
+			if(lhsGraphElement.defEntityToBeYieldedTo) {
+				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
+				if(!identExpr.yieldedTo) {
+					error.error(getCoords(), "only yield assignment allowed to a def graph element ("+lhsGraphElement.getIdentNode()+")");
+					return false;
+				}
+				if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
+						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+					error.error(getCoords(), "can't yield from RHS to a LHS def graph element ("+lhsGraphElement.getIdentNode()+")");
+					return false;
+				}
+			} else {
+				if(lhsGraphElement.directlyNestingLHSGraph!=null) {
+					IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
+					if(identExpr.yieldedTo) {
 						error.error(getCoords(), "yield assignment only allowed to a def graph element ("+lhsGraphElement.getIdentNode()+")");
 						return false;
 					}
 					error.error(getCoords(), "only a def graph element can be assigned to ("+lhsGraphElement.getIdentNode()+")");
 					return false;
 				}
-			} else { //lhsVar!=null
-				if(lhsVar.defEntityToBeYieldedTo) {
-					IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
-					if(!unresolved.yieldedTo) {
-						error.error(getCoords(), "only yield assignment allowed to a def variable ("+lhsVar.getIdentNode()+")");
-						return false;
-					}
-					if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
-							&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-						error.error(getCoords(), "can't yield from RHS to a LHS def variable ("+lhsGraphElement.getIdentNode()+")");
-						return false;
-					}
-				} else {
-					IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
-					if(unresolved.yieldedTo) {
-						error.error(getCoords(), "yield assignment only allowed to a def variable ("+lhsVar.getIdentNode()+")");
-						return false;
-					}
+			}
+		} else { //lhsVar!=null
+			if(lhsVar.defEntityToBeYieldedTo) {
+				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
+				if(!identExpr.yieldedTo) {
+					error.error(getCoords(), "only yield assignment allowed to a def variable ("+lhsVar.getIdentNode()+")");
+					return false;
+				}
+				if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
+						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+					error.error(getCoords(), "can't yield from RHS to a LHS def variable ("+lhsGraphElement.getIdentNode()+")");
+					return false;
+				}
+			} else {
+				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
+				if(identExpr.yieldedTo) {
+					error.error(getCoords(), "yield assignment only allowed to a def variable ("+lhsVar.getIdentNode()+")");
+					return false;
 				}
 			}
 		}

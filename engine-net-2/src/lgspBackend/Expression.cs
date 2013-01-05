@@ -1245,6 +1245,33 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing global variable qualification expression
+    /// </summary>
+    public class GlobalVariableQualification : Expression
+    {
+        public GlobalVariableQualification(String ownerType, String owner, String member)
+        {
+            OwnerType = ownerType;
+            Owner = owner;
+            Member = member;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new GlobalVariableQualification(OwnerType, Owner, Member);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFormat("(({0})((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).GetVariableValue(\"{1}\")).@{2}", OwnerType, Owner, Member);
+        }
+
+        String OwnerType;
+        String Owner;
+        String Member;
+    }
+
+    /// <summary>
     /// Class representing typeof expression
     /// </summary>
     public class Typeof : Expression
@@ -1296,6 +1323,31 @@ namespace de.unika.ipd.grGen.expression
 
         public String Entity;
         public String MatchEntity;
+    }
+
+    /// <summary>
+    /// Class representing global variable expression
+    /// </summary>
+    public class GlobalVariableExpression : Expression
+    {
+        public GlobalVariableExpression(String name, String type)
+        {
+            GlobalVariableName = name;
+            Type = type;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new GlobalVariableExpression(GlobalVariableName, Type);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFormat("(({0})((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).GetVariableValue(\"{1}\"))", Type, GlobalVariableName);
+        }
+
+        public String GlobalVariableName;
+        public String Type;
     }
 
     /// <summary>
@@ -2656,7 +2708,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Outgoing : Expression
     {
-        public Outgoing(String node, String incidentEdgeType, String adjacentNodeType)
+        public Outgoing(Expression node, String incidentEdgeType, String adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -2665,19 +2717,20 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Outgoing(Node + renameSuffix, IncidentEdgeType, AdjacentNodeType);
+            return new Outgoing(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Outgoing("
-                + NamesOfEntities.CandidateVariable(Node) + ", "
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Outgoing((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
                 + IncidentEdgeType + ", "
                 + AdjacentNodeType
                 + ")");
         }
 
-        String Node;
+        Expression Node;
         String IncidentEdgeType;
         String AdjacentNodeType;
     }
@@ -2687,7 +2740,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Incoming : Expression
     {
-        public Incoming(String node, String incidentEdgeType, String adjacentNodeType)
+        public Incoming(Expression node, String incidentEdgeType, String adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -2696,19 +2749,20 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Incoming(Node + renameSuffix, IncidentEdgeType, AdjacentNodeType);
+            return new Incoming(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incoming("
-                + NamesOfEntities.CandidateVariable(Node) + ", "
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incoming((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
                 + IncidentEdgeType + ", "
                 + AdjacentNodeType
                 + ")");
         }
 
-        String Node;
+        Expression Node;
         String IncidentEdgeType;
         String AdjacentNodeType;
     }

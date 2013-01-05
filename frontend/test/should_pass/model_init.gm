@@ -8,6 +8,7 @@ node class A {
 	i2 : int = i1 * (int)f;
 	f = 42.815f;
 	i2 = i1 * (int)f;
+	b : boolean = true;
 }
 
 node class B extends A {

@@ -1,0 +1,72 @@
+using model_init;
+
+::g_n:Node;
+-::g_e:Edge->;
+::g_a:A;
+ref ::g_s:string;
+ref ::g_i:int;
+ref ::g_m:map<string,CC>;
+
+test t
+{
+//	if { incident(::g_n).size()!=0; }
+	if { ::g_e in incoming(::g_n); }
+	if { ::g_a.f + 1.0 < 2.0; }
+	if { ::g_s + "o" !="Foo"; }
+	if { ::g_i!=42; }
+//	if { ::g_m["Foo"]==::g_a; }
+}
+
+rule r
+{
+	cc:CC -ed:Edge->;
+
+	modify {
+		eval { ::g_n = cc; }
+		eval { ::g_e = ed; }
+		eval { ::g_a.f = 1.0f; }
+		eval { ::g_s = "muh"; }
+		eval { ::g_i = 42; }
+//		eval { ::g_m["foo"] = cc; }
+	}
+}
+
+rule rt
+{
+	cc:CC -ed:Edge->;
+
+	modify {
+//		eval { ::g_a.b = ::g_e in incoming(::g_n); }
+		eval { ::g_a.f = ::g_a.f + 1.0f; }
+		eval { ::g_s = ::g_s + "muh"; }
+		eval { ::g_i = ::g_i - 42; }
+//		eval { ::g_m["foo"] = cc; }
+	}
+}
+
+rule re
+{
+	cc:CC -ed:Edge->;
+
+	modify {
+//		exec ( { incident(::g_n).size()!=0 } );
+		exec ( { ::g_e in incoming(::g_n) } );
+		exec ( { ::g_a.f + 1.0 < 2.0 } );
+		exec ( { ::g_s + "o" != "Foo" } );
+		exec ( { ::g_i!=42 } );
+//		exec ( { ::g_m["Foo"]==::g_a } );
+
+		exec ( { ::g_n = cc } );
+		exec ( { ::g_e = ed } );
+		exec ( { ::g_a.f = 1.0f } );
+		exec ( { ::g_s = "muh" } );
+		exec ( { ::g_i = 42 } );
+//		exec ( { ::g_m["foo"] = cc } );
+
+		exec ( { ::g_a.b = ::g_e in incoming(::g_n) } );
+		exec ( { ::g_a.f = ::g_a.f + 1.0 } );
+		exec ( { ::g_s = ::g_s + "muh" } );
+//		exec ( { ::g_i = ::g_i - 42 } );
+//		exec ( { ::g_m["foo"] = cc } );
+	}
+}

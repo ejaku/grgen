@@ -30,7 +30,8 @@ public class Nameof extends Expression {
 		if(entity==null)
 			return;
 		else
-			needs.add((GraphEntity) entity);
+			if(!isGlobalVariable(entity))
+				needs.add((GraphEntity) entity);
 	}
 }
 

@@ -1951,7 +1951,7 @@ public class ModifyGen extends CSharpBase {
 			genChangingAttribute(sb, state, target, "Assign", varName , "null");
 
 			sb.append("\t\t\t");
-			genExpression(sb, target, state);
+			genExpression(sb, target, state); // global var case handled by genQualAccess
 			sb.append(" = " + varName + ";\n");
 
 			return;
@@ -2048,15 +2048,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, assIdx.getIndex(), state);
 				sb.append(";\n");
 
-				sb.append("\t\t\tif(" + indexName + " < ");
-				genExpression(sb, target, state);
-				sb.append(".Count) {\n");
+				sb.append("\t\t\tif(true) {\n");
 
 				sb.append("\t");
 				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);
 
 				sb.append("\t\t\t\t");
-				genExpression(sb, target, state);
+				genExpression(sb, target, state); // global var case handled by genQualAccess
 				sb.append("[");
 				sb.append(indexName);
 				sb.append("]");
@@ -2078,7 +2076,7 @@ public class ModifyGen extends CSharpBase {
 				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);
 				
 				sb.append("\t\t\t\t");
-				genExpression(sb, target, state);
+				genExpression(sb, target, state); // global var case handled by genQualAccess
 				sb.append("[");
 				sb.append(indexName);
 				sb.append("]");
@@ -2096,7 +2094,7 @@ public class ModifyGen extends CSharpBase {
 			genChangingAttribute(sb, state, target, "Assign", varName, "null");
 	
 			sb.append("\t\t\t");
-			genExpression(sb, target, state);
+			genExpression(sb, target, state); // global var case handled by genQualAccess
 			
 			sb.append(" = ");
 			if(targetType instanceof EnumType)
@@ -2110,19 +2108,47 @@ public class ModifyGen extends CSharpBase {
 		Expression expr = ass.getExpression();
 
 		sb.append("\t\t\t");
-		sb.append("var_" + target.getIdent());
-		if(ass instanceof AssignmentVarIndexed) {
-			AssignmentVarIndexed assIdx = (AssignmentVarIndexed)ass;
-			Expression index = assIdx.getIndex();
-			sb.append("[(int)");
-			genExpression(sb, index, state);
-			sb.append("]");
+		if(!Expression.isGlobalVariable(target)) {
+			sb.append("var_" + target.getIdent());
+			if(ass instanceof AssignmentVarIndexed) {
+				AssignmentVarIndexed assIdx = (AssignmentVarIndexed)ass;
+				Expression index = assIdx.getIndex();
+				sb.append("[(int)");
+				genExpression(sb, index, state);
+				sb.append("]");
+			}
+			
+			sb.append(" = ");
+			if(target.getType() instanceof EnumType)
+				sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
+			genExpression(sb, expr, state);
+			sb.append(";\n");
+		} else {
+			if(ass instanceof AssignmentVarIndexed) {
+				AssignmentVarIndexed assIdx = (AssignmentVarIndexed)ass;
+				sb.append(formatGlobalVariableRead(target));
+				Expression index = assIdx.getIndex();
+				sb.append("[(int)");
+				genExpression(sb, index, state);
+				sb.append("]");
+				
+				sb.append(" = ");
+				if(target.getType() instanceof EnumType)
+					sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
+				genExpression(sb, expr, state);
+				sb.append(";\n");
+			} else {
+				StringBuffer tmp = new StringBuffer();
+				if(target.getType() instanceof EnumType)
+					tmp.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") (");
+				else
+					tmp.append("(");
+				genExpression(tmp, expr, state);
+				tmp.append(")");
+				sb.append(formatGlobalVariableWrite(target, tmp.toString()));
+				sb.append(";\n");
+			}			
 		}
-		sb.append(" = ");
-		if(target.getType() instanceof EnumType)
-			sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
-		genExpression(sb, expr, state);
-		sb.append(";\n");
 	}
 
 	private void genAssignmentGraphEntity(StringBuffer sb, ModifyGenerationStateConst state, AssignmentGraphEntity ass) {
@@ -2130,10 +2156,17 @@ public class ModifyGen extends CSharpBase {
 		Expression expr = ass.getExpression();
 
 		sb.append("\t\t\t");
-		sb.append(formatEntity(target));
-		sb.append(" = ");
-		genExpression(sb, expr, state);
-		sb.append(";\n");
+		if(!Expression.isGlobalVariable(target)) {
+			sb.append(formatEntity(target));
+			sb.append(" = ");
+			genExpression(sb, expr, state);
+			sb.append(";\n");
+		} else {
+			StringBuffer tmp = new StringBuffer();
+			genExpression(tmp, expr, state);
+			sb.append(formatGlobalVariableWrite(target, tmp.toString()));
+			sb.append(";\n");
+		}
 	}
 
 	private void genAssignmentVisited(StringBuffer sb, ModifyGenerationStateConst state, AssignmentVisited ass) {
@@ -2877,12 +2910,21 @@ public class ModifyGen extends CSharpBase {
 		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
 
 		if(!isDeletedElem && be.system.mayFireEvents()) {
-			sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" +
-					formatEntity(element) +	", " +
-					formatTypeClassRef(elementType) + "." +
-					formatAttributeTypeName(attribute) + ", " +
-					"GRGEN_LIBGR.AttributeChangeType." + attributeChangeType + ", " +
-					newValue + ", " + keyValue + ");\n");
+			if(!Expression.isGlobalVariable(element)) {
+				sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" +
+						formatEntity(element) +	", " +
+						formatTypeClassRef(elementType) + "." +
+						formatAttributeTypeName(attribute) + ", " +
+						"GRGEN_LIBGR.AttributeChangeType." + attributeChangeType + ", " +
+						newValue + ", " + keyValue + ");\n");
+			} else {
+				sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" +
+						formatGlobalVariableRead(element) + ", " +
+						formatTypeClassRef(elementType) + "." +
+						formatAttributeTypeName(attribute) + ", " +
+						"GRGEN_LIBGR.AttributeChangeType." + attributeChangeType + ", " +
+						newValue + ", " + keyValue + ");\n");
+			}
 		}
 	}
 
@@ -2968,20 +3010,24 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	protected void genQualAccess(StringBuffer sb, ModifyGenerationStateConst state, Entity owner, Entity member) {
-		if(state==null) {
-			assert false;
-			sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
-			return;
-		}
-
-		if(accessViaVariable(state, (GraphEntity) owner, member)) {
-			sb.append("tempvar_" + formatEntity(owner) + "_" + formatIdentifiable(member));
-		}
-		else {
-			if(state.accessViaInterface().contains(owner))
-				sb.append("i");
-
-			sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
+		if(!Expression.isGlobalVariable(owner)) {
+			if(state==null) {
+				assert false;
+				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
+				return;
+			}
+	
+			if(accessViaVariable(state, (GraphEntity) owner, member)) {
+				sb.append("tempvar_" + formatEntity(owner) + "_" + formatIdentifiable(member));
+			} else {
+				if(state.accessViaInterface().contains(owner))
+					sb.append("i");
+	
+				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
+			}
+		} else {
+			sb.append(formatGlobalVariableRead(owner));
+			sb.append(".@" + formatIdentifiable(member));
 		}
 	}
 

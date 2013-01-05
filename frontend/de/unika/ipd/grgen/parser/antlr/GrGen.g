@@ -210,6 +210,8 @@ textActions returns [ UnitNode main = null ]
 		)
 	| usingDecl[modelChilds]
 	)?
+	
+	( globalVarDecl )*
 
 	( patternOrActionOrSequenceDecls[patternChilds, actionChilds, sequenceChilds] )? EOF
 		{
@@ -253,12 +255,55 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 		SEMI // don't move before the semantic action, this would cause a following include to be processed before the using of the model
 	;
 
+globalVarDecl 
+	: DOUBLECOLON id=entIdentDecl COLON type=typeIdentUse SEMI
+		{
+			id.setDecl(new NodeDeclNode(id, type, false, 0, TypeExprNode.getEmpty(), null));
+		}
+	| MINUS DOUBLECOLON id=entIdentDecl COLON type=typeIdentUse (RARROW | MINUS) SEMI
+		{
+			id.setDecl(new EdgeDeclNode(id, type, false, 0, TypeExprNode.getEmpty(), null));
+		}
+	| ref=IDENT DOUBLECOLON id=entIdentDecl COLON 
+		{
+			if(!ref.getText().equals("ref"))
+				{ reportError(getCoords(ref), "ref keyword needed before (non-node/edge) global variable"); }
+		}
+		(
+			type=typeIdentUse
+			{
+				id.setDecl(new VarDeclNode(id, type, null, 0));
+			}
+		|
+			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				id.setDecl(new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), null, 0));
+			}
+		|
+			SET LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				id.setDecl(new VarDeclNode(id, SetTypeNode.getSetType(keyType), null, 0));
+			}
+		|
+			ARRAY LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				id.setDecl(new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), null, 0));
+			}
+		|
+			DEQUE LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				id.setDecl(new VarDeclNode(id, DequeTypeNode.getDequeType(keyType), null, 0));
+			}
+		)
+		SEMI
+	;
+
 patternOrActionOrSequenceDecls[ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> sequenceChilds ]
 	@init{ mod = 0; }
 
 	: ( mod=patternModifiers patternOrActionOrSequenceDecl[patternChilds, actionChilds, sequenceChilds, mod] )+
 	;
-
+	
 patternModifiers returns [ int res = 0 ]
 	: ( m=patternModifier[ res ]  { res = m; } )*
 	;
@@ -2695,7 +2740,7 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 
 	
 assignmentOrMethodCall [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
-options { k = 4; }
+options { k = 5; }
 	@init{
 		int cat = -1; // compound assign type
 		int ccat = CompoundAssignNode.NONE; // changed compound assign type
@@ -2704,32 +2749,32 @@ options { k = 4; }
 		boolean yielded = false;
 	}
 
-	: owner=entIdentUse	d=DOT member=entIdentUse a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
+	: (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, context); }
 		{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
 	|
-	  (y=YIELD { yielded = true; })? variable=entIdentUse a=ASSIGN e=expr[false]
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse a=ASSIGN e=expr[false]
 		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context); }
 	|
 	  vis=visited a=ASSIGN e=expr[false]
 		{ res = new AssignVisitedNode(getCoords(a), vis, e); }
 		{ if(onLHS) reportError(getCoords(a), "Assignment to a visited flag is forbidden in LHS eval."); }
 	| 
-	  owner=entIdentUse	d=DOT member=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
+	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx); }
 		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in LHS eval, only yield indexed assignment to a def variable allowed."); }
 	|
-	  (y=YIELD { yielded = true; })? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false]
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false]
 		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx); }
 	| 
-	  owner=entIdentUse d=DOT member=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
+	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
 		{ res = new MethodCallNode(new QualIdentNode(getCoords(d), owner, member), method, params); }
 		{ if(onLHS) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed."); }
 	|
-	  (y=YIELD { yielded = true; })? variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
 		{ res = new MethodCallNode(new IdentExprNode(variable, yielded), method, params); }
 	| 
-	  owner=entIdentUse d=DOT member=entIdentUse 
+	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
 			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
@@ -2737,7 +2782,7 @@ options { k = 4; }
 			{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
 	|
-	  (y=YIELD { yielded = true; })? variable=entIdentUse 
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
 			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
@@ -2914,6 +2959,7 @@ options { k = 3; }
 	| e=randomExpr { res = e; }
 	| e=nameOf { res = e; }
 	| e=identExpr { res = e; }
+	| e=globalsAccessExpr { res = e; }
 	| e=constant { res = e; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
@@ -3025,7 +3071,7 @@ globalsAccessExpr returns [ ExprNode res = env.initExprNode() ]
 	: DOUBLECOLON i=IDENT
 		{
 			id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			res = new GlobalsAccessExprNode(id);
+			res = new IdentExprNode(id);
 		}
 	;
 
