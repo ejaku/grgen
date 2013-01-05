@@ -181,9 +181,16 @@ namespace de.unika.ipd.grGen.libGr
 
             if(TypesHelper.ExtractSrc(DestVar.Type) == null || TypesHelper.ExtractDst(DestVar.Type) == null || TypesHelper.ExtractDst(DestVar.Type) == "SetValueType")
             {
-                throw new SequenceParserException(Symbol, "map<S,T> or array<T>", DestVar.Type);
+                throw new SequenceParserException(Symbol, "map<S,T> or array<T> or deque<T>", DestVar.Type);
             }
             if(DestVar.Type.StartsWith("array"))
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), "int", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "int", KeyExpression.Type(env));
+                }
+            }
+            else if(DestVar.Type.StartsWith("deque"))
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), "int", env.Model))
                 {
@@ -201,10 +208,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Type(SequenceCheckingEnvironment env)
         {
-            if(DestVar.Type.StartsWith("array"))
-                return TypesHelper.ExtractSrc(DestVar.Type);
+            if(DestVar.Type.StartsWith("map"))
+                return TypesHelper.ExtractDst(DestVar.Type) ?? "";
             else
-                return TypesHelper.ExtractDst(DestVar.Type);
+                return TypesHelper.ExtractSrc(DestVar.Type) ?? "";
         }
 
         internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -223,11 +230,17 @@ namespace de.unika.ipd.grGen.libGr
                 int key = (int)KeyExpression.Evaluate(procEnv);
                 array[key] = value;
             }
+            else if(DestVar.GetVariableValue(procEnv) is IDeque)
+            {
+                IDeque deque = (IDeque)DestVar.GetVariableValue(procEnv);
+                int key = (int)KeyExpression.Evaluate(procEnv);
+                deque[key] = value;
+            }
             else
             {
-                IDictionary setmap = (IDictionary)DestVar.GetVariableValue(procEnv);
+                IDictionary map = (IDictionary)DestVar.GetVariableValue(procEnv);
                 object key = KeyExpression.Evaluate(procEnv);
-                setmap[key] = value;
+                map[key] = value;
             }
         }
 

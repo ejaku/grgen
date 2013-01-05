@@ -1973,7 +1973,6 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("if(" + GetVar(tgtIndexedVar.DestVar) + " is IList) {\n");
                         source.Indent();
 
-                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source));
                         string array = "((System.Collections.IList)" + GetVar(tgtIndexedVar.DestVar) + ")";
                         if(!TypesHelper.IsSameOrSubtype(tgtIndexedVar.KeyExpression.Type(env), "int", model))
                         {
@@ -1983,6 +1982,7 @@ namespace de.unika.ipd.grGen.lgsp
                         }
                         else
                         {
+                            source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
                             source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
                             source.Indent();
                             source.AppendFront(array + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
@@ -1994,7 +1994,6 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("} else if(" + GetVar(tgtIndexedVar.DestVar) + " is GRGEN_LIBGR.IDeque) {\n");
                         source.Indent();
 
-                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source));
                         string deque = "((GRGEN_LIBGR.IDeque)" + GetVar(tgtIndexedVar.DestVar) + ")";
                         if(!TypesHelper.IsSameOrSubtype(tgtIndexedVar.KeyExpression.Type(env), "int", model))
                         {
@@ -2004,6 +2003,7 @@ namespace de.unika.ipd.grGen.lgsp
                         }
                         else
                         {
+                            source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
                             source.AppendFront("if(" + deque + ".Count > " + indexValue + ") {\n");
                             source.Indent();
                             source.AppendFront(deque + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
@@ -2015,7 +2015,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("} else {\n");
                         source.Indent();
 
-                        source.AppendFront("object " + indexValue + " = " + GetSequenceExpression(tgtIndexedVar.KeyExpression, source));
+                        source.AppendFront("object " + indexValue + " = " + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
                         string dictionary = "((System.Collections.IDictionary)" + GetVar(tgtIndexedVar.DestVar) + ")";
                         source.AppendFront("if(" + dictionary + ".Contains(" + indexValue + ")) {\n");
                         source.Indent();
