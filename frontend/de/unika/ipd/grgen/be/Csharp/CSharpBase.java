@@ -740,11 +740,19 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof VariableExpression) {
 			Variable var = ((VariableExpression) expr).getVariable();
-			sb.append("var_" + var.getIdent());
+			if(!Expression.isGlobalVariable(var)) {
+				sb.append("var_" + var.getIdent());
+			} else {
+				sb.append(formatGlobalVariableRead(var));
+			}
 		}
 		else if(expr instanceof GraphEntityExpression) {
 			GraphEntity ent = ((GraphEntityExpression) expr).getGraphEntity();
-			sb.append(formatEntity(ent));
+			if(!Expression.isGlobalVariable(ent)) {
+				sb.append(formatEntity(ent));
+			} else {
+				sb.append(formatGlobalVariableRead(ent));
+			}
 		}
 		else if(expr instanceof Visited) {
 			Visited vis = (Visited) expr;
@@ -1138,8 +1146,17 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ce = (IncidentEdgeExpr) expr;
-			sb.append("GRGEN_LIBGR.GraphHelper."+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
-				+ formatEntity(ce.getNode())+", "
+			if(ce.isOutgoing()) {
+				sb.append("GRGEN_LIBGR.GraphHelper.Outgoing(");
+			} else {
+				sb.append("GRGEN_LIBGR.GraphHelper.Incoming(");
+			}
+			if(!Expression.isGlobalVariable(ce.getNode())) {
+				sb.append(formatEntity(ce.getNode())); 
+			} else {
+				sb.append(formatGlobalVariableRead(ce.getNode()));
+			}
+			sb.append(", "
 				+ formatTypeClassRef(ce.getIncidentEdgeType()) + ".typeVar, "
 				+ formatTypeClassRef(ce.getAdjacentNodeType()) + ".typeVar"
 				+ ")");
@@ -1169,6 +1186,16 @@ public abstract class CSharpBase {
 			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
+	}
+
+	protected String formatGlobalVariableRead(Entity globalVar)
+	{
+		return "((" + formatType(globalVar.getType()) + ")((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).GetVariableValue(\"" + formatIdentifiable(globalVar) + "\"))";
+	}
+
+	protected String formatGlobalVariableWrite(Entity globalVar, String value)
+	{
+		return "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).SetVariableValue(\"" + formatIdentifiable(globalVar) + "\", (" + formatType(globalVar.getType()) + ")(" + value + "))";
 	}
 
 	protected String getValueAsCSSharpString(Constant constant)

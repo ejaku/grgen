@@ -1640,8 +1640,13 @@ public class ActionsGen extends CSharpBase {
 			Qualification qual = (Qualification) expr;
 			Entity owner = qual.getOwner();
 			Entity member = qual.getMember();
-			sb.append("new GRGEN_EXPR.Qualification(\"" + formatElementInterfaceRef(owner.getType())
-				+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
+			if(!Expression.isGlobalVariable(owner)) {
+				sb.append("new GRGEN_EXPR.Qualification(\"" + formatElementInterfaceRef(owner.getType())
+					+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableQualification(\"" + formatType(owner.getType())
+						+ "\", \"" + formatIdentifiable(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
+			}
 		}
 		else if(expr instanceof EnumExpression) {
 			EnumExpression enumExp = (EnumExpression) expr;
@@ -1684,11 +1689,19 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(expr instanceof VariableExpression) {
 			Variable var = ((VariableExpression) expr).getVariable();
-			sb.append("new GRGEN_EXPR.VariableExpression(\"" + formatEntity(var, pathPrefix, alreadyDefinedEntityToName) + "\")");
+			if(!Expression.isGlobalVariable(var)) {
+				sb.append("new GRGEN_EXPR.VariableExpression(\"" + formatEntity(var, pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(var) + "\", \"" + formatType(var.getType()) + "\")");
+			}
 		}
 		else if(expr instanceof GraphEntityExpression) {
 			GraphEntity ent = ((GraphEntityExpression) expr).getGraphEntity();
-			sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(ent, pathPrefix, alreadyDefinedEntityToName) + "\")");
+			if(!Expression.isGlobalVariable(ent)) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(ent, pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(ent) + "\", \"" + formatType(ent.getType()) + "\")");
+			}
 		}
 		else if(expr instanceof Visited) {
 			Visited vis = (Visited) expr;
@@ -1998,8 +2011,17 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ce = (IncidentEdgeExpr) expr;
-			sb.append("new GRGEN_EXPR."+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
-					+ "\""+formatEntity(ce.getNode(), pathPrefix, alreadyDefinedEntityToName)+"\", "
+			if(ce.isOutgoing()) {
+				sb.append("new GRGEN_EXPR.Outgoing(");
+			} else {
+				sb.append("new GRGEN_EXPR.Incoming(");
+			}
+			if(!Expression.isGlobalVariable(ce.getNode())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(ce.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(ce.getNode()) + "\", \"" + formatType(ce.getNode().getType()) + "\")");
+			}
+			sb.append(", "
 					+ "\""+formatTypeClassRef(ce.getIncidentEdgeType()) + ".typeVar\", "
 					+ "\""+formatTypeClassRef(ce.getAdjacentNodeType()) + ".typeVar\""
 					+ ")");

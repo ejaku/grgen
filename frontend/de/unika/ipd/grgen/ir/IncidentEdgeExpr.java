@@ -45,7 +45,8 @@ public class IncidentEdgeExpr extends Expression {
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		needs.add(node);
+		if(!isGlobalVariable(node))
+			needs.add(node);
 	}
 }
 

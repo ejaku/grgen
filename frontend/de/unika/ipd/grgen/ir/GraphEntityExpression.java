@@ -28,7 +28,8 @@ public class GraphEntityExpression extends Expression {
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
-		needs.add(graphEntity);
+		if(!isGlobalVariable(graphEntity))
+			needs.add(graphEntity);
 	}
 
 	public boolean equals(Object other) {

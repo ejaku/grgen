@@ -18,6 +18,8 @@ import java.awt.Color;
 
 import de.unika.ipd.grgen.ir.Entity;
 
+// TODO: things would be simpler if node/edge/var would be distinguished only by its type, not its declaration node?
+
 /**
  * Base class for all AST nodes representing declarations.
  * children: IDENT:IdentNode TYPE:
