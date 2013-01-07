@@ -22,6 +22,7 @@ namespace de.unika.ipd.grGen.libGr
         YieldingToVar,
         IndexedVar,
         Attribute,
+        AttributeIndexedVar,
         Visited
     }
 
@@ -224,23 +225,26 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Assign(object value, IGraphProcessingEnvironment procEnv)
         {
-            if(DestVar.GetVariableValue(procEnv) is IList)
+            object container = DestVar.GetVariableValue(procEnv);
+            object key = KeyExpression.Evaluate(procEnv);
+
+            if(container is IList)
             {
-                IList array = (IList)DestVar.GetVariableValue(procEnv);
-                int key = (int)KeyExpression.Evaluate(procEnv);
-                array[key] = value;
+                IList array = (IList)container;
+                if(array.Count > (int)key)
+                    array[(int)key] = value;
             }
-            else if(DestVar.GetVariableValue(procEnv) is IDeque)
+            else if(container is IDeque)
             {
-                IDeque deque = (IDeque)DestVar.GetVariableValue(procEnv);
-                int key = (int)KeyExpression.Evaluate(procEnv);
-                deque[key] = value;
+                IDeque deque = (IDeque)container;
+                if(deque.Count > (int)key)
+                    deque[(int)key] = value;
             }
             else
             {
-                IDictionary map = (IDictionary)DestVar.GetVariableValue(procEnv);
-                object key = KeyExpression.Evaluate(procEnv);
-                map[key] = value;
+                IDictionary map = (IDictionary)container;
+                if(map.Contains(key))
+                    map[key] = value;
             }
         }
 
@@ -323,6 +327,131 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol { get { return DestVar.Name + "." + AttributeName; } }
         public override IEnumerable<SequenceComputation> Children { get { yield break; } }
+    }
+
+    public class AssignmentTargetAttributeIndexedVar : AssignmentTarget
+    {
+        public SequenceVariable DestVar;
+        public String AttributeName;
+        public SequenceExpression KeyExpression;
+
+        public AssignmentTargetAttributeIndexedVar(SequenceVariable destVar, String attributeName, SequenceExpression keyExpr)
+            : base(AssignmentTargetType.AttributeIndexedVar)
+        {
+            DestVar = destVar;
+            AttributeName = attributeName;
+            KeyExpression = keyExpr;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+
+            if(DestVar.Type == "")
+                return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
+            if(nodeOrEdgeType == null)
+            {
+                throw new SequenceParserException(Symbol, "node or edge type", DestVar.Type);
+            }
+            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            if(attributeType == null)
+            {
+                throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
+            }
+
+            string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
+            if(TypesHelper.ExtractSrc(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == "SetValueType")
+            {
+                throw new SequenceParserException(Symbol, "map<S,T> or array<T> or deque<T>", DestVar.Type);
+            }
+            if(ContainerType.StartsWith("array"))
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), "int", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "int", KeyExpression.Type(env));
+                }
+            }
+            else if(ContainerType.StartsWith("deque"))
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), "int", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "int", KeyExpression.Type(env));
+                }
+            }
+            else
+            {
+                if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
+                {
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), KeyExpression.Type(env));
+                }
+            }
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            if(DestVar.Type == "")
+                return "";
+
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
+            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            if(attributeType == null)
+                return ""; // error, will be reported by Check, just ensure we don't crash here
+
+            string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
+
+            if(DestVar.Type.StartsWith("map"))
+                return TypesHelper.ExtractDst(DestVar.Type) ?? "";
+            else
+                return TypesHelper.ExtractSrc(DestVar.Type) ?? "";
+        }
+
+        internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            AssignmentTargetAttributeIndexedVar copy = (AssignmentTargetAttributeIndexedVar)MemberwiseClone();
+            copy.DestVar = DestVar.Copy(originalToCopy, procEnv);
+            copy.KeyExpression = KeyExpression.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override void Assign(object value, IGraphProcessingEnvironment procEnv)
+        {
+            IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(procEnv);
+            object container = elem.GetAttribute(AttributeName);
+            object key = KeyExpression.Evaluate(procEnv);
+
+            AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
+            AttributeChangeType changeType = AttributeChangeType.AssignElement;
+            if(elem is INode)
+                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, key);
+            else
+                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, key);
+
+            if(container is IList)
+            {
+                IList array = (IList)container;
+                array[(int)key] = value;
+            }
+            else if(container is IDeque)
+            {
+                IDeque deque = (IDeque)container;
+                deque[(int)key] = value;
+            }
+            else
+            {
+                IDictionary map = (IDictionary)container;
+                map[key] = value;
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            DestVar.GetLocalVariables(variables);
+        }
+
+        public override string Symbol { get { return DestVar.Name + "." + AttributeName + "[" + KeyExpression.Symbol + "]"; } }
+        public override IEnumerable<SequenceComputation> Children { get { yield return KeyExpression; } }
     }
 
     public class AssignmentTargetVisited : AssignmentTarget

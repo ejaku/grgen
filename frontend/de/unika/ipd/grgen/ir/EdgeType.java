@@ -87,4 +87,9 @@ public class EdgeType extends InheritanceType {
 		}
 		sb.append(']');
 	}
+	
+	/** @see de.unika.ipd.grgen.ir.Type#classify() */
+	public int classify() {
+		return IS_EDGE;
+	}
 }

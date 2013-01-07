@@ -59,6 +59,8 @@ public abstract class Type extends Identifiable {
 	public static final int IS_EXTERNAL_TYPE = 16;
 	public static final int IS_GRAPH = 17;
 	public static final int IS_MATCH = 18;
+	public static final int IS_NODE = 19;
+	public static final int IS_EDGE = 20;
 
 	/**
 	 * Make a new type.

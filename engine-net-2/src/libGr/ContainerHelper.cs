@@ -1969,8 +1969,8 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// If the attribute of the given name of the given element is a set or map or array attribute
-        /// then return a clone of the given dictionary or list value, otherwise just return the original value;
+        /// If the attribute of the given name of the given element is a container attribute
+        /// then return a clone of the given container value, otherwise just return the original value;
         /// additionally returns the AttributeType of the attribute of the element.
         /// </summary>
         public static object IfAttributeOfElementIsContainerThenCloneContainer(
@@ -1999,8 +1999,8 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// If the attribute of the given name of the given element is a set or map or array attribute
-        /// then return a clone of the given dictionary or list value, otherwise just return the original value
+        /// If the attribute of the given name of the given element is a conatiner attribute
+        /// then return a clone of the given container value, otherwise just return the original value
         /// </summary>
         public static object IfAttributeOfElementIsContainerThenCloneContainer(
                 IGraphElement element, String AttributeName, object value)

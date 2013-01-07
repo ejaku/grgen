@@ -1965,15 +1965,18 @@ namespace de.unika.ipd.grGen.lgsp
                 case AssignmentTargetType.IndexedVar:
                 {
                     AssignmentTargetIndexedVar tgtIndexedVar = (AssignmentTargetIndexedVar)tgt;
-                    source.AppendFront(SetResultVar(tgtIndexedVar, GetVar(tgtIndexedVar.DestVar))); // container is a reference, so we can assign it already here before the changes
-                    string indexValue = "index_" + tgtIndexedVar.Id;
+                    string container = "container_" + tgtIndexedVar.Id;
+                    source.AppendFront("object " + container + " = " + GetVar(tgtIndexedVar.DestVar) + ";\n");
+                    string key = "key_" + tgtIndexedVar.Id;
+                    source.AppendFront("object " + key + " = " + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
+                    source.AppendFront(SetResultVar(tgtIndexedVar, container)); // container is a reference, so we can assign it already here before the changes
 
                     if(tgtIndexedVar.DestVar.Type == "")
                     {
-                        source.AppendFront("if(" + GetVar(tgtIndexedVar.DestVar) + " is IList) {\n");
+                        source.AppendFront("if(" + container + " is IList) {\n");
                         source.Indent();
 
-                        string array = "((System.Collections.IList)" + GetVar(tgtIndexedVar.DestVar) + ")";
+                        string array = "((System.Collections.IList)" + container + ")";
                         if(!TypesHelper.IsSameOrSubtype(tgtIndexedVar.KeyExpression.Type(env), "int", model))
                         {
                             source.AppendFront("if(true) {\n");
@@ -1982,31 +1985,29 @@ namespace de.unika.ipd.grGen.lgsp
                         }
                         else
                         {
-                            source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
-                            source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
+                            source.AppendFront("if(" + array + ".Count > (int)" + key + ") {\n");
                             source.Indent();
-                            source.AppendFront(array + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
+                            source.AppendFront(array + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
                         }
                         source.Unindent();
                         source.AppendFront("}\n");
 
                         source.Unindent();
-                        source.AppendFront("} else if(" + GetVar(tgtIndexedVar.DestVar) + " is GRGEN_LIBGR.IDeque) {\n");
+                        source.AppendFront("} else if(" + container + " is GRGEN_LIBGR.IDeque) {\n");
                         source.Indent();
 
-                        string deque = "((GRGEN_LIBGR.IDeque)" + GetVar(tgtIndexedVar.DestVar) + ")";
+                        string deque = "((GRGEN_LIBGR.IDeque)" + container + ")";
                         if(!TypesHelper.IsSameOrSubtype(tgtIndexedVar.KeyExpression.Type(env), "int", model))
                         {
                             source.AppendFront("if(true) {\n");
                             source.Indent();
-                            source.AppendFront("throw new Exception(\"Can't access non-int index in array\");\n");
+                            source.AppendFront("throw new Exception(\"Can't access non-int index in deque\");\n");
                         }
                         else
                         {
-                            source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
-                            source.AppendFront("if(" + deque + ".Count > " + indexValue + ") {\n");
+                            source.AppendFront("if(" + deque + ".Count > (int)" + key + ") {\n");
                             source.Indent();
-                            source.AppendFront(deque + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
+                            source.AppendFront(deque + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
                         }
                         source.Unindent();
                         source.AppendFront("}\n");
@@ -2015,11 +2016,10 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("} else {\n");
                         source.Indent();
 
-                        source.AppendFront("object " + indexValue + " = " + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
-                        string dictionary = "((System.Collections.IDictionary)" + GetVar(tgtIndexedVar.DestVar) + ")";
-                        source.AppendFront("if(" + dictionary + ".Contains(" + indexValue + ")) {\n");
+                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        source.AppendFront("if(" + dictionary + ".Contains(" + key + ")) {\n");
                         source.Indent();
-                        source.AppendFront(dictionary + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
+                        source.AppendFront(dictionary + "[" + key + "] = " + sourceValueComputation + ";\n");
                         source.Unindent();
                         source.AppendFront("}\n");
 
@@ -2029,20 +2029,18 @@ namespace de.unika.ipd.grGen.lgsp
                     else if(tgtIndexedVar.DestVar.Type.StartsWith("array"))
                     {
                         string array = GetVar(tgtIndexedVar.DestVar);
-                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
-                        source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
+                        source.AppendFront("if(" + array + ".Count > (int)" + key + ") {\n");
                         source.Indent();
-                        source.AppendFront(array + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
+                        source.AppendFront(array + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
                         source.Unindent();
                         source.AppendFront("}\n");
                     }
                     else if(tgtIndexedVar.DestVar.Type.StartsWith("deque"))
                     {
                         string deque = GetVar(tgtIndexedVar.DestVar);
-                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
-                        source.AppendFront("if(" + deque + ".Count > " + indexValue + ") {\n");
+                        source.AppendFront("if(" + deque + ".Count > (int)" + key + ") {\n");
                         source.Indent();
-                        source.AppendFront(deque + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
+                        source.AppendFront(deque + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
                         source.Unindent();
                         source.AppendFront("}\n");
                     }
@@ -2050,10 +2048,9 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         string dictionary = GetVar(tgtIndexedVar.DestVar);
                         string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(tgtIndexedVar.DestVar.Type), model);
-                        source.AppendFront(dictSrcType + " " + indexValue + " = (" + dictSrcType + ")" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
-                        source.AppendFront("if(" + dictionary + ".ContainsKey(" + indexValue + ")) {\n");
+                        source.AppendFront("if(" + dictionary + ".ContainsKey((" + dictSrcType + ")" + key + ")) {\n");
                         source.Indent();
-                        source.AppendFront(dictionary + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
+                        source.AppendFront(dictionary + "[(" + dictSrcType + ")" + key + "] = " + sourceValueComputation + ";\n");
                         source.Unindent();
                         source.AppendFront("}\n");
                     }
@@ -2082,6 +2079,118 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + tgtAttr.Id + ", attrType_" + tgtAttr.Id + ", changeType_" + tgtAttr.Id + ", value_" + tgtAttr.Id + ", null);\n");
                     source.AppendFront("elem_" + tgtAttr.Id + ".SetAttribute(\"" + tgtAttr.AttributeName + "\", value_" + tgtAttr.Id + ");\n");
                     source.AppendFront(SetResultVar(tgtAttr, "value_" + tgtAttr.Id));
+                    break;
+                }
+
+                case AssignmentTargetType.AttributeIndexedVar:
+                {
+                    AssignmentTargetAttributeIndexedVar tgtAttrIndexedVar = (AssignmentTargetAttributeIndexedVar)tgt;
+                    string value = "value_" + tgtAttrIndexedVar.Id;
+                    source.AppendFront("object " + value + " = " + sourceValueComputation + ";\n");
+                    source.AppendFront(SetResultVar(tgtAttrIndexedVar, "value_" + tgtAttrIndexedVar.Id));
+                    source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + tgtAttrIndexedVar.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(tgtAttrIndexedVar.DestVar) + ";\n");
+                    string container = "container_" + tgtAttrIndexedVar.Id;
+                    source.AppendFront("object " + container + " = elem_" + tgtAttrIndexedVar.Id + ".GetAttribute(\"" + tgtAttrIndexedVar.AttributeName + "\");\n");
+                    string key = "key_" + tgtAttrIndexedVar.Id;
+                    source.AppendFront("object " + key + " = " + GetSequenceExpression(tgtAttrIndexedVar.KeyExpression, source) + ";\n");
+
+                    source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + tgtAttrIndexedVar.Id + " = elem_" + tgtAttrIndexedVar.Id + ".Type.GetAttributeType(\"" + tgtAttrIndexedVar.AttributeName + "\");\n");
+                    source.AppendFront("GRGEN_LIBGR.AttributeChangeType changeType_" + tgtAttrIndexedVar.Id + " = GRGEN_LIBGR.AttributeChangeType.AssignElement;\n");
+                    source.AppendFront("if(elem_" + tgtAttrIndexedVar.Id + " is GRGEN_LIBGR.INode)\n");
+                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + tgtAttrIndexedVar.Id + ", attrType_" + tgtAttrIndexedVar.Id + ", changeType_" + tgtAttrIndexedVar.Id + ", " + value + ", " + key + ");\n");
+                    source.AppendFront("else\n");
+                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + tgtAttrIndexedVar.Id + ", attrType_" + tgtAttrIndexedVar.Id + ", changeType_" + tgtAttrIndexedVar.Id + ", " + value + ", " + key + ");\n");
+
+                    if(tgtAttrIndexedVar.DestVar.Type == "")
+                    {
+                        source.AppendFront("if(" + container + " is IList) {\n");
+                        source.Indent();
+
+                        string array = "((System.Collections.IList)" + container + ")";
+                        if(!TypesHelper.IsSameOrSubtype(tgtAttrIndexedVar.KeyExpression.Type(env), "int", model))
+                        {
+                            source.AppendFront("if(true) {\n");
+                            source.Indent();
+                            source.AppendFront("throw new Exception(\"Can't access non-int index in array\");\n");
+                        }
+                        else
+                        {
+                            source.AppendFront("if(" + array + ".Count > (int)" + key + ") {\n");
+                            source.Indent();
+                            source.AppendFront(array + "[(int)" + key + "] = " + value + ";\n");
+                        }
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("} else if(" + container + " is GRGEN_LIBGR.IDeque) {\n");
+                        source.Indent();
+
+                        string deque = "((GRGEN_LIBGR.IDeque)" + container + ")";
+                        if(!TypesHelper.IsSameOrSubtype(tgtAttrIndexedVar.KeyExpression.Type(env), "int", model))
+                        {
+                            source.AppendFront("if(true) {\n");
+                            source.Indent();
+                            source.AppendFront("throw new Exception(\"Can't access non-int index in deque\");\n");
+                        }
+                        else
+                        {
+                            source.AppendFront("if(" + deque + ".Count > (int)" + key + ") {\n");
+                            source.Indent();
+                            source.AppendFront(deque + "[(int)" + key + "] = " + value + ";\n");
+                        }
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("} else {\n");
+                        source.Indent();
+
+                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        source.AppendFront("if(" + dictionary + ".Contains(" + key + ")) {\n");
+                        source.Indent();
+                        source.AppendFront(dictionary + "[" + key + "] = " + value + ";\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    else
+                    {
+                        GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(tgtAttrIndexedVar.DestVar.Type, env.Model);
+                        AttributeType attributeType = nodeOrEdgeType.GetAttributeType(tgtAttrIndexedVar.AttributeName);
+                        string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
+
+                        if(ContainerType.StartsWith("array"))
+                        {
+                            string array = GetVar(tgtAttrIndexedVar.DestVar);
+                            source.AppendFront("if(" + array + ".Count > (int)" + key + ") {\n");
+                            source.Indent();
+                            source.AppendFront(array + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                        }
+                        else if(ContainerType.StartsWith("deque"))
+                        {
+                            string deque = GetVar(tgtAttrIndexedVar.DestVar);
+                            source.AppendFront("if(" + deque + ".Count > (int)" + key + ") {\n");
+                            source.Indent();
+                            source.AppendFront(deque + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                        }
+                        else
+                        {
+                            string dictionary = GetVar(tgtAttrIndexedVar.DestVar);
+                            string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(tgtAttrIndexedVar.DestVar.Type), model);
+                            source.AppendFront("if(" + dictionary + ".ContainsKey((" + dictSrcType + ")" + key + ")) {\n");
+                            source.Indent();
+                            source.AppendFront(dictionary + "[(" + dictSrcType + ")" + key + "] = " + value + ";\n");
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                        }
+                    }
                     break;
                 }
 
@@ -2335,6 +2444,22 @@ namespace de.unika.ipd.grGen.lgsp
                             + leftType + ", " + rightType + ", graph)";
                 }
 
+                case SequenceExpressionType.Minus:
+                {
+                    SequenceExpressionMinus seq = (SequenceExpressionMinus)expr;
+                    string leftExpr = GetSequenceExpression(seq.Left, source);
+                    string rightExpr = GetSequenceExpression(seq.Right, source);
+                    string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
+                    string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
+                    if(seq.BalancedTypeStatic != "")
+                        return SequenceExpressionHelper.MinusStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic);
+                    else
+                        return "GRGEN_LIBGR.SequenceExpressionHelper.MinusObjects("
+                            + leftExpr + ", " + rightExpr + ", "
+                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Minus, " + leftType + ", " + rightType + ", graph.Model),"
+                            + leftType + ", " + rightType + ", graph)";
+                }
+
                 case SequenceExpressionType.Not:
                 {
                     SequenceExpressionNot seqNot = (SequenceExpressionNot)expr;
@@ -2382,19 +2507,19 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("object " + containerVar + " = null;\n");
                         sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
 
-                        string array = "((System.Collections.IList)" + container + ")";
+                        string array = "((System.Collections.IList)" + containerVar + ")";
                         sb.AppendFront(array + ".Contains(" + sourceExpr + ")");
 
                         sb.AppendFront(" : ");
 
                         sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
 
-                        string deque = "((GRGEN_LIBGR.IDeque)" + container + ")";
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
                         sb.AppendFront(deque + ".Contains(" + sourceExpr + ")");
 
                         sb.AppendFront(" : ");
 
-                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         sb.AppendFront(dictionary + ".Contains(" + sourceExpr + ")");
 
                         sb.AppendFront(")");
@@ -2543,19 +2668,19 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("object " + containerVar + " = null;\n");
                         sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
 
-                        string array = "((System.Collections.IList)" + container + ")";
+                        string array = "((System.Collections.IList)" + containerVar + ")";
                         sb.AppendFront(array + ".Count");
 
                         sb.AppendFront(" : ");
 
                         sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
 
-                        string deque = "((GRGEN_LIBGR.IDeque)" + container + ")";
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
                         sb.AppendFront(deque + ".Count");
 
                         sb.AppendFront(" : ");
 
-                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         sb.AppendFront(dictionary + ".Count");
 
                         sb.AppendFront(")");
@@ -2595,21 +2720,21 @@ namespace de.unika.ipd.grGen.lgsp
 
                         string containerVar = "tmp_eval_once_" + seqContainerEmpty.Id;
                         source.AppendFront("object " + containerVar + " = null;\n");
-                        sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? "); 
+                        sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
 
-                        string array = "((System.Collections.IList)" + container + ")";
+                        string array = "((System.Collections.IList)" + containerVar + ")";
                         sb.AppendFront(array + ".Count==0");
 
                         sb.AppendFront(" : ");
 
                         sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
 
-                        string deque = "((GRGEN_LIBGR.IDeque)" + container + ")";
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
                         sb.AppendFront(deque + ".Count==0");
 
                         sb.AppendFront(" : ");
 
-                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         sb.AppendFront(dictionary + ".Count==0");
 
                         sb.AppendFront(")");
@@ -2647,7 +2772,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("object " + containerVar + " = null;\n");
                         sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
 
-                        string array = "((System.Collections.IList)" + container + ")";
+                        string array = "((System.Collections.IList)" + containerVar + ")";
                         if(!TypesHelper.IsSameOrSubtype(seqContainerAccess.KeyExpr.Type(env), "int", model))
                         {
                             sb.AppendFront(array + "[-1]");
@@ -2661,7 +2786,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                         sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
 
-                        string deque = "((GRGEN_LIBGR.IDeque)" + container + ")";
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
                         if(!TypesHelper.IsSameOrSubtype(seqContainerAccess.KeyExpr.Type(env), "int", model))
                         {
                             sb.AppendFront(deque + "[-1]");
@@ -2673,7 +2798,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                         sb.AppendFront(" : ");
 
-                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         sb.AppendFront(dictionary + "[" + sourceExpr + "]");
 
                         sb.AppendFront(")");
@@ -2741,6 +2866,82 @@ namespace de.unika.ipd.grGen.lgsp
                     string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqAttr.SourceVar) + ")";
                     string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
                     return "GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(" + element + ", \"" + seqAttr.AttributeName + "\", " + value + ")";
+                }
+
+                case SequenceExpressionType.GraphElementAttributeContainerAccess:
+                {
+                    SequenceExpressionAttributeContainerAccess seqAttrContainer = (SequenceExpressionAttributeContainerAccess)expr;
+                    string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqAttrContainer.SourceVar) + ")";
+                    string container = element + ".GetAttribute(\"" + seqAttrContainer.AttributeName + "\")";
+
+                    if(seqAttrContainer.SourceVar.Type == "")
+                    {
+                        SourceBuilder sb = new SourceBuilder();
+
+                        string sourceExpr = GetSequenceExpression(seqAttrContainer.KeyExpr, source);
+                        string containerVar = "tmp_eval_once_" + seqAttrContainer.Id;
+                        source.AppendFront("object " + containerVar + " = null;\n");
+                        sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
+
+                        string array = "((System.Collections.IList)" + containerVar + ")";
+                        if(!TypesHelper.IsSameOrSubtype(seqAttrContainer.KeyExpr.Type(env), "int", model))
+                        {
+                            sb.AppendFront(array + "[-1]");
+                        }
+                        else
+                        {
+                            sb.AppendFront(array + "[(int)" + sourceExpr + "]");
+                        }
+
+                        sb.AppendFront(" : ");
+
+                        sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
+
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
+                        if(!TypesHelper.IsSameOrSubtype(seqAttrContainer.KeyExpr.Type(env), "int", model))
+                        {
+                            sb.AppendFront(deque + "[-1]");
+                        }
+                        else
+                        {
+                            sb.AppendFront(deque + "[(int)" + sourceExpr + "]");
+                        }
+
+                        sb.AppendFront(" : ");
+
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
+                        sb.AppendFront(dictionary + "[" + sourceExpr + "]");
+
+                        sb.AppendFront(")");
+
+                        return sb.ToString();
+                    }
+                    else
+                    {
+                        GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(seqAttrContainer.SourceVar.Type, env.Model);
+                        AttributeType attributeType = nodeOrEdgeType.GetAttributeType(seqAttrContainer.AttributeName);
+                        string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
+
+                        if(ContainerType.StartsWith("array"))
+                        {
+                            string array = container;
+                            string sourceExpr = "((int)" + GetSequenceExpression(seqAttrContainer.KeyExpr, source) + ")";
+                            return array + "[" + sourceExpr + "]";
+                        }
+                        else if(ContainerType.StartsWith("deque"))
+                        {
+                            string deque = container;
+                            string sourceExpr = "((int)" + GetSequenceExpression(seqAttrContainer.KeyExpr, source) + ")";
+                            return deque + "[" + sourceExpr + "]";
+                        }
+                        else
+                        {
+                            string dictionary = container;
+                            string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(ContainerType), model);
+                            string sourceExpr = "((" + dictSrcType + ")" + GetSequenceExpression(seqAttrContainer.KeyExpr, source) + ")";
+                            return dictionary + "[" + sourceExpr + "]";
+                        }
+                    }
                 }
 
                 case SequenceExpressionType.ElementOfMatch:

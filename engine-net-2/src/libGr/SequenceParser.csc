@@ -1130,6 +1130,7 @@ AssignmentTarget AssignmentTarget():
 |
 	LOOKAHEAD(VariableUse() "." Word())
 	toVar=VariableUse() "." attrName=Word()
+	( "[" fromExpr=Expression() "]" { return new AssignmentTargetAttributeIndexedVar(toVar, attrName, fromExpr); } )? // todo: this should be a composition of the two targets, not a fixed special one
     {
         return new AssignmentTargetAttribute(toVar, attrName);
     }
@@ -1255,7 +1256,10 @@ SequenceExpression ExpressionAdd():
 	SequenceExpression seq, seq2;
 }
 {
-	seq=ExpressionUnary() ( "+" seq2=ExpressionUnary() { seq = new SequenceExpressionPlus(seq, seq2); } )* { return seq; }
+	seq=ExpressionUnary() ( "+" seq2=ExpressionUnary() { seq = new SequenceExpressionPlus(seq, seq2); } 
+						  | "-" seq2=ExpressionUnary() { seq = new SequenceExpressionMinus(seq, seq2); }
+						  )*
+	{ return seq; }
 }
 
 SequenceExpression ExpressionUnary():
@@ -1297,6 +1301,7 @@ SequenceExpression ExpressionBasic():
 |
 	LOOKAHEAD(VariableUse() ".")
 	fromVar=VariableUse() "." attrName=Word()
+	( "[" expr=Expression() "]" { return new SequenceExpressionAttributeContainerAccess(fromVar, attrName, expr); } )? // todo: this should be a composition of the two expressions, not a fixed special one
 	{
 		if(fromVar.Type.StartsWith("match<"))
 			return new SequenceExpressionMatchAccess(fromVar, attrName);

@@ -2768,6 +2768,134 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the incident edges of a node (as set)
+    /// </summary>
+    public class Incident : Expression
+    {
+        public Incident(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Incident(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incident((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the adjacent nodes of a node (as set) reachable via outgoing edges
+    /// </summary>
+    public class AdjacentOutgoing : Expression
+    {
+        public AdjacentOutgoing(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new AdjacentOutgoing(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.AdjacentOutgoing((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the adjacent nodes of a node (as set) reachable via incoming edges
+    /// </summary>
+    public class AdjacentIncoming : Expression
+    {
+        public AdjacentIncoming(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new AdjacentIncoming(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.AdjacentIncoming((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the adjacent nodes of a node (as set) reachable via incident edges
+    /// </summary>
+    public class Adjacent : Expression
+    {
+        public Adjacent(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Adjacent(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Adjacent((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
     /// Class representing the max operator.
     /// </summary>
     public class Max : BinFuncOperator

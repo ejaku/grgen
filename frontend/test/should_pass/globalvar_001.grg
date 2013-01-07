@@ -11,7 +11,7 @@ ref ::g_de:deque<Node>;
 
 test t
 {
-//	if { incident(::g_n).size()!=0; }
+	if { incident(::g_n).size()!=0; }
 	if { ::g_e in incoming(::g_n); }
 	if { ::g_a.f + 1.0 < 2.0; }
 	if { ::g_s + "o" !="Foo"; }
@@ -19,6 +19,10 @@ test t
 	if { ::g_m["Foo"]==::g_a; }
 	if { ::g_ar[::g_i]==::g_n; }
 	if { ::g_de[::g_i]==::g_n; }
+	if { ::g_m["Foo"]==::g_a.m["Foo"]; }
+//	if { ::g_m["Foo"].i1==::g_m["Foo"].i2; } not implemented yet, maybe never will be
+	if { ::g_ar[::g_i]==::g_a.ar[::g_i]; }
+	if { ::g_de[::g_i]==::g_a.de[::g_i]; }
 }
 
 rule r
@@ -34,6 +38,10 @@ rule r
 		eval { ::g_m["foo"] = cc; }
 		eval { ::g_ar[::g_i] = cc; }
 		eval { ::g_de[::g_i] = cc; }
+		eval { ::g_a.m["Foo"] = cc; }
+//		eval { ::g_m["Foo"].i1 = 42; } not supported, implementing it is not a high-prio goal, the rules should allow to change containers, but elements referenced from containers in an eval is quite unimportant
+		eval { ::g_a.ar[::g_i] = cc; }
+		eval { ::g_a.de[::g_i] = cc; }
 	}
 }
 
@@ -42,13 +50,20 @@ rule rt
 	cc:CC -ed:Edge->;
 
 	modify {
-//		eval { ::g_a.b = ::g_e in incoming(::g_n); }
+		eval { ::g_a.b = ::g_e in incoming(::g_n); }
 		eval { ::g_a.f = ::g_a.f + 1.0f; }
 		eval { ::g_s = ::g_s + "muh"; }
 		eval { ::g_i = ::g_i - 42; }
 		eval { ::g_m["foo"] = cc; }
 		eval { ::g_ar[::g_i] = cc; }
 		eval { ::g_de[::g_i] = ::g_ar[::g_i]; }
+		eval { ::g_m["Foo"] = ::g_a.m["Foo"]; }
+		eval { ::g_ar[::g_i] = ::g_a.ar[::g_i]; }
+		eval { ::g_de[::g_i] = ::g_a.de[::g_i]; }
+		eval { ::g_a.m["Foo"] = ::g_m["Foo"]; }
+//		eval { ::g_m["Foo"].i1 = ::g_m["Foo"].i2; } not supported
+		eval { ::g_a.ar[::g_i] = ::g_ar[::g_i]; }
+		eval { ::g_a.de[::g_i] = ::g_de[::g_i]; }
 	}
 }
 
@@ -57,14 +72,18 @@ rule re
 	cc:CC -ed:Edge->;
 
 	modify {
-//		exec ( { incident(::g_n).size()!=0 } );
+//		exec ( { incident(::g_n).size()!=0 } ); function calls can't be nested yet in the sequences
 		exec ( { ::g_e in incoming(::g_n) } );
 		exec ( { ::g_a.f + 1.0 < 2.0 } );
 		exec ( { ::g_s + "o" != "Foo" } );
 		exec ( { ::g_i!=42 } );
 		exec ( { ::g_m["Foo"]==::g_a } );
-		exec ( { ::g_ar[::g_i]==::g_n; } );
-		exec ( { ::g_de[::g_i]==::g_n; } );
+		exec ( { ::g_ar[::g_i]==::g_n } );
+		exec ( { ::g_de[::g_i]==::g_n } );
+		exec ( { ::g_m["Foo"]==::g_a.m["Foo"] } );
+//		exec ( { ::g_m["Foo"].i1==::g_m["Foo"].i2 } ); not supported
+		exec ( { ::g_ar[::g_i]==::g_a.ar[::g_i] } );
+		exec ( { ::g_de[::g_i]==::g_a.de[::g_i] } );
 
 		exec ( { ::g_n = cc } );
 		exec ( { ::g_e = ed } );
@@ -74,13 +93,24 @@ rule re
 		exec ( { ::g_m["foo"] = cc } );
 		exec ( { ::g_ar[::g_i] = cc } );
 		exec ( { ::g_de[::g_i] = cc } );
+		exec ( { ::g_a.m["Foo"] = cc } );
+//		exec ( { ::g_m["Foo"].i1 = 42 } ); not supported
+		exec ( { ::g_a.ar[::g_i] = cc } );
+		exec ( { ::g_a.de[::g_i] = cc } );
 
 		exec ( { ::g_a.b = ::g_e in incoming(::g_n) } );
 		exec ( { ::g_a.f = ::g_a.f + 1.0 } );
 		exec ( { ::g_s = ::g_s + "muh" } );
-//		exec ( { ::g_i = ::g_i - 42 } );
+		exec ( { ::g_i = ::g_i - 42 } );
 		exec ( { ::g_m["foo"] = cc } );
 		exec ( { ::g_ar[::g_i] = cc } );
 		exec ( { ::g_de[::g_i] = ::g_ar[::g_i] } );
+		exec ( { ::g_m["Foo"] = ::g_a.m["Foo"] } );
+		exec ( { ::g_ar[::g_i] = ::g_a.ar[::g_i] } );
+		exec ( { ::g_de[::g_i] = ::g_a.de[::g_i] } );
+		exec ( { ::g_a.m["Foo"] = ::g_m["Foo"] } );
+//		exec ( { ::g_m["Foo"].i1 = ::g_m["Foo"].i2 } ); not supported
+		exec ( { ::g_a.ar[::g_i] = ::g_ar[::g_i] } );
+		exec ( { ::g_a.de[::g_i] = ::g_de[::g_i] } );
 	}
 }
