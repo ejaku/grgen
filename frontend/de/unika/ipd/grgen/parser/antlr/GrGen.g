@@ -1722,6 +1722,7 @@ seqAssignTarget[ExecNode xg]
 	: YIELD { xg.append("yield "); } xgrsVarUse[xg] 
 	| (xgrsVarUse[null] DOT VISITED) => xgrsVarUse[xg] DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); } 
 	| (xgrsVarUse[null] DOT IDENT ) => xgrsVarUse[xg] d=DOT attr=IDENT { xg.append("."+attr.getText()); }
+		(LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); })?
 	| (xgrsVarUse[null] LBRACK) => xgrsVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
 	| xgrsEntity[xg]
 	;
@@ -1787,7 +1788,7 @@ seqExprRelation[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	;
 
 seqExprAdd[ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprUnary[xg] { res=exp; } ( t=PLUS {xg.append(" + ");} exp2=seqExprAdd[xg]  { res = makeBinOp(t, exp, exp2); })?
+	: exp=seqExprUnary[xg] { res=exp; } ( (t=PLUS {xg.append(" + ");} | t=MINUS {xg.append(" - ");}) exp2=seqExprAdd[xg]  { res = makeBinOp(t, exp, exp2); })?
 	;
 
 seqExprUnary[ExecNode xg] returns[ExprNode res = env.initExprNode()]
@@ -1818,8 +1819,10 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 		{ xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); }
 	| (xgrsVarUse[null] DOT IDENT) => target=xgrsVarUse[xg] d=DOT attr=memberIdentUse 
 		{ xg.append("."+attr.getSymbol().getText()); res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
-	| (xgrsVarUse[null] LBRACK) => target=xgrsVarUse[xg] l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK 
-		{ xg.append("]"); res = new IndexedAccessExprNode(getCoords(l), new IdentExprNode((IdentNode)target), key); }
+		(l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
+			{ res = new IndexedAccessExprNode(getCoords(l), res, key); })?
+	| (xgrsVarUse[null] LBRACK) => target=xgrsVarUse[xg] l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
+		{ res = new IndexedAccessExprNode(getCoords(l), new IdentExprNode((IdentNode)target), key); }
 	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
 	| (functionCall[null]) => functionCall[xg]
 	| RANDOM LPAREN { xg.append("random"); xg.append("("); } ( fromExpr=seqExpression[xg] )? RPAREN { xg.append(")"); }
@@ -3087,8 +3090,9 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: id=extFuncIdentUse params=paramExprs[inEnumInit]
 		{
-			if((id.toString()=="min" || id.toString()=="max" || id.toString()=="pow") && params.getChildren().size()==2
-				|| (id.toString()=="incoming" || id.toString()=="outgoing") && params.getChildren().size()>=1 && params.getChildren().size()<=3) {
+			if((id.toString().equals("min") || id.toString().equals("max") || id.toString().equals("pow")) && params.getChildren().size()==2
+				|| (id.toString().equals("incoming") || id.toString().equals("outgoing") || id.toString().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+				|| (id.toString().equals("adjacentIncoming") || id.toString().equals("adjacentOutgoing") || id.toString().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3) {
 				res = new FunctionInvocationExprNode(id, params, env);
 			} else {
 				res = new ExternalFunctionInvocationExprNode(id, params);

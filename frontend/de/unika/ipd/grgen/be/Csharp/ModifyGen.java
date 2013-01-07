@@ -2025,6 +2025,16 @@ public class ModifyGen extends CSharpBase {
 				varType = defined.contains(targetType.getIdent().toString()) ? "" : "GRGEN_MODEL."+targetType.getIdent()+" ";
 				defined.add(targetType.getIdent().toString());
 				break;
+			case Type.IS_NODE:
+				varName = "tempvar_node";
+				varType = defined.contains("node") ? "" : "GRGEN_LIBGR.INode ";
+				defined.add("node");
+				break;
+			case Type.IS_EDGE:
+				varName = "tempvar_edge";
+				varType = defined.contains("edge") ? "" : "GRGEN_LIBGR.IEdge ";
+				defined.add("edge");
+				break;
 			default:
 				throw new IllegalArgumentException();
 		}
@@ -2061,18 +2071,19 @@ public class ModifyGen extends CSharpBase {
 				sb.append(indexName);
 				sb.append("]");
 			} else { //if(target.getType() instanceof MapType)
-				String indexType = defined.contains("index"+targetType.getIdent().toString()) ? "" : ("GRGEN_MODEL."+targetType.getIdent()+" ");
-				defined.add("index"+targetType.getIdent().toString());
-				String indexName = "tempvar_index_"+targetType.getIdent().toString();
+				String keyType = ((MapType)target.getType()).getKeyType().getIdent().toString();
+				String indexType = defined.contains("index"+keyType) ? "" : (formatType(((MapType)target.getType()).getKeyType()) + " ");
+				defined.add("index"+keyType);
+				String indexName = "tempvar_index_"+keyType;
 				sb.append("\t\t\t" + indexType + indexName + " = ");
 				genExpression(sb, assIdx.getIndex(), state);
 				sb.append(";\n");
 
 				sb.append("\t\t\tif(");
 				genExpression(sb, target, state);
-				sb.append(".Contains(");
+				sb.append(".ContainsKey(");
 				sb.append(indexName);
-				sb.append(") {\n");
+				sb.append(")) {\n");
 
 				sb.append("\t");
 				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);

@@ -2010,20 +2010,41 @@ public class ActionsGen extends CSharpBase {
 			sb.append(")");
 		}
 		else if (expr instanceof IncidentEdgeExpr) {
-			IncidentEdgeExpr ce = (IncidentEdgeExpr) expr;
-			if(ce.isOutgoing()) {
+			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
+			if(ie.Direction()==IncidentEdgeExpr.OUTGOING) {
 				sb.append("new GRGEN_EXPR.Outgoing(");
-			} else {
+			} else if(ie.Direction()==IncidentEdgeExpr.INCOMING) {
 				sb.append("new GRGEN_EXPR.Incoming(");
-			}
-			if(!Expression.isGlobalVariable(ce.getNode())) {
-				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(ce.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
 			} else {
-				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(ce.getNode()) + "\", \"" + formatType(ce.getNode().getType()) + "\")");
+				sb.append("new GRGEN_EXPR.Incident(");
+			}
+			if(!Expression.isGlobalVariable(ie.getNode())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(ie.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(ie.getNode()) + "\", \"" + formatType(ie.getNode().getType()) + "\")");
 			}
 			sb.append(", "
-					+ "\""+formatTypeClassRef(ce.getIncidentEdgeType()) + ".typeVar\", "
-					+ "\""+formatTypeClassRef(ce.getAdjacentNodeType()) + ".typeVar\""
+					+ "\""+formatTypeClassRef(ie.getIncidentEdgeType()) + ".typeVar\", "
+					+ "\""+formatTypeClassRef(ie.getAdjacentNodeType()) + ".typeVar\""
+					+ ")");
+		}
+		else if (expr instanceof AdjacentNodeExpr) {
+			AdjacentNodeExpr an = (AdjacentNodeExpr) expr;
+			if(an.Direction()==AdjacentNodeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.AdjacentOutgoing(");
+			} else if(an.Direction()==AdjacentNodeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.AdjacentIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.Adjacent(");
+			}
+			if(!Expression.isGlobalVariable(an.getNode())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(an.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(an.getNode()) + "\", \"" + formatType(an.getNode().getType()) + "\")");
+			}
+			sb.append(", "
+					+ "\""+formatTypeClassRef(an.getIncidentEdgeType()) + ".typeVar\", "
+					+ "\""+formatTypeClassRef(an.getAdjacentNodeType()) + ".typeVar\""
 					+ ")");
 		}
 		else if (expr instanceof MaxExpr) {
