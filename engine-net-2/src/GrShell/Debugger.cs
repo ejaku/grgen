@@ -1243,6 +1243,74 @@ namespace de.unika.ipd.grGen.grShell
                         break;
                     }
 
+                case SequenceType.WeightedOne:
+                    {
+                        SequenceWeightedOne seqWeighted = (SequenceWeightedOne)seq;
+
+                        if(context.cpPosCounter >= 0)
+                        {
+                            PrintChoice(seqWeighted, context);
+                            ++context.cpPosCounter;
+                            Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
+                            bool first = true;
+                            for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
+                            {
+                                if(first) Console.Write("0.00 ");
+                                else Console.Write(" ");
+                                PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
+                                Console.Write(" ");
+                                Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                                first = false;
+                            }
+                            Console.Write(")");
+                            break;
+                        }
+
+                        bool highlight = false;
+                        foreach(Sequence seqChild in seqWeighted.Children)
+                            if(seqChild == context.highlightSeq)
+                                highlight = true;
+                        if(highlight && context.choice)
+                        {
+                            context.workaround.PrintHighlighted("$%" + seqWeighted.Symbol + "(", HighlightingMode.Choicepoint);
+                            bool first = true;
+                            for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
+                            {
+                                if(first) Console.Write("0.00 ");
+                                else Console.Write(" ");
+                                if(seqWeighted.Sequences[i] == context.highlightSeq)
+                                    context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+
+                                Sequence highlightSeqBackup = context.highlightSeq;
+                                context.highlightSeq = null; // we already highlighted here
+                                PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
+                                context.highlightSeq = highlightSeqBackup;
+
+                                if(seqWeighted.Sequences[i] == context.highlightSeq)
+                                    context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                                Console.Write(" ");
+                                Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                                first = false;
+                            }
+                            context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                            break;
+                        }
+
+                        Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
+                        bool ffs = true;
+                        for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
+                        {
+                            if(ffs) Console.Write("0.00 ");
+                            else Console.Write(" ");
+                            PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
+                            Console.Write(" ");
+                            Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                            ffs = false;
+                        }
+                        Console.Write(")");
+                        break;
+                    }
+
                 case SequenceType.SomeFromSet:
                     {
                         SequenceSomeFromSet seqSome = (SequenceSomeFromSet)seq;
@@ -1904,6 +1972,60 @@ namespace de.unika.ipd.grGen.grShell
                     default:
                         Console.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// returns the maybe user altered point within the interval series, denoting the sequence to execute next
+        /// the randomly chosen point is supplied; the sequence with the intervals and their corresponding sequences is supplied
+        /// </summary>
+        public double ChoosePoint(double pointToExecute, SequenceWeightedOne seq)
+        {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            context.workaround.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to execute?", HighlightingMode.Choicepoint);
+            Console.WriteLine(" Pre-selecting point " + pointToExecute + " chosen by random.");
+            Console.WriteLine("Press (e) to enter a point in the interval series of the sequence to show."
+                                + " Press (s) or (n) to commit to the pre-selected sequence and continue.");
+
+            while(true)
+            {
+                context.highlightSeq = seq.Sequences[seq.GetSequenceFromPoint(pointToExecute)];
+                context.choice = true;
+                context.sequences = seq.Sequences;
+                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                Console.WriteLine();
+                context.choice = false;
+                context.sequences = null;
+
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                    case 'e':
+                        double num;
+                        Console.Write("Enter point in interval series of sequence to show: ");
+                        String numStr = Console.ReadLine();
+                        if(double.TryParse(numStr, out num))
+                        {
+                            if(num < 0.0 || num > seq.Numbers[seq.Numbers.Count - 1])
+                            {
+                                Console.WriteLine("You must specify a floating point number between 0.0 and " + seq.Numbers[seq.Numbers.Count - 1] + "!");
+                                break;
+                            }
+                            pointToExecute = num;
+                            break;
+                        }
+                        Console.WriteLine("You must enter a valid floating point number!");
+                        break;
+                    case 's':
+                    case 'n':
+                        return pointToExecute;
+                    default:
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (e)nter number and (s)/(n) to commit and continue allowed! ");
                         break;
                 }
             }

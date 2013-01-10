@@ -1633,6 +1633,7 @@ iterSequence[ExecNode xg]
 	;
 
 simpleSequence[ExecNode xg]
+options { k = 3; }
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
@@ -1674,6 +1675,8 @@ simpleSequence[ExecNode xg]
 	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? 
 		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); }) 
 		LPAREN { xg.append("("); } xgrs[xg] (COMMA { xg.append(","); } xgrs[xg])* RPAREN { xg.append(")"); }
+	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? DOT { xg.append("."); } 
+		LPAREN { xg.append("("); } f=NUM_DOUBLE { xg.append(f.getText() + " "); } xgrs[xg] (COMMA { xg.append(","); } f=NUM_DOUBLE { xg.append(f.getText() + " "); } xgrs[xg])* RPAREN { xg.append(")"); }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append(" <"); } xgrs[xg] GT { xg.append("> "); }
 	| SL { xg.append(" <<"); } parallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] SR { xg.append(">> "); }

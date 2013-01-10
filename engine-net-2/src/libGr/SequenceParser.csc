@@ -844,6 +844,7 @@ Sequence SimpleSequence():
 	List<SequenceVariable> variableList1 = new List<SequenceVariable>();
 	List<SequenceVariable> variableList2 = new List<SequenceVariable>();
 	List<Sequence> sequences = new List<Sequence>();
+	List<Double> numbers = new List<Double>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
 	SequenceExpression expr, expr2 = null, expr3 = null;
 	SequenceComputation comp;
@@ -964,6 +965,13 @@ Sequence SimpleSequence():
 		"&" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceStrictAndAll(sequences, choice);
+	}
+|
+	LOOKAHEAD(3)
+	"$" ("%" { choice = true; } )?
+		"." "(" numDouble=DoubleNumber() seq=RewriteSequence() { numbers.Add(numDouble); sequences.Add(seq); } ("," numDouble=DoubleNumber() seq=RewriteSequence() { numbers.Add(numDouble); sequences.Add(seq); })* ")"
+	{
+		return new SequenceWeightedOne(sequences, numbers, choice);
 	}
 |
 	LOOKAHEAD(3)

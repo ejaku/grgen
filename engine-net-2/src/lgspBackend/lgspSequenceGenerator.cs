@@ -1123,6 +1123,13 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceType.WeightedOne:
+                {
+                    SequenceWeightedOne seqWeighted = (SequenceWeightedOne)seq;
+                    EmitSequenceWeighted(seqWeighted, source);
+                    break;
+                }
+
                 case SequenceType.SomeFromSet:
                 {
                     SequenceSomeFromSet seqSome = (SequenceSomeFromSet)seq;
@@ -1302,6 +1309,26 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
             source.Unindent();
             source.AppendFront("}\n");
+        }
+
+        public void EmitSequenceWeighted(SequenceWeightedOne seqWeighted, SourceBuilder source)
+        {
+            source.AppendFrontFormat("double pointtoexec_{0} = GRGEN_LIBGR.Sequence.randomGenerator.NextDouble() * {1};\n", seqWeighted.Id, seqWeighted.Numbers[seqWeighted.Numbers.Count - 1].ToString(System.Globalization.CultureInfo.InvariantCulture));
+            for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
+            {
+                if(i == 0)
+                    source.AppendFrontFormat("if(pointtoexec_{0} <= {1})\n", seqWeighted.Id, seqWeighted.Numbers[i].ToString(System.Globalization.CultureInfo.InvariantCulture));
+                else if(i == seqWeighted.Sequences.Count - 1)
+                    source.AppendFrontFormat("else\n");
+                else
+                    source.AppendFrontFormat("else if(pointtoexec_{0} <= {1})\n", seqWeighted.Id, seqWeighted.Numbers[i].ToString(System.Globalization.CultureInfo.InvariantCulture));
+                source.AppendFront("{\n");
+                source.Indent();
+                EmitSequence(seqWeighted.Sequences[i], source);
+                source.AppendFront(SetResultVar(seqWeighted, GetResultVar(seqWeighted.Sequences[i])));
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
         }
 
         void EmitSequenceSome(SequenceSomeFromSet seqSome, SourceBuilder source)
