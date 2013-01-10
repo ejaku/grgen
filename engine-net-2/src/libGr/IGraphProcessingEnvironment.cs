@@ -330,6 +330,11 @@ namespace de.unika.ipd.grGen.libGr
             return seqToExecute;
         }
 
+        public double ChoosePoint(double pointToExecute, SequenceWeightedOne seq)
+        {
+            return pointToExecute;
+        }
+
         public int ChooseMatch(int totalMatchExecute, SequenceSomeFromSet seq)
         {
             return totalMatchExecute;
