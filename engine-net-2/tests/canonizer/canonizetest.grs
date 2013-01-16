@@ -1,0 +1,14 @@
+new graph "CanonizeTestRules"
+
+dump add node GraphNode group by hidden outgoing Contains
+dump set node GraphNode color lightgrey
+
+def fillInSubgraphs { for{gn:GraphNode; {emit("Filling in " + gn.name);emit("\n");sNode:set<Node>; gSub:graph ; sNode=adjacentOutgoing(gn, Contains); \
+    		      gSub=inducedSubgraph(sNode);  gn.gSub=gSub; gn.canonicalString=canonize(gn.gSub); emit("filled " + gn.name + " subgraph!");emit("\n")} } }
+
+def printAllCanonicalStrings{ for{gn:GraphNode; {emit(gn.name); emit("\t"); emit(gn.canonicalString); emit("\n") } } }
+
+exec genCowbell0;>genCowbell1;>genCowbell2;>genCowbell3;>genCowbell4;>genCowbell5;>genCowbell6;>genCowbell7;>genDoubleSingletNode8;>genDoubleSingletNode9;>genDoubleSingletNode10;>genDoubleSingletNode11;>genDoubleSingletNode12;>genDoubleSingletNode13;>genDoubleSingletNode14;>genDoubleSingletNode15;>genSelfLoop16;>genSelfLoop17;>genSelfLoop18;>genSelfLoop19;>genSelfLoop20;>genSelfLoop21;>genSelfLoop22;>genSelfLoop23;>genSingletNode24;>genSingletNode25;>genSingletNode26;>genSingletNode27;>genSingletNode28;>genSingletNode29;>genSingletNode30;>genSingletNode31;>genSquare32;>genSquare33;>genSquare34;>genSquare35;>genSquare36;>genSquare37;>genSquare38;>genSquare39;>genNPropyl40;>genNPropyl41;>genNPropyl42;>genNPropyl43;>genNPropyl44;>genNPropyl45;>genNPropyl46;>genNPropyl47;>genTwoConnected48;>genTwoConnected49;>genTwoConnected50;>genTwoConnected51;>genTwoConnected52;>genTwoConnected53;>genTwoConnected54;>genTwoConnected55;>genThreeConnected56;>genThreeConnected57;>genThreeConnected58;>genThreeConnected59;>genThreeConnected60;>genThreeConnected61;>genThreeConnected62;>genThreeConnected63;>genCube64;>genCube65;>genCube66;>genCube67;>genCube68;>genCube69;>genCube70;>genCube71;>genIsoPropyl72;>genIsoPropyl73;>genIsoPropyl74;>genIsoPropyl75;>genIsoPropyl76;>genIsoPropyl77;>genIsoPropyl78;>genIsoPropyl79;>gen5SelfLoop80;>gen5SelfLoop81;>gen5SelfLoop82;>gen5SelfLoop83;>gen5SelfLoop84;>gen5SelfLoop85;>gen5SelfLoop86;>gen5SelfLoop87;>rA88;>rA89;>rA90;>rA91;>rA92;>rA93;>rA94;>rA95;>rB96;>rB97;>rB98;>rB99;>rB100;>rB101;>rB102;>rB103;>rC104;>rC105;>rC106;>rC107;>rC108;>rC109;>rC110;>rC111;>rD112;>rD113;>rD114;>rD115;>rD116;>rD117;>rD118;>rD119;>rE120;>rE121;>rE122;>rE123;>rE124;>rE125;>rE126;>rE127
+
+exec fillInSubgraphs ;> printAllCanonicalStrings
+#show graph ycomp
