@@ -521,10 +521,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newValue">The new value of the attribute, if changeType==Assign.
         ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
         ///                        Or the new map pair value to be inserted if changeType==PutElement on map.
-        ///                        Or the new value to be inserted/added if changeType==PutElement on array.
-        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+        ///                        Or the new value to be inserted/added if changeType==PutElement on array/deque.
+        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array/deque.</param>
         /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
-        ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
+        ///                        The index to be removed/written to if changeType==RemoveElement/AssignElement on array/deque.</param>
         void ChangingNodeAttribute(INode node, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue);
 
@@ -540,10 +540,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newValue">The new value of the attribute, if changeType==Assign.
         ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
         ///                        Or the new map pair value to be inserted if changeType==PutElement on map.
-        ///                        Or the new value to be inserted/added if changeType==PutElement on array.
-        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+        ///                        Or the new value to be inserted/added if changeType==PutElement on array/deque.
+        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array/deque.</param>
         /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
-        ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
+        ///                        The index to be removed/written to if changeType==RemoveElement/AssignElement on array/deque.</param>
         void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue);
 

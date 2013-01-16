@@ -24,4 +24,9 @@ public class NodeType extends InheritanceType {
 	public NodeType(Ident ident, int modifiers, String externalName) {
 		super("node type", ident, modifiers, externalName);
 	}
+	
+	/** @see de.unika.ipd.grgen.ir.Type#classify() */
+	public int classify() {
+		return IS_NODE;
+	}
 }

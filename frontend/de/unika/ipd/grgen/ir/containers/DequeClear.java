@@ -29,7 +29,8 @@ public class DequeClear extends EvalStatement {
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();
-		needs.add((GraphEntity) entity);
+		if(!isGlobalVariable(entity))
+			needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for target
 		HashSet<Variable> varSet = needs.variables;

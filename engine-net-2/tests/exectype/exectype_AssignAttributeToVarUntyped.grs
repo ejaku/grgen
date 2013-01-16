@@ -11,10 +11,11 @@ x.st
 x.s
 x.m
 x.a
+x.dq
 x.fl
 x.d
 xgrs ::y=::x && {::f=::y.f} && {::by=::y.by} && {::sh=::y.sh} && {::i=::y.i} && {::l=::y.l} && {::b=::y.b} \
-	&& {::st=::y.st} && {::s=::y.s} && {::m=::y.m} && {::a=::y.a} && {::fl=::y.fl} && {::d=::y.d} \
+	&& {::st=::y.st} && {::s=::y.s} && {::m=::y.m} && {::a=::y.a} && {::dq=::y.dq} && {::fl=::y.fl} && {::d=::y.d} \
 	&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(::f)} && {emit("\n")} \
 	&& {emit("value of variable by 5 6 7 8 9 ")} && {emit(::by)} && {emit("\n")} \
 	&& {emit("value of variable sh 5 6 7 8 9 ")} && {emit(::sh)} && {emit("\n")} \
@@ -25,6 +26,7 @@ xgrs ::y=::x && {::f=::y.f} && {::by=::y.by} && {::sh=::y.sh} && {::i=::y.i} && 
 	&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(::s)} && {emit("\n")} \
 	&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(::m)} && {emit("\n")} \
 	&& {emit("value of variable a 5 6 7 8 9 ")} && {emit(::a)} && {emit("\n")} \
+	&& {emit("value of variable dq 5 6 7 8 9 ")} && {emit(::dq)} && {emit("\n")} \
 	&& {emit("value of variable fl 5 6 7 8 9 ")} && {emit(::fl)} && {emit("\n")} \
 	&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(::d)} && {emit("\n")}
 quit

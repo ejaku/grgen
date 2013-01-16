@@ -1,6 +1,6 @@
 new graph storages/storages
 
-xgrs ::st1=set<Node>{}
+xgrs ::st1=array<Node>[]
 xgrs {::sz=::st1.size()}
 show var sz
 show num nodes
@@ -24,7 +24,7 @@ show var sz
 show num nodes
 show num edges
 
-xgrs ::st2=set<Node>{}
+xgrs ::st2=array<Node>[]
 xgrs for{::n in ::st1; {::st2.add(::n)}}
 xgrs {::sz=::st1.size()}
 show var sz
@@ -38,7 +38,7 @@ show num nodes
 xgrs {::sz=::st2.size()}
 show var sz
 
-xgrs for{::n in ::st2; {::st1.rem(::n)}}
+xgrs for{::n in ::st2; (::index)=getIndexArray(::st1, ::n) ;> {::st1.rem(::index)}}
 xgrs {::sz=::st1.size()}
 show var sz
 show num nodes
@@ -48,11 +48,11 @@ show var sz
 
 xgrs {::sz=::st1.size()}
 show var sz
-xgrs if{{::n in ::st1}; {::st1.rem(::n)} && addNode; false}
+xgrs (::index)=getIndexArray(::st1, ::n) ;> if{{::n in ::st1}; {::st1.rem(::index)} && addNode; false}
 show num nodes
 xgrs {::sz=::st1.size()}
 show var sz
-xgrs for{::n in ::st2; {::st1.rem(::n)} && false} && addNode
+xgrs for{::n in ::st2; (::index)=getIndexArray(::st1, ::n) ;> if{ {::index >= 0}; {::st1.rem(::index)}} && false} && addNode
 show num nodes
 xgrs {::sz=::st1.size()}
 show var sz

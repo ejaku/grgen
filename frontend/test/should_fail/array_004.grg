@@ -5,7 +5,7 @@ rule constAssignment {
 
 	modify {
 		eval {
-			a.constStringArray = a.constStringArray + array<string>{ "bla" };
+			a.constStringArray = a.constStringArray + array<string>[ "bla" ];
 		}
 	}
 }

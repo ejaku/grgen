@@ -1,0 +1,89 @@
+new graph "transaction/containertransaction"
+
+new n1:N
+new n2:N
+n1.setVal
+n2.setVal
+n1.mapVal
+n2.mapVal
+n1.arrayVal
+n2.arrayVal
+n1.dequeVal
+n2.dequeVal
+xgrs < transform1* && fail > 
+n1.setVal
+n2.setVal
+n1.mapVal
+n2.mapVal
+n1.arrayVal
+n2.arrayVal
+n1.dequeVal
+n2.dequeVal
+
+clear graph
+
+new n1:N
+new n2:N
+n1.setVal
+n2.setVal
+n1.mapVal
+n2.mapVal
+n1.arrayVal
+n2.arrayVal
+n1.dequeVal
+n2.dequeVal
+xgrs transform1* && fail 
+n1.setVal
+n2.setVal
+n1.mapVal
+n2.mapVal
+n1.arrayVal
+n2.arrayVal
+n1.dequeVal
+n2.dequeVal
+
+clear graph
+
+new n1:N
+new n2:N
+n1.setVal
+n2.setVal
+n1.mapVal
+n2.mapVal
+n1.arrayVal
+n2.arrayVal
+n1.dequeVal
+n2.dequeVal
+xgrs < transform2* && fail > 
+n1.setVal
+n2.setVal
+n1.mapVal
+n2.mapVal
+n1.arrayVal
+n2.arrayVal
+n1.dequeVal
+n2.dequeVal
+
+clear graph
+
+new n1:N
+new n2:N
+n1.setVal
+n2.setVal
+n1.mapVal
+n2.mapVal
+n1.arrayVal
+n2.arrayVal
+n1.dequeVal
+n2.dequeVal
+xgrs transform2* && fail 
+n1.setVal
+n2.setVal
+n1.mapVal
+n2.mapVal
+n1.arrayVal
+n2.arrayVal
+n1.dequeVal
+n2.dequeVal
+
+quit

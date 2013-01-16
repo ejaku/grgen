@@ -1,4 +1,4 @@
-using array_model_001, set_map_array_node_edge;
+using array_model_001, container_node_edge;
 
 rule r(ref ss1:array<string>, ref ss2:array<string>, ref sa1:array<A>, ref sa2:array<A>)
 {

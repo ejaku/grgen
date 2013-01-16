@@ -247,6 +247,30 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new DequePeekNode(getCoords(), targetExpr, params.get(0));
 			}
+  			else if(methodName.equals("indexOf")) {
+  				if(params.size() != 1) {
+  					reportError("deque<T>.indexOf(valueToSearchFor) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new DequeIndexOfNode(getCoords(), targetExpr, params.get(0));
+  			}
+  			else if(methodName.equals("lastIndexOf")) {
+  				if(params.size() != 1) {
+  					reportError("deque<T>.lastIndexOf(valueToSearchFor) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new DequeLastIndexOfNode(getCoords(), targetExpr, params.get(0));
+  			}
+			else if(methodName.equals("subdeque")) {
+  				if(params.size() != 2) {
+  					reportError("deque<T>.subdeque(startIndex, length) takes two parameters.");
+					return false;
+				}
+  				else
+  					result = new DequeSubdequeNode(getCoords(), targetExpr, params.get(0), params.get(1));
+  			}
   			else {
   				reportError("deque<T> does not have a method named \"" + methodName + "\"");
   				return false;

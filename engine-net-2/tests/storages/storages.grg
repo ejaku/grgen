@@ -65,3 +65,43 @@ rule remEdge(-e:Edge->)
 	replace {
 	}
 }
+
+test getIndexArray(ref a:array<Node>, item:Node) : (int)
+{
+	return(a.indexOf(item));
+}
+
+test getIndexArrayNN(ref a:array<NN>, item:Node) : (int)
+{
+	return(a.indexOf(item));
+}
+
+test getIndexArrayEdge(ref a:array<Edge>, -item:Edge->) : (int)
+{
+	return(a.indexOf(item));
+}
+
+test getIndexArrayEdgeEE(ref a:array<EE>, -item:Edge->) : (int)
+{
+	return(a.indexOf(item));
+}
+
+test getIndexDeque(ref d:deque<Node>, item:Node) : (int)
+{
+	return(d.indexOf(item));
+}
+
+test getIndexDequeNN(ref d:deque<NN>, item:Node) : (int)
+{
+	return(d.indexOf(item));
+}
+
+test getIndexDequeEdge(ref a:deque<Edge>, -item:Edge->) : (int)
+{
+	return(a.indexOf(item));
+}
+
+test getIndexDequeEdgeEE(ref a:deque<EE>, -item:Edge->) : (int)
+{
+	return(a.indexOf(item));
+}

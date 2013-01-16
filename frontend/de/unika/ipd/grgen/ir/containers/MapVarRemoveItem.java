@@ -34,7 +34,8 @@ public class MapVarRemoveItem extends EvalStatement {
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		needs.add(target);
+		if(!isGlobalVariable(target))
+			needs.add(target);
 
 		getKeyExpr().collectNeededEntities(needs);
 

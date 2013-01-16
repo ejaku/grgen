@@ -1,0 +1,73 @@
+new graph deque1/deque1
+
+new na:A
+na.a
+na.ac
+na.val
+
+new nb:B
+nb.a
+nb.ac
+nb.val
+nb.b
+nb.bc
+
+new na -ea:EA-> na
+ea.a
+ea.ac
+
+new nb -eb:EB-> nb
+eb.a
+eb.ac
+eb.b
+eb.bc
+
+xgrs existsFooHuu
+
+nb.b
+xgrs addFooHuu
+nb.b
+
+xgrs existsFooHuu
+
+xgrs existsBar
+
+nb.a
+xgrs removeBar
+nb.a
+xgrs addHarr
+nb.a
+xgrs remove
+nb.a
+
+xgrs existsBar
+
+na.val
+nb.val
+xgrs [anonymousDeque]
+xgrs anonymousDequeNA
+
+new n:A
+n.m.add("Handtuch")
+n.m.add("Hallo", 0)
+v=n.m
+n.m
+
+show var v
+xgrs useDequeVar(::v)
+
+n.m.rem(1)
+n.m
+show var v
+
+xgrs useDequeVar(::v)
+
+n.m.rem()
+n.m
+show var v
+
+xgrs ::m=deque<string>][
+xgrs ::tmp="Hallo" ;> {::m.add(::tmp)}
+xgrs useDequeVar(::m)
+
+quit

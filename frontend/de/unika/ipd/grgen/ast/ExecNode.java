@@ -81,10 +81,6 @@ public class ExecNode extends BaseNode {
 			else
 				throw new UnsupportedOperationException("unsupported type");
 		}
-		else if(n instanceof GlobalsAccessExprNode) {
-			GlobalsAccessExprNode globalsAccesExpr = (GlobalsAccessExprNode) n;
-			sb.append("::"+globalsAccesExpr.getIdent());
-		}
 		else if(n instanceof IdentExprNode) {
 			IdentExprNode identExpr = (IdentExprNode) n;
 			sb.append(identExpr.getIdent());

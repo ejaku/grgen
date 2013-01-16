@@ -30,7 +30,8 @@ public class Visited extends Expression {
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		needs.add((GraphEntity) entity);
+		if(!isGlobalVariable(entity))
+			needs.add((GraphEntity) entity);
 		visitorID.collectNeededEntities(needs);
 	}
 }

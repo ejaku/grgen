@@ -19,7 +19,7 @@ public class IndexedAccessExpr extends Expression {
 	Expression keyExpr;
 
 	public IndexedAccessExpr(Expression targetExpr, Expression keyExpr) {
-		super("indexed access expression", targetExpr.getType() instanceof MapType ? ((MapType) targetExpr.getType()).getValueType() : ((ArrayType) targetExpr.getType()).getValueType());
+		super("indexed access expression", targetExpr.getType() instanceof MapType ? ((MapType) targetExpr.getType()).getValueType() : targetExpr.getType() instanceof DequeType ? ((DequeType) targetExpr.getType()).getValueType() : ((ArrayType) targetExpr.getType()).getValueType());
 		this.targetExpr = targetExpr;
 		this.keyExpr = keyExpr;
 	}

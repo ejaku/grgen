@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the incoming/outgoing edges of a node.
+ * A node yielding the incident/incoming/outgoing edges of a node.
  */
 public class IncidentEdgeExprNode extends ExprNode {
 	static {
@@ -37,18 +37,22 @@ public class IncidentEdgeExprNode extends ExprNode {
 
 	private NodeDeclNode nodeDecl;
 	private EdgeTypeNode incidentType;
-	private boolean outgoing;
+	private int direction;
 	private NodeTypeNode adjacentType;
 	
+	public static final int INCIDENT = 0;
+	public static final int INCOMING = 1;
+	public static final int OUTGOING = 2;
+	
 	public IncidentEdgeExprNode(Coords coords, IdentNode node,
-			IdentNode incidentType, boolean outgoing,
+			IdentNode incidentType, int direction,
 			IdentNode adjacentType) {
 		super(coords);
 		this.nodeUnresolved = node;
 		becomeParent(this.nodeUnresolved);
 		this.incidentTypeUnresolved = incidentType;
 		becomeParent(this.incidentTypeUnresolved);
-		this.outgoing = outgoing;
+		this.direction = direction;
 		this.adjacentTypeUnresolved = adjacentType;
 		becomeParent(this.adjacentTypeUnresolved);
 	}
@@ -97,8 +101,9 @@ public class IncidentEdgeExprNode extends ExprNode {
 
 	@Override
 	protected IR constructIR() {
+		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
 		return new IncidentEdgeExpr(nodeDecl.checkIR(Node.class), 
-								incidentType.checkIR(EdgeType.class), outgoing,
+								incidentType.checkIR(EdgeType.class), direction,
 								adjacentType.checkIR(NodeType.class),
 								getType().getType());
 	}

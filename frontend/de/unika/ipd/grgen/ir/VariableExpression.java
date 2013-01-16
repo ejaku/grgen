@@ -29,7 +29,8 @@ public class VariableExpression extends Expression {
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		needs.add(var);
+		if(!isGlobalVariable(var))
+			needs.add(var);
 	}
 
 	public boolean equals(Object other) {

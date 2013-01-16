@@ -99,8 +99,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new PowExprNode(getCoords(), params.get(0), params.get(1));
 		}
-		else if(functionName.equals("incoming") || functionName.equals("outgoing")) {
-			boolean outgoing = functionName.equals("outgoing");
+		else if(functionName.equals("incoming") || functionName.equals("outgoing") || functionName.equals("incident")) {
+			int direction;
+			if(functionName.equals("incoming"))
+				direction = IncidentEdgeExprNode.INCOMING;
+			else if(functionName.equals("outgoing"))
+				direction = IncidentEdgeExprNode.OUTGOING;
+			else
+				direction = IncidentEdgeExprNode.INCIDENT;
+			
 			IdentNode first = null;
 			IdentNode second = null;
 			IdentNode third = null;
@@ -128,13 +135,62 @@ public class FunctionInvocationExprNode extends ExprNode
 				}
 			}
 			if(params.size() == 1) {
-				result = new IncidentEdgeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), outgoing, env.getNodeRoot());
+				result = new IncidentEdgeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
 			}
 			else  if(params.size() == 2) {
-				result = new IncidentEdgeExprNode(getCoords(), first, second, outgoing, env.getNodeRoot());
+				result = new IncidentEdgeExprNode(getCoords(), first, second, direction, env.getNodeRoot());
 			}
 			else  if(params.size() == 3) {
-				result = new IncidentEdgeExprNode(getCoords(), first, second, outgoing, third);
+				result = new IncidentEdgeExprNode(getCoords(), first, second, direction, third);
+			}
+			else {
+				reportError(functionName + "() takes 1-3 parameters.");
+				return false;
+			}
+		}
+		else if(functionName.equals("adjacentIncoming") || functionName.equals("adjacentOutgoing") || functionName.equals("adjacent")) {
+			int direction;
+			if(functionName.equals("adjacentIncoming"))
+				direction = AdjacentNodeExprNode.INCOMING;
+			else if(functionName.equals("adjacentOutgoing"))
+				direction = AdjacentNodeExprNode.OUTGOING;
+			else
+				direction = AdjacentNodeExprNode.ADJACENT;
+			
+			IdentNode first = null;
+			IdentNode second = null;
+			IdentNode third = null;
+			if(params.size() >= 1) {
+				if(!(params.get(0) instanceof IdentExprNode)) {
+					reportError("first parameter of " + functionName + "() must be a graph entity (identifier)");
+					return false;
+				}
+				first = ((IdentExprNode)params.get(0)).getIdent();
+
+				if(params.size() >= 2) {
+					if(!(params.get(1) instanceof IdentExprNode)) {
+						reportError("second parameter of " + functionName + "() must be an edge type (identifier)");
+						return false;
+					}
+					second = ((IdentExprNode)params.get(1)).getIdent();
+
+					if(params.size() >= 3) {
+						if(!(params.get(2) instanceof IdentExprNode)) {
+							reportError("third parameter of " + functionName + "() must be a node type (identifier)");
+							return false;
+						}
+						third = ((IdentExprNode)params.get(2)).getIdent();
+					}
+				}
+			}
+			if(params.size() == 1) {
+				result = new AdjacentNodeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
+			}
+			else  if(params.size() == 2) {
+				result = new AdjacentNodeExprNode(getCoords(), first, second, direction, env.getNodeRoot());
+			}
+			else  if(params.size() == 3) {
+				result = new AdjacentNodeExprNode(getCoords(), first, second, direction, third);
 			}
 			else {
 				reportError(functionName + "() takes 1-3 parameters.");

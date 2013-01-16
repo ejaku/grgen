@@ -2647,9 +2647,9 @@ namespace de.unika.ipd.grGen.grShell
                 errOut.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", type.Name, attrName);
                 return;
             }
-            if(attrType.Kind!=AttributeKind.ArrayAttr && attrType.Kind!=AttributeKind.MapAttr)
+            if(attrType.Kind!=AttributeKind.ArrayAttr && attrType.Kind!=AttributeKind.DequeAttr && attrType.Kind!=AttributeKind.MapAttr)
             {
-                errOut.WriteLine("Attribute for indexed assignment must be of array or map type!");
+                errOut.WriteLine("Attribute for indexed assignment must be of array or deque or map type!");
                 return;
             }
 
@@ -3820,7 +3820,7 @@ showavail:
             return elem.GetAttribute(attrName);
         }
 
-        public void SetArrayDequeAdd(IGraphElement elem, String attrName, object keyObj)
+        public void ContainerAdd(IGraphElement elem, String attrName, object keyObj)
         {
             object attr = GetAttribute(elem, attrName);
             if(attr == null)
@@ -3906,7 +3906,7 @@ showavail:
             }
         }
 
-        public void MapArrayAdd(IGraphElement elem, String attrName, object keyObj, object valueObj)
+        public void IndexedContainerAdd(IGraphElement elem, String attrName, object keyObj, object valueObj)
         {
             object attr = GetAttribute(elem, attrName);
             if(attr == null)
@@ -3968,13 +3968,41 @@ showavail:
                     curShellProcEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
                 array.Insert((int)valueObj, keyObj);
             }
+            else if(attr is IDeque)
+            {
+                Type valueType;
+                IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
+                if(deque == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a deque.");
+                    return;
+                }
+                if(valueType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Value type must be " + valueType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+                if(typeof(int) != valueObj.GetType())
+                {
+                    errOut.WriteLine("Index type must be int, but is " + valueObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellProcEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, valueObj);
+                else
+                    curShellProcEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
+                deque.EnqueueAt((int)valueObj, keyObj);
+            }
             else
             {
-                errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is neither a map nor an array.");
+                errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is neither a map nor an array nor a deque.");
             }
         }
 
-        public void SetMapArrayDequeRemove(IGraphElement elem, String attrName, object keyObj)
+        public void ContainerRemove(IGraphElement elem, String attrName, object keyObj)
         {
             object attr = GetAttribute(elem, attrName);
             if(attr == null)
@@ -4037,16 +4065,22 @@ showavail:
                     errOut.WriteLine(curShellProcEnv.Graph.GetElementName(elem) + "." + attrName + " is not a deque.");
                     return;
                 }
-
-                // TODO: dequeue at key missing 
+                if(keyObj != null && typeof(int) != keyObj.GetType())
+                {
+                    errOut.WriteLine("Key/Index type must be int, but is " + keyObj.GetType() + ".");
+                    return;
+                }
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
                 AttributeChangeType changeType = AttributeChangeType.RemoveElement;
                 if(elem is INode)
-                    curShellProcEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, null);
+                    curShellProcEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, keyObj);
                 else
-                    curShellProcEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, null);
-                deque.Dequeue();
+                    curShellProcEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, keyObj);
+                if(keyObj != null)
+                    deque.DequeueAt((int)keyObj);
+                else
+                    deque.Dequeue();
             }
             else
             {

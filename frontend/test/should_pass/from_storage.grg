@@ -44,6 +44,12 @@ test tarrayattr
 	:M{m.a};	
 }
 
+test tdequeattr
+{
+	m:M;
+	:M{m.d};	
+}
+
 test tsetattredge
 {
 	-f:F->;
@@ -61,3 +67,10 @@ test tarrayattredge
 	-f:F->;
 	-:F{f.a}->;	
 }
+
+test tdequeattredge
+{
+	-f:F->;
+	-:F{f.d}->;	
+}
+

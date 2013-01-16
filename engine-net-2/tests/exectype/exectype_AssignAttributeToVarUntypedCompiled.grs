@@ -11,6 +11,7 @@ x.st
 x.s
 x.m
 x.a
+x.dq
 x.fl
 x.d
 xgrs AssignAttributeToVarUntyped(::x)

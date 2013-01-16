@@ -1,0 +1,17 @@
+using deque_model_001;
+
+rule r(ref s:deque<int>, var b:int)
+{
+	a:A;
+	if {
+		a.val in (a.spiceDeque + s + a.constSpiceDeque);
+		b in (s + a.spiceDeque);
+	}
+
+	modify {
+		eval {
+			a.spiceDeque = (s + a.spiceDeque) + a.constSpiceDeque + s;
+			a.spiceDeque += a.constSpiceDeque;
+		}
+	}
+}

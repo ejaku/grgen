@@ -12,16 +12,19 @@
 package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.*;
+
 import java.util.HashSet;
 
 public class DequeAddItem extends EvalStatement {
 	Qualification target;
     Expression valueExpr;
+    Expression indexExpr;
 
-	public DequeAddItem(Qualification target, Expression valueExpr) {
+	public DequeAddItem(Qualification target, Expression valueExpr, Expression indexExpr) {
 		super("deque add item");
 		this.target = target;
 		this.valueExpr = valueExpr;
+		this.indexExpr = indexExpr;
 	}
 
 	public Qualification getTarget() {
@@ -32,10 +35,15 @@ public class DequeAddItem extends EvalStatement {
 		return valueExpr;
 	}
 
+	public Expression getIndexExpr() {
+		return indexExpr;
+	}
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();
-		needs.add((GraphEntity) entity);
+		if(!isGlobalVariable(entity))
+			needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for target
 		HashSet<Variable> varSet = needs.variables;
@@ -44,6 +52,9 @@ public class DequeAddItem extends EvalStatement {
 		needs.variables = varSet;
 
 		getValueExpr().collectNeededEntities(needs);
+
+		if(getIndexExpr()!=null)
+			getIndexExpr().collectNeededEntities(needs);
 
 		if(getNext()!=null) {
 			getNext().collectNeededEntities(needs);

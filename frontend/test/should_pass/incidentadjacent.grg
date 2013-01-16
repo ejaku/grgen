@@ -1,0 +1,11 @@
+::g_n:Node;
+
+test t
+{
+	n:Node;
+	
+	if { incident(::g_n).size()!=0 && incoming(::g_n).size()!=0 && outgoing(::g_n).size()!=0; }
+	if { incident(n).size()!=0 && incoming(n).size()!=0 && outgoing(n).size()!=0; }
+	if { adjacent(::g_n).size()!=0 && adjacentIncoming(::g_n).size()!=0 && adjacentOutgoing(::g_n).size()!=0; }
+	if { adjacent(n).size()!=0 && adjacentIncoming(n).size()!=0 && adjacentOutgoing(n).size()!=0; }
+}

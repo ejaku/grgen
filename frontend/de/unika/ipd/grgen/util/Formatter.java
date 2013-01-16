@@ -142,6 +142,9 @@ public class Formatter {
 		else if(cond instanceof Nameof) {
 			// TODO
 		}
+		else if(cond instanceof IncidentEdgeExpr) {
+			// TODO
+		}
 		else if(cond instanceof IndexedAccessExpr) {
 			// MAP TODO
 		}

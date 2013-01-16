@@ -38,7 +38,8 @@ public class Qualification extends Expression {
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		needs.addAttr((GraphEntity) owner, member);
+		if(!isGlobalVariable(owner))
+			needs.addAttr((GraphEntity) owner, member);
 	}
 }
 

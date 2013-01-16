@@ -755,13 +755,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The first position of entry in the array a, -1 if entry not in a.</returns>
         public static int IndexOf<V>(List<V> a, V entry)
         {
-            for(int i = 0; i < a.Count; ++i)
-            {
-                if(EqualityComparer<V>.Default.Equals(a[i], entry))
-                    return i;
-            }
+            return a.IndexOf(entry);
+        }
 
-            return -1;
+        public static int IndexOf(IList a, object entry)
+        {
+            return a.IndexOf(entry);
         }
 
         /// <summary>
@@ -775,6 +774,17 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = a.Count-1; i >= 0; --i)
             {
                 if(EqualityComparer<V>.Default.Equals(a[i], entry))
+                    return i;
+            }
+
+            return -1;
+        }
+
+        public static int LastIndexOf(IList a, object entry)
+        {
+            for(int i = a.Count - 1; i >= 0; --i)
+            {
+                if(a[i] == entry)
                     return i;
             }
 
@@ -888,6 +898,57 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             return b.Count>0;
+        }
+
+        /// <summary>
+        /// Returns the first position of entry in the deque a
+        /// </summary>
+        /// <param name="a">A Deque, i.e. double ended queue.</param>
+        /// <param name="entry">The value to search for.</param>
+        /// <returns>The first position of entry in the deque a, -1 if entry not in a.</returns>
+        public static int IndexOf<V>(Deque<V> a, V entry)
+        {
+            return a.IndexOf(entry);
+        }
+
+        public static int IndexOf(IDeque a, object entry)
+        {
+            return a.IndexOf(entry);
+        }
+
+        /// <summary>
+        /// Returns the first position from the end inwards of entry in the deque a
+        /// </summary>
+        /// <param name="a">A Deque, i.e. double ended queue.</param>
+        /// <param name="entry">The value to search for.</param>
+        /// <returns>The first position from the end inwards of entry in the deque a, -1 if entry not in a.</returns>
+        public static int LastIndexOf<V>(Deque<V> a, V entry)
+        {
+            return a.LastIndexOf(entry);
+        }
+
+        public static int LastIndexOf(IDeque a, object entry)
+        {
+            return a.LastIndexOf(entry);
+        }
+
+        /// <summary>
+        /// Creates a new deque with length values copied from a from index start on.
+        /// </summary>
+        /// <param name="a">A Deque, i.e. double ended queue.</param>
+        /// <param name="start">A start position in the deque.</param>
+        /// <param name="length">The number of elements to copy from start on.</param>
+        /// <returns>A new Deque, containing the length first values from start on.</returns>
+        public static Deque<V> Subdeque<V>(Deque<V> a, int start, int length)
+        {
+            Deque<V> newDeque = new Deque<V>();
+
+            for(int i = start; i < start + length; ++i)
+            {
+                newDeque.Add(a[i]);
+            }
+
+            return newDeque;
         }
 
         /// <summary>
@@ -1908,8 +1969,8 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// If the attribute of the given name of the given element is a set or map or array attribute
-        /// then return a clone of the given dictionary or list value, otherwise just return the original value;
+        /// If the attribute of the given name of the given element is a container attribute
+        /// then return a clone of the given container value, otherwise just return the original value;
         /// additionally returns the AttributeType of the attribute of the element.
         /// </summary>
         public static object IfAttributeOfElementIsContainerThenCloneContainer(
@@ -1928,12 +1989,18 @@ namespace de.unika.ipd.grGen.libGr
                 ContainerHelper.GetListType(element.GetAttribute(AttributeName), out valueType);
                 return ContainerHelper.NewList(valueType, value); // by-value-semantics -> clone array
             }
+            else if(attrType.Kind == AttributeKind.DequeAttr)
+            {
+                Type valueType;
+                ContainerHelper.GetDequeType(element.GetAttribute(AttributeName), out valueType);
+                return ContainerHelper.NewDeque(valueType, value); // by-value-semantics -> clone deque
+            }
             return value;
         }
 
         /// <summary>
-        /// If the attribute of the given name of the given element is a set or map or array attribute
-        /// then return a clone of the given dictionary or list value, otherwise just return the original value
+        /// If the attribute of the given name of the given element is a conatiner attribute
+        /// then return a clone of the given container value, otherwise just return the original value
         /// </summary>
         public static object IfAttributeOfElementIsContainerThenCloneContainer(
                 IGraphElement element, String AttributeName, object value)

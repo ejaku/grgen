@@ -96,6 +96,8 @@ public abstract class InheritanceType extends CompoundType {
 	/** Adds a supertype, this type should inherit from. */
 	public void addDirectSuperType(InheritanceType t) {
 		assert allSubTypes == null && allSuperTypes == null: "wrong order of calls";
+		if(allSubTypes != null || allSuperTypes != null) // todo: remove this constraint/work around it
+			error.error(t.getIdent().getCoords(), "A container in a type must not reference a subtype");
 		directSuperTypes.add(t);
 		t.directSubTypes.add(this);
 	}
