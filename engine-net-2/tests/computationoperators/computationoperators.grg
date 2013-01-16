@@ -193,6 +193,12 @@ rule equal
 		exec(r:boolean=({::a2 == ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({::a2 == ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({::d1 == ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d1 == ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 == ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 == ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+
 		exec(r:boolean=({null == null}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
@@ -263,6 +269,12 @@ rule notequal
 		exec(r:boolean=({::a2 != ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({::a2 != ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({::d1 != ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d1 != ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 != ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 != ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+
 		exec(r:boolean=({null != null}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
@@ -322,6 +334,12 @@ rule greater
 		exec(r:boolean=({::a1 > ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({::a2 > ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({::a2 > ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({::d1 > ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d1 > ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 > ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 > ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
@@ -380,6 +398,12 @@ rule lower
 		exec(r:boolean=({::a1 < ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({::a2 < ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({::a2 < ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({::d1 < ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d1 < ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 < ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 < ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
@@ -438,6 +462,12 @@ rule greaterequal
 		exec(r:boolean=({::a1 >= ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({::a2 >= ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({::a2 >= ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({::d1 >= ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d1 >= ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 >= ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 >= ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
@@ -496,6 +526,12 @@ rule lowerequal
 		exec(r:boolean=({::a1 <= ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({::a2 <= ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({::a2 <= ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({::d1 <= ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d1 <= ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 <= ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({::d2 <= ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
@@ -547,5 +583,11 @@ rule plus
 		exec({::r=::a1 + ::a2} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=::a2 + ::a1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=::a2 + ::a2} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
+		exec({::r=::d1 + ::d1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=::d1 + ::d2} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=::d2 + ::d1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=::d2 + ::d2} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 	}
 }

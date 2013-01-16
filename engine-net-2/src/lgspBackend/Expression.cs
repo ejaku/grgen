@@ -1245,6 +1245,33 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing global variable qualification expression
+    /// </summary>
+    public class GlobalVariableQualification : Expression
+    {
+        public GlobalVariableQualification(String ownerType, String owner, String member)
+        {
+            OwnerType = ownerType;
+            Owner = owner;
+            Member = member;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new GlobalVariableQualification(OwnerType, Owner, Member);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFormat("(({0})((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).GetVariableValue(\"{1}\")).@{2}", OwnerType, Owner, Member);
+        }
+
+        String OwnerType;
+        String Owner;
+        String Member;
+    }
+
+    /// <summary>
     /// Class representing typeof expression
     /// </summary>
     public class Typeof : Expression
@@ -1296,6 +1323,31 @@ namespace de.unika.ipd.grGen.expression
 
         public String Entity;
         public String MatchEntity;
+    }
+
+    /// <summary>
+    /// Class representing global variable expression
+    /// </summary>
+    public class GlobalVariableExpression : Expression
+    {
+        public GlobalVariableExpression(String name, String type)
+        {
+            GlobalVariableName = name;
+            Type = type;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new GlobalVariableExpression(GlobalVariableName, Type);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFormat("(({0})((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).GetVariableValue(\"{1}\"))", Type, GlobalVariableName);
+        }
+
+        public String GlobalVariableName;
+        public String Type;
     }
 
     /// <summary>
@@ -2058,11 +2110,10 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Peek(");
             Target.Emit(sourceCode);
-            sourceCode.Append(",");
+            sourceCode.Append("[");
             Number.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append("]");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -2074,7 +2125,117 @@ namespace de.unika.ipd.grGen.expression
         Expression Target;
         Expression Number;
     }
-    
+
+    /// <summary>
+    /// Class representing a deque index of expression.
+    /// </summary>
+    public class DequeIndexOf : Expression
+    {
+        public DequeIndexOf(Expression target, Expression value)
+        {
+            Target = target;
+            Value = value;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DequeIndexOf(Target.Copy(renameSuffix), Value.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.IndexOf(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+        }
+
+        Expression Target;
+        Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing a deque last index of expression.
+    /// </summary>
+    public class DequeLastIndexOf : Expression
+    {
+        public DequeLastIndexOf(Expression target, Expression value)
+        {
+            Target = target;
+            Value = value;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DequeLastIndexOf(Target.Copy(renameSuffix), Value.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+        }
+
+        Expression Target;
+        Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing a deque subdeque expression.
+    /// </summary>
+    public class DequeSubdeque : Expression
+    {
+        public DequeSubdeque(Expression target, Expression start, Expression length)
+        {
+            Target = target;
+            Start = start;
+            Length = length;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DequeSubdeque(Target.Copy(renameSuffix), Start.Copy(renameSuffix), Length.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Subdeque(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Start.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Length.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Start;
+            yield return Length;
+        }
+
+        Expression Target;
+        Expression Start;
+        Expression Length;
+    }
+
     /// <summary>
     /// Class representing a constant rule-local map, available as initalized static class member.
     /// </summary>
@@ -2547,7 +2708,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Outgoing : Expression
     {
-        public Outgoing(String node, String incidentEdgeType, String adjacentNodeType)
+        public Outgoing(Expression node, String incidentEdgeType, String adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -2556,19 +2717,20 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Outgoing(Node + renameSuffix, IncidentEdgeType, AdjacentNodeType);
+            return new Outgoing(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Outgoing("
-                + NamesOfEntities.CandidateVariable(Node) + ", "
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Outgoing((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
                 + IncidentEdgeType + ", "
                 + AdjacentNodeType
                 + ")");
         }
 
-        String Node;
+        Expression Node;
         String IncidentEdgeType;
         String AdjacentNodeType;
     }
@@ -2578,7 +2740,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Incoming : Expression
     {
-        public Incoming(String node, String incidentEdgeType, String adjacentNodeType)
+        public Incoming(Expression node, String incidentEdgeType, String adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -2587,19 +2749,148 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Incoming(Node + renameSuffix, IncidentEdgeType, AdjacentNodeType);
+            return new Incoming(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incoming("
-                + NamesOfEntities.CandidateVariable(Node) + ", "
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incoming((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
                 + IncidentEdgeType + ", "
                 + AdjacentNodeType
                 + ")");
         }
 
-        String Node;
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the incident edges of a node (as set)
+    /// </summary>
+    public class Incident : Expression
+    {
+        public Incident(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Incident(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incident((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the adjacent nodes of a node (as set) reachable via outgoing edges
+    /// </summary>
+    public class AdjacentOutgoing : Expression
+    {
+        public AdjacentOutgoing(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new AdjacentOutgoing(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.AdjacentOutgoing((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the adjacent nodes of a node (as set) reachable via incoming edges
+    /// </summary>
+    public class AdjacentIncoming : Expression
+    {
+        public AdjacentIncoming(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new AdjacentIncoming(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.AdjacentIncoming((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the adjacent nodes of a node (as set) reachable via incident edges
+    /// </summary>
+    public class Adjacent : Expression
+    {
+        public Adjacent(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Adjacent(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Adjacent((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
         String IncidentEdgeType;
         String AdjacentNodeType;
     }
@@ -2919,7 +3210,10 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(".RemoveAt(");
-            sourceCode.Append(NamesOfEntities.Variable(Left) + ".Count-1");
+            if(Right==null)
+                sourceCode.Append(NamesOfEntities.Variable(Left) + ".Count-1");
+            else
+                Right.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
@@ -2935,6 +3229,11 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DequeRemove : YieldMethod
     {
+        public DequeRemove(String left, Expression right)
+            : base(left, right)
+        {
+        }
+
         public DequeRemove(String left)
             : base(left, null)
         {
@@ -2942,17 +3241,25 @@ namespace de.unika.ipd.grGen.expression
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new DequeRemove(Left + renameSuffix);
+            return new DequeRemove(Left + renameSuffix, null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
-            sourceCode.Append(".Dequeue()");
+            if(Right == null)
+                sourceCode.Append(".Dequeue(");
+            else
+            {
+                sourceCode.Append(".DequeueAt(");
+                Right.Emit(sourceCode);
+            }
+            sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
+            if(Right == null) yield return Right;
             yield break;
         }
     }
@@ -3049,48 +3356,48 @@ namespace de.unika.ipd.grGen.expression
     public class ArrayAdd : YieldMethod
     {
         public ArrayAdd(String left, Expression value, Expression index)
-            : base(left, index)
+            : base(left, value)
         {
-            Value = value;
+            Index = index;
         }
 
         public ArrayAdd(String left, Expression value)
-            : base(left, null)
+            : base(left, value)
         {
-            Value = value;
+            Index = null;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new ArrayAdd(Left + renameSuffix, Value.Copy(renameSuffix), Right != null ? Right.Copy(renameSuffix) : Right);
+            return new ArrayAdd(Left + renameSuffix, Right.Copy(renameSuffix), Index != null ? Index.Copy(renameSuffix) : Index);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
-            if(Right != null)
+            if(Index != null)
             {
                 sourceCode.Append(".Insert(");
-                Right.Emit(sourceCode);
+                Index.Emit(sourceCode);
                 sourceCode.Append(", ");
-                Value.Emit(sourceCode);
+                Right.Emit(sourceCode);
                 sourceCode.Append(")");
             }
             else
             {
                 sourceCode.Append(".Add(");
-                Value.Emit(sourceCode);
+                Right.Emit(sourceCode);
                 sourceCode.Append(")");
             }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(Right != null) yield return Right;
-            yield return Value;
+            if(Index != null) yield return Index;
+            yield return Right;
         }
 
-        Expression Value;
+        Expression Index;
     }
 
     /// <summary>
@@ -3098,23 +3405,43 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DequeAdd : YieldMethod
     {
+        public DequeAdd(String left, Expression value, Expression index)
+            : base(left, value)
+        {
+            Index = index;
+        }
+
         public DequeAdd(String left, Expression value)
             : base(left, value)
         {
+            Index = null;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new DequeAdd(Left + renameSuffix, Right.Copy(renameSuffix));
+            return new DequeAdd(Left + renameSuffix, Right.Copy(renameSuffix), Index != null ? Index.Copy(renameSuffix) : Index);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
-            sourceCode.Append(".Enqueue(");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            if(Index != null)
+            {
+                sourceCode.Append(".EnqueueAt(");
+                Index.Emit(sourceCode);
+                sourceCode.Append(", ");
+                Right.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
+            else
+            {
+                sourceCode.Append(".Enqueue(");
+                Right.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
         }
+
+        Expression Index;
     }
 
     /// <summary>

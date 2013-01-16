@@ -1,0 +1,55 @@
+using deque_model_001;
+
+rule testDequeParameter(ref s:deque<Node>)
+{
+	a:A;
+	if { a in s; }
+	
+	modify {
+		aa:AA;
+		eval {
+			s.add(aa);
+			s.add(aa, 0);
+			s.rem(0);
+			s.rem();
+			
+			s[0] = aa;
+			
+			a.val = a in s ? (s[1] in s ? 1 : 0) : a.niceDeque[0].length();
+			
+			a.niceDeque.add("hallo");
+			a.niceDeque.add("hulla", 0);
+			a.niceDeque.rem(1);
+			a.niceDeque.rem();
+			
+			a.niceDeque[0] = "aloah";
+		}
+	}
+}
+
+rule testDequeParameter2(ref s:deque<A>)
+{
+	a:A;
+	if { a in s; }
+	
+	modify {
+		aa:AA;
+		eval {
+			s.add(aa);
+			s.add(aa,0);
+			s.rem(0);
+			s.rem();
+			
+			s[0] = aa;
+
+			a.val = a in s ? (s[0] in s ? 1 : 0) : a.spiceDeque[1];
+			
+			a.spiceDeque.add(42);
+			a.spiceDeque.add(42, 0);
+			a.spiceDeque.rem(1);
+			a.spiceDeque.rem();
+			
+			a.spiceDeque[0] = 0x1337;
+		}
+	}
+}

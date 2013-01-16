@@ -294,7 +294,9 @@ public class CallActionNode extends BaseNode {
 				boolean incommensurable = false;
 
 				// Formal param type is a variable?
-				if(formalParamType.classify() != Type.IS_UNKNOWN) {
+				if(formalParamType.classify() != Type.IS_UNKNOWN
+						&& formalParamType.classify() != Type.IS_NODE
+						&& formalParamType.classify() != Type.IS_EDGE) {
 					// Do types match?
 					if(actualParamType.classify() != formalParamType.classify())
 						incommensurable = true;		// No => illegal

@@ -27,7 +27,8 @@ public class MapVarClear extends EvalStatement {
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		needs.add(target);
+		if(!isGlobalVariable(target))
+			needs.add(target);
 
 		if(getNext()!=null) {
 			getNext().collectNeededEntities(needs);

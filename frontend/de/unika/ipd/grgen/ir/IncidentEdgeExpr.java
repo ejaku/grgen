@@ -13,16 +13,20 @@ package de.unika.ipd.grgen.ir;
 public class IncidentEdgeExpr extends Expression {
 	private final Node node;
 	private final EdgeType incidentEdgeType;
-	private final boolean outgoing;
+	private final int direction;
 	private final NodeType adjacentNodeType;
 
+	public static final int INCIDENT = 0;
+	public static final int INCOMING = 1;
+	public static final int OUTGOING = 2;
+
 	public IncidentEdgeExpr(Node node,
-			EdgeType incidentEdgeType, boolean outgoing,
+			EdgeType incidentEdgeType, int direction,
 			NodeType adjacentNodeType, Type type) {
 		super("incident edge expression", type);
 		this.node = node;
 		this.incidentEdgeType = incidentEdgeType;
-		this.outgoing = outgoing;
+		this.direction = direction;
 		this.adjacentNodeType = adjacentNodeType;
 	}
 
@@ -34,8 +38,8 @@ public class IncidentEdgeExpr extends Expression {
 		return incidentEdgeType;
 	}
 
-	public boolean isOutgoing() {
-		return outgoing;
+	public int Direction() {
+		return direction;
 	}
 
 	public NodeType getAdjacentNodeType() {
@@ -45,7 +49,8 @@ public class IncidentEdgeExpr extends Expression {
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		needs.add(node);
+		if(!isGlobalVariable(node))
+			needs.add(node);
 	}
 }
 

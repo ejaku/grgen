@@ -1,0 +1,7 @@
+node class A
+{
+	intValue: int;
+	stringValue: string;
+	intDeque: deque<int>;
+	stringDeque: deque<string>;
+}

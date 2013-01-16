@@ -2923,6 +2923,370 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
+        public static object MinusObjects(object leftValue, object rightValue,
+            string balancedType, string leftType, string rightType, IGraph graph)
+        {
+            // byte and short are only used for storing, no computations are done with them
+            // enums are handled via int
+            if(balancedType == "int")
+            {
+                if(leftType == "byte")
+                {
+                    if(rightType == "byte")
+                        return (int)(sbyte)leftValue - (int)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (int)(sbyte)leftValue - (int)(short)rightValue;
+                    else if(rightType == "int")
+                        return (int)(sbyte)leftValue - (int)(int)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (int)(sbyte)leftValue - (int)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "short")
+                {
+                    if(rightType == "byte")
+                        return (int)(short)leftValue - (int)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (int)(short)leftValue - (int)(short)rightValue;
+                    else if(rightType == "int")
+                        return (int)(short)leftValue - (int)(int)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (int)(short)leftValue - (int)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "int")
+                {
+                    if(rightType == "byte")
+                        return (int)(int)leftValue - (int)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (int)(int)leftValue - (int)(short)rightValue;
+                    else if(rightType == "int")
+                        return (int)(int)leftValue - (int)(int)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (int)(int)leftValue - (int)Convert.ToInt32((Enum)rightValue);
+                }
+                else // TypesHelper.IsEnumType(leftType, model)
+                {
+                    if(rightType == "byte")
+                        return (int)Convert.ToInt32((Enum)leftValue) - (int)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (int)Convert.ToInt32((Enum)leftValue) - (int)(short)rightValue;
+                    else if(rightType == "int")
+                        return (int)Convert.ToInt32((Enum)leftValue) - (int)(int)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (int)Convert.ToInt32((Enum)leftValue) - (int)Convert.ToInt32((Enum)rightValue);
+                }
+            }
+            else if(balancedType == "long")
+            {
+                if(leftType == "byte")
+                {
+                    if(rightType == "byte")
+                        return (long)(sbyte)leftValue - (long)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (long)(sbyte)leftValue - (long)(short)rightValue;
+                    else if(rightType == "int")
+                        return (long)(sbyte)leftValue - (long)(int)rightValue;
+                    else if(rightType == "long")
+                        return (long)(sbyte)leftValue - (long)(long)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (long)(sbyte)leftValue - (long)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "short")
+                {
+                    if(rightType == "byte")
+                        return (long)(short)leftValue - (long)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (long)(short)leftValue - (long)(short)rightValue;
+                    else if(rightType == "int")
+                        return (long)(short)leftValue - (long)(int)rightValue;
+                    else if(rightType == "long")
+                        return (long)(short)leftValue - (long)(long)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (long)(short)leftValue - (long)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "int")
+                {
+                    if(rightType == "byte")
+                        return (long)(int)leftValue - (long)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (long)(int)leftValue - (long)(short)rightValue;
+                    else if(rightType == "int")
+                        return (long)(int)leftValue - (long)(int)rightValue;
+                    else if(rightType == "long")
+                        return (long)(int)leftValue - (long)(long)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (long)(int)leftValue - (long)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "long")
+                {
+                    if(rightType == "byte")
+                        return (long)(long)leftValue - (long)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (long)(long)leftValue - (long)(short)rightValue;
+                    else if(rightType == "int")
+                        return (long)(long)leftValue - (long)(int)rightValue;
+                    else if(rightType == "long")
+                        return (long)(long)leftValue - (long)(long)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (long)(long)leftValue - (long)Convert.ToInt32((Enum)rightValue);
+                }
+                else // TypesHelper.IsEnumType(leftType, model)
+                {
+                    if(rightType == "byte")
+                        return (long)Convert.ToInt32((Enum)leftValue) - (long)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (long)Convert.ToInt32((Enum)leftValue) - (long)(short)rightValue;
+                    else if(rightType == "int")
+                        return (long)Convert.ToInt32((Enum)leftValue) - (long)(int)rightValue;
+                    else if(rightType == "long")
+                        return (long)Convert.ToInt32((Enum)leftValue) - (long)(long)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (long)Convert.ToInt32((Enum)leftValue) - (long)Convert.ToInt32((Enum)rightValue);
+                }
+            }
+            else if(balancedType == "float")
+            {
+                if(leftType == "byte")
+                {
+                    if(rightType == "byte")
+                        return (float)(sbyte)leftValue - (float)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (float)(sbyte)leftValue - (float)(short)rightValue;
+                    else if(rightType == "int")
+                        return (float)(sbyte)leftValue - (float)(int)rightValue;
+                    else if(rightType == "long")
+                        return (float)(sbyte)leftValue - (float)(long)rightValue;
+                    else if(rightType == "float")
+                        return (float)(sbyte)leftValue - (float)(float)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (float)(sbyte)leftValue - (float)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "short")
+                {
+                    if(rightType == "byte")
+                        return (float)(short)leftValue - (float)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (float)(short)leftValue - (float)(short)rightValue;
+                    else if(rightType == "int")
+                        return (float)(short)leftValue - (float)(int)rightValue;
+                    else if(rightType == "long")
+                        return (float)(short)leftValue - (float)(long)rightValue;
+                    else if(rightType == "float")
+                        return (float)(short)leftValue - (float)(float)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (float)(short)leftValue - (float)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "int")
+                {
+                    if(rightType == "byte")
+                        return (float)(int)leftValue - (float)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (float)(int)leftValue - (float)(short)rightValue;
+                    else if(rightType == "int")
+                        return (float)(int)leftValue - (float)(int)rightValue;
+                    else if(rightType == "long")
+                        return (float)(int)leftValue - (float)(long)rightValue;
+                    else if(rightType == "float")
+                        return (float)(int)leftValue - (float)(float)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (float)(int)leftValue - (float)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "long")
+                {
+                    if(rightType == "byte")
+                        return (float)(long)leftValue - (float)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (float)(long)leftValue - (float)(short)rightValue;
+                    else if(rightType == "int")
+                        return (float)(long)leftValue - (float)(int)rightValue;
+                    else if(rightType == "long")
+                        return (float)(long)leftValue - (float)(long)rightValue;
+                    else if(rightType == "float")
+                        return (float)(long)leftValue - (float)(float)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (float)(long)leftValue - (float)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "float")
+                {
+                    if(rightType == "byte")
+                        return (float)(float)leftValue - (float)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (float)(float)leftValue - (float)(short)rightValue;
+                    else if(rightType == "int")
+                        return (float)(float)leftValue - (float)(int)rightValue;
+                    else if(rightType == "long")
+                        return (float)(float)leftValue - (float)(long)rightValue;
+                    else if(rightType == "float")
+                        return (float)(float)leftValue - (float)(float)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (float)(float)leftValue - (float)Convert.ToInt32((Enum)rightValue);
+                }
+                else // TypesHelper.IsEnumType(leftType, model)
+                {
+                    if(rightType == "byte")
+                        return (float)Convert.ToInt32((Enum)leftValue) - (float)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (float)Convert.ToInt32((Enum)leftValue) - (float)(short)rightValue;
+                    else if(rightType == "int")
+                        return (float)Convert.ToInt32((Enum)leftValue) - (float)(int)rightValue;
+                    else if(rightType == "long")
+                        return (float)Convert.ToInt32((Enum)leftValue) - (float)(long)rightValue;
+                    else if(rightType == "float")
+                        return (float)Convert.ToInt32((Enum)leftValue) - (float)(float)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (float)Convert.ToInt32((Enum)leftValue) - (float)Convert.ToInt32((Enum)rightValue);
+                }
+            }
+            else if(balancedType == "double")
+            {
+                if(leftType == "byte")
+                {
+                    if(rightType == "byte")
+                        return (double)(sbyte)leftValue - (double)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (double)(sbyte)leftValue - (double)(short)rightValue;
+                    else if(rightType == "int")
+                        return (double)(sbyte)leftValue - (double)(int)rightValue;
+                    else if(rightType == "long")
+                        return (double)(sbyte)leftValue - (double)(long)rightValue;
+                    else if(rightType == "float")
+                        return (double)(sbyte)leftValue - (double)(float)rightValue;
+                    else if(rightType == "double")
+                        return (double)(sbyte)leftValue - (double)(double)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (double)(sbyte)leftValue - (double)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "short")
+                {
+                    if(rightType == "byte")
+                        return (double)(short)leftValue - (double)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (double)(short)leftValue - (double)(short)rightValue;
+                    else if(rightType == "int")
+                        return (double)(short)leftValue - (double)(int)rightValue;
+                    else if(rightType == "long")
+                        return (double)(short)leftValue - (double)(long)rightValue;
+                    else if(rightType == "float")
+                        return (double)(short)leftValue - (double)(float)rightValue;
+                    else if(rightType == "double")
+                        return (double)(short)leftValue - (double)(double)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (double)(short)leftValue - (double)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "int")
+                {
+                    if(rightType == "byte")
+                        return (double)(int)leftValue - (double)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (double)(int)leftValue - (double)(short)rightValue;
+                    else if(rightType == "int")
+                        return (double)(int)leftValue - (double)(int)rightValue;
+                    else if(rightType == "long")
+                        return (double)(int)leftValue - (double)(long)rightValue;
+                    else if(rightType == "float")
+                        return (double)(int)leftValue - (double)(float)rightValue;
+                    else if(rightType == "double")
+                        return (double)(int)leftValue - (double)(double)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (double)(int)leftValue - (double)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "long")
+                {
+                    if(rightType == "byte")
+                        return (double)(long)leftValue - (double)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (double)(long)leftValue - (double)(short)rightValue;
+                    else if(rightType == "int")
+                        return (double)(long)leftValue - (double)(int)rightValue;
+                    else if(rightType == "long")
+                        return (double)(long)leftValue - (double)(long)rightValue;
+                    else if(rightType == "float")
+                        return (double)(long)leftValue - (double)(float)rightValue;
+                    else if(rightType == "double")
+                        return (double)(long)leftValue - (double)(double)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (double)(long)leftValue - (double)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "float")
+                {
+                    if(rightType == "byte")
+                        return (double)(float)leftValue - (double)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (double)(float)leftValue - (double)(short)rightValue;
+                    else if(rightType == "int")
+                        return (double)(float)leftValue - (double)(int)rightValue;
+                    else if(rightType == "long")
+                        return (double)(float)leftValue - (double)(long)rightValue;
+                    else if(rightType == "float")
+                        return (double)(float)leftValue - (double)(float)rightValue;
+                    else if(rightType == "double")
+                        return (double)(float)leftValue - (double)(double)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (double)(float)leftValue - (double)Convert.ToInt32((Enum)rightValue);
+                }
+                else if(leftType == "double")
+                {
+                    if(rightType == "byte")
+                        return (double)(double)leftValue - (double)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (double)(double)leftValue - (double)(short)rightValue;
+                    else if(rightType == "int")
+                        return (double)(double)leftValue - (double)(int)rightValue;
+                    else if(rightType == "long")
+                        return (double)(double)leftValue - (double)(long)rightValue;
+                    else if(rightType == "float")
+                        return (double)(double)leftValue - (double)(float)rightValue;
+                    else if(rightType == "double")
+                        return (double)(double)leftValue - (double)(double)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (double)(double)leftValue - (double)Convert.ToInt32((Enum)rightValue);
+                }
+                else // TypesHelper.IsEnumType(leftType, model)
+                {
+                    if(rightType == "byte")
+                        return (double)Convert.ToInt32((Enum)leftValue) - (double)(sbyte)rightValue;
+                    else if(rightType == "short")
+                        return (double)Convert.ToInt32((Enum)leftValue) - (double)(short)rightValue;
+                    else if(rightType == "int")
+                        return (double)Convert.ToInt32((Enum)leftValue) - (double)(int)rightValue;
+                    else if(rightType == "long")
+                        return (double)Convert.ToInt32((Enum)leftValue) - (double)(long)rightValue;
+                    else if(rightType == "float")
+                        return (double)Convert.ToInt32((Enum)leftValue) - (double)(float)rightValue;
+                    else if(rightType == "double")
+                        return (double)Convert.ToInt32((Enum)leftValue) - (double)(double)rightValue;
+                    else // TypesHelper.IsEnumType(rightType, model)
+                        return (double)Convert.ToInt32((Enum)leftValue) - (double)Convert.ToInt32((Enum)rightValue);
+                }
+            }
+
+            throw new Exception("Invalid types for -");
+        }
+
+        public static string MinusStatic(string leftValue, string rightValue,
+            string balancedType, string leftType, string rightType)
+        {
+            // byte and short are only used for storing, no computations are done with them
+            // enums are handled via int
+            if(balancedType == "int")
+            {
+                return "((int)" + leftValue + " - " + "(int)" + rightValue + ")";
+            }
+            else if(balancedType == "long")
+            {
+                return "((long)" + leftValue + " - " + "(long)" + rightValue + ")";
+            }
+            else if(balancedType == "float")
+            {
+                return "((float)" + leftValue + " - " + "(float)" + rightValue + ")";
+            }
+            else if(balancedType == "double")
+            {
+                return "((double)" + leftValue + " - " + "(double)" + rightValue + ")";
+            }
+
+            return null;
+        }
+
 
         ///////////////////////////////////////////////////////////////////////////
 
@@ -3030,7 +3394,11 @@ namespace de.unika.ipd.grGen.libGr
                         }
                     }
                     return result;
-                
+
+                case SequenceExpressionType.Minus:
+                    result = BalanceArithmetic(left, right, model);
+                    return result;
+
                 default:
                     return "";
             }

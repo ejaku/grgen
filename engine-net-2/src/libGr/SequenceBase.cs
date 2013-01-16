@@ -31,6 +31,12 @@ namespace de.unika.ipd.grGen.libGr
         int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq);
 
         /// <summary>
+        /// returns the maybe user altered point within the interval series, denoting the sequence to execute next
+        /// the randomly chosen point is supplied; the sequence with the intervals and their corresponding sequences is supplied
+        /// </summary>
+        double ChoosePoint(double pointToExecute, SequenceWeightedOne seq);
+
+        /// <summary>
         /// returns the maybe user altered match to execute next for the sequence given
         /// the randomly chosen total match is supplied; the sequence with the rules and matches is supplied
         /// </summary>

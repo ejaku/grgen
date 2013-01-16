@@ -33,4 +33,5 @@ edge class EB
 	bla : float;
 	huh : boolean;
 	lal : Bla;
+	meeh: deque<string>;
 }

@@ -60,3 +60,12 @@ rule strict_and
 		exec($&((::m)=r1, [r2], r3(n), true, (::l,::m)=$[r4(n,::m)]));
 	}
 }
+
+rule weighted_one
+{
+	n:Node;
+
+	modify {
+		exec($.(1.0(::m)=r1, 1.5[r2], 0.5r3(n), 3.141592true, 1.5(::l,::m)=$[r4(n,::m)]));
+	}
+}

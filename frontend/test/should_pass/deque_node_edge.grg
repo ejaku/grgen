@@ -1,0 +1,79 @@
+using deque_model_003;
+
+rule addToDeque {
+	n:N; m:Node;
+	
+	modify {
+		eval {
+			n.nodeDeque = n.nodeDeque + deque<Node>] n [;
+			n.nodeDeque = n.nodeDeque + ] m [;
+			n.nDeque = n.nDeque + deque<N>] n [;
+			n.nDeque = n.nDeque + ] n [;
+		}
+	}
+}
+
+test containedInDeque {
+	n:N;
+	
+	if { n in n.nodeDeque; }
+	if { n in n.nDeque; }
+}
+
+// This clones the deques
+rule assignDequeToDeque {
+	n:N; m:N; 
+		
+	modify {
+		eval {
+			n.nodeDeque = m.nodeDeque;
+			m.nDeque = n.nDeque;
+		}
+	}
+}
+
+rule anonymousDeque {
+	n:N; m:N;
+	
+	if { n in deque<Node>] n, m [; }
+	if { n in deque<N>] n, m [; }
+
+	modify {
+		eval {
+			n.val = (n in ]n, m[) ? 1 : 0;
+		}
+	}
+}
+
+rule dequeSize {
+	n:N;
+	
+	if { n.nodeDeque.size()==42; }
+	if { n.nDeque.size()==42; }
+	
+	modify {
+		eval {
+			n.val = n.nodeDeque.size();
+			n.val = n.nDeque.size();
+		}
+	}
+}
+
+rule addToDeque2 {
+	n:N; m:N;
+	
+	modify {
+		eval {
+			n.nodeDeque = (m.nodeDeque + deque<Node>] n, m [) + deque<Node>] m [;
+		}
+	}
+}
+
+rule storage {
+	n:N;
+	m:N{n.nDeque};
+	l:Node{n.nodeDeque};
+	
+	modify {
+	}
+}

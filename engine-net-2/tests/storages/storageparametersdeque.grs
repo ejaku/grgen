@@ -1,0 +1,33 @@
+new graph storages/storageparameters
+
+new n1:NN
+new n2:NN
+new n3:NNN
+
+xgrs ::st = deque<Node>][
+
+xgrs [addToDeque(::st)] <; {::s=::st.size()}
+show var s
+
+xgrs [remFromDeque(::st)] <; {::s=::st.size()}
+show var s
+
+xgrs remFromDequeNodeGiven(::st, ::n2) <; {::s=::st.size()}
+show var s
+
+xgrs addNodeIfOtherContainedDeque(::st, ::n1) <; {::s=::st.size()}
+show var s
+
+xgrs addNodeIfOtherContainedDeque(::st, ::n1) <; {::s=::st.size()}
+show var s
+
+xgrs {::st.add(::n2)} <; {::s=::st.size()}
+show var s
+
+xgrs remFromDeque(::st) <; {::s=::st.size()}
+show var s
+
+xgrs remFromDeque(::st) <; {::s=::st.size()}
+show var s
+
+quit

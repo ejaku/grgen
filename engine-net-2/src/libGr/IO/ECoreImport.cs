@@ -834,6 +834,7 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.SetAttr:
                 case AttributeKind.MapAttr:
                 case AttributeKind.ArrayAttr:
+                case AttributeKind.DequeAttr:
                 default:
                     throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\"");
             }

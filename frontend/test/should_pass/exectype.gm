@@ -10,6 +10,7 @@ node class A
 	s:set<foo>;
 	m:map<int,string>;
 	a:array<foo>;
+	dq:deque<foo>;
 	fl:float;
 	d:double;
 }
@@ -30,6 +31,7 @@ edge class H
 	s:set<foo>;
 	m:map<int,string>;
 	a:array<string>;
+	dq:deque<string>;
 	fl:float;
 	d:double;
 }
@@ -70,4 +72,13 @@ node class Dummy
 	ad:array<double>;
 	ab:array<boolean>;
 	as:array<string>;
+	
+	dby:deque<byte>;
+	dsh:deque<short>;
+	di:deque<int>;
+	dl:deque<long>;
+	df:deque<float>;
+	dd:deque<double>;
+	db:deque<boolean>;
+	ds:deque<string>;
 }

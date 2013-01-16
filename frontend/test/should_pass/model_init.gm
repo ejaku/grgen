@@ -8,6 +8,12 @@ node class A {
 	i2 : int = i1 * (int)f;
 	f = 42.815f;
 	i2 = i1 * (int)f;
+	b : boolean = true;
+
+    m : map<string, Node>; // todo: can't use CC here cause of internal ordering problems -- solve
+    ar : array<Node>;
+    de : deque<Node>;
+    se : set<string>;
 }
 
 node class B extends A {

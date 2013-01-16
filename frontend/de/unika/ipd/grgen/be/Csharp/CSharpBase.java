@@ -292,7 +292,7 @@ public abstract class CSharpBase {
 		}
 		else if (t instanceof DequeType) {
 			DequeType dequeType = (DequeType) t;
-			return "Deque<" + formatType(dequeType.getValueType()) + ">";
+			return "GRGEN_LIBGR.Deque<" + formatType(dequeType.getValueType()) + ">";
 		}
 		else if (t instanceof GraphType) {
 			return "GRGEN_LIBGR.IGraph";
@@ -740,11 +740,19 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof VariableExpression) {
 			Variable var = ((VariableExpression) expr).getVariable();
-			sb.append("var_" + var.getIdent());
+			if(!Expression.isGlobalVariable(var)) {
+				sb.append("var_" + var.getIdent());
+			} else {
+				sb.append(formatGlobalVariableRead(var));
+			}
 		}
 		else if(expr instanceof GraphEntityExpression) {
 			GraphEntity ent = ((GraphEntityExpression) expr).getGraphEntity();
-			sb.append(formatEntity(ent));
+			if(!Expression.isGlobalVariable(ent)) {
+				sb.append(formatEntity(ent));
+			} else {
+				sb.append(formatGlobalVariableRead(ent));
+			}
 		}
 		else if(expr instanceof Visited) {
 			Visited vis = (Visited) expr;
@@ -979,10 +987,51 @@ public abstract class CSharpBase {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(dp));
 			}
 			else {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Peek(");
+				sb.append("(");
 				genExpression(sb, dp.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
+				sb.append("[");
 				genExpression(sb, dp.getNumberExpr(), modifyGenerationState);
+				sb.append("])");
+			}
+		}
+		else if (expr instanceof DequeIndexOfExpr) {
+			DequeIndexOfExpr di = (DequeIndexOfExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(di));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.IndexOf(");
+				genExpression(sb, di.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, di.getValueExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof DequeLastIndexOfExpr) {
+			DequeLastIndexOfExpr dli = (DequeLastIndexOfExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(dli));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
+				genExpression(sb, dli.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, dli.getValueExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof DequeSubdequeExpr) {
+			DequeSubdequeExpr dsd = (DequeSubdequeExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(dsd));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.Subdeque(");
+				genExpression(sb, dsd.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, dsd.getStartExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, dsd.getLengthExpr(), modifyGenerationState);
 				sb.append(")");
 			}
 		}
@@ -1096,11 +1145,41 @@ public abstract class CSharpBase {
 			sb.append(")");
 		}
 		else if (expr instanceof IncidentEdgeExpr) {
-			IncidentEdgeExpr ce = (IncidentEdgeExpr) expr;
-			sb.append("GRGEN_LIBGR.GraphHelper."+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
-				+ formatEntity(ce.getNode())+", "
-				+ formatTypeClassRef(ce.getIncidentEdgeType()) + ".typeVar, "
-				+ formatTypeClassRef(ce.getAdjacentNodeType()) + ".typeVar"
+			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
+			if(ie.Direction()==IncidentEdgeExpr.OUTGOING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.Outgoing(");
+			} else if(ie.Direction()==IncidentEdgeExpr.INCOMING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.Incoming(");
+			} else {
+				sb.append("GRGEN_LIBGR.GraphHelper.Incident(");
+			}
+			if(!Expression.isGlobalVariable(ie.getNode())) {
+				sb.append(formatEntity(ie.getNode())); 
+			} else {
+				sb.append(formatGlobalVariableRead(ie.getNode()));
+			}
+			sb.append(", "
+				+ formatTypeClassRef(ie.getIncidentEdgeType()) + ".typeVar, "
+				+ formatTypeClassRef(ie.getAdjacentNodeType()) + ".typeVar"
+				+ ")");
+		}
+		else if (expr instanceof AdjacentNodeExpr) {
+			AdjacentNodeExpr an = (AdjacentNodeExpr) expr;
+			if(an.Direction()==AdjacentNodeExpr.OUTGOING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.AdjacentOutgoing(");
+			} else if(an.Direction()==AdjacentNodeExpr.INCOMING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.AdjacentIncoming(");
+			} else {
+				sb.append("GRGEN_LIBGR.GraphHelper.Adjacent(");
+			}
+			if(!Expression.isGlobalVariable(an.getNode())) {
+				sb.append(formatEntity(an.getNode())); 
+			} else {
+				sb.append(formatGlobalVariableRead(an.getNode()));
+			}
+			sb.append(", "
+				+ formatTypeClassRef(an.getIncidentEdgeType()) + ".typeVar, "
+				+ formatTypeClassRef(an.getAdjacentNodeType()) + ".typeVar"
 				+ ")");
 		}
 		else if (expr instanceof MaxExpr) {
@@ -1128,6 +1207,16 @@ public abstract class CSharpBase {
 			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
+	}
+
+	protected String formatGlobalVariableRead(Entity globalVar)
+	{
+		return "((" + formatType(globalVar.getType()) + ")((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).GetVariableValue(\"" + formatIdentifiable(globalVar) + "\"))";
+	}
+
+	protected String formatGlobalVariableWrite(Entity globalVar, String value)
+	{
+		return "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).SetVariableValue(\"" + formatIdentifiable(globalVar) + "\", (" + formatType(globalVar.getType()) + ")(" + value + "))";
 	}
 
 	protected String getValueAsCSSharpString(Constant constant)

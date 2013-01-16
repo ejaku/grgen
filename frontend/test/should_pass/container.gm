@@ -1,0 +1,24 @@
+enum Lol 
+{
+	Lal, Bleeh, Foo
+}
+
+node class Gaggl
+{
+	s1:set<Node>;
+	s2:set<Gaggl>;
+	s3:set<Lol>;
+	s4:set<string>;
+	m1:map<Node,Edge>;
+	m2:map<Gaggl,Edge>;
+	m3:map<Lol,int>;
+	m4:map<string,double>;
+	a1:array<Node>;
+	a2:array<Gaggl>;
+	a3:array<Lol>;
+	a4:array<string>;
+	d1:deque<Node>;
+	d2:deque<Gaggl>;
+	d3:deque<Lol>;
+	d4:deque<string>;
+}

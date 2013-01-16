@@ -1,0 +1,14 @@
+node class N
+{
+	nodeDeque:deque<Node>;
+	nDeque:deque<N>;
+	val:int;
+}
+
+edge class E
+{
+	edgeDeque:deque<Edge>;
+	eDeque:deque<E>;
+	uDeque:deque<UEdge>;
+	val:int;
+}

@@ -51,7 +51,8 @@ public class CompoundAssignmentVarChanged extends CompoundAssignmentVar {
 		super.collectNeededEntities(needs);
 
 		Entity entity = changedTarget.getOwner();
-		needs.add((GraphEntity) entity);
+		if(!isGlobalVariable(entity))
+			needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for changed target
 		HashSet<Variable> varSet = needs.variables;

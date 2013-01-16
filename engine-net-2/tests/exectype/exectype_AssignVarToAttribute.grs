@@ -11,12 +11,14 @@ x.st
 x.s
 x.m
 x.a
+x.dq
 x.fl
 x.d
 xgrs f:foo=foo::Bla && by:byte=42y && sh:short=42s && i:int=42 && l:long=42l && b:boolean=true && st:string="Gnampf!" \
-	&& s:set<foo>=set<foo>{} && m:map<int,string>=map<int,string>{} && a:array<foo>=array<foo>[] \
+	&& s:set<foo>=set<foo>{} && m:map<int,string>=map<int,string>{} \
+	&& a:array<foo>=array<foo>[] && dq:deque<foo>=deque<foo>][ \
 	&& fl:float=3.141f && d:double=3.141592654 \
-	&& {s.add(f)} && {m.add(i,st)} && {a.add(f)} \
+	&& {s.add(f)} && {m.add(i,st)} && {a.add(f)} && {dq.add(f)} \
 	&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(f)} && {emit("\n")} \
 	&& {emit("value of variable by 5 6 7 8 9 ")} && {emit(by)} && {emit("\n")} \
 	&& {emit("value of variable sh 5 6 7 8 9 ")} && {emit(sh)} && {emit("\n")} \
@@ -27,10 +29,11 @@ xgrs f:foo=foo::Bla && by:byte=42y && sh:short=42s && i:int=42 && l:long=42l && 
 	&& {emit("value of variable s 5 6 7 8 9 ")} && {emit(s)} && {emit("\n")} \
 	&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")} \
 	&& {emit("value of variable a 5 6 7 8 9 ")} && {emit(a)} && {emit("\n")} \
+	&& {emit("value of variable dq 5 6 7 8 9 ")} && {emit(dq)} && {emit("\n")} \
 	&& {emit("value of variable fl 5 6 7 8 9 ")} && {emit(fl)} && {emit("\n")} \
 	&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(d)} && {emit("\n")} \
 	&& {::x.f=f} && {::x.by=by} && {::x.sh=sh} && {::x.i=i} && {::x.l=l} && {::x.b=b} \
-	&& {::x.st=st} && {::x.s=s} && {::x.m=m} && {::x.a=a} && {::x.fl=fl} && {::x.d=d}
+	&& {::x.st=st} && {::x.s=s} && {::x.m=m} && {::x.a=a} && {::x.dq=dq} && {::x.fl=fl} && {::x.d=d}
 x.f
 x.by
 x.sh
@@ -41,6 +44,7 @@ x.st
 x.s
 x.m
 x.a
+x.dq
 x.fl
 x.d
 quit

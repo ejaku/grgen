@@ -1,0 +1,118 @@
+enum FooBar
+{
+  foo, bar, bla
+}
+
+node class N1
+{
+	aby:set<byte>;
+	ash:set<short>;
+	a:set<int>;
+	al:set<long>;
+	b:set<string>;
+	c:set<double>;
+	cf:set<float>;
+	d:set<boolean>;
+	e:set<FooBar>;
+	empty:set<FooBar>;
+}
+
+node class N2
+{
+	aby:map<byte,string>;
+	ash:map<short,string>;
+	a:map<int,string>;
+	al:map<long,string>;
+	b:map<string,double>;
+	c:map<double,boolean>;
+	cf:map<float,boolean>;
+	d:map<boolean,FooBar>;
+	e:map<FooBar,int>;
+	empty:map<FooBar,FooBar>;
+}
+
+node class N3
+{
+	aby:array<byte>;
+	ash:array<short>;
+	a:array<int>;
+	al:array<long>;
+	b:array<string>;
+	c:array<double>;
+	cf:array<float>;
+	d:array<boolean>;
+	e:array<FooBar>;
+	empty:array<FooBar>;
+}
+
+node class N4
+{
+	aby:deque<byte>;
+	ash:deque<short>;
+	a:deque<int>;
+	al:deque<long>;
+	b:deque<string>;
+	c:deque<double>;
+	cf:deque<float>;
+	d:deque<boolean>;
+	e:deque<FooBar>;
+	empty:deque<FooBar>;
+}
+
+///////////////////////////////////////////
+
+edge class E1
+{
+	aby:set<byte>;
+	ash:set<short>;
+	a:set<int>;
+	al:set<long>;
+	b:set<string>;
+	c:set<double>;
+	cf:set<float>;
+	d:set<boolean>;
+	e:set<FooBar>;
+	empty:set<FooBar>;
+}
+
+edge class E2
+{
+	aby:map<byte,string>;
+	ash:map<short,string>;
+	a:map<int,string>;
+	al:map<long,string>;
+	b:map<string,double>;
+	c:map<double,boolean>;
+	cf:map<float,boolean>;
+	d:map<boolean,FooBar>;
+	e:map<FooBar,int>;
+	empty:map<FooBar,FooBar>;
+}
+
+edge class E3
+{
+	aby:array<byte>;
+	ash:array<short>;
+	a:array<int>;
+	al:array<long>;
+	b:array<string>;
+	c:array<double>;
+	cf:array<float>;
+	d:array<boolean>;
+	e:array<FooBar>;
+	empty:array<FooBar>;
+}
+
+edge class E4
+{
+	aby:deque<byte>;
+	ash:deque<short>;
+	a:deque<int>;
+	al:deque<long>;
+	b:deque<string>;
+	c:deque<double>;
+	cf:deque<float>;
+	d:deque<boolean>;
+	e:deque<FooBar>;
+	empty:deque<FooBar>;
+}

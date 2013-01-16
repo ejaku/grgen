@@ -414,6 +414,19 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        public object this[string name]
+        {
+            get
+            {
+                return GetVariableValue(name);
+            }
+
+            set
+            {
+                SetVariableValue(name, value);
+            }
+        }
+
         #endregion Variables management
 
 

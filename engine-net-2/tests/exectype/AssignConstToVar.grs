@@ -18,4 +18,6 @@ k=map<A,H>{}
 show var k
 m=array<int>[]
 show var m
+n=deque<int>][
+show var n
 quit

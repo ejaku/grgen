@@ -210,6 +210,8 @@ textActions returns [ UnitNode main = null ]
 		)
 	| usingDecl[modelChilds]
 	)?
+	
+	( globalVarDecl )*
 
 	( patternOrActionOrSequenceDecls[patternChilds, actionChilds, sequenceChilds] )? EOF
 		{
@@ -253,12 +255,55 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 		SEMI // don't move before the semantic action, this would cause a following include to be processed before the using of the model
 	;
 
+globalVarDecl 
+	: DOUBLECOLON id=entIdentDecl COLON type=typeIdentUse SEMI
+		{
+			id.setDecl(new NodeDeclNode(id, type, false, 0, TypeExprNode.getEmpty(), null));
+		}
+	| MINUS DOUBLECOLON id=entIdentDecl COLON type=typeIdentUse (RARROW | MINUS) SEMI
+		{
+			id.setDecl(new EdgeDeclNode(id, type, false, 0, TypeExprNode.getEmpty(), null));
+		}
+	| ref=IDENT DOUBLECOLON id=entIdentDecl COLON 
+		{
+			if(!ref.getText().equals("ref"))
+				{ reportError(getCoords(ref), "ref keyword needed before (non-node/edge) global variable"); }
+		}
+		(
+			type=typeIdentUse
+			{
+				id.setDecl(new VarDeclNode(id, type, null, 0));
+			}
+		|
+			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				id.setDecl(new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), null, 0));
+			}
+		|
+			SET LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				id.setDecl(new VarDeclNode(id, SetTypeNode.getSetType(keyType), null, 0));
+			}
+		|
+			ARRAY LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				id.setDecl(new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), null, 0));
+			}
+		|
+			DEQUE LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				id.setDecl(new VarDeclNode(id, DequeTypeNode.getDequeType(keyType), null, 0));
+			}
+		)
+		SEMI
+	;
+
 patternOrActionOrSequenceDecls[ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> sequenceChilds ]
 	@init{ mod = 0; }
 
 	: ( mod=patternModifiers patternOrActionOrSequenceDecl[patternChilds, actionChilds, sequenceChilds, mod] )+
 	;
-
+	
 patternModifiers returns [ int res = 0 ]
 	: ( m=patternModifier[ res ]  { res = m; } )*
 	;
@@ -1588,6 +1633,7 @@ iterSequence[ExecNode xg]
 	;
 
 simpleSequence[ExecNode xg]
+options { k = 3; }
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
@@ -1629,6 +1675,8 @@ simpleSequence[ExecNode xg]
 	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? 
 		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); }) 
 		LPAREN { xg.append("("); } xgrs[xg] (COMMA { xg.append(","); } xgrs[xg])* RPAREN { xg.append(")"); }
+	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? DOT { xg.append("."); } 
+		LPAREN { xg.append("("); } f=NUM_DOUBLE { xg.append(f.getText() + " "); } xgrs[xg] (COMMA { xg.append(","); } f=NUM_DOUBLE { xg.append(f.getText() + " "); } xgrs[xg])* RPAREN { xg.append(")"); }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append(" <"); } xgrs[xg] GT { xg.append("> "); }
 	| SL { xg.append(" <<"); } parallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] SR { xg.append(">> "); }
@@ -1677,6 +1725,7 @@ seqAssignTarget[ExecNode xg]
 	: YIELD { xg.append("yield "); } xgrsVarUse[xg] 
 	| (xgrsVarUse[null] DOT VISITED) => xgrsVarUse[xg] DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); } 
 	| (xgrsVarUse[null] DOT IDENT ) => xgrsVarUse[xg] d=DOT attr=IDENT { xg.append("."+attr.getText()); }
+		(LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); })?
 	| (xgrsVarUse[null] LBRACK) => xgrsVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
 	| xgrsEntity[xg]
 	;
@@ -1742,7 +1791,7 @@ seqExprRelation[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	;
 
 seqExprAdd[ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprUnary[xg] { res=exp; } ( t=PLUS {xg.append(" + ");} exp2=seqExprAdd[xg]  { res = makeBinOp(t, exp, exp2); })?
+	: exp=seqExprUnary[xg] { res=exp; } ( (t=PLUS {xg.append(" + ");} | t=MINUS {xg.append(" - ");}) exp2=seqExprAdd[xg]  { res = makeBinOp(t, exp, exp2); })?
 	;
 
 seqExprUnary[ExecNode xg] returns[ExprNode res = env.initExprNode()]
@@ -1773,8 +1822,10 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 		{ xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); }
 	| (xgrsVarUse[null] DOT IDENT) => target=xgrsVarUse[xg] d=DOT attr=memberIdentUse 
 		{ xg.append("."+attr.getSymbol().getText()); res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
-	| (xgrsVarUse[null] LBRACK) => target=xgrsVarUse[xg] l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK 
-		{ xg.append("]"); res = new IndexedAccessExprNode(getCoords(l), new IdentExprNode((IdentNode)target), key); }
+		(l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
+			{ res = new IndexedAccessExprNode(getCoords(l), res, key); })?
+	| (xgrsVarUse[null] LBRACK) => target=xgrsVarUse[xg] l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
+		{ res = new IndexedAccessExprNode(getCoords(l), new IdentExprNode((IdentNode)target), key); }
 	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
 	| (functionCall[null]) => functionCall[xg]
 	| RANDOM LPAREN { xg.append("random"); xg.append("("); } ( fromExpr=seqExpression[xg] )? RPAREN { xg.append(")"); }
@@ -2695,7 +2746,7 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 
 	
 assignmentOrMethodCall [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
-options { k = 4; }
+options { k = 5; }
 	@init{
 		int cat = -1; // compound assign type
 		int ccat = CompoundAssignNode.NONE; // changed compound assign type
@@ -2704,32 +2755,32 @@ options { k = 4; }
 		boolean yielded = false;
 	}
 
-	: owner=entIdentUse	d=DOT member=entIdentUse a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
+	: (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, context); }
 		{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
 	|
-	  (y=YIELD { yielded = true; })? variable=entIdentUse a=ASSIGN e=expr[false]
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse a=ASSIGN e=expr[false]
 		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context); }
 	|
 	  vis=visited a=ASSIGN e=expr[false]
 		{ res = new AssignVisitedNode(getCoords(a), vis, e); }
 		{ if(onLHS) reportError(getCoords(a), "Assignment to a visited flag is forbidden in LHS eval."); }
 	| 
-	  owner=entIdentUse	d=DOT member=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
+	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx); }
 		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in LHS eval, only yield indexed assignment to a def variable allowed."); }
 	|
-	  (y=YIELD { yielded = true; })? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false]
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false]
 		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx); }
 	| 
-	  owner=entIdentUse d=DOT member=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
+	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
 		{ res = new MethodCallNode(new QualIdentNode(getCoords(d), owner, member), method, params); }
 		{ if(onLHS) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed."); }
 	|
-	  (y=YIELD { yielded = true; })? variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
 		{ res = new MethodCallNode(new IdentExprNode(variable, yielded), method, params); }
 	| 
-	  owner=entIdentUse d=DOT member=entIdentUse 
+	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
 			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
@@ -2737,7 +2788,7 @@ options { k = 4; }
 			{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
 	|
-	  (y=YIELD { yielded = true; })? variable=entIdentUse 
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
 			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
@@ -2905,7 +2956,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 		{
 			res = new CastNode(getCoords(p), id, op);
 		}
-	| e=primaryExpr[inEnumInit] ((LBRACK|DOT) => e=selectorExpr[e, inEnumInit])* { res = e; }
+	| e=primaryExpr[inEnumInit] ((LBRACK ~PLUS | DOT) => e=selectorExpr[e, inEnumInit])* { res = e; }
 	; 
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
@@ -2914,6 +2965,7 @@ options { k = 3; }
 	| e=randomExpr { res = e; }
 	| e=nameOf { res = e; }
 	| e=identExpr { res = e; }
+	| e=globalsAccessExpr { res = e; }
 	| e=constant { res = e; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
@@ -3025,7 +3077,7 @@ globalsAccessExpr returns [ ExprNode res = env.initExprNode() ]
 	: DOUBLECOLON i=IDENT
 		{
 			id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			res = new GlobalsAccessExprNode(id);
+			res = new IdentExprNode(id);
 		}
 	;
 
@@ -3041,8 +3093,9 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: id=extFuncIdentUse params=paramExprs[inEnumInit]
 		{
-			if((id.toString()=="min" || id.toString()=="max" || id.toString()=="pow") && params.getChildren().size()==2
-				|| (id.toString()=="incoming" || id.toString()=="outgoing") && params.getChildren().size()>=1 && params.getChildren().size()<=3) {
+			if((id.toString().equals("min") || id.toString().equals("max") || id.toString().equals("pow")) && params.getChildren().size()==2
+				|| (id.toString().equals("incoming") || id.toString().equals("outgoing") || id.toString().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+				|| (id.toString().equals("adjacentIncoming") || id.toString().equals("adjacentOutgoing") || id.toString().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3) {
 				res = new FunctionInvocationExprNode(id, params, env);
 			} else {
 				res = new ExternalFunctionInvocationExprNode(id, params);

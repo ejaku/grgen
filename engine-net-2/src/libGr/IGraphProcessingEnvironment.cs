@@ -124,6 +124,13 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IEnumerable<Variable> Variables { get; }
 
+        /// <summary>
+        /// Indexer for accessing the variables by name, via index notation on this object.
+        /// </summary>
+        /// <param name="name">The name of the variable to access</param>
+        /// <returns>The value of the variable accessed (read on get, written on set)</returns>
+        object this[string name] { get; set; }
+
         #endregion Variables management
 
 
@@ -321,6 +328,11 @@ namespace de.unika.ipd.grGen.libGr
         public int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
         {
             return seqToExecute;
+        }
+
+        public double ChoosePoint(double pointToExecute, SequenceWeightedOne seq)
+        {
+            return pointToExecute;
         }
 
         public int ChooseMatch(int totalMatchExecute, SequenceSomeFromSet seq)

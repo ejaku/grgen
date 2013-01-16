@@ -699,11 +699,33 @@ namespace de.unika.ipd.grGen.lgsp
 
                     if(seqFor.Container.Type == "")
                     {
-                        // type not statically known? -> might be Dictionary or List dynamically, must decide at runtime
+                        // type not statically known? -> might be Dictionary or List or Deque dynamically, must decide at runtime
                         source.AppendFront("if(" + GetVar(seqFor.Container) + " is IList) {\n");
                         source.Indent();
 
                         source.AppendFront("IList entry_" + seqFor.Id + " = (IList) " + GetVar(seqFor.Container) + ";\n");
+                        source.AppendFrontFormat("for(int index_{0}=0; index_{0} < entry_{0}.Count; ++index_{0})\n", seqFor.Id);
+                        source.AppendFront("{\n");
+                        source.Indent();
+                        if(seqFor.VarDst != null)
+                        {
+                            source.AppendFront(SetVar(seqFor.Var, "index_" + seqFor.Id));
+                            source.AppendFront(SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                        }
+                        else
+                        {
+                            source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                        }
+                        EmitSequence(seqFor.Seq, source);
+                        source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("} else if(" + GetVar(seqFor.Container) + " is GRGEN_LIBGR.IDeque) {\n");
+                        source.Indent();
+
+                        source.AppendFront("GRGEN_LIBGR.IDeque entry_" + seqFor.Id + " = (GRGEN_LIBGR.IDeque) " + GetVar(seqFor.Container) + ";\n");
                         source.AppendFrontFormat("for(int index_{0}=0; index_{0} < entry_{0}.Count; ++index_{0})\n", seqFor.Id);
                         source.AppendFront("{\n");
                         source.Indent();
@@ -745,6 +767,30 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         String arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
                         source.AppendFrontFormat("List<{0}> entry_{1} = (List<{0}>) " + GetVar(seqFor.Container) + ";\n", arrayValueType, seqFor.Id);
+                        source.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", seqFor.Id);
+                        source.AppendFront("{\n");
+                        source.Indent();
+
+                        if(seqFor.VarDst != null)
+                        {
+                            source.AppendFront(SetVar(seqFor.Var, "index_" + seqFor.Id));
+                            source.AppendFront(SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                        }
+                        else
+                        {
+                            source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                        }
+
+                        EmitSequence(seqFor.Seq, source);
+
+                        source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    else if(seqFor.Container.Type.StartsWith("deque"))
+                    {
+                        String dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
+                        source.AppendFrontFormat("GRGEN_LIBGR.Deque<{0}> entry_{1} = (GRGEN_LIBGR.Deque<{0}>) " + GetVar(seqFor.Container) + ";\n", dequeValueType, seqFor.Id);
                         source.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", seqFor.Id);
                         source.AppendFront("{\n");
                         source.Indent();
@@ -1077,6 +1123,13 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceType.WeightedOne:
+                {
+                    SequenceWeightedOne seqWeighted = (SequenceWeightedOne)seq;
+                    EmitSequenceWeighted(seqWeighted, source);
+                    break;
+                }
+
                 case SequenceType.SomeFromSet:
                 {
                     SequenceSomeFromSet seqSome = (SequenceSomeFromSet)seq;
@@ -1256,6 +1309,26 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
             source.Unindent();
             source.AppendFront("}\n");
+        }
+
+        public void EmitSequenceWeighted(SequenceWeightedOne seqWeighted, SourceBuilder source)
+        {
+            source.AppendFrontFormat("double pointtoexec_{0} = GRGEN_LIBGR.Sequence.randomGenerator.NextDouble() * {1};\n", seqWeighted.Id, seqWeighted.Numbers[seqWeighted.Numbers.Count - 1].ToString(System.Globalization.CultureInfo.InvariantCulture));
+            for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
+            {
+                if(i == 0)
+                    source.AppendFrontFormat("if(pointtoexec_{0} <= {1})\n", seqWeighted.Id, seqWeighted.Numbers[i].ToString(System.Globalization.CultureInfo.InvariantCulture));
+                else if(i == seqWeighted.Sequences.Count - 1)
+                    source.AppendFrontFormat("else\n");
+                else
+                    source.AppendFrontFormat("else if(pointtoexec_{0} <= {1})\n", seqWeighted.Id, seqWeighted.Numbers[i].ToString(System.Globalization.CultureInfo.InvariantCulture));
+                source.AppendFront("{\n");
+                source.Indent();
+                EmitSequence(seqWeighted.Sequences[i], source);
+                source.AppendFront(SetResultVar(seqWeighted, GetResultVar(seqWeighted.Sequences[i])));
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
         }
 
         void EmitSequenceSome(SequenceSomeFromSet seqSome, SourceBuilder source)
@@ -1497,23 +1570,81 @@ namespace de.unika.ipd.grGen.lgsp
 
                     if(seqAdd.ContainerType(env) == "")
                     {
+                        if(seqAdd.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqAdd.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqAdd.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqAdd.Id + " = elem_" + seqAdd.Id + ".Type.GetAttributeType(\"" + seqAdd.Attribute.AttributeName + "\");\n");
+                        }
+                        string containerVar = "tmp_eval_once_" + seqAdd.Id;
+                        source.AppendFront("object " + containerVar + " = " + container + ";\n");
                         string sourceValue = "srcval_" + seqAdd.Id;
                         source.AppendFront("object " + sourceValue + " = " + GetSequenceExpression(seqAdd.Expr, source) + ";\n");
                         string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
-                        source.AppendFront("if(" + container + " is IList) {\n");
+                        source.AppendFront("if(" + containerVar + " is IList) {\n");
                         source.Indent();
 
                         if(destinationValue != null && !TypesHelper.IsSameOrSubtype(seqAdd.ExprDst.Type(env), "int", model))
                             source.AppendFront("throw new Exception(\"Can't add non-int key to array\");\n");
                         else
                         {
-                            string array = "((System.Collections.IList)" + container + ")";
+                            string array = "((System.Collections.IList)" + containerVar + ")";
                             if(destinationValue != null)
                                 source.AppendFront("int " + destinationValue + " = (int)" + GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
+                            if(seqAdd.Attribute != null)
+                            {
+                                if(destinationValue != null)
+                                {
+                                    source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", " + destinationValue + ");\n");
+                                    source.AppendFront("else\n");
+                                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", " + destinationValue + ");\n");
+                                }
+                                else
+                                {
+                                    source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", null);\n");
+                                    source.AppendFront("else\n");
+                                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", null);\n");
+                                }
+                            }
                             if(destinationValue == null)
                                 source.AppendFront(array + ".Add(" + sourceValue + ");\n");
                             else
                                 source.AppendFront(array + ".Insert(" + destinationValue + ", " + sourceValue + ");\n");
+                        }
+
+                        source.Unindent();
+                        source.AppendFront("} else if(" + containerVar + " is GRGEN_LIBGR.IDeque) {\n");
+                        source.Indent();
+
+                        if(destinationValue != null && !TypesHelper.IsSameOrSubtype(seqAdd.ExprDst.Type(env), "int", model))
+                            source.AppendFront("throw new Exception(\"Can't add non-int key to deque\");\n");
+                        else
+                        {
+                            string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
+                            if(destinationValue != null)
+                                source.AppendFront("int " + destinationValue + " = (int)" + GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
+                            if(seqAdd.Attribute != null)
+                            {
+                                if(destinationValue != null)
+                                {
+                                    source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", " + destinationValue + ");\n");
+                                    source.AppendFront("else\n");
+                                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", " + destinationValue + ");\n");
+                                }
+                                else
+                                {
+                                    source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", null);\n");
+                                    source.AppendFront("else\n");
+                                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", null);\n");
+                                }
+                            }
+                            if(destinationValue == null)
+                                source.AppendFront(deque + ".Enqueue(" + sourceValue + ");\n");
+                            else
+                                source.AppendFront(deque + ".EnqueueAt(" + destinationValue + ", " + sourceValue + ");\n");
                         }
 
                         source.Unindent();
@@ -1522,7 +1653,24 @@ namespace de.unika.ipd.grGen.lgsp
 
                         if(destinationValue != null)
                             source.AppendFront("object " + destinationValue + " = " + GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
-                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
+                        if(seqAdd.Attribute != null)
+                        {
+                            if(seqAdd.ExprDst != null) // must be map
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + destinationValue + ", " + sourceValue + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + destinationValue + ", " + sourceValue + ");\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", " + destinationValue + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", " + destinationValue + ");\n");
+                            }
+                        }
                         if(destinationValue == null)
                             source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
                         else
@@ -1530,6 +1678,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                         source.Unindent();
                         source.AppendFront("}\n");
+                        source.AppendFront(SetResultVar(seqAdd, containerVar));
                     }
                     else if(seqAdd.ContainerType(env).StartsWith("array"))
                     {
@@ -1540,10 +1689,64 @@ namespace de.unika.ipd.grGen.lgsp
                         string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
                         if(destinationValue != null)
                             source.AppendFront("int " + destinationValue + " = (int)" + GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
+                        if(seqAdd.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqAdd.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqAdd.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqAdd.Id + " = elem_" + seqAdd.Id + ".Type.GetAttributeType(\"" + seqAdd.Attribute.AttributeName + "\");\n");
+                            if(destinationValue != null)
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", " + destinationValue + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", " + destinationValue + ");\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", null);\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", null);\n");
+                            }
+                        }
                         if(destinationValue == null)
                             source.AppendFront(array + ".Add(" + sourceValue + ");\n");
                         else
                             source.AppendFront(array + ".Insert(" + destinationValue + ", " + sourceValue + ");\n");
+                        source.AppendFront(SetResultVar(seqAdd, container));
+                    }
+                    else if(seqAdd.ContainerType(env).StartsWith("deque"))
+                    {
+                        string deque = container;
+                        string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.ContainerType(env)), model);
+                        string sourceValue = "srcval_" + seqAdd.Id;
+                        source.AppendFront(dequeValueType + " " + sourceValue + " = (" + dequeValueType + ")" + GetSequenceExpression(seqAdd.Expr, source) + ";\n");
+                        string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
+                        if(destinationValue != null)
+                            source.AppendFront("int " + destinationValue + " = (int)" + GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
+                        if(seqAdd.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqAdd.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqAdd.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqAdd.Id + " = elem_" + seqAdd.Id + ".Type.GetAttributeType(\"" + seqAdd.Attribute.AttributeName + "\");\n");
+                            if(destinationValue != null)
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", " + destinationValue + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", " + destinationValue + ");\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", null);\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", null);\n");
+                            }
+                        }
+                        if(destinationValue == null)
+                            source.AppendFront(deque + ".Enqueue(" + sourceValue + ");\n");
+                        else
+                            source.AppendFront(deque + ".EnqueueAt(" + destinationValue + ", " + sourceValue + ");\n");
+                        source.AppendFront(SetResultVar(seqAdd, container));
                     }
                     else
                     {
@@ -1555,13 +1758,31 @@ namespace de.unika.ipd.grGen.lgsp
                         string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
                         if(destinationValue != null)
                             source.AppendFront(dictDstType + " " + destinationValue + " = (" + dictDstType + ")" + GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
-
-                        if(seqAdd.ExprDst == null)
+                        if(seqAdd.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqAdd.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqAdd.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqAdd.Id + " = elem_" + seqAdd.Id + ".Type.GetAttributeType(\"" + seqAdd.Attribute.AttributeName + "\");\n");
+                            if(destinationValue != null) // must be map
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + destinationValue + ", " + sourceValue + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + destinationValue + ", " + sourceValue + ");\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", null);\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ", GRGEN_LIBGR.AttributeChangeType.PutElement, " + sourceValue + ", null);\n");
+                            }
+                        }
+                        if(destinationValue == null)
                             source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
                         else
                             source.AppendFront(dictionary + "[" + sourceValue + "] = " + destinationValue + ";\n");
+                        source.AppendFront(SetResultVar(seqAdd, container));
                     }
-                    source.AppendFront(SetResultVar(seqAdd, container));
                     break;
                 }
 
@@ -1577,13 +1798,37 @@ namespace de.unika.ipd.grGen.lgsp
 
                     if(seqDel.ContainerType(env) == "")
                     {
-                        string sourceValue = seqDel.Expr==null ? null : "srcval_" + seqDel.Id;
-                        source.AppendFront("if(" + container + " is IList) {\n");
+                        if(seqDel.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqDel.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqDel.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqDel.Id + " = elem_" + seqDel.Id + ".Type.GetAttributeType(\"" + seqDel.Attribute.AttributeName + "\");\n");
+                        }
+                        string containerVar = "tmp_eval_once_" + seqDel.Id;
+                        source.AppendFront("object " + containerVar + " = " + container + ";\n");
+                        string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
+                        source.AppendFront("if(" + containerVar + " is IList) {\n");
                         source.Indent();
 
+                        string array = "((System.Collections.IList)" + containerVar + ")";
                         if(sourceValue != null)
                             source.AppendFront("int " + sourceValue + " = (int)" + GetSequenceExpression(seqDel.Expr, source) + ";\n");
-                        string array = "((System.Collections.IList)" + container + ")";
+                        if(seqDel.Attribute != null)
+                        {
+                            if(sourceValue != null)
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n");
+                            }
+                        }
                         if(sourceValue == null)
                             source.AppendFront(array + ".RemoveAt(" + array + ".Count - 1);\n");
                         else
@@ -1595,19 +1840,75 @@ namespace de.unika.ipd.grGen.lgsp
                         }
 
                         source.Unindent();
+                        source.AppendFront("} else if(" + containerVar + " is GRGEN_LIBGR.IDeque) {\n");
+                        source.Indent();
+
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
+                        if(sourceValue != null)
+                            source.AppendFront("int " + sourceValue + " = (int)" + GetSequenceExpression(seqDel.Expr, source) + ";\n");
+                        if(seqDel.Attribute != null)
+                        {
+                            if(sourceValue != null)
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n");
+                            }
+                        }
+                        if(sourceValue == null)
+                            source.AppendFront(deque + ".Dequeue();\n");
+                        else
+                        {
+                            if(!TypesHelper.IsSameOrSubtype(seqDel.Expr.Type(env), "int", model))
+                                source.AppendFront("throw new Exception(\"Can't remove non-int index from deque\");\n");
+                            else
+                                source.AppendFront(deque + ".DequeueAt(" + sourceValue + ");\n");
+                        }
+
+                        source.Unindent();
                         source.AppendFront("} else {\n");
                         source.Indent();
 
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         if(sourceValue != null)
                             source.AppendFront("object " + sourceValue + " = " + GetSequenceExpression(seqDel.Expr, source) + ";\n");
-                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        if(seqDel.Attribute != null)
+                        {
+                            source.AppendFront("if(GRGEN_LIBGR.TypesHelper.ExtractDst(GRGEN_LIBGR.TypesHelper.AttributeTypeToXgrsType(attrType_" + seqDel.Id + ")) == \"SetValueType\")\n");
+                            source.AppendFront("{\n");
+                            source.Indent();
+                            source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                            source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, " + sourceValue + ", null);\n");
+                            source.AppendFront("else\n");
+                            source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, " + sourceValue + ", null);\n");
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                            source.AppendFront("else\n");
+                            source.AppendFront("{\n");
+                            source.Indent();
+                            source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                            source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                            source.AppendFront("else\n");
+                            source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                        }
                         if(sourceValue == null)
-                            source.AppendFront("throw new Exception(\""+seqDel.Container.PureName+".rem() only possible on array!\");\n");
+                            source.AppendFront("throw new Exception(\""+seqDel.Container.PureName+".rem() only possible on array or deque!\");\n");
                         else
                             source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
 
                         source.Unindent();
                         source.AppendFront("}\n");
+                        source.AppendFront(SetResultVar(seqDel, containerVar));
                     }
                     else if(seqDel.ContainerType(env).StartsWith("array"))
                     {
@@ -1615,10 +1916,61 @@ namespace de.unika.ipd.grGen.lgsp
                         string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
                         if(sourceValue != null)
                             source.AppendFront("int " + sourceValue + " = (int)" + GetSequenceExpression(seqDel.Expr, source) + ";\n");
+                        if(seqDel.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqDel.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqDel.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqDel.Id + " = elem_" + seqDel.Id + ".Type.GetAttributeType(\"" + seqDel.Attribute.AttributeName + "\");\n");
+                            if(sourceValue != null)
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n");
+                            }
+                        }
                         if(sourceValue == null)
                             source.AppendFront(array + ".RemoveAt(" + array + ".Count - 1);\n");
                         else
                             source.AppendFront(array + ".RemoveAt(" + sourceValue + ");\n");
+                        source.AppendFront(SetResultVar(seqDel, container));
+                    }
+                    else if(seqDel.ContainerType(env).StartsWith("deque"))
+                    {
+                        string deque = container;
+                        string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
+                        if(sourceValue != null)
+                            source.AppendFront("int " + sourceValue + " = (int)" + GetSequenceExpression(seqDel.Expr, source) + ";\n");
+                        if(seqDel.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqDel.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqDel.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqDel.Id + " = elem_" + seqDel.Id + ".Type.GetAttributeType(\"" + seqDel.Attribute.AttributeName + "\");\n");
+                            if(sourceValue != null)
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n");
+                            }
+                        }
+                        if(sourceValue == null)
+                            source.AppendFront(deque + ".Dequeue();\n");
+                        else
+                            source.AppendFront(deque + ".DequeueAt(" + sourceValue + ");\n");
+                        source.AppendFront(SetResultVar(seqDel, container));
                     }
                     else
                     {
@@ -1626,9 +1978,28 @@ namespace de.unika.ipd.grGen.lgsp
                         string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqDel.ContainerType(env)), model);
                         string sourceValue = "srcval_" + seqDel.Id;
                         source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")" + GetSequenceExpression(seqDel.Expr, source) + ";\n");
+                        if(seqDel.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqDel.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqDel.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqDel.Id + " = elem_" + seqDel.Id + ".Type.GetAttributeType(\"" + seqDel.Attribute.AttributeName + "\");\n");
+                            if(TypesHelper.ExtractDst(seqDel.ContainerType(env)) == "SetValueType")
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, " + sourceValue + ", null);\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, " + sourceValue + ", null);\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, " + sourceValue + ");\n");
+                            }
+                        }
                         source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
+                        source.AppendFront(SetResultVar(seqDel, container));
                     }
-                    source.AppendFront(SetResultVar(seqDel, container));
                     break;
                 }
 
@@ -1644,33 +2015,137 @@ namespace de.unika.ipd.grGen.lgsp
 
                     if(seqClear.ContainerType(env) == "")
                     {
-                        source.AppendFront("if(" + container + " is IList) {\n");
+                        if(seqClear.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqClear.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqClear.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqClear.Id + " = elem_" + seqClear.Id + ".Type.GetAttributeType(\"" + seqClear.Attribute.AttributeName + "\");\n");
+                        }
+                        string containerVar = "tmp_eval_once_" + seqClear.Id;
+                        source.AppendFront("object " + containerVar + " = " + container + ";\n");
+
+                        source.AppendFront("if(" + containerVar + " is IList) {\n");
                         source.Indent();
 
-                        string array = "((System.Collections.IList)" + container + ")";
+                        string array = "((System.Collections.IList)" + containerVar + ")";
+                        if(seqClear.Attribute != null)
+                        {
+                            source.AppendFront("for(int i_" + seqClear.Id + " = " + array + ".Count; i_" + seqClear.Id + " >= 0; --i_" + seqClear.Id + ")\n");
+                            source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                            source.AppendFront("\t\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
+                            source.AppendFront("\telse\n");
+                            source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
+                        }
                         source.AppendFront(array + ".Clear();\n");
+
+                        source.Unindent();
+                        source.AppendFront("} else if(" + containerVar + " is GRGEN_LIBGR.IDeque) {\n");
+                        source.Indent();
+
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
+                        if(seqClear.Attribute != null)
+                        {
+                            source.AppendFront("for(int i_" + seqClear.Id + " = " + deque + ".Count; i_" + seqClear.Id + " >= 0; --i_" + seqClear.Id + ")\n");
+                            source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                            source.AppendFront("\t\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
+                            source.AppendFront("\telse\n");
+                            source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
+                        }
+                        source.AppendFront(deque + ".Clear();\n");
 
                         source.Unindent();
                         source.AppendFront("} else {\n");
                         source.Indent();
 
-                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
+                        if(seqClear.Attribute != null)
+                        {
+                            source.AppendFront("if(GRGEN_LIBGR.TypesHelper.ExtractDst(GRGEN_LIBGR.TypesHelper.AttributeTypeToXgrsType(attrType_" + seqClear.Id + ")) == \"SetValueType\")\n");
+                            source.AppendFront("{\n");
+                            source.Indent();
+                            source.AppendFront("foreach(DictionaryEntry kvp_" + seqClear.Id + " in " + dictionary + ")\n");
+                            source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                            source.AppendFront("\t\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, kvp_" + seqClear.Id + ", null);\n");
+                            source.AppendFront("\telse\n");
+                            source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, kvp_" + seqClear.Id + ", null);\n");
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                            source.AppendFront("else\n");
+                            source.AppendFront("{\n");
+                            source.Indent();
+                            source.AppendFront("foreach(DictionaryEntry kvp_" + seqClear.Id + " in " + dictionary + ")\n");
+                            source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                            source.AppendFront("\t\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, kvp_" + seqClear.Id + ");\n");
+                            source.AppendFront("\telse\n");
+                            source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, kvp_" + seqClear.Id + ");\n");
+                            source.Unindent();
+                            source.AppendFront("}\n");
+
+                        }
                         source.AppendFront(dictionary + ".Clear();\n");
 
                         source.Unindent();
                         source.AppendFront("}\n");
+                        source.AppendFront(SetResultVar(seqClear, containerVar));
                     }
                     else if(seqClear.ContainerType(env).StartsWith("array"))
                     {
                         string array = container;
+                        if(seqClear.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqClear.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqClear.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqClear.Id + " = elem_" + seqClear.Id + ".Type.GetAttributeType(\"" + seqClear.Attribute.AttributeName + "\");\n");
+                            source.AppendFront("for(int i_" + seqClear.Id + " = " + array + ".Count; i_" + seqClear.Id + " >= 0; --i_" + seqClear.Id + ")\n");
+                            source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                            source.AppendFront("\t\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
+                            source.AppendFront("\telse\n");
+                            source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
+                        }
                         source.AppendFront(array + ".Clear();\n");
+                        source.AppendFront(SetResultVar(seqClear, container));
+                    }
+                    else if(seqClear.ContainerType(env).StartsWith("deque"))
+                    {
+                        string deque = container;
+                        if(seqClear.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqClear.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqClear.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqClear.Id + " = elem_" + seqClear.Id + ".Type.GetAttributeType(\"" + seqClear.Attribute.AttributeName + "\");\n");
+                            source.AppendFront("for(int i_" + seqClear.Id + " = " + deque + ".Count; i_" + seqClear.Id + " >= 0; --i_" + seqClear.Id + ")\n");
+                            source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                            source.AppendFront("\t\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
+                            source.AppendFront("\telse\n");
+                            source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
+                        }
+                        source.AppendFront(deque + ".Clear();\n");
+                        source.AppendFront(SetResultVar(seqClear, container));
                     }
                     else
                     {
                         string dictionary = container;
+                        if(seqClear.Attribute != null)
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqClear.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqClear.Attribute.SourceVar) + ";\n");
+                            source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqClear.Id + " = elem_" + seqClear.Id + ".Type.GetAttributeType(\"" + seqClear.Attribute.AttributeName + "\");\n");
+                            if(TypesHelper.ExtractDst(seqClear.ContainerType(env)) == "SetValueType")
+                            {
+                                source.AppendFront("foreach(DictionaryEntry kvp_" + seqClear.Id + " in " + dictionary + ")\n");
+                                source.AppendFront("if(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, kvp_" + seqClear.Id + ", null);\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, kvp_" + seqClear.Id + ", null);\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("foreach(DictionaryEntry kvp_" + seqClear.Id + " in " + dictionary + ")\n");
+                                source.AppendFront("if(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, kvp_" + seqClear.Id + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, kvp_" + seqClear.Id + ");\n");
+                            }
+                        }
                         source.AppendFront(dictionary + ".Clear();\n");
+                        source.AppendFront(SetResultVar(seqClear, container));
                     }
-                    source.AppendFront(SetResultVar(seqClear, container));
                     break;
                 }
 
@@ -1848,16 +2323,18 @@ namespace de.unika.ipd.grGen.lgsp
                 case AssignmentTargetType.IndexedVar:
                 {
                     AssignmentTargetIndexedVar tgtIndexedVar = (AssignmentTargetIndexedVar)tgt;
-                    source.AppendFront(SetResultVar(tgtIndexedVar, GetVar(tgtIndexedVar.DestVar))); // container is a reference, so we can assign it already here before the changes
-                    string indexValue = "index_" + tgtIndexedVar.Id;
+                    string container = "container_" + tgtIndexedVar.Id;
+                    source.AppendFront("object " + container + " = " + GetVar(tgtIndexedVar.DestVar) + ";\n");
+                    string key = "key_" + tgtIndexedVar.Id;
+                    source.AppendFront("object " + key + " = " + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
+                    source.AppendFront(SetResultVar(tgtIndexedVar, container)); // container is a reference, so we can assign it already here before the changes
 
                     if(tgtIndexedVar.DestVar.Type == "")
                     {
-                        source.AppendFront("if(" + GetVar(tgtIndexedVar.DestVar) + " is IList) {\n");
+                        source.AppendFront("if(" + container + " is IList) {\n");
                         source.Indent();
 
-                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source));
-                        string array = "((System.Collections.IList)" + GetVar(tgtIndexedVar.DestVar) + ")";
+                        string array = "((System.Collections.IList)" + container + ")";
                         if(!TypesHelper.IsSameOrSubtype(tgtIndexedVar.KeyExpression.Type(env), "int", model))
                         {
                             source.AppendFront("if(true) {\n");
@@ -1866,9 +2343,29 @@ namespace de.unika.ipd.grGen.lgsp
                         }
                         else
                         {
-                            source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
+                            source.AppendFront("if(" + array + ".Count > (int)" + key + ") {\n");
                             source.Indent();
-                            source.AppendFront(array + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
+                            source.AppendFront(array + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
+                        }
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("} else if(" + container + " is GRGEN_LIBGR.IDeque) {\n");
+                        source.Indent();
+
+                        string deque = "((GRGEN_LIBGR.IDeque)" + container + ")";
+                        if(!TypesHelper.IsSameOrSubtype(tgtIndexedVar.KeyExpression.Type(env), "int", model))
+                        {
+                            source.AppendFront("if(true) {\n");
+                            source.Indent();
+                            source.AppendFront("throw new Exception(\"Can't access non-int index in deque\");\n");
+                        }
+                        else
+                        {
+                            source.AppendFront("if(" + deque + ".Count > (int)" + key + ") {\n");
+                            source.Indent();
+                            source.AppendFront(deque + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
                         }
                         source.Unindent();
                         source.AppendFront("}\n");
@@ -1877,11 +2374,10 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("} else {\n");
                         source.Indent();
 
-                        source.AppendFront("object " + indexValue + " = " + GetSequenceExpression(tgtIndexedVar.KeyExpression, source));
-                        string dictionary = "((System.Collections.IDictionary)" + GetVar(tgtIndexedVar.DestVar) + ")";
-                        source.AppendFront("if(" + dictionary + ".Contains(" + indexValue + ")) {\n");
+                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        source.AppendFront("if(" + dictionary + ".Contains(" + key + ")) {\n");
                         source.Indent();
-                        source.AppendFront(dictionary + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
+                        source.AppendFront(dictionary + "[" + key + "] = " + sourceValueComputation + ";\n");
                         source.Unindent();
                         source.AppendFront("}\n");
 
@@ -1891,10 +2387,18 @@ namespace de.unika.ipd.grGen.lgsp
                     else if(tgtIndexedVar.DestVar.Type.StartsWith("array"))
                     {
                         string array = GetVar(tgtIndexedVar.DestVar);
-                        source.AppendFront("int " + indexValue + " = (int)" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
-                        source.AppendFront("if(" + array + ".Count > " + indexValue + ") {\n");
+                        source.AppendFront("if(" + array + ".Count > (int)" + key + ") {\n");
                         source.Indent();
-                        source.AppendFront(array + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
+                        source.AppendFront(array + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    else if(tgtIndexedVar.DestVar.Type.StartsWith("deque"))
+                    {
+                        string deque = GetVar(tgtIndexedVar.DestVar);
+                        source.AppendFront("if(" + deque + ".Count > (int)" + key + ") {\n");
+                        source.Indent();
+                        source.AppendFront(deque + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
                         source.Unindent();
                         source.AppendFront("}\n");
                     }
@@ -1902,10 +2406,9 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         string dictionary = GetVar(tgtIndexedVar.DestVar);
                         string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(tgtIndexedVar.DestVar.Type), model);
-                        source.AppendFront(dictSrcType + " " + indexValue + " = (" + dictSrcType + ")" + GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
-                        source.AppendFront("if(" + dictionary + ".ContainsKey(" + indexValue + ")) {\n");
+                        source.AppendFront("if(" + dictionary + ".ContainsKey((" + dictSrcType + ")" + key + ")) {\n");
                         source.Indent();
-                        source.AppendFront(dictionary + "[" + indexValue + "] = " + sourceValueComputation + ";\n");
+                        source.AppendFront(dictionary + "[(" + dictSrcType + ")" + key + "] = " + sourceValueComputation + ";\n");
                         source.Unindent();
                         source.AppendFront("}\n");
                     }
@@ -1927,13 +2430,123 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + tgtAttr.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(tgtAttr.DestVar) + ";\n");
                     source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + tgtAttr.Id + ";\n");
                     source.AppendFront("value_" + tgtAttr.Id + " = GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(elem_" + tgtAttr.Id + ", \"" + tgtAttr.AttributeName + "\", value_" + tgtAttr.Id + ", out attrType_" + tgtAttr.Id + ");\n");
-                    source.AppendFront("GRGEN_LIBGR.AttributeChangeType changeType_" + tgtAttr.Id + " = GRGEN_LIBGR.AttributeChangeType.Assign;\n");
                     source.AppendFront("if(elem_" + tgtAttr.Id + " is GRGEN_LIBGR.INode)\n");
-                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + tgtAttr.Id + ", attrType_" + tgtAttr.Id + ", changeType_" + tgtAttr.Id + ", value_" + tgtAttr.Id + ", null);\n");
+                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + tgtAttr.Id + ", attrType_" + tgtAttr.Id + ", GRGEN_LIBGR.AttributeChangeType.Assign, value_" + tgtAttr.Id + ", null);\n");
                     source.AppendFront("else\n");
-                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + tgtAttr.Id + ", attrType_" + tgtAttr.Id + ", changeType_" + tgtAttr.Id + ", value_" + tgtAttr.Id + ", null);\n");
+                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + tgtAttr.Id + ", attrType_" + tgtAttr.Id + ", GRGEN_LIBGR.AttributeChangeType.Assign, value_" + tgtAttr.Id + ", null);\n");
                     source.AppendFront("elem_" + tgtAttr.Id + ".SetAttribute(\"" + tgtAttr.AttributeName + "\", value_" + tgtAttr.Id + ");\n");
                     source.AppendFront(SetResultVar(tgtAttr, "value_" + tgtAttr.Id));
+                    break;
+                }
+
+                case AssignmentTargetType.AttributeIndexed:
+                {
+                    AssignmentTargetAttributeIndexed tgtAttrIndexedVar = (AssignmentTargetAttributeIndexed)tgt;
+                    string value = "value_" + tgtAttrIndexedVar.Id;
+                    source.AppendFront("object " + value + " = " + sourceValueComputation + ";\n");
+                    source.AppendFront(SetResultVar(tgtAttrIndexedVar, "value_" + tgtAttrIndexedVar.Id));
+                    source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + tgtAttrIndexedVar.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(tgtAttrIndexedVar.DestVar) + ";\n");
+                    string container = "container_" + tgtAttrIndexedVar.Id;
+                    source.AppendFront("object " + container + " = elem_" + tgtAttrIndexedVar.Id + ".GetAttribute(\"" + tgtAttrIndexedVar.AttributeName + "\");\n");
+                    string key = "key_" + tgtAttrIndexedVar.Id;
+                    source.AppendFront("object " + key + " = " + GetSequenceExpression(tgtAttrIndexedVar.KeyExpression, source) + ";\n");
+
+                    source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + tgtAttrIndexedVar.Id + " = elem_" + tgtAttrIndexedVar.Id + ".Type.GetAttributeType(\"" + tgtAttrIndexedVar.AttributeName + "\");\n");
+                    source.AppendFront("if(elem_" + tgtAttrIndexedVar.Id + " is GRGEN_LIBGR.INode)\n");
+                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + tgtAttrIndexedVar.Id + ", attrType_" + tgtAttrIndexedVar.Id + ", GRGEN_LIBGR.AttributeChangeType.AssignElement, " + value + ", " + key + ");\n");
+                    source.AppendFront("else\n");
+                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + tgtAttrIndexedVar.Id + ", attrType_" + tgtAttrIndexedVar.Id + ", GRGEN_LIBGR.AttributeChangeType.AssignElement, " + value + ", " + key + ");\n");
+
+                    if(tgtAttrIndexedVar.DestVar.Type == "")
+                    {
+                        source.AppendFront("if(" + container + " is IList) {\n");
+                        source.Indent();
+
+                        string array = "((System.Collections.IList)" + container + ")";
+                        if(!TypesHelper.IsSameOrSubtype(tgtAttrIndexedVar.KeyExpression.Type(env), "int", model))
+                        {
+                            source.AppendFront("if(true) {\n");
+                            source.Indent();
+                            source.AppendFront("throw new Exception(\"Can't access non-int index in array\");\n");
+                        }
+                        else
+                        {
+                            source.AppendFront("if(" + array + ".Count > (int)" + key + ") {\n");
+                            source.Indent();
+                            source.AppendFront(array + "[(int)" + key + "] = " + value + ";\n");
+                        }
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("} else if(" + container + " is GRGEN_LIBGR.IDeque) {\n");
+                        source.Indent();
+
+                        string deque = "((GRGEN_LIBGR.IDeque)" + container + ")";
+                        if(!TypesHelper.IsSameOrSubtype(tgtAttrIndexedVar.KeyExpression.Type(env), "int", model))
+                        {
+                            source.AppendFront("if(true) {\n");
+                            source.Indent();
+                            source.AppendFront("throw new Exception(\"Can't access non-int index in deque\");\n");
+                        }
+                        else
+                        {
+                            source.AppendFront("if(" + deque + ".Count > (int)" + key + ") {\n");
+                            source.Indent();
+                            source.AppendFront(deque + "[(int)" + key + "] = " + value + ";\n");
+                        }
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("} else {\n");
+                        source.Indent();
+
+                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        source.AppendFront("if(" + dictionary + ".Contains(" + key + ")) {\n");
+                        source.Indent();
+                        source.AppendFront(dictionary + "[" + key + "] = " + value + ";\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    else
+                    {
+                        GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(tgtAttrIndexedVar.DestVar.Type, env.Model);
+                        AttributeType attributeType = nodeOrEdgeType.GetAttributeType(tgtAttrIndexedVar.AttributeName);
+                        string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
+
+                        if(ContainerType.StartsWith("array"))
+                        {
+                            string array = GetVar(tgtAttrIndexedVar.DestVar);
+                            source.AppendFront("if(" + array + ".Count > (int)" + key + ") {\n");
+                            source.Indent();
+                            source.AppendFront(array + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                        }
+                        else if(ContainerType.StartsWith("deque"))
+                        {
+                            string deque = GetVar(tgtAttrIndexedVar.DestVar);
+                            source.AppendFront("if(" + deque + ".Count > (int)" + key + ") {\n");
+                            source.Indent();
+                            source.AppendFront(deque + "[(int)" + key + "] = " + sourceValueComputation + ";\n");
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                        }
+                        else
+                        {
+                            string dictionary = GetVar(tgtAttrIndexedVar.DestVar);
+                            string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(tgtAttrIndexedVar.DestVar.Type), model);
+                            source.AppendFront("if(" + dictionary + ".ContainsKey((" + dictSrcType + ")" + key + ")) {\n");
+                            source.Indent();
+                            source.AppendFront(dictionary + "[(" + dictSrcType + ")" + key + "] = " + value + ";\n");
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                        }
+                    }
                     break;
                 }
 
@@ -2018,12 +2631,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(container.MethodCall != null)
                 return GetResultVar(container.MethodCall);
-            else
+            else if(container.Container != null)
                 return GetVar(container.Container);
+            else
+                return "((GRGEN_LIBGR.IGraphElement)" + GetVar(container.Attribute.SourceVar) + ")" + ".GetAttribute(\"" + container.Attribute.AttributeName + "\")";
         }
 
-        // source is (only) needed for a method call chain, 
-        // to emit the state changing computation methods 
+        // source is needed for a method call chain or expressions that require temporary variables, 
+        // to emit the state changing computation methods or the temporary variable declarations (not the assignement, needs to be computed from inside the expression)
         // before returning the final expression method call ready to be emitted
         private string GetSequenceExpression(SequenceExpression expr, SourceBuilder source)
         {
@@ -2187,6 +2802,22 @@ namespace de.unika.ipd.grGen.lgsp
                             + leftType + ", " + rightType + ", graph)";
                 }
 
+                case SequenceExpressionType.Minus:
+                {
+                    SequenceExpressionMinus seq = (SequenceExpressionMinus)expr;
+                    string leftExpr = GetSequenceExpression(seq.Left, source);
+                    string rightExpr = GetSequenceExpression(seq.Right, source);
+                    string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
+                    string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
+                    if(seq.BalancedTypeStatic != "")
+                        return SequenceExpressionHelper.MinusStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic);
+                    else
+                        return "GRGEN_LIBGR.SequenceExpressionHelper.MinusObjects("
+                            + leftExpr + ", " + rightExpr + ", "
+                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Minus, " + leftType + ", " + rightType + ", graph.Model),"
+                            + leftType + ", " + rightType + ", graph)";
+                }
+
                 case SequenceExpressionType.Not:
                 {
                     SequenceExpressionNot seqNot = (SequenceExpressionNot)expr;
@@ -2224,38 +2855,66 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionInContainer seqIn = (SequenceExpressionInContainer)expr;
 
-                    if(seqIn.Container.Type(env) == "")
+                    string container;
+                    string ContainerType;
+                    if(seqIn.Container != null)
                     {
-                        // todo: evaluate container expression only once, reuse it (by emitting the expression into a temporary into source parameter and then accessing the temorary)
+                        container = GetSequenceExpression(seqIn.Container, source);
+                        ContainerType = seqIn.Container.Type(env);
+                    }
+                    else
+                    {
+                        string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqIn.Attribute.SourceVar) + ")";
+                        container = element + ".GetAttribute(\"" + seqIn.Attribute.AttributeName + "\")";
+                        ContainerType = seqIn.Attribute.Type(env);
+                    }
+
+                    if(ContainerType == "")
+                    {
                         SourceBuilder sb = new SourceBuilder();
 
                         string sourceExpr = GetSequenceExpression(seqIn.Expr, source);
-                        string container = GetSequenceExpression(seqIn.Container, source);
-                        sb.AppendFront("(" + container + " is IList ? ");
+                        string containerVar = "tmp_eval_once_" + seqIn.Id;
+                        source.AppendFront("object " + containerVar + " = null;\n");
+                        sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
 
-                        string array = "((System.Collections.IList)" + container + ")";
+                        string array = "((System.Collections.IList)" + containerVar + ")";
                         sb.AppendFront(array + ".Contains(" + sourceExpr + ")");
 
                         sb.AppendFront(" : ");
 
-                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
+
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
+                        sb.AppendFront(deque + ".Contains(" + sourceExpr + ")");
+
+                        sb.AppendFront(" : ");
+
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         sb.AppendFront(dictionary + ".Contains(" + sourceExpr + ")");
 
                         sb.AppendFront(")");
 
                         return sb.ToString();
                     }
-                    else if(seqIn.Container.Type(env).StartsWith("array"))
+                    else if(ContainerType.StartsWith("array"))
                     {
-                        string array = GetSequenceExpression(seqIn.Container, source);
-                        string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqIn.Container.Type(env)), model);
+                        string array = container;
+                        string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(ContainerType), model);
                         string sourceExpr = "((" + arrayValueType + ")" + GetSequenceExpression(seqIn.Expr, source) + ")";
                         return array + ".Contains(" + sourceExpr + ")";
                     }
+                    else if(ContainerType.StartsWith("deque"))
+                    {
+                        string deque = container;
+                        string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(ContainerType), model);
+                        string sourceExpr = "((" + dequeValueType + ")" + GetSequenceExpression(seqIn.Expr, source) + ")";
+                        return deque + ".Contains(" + sourceExpr + ")";
+                    }
                     else
                     {
-                        string dictionary = GetSequenceExpression(seqIn.Container, source);
-                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqIn.Container.Type(env)), model);
+                        string dictionary = container;
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(ContainerType), model);
                         string sourceExpr = "((" + dictSrcType + ")" + GetSequenceExpression(seqIn.Expr, source) + ")";
                         return dictionary + ".ContainsKey(" + sourceExpr + ")";
                     }
@@ -2370,20 +3029,30 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         EmitSequenceComputation(seqContainerSize.MethodCall, source);
                     }
+
                     string container = GetContainerValue(seqContainerSize);
 
                     if(seqContainerSize.ContainerType(env) == "")
                     {
                         SourceBuilder sb = new SourceBuilder();
 
-                        sb.AppendFront("(" + container + " is IList ? ");
+                        string containerVar = "tmp_eval_once_" + seqContainerSize.Id;
+                        source.AppendFront("object " + containerVar + " = null;\n");
+                        sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
 
-                        string array = "((System.Collections.IList)" + container + ")";
+                        string array = "((System.Collections.IList)" + containerVar + ")";
                         sb.AppendFront(array + ".Count");
 
                         sb.AppendFront(" : ");
 
-                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
+
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
+                        sb.AppendFront(deque + ".Count");
+
+                        sb.AppendFront(" : ");
+
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         sb.AppendFront(dictionary + ".Count");
 
                         sb.AppendFront(")");
@@ -2394,6 +3063,11 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         string array = container;
                         return array + ".Count";
+                    }
+                    else if(seqContainerSize.ContainerType(env).StartsWith("deque"))
+                    {
+                        string deque = container;
+                        return deque + ".Count";
                     }
                     else
                     {
@@ -2416,14 +3090,23 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         SourceBuilder sb = new SourceBuilder();
 
-                        sb.AppendFront("(" + container + " is IList ?");
+                        string containerVar = "tmp_eval_once_" + seqContainerEmpty.Id;
+                        source.AppendFront("object " + containerVar + " = null;\n");
+                        sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
 
-                        string array = "((System.Collections.IList)" + container + ")";
+                        string array = "((System.Collections.IList)" + containerVar + ")";
                         sb.AppendFront(array + ".Count==0");
 
                         sb.AppendFront(" : ");
 
-                        string dictionary = "((System.Collections.IDictionary)" + container + ")";
+                        sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
+
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
+                        sb.AppendFront(deque + ".Count==0");
+
+                        sb.AppendFront(" : ");
+
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         sb.AppendFront(dictionary + ".Count==0");
 
                         sb.AppendFront(")");
@@ -2435,6 +3118,11 @@ namespace de.unika.ipd.grGen.lgsp
                         string array = container;
                         return "(" + array + ".Count==0)";
                     }
+                    else if(seqContainerEmpty.ContainerType(env).StartsWith("deque"))
+                    {
+                        string deque = container;
+                        return "(" + deque + ".Count==0)";
+                    }
                     else
                     {
                         string dictionary = container;
@@ -2445,15 +3133,37 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceExpressionType.ContainerAccess:
                 {
                     SequenceExpressionContainerAccess seqContainerAccess = (SequenceExpressionContainerAccess)expr; // todo: dst type unknownTypesHelper.ExtractSrc(seqMapAccessToVar.Setmap.Type)
+                    string container;
+                    string ContainerType;
+                    if(seqContainerAccess.Container != null)
+                    {
+                        container = GetVar(seqContainerAccess.Container);
+                        ContainerType = seqContainerAccess.Container.Type;
+                    }
+                    else
+                    {
+                        string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqContainerAccess.Attribute.SourceVar) + ")";
+                        container = element + ".GetAttribute(\"" + seqContainerAccess.Attribute.AttributeName + "\")";
+                        if(seqContainerAccess.Attribute.SourceVar.Type == "")
+                            ContainerType = "";
+                        else
+                        {
+                            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(seqContainerAccess.Attribute.SourceVar.Type, env.Model);
+                            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(seqContainerAccess.Attribute.AttributeName);
+                            ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
+                        }
+                    }
 
-                    if(seqContainerAccess.Container.Type == "")
+                    if(ContainerType == "")
                     {
                         SourceBuilder sb = new SourceBuilder();
 
                         string sourceExpr = GetSequenceExpression(seqContainerAccess.KeyExpr, source);
-                        sb.AppendFront("(" + GetVar(seqContainerAccess.Container) + " is IList ? ");
+                        string containerVar = "tmp_eval_once_" + seqContainerAccess.Id;
+                        source.AppendFront("object " + containerVar + " = null;\n");
+                        sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
 
-                        string array = "((System.Collections.IList)" + GetVar(seqContainerAccess.Container) + ")";
+                        string array = "((System.Collections.IList)" + containerVar + ")";
                         if(!TypesHelper.IsSameOrSubtype(seqContainerAccess.KeyExpr.Type(env), "int", model))
                         {
                             sb.AppendFront(array + "[-1]");
@@ -2465,23 +3175,43 @@ namespace de.unika.ipd.grGen.lgsp
 
                         sb.AppendFront(" : ");
 
-                        string dictionary = "((System.Collections.IDictionary)" + GetVar(seqContainerAccess.Container) + ")";
+                        sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
+
+                        string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
+                        if(!TypesHelper.IsSameOrSubtype(seqContainerAccess.KeyExpr.Type(env), "int", model))
+                        {
+                            sb.AppendFront(deque + "[-1]");
+                        }
+                        else
+                        {
+                            sb.AppendFront(deque + "[(int)" + sourceExpr + "]");
+                        }
+
+                        sb.AppendFront(" : ");
+
+                        string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         sb.AppendFront(dictionary + "[" + sourceExpr + "]");
 
                         sb.AppendFront(")");
 
                         return sb.ToString();
                     }
-                    else if(seqContainerAccess.Container.Type.StartsWith("array"))
+                    else if(ContainerType.StartsWith("array"))
                     {
-                        string array = GetVar(seqContainerAccess.Container);
+                        string array = container;
                         string sourceExpr = "((int)" + GetSequenceExpression(seqContainerAccess.KeyExpr, source) + ")";
                         return array + "[" + sourceExpr + "]";
                     }
+                    else if(ContainerType.StartsWith("deque"))
+                    {
+                        string deque = container;
+                        string sourceExpr = "((int)" + GetSequenceExpression(seqContainerAccess.KeyExpr, source) + ")";
+                        return deque + "[" + sourceExpr + "]";
+                    }
                     else
                     {
-                        string dictionary = GetVar(seqContainerAccess.Container);
-                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerAccess.Container.Type), model);
+                        string dictionary = container;
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(ContainerType), model);
                         string sourceExpr = "((" + dictSrcType + ")" + GetSequenceExpression(seqContainerAccess.KeyExpr, source) + ")";
                         return dictionary + "[" + sourceExpr + "]";
                     }
@@ -2502,6 +3232,10 @@ namespace de.unika.ipd.grGen.lgsp
                         return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")"; 
                     }
                     else if(seqContainerPeek.ContainerType(env).StartsWith("array"))
+                    {
+                        return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
+                    }
+                    else if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
                     {
                         return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
                     }
@@ -2616,8 +3350,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(container.MethodCall != null)
                 return GetResultVar(container.MethodCall);
-            else
+            else if(container.Container != null)
                 return GetVar(container.Container);
+            else
+                return "((GRGEN_LIBGR.IGraphElement)" + GetVar(container.Attribute.SourceVar) + ")" + ".GetAttribute(\"" + container.Attribute.AttributeName + "\")";
         }
 
         private string GetConstant(object constant)
@@ -2644,13 +3380,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 Type valueType;
                 ContainerHelper.GetListType(constant, out valueType);
-                String arrayValueType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
-                return "GRGEN_LIBGR.ContainerHelper.NewList(" + arrayValueType + ")";
+                String dequeValueType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
+                return "GRGEN_LIBGR.ContainerHelper.NewList(" + dequeValueType + ")";
             }
             else if(constant is IDeque)
             {
                 Type valueType;
-                ContainerHelper.GetListType(constant, out valueType);
+                ContainerHelper.GetDequeType(constant, out valueType);
                 String dequeValueType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
                 return "GRGEN_LIBGR.ContainerHelper.NewDeque(" + dequeValueType + ")";
             }

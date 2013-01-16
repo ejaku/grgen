@@ -26,7 +26,8 @@ namespace de.unika.ipd.grGen.libGr
     public enum SequenceType
     {
         ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not,
-        LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll, SomeFromSet,
+        LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll,
+        WeightedOne, SomeFromSet,
         IfThenElse, IfThen,
         ForContainer, ForLookup, ForMatch,
         ForIncidentEdges, ForIncomingEdges, ForOutgoingEdges,
@@ -1502,6 +1503,39 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "&"; } }
     }
 
+    public class SequenceWeightedOne : SequenceNAry
+    {
+        public List<double> Numbers;
+
+        public SequenceWeightedOne(List<Sequence> sequences, List<double> numbers, bool choice)
+            : base(sequences, choice, SequenceType.WeightedOne)
+        {
+            Numbers = numbers;
+            // map individual weights to a sequence of ascending intervals, with end-begin of each interval equalling the weight
+            for(int i = Numbers.Count - 1; i >= 0; --i)
+                for(int j = i + 1; j < Numbers.Count; ++j)
+                    Numbers[j] += Numbers[i];
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            double pointToExecute = randomGenerator.NextDouble() * Numbers[Numbers.Count - 1];
+            if(Choice) pointToExecute = procEnv.UserProxy.ChoosePoint(pointToExecute, this);
+            return Sequences[GetSequenceFromPoint(pointToExecute)].Apply(procEnv);
+        }
+
+        public int GetSequenceFromPoint(double point)
+        {
+            for(int i = 0; i < Sequences.Count; ++i)
+                if(point <= Numbers[i])
+                    return i;
+            return Sequences.Count - 1;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "."; } }
+    }
+
     /// <summary>
     /// A sequence consisting of a list of subsequences.
     /// Decision on order of execution by random, by user choice possible.
@@ -1525,7 +1559,7 @@ namespace de.unika.ipd.grGen.libGr
                     SequenceRuleAllCall ruleAll = (SequenceRuleAllCall)Sequences[i];
                     if (ruleAll.Choice)
                     {
-                        Console.WriteLine("Warning: No user choice % available inside {...}, removing choice modificator from " + ruleAll.Symbol + " (user choice handled by $%{...} construct)");
+                        Console.WriteLine("Warning: No user choice % available inside {(...)}, removing choice modificator from " + ruleAll.Symbol + " (user choice handled by $%{(...)} construct)");
                         ruleAll.Choice = false;
                     }
                 }
@@ -1541,7 +1575,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(seqChild is SequenceRuleAllCall
                     && ((SequenceRuleAllCall)seqChild).MinVarChooseRandom != null
                     && ((SequenceRuleAllCall)seqChild).MaxVarChooseRandom != null)
-                    throw new Exception("Sequence SomeFromSet (e.g. {r1,[r2],$[r3]}) can't contain a select with variable from all construct (e.g. $v[r4], e.g. $v1,v2[r4])");
+                    throw new Exception("Sequence SomeFromSet (e.g. {(r1,[r2],$[r3])} can't contain a select with variable from all construct (e.g. $v[r4], e.g. $v1,v2[r4])");
             }
         }
 
@@ -1695,7 +1729,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "{ ... }"; } }
+        public override string Symbol { get { return "{( ... )}"; } }
     }
 
     public class SequenceTransaction : SequenceUnary
@@ -2125,6 +2159,28 @@ namespace de.unika.ipd.grGen.libGr
                     else
                     {
                         Var.SetVariableValue(array[i], procEnv);
+                    }
+                    Seq.ResetExecutionState();
+                    res &= Seq.Apply(procEnv);
+                    first = false;
+                }
+                procEnv.EndOfIteration(false, this);
+            }
+            else if(Container.GetVariableValue(procEnv) is IDeque)
+            {
+                IDeque deque = (IDeque)Container.GetVariableValue(procEnv);
+                bool first = true;
+                for(int i = 0; i < deque.Count; ++i)
+                {
+                    if(!first) procEnv.EndOfIteration(true, this);
+                    if(VarDst != null)
+                    {
+                        Var.SetVariableValue(i, procEnv);
+                        VarDst.SetVariableValue(deque[i], procEnv);
+                    }
+                    else
+                    {
+                        Var.SetVariableValue(deque[i], procEnv);
                     }
                     Seq.ResetExecutionState();
                     res &= Seq.Apply(procEnv);

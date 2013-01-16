@@ -1640,8 +1640,13 @@ public class ActionsGen extends CSharpBase {
 			Qualification qual = (Qualification) expr;
 			Entity owner = qual.getOwner();
 			Entity member = qual.getMember();
-			sb.append("new GRGEN_EXPR.Qualification(\"" + formatElementInterfaceRef(owner.getType())
-				+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
+			if(!Expression.isGlobalVariable(owner)) {
+				sb.append("new GRGEN_EXPR.Qualification(\"" + formatElementInterfaceRef(owner.getType())
+					+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableQualification(\"" + formatType(owner.getType())
+						+ "\", \"" + formatIdentifiable(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
+			}
 		}
 		else if(expr instanceof EnumExpression) {
 			EnumExpression enumExp = (EnumExpression) expr;
@@ -1684,11 +1689,19 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(expr instanceof VariableExpression) {
 			Variable var = ((VariableExpression) expr).getVariable();
-			sb.append("new GRGEN_EXPR.VariableExpression(\"" + formatEntity(var, pathPrefix, alreadyDefinedEntityToName) + "\")");
+			if(!Expression.isGlobalVariable(var)) {
+				sb.append("new GRGEN_EXPR.VariableExpression(\"" + formatEntity(var, pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(var) + "\", \"" + formatType(var.getType()) + "\")");
+			}
 		}
 		else if(expr instanceof GraphEntityExpression) {
 			GraphEntity ent = ((GraphEntityExpression) expr).getGraphEntity();
-			sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(ent, pathPrefix, alreadyDefinedEntityToName) + "\")");
+			if(!Expression.isGlobalVariable(ent)) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(ent, pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(ent) + "\", \"" + formatType(ent.getType()) + "\")");
+			}
 		}
 		else if(expr instanceof Visited) {
 			Visited vis = (Visited) expr;
@@ -1854,6 +1867,32 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, dp.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof DequeIndexOfExpr) {
+			DequeIndexOfExpr di = (DequeIndexOfExpr)expr;
+			sb.append("new GRGEN_EXPR.DequeIndexOf(");
+			genExpressionTree(sb, di.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, di.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof DequeLastIndexOfExpr) {
+			DequeLastIndexOfExpr dli = (DequeLastIndexOfExpr)expr;
+			sb.append("new GRGEN_EXPR.DequeLastIndexOf(");
+			genExpressionTree(sb, dli.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, dli.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof DequeSubdequeExpr) {
+			DequeSubdequeExpr dsd = (DequeSubdequeExpr)expr;
+			sb.append("new GRGEN_EXPR.DequeSubdeque(");
+			genExpressionTree(sb, dsd.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, dsd.getStartExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, dsd.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof MapInit) {
 			MapInit mi = (MapInit)expr;
 			if(mi.isConstant()) {
@@ -1971,11 +2010,41 @@ public class ActionsGen extends CSharpBase {
 			sb.append(")");
 		}
 		else if (expr instanceof IncidentEdgeExpr) {
-			IncidentEdgeExpr ce = (IncidentEdgeExpr) expr;
-			sb.append("new GRGEN_EXPR."+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
-					+ "\""+formatEntity(ce.getNode(), pathPrefix, alreadyDefinedEntityToName)+"\", "
-					+ "\""+formatTypeClassRef(ce.getIncidentEdgeType()) + ".typeVar\", "
-					+ "\""+formatTypeClassRef(ce.getAdjacentNodeType()) + ".typeVar\""
+			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
+			if(ie.Direction()==IncidentEdgeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.Outgoing(");
+			} else if(ie.Direction()==IncidentEdgeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.Incoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.Incident(");
+			}
+			if(!Expression.isGlobalVariable(ie.getNode())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(ie.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(ie.getNode()) + "\", \"" + formatType(ie.getNode().getType()) + "\")");
+			}
+			sb.append(", "
+					+ "\""+formatTypeClassRef(ie.getIncidentEdgeType()) + ".typeVar\", "
+					+ "\""+formatTypeClassRef(ie.getAdjacentNodeType()) + ".typeVar\""
+					+ ")");
+		}
+		else if (expr instanceof AdjacentNodeExpr) {
+			AdjacentNodeExpr an = (AdjacentNodeExpr) expr;
+			if(an.Direction()==AdjacentNodeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.AdjacentOutgoing(");
+			} else if(an.Direction()==AdjacentNodeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.AdjacentIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.Adjacent(");
+			}
+			if(!Expression.isGlobalVariable(an.getNode())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(an.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(an.getNode()) + "\", \"" + formatType(an.getNode().getType()) + "\")");
+			}
+			sb.append(", "
+					+ "\""+formatTypeClassRef(an.getIncidentEdgeType()) + ".typeVar\", "
+					+ "\""+formatTypeClassRef(an.getAdjacentNodeType()) + ".typeVar\""
 					+ ")");
 		}
 		else if (expr instanceof MaxExpr) {
@@ -3039,6 +3108,13 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.DequeRemove(");
 		sb.append("\"" + target.getIdent() + "\"");
+		if(dvri.getIndexExpr()!=null) {
+			sb.append(", ");
+			StringBuffer sbtmp = new StringBuffer();
+			genExpressionTree(sbtmp, dvri.getIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			String indexExprStr = sbtmp.toString();
+			sb.append(indexExprStr);
+		}
 		sb.append(")");
 		
 		assert dvri.getNext()==null;
@@ -3066,6 +3142,13 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\"" + target.getIdent() + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
+		if(dvai.getIndexExpr()!=null) {
+			sbtmp = new StringBuffer();
+			genExpressionTree(sbtmp, dvai.getIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			String indexExprStr = sbtmp.toString();
+			sb.append(", ");
+			sb.append(indexExprStr);
+		}
 		sb.append(")");
 		
 		assert dvai.getNext()==null;

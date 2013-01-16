@@ -48,6 +48,7 @@ public class CompoundAssignmentVarChangedVar extends CompoundAssignmentVar {
 	{
 		super.collectNeededEntities(needs);
 
-		needs.add(changedTarget);
+		if(!isGlobalVariable(changedTarget))
+			needs.add(changedTarget);
 	}
 }

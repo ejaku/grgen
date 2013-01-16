@@ -197,27 +197,27 @@ public class MethodCallNode extends EvalStatementNode
 		}
 		else if(targetType instanceof DequeTypeNode) {
 			if(methodName.equals("add")) {
-				if(params.size() !=1 ) {
-  					reportError("deque<T>.add(value) takes one parameter.");
+				if(params.size()!=1 && params.size()!=2) {
+  					reportError("deque<T>.add(value)/deque<T>.add(value, index) takes one or two parameters.");
 					return false;
 				}
   				else {
   					if(targetQual!=null)
-  						result = new DequeAddItemNode(getCoords(), targetQual, params.get(0));
+  						result = new DequeAddItemNode(getCoords(), targetQual, params.get(0), params.size()!=1 ? params.get(1) : null);
   					else
-  						result = new DequeVarAddItemNode(getCoords(), targetVar, params.get(0));
+  						result = new DequeVarAddItemNode(getCoords(), targetVar, params.get(0), params.size()!=1 ? params.get(1) : null);
   				}
 			}
 			else if(methodName.equals("rem")) {
-				if(params.size() !=0 ) {
-  					reportError("deque<T>.rem() takes no parameters.");
+				if(params.size()!=1 && params.size()!=0) {
+  					reportError("deque<T>.rem()/deque<T>.rem(index) takes zero or one parameter.");
 					return false;
 				}
   				else {
   					if(targetQual!=null)
-  						result = new DequeRemoveItemNode(getCoords(), targetQual);
+  						result = new DequeRemoveItemNode(getCoords(), targetQual, params.size()!=0 ? params.get(0) : null);
   					else
-  						result = new DequeVarRemoveItemNode(getCoords(), targetVar);
+  						result = new DequeVarRemoveItemNode(getCoords(), targetVar, params.size()!=0 ? params.get(0) : null);
   				}
 			}
 			else if(methodName.equals("clear")) {

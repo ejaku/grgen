@@ -1951,15 +1951,18 @@ public class ModifyGen extends CSharpBase {
 			genChangingAttribute(sb, state, target, "Assign", varName , "null");
 
 			sb.append("\t\t\t");
-			genExpression(sb, target, state);
+			genExpression(sb, target, state); // global var case handled by genQualAccess
 			sb.append(" = " + varName + ";\n");
 
 			return;
 		}
 
-		// indexed assignment to array/map, the target type is the array/map value type
+		// indexed assignment to array/deque/map, the target type is the array/deque/map value type
 		if(ass instanceof AssignmentIndexed && targetType instanceof ArrayType) {
 			targetType = ((ArrayType)targetType).getValueType();
+		}
+		if(ass instanceof AssignmentIndexed && targetType instanceof DequeType) {
+			targetType = ((DequeType)targetType).getValueType();
 		}
 		if(ass instanceof AssignmentIndexed && targetType instanceof MapType) {
 			targetType = ((MapType)targetType).getValueType();
@@ -2022,6 +2025,16 @@ public class ModifyGen extends CSharpBase {
 				varType = defined.contains(targetType.getIdent().toString()) ? "" : "GRGEN_MODEL."+targetType.getIdent()+" ";
 				defined.add(targetType.getIdent().toString());
 				break;
+			case Type.IS_NODE:
+				varName = "tempvar_node";
+				varType = defined.contains("node") ? "" : "GRGEN_LIBGR.INode ";
+				defined.add("node");
+				break;
+			case Type.IS_EDGE:
+				varName = "tempvar_edge";
+				varType = defined.contains("edge") ? "" : "GRGEN_LIBGR.IEdge ";
+				defined.add("edge");
+				break;
 			default:
 				throw new IllegalArgumentException();
 		}
@@ -2036,7 +2049,8 @@ public class ModifyGen extends CSharpBase {
 		{
 			AssignmentIndexed assIdx = (AssignmentIndexed)ass; 
 
-			if(target.getType() instanceof ArrayType) {
+			if(target.getType() instanceof ArrayType
+					|| target.getType() instanceof DequeType) {
 				String indexType = defined.contains("index") ? "" : "int ";
 				defined.add("index");
 				String indexName = "tempvar_index";
@@ -2047,34 +2061,35 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tif(" + indexName + " < ");
 				genExpression(sb, target, state);
 				sb.append(".Count) {\n");
-
+				
 				sb.append("\t");
 				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);
 
 				sb.append("\t\t\t\t");
-				genExpression(sb, target, state);
+				genExpression(sb, target, state); // global var case handled by genQualAccess
 				sb.append("[");
 				sb.append(indexName);
 				sb.append("]");
 			} else { //if(target.getType() instanceof MapType)
-				String indexType = defined.contains("index"+targetType.getIdent().toString()) ? "" : ("GRGEN_MODEL."+targetType.getIdent()+" ");
-				defined.add("index"+targetType.getIdent().toString());
-				String indexName = "tempvar_index_"+targetType.getIdent().toString();
+				String keyType = ((MapType)target.getType()).getKeyType().getIdent().toString();
+				String indexType = defined.contains("index"+keyType) ? "" : (formatType(((MapType)target.getType()).getKeyType()) + " ");
+				defined.add("index"+keyType);
+				String indexName = "tempvar_index_"+keyType;
 				sb.append("\t\t\t" + indexType + indexName + " = ");
 				genExpression(sb, assIdx.getIndex(), state);
 				sb.append(";\n");
 
 				sb.append("\t\t\tif(");
 				genExpression(sb, target, state);
-				sb.append(".Contains(");
+				sb.append(".ContainsKey(");
 				sb.append(indexName);
-				sb.append(") {\n");
+				sb.append(")) {\n");
 
 				sb.append("\t");
 				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);
 				
 				sb.append("\t\t\t\t");
-				genExpression(sb, target, state);
+				genExpression(sb, target, state); // global var case handled by genQualAccess
 				sb.append("[");
 				sb.append(indexName);
 				sb.append("]");
@@ -2092,7 +2107,7 @@ public class ModifyGen extends CSharpBase {
 			genChangingAttribute(sb, state, target, "Assign", varName, "null");
 	
 			sb.append("\t\t\t");
-			genExpression(sb, target, state);
+			genExpression(sb, target, state); // global var case handled by genQualAccess
 			
 			sb.append(" = ");
 			if(targetType instanceof EnumType)
@@ -2104,21 +2119,58 @@ public class ModifyGen extends CSharpBase {
 	private void genAssignmentVar(StringBuffer sb, ModifyGenerationStateConst state, AssignmentVar ass) {
 		Variable target = ass.getTarget();
 		Expression expr = ass.getExpression();
+				
+		Type targetType = target.getType();
+		if(ass instanceof AssignmentVarIndexed) {
+			if(targetType instanceof ArrayType)
+				targetType = ((ArrayType)target.getType()).getValueType();
+			else if(targetType instanceof DequeType)
+				targetType = ((DequeType)target.getType()).getValueType();
+			else // targetType instanceof MapType
+				targetType = ((MapType)target.getType()).getValueType();
+		}
+
+		Type indexType = IntType.getType();
+		if(target.getType() instanceof MapType)
+			indexType = ((MapType)target.getType()).getKeyType();
 
 		sb.append("\t\t\t");
-		sb.append("var_" + target.getIdent());
-		if(ass instanceof AssignmentVarIndexed) {
-			AssignmentVarIndexed assIdx = (AssignmentVarIndexed)ass;
-			Expression index = assIdx.getIndex();
-			sb.append("[(int)");
-			genExpression(sb, index, state);
-			sb.append("]");
+		if(!Expression.isGlobalVariable(target)) {
+			sb.append("var_" + target.getIdent());
+			if(ass instanceof AssignmentVarIndexed) {
+				AssignmentVarIndexed assIdx = (AssignmentVarIndexed)ass;
+				Expression index = assIdx.getIndex();
+				sb.append("[(" + formatType(indexType) + ") (");
+				genExpression(sb, index, state);
+				sb.append(")]");
+			}
+			
+			sb.append(" = ");
+			sb.append("(" + formatType(targetType) + ") (");
+			genExpression(sb, expr, state);
+			sb.append(");\n");
+		} else {
+			if(ass instanceof AssignmentVarIndexed) {
+				AssignmentVarIndexed assIdx = (AssignmentVarIndexed)ass;
+				sb.append(formatGlobalVariableRead(target));
+				Expression index = assIdx.getIndex();
+				sb.append("[(" + formatType(indexType) + ") (");
+				genExpression(sb, index, state);
+				sb.append(")]");
+				
+				sb.append(" = ");
+				sb.append("(" + formatType(targetType) + ") (");
+				genExpression(sb, expr, state);
+				sb.append(");\n");
+			} else {
+				StringBuffer tmp = new StringBuffer();
+				tmp.append("(" + formatType(targetType) + ") (");
+				genExpression(tmp, expr, state);
+				tmp.append(")");
+				sb.append(formatGlobalVariableWrite(target, tmp.toString()));
+				sb.append(";\n");
+			}			
 		}
-		sb.append(" = ");
-		if(target.getType() instanceof EnumType)
-			sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
-		genExpression(sb, expr, state);
-		sb.append(";\n");
 	}
 
 	private void genAssignmentGraphEntity(StringBuffer sb, ModifyGenerationStateConst state, AssignmentGraphEntity ass) {
@@ -2126,10 +2178,17 @@ public class ModifyGen extends CSharpBase {
 		Expression expr = ass.getExpression();
 
 		sb.append("\t\t\t");
-		sb.append(formatEntity(target));
-		sb.append(" = ");
-		genExpression(sb, expr, state);
-		sb.append(";\n");
+		if(!Expression.isGlobalVariable(target)) {
+			sb.append(formatEntity(target));
+			sb.append(" = ");
+			genExpression(sb, expr, state);
+			sb.append(";\n");
+		} else {
+			StringBuffer tmp = new StringBuffer();
+			genExpression(tmp, expr, state);
+			sb.append(formatGlobalVariableWrite(target, tmp.toString()));
+			sb.append(";\n");
+		}
 	}
 
 	private void genAssignmentVisited(StringBuffer sb, ModifyGenerationStateConst state, AssignmentVisited ass) {
@@ -2554,12 +2613,23 @@ public class ModifyGen extends CSharpBase {
 
 	private void genDequeRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, DequeRemoveItem dri) {
 		Qualification target = dri.getTarget();
-		
-		genChangingAttribute(sb, state, target, "RemoveElement", "null", "null");
+
+		String indexStr = "null";
+		if(dri.getIndexExpr()!=null) {
+			StringBuffer sbtmp = new StringBuffer();
+			genExpression(sbtmp, dri.getIndexExpr(), state);
+			indexStr = sbtmp.toString();
+		}
+
+		genChangingAttribute(sb, state, target, "RemoveElement", "null", indexStr);
 
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
-		sb.append(".Dequeue();\n");
+		if(dri.getIndexExpr()!=null) {
+			sb.append(".DequeueAt(" + indexStr + ");\n");
+		} else {
+			sb.append(".Dequeue();\n");
+		}
 
 		if(dri.getNext()!=null) {
 			genEvalStmt(sb, state, dri.getNext());
@@ -2586,13 +2656,25 @@ public class ModifyGen extends CSharpBase {
 		StringBuffer sbtmp = new StringBuffer();
 		genExpression(sbtmp, dai.getValueExpr(), state);
 		String valueExprStr = sbtmp.toString();
-		
-		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, "null");
+
+		sbtmp = new StringBuffer();
+		String indexExprStr = "null";
+		if(dai.getIndexExpr()!=null) {
+			genExpression(sbtmp, dai.getIndexExpr(), state);
+			indexExprStr = sbtmp.toString();
+		}
+
+		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, indexExprStr);
 
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
-		sb.append(".Enqueue(");
-		
+		if(dai.getIndexExpr()==null) {
+			sb.append(".Enqueue(");
+		} else {
+			sb.append(".EnqueueAt(");
+			sb.append(indexExprStr);
+			sb.append(", ");
+		}		
 		if(dai.getValueExpr() instanceof GraphEntityExpression)
 			sb.append("(" + formatElementInterfaceRef(dai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
 		else
@@ -2771,9 +2853,21 @@ public class ModifyGen extends CSharpBase {
 	private void genDequeVarRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, DequeVarRemoveItem dvri) {
 		Variable target = dvri.getTarget();
 
+		String indexStr = "null";
+		if(dvri.getIndexExpr()!=null) {
+			StringBuffer sbtmp = new StringBuffer();
+			genExpression(sbtmp, dvri.getIndexExpr(), state);
+			indexStr = sbtmp.toString();
+		}
+
 		sb.append("\t\t\tvar_" + target.getIdent());
-		sb.append(".Dequeue();\n");
-		
+
+		if(dvri.getIndexExpr()!=null) {
+			sb.append(".DequeueAt(" + indexStr + ");\n");
+		} else {
+			sb.append(".Dequeue();\n");
+		}
+
 		assert dvri.getNext()==null;
 	}
 
@@ -2793,9 +2887,22 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sbtmp, dvai.getValueExpr(), state);
 		String valueExprStr = sbtmp.toString();
 
+		sbtmp = new StringBuffer();
+		String indexExprStr = "null";
+		if(dvai.getIndexExpr()!=null) {
+			genExpression(sbtmp, dvai.getIndexExpr(), state);
+			indexExprStr = sbtmp.toString();
+		}
+
 		sb.append("\t\t\t");
 		sb.append("\t\t\tvar_" + target.getIdent());
-		sb.append(".Enqueue(");
+		if(dvai.getIndexExpr()==null) {
+			sb.append(".Enqueue(");
+		} else {
+			sb.append(".EnqueueAt(");
+			sb.append(indexExprStr);
+			sb.append(", ");
+		}		
 		if(dvai.getValueExpr() instanceof GraphEntityExpression)
 			sb.append("(" + formatElementInterfaceRef(dvai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
 		else
@@ -2825,12 +2932,21 @@ public class ModifyGen extends CSharpBase {
 		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
 
 		if(!isDeletedElem && be.system.mayFireEvents()) {
-			sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" +
-					formatEntity(element) +	", " +
-					formatTypeClassRef(elementType) + "." +
-					formatAttributeTypeName(attribute) + ", " +
-					"GRGEN_LIBGR.AttributeChangeType." + attributeChangeType + ", " +
-					newValue + ", " + keyValue + ");\n");
+			if(!Expression.isGlobalVariable(element)) {
+				sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" +
+						formatEntity(element) +	", " +
+						formatTypeClassRef(elementType) + "." +
+						formatAttributeTypeName(attribute) + ", " +
+						"GRGEN_LIBGR.AttributeChangeType." + attributeChangeType + ", " +
+						newValue + ", " + keyValue + ");\n");
+			} else {
+				sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" +
+						formatGlobalVariableRead(element) + ", " +
+						formatTypeClassRef(elementType) + "." +
+						formatAttributeTypeName(attribute) + ", " +
+						"GRGEN_LIBGR.AttributeChangeType." + attributeChangeType + ", " +
+						newValue + ", " + keyValue + ");\n");
+			}
 		}
 	}
 
@@ -2886,15 +3002,13 @@ public class ModifyGen extends CSharpBase {
 						"GRGEN_LIBGR.AttributeChangeType.RemoveElement, " +
 						"null, i);\n");
 			} else if(attribute.getType() instanceof DequeType) {
-				DequeType attributeType = (DequeType)attribute.getType();
-				sb.append("\t\t\tforeach(" + formatType(attributeType.getValueType()) + " elem " +
-						"in " + targetStr + ")\n");
+				sb.append("\t\t\tfor(int i = " + targetStr + ".Count; i>=0; --i)\n");
 				sb.append("\t\t\t\tgraph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) +	", " +
 						formatTypeClassRef(elementType) + "." +
 						formatAttributeTypeName(attribute) + ", " +
 						"GRGEN_LIBGR.AttributeChangeType.RemoveElement, " +
-						"elem, null);\n");
+						"null, i);\n");
 			} else {
 				assert(false);
 			}
@@ -2916,20 +3030,24 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	protected void genQualAccess(StringBuffer sb, ModifyGenerationStateConst state, Entity owner, Entity member) {
-		if(state==null) {
-			assert false;
-			sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
-			return;
-		}
-
-		if(accessViaVariable(state, (GraphEntity) owner, member)) {
-			sb.append("tempvar_" + formatEntity(owner) + "_" + formatIdentifiable(member));
-		}
-		else {
-			if(state.accessViaInterface().contains(owner))
-				sb.append("i");
-
-			sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
+		if(!Expression.isGlobalVariable(owner)) {
+			if(state==null) {
+				assert false;
+				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
+				return;
+			}
+	
+			if(accessViaVariable(state, (GraphEntity) owner, member)) {
+				sb.append("tempvar_" + formatEntity(owner) + "_" + formatIdentifiable(member));
+			} else {
+				if(state.accessViaInterface().contains(owner))
+					sb.append("i");
+	
+				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
+			}
+		} else {
+			sb.append(formatGlobalVariableRead(owner));
+			sb.append(".@" + formatIdentifiable(member));
 		}
 	}
 

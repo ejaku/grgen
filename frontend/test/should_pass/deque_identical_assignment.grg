@@ -1,0 +1,12 @@
+using deque_model_001;
+
+rule assi {
+	a:A;
+	
+	modify {
+		eval {
+			a.niceDeque = a.niceDeque;
+			a.spiceDeque = a.spiceDeque;
+		}
+	}
+}
