@@ -33,6 +33,7 @@ namespace de.unika.ipd.grGen.lgsp
         protected IGraphModel model;
         internal String modelAssemblyName;
 
+		String canonicalRepresentation = null;
 
         private bool reuseOptimization = true;
 
@@ -2129,7 +2130,9 @@ invalidCommand:
         public override string Canonize()
         {
             // TODO: implement, this is just a placeholder
-            throw new NotImplementedException();
+			SimpleGraphCanonizer canonizer = new SimpleGraphCanonizer();
+			string canonicalString = canonizer.Canonize(this);
+			return canonicalString;
         }
 
         public override void Check()
