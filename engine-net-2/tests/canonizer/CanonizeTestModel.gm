@@ -1,0 +1,46 @@
+node class GraphNode {
+    gSub: graph;
+    name: string;
+    canonicalString:string;
+}
+
+edge class Contains;
+
+node class NodeClassA;
+
+node class NodeClassB
+{
+  num:int=0; 
+  num2:double=0;
+}
+
+node class NodeClassC extends NodeClassA
+{
+  chars:string="";
+}
+
+node class NodeClassD extends NodeClassC
+{
+  pi:double=3.14;
+}
+
+edge class EdgeClassA;
+
+edge class EdgeClassB extends EdgeClassA
+{
+  a:int=1;
+  b:float=0.4f;
+}
+
+edge class EdgeClassC extends EdgeClassA
+{
+ echars:string="EdgeClass.attribute";
+}
+
+edge class EdgeClassD extends EdgeClassC
+{
+ echars2:string="EdgeClassD.attribute|.";
+}
+
+
+undirected edge class EdgeClassU;
