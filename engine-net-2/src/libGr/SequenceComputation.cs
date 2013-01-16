@@ -123,6 +123,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public SequenceVariable Container;
         public SequenceComputation MethodCall;
+        public SequenceExpressionAttributeAccess Attribute;
 
         public SequenceComputationContainer(SequenceComputationType type, SequenceVariable container, SequenceComputation methodCall)
             : base(type)
@@ -131,28 +132,67 @@ namespace de.unika.ipd.grGen.libGr
             MethodCall = methodCall;
         }
 
+        public SequenceComputationContainer(SequenceComputationType type, SequenceExpressionAttributeAccess attribute)
+            : base(type)
+        {
+            Attribute = attribute;
+        }
+
         public string ContainerType(SequenceCheckingEnvironment env)
         {
             if(Container != null) return Container.Type;
-            else return MethodCall.Type(env);
+            else if(MethodCall != null) return MethodCall.Type(env);
+            else return Attribute.Type(env);
         }
 
-        public object ContainerValue(IGraphProcessingEnvironment procEnv)
+        public string CheckAndReturnContainerType(SequenceCheckingEnvironment env)
         {
-            if(Container != null) return Container.GetVariableValue(procEnv);
-            else return MethodCall.Execute(procEnv);
+            string ContainerType;
+            if(Container != null)
+                ContainerType = Container.Type;
+            else if(MethodCall != null)
+                ContainerType = MethodCall.Type(env);
+            else
+                ContainerType = Attribute.CheckAndReturnAttributeType(env);
+            if(ContainerType == "")
+                return ""; // we can't check container type if the variable is untyped, only runtime-check possible
+            if(TypesHelper.ExtractSrc(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == null)
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType);
+            return ContainerType;
+        }
+
+        public object ContainerValue(IGraphProcessingEnvironment procEnv, out IGraphElement elem, out AttributeType attrType)
+        {
+            if(Container != null)
+            {
+                elem = null;
+                attrType = null;
+                return Container.GetVariableValue(procEnv);
+            }
+            else if(MethodCall != null)
+            {
+                elem = null;
+                attrType = null;
+                return MethodCall.Execute(procEnv);
+            }
+            else
+            {
+                return Attribute.ExecuteNoImplicitContainerCopy(procEnv, out elem, out attrType);
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
         {
             if(Container != null)
                 return Container.Type;
-            else
+            else if(MethodCall != null)
                 return MethodCall.Type(env);
+            else 
+                return Attribute.Type(env);
         }
 
         public override int Precedence { get { return 8; } }
-        public string Name { get { if(Container != null) return Container.Name; else return MethodCall.Symbol; } }
+        public string Name { get { if(Container != null) return Container.Name; else if(MethodCall != null) return MethodCall.Symbol; else return Attribute.Symbol; } }
     }
 
 
@@ -308,54 +348,57 @@ namespace de.unika.ipd.grGen.libGr
             ExprDst = exprDst;
         }
 
+        public SequenceComputationContainerAdd(SequenceExpressionAttributeAccess attribute, SequenceExpression expr, SequenceExpression exprDst)
+            : base(SequenceComputationType.ContainerAdd, attribute)
+        {
+            Expr = expr;
+            ExprDst = exprDst;
+        }
+
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            if(ContainerType(env) == "")
+            string ContainerType = CheckAndReturnContainerType(env);
+            if(ContainerType == "")
                 return; // we can't check further types if the container is untyped, only runtime-check possible
 
-            if(!ContainerType(env).StartsWith("set<") && !ContainerType(env).StartsWith("map<")
-                && !ContainerType(env).StartsWith("array<") && !ContainerType(env).StartsWith("deque<"))
+            if(ExprDst != null && TypesHelper.ExtractDst(ContainerType) == "SetValueType")
             {
-                throw new SequenceParserException(Symbol, ExprDst == null ? "set or array or deque type" : "map or array type", ContainerType(env));
+                throw new SequenceParserException(Symbol, "map or array or deque", ContainerType);
             }
-            if(ExprDst != null && TypesHelper.ExtractDst(ContainerType(env)) == "SetValueType")
+            if(ContainerType.StartsWith("array<"))
             {
-                throw new SequenceParserException(Symbol, "map type or array", ContainerType(env));
-            }
-            if(ContainerType(env).StartsWith("array<"))
-            {
-                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType(env)), env.Model))
+                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
                 {
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), Expr.Type(env));
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
                 }
                 if(ExprDst != null && !TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "int", env.Model))
                 {
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType(env)), ExprDst.Type(env));
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType), ExprDst.Type(env));
                 }
             }
-            else if(ContainerType(env).StartsWith("deque<"))
+            else if(ContainerType.StartsWith("deque<"))
             {
-                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType(env)), env.Model))
+                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
                 {
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), Expr.Type(env));
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
                 }
                 if(ExprDst != null && !TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "int", env.Model))
                 {
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType(env)), ExprDst.Type(env));
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType), ExprDst.Type(env));
                 }
             }
             else
             {
-                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType(env)), env.Model))
+                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
                 {
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), Expr.Type(env));
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
                 }
-                if(TypesHelper.ExtractDst(ContainerType(env)) != "SetValueType"
-                    && !TypesHelper.IsSameOrSubtype(ExprDst.Type(env), TypesHelper.ExtractDst(ContainerType(env)), env.Model))
+                if(TypesHelper.ExtractDst(ContainerType) != "SetValueType"
+                    && !TypesHelper.IsSameOrSubtype(ExprDst.Type(env), TypesHelper.ExtractDst(ContainerType), env.Model))
                 {
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType(env)), ExprDst.Type(env));
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType), ExprDst.Type(env));
                 }
             }
         }
@@ -365,36 +408,74 @@ namespace de.unika.ipd.grGen.libGr
             SequenceComputationContainerAdd copy = (SequenceComputationContainerAdd)MemberwiseClone();
             if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
             if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
+            if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv);
             copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
             if(ExprDst != null) copy.ExprDst = ExprDst.CopyExpression(originalToCopy, procEnv);
-            return copy;
+            return copy; 
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object container = ContainerValue(procEnv);
+            IGraphElement elem;
+            AttributeType attrType;
+            object container = ContainerValue(procEnv, out elem, out attrType);
+            object firstValue = Expr.Evaluate(procEnv);
+            object optionalSecondValue = null;
+            if(ExprDst != null)
+                optionalSecondValue = ExprDst.Evaluate(procEnv);
             if(container is IList)
             {
+                if(elem != null)
+                {
+                    if(elem is INode)
+                        procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, firstValue, optionalSecondValue);
+                    else
+                        procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, firstValue, optionalSecondValue);
+                }
                 IList array = (IList)container;
                 if(ExprDst == null)
-                    array.Add(Expr.Evaluate(procEnv));
+                    array.Add(firstValue);
                 else
-                    array.Insert((int)ExprDst.Evaluate(procEnv), Expr.Evaluate(procEnv));
+                    array.Insert((int)optionalSecondValue, firstValue);
                 return array;
             }
             else if(container is IDeque)
             {
+                if(elem != null)
+                {
+                    if(elem is INode)
+                        procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, firstValue, optionalSecondValue);
+                    else
+                        procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, firstValue, optionalSecondValue);
+                }
                 IDeque deque = (IDeque)container;
                 if(ExprDst == null)
-                    deque.Enqueue(Expr.Evaluate(procEnv));
+                    deque.Enqueue(firstValue);
                 else
-                    deque.EnqueueAt((int)ExprDst.Evaluate(procEnv), Expr.Evaluate(procEnv));
+                    deque.EnqueueAt((int)optionalSecondValue, firstValue);
                 return deque;
             }
             else
             {
+                if(elem != null)
+                {
+                    if(ExprDst != null) // must be map
+                    {
+                        if(elem is INode)
+                            procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, optionalSecondValue, firstValue);
+                        else
+                            procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, optionalSecondValue, firstValue);
+                    }
+                    else
+                    {
+                        if(elem is INode)
+                            procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, firstValue, null);
+                        else
+                            procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, firstValue, null);
+                    }
+                }
                 IDictionary setmap = (IDictionary)container;
-                setmap[Expr.Evaluate(procEnv)] = (ExprDst == null ? null : ExprDst.Evaluate(procEnv));
+                setmap[firstValue] = optionalSecondValue;
                 return setmap;
             }
         }
@@ -403,6 +484,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Container != null) Container.GetLocalVariables(variables);
             if(MethodCall != null) MethodCall.GetLocalVariables(variables);
+            if(Attribute != null) Attribute.GetLocalVariables(variables);
             Expr.GetLocalVariables(variables);
             if(ExprDst != null) ExprDst.GetLocalVariables(variables);
         }
@@ -427,26 +509,28 @@ namespace de.unika.ipd.grGen.libGr
             Expr = expr;
         }
 
+        public SequenceComputationContainerRem(SequenceExpressionAttributeAccess attribute, SequenceExpression expr)
+            : base(SequenceComputationType.ContainerRem, attribute)
+        {
+            Expr = expr;
+        }
+
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            if(ContainerType(env) == "")
-                return; // we can't check further types if the variable is untyped, only runtime-check possible
+            string ContainerType = CheckAndReturnContainerType(env);
+            if(ContainerType == "")
+                return; // we can't check further types if the container is untyped, only runtime-check possible
 
-            if(!ContainerType(env).StartsWith("set<") && !ContainerType(env).StartsWith("map<")
-                && !ContainerType(env).StartsWith("array<") && !ContainerType(env).StartsWith("deque<"))
-            {
-                throw new SequenceParserException(Symbol, "set or map or array or deque type", ContainerType(env));
-            }
-            if(ContainerType(env).StartsWith("array<"))
+            if(ContainerType.StartsWith("array<"))
             {
                 if(Expr != null && !TypesHelper.IsSameOrSubtype(Expr.Type(env), "int", env.Model))
                 {
                     throw new SequenceParserException(Symbol, "int", Expr.Type(env));
                 }
             }
-            else if(ContainerType(env).StartsWith("deque<"))
+            else if(ContainerType.StartsWith("deque<"))
             {
                 if(Expr != null && !TypesHelper.IsSameOrSubtype(Expr.Type(env), "int", env.Model))
                 {
@@ -455,9 +539,9 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType(env)), env.Model))
+                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
                 {
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), Expr.Type(env));
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
                 }
             }
         }
@@ -467,35 +551,72 @@ namespace de.unika.ipd.grGen.libGr
             SequenceComputationContainerRem copy = (SequenceComputationContainerRem)MemberwiseClone();
             if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
             if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
+            if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv);
             if(Expr != null) copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object container = ContainerValue(procEnv);
+            IGraphElement elem;
+            AttributeType attrType;
+            object container = ContainerValue(procEnv, out elem, out attrType);
+            object valueOrKeyOrIndexToRemove = null;
+            if(Expr != null)
+                valueOrKeyOrIndexToRemove = Expr.Evaluate(procEnv);
             if(container is IList)
             {
+                if(elem != null)
+                {
+                    if(elem is INode)
+                        procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
+                    else
+                        procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
+                }
                 IList array = (IList)container;
                 if(Expr == null)
                     array.RemoveAt(array.Count - 1);
                 else
-                    array.RemoveAt((int)Expr.Evaluate(procEnv));
+                    array.RemoveAt((int)valueOrKeyOrIndexToRemove);
                 return array;
             }
             else if(container is IDeque)
             {
+                if(elem != null)
+                {
+                    if(elem is INode)
+                        procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
+                    else
+                        procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
+                }
                 IDeque deque = (IDeque)container;
                 if(Expr == null)
                     deque.Dequeue();
                 else
-                    deque.DequeueAt((int)Expr.Evaluate(procEnv));
+                    deque.DequeueAt((int)valueOrKeyOrIndexToRemove);
                 return deque;
             }
             else
             {
+                if(elem != null)
+                {
+                    if(TypesHelper.ExtractDst(TypesHelper.AttributeTypeToXgrsType(attrType)) == "SetValueType")
+                    {
+                        if(elem is INode)
+                            procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, valueOrKeyOrIndexToRemove, null);
+                        else
+                            procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, valueOrKeyOrIndexToRemove, null);
+                    }
+                    else
+                    {
+                        if(elem is INode)
+                            procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
+                        else
+                            procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
+                    }
+                }
                 IDictionary setmap = (IDictionary)container;
-                setmap.Remove(Expr.Evaluate(procEnv));
+                setmap.Remove(valueOrKeyOrIndexToRemove);
                 return setmap;
             }
         }
@@ -504,6 +625,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Container != null) Container.GetLocalVariables(variables);
             if(MethodCall != null) MethodCall.GetLocalVariables(variables);
+            if(Attribute != null) Attribute.GetLocalVariables(variables);
             if(Expr != null) Expr.GetLocalVariables(variables);
         }
 
@@ -523,18 +645,18 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
+        public SequenceComputationContainerClear(SequenceExpressionAttributeAccess attribute)
+            : base(SequenceComputationType.ContainerClear, attribute)
+        {
+        }
+
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
-            
-            if(ContainerType(env) == "")
-                return; // we can't check further types if the variable is untyped, only runtime-check possible
 
-            if(!ContainerType(env).StartsWith("set<") && !ContainerType(env).StartsWith("map<")
-                && !ContainerType(env).StartsWith("array<") && !ContainerType(env).StartsWith("deque<"))
-            {
-                throw new SequenceParserException(Symbol, "set or map or array or deque type", ContainerType(env));
-            }
+            string ContainerType = CheckAndReturnContainerType(env);
+            if(ContainerType == "")
+                return; // we can't check further types if the container is untyped, only runtime-check possible
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -542,26 +664,73 @@ namespace de.unika.ipd.grGen.libGr
             SequenceComputationContainerClear copy = (SequenceComputationContainerClear)MemberwiseClone();
             if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
             if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
+            if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv);
             return copy;
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            if(Container.GetVariableValue(procEnv) is IList)
+            IGraphElement elem;
+            AttributeType attrType;
+            object container = ContainerValue(procEnv, out elem, out attrType);
+            if(container is IList)
             {
-                IList array = (IList)Container.GetVariableValue(procEnv);
+                IList array = (IList)container;
+                if(elem != null)
+                {
+				    for(int i = array.Count; i >= 0; --i)
+                    {
+                        if(elem is INode)
+                            procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, i);
+                        else
+                            procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, i);
+                    }
+                }
                 array.Clear();
                 return array;
             }
-            else if(Container.GetVariableValue(procEnv) is IDeque)
+            else if(container is IDeque)
             {
-                IDeque deque = (IDeque)Container.GetVariableValue(procEnv);
+                IDeque deque = (IDeque)container;
+                if(elem != null)
+                {
+                    for(int i = deque.Count; i >= 0; --i)
+                    {
+                        if(elem is INode)
+                            procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, i);
+                        else
+                            procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, i);
+                    }
+                }
                 deque.Clear();
                 return deque;
             }
             else
             {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(procEnv);
+                IDictionary setmap = (IDictionary)container;
+                if(elem != null)
+                {
+                    if(TypesHelper.ExtractDst(TypesHelper.AttributeTypeToXgrsType(attrType)) == "SetValueType")
+                    {
+				        foreach(DictionaryEntry kvp in setmap)
+                        {
+                            if(elem is INode)
+                                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, kvp.Key, null);
+                            else
+                                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, kvp.Key, null);
+                        }
+                    }
+                    else
+                    {
+                        foreach(DictionaryEntry kvp in setmap)
+                        {
+                            if(elem is INode)
+                                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, kvp.Key);
+                            else
+                                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, kvp.Key);
+                        }
+                    }
+                }
                 setmap.Clear();
                 return setmap;
             }
@@ -571,6 +740,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Container != null) Container.GetLocalVariables(variables);
             if(MethodCall != null) MethodCall.GetLocalVariables(variables);
+            if(Attribute != null) Attribute.GetLocalVariables(variables);
         }
 
         public override IEnumerable<SequenceComputation> Children { get { if(MethodCall == null) yield break; else yield return MethodCall; } }
