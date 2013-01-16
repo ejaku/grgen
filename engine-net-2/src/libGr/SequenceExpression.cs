@@ -32,7 +32,7 @@ namespace de.unika.ipd.grGen.libGr
         InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
         ElementFromGraph,
         Source, Target,
-        GraphElementAttribute, GraphElementAttributeContainerAccess,
+        GraphElementAttribute,
         ElementOfMatch,
         AdjacentNodes, AdjacentNodesViaIncoming, AdjacentNodesViaOutgoing,
         IncidentEdges, IncomingEdges, OutgoingEdges,
@@ -128,6 +128,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public SequenceVariable Container;
         public SequenceComputation MethodCall;
+        public SequenceExpressionAttributeAccess Attribute;
 
         public SequenceExpressionContainer(SequenceExpressionType type, SequenceVariable container, SequenceComputation methodCall)
             : base(type)
@@ -136,27 +137,55 @@ namespace de.unika.ipd.grGen.libGr
             MethodCall = methodCall;
         }
 
+        public SequenceExpressionContainer(SequenceExpressionType type, SequenceExpressionAttributeAccess attribute)
+            : base(type)
+        {
+            Attribute = attribute;
+        }
+
         public string ContainerType(SequenceCheckingEnvironment env)
         {
             if(Container != null) return Container.Type;
-            else return MethodCall.Type(env);
+            else if(MethodCall != null) return MethodCall.Type(env);
+            else return Attribute.Type(env);
+        }
+
+        public string CheckAndReturnContainerType(SequenceCheckingEnvironment env)
+        {
+            string ContainerType;
+            if(Container != null)
+                ContainerType = Container.Type;
+            else if(MethodCall != null)
+                ContainerType = MethodCall.Type(env);
+            else
+                ContainerType = Attribute.CheckAndReturnAttributeType(env);
+            if(ContainerType == "")
+                return ""; // we can't check container type if the variable is untyped, only runtime-check possible
+            if(TypesHelper.ExtractSrc(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == null)
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType);
+            return ContainerType;
         }
 
         public object ContainerValue(IGraphProcessingEnvironment procEnv)
         {
             if(Container != null) return Container.GetVariableValue(procEnv);
-            else return MethodCall.Execute(procEnv);
+            else if(MethodCall != null) return MethodCall.Execute(procEnv);
+            else return Attribute.ExecuteNoImplicitContainerCopy(procEnv);
         }
 
         public override string Type(SequenceCheckingEnvironment env)
         {
             if(Container != null)
                 return Container.Type;
-            else
+            else if(MethodCall != null)
                 return MethodCall.Type(env);
+            else
+                return Attribute.Type(env);
         }
 
-        public string Name { get { if(Container != null) return Container.Name; else return MethodCall.Symbol; } }
+        public string Name { get { if(Container != null) return Container.Name; 
+                                   else if(MethodCall != null) return MethodCall.Symbol; 
+                                   else return Attribute.Symbol; } }
     }
 
     /// <summary>
@@ -1084,7 +1113,9 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionInContainer : SequenceExpression
     {
         public SequenceExpression Expr;
+
         public SequenceExpression Container;
+        public SequenceExpressionAttributeAccess Attribute;
 
         public SequenceExpressionInContainer(SequenceExpression expr, SequenceExpression container)
             : base(SequenceExpressionType.InContainer)
@@ -1093,35 +1124,60 @@ namespace de.unika.ipd.grGen.libGr
             Container = container;
         }
 
+        public SequenceExpressionInContainer(SequenceExpression expr, SequenceExpressionAttributeAccess attribute)
+            : base(SequenceExpressionType.InContainer)
+        {
+            Expr = expr;
+            Attribute = attribute;
+        }
+
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            if(Container.Type(env) == "") 
-                return; // we can't check further types if the variable is untyped, only runtime-check possible
+            string ContainerType = CheckAndReturnContainerType(env);
+            if(ContainerType == "")
+                return; // we can't check further types if the container is untyped, only runtime-check possible
 
-            if(!Container.Type(env).StartsWith("set<") && !Container.Type(env).StartsWith("map<")
-                && !Container.Type(env).StartsWith("array<") && !Container.Type(env).StartsWith("deque<"))
+            if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
             {
-                throw new SequenceParserException(Container.Symbol, "set or map or array or deque type", Container.Type(env));
+                throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
             }
-            if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(Container.Type(env)), env.Model))
-            {
-                throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(Container.Type(env)), Expr.Type(env));
-            }
+        }
+
+        public string CheckAndReturnContainerType(SequenceCheckingEnvironment env)
+        {
+            string ContainerType;
+            if(Container != null)
+                ContainerType = Container.Type(env);
+            else
+                ContainerType = Attribute.CheckAndReturnAttributeType(env);
+            if(ContainerType == "")
+                return ""; // we can't check container type if the variable is untyped, only runtime-check possible
+            if(TypesHelper.ExtractSrc(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == null)
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType);
+            return ContainerType;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionInContainer copy = (SequenceExpressionInContainer)MemberwiseClone();
-            copy.Container = Container.CopyExpression(originalToCopy, procEnv);
+            if(Container != null) copy.Container = Container.CopyExpression(originalToCopy, procEnv);
+            if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.CopyExpression(originalToCopy, procEnv);
             copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
+        public object ContainerValue(IGraphProcessingEnvironment procEnv)
+        {
+            if(Container != null) return Container.Evaluate(procEnv);
+            else return Attribute.ExecuteNoImplicitContainerCopy(procEnv);
+        }
+
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object container = Container.Evaluate(procEnv);
+            object container = ContainerValue(procEnv);
+            
             if(container is IList)
             {
                 IList array = (IList)container;
@@ -1141,13 +1197,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
-            Container.GetLocalVariables(variables);
+            if(Container != null) Container.GetLocalVariables(variables);
+            if(Attribute != null) Attribute.GetLocalVariables(variables);
             Expr.GetLocalVariables(variables);
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Expr.Symbol + " in " + Container.Symbol; } }
+        public override string Symbol { get { return Expr.Symbol + " in " + (Container!=null ? Container.Symbol : Attribute.Symbol); } }
     }
 
     public class SequenceExpressionContainerSize : SequenceExpressionContainer
@@ -1162,14 +1219,16 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
+        public SequenceExpressionContainerSize(SequenceExpressionAttributeAccess attribute)
+            : base(SequenceExpressionType.ContainerSize, attribute)
+        {
+        }
+
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            if(ContainerType(env) != "" && (TypesHelper.ExtractSrc(ContainerType(env)) == null || TypesHelper.ExtractDst(ContainerType(env)) == null))
-            {
-                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType(env));
-            }
+            CheckAndReturnContainerType(env);
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -1181,6 +1240,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceExpressionContainerSize copy = (SequenceExpressionContainerSize)MemberwiseClone();
             if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
+            if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv);
             if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
             return copy;
         }
@@ -1209,6 +1269,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Container != null) Container.GetLocalVariables(variables);
             if(MethodCall != null) MethodCall.GetLocalVariables(variables);
+            if(Attribute != null) Attribute.GetLocalVariables(variables);
         }
 
         public override IEnumerable<SequenceComputation> Children { get { if(MethodCall==null) yield break; else yield return MethodCall; } }
@@ -1229,14 +1290,16 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
+        public SequenceExpressionContainerEmpty(SequenceExpressionAttributeAccess attribute)
+            : base(SequenceExpressionType.ContainerEmpty, attribute)
+        {
+        }
+
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            if(ContainerType(env) != "" && (TypesHelper.ExtractSrc(ContainerType(env)) == null || TypesHelper.ExtractDst(ContainerType(env)) == null))
-            {
-                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType(env));
-            }
+            CheckAndReturnContainerType(env);
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -1249,6 +1312,7 @@ namespace de.unika.ipd.grGen.libGr
             SequenceExpressionContainerEmpty copy = (SequenceExpressionContainerEmpty)MemberwiseClone();
             if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
             if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
+            if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv);
             return copy;
         }
 
@@ -1276,6 +1340,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Container != null) Container.GetLocalVariables(variables);
             if(MethodCall != null) MethodCall.GetLocalVariables(variables);
+            if(Attribute != null) Attribute.GetLocalVariables(variables);
         }
 
         public override IEnumerable<SequenceComputation> Children { get { if(MethodCall == null) yield break; else yield return MethodCall; } }
@@ -1287,6 +1352,8 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionContainerAccess : SequenceExpression
     {
         public SequenceVariable Container;
+        public SequenceExpressionAttributeAccess Attribute;
+        
         public SequenceExpression KeyExpr;
 
         public SequenceExpressionContainerAccess(SequenceVariable container, SequenceExpression keyExpr)
@@ -1296,25 +1363,33 @@ namespace de.unika.ipd.grGen.libGr
             KeyExpr = keyExpr;
         }
 
+        public SequenceExpressionContainerAccess(SequenceExpressionAttributeAccess attribute, SequenceExpression keyExpr)
+            : base(SequenceExpressionType.ContainerAccess)
+        {
+            Attribute = attribute;
+            KeyExpr = keyExpr;
+        }
+
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            if(Container.Type == "")
-                return; // we can't check source and destination types if the variable is untyped, only runtime-check possible
-            
-            if(TypesHelper.ExtractSrc(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == null || TypesHelper.ExtractDst(Container.Type) == "SetValueType")
+            string ContainerType = CheckAndReturnContainerType(env);
+            if(ContainerType == "")
+                return; // we can't check source and destination types if the container is untyped, only runtime-check possible
+
+            if(TypesHelper.ExtractDst(ContainerType) == "SetValueType")
             {
-                throw new SequenceParserException(Symbol, "map<S,T> or array<S> or deque<S>", Container.Type);
+                throw new SequenceParserException(Symbol, "map<S,T> or array<S> or deque<S>", ContainerType);
             }
-            if(Container.Type.StartsWith("array"))
+            if(ContainerType.StartsWith("array"))
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
                 {
                     throw new SequenceParserException(Symbol, "int", KeyExpr.Type(env));
                 }
             }
-            else if(Container.Type.StartsWith("deque"))
+            else if(ContainerType.StartsWith("deque"))
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
                 {
@@ -1323,49 +1398,77 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), TypesHelper.ExtractSrc(Container.Type), env.Model))
+                if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
                 {
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(Container.Type), KeyExpr.Type(env));
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), KeyExpr.Type(env));
                 }
             }
         }
 
+        public string CheckAndReturnContainerType(SequenceCheckingEnvironment env)
+        {
+            string ContainerType;
+            if(Container != null)
+                ContainerType = Container.Type;
+            else
+                ContainerType = Attribute.CheckAndReturnAttributeType(env);
+            if(ContainerType == "")
+                return ""; // we can't check container type if the variable is untyped, only runtime-check possible
+            if(TypesHelper.ExtractSrc(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == null)
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType);
+            return ContainerType;
+        }
+
         public override String Type(SequenceCheckingEnvironment env)
         {
-            if(Container.Type == "")
+            string ContainerType;
+            if(Container != null)
+                ContainerType = Container.Type;
+            else
+                ContainerType = Attribute.Type(env);
+            if(ContainerType == "")
                 return ""; // we can't gain access to the container destination type if the variable is untyped, only runtime-check possible
 
-            if(Container.Type.StartsWith("array") || Container.Type.StartsWith("deque"))
-                return TypesHelper.ExtractSrc(Container.Type);
+            if(ContainerType.StartsWith("array") || ContainerType.StartsWith("deque"))
+                return TypesHelper.ExtractSrc(ContainerType);
             else
-                return TypesHelper.ExtractDst(Container.Type);
+                return TypesHelper.ExtractDst(ContainerType);
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionContainerAccess copy = (SequenceExpressionContainerAccess)MemberwiseClone();
-            copy.Container = Container.Copy(originalToCopy, procEnv);
+            copy.Container = Container!=null ? Container.Copy(originalToCopy, procEnv) : null;
+            copy.Attribute = Attribute!=null ? (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv) : null;
             copy.KeyExpr = KeyExpr.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
+        public object ContainerValue(IGraphProcessingEnvironment procEnv)
+        {
+            if(Container != null) return Container.GetVariableValue(procEnv);
+            else return Attribute.ExecuteNoImplicitContainerCopy(procEnv);
+        }
+
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            if(Container.GetVariableValue(procEnv) is IList)
+            object container = ContainerValue(procEnv);
+
+            if(container is IList)
             {
-                IList array = (IList)Container.GetVariableValue(procEnv);
+                IList array = (IList)container;
                 int key = (int)KeyExpr.Evaluate(procEnv);
                 return array[key];
             }
-            else if(Container.GetVariableValue(procEnv) is IDeque)
+            else if(container is IDeque)
             {
-                IDeque deque = (IDeque)Container.GetVariableValue(procEnv);
+                IDeque deque = (IDeque)container;
                 int key = (int)KeyExpr.Evaluate(procEnv);
                 return deque[key];
             }
             else
             {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(procEnv);
+                IDictionary setmap = (IDictionary)container;
                 object key = KeyExpr.Evaluate(procEnv);
                 return setmap[key];
             }
@@ -1373,13 +1476,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
-            Container.GetLocalVariables(variables);
+            if(Container!=null) Container.GetLocalVariables(variables);
+            if(Attribute!=null) Attribute.GetLocalVariables(variables);
             KeyExpr.GetLocalVariables(variables);
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Container.Name + "[" + KeyExpr.Symbol + "]"; } }
+        public override string Symbol { get { return Container != null ? (Container.Name + "[" + KeyExpr.Symbol + "]") : (Attribute.SourceVar.Name + "." + Attribute.AttributeName + "[" + KeyExpr.Symbol + "]"); } }
     }
 
     public class SequenceExpressionContainerPeek : SequenceExpressionContainer
@@ -1398,14 +1502,17 @@ namespace de.unika.ipd.grGen.libGr
             KeyExpr = keyExpr;
         }
 
+        public SequenceExpressionContainerPeek(SequenceExpressionAttributeAccess attribute, SequenceExpression keyExpr)
+            : base(SequenceExpressionType.ContainerPeek, attribute)
+        {
+            KeyExpr = keyExpr;
+        }
+
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            if(ContainerType(env) != "" && (TypesHelper.ExtractSrc(ContainerType(env)) == null || TypesHelper.ExtractDst(ContainerType(env)) == null))
-            {
-                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType(env));
-            }
+            CheckAndReturnContainerType(env);
 
             if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
             {
@@ -1426,6 +1533,7 @@ namespace de.unika.ipd.grGen.libGr
             SequenceExpressionContainerPeek copy = (SequenceExpressionContainerPeek)MemberwiseClone();
             if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
             if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
+            if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv);
             copy.KeyExpr = KeyExpr.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
@@ -1439,6 +1547,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Container != null) Container.GetLocalVariables(variables);
             if(MethodCall != null) MethodCall.GetLocalVariables(variables);
+            if(Attribute != null) Attribute.GetLocalVariables(variables);
             KeyExpr.GetLocalVariables(variables);
         }
 
@@ -1564,10 +1673,15 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            CheckAndReturnAttributeType(env);
+        }
+
+        public string CheckAndReturnAttributeType(SequenceCheckingEnvironment env)
+        {
             base.Check(env); // check children
 
-            if(SourceVar.Type == "") 
-                return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            if(SourceVar.Type == "")
+                return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SourceVar.Type, env.Model);
             if(nodeOrEdgeType == null)
@@ -1579,6 +1693,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
             }
+
+            return TypesHelper.AttributeTypeToXgrsType(attributeType);
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -1610,6 +1726,21 @@ namespace de.unika.ipd.grGen.libGr
             return value;
         }
 
+        public object ExecuteNoImplicitContainerCopy(IGraphProcessingEnvironment procEnv)
+        {
+            IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(procEnv);
+            object value = elem.GetAttribute(AttributeName);
+            return value;
+        }
+
+        public object ExecuteNoImplicitContainerCopy(IGraphProcessingEnvironment procEnv, out IGraphElement elem, out AttributeType attrType)
+        {
+            elem = (IGraphElement)SourceVar.GetVariableValue(procEnv);
+            object value = elem.GetAttribute(AttributeName);
+            attrType = elem.Type.GetAttributeType(AttributeName);
+            return value;
+        }
+
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
             SourceVar.GetLocalVariables(variables);
@@ -1618,129 +1749,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return SourceVar.Name + "." + AttributeName; } }
-    }
-
-    // todo: this should be a composition of the two expressions, not a fixed special one
-    public class SequenceExpressionAttributeContainerAccess : SequenceExpression
-    {
-        public SequenceVariable SourceVar;
-        public String AttributeName;
-        public SequenceExpression KeyExpr;
-
-        public SequenceExpressionAttributeContainerAccess(SequenceVariable sourceVar, String attributeName, SequenceExpression keyExpr)
-            : base(SequenceExpressionType.GraphElementAttributeContainerAccess)
-        {
-            SourceVar = sourceVar;
-            AttributeName = attributeName;
-            KeyExpr = keyExpr;
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            base.Check(env); // check children
-
-            if(SourceVar.Type == "")
-                return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
-
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SourceVar.Type, env.Model);
-            if(nodeOrEdgeType == null)
-            {
-                throw new SequenceParserException(Symbol, "node or edge type", SourceVar.Type);
-            }
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
-            if(attributeType == null)
-            {
-                throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
-            }
-
-            string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
-            if(TypesHelper.ExtractSrc(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == "SetValueType")
-            {
-                throw new SequenceParserException(Symbol, "map<S,T> or array<S> or deque<S>", ContainerType);
-            }
-            if(ContainerType.StartsWith("array"))
-            {
-                if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
-                {
-                    throw new SequenceParserException(Symbol, "int", KeyExpr.Type(env));
-                }
-            }
-            else if(ContainerType.StartsWith("deque"))
-            {
-                if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
-                {
-                    throw new SequenceParserException(Symbol, "int", KeyExpr.Type(env));
-                }
-            }
-            else
-            {
-                if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
-                {
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), KeyExpr.Type(env));
-                }
-            }
-        }
-
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            if(SourceVar.Type == "")
-                return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
-
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SourceVar.Type, env.Model);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
-            if(attributeType == null)
-                return ""; // error, will be reported by Check, just ensure we don't crash here
-
-            string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
-
-            if(ContainerType.StartsWith("array") || ContainerType.StartsWith("deque"))
-                return TypesHelper.ExtractSrc(ContainerType);
-            else
-                return TypesHelper.ExtractDst(ContainerType);
-        }
-
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-        {
-            SequenceExpressionAttributeContainerAccess copy = (SequenceExpressionAttributeContainerAccess)MemberwiseClone();
-            copy.SourceVar = SourceVar.Copy(originalToCopy, procEnv);
-            copy.KeyExpr = KeyExpr.CopyExpression(originalToCopy, procEnv);
-            return copy;
-        }
-
-        public override object Execute(IGraphProcessingEnvironment procEnv)
-        {
-            IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(procEnv);
-            object container = elem.GetAttribute(AttributeName);
-
-            if(container is IList)
-            {
-                IList array = (IList)container;
-                int key = (int)KeyExpr.Evaluate(procEnv);
-                return array[key];
-            }
-            else if(container is IDeque)
-            {
-                IDeque deque = (IDeque)container;
-                int key = (int)KeyExpr.Evaluate(procEnv);
-                return deque[key];
-            }
-            else
-            {
-                IDictionary setmap = (IDictionary)container;
-                object key = KeyExpr.Evaluate(procEnv);
-                return setmap[key];
-            }
-        }
-
-        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
-        {
-            SourceVar.GetLocalVariables(variables);
-            KeyExpr.GetLocalVariables(variables);
-        }
-
-        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return SourceVar.Name + "." + AttributeName + "[" + KeyExpr.Symbol + "]"; } }
     }
 
     public class SequenceExpressionMatchAccess : SequenceExpression

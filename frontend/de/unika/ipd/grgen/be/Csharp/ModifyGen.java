@@ -3002,15 +3002,13 @@ public class ModifyGen extends CSharpBase {
 						"GRGEN_LIBGR.AttributeChangeType.RemoveElement, " +
 						"null, i);\n");
 			} else if(attribute.getType() instanceof DequeType) {
-				DequeType attributeType = (DequeType)attribute.getType();
-				sb.append("\t\t\tforeach(" + formatType(attributeType.getValueType()) + " elem " +
-						"in " + targetStr + ")\n");
+				sb.append("\t\t\tfor(int i = " + targetStr + ".Count; i>=0; --i)\n");
 				sb.append("\t\t\t\tgraph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) +	", " +
 						formatTypeClassRef(elementType) + "." +
 						formatAttributeTypeName(attribute) + ", " +
 						"GRGEN_LIBGR.AttributeChangeType.RemoveElement, " +
-						"elem, null);\n");
+						"null, i);\n");
 			} else {
 				assert(false);
 			}

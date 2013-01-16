@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.libGr
         YieldingToVar,
         IndexedVar,
         Attribute,
-        AttributeIndexedVar,
+        AttributeIndexed,
         Visited
     }
 
@@ -329,14 +329,14 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceComputation> Children { get { yield break; } }
     }
 
-    public class AssignmentTargetAttributeIndexedVar : AssignmentTarget
+    public class AssignmentTargetAttributeIndexed : AssignmentTarget
     {
         public SequenceVariable DestVar;
         public String AttributeName;
         public SequenceExpression KeyExpression;
 
-        public AssignmentTargetAttributeIndexedVar(SequenceVariable destVar, String attributeName, SequenceExpression keyExpr)
-            : base(AssignmentTargetType.AttributeIndexedVar)
+        public AssignmentTargetAttributeIndexed(SequenceVariable destVar, String attributeName, SequenceExpression keyExpr)
+            : base(AssignmentTargetType.AttributeIndexed)
         {
             DestVar = destVar;
             AttributeName = attributeName;
@@ -409,7 +409,7 @@ namespace de.unika.ipd.grGen.libGr
 
         internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            AssignmentTargetAttributeIndexedVar copy = (AssignmentTargetAttributeIndexedVar)MemberwiseClone();
+            AssignmentTargetAttributeIndexed copy = (AssignmentTargetAttributeIndexed)MemberwiseClone();
             copy.DestVar = DestVar.Copy(originalToCopy, procEnv);
             copy.KeyExpression = KeyExpression.CopyExpression(originalToCopy, procEnv);
             return copy;
