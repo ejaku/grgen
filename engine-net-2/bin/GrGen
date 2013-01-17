@@ -1,6 +1,6 @@
 #! /bin/sh
-#GRGEN=`readlink -f "$0"`
-GRGEN_PATH="/Users/maneeshyadav/programs/grgen/engine-net-2/bin"
+GRGEN=`readlink -f "$0"`
+GRGEN_PATH=`dirname "$GRGEN"`
 if which mono &> /dev/null; then
 	mono "$GRGEN_PATH/GrGen.exe" $*
 else
