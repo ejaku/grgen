@@ -1,4 +1,4 @@
 #!/bin/sh
-#YCOMP="/Users/maneeshyadav/programs/grgen/engine-net-2/bin/"
-#YCOMP_HOME=`dirname "$YCOMP"`
-java -Xmx512m -jar "/Users/maneeshyadav/programs/grgen/engine-net-2/bin/yComp.jar" $*
+YCOMP=`readlink -f "$0"`
+YCOMP_HOME=`dirname "$YCOMP"`
+java -Xmx512m -jar "$YCOMP_HOME/yComp.jar" $*
