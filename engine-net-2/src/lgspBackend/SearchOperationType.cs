@@ -43,17 +43,21 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         Lookup,
         /// <summary>
-        /// Pick element from storage.
+        /// Pick element from storage, independent from previously matched elements.
         /// </summary>
         PickFromStorage,
         /// <summary>
-        /// Map some given input element to an output graph element.
+        /// Pick element from storage, depending on a previously matched element (e.g. an attribute owner).
+        /// </summary>
+        PickFromStorageDependent,
+        /// <summary>
+        /// Map some given input to an output graph element, independent from previously matched elements.
         /// </summary>
         MapWithStorage,
         /// <summary>
-        /// Pick element from storage attribute, needs attribute owner.
+        /// Map some given input to an output graph element, depending on a previously matched element.
         /// </summary>
-        PickFromStorageAttribute,
+        MapWithStorageDependent,
         /// <summary>
         /// Cast to new type (i.e. check if type is correct and uncover attributes of that type), needs old element.
         /// </summary>

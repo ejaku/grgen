@@ -121,25 +121,16 @@ namespace de.unika.ipd.grGen.lgsp
         public bool MaybeNull;
 
         /// <summary>
-        /// If not null this pattern element is to be bound by iterating the given storage.
+        /// If not null this pattern element is to be bound by iterating the given storage
+        /// (which may mean trying the single value if it is elementary).
         /// </summary>
-        public PatternVariable Storage;
+        public StorageAccess Storage;
 
         /// <summary>
-        /// If not null this pattern element is to be determined by map lookup,
-        /// with the accessor given here applied as index into the storage map given in the Storage field.
+        /// If not null this pattern element is to be determined by a storage indexed lookup,
+        /// with the accessor given here applied as index into the storage given in the Storage field.
         /// </summary>
-        public PatternElement Accessor;
-
-        /// <summary>
-        /// If not null this pattern element is to be bound by iterating the given storage attribute of this owner.
-        /// </summary>
-        public PatternElement StorageAttributeOwner;
-
-        /// <summary>
-        /// If not null this pattern element is to be bound by iterating the given storage attribute.
-        /// </summary>
-        public AttributeType StorageAttribute;
+        public StorageAccessIndex StorageIndex;
 
         /// <summary>
         /// If not null this pattern element is to be bound by casting the given ElementBeforeCasting to the pattern element type or causing matching to fail.
@@ -196,10 +187,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds.</param>
         /// <param name="maybeNull">Tells whether this pattern element may be null (is a parameter if true).</param>
         /// <param name="storage">If not null this pattern element is to be bound by iterating the given storage.</param>
-        /// <param name="accessor">If not null this pattern element is to be determined by map lookup,
-        ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
-        /// <param name="storageAttributeOwner">If not null this pattern element is to be bound by iterating the given storage attribute of this owner.</param>
-        /// <param name="storageAttribute">If not null this pattern element is to be bound by iterating the given storage attribute.</param>
+        /// <param name="storageIndex">If not null this pattern element is to be determined by a storage lookup,
+        ///     with the accessor given here applied as index into the storage given in the storage parameter.</param>
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -207,8 +196,7 @@ namespace de.unika.ipd.grGen.lgsp
             String name, String unprefixedName, 
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
-            PatternVariable storage, PatternElement accessor,
-            PatternElement storageAttributeOwner, AttributeType storageAttribute,
+            StorageAccess storage, StorageAccessIndex storageIndex,
             PatternElement elementBeforeCasting, bool defToBeYieldedTo)
         {
             this.TypeID = typeID;
@@ -221,14 +209,13 @@ namespace de.unika.ipd.grGen.lgsp
             this.ParameterIndex = parameterIndex;
             this.MaybeNull = maybeNull;
             this.Storage = storage;
-            this.Accessor = accessor;
-            this.StorageAttributeOwner = storageAttributeOwner;
-            this.StorageAttribute = storageAttribute;
+            this.StorageIndex = storageIndex;
             this.ElementBeforeCasting = elementBeforeCasting;
             this.defToBeYieldedTo = defToBeYieldedTo;
             // TODO: the last parameters are (mostly) mutually exclusive, 
             // introduce some abstract details class with specialized classed for the different cases,
             // only one instance needed instead of the large amount of mostly null valued variables now
+            // better now with the introduction of helper classes for StorageAccess and StorageAccessIndex, but could be improved further
         }
 
         /// <summary>
@@ -252,10 +239,8 @@ namespace de.unika.ipd.grGen.lgsp
             Cost = original.Cost;
             ParameterIndex = original.ParameterIndex;
             MaybeNull = original.MaybeNull;
-            Storage = original.Storage;
-            Accessor = original.Accessor;
-            StorageAttributeOwner = original.StorageAttributeOwner;
-            StorageAttribute = original.StorageAttribute;
+            Storage = original.Storage != null ? new StorageAccess(original.Storage) : null;
+            StorageIndex = original.StorageIndex != null ? new StorageAccessIndex(original.StorageIndex) : null;
             ElementBeforeCasting = original.ElementBeforeCasting;
             AssignmentSource = original.AssignmentSource;
             originalElement = original;
@@ -269,6 +254,27 @@ namespace de.unika.ipd.grGen.lgsp
         public override string ToString()
         {
             return Name + ":" + TypeID;
+        }
+
+        /// <summary>
+        /// Returns the pattern element the storage (which must be not null) depends on (or the storage index depends on)
+        /// </summary>
+        public PatternElement GetPatternElementTheStorageDependsOn()
+        {
+            // there is at most one pattern element the storage depends on, that is ensured by the frontend
+            // it needs to be ensured because the scheduler can only cope with one dependency, better: the search plan graph can only model that
+
+            if(Storage.Attribute != null)
+                return Storage.Attribute.Owner; // need the graph element owning the attribute
+            if(StorageIndex != null)
+            {
+                if(StorageIndex.Attribute != null)
+                    return StorageIndex.Attribute.Owner; // need the graph element owning the attribute
+                if(StorageIndex.GraphElement != null)
+                    return StorageIndex.GraphElement; // need the graph element
+            }
+
+            return null; // only local variables or global variables required
         }
     }
 
@@ -299,11 +305,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
         /// <param name="maybeNull">Tells whether this pattern node may be null (is a parameter if true).</param>
-        /// <param name="storage">If not null this pattern node is to be bound by iterating the given storage.</param>
-        /// <param name="accessor">If not null this pattern node is to be determined by map lookup,
-        ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
-        /// <param name="storageAttributeOwner">If not null this pattern node is to be bound by iterating the given storage attribute of this owner.</param>
-        /// <param name="storageAttribute">If not null this pattern node is to be bound by iterating the given storage attribute.</param>
+        /// <param name="storage">If not null this node is to be bound by iterating the given storage.</param>
+        /// <param name="storageIndex">If not null this node is to be determined by a storage lookup,
+        ///     with the accessor given here applied as index into the storage given in the storage parameter.</param>
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -311,12 +315,11 @@ namespace de.unika.ipd.grGen.lgsp
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
-            PatternVariable storage, PatternElement accessor,
-            PatternElement storageAttributeOwner, AttributeType storageAttribute,
+            StorageAccess storage, StorageAccessIndex storageIndex,
             PatternElement elementBeforeCasting, bool defToBeYieldedTo)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, 
-                cost, parameterIndex, maybeNull, storage, accessor,
-                storageAttributeOwner, storageAttribute, elementBeforeCasting, defToBeYieldedTo)
+                cost, parameterIndex, maybeNull, storage, storageIndex,
+                elementBeforeCasting, defToBeYieldedTo)
         {
             this.type = type;
         }
@@ -388,11 +391,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
         /// <param name="maybeNull">Tells whether this pattern edge may be null (is a parameter if true).</param>
-        /// <param name="storage">If not null this pattern edge is to be bound by iterating the given storage.</param>
-        /// <param name="accessor">If not null this pattern edge is to be determined by map lookup,
-        ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
-        /// <param name="storageAttributeOwner">If not null this pattern edge is to be bound by iterating the given storage attribute of this owner.</param>
-        /// <param name="storageAttribute">If not null this pattern edge is to be bound by iterating the given storage attribute.</param>
+        /// <param name="storage">If not null this edge is to be bound by iterating the given storage.</param>
+        /// <param name="storageIndex">If not null this edge is to be determined by a storage lookup,
+        ///     with the accessor given here applied as index into the storage given in the storage parameter.</param>
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -401,12 +402,11 @@ namespace de.unika.ipd.grGen.lgsp
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex, bool maybeNull,
-            PatternVariable storage, PatternElement accessor,
-            PatternElement storageAttributeOwner, AttributeType storageAttribute,
+            StorageAccess storage, StorageAccessIndex storageIndex,
             PatternElement elementBeforeCasting, bool defToBeYieldedTo)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType,
-                cost, parameterIndex, maybeNull, storage, accessor,
-                storageAttributeOwner, storageAttribute, elementBeforeCasting, defToBeYieldedTo)
+                cost, parameterIndex, maybeNull, storage, storageIndex,
+                elementBeforeCasting, defToBeYieldedTo)
         {
             this.fixedDirection = fixedDirection;
             this.type = type;
@@ -597,6 +597,258 @@ namespace de.unika.ipd.grGen.lgsp
             ParameterIndex = original.ParameterIndex;
             originalVariable = original;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding;
+        }
+    }
+
+    /// <summary>
+    /// Representation of a storage access, used to bind a pattern element.
+    /// </summary>
+    public class StorageAccess
+    {
+        /// <summary>
+        /// The storage is a pattern variable if not null.
+        /// </summary>
+        public PatternVariable Variable;
+
+        /// <summary>
+        /// The storage is a global variable if not null.
+        /// </summary>
+        public GlobalVariableAccess GlobalVariable;
+
+        /// <summary>
+        /// The storage is a graph element attribute (qualification) if not null.
+        /// </summary>
+        public QualificationAccess Attribute;
+
+
+        public StorageAccess(PatternVariable variable)
+        {
+            Variable = variable;
+        }
+
+        public StorageAccess(GlobalVariableAccess globalVariable)
+        {
+            GlobalVariable = globalVariable;
+        }
+
+        public StorageAccess(QualificationAccess attribute)
+        {
+            Attribute = attribute;
+        }
+
+        // Instantiates a new StorageAccess object as a copy from an original storage access, used for inlining.
+        public StorageAccess(StorageAccess original)
+        {
+            Variable = original.Variable;
+            GlobalVariable = original.GlobalVariable;
+            Attribute = original.Attribute;
+        }
+
+        public override string ToString()
+        {
+            if(Variable != null)
+                return Variable.Name;
+            else if(GlobalVariable != null)
+                return GlobalVariable.ToString();
+            else if(Attribute != null)
+                return Attribute.ToString();
+            else
+                return "null";
+        }
+
+        public void PatchUsersOfCopiedElements(
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy,
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            if(Variable != null)
+            {
+                if(variableToCopy.ContainsKey(Variable))
+                    Variable = variableToCopy[Variable];
+            }
+            if(Attribute != null)
+            {
+                if(Attribute.Owner is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)Attribute.Owner))
+                        Attribute.Owner = nodeToCopy[(PatternNode)Attribute.Owner];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)Attribute.Owner))
+                        Attribute.Owner = edgeToCopy[(PatternEdge)Attribute.Owner];
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Representation of a storage access index, used to bind a pattern element.
+    /// </summary>
+    public class StorageAccessIndex
+    {
+        /// <summary>
+        /// The storage index is the given graph element if not null.
+        /// </summary>
+        public PatternElement GraphElement;
+
+        /// <summary>
+        /// The storage index is the given pattern variable if not null.
+        /// </summary>
+        public PatternVariable Variable;
+
+        /// <summary>
+        /// The storage index is the given global variable if not null.
+        /// </summary>
+        public GlobalVariableAccess GlobalVariable;
+
+        /// <summary>
+        /// The storage index is the given graph element attribute (qualification) if not null.
+        /// </summary>
+        public QualificationAccess Attribute;
+
+
+        public StorageAccessIndex(PatternElement graphElement)
+        {
+            GraphElement = graphElement;
+        }
+
+        public StorageAccessIndex(PatternVariable variable)
+        {
+            Variable = variable;
+        }
+
+        public StorageAccessIndex(GlobalVariableAccess globalVariable)
+        {
+            GlobalVariable = globalVariable;
+        }
+
+        public StorageAccessIndex(QualificationAccess attribute)
+        {
+            Attribute = attribute;
+        }
+
+        // Instantiates a new StorageAccessIndex object as a copy from an original storage access index, used for inlining.
+        public StorageAccessIndex(StorageAccessIndex original)
+        {
+            GraphElement = original.GraphElement;
+            Variable = original.Variable;
+            GlobalVariable = original.GlobalVariable;
+            Attribute = original.Attribute;
+        }
+
+        public override string ToString()
+        {
+            if(GraphElement!=null)
+                return GraphElement.ToString();
+            if(Variable != null)
+                return Variable.Name;
+            else if(GlobalVariable != null)
+                return GlobalVariable.ToString();
+            else if(Attribute != null)
+                return Attribute.ToString();
+            else
+                return "null";
+        }
+
+
+        public void PatchUsersOfCopiedElements(
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy,
+            Dictionary<PatternVariable, PatternVariable> variableToCopy)
+        {
+            if(GraphElement != null)
+            {
+                if(GraphElement is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)GraphElement))
+                        GraphElement = nodeToCopy[(PatternNode)GraphElement];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)GraphElement))
+                        GraphElement = edgeToCopy[(PatternEdge)GraphElement];
+                }
+            }
+            if(Variable != null)
+            {
+                if(variableToCopy.ContainsKey(Variable))
+                    Variable = variableToCopy[Variable];
+            }
+            if(Attribute != null)
+            {
+                if(Attribute.Owner is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)Attribute.Owner))
+                        Attribute.Owner = nodeToCopy[(PatternNode)Attribute.Owner];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)Attribute.Owner))
+                        Attribute.Owner = edgeToCopy[(PatternEdge)Attribute.Owner];
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Representation of an owner.attribute qualification
+    /// </summary>
+    public class QualificationAccess
+    {
+        /// <summary>
+        /// The graph element owning the attribute.
+        /// </summary>
+        public PatternElement Owner;
+
+        /// <summary>
+        /// The attribute.
+        /// </summary>
+        public AttributeType Attribute;
+
+        public QualificationAccess(PatternElement owner, AttributeType attribute)
+        {
+            Owner = owner;
+            Attribute = attribute;
+        }
+
+        public override string ToString()
+        {
+            return Owner.Name + "." + Attribute.Name;
+        }
+    }
+
+    /// <summary>
+    /// Representation of a global variable accessed from within a pattern (match from storage constructs)
+    /// </summary>
+    public class GlobalVariableAccess
+    {
+        /// <summary>
+        /// Name of the global variable
+        /// </summary>
+        public string Name;
+
+        /// <summary>
+        /// Statically declared type of the global variable.
+        /// (The one given in the rule file declaration defining how it is to be interpreted,
+        /// global variables as such are untyped.)
+        /// </summary>
+        public VarType Type;
+
+        /// <summary>
+        /// Instantiates a new global variable access to be used in a match from storage construct.
+        /// </summary>
+        /// <param name="name">The name of the global variable.</param>
+        /// <param name="type">The type the values in the global variable must bear, as declared in the rules file.</param>
+        public GlobalVariableAccess(string name, VarType type)
+        {
+            Name = name;
+            Type = type;
+        }
+
+        public override string ToString()
+        {
+            return "::" + Name;
         }
     }
 

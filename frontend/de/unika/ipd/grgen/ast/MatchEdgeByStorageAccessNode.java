@@ -29,8 +29,10 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 	private BaseNode storageUnresolved;
 	private VarDeclNode storage = null;
 	private QualIdentNode storageAttribute = null;
+	private EdgeDeclNode storageGlobalVariable = null;
 	private IdentExprNode accessorUnresolved;
 	private ConstraintDeclNode accessor = null;
+	// TODO: auch vardeclnode für int et al, und qualidentnode für attribute zulassen
 
 	public MatchEdgeByStorageAccessNode(IdentNode id, BaseNode type, int context,
 			BaseNode storage, IdentExprNode accessor,
@@ -49,7 +51,7 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
 		children.add(constraints);
-		children.add(getValidVersion(storageUnresolved, storage, storageAttribute));
+		children.add(getValidVersion(storageUnresolved, storage, storageAttribute, storageGlobalVariable));
 		children.add(getValidVersion(accessorUnresolved, accessor));
 		return children;
 	}
@@ -72,10 +74,17 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 		boolean successfullyResolved = super.resolveLocal();
 		if(storageUnresolved instanceof IdentExprNode) {
 			IdentExprNode unresolved = (IdentExprNode)storageUnresolved;
-			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
-				storage = (VarDeclNode)unresolved.decl;
+			if(unresolved.resolve()) {
+				if(unresolved.decl instanceof VarDeclNode) {
+					storage = (VarDeclNode)unresolved.decl;
+				} else if(unresolved.decl instanceof EdgeDeclNode) {
+					storageGlobalVariable = (EdgeDeclNode)unresolved.decl;
+				} else {
+					reportError("match edge by storage access expects a parameter or global variable.");
+					successfullyResolved = false;
+				}
 			} else {
-				reportError("match edge by storage access expects a parameter variable as storage.");
+				reportError("match edge by storage access expects a parameter or global variable.");
 				successfullyResolved = false;
 			}
 		} else if(storageUnresolved instanceof QualIdentNode) {
@@ -90,6 +99,7 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 			reportError("internal error - invalid match edge by storage attribute");
 			successfullyResolved = false;
 		}
+
 		if(accessorUnresolved.resolve() && accessorUnresolved.decl instanceof ConstraintDeclNode) {
 			accessor = (ConstraintDeclNode)accessorUnresolved.decl;
 		} else {
@@ -107,8 +117,8 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 			reportError("Can't employ match edge by storage on RHS");
 			return false;
 		}
-		TypeNode storageType = storage!=null ? storage.getDeclType() : storageAttribute.getDecl().getDeclType();
-		if(!(storageType instanceof MapTypeNode)) {
+		TypeNode storageType = storage!=null ? storage.getDeclType() : storageGlobalVariable!=null ? storageGlobalVariable.getDeclType() : storageAttribute.getDecl().getDeclType();
+		if(!(storageType instanceof MapTypeNode)) { // TODO: allow array/deque
 			reportError("match edge by storage access expects a parameter variable of map type.");
 			return false;
 		}
@@ -148,7 +158,8 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 			setIR(edge);
 		}
 		if(storage!=null) edge.setStorage(storage.checkIR(Variable.class));
-		else edge.setStorageAttribute(storageAttribute.checkIR(Qualification.class));
+		else if(storageAttribute!=null) edge.setStorageAttribute(storageAttribute.checkIR(Qualification.class));
+		else edge.setStorageGlobalVariable(storageGlobalVariable.checkIR(Edge.class));
 		edge.setAccessor(accessor.checkIR(GraphEntity.class));
 		return edge;
 	}

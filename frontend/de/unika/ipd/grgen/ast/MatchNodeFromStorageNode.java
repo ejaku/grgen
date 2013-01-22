@@ -28,6 +28,7 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 	private BaseNode storageUnresolved;
 	private VarDeclNode storage = null;
 	private QualIdentNode storageAttribute = null;
+	private NodeDeclNode storageGlobalVariable = null;
 
 
 	public MatchNodeFromStorageNode(IdentNode id, BaseNode type, int context, BaseNode storage,
@@ -44,7 +45,7 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
 		children.add(constraints);
-		children.add(getValidVersion(storageUnresolved, storage, storageAttribute));
+		children.add(getValidVersion(storageUnresolved, storage, storageAttribute, storageGlobalVariable));
 		return children;
 	}
 
@@ -65,10 +66,17 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 		boolean successfullyResolved = super.resolveLocal();
 		if(storageUnresolved instanceof IdentExprNode) {
 			IdentExprNode unresolved = (IdentExprNode)storageUnresolved;
-			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
-				storage = (VarDeclNode)unresolved.decl;
+			if(unresolved.resolve()) {
+				if(unresolved.decl instanceof VarDeclNode) {
+					storage = (VarDeclNode)unresolved.decl;
+				} else if(unresolved.decl instanceof NodeDeclNode) {
+					storageGlobalVariable = (NodeDeclNode)unresolved.decl;
+				} else {
+					reportError("match node from storage expects a parameter or global variable.");
+					successfullyResolved = false;
+				}
 			} else {
-				reportError("match node from storage expects a parameter variable.");
+				reportError("match node from storage expects a parameter or global variable.");
 				successfullyResolved = false;
 			}
 		} else if(storageUnresolved instanceof QualIdentNode) {
@@ -94,11 +102,13 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 			reportError("Can't employ match node from storage on RHS");
 			return false;
 		}
-		TypeNode storageType = storage!=null ? storage.getDeclType() : storageAttribute.getDecl().getDeclType();
+		TypeNode storageType = storage!=null ? storage.getDeclType() : storageGlobalVariable!=null ? storageGlobalVariable.getDeclType() : storageAttribute.getDecl().getDeclType();
 		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode 
 				|| storageType instanceof ArrayTypeNode || storageType instanceof DequeTypeNode)) {
-			reportError("match node from storage expects a parameter variable of collection type (set|map|array|deque).");
-			return false;
+			if(storageGlobalVariable == null) {
+				reportError("match node from storage expects a parameter variable of collection type (set|map|array|deque).");
+				return false;
+			}
 		}
 		TypeNode storageElementType = null;
 		if(storageType instanceof SetTypeNode) {
@@ -107,12 +117,19 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 			storageElementType = ((MapTypeNode)storageType).keyType;
 		} else if(storageType instanceof ArrayTypeNode) {
 			storageElementType = ((ArrayTypeNode)storageType).valueType;
-		} else {//if(storageType instanceof DequeTypeNode)
+		} else if(storageType instanceof DequeTypeNode) {
 			storageElementType = ((DequeTypeNode)storageType).valueType;
+		} else {
+			storageElementType = storageGlobalVariable.getDeclType();
 		}
 		if(!(storageElementType instanceof NodeTypeNode)) {
-			reportError("match node from storage expects the element type to be a node type.");
-			return false;
+			if(storageGlobalVariable != null) {
+				reportError("match node from storage expects the element type to be a node type.");
+				return false;
+			} else {
+				reportError("match node from storage global variable expects a node type.");
+				return false;			
+			}
 		}
 		NodeTypeNode storageElemType = (NodeTypeNode)storageElementType;
 		NodeTypeNode expectedStorageElemType = getDeclType();
@@ -131,7 +148,8 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 	protected IR constructIR() {
 		Node node = (Node)super.constructIR();
 		if(storage!=null) node.setStorage(storage.checkIR(Variable.class));
-		else node.setStorageAttribute(storageAttribute.checkIR(Qualification.class));
+		else if(storageAttribute!=null) node.setStorageAttribute(storageAttribute.checkIR(Qualification.class));
+		else node.setStorageGlobalVariable(storageGlobalVariable.checkIR(Node.class));
 		return node;
 	}
 }

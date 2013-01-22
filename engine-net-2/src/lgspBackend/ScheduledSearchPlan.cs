@@ -117,8 +117,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public object Element;
         public SearchPlanNode SourceSPNode;
-        public PatternVariable Storage;
-        public AttributeType StorageAttribute;
+        public StorageAccess Storage;
+        public StorageAccessIndex StorageIndex;
         public expression.Expression Expression;
         public float CostToEnd;
 
@@ -139,7 +139,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchOperation so = new SearchOperation(Type, Element, SourceSPNode, CostToEnd);
             so.Isomorphy = (IsomorphyInformation)Isomorphy.Clone();
             so.Storage = Storage;
-            so.StorageAttribute = StorageAttribute;
+            so.StorageIndex = StorageIndex;
             so.Expression = Expression;
             return so;
         }
@@ -212,13 +212,12 @@ namespace de.unika.ipd.grGen.lgsp
                     sb.AppendFront("}");
                     break;
                 case SearchOperationType.PickFromStorage:
-                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.UnprefixedName + "}");
+                case SearchOperationType.PickFromStorageDependent:
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.ToString() + "}");
                     break;
                 case SearchOperationType.MapWithStorage:
-                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.UnprefixedName + "[" + src.PatternElement.UnprefixedName + "]}");
-                    break;
-                case SearchOperationType.PickFromStorageAttribute:
-                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + src.PatternElement.UnprefixedName + "." + StorageAttribute.Name + "}");
+                case SearchOperationType.MapWithStorageDependent:
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.ToString() + "[" + StorageIndex.ToString() + "]}");
                     break;
                 case SearchOperationType.Cast:
                     sb.AppendFront(tgt.PatternElement.UnprefixedName + "<" + src.PatternElement.UnprefixedName + ">");

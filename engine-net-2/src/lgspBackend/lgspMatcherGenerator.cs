@@ -97,7 +97,7 @@ namespace de.unika.ipd.grGen.lgsp
                     graph.Name+"_node_"+count, "node_"+count,
                     null, null,
                     1.0f, -1, false,
-                    null, null, null, null, 
+                    null, null, 
                     null, false
                 );
                 correspondingNodes[count] = node;
@@ -116,7 +116,7 @@ namespace de.unika.ipd.grGen.lgsp
                     graph.Name+"_edge_"+count, "edge_"+count,
                     null, null,
                     1.0f, -1, false,
-                    null, null, null, null, 
+                    null, null,
                     null, false
                 );
                 correspondingEdges[count] = edge;
@@ -233,7 +233,7 @@ namespace de.unika.ipd.grGen.lgsp
             // Ensured: there's no plan graph edge with a preset element as target besides the lookup,
             //     so presets are only search operation sources
             // Create "pick from storage" plan graph edge for plan graph nodes which are to picked from a storage,
-            //     from root node on, no lookup here, no other plan graph edge having this node as target
+            //     from root node on, instead of lookup, no other plan graph edge having this node as target
             // Create "pick from storage attribute" plan graph edge from storage attribute owner to storage picking result,
             //     no lookup, no other plan graph edge having this node as target
             // Create "map" by storage plan graph edge from accessor to storage mapping result
@@ -289,7 +289,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(node.Storage != null)
                 {
-                    if(node.Accessor != null)
+                    if(node.GetPatternElementTheStorageDependsOn() != null)
                     {
 #if OPCOST_WITH_GEO_MEAN 
                         cost = 0;
@@ -297,7 +297,7 @@ namespace de.unika.ipd.grGen.lgsp
                         cost = 1;
 #endif
                         isPreset = false;
-                        searchOperationType = SearchOperationType.Void; // the accessor is needed, so there is no lookup like operation
+                        searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                     }
                     else
                     {
@@ -309,16 +309,6 @@ namespace de.unika.ipd.grGen.lgsp
                         isPreset = false;
                         searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
                     }
-                }
-                else if(node.StorageAttributeOwner != null)
-                {
-#if OPCOST_WITH_GEO_MEAN 
-                    cost = 0;
-#else
-                    cost = 1;
-#endif
-                    isPreset = false;
-                    searchOperationType = SearchOperationType.Void; // the attribute owner is needed, so there is no lookup like operation
                 }
                 else if(node.ElementBeforeCasting != null)
                 {
@@ -393,7 +383,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(edge.Storage != null)
                 {
-                    if(edge.Accessor != null)
+                    if(edge.GetPatternElementTheStorageDependsOn() != null)
                     {
 #if OPCOST_WITH_GEO_MEAN 
                         cost = 0;
@@ -401,7 +391,7 @@ namespace de.unika.ipd.grGen.lgsp
                         cost = 1;
 #endif
                         isPreset = false;
-                        searchOperationType = SearchOperationType.Void; // the accessor is needed, so there is no lookup like operation
+                        searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                     }
                     else
                     {
@@ -413,16 +403,6 @@ namespace de.unika.ipd.grGen.lgsp
                         isPreset = false;
                         searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
                     }
-                }
-                else if(edge.StorageAttributeOwner != null)
-                {
-#if OPCOST_WITH_GEO_MEAN 
-                    cost = 0;
-#else
-                    cost = 1;
-#endif
-                    isPreset = false;
-                    searchOperationType = SearchOperationType.Void; // the attribute owner is needed, so there is no lookup like operation
                 }
                 else if(edge.ElementBeforeCasting != null)
                 {
@@ -498,7 +478,6 @@ namespace de.unika.ipd.grGen.lgsp
                 if(patternGraph.GetSourcePlusInlined(edge) != null
                     && !patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetSourcePlusInlined(edge).Storage == null
-                    && patternGraph.GetSourcePlusInlined(edge).StorageAttributeOwner == null
                     && patternGraph.GetSourcePlusInlined(edge).ElementBeforeCasting == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
@@ -518,7 +497,6 @@ namespace de.unika.ipd.grGen.lgsp
                 if(patternGraph.GetTargetPlusInlined(edge) != null
                     && !patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetTargetPlusInlined(edge).Storage == null
-                    && patternGraph.GetTargetPlusInlined(edge).StorageAttributeOwner == null
                     && patternGraph.GetTargetPlusInlined(edge).ElementBeforeCasting == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
@@ -537,7 +515,6 @@ namespace de.unika.ipd.grGen.lgsp
                 // edge must only be reachable from other nodes if it's not a preset and not storage determined and not a cast
                 if(!isPreset 
                     && edge.Storage == null 
-                    && edge.StorageAttributeOwner == null 
                     && edge.ElementBeforeCasting == null)
                 {
                     // no outgoing on source node if no source
@@ -614,26 +591,16 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternNode node = patternGraph.nodesPlusInlined[i];
                 if(node.PointOfDefinition == patternGraph)
                 {
-                    if(node.Accessor != null)
+                    if(node.Storage!=null && node.GetPatternElementTheStorageDependsOn()!=null)
                     {
 #if OPCOST_WITH_GEO_MEAN 
-                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.MapWithStorage,
-                            node.Accessor.TempPlanMapping, node.TempPlanMapping, 0);
+                        PlanEdge storAccessPlanEdge = new PlanEdge(
+                            node.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
+                            node.GetPatternElementTheStorageDependsOn().TempPlanMapping, node.TempPlanMapping, 0);
 #else
-                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.MapWithStorage,
-                            node.Accessor.TempPlanMapping, node.TempPlanMapping, 1);
-#endif
-                        planEdges.Add(storAccessPlanEdge);
-                        node.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
-                    }
-                    else if(node.StorageAttributeOwner != null)
-                    {
-#if OPCOST_WITH_GEO_MEAN 
-                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.PickFromStorageAttribute,
-                            node.StorageAttributeOwner.TempPlanMapping, node.TempPlanMapping, 0);
-#else
-                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.PickFromStorageAttribute,
-                            node.StorageAttributeOwner.TempPlanMapping, node.TempPlanMapping, 1);
+                        PlanEdge storAccessPlanEdge = new PlanEdge(
+                            node.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
+                            node.GetPatternElementTheStorageDependsOn().TempPlanMapping, node.TempPlanMapping, 1);
 #endif
                         planEdges.Add(storAccessPlanEdge);
                         node.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
@@ -685,26 +652,16 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternEdge edge = patternGraph.edgesPlusInlined[i];
                 if(edge.PointOfDefinition == patternGraph)
                 {
-                    if(edge.Accessor != null)
+                    if(edge.Storage!=null && edge.GetPatternElementTheStorageDependsOn()!=null)
                     {
 #if OPCOST_WITH_GEO_MEAN 
-                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.MapWithStorage,
-                            edge.Accessor.TempPlanMapping, edge.TempPlanMapping, 0);
+                        PlanEdge storAccessPlanEdge = new PlanEdge(
+                            edge.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
+                            edge.GetPatternElementTheStorageDependsOn().TempPlanMapping, edge.TempPlanMapping, 0);
 #else
-                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.MapWithStorage,
-                            edge.Accessor.TempPlanMapping, edge.TempPlanMapping, 1);
-#endif
-                        planEdges.Add(storAccessPlanEdge);
-                        edge.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
-                    }
-                    else if(edge.StorageAttribute != null)
-                    {
-#if OPCOST_WITH_GEO_MEAN 
-                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.PickFromStorageAttribute,
-                            edge.StorageAttributeOwner.TempPlanMapping, edge.TempPlanMapping, 0);
-#else
-                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.PickFromStorageAttribute,
-                            edge.StorageAttributeOwner.TempPlanMapping, edge.TempPlanMapping, 1);
+                        PlanEdge storAccessPlanEdge = new PlanEdge(
+                            edge.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
+                            edge.GetPatternElementTheStorageDependsOn().TempPlanMapping, edge.TempPlanMapping, 1);
 #endif
                         planEdges.Add(storAccessPlanEdge);
                         edge.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
@@ -1161,10 +1118,10 @@ exitSecondLoop: ;
                 }
             }
 
-            // then schedule all pick from storage elements
+            // then schedule all pick from storage/map with storage elements not depending on other elements
             foreach(SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
             {
-                if(edge.Type==SearchOperationType.PickFromStorage)
+                if(edge.Type == SearchOperationType.PickFromStorage)
                 {
                     foreach(SearchPlanEdge edgeOutgoingFromPickedElement in edge.Target.OutgoingEdges)
                         activeEdges.Add(edgeOutgoingFromPickedElement);
@@ -1174,16 +1131,32 @@ exitSecondLoop: ;
                     newOp.Storage = edge.Target.PatternElement.Storage;
                     operations.Add(newOp);
                 }
+                if(edge.Type == SearchOperationType.MapWithStorage)
+                {
+                    foreach(SearchPlanEdge edgeOutgoingFromPickedElement in edge.Target.OutgoingEdges)
+                        activeEdges.Add(edgeOutgoingFromPickedElement);
+
+                    SearchOperation newOp = new SearchOperation(edge.Type,
+                        edge.Target, spGraph.Root, 0);
+                    newOp.Storage = edge.Target.PatternElement.Storage;
+                    newOp.StorageIndex = edge.Target.PatternElement.StorageIndex;
+                    operations.Add(newOp);
+                }
             }
 
             // iterate over all reachable elements until the whole graph has been scheduled(/visited),
             // choose next cheapest operation, update the reachable elements and the search plan costs
             SearchPlanNode lastNode = spGraph.Root;
-            for(int i = 0; i < spGraph.Nodes.Length - spGraph.NumPresetElements - spGraph.NumPickedElements; ++i)
+            for(int i = 0; i < spGraph.Nodes.Length - spGraph.NumPresetElements - spGraph.NumIndependentStorageElements; ++i)
             {
-                foreach (SearchPlanEdge edge in lastNode.OutgoingEdges)
-                    if (!edge.Target.IsPreset && (edge.Target.PatternElement.Storage==null || edge.Target.PatternElement.Accessor!=null))
-                        activeEdges.Add(edge);
+                foreach(SearchPlanEdge edge in lastNode.OutgoingEdges)
+                {
+                    if(edge.Target.IsPreset)
+                        continue;
+                    if(edge.Target.PatternElement.Storage!=null && edge.Target.PatternElement.GetPatternElementTheStorageDependsOn()==null)
+                        continue;
+                    activeEdges.Add(edge);
+                }
 
                 SearchPlanEdge minEdge = activeEdges.DequeueFirst();
                 lastNode = minEdge.Target;
@@ -1191,7 +1164,7 @@ exitSecondLoop: ;
                 SearchOperation newOp = new SearchOperation(minEdge.Type,
                     lastNode, minEdge.Source, minEdge.Cost);
                 newOp.Storage = minEdge.Target.PatternElement.Storage;
-                newOp.StorageAttribute = minEdge.Target.PatternElement.StorageAttribute;
+                newOp.StorageIndex = minEdge.Target.PatternElement.StorageIndex;
 
                 foreach(SearchOperation op in operations)
                     op.CostToEnd += minEdge.Cost;
