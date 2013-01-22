@@ -47,6 +47,8 @@ public abstract class GraphEntity extends Entity {
 	/** The accessor for the storagemap from which to get the node or edge, if any */
 	protected GraphEntity accessor = null;
 
+	protected GraphEntity storageGlobalVariable;
+
 	protected Collection<? extends InheritanceType> constraints = Collections.emptySet();
 
 	private boolean maybeDeleted;
@@ -196,6 +198,14 @@ public abstract class GraphEntity extends Entity {
 
 	public GraphEntity getAccessor() {
 		return accessor;
+	}
+	
+	public void setStorageGlobalVariable(GraphEntity storageGlobalVariable) {
+		this.storageGlobalVariable = storageGlobalVariable;
+	}
+
+	public GraphEntity getStorageGlobalVariable() {
+		return storageGlobalVariable;
 	}
 
 	public void incrementDependencyLevel() {

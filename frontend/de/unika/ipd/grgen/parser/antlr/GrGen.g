@@ -687,7 +687,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				{
 					n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 				}
-			| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
+			| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
 				{
 					if(mapAccess==null)
 						n = new MatchNodeFromStorageNode(id, type, context, 
@@ -734,7 +734,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 					{
 						n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 					}
-				| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
+				| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
 					{
 						if(mapAccess==null)
 							n = new MatchNodeFromStorageNode(id, type, context, 
@@ -964,7 +964,7 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 			{
 				res = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
-		| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
+		| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
 			{
 				if(mapAccess==null)
 					res = new MatchNodeFromStorageNode(id, type, context, 
@@ -1000,7 +1000,7 @@ nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Bas
 			{
 				res = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
-		| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
+		| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
 			{
 				if(mapAccess==null)
 					res = new MatchNodeFromStorageNode(id, type, context,
@@ -1194,7 +1194,7 @@ edgeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 			{
 				res = new EdgeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 			}
-		| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
+		| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
 			{
 				if(mapAccess==null)
 					res = new MatchEdgeFromStorageNode(id, type, context, 

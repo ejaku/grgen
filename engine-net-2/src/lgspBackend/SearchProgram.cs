@@ -855,8 +855,11 @@ namespace de.unika.ipd.grGen.lgsp
         GraphElements, // available graph elements
         IncidentEdges, // incident edges
         StorageElements, // available elements of the storage variable
-        StorageAttributeElements // available elements of the storage attribute
-    }
+        StorageAttributeElements, // available elements of the storage attribute
+        GraphElementAttribute, // available graph element of the attribute
+        GlobalVariable, // available element of the global non-storage variable
+        GlobalVariableStorageElements // available elements of the storage global variable
+    } // TODO: letzte 4
 
     /// <summary>
     /// The different possibilites an edge might be incident to some node

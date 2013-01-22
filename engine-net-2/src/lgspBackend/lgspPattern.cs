@@ -668,28 +668,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             foreach(PatternNode node in nodesPlusInlined)
             {
-                if(node.Storage!=null && variableToCopy.ContainsKey(node.Storage))
-                    node.Storage = variableToCopy[node.Storage];
-                if(node.Accessor is PatternNode)
-                {
-                    if(node.Accessor!=null && nodeToCopy.ContainsKey((PatternNode)node.Accessor))
-                        node.Accessor = nodeToCopy[(PatternNode)node.Accessor];
-                }
-                else
-                {
-                    if(node.Accessor!=null && edgeToCopy.ContainsKey((PatternEdge)node.Accessor))
-                        node.Accessor = edgeToCopy[(PatternEdge)node.Accessor];
-                }
-                if(node.StorageAttributeOwner is PatternNode)
-                {
-                    if(node.StorageAttributeOwner!=null && nodeToCopy.ContainsKey((PatternNode)node.StorageAttributeOwner))
-                        node.StorageAttributeOwner = nodeToCopy[(PatternNode)node.StorageAttributeOwner];
-                }
-                else
-                {
-                    if(node.StorageAttributeOwner!=null && edgeToCopy.ContainsKey((PatternEdge)node.StorageAttributeOwner))
-                        node.StorageAttributeOwner = edgeToCopy[(PatternEdge)node.StorageAttributeOwner];
-                }
+                if(node.Storage != null)
+                    node.Storage.PatchUsersOfCopiedElements(nodeToCopy, edgeToCopy, variableToCopy);
+                if(node.StorageIndex != null)
+                    node.StorageIndex.PatchUsersOfCopiedElements(nodeToCopy, edgeToCopy, variableToCopy);
                 if(node.ElementBeforeCasting is PatternNode)
                 {
                     if(node.ElementBeforeCasting!=null && nodeToCopy.ContainsKey((PatternNode)node.ElementBeforeCasting))
@@ -703,28 +685,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
             foreach(PatternEdge edge in edgesPlusInlined)
             {
-                if(edge.Storage!=null && variableToCopy.ContainsKey(edge.Storage))
-                    edge.Storage = variableToCopy[edge.Storage];
-                if(edge.Accessor is PatternNode)
-                {
-                    if(edge.Accessor!=null && nodeToCopy.ContainsKey((PatternNode)edge.Accessor))
-                        edge.Accessor = nodeToCopy[(PatternNode)edge.Accessor];
-                }
-                else
-                {
-                    if(edge.Accessor!=null && edgeToCopy.ContainsKey((PatternEdge)edge.Accessor))
-                        edge.Accessor = edgeToCopy[(PatternEdge)edge.Accessor];
-                }
-                if(edge.StorageAttributeOwner is PatternNode)
-                {
-                    if(edge.StorageAttributeOwner!=null && nodeToCopy.ContainsKey((PatternNode)edge.StorageAttributeOwner))
-                        edge.StorageAttributeOwner = nodeToCopy[(PatternNode)edge.StorageAttributeOwner];
-                }
-                else
-                {
-                    if(edge.StorageAttributeOwner!=null && edgeToCopy.ContainsKey((PatternEdge)edge.StorageAttributeOwner))
-                        edge.StorageAttributeOwner = edgeToCopy[(PatternEdge)edge.StorageAttributeOwner];
-                }
+                if(edge.Storage != null)
+                    edge.Storage.PatchUsersOfCopiedElements(nodeToCopy, edgeToCopy, variableToCopy);
+                if(edge.StorageIndex != null)
+                    edge.StorageIndex.PatchUsersOfCopiedElements(nodeToCopy, edgeToCopy, variableToCopy);
                 if(edge.ElementBeforeCasting is PatternNode)
                 {
                     if(edge.ElementBeforeCasting!=null && nodeToCopy.ContainsKey((PatternNode)edge.ElementBeforeCasting))

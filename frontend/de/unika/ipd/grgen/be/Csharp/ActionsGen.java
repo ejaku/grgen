@@ -1104,17 +1104,8 @@ public class ActionsGen extends CSharpBase {
 				appendPrio(sb, node, max);
 				sb.append(parameters.indexOf(node)+", ");
 				sb.append(node.getMaybeNull() ? "true, " : "false, ");
-				sb.append((node.getStorage()!=null ? formatEntity(node.getStorage(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
-				sb.append((node.getAccessor()!=null ? formatEntity(node.getAccessor(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
-				if(node.getStorageAttribute()!=null) {
-					GraphEntity owner = (GraphEntity)node.getStorageAttribute().getOwner();
-					Entity member = node.getStorageAttribute().getMember();
-					sb.append(formatEntity(owner, pathPrefix, alreadyDefinedEntityToName));
-					sb.append(", " + formatTypeClassRef(owner.getParameterInterfaceType()!=null ? owner.getParameterInterfaceType() : owner.getType()) + ".typeVar" + ".GetAttributeType(\"" + formatIdentifiable(member) + "\")");
-					sb.append(", ");
-				} else {
-					sb.append("null, null, ");
-				}
+				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
+						pathPrefixForElements, node);
 				sb.append((node instanceof RetypedNode ? formatEntity(((RetypedNode)node).getOldNode(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(node.isDefToBeYieldedTo() ? "true);\n" : "false);\n");
 				alreadyDefinedEntityToName.put(node, nodeName);
@@ -1145,17 +1136,8 @@ public class ActionsGen extends CSharpBase {
 				appendPrio(sb, edge, max);
 				sb.append(parameters.indexOf(edge)+", ");
 				sb.append(edge.getMaybeNull()?"true, ":"false, ");
-				sb.append((edge.getStorage()!=null ? formatEntity(edge.getStorage(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
-				sb.append((edge.getAccessor()!=null ? formatEntity(edge.getAccessor(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
-				if(edge.getStorageAttribute()!=null) {
-					GraphEntity owner = (GraphEntity)edge.getStorageAttribute().getOwner();
-					Entity member = edge.getStorageAttribute().getMember();
-					sb.append(formatEntity(owner, pathPrefix, alreadyDefinedEntityToName));
-					sb.append(", " + formatTypeClassRef(owner.getParameterInterfaceType()!=null ? owner.getParameterInterfaceType() : owner.getType()) + ".typeVar" + ".GetAttributeType(\"" + formatIdentifiable(member) + "\")");
-					sb.append(", ");
-				} else {
-					sb.append("null, null, ");
-				}
+				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
+						pathPrefixForElements, edge);
 				sb.append((edge instanceof RetypedEdge ? formatEntity(((RetypedEdge)edge).getOldEdge(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(edge.isDefToBeYieldedTo() ? "true);\n" : "false);\n");
 				alreadyDefinedEntityToName.put(edge, edgeName);
@@ -1323,6 +1305,29 @@ public class ActionsGen extends CSharpBase {
 							  alreadyDefinedEntityToNameClone,
 							  alreadyDefinedIdentifiableToNameClone,
 							  parameters, max);
+		}
+	}
+
+	private void genStorageAccess(StringBuffer sb, String pathPrefix,
+			HashMap<Entity, String> alreadyDefinedEntityToName,
+			String pathPrefixForElements, GraphEntity entity) {
+		if(entity.getStorage()!=null || entity.getStorageAttribute()!=null) {
+			if(entity.getStorage()!=null) {
+				sb.append("new GRGEN_LGSP.StorageAccess(" + formatEntity(entity.getStorage(), pathPrefixForElements, alreadyDefinedEntityToName) + "), ");
+			} else { // entity.getStorageAttribute()!=null
+				GraphEntity owner = (GraphEntity)entity.getStorageAttribute().getOwner();
+				Entity member = entity.getStorageAttribute().getMember();
+				sb.append("new GRGEN_LGSP.StorageAccess(new GRGEN_LGSP.QualificationAccess(" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + ", ");
+				sb.append(formatTypeClassRef(owner.getParameterInterfaceType()!=null ? owner.getParameterInterfaceType() : owner.getType()) + ".typeVar" + ".GetAttributeType(\"" + formatIdentifiable(member) + "\")");
+				sb.append(")), ");
+			}
+		} else {
+			sb.append("null, ");
+		}
+		if(entity.getAccessor()!=null) {
+			sb.append("new GRGEN_LGSP.StorageAccessIndex(" + formatEntity(entity.getAccessor(), pathPrefixForElements, alreadyDefinedEntityToName) + "), ");
+		} else {
+			sb.append("null, ");
 		}
 	}
 

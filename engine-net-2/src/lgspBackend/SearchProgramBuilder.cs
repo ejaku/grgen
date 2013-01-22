@@ -539,12 +539,12 @@ namespace de.unika.ipd.grGen.lgsp
                         op.Storage,
                         op.Isomorphy);
 
-                case SearchOperationType.PickFromStorageAttribute:
-                    return buildPickFromStorageAttribute(insertionPointWithinSearchProgram,
+                case SearchOperationType.PickFromStorageDependent:
+                    return buildPickFromStorageDependent(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         op.SourceSPNode,
                         (SearchPlanNode)op.Element,
-                        op.StorageAttribute,
+                        op.Storage,
                         op.Isomorphy);
 
                 case SearchOperationType.Cast:
@@ -577,9 +577,18 @@ namespace de.unika.ipd.grGen.lgsp
                 case SearchOperationType.MapWithStorage:
                     return buildMapWithStorage(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNode)op.Element,
+                        op.Storage,
+                        op.StorageIndex,
+                        op.Isomorphy);
+
+                case SearchOperationType.MapWithStorageDependent:
+                    return buildMapWithStorageDependent(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
                         op.SourceSPNode,
                         (SearchPlanNode)op.Element,
                         op.Storage,
+                        op.StorageIndex,
                         op.Isomorphy);
 
                 case SearchOperationType.ImplicitSource:
@@ -1006,28 +1015,29 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation insertionPoint,
             int currentOperationIndex,
             SearchPlanNode target,
-            PatternVariable storage,
+            StorageAccess storage,
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            bool isDict = TypesHelper.DotNetTypeToXgrsType(storage.type).StartsWith("set") || TypesHelper.DotNetTypeToXgrsType(storage.type).StartsWith("map");
+            bool isDict = TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("set") || TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("map");
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
             // iterate available storage elements
             string iterationType;
-            if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<" 
-                + TypesHelper.GetStorageKeyTypeName(storage.type) + ","
-                + TypesHelper.GetStorageValueTypeName(storage.type) + ">";
+            if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<"
+                + TypesHelper.GetStorageKeyTypeName(storage.Variable.type) + ","
+                + TypesHelper.GetStorageValueTypeName(storage.Variable.type) + ">";
             else
-                iterationType = TypesHelper.GetStorageKeyTypeName(storage.type);
+                iterationType = TypesHelper.GetStorageKeyTypeName(storage.Variable.type);
             GetCandidateByIteration elementsIteration =
                 new GetCandidateByIteration(
                     GetCandidateByIterationType.StorageElements,
                     target.PatternElement.Name,
-                    storage.Name,
+                    storage.Variable.Name,
                     iterationType,
                     isDict,
                     isNode);
+
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(elementsIteration);
             elementsIteration.NestedOperationsList =
@@ -1133,43 +1143,47 @@ namespace de.unika.ipd.grGen.lgsp
             // continue at the end of the list after storage iteration nesting level
             insertionPoint = continuationPoint;
 
+            if(storage.Variable != null) ; // alt, siehe oben
+            if(storage.GlobalVariable != null) ; // neu -- wenn es ein container-typ ist iterieren, wenn es ein elementarer typ ist eine einfache zuweisung -- und kein != null handling
+            if(storage.Attribute != null) ; // das kann hier nicht auftreten
+
             return insertionPoint;
         }
 
         /// <summary>
         /// Search program operations implementing the
-        /// PickFromStorageAttribute search plan operation
+        /// PickFromStorageDependent search plan operation
         /// are created and inserted into search program
         /// </summary>
-        private SearchProgramOperation buildPickFromStorageAttribute(
+        private SearchProgramOperation buildPickFromStorageDependent(
             SearchProgramOperation insertionPoint,
             int currentOperationIndex,
             SearchPlanNode source,
             SearchPlanNode target,
-            AttributeType storageAttribute,
+            StorageAccess storage,
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            bool isDict = storageAttribute.Kind == AttributeKind.SetAttr || storageAttribute.Kind == AttributeKind.MapAttr;
+            bool isDict = storage.Attribute.Attribute.Kind == AttributeKind.SetAttr || storage.Attribute.Attribute.Kind == AttributeKind.MapAttr;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
             // iterate available storage elements
             string iterationType;
             if(isDict)
-                if(storageAttribute.Kind == AttributeKind.SetAttr)
+                if(storage.Attribute.Attribute.Kind == AttributeKind.SetAttr)
                 {
                     iterationType = "System.Collections.Generic.KeyValuePair<"
-                        + TypesHelper.XgrsTypeToCSharpType(storageAttribute.ValueType.GetKindName(), model) + ","
+                        + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model) + ","
                         + "de.unika.ipd.grGen.libGr.SetValueType" + ">";
                 }
                 else
                 {
                     iterationType = "System.Collections.Generic.KeyValuePair<"
-                        + TypesHelper.XgrsTypeToCSharpType(storageAttribute.KeyType.GetKindName(), model) + ","
-                        + TypesHelper.XgrsTypeToCSharpType(storageAttribute.ValueType.GetKindName(), model) + ">";
+                        + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.KeyType.GetKindName(), model) + ","
+                        + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model) + ">";
                 }
             else
-                iterationType = TypesHelper.XgrsTypeToCSharpType(storageAttribute.ValueType.GetKindName(), model);
+                iterationType = TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model);
  
             GetCandidateByIteration elementsIteration =
                 new GetCandidateByIteration(
@@ -1177,7 +1191,7 @@ namespace de.unika.ipd.grGen.lgsp
                     target.PatternElement.Name,
                     source.PatternElement.Name,
                     source.PatternElement.typeName,
-                    storageAttribute.Name,
+                    storage.Attribute.Attribute.Name,
                     iterationType,
                     isDict,
                     isNode);
@@ -1285,6 +1299,10 @@ namespace de.unika.ipd.grGen.lgsp
             // everything nested within candidate iteration built by now -
             // continue at the end of the list after storage iteration nesting level
             insertionPoint = continuationPoint;
+
+            if(storage.Variable != null) ; // das kann hier nicht auftreten
+            if(storage.GlobalVariable != null) ; // das kann hier nicht auftreten
+            if(storage.Attribute != null) ; // alt, siehe oben
 
             return insertionPoint;
         }
@@ -1536,22 +1554,69 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation buildMapWithStorage(
             SearchProgramOperation insertionPoint,
             int currentOperationIndex,
-            SearchPlanNode source,
             SearchPlanNode target,
-            PatternVariable storage,
+            StorageAccess storage,
+            StorageAccessIndex index,
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
+            // storage muss ein container typ nach graph element sein, index muss ein elementarer typ sein
+
+            if(storage.Variable != null) ; // neu
+            if(storage.GlobalVariable != null) ; // neu
+            if(storage.Attribute != null) ; // das kann hier nicht auftreten
+            if(index.Variable != null) ; // neu
+            if(index.GlobalVariable != null) ; // neu
+            if(index.Attribute != null) ; // das kann hier nicht auftreten
+            if(index.GraphElement != null) ; // das kann hier nicht auftreten
+            
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// MapWithStorageDependent search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildMapWithStorageDependent(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode source,
+            SearchPlanNode target,
+            StorageAccess storage,
+            StorageAccessIndex index,
+            IsomorphyInformation isomorphy)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
+
+            // storage muss ein container typ nach graph element sein, index muss ein elementarer typ sein
+
+            if(storage.Variable != null && index.Variable != null) ;// das kann hier nicht auftreten; 
+            if(storage.Variable != null && index.GlobalVariable != null) ;// das kann hier nicht auftreten; 
+            if(storage.Variable != null && index.Attribute != null) ;// neu
+            if(storage.Variable != null && index.GraphElement != null) ;// alt, siehe unten
+
+            if(storage.GlobalVariable != null && index.Variable != null) ;// das kann hier nicht auftreten; 
+            if(storage.GlobalVariable != null && index.GlobalVariable != null) ;// das kann hier nicht auftreten; 
+            if(storage.GlobalVariable != null && index.Attribute != null) ;// neu
+            if(storage.GlobalVariable != null && index.GraphElement != null) ;// neu
+
+            if(storage.Attribute != null && index.Variable != null) ;// neu
+            if(storage.Attribute != null && index.GlobalVariable != null) ;// neu
+            if(storage.Attribute != null && index.Attribute != null) ;// kann nicht auftreten, 2 abhängigkeiten
+            if(storage.Attribute != null && index.GraphElement != null) ;// kann nicht auftreten, 2 anhängigkeiten
+            
             // get candidate from storage-map, only creates variable to hold it, get is fused with check for map membership
-            GetCandidateByDrawing elementFromStorage = 
+            GetCandidateByDrawing elementFromStorage =
                 new GetCandidateByDrawing(
                     GetCandidateByDrawingType.MapWithStorage,
                     target.PatternElement.Name,
                     source.PatternElement.Name,
-                    storage.Name,
-                    TypesHelper.GetStorageValueTypeName(storage.type),
+                    storage.Variable.Name,
+                    TypesHelper.GetStorageValueTypeName(storage.Variable.type),
                     isNode);
             insertionPoint = insertionPoint.Append(elementFromStorage);
 
@@ -1560,8 +1625,8 @@ namespace de.unika.ipd.grGen.lgsp
                 new CheckCandidateMapWithStorage(
                     target.PatternElement.Name,
                     source.PatternElement.Name,
-                    storage.Name,
-                    TypesHelper.GetStorageKeyTypeName(storage.type),
+                    storage.Variable.Name,
+                    TypesHelper.GetStorageKeyTypeName(storage.Variable.type),
                     isNode);
             insertionPoint = insertionPoint.Append(checkElementInStorage);
 
