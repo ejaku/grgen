@@ -1940,7 +1940,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		for(ExternalType et : model.getExternalTypes()) {
 			sb.append("\tpublic partial class " + et.getIdent());
 			boolean first = true;
-			for(InheritanceType superType : et.getAllSuperTypes()) {
+			for(InheritanceType superType : et.getDirectSuperTypes()) {
 				if(first) {
 					sb.append(" : ");
 				} else {

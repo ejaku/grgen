@@ -2,6 +2,7 @@
 // signature only, external implmentation!
 class Own;
 class OwnPown extends Own;
+class OwnPownHome extends OwnPown;
 
 enum Enu
 {
@@ -20,8 +21,10 @@ node class N
 	si:set<int>;
 	mso:map<string,object>;
 	a:array<double>;
+	de:deque<double>;
 	ow:Own; // attributes of type externally defined
 	op:OwnPown; // attributes of type externally defined
+	oh:OwnPownHome; // attributes of type externally defined
 }
 
 edge class E;
@@ -35,3 +38,4 @@ bla(N, E) : boolean;
 blo(Node, Edge) : N;
 har(Own, OwnPown) : OwnPown;
 hur(OwnPown) : boolean;
+hurdur(OwnPownHome) : boolean;
