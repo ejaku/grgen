@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalAttributeEvaluation.grg" on Mon Dec 12 00:17:36 CET 2011
+// Generated from "ExternalAttributeEvaluation.grg" on Wed Jan 23 21:07:49 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,10 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
 	}
 	public partial class OwnPown : Own
+	{
+		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
+	}
+	public partial class OwnPownHome : OwnPown
 	{
 		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
 	}
@@ -34,5 +38,6 @@ namespace de.unika.ipd.grGen.expression
 		//public static GRGEN_MODEL.IN blo(GRGEN_LIBGR.INode, GRGEN_LIBGR.IEdge);
 		//public static GRGEN_MODEL.OwnPown har(GRGEN_MODEL.Own, GRGEN_MODEL.OwnPown);
 		//public static bool hur(GRGEN_MODEL.OwnPown);
+		//public static bool hurdur(GRGEN_MODEL.OwnPownHome);
 	}
 }
