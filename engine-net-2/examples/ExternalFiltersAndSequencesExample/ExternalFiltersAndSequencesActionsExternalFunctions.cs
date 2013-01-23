@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalFiltersAndSequences.grg" on 26.08.2012 11:37:55 Mitteleuropäische Zeit
+// Generated from "ExternalFiltersAndSequences.grg" on 23.01.2013 21:48:55 Mitteleuropäische Zeit
 using System;
 using System.Collections.Generic;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -37,6 +37,12 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
     {
         // You must implement the following function in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
         //public static bool ApplyXGRS_blo(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode var_v1, GRGEN_LIBGR.IEdge var_v2, ref GRGEN_LIBGR.INode var_r1, ref GRGEN_LIBGR.IEdge var_r2)
+    }
+
+    public partial class Sequence_createEdge
+    {
+        // You must implement the following function in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+        //public static bool ApplyXGRS_createEdge(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode var_n1, GRGEN_LIBGR.INode var_n2, ref GRGEN_LIBGR.IEdge var_e)
     }
 
     public partial class Sequence_huh
@@ -257,6 +263,35 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
             if(result) {
                 sequenceInvocation.ReturnVars[0].SetVariableValue(var_r1, procEnv);
                 sequenceInvocation.ReturnVars[1].SetVariableValue(var_r2, procEnv);
+            }
+            return result;
+        }
+    }
+
+    public partial class Sequence_createEdge : GRGEN_LIBGR.SequenceDefinitionCompiled
+    {
+        private static Sequence_createEdge instance = null;
+        public static Sequence_createEdge Instance { get { if(instance==null) instance = new Sequence_createEdge(); return instance; } }
+        private Sequence_createEdge() : base("createEdge", SequenceInfo_createEdge.Instance) { }
+
+        public static bool Apply_createEdge(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode var_n1, GRGEN_LIBGR.INode var_n2, ref GRGEN_LIBGR.IEdge var_e)
+        {
+            GRGEN_LIBGR.IEdge vari_e = null;
+            bool result = ApplyXGRS_createEdge((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, var_n1, var_n2, ref var_e);
+            if(result) {
+                var_e = vari_e;
+            }
+            return result;
+        }
+
+        public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)        {
+            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;
+            GRGEN_LIBGR.INode var_n1 = (GRGEN_LIBGR.INode)sequenceInvocation.ArgumentExpressions[0].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
+            GRGEN_LIBGR.INode var_n2 = (GRGEN_LIBGR.INode)sequenceInvocation.ArgumentExpressions[1].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
+            GRGEN_LIBGR.IEdge var_e = null;
+            bool result = ApplyXGRS_createEdge((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, var_n1, var_n2, ref var_e);
+            if(result) {
+                sequenceInvocation.ReturnVars[0].SetVariableValue(var_e, procEnv);
             }
             return result;
         }

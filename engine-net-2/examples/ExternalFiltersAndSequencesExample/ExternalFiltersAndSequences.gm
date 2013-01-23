@@ -15,6 +15,7 @@ node class N
 	si:set<int>;
 	mso:map<string,object>;
 	a:array<double>;
+	de:deque<double>;
 }
 
 edge class E;

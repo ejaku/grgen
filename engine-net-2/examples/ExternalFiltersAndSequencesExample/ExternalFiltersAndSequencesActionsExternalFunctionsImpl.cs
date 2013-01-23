@@ -56,6 +56,18 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         }
     }
 
+	public partial class Sequence_createEdge
+    {
+        public static bool ApplyXGRS_createEdge(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode var_n1, GRGEN_LIBGR.INode var_n2, ref GRGEN_LIBGR.IEdge var_e)
+		{
+			// it is recommended to create an edge as in the function below, immediately adding it to the graph
+			// then you must work with LGSPNodes, casting the INodes you receive as parameters to that concrete type (inheriting from INode)
+			var_e = GRGEN_MODEL.E.TypeInstance.CreateEdge(var_n1, var_n2);
+			procEnv.graph.AddEdge(var_e); 
+			return true;
+		}
+    }
+
     public partial class Sequence_huh
     {
         public static bool ApplyXGRS_huh(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv)
