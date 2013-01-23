@@ -7,6 +7,7 @@ sequence bar(v1:object, v2:object) : (r1:object);
 sequence isnull(v1:object);
 sequence bla(v1:N, v2:E) : (r1:N, r2:E);
 sequence blo(v1:Node, v2:Edge) : (r1:Node, r2:Edge);
+sequence createEdge(n1:Node, n2:Node) : (e:Edge);
 sequence huh;
 
 sequence counterExample1(v1:int, v2:Node) : (r1:int, r2:Node) { {r1=v1; r2=v2;} }
@@ -53,6 +54,7 @@ rule r
 				;> (::a,::b) = bla(m, e)
 				;> (::a,::b) = blo(m, e)
 				;> huh
+				;> (ehh:Edge)=createEdge(n, n)
 		);
 		exec(filterBase\f1
 				;> filterBase\nomnomnom
