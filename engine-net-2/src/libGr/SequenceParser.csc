@@ -1512,7 +1512,7 @@ SequenceComputation MethodCall(bool attributeAccessAllowed):
 			else
 				return new SequenceExpressionContainerEmpty(new SequenceExpressionAttributeAccess(fromVar, attrName));
 		} else if(method=="peek") {
-			if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1 parameter)");
+			if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1 parameter or 0(for array end, deque begin))");
 			if(!attributeAccessAllowed && attrName!=null) throw new ParseException("No attribute access allowed here (repeated method call).");
 			if(attrName==null)
 				return new SequenceExpressionContainerPeek(fromVar, fromExpr2);
@@ -1535,11 +1535,11 @@ SequenceComputation MethodCallRepeated():
 	( "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
 		{
 			if(method=="add") {
-				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,deque,array end) or 2(for map,array with index) parameters)");
+				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set value, array end, deque end) or 2(for map key-value, array/deque value with index) parameters)");
 				methodCall = new SequenceComputationContainerAdd(methodCall, fromExpr2, fromExpr3);
 				fromExpr2 = null; fromExpr3 = null;
 			} else if(method=="rem") {
-				if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for deque,array end) parameters )");
+				if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set value, map key, array/deque index) or 0(for array end, deque begin) parameters )");
 				methodCall = new SequenceComputationContainerRem(methodCall, fromExpr2);
 				fromExpr2 = null;
 			} else if(method=="clear") {
@@ -1552,7 +1552,7 @@ SequenceComputation MethodCallRepeated():
 				if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
 				methodCall = new SequenceExpressionContainerEmpty(methodCall);
 			} else if(method=="peek") {
-				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1 parameter)");
+				if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1 parameter or 0(for array end, deque begin))");
 				return new SequenceExpressionContainerPeek(methodCall, fromExpr2);
 			} else {
 				throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty|peek as expressions on set/map/array/deque)");
