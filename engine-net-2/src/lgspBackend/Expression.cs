@@ -1929,23 +1929,36 @@ namespace de.unika.ipd.grGen.expression
             Number = number;
         }
 
+        public ArrayPeek(Expression target)
+        {
+            Target = target;
+        }
+
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayPeek(Target.Copy(renameSuffix), Number.Copy(renameSuffix));
+            return new ArrayPeek(Target.Copy(renameSuffix), Number!=null ? Number.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             Target.Emit(sourceCode);
             sourceCode.Append("[");
-            Number.Emit(sourceCode);
+            if(Number != null)
+                Number.Emit(sourceCode);
+            else
+            {
+                sourceCode.Append("(");
+                Target.Emit(sourceCode);
+                sourceCode.Append(").Count-1");
+            }
             sourceCode.Append("]");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Target;
-            yield return Number;
+            if(Number!=null) yield return Number;
+            else yield break;
         }
 
         Expression Target;
@@ -2103,23 +2116,32 @@ namespace de.unika.ipd.grGen.expression
             Number = number;
         }
 
+        public DequePeek(Expression target)
+        {
+            Target = target;
+        }
+
         public override Expression Copy(string renameSuffix)
         {
-            return new DequePeek(Target.Copy(renameSuffix), Number.Copy(renameSuffix));
+            return new DequePeek(Target.Copy(renameSuffix), Number!=null ? Number.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             Target.Emit(sourceCode);
             sourceCode.Append("[");
-            Number.Emit(sourceCode);
+            if(Number != null)
+                Number.Emit(sourceCode);
+            else
+                sourceCode.Append("0");
             sourceCode.Append("]");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Target;
-            yield return Number;
+            if(Number!=null) yield return Number;
+            else yield break;
         }
 
         Expression Target;

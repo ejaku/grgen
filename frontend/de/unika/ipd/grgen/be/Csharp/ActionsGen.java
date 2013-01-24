@@ -1828,8 +1828,10 @@ public class ActionsGen extends CSharpBase {
 			ArrayPeekExpr ap = (ArrayPeekExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayPeek(");
 			genExpressionTree(sb, ap.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(", ");
-			genExpressionTree(sb, ap.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(ap.getNumberExpr()!=null) {
+				sb.append(", ");
+				genExpressionTree(sb, ap.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof ArrayIndexOfExpr) {
@@ -1868,8 +1870,10 @@ public class ActionsGen extends CSharpBase {
 			DequePeekExpr dp = (DequePeekExpr)expr;
 			sb.append("new GRGEN_EXPR.DequePeek(");
 			genExpressionTree(sb, dp.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(", ");
-			genExpressionTree(sb, dp.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(dp.getNumberExpr()!=null) {
+				sb.append(", ");
+				genExpressionTree(sb, dp.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof DequeIndexOfExpr) {

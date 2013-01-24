@@ -31,6 +31,6 @@ public class DequePeekExpr extends Expression {
 
 	public void collectNeededEntities(NeededEntities needs) {
 		targetExpr.collectNeededEntities(needs);
-		numberExpr.collectNeededEntities(needs);
+		if(numberExpr!=null) numberExpr.collectNeededEntities(needs);
 	}
 }

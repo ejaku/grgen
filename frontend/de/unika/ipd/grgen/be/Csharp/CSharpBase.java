@@ -925,7 +925,13 @@ public abstract class CSharpBase {
 				sb.append("(");
 				genExpression(sb, ap.getTargetExpr(), modifyGenerationState);
 				sb.append("[");
-				genExpression(sb, ap.getNumberExpr(), modifyGenerationState);
+				if(ap.getNumberExpr()!=null)
+					genExpression(sb, ap.getNumberExpr(), modifyGenerationState);
+				else {
+					sb.append("(");
+					genExpression(sb, ap.getTargetExpr(), modifyGenerationState);
+					sb.append(").Count - 1");
+				}
 				sb.append("])");
 			}
 		}
@@ -990,7 +996,10 @@ public abstract class CSharpBase {
 				sb.append("(");
 				genExpression(sb, dp.getTargetExpr(), modifyGenerationState);
 				sb.append("[");
-				genExpression(sb, dp.getNumberExpr(), modifyGenerationState);
+				if(dp.getNumberExpr()!=null)
+					genExpression(sb, dp.getNumberExpr(), modifyGenerationState);
+				else
+					sb.append("0");
 				sb.append("])");
 			}
 		}
