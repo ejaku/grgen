@@ -1,0 +1,38 @@
+new graph DfsBfs/Search
+
+new n1:WalkOrder
+new n2:WalkOrder
+new n3:WalkOrder
+new n4:WalkOrder
+
+new n1 --> n2
+new n1 --> n3
+new n2 --> n4
+new n3 --> n4
+
+exec BreadthFirstCompiled(::n1)
+
+show node n1
+show node n2
+show node n3
+show node n4
+
+exec for{n:WalkOrder; {n.num = -1}}
+
+exec DepthFirstCompiled(::n1)
+
+show node n1
+show node n2
+show node n3
+show node n4
+
+exec for{n:WalkOrder; {n.num = -1}}
+
+exec vis:int ;> {vis=valloc()} ;> (urgs:int)=DepthFirstCallCompiled(::n1, 0, vis) ;> {vfree(vis)}
+
+show node n1
+show node n2
+show node n3
+show node n4
+
+quit

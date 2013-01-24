@@ -1,0 +1,74 @@
+new graph DfsBfs/Search
+
+new n1:WalkOrder
+new n2:WalkOrder
+new n3:WalkOrder
+new n4:WalkOrder
+
+new n1 --> n2
+new n1 --> n3
+new n2 --> n4
+new n3 --> n4
+
+def BreadthFirst(root:WalkOrder)\
+{\
+	d:deque<WalkOrder>=deque<WalkOrder>][ ;> vis:int ;> {vis=valloc()} ;> num:int=0 ;> {d.add(root); root.visited[vis]=true} ;>\
+	(if{ {!d.empty()} ;\
+		cur:WalkOrder ;> {cur=d.peek(); d.rem(); cur.num=num; num=num+1} ;> \
+		for{n:WalkOrder in adjacentOutgoing(cur); \
+			if{ {!n.visited[vis]} ; {d.add(n); n.visited[vis]=true}}\
+		} ;> true ;\
+		false}\
+	)* ;> {vfree(vis)}\
+}
+
+def DepthFirst(root:WalkOrder)\
+{\
+	a:array<WalkOrder>=array<WalkOrder>[] ;> vis:int ;> {vis=valloc()} ;> num:int=0 ;> {a.add(root); root.visited[vis]=true} ;>\
+	(if{ {!a.empty()} ;\
+		cur:WalkOrder ;> {cur=a.peek(); a.rem(); cur.num=num; num=num+1} ;> \
+		for{n:WalkOrder in adjacentOutgoing(cur); \
+			if{ {!n.visited[vis]} ; {a.add(n); n.visited[vis]=true}}\
+		} ;> true ;\
+		false}\
+	)* ;> {vfree(vis)}\
+}
+
+def DepthFirstCall(root:WalkOrder, num:int, vis:int) : (resnum:int) { true }
+def DepthFirstCall(root:WalkOrder, num:int, vis:int) : (resnum:int)\
+{\
+	{root.visited[vis]=true} ;>\
+	{root.num=num; num=num+1} ;>\
+	for{n:WalkOrder in adjacentOutgoing(root); \
+		if{ {!n.visited[vis]} ; (num)=DepthFirstCall(n,num,vis) }\
+	}\
+	;> {resnum = num}\
+}
+
+
+exec BreadthFirst(::n1)
+
+show node n1
+show node n2
+show node n3
+show node n4
+
+exec for{n:WalkOrder; {n.num = -1}}
+
+exec DepthFirst(::n1)
+
+show node n1
+show node n2
+show node n3
+show node n4
+
+exec for{n:WalkOrder; {n.num = -1}}
+
+exec vis:int ;> {vis=valloc()} ;> (urgs:int)=DepthFirstCall(::n1, 0, vis) ;> {vfree(vis)}
+
+show node n1
+show node n2
+show node n3
+show node n4
+
+quit
