@@ -357,7 +357,7 @@ Exports an instance graph and a graph model in GXL format \cite{GXL,GXL2},
 which is somewhat of a standard format for graphs of graph rewrite systems,
 but suffers from the well-known XML problems -- it is barely human-readable and bloated.
 (Besides tools claiming to support it often can't import the export of the other.)
-Exporting fails if the graph model contains attributes of \texttt{set<S>}-,\texttt{map<S,T>}-,\texttt{array<S>}- or \texttt{object}-type.
+Exporting fails if the graph model contains attributes of container or \texttt{object}-type.
 If the \texttt{.gz} suffix is given the graph is saved zipped.
 
 \begin{rail}
@@ -495,17 +495,18 @@ Otherwise the edge will be of the base edge class type \texttt{Edge} for \texttt
 \begin{rail}
   Constructor : '(' (() | (dollar '=' Text (() | ',' Attributes) | Attributes)) ')';
   Attributes : (AttributeName '=' AttributeValue) + (',');
-  AttributeValue :  PrimitiveAttributeValue | SetConstr | MapConstr | ArrayConstr;
+  AttributeValue :  PrimitiveAttributeValue | SetConstr | MapConstr | ArrayConstr | DequeConstr;
   PrimitiveAttributeValue : EnumLit | Number | FloatingNumber | QuotedText | BoolLit | NullLit ;
   SetConstr: 'set' '<' Type '>' lbrace ( Expression*',' ) rbrace ;
   MapConstr: 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
   ArrayConstr: 'array' '<' Type '>' '[' ( Expression*',' ) ']' ;
-\end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}\ixnterm{AttributeValue}\ixnterm{PrimitiveAttributeValue}\ixnterm{SetConstr}\ixnterm{MapConstr}\ixnterm{ArrayConstr}
+  DequeConstr: 'deque' '<' Type '>' ']' ( Expression*',' ) '[' ;
+\end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}\ixnterm{AttributeValue}\ixnterm{PrimitiveAttributeValue}\ixnterm{SetConstr}\ixnterm{MapConstr}\ixnterm{ArrayConstr}\ixnterm{DequeConstr}
 A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below).
 A comma separated list of \indexed{attribute} declarations is supplied to the constructor.
 Available attribute names are specified by the graph model of the current working graph.
 All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type
-(\texttt{int} $\leftarrow$ \texttt{0}; \texttt{long} $\leftarrow$ \texttt{0L}; \texttt{byte} $\leftarrow$ \texttt{0Y}; \texttt{short} $\leftarrow$ \texttt{0S}; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float} $\leftarrow$ \texttt{0.0f}; \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}; \texttt{set<T>} $\leftarrow$ \texttt{set<T>\{\}}; \texttt{map<S,T>} $\leftarrow$ \texttt{map<S,T>\{\}}; \texttt{array<T>} $\leftarrow$ \texttt{array<T>[]}; \texttt{enum} $\leftarrow$ unspecified;).\\
+(\texttt{int} $\leftarrow$ \texttt{0}; \texttt{long} $\leftarrow$ \texttt{0L}; \texttt{byte} $\leftarrow$ \texttt{0Y}; \texttt{short} $\leftarrow$ \texttt{0S}; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float} $\leftarrow$ \texttt{0.0f}; \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}; \texttt{set<T>} $\leftarrow$ \texttt{set<T>\{\}}; \texttt{map<S,T>} $\leftarrow$ \texttt{map<S,T>\{\}}; \texttt{array<T>} $\leftarrow$ \texttt{array<T>[]}; \texttt{deque<T>} $\leftarrow$ \texttt{deque<T>][}; \texttt{enum} $\leftarrow$ unspecified;).\\
 The \texttt{\$} is a special attribute name: a unique identifier of the new graph element.
 This identifier is also called \newterm{persistent name} (see Example~\ref{persistentex}).
 This name can be specified by a constructor only.
@@ -544,19 +545,19 @@ Set the \indexed{attribute} \emph{AttributeName} of the graph element \emph{Grap
 \begin{rail}
   GraphElement '.' AttributeName '[' Index ']' '=' AttributeValue ;
 \end{rail}
-Overwrite the value in the array \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} at the integer position \emph{Index} with the value \emph{AttributeValue}.
+Overwrite the value in the array or deque or map \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} at the integer position or key value \emph{Index} with the value \emph{AttributeValue}.
 
 \begin{rail}
   GraphElement '.' AttributeName '.' 'add' '(' \\
   	PrimitiveAttributeValue (',' PrimitiveAttributeValue)? ')' ;
 \end{rail}
 Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement}.
-Or add the value \emph{PrimitiveAttributeValue} to the end of the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} at the index given by the second parameter in the two parameter case.
+Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} at the index given by the second parameter in the two parameter case.
 
 \begin{rail}
   GraphElement '.' AttributeName '.' 'rem' '(' (PrimitiveAttributeValue)? ')' ;
 \end{rail}
-Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case.
+Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case or remove the first element from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Graph and Model Query Commands}

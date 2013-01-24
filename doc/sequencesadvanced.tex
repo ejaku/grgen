@@ -171,7 +171,7 @@ The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random o
 (which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule).
 A \indexed{choice point} may be used to define the subsequence to be executed next.
 
-The \indexed{some-of-set braces} \verb/{(r,[s],$[t]=}/ matches all contained rules and then executes the ones which matched.
+The \indexed{some-of-set braces} \verb/{(r,[s],$[t])}/ matches all contained rules and then executes the ones which matched.
 The \indexed{one-of-set braces} \verb/${(r,[s],$[t])}/ (some-of-set with random choice applied) matches all contained rules and then executes at random one of the rules which matched
 (i.e. the one match of a rule, all matches of an all bracketed rule, or one randomly chosen match of an all bracketed rule with random choice).
 The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
@@ -239,7 +239,7 @@ Finally, an expression (without side effects) can be evaluated, this allows to r
     Variable (':' Type)? |
     'yield' Variable |
     GraphElement '.' Attribute |
-    ArrayVariable '[' SequenceExpression ']' |
+    Variable '[' SequenceExpression ']' |
     GraphElement '.' 'visited' '[' SequenceExpression ']'
 ;
 \end{rail}\ixnterm{AssignmentTarget}\ixkeyw{visited}\ixkeyw{yield}
@@ -247,7 +247,7 @@ Finally, an expression (without side effects) can be evaluated, this allows to r
 Possible targets of assignments are the variables and def-variables to be yielded to, as in the simple assignments of the sequences. 
 A \texttt{yield} assignment writes the rhs variable value to the lhs variable which must be declared as a  def-to-be-yielded-to variable (\texttt{def}-prefix) in the pattern containing the \texttt{exec} statement.
 Yielding is only possible from compiled sequences, it always succeeds.
-Further on, the attributes of graph elements may be written to, the values at given positions of array variables may be written to, and the visited status of graph elements may be changed.
+Further on, the attributes of graph elements may be written to, the values at given positions of array or deque or map variables may be written to, and the visited status of graph elements may be changed.
 
 \begin{rail}
   SequenceExpression:  
@@ -281,7 +281,7 @@ The boolean operators have the same semantics and same priority as in \ref{sub:e
 \end{rail}\ixnterm{RelationalSequenceExpression}
 
 The equality operators work for every type and return whether the values to compare are equal or unequal.
-The relational operators on numerical, graph, and set/map/array types work as specified in \ref{sub:expr} and \ref{cha:container}.
+The relational operators on numerical, graph, and container types work as specified in \ref{sub:expr} and \ref{cha:container}.
 
 \begin{rail}
   ArithmeticSequenceExpression:
@@ -317,7 +317,7 @@ The variable and literal basic expressions are the same as in the SimpleOrIntera
 \begin{rail}
   SpecialSequenceExpression:
     GraphElement '.' 'visited' '[' SequenceExpression ']' |
-    ArrayOrMapVariable '[' SequenceExpression ']' |
+    Variable '[' SequenceExpression ']' |
     MethodCall |
     FunctionCall;
   ;

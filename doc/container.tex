@@ -7,7 +7,7 @@
 \label{sec:builtingenerictypes}
 Besides the types already introduced, \GrG\ supports the built-in \indexed{generic types}\indexmainsee{built-in generic types}{generic types} in Table~\ref{builtingenerictypes}.
 The exact type format is \indexed{backend} specific.
-The \indexed{LGSPBackend} maps the generic types to generic C\#-Dictionaries (i.e. hashmaps) or C\#-Lists (misnamed dynamic arrays) of their corresponding primitive types, with \texttt{de.unika.ipd.grGen.libGr.SetValueType} as target type for sets, only used with the value \texttt{null}.
+The \indexed{LGSPBackend} maps the generic types to generic C\#-Dictionaries (i.e. hashmaps) or generic C\#-Lists (misnamed dynamic arrays) or a \GrG\ supplied generic C\#-Deque of their corresponding primitive types, with \texttt{de.unika.ipd.grGen.libGr.SetValueType} as target type for sets, only used with the value \texttt{null}.
 
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}
@@ -15,6 +15,7 @@ The \indexed{LGSPBackend} maps the generic types to generic C\#-Dictionaries (i.
 	\texttt{\indexed{set}<T>} & A (mathematical) set of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. \\
 	\texttt{\indexed{map}<S,T>} & A (mathematical) map from type \texttt{S} to type \texttt{T}, where \texttt{S} and \texttt{T} may be enumeration types or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. \\
 	\texttt{\indexed{array}<T>} & An array of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. Shares some similarities with \texttt{map<int,T>}. \\
+	\texttt{\indexed{deque}<T>} & A deque of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. Shares some similarities with \texttt{array<T>}. \\
 	\hline
 	\texttt{\indexed{graph}} & A subgraph of the host graph\\
 	\hline
@@ -34,7 +35,7 @@ The only operations supported on it are equality and inequality, i.e. graph isom
 In the following they will be explained with their semantics one type after another in the order of the rail diagram below.
 
 \begin{rail}
-  Expression: SetExpr | MapExpr | ArrayExpr | RelationalExpr | PrimaryExpr;
+  Expression: SetExpr | MapExpr | ArrayExpr | DequeExpr | RelationalExpr | PrimaryExpr;
 \end{rail}\ixnterm{Expression}
 
 
@@ -145,6 +146,7 @@ There are several operations on arrays available in method call notation (Method
 \item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.subarray(startIndex, length)}] returns subarray of given \texttt{length:int} from \texttt{startIndex:int} on
 \item[\texttt{.peek(num)}] returns the value stored in the array at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
+\item[\texttt{.peek()}] returns the last value stored in the array; retrieval occurs in constant time.
 \end{description}
 
 \begin{note}
@@ -154,26 +156,60 @@ For declarative array construction please have a look at \ref{sec:primexpr}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Deque Expression} \label{sec:dequeexpr}
+
+Deque expressions consist of deque membership checking, deque value lookup, and deque concatenation, plus some operations in method call notation.
+
+\begin{rail}
+  DequeExpr: Expr 'in' DequeExpr | DequeExpr '[' Expr ']' | DequeExpr '+' DequeExpr | PrimaryExpr (MethodSelector)?;
+\end{rail}\ixnterm{DequeExpr}\ixkeyw{in}
+
+The operator \texttt{x in d} denotes deque value membership, returning whether the deque contains the given element, as \texttt{boolean}.
+The operator \texttt{d[x]} denotes deque lookup, i.e. it returns the value \texttt{y} which is stored in the deque \texttt{d} at the index \texttt{x}.
+The index \texttt{x} \emph{must} be a valid deque index.
+The operator \texttt{x + y} denotes deque concatenation, which requires the left and right operands to be of identical type \verb#deque<T>#.
+There are several operations on deques available in method call notation (MethodSelector), these are:
+
+\begin{description}
+\item[\texttt{.size()}] returns the number of elements in the deque, as \texttt{int}
+\item[\texttt{.indexOf(valueToSearchFor)}] returns first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.subdeque(startIndex, length)}] returns subdeque of given \texttt{length:int} from \texttt{startIndex:int} on
+\item[\texttt{.peek(num)}] returns the value stored in the deque at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
+\item[\texttt{.peek()}] returns the first value stored in the deque; retrieval occurs in constant time.
+\end{description}
+
+\begin{note}
+In contrast to sets and maps which can be handled well by expressions, deques are meant to be modified by imperative \texttt{eval} block and XGRS statements like deque addition \texttt{d.add(value)}/\texttt{d.add(value, index)} and removal \texttt{d.rem()}/\texttt{d.rem(index)}.
+The double ended queue allows for fast addition and removal both at the frond and at the back, in contrast to arrays that only support this at the end.
+It is implemented by a ringbuffer that is grown as needed, a lookup is slightly more expensive than an array lookup.
+The primary usage of the deque is as a queue, as needed for breadth first search, accessed FIFO.
+This is in contrast to the array that is suited to be employed as a stack, e.g. in a depth first search (unless that is programmed using the call stack), accessed LIFO.
+\end{note}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Relational Expressions}\label{sec:relationalcontainer}
 
 The relational expressions compare enitites of different kinds, mapping them to the type boolean.
-They were alreay introduced in \ref{sec:relational}, here we extend them with set, map, array and graph types.
+They were alreay introduced in \ref{sec:relational}, here we extend them with container and graph types.
 
-For set/map/array expressions, table~\ref{compandsetmap} describes the semantics of the compare operators.
+For container expressions, table~\ref{compandsetmap} describes the semantics of the compare operators.
 Some set A is a subset of B iff all elements in A are contained in B, too.
 A map A is a submap of B iff all key-value pairs of A are contained in B, too. If they have a key in common but map to a different value, they count as not identical.
 An array A is a subarray of B iff it is smaller or equal in size and the values at each common index are identical.
+A deque A is a subdeque of B iff it is smaller or equal in size and the values at each common index are identical.
 \begin{table}[htbp]
   \centering
   \begin{tabularx}{\linewidth}{|l|X|} \hline
     \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
     \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
-    \texttt{A <\ \ B} & True, iff $A$ is a subset/map/array of $B$, but $A$ and $B$ are not identical. \\
-    \texttt{A >\ \ B} & True, iff $A$ is a superset/map/array of $B$, but $A$ and $B$ are not identical. \\
-    \texttt{A <= B} & True, iff $A$ is a subset/map/array of $B$ or $A$ and $B$ are identical. \\
-    \texttt{A >= B} & True, iff $A$ is a superset/map/array of $B$ or $A$ and $B$ are identical. \\ \hline
+    \texttt{A <\ \ B} & True, iff $A$ is a subset/map/array/deque of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A >\ \ B} & True, iff $A$ is a superset/map/array/deque of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A <= B} & True, iff $A$ is a subset/map/array/deque of $B$ or $A$ and $B$ are identical. \\
+    \texttt{A >= B} & True, iff $A$ is a superset/map/array/deque of $B$ or $A$ and $B$ are identical. \\ \hline
   \end{tabularx}
-  \caption{Compare operators on set/map/array expressions}
+  \caption{Compare operators on container expressions}
   \label{compandsetmap}
 \end{table}
 
@@ -207,17 +243,18 @@ This will save you from the cost of repeated search planning; in addition, often
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Primary Expressions}\label{sec:containerprimexpr}
 
-Besides the \emph{Constant} already introduced as a part of the \emph{Literal}, cf. \ref{literaldef}, the literals \emph{SetConstructor}, \emph{MapConstructor}, \emph{ArrayConstructor} are supported as well.
+Besides the \emph{Constant} already introduced as a part of the \emph{Literal}, cf. \ref{literaldef}, the literals \emph{SetConstructor}, \emph{MapConstructor}, \emph{ArrayConstructor} and \emph{DequeConstructor} are supported as well.
 
 \begin{rail}
   SetConstructor: ('set' '<' Type '>')? \\ lbrace ( Expression*',' ) rbrace ;
   MapConstructor: ('map' '<' Type ',' Type '>')? \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
   ArrayConstructor: ('array' '<' Type '>')? \\ '[' ( Expression*',' ) ']' ;
-\end{rail}\ixnterm{SetConstructor}\ixnterm{MapConstructor}\ixnterm{ArrayConstructor}
+  DequeConstructor: ('deque' '<' Type '>')? \\ ']' ( Expression*',' ) '[' ;
+\end{rail}\ixnterm{SetConstructor}\ixnterm{MapConstructor}\ixnterm{ArrayConstructor}\ixnterm{DequeConstructor}
 
-The set/map/array constructors are constant if only primitive type literals, enum literals, or constant expressions are used; this is required for set/map/array initializations in the model.
+The container constructors are constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 They are non-constant if they contain nodes/edges/or member accesses, which is the common case if used in rules.
-If the type of the set/map/array is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
+If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
 Without the type prefix all elements given in the constructor must be of the same type.
 
 \begin{example}
@@ -226,6 +263,7 @@ Some examples of container literals:
 { "foo", "bar" } // a constant set<string> constructor
 map<string,int>{ (n.strVal+m.strVal)->(m.intVal+n.intVal), intVal->strVal, "fool"->42 } // a non-constant map constructor with type prefix
 [ 1,2,3 ] // a constant array<int> constructor
+] 1,2,3 [ // a constant deque<int> constructor
 \end{grgen}
 \end{example}
 
