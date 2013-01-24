@@ -1,0 +1,38 @@
+using SearchModel;
+
+// bfs with a queue (could assign bfs number when putting to queue, saving the visited flag)
+sequence BreadthFirstCompiled(root:WalkOrder)
+{
+	d:deque<WalkOrder>=deque<WalkOrder>][ ;> vis:int ;> {vis=valloc()} ;> num:int=0 ;> {d.add(root); root.visited[vis]=true} ;>
+	(if{ {!d.empty()} ;
+		cur:WalkOrder ;> {cur=d.peek(); d.rem(); cur.num=num; num=num+1} ;> 
+		for{n:WalkOrder in adjacentOutgoing(cur); 
+			if{ {!n.visited[vis]} ; {d.add(n); n.visited[vis]=true}}
+		} ;> true ;
+		false}
+	)* ;> {vfree(vis)}
+}
+
+// dfs with a stack (must assign dfs number when removing from stack, so we need a visited flag or an O(n) search on the stack)
+sequence DepthFirstCompiled(root:WalkOrder)
+{
+	a:array<WalkOrder>=array<WalkOrder>[] ;> vis:int ;> {vis=valloc()} ;> num:int=0 ;> {a.add(root); root.visited[vis]=true} ;>
+	(if{ {!a.empty()} ;
+		cur:WalkOrder ;> {cur=a.peek(); a.rem(); cur.num=num; num=num+1} ;> 
+		for{n:WalkOrder in adjacentOutgoing(cur); 
+			if{ {!n.visited[vis]} ; {a.add(n); n.visited[vis]=true}}
+		} ;> true ;
+		false}
+	)* ;> {vfree(vis)}
+}
+
+// dfs with implicit call stack (could replace visited flag by checking num for != -1)
+sequence DepthFirstCallCompiled(root:WalkOrder, num:int, vis:int) : (resnum:int)
+{
+	{root.visited[vis]=true} ;>
+	{root.num=num; num=num+1} ;> 
+	for{n:WalkOrder in adjacentOutgoing(root); 
+		if{ {!n.visited[vis]} ; (num)=DepthFirstCallCompiled(n,num,vis) }
+	}
+	;> {resnum = num}
+}
