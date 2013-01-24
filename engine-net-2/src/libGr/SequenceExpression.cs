@@ -1512,11 +1512,19 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            CheckAndReturnContainerType(env);
+            string containerType = CheckAndReturnContainerType(env);
 
-            if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
+            if(KeyExpr != null)
             {
-                throw new SequenceParserException(Symbol, "int", KeyExpr.Type(env));
+                if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "int", KeyExpr.Type(env));
+                }
+            }
+            else
+            {
+                if(containerType.StartsWith("set<") || containerType.StartsWith("map<"))
+                    throw new SequenceParserException(Symbol, "array<S> or deque<S> type", containerType);
             }
         }
 
@@ -1534,13 +1542,16 @@ namespace de.unika.ipd.grGen.libGr
             if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
             if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
             if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv);
-            copy.KeyExpr = KeyExpr.CopyExpression(originalToCopy, procEnv);
+            if(KeyExpr != null) copy.KeyExpr = KeyExpr.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            return ContainerHelper.Peek(ContainerValue(procEnv), (int)KeyExpr.Evaluate(procEnv)); 
+            if(KeyExpr != null)
+                return ContainerHelper.Peek(ContainerValue(procEnv), (int)KeyExpr.Evaluate(procEnv)); 
+            else
+                return ContainerHelper.Peek(ContainerValue(procEnv));
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
@@ -1548,13 +1559,13 @@ namespace de.unika.ipd.grGen.libGr
             if(Container != null) Container.GetLocalVariables(variables);
             if(MethodCall != null) MethodCall.GetLocalVariables(variables);
             if(Attribute != null) Attribute.GetLocalVariables(variables);
-            KeyExpr.GetLocalVariables(variables);
+            if(KeyExpr != null) KeyExpr.GetLocalVariables(variables);
         }
 
         public override IEnumerable<SequenceComputation> Children { get { if(MethodCall == null) yield break; else yield return MethodCall; } }
-        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return KeyExpr; } }
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { if(KeyExpr != null) yield return KeyExpr; else yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Name + ".peek(" + KeyExpr.Symbol + ")"; } }
+        public override string Symbol { get { return Name + ".peek(" + (KeyExpr != null ? KeyExpr.Symbol : "") + ")"; } }
     }
 
     public class SequenceExpressionElementFromGraph : SequenceExpression

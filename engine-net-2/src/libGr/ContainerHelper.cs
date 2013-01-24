@@ -1144,6 +1144,29 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        /// <summary>
+        /// Returns the value from the deque begin or array end.
+        /// </summary>
+        /// <param name="obj">A list or a deque.</param>
+        /// <returns>The element at the list end or deque begin.</returns>
+        public static object Peek(object obj)
+        {
+            if(obj is IList)
+            {
+                IList list = (IList)obj;
+                return list[list.Count - 1];
+            }
+            else if(obj is IDeque)
+            {
+                IDeque deque = (IDeque)obj;
+                return deque.Front;
+            }
+            else
+            {
+                throw new Exception("peek() can only be used on array or deque (peek(int) works on all containers)");
+            }
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>

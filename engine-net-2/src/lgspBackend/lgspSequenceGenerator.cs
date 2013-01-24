@@ -3227,21 +3227,39 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     string container = GetContainerValue(seqContainerPeek);
 
-                    if(seqContainerPeek.ContainerType(env) == "")
+                    if(seqContainerPeek.KeyExpr != null)
                     {
-                        return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")"; 
+                        if(seqContainerPeek.ContainerType(env) == "")
+                        {
+                            return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
+                        }
+                        else if(seqContainerPeek.ContainerType(env).StartsWith("array"))
+                        {
+                            return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
+                        }
+                        else if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
+                        {
+                            return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
+                        }
+                        else // statically known set/map/deque
+                        {
+                            return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
+                        }
                     }
-                    else if(seqContainerPeek.ContainerType(env).StartsWith("array"))
+                    else
                     {
-                        return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
-                    }
-                    else if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
-                    {
-                        return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
-                    }
-                    else // statically known set/map/deque
-                    {
-                        return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
+                        if(seqContainerPeek.ContainerType(env).StartsWith("array"))
+                        {
+                            return container + "[" + container + ".Count - 1]";
+                        }
+                        else if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
+                        {
+                            return container + "[0]";
+                        }
+                        else
+                        {
+                            return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ")";
+                        }
                     }
                 }
 
