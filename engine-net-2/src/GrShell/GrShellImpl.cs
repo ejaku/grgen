@@ -31,10 +31,10 @@ namespace de.unika.ipd.grGen.grShell
         public String Value; // the attribute value
 
         // for set, map attributed
-        public String Type; // set/map(domain) type, array value type
-        public String TgtType; // map target type, array index type
-        public ArrayList Values; // set/map(domain) values, array values
-        public ArrayList TgtValues; // map target values, array index values
+        public String Type; // set/map(domain) type, array/deque value type
+        public String TgtType; // map target type, array/deque index type
+        public ArrayList Values; // set/map(domain) values, array/deque values
+        public ArrayList TgtValues; // map target values, array/deque index values
 
         public Param(String key)
         {
@@ -2668,9 +2668,9 @@ namespace de.unika.ipd.grGen.grShell
                 errOut.WriteLine("Can't retrieve attribute "+attrName+" !");
                 return;
             }
-            if(!(attr is IList) && !(attr is IDictionary))
+            if(!(attr is IList) && !(attr is IDictionary) && !(attr is IDeque))
             {
-                errOut.WriteLine("Attribute " + attrName + " is not of array/map type!");
+                errOut.WriteLine("Attribute " + attrName + " is not of array/deque/map type!");
                 return;
             }
 
@@ -2683,6 +2683,11 @@ namespace de.unika.ipd.grGen.grShell
             {
                 IList array = (IList)attr;
                 array[(int)index] = value;
+            }
+            else if(attr is IDeque)
+            {
+                IDeque deque = (IDeque)attr;
+                deque[(int)index] = value;
             }
             else
             {
@@ -2721,6 +2726,11 @@ namespace de.unika.ipd.grGen.grShell
             {
                 IList array = (IList)var;
                 array[(int)index] = value;
+            }
+            else if(var is IDeque)
+            {
+                IDeque deque = (IDeque)var;
+                deque[(int)index] = value;
             }
             else
             {
