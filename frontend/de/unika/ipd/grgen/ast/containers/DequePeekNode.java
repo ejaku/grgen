@@ -36,11 +36,17 @@ public class DequePeekNode extends ExprNode
 		this.numberExpr = becomeParent(numberExpr);
 	}
 
+	public DequePeekNode(Coords coords, ExprNode targetExpr)
+	{
+		super(coords);
+		this.targetExpr = becomeParent(targetExpr);
+	}
+
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
-		children.add(numberExpr);
+		if(numberExpr!=null) children.add(numberExpr);
 		return children;
 	}
 
@@ -48,7 +54,7 @@ public class DequePeekNode extends ExprNode
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
-		childrenNames.add("numberExpr");
+		if(numberExpr!=null) childrenNames.add("numberExpr");
 		return childrenNames;
 	}
 
@@ -59,7 +65,7 @@ public class DequePeekNode extends ExprNode
 			targetExpr.reportError("This argument to deque peek expression must be of type deque<T>");
 			return false;
 		}
-		if(!numberExpr.getType().isEqual(BasicTypeNode.intType)) {
+		if(numberExpr!=null && !numberExpr.getType().isEqual(BasicTypeNode.intType)) {
 			numberExpr.reportError("Argument (number) to "
 					+ "deque peek expression must be of type int");
 			return false;
@@ -75,6 +81,6 @@ public class DequePeekNode extends ExprNode
 	@Override
 	protected IR constructIR() {
 		return new DequePeekExpr(targetExpr.checkIR(Expression.class),
-				numberExpr.checkIR(Expression.class));
+				numberExpr!=null ? numberExpr.checkIR(Expression.class) : null);
 	}
 }

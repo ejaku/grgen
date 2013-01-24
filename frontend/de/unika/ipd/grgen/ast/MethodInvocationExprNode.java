@@ -194,12 +194,16 @@ public class MethodInvocationExprNode extends ExprNode
   					result = new ArraySizeNode(getCoords(), targetExpr);
   			}
 			else if(methodName.equals("peek")) {
-				if(params.size() != 1) {
-  					reportError("array<T>.peek(index) takes one parameter.");
+				if(params.size() != 0 && params.size() != 1) {
+  					reportError("array<T>.peek(index) takes one parameter; or none parameter returning the value from the end.");
 					return false;
 				}
-  				else
-  					result = new ArrayPeekNode(getCoords(), targetExpr, params.get(0));
+  				else {
+  					if(params.size() == 0 )
+  						result = new ArrayPeekNode(getCoords(), targetExpr);
+  					else
+  						result = new ArrayPeekNode(getCoords(), targetExpr, params.get(0));
+  				}
 			}
   			else if(methodName.equals("indexOf")) {
   				if(params.size() != 1) {
@@ -240,12 +244,16 @@ public class MethodInvocationExprNode extends ExprNode
   					result = new DequeSizeNode(getCoords(), targetExpr);
   			}
 			else if(methodName.equals("peek")) {
-				if(params.size() != 1) {
-  					reportError("deque<T>.peek(index) takes one parameter.");
+				if(params.size() != 0 && params.size() != 1) {
+  					reportError("deque<T>.peek(index) takes one parameter; or none parameter returning the value from the begin.");
 					return false;
 				}
-  				else
-  					result = new DequePeekNode(getCoords(), targetExpr, params.get(0));
+  				else {
+  					if(params.size() == 0 )
+  						result = new DequePeekNode(getCoords(), targetExpr);
+  					else
+  						result = new DequePeekNode(getCoords(), targetExpr, params.get(0));
+  				}
 			}
   			else if(methodName.equals("indexOf")) {
   				if(params.size() != 1) {
