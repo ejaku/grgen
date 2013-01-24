@@ -2,7 +2,7 @@
 \label{cha:storagesvisited}
 
 In this chapter we'll have in the fist part a look at storages,
-which are variables of set/maps/array type which (may) contain graph elements;
+which are variables of container type which (may) contain graph elements;
 and at the sequence computation and rule constructs concerned with them.
 In the second part we'll then have a look at the visited flags, 
 used for marking already visited elements or for partitioning a graph;
@@ -11,29 +11,32 @@ and at the sequence computation and rule constructs concerned with them.
 %-----------------------------------------------------------------------------------------------
 \section{Storage Handling in the Sequences}\label{sec:storages}\indexmain{storage}
 
-Storages are variables of set or map or array type (cf. \ref{sec:builtingenerictypes}) storing nodes or edges.
-They are primarily used in the sequences, from where they are handed in to the rules via \texttt{ref} parameters (but additionally set/map/array attributes in graph elements may be used as storages,
+Storages are variables of container (set/map/array/deque) type (cf. \ref{sec:builtingenerictypes}) storing nodes or edges.
+They are primarily used in the sequences, from where they are handed in to the rules via \texttt{ref} parameters (but additionally container attributes in graph elements may be used as storages,
 esp. for doing data flow analyses, cf. \ref{subsub:flow}).
 They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the set.
 A difference of storage sets and maps in the sequences to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction, and only empty constructors without initializing elements.
-The splitting of transformations into passes mediated by set/map/array valued global variables allows for subgraph copying without model pollution, cf. \ref{subsub:copystructure}; please have a look at \ref{sub:mergesplit}, \ref{subsub:copystructure} and \ref{subsub:flow} regarding a discussion on when to use which transformation combinators and for storage examples.
+The splitting of transformations into passes mediated by container valued global variables allows for subgraph copying without model pollution, cf. \ref{subsub:copystructure}; please have a look at \ref{sub:mergesplit}, \ref{subsub:copystructure} and \ref{subsub:flow} regarding a discussion on when to use which transformation combinators and for storage examples.
 The syntax diagrams given in the Rule Application Control Language chapter \ref{cha:xgrs} already contained the storage constructs.
 Here we only give some refinements and explanations of the semantics.
 
 \begin{rail}
   Type: 'set' '<' Type '>'
     | 'map' '<' KeyType ',' ValueType '>'
-    | 'array' '<' Type '>';
+    | 'array' '<' Type '>'
+    | 'deque' '<' Type '>'
+  ;
   Literal:
     'set' '<' Type '>' lbrace rbrace |
     'map' '<' KeyType ',' ValueType '>' lbrace rbrace |
-    'array' '<' Type '>' '[' ']'
+    'array' '<' Type '>' '[' ']' |
+    'deque' '<' Type '>' ']' '['
 	;
-\end{rail}\indexmain{map}\indexmain{array}\indexmain{set}%\makeatother
+\end{rail}\indexmain{map}\indexmain{array}\indexmain{set}\indexmain{deque}%\makeatother
 
-The Type used in a variable declaration may be set or map or array.
-The Literals used in variable initialization may be empty sets or maps or arrays.
-A set/map/array must be created and assigned to a variable before it can be used.
+The Type used in a variable declaration may be set or map or array or deque.
+The Literals used in variable initialization may be empty sets or maps or arrays or deques.
+A container must be created and assigned to a variable before it can be used.
 
 \begin{example}
 \begin{grgen}
@@ -45,8 +48,8 @@ The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} a
 \end{example}
 
 \begin{rail}
-  MethodName: 'add' | 'rem' | 'clear' | 'size' | 'empty';
-\end{rail}\ixkeyw{add}\ixkeyw{rem}\ixkeyw{clear}\ixkeyw{size}\ixkeyw{empty}
+  MethodName: 'add' | 'rem' | 'clear' | 'size' | 'empty' | 'peek';
+\end{rail}\ixkeyw{add}\ixkeyw{rem}\ixkeyw{clear}\ixkeyw{size}\ixkeyw{empty}\ixkeyw{peek}
 
 \noindent There are several sequence computation operations on set variables available in method call notation, these are:
 
@@ -74,14 +77,24 @@ The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} a
 \item[Array clearing:] \texttt{a.clear()} removes all values from the array \texttt{a}, succeeds always.
 \end{description}
 
+\noindent Very similar operations are available on deque variables:
+
+\begin{description}
+\item[Deque addition:] \texttt{d.add(v)} adds the value \texttt{v} to the end of deque \texttt{d}, succeeds always.
+\item[Deque addition:] \texttt{d.add(v,i)} inserts the value \texttt{v} to the deque \texttt{d} at index \texttt{i}, succeeds always.
+\item[Deque removal:] \texttt{d.rem()} removes the value at the begin of deque \texttt{d}, succeeds always.
+\item[Deque removal:] \texttt{d.rem(i)} removes the value at index \texttt{i} from the deque \texttt{d}, succeeds always.
+\item[Deque clearing:] \texttt{d.clear()} removes all values from the deque \texttt{d}, succeeds always.
+\end{description}
+
 \noindent There are further operations which are only available in the sequence expressions, too, not only in the sequence computations as the constructs before; but they can't be chained as they don't return the storage and are in that sense terminal:
 
 \begin{description}
-\item[Size assignment:] \texttt{v=w.size()} writes the number of entries in the set or map or array \texttt{w} to the variable \texttt{v},\\succeeds always.
-\item[Emptyness assignment:] \texttt{v=w.empty()} writes to the variable \texttt{v} whether the set or map or array \texttt{w} is empty, succeeds always.
-\item[Map lookup assignement:] \texttt{v=m[k]} assigns the result of the map lookup to the variable \texttt{v},\\succeeds iff \texttt{k} was contained in \texttt{m},\\ fails otherwise, not touching the variable \texttt{v}.
-\item[Array lookup assignement:] \texttt{v=a[i]} assigns the result of the array access to the variable \texttt{v},\\succeeds iff \texttt{i} is a valid index into \texttt{a},\\ fails otherwise, not touching the variable \texttt{v}.
-\item[Array indexed assignement:] \texttt{a[i]=v} assigns the variable \texttt{v} to the array \texttt{a} at the index \texttt{i}, overwriting the old value,\\succeeds iff \texttt{i} is a valid index into \texttt{a},\\ fails otherwise.
+\item[Size assignment:] \texttt{v=w.size()} writes the number of entries in the container \texttt{w} to the variable \texttt{v},\\succeeds always.
+\item[Emptyness assignment:] \texttt{v=w.empty()} writes to the variable \texttt{v} whether the container \texttt{w} is empty, succeeds always.
+\item[Peeking:] \texttt{v=w.peek(i)} writes to the variable \texttt{v} the value at the corresponding position \texttt{i} in the sequence of iteration, succeeds always. For arrays and deques that is the value at the corresponding index. A \texttt{w.peek()} on an array \texttt{w} yields the last element of the array, a \texttt{w.peek()} on a deque \texttt{w} yields the first element of the deque.
+\item[Lookup assignement:] \texttt{v=m[k]} assigns the result of the map lookup or array or deque indexed access to the variable \texttt{v}, succeeds iff \texttt{k} was contained in \texttt{m} (or was a valid index), fails otherwise, not touching the variable \texttt{v}.
+\item[Indexed assignement:] \texttt{a[i]=v} assigns the variable \texttt{v} to the array or deque or map \texttt{a} at the index \texttt{i}, overwriting the old value, succeeds iff \texttt{i} is a valid index into \texttt{a}, fails otherwise.
 \end{description}
 
 \noindent Handling of the storages is completed by the sequence expression operator \texttt{in} for membership query and the sequence loop for storage iteration.
@@ -92,8 +105,9 @@ The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} a
     ;
 \end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{RewriteFactor}\label{forstorage}
 
-The binary operator \texttt{v in w} checks for set/map/array membership; it returns true if \texttt{v} is contained in the set or the domain of the map or the array \texttt{w}, otherwise false.
-The \texttt{for} command iterates over all elements in the set or array or all key-value pairs in the map or array and executes for each element / key-value pair the nested graph rewrite sequence; it completes successfully iff all sequences were executed successfully (an empty set/map/array causes immediate successful completion); the key in the key-value pair iteration of an array is the integer typed index. (See \ref{forgraphelem} for another version of the \texttt{for} command.)
+The binary operator \texttt{v in w} checks for container membership; it returns true if \texttt{v} is contained in the set, or the domain of the map, or the array or deque \texttt{w}, otherwise false.
+It is an O(1) operation for sets and maps, and a O(n) operation for arrays or deques.
+The \texttt{for} command iterates over all elements in the set or array or deque, or all key-value pairs in the map or array or deque, and executes for each element / key-value pair the nested graph rewrite sequence; it completes successfully iff all sequences were executed successfully (an empty container causes immediate successful completion); the key in the key-value pair iteration of an array or deque is the integer typed index. (See \ref{forgraphelem} for another version of the \texttt{for} command.)
 
 \begin{example}
 The following XGRS is a typical storage usage.
@@ -107,7 +121,7 @@ The for loop could be replaced by employing the storage access in the rule const
 \end{example}
 
 \begin{warning}
-The set/map/array over which the for loop iterates must stay untouched during iteration.
+The container over which the for loop iterates must stay untouched during iteration.
 \end{warning}
 
 
@@ -158,15 +172,15 @@ test neighbourneighbour(ref neighbours:map<City, City>) : City
 \end{example}
 
 These were the storage queries available in the pattern part;
-additionally you can query the storage sets and maps and arrays in the \texttt{if} attribute evaluation clause,
-with the set/map/array expressions as given in the Types and Expressions chapter \ref{cha:typeexpr}.
+additionally you can query the storages in the \texttt{if} attribute evaluation clause,
+with the set/map/array/deque expressions as given in the Types and Expressions chapter \ref{cha:typeexpr}.
 
-Furthermore you can add and remove elements from the storages (or normal sets/maps/arrays) in the \texttt{eval} clause of the rewrite part, the following syntax diagrams give extensions to the \texttt{eval} clause:
+Furthermore you can add and remove elements from the storages (or other, non-node/edge storing container) in the \texttt{eval} clause of the rewrite part, the following syntax diagrams give extensions to the \texttt{eval} clause:
 
 \begin{rail}
   CompoundAssignment:
     (SetEntity | MapEntity) ('|' '=' | ampersand '=' | backslash '=') Expr ChangeAssignment? |
-    ArrayEntity '+' '=' Expr
+    (ArrayEntity | DequeEntity) '+' '=' Expr
   ;
   ChangeAssignment:
     ('=' '>' | '|' '>' | ampersand '>') (NodeOrEdge '.' BoolAttribute | BoolVariable | VisitedFlag)
@@ -174,22 +188,23 @@ Furthermore you can add and remove elements from the storages (or normal sets/ma
 \end{rail}\ixnterm{CompoundAssignment}
 
 \begin{rail}
-  SetMapArrayStateChange:
+  ContainerStateChange:
    	SetEntity '.' ( ( 'add' '(' Expr ')') | ( 'rem' '(' Expr ')' ) ) |
 	  MapEntity '.' ( ( 'add' '(' KeyExpr ',' ValueExpr ')' ) | ( 'rem' '(' KeyExpr ')' ) ) |
 	  ArrayEntity '.' ( ( 'add' '(' ValueExpr (','  IndexExpr)? ')' ) | ( 'rem' '(' (IndexExpr)? ')' ) ) |
-	  ArrayEntity '[' IndexExpr ']' '=' Expr
+	  DequeEntity '.' ( ( 'add' '(' ValueExpr (','  IndexExpr)? ')' ) | ( 'rem' '(' (IndexExpr)? ')' ) ) |
+	  ArrayOrDequeOrMapEntity '[' IndexExpr ']' '=' Expr
 	;
-	SetEntityOrMapEntityOrArrayEntity:
+	ContainerEntity:
 	  (NodeOrEdge '.' SetAttribute | Variable)
 	;
-\end{rail}\ixnterm{SetMapArrayStateChange}
+\end{rail}\ixnterm{ContainerStateChange}
 
-The by-ref set/map/array parameters or set/map/array attributes can be operated upon by the set/map/array state change methods,
-which allow to only partially change the set/map/array by adding or removing or overwriting elements resp. pairs of elements (in contrast to normal assignments which replace overwrite the target variable entirely);
-they are especially useful for sets/maps/arrays containing nodes or edges.
+The by-ref container parameters or container attributes can be operated upon by the container state change methods,
+which allow to only partially change the container by adding or removing or overwriting elements resp. pairs of elements (in contrast to normal assignments which replace overwrite the target variable entirely);
+they are especially useful for containers containing nodes or edges.
 
-\noindent The state change methods on sets and maps and arrays are:
+\noindent The state change methods on containers are:
 
 \begin{description}
 \item[Set addition:] \texttt{s.add(v)} adds the value \texttt{v} to the set \texttt{s}.
@@ -200,7 +215,11 @@ they are especially useful for sets/maps/arrays containing nodes or edges.
 \item[Array addition:] \texttt{a.add(v,i)} inserts the value \texttt{v} at index \texttt{i} to array \texttt{a}.
 \item[Array removal:] \texttt{a.rem()} removes the value at then end of the array \texttt{a}.
 \item[Array removal:] \texttt{a.rem(i)} removes the value at index \texttt{i} from the array \texttt{a}.
-\item[Array indexed assignment:] \texttt{a[i]=v} overwrites the old value at index \texttt{i} in array \texttt{a} with new value \texttt{v}.
+\item[Deque addition:] \texttt{d.add(v)} adds the value \texttt{v} to the end of deque \texttt{d}.
+\item[Deque addition:] \texttt{d.add(v,i)} inserts the value \texttt{v} at index \texttt{i} to deque \texttt{d}.
+\item[Deque removal:] \texttt{d.rem()} removes the value at then begin of the deque \texttt{d}.
+\item[Deque removal:] \texttt{d.rem(i)} removes the value at index \texttt{i} from the deque \texttt{d}.
+\item[Indexed assignment:] \texttt{a[i]=v} overwrites the old value at index \texttt{i} in the array or deque or map \texttt{a} with the new value \texttt{v}.
 \end{description}
 
 %currently only implemented for iterated accumulation, for sequences;   todo: extend to rules
@@ -212,8 +231,8 @@ they are especially useful for sets/maps/arrays containing nodes or edges.
 
 Compound assignments are assignments which use the first source as target, too,
 only adapting the target value instead of computing a new value and overwriting the target with it.
-For scalars this is not supported, but for set/map/array valued enitities it is offered due to performance reasons.
-The compound assignment statements are union \verb#|=#, intersection \verb#&=# and difference \verb#\=# assignment on set/map and \verb#+=# concatenation assignment on arrays; they are especially useful for sets and maps containing nodes or edges.
+For scalars this is not supported, but for container valued enitities it is offered due to performance reasons.
+The compound assignment statements are union \verb#|=#, intersection \verb#&=# and difference \verb#\=# assignment on set/map and \verb#+=# concatenation assignment on arrays and deques; they are especially useful for sets and maps containing nodes or edges.
 
 The compound assignments on sets and maps may be enhanced with a change assignment declaration.
 The change value is \texttt{true} in case the target collection changes and \texttt{false} in case the target collection is not altered.
@@ -222,7 +241,7 @@ This addition allows for efficient data flow computations not needing to check f
 
 
 \begin{example}
-The set/map/array state change methods \texttt{add} and \texttt{rem} allow to add graph elements to storages or remove graph elements from storages, i.e. sets or maps or arrays holding nodes and edges used for rewrite in the calling sequence (cf. \ref{sec:storages}).
+The container state change methods \texttt{add} and \texttt{rem} allow to add graph elements to storages or remove graph elements from storages, i.e. sets or maps or arrays or deques holding nodes and edges used for rewrite in the calling sequence (cf. \ref{sec:storages}).
 This way you can write transformations consisting of several passes with one pass operating on nodes/edges determined in a previous pass,
 without the need to mark the element in the graph by helper edges or visited flags.
 	\begin{grgen}
