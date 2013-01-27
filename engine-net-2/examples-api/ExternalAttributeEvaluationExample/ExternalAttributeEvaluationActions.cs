@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Aug 26 13:48:37 CEST 2012
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jan 27 13:45:31 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -290,8 +290,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			};
 			bool[] r_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] r_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternCondition r_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.ExternalFunctionInvocation("foo", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Constant("42"), new GRGEN_EXPR.Constant("3.141"), new GRGEN_EXPR.ConstantEnumExpression("Enu", "hurz"), new GRGEN_EXPR.Constant("\"S21-heiteitei\""), }, new String[] {null, null, null, null, }), new GRGEN_EXPR.ExternalFunctionInvocation("foo", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "i"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "d"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "enu"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "s"), }, new String[] {null, null, null, null, })),
 				new string[] { "r_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -302,7 +302,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				new GRGEN_EXPR.ExternalFunctionInvocation("bla", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.GraphEntityExpression("r_node_n"), new GRGEN_EXPR.GraphEntityExpression("r_edge_e"), }, new String[] {"GRGEN_MODEL.IN", "GRGEN_MODEL.IE", }),
 				new string[] { "r_node_n" }, new string[] { "r_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			GRGEN_LGSP.PatternCondition r_cond_3 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.ExternalFunctionInvocation("hur", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.ExternalFunctionInvocation("har", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "ow"), new GRGEN_EXPR.ExternalFunctionInvocation("har", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "op"), }, new String[] {"GRGEN_MODEL.Own", "GRGEN_MODEL.OwnPown", }), }, new String[] {"GRGEN_MODEL.Own", "GRGEN_MODEL.OwnPown", }), }, new String[] {"GRGEN_MODEL.OwnPown", }),
+				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.ExternalFunctionInvocation("hur", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.ExternalFunctionInvocation("har", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "ow"), new GRGEN_EXPR.ExternalFunctionInvocation("har", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "op"), }, new String[] {"GRGEN_MODEL.Own", "GRGEN_MODEL.OwnPown", }), }, new String[] {"GRGEN_MODEL.Own", "GRGEN_MODEL.OwnPown", }), }, new String[] {"GRGEN_MODEL.OwnPown", }), new GRGEN_EXPR.ExternalFunctionInvocation("hurdur", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "oh"), }, new String[] {"GRGEN_MODEL.OwnPownHome", })),
 				new string[] { "r_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_r = new GRGEN_LGSP.PatternGraph(
 				"r",
@@ -825,7 +825,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
                     continue;
                 }
                 // Condition 
-                if(!(GRGEN_EXPR.ExternalFunctions.hur((GRGEN_MODEL.OwnPown)GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_r_node_n).@ow, (GRGEN_MODEL.OwnPown)GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_r_node_n).@ow, (GRGEN_MODEL.OwnPown)((GRGEN_MODEL.IN)candidate_r_node_n).@op))))) {
+                if(!((GRGEN_EXPR.ExternalFunctions.hur((GRGEN_MODEL.OwnPown)GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_r_node_n).@ow, (GRGEN_MODEL.OwnPown)GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_r_node_n).@ow, (GRGEN_MODEL.OwnPown)((GRGEN_MODEL.IN)candidate_r_node_n).@op))) && GRGEN_EXPR.ExternalFunctions.hurdur((GRGEN_MODEL.OwnPownHome)((GRGEN_MODEL.IN)candidate_r_node_n).@oh)))) {
                     continue;
                 }
                 // Condition 
@@ -1050,6 +1050,6 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         
         
         public override string Name { get { return "ExternalAttributeEvaluationActions"; } }
-        public override string ModelMD5Hash { get { return "db86caa6f56562fce2e049bc688d715f"; } }
+        public override string ModelMD5Hash { get { return "e608177495bee8e61f32fa984fb2126b"; } }
     }
 }

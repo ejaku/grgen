@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun Aug 26 13:48:44 CEST 2012
+// Generated from "..\..\tests\independent\Independent.grg" on Sun Jan 27 13:45:36 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
-			// implicit initialization, map/set/array creation of Node
+			// implicit initialization, container creation of Node
 		}
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
@@ -66,7 +66,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of Node
+				// implicit initialization, container creation of Node
 			}
 			graph.AddNode(node);
 			return node;
@@ -83,7 +83,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of Node
+				// implicit initialization, container creation of Node
 			}
 			graph.AddNode(node, nodeName);
 			return node;
@@ -107,7 +107,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of Node
+			// implicit initialization, container creation of Node
 		}
 	}
 
@@ -165,7 +165,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		
 		public @intNode() : base(GRGEN_MODEL.NodeType_intNode.typeVar)
 		{
-			// implicit initialization, map/set/array creation of intNode
+			// implicit initialization, container creation of intNode
 			// explicit initializations of intNode for target intNode
 		}
 
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of intNode
+				// implicit initialization, container creation of intNode
 				node.@val = 0;
 				// explicit initializations of intNode for target intNode
 			}
@@ -216,7 +216,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of intNode
+				// implicit initialization, container creation of intNode
 				node.@val = 0;
 				// explicit initializations of intNode for target intNode
 			}
@@ -257,7 +257,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of intNode
+			// implicit initialization, container creation of intNode
 			this.@val = 0;
 			// explicit initializations of intNode for target intNode
 		}
@@ -449,7 +449,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
-			// implicit initialization, map/set/array creation of Edge
+			// implicit initialization, container creation of Edge
 		}
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
@@ -480,7 +480,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set/array creation of Edge
+				// implicit initialization, container creation of Edge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -497,7 +497,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set/array creation of Edge
+				// implicit initialization, container creation of Edge
 			}
 			graph.AddEdge(edge, edgeName);
 			return edge;
@@ -521,7 +521,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of Edge
+			// implicit initialization, container creation of Edge
 		}
 	}
 
@@ -575,7 +575,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
-			// implicit initialization, map/set/array creation of UEdge
+			// implicit initialization, container creation of UEdge
 		}
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
@@ -606,7 +606,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set/array creation of UEdge
+				// implicit initialization, container creation of UEdge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -623,7 +623,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set/array creation of UEdge
+				// implicit initialization, container creation of UEdge
 			}
 			graph.AddEdge(edge, edgeName);
 			return edge;
@@ -647,7 +647,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of UEdge
+			// implicit initialization, container creation of UEdge
 		}
 	}
 
