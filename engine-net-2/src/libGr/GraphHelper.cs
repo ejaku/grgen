@@ -15,6 +15,32 @@ namespace de.unika.ipd.grGen.libGr
     public class GraphHelper
     {
         /// <summary>
+        /// Returns the nodes in the graph of the type given, as set
+        /// </summary>
+        public static IDictionary<INode, SetValueType> Nodes(IGraph graph, NodeType nodeType)
+        {
+            Dictionary<INode, SetValueType> nodesSet = new Dictionary<INode, SetValueType>();
+            foreach(INode node in graph.GetCompatibleNodes(nodeType))
+            {
+                nodesSet[node] = null;
+            }
+            return nodesSet;
+        }
+
+        /// <summary>
+        /// Returns the edges in the graph of the type given, as set
+        /// </summary>
+        public static IDictionary<IEdge, SetValueType> Edges(IGraph graph, EdgeType edgeType)
+        {
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in graph.GetCompatibleEdges(edgeType))
+            {
+                edgesSet[edge] = null;
+            }
+            return edgesSet;
+        }
+
+        /// <summary>
         /// Returns set of nodes adjacent to the source node, under the type constraints given
         /// </summary>
         public static IDictionary<INode, SetValueType> Adjacent(INode sourceNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
@@ -40,88 +66,298 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of nodes adjacent to the source node via outgoing edges, under the type constraints given
         /// </summary>
-        public static IDictionary<INode, SetValueType> AdjacentOutgoing(INode sourceNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        public static IDictionary<INode, SetValueType> AdjacentOutgoing(INode sourceNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
         {
-            Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>();
-            foreach(IEdge edge in sourceNode.GetCompatibleOutgoing(incidentEdgeType))
+            Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>();
+            foreach(IEdge edge in sourceNode.GetCompatibleOutgoing(outgoingEdgeType))
             {
                 INode adjacentNode = edge.Target;
-                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
-                adjacentNodesSet[adjacentNode] = null;
+                targetNodesSet[adjacentNode] = null;
             }
-            return adjacentNodesSet;
+            return targetNodesSet;
         }
 
         /// <summary>
         /// Returns set of nodes adjacent to the source node via incoming edges, under the type constraints given
         /// </summary>
-        public static IDictionary<INode, SetValueType> AdjacentIncoming(INode sourceNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        public static IDictionary<INode, SetValueType> AdjacentIncoming(INode sourceNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
         {
-            Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>();
-            foreach(IEdge edge in sourceNode.GetCompatibleIncoming(incidentEdgeType))
+            Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>();
+            foreach(IEdge edge in sourceNode.GetCompatibleIncoming(incomingEdgeType))
             {
                 INode adjacentNode = edge.Source;
-                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
-                adjacentNodesSet[adjacentNode] = null;
+                sourceNodesSet[adjacentNode] = null;
             }
-            return adjacentNodesSet;
+            return sourceNodesSet;
         }
 
         /// <summary>
         /// Returns set of edges incident to the source node, under the type constraints given
         /// </summary>
-        public static IDictionary<IEdge, SetValueType> Incident(INode node, EdgeType edgeType, NodeType adjacentNodeType)
+        public static IDictionary<IEdge, SetValueType> Incident(INode sourceNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
         {
-            Dictionary<IEdge, SetValueType> incidentEdgeSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in node.GetCompatibleOutgoing(edgeType))
+            Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in sourceNode.GetCompatibleOutgoing(incidentEdgeType))
             {
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
-                incidentEdgeSet[edge] = null;
+                incidentEdgesSet[edge] = null;
             }
-            foreach(IEdge edge in node.GetCompatibleIncoming(edgeType))
+            foreach(IEdge edge in sourceNode.GetCompatibleIncoming(incidentEdgeType))
             {
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
-                incidentEdgeSet[edge] = null;
+                incidentEdgesSet[edge] = null;
             }
-            return incidentEdgeSet;
+            return incidentEdgesSet;
         }
 
         /// <summary>
         /// Returns set of edges outgoing from the source node, under the type constraints given
         /// </summary>
-        public static IDictionary<IEdge, SetValueType> Outgoing(INode node, EdgeType edgeType, NodeType targetNodeType)
+        public static IDictionary<IEdge, SetValueType> Outgoing(INode sourceNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
         {
-            Dictionary<IEdge, SetValueType> incidentEdgeSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in node.GetCompatibleOutgoing(edgeType))
+            Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in sourceNode.GetCompatibleOutgoing(outgoingEdgeType))
             {
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
-                incidentEdgeSet[edge] = null;
+                outgoingEdgesSet[edge] = null;
             }
-            return incidentEdgeSet;
+            return outgoingEdgesSet;
         }
 
         /// <summary>
         /// Returns set of edges incoming to the source node, under the type constraints given
         /// </summary>
-        public static IDictionary<IEdge, SetValueType> Incoming(INode node, EdgeType edgeType, NodeType sourceNodeType)
+        public static IDictionary<IEdge, SetValueType> Incoming(INode sourceNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
         {
-            Dictionary<IEdge, SetValueType> incidentEdgeSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in node.GetCompatibleIncoming(edgeType))
+            Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in sourceNode.GetCompatibleIncoming(incomingEdgeType))
             {
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
-                incidentEdgeSet[edge] = null;
+                incomingEdgesSet[edge] = null;
             }
-            return incidentEdgeSet;
+            return incomingEdgesSet;
+        }
+
+        /// <summary>
+        /// Returns set of nodes reachable from the source node, under the type constraints given
+        /// </summary>
+        public static IDictionary<INode, SetValueType> Reachable(INode sourceNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>();
+            Reachable(sourceNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet);
+            return adjacentNodesSet;
+        }
+
+        /// <summary>
+        /// Fills set of nodes reachable from the source node, under the type constraints given, in a depth-first walk
+        /// </summary>
+        public static void Reachable(INode sourceNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<INode, SetValueType> adjacentNodesSet)
+        {
+            foreach(IEdge edge in sourceNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(adjacentNodesSet.ContainsKey(adjacentNode))
+                    continue;
+                adjacentNodesSet[adjacentNode] = null;
+                ReachableOutgoing(adjacentNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet);
+            }
+            foreach(IEdge edge in sourceNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(adjacentNodesSet.ContainsKey(adjacentNode))
+                    continue;
+                adjacentNodesSet[adjacentNode] = null;
+                ReachableOutgoing(adjacentNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet);
+            }
+        }
+
+        /// <summary>
+        /// Returns set of nodes reachable from the source node via outgoing edges, under the type constraints given
+        /// </summary>
+        public static IDictionary<INode, SetValueType> ReachableOutgoing(INode sourceNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        {
+            Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>();
+            ReachableOutgoing(sourceNode, outgoingEdgeType, targetNodeType, targetNodesSet);
+            return targetNodesSet;
+        }
+
+        /// <summary>
+        /// Fills set of nodes reachable from the source node via outgoing edges, under the type constraints given, in a depth-first walk
+        /// </summary>
+        public static void ReachableOutgoing(INode sourceNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IDictionary<INode, SetValueType> targetNodesSet)
+        {
+            foreach(IEdge edge in sourceNode.GetCompatibleOutgoing(outgoingEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(targetNodeType))
+                    continue;
+                if(targetNodesSet.ContainsKey(adjacentNode))
+                    continue;
+                targetNodesSet[adjacentNode] = null;
+                ReachableOutgoing(adjacentNode, outgoingEdgeType, targetNodeType, targetNodesSet);
+            }
+        }
+
+        /// <summary>
+        /// Returns set of nodes reachable from the source node via incoming edges, under the type constraints given
+        /// </summary>
+        public static IDictionary<INode, SetValueType> ReachableIncoming(INode sourceNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        {
+            Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>();
+            ReachableIncoming(sourceNode, incomingEdgeType, sourceNodeType, sourceNodesSet);
+            return sourceNodesSet;
+        }
+
+        /// <summary>
+        /// Fills set of nodes reachable from the source node via incoming edges, under the type constraints given, in a depth-first walk
+        /// </summary>
+        public static void ReachableIncoming(INode sourceNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<INode, SetValueType> sourceNodesSet)
+        {
+            foreach(IEdge edge in sourceNode.GetCompatibleIncoming(incomingEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(sourceNodeType))
+                    continue;
+                if(sourceNodesSet.ContainsKey(adjacentNode))
+                    continue;
+                sourceNodesSet[adjacentNode] = null;
+                ReachableOutgoing(adjacentNode, incomingEdgeType, sourceNodeType, sourceNodesSet);
+            }
+        }
+
+        /// <summary>
+        /// Returns set of edges reachable from the source node, under the type constraints given
+        /// </summary>
+        public static IDictionary<IEdge, SetValueType> ReachableEdges(IGraph graph, INode sourceNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            int flag = graph.AllocateVisitedFlag();
+            Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
+            ReachableEdges(sourceNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, flag);
+            foreach(KeyValuePair<IEdge, SetValueType> kvp in incidentEdgesSet)
+            {
+                IEdge edge = kvp.Key;
+                graph.SetVisited(edge.Source, flag, false);
+                graph.SetVisited(edge.Target, flag, false);
+            }
+            graph.FreeVisitedFlagNonReset(flag);
+            return incidentEdgesSet;
+        }
+
+        /// <summary>
+        /// Fills set of edges reachable from the source node, under the type constraints given, in a depth-first walk
+        /// </summary>
+        public static void ReachableEdges(INode sourceNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IEdge, SetValueType> incidentEdgesSet, IGraph graph, int flag)
+        {
+            foreach(IEdge edge in sourceNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(graph.IsVisited(adjacentNode, flag))
+                    continue;
+                graph.SetVisited(adjacentNode, flag, true);
+                incidentEdgesSet[edge] = null;
+                ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, flag);
+            }
+            foreach(IEdge edge in sourceNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(graph.IsVisited(adjacentNode, flag))
+                    continue;
+                graph.SetVisited(adjacentNode, flag, true);
+                incidentEdgesSet[edge] = null;
+                ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, flag);
+            }
+        }
+
+        /// <summary>
+        /// Returns set of outgoing edges reachable from the source node, under the type constraints given
+        /// </summary>
+        public static IDictionary<IEdge, SetValueType> ReachableEdgesOutgoing(IGraph graph, INode sourceNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        {
+            int flag = graph.AllocateVisitedFlag();
+            Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            ReachableEdges(sourceNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, flag);
+            foreach(KeyValuePair<IEdge, SetValueType> kvp in outgoingEdgesSet)
+            {
+                IEdge edge = kvp.Key;
+                graph.SetVisited(edge.Source, flag, false);
+                graph.SetVisited(edge.Target, flag, false);
+            }
+            graph.FreeVisitedFlagNonReset(flag);
+            return outgoingEdgesSet;
+        }
+
+        /// <summary>
+        /// Fills set of outgoing edges reachable from the source node, under the type constraints given, in a depth-first walk
+        /// </summary>
+        public static void ReachableEdgesOutgoing(INode sourceNode, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IEdge, SetValueType> outgoingEdgesSet, IGraph graph, int flag)
+        {
+            foreach(IEdge edge in sourceNode.GetCompatibleOutgoing(outgoingEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(targetNodeType))
+                    continue;
+                if(graph.IsVisited(adjacentNode, flag))
+                    continue;
+                graph.SetVisited(adjacentNode, flag, true);
+                outgoingEdgesSet[edge] = null;
+                ReachableEdges(adjacentNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, flag);
+            }
+        }
+
+        /// <summary>
+        /// Returns set of incoming edges reachable from the source node, under the type constraints given
+        /// </summary>
+        public static IDictionary<IEdge, SetValueType> ReachableEdgesIncoming(IGraph graph, INode sourceNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        {
+            int flag = graph.AllocateVisitedFlag();
+            Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            ReachableEdges(sourceNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, flag);
+            foreach(KeyValuePair<IEdge, SetValueType> kvp in incomingEdgesSet)
+            {
+                IEdge edge = kvp.Key;
+                graph.SetVisited(edge.Source, flag, false);
+                graph.SetVisited(edge.Target, flag, false);
+            }
+            graph.FreeVisitedFlagNonReset(flag);
+            return incomingEdgesSet;
+        }
+
+        /// <summary>
+        /// Fills set of incoming edges reachable from the source node, under the type constraints given, in a depth-first walk
+        /// </summary>
+        public static void ReachableEdgesIncoming(INode sourceNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IEdge, SetValueType> incomingEdgesSet, IGraph graph, int flag)
+        {
+            foreach(IEdge edge in sourceNode.GetCompatibleIncoming(incomingEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(sourceNodeType))
+                    continue;
+                if(graph.IsVisited(adjacentNode, flag))
+                    continue;
+                graph.SetVisited(adjacentNode, flag, true);
+                incomingEdgesSet[edge] = null;
+                ReachableEdges(adjacentNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, flag);
+            }
         }
 
         /// <summary>

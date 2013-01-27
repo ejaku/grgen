@@ -1844,12 +1844,15 @@ procedureCall[ExecNode xg]
 
 functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	: { input.LT(1).getText().equals("valloc") || input.LT(1).getText().equals("add") 
-		|| input.LT(1).getText().equals("insertInduced") || input.LT(1).getText().equals("insertDefined")
+		|| input.LT(1).getText().equals("nodes") || input.LT(1).getText().equals("edges")
 		|| input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
 		|| input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing") 
+		|| input.LT(1).getText().equals("reachable") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing") 
+		|| input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableEdgesIncoming") || input.LT(1).getText().equals("reachableEdgesOutgoing") 
 		|| input.LT(1).getText().equals("inducedSubgraph") || input.LT(1).getText().equals("definedSubgraph")
+		|| input.LT(1).getText().equals("insertInduced") || input.LT(1).getText().equals("insertDefined")
 		|| input.LT(1).getText().equals("source") || input.LT(1).getText().equals("target") 
-		|| input.LT(1).getText().equals("canonize") }?
+		|| input.LT(1).getText().equals("random") || input.LT(1).getText().equals("canonize") }?
 		i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); } ( fromExpr=seqExpression[xg] (COMMA { xg.append(","); } fromExpr2=seqExpression[xg] (COMMA { xg.append(","); } fromExpr3=seqExpression[xg])? )? )? RPAREN { xg.append(")"); }
 	;
 	
@@ -3093,9 +3096,13 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: id=extFuncIdentUse params=paramExprs[inEnumInit]
 		{
-			if((id.toString().equals("min") || id.toString().equals("max") || id.toString().equals("pow")) && params.getChildren().size()==2
+			if( (id.toString().equals("min") || id.toString().equals("max") || id.toString().equals("pow")) && params.getChildren().size()==2
+				|| (id.toString().equals("nodes") || id.toString().equals("edges")) && params.getChildren().size()<=1
 				|| (id.toString().equals("incoming") || id.toString().equals("outgoing") || id.toString().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (id.toString().equals("adjacentIncoming") || id.toString().equals("adjacentOutgoing") || id.toString().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3) {
+				|| (id.toString().equals("adjacentIncoming") || id.toString().equals("adjacentOutgoing") || id.toString().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+				|| (id.toString().equals("reachableIncoming") || id.toString().equals("reachableOutgoing") || id.toString().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+				|| (id.toString().equals("reachableEdgesIncoming") || id.toString().equals("reachableEdgesOutgoing") || id.toString().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 )
+			{
 				res = new FunctionInvocationExprNode(id, params, env);
 			} else {
 				res = new ExternalFunctionInvocationExprNode(id, params);

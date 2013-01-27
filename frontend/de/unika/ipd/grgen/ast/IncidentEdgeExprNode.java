@@ -5,9 +5,6 @@
  * www.grgen.net
  */
 
-/**
- * @version $Id: NameofNode.java 19421 2008-04-28 17:07:35Z eja $
- */
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;

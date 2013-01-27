@@ -15,17 +15,17 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.AdjacentNodeExpr;
+import de.unika.ipd.grgen.ir.ReachableNodeExpr;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the adjacent nodes/adjacent nodes via incoming edges/adjacent nodes via outgoing edges of a node.
+ * A node yielding the reachable nodes/reachable nodes via incoming edges/reachable nodes via outgoing edges of a node.
  */
-public class AdjacentNodeExprNode extends ExprNode {
+public class ReachableNodeExprNode extends ExprNode {
 	static {
-		setName(AdjacentNodeExprNode.class, "adjacent node expr");
+		setName(ReachableNodeExprNode.class, "reachable node expr");
 	}
 
 	private IdentNode nodeUnresolved;
@@ -41,7 +41,7 @@ public class AdjacentNodeExprNode extends ExprNode {
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
 	
-	public AdjacentNodeExprNode(Coords coords, IdentNode node,
+	public ReachableNodeExprNode(Coords coords, IdentNode node,
 			IdentNode incidentType, int direction,
 			IdentNode adjacentType) {
 		super(coords);
@@ -99,7 +99,7 @@ public class AdjacentNodeExprNode extends ExprNode {
 	@Override
 	protected IR constructIR() {
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
-		return new AdjacentNodeExpr(nodeDecl.checkIR(Node.class), 
+		return new ReachableNodeExpr(nodeDecl.checkIR(Node.class), 
 								incidentType.checkIR(EdgeType.class), direction,
 								adjacentType.checkIR(NodeType.class),
 								getType().getType());
