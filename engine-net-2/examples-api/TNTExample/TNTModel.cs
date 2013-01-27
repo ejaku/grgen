@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Aug 26 13:49:11 CEST 2012
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Jan 27 13:45:57 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
-			// implicit initialization, map/set/array creation of Node
+			// implicit initialization, container creation of Node
 		}
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
@@ -66,7 +66,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of Node
+				// implicit initialization, container creation of Node
 			}
 			graph.AddNode(node);
 			return node;
@@ -83,7 +83,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of Node
+				// implicit initialization, container creation of Node
 			}
 			graph.AddNode(node, nodeName);
 			return node;
@@ -107,7 +107,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of Node
+			// implicit initialization, container creation of Node
 		}
 	}
 
@@ -164,7 +164,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		
 		public @C() : base(GRGEN_MODEL.NodeType_C.typeVar)
 		{
-			// implicit initialization, map/set/array creation of C
+			// implicit initialization, container creation of C
 			// explicit initializations of C for target C
 		}
 
@@ -194,7 +194,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of C
+				// implicit initialization, container creation of C
 				// explicit initializations of C for target C
 			}
 			graph.AddNode(node);
@@ -212,7 +212,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of C
+				// implicit initialization, container creation of C
 				// explicit initializations of C for target C
 			}
 			graph.AddNode(node, nodeName);
@@ -237,7 +237,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of C
+			// implicit initialization, container creation of C
 			// explicit initializations of C for target C
 		}
 	}
@@ -295,7 +295,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		
 		public @H() : base(GRGEN_MODEL.NodeType_H.typeVar)
 		{
-			// implicit initialization, map/set/array creation of H
+			// implicit initialization, container creation of H
 			// explicit initializations of H for target H
 		}
 
@@ -325,7 +325,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of H
+				// implicit initialization, container creation of H
 				// explicit initializations of H for target H
 			}
 			graph.AddNode(node);
@@ -343,7 +343,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of H
+				// implicit initialization, container creation of H
 				// explicit initializations of H for target H
 			}
 			graph.AddNode(node, nodeName);
@@ -368,7 +368,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of H
+			// implicit initialization, container creation of H
 			// explicit initializations of H for target H
 		}
 	}
@@ -426,7 +426,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		
 		public @O() : base(GRGEN_MODEL.NodeType_O.typeVar)
 		{
-			// implicit initialization, map/set/array creation of O
+			// implicit initialization, container creation of O
 			// explicit initializations of O for target O
 		}
 
@@ -456,7 +456,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of O
+				// implicit initialization, container creation of O
 				// explicit initializations of O for target O
 			}
 			graph.AddNode(node);
@@ -474,7 +474,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of O
+				// implicit initialization, container creation of O
 				// explicit initializations of O for target O
 			}
 			graph.AddNode(node, nodeName);
@@ -499,7 +499,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of O
+			// implicit initialization, container creation of O
 			// explicit initializations of O for target O
 		}
 	}
@@ -557,7 +557,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		
 		public @N() : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
-			// implicit initialization, map/set/array creation of N
+			// implicit initialization, container creation of N
 			// explicit initializations of N for target N
 		}
 
@@ -587,7 +587,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of N
+				// implicit initialization, container creation of N
 				// explicit initializations of N for target N
 			}
 			graph.AddNode(node);
@@ -605,7 +605,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of N
+				// implicit initialization, container creation of N
 				// explicit initializations of N for target N
 			}
 			graph.AddNode(node, nodeName);
@@ -630,7 +630,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of N
+			// implicit initialization, container creation of N
 			// explicit initializations of N for target N
 		}
 	}
@@ -688,7 +688,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		
 		public @P() : base(GRGEN_MODEL.NodeType_P.typeVar)
 		{
-			// implicit initialization, map/set/array creation of P
+			// implicit initialization, container creation of P
 			// explicit initializations of P for target P
 		}
 
@@ -718,7 +718,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of P
+				// implicit initialization, container creation of P
 				// explicit initializations of P for target P
 			}
 			graph.AddNode(node);
@@ -736,7 +736,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of P
+				// implicit initialization, container creation of P
 				// explicit initializations of P for target P
 			}
 			graph.AddNode(node, nodeName);
@@ -761,7 +761,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of P
+			// implicit initialization, container creation of P
 			// explicit initializations of P for target P
 		}
 	}
@@ -819,7 +819,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		
 		public @S() : base(GRGEN_MODEL.NodeType_S.typeVar)
 		{
-			// implicit initialization, map/set/array creation of S
+			// implicit initialization, container creation of S
 			// explicit initializations of S for target S
 		}
 
@@ -849,7 +849,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of S
+				// implicit initialization, container creation of S
 				// explicit initializations of S for target S
 			}
 			graph.AddNode(node);
@@ -867,7 +867,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set/array creation of S
+				// implicit initialization, container creation of S
 				// explicit initializations of S for target S
 			}
 			graph.AddNode(node, nodeName);
@@ -892,7 +892,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of S
+			// implicit initialization, container creation of S
 			// explicit initializations of S for target S
 		}
 	}
@@ -1140,7 +1140,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
-			// implicit initialization, map/set/array creation of Edge
+			// implicit initialization, container creation of Edge
 		}
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
@@ -1171,7 +1171,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set/array creation of Edge
+				// implicit initialization, container creation of Edge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1188,7 +1188,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set/array creation of Edge
+				// implicit initialization, container creation of Edge
 			}
 			graph.AddEdge(edge, edgeName);
 			return edge;
@@ -1212,7 +1212,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of Edge
+			// implicit initialization, container creation of Edge
 		}
 	}
 
@@ -1266,7 +1266,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
-			// implicit initialization, map/set/array creation of UEdge
+			// implicit initialization, container creation of UEdge
 		}
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
@@ -1297,7 +1297,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set/array creation of UEdge
+				// implicit initialization, container creation of UEdge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1314,7 +1314,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set/array creation of UEdge
+				// implicit initialization, container creation of UEdge
 			}
 			graph.AddEdge(edge, edgeName);
 			return edge;
@@ -1338,7 +1338,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set/array creation of UEdge
+			// implicit initialization, container creation of UEdge
 		}
 	}
 

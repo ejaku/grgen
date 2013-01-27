@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Aug 26 13:49:07 CEST 2012
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Jan 27 13:45:54 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -82,8 +82,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromTo_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] ChainFromTo_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromTo_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode ChainFromTo_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromTo_node_from", "from", ChainFromTo_node_from_AllowedTypes, ChainFromTo_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ChainFromTo_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromTo_node_to", "to", ChainFromTo_node_to_AllowedTypes, ChainFromTo_node_to_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromTo_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromTo_node_from", "from", ChainFromTo_node_from_AllowedTypes, ChainFromTo_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromTo_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromTo_node_to", "to", ChainFromTo_node_to_AllowedTypes, ChainFromTo_node_to_IsAllowedType, 5.5F, 1, false, null, null, null, false);
 			bool[,] ChainFromTo_alt_0_base_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -93,7 +93,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromTo_alt_0_base_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromTo_alt_0_base_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge ChainFromTo_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromTo_alt_0_base_edge__edge0", "_edge0", ChainFromTo_alt_0_base_edge__edge0_AllowedTypes, ChainFromTo_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromTo_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromTo_alt_0_base_edge__edge0", "_edge0", ChainFromTo_alt_0_base_edge__edge0_AllowedTypes, ChainFromTo_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			ChainFromTo_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFromTo_alt_0_",
@@ -133,8 +133,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromTo_alt_0_rec_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] ChainFromTo_alt_0_rec_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ChainFromTo_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromTo_alt_0_rec_node_intermediate", "intermediate", ChainFromTo_alt_0_rec_node_intermediate_AllowedTypes, ChainFromTo_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ChainFromTo_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromTo_alt_0_rec_edge__edge0", "_edge0", ChainFromTo_alt_0_rec_edge__edge0_AllowedTypes, ChainFromTo_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromTo_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromTo_alt_0_rec_node_intermediate", "intermediate", ChainFromTo_alt_0_rec_node_intermediate_AllowedTypes, ChainFromTo_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromTo_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromTo_alt_0_rec_edge__edge0", "_edge0", ChainFromTo_alt_0_rec_edge__edge0_AllowedTypes, ChainFromTo_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromTo_alt_0_rec__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ChainFromTo.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ChainFromTo_alt_0_rec_node_intermediate"),
@@ -867,7 +867,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFrom_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] ChainFrom_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] ChainFrom_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode ChainFrom_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFrom_node_from", "from", ChainFrom_node_from_AllowedTypes, ChainFrom_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFrom_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFrom_node_from", "from", ChainFrom_node_from_AllowedTypes, ChainFrom_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, false);
 			bool[,] ChainFrom_alt_0_base_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] ChainFrom_alt_0_base_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] ChainFrom_alt_0_base_isNodeTotallyHomomorphic = new bool[0] ;
@@ -903,8 +903,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFrom_alt_0_rec_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFrom_alt_0_rec_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ChainFrom_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFrom_alt_0_rec_node_to", "to", ChainFrom_alt_0_rec_node_to_AllowedTypes, ChainFrom_alt_0_rec_node_to_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ChainFrom_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFrom_alt_0_rec_edge__edge0", "_edge0", ChainFrom_alt_0_rec_edge__edge0_AllowedTypes, ChainFrom_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFrom_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFrom_alt_0_rec_node_to", "to", ChainFrom_alt_0_rec_node_to_AllowedTypes, ChainFrom_alt_0_rec_node_to_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFrom_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFrom_alt_0_rec_edge__edge0", "_edge0", ChainFrom_alt_0_rec_edge__edge0_AllowedTypes, ChainFrom_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFrom_alt_0_rec__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ChainFrom.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ChainFrom_alt_0_rec_node_to"),
@@ -1604,7 +1604,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromComplete_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] ChainFromComplete_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] ChainFromComplete_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode ChainFromComplete_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromComplete_node_from", "from", ChainFromComplete_node_from_AllowedTypes, ChainFromComplete_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromComplete_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromComplete_node_from", "from", ChainFromComplete_node_from_AllowedTypes, ChainFromComplete_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, false);
 			bool[,] ChainFromComplete_alt_0_base_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -1620,8 +1620,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromComplete_alt_0_base_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromComplete_alt_0_base_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ChainFromComplete_alt_0_base_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromComplete_alt_0_base_neg_0_node__node0", "_node0", ChainFromComplete_alt_0_base_neg_0_node__node0_AllowedTypes, ChainFromComplete_alt_0_base_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ChainFromComplete_alt_0_base_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromComplete_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromComplete_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromComplete_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromComplete_alt_0_base_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromComplete_alt_0_base_neg_0_node__node0", "_node0", ChainFromComplete_alt_0_base_neg_0_node__node0_AllowedTypes, ChainFromComplete_alt_0_base_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromComplete_alt_0_base_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromComplete_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromComplete_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromComplete_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			ChainFromComplete_alt_0_base_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ChainFromComplete_alt_0_base_",
@@ -1685,8 +1685,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromComplete_alt_0_rec_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromComplete_alt_0_rec_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ChainFromComplete_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromComplete_alt_0_rec_node_to", "to", ChainFromComplete_alt_0_rec_node_to_AllowedTypes, ChainFromComplete_alt_0_rec_node_to_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ChainFromComplete_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromComplete_alt_0_rec_edge__edge0", "_edge0", ChainFromComplete_alt_0_rec_edge__edge0_AllowedTypes, ChainFromComplete_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromComplete_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromComplete_alt_0_rec_node_to", "to", ChainFromComplete_alt_0_rec_node_to_AllowedTypes, ChainFromComplete_alt_0_rec_node_to_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromComplete_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromComplete_alt_0_rec_edge__edge0", "_edge0", ChainFromComplete_alt_0_rec_edge__edge0_AllowedTypes, ChainFromComplete_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromComplete_alt_0_rec__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ChainFromComplete.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ChainFromComplete_alt_0_rec_node_to"),
@@ -2567,7 +2567,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromCompleteArbitraryPatternpathLocked_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] ChainFromCompleteArbitraryPatternpathLocked_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] ChainFromCompleteArbitraryPatternpathLocked_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryPatternpathLocked_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryPatternpathLocked_node_from", "from", ChainFromCompleteArbitraryPatternpathLocked_node_from_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryPatternpathLocked_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryPatternpathLocked_node_from", "from", ChainFromCompleteArbitraryPatternpathLocked_node_from_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, false);
 			bool[,] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -2583,8 +2583,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0", "_node0", ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@AEdge, GRGEN_MODEL.EdgeType_AEdge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0", "_node0", ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@AEdge, GRGEN_MODEL.EdgeType_AEdge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_",
@@ -2648,8 +2648,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to", "to", ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0", "_edge0", ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to", "to", ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0", "_edge0", ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ChainFromCompleteArbitraryPatternpathLocked.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to"),
@@ -3530,7 +3530,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from", "from", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from", "from", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, false);
 			bool[,] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -3546,8 +3546,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0", "_node0", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@AEdge, GRGEN_MODEL.EdgeType_AEdge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0", "_node0", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@AEdge, GRGEN_MODEL.EdgeType_AEdge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_",
@@ -3611,8 +3611,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to", "to", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0", "_edge0", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to", "to", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0", "_edge0", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to"),
@@ -4493,7 +4493,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] Blowball_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] Blowball_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] Blowball_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode Blowball_node_head = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "Blowball_node_head", "head", Blowball_node_head_AllowedTypes, Blowball_node_head_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Blowball_node_head = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "Blowball_node_head", "head", Blowball_node_head_AllowedTypes, Blowball_node_head_IsAllowedType, 5.5F, 0, false, null, null, null, false);
 			bool[,] Blowball_alt_0_end_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -4509,8 +4509,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] Blowball_alt_0_end_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] Blowball_alt_0_end_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode Blowball_alt_0_end_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "Blowball_alt_0_end_neg_0_node__node0", "_node0", Blowball_alt_0_end_neg_0_node__node0_AllowedTypes, Blowball_alt_0_end_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Blowball_alt_0_end_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "Blowball_alt_0_end_neg_0_edge__edge0", "_edge0", Blowball_alt_0_end_neg_0_edge__edge0_AllowedTypes, Blowball_alt_0_end_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Blowball_alt_0_end_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "Blowball_alt_0_end_neg_0_node__node0", "_node0", Blowball_alt_0_end_neg_0_node__node0_AllowedTypes, Blowball_alt_0_end_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Blowball_alt_0_end_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "Blowball_alt_0_end_neg_0_edge__edge0", "_edge0", Blowball_alt_0_end_neg_0_edge__edge0_AllowedTypes, Blowball_alt_0_end_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			Blowball_alt_0_end_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"Blowball_alt_0_end_",
@@ -4574,8 +4574,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] Blowball_alt_0_further_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] Blowball_alt_0_further_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode Blowball_alt_0_further_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "Blowball_alt_0_further_node__node0", "_node0", Blowball_alt_0_further_node__node0_AllowedTypes, Blowball_alt_0_further_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Blowball_alt_0_further_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "Blowball_alt_0_further_edge__edge0", "_edge0", Blowball_alt_0_further_edge__edge0_AllowedTypes, Blowball_alt_0_further_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Blowball_alt_0_further_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "Blowball_alt_0_further_node__node0", "_node0", Blowball_alt_0_further_node__node0_AllowedTypes, Blowball_alt_0_further_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Blowball_alt_0_further_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "Blowball_alt_0_further_edge__edge0", "_edge0", Blowball_alt_0_further_edge__edge0_AllowedTypes, Blowball_alt_0_further_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding Blowball_alt_0_further__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Blowball.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Blowball_node_head"),
@@ -5448,8 +5448,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ReverseChainFromTo_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] ReverseChainFromTo_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ReverseChainFromTo_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode ReverseChainFromTo_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromTo_node_from", "from", ReverseChainFromTo_node_from_AllowedTypes, ReverseChainFromTo_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ReverseChainFromTo_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromTo_node_to", "to", ReverseChainFromTo_node_to_AllowedTypes, ReverseChainFromTo_node_to_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ReverseChainFromTo_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromTo_node_from", "from", ReverseChainFromTo_node_from_AllowedTypes, ReverseChainFromTo_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ReverseChainFromTo_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromTo_node_to", "to", ReverseChainFromTo_node_to_AllowedTypes, ReverseChainFromTo_node_to_IsAllowedType, 5.5F, 1, false, null, null, null, false);
 			bool[,] ReverseChainFromTo_alt_0_base_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -5459,7 +5459,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ReverseChainFromTo_alt_0_base_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ReverseChainFromTo_alt_0_base_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge ReverseChainFromTo_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromTo_alt_0_base_edge__edge0", "_edge0", ReverseChainFromTo_alt_0_base_edge__edge0_AllowedTypes, ReverseChainFromTo_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ReverseChainFromTo_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromTo_alt_0_base_edge__edge0", "_edge0", ReverseChainFromTo_alt_0_base_edge__edge0_AllowedTypes, ReverseChainFromTo_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			ReverseChainFromTo_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ReverseChainFromTo_alt_0_",
@@ -5499,8 +5499,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ReverseChainFromTo_alt_0_rec_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] ReverseChainFromTo_alt_0_rec_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ReverseChainFromTo_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromTo_alt_0_rec_node_intermediate", "intermediate", ReverseChainFromTo_alt_0_rec_node_intermediate_AllowedTypes, ReverseChainFromTo_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ReverseChainFromTo_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromTo_alt_0_rec_edge__edge0", "_edge0", ReverseChainFromTo_alt_0_rec_edge__edge0_AllowedTypes, ReverseChainFromTo_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ReverseChainFromTo_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromTo_alt_0_rec_node_intermediate", "intermediate", ReverseChainFromTo_alt_0_rec_node_intermediate_AllowedTypes, ReverseChainFromTo_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ReverseChainFromTo_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromTo_alt_0_rec_edge__edge0", "_edge0", ReverseChainFromTo_alt_0_rec_edge__edge0_AllowedTypes, ReverseChainFromTo_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ReverseChainFromTo_alt_0_rec__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ReverseChainFromTo.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ReverseChainFromTo_alt_0_rec_node_intermediate"),
@@ -6241,8 +6241,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromToReverse_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] ChainFromToReverse_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromToReverse_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode ChainFromToReverse_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverse_node_from", "from", ChainFromToReverse_node_from_AllowedTypes, ChainFromToReverse_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ChainFromToReverse_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverse_node_to", "to", ChainFromToReverse_node_to_AllowedTypes, ChainFromToReverse_node_to_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromToReverse_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverse_node_from", "from", ChainFromToReverse_node_from_AllowedTypes, ChainFromToReverse_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromToReverse_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverse_node_to", "to", ChainFromToReverse_node_to_AllowedTypes, ChainFromToReverse_node_to_IsAllowedType, 5.5F, 1, false, null, null, null, false);
 			bool[,] ChainFromToReverse_alt_0_base_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -6252,7 +6252,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromToReverse_alt_0_base_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromToReverse_alt_0_base_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge ChainFromToReverse_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromToReverse_alt_0_base_edge__edge0", "_edge0", ChainFromToReverse_alt_0_base_edge__edge0_AllowedTypes, ChainFromToReverse_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromToReverse_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromToReverse_alt_0_base_edge__edge0", "_edge0", ChainFromToReverse_alt_0_base_edge__edge0_AllowedTypes, ChainFromToReverse_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			ChainFromToReverse_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFromToReverse_alt_0_",
@@ -6292,8 +6292,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromToReverse_alt_0_rec_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] ChainFromToReverse_alt_0_rec_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ChainFromToReverse_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverse_alt_0_rec_node_intermediate", "intermediate", ChainFromToReverse_alt_0_rec_node_intermediate_AllowedTypes, ChainFromToReverse_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ChainFromToReverse_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromToReverse_alt_0_rec_edge__edge0", "_edge0", ChainFromToReverse_alt_0_rec_edge__edge0_AllowedTypes, ChainFromToReverse_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromToReverse_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverse_alt_0_rec_node_intermediate", "intermediate", ChainFromToReverse_alt_0_rec_node_intermediate_AllowedTypes, ChainFromToReverse_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromToReverse_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromToReverse_alt_0_rec_edge__edge0", "_edge0", ChainFromToReverse_alt_0_rec_edge__edge0_AllowedTypes, ChainFromToReverse_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromToReverse_alt_0_rec_cftr = new GRGEN_LGSP.PatternGraphEmbedding("cftr", Pattern_ChainFromToReverse.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ChainFromToReverse_alt_0_rec_node_intermediate"),
@@ -7091,8 +7091,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromToReverseToCommon_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] ChainFromToReverseToCommon_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromToReverseToCommon_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode ChainFromToReverseToCommon_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverseToCommon_node_from", "from", ChainFromToReverseToCommon_node_from_AllowedTypes, ChainFromToReverseToCommon_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ChainFromToReverseToCommon_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverseToCommon_node_to", "to", ChainFromToReverseToCommon_node_to_AllowedTypes, ChainFromToReverseToCommon_node_to_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromToReverseToCommon_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverseToCommon_node_from", "from", ChainFromToReverseToCommon_node_from_AllowedTypes, ChainFromToReverseToCommon_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromToReverseToCommon_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverseToCommon_node_to", "to", ChainFromToReverseToCommon_node_to_AllowedTypes, ChainFromToReverseToCommon_node_to_IsAllowedType, 5.5F, 1, false, null, null, null, false);
 			bool[,] ChainFromToReverseToCommon_alt_0_base_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -7102,7 +7102,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromToReverseToCommon_alt_0_base_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ChainFromToReverseToCommon_alt_0_base_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge ChainFromToReverseToCommon_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromToReverseToCommon_alt_0_base_edge__edge0", "_edge0", ChainFromToReverseToCommon_alt_0_base_edge__edge0_AllowedTypes, ChainFromToReverseToCommon_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromToReverseToCommon_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromToReverseToCommon_alt_0_base_edge__edge0", "_edge0", ChainFromToReverseToCommon_alt_0_base_edge__edge0_AllowedTypes, ChainFromToReverseToCommon_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			ChainFromToReverseToCommon_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFromToReverseToCommon_alt_0_",
@@ -7142,8 +7142,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ChainFromToReverseToCommon_alt_0_rec_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] ChainFromToReverseToCommon_alt_0_rec_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ChainFromToReverseToCommon_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverseToCommon_alt_0_rec_node_intermediate", "intermediate", ChainFromToReverseToCommon_alt_0_rec_node_intermediate_AllowedTypes, ChainFromToReverseToCommon_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ChainFromToReverseToCommon_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromToReverseToCommon_alt_0_rec_edge__edge0", "_edge0", ChainFromToReverseToCommon_alt_0_rec_edge__edge0_AllowedTypes, ChainFromToReverseToCommon_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ChainFromToReverseToCommon_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ChainFromToReverseToCommon_alt_0_rec_node_intermediate", "intermediate", ChainFromToReverseToCommon_alt_0_rec_node_intermediate_AllowedTypes, ChainFromToReverseToCommon_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ChainFromToReverseToCommon_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ChainFromToReverseToCommon_alt_0_rec_edge__edge0", "_edge0", ChainFromToReverseToCommon_alt_0_rec_edge__edge0_AllowedTypes, ChainFromToReverseToCommon_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromToReverseToCommon_alt_0_rec_cftrtc = new GRGEN_LGSP.PatternGraphEmbedding("cftrtc", Pattern_ChainFromToReverseToCommon.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ChainFromToReverseToCommon_alt_0_rec_node_intermediate"),
@@ -7948,9 +7948,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ReverseChainFromToToCommon_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] ReverseChainFromToToCommon_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] ReverseChainFromToToCommon_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_node_from", "from", ReverseChainFromToToCommon_node_from_AllowedTypes, ReverseChainFromToToCommon_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_node_to", "to", ReverseChainFromToToCommon_node_to_AllowedTypes, ReverseChainFromToToCommon_node_to_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_node_common = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_node_common", "common", ReverseChainFromToToCommon_node_common_AllowedTypes, ReverseChainFromToToCommon_node_common_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_node_from", "from", ReverseChainFromToToCommon_node_from_AllowedTypes, ReverseChainFromToToCommon_node_from_IsAllowedType, 5.5F, 0, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_node_to", "to", ReverseChainFromToToCommon_node_to_AllowedTypes, ReverseChainFromToToCommon_node_to_IsAllowedType, 5.5F, 1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_node_common = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_node_common", "common", ReverseChainFromToToCommon_node_common_AllowedTypes, ReverseChainFromToToCommon_node_common_IsAllowedType, 5.5F, 2, false, null, null, null, false);
 			bool[,] ReverseChainFromToToCommon_alt_0_base_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -7962,8 +7962,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ReverseChainFromToToCommon_alt_0_base_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] ReverseChainFromToToCommon_alt_0_base_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_base_edge__edge0", "_edge0", ReverseChainFromToToCommon_alt_0_base_edge__edge0_AllowedTypes, ReverseChainFromToToCommon_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_base_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_base_edge__edge1", "_edge1", ReverseChainFromToToCommon_alt_0_base_edge__edge1_AllowedTypes, ReverseChainFromToToCommon_alt_0_base_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_base_edge__edge0", "_edge0", ReverseChainFromToToCommon_alt_0_base_edge__edge0_AllowedTypes, ReverseChainFromToToCommon_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_base_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_base_edge__edge1", "_edge1", ReverseChainFromToToCommon_alt_0_base_edge__edge1_AllowedTypes, ReverseChainFromToToCommon_alt_0_base_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			ReverseChainFromToToCommon_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ReverseChainFromToToCommon_alt_0_",
@@ -8009,9 +8009,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			};
 			bool[] ReverseChainFromToToCommon_alt_0_rec_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
 			bool[] ReverseChainFromToToCommon_alt_0_rec_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_alt_0_rec_node_intermediate", "intermediate", ReverseChainFromToToCommon_alt_0_rec_node_intermediate_AllowedTypes, ReverseChainFromToToCommon_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_rec_edge__edge0", "_edge0", ReverseChainFromToToCommon_alt_0_rec_edge__edge0_AllowedTypes, ReverseChainFromToToCommon_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_rec_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_rec_edge__edge1", "_edge1", ReverseChainFromToToCommon_alt_0_rec_edge__edge1_AllowedTypes, ReverseChainFromToToCommon_alt_0_rec_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_alt_0_rec_node_intermediate", "intermediate", ReverseChainFromToToCommon_alt_0_rec_node_intermediate_AllowedTypes, ReverseChainFromToToCommon_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_rec_edge__edge0", "_edge0", ReverseChainFromToToCommon_alt_0_rec_edge__edge0_AllowedTypes, ReverseChainFromToToCommon_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_rec_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_rec_edge__edge1", "_edge1", ReverseChainFromToToCommon_alt_0_rec_edge__edge1_AllowedTypes, ReverseChainFromToToCommon_alt_0_rec_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ReverseChainFromToToCommon_alt_0_rec__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ReverseChainFromToToCommon.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ReverseChainFromToToCommon_alt_0_rec_node_intermediate"),
@@ -9011,8 +9011,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] chainFromTo_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] chainFromTo_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] chainFromTo_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode chainFromTo_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromTo_node_beg", "beg", chainFromTo_node_beg_AllowedTypes, chainFromTo_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode chainFromTo_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromTo_node_end", "end", chainFromTo_node_end_AllowedTypes, chainFromTo_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode chainFromTo_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromTo_node_beg", "beg", chainFromTo_node_beg_AllowedTypes, chainFromTo_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode chainFromTo_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromTo_node_end", "end", chainFromTo_node_end_AllowedTypes, chainFromTo_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromTo__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ChainFromTo.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("chainFromTo_node_beg"),
@@ -9276,7 +9276,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] chainFrom_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] chainFrom_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] chainFrom_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode chainFrom_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFrom_node_beg", "beg", chainFrom_node_beg_AllowedTypes, chainFrom_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode chainFrom_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFrom_node_beg", "beg", chainFrom_node_beg_AllowedTypes, chainFrom_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding chainFrom__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ChainFrom.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("chainFrom_node_beg"),
@@ -9530,7 +9530,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] chainFromComplete_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] chainFromComplete_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] chainFromComplete_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode chainFromComplete_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromComplete_node_beg", "beg", chainFromComplete_node_beg_AllowedTypes, chainFromComplete_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode chainFromComplete_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromComplete_node_beg", "beg", chainFromComplete_node_beg_AllowedTypes, chainFromComplete_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromComplete__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ChainFromComplete.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("chainFromComplete_node_beg"),
@@ -9784,7 +9784,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] chainFromCompleteArbitraryPatternpathLocked_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] chainFromCompleteArbitraryPatternpathLocked_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] chainFromCompleteArbitraryPatternpathLocked_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode chainFromCompleteArbitraryPatternpathLocked_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromCompleteArbitraryPatternpathLocked_node_beg", "beg", chainFromCompleteArbitraryPatternpathLocked_node_beg_AllowedTypes, chainFromCompleteArbitraryPatternpathLocked_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode chainFromCompleteArbitraryPatternpathLocked_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromCompleteArbitraryPatternpathLocked_node_beg", "beg", chainFromCompleteArbitraryPatternpathLocked_node_beg_AllowedTypes, chainFromCompleteArbitraryPatternpathLocked_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromCompleteArbitraryPatternpathLocked__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ChainFromCompleteArbitraryPatternpathLocked.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("chainFromCompleteArbitraryPatternpathLocked_node_beg"),
@@ -10038,7 +10038,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg", "beg", chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg_AllowedTypes, chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg", "beg", chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg_AllowedTypes, chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg"),
@@ -10533,7 +10533,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] blowball_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] blowball_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] blowball_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode blowball_node_head = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "blowball_node_head", "head", blowball_node_head_AllowedTypes, blowball_node_head_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode blowball_node_head = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "blowball_node_head", "head", blowball_node_head_AllowedTypes, blowball_node_head_IsAllowedType, 5.5F, 0, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding blowball__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Blowball.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("blowball_node_head"),
@@ -10790,8 +10790,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] reverseChainFromTo_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] reverseChainFromTo_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] reverseChainFromTo_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode reverseChainFromTo_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "reverseChainFromTo_node_beg", "beg", reverseChainFromTo_node_beg_AllowedTypes, reverseChainFromTo_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode reverseChainFromTo_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "reverseChainFromTo_node_end", "end", reverseChainFromTo_node_end_AllowedTypes, reverseChainFromTo_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode reverseChainFromTo_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "reverseChainFromTo_node_beg", "beg", reverseChainFromTo_node_beg_AllowedTypes, reverseChainFromTo_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode reverseChainFromTo_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "reverseChainFromTo_node_end", "end", reverseChainFromTo_node_end_AllowedTypes, reverseChainFromTo_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding reverseChainFromTo__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ReverseChainFromTo.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("reverseChainFromTo_node_beg"),
@@ -11299,8 +11299,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] chainFromToReverse_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] chainFromToReverse_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] chainFromToReverse_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode chainFromToReverse_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromToReverse_node_beg", "beg", chainFromToReverse_node_beg_AllowedTypes, chainFromToReverse_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode chainFromToReverse_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromToReverse_node_end", "end", chainFromToReverse_node_end_AllowedTypes, chainFromToReverse_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode chainFromToReverse_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromToReverse_node_beg", "beg", chainFromToReverse_node_beg_AllowedTypes, chainFromToReverse_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode chainFromToReverse_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromToReverse_node_end", "end", chainFromToReverse_node_end_AllowedTypes, chainFromToReverse_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromToReverse_cftr = new GRGEN_LGSP.PatternGraphEmbedding("cftr", Pattern_ChainFromToReverse.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("chainFromToReverse_node_beg"),
@@ -11571,8 +11571,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] chainFromToReverseToCommon_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] chainFromToReverseToCommon_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] chainFromToReverseToCommon_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode chainFromToReverseToCommon_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromToReverseToCommon_node_beg", "beg", chainFromToReverseToCommon_node_beg_AllowedTypes, chainFromToReverseToCommon_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode chainFromToReverseToCommon_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromToReverseToCommon_node_end", "end", chainFromToReverseToCommon_node_end_AllowedTypes, chainFromToReverseToCommon_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode chainFromToReverseToCommon_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromToReverseToCommon_node_beg", "beg", chainFromToReverseToCommon_node_beg_AllowedTypes, chainFromToReverseToCommon_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode chainFromToReverseToCommon_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "chainFromToReverseToCommon_node_end", "end", chainFromToReverseToCommon_node_end_AllowedTypes, chainFromToReverseToCommon_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromToReverseToCommon_cftrtc = new GRGEN_LGSP.PatternGraphEmbedding("cftrtc", Pattern_ChainFromToReverseToCommon.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("chainFromToReverseToCommon_node_beg"),
@@ -11847,9 +11847,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] reverseChainFromToToCommon_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] reverseChainFromToToCommon_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] reverseChainFromToToCommon_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode reverseChainFromToToCommon_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "reverseChainFromToToCommon_node_beg", "beg", reverseChainFromToToCommon_node_beg_AllowedTypes, reverseChainFromToToCommon_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode reverseChainFromToToCommon_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "reverseChainFromToToCommon_node_end", "end", reverseChainFromToToCommon_node_end_AllowedTypes, reverseChainFromToToCommon_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode reverseChainFromToToCommon_node_common = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "reverseChainFromToToCommon_node_common", "common", reverseChainFromToToCommon_node_common_AllowedTypes, reverseChainFromToToCommon_node_common_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode reverseChainFromToToCommon_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "reverseChainFromToToCommon_node_beg", "beg", reverseChainFromToToCommon_node_beg_AllowedTypes, reverseChainFromToToCommon_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode reverseChainFromToToCommon_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "reverseChainFromToToCommon_node_end", "end", reverseChainFromToToCommon_node_end_AllowedTypes, reverseChainFromToToCommon_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode reverseChainFromToToCommon_node_common = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "reverseChainFromToToCommon_node_common", "common", reverseChainFromToToCommon_node_common_AllowedTypes, reverseChainFromToToCommon_node_common_IsAllowedType, 5.5F, 2, false, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding reverseChainFromToToCommon__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ReverseChainFromToToCommon.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("reverseChainFromToToCommon_node_beg"),
@@ -12390,8 +12390,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
                 GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from = ChainFromTo_node_from;
                 // SubPreset ChainFromTo_node_to 
                 GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to = ChainFromTo_node_to;
-                // Element ChainFromTo_node_to_inlined__sub0 assigned from other element ChainFromTo_node_to 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0 = candidate_ChainFromTo_node_to;
+                // Element ChainFromTo_node_to_inlined__sub0_0 assigned from other element ChainFromTo_node_to 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0_0 = candidate_ChainFromTo_node_to;
                 // Extend Outgoing ChainFromTo_alt_0_rec_edge__edge0 from ChainFromTo_node_from 
                 GRGEN_LGSP.LGSPEdge head_candidate_ChainFromTo_alt_0_rec_edge__edge0 = candidate_ChainFromTo_node_from.lgspOuthead;
                 if(head_candidate_ChainFromTo_alt_0_rec_edge__edge0 != null)
@@ -12418,16 +12418,16 @@ namespace de.unika.ipd.grGen.Action_Recursive
                         {
                             continue;
                         }
-                        // Element ChainFromTo_node_from_inlined__sub0 assigned from other element ChainFromTo_alt_0_rec_node_intermediate 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0 = candidate_ChainFromTo_alt_0_rec_node_intermediate;
-                        // Push alternative matching task for ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec
-                        AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec taskFor_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec = AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFromTo.Instance.patternGraph.alternatives[(int)Pattern_ChainFromTo.ChainFromTo_AltNums.@alt_0].alternativeCases);
-                        taskFor_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec.ChainFromTo_node_from_inlined__sub0 = candidate_ChainFromTo_node_from_inlined__sub0;
-                        taskFor_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec.ChainFromTo_node_to_inlined__sub0 = candidate_ChainFromTo_node_to_inlined__sub0;
-                        taskFor_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec.searchPatternpath = false;
-                        taskFor_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec.matchOfNestingPattern = null;
-                        taskFor_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec);
+                        // Element ChainFromTo_node_from_inlined__sub0_0 assigned from other element ChainFromTo_alt_0_rec_node_intermediate 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0_0 = candidate_ChainFromTo_alt_0_rec_node_intermediate;
+                        // Push alternative matching task for ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec
+                        AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec taskFor_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec = AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFromTo.Instance.patternGraph.alternatives[(int)Pattern_ChainFromTo.ChainFromTo_AltNums.@alt_0].alternativeCases);
+                        taskFor_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec.ChainFromTo_node_from_inlined__sub0_0 = candidate_ChainFromTo_node_from_inlined__sub0_0;
+                        taskFor_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec.ChainFromTo_node_to_inlined__sub0_0 = candidate_ChainFromTo_node_to_inlined__sub0_0;
+                        taskFor_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec.searchPatternpath = false;
+                        taskFor_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec.matchOfNestingPattern = null;
+                        taskFor_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec);
                         uint prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate;
                         prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate = candidate_ChainFromTo_alt_0_rec_node_intermediate.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_ChainFromTo_alt_0_rec_node_intermediate.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -12436,9 +12436,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
                         candidate_ChainFromTo_alt_0_rec_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop alternative matching task for ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec
+                        // Pop alternative matching task for ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec
                         openTasks.Pop();
-                        AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec);
+                        AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -12450,8 +12450,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
                                 match._node_from = candidate_ChainFromTo_node_from;
                                 match._node_intermediate = candidate_ChainFromTo_alt_0_rec_node_intermediate;
                                 match._node_to = candidate_ChainFromTo_node_to;
-                                match__sub0._node_from = candidate_ChainFromTo_node_from_inlined__sub0;
-                                match__sub0._node_to = candidate_ChainFromTo_node_to_inlined__sub0;
+                                match__sub0._node_from = candidate_ChainFromTo_node_from_inlined__sub0_0;
+                                match__sub0._node_to = candidate_ChainFromTo_node_to_inlined__sub0_0;
                                 match._edge__edge0 = candidate_ChainFromTo_alt_0_rec_edge__edge0;
                                 match.__sub0 = match__sub0;
                                 match__sub0._alt_0 = (Pattern_ChainFromTo.IMatch_ChainFromTo_alt_0)currentFoundPartialMatch.Pop();
@@ -12489,15 +12489,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
         }
     }
 
-    public class AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec newTask;
+        public static AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -12506,12 +12506,12 @@ namespace de.unika.ipd.grGen.Action_Recursive
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec oldTask) {
+        public static void releaseTask(AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -12520,14 +12520,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
             }
         }
 
-        private static AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec freeListHead = null;
+        private static AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ChainFromTo_alt_0_rec next = null;
+        private AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFromTo_node_from_inlined__sub0;
-        public GRGEN_LGSP.LGSPNode ChainFromTo_node_to_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ChainFromTo_node_from_inlined__sub0_0;
+        public GRGEN_LGSP.LGSPNode ChainFromTo_node_to_inlined__sub0_0;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -12538,24 +12538,24 @@ namespace de.unika.ipd.grGen.Action_Recursive
             // Alternative case ChainFromTo_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_CaseNums.@base];
-                // SubPreset ChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0 = ChainFromTo_node_from_inlined__sub0;
-                // SubPreset ChainFromTo_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0 = ChainFromTo_node_to_inlined__sub0;
-                // Extend Outgoing ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 from ChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ChainFromTo_node_from_inlined__sub0.lgspOuthead;
-                if(head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 != null)
+                // SubPreset ChainFromTo_node_from_inlined__sub0_0 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0_0 = ChainFromTo_node_from_inlined__sub0_0;
+                // SubPreset ChainFromTo_node_to_inlined__sub0_0 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0_0 = ChainFromTo_node_to_inlined__sub0_0;
+                // Extend Outgoing ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0 from ChainFromTo_node_from_inlined__sub0_0 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0 = candidate_ChainFromTo_node_from_inlined__sub0_0.lgspOuthead;
+                if(head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0 = head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0;
                     do
                     {
-                        if(candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if(candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspTarget != candidate_ChainFromTo_node_to_inlined__sub0) {
+                        if(candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspTarget != candidate_ChainFromTo_node_to_inlined__sub0_0) {
                             continue;
                         }
-                        if((candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
@@ -12565,9 +12565,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
                             Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
                             Pattern_ChainFromTo.Match_ChainFromTo_alt_0_base match = new Pattern_ChainFromTo.Match_ChainFromTo_alt_0_base();
-                            match._node_from = candidate_ChainFromTo_node_from_inlined__sub0;
-                            match._node_to = candidate_ChainFromTo_node_to_inlined__sub0;
-                            match._edge__edge0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                            match._node_from = candidate_ChainFromTo_node_from_inlined__sub0_0;
+                            match._node_to = candidate_ChainFromTo_node_to_inlined__sub0_0;
+                            match._edge__edge0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0;
                             currentFoundPartialMatch.Push(match);
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -12577,9 +12577,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
                             }
                             continue;
                         }
-                        uint prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0;
+                        prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Check whether subpatterns were found 
@@ -12588,9 +12588,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromTo.Match_ChainFromTo_alt_0_base match = new Pattern_ChainFromTo.Match_ChainFromTo_alt_0_base();
-                                match._node_from = candidate_ChainFromTo_node_from_inlined__sub0;
-                                match._node_to = candidate_ChainFromTo_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                                match._node_from = candidate_ChainFromTo_node_from_inlined__sub0_0;
+                                match._node_to = candidate_ChainFromTo_node_to_inlined__sub0_0;
+                                match._edge__edge0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0;
                                 currentFoundPartialMatch.Push(match);
                             }
                             if(matchesList==foundPartialMatches) {
@@ -12604,16 +12604,16 @@ namespace de.unika.ipd.grGen.Action_Recursive
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                                candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                            candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0;
                             continue;
                         }
-                        candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                        candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0;
                     }
-                    while( (candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 );
+                    while( (candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0.lgspOutNext) != head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_0 );
                 }
             } while(false);
             if(matchesList.Count>0) {
@@ -12629,65 +12629,65 @@ namespace de.unika.ipd.grGen.Action_Recursive
             // Alternative case ChainFromTo_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_CaseNums.@rec];
-                // SubPreset ChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0 = ChainFromTo_node_from_inlined__sub0;
-                // SubPreset ChainFromTo_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0 = ChainFromTo_node_to_inlined__sub0;
-                // Extend Outgoing ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 from ChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromTo_node_from_inlined__sub0.lgspOuthead;
-                if(head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ChainFromTo_node_from_inlined__sub0_0 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0_0 = ChainFromTo_node_from_inlined__sub0_0;
+                // SubPreset ChainFromTo_node_to_inlined__sub0_0 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0_0 = ChainFromTo_node_to_inlined__sub0_0;
+                // Extend Outgoing ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0 from ChainFromTo_node_from_inlined__sub0_0 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0 = candidate_ChainFromTo_node_from_inlined__sub0_0.lgspOuthead;
+                if(head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0 = head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0;
                     do
                     {
-                        if(candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 from ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspTarget;
-                        if((candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
-                            && candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0==candidate_ChainFromTo_node_from_inlined__sub0
+                        // Implicit Target ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0 from ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspTarget;
+                        if((candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
+                            && candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0==candidate_ChainFromTo_node_from_inlined__sub0_0
                             )
                         {
                             continue;
                         }
-                        if((candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for _sub0_inlined__sub0
-                        PatternAction_ChainFromTo taskFor__sub0_inlined__sub0 = PatternAction_ChainFromTo.getNewTask(actionEnv, openTasks);
-                        taskFor__sub0_inlined__sub0.ChainFromTo_node_from = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.ChainFromTo_node_to = candidate_ChainFromTo_node_to_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                        taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                        taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__sub0_inlined__sub0);
-                        uint prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for _sub0_inlined__sub0_0
+                        PatternAction_ChainFromTo taskFor__sub0_inlined__sub0_0 = PatternAction_ChainFromTo.getNewTask(actionEnv, openTasks);
+                        taskFor__sub0_inlined__sub0_0.ChainFromTo_node_from = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0;
+                        taskFor__sub0_inlined__sub0_0.ChainFromTo_node_to = candidate_ChainFromTo_node_to_inlined__sub0_0;
+                        taskFor__sub0_inlined__sub0_0.searchPatternpath = false;
+                        taskFor__sub0_inlined__sub0_0.matchOfNestingPattern = null;
+                        taskFor__sub0_inlined__sub0_0.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0_inlined__sub0_0);
+                        uint prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0;
+                        prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0 = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0;
+                        prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _sub0_inlined__sub0
+                        // Pop subpattern matching task for _sub0_inlined__sub0_0
                         openTasks.Pop();
-                        PatternAction_ChainFromTo.releaseTask(taskFor__sub0_inlined__sub0);
+                        PatternAction_ChainFromTo.releaseTask(taskFor__sub0_inlined__sub0_0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromTo.Match_ChainFromTo_alt_0_rec match = new Pattern_ChainFromTo.Match_ChainFromTo_alt_0_rec();
-                                match._node_from = candidate_ChainFromTo_node_from_inlined__sub0;
-                                match._node_intermediate = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                                match._node_to = candidate_ChainFromTo_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                                match._node_from = candidate_ChainFromTo_node_from_inlined__sub0_0;
+                                match._node_intermediate = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0;
+                                match._node_to = candidate_ChainFromTo_node_to_inlined__sub0_0;
+                                match._edge__edge0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0;
                                 match.__sub0 = (@Pattern_ChainFromTo.Match_ChainFromTo)currentFoundPartialMatch.Pop();
                                 match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -12703,19 +12703,19 @@ namespace de.unika.ipd.grGen.Action_Recursive
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
+                                candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0;
+                                candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                            candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
+                            candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0;
+                            candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0;
                             continue;
                         }
-                        candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_0;
+                        candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0;
                     }
-                    while( (candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0.lgspOutNext) != head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_0 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -12943,15 +12943,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
                         {
                             continue;
                         }
-                        // Element ChainFrom_node_from_inlined__sub0 assigned from other element ChainFrom_alt_0_rec_node_to 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFrom_node_from_inlined__sub0 = candidate_ChainFrom_alt_0_rec_node_to;
-                        // Push alternative matching task for ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec
-                        AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec taskFor_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec = AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFrom.Instance.patternGraph.alternatives[(int)Pattern_ChainFrom.ChainFrom_AltNums.@alt_0].alternativeCases);
-                        taskFor_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec.ChainFrom_node_from_inlined__sub0 = candidate_ChainFrom_node_from_inlined__sub0;
-                        taskFor_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec.searchPatternpath = false;
-                        taskFor_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec.matchOfNestingPattern = null;
-                        taskFor_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec);
+                        // Element ChainFrom_node_from_inlined__sub0_1 assigned from other element ChainFrom_alt_0_rec_node_to 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFrom_node_from_inlined__sub0_1 = candidate_ChainFrom_alt_0_rec_node_to;
+                        // Push alternative matching task for ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec
+                        AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec taskFor_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec = AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFrom.Instance.patternGraph.alternatives[(int)Pattern_ChainFrom.ChainFrom_AltNums.@alt_0].alternativeCases);
+                        taskFor_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec.ChainFrom_node_from_inlined__sub0_1 = candidate_ChainFrom_node_from_inlined__sub0_1;
+                        taskFor_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec.searchPatternpath = false;
+                        taskFor_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec.matchOfNestingPattern = null;
+                        taskFor_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec);
                         uint prevGlobal__candidate_ChainFrom_alt_0_rec_node_to;
                         prevGlobal__candidate_ChainFrom_alt_0_rec_node_to = candidate_ChainFrom_alt_0_rec_node_to.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_ChainFrom_alt_0_rec_node_to.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -12960,9 +12960,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
                         candidate_ChainFrom_alt_0_rec_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop alternative matching task for ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec
+                        // Pop alternative matching task for ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec
                         openTasks.Pop();
-                        AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec);
+                        AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -12973,7 +12973,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
                                 match__sub0.SetMatchOfEnclosingPattern(match);
                                 match._node_from = candidate_ChainFrom_node_from;
                                 match._node_to = candidate_ChainFrom_alt_0_rec_node_to;
-                                match__sub0._node_from = candidate_ChainFrom_node_from_inlined__sub0;
+                                match__sub0._node_from = candidate_ChainFrom_node_from_inlined__sub0_1;
                                 match._edge__edge0 = candidate_ChainFrom_alt_0_rec_edge__edge0;
                                 match.__sub0 = match__sub0;
                                 match__sub0._alt_0 = (Pattern_ChainFrom.IMatch_ChainFrom_alt_0)currentFoundPartialMatch.Pop();
@@ -13011,15 +13011,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
         }
     }
 
-    public class AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec newTask;
+        public static AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -13028,12 +13028,12 @@ namespace de.unika.ipd.grGen.Action_Recursive
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec oldTask) {
+        public static void releaseTask(AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -13042,13 +13042,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
             }
         }
 
-        private static AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec freeListHead = null;
+        private static AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_in_ChainFrom_alt_0_rec next = null;
+        private AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFrom_node_from_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ChainFrom_node_from_inlined__sub0_1;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -13114,59 +13114,59 @@ namespace de.unika.ipd.grGen.Action_Recursive
             // Alternative case ChainFrom_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFrom.ChainFrom_alt_0_CaseNums.@rec];
-                // SubPreset ChainFrom_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFrom_node_from_inlined__sub0 = ChainFrom_node_from_inlined__sub0;
-                // Extend Outgoing ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 from ChainFrom_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFrom_node_from_inlined__sub0.lgspOuthead;
-                if(head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ChainFrom_node_from_inlined__sub0_1 
+                GRGEN_LGSP.LGSPNode candidate_ChainFrom_node_from_inlined__sub0_1 = ChainFrom_node_from_inlined__sub0_1;
+                // Extend Outgoing ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1 from ChainFrom_node_from_inlined__sub0_1 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1 = candidate_ChainFrom_node_from_inlined__sub0_1.lgspOuthead;
+                if(head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1 = head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1;
                     do
                     {
-                        if(candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFrom_alt_0_rec_node_to_inlined__sub0 from ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspTarget;
-                        if((candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        // Implicit Target ChainFrom_alt_0_rec_node_to_inlined__sub0_1 from ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspTarget;
+                        if((candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
-                        if((candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for _sub0_inlined__sub0
-                        PatternAction_ChainFrom taskFor__sub0_inlined__sub0 = PatternAction_ChainFrom.getNewTask(actionEnv, openTasks);
-                        taskFor__sub0_inlined__sub0.ChainFrom_node_from = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                        taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                        taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__sub0_inlined__sub0);
-                        uint prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
-                        prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for _sub0_inlined__sub0_1
+                        PatternAction_ChainFrom taskFor__sub0_inlined__sub0_1 = PatternAction_ChainFrom.getNewTask(actionEnv, openTasks);
+                        taskFor__sub0_inlined__sub0_1.ChainFrom_node_from = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1;
+                        taskFor__sub0_inlined__sub0_1.searchPatternpath = false;
+                        taskFor__sub0_inlined__sub0_1.matchOfNestingPattern = null;
+                        taskFor__sub0_inlined__sub0_1.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0_inlined__sub0_1);
+                        uint prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1;
+                        prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1 = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1;
+                        prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _sub0_inlined__sub0
+                        // Pop subpattern matching task for _sub0_inlined__sub0_1
                         openTasks.Pop();
-                        PatternAction_ChainFrom.releaseTask(taskFor__sub0_inlined__sub0);
+                        PatternAction_ChainFrom.releaseTask(taskFor__sub0_inlined__sub0_1);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFrom.Match_ChainFrom_alt_0_rec match = new Pattern_ChainFrom.Match_ChainFrom_alt_0_rec();
-                                match._node_from = candidate_ChainFrom_node_from_inlined__sub0;
-                                match._node_to = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
+                                match._node_from = candidate_ChainFrom_node_from_inlined__sub0_1;
+                                match._node_to = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1;
+                                match._edge__edge0 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1;
                                 match.__sub0 = (@Pattern_ChainFrom.Match_ChainFrom)currentFoundPartialMatch.Pop();
                                 match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -13182,19 +13182,19 @@ namespace de.unika.ipd.grGen.Action_Recursive
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
+                                candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1;
+                                candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
-                            candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
+                            candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1;
+                            candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1;
                             continue;
                         }
-                        candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
-                        candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_1;
+                        candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1;
                     }
-                    while( (candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1.lgspOutNext) != head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_1 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -13469,15 +13469,15 @@ label2: ;
                         {
                             continue;
                         }
-                        // Element ChainFromComplete_node_from_inlined__sub0 assigned from other element ChainFromComplete_alt_0_rec_node_to 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0 = candidate_ChainFromComplete_alt_0_rec_node_to;
-                        // Push alternative matching task for ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec
-                        AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec taskFor_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec = AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFromComplete.Instance.patternGraph.alternatives[(int)Pattern_ChainFromComplete.ChainFromComplete_AltNums.@alt_0].alternativeCases);
-                        taskFor_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec.ChainFromComplete_node_from_inlined__sub0 = candidate_ChainFromComplete_node_from_inlined__sub0;
-                        taskFor_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec.searchPatternpath = false;
-                        taskFor_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec.matchOfNestingPattern = null;
-                        taskFor_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec);
+                        // Element ChainFromComplete_node_from_inlined__sub0_2 assigned from other element ChainFromComplete_alt_0_rec_node_to 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0_2 = candidate_ChainFromComplete_alt_0_rec_node_to;
+                        // Push alternative matching task for ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec
+                        AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec taskFor_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec = AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFromComplete.Instance.patternGraph.alternatives[(int)Pattern_ChainFromComplete.ChainFromComplete_AltNums.@alt_0].alternativeCases);
+                        taskFor_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec.ChainFromComplete_node_from_inlined__sub0_2 = candidate_ChainFromComplete_node_from_inlined__sub0_2;
+                        taskFor_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec.searchPatternpath = false;
+                        taskFor_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec.matchOfNestingPattern = null;
+                        taskFor_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec);
                         uint prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to;
                         prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to = candidate_ChainFromComplete_alt_0_rec_node_to.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_ChainFromComplete_alt_0_rec_node_to.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -13486,9 +13486,9 @@ label2: ;
                         candidate_ChainFromComplete_alt_0_rec_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop alternative matching task for ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec
+                        // Pop alternative matching task for ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec
                         openTasks.Pop();
-                        AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec);
+                        AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -13499,7 +13499,7 @@ label2: ;
                                 match__sub0.SetMatchOfEnclosingPattern(match);
                                 match._node_from = candidate_ChainFromComplete_node_from;
                                 match._node_to = candidate_ChainFromComplete_alt_0_rec_node_to;
-                                match__sub0._node_from = candidate_ChainFromComplete_node_from_inlined__sub0;
+                                match__sub0._node_from = candidate_ChainFromComplete_node_from_inlined__sub0_2;
                                 match._edge__edge0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0;
                                 match.__sub0 = match__sub0;
                                 match__sub0._alt_0 = (Pattern_ChainFromComplete.IMatch_ChainFromComplete_alt_0)currentFoundPartialMatch.Pop();
@@ -13537,15 +13537,15 @@ label2: ;
         }
     }
 
-    public class AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec newTask;
+        public static AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -13554,12 +13554,12 @@ label2: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec oldTask) {
+        public static void releaseTask(AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -13568,13 +13568,13 @@ label2: ;
             }
         }
 
-        private static AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec freeListHead = null;
+        private static AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_in_ChainFromComplete_alt_0_rec next = null;
+        private AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFromComplete_node_from_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ChainFromComplete_node_from_inlined__sub0_2;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -13585,46 +13585,46 @@ label2: ;
             // Alternative case ChainFromComplete_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_CaseNums.@base];
-                // SubPreset ChainFromComplete_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0 = ChainFromComplete_node_from_inlined__sub0;
+                // SubPreset ChainFromComplete_node_from_inlined__sub0_2 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0_2 = ChainFromComplete_node_from_inlined__sub0_2;
                 // NegativePattern 
                 {
                     ++negLevel;
-                    uint prev_neg_0_inlined__sub0_in_ChainFromComplete_alt_0_rec__candidate_ChainFromComplete_node_from_inlined__sub0;
-                    prev_neg_0_inlined__sub0_in_ChainFromComplete_alt_0_rec__candidate_ChainFromComplete_node_from_inlined__sub0 = candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Extend Outgoing ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 from ChainFromComplete_node_from_inlined__sub0 
-                    GRGEN_LGSP.LGSPEdge head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 = candidate_ChainFromComplete_node_from_inlined__sub0.lgspOuthead;
-                    if(head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 != null)
+                    uint prev_neg_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec__candidate_ChainFromComplete_node_from_inlined__sub0_2;
+                    prev_neg_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec__candidate_ChainFromComplete_node_from_inlined__sub0_2 = candidate_ChainFromComplete_node_from_inlined__sub0_2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    candidate_ChainFromComplete_node_from_inlined__sub0_2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    // Extend Outgoing ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2 from ChainFromComplete_node_from_inlined__sub0_2 
+                    GRGEN_LGSP.LGSPEdge head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2 = candidate_ChainFromComplete_node_from_inlined__sub0_2.lgspOuthead;
+                    if(head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2 != null)
                     {
-                        GRGEN_LGSP.LGSPEdge candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 = head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0;
+                        GRGEN_LGSP.LGSPEdge candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2 = head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2;
                         do
                         {
-                            if(candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                            if(candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2.lgspType.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                            if((candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                             {
                                 continue;
                             }
-                            // Implicit Target ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0 from ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 
-                            GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0 = candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspTarget;
-                            if((candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            // Implicit Target ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0_2 from ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2 
+                            GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0_2 = candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2.lgspTarget;
+                            if((candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0_2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
-                            if((candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                            if((candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0_2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                             {
                                 continue;
                             }
                             // negative pattern found
-                            candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags = candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_in_ChainFromComplete_alt_0_rec__candidate_ChainFromComplete_node_from_inlined__sub0;
+                            candidate_ChainFromComplete_node_from_inlined__sub0_2.lgspFlags = candidate_ChainFromComplete_node_from_inlined__sub0_2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec__candidate_ChainFromComplete_node_from_inlined__sub0_2;
                             --negLevel;
                             goto label3;
                         }
-                        while( (candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 = candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 );
+                        while( (candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2 = candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2.lgspOutNext) != head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_2 );
                     }
-                    candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags = candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_in_ChainFromComplete_alt_0_rec__candidate_ChainFromComplete_node_from_inlined__sub0;
+                    candidate_ChainFromComplete_node_from_inlined__sub0_2.lgspFlags = candidate_ChainFromComplete_node_from_inlined__sub0_2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec__candidate_ChainFromComplete_node_from_inlined__sub0_2;
                     --negLevel;
                 }
                 // Check whether there are subpattern matching tasks left to execute
@@ -13633,7 +13633,7 @@ label2: ;
                     Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                     foundPartialMatches.Add(currentFoundPartialMatch);
                     Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_base match = new Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_base();
-                    match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0;
+                    match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0_2;
                     currentFoundPartialMatch.Push(match);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -13651,7 +13651,7 @@ label2: ;
                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                     {
                         Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_base match = new Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_base();
-                        match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0;
+                        match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0_2;
                         currentFoundPartialMatch.Push(match);
                     }
                     if(matchesList==foundPartialMatches) {
@@ -13687,59 +13687,59 @@ label5: ;
             // Alternative case ChainFromComplete_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_CaseNums.@rec];
-                // SubPreset ChainFromComplete_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0 = ChainFromComplete_node_from_inlined__sub0;
-                // Extend Outgoing ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 from ChainFromComplete_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromComplete_node_from_inlined__sub0.lgspOuthead;
-                if(head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ChainFromComplete_node_from_inlined__sub0_2 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0_2 = ChainFromComplete_node_from_inlined__sub0_2;
+                // Extend Outgoing ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2 from ChainFromComplete_node_from_inlined__sub0_2 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2 = candidate_ChainFromComplete_node_from_inlined__sub0_2.lgspOuthead;
+                if(head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2 = head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2;
                     do
                     {
-                        if(candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFromComplete_alt_0_rec_node_to_inlined__sub0 from ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspTarget;
-                        if((candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        // Implicit Target ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2 from ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspTarget;
+                        if((candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
-                        if((candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for _sub0_inlined__sub0
-                        PatternAction_ChainFromComplete taskFor__sub0_inlined__sub0 = PatternAction_ChainFromComplete.getNewTask(actionEnv, openTasks);
-                        taskFor__sub0_inlined__sub0.ChainFromComplete_node_from = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                        taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                        taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__sub0_inlined__sub0);
-                        uint prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
-                        prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for _sub0_inlined__sub0_2
+                        PatternAction_ChainFromComplete taskFor__sub0_inlined__sub0_2 = PatternAction_ChainFromComplete.getNewTask(actionEnv, openTasks);
+                        taskFor__sub0_inlined__sub0_2.ChainFromComplete_node_from = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2;
+                        taskFor__sub0_inlined__sub0_2.searchPatternpath = false;
+                        taskFor__sub0_inlined__sub0_2.matchOfNestingPattern = null;
+                        taskFor__sub0_inlined__sub0_2.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0_inlined__sub0_2);
+                        uint prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2;
+                        prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2 = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2;
+                        prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _sub0_inlined__sub0
+                        // Pop subpattern matching task for _sub0_inlined__sub0_2
                         openTasks.Pop();
-                        PatternAction_ChainFromComplete.releaseTask(taskFor__sub0_inlined__sub0);
+                        PatternAction_ChainFromComplete.releaseTask(taskFor__sub0_inlined__sub0_2);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_rec match = new Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_rec();
-                                match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0;
-                                match._node_to = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
+                                match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0_2;
+                                match._node_to = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2;
+                                match._edge__edge0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2;
                                 match.__sub0 = (@Pattern_ChainFromComplete.Match_ChainFromComplete)currentFoundPartialMatch.Pop();
                                 match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -13755,19 +13755,19 @@ label5: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
+                                candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2;
+                                candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
-                            candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
+                            candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2;
+                            candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2;
                             continue;
                         }
-                        candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
-                        candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_2;
+                        candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2;
                     }
-                    while( (candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2.lgspOutNext) != head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_2 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -14427,15 +14427,15 @@ label11: ;
                         {
                             continue;
                         }
-                        // Element ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 assigned from other element ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to;
-                        // Push alternative matching task for ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec
-                        AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec taskFor_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec = AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance.patternGraph.alternatives[(int)Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_AltNums.@alt_0].alternativeCases);
-                        taskFor_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
-                        taskFor_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.searchPatternpath = false;
-                        taskFor_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.matchOfNestingPattern = null;
-                        taskFor_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec);
+                        // Element ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3 assigned from other element ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to;
+                        // Push alternative matching task for ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec
+                        AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec taskFor_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec = AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance.patternGraph.alternatives[(int)Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_AltNums.@alt_0].alternativeCases);
+                        taskFor_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
+                        taskFor_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.searchPatternpath = false;
+                        taskFor_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.matchOfNestingPattern = null;
+                        taskFor_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec);
                         uint prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to;
                         prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -14444,9 +14444,9 @@ label11: ;
                         candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop alternative matching task for ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec
+                        // Pop alternative matching task for ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec
                         openTasks.Pop();
-                        AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec);
+                        AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -14457,7 +14457,7 @@ label11: ;
                                 match__sub0.SetMatchOfEnclosingPattern(match);
                                 match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from;
                                 match._node_to = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to;
-                                match__sub0._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                                match__sub0._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
                                 match._edge__edge0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0;
                                 match.__sub0 = match__sub0;
                                 match__sub0._alt_0 = (Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0)currentFoundPartialMatch.Pop();
@@ -14495,15 +14495,15 @@ label11: ;
         }
     }
 
-    public class AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec newTask;
+        public static AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -14512,12 +14512,12 @@ label11: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec oldTask) {
+        public static void releaseTask(AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -14526,13 +14526,13 @@ label11: ;
             }
         }
 
-        private static AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec freeListHead = null;
+        private static AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec next = null;
+        private AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -14543,47 +14543,47 @@ label11: ;
             // Alternative case ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_CaseNums.@base];
-                // SubPreset ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                // SubPreset ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3 = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
                 // NegativePattern 
                 {
                     ++negLevel;
-                    uint prev_neg_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
-                    prev_neg_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // both directions of ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0
-                    for(int directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 = 0; directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 < 2; ++directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0)
+                    uint prev_neg_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
+                    prev_neg_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    // both directions of ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3
+                    for(int directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3 = 0; directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3 < 2; ++directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3)
                     {
-                        // Extend IncomingOrOutgoing ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 
-                        GRGEN_LGSP.LGSPEdge head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 = directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0==0 ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspInhead : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspOuthead;
-                        if(head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 != null)
+                        // Extend IncomingOrOutgoing ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3 
+                        GRGEN_LGSP.LGSPEdge head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3 = directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3==0 ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3.lgspInhead : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3.lgspOuthead;
+                        if(head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3 != null)
                         {
-                            GRGEN_LGSP.LGSPEdge candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 = head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0;
+                            GRGEN_LGSP.LGSPEdge candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3 = head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3;
                             do
                             {
-                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                                 {
                                     continue;
                                 }
-                                // Implicit TheOther ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 
-                                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0==candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspSource ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspTarget : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspSource;
-                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                // Implicit TheOther ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0_3 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3 
+                                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3==candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3.lgspSource ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3.lgspTarget : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3.lgspSource;
+                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0_3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
-                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0_3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                                 {
                                     continue;
                                 }
                                 // negative pattern found
-                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
                                 --negLevel;
                                 goto label12;
                             }
-                            while( (directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0==0 ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspInNext : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 );
+                            while( (directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3==0 ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3.lgspInNext : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3.lgspOutNext) != head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_3 );
                         }
                     }
-                    candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                    candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
                     --negLevel;
                 }
                 // Check whether there are subpattern matching tasks left to execute
@@ -14592,7 +14592,7 @@ label11: ;
                     Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                     foundPartialMatches.Add(currentFoundPartialMatch);
                     Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base match = new Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base();
-                    match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                    match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
                     currentFoundPartialMatch.Push(match);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -14610,7 +14610,7 @@ label11: ;
                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                     {
                         Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base match = new Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base();
-                        match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                        match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
                         currentFoundPartialMatch.Push(match);
                     }
                     if(matchesList==foundPartialMatches) {
@@ -14646,59 +14646,59 @@ label14: ;
             // Alternative case ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_CaseNums.@rec];
-                // SubPreset ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
-                // Extend Outgoing ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspOuthead;
-                if(head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3 = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
+                // Extend Outgoing ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3.lgspOuthead;
+                if(head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3 = head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3;
                     do
                     {
-                        if(candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspTarget;
-                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        // Implicit Target ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspTarget;
+                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
-                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for _sub0_inlined__sub0
-                        PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards taskFor__sub0_inlined__sub0 = PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.getNewTask(actionEnv, openTasks);
-                        taskFor__sub0_inlined__sub0.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                        taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                        taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__sub0_inlined__sub0);
-                        uint prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
-                        prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for _sub0_inlined__sub0_3
+                        PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards taskFor__sub0_inlined__sub0_3 = PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.getNewTask(actionEnv, openTasks);
+                        taskFor__sub0_inlined__sub0_3.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3;
+                        taskFor__sub0_inlined__sub0_3.searchPatternpath = false;
+                        taskFor__sub0_inlined__sub0_3.matchOfNestingPattern = null;
+                        taskFor__sub0_inlined__sub0_3.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0_inlined__sub0_3);
+                        uint prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3;
+                        prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3;
+                        prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _sub0_inlined__sub0
+                        // Pop subpattern matching task for _sub0_inlined__sub0_3
                         openTasks.Pop();
-                        PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.releaseTask(taskFor__sub0_inlined__sub0);
+                        PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.releaseTask(taskFor__sub0_inlined__sub0_3);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec match = new Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec();
-                                match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
-                                match._node_to = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
+                                match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_3;
+                                match._node_to = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3;
+                                match._edge__edge0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3;
                                 match.__sub0 = (@Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards)currentFoundPartialMatch.Pop();
                                 match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -14714,19 +14714,19 @@ label14: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
+                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3;
+                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
-                            candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
+                            candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3;
+                            candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3;
                             continue;
                         }
-                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
-                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_3;
+                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3;
                     }
-                    while( (candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3.lgspOutNext) != head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_3 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -15357,8 +15357,8 @@ label17: ;
                 GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from = ReverseChainFromTo_node_from;
                 // SubPreset ReverseChainFromTo_node_to 
                 GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to = ReverseChainFromTo_node_to;
-                // Element ReverseChainFromTo_node_to_inlined__sub0 assigned from other element ReverseChainFromTo_node_to 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0 = candidate_ReverseChainFromTo_node_to;
+                // Element ReverseChainFromTo_node_to_inlined__sub0_4 assigned from other element ReverseChainFromTo_node_to 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0_4 = candidate_ReverseChainFromTo_node_to;
                 // Extend Incoming ReverseChainFromTo_alt_0_rec_edge__edge0 from ReverseChainFromTo_node_from 
                 GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0 = candidate_ReverseChainFromTo_node_from.lgspInhead;
                 if(head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0 != null)
@@ -15385,16 +15385,16 @@ label17: ;
                         {
                             continue;
                         }
-                        // Element ReverseChainFromTo_node_from_inlined__sub0 assigned from other element ReverseChainFromTo_alt_0_rec_node_intermediate 
-                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate;
-                        // Push alternative matching task for ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec
-                        AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec taskFor_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec = AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ReverseChainFromTo.Instance.patternGraph.alternatives[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_AltNums.@alt_0].alternativeCases);
-                        taskFor_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec.ReverseChainFromTo_node_to_inlined__sub0 = candidate_ReverseChainFromTo_node_to_inlined__sub0;
-                        taskFor_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec.ReverseChainFromTo_node_from_inlined__sub0 = candidate_ReverseChainFromTo_node_from_inlined__sub0;
-                        taskFor_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec.searchPatternpath = false;
-                        taskFor_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec.matchOfNestingPattern = null;
-                        taskFor_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec);
+                        // Element ReverseChainFromTo_node_from_inlined__sub0_4 assigned from other element ReverseChainFromTo_alt_0_rec_node_intermediate 
+                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0_4 = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate;
+                        // Push alternative matching task for ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec
+                        AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec taskFor_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec = AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ReverseChainFromTo.Instance.patternGraph.alternatives[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_AltNums.@alt_0].alternativeCases);
+                        taskFor_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec.ReverseChainFromTo_node_to_inlined__sub0_4 = candidate_ReverseChainFromTo_node_to_inlined__sub0_4;
+                        taskFor_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec.ReverseChainFromTo_node_from_inlined__sub0_4 = candidate_ReverseChainFromTo_node_from_inlined__sub0_4;
+                        taskFor_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec.searchPatternpath = false;
+                        taskFor_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec.matchOfNestingPattern = null;
+                        taskFor_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec);
                         uint prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate;
                         prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_ReverseChainFromTo_alt_0_rec_node_intermediate.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -15403,9 +15403,9 @@ label17: ;
                         candidate_ReverseChainFromTo_alt_0_rec_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop alternative matching task for ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec
+                        // Pop alternative matching task for ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec
                         openTasks.Pop();
-                        AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec);
+                        AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -15417,8 +15417,8 @@ label17: ;
                                 match._node_intermediate = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate;
                                 match._node_from = candidate_ReverseChainFromTo_node_from;
                                 match._node_to = candidate_ReverseChainFromTo_node_to;
-                                match__sub0._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0;
-                                match__sub0._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0;
+                                match__sub0._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0_4;
+                                match__sub0._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0_4;
                                 match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0;
                                 match.__sub0 = match__sub0;
                                 match__sub0._alt_0 = (Pattern_ReverseChainFromTo.IMatch_ReverseChainFromTo_alt_0)currentFoundPartialMatch.Pop();
@@ -15456,15 +15456,15 @@ label17: ;
         }
     }
 
-    public class AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec newTask;
+        public static AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -15473,12 +15473,12 @@ label17: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec oldTask) {
+        public static void releaseTask(AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -15487,14 +15487,14 @@ label17: ;
             }
         }
 
-        private static AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec freeListHead = null;
+        private static AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromTo_alt_0_rec next = null;
+        private AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec next = null;
 
-        public GRGEN_LGSP.LGSPNode ReverseChainFromTo_node_to_inlined__sub0;
-        public GRGEN_LGSP.LGSPNode ReverseChainFromTo_node_from_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ReverseChainFromTo_node_to_inlined__sub0_4;
+        public GRGEN_LGSP.LGSPNode ReverseChainFromTo_node_from_inlined__sub0_4;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -15505,24 +15505,24 @@ label17: ;
             // Alternative case ReverseChainFromTo_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_alt_0_CaseNums.@base];
-                // SubPreset ReverseChainFromTo_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0 = ReverseChainFromTo_node_to_inlined__sub0;
-                // SubPreset ReverseChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0 = ReverseChainFromTo_node_from_inlined__sub0;
-                // Extend Outgoing ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 from ReverseChainFromTo_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_node_to_inlined__sub0.lgspOuthead;
-                if(head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 != null)
+                // SubPreset ReverseChainFromTo_node_to_inlined__sub0_4 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0_4 = ReverseChainFromTo_node_to_inlined__sub0_4;
+                // SubPreset ReverseChainFromTo_node_from_inlined__sub0_4 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0_4 = ReverseChainFromTo_node_from_inlined__sub0_4;
+                // Extend Outgoing ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4 from ReverseChainFromTo_node_to_inlined__sub0_4 
+                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4 = candidate_ReverseChainFromTo_node_to_inlined__sub0_4.lgspOuthead;
+                if(head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4 = head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4;
                     do
                     {
-                        if(candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if(candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspTarget != candidate_ReverseChainFromTo_node_from_inlined__sub0) {
+                        if(candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspTarget != candidate_ReverseChainFromTo_node_from_inlined__sub0_4) {
                             continue;
                         }
-                        if((candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
@@ -15532,9 +15532,9 @@ label17: ;
                             Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
                             Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_base match = new Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_base();
-                            match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0;
-                            match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0;
-                            match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                            match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0_4;
+                            match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0_4;
+                            match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4;
                             currentFoundPartialMatch.Push(match);
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -15544,9 +15544,9 @@ label17: ;
                             }
                             continue;
                         }
-                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4;
+                        prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Check whether subpatterns were found 
@@ -15555,9 +15555,9 @@ label17: ;
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_base match = new Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_base();
-                                match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0;
-                                match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0;
-                                match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                                match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0_4;
+                                match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0_4;
+                                match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4;
                                 currentFoundPartialMatch.Push(match);
                             }
                             if(matchesList==foundPartialMatches) {
@@ -15571,16 +15571,16 @@ label17: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                                candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                            candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4;
                             continue;
                         }
-                        candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                        candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4;
                     }
-                    while( (candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 );
+                    while( (candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4.lgspOutNext) != head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_4 );
                 }
             } while(false);
             if(matchesList.Count>0) {
@@ -15596,65 +15596,65 @@ label17: ;
             // Alternative case ReverseChainFromTo_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_alt_0_CaseNums.@rec];
-                // SubPreset ReverseChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0 = ReverseChainFromTo_node_from_inlined__sub0;
-                // SubPreset ReverseChainFromTo_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0 = ReverseChainFromTo_node_to_inlined__sub0;
-                // Extend Incoming ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 from ReverseChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_node_from_inlined__sub0.lgspInhead;
-                if(head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ReverseChainFromTo_node_from_inlined__sub0_4 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0_4 = ReverseChainFromTo_node_from_inlined__sub0_4;
+                // SubPreset ReverseChainFromTo_node_to_inlined__sub0_4 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0_4 = ReverseChainFromTo_node_to_inlined__sub0_4;
+                // Extend Incoming ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4 from ReverseChainFromTo_node_from_inlined__sub0_4 
+                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4 = candidate_ReverseChainFromTo_node_from_inlined__sub0_4.lgspInhead;
+                if(head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4 = head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4;
                     do
                     {
-                        if(candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Source ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 from ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspSource;
-                        if((candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
-                            && candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0==candidate_ReverseChainFromTo_node_from_inlined__sub0
+                        // Implicit Source ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4 from ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4 
+                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspSource;
+                        if((candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
+                            && candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4==candidate_ReverseChainFromTo_node_from_inlined__sub0_4
                             )
                         {
                             continue;
                         }
-                        if((candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for _sub0_inlined__sub0
-                        PatternAction_ReverseChainFromTo taskFor__sub0_inlined__sub0 = PatternAction_ReverseChainFromTo.getNewTask(actionEnv, openTasks);
-                        taskFor__sub0_inlined__sub0.ReverseChainFromTo_node_from = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.ReverseChainFromTo_node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                        taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                        taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__sub0_inlined__sub0);
-                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for _sub0_inlined__sub0_4
+                        PatternAction_ReverseChainFromTo taskFor__sub0_inlined__sub0_4 = PatternAction_ReverseChainFromTo.getNewTask(actionEnv, openTasks);
+                        taskFor__sub0_inlined__sub0_4.ReverseChainFromTo_node_from = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4;
+                        taskFor__sub0_inlined__sub0_4.ReverseChainFromTo_node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0_4;
+                        taskFor__sub0_inlined__sub0_4.searchPatternpath = false;
+                        taskFor__sub0_inlined__sub0_4.matchOfNestingPattern = null;
+                        taskFor__sub0_inlined__sub0_4.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0_inlined__sub0_4);
+                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4;
+                        prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4 = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4;
+                        prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _sub0_inlined__sub0
+                        // Pop subpattern matching task for _sub0_inlined__sub0_4
                         openTasks.Pop();
-                        PatternAction_ReverseChainFromTo.releaseTask(taskFor__sub0_inlined__sub0);
+                        PatternAction_ReverseChainFromTo.releaseTask(taskFor__sub0_inlined__sub0_4);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_rec match = new Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_rec();
-                                match._node_intermediate = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                                match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0;
-                                match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                                match._node_intermediate = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4;
+                                match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0_4;
+                                match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0_4;
+                                match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4;
                                 match.__sub0 = (@Pattern_ReverseChainFromTo.Match_ReverseChainFromTo)currentFoundPartialMatch.Pop();
                                 match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -15670,19 +15670,19 @@ label17: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
+                                candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4;
+                                candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                            candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
+                            candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4;
+                            candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4;
                             continue;
                         }
-                        candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_4;
+                        candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4;
                     }
-                    while( (candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspInNext) != head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4.lgspInNext) != head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_4 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -15930,8 +15930,8 @@ label17: ;
                 GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from = ChainFromToReverse_node_from;
                 // SubPreset ChainFromToReverse_node_to 
                 GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to = ChainFromToReverse_node_to;
-                // Element ChainFromToReverse_node_to_inlined_cftr assigned from other element ChainFromToReverse_node_to 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr = candidate_ChainFromToReverse_node_to;
+                // Element ChainFromToReverse_node_to_inlined_cftr_5 assigned from other element ChainFromToReverse_node_to 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr_5 = candidate_ChainFromToReverse_node_to;
                 // Extend Outgoing ChainFromToReverse_alt_0_rec_edge__edge0 from ChainFromToReverse_node_from 
                 GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0 = candidate_ChainFromToReverse_node_from.lgspOuthead;
                 if(head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0 != null)
@@ -15958,16 +15958,16 @@ label17: ;
                         {
                             continue;
                         }
-                        // Element ChainFromToReverse_node_from_inlined_cftr assigned from other element ChainFromToReverse_alt_0_rec_node_intermediate 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr = candidate_ChainFromToReverse_alt_0_rec_node_intermediate;
-                        // Push alternative matching task for ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec
-                        AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec taskFor_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec = AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFromToReverse.Instance.patternGraph.alternatives[(int)Pattern_ChainFromToReverse.ChainFromToReverse_AltNums.@alt_0].alternativeCases);
-                        taskFor_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec.ChainFromToReverse_node_from_inlined_cftr = candidate_ChainFromToReverse_node_from_inlined_cftr;
-                        taskFor_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec.ChainFromToReverse_node_to_inlined_cftr = candidate_ChainFromToReverse_node_to_inlined_cftr;
-                        taskFor_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec.searchPatternpath = false;
-                        taskFor_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec.matchOfNestingPattern = null;
-                        taskFor_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec);
+                        // Element ChainFromToReverse_node_from_inlined_cftr_5 assigned from other element ChainFromToReverse_alt_0_rec_node_intermediate 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr_5 = candidate_ChainFromToReverse_alt_0_rec_node_intermediate;
+                        // Push alternative matching task for ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec
+                        AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec taskFor_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec = AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFromToReverse.Instance.patternGraph.alternatives[(int)Pattern_ChainFromToReverse.ChainFromToReverse_AltNums.@alt_0].alternativeCases);
+                        taskFor_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec.ChainFromToReverse_node_from_inlined_cftr_5 = candidate_ChainFromToReverse_node_from_inlined_cftr_5;
+                        taskFor_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec.ChainFromToReverse_node_to_inlined_cftr_5 = candidate_ChainFromToReverse_node_to_inlined_cftr_5;
+                        taskFor_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec.searchPatternpath = false;
+                        taskFor_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec.matchOfNestingPattern = null;
+                        taskFor_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec);
                         uint prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate;
                         prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate = candidate_ChainFromToReverse_alt_0_rec_node_intermediate.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_ChainFromToReverse_alt_0_rec_node_intermediate.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -15976,9 +15976,9 @@ label17: ;
                         candidate_ChainFromToReverse_alt_0_rec_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop alternative matching task for ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec
+                        // Pop alternative matching task for ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec
                         openTasks.Pop();
-                        AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec.releaseTask(taskFor_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec);
+                        AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec.releaseTask(taskFor_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -15990,8 +15990,8 @@ label17: ;
                                 match._node_from = candidate_ChainFromToReverse_node_from;
                                 match._node_intermediate = candidate_ChainFromToReverse_alt_0_rec_node_intermediate;
                                 match._node_to = candidate_ChainFromToReverse_node_to;
-                                match_cftr._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr;
-                                match_cftr._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr;
+                                match_cftr._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr_5;
+                                match_cftr._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr_5;
                                 match._edge__edge0 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0;
                                 match._cftr = match_cftr;
                                 match_cftr._alt_0 = (Pattern_ChainFromToReverse.IMatch_ChainFromToReverse_alt_0)currentFoundPartialMatch.Pop();
@@ -16029,15 +16029,15 @@ label17: ;
         }
     }
 
-    public class AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec newTask;
+        public static AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -16046,12 +16046,12 @@ label17: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec oldTask) {
+        public static void releaseTask(AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -16060,14 +16060,14 @@ label17: ;
             }
         }
 
-        private static AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec freeListHead = null;
+        private static AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_in_ChainFromToReverse_alt_0_rec next = null;
+        private AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFromToReverse_node_from_inlined_cftr;
-        public GRGEN_LGSP.LGSPNode ChainFromToReverse_node_to_inlined_cftr;
+        public GRGEN_LGSP.LGSPNode ChainFromToReverse_node_from_inlined_cftr_5;
+        public GRGEN_LGSP.LGSPNode ChainFromToReverse_node_to_inlined_cftr_5;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -16078,24 +16078,24 @@ label17: ;
             // Alternative case ChainFromToReverse_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromToReverse.ChainFromToReverse_alt_0_CaseNums.@base];
-                // SubPreset ChainFromToReverse_node_from_inlined_cftr 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr = ChainFromToReverse_node_from_inlined_cftr;
-                // SubPreset ChainFromToReverse_node_to_inlined_cftr 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr = ChainFromToReverse_node_to_inlined_cftr;
-                // Extend Outgoing ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr from ChainFromToReverse_node_from_inlined_cftr 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_node_from_inlined_cftr.lgspOuthead;
-                if(head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr != null)
+                // SubPreset ChainFromToReverse_node_from_inlined_cftr_5 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr_5 = ChainFromToReverse_node_from_inlined_cftr_5;
+                // SubPreset ChainFromToReverse_node_to_inlined_cftr_5 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr_5 = ChainFromToReverse_node_to_inlined_cftr_5;
+                // Extend Outgoing ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5 from ChainFromToReverse_node_from_inlined_cftr_5 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5 = candidate_ChainFromToReverse_node_from_inlined_cftr_5.lgspOuthead;
+                if(head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr = head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5 = head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5;
                     do
                     {
-                        if(candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if(candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspTarget != candidate_ChainFromToReverse_node_to_inlined_cftr) {
+                        if(candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspTarget != candidate_ChainFromToReverse_node_to_inlined_cftr_5) {
                             continue;
                         }
-                        if((candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
@@ -16105,9 +16105,9 @@ label17: ;
                             Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
                             Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_base match = new Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_base();
-                            match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr;
-                            match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr;
-                            match._edge__edge0 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                            match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr_5;
+                            match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr_5;
+                            match._edge__edge0 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5;
                             currentFoundPartialMatch.Push(match);
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -16117,9 +16117,9 @@ label17: ;
                             }
                             continue;
                         }
-                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
-                        prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5;
+                        prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Check whether subpatterns were found 
@@ -16128,9 +16128,9 @@ label17: ;
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_base match = new Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_base();
-                                match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr;
-                                match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr;
-                                match._edge__edge0 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                                match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr_5;
+                                match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr_5;
+                                match._edge__edge0 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5;
                                 currentFoundPartialMatch.Push(match);
                             }
                             if(matchesList==foundPartialMatches) {
@@ -16144,16 +16144,16 @@ label17: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                                candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                            candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5;
                             continue;
                         }
-                        candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                        candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5;
                     }
-                    while( (candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspOutNext) != head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr );
+                    while( (candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5.lgspOutNext) != head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_5 );
                 }
             } while(false);
             if(matchesList.Count>0) {
@@ -16169,65 +16169,65 @@ label17: ;
             // Alternative case ChainFromToReverse_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromToReverse.ChainFromToReverse_alt_0_CaseNums.@rec];
-                // SubPreset ChainFromToReverse_node_from_inlined_cftr 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr = ChainFromToReverse_node_from_inlined_cftr;
-                // SubPreset ChainFromToReverse_node_to_inlined_cftr 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr = ChainFromToReverse_node_to_inlined_cftr;
-                // Extend Outgoing ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr from ChainFromToReverse_node_from_inlined_cftr 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_node_from_inlined_cftr.lgspOuthead;
-                if(head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr != null)
+                // SubPreset ChainFromToReverse_node_from_inlined_cftr_5 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr_5 = ChainFromToReverse_node_from_inlined_cftr_5;
+                // SubPreset ChainFromToReverse_node_to_inlined_cftr_5 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr_5 = ChainFromToReverse_node_to_inlined_cftr_5;
+                // Extend Outgoing ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5 from ChainFromToReverse_node_from_inlined_cftr_5 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5 = candidate_ChainFromToReverse_node_from_inlined_cftr_5.lgspOuthead;
+                if(head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr = head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5 = head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5;
                     do
                     {
-                        if(candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr from ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspTarget;
-                        if((candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
-                            && candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr==candidate_ChainFromToReverse_node_from_inlined_cftr
+                        // Implicit Target ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5 from ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspTarget;
+                        if((candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
+                            && candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5==candidate_ChainFromToReverse_node_from_inlined_cftr_5
                             )
                         {
                             continue;
                         }
-                        if((candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for cftr_inlined_cftr
-                        PatternAction_ChainFromToReverse taskFor_cftr_inlined_cftr = PatternAction_ChainFromToReverse.getNewTask(actionEnv, openTasks);
-                        taskFor_cftr_inlined_cftr.ChainFromToReverse_node_from = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
-                        taskFor_cftr_inlined_cftr.ChainFromToReverse_node_to = candidate_ChainFromToReverse_node_to_inlined_cftr;
-                        taskFor_cftr_inlined_cftr.searchPatternpath = false;
-                        taskFor_cftr_inlined_cftr.matchOfNestingPattern = null;
-                        taskFor_cftr_inlined_cftr.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_cftr_inlined_cftr);
-                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
-                        prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
-                        prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for cftr_inlined_cftr_5
+                        PatternAction_ChainFromToReverse taskFor_cftr_inlined_cftr_5 = PatternAction_ChainFromToReverse.getNewTask(actionEnv, openTasks);
+                        taskFor_cftr_inlined_cftr_5.ChainFromToReverse_node_from = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5;
+                        taskFor_cftr_inlined_cftr_5.ChainFromToReverse_node_to = candidate_ChainFromToReverse_node_to_inlined_cftr_5;
+                        taskFor_cftr_inlined_cftr_5.searchPatternpath = false;
+                        taskFor_cftr_inlined_cftr_5.matchOfNestingPattern = null;
+                        taskFor_cftr_inlined_cftr_5.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_cftr_inlined_cftr_5);
+                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5;
+                        prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5 = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5;
+                        prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for cftr_inlined_cftr
+                        // Pop subpattern matching task for cftr_inlined_cftr_5
                         openTasks.Pop();
-                        PatternAction_ChainFromToReverse.releaseTask(taskFor_cftr_inlined_cftr);
+                        PatternAction_ChainFromToReverse.releaseTask(taskFor_cftr_inlined_cftr_5);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_rec match = new Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_rec();
-                                match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr;
-                                match._node_intermediate = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
-                                match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr;
-                                match._edge__edge0 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
+                                match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr_5;
+                                match._node_intermediate = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5;
+                                match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr_5;
+                                match._edge__edge0 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5;
                                 match._cftr = (@Pattern_ChainFromToReverse.Match_ChainFromToReverse)currentFoundPartialMatch.Pop();
                                 match._cftr._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -16243,19 +16243,19 @@ label17: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
-                                candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
+                                candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5;
+                                candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
-                            candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
+                            candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5;
+                            candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5;
                             continue;
                         }
-                        candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
-                        candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
+                        candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_5;
+                        candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5;
                     }
-                    while( (candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspOutNext) != head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr );
+                    while( (candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5.lgspOutNext) != head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_5 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -16503,8 +16503,8 @@ label17: ;
                 GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from = ChainFromToReverseToCommon_node_from;
                 // SubPreset ChainFromToReverseToCommon_node_to 
                 GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to = ChainFromToReverseToCommon_node_to;
-                // Element ChainFromToReverseToCommon_node_to_inlined_cftrtc assigned from other element ChainFromToReverseToCommon_node_to 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc = candidate_ChainFromToReverseToCommon_node_to;
+                // Element ChainFromToReverseToCommon_node_to_inlined_cftrtc_6 assigned from other element ChainFromToReverseToCommon_node_to 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_node_to;
                 // Extend Outgoing ChainFromToReverseToCommon_alt_0_rec_edge__edge0 from ChainFromToReverseToCommon_node_from 
                 GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0 = candidate_ChainFromToReverseToCommon_node_from.lgspOuthead;
                 if(head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0 != null)
@@ -16531,16 +16531,16 @@ label17: ;
                         {
                             continue;
                         }
-                        // Element ChainFromToReverseToCommon_node_from_inlined_cftrtc assigned from other element ChainFromToReverseToCommon_alt_0_rec_node_intermediate 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate;
-                        // Push alternative matching task for ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec
-                        AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec taskFor_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec = AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFromToReverseToCommon.Instance.patternGraph.alternatives[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_AltNums.@alt_0].alternativeCases);
-                        taskFor_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec.ChainFromToReverseToCommon_node_from_inlined_cftrtc = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                        taskFor_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec.ChainFromToReverseToCommon_node_to_inlined_cftrtc = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                        taskFor_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec.searchPatternpath = false;
-                        taskFor_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec.matchOfNestingPattern = null;
-                        taskFor_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec);
+                        // Element ChainFromToReverseToCommon_node_from_inlined_cftrtc_6 assigned from other element ChainFromToReverseToCommon_alt_0_rec_node_intermediate 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate;
+                        // Push alternative matching task for ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec
+                        AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec taskFor_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec = AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ChainFromToReverseToCommon.Instance.patternGraph.alternatives[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_AltNums.@alt_0].alternativeCases);
+                        taskFor_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec.ChainFromToReverseToCommon_node_from_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6;
+                        taskFor_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec.ChainFromToReverseToCommon_node_to_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_6;
+                        taskFor_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec.searchPatternpath = false;
+                        taskFor_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec.matchOfNestingPattern = null;
+                        taskFor_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec);
                         uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate;
                         prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -16549,9 +16549,9 @@ label17: ;
                         candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop alternative matching task for ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec
+                        // Pop alternative matching task for ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec
                         openTasks.Pop();
-                        AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec.releaseTask(taskFor_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec);
+                        AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec.releaseTask(taskFor_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -16563,8 +16563,8 @@ label17: ;
                                 match._node_from = candidate_ChainFromToReverseToCommon_node_from;
                                 match._node_intermediate = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate;
                                 match._node_to = candidate_ChainFromToReverseToCommon_node_to;
-                                match_cftrtc._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                                match_cftrtc._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
+                                match_cftrtc._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6;
+                                match_cftrtc._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_6;
                                 match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0;
                                 match._cftrtc = match_cftrtc;
                                 match_cftrtc._alt_0 = (Pattern_ChainFromToReverseToCommon.IMatch_ChainFromToReverseToCommon_alt_0)currentFoundPartialMatch.Pop();
@@ -16602,15 +16602,15 @@ label17: ;
         }
     }
 
-    public class AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec newTask;
+        public static AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -16619,12 +16619,12 @@ label17: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec oldTask) {
+        public static void releaseTask(AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -16633,14 +16633,14 @@ label17: ;
             }
         }
 
-        private static AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec freeListHead = null;
+        private static AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_in_ChainFromToReverseToCommon_alt_0_rec next = null;
+        private AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-        public GRGEN_LGSP.LGSPNode ChainFromToReverseToCommon_node_to_inlined_cftrtc;
+        public GRGEN_LGSP.LGSPNode ChainFromToReverseToCommon_node_from_inlined_cftrtc_6;
+        public GRGEN_LGSP.LGSPNode ChainFromToReverseToCommon_node_to_inlined_cftrtc_6;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -16651,24 +16651,24 @@ label17: ;
             // Alternative case ChainFromToReverseToCommon_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_alt_0_CaseNums.@base];
-                // SubPreset ChainFromToReverseToCommon_node_from_inlined_cftrtc 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc = ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                // SubPreset ChainFromToReverseToCommon_node_to_inlined_cftrtc 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc = ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                // Extend Outgoing ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc from ChainFromToReverseToCommon_node_from_inlined_cftrtc 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc.lgspOuthead;
-                if(head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc != null)
+                // SubPreset ChainFromToReverseToCommon_node_from_inlined_cftrtc_6 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6 = ChainFromToReverseToCommon_node_from_inlined_cftrtc_6;
+                // SubPreset ChainFromToReverseToCommon_node_to_inlined_cftrtc_6 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_6 = ChainFromToReverseToCommon_node_to_inlined_cftrtc_6;
+                // Extend Outgoing ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6 from ChainFromToReverseToCommon_node_from_inlined_cftrtc_6 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6.lgspOuthead;
+                if(head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc = head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6 = head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6;
                     do
                     {
-                        if(candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if(candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspTarget != candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc) {
+                        if(candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspTarget != candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_6) {
                             continue;
                         }
-                        if((candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
@@ -16678,9 +16678,9 @@ label17: ;
                             Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
                             Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_base match = new Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_base();
-                            match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                            match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                            match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                            match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6;
+                            match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_6;
+                            match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6;
                             currentFoundPartialMatch.Push(match);
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -16690,9 +16690,9 @@ label17: ;
                             }
                             continue;
                         }
-                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
-                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6;
+                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Check whether subpatterns were found 
@@ -16701,9 +16701,9 @@ label17: ;
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_base match = new Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_base();
-                                match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                                match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                                match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                                match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6;
+                                match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_6;
+                                match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6;
                                 currentFoundPartialMatch.Push(match);
                             }
                             if(matchesList==foundPartialMatches) {
@@ -16717,16 +16717,16 @@ label17: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                                candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                            candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6;
                             continue;
                         }
-                        candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                        candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6;
                     }
-                    while( (candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspOutNext) != head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc );
+                    while( (candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6.lgspOutNext) != head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_6 );
                 }
             } while(false);
             if(matchesList.Count>0) {
@@ -16742,65 +16742,65 @@ label17: ;
             // Alternative case ChainFromToReverseToCommon_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_alt_0_CaseNums.@rec];
-                // SubPreset ChainFromToReverseToCommon_node_from_inlined_cftrtc 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc = ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                // SubPreset ChainFromToReverseToCommon_node_to_inlined_cftrtc 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc = ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                // Extend Outgoing ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc from ChainFromToReverseToCommon_node_from_inlined_cftrtc 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc.lgspOuthead;
-                if(head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc != null)
+                // SubPreset ChainFromToReverseToCommon_node_from_inlined_cftrtc_6 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6 = ChainFromToReverseToCommon_node_from_inlined_cftrtc_6;
+                // SubPreset ChainFromToReverseToCommon_node_to_inlined_cftrtc_6 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_6 = ChainFromToReverseToCommon_node_to_inlined_cftrtc_6;
+                // Extend Outgoing ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6 from ChainFromToReverseToCommon_node_from_inlined_cftrtc_6 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6.lgspOuthead;
+                if(head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc = head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6 = head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6;
                     do
                     {
-                        if(candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc from ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspTarget;
-                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
-                            && candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc==candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc
+                        // Implicit Target ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6 from ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspTarget;
+                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
+                            && candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6==candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6
                             )
                         {
                             continue;
                         }
-                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for cftrtc_inlined_cftrtc
-                        PatternAction_ChainFromToReverseToCommon taskFor_cftrtc_inlined_cftrtc = PatternAction_ChainFromToReverseToCommon.getNewTask(actionEnv, openTasks);
-                        taskFor_cftrtc_inlined_cftrtc.ChainFromToReverseToCommon_node_from = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
-                        taskFor_cftrtc_inlined_cftrtc.ChainFromToReverseToCommon_node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                        taskFor_cftrtc_inlined_cftrtc.searchPatternpath = false;
-                        taskFor_cftrtc_inlined_cftrtc.matchOfNestingPattern = null;
-                        taskFor_cftrtc_inlined_cftrtc.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_cftrtc_inlined_cftrtc);
-                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
-                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
-                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for cftrtc_inlined_cftrtc_6
+                        PatternAction_ChainFromToReverseToCommon taskFor_cftrtc_inlined_cftrtc_6 = PatternAction_ChainFromToReverseToCommon.getNewTask(actionEnv, openTasks);
+                        taskFor_cftrtc_inlined_cftrtc_6.ChainFromToReverseToCommon_node_from = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6;
+                        taskFor_cftrtc_inlined_cftrtc_6.ChainFromToReverseToCommon_node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_6;
+                        taskFor_cftrtc_inlined_cftrtc_6.searchPatternpath = false;
+                        taskFor_cftrtc_inlined_cftrtc_6.matchOfNestingPattern = null;
+                        taskFor_cftrtc_inlined_cftrtc_6.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_cftrtc_inlined_cftrtc_6);
+                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6;
+                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6;
+                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for cftrtc_inlined_cftrtc
+                        // Pop subpattern matching task for cftrtc_inlined_cftrtc_6
                         openTasks.Pop();
-                        PatternAction_ChainFromToReverseToCommon.releaseTask(taskFor_cftrtc_inlined_cftrtc);
+                        PatternAction_ChainFromToReverseToCommon.releaseTask(taskFor_cftrtc_inlined_cftrtc_6);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_rec match = new Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_rec();
-                                match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                                match._node_intermediate = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
-                                match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                                match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
+                                match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_6;
+                                match._node_intermediate = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6;
+                                match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_6;
+                                match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6;
                                 match._cftrtc = (@Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon)currentFoundPartialMatch.Pop();
                                 match._cftrtc._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -16816,19 +16816,19 @@ label17: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
-                                candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
+                                candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6;
+                                candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
-                            candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
+                            candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6;
+                            candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6;
                             continue;
                         }
-                        candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
-                        candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
+                        candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_6;
+                        candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6;
                     }
-                    while( (candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspOutNext) != head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc );
+                    while( (candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6.lgspOutNext) != head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_6 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -17126,10 +17126,10 @@ label17: ;
                 GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common = ReverseChainFromToToCommon_node_common;
                 // SubPreset ReverseChainFromToToCommon_node_to 
                 GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to = ReverseChainFromToToCommon_node_to;
-                // Element ReverseChainFromToToCommon_node_to_inlined__sub0 assigned from other element ReverseChainFromToToCommon_node_to 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_to;
-                // Element ReverseChainFromToToCommon_node_common_inlined__sub0 assigned from other element ReverseChainFromToToCommon_node_common 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_common;
+                // Element ReverseChainFromToToCommon_node_to_inlined__sub0_7 assigned from other element ReverseChainFromToToCommon_node_to 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_node_to;
+                // Element ReverseChainFromToToCommon_node_common_inlined__sub0_7 assigned from other element ReverseChainFromToToCommon_node_common 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_node_common;
                 // Extend Incoming ReverseChainFromToToCommon_alt_0_rec_edge__edge0 from ReverseChainFromToToCommon_node_from 
                 GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0 = candidate_ReverseChainFromToToCommon_node_from.lgspInhead;
                 if(head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0 != null)
@@ -17163,8 +17163,8 @@ label17: ;
                             candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0;
                             continue;
                         }
-                        // Element ReverseChainFromToToCommon_node_from_inlined__sub0 assigned from other element ReverseChainFromToToCommon_alt_0_rec_node_intermediate 
-                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate;
+                        // Element ReverseChainFromToToCommon_node_from_inlined__sub0_7 assigned from other element ReverseChainFromToToCommon_alt_0_rec_node_intermediate 
+                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate;
                         // Extend Outgoing ReverseChainFromToToCommon_alt_0_rec_edge__edge1 from ReverseChainFromToToCommon_node_from 
                         GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1 = candidate_ReverseChainFromToToCommon_node_from.lgspOuthead;
                         if(head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1 != null)
@@ -17186,15 +17186,15 @@ label17: ;
                                 {
                                     continue;
                                 }
-                                // Push alternative matching task for ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec
-                                AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec taskFor_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec = AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ReverseChainFromToToCommon.Instance.patternGraph.alternatives[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_AltNums.@alt_0].alternativeCases);
-                                taskFor_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec.ReverseChainFromToToCommon_node_to_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                                taskFor_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec.ReverseChainFromToToCommon_node_from_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0;
-                                taskFor_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec.ReverseChainFromToToCommon_node_common_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
-                                taskFor_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec.searchPatternpath = false;
-                                taskFor_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec.matchOfNestingPattern = null;
-                                taskFor_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
-                                openTasks.Push(taskFor_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec);
+                                // Push alternative matching task for ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec
+                                AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec taskFor_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec = AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec.getNewTask(actionEnv, openTasks, Pattern_ReverseChainFromToToCommon.Instance.patternGraph.alternatives[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_AltNums.@alt_0].alternativeCases);
+                                taskFor_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec.ReverseChainFromToToCommon_node_to_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_7;
+                                taskFor_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec.ReverseChainFromToToCommon_node_from_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7;
+                                taskFor_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec.ReverseChainFromToToCommon_node_common_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7;
+                                taskFor_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec.searchPatternpath = false;
+                                taskFor_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec.matchOfNestingPattern = null;
+                                taskFor_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec.lastMatchAtPreviousNestingLevel = null;
+                                openTasks.Push(taskFor_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec);
                                 uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate;
                                 prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                 candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -17206,9 +17206,9 @@ label17: ;
                                 candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                 // Match subpatterns 
                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                                // Pop alternative matching task for ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec
+                                // Pop alternative matching task for ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec
                                 openTasks.Pop();
-                                AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec);
+                                AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec.releaseTask(taskFor_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec);
                                 // Check whether subpatterns were found 
                                 if(matchesList.Count>0) {
                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -17221,9 +17221,9 @@ label17: ;
                                         match._node_from = candidate_ReverseChainFromToToCommon_node_from;
                                         match._node_common = candidate_ReverseChainFromToToCommon_node_common;
                                         match._node_to = candidate_ReverseChainFromToToCommon_node_to;
-                                        match__sub0._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0;
-                                        match__sub0._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                                        match__sub0._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
+                                        match__sub0._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7;
+                                        match__sub0._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_7;
+                                        match__sub0._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7;
                                         match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0;
                                         match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1;
                                         match.__sub0 = match__sub0;
@@ -17270,15 +17270,15 @@ label17: ;
         }
     }
 
-    public class AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec newTask;
+        public static AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -17287,12 +17287,12 @@ label17: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec oldTask) {
+        public static void releaseTask(AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -17301,15 +17301,15 @@ label17: ;
             }
         }
 
-        private static AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec freeListHead = null;
+        private static AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_in_ReverseChainFromToToCommon_alt_0_rec next = null;
+        private AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec next = null;
 
-        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_to_inlined__sub0;
-        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_from_inlined__sub0;
-        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_common_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_to_inlined__sub0_7;
+        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_from_inlined__sub0_7;
+        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_common_inlined__sub0_7;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -17320,50 +17320,50 @@ label17: ;
             // Alternative case ReverseChainFromToToCommon_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_alt_0_CaseNums.@base];
-                // SubPreset ReverseChainFromToToCommon_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0 = ReverseChainFromToToCommon_node_to_inlined__sub0;
-                // SubPreset ReverseChainFromToToCommon_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0 = ReverseChainFromToToCommon_node_from_inlined__sub0;
-                // SubPreset ReverseChainFromToToCommon_node_common_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0 = ReverseChainFromToToCommon_node_common_inlined__sub0;
-                // Extend Outgoing ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 from ReverseChainFromToToCommon_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0.lgspOuthead;
-                if(head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 != null)
+                // SubPreset ReverseChainFromToToCommon_node_to_inlined__sub0_7 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_7 = ReverseChainFromToToCommon_node_to_inlined__sub0_7;
+                // SubPreset ReverseChainFromToToCommon_node_from_inlined__sub0_7 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7 = ReverseChainFromToToCommon_node_from_inlined__sub0_7;
+                // SubPreset ReverseChainFromToToCommon_node_common_inlined__sub0_7 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7 = ReverseChainFromToToCommon_node_common_inlined__sub0_7;
+                // Extend Outgoing ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7 from ReverseChainFromToToCommon_node_to_inlined__sub0_7 
+                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_7.lgspOuthead;
+                if(head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 = head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7 = head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
                     do
                     {
-                        if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspTarget != candidate_ReverseChainFromToToCommon_node_from_inlined__sub0) {
+                        if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspTarget != candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7) {
                             continue;
                         }
-                        if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        uint prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                        prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Extend Outgoing ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 from ReverseChainFromToToCommon_node_from_inlined__sub0 
-                        GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0.lgspOuthead;
-                        if(head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 != null)
+                        uint prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
+                        prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                        // Extend Outgoing ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7 from ReverseChainFromToToCommon_node_from_inlined__sub0_7 
+                        GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7.lgspOuthead;
+                        if(head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7 != null)
                         {
-                            GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 = head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
+                            GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7 = head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7;
                             do
                             {
-                                if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspType.TypeID!=1) {
+                                if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspType.TypeID!=1) {
                                     continue;
                                 }
-                                if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspTarget != candidate_ReverseChainFromToToCommon_node_common_inlined__sub0) {
+                                if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspTarget != candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7) {
                                     continue;
                                 }
-                                if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
-                                if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                                if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                                 {
                                     continue;
                                 }
@@ -17373,27 +17373,27 @@ label17: ;
                                     Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                                     foundPartialMatches.Add(currentFoundPartialMatch);
                                     Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_base match = new Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_base();
-                                    match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                                    match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0;
-                                    match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
-                                    match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                                    match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
+                                    match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_7;
+                                    match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7;
+                                    match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7;
+                                    match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
+                                    match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7;
                                     currentFoundPartialMatch.Push(match);
                                     // if enough matches were found, we leave
                                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                     {
-                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
+                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
                                         openTasks.Push(this);
                                         return;
                                     }
                                     continue;
                                 }
-                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
-                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
+                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7;
+                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                 // Match subpatterns 
                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                 // Check whether subpatterns were found 
@@ -17402,11 +17402,11 @@ label17: ;
                                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                                     {
                                         Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_base match = new Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_base();
-                                        match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                                        match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0;
-                                        match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
-                                        match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                                        match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
+                                        match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_7;
+                                        match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7;
+                                        match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7;
+                                        match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
+                                        match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7;
                                         currentFoundPartialMatch.Push(match);
                                     }
                                     if(matchesList==foundPartialMatches) {
@@ -17420,24 +17420,24 @@ label17: ;
                                     // if enough matches were found, we leave
                                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                     {
-                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
-                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
+                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7;
+                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
+                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
                                         openTasks.Push(this);
                                         return;
                                     }
-                                    candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
-                                    candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
+                                    candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7;
+                                    candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
                                     continue;
                                 }
-                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
+                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
+                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7;
                             }
-                            while( (candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 );
+                            while( (candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_7 );
                         }
-                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
+                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7;
                     }
-                    while( (candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 );
+                    while( (candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_7 );
                 }
             } while(false);
             if(matchesList.Count>0) {
@@ -17453,101 +17453,101 @@ label17: ;
             // Alternative case ReverseChainFromToToCommon_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_alt_0_CaseNums.@rec];
-                // SubPreset ReverseChainFromToToCommon_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0 = ReverseChainFromToToCommon_node_from_inlined__sub0;
-                // SubPreset ReverseChainFromToToCommon_node_common_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0 = ReverseChainFromToToCommon_node_common_inlined__sub0;
-                // SubPreset ReverseChainFromToToCommon_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0 = ReverseChainFromToToCommon_node_to_inlined__sub0;
-                // Extend Incoming ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 from ReverseChainFromToToCommon_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0.lgspInhead;
-                if(head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ReverseChainFromToToCommon_node_from_inlined__sub0_7 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7 = ReverseChainFromToToCommon_node_from_inlined__sub0_7;
+                // SubPreset ReverseChainFromToToCommon_node_common_inlined__sub0_7 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7 = ReverseChainFromToToCommon_node_common_inlined__sub0_7;
+                // SubPreset ReverseChainFromToToCommon_node_to_inlined__sub0_7 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_7 = ReverseChainFromToToCommon_node_to_inlined__sub0_7;
+                // Extend Incoming ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7 from ReverseChainFromToToCommon_node_from_inlined__sub0_7 
+                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7.lgspInhead;
+                if(head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7 = head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
                     do
                     {
-                        if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        uint prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                        prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Implicit Source ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0 from ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspSource;
-                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
-                            && (candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0==candidate_ReverseChainFromToToCommon_node_from_inlined__sub0
-                                || candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0==candidate_ReverseChainFromToToCommon_node_common_inlined__sub0
+                        uint prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
+                        prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                        // Implicit Source ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7 from ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7 
+                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspSource;
+                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
+                            && (candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7==candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7
+                                || candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7==candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7
                                 )
                             )
                         {
-                            candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
+                            candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
                             continue;
                         }
-                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
-                            candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
+                            candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
                             continue;
                         }
-                        // Extend Outgoing ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 from ReverseChainFromToToCommon_node_from_inlined__sub0 
-                        GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0.lgspOuthead;
-                        if(head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 != null)
+                        // Extend Outgoing ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7 from ReverseChainFromToToCommon_node_from_inlined__sub0_7 
+                        GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7.lgspOuthead;
+                        if(head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7 != null)
                         {
-                            GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 = head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
+                            GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7 = head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7;
                             do
                             {
-                                if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspType.TypeID!=1) {
+                                if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspType.TypeID!=1) {
                                     continue;
                                 }
-                                if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspTarget != candidate_ReverseChainFromToToCommon_node_common_inlined__sub0) {
+                                if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspTarget != candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7) {
                                     continue;
                                 }
-                                if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
-                                if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                                if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                                 {
                                     continue;
                                 }
-                                // Push subpattern matching task for _sub0_inlined__sub0
-                                PatternAction_ReverseChainFromToToCommon taskFor__sub0_inlined__sub0 = PatternAction_ReverseChainFromToToCommon.getNewTask(actionEnv, openTasks);
-                                taskFor__sub0_inlined__sub0.ReverseChainFromToToCommon_node_from = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
-                                taskFor__sub0_inlined__sub0.ReverseChainFromToToCommon_node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                                taskFor__sub0_inlined__sub0.ReverseChainFromToToCommon_node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
-                                taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                                taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                                taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                                openTasks.Push(taskFor__sub0_inlined__sub0);
-                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
-                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
-                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                // Push subpattern matching task for _sub0_inlined__sub0_7
+                                PatternAction_ReverseChainFromToToCommon taskFor__sub0_inlined__sub0_7 = PatternAction_ReverseChainFromToToCommon.getNewTask(actionEnv, openTasks);
+                                taskFor__sub0_inlined__sub0_7.ReverseChainFromToToCommon_node_from = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7;
+                                taskFor__sub0_inlined__sub0_7.ReverseChainFromToToCommon_node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_7;
+                                taskFor__sub0_inlined__sub0_7.ReverseChainFromToToCommon_node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7;
+                                taskFor__sub0_inlined__sub0_7.searchPatternpath = false;
+                                taskFor__sub0_inlined__sub0_7.matchOfNestingPattern = null;
+                                taskFor__sub0_inlined__sub0_7.lastMatchAtPreviousNestingLevel = null;
+                                openTasks.Push(taskFor__sub0_inlined__sub0_7);
+                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7;
+                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
+                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7;
+                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                 // Match subpatterns 
                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                                // Pop subpattern matching task for _sub0_inlined__sub0
+                                // Pop subpattern matching task for _sub0_inlined__sub0_7
                                 openTasks.Pop();
-                                PatternAction_ReverseChainFromToToCommon.releaseTask(taskFor__sub0_inlined__sub0);
+                                PatternAction_ReverseChainFromToToCommon.releaseTask(taskFor__sub0_inlined__sub0_7);
                                 // Check whether subpatterns were found 
                                 if(matchesList.Count>0) {
                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                                     {
                                         Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_rec match = new Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_rec();
-                                        match._node_intermediate = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
-                                        match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0;
-                                        match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
-                                        match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                                        match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                                        match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
+                                        match._node_intermediate = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7;
+                                        match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_7;
+                                        match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_7;
+                                        match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_7;
+                                        match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
+                                        match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7;
                                         match.__sub0 = (@Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon)currentFoundPartialMatch.Pop();
                                         match.__sub0._matchOfEnclosingPattern = match;
                                         currentFoundPartialMatch.Push(match);
@@ -17563,27 +17563,27 @@ label17: ;
                                     // if enough matches were found, we leave
                                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                     {
-                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
-                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                                        candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
-                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
+                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7;
+                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
+                                        candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7;
+                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
                                         openTasks.Push(this);
                                         return;
                                     }
-                                    candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
-                                    candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                                    candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
+                                    candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7;
+                                    candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
+                                    candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7;
                                     continue;
                                 }
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_7;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7;
                             }
-                            while( (candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 );
+                            while( (candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_7 );
                         }
-                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7;
                     }
-                    while( (candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspInNext) != head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7.lgspInNext) != head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_7 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -17873,18 +17873,18 @@ label17: ;
             uint prev__candidate_chainFromTo_node_end;
             prev__candidate_chainFromTo_node_end = candidate_chainFromTo_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
             candidate_chainFromTo_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            // Element ChainFromTo_node_to_inlined__sub0 assigned from other element chainFromTo_node_end 
-            GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0 = candidate_chainFromTo_node_end;
-            // Element ChainFromTo_node_from_inlined__sub0 assigned from other element chainFromTo_node_beg 
-            GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0 = candidate_chainFromTo_node_beg;
-            // Push alternative matching task for chainFromTo_alt_0_inlined__sub0_in_chainFromTo
-            AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo taskFor_alt_0_inlined__sub0_in_chainFromTo = AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo.getNewTask(actionEnv, openTasks, Pattern_ChainFromTo.Instance.patternGraph.alternatives[(int)Pattern_ChainFromTo.ChainFromTo_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0_inlined__sub0_in_chainFromTo.ChainFromTo_node_from_inlined__sub0 = candidate_ChainFromTo_node_from_inlined__sub0;
-            taskFor_alt_0_inlined__sub0_in_chainFromTo.ChainFromTo_node_to_inlined__sub0 = candidate_ChainFromTo_node_to_inlined__sub0;
-            taskFor_alt_0_inlined__sub0_in_chainFromTo.searchPatternpath = false;
-            taskFor_alt_0_inlined__sub0_in_chainFromTo.matchOfNestingPattern = null;
-            taskFor_alt_0_inlined__sub0_in_chainFromTo.lastMatchAtPreviousNestingLevel = null;
-            openTasks.Push(taskFor_alt_0_inlined__sub0_in_chainFromTo);
+            // Element ChainFromTo_node_to_inlined__sub0_8 assigned from other element chainFromTo_node_end 
+            GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0_8 = candidate_chainFromTo_node_end;
+            // Element ChainFromTo_node_from_inlined__sub0_8 assigned from other element chainFromTo_node_beg 
+            GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0_8 = candidate_chainFromTo_node_beg;
+            // Push alternative matching task for chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo
+            AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo taskFor_alt_0_inlined__sub0_8_in_chainFromTo = AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo.getNewTask(actionEnv, openTasks, Pattern_ChainFromTo.Instance.patternGraph.alternatives[(int)Pattern_ChainFromTo.ChainFromTo_AltNums.@alt_0].alternativeCases);
+            taskFor_alt_0_inlined__sub0_8_in_chainFromTo.ChainFromTo_node_from_inlined__sub0_8 = candidate_ChainFromTo_node_from_inlined__sub0_8;
+            taskFor_alt_0_inlined__sub0_8_in_chainFromTo.ChainFromTo_node_to_inlined__sub0_8 = candidate_ChainFromTo_node_to_inlined__sub0_8;
+            taskFor_alt_0_inlined__sub0_8_in_chainFromTo.searchPatternpath = false;
+            taskFor_alt_0_inlined__sub0_8_in_chainFromTo.matchOfNestingPattern = null;
+            taskFor_alt_0_inlined__sub0_8_in_chainFromTo.lastMatchAtPreviousNestingLevel = null;
+            openTasks.Push(taskFor_alt_0_inlined__sub0_8_in_chainFromTo);
             uint prevGlobal__candidate_chainFromTo_node_beg;
             prevGlobal__candidate_chainFromTo_node_beg = candidate_chainFromTo_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             candidate_chainFromTo_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -17893,9 +17893,9 @@ label17: ;
             candidate_chainFromTo_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-            // Pop alternative matching task for chainFromTo_alt_0_inlined__sub0_in_chainFromTo
+            // Pop alternative matching task for chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo
             openTasks.Pop();
-            AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo.releaseTask(taskFor_alt_0_inlined__sub0_in_chainFromTo);
+            AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo.releaseTask(taskFor_alt_0_inlined__sub0_8_in_chainFromTo);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -17906,8 +17906,8 @@ label17: ;
                     match__sub0.SetMatchOfEnclosingPattern(match);
                     match._node_beg = candidate_chainFromTo_node_beg;
                     match._node_end = candidate_chainFromTo_node_end;
-                    match__sub0._node_from = candidate_ChainFromTo_node_from_inlined__sub0;
-                    match__sub0._node_to = candidate_ChainFromTo_node_to_inlined__sub0;
+                    match__sub0._node_from = candidate_ChainFromTo_node_from_inlined__sub0_8;
+                    match__sub0._node_to = candidate_ChainFromTo_node_to_inlined__sub0_8;
                     match.__sub0 = match__sub0;
                     match__sub0._alt_0 = (Pattern_ChainFromTo.IMatch_ChainFromTo_alt_0)currentFoundPartialMatch.Pop();
                     match__sub0._alt_0.SetMatchOfEnclosingPattern(match__sub0);
@@ -18076,15 +18076,15 @@ label17: ;
         }
     }
 
-    public class AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo newTask;
+        public static AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -18093,12 +18093,12 @@ label17: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo oldTask) {
+        public static void releaseTask(AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -18107,14 +18107,14 @@ label17: ;
             }
         }
 
-        private static AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo freeListHead = null;
+        private static AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_chainFromTo_alt_0_inlined__sub0_in_chainFromTo next = null;
+        private AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFromTo_node_from_inlined__sub0;
-        public GRGEN_LGSP.LGSPNode ChainFromTo_node_to_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ChainFromTo_node_from_inlined__sub0_8;
+        public GRGEN_LGSP.LGSPNode ChainFromTo_node_to_inlined__sub0_8;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -18125,24 +18125,24 @@ label17: ;
             // Alternative case ChainFromTo_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_CaseNums.@base];
-                // SubPreset ChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0 = ChainFromTo_node_from_inlined__sub0;
-                // SubPreset ChainFromTo_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0 = ChainFromTo_node_to_inlined__sub0;
-                // Extend Outgoing ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 from ChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ChainFromTo_node_from_inlined__sub0.lgspOuthead;
-                if(head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 != null)
+                // SubPreset ChainFromTo_node_from_inlined__sub0_8 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0_8 = ChainFromTo_node_from_inlined__sub0_8;
+                // SubPreset ChainFromTo_node_to_inlined__sub0_8 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0_8 = ChainFromTo_node_to_inlined__sub0_8;
+                // Extend Outgoing ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8 from ChainFromTo_node_from_inlined__sub0_8 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8 = candidate_ChainFromTo_node_from_inlined__sub0_8.lgspOuthead;
+                if(head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8 = head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8;
                     do
                     {
-                        if(candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if(candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspTarget != candidate_ChainFromTo_node_to_inlined__sub0) {
+                        if(candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspTarget != candidate_ChainFromTo_node_to_inlined__sub0_8) {
                             continue;
                         }
-                        if((candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
@@ -18152,9 +18152,9 @@ label17: ;
                             Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
                             Pattern_ChainFromTo.Match_ChainFromTo_alt_0_base match = new Pattern_ChainFromTo.Match_ChainFromTo_alt_0_base();
-                            match._node_from = candidate_ChainFromTo_node_from_inlined__sub0;
-                            match._node_to = candidate_ChainFromTo_node_to_inlined__sub0;
-                            match._edge__edge0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                            match._node_from = candidate_ChainFromTo_node_from_inlined__sub0_8;
+                            match._node_to = candidate_ChainFromTo_node_to_inlined__sub0_8;
+                            match._edge__edge0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8;
                             currentFoundPartialMatch.Push(match);
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -18164,9 +18164,9 @@ label17: ;
                             }
                             continue;
                         }
-                        uint prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8;
+                        prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Check whether subpatterns were found 
@@ -18175,9 +18175,9 @@ label17: ;
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromTo.Match_ChainFromTo_alt_0_base match = new Pattern_ChainFromTo.Match_ChainFromTo_alt_0_base();
-                                match._node_from = candidate_ChainFromTo_node_from_inlined__sub0;
-                                match._node_to = candidate_ChainFromTo_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                                match._node_from = candidate_ChainFromTo_node_from_inlined__sub0_8;
+                                match._node_to = candidate_ChainFromTo_node_to_inlined__sub0_8;
+                                match._edge__edge0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8;
                                 currentFoundPartialMatch.Push(match);
                             }
                             if(matchesList==foundPartialMatches) {
@@ -18191,16 +18191,16 @@ label17: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                                candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                            candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8;
                             continue;
                         }
-                        candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                        candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspFlags = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8;
                     }
-                    while( (candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0 );
+                    while( (candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8 = candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8.lgspOutNext) != head_candidate_ChainFromTo_alt_0_base_edge__edge0_inlined__sub0_8 );
                 }
             } while(false);
             if(matchesList.Count>0) {
@@ -18216,65 +18216,65 @@ label17: ;
             // Alternative case ChainFromTo_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_CaseNums.@rec];
-                // SubPreset ChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0 = ChainFromTo_node_from_inlined__sub0;
-                // SubPreset ChainFromTo_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0 = ChainFromTo_node_to_inlined__sub0;
-                // Extend Outgoing ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 from ChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromTo_node_from_inlined__sub0.lgspOuthead;
-                if(head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ChainFromTo_node_from_inlined__sub0_8 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_from_inlined__sub0_8 = ChainFromTo_node_from_inlined__sub0_8;
+                // SubPreset ChainFromTo_node_to_inlined__sub0_8 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromTo_node_to_inlined__sub0_8 = ChainFromTo_node_to_inlined__sub0_8;
+                // Extend Outgoing ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8 from ChainFromTo_node_from_inlined__sub0_8 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8 = candidate_ChainFromTo_node_from_inlined__sub0_8.lgspOuthead;
+                if(head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8 = head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8;
                     do
                     {
-                        if(candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 from ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspTarget;
-                        if((candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
-                            && candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0==candidate_ChainFromTo_node_from_inlined__sub0
+                        // Implicit Target ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8 from ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspTarget;
+                        if((candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
+                            && candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8==candidate_ChainFromTo_node_from_inlined__sub0_8
                             )
                         {
                             continue;
                         }
-                        if((candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for _sub0_inlined__sub0
-                        PatternAction_ChainFromTo taskFor__sub0_inlined__sub0 = PatternAction_ChainFromTo.getNewTask(actionEnv, openTasks);
-                        taskFor__sub0_inlined__sub0.ChainFromTo_node_from = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.ChainFromTo_node_to = candidate_ChainFromTo_node_to_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                        taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                        taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__sub0_inlined__sub0);
-                        uint prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for _sub0_inlined__sub0_8
+                        PatternAction_ChainFromTo taskFor__sub0_inlined__sub0_8 = PatternAction_ChainFromTo.getNewTask(actionEnv, openTasks);
+                        taskFor__sub0_inlined__sub0_8.ChainFromTo_node_from = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8;
+                        taskFor__sub0_inlined__sub0_8.ChainFromTo_node_to = candidate_ChainFromTo_node_to_inlined__sub0_8;
+                        taskFor__sub0_inlined__sub0_8.searchPatternpath = false;
+                        taskFor__sub0_inlined__sub0_8.matchOfNestingPattern = null;
+                        taskFor__sub0_inlined__sub0_8.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0_inlined__sub0_8);
+                        uint prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8;
+                        prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8 = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8;
+                        prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _sub0_inlined__sub0
+                        // Pop subpattern matching task for _sub0_inlined__sub0_8
                         openTasks.Pop();
-                        PatternAction_ChainFromTo.releaseTask(taskFor__sub0_inlined__sub0);
+                        PatternAction_ChainFromTo.releaseTask(taskFor__sub0_inlined__sub0_8);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromTo.Match_ChainFromTo_alt_0_rec match = new Pattern_ChainFromTo.Match_ChainFromTo_alt_0_rec();
-                                match._node_from = candidate_ChainFromTo_node_from_inlined__sub0;
-                                match._node_intermediate = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                                match._node_to = candidate_ChainFromTo_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                                match._node_from = candidate_ChainFromTo_node_from_inlined__sub0_8;
+                                match._node_intermediate = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8;
+                                match._node_to = candidate_ChainFromTo_node_to_inlined__sub0_8;
+                                match._edge__edge0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8;
                                 match.__sub0 = (@Pattern_ChainFromTo.Match_ChainFromTo)currentFoundPartialMatch.Pop();
                                 match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -18290,19 +18290,19 @@ label17: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
+                                candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8;
+                                candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                            candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
+                            candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8;
+                            candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8;
                             continue;
                         }
-                        candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8.lgspFlags = candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_8;
+                        candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspFlags = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8;
                     }
-                    while( (candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8 = candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8.lgspOutNext) != head_candidate_ChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_8 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -18361,23 +18361,23 @@ label17: ;
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             // Preset chainFrom_node_beg 
             GRGEN_LGSP.LGSPNode candidate_chainFrom_node_beg = (GRGEN_LGSP.LGSPNode)chainFrom_node_beg;
-            // Element ChainFrom_node_from_inlined__sub0 assigned from other element chainFrom_node_beg 
-            GRGEN_LGSP.LGSPNode candidate_ChainFrom_node_from_inlined__sub0 = candidate_chainFrom_node_beg;
-            // Push alternative matching task for chainFrom_alt_0_inlined__sub0_in_chainFrom
-            AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom taskFor_alt_0_inlined__sub0_in_chainFrom = AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom.getNewTask(actionEnv, openTasks, Pattern_ChainFrom.Instance.patternGraph.alternatives[(int)Pattern_ChainFrom.ChainFrom_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0_inlined__sub0_in_chainFrom.ChainFrom_node_from_inlined__sub0 = candidate_ChainFrom_node_from_inlined__sub0;
-            taskFor_alt_0_inlined__sub0_in_chainFrom.searchPatternpath = false;
-            taskFor_alt_0_inlined__sub0_in_chainFrom.matchOfNestingPattern = null;
-            taskFor_alt_0_inlined__sub0_in_chainFrom.lastMatchAtPreviousNestingLevel = null;
-            openTasks.Push(taskFor_alt_0_inlined__sub0_in_chainFrom);
+            // Element ChainFrom_node_from_inlined__sub0_9 assigned from other element chainFrom_node_beg 
+            GRGEN_LGSP.LGSPNode candidate_ChainFrom_node_from_inlined__sub0_9 = candidate_chainFrom_node_beg;
+            // Push alternative matching task for chainFrom_alt_0_inlined__sub0_9_in_chainFrom
+            AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom taskFor_alt_0_inlined__sub0_9_in_chainFrom = AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom.getNewTask(actionEnv, openTasks, Pattern_ChainFrom.Instance.patternGraph.alternatives[(int)Pattern_ChainFrom.ChainFrom_AltNums.@alt_0].alternativeCases);
+            taskFor_alt_0_inlined__sub0_9_in_chainFrom.ChainFrom_node_from_inlined__sub0_9 = candidate_ChainFrom_node_from_inlined__sub0_9;
+            taskFor_alt_0_inlined__sub0_9_in_chainFrom.searchPatternpath = false;
+            taskFor_alt_0_inlined__sub0_9_in_chainFrom.matchOfNestingPattern = null;
+            taskFor_alt_0_inlined__sub0_9_in_chainFrom.lastMatchAtPreviousNestingLevel = null;
+            openTasks.Push(taskFor_alt_0_inlined__sub0_9_in_chainFrom);
             uint prevGlobal__candidate_chainFrom_node_beg;
             prevGlobal__candidate_chainFrom_node_beg = candidate_chainFrom_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             candidate_chainFrom_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-            // Pop alternative matching task for chainFrom_alt_0_inlined__sub0_in_chainFrom
+            // Pop alternative matching task for chainFrom_alt_0_inlined__sub0_9_in_chainFrom
             openTasks.Pop();
-            AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom.releaseTask(taskFor_alt_0_inlined__sub0_in_chainFrom);
+            AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom.releaseTask(taskFor_alt_0_inlined__sub0_9_in_chainFrom);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -18387,7 +18387,7 @@ label17: ;
                     Pattern_ChainFrom.Match_ChainFrom match__sub0 = new Pattern_ChainFrom.Match_ChainFrom();
                     match__sub0.SetMatchOfEnclosingPattern(match);
                     match._node_beg = candidate_chainFrom_node_beg;
-                    match__sub0._node_from = candidate_ChainFrom_node_from_inlined__sub0;
+                    match__sub0._node_from = candidate_ChainFrom_node_from_inlined__sub0_9;
                     match.__sub0 = match__sub0;
                     match__sub0._alt_0 = (Pattern_ChainFrom.IMatch_ChainFrom_alt_0)currentFoundPartialMatch.Pop();
                     match__sub0._alt_0.SetMatchOfEnclosingPattern(match__sub0);
@@ -18547,15 +18547,15 @@ label17: ;
         }
     }
 
-    public class AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom newTask;
+        public static AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -18564,12 +18564,12 @@ label17: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom oldTask) {
+        public static void releaseTask(AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -18578,13 +18578,13 @@ label17: ;
             }
         }
 
-        private static AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom freeListHead = null;
+        private static AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_chainFrom_alt_0_inlined__sub0_in_chainFrom next = null;
+        private AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFrom_node_from_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ChainFrom_node_from_inlined__sub0_9;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -18650,59 +18650,59 @@ label17: ;
             // Alternative case ChainFrom_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFrom.ChainFrom_alt_0_CaseNums.@rec];
-                // SubPreset ChainFrom_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFrom_node_from_inlined__sub0 = ChainFrom_node_from_inlined__sub0;
-                // Extend Outgoing ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 from ChainFrom_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFrom_node_from_inlined__sub0.lgspOuthead;
-                if(head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ChainFrom_node_from_inlined__sub0_9 
+                GRGEN_LGSP.LGSPNode candidate_ChainFrom_node_from_inlined__sub0_9 = ChainFrom_node_from_inlined__sub0_9;
+                // Extend Outgoing ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9 from ChainFrom_node_from_inlined__sub0_9 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9 = candidate_ChainFrom_node_from_inlined__sub0_9.lgspOuthead;
+                if(head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9 = head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9;
                     do
                     {
-                        if(candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFrom_alt_0_rec_node_to_inlined__sub0 from ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspTarget;
-                        if((candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        // Implicit Target ChainFrom_alt_0_rec_node_to_inlined__sub0_9 from ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspTarget;
+                        if((candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
-                        if((candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for _sub0_inlined__sub0
-                        PatternAction_ChainFrom taskFor__sub0_inlined__sub0 = PatternAction_ChainFrom.getNewTask(actionEnv, openTasks);
-                        taskFor__sub0_inlined__sub0.ChainFrom_node_from = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                        taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                        taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__sub0_inlined__sub0);
-                        uint prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
-                        prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for _sub0_inlined__sub0_9
+                        PatternAction_ChainFrom taskFor__sub0_inlined__sub0_9 = PatternAction_ChainFrom.getNewTask(actionEnv, openTasks);
+                        taskFor__sub0_inlined__sub0_9.ChainFrom_node_from = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9;
+                        taskFor__sub0_inlined__sub0_9.searchPatternpath = false;
+                        taskFor__sub0_inlined__sub0_9.matchOfNestingPattern = null;
+                        taskFor__sub0_inlined__sub0_9.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0_inlined__sub0_9);
+                        uint prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9;
+                        prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9 = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9;
+                        prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _sub0_inlined__sub0
+                        // Pop subpattern matching task for _sub0_inlined__sub0_9
                         openTasks.Pop();
-                        PatternAction_ChainFrom.releaseTask(taskFor__sub0_inlined__sub0);
+                        PatternAction_ChainFrom.releaseTask(taskFor__sub0_inlined__sub0_9);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFrom.Match_ChainFrom_alt_0_rec match = new Pattern_ChainFrom.Match_ChainFrom_alt_0_rec();
-                                match._node_from = candidate_ChainFrom_node_from_inlined__sub0;
-                                match._node_to = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
+                                match._node_from = candidate_ChainFrom_node_from_inlined__sub0_9;
+                                match._node_to = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9;
+                                match._edge__edge0 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9;
                                 match.__sub0 = (@Pattern_ChainFrom.Match_ChainFrom)currentFoundPartialMatch.Pop();
                                 match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -18718,19 +18718,19 @@ label17: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
+                                candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9;
+                                candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
-                            candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
+                            candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9;
+                            candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9;
                             continue;
                         }
-                        candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0;
-                        candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9.lgspFlags = candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_node_to_inlined__sub0_9;
+                        candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspFlags = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9;
                     }
-                    while( (candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9 = candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9.lgspOutNext) != head_candidate_ChainFrom_alt_0_rec_edge__edge0_inlined__sub0_9 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -18789,23 +18789,23 @@ label17: ;
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             // Preset chainFromComplete_node_beg 
             GRGEN_LGSP.LGSPNode candidate_chainFromComplete_node_beg = (GRGEN_LGSP.LGSPNode)chainFromComplete_node_beg;
-            // Element ChainFromComplete_node_from_inlined__sub0 assigned from other element chainFromComplete_node_beg 
-            GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0 = candidate_chainFromComplete_node_beg;
-            // Push alternative matching task for chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete
-            AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete taskFor_alt_0_inlined__sub0_in_chainFromComplete = AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete.getNewTask(actionEnv, openTasks, Pattern_ChainFromComplete.Instance.patternGraph.alternatives[(int)Pattern_ChainFromComplete.ChainFromComplete_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0_inlined__sub0_in_chainFromComplete.ChainFromComplete_node_from_inlined__sub0 = candidate_ChainFromComplete_node_from_inlined__sub0;
-            taskFor_alt_0_inlined__sub0_in_chainFromComplete.searchPatternpath = false;
-            taskFor_alt_0_inlined__sub0_in_chainFromComplete.matchOfNestingPattern = null;
-            taskFor_alt_0_inlined__sub0_in_chainFromComplete.lastMatchAtPreviousNestingLevel = null;
-            openTasks.Push(taskFor_alt_0_inlined__sub0_in_chainFromComplete);
+            // Element ChainFromComplete_node_from_inlined__sub0_10 assigned from other element chainFromComplete_node_beg 
+            GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0_10 = candidate_chainFromComplete_node_beg;
+            // Push alternative matching task for chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete
+            AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete taskFor_alt_0_inlined__sub0_10_in_chainFromComplete = AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete.getNewTask(actionEnv, openTasks, Pattern_ChainFromComplete.Instance.patternGraph.alternatives[(int)Pattern_ChainFromComplete.ChainFromComplete_AltNums.@alt_0].alternativeCases);
+            taskFor_alt_0_inlined__sub0_10_in_chainFromComplete.ChainFromComplete_node_from_inlined__sub0_10 = candidate_ChainFromComplete_node_from_inlined__sub0_10;
+            taskFor_alt_0_inlined__sub0_10_in_chainFromComplete.searchPatternpath = false;
+            taskFor_alt_0_inlined__sub0_10_in_chainFromComplete.matchOfNestingPattern = null;
+            taskFor_alt_0_inlined__sub0_10_in_chainFromComplete.lastMatchAtPreviousNestingLevel = null;
+            openTasks.Push(taskFor_alt_0_inlined__sub0_10_in_chainFromComplete);
             uint prevGlobal__candidate_chainFromComplete_node_beg;
             prevGlobal__candidate_chainFromComplete_node_beg = candidate_chainFromComplete_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             candidate_chainFromComplete_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-            // Pop alternative matching task for chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete
+            // Pop alternative matching task for chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete
             openTasks.Pop();
-            AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete.releaseTask(taskFor_alt_0_inlined__sub0_in_chainFromComplete);
+            AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete.releaseTask(taskFor_alt_0_inlined__sub0_10_in_chainFromComplete);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -18815,7 +18815,7 @@ label17: ;
                     Pattern_ChainFromComplete.Match_ChainFromComplete match__sub0 = new Pattern_ChainFromComplete.Match_ChainFromComplete();
                     match__sub0.SetMatchOfEnclosingPattern(match);
                     match._node_beg = candidate_chainFromComplete_node_beg;
-                    match__sub0._node_from = candidate_ChainFromComplete_node_from_inlined__sub0;
+                    match__sub0._node_from = candidate_ChainFromComplete_node_from_inlined__sub0_10;
                     match.__sub0 = match__sub0;
                     match__sub0._alt_0 = (Pattern_ChainFromComplete.IMatch_ChainFromComplete_alt_0)currentFoundPartialMatch.Pop();
                     match__sub0._alt_0.SetMatchOfEnclosingPattern(match__sub0);
@@ -18975,15 +18975,15 @@ label17: ;
         }
     }
 
-    public class AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete newTask;
+        public static AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -18992,12 +18992,12 @@ label17: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete oldTask) {
+        public static void releaseTask(AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -19006,13 +19006,13 @@ label17: ;
             }
         }
 
-        private static AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete freeListHead = null;
+        private static AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_chainFromComplete_alt_0_inlined__sub0_in_chainFromComplete next = null;
+        private AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFromComplete_node_from_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ChainFromComplete_node_from_inlined__sub0_10;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -19023,46 +19023,46 @@ label17: ;
             // Alternative case ChainFromComplete_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_CaseNums.@base];
-                // SubPreset ChainFromComplete_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0 = ChainFromComplete_node_from_inlined__sub0;
+                // SubPreset ChainFromComplete_node_from_inlined__sub0_10 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0_10 = ChainFromComplete_node_from_inlined__sub0_10;
                 // NegativePattern 
                 {
                     ++negLevel;
-                    uint prev_neg_0_inlined__sub0_in_chainFromComplete__candidate_ChainFromComplete_node_from_inlined__sub0;
-                    prev_neg_0_inlined__sub0_in_chainFromComplete__candidate_ChainFromComplete_node_from_inlined__sub0 = candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Extend Outgoing ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 from ChainFromComplete_node_from_inlined__sub0 
-                    GRGEN_LGSP.LGSPEdge head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 = candidate_ChainFromComplete_node_from_inlined__sub0.lgspOuthead;
-                    if(head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 != null)
+                    uint prev_neg_0_inlined__sub0_10_in_chainFromComplete__candidate_ChainFromComplete_node_from_inlined__sub0_10;
+                    prev_neg_0_inlined__sub0_10_in_chainFromComplete__candidate_ChainFromComplete_node_from_inlined__sub0_10 = candidate_ChainFromComplete_node_from_inlined__sub0_10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    candidate_ChainFromComplete_node_from_inlined__sub0_10.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    // Extend Outgoing ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10 from ChainFromComplete_node_from_inlined__sub0_10 
+                    GRGEN_LGSP.LGSPEdge head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10 = candidate_ChainFromComplete_node_from_inlined__sub0_10.lgspOuthead;
+                    if(head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10 != null)
                     {
-                        GRGEN_LGSP.LGSPEdge candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 = head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0;
+                        GRGEN_LGSP.LGSPEdge candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10 = head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10;
                         do
                         {
-                            if(candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                            if(candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10.lgspType.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                            if((candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                             {
                                 continue;
                             }
-                            // Implicit Target ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0 from ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 
-                            GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0 = candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspTarget;
-                            if((candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            // Implicit Target ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0_10 from ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10 
+                            GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0_10 = candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10.lgspTarget;
+                            if((candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0_10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
-                            if((candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                            if((candidate_ChainFromComplete_alt_0_base_neg_0_node__node0_inlined__sub0_10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                             {
                                 continue;
                             }
                             // negative pattern found
-                            candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags = candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_in_chainFromComplete__candidate_ChainFromComplete_node_from_inlined__sub0;
+                            candidate_ChainFromComplete_node_from_inlined__sub0_10.lgspFlags = candidate_ChainFromComplete_node_from_inlined__sub0_10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_10_in_chainFromComplete__candidate_ChainFromComplete_node_from_inlined__sub0_10;
                             --negLevel;
                             goto label18;
                         }
-                        while( (candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 = candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0 );
+                        while( (candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10 = candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10.lgspOutNext) != head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0_inlined__sub0_10 );
                     }
-                    candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags = candidate_ChainFromComplete_node_from_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_in_chainFromComplete__candidate_ChainFromComplete_node_from_inlined__sub0;
+                    candidate_ChainFromComplete_node_from_inlined__sub0_10.lgspFlags = candidate_ChainFromComplete_node_from_inlined__sub0_10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_10_in_chainFromComplete__candidate_ChainFromComplete_node_from_inlined__sub0_10;
                     --negLevel;
                 }
                 // Check whether there are subpattern matching tasks left to execute
@@ -19071,7 +19071,7 @@ label17: ;
                     Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                     foundPartialMatches.Add(currentFoundPartialMatch);
                     Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_base match = new Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_base();
-                    match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0;
+                    match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0_10;
                     currentFoundPartialMatch.Push(match);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -19089,7 +19089,7 @@ label17: ;
                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                     {
                         Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_base match = new Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_base();
-                        match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0;
+                        match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0_10;
                         currentFoundPartialMatch.Push(match);
                     }
                     if(matchesList==foundPartialMatches) {
@@ -19125,59 +19125,59 @@ label20: ;
             // Alternative case ChainFromComplete_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_CaseNums.@rec];
-                // SubPreset ChainFromComplete_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0 = ChainFromComplete_node_from_inlined__sub0;
-                // Extend Outgoing ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 from ChainFromComplete_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromComplete_node_from_inlined__sub0.lgspOuthead;
-                if(head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ChainFromComplete_node_from_inlined__sub0_10 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_node_from_inlined__sub0_10 = ChainFromComplete_node_from_inlined__sub0_10;
+                // Extend Outgoing ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10 from ChainFromComplete_node_from_inlined__sub0_10 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10 = candidate_ChainFromComplete_node_from_inlined__sub0_10.lgspOuthead;
+                if(head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10 = head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10;
                     do
                     {
-                        if(candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFromComplete_alt_0_rec_node_to_inlined__sub0 from ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspTarget;
-                        if((candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        // Implicit Target ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10 from ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspTarget;
+                        if((candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
-                        if((candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for _sub0_inlined__sub0
-                        PatternAction_ChainFromComplete taskFor__sub0_inlined__sub0 = PatternAction_ChainFromComplete.getNewTask(actionEnv, openTasks);
-                        taskFor__sub0_inlined__sub0.ChainFromComplete_node_from = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                        taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                        taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__sub0_inlined__sub0);
-                        uint prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
-                        prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for _sub0_inlined__sub0_10
+                        PatternAction_ChainFromComplete taskFor__sub0_inlined__sub0_10 = PatternAction_ChainFromComplete.getNewTask(actionEnv, openTasks);
+                        taskFor__sub0_inlined__sub0_10.ChainFromComplete_node_from = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10;
+                        taskFor__sub0_inlined__sub0_10.searchPatternpath = false;
+                        taskFor__sub0_inlined__sub0_10.matchOfNestingPattern = null;
+                        taskFor__sub0_inlined__sub0_10.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0_inlined__sub0_10);
+                        uint prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10;
+                        prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10 = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10;
+                        prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _sub0_inlined__sub0
+                        // Pop subpattern matching task for _sub0_inlined__sub0_10
                         openTasks.Pop();
-                        PatternAction_ChainFromComplete.releaseTask(taskFor__sub0_inlined__sub0);
+                        PatternAction_ChainFromComplete.releaseTask(taskFor__sub0_inlined__sub0_10);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_rec match = new Pattern_ChainFromComplete.Match_ChainFromComplete_alt_0_rec();
-                                match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0;
-                                match._node_to = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
+                                match._node_from = candidate_ChainFromComplete_node_from_inlined__sub0_10;
+                                match._node_to = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10;
+                                match._edge__edge0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10;
                                 match.__sub0 = (@Pattern_ChainFromComplete.Match_ChainFromComplete)currentFoundPartialMatch.Pop();
                                 match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -19193,19 +19193,19 @@ label20: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
+                                candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10;
+                                candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
-                            candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
+                            candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10;
+                            candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10;
                             continue;
                         }
-                        candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0;
-                        candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10.lgspFlags = candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to_inlined__sub0_10;
+                        candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspFlags = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10;
                     }
-                    while( (candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10 = candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10.lgspOutNext) != head_candidate_ChainFromComplete_alt_0_rec_edge__edge0_inlined__sub0_10 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -19507,23 +19507,23 @@ label20: ;
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             // Preset chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg 
             GRGEN_LGSP.LGSPNode candidate_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg = (GRGEN_LGSP.LGSPNode)chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg;
-            // Element ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 assigned from other element chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg 
-            GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 = candidate_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg;
-            // Push alternative matching task for chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards
-            AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards taskFor_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.getNewTask(actionEnv, openTasks, Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance.patternGraph.alternatives[(int)Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
-            taskFor_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.searchPatternpath = false;
-            taskFor_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.matchOfNestingPattern = null;
-            taskFor_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.lastMatchAtPreviousNestingLevel = null;
-            openTasks.Push(taskFor_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards);
+            // Element ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11 assigned from other element chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg 
+            GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11 = candidate_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg;
+            // Push alternative matching task for chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards
+            AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards taskFor_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.getNewTask(actionEnv, openTasks, Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance.patternGraph.alternatives[(int)Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_AltNums.@alt_0].alternativeCases);
+            taskFor_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
+            taskFor_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.searchPatternpath = false;
+            taskFor_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.matchOfNestingPattern = null;
+            taskFor_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.lastMatchAtPreviousNestingLevel = null;
+            openTasks.Push(taskFor_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards);
             uint prevGlobal__candidate_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg;
             prevGlobal__candidate_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg = candidate_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             candidate_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-            // Pop alternative matching task for chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards
+            // Pop alternative matching task for chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards
             openTasks.Pop();
-            AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.releaseTask(taskFor_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards);
+            AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.releaseTask(taskFor_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -19533,7 +19533,7 @@ label20: ;
                     Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match__sub0 = new Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards();
                     match__sub0.SetMatchOfEnclosingPattern(match);
                     match._node_beg = candidate_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg;
-                    match__sub0._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                    match__sub0._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
                     match.__sub0 = match__sub0;
                     match__sub0._alt_0 = (Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0)currentFoundPartialMatch.Pop();
                     match__sub0._alt_0.SetMatchOfEnclosingPattern(match__sub0);
@@ -19693,15 +19693,15 @@ label20: ;
         }
     }
 
-    public class AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards newTask;
+        public static AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -19710,12 +19710,12 @@ label20: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards oldTask) {
+        public static void releaseTask(AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -19724,13 +19724,13 @@ label20: ;
             }
         }
 
-        private static AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards freeListHead = null;
+        private static AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards next = null;
+        private AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -19741,47 +19741,47 @@ label20: ;
             // Alternative case ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_CaseNums.@base];
-                // SubPreset ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                // SubPreset ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11 = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
                 // NegativePattern 
                 {
                     ++negLevel;
-                    uint prev_neg_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
-                    prev_neg_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // both directions of ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0
-                    for(int directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 = 0; directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 < 2; ++directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0)
+                    uint prev_neg_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
+                    prev_neg_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    // both directions of ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11
+                    for(int directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11 = 0; directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11 < 2; ++directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11)
                     {
-                        // Extend IncomingOrOutgoing ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 
-                        GRGEN_LGSP.LGSPEdge head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 = directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0==0 ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspInhead : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspOuthead;
-                        if(head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 != null)
+                        // Extend IncomingOrOutgoing ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11 
+                        GRGEN_LGSP.LGSPEdge head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11 = directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11==0 ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11.lgspInhead : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11.lgspOuthead;
+                        if(head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11 != null)
                         {
-                            GRGEN_LGSP.LGSPEdge candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 = head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0;
+                            GRGEN_LGSP.LGSPEdge candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11 = head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11;
                             do
                             {
-                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                                 {
                                     continue;
                                 }
-                                // Implicit TheOther ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 
-                                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0==candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspSource ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspTarget : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspSource;
-                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                // Implicit TheOther ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0_11 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11 
+                                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0_11 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11==candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11.lgspSource ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11.lgspTarget : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11.lgspSource;
+                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0_11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
-                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                                if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_inlined__sub0_11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                                 {
                                     continue;
                                 }
                                 // negative pattern found
-                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
                                 --negLevel;
                                 goto label21;
                             }
-                            while( (directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0==0 ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspInNext : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0 );
+                            while( (directionRunCounterOf_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11==0 ? candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11.lgspInNext : candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11.lgspOutNext) != head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_inlined__sub0_11 );
                         }
                     }
-                    candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                    candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
                     --negLevel;
                 }
                 // Check whether there are subpattern matching tasks left to execute
@@ -19790,7 +19790,7 @@ label20: ;
                     Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                     foundPartialMatches.Add(currentFoundPartialMatch);
                     Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base match = new Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base();
-                    match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                    match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
                     currentFoundPartialMatch.Push(match);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -19808,7 +19808,7 @@ label20: ;
                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                     {
                         Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base match = new Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base();
-                        match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
+                        match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
                         currentFoundPartialMatch.Push(match);
                     }
                     if(matchesList==foundPartialMatches) {
@@ -19844,59 +19844,59 @@ label23: ;
             // Alternative case ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_CaseNums.@rec];
-                // SubPreset ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
-                // Extend Outgoing ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0.lgspOuthead;
-                if(head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11 = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
+                // Extend Outgoing ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11.lgspOuthead;
+                if(head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11 = head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11;
                     do
                     {
-                        if(candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspTarget;
-                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        // Implicit Target ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11 from ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspTarget;
+                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
-                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for _sub0_inlined__sub0
-                        PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards taskFor__sub0_inlined__sub0 = PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.getNewTask(actionEnv, openTasks);
-                        taskFor__sub0_inlined__sub0.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                        taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                        taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__sub0_inlined__sub0);
-                        uint prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
-                        prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for _sub0_inlined__sub0_11
+                        PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards taskFor__sub0_inlined__sub0_11 = PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.getNewTask(actionEnv, openTasks);
+                        taskFor__sub0_inlined__sub0_11.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11;
+                        taskFor__sub0_inlined__sub0_11.searchPatternpath = false;
+                        taskFor__sub0_inlined__sub0_11.matchOfNestingPattern = null;
+                        taskFor__sub0_inlined__sub0_11.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0_inlined__sub0_11);
+                        uint prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11;
+                        prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11;
+                        prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _sub0_inlined__sub0
+                        // Pop subpattern matching task for _sub0_inlined__sub0_11
                         openTasks.Pop();
-                        PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.releaseTask(taskFor__sub0_inlined__sub0);
+                        PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.releaseTask(taskFor__sub0_inlined__sub0_11);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec match = new Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec();
-                                match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0;
-                                match._node_to = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
+                                match._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_inlined__sub0_11;
+                                match._node_to = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11;
+                                match._edge__edge0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11;
                                 match.__sub0 = (@Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards)currentFoundPartialMatch.Pop();
                                 match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -19912,19 +19912,19 @@ label23: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
+                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11;
+                                candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
-                            candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
+                            candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11;
+                            candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11;
                             continue;
                         }
-                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0;
-                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_inlined__sub0_11;
+                        candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspFlags = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11;
                     }
-                    while( (candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11 = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11.lgspOutNext) != head_candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_inlined__sub0_11 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -20450,18 +20450,18 @@ label23: ;
             uint prev__candidate_reverseChainFromTo_node_end;
             prev__candidate_reverseChainFromTo_node_end = candidate_reverseChainFromTo_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
             candidate_reverseChainFromTo_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            // Element ReverseChainFromTo_node_to_inlined__sub0 assigned from other element reverseChainFromTo_node_end 
-            GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0 = candidate_reverseChainFromTo_node_end;
-            // Element ReverseChainFromTo_node_from_inlined__sub0 assigned from other element reverseChainFromTo_node_beg 
-            GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0 = candidate_reverseChainFromTo_node_beg;
-            // Push alternative matching task for reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo
-            AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo taskFor_alt_0_inlined__sub0_in_reverseChainFromTo = AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo.getNewTask(actionEnv, openTasks, Pattern_ReverseChainFromTo.Instance.patternGraph.alternatives[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromTo.ReverseChainFromTo_node_to_inlined__sub0 = candidate_ReverseChainFromTo_node_to_inlined__sub0;
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromTo.ReverseChainFromTo_node_from_inlined__sub0 = candidate_ReverseChainFromTo_node_from_inlined__sub0;
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromTo.searchPatternpath = false;
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromTo.matchOfNestingPattern = null;
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromTo.lastMatchAtPreviousNestingLevel = null;
-            openTasks.Push(taskFor_alt_0_inlined__sub0_in_reverseChainFromTo);
+            // Element ReverseChainFromTo_node_to_inlined__sub0_12 assigned from other element reverseChainFromTo_node_end 
+            GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0_12 = candidate_reverseChainFromTo_node_end;
+            // Element ReverseChainFromTo_node_from_inlined__sub0_12 assigned from other element reverseChainFromTo_node_beg 
+            GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0_12 = candidate_reverseChainFromTo_node_beg;
+            // Push alternative matching task for reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo
+            AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo taskFor_alt_0_inlined__sub0_12_in_reverseChainFromTo = AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo.getNewTask(actionEnv, openTasks, Pattern_ReverseChainFromTo.Instance.patternGraph.alternatives[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_AltNums.@alt_0].alternativeCases);
+            taskFor_alt_0_inlined__sub0_12_in_reverseChainFromTo.ReverseChainFromTo_node_to_inlined__sub0_12 = candidate_ReverseChainFromTo_node_to_inlined__sub0_12;
+            taskFor_alt_0_inlined__sub0_12_in_reverseChainFromTo.ReverseChainFromTo_node_from_inlined__sub0_12 = candidate_ReverseChainFromTo_node_from_inlined__sub0_12;
+            taskFor_alt_0_inlined__sub0_12_in_reverseChainFromTo.searchPatternpath = false;
+            taskFor_alt_0_inlined__sub0_12_in_reverseChainFromTo.matchOfNestingPattern = null;
+            taskFor_alt_0_inlined__sub0_12_in_reverseChainFromTo.lastMatchAtPreviousNestingLevel = null;
+            openTasks.Push(taskFor_alt_0_inlined__sub0_12_in_reverseChainFromTo);
             uint prevGlobal__candidate_reverseChainFromTo_node_beg;
             prevGlobal__candidate_reverseChainFromTo_node_beg = candidate_reverseChainFromTo_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             candidate_reverseChainFromTo_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -20470,9 +20470,9 @@ label23: ;
             candidate_reverseChainFromTo_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-            // Pop alternative matching task for reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo
+            // Pop alternative matching task for reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo
             openTasks.Pop();
-            AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo.releaseTask(taskFor_alt_0_inlined__sub0_in_reverseChainFromTo);
+            AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo.releaseTask(taskFor_alt_0_inlined__sub0_12_in_reverseChainFromTo);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -20483,8 +20483,8 @@ label23: ;
                     match__sub0.SetMatchOfEnclosingPattern(match);
                     match._node_beg = candidate_reverseChainFromTo_node_beg;
                     match._node_end = candidate_reverseChainFromTo_node_end;
-                    match__sub0._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0;
-                    match__sub0._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0;
+                    match__sub0._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0_12;
+                    match__sub0._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0_12;
                     match.__sub0 = match__sub0;
                     match__sub0._alt_0 = (Pattern_ReverseChainFromTo.IMatch_ReverseChainFromTo_alt_0)currentFoundPartialMatch.Pop();
                     match__sub0._alt_0.SetMatchOfEnclosingPattern(match__sub0);
@@ -20653,15 +20653,15 @@ label23: ;
         }
     }
 
-    public class AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo newTask;
+        public static AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -20670,12 +20670,12 @@ label23: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo oldTask) {
+        public static void releaseTask(AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -20684,14 +20684,14 @@ label23: ;
             }
         }
 
-        private static AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo freeListHead = null;
+        private static AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_in_reverseChainFromTo next = null;
+        private AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo next = null;
 
-        public GRGEN_LGSP.LGSPNode ReverseChainFromTo_node_to_inlined__sub0;
-        public GRGEN_LGSP.LGSPNode ReverseChainFromTo_node_from_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ReverseChainFromTo_node_to_inlined__sub0_12;
+        public GRGEN_LGSP.LGSPNode ReverseChainFromTo_node_from_inlined__sub0_12;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -20702,24 +20702,24 @@ label23: ;
             // Alternative case ReverseChainFromTo_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_alt_0_CaseNums.@base];
-                // SubPreset ReverseChainFromTo_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0 = ReverseChainFromTo_node_to_inlined__sub0;
-                // SubPreset ReverseChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0 = ReverseChainFromTo_node_from_inlined__sub0;
-                // Extend Outgoing ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 from ReverseChainFromTo_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_node_to_inlined__sub0.lgspOuthead;
-                if(head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 != null)
+                // SubPreset ReverseChainFromTo_node_to_inlined__sub0_12 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0_12 = ReverseChainFromTo_node_to_inlined__sub0_12;
+                // SubPreset ReverseChainFromTo_node_from_inlined__sub0_12 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0_12 = ReverseChainFromTo_node_from_inlined__sub0_12;
+                // Extend Outgoing ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12 from ReverseChainFromTo_node_to_inlined__sub0_12 
+                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12 = candidate_ReverseChainFromTo_node_to_inlined__sub0_12.lgspOuthead;
+                if(head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12 = head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12;
                     do
                     {
-                        if(candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if(candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspTarget != candidate_ReverseChainFromTo_node_from_inlined__sub0) {
+                        if(candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspTarget != candidate_ReverseChainFromTo_node_from_inlined__sub0_12) {
                             continue;
                         }
-                        if((candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
@@ -20729,9 +20729,9 @@ label23: ;
                             Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
                             Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_base match = new Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_base();
-                            match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0;
-                            match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0;
-                            match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                            match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0_12;
+                            match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0_12;
+                            match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12;
                             currentFoundPartialMatch.Push(match);
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -20741,9 +20741,9 @@ label23: ;
                             }
                             continue;
                         }
-                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12;
+                        prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Check whether subpatterns were found 
@@ -20752,9 +20752,9 @@ label23: ;
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_base match = new Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_base();
-                                match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0;
-                                match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0;
-                                match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                                match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0_12;
+                                match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0_12;
+                                match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12;
                                 currentFoundPartialMatch.Push(match);
                             }
                             if(matchesList==foundPartialMatches) {
@@ -20768,16 +20768,16 @@ label23: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                                candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                            candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12;
                             continue;
                         }
-                        candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0;
+                        candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspFlags = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12;
                     }
-                    while( (candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0 );
+                    while( (candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12 = candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12.lgspOutNext) != head_candidate_ReverseChainFromTo_alt_0_base_edge__edge0_inlined__sub0_12 );
                 }
             } while(false);
             if(matchesList.Count>0) {
@@ -20793,65 +20793,65 @@ label23: ;
             // Alternative case ReverseChainFromTo_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_alt_0_CaseNums.@rec];
-                // SubPreset ReverseChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0 = ReverseChainFromTo_node_from_inlined__sub0;
-                // SubPreset ReverseChainFromTo_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0 = ReverseChainFromTo_node_to_inlined__sub0;
-                // Extend Incoming ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 from ReverseChainFromTo_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_node_from_inlined__sub0.lgspInhead;
-                if(head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ReverseChainFromTo_node_from_inlined__sub0_12 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_from_inlined__sub0_12 = ReverseChainFromTo_node_from_inlined__sub0_12;
+                // SubPreset ReverseChainFromTo_node_to_inlined__sub0_12 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_node_to_inlined__sub0_12 = ReverseChainFromTo_node_to_inlined__sub0_12;
+                // Extend Incoming ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12 from ReverseChainFromTo_node_from_inlined__sub0_12 
+                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12 = candidate_ReverseChainFromTo_node_from_inlined__sub0_12.lgspInhead;
+                if(head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12 = head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12;
                     do
                     {
-                        if(candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Source ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 from ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspSource;
-                        if((candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
-                            && candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0==candidate_ReverseChainFromTo_node_from_inlined__sub0
+                        // Implicit Source ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12 from ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12 
+                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspSource;
+                        if((candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
+                            && candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12==candidate_ReverseChainFromTo_node_from_inlined__sub0_12
                             )
                         {
                             continue;
                         }
-                        if((candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for _sub0_inlined__sub0
-                        PatternAction_ReverseChainFromTo taskFor__sub0_inlined__sub0 = PatternAction_ReverseChainFromTo.getNewTask(actionEnv, openTasks);
-                        taskFor__sub0_inlined__sub0.ReverseChainFromTo_node_from = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.ReverseChainFromTo_node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0;
-                        taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                        taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                        taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__sub0_inlined__sub0);
-                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                        prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for _sub0_inlined__sub0_12
+                        PatternAction_ReverseChainFromTo taskFor__sub0_inlined__sub0_12 = PatternAction_ReverseChainFromTo.getNewTask(actionEnv, openTasks);
+                        taskFor__sub0_inlined__sub0_12.ReverseChainFromTo_node_from = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12;
+                        taskFor__sub0_inlined__sub0_12.ReverseChainFromTo_node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0_12;
+                        taskFor__sub0_inlined__sub0_12.searchPatternpath = false;
+                        taskFor__sub0_inlined__sub0_12.matchOfNestingPattern = null;
+                        taskFor__sub0_inlined__sub0_12.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0_inlined__sub0_12);
+                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12;
+                        prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12 = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12;
+                        prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _sub0_inlined__sub0
+                        // Pop subpattern matching task for _sub0_inlined__sub0_12
                         openTasks.Pop();
-                        PatternAction_ReverseChainFromTo.releaseTask(taskFor__sub0_inlined__sub0);
+                        PatternAction_ReverseChainFromTo.releaseTask(taskFor__sub0_inlined__sub0_12);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_rec match = new Pattern_ReverseChainFromTo.Match_ReverseChainFromTo_alt_0_rec();
-                                match._node_intermediate = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                                match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0;
-                                match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0;
-                                match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                                match._node_intermediate = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12;
+                                match._node_from = candidate_ReverseChainFromTo_node_from_inlined__sub0_12;
+                                match._node_to = candidate_ReverseChainFromTo_node_to_inlined__sub0_12;
+                                match._edge__edge0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12;
                                 match.__sub0 = (@Pattern_ReverseChainFromTo.Match_ReverseChainFromTo)currentFoundPartialMatch.Pop();
                                 match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -20867,19 +20867,19 @@ label23: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
+                                candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12;
+                                candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
-                            candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
+                            candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12;
+                            candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12;
                             continue;
                         }
-                        candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0;
-                        candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_node_intermediate_inlined__sub0_12;
+                        candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspFlags = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12;
                     }
-                    while( (candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0.lgspInNext) != head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12 = candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12.lgspInNext) != head_candidate_ReverseChainFromTo_alt_0_rec_edge__edge0_inlined__sub0_12 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -21169,18 +21169,18 @@ label23: ;
             uint prev__candidate_chainFromToReverse_node_end;
             prev__candidate_chainFromToReverse_node_end = candidate_chainFromToReverse_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
             candidate_chainFromToReverse_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            // Element ChainFromToReverse_node_to_inlined_cftr assigned from other element chainFromToReverse_node_end 
-            GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr = candidate_chainFromToReverse_node_end;
-            // Element ChainFromToReverse_node_from_inlined_cftr assigned from other element chainFromToReverse_node_beg 
-            GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr = candidate_chainFromToReverse_node_beg;
-            // Push alternative matching task for chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse
-            AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse taskFor_alt_0_inlined_cftr_in_chainFromToReverse = AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse.getNewTask(actionEnv, openTasks, Pattern_ChainFromToReverse.Instance.patternGraph.alternatives[(int)Pattern_ChainFromToReverse.ChainFromToReverse_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0_inlined_cftr_in_chainFromToReverse.ChainFromToReverse_node_from_inlined_cftr = candidate_ChainFromToReverse_node_from_inlined_cftr;
-            taskFor_alt_0_inlined_cftr_in_chainFromToReverse.ChainFromToReverse_node_to_inlined_cftr = candidate_ChainFromToReverse_node_to_inlined_cftr;
-            taskFor_alt_0_inlined_cftr_in_chainFromToReverse.searchPatternpath = false;
-            taskFor_alt_0_inlined_cftr_in_chainFromToReverse.matchOfNestingPattern = null;
-            taskFor_alt_0_inlined_cftr_in_chainFromToReverse.lastMatchAtPreviousNestingLevel = null;
-            openTasks.Push(taskFor_alt_0_inlined_cftr_in_chainFromToReverse);
+            // Element ChainFromToReverse_node_to_inlined_cftr_13 assigned from other element chainFromToReverse_node_end 
+            GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr_13 = candidate_chainFromToReverse_node_end;
+            // Element ChainFromToReverse_node_from_inlined_cftr_13 assigned from other element chainFromToReverse_node_beg 
+            GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr_13 = candidate_chainFromToReverse_node_beg;
+            // Push alternative matching task for chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse
+            AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse taskFor_alt_0_inlined_cftr_13_in_chainFromToReverse = AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse.getNewTask(actionEnv, openTasks, Pattern_ChainFromToReverse.Instance.patternGraph.alternatives[(int)Pattern_ChainFromToReverse.ChainFromToReverse_AltNums.@alt_0].alternativeCases);
+            taskFor_alt_0_inlined_cftr_13_in_chainFromToReverse.ChainFromToReverse_node_from_inlined_cftr_13 = candidate_ChainFromToReverse_node_from_inlined_cftr_13;
+            taskFor_alt_0_inlined_cftr_13_in_chainFromToReverse.ChainFromToReverse_node_to_inlined_cftr_13 = candidate_ChainFromToReverse_node_to_inlined_cftr_13;
+            taskFor_alt_0_inlined_cftr_13_in_chainFromToReverse.searchPatternpath = false;
+            taskFor_alt_0_inlined_cftr_13_in_chainFromToReverse.matchOfNestingPattern = null;
+            taskFor_alt_0_inlined_cftr_13_in_chainFromToReverse.lastMatchAtPreviousNestingLevel = null;
+            openTasks.Push(taskFor_alt_0_inlined_cftr_13_in_chainFromToReverse);
             uint prevGlobal__candidate_chainFromToReverse_node_beg;
             prevGlobal__candidate_chainFromToReverse_node_beg = candidate_chainFromToReverse_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             candidate_chainFromToReverse_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -21189,9 +21189,9 @@ label23: ;
             candidate_chainFromToReverse_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-            // Pop alternative matching task for chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse
+            // Pop alternative matching task for chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse
             openTasks.Pop();
-            AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse.releaseTask(taskFor_alt_0_inlined_cftr_in_chainFromToReverse);
+            AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse.releaseTask(taskFor_alt_0_inlined_cftr_13_in_chainFromToReverse);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -21202,8 +21202,8 @@ label23: ;
                     match_cftr.SetMatchOfEnclosingPattern(match);
                     match._node_beg = candidate_chainFromToReverse_node_beg;
                     match._node_end = candidate_chainFromToReverse_node_end;
-                    match_cftr._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr;
-                    match_cftr._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr;
+                    match_cftr._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr_13;
+                    match_cftr._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr_13;
                     match._cftr = match_cftr;
                     match_cftr._alt_0 = (Pattern_ChainFromToReverse.IMatch_ChainFromToReverse_alt_0)currentFoundPartialMatch.Pop();
                     match_cftr._alt_0.SetMatchOfEnclosingPattern(match_cftr);
@@ -21372,15 +21372,15 @@ label23: ;
         }
     }
 
-    public class AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse newTask;
+        public static AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -21389,12 +21389,12 @@ label23: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse oldTask) {
+        public static void releaseTask(AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -21403,14 +21403,14 @@ label23: ;
             }
         }
 
-        private static AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse freeListHead = null;
+        private static AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_in_chainFromToReverse next = null;
+        private AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFromToReverse_node_from_inlined_cftr;
-        public GRGEN_LGSP.LGSPNode ChainFromToReverse_node_to_inlined_cftr;
+        public GRGEN_LGSP.LGSPNode ChainFromToReverse_node_from_inlined_cftr_13;
+        public GRGEN_LGSP.LGSPNode ChainFromToReverse_node_to_inlined_cftr_13;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -21421,24 +21421,24 @@ label23: ;
             // Alternative case ChainFromToReverse_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromToReverse.ChainFromToReverse_alt_0_CaseNums.@base];
-                // SubPreset ChainFromToReverse_node_from_inlined_cftr 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr = ChainFromToReverse_node_from_inlined_cftr;
-                // SubPreset ChainFromToReverse_node_to_inlined_cftr 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr = ChainFromToReverse_node_to_inlined_cftr;
-                // Extend Outgoing ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr from ChainFromToReverse_node_from_inlined_cftr 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_node_from_inlined_cftr.lgspOuthead;
-                if(head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr != null)
+                // SubPreset ChainFromToReverse_node_from_inlined_cftr_13 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr_13 = ChainFromToReverse_node_from_inlined_cftr_13;
+                // SubPreset ChainFromToReverse_node_to_inlined_cftr_13 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr_13 = ChainFromToReverse_node_to_inlined_cftr_13;
+                // Extend Outgoing ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13 from ChainFromToReverse_node_from_inlined_cftr_13 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13 = candidate_ChainFromToReverse_node_from_inlined_cftr_13.lgspOuthead;
+                if(head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr = head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13 = head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13;
                     do
                     {
-                        if(candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if(candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspTarget != candidate_ChainFromToReverse_node_to_inlined_cftr) {
+                        if(candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspTarget != candidate_ChainFromToReverse_node_to_inlined_cftr_13) {
                             continue;
                         }
-                        if((candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
@@ -21448,9 +21448,9 @@ label23: ;
                             Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
                             Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_base match = new Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_base();
-                            match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr;
-                            match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr;
-                            match._edge__edge0 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                            match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr_13;
+                            match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr_13;
+                            match._edge__edge0 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13;
                             currentFoundPartialMatch.Push(match);
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -21460,9 +21460,9 @@ label23: ;
                             }
                             continue;
                         }
-                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
-                        prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13;
+                        prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Check whether subpatterns were found 
@@ -21471,9 +21471,9 @@ label23: ;
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_base match = new Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_base();
-                                match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr;
-                                match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr;
-                                match._edge__edge0 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                                match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr_13;
+                                match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr_13;
+                                match._edge__edge0 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13;
                                 currentFoundPartialMatch.Push(match);
                             }
                             if(matchesList==foundPartialMatches) {
@@ -21487,16 +21487,16 @@ label23: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                                candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                            candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13;
                             continue;
                         }
-                        candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr;
+                        candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspFlags = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13;
                     }
-                    while( (candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr.lgspOutNext) != head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr );
+                    while( (candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13 = candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13.lgspOutNext) != head_candidate_ChainFromToReverse_alt_0_base_edge__edge0_inlined_cftr_13 );
                 }
             } while(false);
             if(matchesList.Count>0) {
@@ -21512,65 +21512,65 @@ label23: ;
             // Alternative case ChainFromToReverse_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromToReverse.ChainFromToReverse_alt_0_CaseNums.@rec];
-                // SubPreset ChainFromToReverse_node_from_inlined_cftr 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr = ChainFromToReverse_node_from_inlined_cftr;
-                // SubPreset ChainFromToReverse_node_to_inlined_cftr 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr = ChainFromToReverse_node_to_inlined_cftr;
-                // Extend Outgoing ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr from ChainFromToReverse_node_from_inlined_cftr 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_node_from_inlined_cftr.lgspOuthead;
-                if(head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr != null)
+                // SubPreset ChainFromToReverse_node_from_inlined_cftr_13 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_from_inlined_cftr_13 = ChainFromToReverse_node_from_inlined_cftr_13;
+                // SubPreset ChainFromToReverse_node_to_inlined_cftr_13 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_node_to_inlined_cftr_13 = ChainFromToReverse_node_to_inlined_cftr_13;
+                // Extend Outgoing ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13 from ChainFromToReverse_node_from_inlined_cftr_13 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13 = candidate_ChainFromToReverse_node_from_inlined_cftr_13.lgspOuthead;
+                if(head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr = head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13 = head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13;
                     do
                     {
-                        if(candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr from ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspTarget;
-                        if((candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
-                            && candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr==candidate_ChainFromToReverse_node_from_inlined_cftr
+                        // Implicit Target ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13 from ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspTarget;
+                        if((candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
+                            && candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13==candidate_ChainFromToReverse_node_from_inlined_cftr_13
                             )
                         {
                             continue;
                         }
-                        if((candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for cftr_inlined_cftr
-                        PatternAction_ChainFromToReverse taskFor_cftr_inlined_cftr = PatternAction_ChainFromToReverse.getNewTask(actionEnv, openTasks);
-                        taskFor_cftr_inlined_cftr.ChainFromToReverse_node_from = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
-                        taskFor_cftr_inlined_cftr.ChainFromToReverse_node_to = candidate_ChainFromToReverse_node_to_inlined_cftr;
-                        taskFor_cftr_inlined_cftr.searchPatternpath = false;
-                        taskFor_cftr_inlined_cftr.matchOfNestingPattern = null;
-                        taskFor_cftr_inlined_cftr.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_cftr_inlined_cftr);
-                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
-                        prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
-                        prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for cftr_inlined_cftr_13
+                        PatternAction_ChainFromToReverse taskFor_cftr_inlined_cftr_13 = PatternAction_ChainFromToReverse.getNewTask(actionEnv, openTasks);
+                        taskFor_cftr_inlined_cftr_13.ChainFromToReverse_node_from = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13;
+                        taskFor_cftr_inlined_cftr_13.ChainFromToReverse_node_to = candidate_ChainFromToReverse_node_to_inlined_cftr_13;
+                        taskFor_cftr_inlined_cftr_13.searchPatternpath = false;
+                        taskFor_cftr_inlined_cftr_13.matchOfNestingPattern = null;
+                        taskFor_cftr_inlined_cftr_13.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_cftr_inlined_cftr_13);
+                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13;
+                        prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13 = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13;
+                        prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for cftr_inlined_cftr
+                        // Pop subpattern matching task for cftr_inlined_cftr_13
                         openTasks.Pop();
-                        PatternAction_ChainFromToReverse.releaseTask(taskFor_cftr_inlined_cftr);
+                        PatternAction_ChainFromToReverse.releaseTask(taskFor_cftr_inlined_cftr_13);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_rec match = new Pattern_ChainFromToReverse.Match_ChainFromToReverse_alt_0_rec();
-                                match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr;
-                                match._node_intermediate = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
-                                match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr;
-                                match._edge__edge0 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
+                                match._node_from = candidate_ChainFromToReverse_node_from_inlined_cftr_13;
+                                match._node_intermediate = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13;
+                                match._node_to = candidate_ChainFromToReverse_node_to_inlined_cftr_13;
+                                match._edge__edge0 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13;
                                 match._cftr = (@Pattern_ChainFromToReverse.Match_ChainFromToReverse)currentFoundPartialMatch.Pop();
                                 match._cftr._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -21586,19 +21586,19 @@ label23: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
-                                candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
+                                candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13;
+                                candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
-                            candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
+                            candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13;
+                            candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13;
                             continue;
                         }
-                        candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr;
-                        candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr;
+                        candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_node_intermediate_inlined_cftr_13;
+                        candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspFlags = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13;
                     }
-                    while( (candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr.lgspOutNext) != head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr );
+                    while( (candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13 = candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13.lgspOutNext) != head_candidate_ChainFromToReverse_alt_0_rec_edge__edge0_inlined_cftr_13 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -21670,18 +21670,18 @@ label23: ;
             uint prev__candidate_chainFromToReverseToCommon_node_end;
             prev__candidate_chainFromToReverseToCommon_node_end = candidate_chainFromToReverseToCommon_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
             candidate_chainFromToReverseToCommon_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            // Element ChainFromToReverseToCommon_node_to_inlined_cftrtc assigned from other element chainFromToReverseToCommon_node_end 
-            GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc = candidate_chainFromToReverseToCommon_node_end;
-            // Element ChainFromToReverseToCommon_node_from_inlined_cftrtc assigned from other element chainFromToReverseToCommon_node_beg 
-            GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc = candidate_chainFromToReverseToCommon_node_beg;
-            // Push alternative matching task for chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon
-            AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon taskFor_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon = AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon.getNewTask(actionEnv, openTasks, Pattern_ChainFromToReverseToCommon.Instance.patternGraph.alternatives[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon.ChainFromToReverseToCommon_node_from_inlined_cftrtc = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-            taskFor_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon.ChainFromToReverseToCommon_node_to_inlined_cftrtc = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-            taskFor_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon.searchPatternpath = false;
-            taskFor_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon.matchOfNestingPattern = null;
-            taskFor_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon.lastMatchAtPreviousNestingLevel = null;
-            openTasks.Push(taskFor_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon);
+            // Element ChainFromToReverseToCommon_node_to_inlined_cftrtc_14 assigned from other element chainFromToReverseToCommon_node_end 
+            GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_14 = candidate_chainFromToReverseToCommon_node_end;
+            // Element ChainFromToReverseToCommon_node_from_inlined_cftrtc_14 assigned from other element chainFromToReverseToCommon_node_beg 
+            GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14 = candidate_chainFromToReverseToCommon_node_beg;
+            // Push alternative matching task for chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon
+            AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon taskFor_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon = AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon.getNewTask(actionEnv, openTasks, Pattern_ChainFromToReverseToCommon.Instance.patternGraph.alternatives[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_AltNums.@alt_0].alternativeCases);
+            taskFor_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon.ChainFromToReverseToCommon_node_from_inlined_cftrtc_14 = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14;
+            taskFor_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon.ChainFromToReverseToCommon_node_to_inlined_cftrtc_14 = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_14;
+            taskFor_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon.searchPatternpath = false;
+            taskFor_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon.matchOfNestingPattern = null;
+            taskFor_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon.lastMatchAtPreviousNestingLevel = null;
+            openTasks.Push(taskFor_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon);
             uint prevGlobal__candidate_chainFromToReverseToCommon_node_beg;
             prevGlobal__candidate_chainFromToReverseToCommon_node_beg = candidate_chainFromToReverseToCommon_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             candidate_chainFromToReverseToCommon_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -21690,9 +21690,9 @@ label23: ;
             candidate_chainFromToReverseToCommon_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-            // Pop alternative matching task for chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon
+            // Pop alternative matching task for chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon
             openTasks.Pop();
-            AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon.releaseTask(taskFor_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon);
+            AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon.releaseTask(taskFor_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -21703,8 +21703,8 @@ label23: ;
                     match_cftrtc.SetMatchOfEnclosingPattern(match);
                     match._node_beg = candidate_chainFromToReverseToCommon_node_beg;
                     match._node_end = candidate_chainFromToReverseToCommon_node_end;
-                    match_cftrtc._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                    match_cftrtc._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
+                    match_cftrtc._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14;
+                    match_cftrtc._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_14;
                     match._cftrtc = match_cftrtc;
                     match_cftrtc._alt_0 = (Pattern_ChainFromToReverseToCommon.IMatch_ChainFromToReverseToCommon_alt_0)currentFoundPartialMatch.Pop();
                     match_cftrtc._alt_0.SetMatchOfEnclosingPattern(match_cftrtc);
@@ -21878,15 +21878,15 @@ label23: ;
         }
     }
 
-    public class AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon newTask;
+        public static AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -21895,12 +21895,12 @@ label23: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon oldTask) {
+        public static void releaseTask(AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -21909,14 +21909,14 @@ label23: ;
             }
         }
 
-        private static AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon freeListHead = null;
+        private static AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_in_chainFromToReverseToCommon next = null;
+        private AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon next = null;
 
-        public GRGEN_LGSP.LGSPNode ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-        public GRGEN_LGSP.LGSPNode ChainFromToReverseToCommon_node_to_inlined_cftrtc;
+        public GRGEN_LGSP.LGSPNode ChainFromToReverseToCommon_node_from_inlined_cftrtc_14;
+        public GRGEN_LGSP.LGSPNode ChainFromToReverseToCommon_node_to_inlined_cftrtc_14;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -21927,24 +21927,24 @@ label23: ;
             // Alternative case ChainFromToReverseToCommon_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_alt_0_CaseNums.@base];
-                // SubPreset ChainFromToReverseToCommon_node_from_inlined_cftrtc 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc = ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                // SubPreset ChainFromToReverseToCommon_node_to_inlined_cftrtc 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc = ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                // Extend Outgoing ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc from ChainFromToReverseToCommon_node_from_inlined_cftrtc 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc.lgspOuthead;
-                if(head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc != null)
+                // SubPreset ChainFromToReverseToCommon_node_from_inlined_cftrtc_14 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14 = ChainFromToReverseToCommon_node_from_inlined_cftrtc_14;
+                // SubPreset ChainFromToReverseToCommon_node_to_inlined_cftrtc_14 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_14 = ChainFromToReverseToCommon_node_to_inlined_cftrtc_14;
+                // Extend Outgoing ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14 from ChainFromToReverseToCommon_node_from_inlined_cftrtc_14 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14 = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14.lgspOuthead;
+                if(head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc = head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14 = head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14;
                     do
                     {
-                        if(candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if(candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspTarget != candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc) {
+                        if(candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspTarget != candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_14) {
                             continue;
                         }
-                        if((candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
@@ -21954,9 +21954,9 @@ label23: ;
                             Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
                             Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_base match = new Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_base();
-                            match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                            match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                            match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                            match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14;
+                            match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_14;
+                            match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14;
                             currentFoundPartialMatch.Push(match);
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -21966,9 +21966,9 @@ label23: ;
                             }
                             continue;
                         }
-                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
-                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14;
+                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Check whether subpatterns were found 
@@ -21977,9 +21977,9 @@ label23: ;
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_base match = new Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_base();
-                                match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                                match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                                match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                                match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14;
+                                match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_14;
+                                match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14;
                                 currentFoundPartialMatch.Push(match);
                             }
                             if(matchesList==foundPartialMatches) {
@@ -21993,16 +21993,16 @@ label23: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                                candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                            candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14;
                             continue;
                         }
-                        candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc;
+                        candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14;
                     }
-                    while( (candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc.lgspOutNext) != head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc );
+                    while( (candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14 = candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14.lgspOutNext) != head_candidate_ChainFromToReverseToCommon_alt_0_base_edge__edge0_inlined_cftrtc_14 );
                 }
             } while(false);
             if(matchesList.Count>0) {
@@ -22018,65 +22018,65 @@ label23: ;
             // Alternative case ChainFromToReverseToCommon_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_alt_0_CaseNums.@rec];
-                // SubPreset ChainFromToReverseToCommon_node_from_inlined_cftrtc 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc = ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                // SubPreset ChainFromToReverseToCommon_node_to_inlined_cftrtc 
-                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc = ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                // Extend Outgoing ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc from ChainFromToReverseToCommon_node_from_inlined_cftrtc 
-                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc.lgspOuthead;
-                if(head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc != null)
+                // SubPreset ChainFromToReverseToCommon_node_from_inlined_cftrtc_14 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14 = ChainFromToReverseToCommon_node_from_inlined_cftrtc_14;
+                // SubPreset ChainFromToReverseToCommon_node_to_inlined_cftrtc_14 
+                GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_14 = ChainFromToReverseToCommon_node_to_inlined_cftrtc_14;
+                // Extend Outgoing ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14 from ChainFromToReverseToCommon_node_from_inlined_cftrtc_14 
+                GRGEN_LGSP.LGSPEdge head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14 = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14.lgspOuthead;
+                if(head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc = head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
+                    GRGEN_LGSP.LGSPEdge candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14 = head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14;
                     do
                     {
-                        if(candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspType.TypeID!=1) {
+                        if(candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Implicit Target ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc from ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc 
-                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspTarget;
-                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
-                            && candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc==candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc
+                        // Implicit Target ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14 from ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14 
+                        GRGEN_LGSP.LGSPNode candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspTarget;
+                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
+                            && candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14==candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14
                             )
                         {
                             continue;
                         }
-                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        // Push subpattern matching task for cftrtc_inlined_cftrtc
-                        PatternAction_ChainFromToReverseToCommon taskFor_cftrtc_inlined_cftrtc = PatternAction_ChainFromToReverseToCommon.getNewTask(actionEnv, openTasks);
-                        taskFor_cftrtc_inlined_cftrtc.ChainFromToReverseToCommon_node_from = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
-                        taskFor_cftrtc_inlined_cftrtc.ChainFromToReverseToCommon_node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                        taskFor_cftrtc_inlined_cftrtc.searchPatternpath = false;
-                        taskFor_cftrtc_inlined_cftrtc.matchOfNestingPattern = null;
-                        taskFor_cftrtc_inlined_cftrtc.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_cftrtc_inlined_cftrtc);
-                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
-                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
-                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        // Push subpattern matching task for cftrtc_inlined_cftrtc_14
+                        PatternAction_ChainFromToReverseToCommon taskFor_cftrtc_inlined_cftrtc_14 = PatternAction_ChainFromToReverseToCommon.getNewTask(actionEnv, openTasks);
+                        taskFor_cftrtc_inlined_cftrtc_14.ChainFromToReverseToCommon_node_from = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14;
+                        taskFor_cftrtc_inlined_cftrtc_14.ChainFromToReverseToCommon_node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_14;
+                        taskFor_cftrtc_inlined_cftrtc_14.searchPatternpath = false;
+                        taskFor_cftrtc_inlined_cftrtc_14.matchOfNestingPattern = null;
+                        taskFor_cftrtc_inlined_cftrtc_14.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_cftrtc_inlined_cftrtc_14);
+                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14;
+                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14 = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        uint prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14;
+                        prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for cftrtc_inlined_cftrtc
+                        // Pop subpattern matching task for cftrtc_inlined_cftrtc_14
                         openTasks.Pop();
-                        PatternAction_ChainFromToReverseToCommon.releaseTask(taskFor_cftrtc_inlined_cftrtc);
+                        PatternAction_ChainFromToReverseToCommon.releaseTask(taskFor_cftrtc_inlined_cftrtc_14);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                             {
                                 Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_rec match = new Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon_alt_0_rec();
-                                match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc;
-                                match._node_intermediate = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
-                                match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc;
-                                match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
+                                match._node_from = candidate_ChainFromToReverseToCommon_node_from_inlined_cftrtc_14;
+                                match._node_intermediate = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14;
+                                match._node_to = candidate_ChainFromToReverseToCommon_node_to_inlined_cftrtc_14;
+                                match._edge__edge0 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14;
                                 match._cftrtc = (@Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon)currentFoundPartialMatch.Pop();
                                 match._cftrtc._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
@@ -22092,19 +22092,19 @@ label23: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
-                                candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
+                                candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14;
+                                candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14;
                                 openTasks.Push(this);
                                 return;
                             }
-                            candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
-                            candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
+                            candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14;
+                            candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14;
                             continue;
                         }
-                        candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc;
-                        candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc;
+                        candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate_inlined_cftrtc_14;
+                        candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspFlags = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14;
                     }
-                    while( (candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc.lgspOutNext) != head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc );
+                    while( (candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14 = candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14.lgspOutNext) != head_candidate_ChainFromToReverseToCommon_alt_0_rec_edge__edge0_inlined_cftrtc_14 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -22187,21 +22187,21 @@ label23: ;
             uint prev__candidate_reverseChainFromToToCommon_node_common;
             prev__candidate_reverseChainFromToToCommon_node_common = candidate_reverseChainFromToToCommon_node_common.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
             candidate_reverseChainFromToToCommon_node_common.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            // Element ReverseChainFromToToCommon_node_common_inlined__sub0 assigned from other element reverseChainFromToToCommon_node_common 
-            GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0 = candidate_reverseChainFromToToCommon_node_common;
-            // Element ReverseChainFromToToCommon_node_to_inlined__sub0 assigned from other element reverseChainFromToToCommon_node_end 
-            GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0 = candidate_reverseChainFromToToCommon_node_end;
-            // Element ReverseChainFromToToCommon_node_from_inlined__sub0 assigned from other element reverseChainFromToToCommon_node_beg 
-            GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0 = candidate_reverseChainFromToToCommon_node_beg;
-            // Push alternative matching task for reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon
-            AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon taskFor_alt_0_inlined__sub0_in_reverseChainFromToToCommon = AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon.getNewTask(actionEnv, openTasks, Pattern_ReverseChainFromToToCommon.Instance.patternGraph.alternatives[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromToToCommon.ReverseChainFromToToCommon_node_to_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromToToCommon.ReverseChainFromToToCommon_node_from_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0;
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromToToCommon.ReverseChainFromToToCommon_node_common_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromToToCommon.searchPatternpath = false;
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromToToCommon.matchOfNestingPattern = null;
-            taskFor_alt_0_inlined__sub0_in_reverseChainFromToToCommon.lastMatchAtPreviousNestingLevel = null;
-            openTasks.Push(taskFor_alt_0_inlined__sub0_in_reverseChainFromToToCommon);
+            // Element ReverseChainFromToToCommon_node_common_inlined__sub0_15 assigned from other element reverseChainFromToToCommon_node_common 
+            GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15 = candidate_reverseChainFromToToCommon_node_common;
+            // Element ReverseChainFromToToCommon_node_to_inlined__sub0_15 assigned from other element reverseChainFromToToCommon_node_end 
+            GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_15 = candidate_reverseChainFromToToCommon_node_end;
+            // Element ReverseChainFromToToCommon_node_from_inlined__sub0_15 assigned from other element reverseChainFromToToCommon_node_beg 
+            GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15 = candidate_reverseChainFromToToCommon_node_beg;
+            // Push alternative matching task for reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon
+            AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon taskFor_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon = AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon.getNewTask(actionEnv, openTasks, Pattern_ReverseChainFromToToCommon.Instance.patternGraph.alternatives[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_AltNums.@alt_0].alternativeCases);
+            taskFor_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon.ReverseChainFromToToCommon_node_to_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_15;
+            taskFor_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon.ReverseChainFromToToCommon_node_from_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15;
+            taskFor_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon.ReverseChainFromToToCommon_node_common_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15;
+            taskFor_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon.searchPatternpath = false;
+            taskFor_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon.matchOfNestingPattern = null;
+            taskFor_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon.lastMatchAtPreviousNestingLevel = null;
+            openTasks.Push(taskFor_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon);
             uint prevGlobal__candidate_reverseChainFromToToCommon_node_beg;
             prevGlobal__candidate_reverseChainFromToToCommon_node_beg = candidate_reverseChainFromToToCommon_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             candidate_reverseChainFromToToCommon_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -22213,9 +22213,9 @@ label23: ;
             candidate_reverseChainFromToToCommon_node_common.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-            // Pop alternative matching task for reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon
+            // Pop alternative matching task for reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon
             openTasks.Pop();
-            AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon.releaseTask(taskFor_alt_0_inlined__sub0_in_reverseChainFromToToCommon);
+            AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon.releaseTask(taskFor_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -22227,9 +22227,9 @@ label23: ;
                     match._node_beg = candidate_reverseChainFromToToCommon_node_beg;
                     match._node_end = candidate_reverseChainFromToToCommon_node_end;
                     match._node_common = candidate_reverseChainFromToToCommon_node_common;
-                    match__sub0._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0;
-                    match__sub0._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                    match__sub0._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
+                    match__sub0._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15;
+                    match__sub0._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_15;
+                    match__sub0._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15;
                     match.__sub0 = match__sub0;
                     match__sub0._alt_0 = (Pattern_ReverseChainFromToToCommon.IMatch_ReverseChainFromToToCommon_alt_0)currentFoundPartialMatch.Pop();
                     match__sub0._alt_0.SetMatchOfEnclosingPattern(match__sub0);
@@ -22404,15 +22404,15 @@ label23: ;
         }
     }
 
-    public class AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon : GRGEN_LGSP.LGSPSubpatternAction
+    public class AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
 
-        public static AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
-            AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon newTask;
+        public static AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+            AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon newTask;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
@@ -22421,12 +22421,12 @@ label23: ;
                 newTask.next = null;
                 --numFreeTasks;
             } else {
-                newTask = new AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon(actionEnv_, openTasks_, patternGraphs_);
+                newTask = new AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon(actionEnv_, openTasks_, patternGraphs_);
             }
             return newTask;
         }
 
-        public static void releaseTask(AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon oldTask) {
+        public static void releaseTask(AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon oldTask) {
             if(numFreeTasks<MAX_NUM_FREE_TASKS) {
                 oldTask.next = freeListHead;
                 oldTask.actionEnv = null; oldTask.openTasks = null;
@@ -22435,15 +22435,15 @@ label23: ;
             }
         }
 
-        private static AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon freeListHead = null;
+        private static AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon freeListHead = null;
         private static int numFreeTasks = 0;
         private const int MAX_NUM_FREE_TASKS = 100;
 
-        private AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_in_reverseChainFromToToCommon next = null;
+        private AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon next = null;
 
-        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_to_inlined__sub0;
-        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_from_inlined__sub0;
-        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_common_inlined__sub0;
+        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_to_inlined__sub0_15;
+        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_from_inlined__sub0_15;
+        public GRGEN_LGSP.LGSPNode ReverseChainFromToToCommon_node_common_inlined__sub0_15;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
@@ -22454,50 +22454,50 @@ label23: ;
             // Alternative case ReverseChainFromToToCommon_alt_0_base 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_alt_0_CaseNums.@base];
-                // SubPreset ReverseChainFromToToCommon_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0 = ReverseChainFromToToCommon_node_to_inlined__sub0;
-                // SubPreset ReverseChainFromToToCommon_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0 = ReverseChainFromToToCommon_node_from_inlined__sub0;
-                // SubPreset ReverseChainFromToToCommon_node_common_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0 = ReverseChainFromToToCommon_node_common_inlined__sub0;
-                // Extend Outgoing ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 from ReverseChainFromToToCommon_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0.lgspOuthead;
-                if(head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 != null)
+                // SubPreset ReverseChainFromToToCommon_node_to_inlined__sub0_15 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_15 = ReverseChainFromToToCommon_node_to_inlined__sub0_15;
+                // SubPreset ReverseChainFromToToCommon_node_from_inlined__sub0_15 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15 = ReverseChainFromToToCommon_node_from_inlined__sub0_15;
+                // SubPreset ReverseChainFromToToCommon_node_common_inlined__sub0_15 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15 = ReverseChainFromToToCommon_node_common_inlined__sub0_15;
+                // Extend Outgoing ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15 from ReverseChainFromToToCommon_node_to_inlined__sub0_15 
+                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_15.lgspOuthead;
+                if(head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 = head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15 = head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
                     do
                     {
-                        if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspTarget != candidate_ReverseChainFromToToCommon_node_from_inlined__sub0) {
+                        if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspTarget != candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15) {
                             continue;
                         }
-                        if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        uint prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                        prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Extend Outgoing ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 from ReverseChainFromToToCommon_node_from_inlined__sub0 
-                        GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0.lgspOuthead;
-                        if(head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 != null)
+                        uint prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
+                        prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                        // Extend Outgoing ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15 from ReverseChainFromToToCommon_node_from_inlined__sub0_15 
+                        GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15.lgspOuthead;
+                        if(head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15 != null)
                         {
-                            GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 = head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
+                            GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15 = head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15;
                             do
                             {
-                                if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspType.TypeID!=1) {
+                                if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspType.TypeID!=1) {
                                     continue;
                                 }
-                                if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspTarget != candidate_ReverseChainFromToToCommon_node_common_inlined__sub0) {
+                                if(candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspTarget != candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15) {
                                     continue;
                                 }
-                                if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
-                                if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                                if((candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                                 {
                                     continue;
                                 }
@@ -22507,27 +22507,27 @@ label23: ;
                                     Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();
                                     foundPartialMatches.Add(currentFoundPartialMatch);
                                     Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_base match = new Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_base();
-                                    match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                                    match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0;
-                                    match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
-                                    match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                                    match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
+                                    match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_15;
+                                    match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15;
+                                    match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15;
+                                    match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
+                                    match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15;
                                     currentFoundPartialMatch.Push(match);
                                     // if enough matches were found, we leave
                                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                     {
-                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
+                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
                                         openTasks.Push(this);
                                         return;
                                     }
                                     continue;
                                 }
-                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
-                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
+                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15;
+                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                 // Match subpatterns 
                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                 // Check whether subpatterns were found 
@@ -22536,11 +22536,11 @@ label23: ;
                                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                                     {
                                         Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_base match = new Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_base();
-                                        match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                                        match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0;
-                                        match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
-                                        match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                                        match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
+                                        match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_15;
+                                        match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15;
+                                        match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15;
+                                        match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
+                                        match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15;
                                         currentFoundPartialMatch.Push(match);
                                     }
                                     if(matchesList==foundPartialMatches) {
@@ -22554,24 +22554,24 @@ label23: ;
                                     // if enough matches were found, we leave
                                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                     {
-                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
-                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
+                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15;
+                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
+                                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
                                         openTasks.Push(this);
                                         return;
                                     }
-                                    candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
-                                    candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
+                                    candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15;
+                                    candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
                                     continue;
                                 }
-                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
-                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0;
+                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
+                                candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15;
                             }
-                            while( (candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0 );
+                            while( (candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge1_inlined__sub0_15 );
                         }
-                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0;
+                        candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15;
                     }
-                    while( (candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0 );
+                    while( (candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_base_edge__edge0_inlined__sub0_15 );
                 }
             } while(false);
             if(matchesList.Count>0) {
@@ -22587,101 +22587,101 @@ label23: ;
             // Alternative case ReverseChainFromToToCommon_alt_0_rec 
             do {
                 patternGraph = patternGraphs[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_alt_0_CaseNums.@rec];
-                // SubPreset ReverseChainFromToToCommon_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0 = ReverseChainFromToToCommon_node_from_inlined__sub0;
-                // SubPreset ReverseChainFromToToCommon_node_common_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0 = ReverseChainFromToToCommon_node_common_inlined__sub0;
-                // SubPreset ReverseChainFromToToCommon_node_to_inlined__sub0 
-                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0 = ReverseChainFromToToCommon_node_to_inlined__sub0;
-                // Extend Incoming ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 from ReverseChainFromToToCommon_node_from_inlined__sub0 
-                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0.lgspInhead;
-                if(head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 != null)
+                // SubPreset ReverseChainFromToToCommon_node_from_inlined__sub0_15 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15 = ReverseChainFromToToCommon_node_from_inlined__sub0_15;
+                // SubPreset ReverseChainFromToToCommon_node_common_inlined__sub0_15 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15 = ReverseChainFromToToCommon_node_common_inlined__sub0_15;
+                // SubPreset ReverseChainFromToToCommon_node_to_inlined__sub0_15 
+                GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_15 = ReverseChainFromToToCommon_node_to_inlined__sub0_15;
+                // Extend Incoming ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15 from ReverseChainFromToToCommon_node_from_inlined__sub0_15 
+                GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15.lgspInhead;
+                if(head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15 != null)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 = head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
+                    GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15 = head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
                     do
                     {
-                        if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspType.TypeID!=1) {
+                        if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
                             continue;
                         }
-                        uint prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                        prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Implicit Source ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0 from ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 
-                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspSource;
-                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
-                            && (candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0==candidate_ReverseChainFromToToCommon_node_from_inlined__sub0
-                                || candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0==candidate_ReverseChainFromToToCommon_node_common_inlined__sub0
+                        uint prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
+                        prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                        // Implicit Source ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15 from ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15 
+                        GRGEN_LGSP.LGSPNode candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspSource;
+                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
+                            && (candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15==candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15
+                                || candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15==candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15
                                 )
                             )
                         {
-                            candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
+                            candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
                             continue;
                         }
-                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                        if((candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                         {
-                            candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
+                            candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
                             continue;
                         }
-                        // Extend Outgoing ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 from ReverseChainFromToToCommon_node_from_inlined__sub0 
-                        GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0.lgspOuthead;
-                        if(head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 != null)
+                        // Extend Outgoing ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15 from ReverseChainFromToToCommon_node_from_inlined__sub0_15 
+                        GRGEN_LGSP.LGSPEdge head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15.lgspOuthead;
+                        if(head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15 != null)
                         {
-                            GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 = head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
+                            GRGEN_LGSP.LGSPEdge candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15 = head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15;
                             do
                             {
-                                if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspType.TypeID!=1) {
+                                if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspType.TypeID!=1) {
                                     continue;
                                 }
-                                if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspTarget != candidate_ReverseChainFromToToCommon_node_common_inlined__sub0) {
+                                if(candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspTarget != candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15) {
                                     continue;
                                 }
-                                if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
-                                if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
+                                if((candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)
                                 {
                                     continue;
                                 }
-                                // Push subpattern matching task for _sub0_inlined__sub0
-                                PatternAction_ReverseChainFromToToCommon taskFor__sub0_inlined__sub0 = PatternAction_ReverseChainFromToToCommon.getNewTask(actionEnv, openTasks);
-                                taskFor__sub0_inlined__sub0.ReverseChainFromToToCommon_node_from = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
-                                taskFor__sub0_inlined__sub0.ReverseChainFromToToCommon_node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                                taskFor__sub0_inlined__sub0.ReverseChainFromToToCommon_node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
-                                taskFor__sub0_inlined__sub0.searchPatternpath = false;
-                                taskFor__sub0_inlined__sub0.matchOfNestingPattern = null;
-                                taskFor__sub0_inlined__sub0.lastMatchAtPreviousNestingLevel = null;
-                                openTasks.Push(taskFor__sub0_inlined__sub0);
-                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
-                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
-                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                // Push subpattern matching task for _sub0_inlined__sub0_15
+                                PatternAction_ReverseChainFromToToCommon taskFor__sub0_inlined__sub0_15 = PatternAction_ReverseChainFromToToCommon.getNewTask(actionEnv, openTasks);
+                                taskFor__sub0_inlined__sub0_15.ReverseChainFromToToCommon_node_from = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15;
+                                taskFor__sub0_inlined__sub0_15.ReverseChainFromToToCommon_node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_15;
+                                taskFor__sub0_inlined__sub0_15.ReverseChainFromToToCommon_node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15;
+                                taskFor__sub0_inlined__sub0_15.searchPatternpath = false;
+                                taskFor__sub0_inlined__sub0_15.matchOfNestingPattern = null;
+                                taskFor__sub0_inlined__sub0_15.lastMatchAtPreviousNestingLevel = null;
+                                openTasks.Push(taskFor__sub0_inlined__sub0_15);
+                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15;
+                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
+                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                uint prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15;
+                                prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                 // Match subpatterns 
                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                                // Pop subpattern matching task for _sub0_inlined__sub0
+                                // Pop subpattern matching task for _sub0_inlined__sub0_15
                                 openTasks.Pop();
-                                PatternAction_ReverseChainFromToToCommon.releaseTask(taskFor__sub0_inlined__sub0);
+                                PatternAction_ReverseChainFromToToCommon.releaseTask(taskFor__sub0_inlined__sub0_15);
                                 // Check whether subpatterns were found 
                                 if(matchesList.Count>0) {
                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
                                     {
                                         Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_rec match = new Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon_alt_0_rec();
-                                        match._node_intermediate = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
-                                        match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0;
-                                        match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0;
-                                        match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0;
-                                        match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                                        match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
+                                        match._node_intermediate = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15;
+                                        match._node_from = candidate_ReverseChainFromToToCommon_node_from_inlined__sub0_15;
+                                        match._node_common = candidate_ReverseChainFromToToCommon_node_common_inlined__sub0_15;
+                                        match._node_to = candidate_ReverseChainFromToToCommon_node_to_inlined__sub0_15;
+                                        match._edge__edge0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
+                                        match._edge__edge1 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15;
                                         match.__sub0 = (@Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon)currentFoundPartialMatch.Pop();
                                         match.__sub0._matchOfEnclosingPattern = match;
                                         currentFoundPartialMatch.Push(match);
@@ -22697,27 +22697,27 @@ label23: ;
                                     // if enough matches were found, we leave
                                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                     {
-                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
-                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                                        candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
-                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
+                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15;
+                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
+                                        candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15;
+                                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
                                         openTasks.Push(this);
                                         return;
                                     }
-                                    candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
-                                    candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                                    candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
+                                    candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15;
+                                    candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
+                                    candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15;
                                     continue;
                                 }
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0;
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
-                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate_inlined__sub0_15;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
+                                candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15;
                             }
-                            while( (candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0 );
+                            while( (candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15.lgspOutNext) != head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge1_inlined__sub0_15 );
                         }
-                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0;
+                        candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15;
                     }
-                    while( (candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0.lgspInNext) != head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0 );
+                    while( (candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15 = candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15.lgspInNext) != head_candidate_ReverseChainFromToToCommon_alt_0_rec_edge__edge0_inlined__sub0_15 );
                 }
             } while(false);
             openTasks.Push(this);

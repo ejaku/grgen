@@ -17,6 +17,11 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
     {
         public string ehe;
     }
+	
+	public partial class OwnPownHome : OwnPown
+    {
+        public string aha;
+    }
 }
 
 namespace de.unika.ipd.grGen.expression
@@ -68,5 +73,10 @@ namespace de.unika.ipd.grGen.expression
         {
             return a!=null ? a.ehe==null : true;
         }
-	}
+		
+		public static bool hurdur(GRGEN_MODEL.OwnPownHome a)
+		{
+			return a!=null ? a.aha==null : true;
+		}
+    }
 }
