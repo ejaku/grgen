@@ -2772,6 +2772,56 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the source node of an edge
+    /// </summary>
+    public class Source : Expression
+    {
+        public Source(Expression edge)
+        {
+            Edge = edge;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Source(Edge.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((");
+            Edge.Emit(sourceCode);
+            sourceCode.Append(").Source)");
+        }
+
+        Expression Edge;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the target node of an edge
+    /// </summary>
+    public class Target : Expression
+    {
+        public Target(Expression edge)
+        {
+            Edge = edge;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Target(Edge.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((");
+            Edge.Emit(sourceCode);
+            sourceCode.Append(").Target)");
+        }
+
+        Expression Edge;
+    }
+
+    /// <summary>
     /// Class representing expression returning the outgoing edges of a node (as set)
     /// </summary>
     public class Outgoing : Expression

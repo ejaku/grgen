@@ -3098,6 +3098,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 		{
 			if( (id.toString().equals("min") || id.toString().equals("max") || id.toString().equals("pow")) && params.getChildren().size()==2
 				|| (id.toString().equals("nodes") || id.toString().equals("edges")) && params.getChildren().size()<=1
+				|| (id.toString().equals("source") || id.toString().equals("target")) && params.getChildren().size()==1
 				|| (id.toString().equals("incoming") || id.toString().equals("outgoing") || id.toString().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (id.toString().equals("adjacentIncoming") || id.toString().equals("adjacentOutgoing") || id.toString().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (id.toString().equals("reachableIncoming") || id.toString().equals("reachableOutgoing") || id.toString().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
