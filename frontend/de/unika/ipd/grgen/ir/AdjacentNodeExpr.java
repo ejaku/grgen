@@ -5,9 +5,6 @@
  * www.grgen.net
  */
 
-/**
- * @version $Id: Typeof.java 19827 2008-05-29 21:55:01Z moritz $
- */
 package de.unika.ipd.grgen.ir;
 
 public class AdjacentNodeExpr extends Expression {

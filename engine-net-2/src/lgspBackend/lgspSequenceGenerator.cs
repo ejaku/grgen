@@ -2929,6 +2929,20 @@ namespace de.unika.ipd.grGen.lgsp
                         + ")";
                 }
 
+                case SequenceExpressionType.Nodes:
+                {
+                    SequenceExpressionNodes seqNodes = (SequenceExpressionNodes)expr;
+                    string nodeType = ExtractNodeType(source, seqNodes.NodeType);
+                    return "GRGEN_LIBGR.GraphHelper.Nodes(graph, (GRGEN_LIBGR.NodeType)" + nodeType + ")";
+                }
+
+                case SequenceExpressionType.Edges:
+                {
+                    SequenceExpressionEdges seqEdges = (SequenceExpressionEdges)expr;
+                    string edgeType = ExtractEdgeType(source, seqEdges.EdgeType);
+                    return "GRGEN_LIBGR.GraphHelper.Edges(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + ")";
+                }
+                
                 case SequenceExpressionType.AdjacentNodes:
                 case SequenceExpressionType.AdjacentNodesViaIncoming:
                 case SequenceExpressionType.AdjacentNodesViaOutgoing:
@@ -2960,6 +2974,49 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode
                         + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                }
+
+                case SequenceExpressionType.ReachableNodes:
+                case SequenceExpressionType.ReachableNodesViaIncoming:
+                case SequenceExpressionType.ReachableNodesViaOutgoing:
+                case SequenceExpressionType.ReachableEdges:
+                case SequenceExpressionType.ReachableEdgesViaIncoming:
+                case SequenceExpressionType.ReachableEdgesViaOutgoing:
+                {
+                    SequenceExpressionReachable seqReach = (SequenceExpressionReachable)expr;
+                    string sourceNode = GetSequenceExpression(seqReach.SourceNode, source);
+                    string incidentEdgeType = ExtractEdgeType(source, seqReach.EdgeType);
+                    string adjacentNodeType = ExtractNodeType(source, seqReach.OppositeNodeType);
+                    string function;
+                    switch(seqReach.SequenceExpressionType)
+                    {
+                        case SequenceExpressionType.ReachableNodes:
+                            function = "Reachable"; break;
+                        case SequenceExpressionType.ReachableNodesViaIncoming:
+                            function = "ReachableIncoming"; break;
+                        case SequenceExpressionType.ReachableNodesViaOutgoing:
+                            function = "ReachableOutgoing"; break;
+                        case SequenceExpressionType.ReachableEdges:
+                            function = "ReachableEdges"; break;
+                        case SequenceExpressionType.ReachableEdgesViaIncoming:
+                            function = "ReachableEdgesIncoming"; break;
+                        case SequenceExpressionType.ReachableEdgesViaOutgoing:
+                            function = "ReachableEdgesOutgoing"; break;
+                        default:
+                            function = "INTERNAL ERROR"; break;
+                    }
+                    if(seqReach.SequenceExpressionType == SequenceExpressionType.ReachableNodes
+                        || seqReach.SequenceExpressionType == SequenceExpressionType.ReachableNodesViaIncoming
+                        || seqReach.SequenceExpressionType == SequenceExpressionType.ReachableNodesViaOutgoing)
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                    }
+                    else // SequenceExpressionType.ReachableEdges || SequenceExpressionType.ReachableEdgesViaIncoming || SequenceExpressionType.ReachableEdgesViaOutgoing
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                    }
                 }
 
                 case SequenceExpressionType.InducedSubgraph:

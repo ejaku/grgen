@@ -2018,6 +2018,14 @@ public class ActionsGen extends CSharpBase {
 			sb.append("}");
 			sb.append(")");
 		}
+		else if (expr instanceof EdgesExpr) {
+			EdgesExpr e = (EdgesExpr) expr;
+			sb.append("new GRGEN_EXPR.Edges(\""+formatTypeClassRef(e.getEdgeType()) + ".typeVar\")");
+		}
+		else if (expr instanceof NodesExpr) {
+			NodesExpr n = (NodesExpr) expr;
+			sb.append("new GRGEN_EXPR.Nodes(\""+formatTypeClassRef(n.getNodeType()) + ".typeVar\")");
+		}
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
 			if(ie.Direction()==IncidentEdgeExpr.OUTGOING) {
@@ -2054,6 +2062,44 @@ public class ActionsGen extends CSharpBase {
 			sb.append(", "
 					+ "\""+formatTypeClassRef(an.getIncidentEdgeType()) + ".typeVar\", "
 					+ "\""+formatTypeClassRef(an.getAdjacentNodeType()) + ".typeVar\""
+					+ ")");
+		}
+		else if (expr instanceof ReachableEdgeExpr) {
+			ReachableEdgeExpr re = (ReachableEdgeExpr) expr;
+			if(re.Direction()==ReachableEdgeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.ReachableEdgesOutgoing(");
+			} else if(re.Direction()==ReachableEdgeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.ReachableEdgesIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.ReachableEdges(");
+			}
+			if(!Expression.isGlobalVariable(re.getNode())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(re.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(re.getNode()) + "\", \"" + formatType(re.getNode().getType()) + "\")");
+			}
+			sb.append(", "
+					+ "\""+formatTypeClassRef(re.getIncidentEdgeType()) + ".typeVar\", "
+					+ "\""+formatTypeClassRef(re.getAdjacentNodeType()) + ".typeVar\""
+					+ ")");
+		}
+		else if (expr instanceof ReachableNodeExpr) {
+			ReachableNodeExpr rn = (ReachableNodeExpr) expr;
+			if(rn.Direction()==ReachableNodeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.ReachableOutgoing(");
+			} else if(rn.Direction()==ReachableNodeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.ReachableIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.Reachable(");
+			}
+			if(!Expression.isGlobalVariable(rn.getNode())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(rn.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(rn.getNode()) + "\", \"" + formatType(rn.getNode().getType()) + "\")");
+			}
+			sb.append(", "
+					+ "\""+formatTypeClassRef(rn.getIncidentEdgeType()) + ".typeVar\", "
+					+ "\""+formatTypeClassRef(rn.getAdjacentNodeType()) + ".typeVar\""
 					+ ")");
 		}
 		else if (expr instanceof MaxExpr) {

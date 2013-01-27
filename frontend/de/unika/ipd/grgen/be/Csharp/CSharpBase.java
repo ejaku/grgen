@@ -1153,6 +1153,16 @@ public abstract class CSharpBase {
 			}
 			sb.append(")");
 		}
+		else if (expr instanceof EdgesExpr) {
+			EdgesExpr e = (EdgesExpr) expr;
+			sb.append("GRGEN_LIBGR.GraphHelper.Edges(graph, "
+				+ formatTypeClassRef(e.getEdgeType()) + ".typeVar)");
+		}
+		else if (expr instanceof NodesExpr) {
+			NodesExpr n = (NodesExpr) expr;
+			sb.append("GRGEN_LIBGR.GraphHelper.Nodes(graph, "
+				+ formatTypeClassRef(n.getNodeType()) + ".typeVar)");
+		}
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
 			if(ie.Direction()==IncidentEdgeExpr.OUTGOING) {
@@ -1189,6 +1199,44 @@ public abstract class CSharpBase {
 			sb.append(", "
 				+ formatTypeClassRef(an.getIncidentEdgeType()) + ".typeVar, "
 				+ formatTypeClassRef(an.getAdjacentNodeType()) + ".typeVar"
+				+ ")");
+		}
+		else if (expr instanceof ReachableEdgeExpr) {
+			ReachableEdgeExpr re = (ReachableEdgeExpr) expr;
+			if(re.Direction()==ReachableEdgeExpr.OUTGOING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing(graph, ");
+			} else if(re.Direction()==ReachableEdgeExpr.INCOMING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming(graph, ");
+			} else {
+				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdges(graph, ");
+			}
+			if(!Expression.isGlobalVariable(re.getNode())) {
+				sb.append(formatEntity(re.getNode())); 
+			} else {
+				sb.append(formatGlobalVariableRead(re.getNode()));
+			}
+			sb.append(", "
+				+ formatTypeClassRef(re.getIncidentEdgeType()) + ".typeVar, "
+				+ formatTypeClassRef(re.getAdjacentNodeType()) + ".typeVar"
+				+ ")");
+		}
+		else if (expr instanceof ReachableNodeExpr) {
+			ReachableNodeExpr rn = (ReachableNodeExpr) expr;
+			if(rn.Direction()==ReachableNodeExpr.OUTGOING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.ReachableOutgoing(");
+			} else if(rn.Direction()==ReachableNodeExpr.INCOMING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.ReachableIncoming(");
+			} else {
+				sb.append("GRGEN_LIBGR.GraphHelper.Reachable(");
+			}
+			if(!Expression.isGlobalVariable(rn.getNode())) {
+				sb.append(formatEntity(rn.getNode())); 
+			} else {
+				sb.append(formatGlobalVariableRead(rn.getNode()));
+			}
+			sb.append(", "
+				+ formatTypeClassRef(rn.getIncidentEdgeType()) + ".typeVar, "
+				+ formatTypeClassRef(rn.getAdjacentNodeType()) + ".typeVar"
 				+ ")");
 		}
 		else if (expr instanceof MaxExpr) {

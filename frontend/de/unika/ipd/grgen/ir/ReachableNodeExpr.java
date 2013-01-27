@@ -7,20 +7,20 @@
 
 package de.unika.ipd.grgen.ir;
 
-public class IncidentEdgeExpr extends Expression {
+public class ReachableNodeExpr extends Expression {
 	private final Node node;
 	private final EdgeType incidentEdgeType;
 	private final int direction;
 	private final NodeType adjacentNodeType;
 
-	public static final int INCIDENT = 0;
+	public static final int ADJACENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
 
-	public IncidentEdgeExpr(Node node,
+	public ReachableNodeExpr(Node node,
 			EdgeType incidentEdgeType, int direction,
 			NodeType adjacentNodeType, Type type) {
-		super("incident edge expression", type);
+		super("reachable node expression", type);
 		this.node = node;
 		this.incidentEdgeType = incidentEdgeType;
 		this.direction = direction;

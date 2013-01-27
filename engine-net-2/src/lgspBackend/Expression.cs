@@ -2726,6 +2726,52 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the nodes of a node type (as set)
+    /// </summary>
+    public class Nodes : Expression
+    {
+        public Nodes(String nodeType)
+        {
+            NodeType = nodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Nodes(NodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Nodes(graph, " + NodeType + ")");
+        }
+
+        String NodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the edges of an edge type (as set)
+    /// </summary>
+    public class Edges : Expression
+    {
+        public Edges(String edgeType)
+        {
+            EdgeType = edgeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Edges(EdgeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Edges(graph, " + EdgeType + ")");
+        }
+
+        String EdgeType;
+    }
+
+    /// <summary>
     /// Class representing expression returning the outgoing edges of a node (as set)
     /// </summary>
     public class Outgoing : Expression
@@ -2905,6 +2951,198 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Adjacent((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable edges via outgoing edges of a node (as set)
+    /// </summary>
+    public class ReachableEdgesOutgoing : Expression
+    {
+        public ReachableEdgesOutgoing(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ReachableEdgesOutgoing(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable edges via incoming edges of a node (as set)
+    /// </summary>
+    public class ReachableEdgesIncoming : Expression
+    {
+        public ReachableEdgesIncoming(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ReachableEdgesIncoming(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable edges via incident edges of a node (as set)
+    /// </summary>
+    public class ReachableEdges : Expression
+    {
+        public ReachableEdges(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ReachableEdges(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdges(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable nodes of a node (as set) reachable via outgoing edges
+    /// </summary>
+    public class ReachableOutgoing : Expression
+    {
+        public ReachableOutgoing(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ReachableOutgoing(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableOutgoing((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable nodes of a node (as set) reachable via incoming edges
+    /// </summary>
+    public class ReachableIncoming : Expression
+    {
+        public ReachableIncoming(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ReachableIncoming(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableIncoming((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable nodes of a node (as set) reachable via incident edges
+    /// </summary>
+    public class Reachable : Expression
+    {
+        public Reachable(Expression node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Reachable(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Reachable((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", "
                 + IncidentEdgeType + ", "

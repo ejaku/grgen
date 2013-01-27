@@ -15,17 +15,17 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.AdjacentNodeExpr;
+import de.unika.ipd.grgen.ir.ReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the adjacent nodes/adjacent nodes via incoming edges/adjacent nodes via outgoing edges of a node.
+ * A node yielding the reachable incident/incoming/outgoing edges of a node.
  */
-public class AdjacentNodeExprNode extends ExprNode {
+public class ReachableEdgeExprNode extends ExprNode {
 	static {
-		setName(AdjacentNodeExprNode.class, "adjacent node expr");
+		setName(ReachableEdgeExprNode.class, "reachable edge expr");
 	}
 
 	private IdentNode nodeUnresolved;
@@ -37,11 +37,11 @@ public class AdjacentNodeExprNode extends ExprNode {
 	private int direction;
 	private NodeTypeNode adjacentType;
 	
-	public static final int ADJACENT = 0;
+	public static final int INCIDENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
 	
-	public AdjacentNodeExprNode(Coords coords, IdentNode node,
+	public ReachableEdgeExprNode(Coords coords, IdentNode node,
 			IdentNode incidentType, int direction,
 			IdentNode adjacentType) {
 		super(coords);
@@ -99,7 +99,7 @@ public class AdjacentNodeExprNode extends ExprNode {
 	@Override
 	protected IR constructIR() {
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
-		return new AdjacentNodeExpr(nodeDecl.checkIR(Node.class), 
+		return new ReachableEdgeExpr(nodeDecl.checkIR(Node.class), 
 								incidentType.checkIR(EdgeType.class), direction,
 								adjacentType.checkIR(NodeType.class),
 								getType().getType());
@@ -107,7 +107,7 @@ public class AdjacentNodeExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(adjacentTypeUnresolved);
+		return SetTypeNode.getSetType(incidentTypeUnresolved);
 	}
 	
 	public boolean noDefElementInCondition() {
