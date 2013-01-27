@@ -1,17 +1,13 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 3.5
- * Copyright (C) 2003-2012 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 3.6
+ * Copyright (C) 2003-2013 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
 
 /**
- * ActionsGen.java
- *
  * Generates the actions file for the SearchPlanBackend2 backend.
- *
  * @author Moritz Kroll, Edgar Jakumeit
- * @version $Id: ActionsGen.java 26976 2010-10-11 00:11:23Z eja $
  */
 
 package de.unika.ipd.grgen.be.Csharp;

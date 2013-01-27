@@ -1,13 +1,12 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 3.5
- * Copyright (C) 2003-2012 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 3.6
+ * Copyright (C) 2003-2013 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
 
 /**
  * @author Sebastian Hack
- * @version $Id$
  */
 package de.unika.ipd.grgen;
 
@@ -70,15 +69,9 @@ import de.unika.ipd.grgen.util.report.Reporter;
 import de.unika.ipd.grgen.util.report.StreamHandler;
 import de.unika.ipd.grgen.util.report.TableHandler;
 
-
 /**
  * Main.java
- *
- *
  * Created: Wed Jul  2 11:22:43 2003
- *
- * @author Sebastian Hack
- * @version 1.0
  */
 public class Main extends Base implements Sys {
 
