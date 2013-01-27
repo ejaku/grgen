@@ -2022,6 +2022,26 @@ public class ActionsGen extends CSharpBase {
 			NodesExpr n = (NodesExpr) expr;
 			sb.append("new GRGEN_EXPR.Nodes(\""+formatTypeClassRef(n.getNodeType()) + ".typeVar\")");
 		}
+		else if (expr instanceof SourceExpr) {
+			SourceExpr s = (SourceExpr) expr;
+			sb.append("new GRGEN_EXPR.Source(");
+			if(!Expression.isGlobalVariable(s.getEdge())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(s.getEdge(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(s.getEdge()) + "\", \"" + formatType(s.getEdge().getType()) + "\")");
+			}
+			sb.append(")");
+		}
+		else if (expr instanceof TargetExpr) {
+			TargetExpr t = (TargetExpr) expr;
+			sb.append("new GRGEN_EXPR.Target(");
+			if(!Expression.isGlobalVariable(t.getEdge())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(t.getEdge(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(t.getEdge()) + "\", \"" + formatType(t.getEdge().getType()) + "\")");
+			}
+			sb.append(")");
+		}
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
 			if(ie.Direction()==IncidentEdgeExpr.OUTGOING) {

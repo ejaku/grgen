@@ -1159,6 +1159,26 @@ public abstract class CSharpBase {
 			sb.append("GRGEN_LIBGR.GraphHelper.Nodes(graph, "
 				+ formatTypeClassRef(n.getNodeType()) + ".typeVar)");
 		}
+		else if (expr instanceof SourceExpr) {
+			SourceExpr s = (SourceExpr) expr;
+			sb.append("((");
+			if(!Expression.isGlobalVariable(s.getEdge())) {
+				sb.append(formatEntity(s.getEdge())); 
+			} else {
+				sb.append(formatGlobalVariableRead(s.getEdge()));
+			}
+			sb.append(").Source)");
+		}
+		else if (expr instanceof TargetExpr) {
+			TargetExpr t = (TargetExpr) expr;
+			sb.append("((");
+			if(!Expression.isGlobalVariable(t.getEdge())) {
+				sb.append(formatEntity(t.getEdge())); 
+			} else {
+				sb.append(formatGlobalVariableRead(t.getEdge()));
+			}
+			sb.append(").Target)");
+		}
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
 			if(ie.Direction()==IncidentEdgeExpr.OUTGOING) {

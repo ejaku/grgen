@@ -1,11 +1,17 @@
 ::g_n:Node;
+-::g_e:Edge->;
 
 rule t
 {
-	n:Node;
+	n:Node -e:Edge-> ;
 
 	if { edges().size()!=0; }
 	if { nodes().size()!=0; }
+
+	if { source(e)!=n; }
+	if { source(::g_e)!=::g_n; }
+	if { target(e)!=n; }
+	if { target(::g_e)!=::g_n; }
 	
 	if { incident(::g_n).size()!=0 && incoming(::g_n).size()!=0 && outgoing(::g_n).size()!=0; }
 	if { incident(n).size()!=0 && incoming(n).size()!=0 && outgoing(n).size()!=0; }
@@ -22,6 +28,11 @@ rule t
 		
 		eval { yield res = edges().size()!=0; }
 		eval { yield res = nodes().size()!=0; }
+
+		eval { yield res = source(e)!=n; }
+		eval { yield res = source(::g_e)!=::g_n; }
+		eval { yield res = target(e)!=n; }
+		eval { yield res = target(::g_e)!=::g_n; }
 		
 		eval { yield res = incident(::g_n).size()!=0 && incoming(::g_n).size()!=0 && outgoing(::g_n).size()!=0; }
 		eval { yield res = incident(n).size()!=0 && incoming(n).size()!=0 && outgoing(n).size()!=0; }
@@ -36,6 +47,11 @@ rule t
 /*
 		exec ( { res = edges().size()!=0; } )
 		exec ( { res = nodes().size()!=0; } )
+
+		exec ( { res = source(e)!=n; } )
+		exec ( { res = source(::g_e)!=::g_n; } )
+		exec ( { res = target(e)!=n; } )
+		exec ( { res = target(::g_e)!=::g_n; } )
 		
 		exec ( { res = incident(::g_n).size()!=0 && incoming(::g_n).size()!=0 && outgoing(::g_n).size()!=0; } )
 		exec ( { res = incident(n).size()!=0 && incoming(n).size()!=0 && outgoing(n).size()!=0; } )

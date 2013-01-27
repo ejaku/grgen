@@ -130,6 +130,32 @@ public class FunctionInvocationExprNode extends ExprNode
 				result = new EdgesExprNode(getCoords(), edgeType);
 			}
 		}
+		else if(functionName.equals("source")) {			
+			if(params.size() == 1) {
+				if(!(params.get(0) instanceof IdentExprNode)) {
+					reportError("parameter of " + functionName + "() must be a graph entity (identifier)");
+					return false;
+				}
+				result = new SourceExprNode(getCoords(), ((IdentExprNode)params.get(0)).getIdent(), env.getNodeRoot());
+			}
+			else {
+				reportError(functionName + "() takes 1 parameter.");
+				return false;
+			}
+		}
+		else if(functionName.equals("target")) {			
+			if(params.size() == 1) {
+				if(!(params.get(0) instanceof IdentExprNode)) {
+					reportError("parameter of " + functionName + "() must be a graph entity (identifier)");
+					return false;
+				}
+				result = new TargetExprNode(getCoords(), ((IdentExprNode)params.get(0)).getIdent(), env.getNodeRoot());
+			}
+			else {
+				reportError(functionName + "() takes 1 parameter.");
+				return false;
+			}
+		}
 		else if(functionName.equals("incoming") || functionName.equals("outgoing") || functionName.equals("incident")) {
 			int direction;
 			if(functionName.equals("incoming"))
