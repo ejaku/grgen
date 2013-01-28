@@ -1,5 +1,5 @@
-GrGen.NET v3.5.2 (2012-08-12)
------------------------------
+GrGen.NET v3.6.ms2 (2013-01-28)
+-------------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
@@ -130,12 +130,14 @@ Philip Daubmeier
 Philip Lorenz
 Julian Reich
 Nicholas Tung
+Maneesh Yadav
 
 
 BUGREPORTS AND OTHER CONTRIBUTIONS
 ----------------------------------
 
 Nadeem Ahmed
+Bill Alexander
 Serge Autexier
 Paul Bedaride
 Maxim Bendiks
@@ -150,17 +152,17 @@ Yuan Jochen Kang
 Mathias Landhäußer
 Robert C. Metzger
 Normen Müller
+Clemens Münzer
 Laura Perez
 Caroline von Totth
-Maneesh Yadav
 
 
 COPYING
 -------
 
-Copyright (C) 2003-2012 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos
+Copyright (C) 2003-2013 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 3.5
+This file is part of GrGen, Version GrGen.NET 3.6
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
