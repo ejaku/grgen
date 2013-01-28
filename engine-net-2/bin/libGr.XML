@@ -598,6 +598,16 @@
                 Containing especially the graph on which this assignment is to be executed.
                 And the user proxy queried when choices are due.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Nodes(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns the nodes in the graph of the type given, as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Edges(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.EdgeType)">
+            <summary>
+            Returns the edges in the graph of the type given, as set
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Adjacent(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
             Returns set of nodes adjacent to the source node, under the type constraints given
@@ -626,6 +636,66 @@
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Incoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
             Returns set of edges incoming to the source node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Reachable(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of nodes reachable from the source node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Reachable(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType})">
+            <summary>
+            Fills set of nodes reachable from the source node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of nodes reachable from the source node via outgoing edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType})">
+            <summary>
+            Fills set of nodes reachable from the source node via outgoing edges, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of nodes reachable from the source node via incoming edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType})">
+            <summary>
+            Fills set of nodes reachable from the source node via incoming edges, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdges(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of edges reachable from the source node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdges(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Fills set of edges reachable from the source node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of outgoing edges reachable from the source node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Fills set of outgoing edges reachable from the source node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncoming(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of incoming edges reachable from the source node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Fills set of incoming edges reachable from the source node, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InducedSubgraph(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
@@ -1164,6 +1234,13 @@
             Returns an iterator over all available (non-null) variables
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.Item(System.String)">
+            <summary>
+            Indexer for accessing the variables by name, via index notation on this object.
+            </summary>
+            <param name="name">The name of the variable to access</param>
+            <returns>The value of the variable accessed (read on get, written on set)</returns>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.UserProxy">
             <summary>
             The user proxy queried for choices during sequence execution.
@@ -1211,6 +1288,12 @@
             <summary>
             returns the maybe user altered sequence to execute next for the sequence given
             the randomly chosen sequence is supplied; the object with all available sequences is supplied
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution.ChoosePoint(System.Double,de.unika.ipd.grGen.libGr.SequenceWeightedOne)">
+            <summary>
+            returns the maybe user altered point within the interval series, denoting the sequence to execute next
+            the randomly chosen point is supplied; the sequence with the intervals and their corresponding sequences is supplied
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.SequenceSomeFromSet)">
@@ -1452,13 +1535,13 @@
             <param name="valueType">The value type of the List</param>
             <returns>The casted input List, or null if not a List</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetQueueType(System.Object,System.Type@)">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetDequeType(System.Object,System.Type@)">
             <summary>
-            If queue is Queue, the Queue is returned together with its value type
+            If deque is Deque, the Deque is returned together with its value type
             </summary>
-            <param name="queue">The object which should be a Queue</param>
-            <param name="valueType">The value type of the Queue</param>
-            <returns>The casted input Queue, or null if not a Queue</returns>
+            <param name="deque">The object which should be a Deque</param>
+            <param name="valueType">The value type of the Deque</param>
+            <returns>The casted input Deque, or null if not a Deque</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetDictionaryTypes(System.Type,System.Type@,System.Type@)">
             <summary>
@@ -1475,16 +1558,16 @@
             <param name="arrayType">The List type</param>
             <param name="valueType">The value type of the List</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetQueueType(System.Type,System.Type@)">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetDequeType(System.Type,System.Type@)">
             <summary>
-            The value type of the Queue is returned
+            The value type of the Deque is returned
             </summary>
-            <param name="queueType">The Queue type</param>
-            <param name="valueType">The value type of the Queue</param>
+            <param name="dequeType">The Deque type</param>
+            <param name="valueType">The value type of the Deque</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetTypeFromNameForContainer(System.String,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Queue
+            Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Deque
             </summary>
             <param name="typeName">Name of the type we want some type object for</param>
             <param name="graph">Graph to be search for enum,node,edge types / enum,node/edge type names</param>
@@ -1492,7 +1575,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetTypeFromNameForContainer(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
-            Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Queue
+            Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Deque
             </summary>
             <param name="typeName">Name of the type we want some type object for</param>
             <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
@@ -1518,12 +1601,12 @@
             <param name="valueType">The value type of the List to be created</param>
             <returns>The newly created List, null if unsuccessfull</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewQueue(System.Type)">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewDeque(System.Type)">
             <summary>
-            Creates a new Queue of the given value type
+            Creates a new Deque of the given value type
             </summary>
-            <param name="valueType">The value type of the Queue to be created</param>
-            <returns>The newly created Queue, null if unsuccessfull</returns>
+            <param name="valueType">The value type of the Deque to be created</param>
+            <returns>The newly created Deque, null if unsuccessfull</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewDictionary(System.Type,System.Type,System.Object)">
             <summary>
@@ -1546,14 +1629,14 @@
             <returns>The newly created List, containing the content of the old List,
             null if unsuccessfull</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewQueue(System.Type,System.Object)">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NewDeque(System.Type,System.Object)">
             <summary>
-            Creates a new Queue of the given value type,
-            initialized with the content of the old Queue (clones the old Queue)
+            Creates a new Deque of the given value type,
+            initialized with the content of the old Deque (clones the old Deque)
             </summary>
-            <param name="valueType">The value type of the Queue to be created</param>
-            <param name="oldQueue">The old Queue to be cloned</param>
-            <returns>The newly created Queue, containing the content of the old Queue,
+            <param name="valueType">The value type of the Deque to be created</param>
+            <param name="oldDeque">The old Deque to be cloned</param>
+            <returns>The newly created Deque, containing the content of the old Deque,
             null if unsuccessfull</returns>
         </member>
         <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.Union``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})" ignoriert -->
@@ -1774,40 +1857,65 @@
             <param name="attrType">The attribute type of the attribute which gets changed.</param>
             <returns>A truth value telling whether at least one element was changed in a</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Concatenate``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IndexOf``1(de.unika.ipd.grGen.libGr.Deque{``0},``0)">
             <summary>
-            Creates a new queue and appends all values first from
+            Returns the first position of entry in the deque a
+            </summary>
+            <param name="a">A Deque, i.e. double ended queue.</param>
+            <param name="entry">The value to search for.</param>
+            <returns>The first position of entry in the deque a, -1 if entry not in a.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LastIndexOf``1(de.unika.ipd.grGen.libGr.Deque{``0},``0)">
+            <summary>
+            Returns the first position from the end inwards of entry in the deque a
+            </summary>
+            <param name="a">A Deque, i.e. double ended queue.</param>
+            <param name="entry">The value to search for.</param>
+            <returns>The first position from the end inwards of entry in the deque a, -1 if entry not in a.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Subdeque``1(de.unika.ipd.grGen.libGr.Deque{``0},System.Int32,System.Int32)">
+            <summary>
+            Creates a new deque with length values copied from a from index start on.
+            </summary>
+            <param name="a">A Deque, i.e. double ended queue.</param>
+            <param name="start">A start position in the deque.</param>
+            <param name="length">The number of elements to copy from start on.</param>
+            <returns>A new Deque, containing the length first values from start on.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Concatenate``1(de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.Deque{``0})">
+            <summary>
+            Creates a new deque and appends all values first from
             <paramref name="a"/> and then from <paramref name="b"/>.
             </summary>
-            <param name="a">A Queue.</param>
-            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-            <returns>A new Queue containing a concatenation of the parameter queues.</returns>
+            <param name="a">A Deque.</param>
+            <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+            <returns>A new Deque containing a concatenation of the parameter deques.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.Deque{``0})">
             <summary>
-            Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+            Appends all values from deque <paramref name="b"/> to <paramref name="a"/>.
             </summary>
-            <param name="a">A Queue to change.</param>
-            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <param name="a">A Deque to change.</param>
+            <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
             <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
             <summary>
-            Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+            Appends all values from deque <paramref name="b"/> to <paramref name="a"/>.
             </summary>
-            <param name="a">A Queue to change.</param>
-            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <param name="a">A Deque to change.</param>
+            <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
             <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
             <param name="owner">The node containing the attribute which gets changed.</param>
             <param name="attrType">The attribute type of the attribute which gets changed.</param>
             <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ConcatenateChanged``1(de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
             <summary>
-            Appends all values from queue <paramref name="b"/> to <paramref name="a"/>.
+            Appends all values from deque <paramref name="b"/> to <paramref name="a"/>.
             </summary>
-            <param name="a">A Queue to change.</param>
-            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
+            <param name="a">A Deque to change.</param>
+            <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
             <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
             <param name="owner">The edge containing the attribute which gets changed.</param>
             <param name="attrType">The attribute type of the attribute which gets changed.</param>
@@ -1839,11 +1947,18 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Peek(System.Object,System.Int32)">
             <summary>
-            Returns the value from the dictionary or list or queue at the nth position as defined by the iterator of the dictionary or the index of the list or the iterator of the queue.
+            Returns the value from the dictionary or list or deque at the nth position as defined by the iterator of the dictionary or the index of the list or the iterator of the deque.
             </summary>
-            <param name="obj">A dictionary or a list or a queue.</param>
+            <param name="obj">A dictionary or a list or a deque.</param>
             <param name="num">The number of the element to get in the iteration sequence.</param>
             <returns>The element at the position to get.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Peek(System.Object)">
+            <summary>
+            Returns the value from the deque begin or array end.
+            </summary>
+            <param name="obj">A list or a deque.</param>
+            <returns>The element at the list end or deque begin.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Equal``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
@@ -1961,58 +2076,58 @@
             <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
             <returns>Boolean result of List comparison.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Equal``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Equal``1(de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.Deque{``0})">
             <summary>
-            Checks if Queue <paramref name="a"/> equals Queue <paramref name="b"/>.
+            Checks if Deque <paramref name="a"/> equals Deque <paramref name="b"/>.
             Requires same values at same position for being true.
             </summary>
-            <param name="a">A Queue.</param>
-            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of Queue comparison.</returns>
+            <param name="a">A Deque.</param>
+            <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Deque comparison.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NotEqual``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.NotEqual``1(de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.Deque{``0})">
             <summary>
-            Checks if Queue <paramref name="a"/> is not equal Queue <paramref name="b"/>.
+            Checks if Deque <paramref name="a"/> is not equal Deque <paramref name="b"/>.
             </summary>
-            <param name="a">A Queue.</param>
-            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of Queue comparison.</returns>
+            <param name="a">A Deque.</param>
+            <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Deque comparison.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GreaterThan``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GreaterThan``1(de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.Deque{``0})">
             <summary>
-            Checks if Queueu <paramref name="a"/> is a proper superqueue of <paramref name="b"/>.
+            Checks if Deque <paramref name="a"/> is a proper superdeque of <paramref name="b"/>.
             Requires a to contain more entries than b and same values at same position for being true.
             </summary>
-            <param name="a">A Queue.</param>
-            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of Queue comparison.</returns>
+            <param name="a">A Deque.</param>
+            <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Deque comparison.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GreaterOrEqual``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GreaterOrEqual``1(de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.Deque{``0})">
             <summary>
-            Checks if Queue <paramref name="a"/> is a superqueue of <paramref name="b"/>.
+            Checks if Deque <paramref name="a"/> is a superdeque of <paramref name="b"/>.
             Requires a to contain more or same number of entries than b and same values at same position for being true.
             </summary>
-            <param name="a">A Queue.</param>
-            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of Queue comparison.</returns>
+            <param name="a">A Deque.</param>
+            <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Deque comparison.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LessThan``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LessThan``1(de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.Deque{``0})">
             <summary>
-            Checks if Queue <paramref name="a"/> is a proper subqueue of <paramref name="b"/>.
+            Checks if Deque <paramref name="a"/> is a proper subseque of <paramref name="b"/>.
             Requires a to contain less entries than b and same values at same position for being true.
             </summary>
-            <param name="a">A Queue.</param>
-            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of Queue comparison.</returns>
+            <param name="a">A Deque.</param>
+            <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Deque comparison.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LessOrEqual``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.Queue{``0})">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.LessOrEqual``1(de.unika.ipd.grGen.libGr.Deque{``0},de.unika.ipd.grGen.libGr.Deque{``0})">
             <summary>
-            Checks if Queue <paramref name="a"/> is a subqueue of <paramref name="b"/>.
+            Checks if Deque <paramref name="a"/> is a subdeque of <paramref name="b"/>.
             Requires a to contain less or same number of entries than b and same values at same positions for being true.
             </summary>
-            <param name="a">A Queue.</param>
-            <param name="b">Another Queue of compatible type to <paramref name="a"/>.</param>
-            <returns>Boolean result of Queue comparison.</returns>
+            <param name="a">A Deque.</param>
+            <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
+            <returns>Boolean result of Deque comparison.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
@@ -2030,20 +2145,20 @@
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <returns>string representation of List</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.Queue,de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            Returns a string representation of the given Queue
+            Returns a string representation of the given Deque
             </summary>
-            <param name="queue">The Queue of which to get the string representation</param>
+            <param name="deque">The Deque of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of Queue</returns>
+            <returns>string representation of Deque</returns>
         </member>
         <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
         <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.Queue,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
         <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
         <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.Queue,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns a string representation of the given scalar value
@@ -2064,15 +2179,15 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object,de.unika.ipd.grGen.libGr.AttributeType@)">
             <summary>
-            If the attribute of the given name of the given element is a set or map or array attribute
-            then return a clone of the given dictionary or list value, otherwise just return the original value;
+            If the attribute of the given name of the given element is a container attribute
+            then return a clone of the given container value, otherwise just return the original value;
             additionally returns the AttributeType of the attribute of the element.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object)">
             <summary>
-            If the attribute of the given name of the given element is a set or map or array attribute
-            then return a clone of the given dictionary or list value, otherwise just return the original value
+            If the attribute of the given name of the given element is a conatiner attribute
+            then return a clone of the given container value, otherwise just return the original value
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
@@ -2086,7 +2201,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a queue
+            Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a deque
             </summary>
             <param name="value">The value of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
@@ -2934,6 +3049,19 @@
             assuming the graph element (in)equality operator.
             Returns "" if the type can only be determined at runtime.
             Returns "-" in case of a type error and/or if no operator working on strings can be applied.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IDeque">
+            <summary>
+            Interface of a Double Ended Queue. 
+            (Why is there none in the .NET collection library?)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.Deque`1">
+            <summary>
+            Class implementing a Double Ended Queue. 
+            Items can be added and removed in O(1) at the beginning and at the end, and accessed at an arbitrary index in O(1).
+            Implemented by a ring buffer that is doubled in size (and the old content copied) when necessary (so insert is only amortized O(1)).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IMatch">
@@ -3888,8 +4016,8 @@
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.ArrayAttr">
             <summary>The attribute is an array.</summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.QueueAttr">
-            <summary>The attribute is a queue.</summary>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.DequeAttr">
+            <summary>The attribute is a deque.</summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.NodeAttr">
             <summary>The attribute is a node (only valid for set/map/array key/value type).</summary>
@@ -3930,7 +4058,7 @@
             The attribute type of the value of the set, if Kind == AttributeKind.SetAttr.
             The attribute type of the value of the map, if Kind == AttributeKind.MapAttr.
             The attribute type of the value of the array, if Kind == AttributeKind.ArrayAttr.
-            The attribute type of the value of the queue, if Kind == AttributeKind.QueueAttr.
+            The attribute type of the value of the deque, if Kind == AttributeKind.DequeAttr.
             Undefined otherwise.
             </summary>
         </member>
@@ -3958,7 +4086,7 @@
             <param name="ownerType">The owner model type.</param>
             <param name="kind">The kind of the attribute.</param>
             <param name="enumType">The enum type description, if Kind == AttributeKind.EnumAttr, otherwise null.</param>
-            <param name="valueType">The attribute type of the value of the set, if Kind == AttributeKind.SetAttr; the attribute type of the value of the map, if Kind == AttributeKind.MapAttr; the attribute type of the value of the array, if Kind == AttributeKind.ArrayAttr; otherwise null. </param>
+            <param name="valueType">The attribute type of the value of the set, if Kind == AttributeKind.SetAttr; the attribute type of the value of the map, if Kind == AttributeKind.MapAttr; the attribute type of the value of the array, if Kind == AttributeKind.ArrayAttr; the attribute type of the value of the deque, if Kind == AttributeKind.DequeAttr; otherwise null. </param>
             <param name="keyType">The attribute type of the key of the map, if Kind == AttributeKind.MapAttr; otherwise null.</param>
             <param name="typeName">The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr; otherwise null.</param>
         </member>
@@ -4958,6 +5086,12 @@
             <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
             <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.Canonize">
+            <summary>
+            Returns a canonical representation of the graph as a string
+            </summary>
+            <returns>a canonical representation of the graph as a string</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.Validate(de.unika.ipd.grGen.libGr.ValidationMode,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.ConnectionAssertionError}@)">
             <summary>
             Checks whether a graph meets the connection assertions.
@@ -5038,10 +5172,10 @@
             <param name="newValue">The new value of the attribute, if changeType==Assign.
                                    Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
                                    Or the new map pair value to be inserted if changeType==PutElement on map.
-                                   Or the new value to be inserted/added if changeType==PutElement on array.
-                                   Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+                                   Or the new value to be inserted/added if changeType==PutElement on array/deque.
+                                   Or the new value to be assigned to the given position if changeType==AssignElement on array/deque.</param>
             <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
-                                   The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
+                                   The index to be removed/written to if changeType==RemoveElement/AssignElement on array/deque.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.ChangingEdgeAttribute(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object)">
             <summary>
@@ -5056,10 +5190,10 @@
             <param name="newValue">The new value of the attribute, if changeType==Assign.
                                    Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
                                    Or the new map pair value to be inserted if changeType==PutElement on map.
-                                   Or the new value to be inserted/added if changeType==PutElement on array.
-                                   Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+                                   Or the new value to be inserted/added if changeType==PutElement on array/deque.
+                                   Or the new value to be assigned to the given position if changeType==AssignElement on array/deque.</param>
             <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
-                                   The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
+                                   The index to be removed/written to if changeType==RemoveElement/AssignElement on array/deque.</param>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraph.Name">
             <summary>

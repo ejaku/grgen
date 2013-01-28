@@ -910,17 +910,22 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickFromStorage">
             <summary>
-            Pick element from storage.
+            Pick element from storage, independent from previously matched elements.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickFromStorageDependent">
+            <summary>
+            Pick element from storage, depending on a previously matched element (e.g. an attribute owner).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.MapWithStorage">
             <summary>
-            Map some given input element to an output graph element.
+            Map some given input to an output graph element, independent from previously matched elements.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickFromStorageAttribute">
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.MapWithStorageDependent">
             <summary>
-            Pick element from storage attribute, needs attribute owner.
+            Map some given input to an output graph element, depending on a previously matched element.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.Cast">
@@ -2150,6 +2155,12 @@
             <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
             <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Canonize">
+            <summary>
+            Returns a canonical representation of the graph as a string
+            </summary>
+            <returns>a canonical representation of the graph as a string</returns>
+        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.ReuseOptimization">
             <summary>
             If true (the default case), elements deleted during a rewrite
@@ -3117,23 +3128,14 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.Storage">
             <summary>
-            If not null this pattern element is to be bound by iterating the given storage.
+            If not null this pattern element is to be bound by iterating the given storage
+            (which may mean trying the single value if it is elementary).
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.Accessor">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.StorageIndex">
             <summary>
-            If not null this pattern element is to be determined by map lookup,
-            with the accessor given here applied as index into the storage map given in the Storage field.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.StorageAttributeOwner">
-            <summary>
-            If not null this pattern element is to be bound by iterating the given storage attribute of this owner.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.StorageAttribute">
-            <summary>
-            If not null this pattern element is to be bound by iterating the given storage attribute.
+            If not null this pattern element is to be determined by a storage indexed lookup,
+            with the accessor given here applied as index into the storage given in the Storage field.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.ElementBeforeCasting">
@@ -3168,7 +3170,7 @@
             visited flag used to compute pattern connectedness for inlining, just hacked into this place
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
             <summary>
             Instantiates a new PatternElement object.
             </summary>
@@ -3186,10 +3188,8 @@
             <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds.</param>
             <param name="maybeNull">Tells whether this pattern element may be null (is a parameter if true).</param>
             <param name="storage">If not null this pattern element is to be bound by iterating the given storage.</param>
-            <param name="accessor">If not null this pattern element is to be determined by map lookup,
-                with the accessor given here applied as index into the storage map given in the storage parameter.</param>
-            <param name="storageAttributeOwner">If not null this pattern element is to be bound by iterating the given storage attribute of this owner.</param>
-            <param name="storageAttribute">If not null this pattern element is to be bound by iterating the given storage attribute.</param>
+            <param name="storageIndex">If not null this pattern element is to be determined by a storage lookup,
+                with the accessor given here applied as index into the storage given in the storage parameter.</param>
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -3208,6 +3208,11 @@
             Converts this instance into a string representation.
             </summary>
             <returns>The string representation of this instance.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.GetPatternElementTheStorageDependsOn">
+            <summary>
+            Returns the pattern element the storage (which must be not null) depends on (or the storage index depends on)
+            </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternElement.Name">
             <summary>
@@ -3250,7 +3255,7 @@
             The GrGen type of the pattern node
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,de.unika.ipd.grGen.libGr.NodeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,de.unika.ipd.grGen.libGr.NodeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
             <summary>
             Instantiates a new PatternNode object
             </summary>
@@ -3268,11 +3273,9 @@
             <param name="cost"> default cost/priority from frontend, user priority if given</param>
             <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
             <param name="maybeNull">Tells whether this pattern node may be null (is a parameter if true).</param>
-            <param name="storage">If not null this pattern node is to be bound by iterating the given storage.</param>
-            <param name="accessor">If not null this pattern node is to be determined by map lookup,
-                with the accessor given here applied as index into the storage map given in the storage parameter.</param>
-            <param name="storageAttributeOwner">If not null this pattern node is to be bound by iterating the given storage attribute of this owner.</param>
-            <param name="storageAttribute">If not null this pattern node is to be bound by iterating the given storage attribute.</param>
+            <param name="storage">If not null this node is to be bound by iterating the given storage.</param>
+            <param name="storageIndex">If not null this node is to be determined by a storage lookup,
+                with the accessor given here applied as index into the storage given in the storage parameter.</param>
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -3318,7 +3321,7 @@
             Indicates, whether this pattern edge should be matched with a fixed direction or not.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
             <summary>
             Instantiates a new PatternEdge object
             </summary>
@@ -3337,11 +3340,9 @@
             <param name="cost"> default cost/priority from frontend, user priority if given</param>
             <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
             <param name="maybeNull">Tells whether this pattern edge may be null (is a parameter if true).</param>
-            <param name="storage">If not null this pattern edge is to be bound by iterating the given storage.</param>
-            <param name="accessor">If not null this pattern edge is to be determined by map lookup,
-                with the accessor given here applied as index into the storage map given in the storage parameter.</param>
-            <param name="storageAttributeOwner">If not null this pattern edge is to be bound by iterating the given storage attribute of this owner.</param>
-            <param name="storageAttribute">If not null this pattern edge is to be bound by iterating the given storage attribute.</param>
+            <param name="storage">If not null this edge is to be bound by iterating the given storage.</param>
+            <param name="storageIndex">If not null this edge is to be determined by a storage lookup,
+                with the accessor given here applied as index into the storage given in the storage parameter.</param>
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -3492,6 +3493,90 @@
             <summary>
             The GrGen type of the pattern variable.
             </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.StorageAccess">
+            <summary>
+            Representation of a storage access, used to bind a pattern element.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.StorageAccess.Variable">
+            <summary>
+            The storage is a pattern variable if not null.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.StorageAccess.GlobalVariable">
+            <summary>
+            The storage is a global variable if not null.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.StorageAccess.Attribute">
+            <summary>
+            The storage is a graph element attribute (qualification) if not null.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.StorageAccessIndex">
+            <summary>
+            Representation of a storage access index, used to bind a pattern element.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.StorageAccessIndex.GraphElement">
+            <summary>
+            The storage index is the given graph element if not null.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.StorageAccessIndex.Variable">
+            <summary>
+            The storage index is the given pattern variable if not null.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.StorageAccessIndex.GlobalVariable">
+            <summary>
+            The storage index is the given global variable if not null.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.StorageAccessIndex.Attribute">
+            <summary>
+            The storage index is the given graph element attribute (qualification) if not null.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.QualificationAccess">
+            <summary>
+            Representation of an owner.attribute qualification
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.QualificationAccess.Owner">
+            <summary>
+            The graph element owning the attribute.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.QualificationAccess.Attribute">
+            <summary>
+            The attribute.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.GlobalVariableAccess">
+            <summary>
+            Representation of a global variable accessed from within a pattern (match from storage constructs)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GlobalVariableAccess.Name">
+            <summary>
+            Name of the global variable
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GlobalVariableAccess.Type">
+            <summary>
+            Statically declared type of the global variable.
+            (The one given in the rule file declaration defining how it is to be interpreted,
+            global variables as such are untyped.)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.GlobalVariableAccess.#ctor(System.String,de.unika.ipd.grGen.libGr.VarType)">
+            <summary>
+            Instantiates a new global variable access to be used in a match from storage construct.
+            </summary>
+            <param name="name">The name of the global variable.</param>
+            <param name="type">The type the values in the global variable must bear, as declared in the rules file.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternCondition">
             <summary>
@@ -3842,6 +3927,12 @@
             The upper bound to stop matching at, 0 means unlimited/as often as possible.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.GraphCanonizer.Canonize(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Canonize a graph
+            </summary>
+            <param name="graph">The graph to canonize.</param>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchPlanNode">
             <summary>
             Element of the search plan graph representing an element within the pattern graph or a root node.
@@ -4052,6 +4143,12 @@
             </summary>
             <param name="specPath">The path to the rule specification file (.grg).</param>
             <exception cref="T:System.Exception">Thrown, when an error occurred.</exception>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SimpleGraphCanonizer.Canonize(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Canonize a graph
+            </summary>
+            <param name="graph">The graph to canonize.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPDeferredSequencesManager">
             <summary>
@@ -4870,17 +4967,17 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
             <summary>
             Search program operations implementing the
             PickFromStorage search plan operation
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromStorageAttribute(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromStorageDependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
             <summary>
             Search program operations implementing the
-            PickFromStorageAttribute search plan operation
+            PickFromStorageDependent search plan operation
             are created and inserted into search program
             </summary>
         </member>
@@ -4912,10 +5009,17 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildMapWithStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildMapWithStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
             <summary>
             Search program operations implementing the
             MapWithStorage search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildMapWithStorageDependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            MapWithStorageDependent search plan operation
             are created and inserted into search program
             </summary>
         </member>
@@ -5942,34 +6046,34 @@
             Class representing superarray comparison.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QUEUE_EQ">
+        <member name="T:de.unika.ipd.grGen.expression.DEQUE_EQ">
             <summary>
-            Class representing queue equality comparison.
+            Class representing deque equality comparison.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QUEUE_NE">
+        <member name="T:de.unika.ipd.grGen.expression.DEQUE_NE">
             <summary>
-            Class representing queue inequality comparison.
+            Class representing deque inequality comparison.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QUEUE_LT">
+        <member name="T:de.unika.ipd.grGen.expression.DEQUE_LT">
             <summary>
-            Class representing proper subqueue comparison.
+            Class representing proper subdeque comparison.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QUEUE_LE">
+        <member name="T:de.unika.ipd.grGen.expression.DEQUE_LE">
             <summary>
-            Class representing subqueue comparison.
+            Class representing subdeque comparison.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QUEUE_GT">
+        <member name="T:de.unika.ipd.grGen.expression.DEQUE_GT">
             <summary>
-            Class representing proper superqueue comparison.
+            Class representing proper superdeque comparison.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QUEUE_GE">
+        <member name="T:de.unika.ipd.grGen.expression.DEQUE_GE">
             <summary>
-            Class representing superqueue comparison.
+            Class representing superdeque comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SHL">
@@ -5997,9 +6101,9 @@
             Class representing an array concatenation.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QUEUE_ADD">
+        <member name="T:de.unika.ipd.grGen.expression.DEQUE_ADD">
             <summary>
-            Class representing a Queue concatenation.
+            Class representing a Deque concatenation.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SUB">
@@ -6072,6 +6176,11 @@
             Class representing qualification expression
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.GlobalVariableQualification">
+            <summary>
+            Class representing global variable qualification expression
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Typeof">
             <summary>
             Class representing typeof expression
@@ -6080,6 +6189,11 @@
         <member name="T:de.unika.ipd.grGen.expression.VariableExpression">
             <summary>
             Class representing variable expression
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.GlobalVariableExpression">
+            <summary>
+            Class representing global variable expression
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Visited">
@@ -6182,14 +6296,29 @@
             Class representing an array subarray expression.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QueueSize">
+        <member name="T:de.unika.ipd.grGen.expression.DequeSize">
             <summary>
-            Class representing a queue  size expression.
+            Class representing a deque size expression.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QueuePeek">
+        <member name="T:de.unika.ipd.grGen.expression.DequePeek">
             <summary>
-            Class representing a queue peek expression.
+            Class representing a deque peek expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DequeIndexOf">
+            <summary>
+            Class representing a deque index of expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DequeLastIndexOf">
+            <summary>
+            Class representing a deque last index of expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DequeSubdeque">
+            <summary>
+            Class representing a deque subdeque expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.StaticMap">
@@ -6207,9 +6336,9 @@
             Class representing a constant rule-local array, available as initialized static class member.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.StaticQueue">
+        <member name="T:de.unika.ipd.grGen.expression.StaticDeque">
             <summary>
-            Class representing a constant rule-local queue, available as initialized static class member.
+            Class representing a constant rule-local deque, available as initialized static class member.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.MapConstructor">
@@ -6242,19 +6371,39 @@
             Class representing an array item.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QueueConstructor">
+        <member name="T:de.unika.ipd.grGen.expression.DequeConstructor">
             <summary>
-            Class representing a rule-local queue to be filled with the given queue items.
+            Class representing a rule-local deque to be filled with the given deque items.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QueueItem">
+        <member name="T:de.unika.ipd.grGen.expression.DequeItem">
             <summary>
-            Class representing a queue item.
+            Class representing a deque item.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ExternalFunctionInvocation">
             <summary>
             Class representing a function invocation of an external attribute evaluation function.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Nodes">
+            <summary>
+            Class representing expression returning the nodes of a node type (as set)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Edges">
+            <summary>
+            Class representing expression returning the edges of an edge type (as set)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Source">
+            <summary>
+            Class representing expression returning the source node of an edge
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Target">
+            <summary>
+            Class representing expression returning the target node of an edge
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Outgoing">
@@ -6265,6 +6414,56 @@
         <member name="T:de.unika.ipd.grGen.expression.Incoming">
             <summary>
             Class representing expression returning the incoming edges of a node (as set)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Incident">
+            <summary>
+            Class representing expression returning the incident edges of a node (as set)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.AdjacentOutgoing">
+            <summary>
+            Class representing expression returning the adjacent nodes of a node (as set) reachable via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.AdjacentIncoming">
+            <summary>
+            Class representing expression returning the adjacent nodes of a node (as set) reachable via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Adjacent">
+            <summary>
+            Class representing expression returning the adjacent nodes of a node (as set) reachable via incident edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ReachableEdgesOutgoing">
+            <summary>
+            Class representing expression returning the reachable edges via outgoing edges of a node (as set)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ReachableEdgesIncoming">
+            <summary>
+            Class representing expression returning the reachable edges via incoming edges of a node (as set)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ReachableEdges">
+            <summary>
+            Class representing expression returning the reachable edges via incident edges of a node (as set)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ReachableOutgoing">
+            <summary>
+            Class representing expression returning the reachable nodes of a node (as set) reachable via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ReachableIncoming">
+            <summary>
+            Class representing expression returning the reachable nodes of a node (as set) reachable via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Reachable">
+            <summary>
+            Class representing expression returning the reachable nodes of a node (as set) reachable via incident edges
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Max">
@@ -6342,14 +6541,14 @@
             Class representing a remove from an array
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QueueRemove">
+        <member name="T:de.unika.ipd.grGen.expression.DequeRemove">
             <summary>
-            Class representing a remove from a queue
+            Class representing a remove from a deque
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Clear">
             <summary>
-            Class representing a clearing of a set or a map or an array or a queue
+            Class representing a clearing of a set or a map or an array or a deque
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SetAdd">
@@ -6367,9 +6566,9 @@
             Class representing an add to an array
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.QueueAdd">
+        <member name="T:de.unika.ipd.grGen.expression.DequeAdd">
             <summary>
-            Class representing an add to a queue
+            Class representing an add to a deque
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SetMapUnion">
