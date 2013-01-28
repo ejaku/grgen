@@ -1,4 +1,4 @@
-\chapter{Storages and Visited Flags}\indexmain{storage}\indexmain{visited flag}
+\chapter{Storages, Visited Flags, and Set Returning Graph Queries}\indexmain{storage}\indexmain{visited flag}
 \label{cha:storagesvisited}
 
 In this chapter we'll have in the fist part a look at storages,
@@ -7,6 +7,9 @@ and at the sequence computation and rule constructs concerned with them.
 In the second part we'll then have a look at the visited flags, 
 used for marking already visited elements or for partitioning a graph;
 and at the sequence computation and rule constructs concerned with them.
+We close the chapter with an overview of the set returning graph queries,
+available in the expressions of the rule language,
+and in the expressions of the sequence computations.
 
 %-----------------------------------------------------------------------------------------------
 \section{Storage Handling in the Sequences}\label{sec:storages}\indexmain{storage}
@@ -193,9 +196,10 @@ Furthermore you can add and remove elements from the storages (or other, non-nod
 	  MapEntity '.' ( ( 'add' '(' KeyExpr ',' ValueExpr ')' ) | ( 'rem' '(' KeyExpr ')' ) ) |
 	  ArrayEntity '.' ( ( 'add' '(' ValueExpr (','  IndexExpr)? ')' ) | ( 'rem' '(' (IndexExpr)? ')' ) ) |
 	  DequeEntity '.' ( ( 'add' '(' ValueExpr (','  IndexExpr)? ')' ) | ( 'rem' '(' (IndexExpr)? ')' ) ) |
+	  ContainerEntity '.' 'clear' '(' ')' |
 	  ArrayOrDequeOrMapEntity '[' IndexExpr ']' '=' Expr
 	;
-	ContainerEntity:
+	AnyContainerEntity:
 	  (NodeOrEdge '.' SetAttribute | Variable)
 	;
 \end{rail}\ixnterm{ContainerStateChange}
@@ -315,3 +319,70 @@ Make sure to allocate \ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags
 (and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
 
 
+%-----------------------------------------------------------------------------------------------
+\section{Set Returning Graph Queries}\indexmain{set returning graph queries}\label{neighbouringelementsfunctions}
+
+In this section we'll have primarily a look at set returning graph queries, which are available as functions in the expressions of the rules, as well as in the expressions of the sequence computations.
+They are especially used to query for connected elements.
+While they are convenient to use, they require to build a set that is likely thrown away thereafter, so esp. for large sets they are inefficent.
+
+There are functions to ask for all nodes or edges of a type available: 
+\begin{description}
+\item[\texttt{nodes()}] returns all nodes in the graph, as set.
+\item[\texttt{nodes(.)}] returns all nodes in the graph compatible to the given type, as set.
+\item[\texttt{edges()}] returns all edges in the graph, as set.
+\item[\texttt{edges(.)}] returns all edges in the graph compatible to the given type, as set.
+\end{description}
+
+Other functions allow to ask for the source or target node of an edge: 
+
+\begin{description}
+\item[\texttt{source(.)}] returns the source node of the given edge.
+\item[\texttt{target(.)}] returns the target node of the given edge.
+\end{description}
+
+Furthermore, there are functions to query the directly neighbouring elements.
+They allow to compute the set of edges incident to a node:
+
+\begin{description}
+\item[\texttt{incident(.)}] returns the set of the edges that are incident to the node given as argument value.
+\item[\texttt{incident(.,.)}] as above, but only edges of the type given as second argument are contained.
+\item[\texttt{indicent(.,.,.)}] as above, but only edges incident to an opposite node of the type given as third argument are contained.
+\item[\texttt{incoming}] same as any of the incidents above, but restricted to incoming edges.
+\item[\texttt{outgoing}] same as any of the incidents above, but restricted to outgoing edges.
+\end{description}
+
+In addition, they allow to compute the set of nodes adjacent to a node:
+
+\begin{description}
+\item[\texttt{adjacent(.)}] returns the set of the nodes that are adjacent to the node given as argument value.
+\item[\texttt{adjacent(.,.)}] as above, but only nodes incident to an edge of the type given as second argument are contained.
+\item[\texttt{adjacent(.,.,.)}] as above, but only nodes of the node type given as third argument are contained.
+\item[\texttt{adjacentIncoming}] same as any of the adjacents above, but restricted to nodes reachable via incoming edges.
+\item[\texttt{adjacentOutgoing}] same as any of the adjacents above, but restricted to nodes reachable via outgoing edges.
+\end{description}
+
+Beyond direct neighbourhood, transitive neighbourhood can be queried with the reachability functions.
+They allow to compute the set of edges reachable from a node:
+
+\begin{description}
+\item[\texttt{reachableEdges(.)}] returns the set of the edges that are reachable from the node given as argument value.
+\item[\texttt{reachableEdges(.,.)}] as above, but only edges of the type given as second argument are contained and followed.
+\item[\texttt{reachableEdges(.,.,.)}] as above, but only edges incident to an opposite node of the type given as third argument are contained and followed.
+\item[\texttt{reachableEdgesIncoming}] same as any of the reachableEdges above, but restricted to incoming edges.
+\item[\texttt{reachableEdgesOutgoing}] same as any of the reachableEdges above, but restricted to outgoing edges.
+\end{description}
+
+In addition, they allow to compute the set of nodes reachable from a node:
+
+\begin{description}
+\item[\texttt{reachable(.)}] returns the set of the nodes that are reachable from the node given as argument value.
+\item[\texttt{reachable(.,.)}] as above, but only nodes incident to an edge of the type given as second argument are contained and followed.
+\item[\texttt{reachable(.,.,.)}] as above, but only nodes of the node type given as third argument are contained and followed.
+\item[\texttt{reachableIncoming}] same as any of the reachables above, but restricted to nodes reachable via incoming edges.
+\item[\texttt{reachableOutgoing}] same as any of the reachables above, but restricted to nodes reachable via outgoing edges.
+\end{description}
+
+% todo: beispiele
+
+% todo: a common section for container handling in sequence computations and rule evals, make clearer that container methods in general hold for sequences expressions and rule expressions (in if/eval)

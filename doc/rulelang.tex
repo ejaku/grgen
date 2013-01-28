@@ -287,12 +287,16 @@ And some illegal graphlets:\\
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
   RuleSet: FileHeader ((TestDeclaration | RuleDeclaration | SubpatternDeclaration | RewriteSequenceDefinition)+) ;
-  FileHeader: ('using' ((ModelIdent)+',') ';')? (('\#include' Filename)*());
-\end{rail}\ixkeyw{using}\ixkeyw{include}\ixnterm{RuleSet}\ixnterm{FileHeader}
+  FileHeader: (ModelUsage)? ((RulesInclusion)*()) ((GlobalVarDecl)*());
+  ModelUsage: 'using' ((ModelIdent)+',') ';';
+  RulesInclusion: '\#include' Filename;
+  GlobalVarDecl: '::' IdentDecl ':' NodeType ';' | '-' '::' IdentDecl ':' EdgeType '->' ';' | 'ref' '::' IdentDecl ':' VarType ';';
+\end{rail}\ixkeyw{using}\ixkeyw{include}\ixnterm{RuleSet}\ixnterm{FileHeader}\ixnterm{ModelUsage}\ixnterm{RulesInclusion}\ixnterm{GlobalVarDecl}
 
 A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}, rewrite sequence definitions in \ref{sec:sequencedefinition}).
-As a hint regarding the syntax diagrams: please note that the bottom rail in the \emph{RuleSet} diagram departs before the end and joins in after the \emph{FileHeader}, i.e. it denotes a looping back edge (a fast forward edge would have split and join points at the same positions but of the opposite direction).
-Additionally you may include further rule set files (without \texttt{using} directives, we prefer to suffix them with \texttt{.gri} in this case).
+(As a hint regarding the syntax diagrams: please note that the bottom rail in the \emph{RuleSet} diagram departs before the end and joins in after the \emph{FileHeader}, i.e. it denotes a looping back edge (a fast forward edge would have split and join points at the same positions but of the opposite direction)).
+Additionally you may \texttt{include} further rule set files (without \texttt{using} directives, we prefer to suffix them with \texttt{.gri} in this case).
+Furthermore, you may declare \indexed{graph global variable}s; this is a pure declaration that they will exist with the given type during execution. It renders them accessible in the rules (esp. the attribute condition and attribute evaluation), but you must define and assign them  before rule execution outside of the rules. See \ref{cha:xgrs} for more on this.
 In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations.
 There is (unfortunately) no built-in conflict resolution mechanism for models like packages or namespaces.
 If necessary you must use prefixes as you might do in C.
@@ -642,7 +646,9 @@ The semantics of the various replace statements are given below:
 \begin{rail}
   Assignment:
 	  NodeOrEdge '.' Ident '=' Expression |
-	  Variable '=' Expression
+	  '::' GlobalVarIdent '.' Ident '=' Expression |
+	  Variable '=' Expression |
+	  '::' GlobalVarIdent '=' Expression
 	;
 \end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}
 Several evaluation parts are allowed within the replace part.
@@ -651,9 +657,9 @@ Evaluation statements have \indexedsee{imperative}{attribute evaluation} semanti
 In particular, \GrG\ does not care about data dependencies (you must care for them!).
 Evaluation takes place before any graph element gets deleted and after all the new elements have been created.
 You may read (and write, although this is pointless) attributes of graph elements to be deleted.
-Assignment is carried out using value semantics, even for entities of \verb#set<K># and \verb#map<K,V># or \texttt{string} type.
+Assignment is carried out using value semantics, even for entities of container or \texttt{string} type.
 The only exception is the type \texttt{object}, there reference semantics is used.
-The variable assignments are only useful in a few limited situations due to parameter psasing being by-value.
+The variable assignments are only useful in a few limited situations due to parameter passing being by-value.
 You can find out about the available \emph{Expression}s in chapter \ref{cha:typeexpr}.
 
 \begin{example}

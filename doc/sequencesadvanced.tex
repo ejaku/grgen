@@ -157,10 +157,17 @@ Arguments is a comma-separated list of variable names or visited flag ids, the g
 \begin{rail} 
   ExtendedControl: 
 	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')' |
-	(dollar (percent)? )? lbrace '(' ((RuleExecution)+(',')) ')' rbrace
+	(dollar (percent)? )? lbrace '(' ((RuleExecution)+(',')) ')' rbrace |
+	dollar (percent)? '.' '(' WeightedSequencesList ')'
 	;
   SequencesList:
 	RewriteSequence ((',' RewriteSequence)*())
+	;
+  WeightedSequencesList:
+	WeightedSequence ((',' WeightedSequence)*())
+	;
+  WeightedSequence:
+	FloatingNumber RewriteSequence
 	;
 \end{rail}\ixnterm{SequencesList}
 
@@ -176,6 +183,13 @@ The \indexed{one-of-set braces} \verb/${(r,[s],$[t])}/ (some-of-set with random 
 (i.e. the one match of a rule, all matches of an all bracketed rule, or one randomly chosen match of an all bracketed rule with random choice).
 The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
 A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 
+
+The \indexed{weighted one operator} \verb/$.(w1 s1, ..., wn sn)/ is executed like this:
+the weights \texttt{w1-wn} (numbers of type double) are added into a series of intervals,
+then a random number (uniform distribution) is drawn in between \texttt{0.0} and \texttt{w1+...+wn},
+the subsequence of the interval the number falls into is executed,
+the result of the sequence is the result of the chosen subsequence.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -208,7 +222,7 @@ the value of the compound computation is the value of the last computation (so y
      SequenceExpression
   ;
 	Assignment:	AssignmentTarget '=' (SequenceExpression | Assignment); 
-	MethodCall: Variable (SingleMethodCall +);
+	MethodCall: (Variable | GraphElement '.' Attribute) (SingleMethodCall +);
 	SingleMethodCall: '.' MethodName '(' Arguments ')';
 	FunctionCall: FunctionName '(' Arguments ')';
 	Arguments: (SequenceExpression * ',');
@@ -232,6 +246,12 @@ The export function exports the current graph to the path specified if called wi
 It behaves like the export command from the GrShell, see \ref{outputcmds}.
 Having it available in the sequences allows for programmed exporting, and exporting of parts of the graph, with the subgraph containment just computed.
 
+Furthermore, a function \texttt{canonize(g:graph):string} is available,
+which delivers a canonical representation of the graph, 
+and allows to reduce graph comparisons to string comparisons,
+at the price of computing the canonical representation.
+The method supposedly doesn't work on isospectral graphs.
+
 Finally, an expression (without side effects) can be evaluated, this allows to return a (boolean) value from a computation.
 
 \begin{rail}
@@ -240,6 +260,7 @@ Finally, an expression (without side effects) can be evaluated, this allows to r
     'yield' Variable |
     GraphElement '.' Attribute |
     Variable '[' SequenceExpression ']' |
+    GraphElement '.' Attribute '[' SequenceExpression ']' |
     GraphElement '.' 'visited' '[' SequenceExpression ']'
 ;
 \end{rail}\ixnterm{AssignmentTarget}\ixkeyw{visited}\ixkeyw{yield}
@@ -285,10 +306,11 @@ The relational operators on numerical, graph, and container types work as specif
 
 \begin{rail}
   ArithmeticSequenceExpression:
-    SequenceExpression ('+') SequenceExpression;
+    SequenceExpression ('+' | '-') SequenceExpression;
 \end{rail}\ixnterm{ArithmeticSequenceExpression}
 
-The only arithemtic operator available for now is plus, denoting addition of numerical values or string concatenation.
+The arithemtic operator plus is used to denote addition of numerical values or string concatenation,
+the arithemtic operator minus is used to denote subtraction of numerical values.
 
 \begin{rail}
   PrimarySequenceExpression:
@@ -312,12 +334,14 @@ The basic sequence expressions are the building blocks of the computation sequen
 A \texttt{def} term is successful iff all the variables are defined (not null).
 The at operator allows to access a graph element by its \indexed{persistent name}.
 The attribute access clause returns the attribute value of the given graph element.
-The variable and literal basic expressions are the same as in the SimpleOrInteractiveExpression.
+The variable and literal basic expressions are the same as in the SimpleOrInteractiveExpression;
+this means esp. that a Variable may denote a graph global variable if prefixed with a double colon as in  \ref{sec:simplevarhandling}, here as well as in the AssignmentTarget.
 
 \begin{rail}
   SpecialSequenceExpression:
-    GraphElement '.' 'visited' '[' SequenceExpression ']' |
     Variable '[' SequenceExpression ']' |
+    GraphElement '.' Attribute '[' SequenceExpression ']' |
+    GraphElement '.' 'visited' '[' SequenceExpression ']' |
     MethodCall |
     FunctionCall;
   ;
