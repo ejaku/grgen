@@ -42,7 +42,7 @@ exec InsertHelperEdgesForNestedLayout
 # or in order to move the one large method to packet (same parameter) or string (same instance variable)
 src = I176 # class Node
 tgt = I194 # class Packet - use if parameter is used in moving method
-# tgt = I617 # class String - use if instance variable is used in moving method
+# tgt = I617 ## class String - use if instance variable is used in moving method
 mb = I409 # method body of send
 
 exec (::op)=getOperation(::mb)
@@ -66,7 +66,7 @@ debug exec mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operat
 #		&& relinkOperationAndMethodBody(op,mb,src,tgt) \
 #		&& (({def(srcparam)} && [replaceAccess_Variable_WithSource(op,v,srcparam)]) || [replaceAccess_Variable(op,v)])
 
-# debug set layout Hierarchic # use hierarchic with delegate, there are problems with compilergraph
+# debug set layout Hierarchic ## use hierarchic with delegate, there are problems with compilergraph
 # debug exec ((vp:Variable)=someInstanceVariableOfTargetType(mb,tgt) || (vp)=someParameterOfTargetType(mb,tgt)) \
 #		&& !callToSuperExists && !isStatic(mb) && !methodNameExists(mb,tgt) \
 #		&& (newop:Operation)=copyOperation(op,tgt) && [copyOperationParameter(op,newop)] \
