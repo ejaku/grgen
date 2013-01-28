@@ -36,7 +36,7 @@ def rec(depth:int) {\
 }
 \end{grgen}
 This example shows a sequence defined in the shell which is executing itself recursively.
-The host graph is transformed by applying \texttt{MAXDEPTH} times the rule \texttt{foo}, until finally the rule \textttt{bar} is executed. The result of the sequence is the result of \textt{bar}, returned back from recursion step to recursion step while unwinding the sequence call stack. 
+The host graph is transformed by applying \texttt{MAXDEPTH} times the rule \texttt{foo}, until finally the rule \texttt{bar} is executed. The result of the sequence is the result of \texttt{bar}, returned back from recursion step to recursion step while unwinding the sequence call stack. 
 \end{example}
 
 
@@ -343,35 +343,10 @@ The first group is built from basic graph manipulation operators used for adding
 \item[\texttt{clear()}] clears the host graph.
 \end{description}
 
-\subsubsection*{Connectedness Queries}\label{neighbouringelementsfunctions}
-The second group is built from the operators querying the connectedness of graph elements.
-It contains functions to ask for the source or target node of an edge: 
-
-\begin{description}
-\item[\texttt{source(.)}] returns the source node of the given edge.
-\item[\texttt{target(.)}] returns the target node of the given edge.
-\end{description}
-
-Furthermore, it contains functions to query the neighbouring elements.
-They allow to compute the set of edges incident to a node:
-
-\begin{description}
-\item[\texttt{incident(.)}] returns the set of the edges which are incident to the node given as argument value.
-\item[\texttt{incident(.,.)}] as above, but only edges of the type given as second argument are contained.
-\item[\texttt{indicent(.,.,.)}] as above, but only edges incident to an opposite node of the type given as third argument are contained.
-\item[\texttt{incoming}] same as any of the incidents above, but restricted to incoming edges.
-\item[\texttt{outgoing}] same as any of the incidents above, but restricted to outgoing edges.
-\end{description}
-
-In addition, they allow to compute the set of nodes adjacent to a node:
-
-\begin{description}
-\item[\texttt{adjacent(.)}] returns the set of the nodes which are adjacent to the node given as argument value.
-\item[\texttt{adjacent(.,.)}] as above, but only nodes incident to an edge of the type given as second argument are contained.
-\item[\texttt{adjacent(.,.,.)}] as above, but only nodes of the node type given as third argument are contained.
-\item[\texttt{adjacentIncoming}] same as any of the adjacents above, but restricted to nodes reachable via incoming edges.
-\item[\texttt{adjacentOutgoing}] same as any of the adjacents above, but restricted to nodes reachable via outgoing edges.
-\end{description}
+\subsubsection*{Connectedness Queries}
+The second group is built from the operators querying primarily the connectedness of graph elements.
+See \ref{neighbouringelementsfunctions} for more on them; they were moved to an own chapter, because besides being available in the expressions of the sequence computations we take care of here,
+they are available in the expressions of the rules, too.
 
 \subsubsection*{Subgraph Operations}\label{subgraphoperations}
 The third group is defined by functions which operate on (sub-)graphs:
