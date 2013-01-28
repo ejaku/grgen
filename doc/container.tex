@@ -267,14 +267,5 @@ map<string,int>{ (n.strVal+m.strVal)->(m.intVal+n.intVal), intVal->strVal, "fool
 \end{grgen}
 \end{example}
 
-A function call as already inroduced in \ref{sec:primexpr} may consist of one of the following built-in functions for querying the neighbourhood of a node:
-
-\begin{description}
-\item[\texttt{incoming(.)}] returns a set of the edges which are incoming to the node given as argument value.
-\item[\texttt{incoming(.,.)}] as above, but only edges of the edge type given as second argument are contained.
-\item[\texttt{incoming(.,.,.)}] as above, but only if the edges originate from a node of the node type given as third argument.
-\item[\texttt{outgoing(.)}] returns a set of the edges which are outgoing from the node given as argument value.
-\item[\texttt{outgoing(.,.)}] as above, but only edges of the edge type given as second argument are contained.
-\item[\texttt{outgoing(.,.,.)}] as above, but only if the edges lead to a node of the node type given as third argument.
-\end{description}
+A function call as already inroduced in \ref{sec:primexpr} may consist of one of the built-in functions for querying the elements of a type, the direct neighbourhood of a node, or the transitive neighbourhood of a node introduced in chapter \ref{neighbouringelementsfunctions}, returning a set of the graph elements of interest.
 
