@@ -135,6 +135,9 @@ namespace de.unika.ipd.grGen.libGr
                 case "String": return "string";
                 case "Object": return "object";
                 case "de.unika.ipd.grGen.libGr.IGraph": return "graph";
+                case "de.unika.ipd.grGen.libGr.INamedGraph": return "graph";
+                case "LGSPGraph": return "graph";
+                case "LGSPNamedGraph": return "graph";
             }
 
             if (typeName.StartsWith("ENUM_")) return typeName.Substring(5);
