@@ -7,6 +7,7 @@
 
 //#define NO_EDGE_LOOKUP
 //#define DUMP_PATTERNS
+//#define USE_NET_3_5 // use .NET 3.5 for compiling the generated code (not needed) and the user extensions (maybe needed there)
 
 using System;
 using System.Collections.Generic;
@@ -781,9 +782,18 @@ namespace de.unika.ipd.grGen.lgsp
         private static void SetupCompiler(String modelAssemblyName, 
             out CSharpCodeProvider compiler, out CompilerParameters compParams)
         {
+#if USE_NET_3_5
+            Dictionary<string,string> providerOptions = new Dictionary<string,string>();
+            providerOptions.Add("CompilerVersion", "v3.5");
+            compiler = new CSharpCodeProvider(providerOptions);
+#else
             compiler = new CSharpCodeProvider();
+#endif
             compParams = new CompilerParameters();
             compParams.ReferencedAssemblies.Add("System.dll");
+#if USE_NET_3_5
+            compParams.ReferencedAssemblies.Add("System.Core.dll");
+#endif
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
             if(modelAssemblyName!=null)
