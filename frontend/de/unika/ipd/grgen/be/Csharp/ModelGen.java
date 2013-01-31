@@ -12,6 +12,7 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
+import java.io.File;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.Comparator;
@@ -154,6 +155,7 @@ public class ModelGen extends CSharpBase {
 		}
 
 		writeFile(be.path, filename, sb);
+		copyFile(new File(be.path, filename), new File(be.path.getParent(), filename));
 	}
 
 	private StringBuffer getStubBuffer() {
