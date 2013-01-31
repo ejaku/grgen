@@ -13,6 +13,7 @@
 package de.unika.ipd.grgen.be.Csharp;
 
 import java.io.File;
+import java.io.IOException;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,6 +49,15 @@ public abstract class CSharpBase {
 
 	public boolean existsFile(File path, String filename) {
 		return new File(path, filename).exists();
+	}
+	
+	public void copyFile(File sourcePath, File targetPath) {
+		try {
+			Util.copyFile(sourcePath, targetPath);
+		} 
+		catch(IOException ex) {
+			System.out.println(ex.getMessage());
+		}
 	}
 
 	/**

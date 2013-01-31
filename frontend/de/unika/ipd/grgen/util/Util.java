@@ -16,11 +16,14 @@ package de.unika.ipd.grgen.util;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
+import java.nio.channels.FileChannel;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.util.report.ErrorReporter;
@@ -275,6 +278,31 @@ public class Util
 		ps.flush();
 		ps.close();
 		return bos.toString();
+	}
+	
+	public static void copyFile(File sourceFile, File targetFile) throws IOException
+	{
+		if(!targetFile.exists()) {
+			targetFile.createNewFile();
+		}
+
+		FileChannel sourceStream = null;
+		FileChannel targetStream = null;
+		try {
+			sourceStream = new FileInputStream(sourceFile).getChannel();
+			targetStream = new FileOutputStream(targetFile).getChannel();
+
+			long count = 0;
+			long size = sourceStream.size();
+			while( (count += targetStream.transferFrom(sourceStream, count, size-count)) < size )
+				;
+		}
+		finally {
+			if(sourceStream != null)
+				sourceStream.close();
+			if(targetStream != null)
+				targetStream.close();
+		}
 	}
 }
 
