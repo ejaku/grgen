@@ -35,16 +35,11 @@ public abstract class GraphEntity extends Entity {
 	/** The interface type of the parameter if any. */
 	protected InheritanceType parameterInterfaceType = null;
 
-	/** The storage from which to get the node or edge, if any */
-	protected Variable storage = null;
+	/** The storage from which to get the node or edge, if any (i.e. not null)*/
+	public StorageAccess storageAccess = null;
 
-	/** The storage attribute from which to get the node or edge, if any */
-	protected Qualification storageAttribute = null;
-
-	/** The accessor for the storagemap from which to get the node or edge, if any */
-	protected GraphEntity accessor = null;
-
-	protected GraphEntity storageGlobalVariable;
+	/** The index to the storage from which to get the node or edge, if any (i.e. not null)*/
+	public StorageAccessIndex storageAccessIndex = null;
 
 	protected Collection<? extends InheritanceType> constraints = Collections.emptySet();
 
@@ -173,36 +168,12 @@ public abstract class GraphEntity extends Entity {
 		return parameterInterfaceType;
 	}
 
-	public void setStorage(Variable storage) {
-		this.storage = storage;
+	public void setStorage(StorageAccess storageAccess) {
+		this.storageAccess = storageAccess;
 	}
 
-	public void setStorageAttribute(Qualification storage) {
-		this.storageAttribute = storage;
-	}
-
-	public Variable getStorage() {
-		return storage;
-	}
-
-	public Qualification getStorageAttribute() {
-		return storageAttribute;
-	}
-
-	public void setAccessor(GraphEntity accessor) {
-		this.accessor = accessor;
-	}
-
-	public GraphEntity getAccessor() {
-		return accessor;
-	}
-	
-	public void setStorageGlobalVariable(GraphEntity storageGlobalVariable) {
-		this.storageGlobalVariable = storageGlobalVariable;
-	}
-
-	public GraphEntity getStorageGlobalVariable() {
-		return storageGlobalVariable;
+	public void setStorageIndex(StorageAccessIndex storageAccessIndex) {
+		this.storageAccessIndex = storageAccessIndex;
 	}
 
 	public void incrementDependencyLevel() {

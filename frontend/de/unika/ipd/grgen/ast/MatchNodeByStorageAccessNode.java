@@ -18,6 +18,8 @@ import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.StorageAccess;
+import de.unika.ipd.grgen.ir.StorageAccessIndex;
 import de.unika.ipd.grgen.ir.Variable;
 
 
@@ -157,10 +159,10 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 		} else{
 			setIR(node);
 		}
-		if(storage!=null) node.setStorage(storage.checkIR(Variable.class));
-		else if(storageAttribute!=null) node.setStorageAttribute(storageAttribute.checkIR(Qualification.class));
-		else node.setStorageGlobalVariable(storageGlobalVariable.checkIR(Node.class));
-		node.setAccessor(accessor.checkIR(GraphEntity.class));
+		if(storage!=null) node.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
+		else if(storageAttribute!=null) node.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
+//		else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
+		node.setStorageIndex(new StorageAccessIndex(accessor.checkIR(GraphEntity.class)));
 		return node;
 	}
 }

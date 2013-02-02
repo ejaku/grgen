@@ -33,6 +33,7 @@ import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.RetypedEdge;
 import de.unika.ipd.grgen.ir.RetypedNode;
 import de.unika.ipd.grgen.ir.Variable;
@@ -720,24 +721,31 @@ public class PatternGraphNode extends GraphNode {
 		// add elements only mentioned in "map by / draw from storage" entities to the IR
 		// (they're declared in an enclosing graph and locally only show up in the "map by / draw from storage" node)
 		for(Node node : gr.getNodes()) {
-			if(node.getStorage()!=null) {
-				if(!gr.hasVar(node.getStorage())) {
-					gr.addVariable(node.getStorage());
+			if(node.storageAccess!=null) {
+				if(node.storageAccess.storageVariable!=null) {
+					Variable storageVariable = node.storageAccess.storageVariable;
+					if(!gr.hasVar(storageVariable)) {
+						gr.addVariable(storageVariable);
+					}
+				} else if(node.storageAccess.storageAttribute!=null) {		
+					Qualification storageAttribute = node.storageAccess.storageAttribute;
+					if(storageAttribute.getOwner() instanceof Node) {
+						nodesToAdd.add((Node)storageAttribute.getOwner());
+					} else if(storageAttribute.getOwner() instanceof Edge) {
+						addEdgeIfNotYetContained(gr, (Edge)storageAttribute.getOwner());					
+					}
 				}
 			}
-
-			if(node.getStorageAttribute()!=null) {		
-				if(node.getStorageAttribute().getOwner() instanceof Node) {
-					nodesToAdd.add((Node)node.getStorageAttribute().getOwner());
-				} else if(node.getStorageAttribute().getOwner() instanceof Edge) {
-					addEdgeIfNotYetContained(gr, (Edge)node.getStorageAttribute().getOwner());					
+	
+			if(node.storageAccessIndex!=null) {
+				if(node.storageAccessIndex.indexGraphEntity!=null) {
+					GraphEntity indexGraphEntity = node.storageAccessIndex.indexGraphEntity;
+					if(indexGraphEntity instanceof Node) {
+						nodesToAdd.add((Node)indexGraphEntity);
+					} else if(indexGraphEntity instanceof Edge) {
+						addEdgeIfNotYetContained(gr, (Edge)indexGraphEntity);					
+					}
 				}
-			}
-
-			if(node.getAccessor()!=null && node.getAccessor() instanceof Node) {
-				nodesToAdd.add((Node)node.getAccessor());
-			} else if(node.getAccessor()!=null && node.getAccessor() instanceof Edge) {
-				addEdgeIfNotYetContained(gr, (Edge)node.getAccessor());					
 			}
 			
 			// add old node of lhs retype
@@ -747,24 +755,31 @@ public class PatternGraphNode extends GraphNode {
 		}
 		
 		for(Edge edge : gr.getEdges()) {
-			if(edge.getStorage()!=null) {
-				if(!gr.hasVar(edge.getStorage())) {
-					gr.addVariable(edge.getStorage());
+			if(edge.storageAccess!=null) {
+				if(edge.storageAccess.storageVariable!=null) {
+					Variable storageVariable = edge.storageAccess.storageVariable;
+					if(!gr.hasVar(storageVariable)) {
+						gr.addVariable(storageVariable);
+					}
+				} else if(edge.storageAccess.storageAttribute!=null) {		
+					Qualification storageAttribute = edge.storageAccess.storageAttribute;
+					if(storageAttribute.getOwner() instanceof Node) {
+						addNodeIfNotYetContained(gr, (Node)storageAttribute.getOwner());					
+					} else if(storageAttribute.getOwner() instanceof Edge) {
+						edgesToAdd.add((Edge)storageAttribute.getOwner());
+					}
 				}
 			}
 
-			if(edge.getStorageAttribute()!=null) {		
-				if(edge.getStorageAttribute().getOwner() instanceof Node) {
-					addNodeIfNotYetContained(gr, (Node)edge.getStorageAttribute().getOwner());					
-				} else if(edge.getStorageAttribute().getOwner() instanceof Edge) {
-					edgesToAdd.add((Edge)edge.getStorageAttribute().getOwner());
+			if(edge.storageAccessIndex!=null) {
+				if(edge.storageAccessIndex.indexGraphEntity!=null) {
+					GraphEntity indexGraphEntity = edge.storageAccessIndex.indexGraphEntity;
+					if(indexGraphEntity instanceof Node) {
+						addNodeIfNotYetContained(gr, (Node)indexGraphEntity);					
+					} else if(indexGraphEntity instanceof Edge) {
+						edgesToAdd.add((Edge)indexGraphEntity);
+					}
 				}
-			}
-
-			if(edge.getAccessor()!=null && edge.getAccessor() instanceof Node) {
-				addNodeIfNotYetContained(gr, (Node)edge.getAccessor());					
-			} else if(edge.getAccessor()!=null && edge.getAccessor() instanceof Edge) {
-				edgesToAdd.add((Edge)edge.getAccessor());
 			}
 			
 			// add old edge of lhs retype

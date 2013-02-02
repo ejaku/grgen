@@ -1307,12 +1307,14 @@ public class ActionsGen extends CSharpBase {
 	private void genStorageAccess(StringBuffer sb, String pathPrefix,
 			HashMap<Entity, String> alreadyDefinedEntityToName,
 			String pathPrefixForElements, GraphEntity entity) {
-		if(entity.getStorage()!=null || entity.getStorageAttribute()!=null) {
-			if(entity.getStorage()!=null) {
-				sb.append("new GRGEN_LGSP.StorageAccess(" + formatEntity(entity.getStorage(), pathPrefixForElements, alreadyDefinedEntityToName) + "), ");
-			} else { // entity.getStorageAttribute()!=null
-				GraphEntity owner = (GraphEntity)entity.getStorageAttribute().getOwner();
-				Entity member = entity.getStorageAttribute().getMember();
+		if(entity.storageAccess!=null) {
+			if(entity.storageAccess.storageVariable!=null) {
+				Variable storageVariable = entity.storageAccess.storageVariable;
+				sb.append("new GRGEN_LGSP.StorageAccess(" + formatEntity(storageVariable, pathPrefixForElements, alreadyDefinedEntityToName) + "), ");
+			} else if(entity.storageAccess.storageAttribute!=null) {
+				Qualification storageAttribute = entity.storageAccess.storageAttribute;
+				GraphEntity owner = (GraphEntity)storageAttribute.getOwner();
+				Entity member = storageAttribute.getMember();
 				sb.append("new GRGEN_LGSP.StorageAccess(new GRGEN_LGSP.QualificationAccess(" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + ", ");
 				sb.append(formatTypeClassRef(owner.getParameterInterfaceType()!=null ? owner.getParameterInterfaceType() : owner.getType()) + ".typeVar" + ".GetAttributeType(\"" + formatIdentifiable(member) + "\")");
 				sb.append(")), ");
@@ -1320,8 +1322,11 @@ public class ActionsGen extends CSharpBase {
 		} else {
 			sb.append("null, ");
 		}
-		if(entity.getAccessor()!=null) {
-			sb.append("new GRGEN_LGSP.StorageAccessIndex(" + formatEntity(entity.getAccessor(), pathPrefixForElements, alreadyDefinedEntityToName) + "), ");
+		if(entity.storageAccessIndex!=null) {
+			if(entity.storageAccessIndex.indexGraphEntity!=null) {
+				GraphEntity indexGraphEntity = entity.storageAccessIndex.indexGraphEntity;
+				sb.append("new GRGEN_LGSP.StorageAccessIndex(" + formatEntity(indexGraphEntity, pathPrefixForElements, alreadyDefinedEntityToName) + "), ");
+			}
 		} else {
 			sb.append("null, ");
 		}

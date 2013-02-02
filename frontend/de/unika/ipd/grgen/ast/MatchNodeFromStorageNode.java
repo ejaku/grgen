@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.StorageAccess;
 import de.unika.ipd.grgen.ir.Variable;
 
 
@@ -147,9 +148,9 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 	@Override
 	protected IR constructIR() {
 		Node node = (Node)super.constructIR();
-		if(storage!=null) node.setStorage(storage.checkIR(Variable.class));
-		else if(storageAttribute!=null) node.setStorageAttribute(storageAttribute.checkIR(Qualification.class));
-		else node.setStorageGlobalVariable(storageGlobalVariable.checkIR(Node.class));
+		if(storage!=null) node.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
+		else if(storageAttribute!=null) node.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
+//		else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
 		return node;
 	}
 }

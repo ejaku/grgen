@@ -345,15 +345,17 @@ public class Rule extends MatchingAction {
 			somethingChanged = false;
 			
 			for(Node node : left.getNodes()) {
-				if(node.getAccessor()!=null) {
-					if(node.getDependencyLevel()<=node.getAccessor().getDependencyLevel()) {
+				if(node.storageAccessIndex!=null && node.storageAccessIndex.indexGraphEntity!=null) {
+					GraphEntity indexGraphEntity = node.storageAccessIndex.indexGraphEntity;
+					if(node.getDependencyLevel()<=indexGraphEntity.getDependencyLevel()) {
 						node.incrementDependencyLevel();
 						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
 						somethingChanged = true;
 					}
 				}
-				if(node.getStorageAttribute()!=null) {
-					if(node.getDependencyLevel()<=((GraphEntity)node.getStorageAttribute().getOwner()).getDependencyLevel()) {
+				if(node.storageAccess!=null && node.storageAccess.storageAttribute!=null) {
+					Qualification storageAttribute = node.storageAccess.storageAttribute;
+					if(node.getDependencyLevel()<=((GraphEntity)storageAttribute.getOwner()).getDependencyLevel()) {
 						node.incrementDependencyLevel();
 						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
 						somethingChanged = true;
@@ -368,15 +370,17 @@ public class Rule extends MatchingAction {
 				}
 			}
 			for(Edge edge : left.getEdges()) {
-				if(edge.getAccessor()!=null) {
-					if(edge.getDependencyLevel()<=edge.getAccessor().getDependencyLevel()) {
+				if(edge.storageAccessIndex!=null && edge.storageAccessIndex.indexGraphEntity!=null) {
+					GraphEntity indexGraphEntity = edge.storageAccessIndex.indexGraphEntity;
+					if(edge.getDependencyLevel()<=indexGraphEntity.getDependencyLevel()) {
 						edge.incrementDependencyLevel();
 						dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
 						somethingChanged = true;
 					}
 				}
-				if(edge.getStorageAttribute()!=null) {
-					if(edge.getDependencyLevel()<=((GraphEntity)edge.getStorageAttribute().getOwner()).getDependencyLevel()) {
+				if(edge.storageAccess!=null && edge.storageAccess.storageAttribute!=null) {
+					Qualification storageAttribute = edge.storageAccess.storageAttribute;
+					if(edge.getDependencyLevel()<=((GraphEntity)storageAttribute.getOwner()).getDependencyLevel()) {
 						edge.incrementDependencyLevel();
 						dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
 						somethingChanged = true;
