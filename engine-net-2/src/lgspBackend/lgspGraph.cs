@@ -7,6 +7,7 @@
 
 #define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
 //#define OPCOST_WITH_GEO_MEAN
+//#define CHECK_ISOCOMPARE_CANONIZATION_AGREE
 //#define CHECK_RINGLISTS
 
 using System;
@@ -2143,7 +2144,21 @@ invalidCommand:
             if(((LGSPGraph)that).matchingState == null)
                 ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
 
-            return matchingState.IsIsomorph(this, (LGSPGraph)that, true);
+            bool result = matchingState.IsIsomorph(this, (LGSPGraph)that, true);
+#if CHECK_ISOCOMPARE_CANONIZATION_AGREE
+            bool otherResult = this.Canonize() == that.Canonize();
+            if(result != otherResult)
+            {
+                List<string> thisArg = new List<string>();
+                thisArg.Add("this.grs");
+                Porter.Export((INamedGraph)this, thisArg);
+                List<string> thatArg = new List<string>();
+                thatArg.Add("that.grs");
+                Porter.Export((INamedGraph)that, thatArg);
+                throw new Exception("Potential internal error: Isomorphy and Canonization disagree");
+            }
+#endif
+            return result;
         }
 
         /// <summary>
@@ -2158,7 +2173,21 @@ invalidCommand:
             if(((LGSPGraph)that).matchingState == null)
                 ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
 
-            return matchingState.IsIsomorph(this, (LGSPGraph)that, false);
+            bool result = matchingState.IsIsomorph(this, (LGSPGraph)that, false);
+#if CHECK_ISOCOMPARE_CANONIZATION_AGREE
+            bool otherResult = this.Canonize() == that.Canonize();
+            if(result != otherResult)
+            {
+                List<string> thisArg = new List<string>();
+                thisArg.Add("this.grs");
+                Porter.Export((INamedGraph)this, thisArg);
+                List<string> thatArg = new List<string>();
+                thatArg.Add("that.grs");
+                Porter.Export((INamedGraph)that, thatArg);
+                throw new Exception("Potential internal error: Isomorphy (without attributes) and Canonization disagree");
+            }
+#endif
+            return result;
         }
 
         /// <summary>
@@ -2183,6 +2212,11 @@ invalidCommand:
             CheckEmptyFlags();
             foreach(INode node in Nodes)
                 CheckInOutRinglistsBroken((LGSPNode)node);
+        }
+
+        public override string ToString()
+        {
+            return "LGSPGraph " + Name + " id " + GraphID + " @ " + ChangesCounter;
         }
     }
 }
