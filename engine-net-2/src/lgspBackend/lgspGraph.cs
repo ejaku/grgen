@@ -33,8 +33,6 @@ namespace de.unika.ipd.grGen.lgsp
         protected IGraphModel model;
         internal String modelAssemblyName;
 
-		String canonicalRepresentation = null;
-
         private bool reuseOptimization = true;
 
         /// <summary>
@@ -50,6 +48,17 @@ namespace de.unika.ipd.grGen.lgsp
             set { reuseOptimization = value; }
         }
 
+        long changesCounter = 0;
+
+        /// <summary>
+        /// Returns a counter of the number of changes that occured since the graph was created.
+        /// If it's different since last time you visited, the graph has changed (but it may be back again in the original state).
+        /// Only graph structure changes are counted, attribute changes are not included.
+        /// </summary>
+        public override long ChangesCounter
+        {
+            get { return changesCounter; }
+        }
 
 #if MONO_MULTIDIMARRAY_WORKAROUND
         public int dim0size, dim1size, dim2size;  // dim3size is always 2
@@ -57,12 +66,17 @@ namespace de.unika.ipd.grGen.lgsp
 #else
         public int[, , ,] vstructs;
 #endif
+        public long changesCounterAtLastAnalyze = -1;
 
         /// <summary>
         /// Normally null, contains some data which allows for efficient graph comparison,
         /// in case this is a constant graph which was used for isomorphy checking
         /// </summary>
         public GraphMatchingState matchingState;
+
+        String canonicalRepresentation = null;
+
+        public long changesCounterAtLastCanonize = -1;
 
 
         /// <summary>
@@ -506,7 +520,9 @@ namespace de.unika.ipd.grGen.lgsp
             node.lgspTypePrev = head;
             head.lgspTypeNext = node;
 
-            nodesByTypeCounts[typeid]++;
+            ++nodesByTypeCounts[typeid];
+
+            ++changesCounter;
 
 #if CHECK_RINGLISTS
             CheckTypeRinglistBroken(head);
@@ -535,7 +551,9 @@ namespace de.unika.ipd.grGen.lgsp
             edge.lgspSource.AddOutgoing(edge);
             edge.lgspTarget.AddIncoming(edge);
 
-            edgesByTypeCounts[typeid]++;
+            ++edgesByTypeCounts[typeid];
+
+            ++changesCounter;
 
 #if CHECK_RINGLISTS
             CheckTypeRinglistBroken(head);
@@ -625,7 +643,9 @@ namespace de.unika.ipd.grGen.lgsp
             node.lgspTypeNext = null;
             node.lgspTypePrev = null;
 
-            nodesByTypeCounts[typeid]--;
+            --nodesByTypeCounts[typeid];
+
+            ++changesCounter;
 
             if(reuseOptimization)
                 node.Recycle();
@@ -667,7 +687,9 @@ namespace de.unika.ipd.grGen.lgsp
             lgspEdge.lgspTypeNext = null;
             lgspEdge.lgspTypePrev = null;
 
-            edgesByTypeCounts[lgspEdge.lgspType.TypeID]--;
+            --edgesByTypeCounts[lgspEdge.lgspType.TypeID];
+
+            ++changesCounter;
 
             if(reuseOptimization)
                 lgspEdge.Recycle();
@@ -698,6 +720,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             ClearingGraph();
             InitializeGraph();
+            ++changesCounter;
         }
 
         /// <summary>
@@ -799,6 +822,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
             newNode.lgspInhead = inHead;
 
+            ++changesCounter;
+
             if(reuseOptimization)
                 oldNode.Recycle();
 
@@ -893,6 +918,8 @@ namespace de.unika.ipd.grGen.lgsp
             oldEdge.lgspInNext = null;
             oldEdge.lgspInPrev = null;
 
+            ++changesCounter;
+
             if(reuseOptimization)
                 oldEdge.Recycle();
 
@@ -958,6 +985,7 @@ namespace de.unika.ipd.grGen.lgsp
             nameOfSingleElementAdded[0] = "redirected from " + oldSourceName + " --> .";
             SettingAddedEdgeNames(nameOfSingleElementAdded);
             EdgeAdded(edge);
+            ++changesCounter;
         }
 
         /// <summary>
@@ -987,6 +1015,7 @@ namespace de.unika.ipd.grGen.lgsp
             nameOfSingleElementAdded[0] = "redirected from . --> " + oldTargetName;
             SettingAddedEdgeNames(nameOfSingleElementAdded);
             EdgeAdded(edge);
+            ++changesCounter;
         }
 
         /// <summary>
@@ -1022,6 +1051,7 @@ namespace de.unika.ipd.grGen.lgsp
             nameOfSingleElementAdded[0] = "redirected from " + oldSourceName + " --> " + oldTargetName;
             SettingAddedEdgeNames(nameOfSingleElementAdded);
             EdgeAdded(edge);
+            ++changesCounter;
         }
 
         /// <summary>
@@ -1250,6 +1280,10 @@ namespace de.unika.ipd.grGen.lgsp
 #if USE_SUB_SUPER_ENUMERATORS
         public void AnalyseGraph()
         {
+            if(changesCounterAtLastAnalyze == changesCounter)
+                return;
+            changesCounterAtLastAnalyze = changesCounter;
+
             int numNodeTypes = Model.NodeModel.Types.Length;
             int numEdgeTypes = Model.EdgeModel.Types.Length;
 
@@ -1401,6 +1435,10 @@ namespace de.unika.ipd.grGen.lgsp
 #elif OPCOST_WITH_GEO_MEAN
         public void AnalyzeGraph()
         {
+            if(changesCounterAtLastAnalyze == changesCounter)
+                return;
+            changesCounterAtLastAnalyze = changesCounter;
+
             int numNodeTypes = Model.NodeModel.Types.Length;
             int numEdgeTypes = Model.EdgeModel.Types.Length;
 
@@ -1593,6 +1631,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public void AnalyzeGraph()
         {
+            if(changesCounterAtLastAnalyze == changesCounter)
+                return;
+            changesCounterAtLastAnalyze = changesCounter;
+
             int numNodeTypes = Model.NodeModel.Types.Length;
             int numEdgeTypes = Model.EdgeModel.Types.Length;
 
@@ -2088,10 +2130,9 @@ invalidCommand:
         }
 
         /// <summary>
-        /// Returns whether this graph is isomorph to that graph
-        /// Each graph must be either unanalyzed or unchanged since the last analyze,
-        /// otherwise results will be wrong!
-        /// Graph comparison is for constant graphs only!
+        /// Returns whether this graph is isomorph to that graph (including the attribute values)
+        /// If a graph changed only in attribute values since the last comparison, results will be wrong!
+        /// (Do a fake node insert and removal to ensure the graph is recognized as having changed.)
         /// </summary>
         /// <param name="that">The other graph we check for isomorphy against</param>
         /// <returns>true if that is isomorph to this, false otherwise</returns>
@@ -2107,9 +2148,6 @@ invalidCommand:
 
         /// <summary>
         /// Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
-        /// Each graph must be either unanalyzed or unchanged since the last analyze,
-        /// otherwise results will be wrong!
-        /// Graph comparison is for constant graphs only!
         /// </summary>
         /// <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
         /// <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
@@ -2129,10 +2167,14 @@ invalidCommand:
         /// <returns>a canonical representation of the graph as a string</returns>
         public override string Canonize()
         {
-            // TODO: implement, this is just a placeholder
-			SimpleGraphCanonizer canonizer = new SimpleGraphCanonizer();
-			string canonicalString = canonizer.Canonize(this);
-			return canonicalString;
+            if(changesCounterAtLastCanonize != changesCounter)
+            {
+                SimpleGraphCanonizer canonizer = new SimpleGraphCanonizer();
+                canonicalRepresentation = canonizer.Canonize(this);
+                changesCounterAtLastCanonize = changesCounter;
+            }
+
+            return canonicalRepresentation;
         }
 
         public override void Check()

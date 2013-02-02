@@ -21,6 +21,7 @@ namespace de.unika.ipd.grGen.libGr
         public abstract String Name { get; }
         public abstract IGraphModel Model { get; }
         public abstract bool ReuseOptimization { get; set; }
+        public abstract long ChangesCounter{ get; }
 
         public int NumNodes
         {

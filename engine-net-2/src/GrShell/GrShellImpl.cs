@@ -205,6 +205,33 @@ namespace de.unika.ipd.grGen.grShell
         }
     }
 
+    public class StatisticsSource
+    {
+        public StatisticsSource(IGraph graph, PerformanceInfo performanceInfo)
+        {
+            this.graph = graph;
+            this.performanceInfo = performanceInfo;
+        }
+
+        public int MatchesFound
+        {
+            get { return performanceInfo.MatchesFound; }
+        }
+
+        public int RewritesPerformed
+        {
+            get { return performanceInfo.RewritesPerformed; }
+        }
+
+        public long GraphChanges
+        {
+            get { return graph.ChangesCounter; }
+        }
+
+        IGraph graph;
+        PerformanceInfo performanceInfo;
+    }
+
 
     public class GrShellImpl
     {
@@ -2943,8 +2970,9 @@ namespace de.unika.ipd.grGen.grShell
             workaround.PreventComputerGoingIntoSleepMode(true);
             PerformanceInfo perfInfo = new PerformanceInfo();
             curShellProcEnv.ProcEnv.PerformanceInfo = perfInfo;
+            StatisticsSource statisticsSource = new StatisticsSource(curShellProcEnv.Graph, perfInfo);
             Timer timer = null;
-            if(!debug && !silenceExec) timer = new Timer(new TimerCallback(PrintNumMatchesRewrites), perfInfo, 1000, 1000);
+            if(!debug && !silenceExec) timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
 
             try
             {
@@ -3002,10 +3030,10 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         // called from a timer while a sequence is executed outside of the debugger
-        static void PrintNumMatchesRewrites(Object state)
+        static void PrintStatistics(Object state)
         {
-            PerformanceInfo perfInfo = (PerformanceInfo)state;
-            Console.WriteLine(" ... {0} matches {1} rewrites until now ...", perfInfo.MatchesFound, perfInfo.RewritesPerformed);
+            StatisticsSource statisticsSource = (StatisticsSource)state;
+            Console.WriteLine(" ... {0} matches, {1} rewrites, {2} graph changes until now ...", statisticsSource.MatchesFound, statisticsSource.RewritesPerformed, statisticsSource.GraphChanges);
         }
 
         public void Cancel()

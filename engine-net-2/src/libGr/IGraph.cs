@@ -136,6 +136,12 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         bool ReuseOptimization { get; set; }
 
+        /// <summary>
+        /// Returns a counter of the number of changes that occured since the graph was created.
+        /// If it's different since last time you visited, the graph has changed (but it may be back again in the original state).
+        /// Only graph structure changes are counted, attribute changes are not included.
+        /// </summary>
+        long ChangesCounter { get; }
 
         /// <summary>
         /// The total number of nodes in the graph.
@@ -330,9 +336,8 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Returns whether this graph is isomorph to that graph (including the attribute values)
-        /// Each graph must be either unanalyzed or unchanged since the last analyze,
-        /// otherwise results will be wrong!
-        /// Graph comparison is for constant graphs only!
+        /// If a graph changed only in attribute values since the last comparison, results will be wrong!
+        /// (Do a fake node insert and removal to ensure the graph is recognized as having changed.)
         /// </summary>
         /// <param name="that">The other graph we check for isomorphy against</param>
         /// <returns>true if that is isomorph (structure and attributes) to this, false otherwise</returns>
@@ -340,9 +345,6 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
-        /// Each graph must be either unanalyzed or unchanged since the last analyze,
-        /// otherwise results will be wrong!
-        /// Graph comparison is for constant graphs only!
         /// </summary>
         /// <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
         /// <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
