@@ -60,6 +60,12 @@ namespace de.unika.ipd.grGen.lgsp
         public InterpretationPlan interpretationPlan;
 
         /// <summary>
+        /// The changes counter of the graph when the interpretation plan was built
+        /// (the compiled matcher depends on this, too)
+        /// </summary>
+        public long changesCounterAtInterpretationPlanBuilding;
+
+        /// <summary>
         /// The compiled graph comparison matcher, built from the interpretation plan
         /// not null if/after the interpretation plan was emitted and compiled
         /// </summary>
@@ -71,7 +77,7 @@ namespace de.unika.ipd.grGen.lgsp
         public int numChecks = 0;
 
         /// <summary>
-        ///Tells how many matches were carried out with this interpretation plan or compiled matches
+        ///Tells how many matches were carried out with this interpretation plan or compiled matcher
         /// </summary>
         public int numMatchings = 0;
 
@@ -142,10 +148,13 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // ensure graphs are analyzed
-            // if they were analyzed but changed since the analyze, results will be wrong!
             if(this_.vstructs == null)
                 this_.AnalyzeGraph();
             if(that.vstructs == null)
+                that.AnalyzeGraph();
+            if(this_.changesCounterAtLastAnalyze != this_.ChangesCounter)
+                this_.AnalyzeGraph();
+            if(that.changesCounterAtLastAnalyze != that.ChangesCounter)
                 that.AnalyzeGraph();
 
             // compare analyze statistics
@@ -157,15 +166,34 @@ namespace de.unika.ipd.grGen.lgsp
             writer.Flush();
 #endif
 
+            // invalidate outdated interpretation plans and compiled matchers
+            if(this_.matchingState.interpretationPlan != null && this_.matchingState.changesCounterAtInterpretationPlanBuilding != this_.ChangesCounter)
+            {
+                this_.matchingState.interpretationPlan = null;
+                this_.matchingState.patternGraph = null;
+                GraphMatchingState.candidatesForCompilation.Remove(this_);
+                this_.matchingState.compiledMatcher = null;
+                this_.matchingState.numMatchings = 0;
+                this_.matchingState.numChecks = 0;
+            }
+            if(that.matchingState.interpretationPlan != null && that.matchingState.changesCounterAtInterpretationPlanBuilding != that.ChangesCounter)
+            {
+                that.matchingState.interpretationPlan = null;
+                that.matchingState.patternGraph = null;
+                GraphMatchingState.candidatesForCompilation.Remove(that);
+                that.matchingState.compiledMatcher = null;
+                that.matchingState.numMatchings = 0;
+                that.matchingState.numChecks = 0;
+            }
+
             // they were the same? then we must try to match this in that, or that in this
             // if a compiled matcher is existing we use the compiled matcher
             // if an interpretation plan is existing we use the interpretation plan for matching
             // if none is existing for neither of the graphs, then we build an interpretation plan 
-            // for the older graph and directly use if for matching thereafter
+            // for the older graph and directly use it for matching thereafter
             // executing an interpretation plan or a compiled matcher is sufficient for isomorphy because 
             // - element numbers are the same 
             // - we match only exact types                
-            // if interpretation plans or compiled matcher were built but the graph changed since the analyze, results will be wrong!
             bool result;
             bool matchedWithThis;
             if(this_.matchingState.compiledMatcher != null)
@@ -381,6 +409,7 @@ namespace de.unika.ipd.grGen.lgsp
             InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan, searchPlanGraph, graph.Model);
             graph.matchingState.interpretationPlan = builder.BuildInterpretationPlan("ComparisonMatcher_" + graph.GraphID);
             ++GraphMatchingState.numInterpretationPlans;
+            graph.matchingState.changesCounterAtInterpretationPlanBuilding = graph.changesCounterAtLastAnalyze;
 
 #if LOG_ISOMORPHY_CHECKING
             SourceBuilder sb = new SourceBuilder();
@@ -394,6 +423,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         private static void CompileComparisonMatchers()
         {
+            for(int i = GraphMatchingState.candidatesForCompilation.Count - 1; i >= 0; --i)
+            {
+                LGSPGraph graph = GraphMatchingState.candidatesForCompilation[i];
+                if(graph.matchingState.changesCounterAtInterpretationPlanBuilding != graph.ChangesCounter)
+                    GraphMatchingState.candidatesForCompilation.RemoveAt(i);
+            }
+            
             SourceBuilder sourceCode = new SourceBuilder();
             sourceCode.AppendFront("using System;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
