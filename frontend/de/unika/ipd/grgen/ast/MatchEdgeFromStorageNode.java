@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.StorageAccess;
 import de.unika.ipd.grgen.ir.Variable;
 
 
@@ -147,9 +148,9 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 	@Override
 	protected IR constructIR() {
 		Edge edge = (Edge)super.constructIR();
-		if(storage!=null) edge.setStorage(storage.checkIR(Variable.class));
-		else if(storageAttribute!=null) edge.setStorageAttribute(storageAttribute.checkIR(Qualification.class));
-		else edge.setStorageGlobalVariable(storageGlobalVariable.checkIR(Edge.class));
+		if(storage!=null) edge.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
+		else if(storageAttribute!=null) edge.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
+//		else edge.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Edge.class)));
 		return edge;
 	}
 }
