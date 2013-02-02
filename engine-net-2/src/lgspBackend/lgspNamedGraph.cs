@@ -542,5 +542,10 @@ namespace de.unika.ipd.grGen.lgsp
             IDictionary<IGraphElement, IGraphElement> oldToNewMap;
             return new LGSPNamedGraph(this, newName, out oldToNewMap);
         }
+
+        public override string ToString()
+        {
+            return "LGSPNamedGraph " + Name + " id " + GraphID + " @ " + ChangesCounter;
+        }
     }
 }

@@ -161,6 +161,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("return false;\n");
             builder.Unindent();
             builder.AppendFront("}\n");
+            builder.AppendFront("public string Name { get { return \"" + comparisonMatcherName + "\"; } }\n");
             builder.Unindent();
             builder.AppendFront("}\n");
         }
@@ -171,6 +172,8 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         string comparisonMatcherName;
+
+        public string ComparisonMatcherName { get { return comparisonMatcherName; } }
     }
 
     /// <summary>
@@ -560,6 +563,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder builder)
         {
+            builder.AppendFront("do {\n");
+            builder.Indent();
             builder.AppendFrontFormat("GRGEN_LGSP.LGSPNode candidate{0} = candidate{1}.lgspTarget;\n", this.Id, source.Id);
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFront("\tcontinue;\n");
@@ -568,6 +573,8 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("candidate{0}.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED;\n", this.Id);
             next.Emit(builder);
             builder.AppendFrontFormat("candidate{0}.lgspFlags &= ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED);\n", this.Id);
+            builder.Unindent();
+            builder.AppendFront("} while(false);\n");
         }
 
         public override bool Execute(LGSPGraph graph, List<FoundMatch> matches)
@@ -610,6 +617,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder builder)
         {
+            builder.AppendFront("do {\n");
+            builder.Indent();
             builder.AppendFrontFormat("GRGEN_LGSP.LGSPNode candidate{0} = candidate{1}.lgspSource;\n", this.Id, source.Id);
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFront("\tcontinue;\n");
@@ -618,6 +627,8 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("candidate{0}.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED;\n", this.Id);
             next.Emit(builder);
             builder.AppendFrontFormat("candidate{0}.lgspFlags &= ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED);\n", this.Id);
+            builder.Unindent();
+            builder.AppendFront("} while(false);\n");
         }
 
         public override bool Execute(LGSPGraph graph, List<FoundMatch> matches)
@@ -662,6 +673,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder builder)
         {
+            builder.AppendFront("do {\n");
+            builder.Indent();
             builder.AppendFrontFormat("GRGEN_LGSP.LGSPNode candidate{0} = direction{2} == 0 ? candidate{1}.lgspSource : candidate{1}.lgspTarget;\n", this.Id, source.Id, directionVariable.Id);
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFront("\tcontinue;\n");
@@ -670,6 +683,8 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("candidate{0}.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED;\n", this.Id);
             next.Emit(builder);
             builder.AppendFrontFormat("candidate{0}.lgspFlags &= ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED);\n", this.Id);
+            builder.Unindent();
+            builder.AppendFront("} while(false);\n");
         }
 
         public override bool Execute(LGSPGraph graph, List<FoundMatch> matches)
@@ -715,6 +730,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder builder)
         {
+            builder.AppendFront("do {\n");
+            builder.Indent();
             builder.AppendFrontFormat("GRGEN_LGSP.LGSPNode candidate{0} = candidate{2} == candidate{1}.lgspSource ? candidate{1}.lgspTarget : candidate{1}.lgspSource;\n", this.Id, source.Id, theOther.Id);
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFront("\tcontinue;\n");
@@ -723,6 +740,8 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("candidate{0}.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED;\n", this.Id);
             next.Emit(builder);
             builder.AppendFrontFormat("candidate{0}.lgspFlags &= ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED);\n", this.Id);
+            builder.Unindent();
+            builder.AppendFront("} while(false);\n");
         }
 
         public override bool Execute(LGSPGraph graph, List<FoundMatch> matches)

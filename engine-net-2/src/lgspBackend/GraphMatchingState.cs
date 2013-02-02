@@ -7,6 +7,7 @@
 
 #define MONO_MULTIDIMARRAY_WORKAROUND // must be equally set to the same flag in LGSPGraph.cs!
 //#define LOG_ISOMORPHY_CHECKING
+#define COMPILE_MATCHERS
 //#define DUMP_COMPILED_MATCHER
 
 using System;
@@ -200,21 +201,33 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 result = this_.matchingState.compiledMatcher.IsIsomorph(this_.matchingState.patternGraph, that);
                 matchedWithThis = true;
+#if LOG_ISOMORPHY_CHECKING
+                writer.WriteLine("Using compiled interpretation plan of this " + this_.matchingState.compiledMatcher.Name);
+#endif
             }
             else if(that.matchingState.compiledMatcher != null)
             {
                 result = that.matchingState.compiledMatcher.IsIsomorph(that.matchingState.patternGraph, this_);
                 matchedWithThis = false;
+#if LOG_ISOMORPHY_CHECKING
+                writer.WriteLine("Using compiled interpretation plan of that " + that.matchingState.compiledMatcher.Name);
+#endif
             }
             else if(this_.matchingState.interpretationPlan != null)
             {
                 result = this_.matchingState.interpretationPlan.Execute(that, null);
                 matchedWithThis = true;
+#if LOG_ISOMORPHY_CHECKING
+                writer.WriteLine("Using interpretation plan of this " + ((InterpretationPlanStart)this_.matchingState.interpretationPlan).ComparisonMatcherName);
+#endif
             }
             else if(that.matchingState.interpretationPlan != null)
             {
                 result = that.matchingState.interpretationPlan.Execute(this_, null);
                 matchedWithThis = false;
+#if LOG_ISOMORPHY_CHECKING
+                writer.WriteLine("Using interpretation plan of that " + ((InterpretationPlanStart)that.matchingState.interpretationPlan).ComparisonMatcherName);
+#endif
             }
             else
             {
@@ -255,10 +268,12 @@ namespace de.unika.ipd.grGen.lgsp
                     GraphMatchingState.candidatesForCompilation.Add(that);
             }
 
+#if COMPILE_MATCHERS
             if(GraphMatchingState.TotalCandidateMatches() >= GraphMatchingState.TOTAL_CANDIDATE_MATCHES_NEEDED_TO_START_A_COMPILATION)
             {
                 CompileComparisonMatchers();
             }
+#endif
 
             return result;
         }
