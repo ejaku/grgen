@@ -1785,6 +1785,12 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, ms.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof MapEmptyExpr) {
+			MapEmptyExpr me = (MapEmptyExpr)expr;
+			sb.append("new GRGEN_EXPR.MapEmpty(");
+			genExpressionTree(sb, me.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof MapDomainExpr) {
 			MapDomainExpr md = (MapDomainExpr)expr;
 			sb.append("new GRGEN_EXPR.MapDomain(");
@@ -1811,6 +1817,12 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, ss.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof SetEmptyExpr) {
+			SetEmptyExpr se = (SetEmptyExpr)expr;
+			sb.append("new GRGEN_EXPR.SetEmpty(");
+			genExpressionTree(sb, se.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof SetPeekExpr) {
 			SetPeekExpr sp = (SetPeekExpr)expr;
 			sb.append("new GRGEN_EXPR.SetPeek(");
@@ -1823,6 +1835,12 @@ public class ActionsGen extends CSharpBase {
 			ArraySizeExpr as = (ArraySizeExpr)expr;
 			sb.append("new GRGEN_EXPR.ArraySize(");
 			genExpressionTree(sb, as.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayEmptyExpr) {
+			ArrayEmptyExpr ae = (ArrayEmptyExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayEmpty(");
+			genExpressionTree(sb, ae.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof ArrayPeekExpr) {
@@ -1865,6 +1883,12 @@ public class ActionsGen extends CSharpBase {
 			DequeSizeExpr ds = (DequeSizeExpr)expr;
 			sb.append("new GRGEN_EXPR.DequeSize(");
 			genExpressionTree(sb, ds.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof DequeEmptyExpr) {
+			DequeEmptyExpr de = (DequeEmptyExpr)expr;
+			sb.append("new GRGEN_EXPR.DequeEmpty(");
+			genExpressionTree(sb, de.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof DequePeekExpr) {

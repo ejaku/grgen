@@ -151,10 +151,16 @@ public class Formatter {
 		else if(cond instanceof MapSizeExpr) {
 			// MAP TODO
 		}
+		else if(cond instanceof MapEmptyExpr) {
+			// MAP TODO
+		}
 		else if(cond instanceof MapInit) {
 			// MAP TODO
 		}
 		else if(cond instanceof SetSizeExpr) {
+			// MAP TODO
+		}
+		else if(cond instanceof SetEmptyExpr) {
 			// MAP TODO
 		}
 		else if(cond instanceof SetInit) {
@@ -163,10 +169,16 @@ public class Formatter {
 		else if(cond instanceof ArraySizeExpr) {
 			// MAP TODO
 		}
+		else if(cond instanceof ArrayEmptyExpr) {
+			// MAP TODO
+		}
 		else if(cond instanceof ArrayInit) {
 			// MAP TODO
 		}
 		else if(cond instanceof DequeSizeExpr) {
+			// MAP TODO
+		}
+		else if(cond instanceof DequeEmptyExpr) {
 			// MAP TODO
 		}
 		else if(cond instanceof DequeInit) {

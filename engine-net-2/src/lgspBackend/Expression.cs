@@ -1729,6 +1729,36 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a map empty expression.
+    /// </summary>
+    public class MapEmpty : Expression
+    {
+        public MapEmpty(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new MapEmpty(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((");
+            Target.Emit(sourceCode);
+            sourceCode.Append(").Count==0)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
     /// Class representing a map peek expression.
     /// </summary>
     public class MapPeek : Expression
@@ -1854,6 +1884,36 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a set empty expression.
+    /// </summary>
+    public class SetEmpty: Expression
+    {
+        public SetEmpty(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new SetEmpty(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((");
+            Target.Emit(sourceCode);
+            sourceCode.Append(").Count==0)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
     /// Class representing a set peek expression.
     /// </summary>
     public class SetPeek : Expression
@@ -1908,6 +1968,36 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("(");
             Target.Emit(sourceCode);
             sourceCode.Append(").Count");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array empty expression.
+    /// </summary>
+    public class ArrayEmpty : Expression
+    {
+        public ArrayEmpty(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayEmpty(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((");
+            Target.Emit(sourceCode);
+            sourceCode.Append(").Count==0)");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -2095,6 +2185,36 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("(");
             Target.Emit(sourceCode);
             sourceCode.Append(").Count");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing a deque empty expression.
+    /// </summary>
+    public class DequeEmpty : Expression
+    {
+        public DequeEmpty(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DequeEmpty(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((");
+            Target.Emit(sourceCode);
+            sourceCode.Append(").Count==0)");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()

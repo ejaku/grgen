@@ -133,6 +133,14 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new MapSizeNode(getCoords(), targetExpr);
   			}
+			else if(methodName.equals("empty")) {
+  				if(params.size() != 0) {
+  					reportError("map<S,T>.empty() does not take any parameters.");
+					return false;
+				}
+  				else
+  					result = new MapEmptyNode(getCoords(), targetExpr);
+  			}
 			else if(methodName.equals("domain")) {
   				if(params.size() != 0) {
   					reportError("map<S,T>.domain() does not take any parameters.");
@@ -171,6 +179,14 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new SetSizeNode(getCoords(), targetExpr);
   			}
+			else if(methodName.equals("empty")) {
+  				if(params.size() != 0) {
+  					reportError("set<T>.empty() does not take any parameters.");
+					return false;
+				}
+  				else
+  					result = new SetEmptyNode(getCoords(), targetExpr);
+  			}
 			else if(methodName.equals("peek")) {
 				if(params.size() != 1) {
   					reportError("set<T>.peek(number in iteration sequence) takes one parameter.");
@@ -192,6 +208,14 @@ public class MethodInvocationExprNode extends ExprNode
 				}
   				else
   					result = new ArraySizeNode(getCoords(), targetExpr);
+  			}
+			else if(methodName.equals("empty")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.empty() does not take any parameters.");
+					return false;
+				}
+  				else
+  					result = new ArrayEmptyNode(getCoords(), targetExpr);
   			}
 			else if(methodName.equals("peek")) {
 				if(params.size() != 0 && params.size() != 1) {
@@ -242,6 +266,14 @@ public class MethodInvocationExprNode extends ExprNode
 				}
   				else
   					result = new DequeSizeNode(getCoords(), targetExpr);
+  			}
+			else if(methodName.equals("empty")) {
+  				if(params.size() != 0) {
+  					reportError("deque<T>.empty() does not take any parameters.");
+					return false;
+				}
+  				else
+  					result = new DequeEmptyNode(getCoords(), targetExpr);
   			}
 			else if(methodName.equals("peek")) {
 				if(params.size() != 0 && params.size() != 1) {
