@@ -852,6 +852,17 @@ public abstract class CSharpBase {
 				sb.append(").Count");
 			}
 		}
+		else if (expr instanceof MapEmptyExpr) {
+			MapEmptyExpr me = (MapEmptyExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(me));
+			}
+			else {
+				sb.append("((");
+				genExpression(sb, me.getTargetExpr(), modifyGenerationState);
+				sb.append(").Count==0)");
+			}
+		}
 		else if (expr instanceof MapDomainExpr) {
 			MapDomainExpr md = (MapDomainExpr)expr;
 			if(modifyGenerationState.useVarForMapResult()) {
@@ -898,6 +909,17 @@ public abstract class CSharpBase {
 				sb.append(").Count");
 			}
 		}
+		else if (expr instanceof SetEmptyExpr) {
+			SetEmptyExpr se = (SetEmptyExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(se));
+			}
+			else {
+				sb.append("((");
+				genExpression(sb, se.getTargetExpr(), modifyGenerationState);
+				sb.append(").Count==0)");
+			}
+		}
 		else if (expr instanceof SetPeekExpr) {
 			SetPeekExpr sp = (SetPeekExpr)expr;
 			if(modifyGenerationState.useVarForMapResult()) {
@@ -920,6 +942,17 @@ public abstract class CSharpBase {
 				sb.append("(");
 				genExpression(sb, as.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count");
+			}
+		}
+		else if (expr instanceof ArrayEmptyExpr) {
+			ArrayEmptyExpr ae = (ArrayEmptyExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ae));
+			}
+			else {
+				sb.append("((");
+				genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
+				sb.append(").Count==0)");
 			}
 		}
 		else if (expr instanceof ArrayPeekExpr) {
@@ -991,6 +1024,17 @@ public abstract class CSharpBase {
 				sb.append("(");
 				genExpression(sb, ds.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count");
+			}
+		}
+		else if (expr instanceof DequeEmptyExpr) {
+			DequeEmptyExpr de = (DequeEmptyExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(de));
+			}
+			else {
+				sb.append("((");
+				genExpression(sb, de.getTargetExpr(), modifyGenerationState);
+				sb.append(").Count==0)");
 			}
 		}
 		else if (expr instanceof DequePeekExpr) {
