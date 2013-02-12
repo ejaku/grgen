@@ -19,7 +19,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.EvalStatement;
+import de.unika.ipd.grgen.ir.EvalStatements;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
@@ -198,8 +198,8 @@ public abstract class RhsDeclNode extends DeclNode {
 		// will add them to the left hand side, too
 
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, false);
-		Collection<EvalStatement> evalStatements = graph.getYieldEvalStatements();
-		for(EvalStatement eval : evalStatements) {
+		Collection<EvalStatements> evalStatements = graph.getYieldEvalStatements();
+		for(EvalStatements eval : evalStatements) {
 			eval.collectNeededEntities(needs);
 		}
 

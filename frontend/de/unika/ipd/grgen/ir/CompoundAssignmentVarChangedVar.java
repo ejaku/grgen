@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 
 /**
  * Represents a compound assignment var changed var statement in the IR.
@@ -48,7 +50,7 @@ public class CompoundAssignmentVarChangedVar extends CompoundAssignmentVar {
 	{
 		super.collectNeededEntities(needs);
 
-		if(!isGlobalVariable(changedTarget))
+		if(!isGlobalVariable(changedTarget) && (changedTarget.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
 			needs.add(changedTarget);
 	}
 }

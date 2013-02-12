@@ -34,7 +34,9 @@ public class Unit extends IR {
 	private final List<Rule> subpatternRules = new LinkedList<Rule>();
 
 	private final List<Sequence> sequences = new LinkedList<Sequence>();
-	
+
+	private final List<Computation> computations = new LinkedList<Computation>();
+
 	private final List<Model> models = new LinkedList<Model>();
 
 	private String digest = "";
@@ -71,13 +73,22 @@ public class Unit extends IR {
 		return Collections.unmodifiableCollection(subpatternRules);
 	}
 
-	/** Add an action-rule to the unit. */
+	/** Add a sequence to the unit. */
 	public void addSequence(Sequence sequence) {
 		sequences.add(sequence);
 	}
 
 	public Collection<Sequence> getSequences() {
 		return Collections.unmodifiableCollection(sequences);
+	}
+	
+	/** Add a computation to the unit. */
+	public void addComputation(Computation computation) {
+		computations.add(computation);
+	}
+
+	public Collection<Computation> getComputations() {
+		return Collections.unmodifiableCollection(computations);
 	}
 
 	/** Add a model to the unit. */

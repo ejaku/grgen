@@ -12,6 +12,8 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.HashSet;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 
 /**
  * Represents a compound assignment statement in the IR.
@@ -67,7 +69,7 @@ public class CompoundAssignment extends EvalStatement {
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();
-		if(!isGlobalVariable(entity))
+		if(!isGlobalVariable(entity) && (entity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
 			needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for target

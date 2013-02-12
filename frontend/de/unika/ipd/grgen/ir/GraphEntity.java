@@ -46,6 +46,9 @@ public abstract class GraphEntity extends Entity {
 	private boolean maybeDeleted;
 	private boolean maybeRetyped;
 
+	// null or an expression used to initialize the node
+	public Expression initialization;
+
 	/** Dependencies because of match by storage access (element must be matched before storage map access with it)*/
 	protected int dependencyLevel = 0;
 
@@ -174,6 +177,10 @@ public abstract class GraphEntity extends Entity {
 
 	public void setStorageIndex(StorageAccessIndex storageAccessIndex) {
 		this.storageAccessIndex = storageAccessIndex;
+	}
+
+	public void setInitialization(Expression initialization) {
+		this.initialization = initialization;
 	}
 
 	public void incrementDependencyLevel() {

@@ -35,7 +35,7 @@ public class Rule extends MatchingAction {
 	private final PatternGraph right;
 
 	/** The evaluation assignments of this rule (RHS). */
-	private final Collection<EvalStatement> evals = new LinkedList<EvalStatement>();
+	private final Collection<EvalStatements> evals = new LinkedList<EvalStatements>();
 
 	/** How often the pattern is to be matched in case this is an iterated. */
 	private int minMatches;
@@ -93,12 +93,12 @@ public class Rule extends MatchingAction {
 	}
 
 	/** @return A collection containing all eval assignments of this rule. */
-	public Collection<EvalStatement> getEvals() {
+	public Collection<EvalStatements> getEvals() {
 		return Collections.unmodifiableCollection(evals);
 	}
 
 	/** Add an assignment to the list of evaluations. */
-	public void addEval(EvalStatement a) {
+	public void addEval(EvalStatements a) {
 		evals.add(a);
 	}
 
@@ -227,11 +227,13 @@ public class Rule extends MatchingAction {
 
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			boolean isDependentReplacementUsed = false;
-			for(OrderedReplacement or : right.getOrderedReplacements()) {
-				if(!(or instanceof SubpatternDependentReplacement))
-					continue;
-				if(((SubpatternDependentReplacement)or).getSubpatternUsage()==sub) {
-					isDependentReplacementUsed = true;
+			for(OrderedReplacements ors : right.getOrderedReplacements()) {
+				for(OrderedReplacement or : ors.orderedReplacements) {
+					if(!(or instanceof SubpatternDependentReplacement))
+						continue;
+					if(((SubpatternDependentReplacement)or).getSubpatternUsage()==sub) {
+						isDependentReplacementUsed = true;
+					}
 				}
 			}
 			if(!isDependentReplacementUsed)

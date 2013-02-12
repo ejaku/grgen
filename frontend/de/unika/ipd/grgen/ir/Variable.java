@@ -20,9 +20,12 @@ public class Variable extends Entity {
 	public Expression initialization;
 
 	public Variable(String name, Ident ident, Type type, boolean isDefToBeYieldedTo,
-			PatternGraph directlyNestingLHSGraph, int context, Expression initialization) {
+			PatternGraph directlyNestingLHSGraph, int context) {
 		super(name, ident, type, false, isDefToBeYieldedTo, context);
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
+	}
+	
+	public void setInitialization(Expression initialization) {
 		this.initialization = initialization;
 	}
 }

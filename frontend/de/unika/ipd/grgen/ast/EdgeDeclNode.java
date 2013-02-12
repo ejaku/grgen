@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 
 public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
@@ -84,6 +85,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
 		children.add(constraints);
+		if(initialization!=null) children.add(initialization);
 		return children;
 	}
 
@@ -94,6 +96,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("constraints");
+		if(initialization!=null) childrenNames.add("initialization expression");
 		return childrenNames;
 	}
 
@@ -223,6 +226,11 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		}
 
 		edge.setMaybeNull(maybeNull);
+
+		if(initialization!=null) {
+			initialization = initialization.evaluate();
+			edge.setInitialization(initialization.checkIR(Expression.class));
+		}
 
 		return edge;
 	}

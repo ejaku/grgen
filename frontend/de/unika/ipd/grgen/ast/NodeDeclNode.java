@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
@@ -71,6 +72,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
 		children.add(constraints);
+		if(initialization!=null) children.add(initialization);
 		return children;
 	}
 
@@ -81,6 +83,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("constraints");
+		if(initialization!=null) childrenNames.add("initialization expression");
 		return childrenNames;
 	}
 
@@ -203,23 +206,28 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
-		Node res = new Node(ident.getIdent(), nt, ident.getAnnotations(), 
+		Node node = new Node(ident.getIdent(), nt, ident.getAnnotations(), 
 				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getGraph() : null,
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
-		res.setConstraints(getConstraints());
+		node.setConstraints(getConstraints());
 
-		if( res.getConstraints().contains(res.getType()) ) {
+		if( node.getConstraints().contains(node.getType()) ) {
 			error.error(getCoords(), "Self NodeType may not be contained in TypeCondition of Node "
-							+ "("+ res.getType() + ")");
+							+ "("+ node.getType() + ")");
 		}
 
 		if(inheritsType()) {
-			res.setTypeof(typeNodeDecl.checkIR(Node.class), isCopy);
+			node.setTypeof(typeNodeDecl.checkIR(Node.class), isCopy);
 		}
 
-		res.setMaybeNull(maybeNull);
+		node.setMaybeNull(maybeNull);
 
-		return res;
+		if(initialization!=null) {
+			initialization = initialization.evaluate();
+			node.setInitialization(initialization.checkIR(Expression.class));
+		}
+
+		return node;
 	}
 
 	public static String getKindStr() {

@@ -40,7 +40,7 @@ public class Entity extends Identifiable {
 	protected PatternGraph patternGraphDefYieldedIsToBeDeleted = null; // todo: DELETE=LHS\RHS does not work any more due to nesting and def entities, switch to delete annotations in AST, IR
 	
 	/** Context of the declaration */
-	int context;
+	protected int context;
 
 
 	/**
@@ -109,6 +109,10 @@ public class Entity extends Identifiable {
 	/** @return true, if this is a defined only entity to be filled from nested patterns, else false */
 	public boolean isDefToBeYieldedTo() {
 		return isDefToBeYieldedTo;
+	}
+	
+	public int getContext() {
+		return context;
 	}
 
 	public void setPatternGraphDefYieldedIsToBeDeleted(PatternGraph graph) {

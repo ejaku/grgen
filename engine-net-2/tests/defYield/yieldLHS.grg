@@ -100,8 +100,12 @@ test countNINT(start:Node) : (int, int, int)
 	}
 
 	yield {
-		for{i in it; yield io = io + i};
-		for{j in it; yield jo = jo + j};
+		for(i in it) { 
+			yield io = io + i;
+		}
+		for(j in it) { 
+			yield jo = jo + j;
+		}
 	}
 
 	return (io,jo,v);

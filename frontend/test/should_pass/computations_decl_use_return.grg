@@ -1,0 +1,35 @@
+one() : int
+{
+	return(1);
+}
+
+two() : int
+{
+	return(2);
+}
+
+test t : (int)
+{
+	def var res:int;
+	
+	independent {
+		yield {
+			yield res = one() + two();
+		}
+	}
+	
+	return (res);
+}
+
+rule r : (int)
+{	
+	modify {
+		def var res:int;
+		
+		eval { 
+			yield res = one() + two();
+		}
+		
+		return (res);
+	}
+}

@@ -6,7 +6,7 @@ rule switch {
     modify {
         eval {
             goto.for_ = bool::FileNotFound;
-            int.for_ = bool::else;
+            int.for_ = bool::else_;
         }
     }
 }

@@ -47,7 +47,7 @@ public class PatternGraph extends Graph {
 	private final List<Expression> conds = new LinkedList<Expression>();
 
 	/** A list of all yield assignments. */
-	private final List<EvalStatement> yields = new LinkedList<EvalStatement>();
+	private final List<EvalStatements> yields = new LinkedList<EvalStatements>();
 
 	/** A list of all potentially homomorphic node sets. */
 	private final List<Collection<Node>> homNodes = new LinkedList<Collection<Node>>();
@@ -162,7 +162,7 @@ public class PatternGraph extends Graph {
 	}
 
 	/** Add an assignment to the list of evaluations. */
-	public void addYield(EvalStatement a) {
+	public void addYield(EvalStatements a) {
 		yields.add(a);
 	}
 	
@@ -224,7 +224,7 @@ public class PatternGraph extends Graph {
 	}
 	
 	/** @return A collection containing all yield assignments of this graph. */
-	public Collection<EvalStatement> getYields() {
+	public Collection<EvalStatements> getYields() {
 		return Collections.unmodifiableCollection(yields);
 	}
 
@@ -711,19 +711,21 @@ public class PatternGraph extends Graph {
 		// emit error on accessing freshly created edges from evalhere statements as they are not available there
 		// because they are only created after the evalhere statements are evaluated 
 
-		for(OrderedReplacement orderedRep : right.getOrderedReplacements()) {
-			if(orderedRep instanceof EvalStatement) {
-				EvalStatement evalStmt = (EvalStatement)orderedRep;
-				NeededEntities needs = new NeededEntities(false, true, false, false, true, false);
-				evalStmt.collectNeededEntities(needs);
-				for(Edge edge : needs.edges) {
-					if((edge.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
-						error.error(edge.getIdent().getCoords(), "Can't access a newly created edge (" + edge.getIdent() + ") from an evalhere statement");
+		for(OrderedReplacements ors : right.getOrderedReplacements()) {
+			for(OrderedReplacement orderedRep : ors.orderedReplacements) {
+				if(orderedRep instanceof EvalStatement) {
+					EvalStatement evalStmt = (EvalStatement)orderedRep;
+					NeededEntities needs = new NeededEntities(false, true, false, false, true, false);
+					evalStmt.collectNeededEntities(needs);
+					for(Edge edge : needs.edges) {
+						if((edge.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+							error.error(edge.getIdent().getCoords(), "Can't access a newly created edge (" + edge.getIdent() + ") from an evalhere statement");
+						}
 					}
-				}
-				for(Edge edge : needs.attrEdges) {
-					if((edge.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
-						error.error(edge.getIdent().getCoords(), "Can't access a newly created edge (" + edge.getIdent() + ") from an evalhere statement");
+					for(Edge edge : needs.attrEdges) {
+						if((edge.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+							error.error(edge.getIdent().getCoords(), "Can't access a newly created edge (" + edge.getIdent() + ") from an evalhere statement");
+						}
 					}
 				}
 			}

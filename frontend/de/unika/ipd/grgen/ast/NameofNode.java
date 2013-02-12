@@ -57,7 +57,10 @@ public class NameofNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		if(entityUnresolved==null) return true;
+		if(entityUnresolved==null)
+			return true;
+
+		boolean res = fixupDefinition(entityUnresolved, entityUnresolved.getScope());
 
 		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
 		if (resolved != null) {
@@ -65,7 +68,7 @@ public class NameofNode extends ExprNode {
 			entityNodeDecl = resolved.snd;
 		}
 
-		return (resolved != null);
+		return res && resolved != null;
 	}
 
 	/**

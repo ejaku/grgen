@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EvalStatement;
+import de.unika.ipd.grgen.ir.EvalStatements;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.InheritanceType;
@@ -443,66 +444,68 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	  	StringBuffer ins = new StringBuffer();
 	  	StringBuffer outs = new StringBuffer();
 
-
-		for(EvalStatement evalStmt : rule.getEvals())
+		for(EvalStatements evalStmts : rule.getEvals())
 		{
-			if(!(evalStmt instanceof Assignment)) continue;
-			Assignment eval = (Assignment) evalStmt;
-			Expression targetExpr = eval.getTarget();
-			if(!(targetExpr instanceof Qualification))
-				throw new UnsupportedOperationException(
-					"The C backend only supports assignments to qualified expressions, yet!");
-			Qualification target = (Qualification) targetExpr;
-			Entity targetOwner = target.getOwner();
-			Entity targetMember = target.getMember();
-			Expression expr = eval.getExpression();
-			StringBuffer cond_dummy = new StringBuffer();
-
-			outs.append("static void grs_eval_out_func_" + eval.getId() + "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, ");
-			if (eval.getExpression().getType().classify() == Type.IS_INTEGER) {
-				outs.append("int data) {\n");
-			}
-			else {
-				outs.append("void *data) {\n");
-			}
-
-			outs.append(indent + "(void) pat_node_map;\n");
-			outs.append(indent + "(void) rpl_edge_map;\n");
-			outs.append(indent + "(void) data;\n");
-			outs.append(indent + "set_grgen_" + targetMember.getIdent() +"(");
-			// Each node type has to be treated differently when accessing attributes
-			// Care about that here.
-			if(targetOwner instanceof Node)
+			for(EvalStatement evalStmt : evalStmts.evalStatements)
 			{
-				Node n = (Node) targetOwner;
-				outs.append("rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
+				if(!(evalStmt instanceof Assignment)) continue;
+				Assignment eval = (Assignment) evalStmt;
+				Expression targetExpr = eval.getTarget();
+				if(!(targetExpr instanceof Qualification))
+					throw new UnsupportedOperationException(
+						"The C backend only supports assignments to qualified expressions, yet!");
+				Qualification target = (Qualification) targetExpr;
+				Entity targetOwner = target.getOwner();
+				Entity targetMember = target.getMember();
+				Expression expr = eval.getExpression();
+				StringBuffer cond_dummy = new StringBuffer();
+	
+				outs.append("static void grs_eval_out_func_" + eval.getId() + "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, ");
+				if (eval.getExpression().getType().classify() == Type.IS_INTEGER) {
+					outs.append("int data) {\n");
+				}
+				else {
+					outs.append("void *data) {\n");
+				}
+	
+				outs.append(indent + "(void) pat_node_map;\n");
+				outs.append(indent + "(void) rpl_edge_map;\n");
+				outs.append(indent + "(void) data;\n");
+				outs.append(indent + "set_grgen_" + targetMember.getIdent() +"(");
+				// Each node type has to be treated differently when accessing attributes
+				// Care about that here.
+				if(targetOwner instanceof Node)
+				{
+					Node n = (Node) targetOwner;
+					outs.append("rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
+				}
+				else if (targetOwner instanceof Edge)
+				{
+					Edge e = (Edge) targetOwner;
+					outs.append("rpl_edge_map[" + edgeIds.computeId(e) + "/* " + e.getIdent() + " */], ");
+				}
+				else
+				{
+					throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
+				}
+	
+				if (expr instanceof Constant) {
+					/* we don't need eval_in functions for constant values */
+					genConditionEval(cond_dummy, expr, nodeIds, edgeIds);
+					outs.append(cond_dummy);
+				} else {
+					/* generate the eval_in function */
+					ins.append("static void *grs_eval_in_func_"	+ eval.getId()
+							+ "(ir_node ** const pat_node_map, ir_edge_t ** pat_edge_map) {\n");
+					ins.append(indent + "(void) pat_edge_map;\n");
+					ins.append(indent + "return (void*)");
+					genConditionEval(ins, expr, nodeIds, edgeIds);
+					ins.append(";\n}\n\n");
+					outs.append("data");
+				}
+	
+				outs.append(");\n}\n");
 			}
-			else if (targetOwner instanceof Edge)
-			{
-				Edge e = (Edge) targetOwner;
-				outs.append("rpl_edge_map[" + edgeIds.computeId(e) + "/* " + e.getIdent() + " */], ");
-			}
-			else
-			{
-				throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
-			}
-
-			if (expr instanceof Constant) {
-				/* we don't need eval_in functions for constant values */
-				genConditionEval(cond_dummy, expr, nodeIds, edgeIds);
-				outs.append(cond_dummy);
-			} else {
-				/* generate the eval_in function */
-				ins.append("static void *grs_eval_in_func_"	+ eval.getId()
-						+ "(ir_node ** const pat_node_map, ir_edge_t ** pat_edge_map) {\n");
-				ins.append(indent + "(void) pat_edge_map;\n");
-				ins.append(indent + "return (void*)");
-				genConditionEval(ins, expr, nodeIds, edgeIds);
-				ins.append(";\n}\n\n");
-				outs.append("data");
-			}
-
-			outs.append(");\n}\n");
 		}
 		sb.append(ins);
 		sb.append(outs);
@@ -518,20 +521,22 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private void registerEvalFunctions(StringBuffer sb, String indent, Rule rule)
 	{
-		for(EvalStatement evalStmt : rule.getEvals())
+		for(EvalStatements evalStmts : rule.getEvals())
 		{
-			if(!(evalStmt instanceof Assignment)) continue;
-			Assignment eval = (Assignment) evalStmt;
-
-			sb.append(indent + "ext_grs_act_register_eval(act, ");
-			if (eval.getExpression() instanceof Constant) {
-				sb.append("NULL");
-			} else {
-				sb.append("(ext_grs_eval_in_func_t) &grs_eval_in_func_" + eval.getId());
+			for(EvalStatement evalStmt : evalStmts.evalStatements)
+			{
+				if(!(evalStmt instanceof Assignment)) continue;
+				Assignment eval = (Assignment) evalStmt;
+	
+				sb.append(indent + "ext_grs_act_register_eval(act, ");
+				if (eval.getExpression() instanceof Constant) {
+					sb.append("NULL");
+				} else {
+					sb.append("(ext_grs_eval_in_func_t) &grs_eval_in_func_" + eval.getId());
+				}
+				sb.append(", (ext_grs_eval_out_func_t) &grs_eval_out_func_" + eval.getId() + ");\n");
 			}
-			sb.append(", (ext_grs_eval_out_func_t) &grs_eval_out_func_" + eval.getId() + ");\n");
 		}
-
 	}
 
 
@@ -776,19 +781,22 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			flags |= MOD_DELETED;
 		}
 
-		for(EvalStatement evalStmt : rule.getEvals())
+		for(EvalStatements evalStmts : rule.getEvals())
 		{
-			if(!(evalStmt instanceof Assignment)) continue;
-			Assignment a = (Assignment) evalStmt;
-
-			Expression targetExpr = a.getTarget();
-			if(!(targetExpr instanceof Qualification))
-				throw new UnsupportedOperationException(
-					"The C backend only supports assignments to qualified expressions, yet!");
-			Qualification target = (Qualification) targetExpr;
-
-			if (target.getOwner().compareTo(node) == 0) {
-				flags |= MOD_ASSIGNED;
+			for(EvalStatement evalStmt : evalStmts.evalStatements)
+			{
+				if(!(evalStmt instanceof Assignment)) continue;
+				Assignment a = (Assignment) evalStmt;
+	
+				Expression targetExpr = a.getTarget();
+				if(!(targetExpr instanceof Qualification))
+					throw new UnsupportedOperationException(
+						"The C backend only supports assignments to qualified expressions, yet!");
+				Qualification target = (Qualification) targetExpr;
+	
+				if (target.getOwner().compareTo(node) == 0) {
+					flags |= MOD_ASSIGNED;
+				}
 			}
 		}
 

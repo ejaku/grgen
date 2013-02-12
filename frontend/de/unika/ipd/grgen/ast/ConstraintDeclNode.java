@@ -13,6 +13,9 @@
 
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import de.unika.ipd.grgen.ir.TypeExpr;
 
 public abstract class ConstraintDeclNode extends DeclNode
@@ -32,6 +35,8 @@ public abstract class ConstraintDeclNode extends DeclNode
 	protected boolean maybeRetyped = false;
 	protected boolean maybeNull = false;
 
+	ExprNode initialization = null;
+
 
 	protected ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints,
 			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo) {
@@ -44,9 +49,39 @@ public abstract class ConstraintDeclNode extends DeclNode
 		this.defEntityToBeYieldedTo = defEntityToBeYieldedTo;
 	}
 
+	/** sets an expression to be used to initialize the graph entity, only used for local variables, not pattern elements */
+	public void setInitialization(ExprNode initialization)
+	{
+		this.initialization = initialization;
+	}
+
 	@Override
 	protected boolean checkLocal() {
-		return onlyPatternElementsAreAllowedToBeConstrained();
+		return initializationIsWellTyped() && onlyPatternElementsAreAllowedToBeConstrained();
+	}
+
+	private boolean initializationIsWellTyped() {
+		if(initialization==null)
+			return true;
+
+		TypeNode targetType = getDeclType();
+		TypeNode exprType = initialization.getType();
+
+		if (exprType.isEqual(targetType))
+			return true;
+
+		if(targetType instanceof NodeTypeNode && exprType instanceof NodeTypeNode
+				|| targetType instanceof EdgeTypeNode && exprType instanceof EdgeTypeNode)
+		{
+			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
+			exprType.doGetCompatibleToTypes(superTypes);
+			if(superTypes.contains(targetType)) {
+				return true;
+			}
+		}
+
+		error.error(getCoords(), "can't initialize "+targetType+" with "+exprType);
+		return false;
 	}
 
 	private boolean onlyPatternElementsAreAllowedToBeConstrained() {

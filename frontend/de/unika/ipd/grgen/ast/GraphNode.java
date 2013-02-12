@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EvalStatement;
+import de.unika.ipd.grgen.ir.EvalStatements;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
@@ -29,6 +29,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.OrderedReplacements;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.OrderedReplacement;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
@@ -39,6 +40,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -57,8 +59,8 @@ public class GraphNode extends BaseNode {
 	protected CollectNode<BaseNode> connectionsUnresolved;
 	protected CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 	protected CollectNode<SubpatternUsageNode> subpatterns;
-	protected CollectNode<OrderedReplacementNode> orderedReplacements;
-	protected CollectNode<EvalStatementNode> yieldsEvals;
+	protected CollectNode<OrderedReplacementsNode> orderedReplacements;
+	protected CollectNode<EvalStatementsNode> yieldsEvals;
 	protected CollectNode<ExprNode> returns;
 	protected CollectNode<BaseNode> imperativeStmts;
 	protected CollectNode<BaseNode> params;
@@ -85,8 +87,8 @@ public class GraphNode extends BaseNode {
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
 			CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 			CollectNode<SubpatternUsageNode> subpatterns,
-			CollectNode<OrderedReplacementNode> orderedReplacements,
-			CollectNode<EvalStatementNode> yieldsEvals,
+			CollectNode<OrderedReplacementsNode> orderedReplacements,
+			CollectNode<EvalStatementsNode> yieldsEvals,
 			CollectNode<ExprNode> returns, CollectNode<BaseNode> imperativeStmts,
 			int context, PatternGraphNode directlyNestingLHSGraph) {
 		super(coords);
@@ -204,7 +206,8 @@ public class GraphNode extends BaseNode {
 
 		boolean paramsOK = true;
     	for (BaseNode n : params.getChildren()) {
-			if(!(n instanceof VarDeclNode)) continue;
+			if(!(n instanceof VarDeclNode))
+				continue;
 
 			VarDeclNode paramVar = (VarDeclNode) n;
 			if(paramVar.resolve()) {
@@ -359,34 +362,36 @@ public class GraphNode extends BaseNode {
 			gr.addSubpatternUsage(n.checkIR(SubpatternUsage.class));
 		}
 
-		for(OrderedReplacementNode n : orderedReplacements.getChildren()) {
-			gr.addOrderedReplacement((OrderedReplacement)n.getIR());
+		for(OrderedReplacementsNode n : orderedReplacements.getChildren()) {
+			gr.addOrderedReplacement((OrderedReplacements)n.getIR());
 		}
 
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
-		for(OrderedReplacementNode n : orderedReplacements.getChildren()) {
-			// TODO: what's with all the other ordered replacement operations containing entitites?
-			if(!(n instanceof SubpatternReplNode))
-				continue;
-			SubpatternReplNode r = (SubpatternReplNode)n;
-			List<Expression> connections = r.checkIR(SubpatternDependentReplacement.class).getReplConnections();
-			for(Expression e : connections) {
-				if(e instanceof GraphEntityExpression) {
-					GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
-					if(connection instanceof Node) {
-						addNodeIfNotYetContained(gr, (Node)connection);
-					} else if(connection instanceof Edge) {
-						addEdgeIfNotYetContained(gr, (Edge)connection);
+		for(OrderedReplacementsNode ors : orderedReplacements.getChildren()) {
+			for(OrderedReplacementNode n : ors.getChildren()) {
+				// TODO: what's with all the other ordered replacement operations containing entitites?
+				if(!(n instanceof SubpatternReplNode))
+					continue;
+				SubpatternReplNode r = (SubpatternReplNode)n;
+				List<Expression> connections = r.checkIR(SubpatternDependentReplacement.class).getReplConnections();
+				for(Expression e : connections) {
+					if(e instanceof GraphEntityExpression) {
+						GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
+						if(connection instanceof Node) {
+							addNodeIfNotYetContained(gr, (Node)connection);
+						} else if(connection instanceof Edge) {
+							addEdgeIfNotYetContained(gr, (Edge)connection);
+						} else {
+							assert(false);
+						}
 					} else {
-						assert(false);
-					}
-				} else {
-					NeededEntities needs = new NeededEntities(false, false, true, false, false, false);
-					e.collectNeededEntities(needs);
-					for(Variable neededVariable : needs.variables) {
-						if(!gr.hasVar(neededVariable)) {
-							gr.addVariable(neededVariable);
+						NeededEntities needs = new NeededEntities(false, false, true, false, false, false);
+						e.collectNeededEntities(needs);
+						for(Variable neededVariable : needs.variables) {
+							if(!gr.hasVar(neededVariable)) {
+								gr.addVariable(neededVariable);
+							}
 						}
 					}
 				}
@@ -396,9 +401,11 @@ public class GraphNode extends BaseNode {
 		// add emithere elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the emithere)
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
-		for(OrderedReplacement orderedRepl : gr.getOrderedReplacements()) {
-			if(orderedRepl instanceof Emit) {
-				((Emit)orderedRepl).collectNeededEntities(needs);
+		for(OrderedReplacements ors : gr.getOrderedReplacements()) {
+			for(OrderedReplacement orderedRepl : ors.orderedReplacements) {
+				if(orderedRepl instanceof Emit) {
+					((Emit)orderedRepl).collectNeededEntities(needs);
+				}
 			}
 		}
 		addNeededEntities(gr, needs);
@@ -526,11 +533,11 @@ public class GraphNode extends BaseNode {
 		return res;
 	}
 
-	public Collection<EvalStatement> getYieldEvalStatements() {
-		Collection<EvalStatement> ret = new LinkedHashSet<EvalStatement>();
+	public Collection<EvalStatements> getYieldEvalStatements() {
+		Collection<EvalStatements> ret = new LinkedList<EvalStatements>();
 
-		for (EvalStatementNode n : yieldsEvals.getChildren()) {
-			ret.add(n.checkIR(EvalStatement.class));
+		for (EvalStatementsNode n : yieldsEvals.getChildren()) {
+			ret.add(n.checkIR(EvalStatements.class));
 		}
 
 		return ret;

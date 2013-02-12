@@ -58,13 +58,15 @@ public class TypeofNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
+		boolean res = fixupDefinition(entityUnresolved, entityUnresolved.getScope());
+		
 		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
 		if (resolved != null) {
 			entityEdgeDecl = resolved.fst;
 			entityNodeDecl = resolved.snd;
 		}
 
-		return (resolved != null);
+		return res && resolved != null;
 	}
 
 	/**

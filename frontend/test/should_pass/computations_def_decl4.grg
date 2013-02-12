@@ -1,0 +1,80 @@
+using model_init;
+
+some(n:A, -e:E1->) : boolean
+{
+	def var by:byte = (byte)42;
+	def var sh:short = (short)42;
+	def var i1:int = 42;
+	def var l:long = 0xdeadbeefl;
+	def var f:float = 42.815f;
+	def var s:string = "hello world";
+	def var i2:int = i1 * (int)f;
+	f = 42.815f;
+	i2 = i1 * (int)f;
+	def var b:boolean = true;
+
+    def ref m:map<string, Node> = map<string,Node>{s->n};
+    def ref ar:array<Node> = array<Node>[n];
+    def ref de:deque<E1> = deque<E1>]e[;
+    def ref se:set<string> = set<string>{s};
+
+	return(n.b);
+}
+
+test t(n:A, -e:E1->) : (boolean)
+{
+	def var res:boolean;
+	
+	independent {
+		yield {
+			def var by:byte = (byte)42;
+			def var sh:short = (short)42;
+			def var i1:int = 42;
+			def var l:long = 0xdeadbeefl;
+			def var f:float = 42.815f;
+			def var s:string = "hello world";
+			def var i2:int = i1 * (int)f;
+			f = 42.815f;
+			i2 = i1 * (int)f;
+			def var b:boolean = true;
+
+			def ref m:map<string, Node> = map<string,Node>{s->n};
+			def ref ar:array<Node> = array<Node>[n];
+			def ref de:deque<E1> = deque<E1>]e[;
+			def ref se:set<string> = set<string>{s};
+
+			yield res = n.b;
+		}
+	}
+	
+	return (res);
+}
+
+rule r(n:A, -e:E1->) : (boolean)
+{	
+	modify {
+		def var res:boolean;
+		
+		eval { 
+			def var by:byte = (byte)42;
+			def var sh:short = (short)42;
+			def var i1:int = 42;
+			def var l:long = 0xdeadbeefl;
+			def var f:float = 42.815f;
+			def var s:string = "hello world";
+			def var i2:int = i1 * (int)f;
+			f = 42.815f;
+			i2 = i1 * (int)f;
+			def var b:boolean = true;
+
+			def ref m:map<string, Node> = map<string,Node>{s->n};
+			def ref ar:array<Node> = array<Node>[n];
+			def ref de:deque<E1> = deque<E1>]e[;
+			def ref se:set<string> = set<string>{s};
+
+			yield res = n.b;
+		}
+		
+		return (res);
+	}
+}

@@ -1,0 +1,42 @@
+some(var in1:int, in2:Node, -in3:Edge->, ref in4:array<int>) : int
+{
+	def var res1:int = in1;
+	def res2:Node = in2;
+	def -res3:Edge-> = in3;
+	def ref res4:array<int> = in4;
+	return(res4[res1]);
+}
+
+test t(var in1:int, in2:Node, -in3:Edge->, ref in4:array<int>) : (int)
+{
+	def var res:int;
+	
+	independent {
+		yield {
+			def var res1:int = in1;
+			def res2:Node = in2;
+			def -res3:Edge-> = in3;
+			def ref res4:array<int> = in4;
+			yield res = some(in1,in2,in3,in4);
+		}
+	}
+	
+	return (res);
+}
+
+rule r(var in1:int, in2:Node, -in3:Edge->, ref in4:array<int>) : (int)
+{	
+	modify {
+		def var res:int;
+		
+		eval { 
+			def var res1:int = in1;
+			def res2:Node = in2;
+			def -res3:Edge-> = in3;
+			def ref res4:array<int> = in4;
+			yield res = some(in1,in2,in3,in4);
+		}
+		
+		return(res);
+	}
+}

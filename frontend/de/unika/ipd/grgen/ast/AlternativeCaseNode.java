@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EvalStatement;
+import de.unika.ipd.grgen.ir.EvalStatements;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -606,7 +606,7 @@ edgeAbstrLoop:
 		// add Eval statements to the IR
 		// TODO choose the right one
 		if(this.right.children.size() > 0) {
-			for (EvalStatement n : this.right.children.get(0).getRHSGraph().getYieldEvalStatements()) {
+			for (EvalStatements n : this.right.children.get(0).getRHSGraph().getYieldEvalStatements()) {
 				altCaseRule.addEval(n);
 			}
 		}

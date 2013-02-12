@@ -32,7 +32,6 @@ import de.unika.ipd.grgen.ir.ObjectType;
 import de.unika.ipd.grgen.ir.containers.SetType;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
 
 // todo: the entire exec handling in the frontend is nothing but a dirty hack, clean this
@@ -106,33 +105,6 @@ public class CallActionNode extends BaseNode {
 	protected CollectNode<ExprNode> getParams() {
 		assert isResolved();
 		return params;
-	}
-
-	/*
-	 * This sets the symbol definition to the right place, if the definition is behind the actual position.
-	 * TODO: extract and unify this method to a common place/code duplication
-	 */
-	public static boolean fixupDefinition(IdentNode id, Scope scope) {
-		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
-
-		// Get the definition of the ident's symbol local to the owned scope.
-		Symbol.Definition def = scope.getCurrDef(id.getSymbol());
-		debug.report(NOTE, "definition is: " + def);
-
-		// The result is true, if the definition's valid.
-		boolean res = def.isValid();
-
-		// If this definition is valid, i.e. it exists,
-		// the definition of the ident is rewritten to this definition,
-		// else, an error is emitted,
-		// since this ident was supposed to be defined in this scope.
-		if(res) {
-			id.setSymDef(def);
-		} else {
-			id.reportError("Identifier \"" + id + "\" not declared in this scope: " + scope);
-		}
-
-		return res;
 	}
 
 	/*

@@ -131,11 +131,11 @@ rule TFDecisionNext(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNod
 rule TFDecisionLast(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNode)
 	: (ProcessAssignment)
 {
-	dn -else:ActivityEdge-> tgtElse:Node;
-	if { else.guard == "else"; }
+	dn -else_:ActivityEdge-> tgtElse:Node;
+	if { else_.guard == "else"; }
 
 	modify {
-		delete(else);
+		delete(else_);
 		delete(dn);
 
 		lastPa -:processAssignments-> newPa:ProcessAssignment;
@@ -143,7 +143,7 @@ rule TFDecisionLast(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNod
 		newPa -:tempProcess-> tgtElse;
 
 		eval {
-			elseProc.name = else.name;
+			elseProc.name = else_.name;
 		}
 		return (newPa);
 	}

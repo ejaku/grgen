@@ -1,0 +1,72 @@
+number(var x:int) : int
+{
+	if(x==1) {
+		return(1);
+	} else if(x==2) {
+		return(2);
+	} else {
+		return(3);
+	}
+}
+
+test t(var x:int) : (int,int,int)
+{
+	def var res:int;
+	def var resres:int;
+	
+	if (number(1) < number(2));
+	
+	independent {
+		yield {
+			if(x==1) {
+				yield res = 1;
+			} else if(x==2) {
+				yield res = 2;
+			} else {
+				yield res = 3;
+			}
+			yield resres = number(x);
+		}
+	}
+		
+	return (res, resres, number(x));
+}
+
+rule r(var x:int) : (int,int,int,int)
+{
+	iterated {
+		.;
+		if ( x < number(number(1) + number(2)) );
+		
+		modify {
+			eval { 
+				if(x==1) {
+					yield res = 1;
+				} else if(x==2) {
+					yield res = 2;
+				} else {
+					yield res = 3;
+				}
+			}
+		}
+	}
+
+	modify {
+		def var res:int;
+		def var resres:int;
+		def var resresres:int;
+		
+		eval { 
+			if(x==1) {
+				yield resres = 1;
+			} else if(x==2) {
+				yield resres = 2;
+			} else {
+				yield resres = 3;
+			}
+			yield resresres = number(x);
+		}
+		
+		return (res, resres, resresres, number(x));
+	}
+}

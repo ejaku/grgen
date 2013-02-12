@@ -190,6 +190,9 @@ public class Formatter {
 		else if(cond instanceof ExternalFunctionInvocationExpr) {
 			// TODO
 		}
+		else if(cond instanceof ComputationInvocationExpr) {
+			// TODO
+		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
 

@@ -13,6 +13,8 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.HashSet;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 
 /**
  * Represents a compound assignment var changed statement in the IR.
@@ -51,7 +53,7 @@ public class CompoundAssignmentVarChanged extends CompoundAssignmentVar {
 		super.collectNeededEntities(needs);
 
 		Entity entity = changedTarget.getOwner();
-		if(!isGlobalVariable(entity))
+		if(!isGlobalVariable(entity) && (entity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
 			needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for changed target

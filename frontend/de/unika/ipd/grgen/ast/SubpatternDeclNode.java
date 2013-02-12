@@ -19,8 +19,8 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EvalStatements;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -105,8 +105,8 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 			CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 			CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
 			CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
-			CollectNode<OrderedReplacementNode> orderedReplacements = new CollectNode<OrderedReplacementNode>();
-			CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
+			CollectNode<OrderedReplacementsNode> orderedReplacements = new CollectNode<OrderedReplacementsNode>();
+			CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
 			CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 			CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 			GraphNode graph = new GraphNode(getIdentNode().toString(), getIdentNode().getCoords(), 
@@ -610,7 +610,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		// add Eval statements to the IR
 		// TODO choose the right one
 		if(this.right.children.size() > 0) {
-			for (EvalStatement n : this.right.children.get(0).getRHSGraph().getYieldEvalStatements()) {
+			for (EvalStatements n : this.right.children.get(0).getRHSGraph().getYieldEvalStatements()) {
 				rule.addEval(n);
 			}
 		}

@@ -99,6 +99,7 @@
     <Compile Include="SourceBuilder.cs" />
     <Compile Include="GraphCanonizer.cs" />
     <Compile Include="SimpleGraphCanonizer.cs" />
+    <Compile Include="Yielding.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libGr\libGr.csproj">

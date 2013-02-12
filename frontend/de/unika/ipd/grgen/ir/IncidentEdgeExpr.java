@@ -7,6 +7,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 public class IncidentEdgeExpr extends Expression {
 	private final Node node;
 	private final EdgeType incidentEdgeType;
@@ -46,7 +48,7 @@ public class IncidentEdgeExpr extends Expression {
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		if(!isGlobalVariable(node))
+		if(!isGlobalVariable(node) && (node.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
 			needs.add(node);
 	}
 }

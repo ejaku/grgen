@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 /**
  * A variable expression node.
  */
@@ -29,7 +31,7 @@ public class VariableExpression extends Expression {
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		if(!isGlobalVariable(var))
+		if(!isGlobalVariable(var) && (var.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
 			needs.add(var);
 	}
 

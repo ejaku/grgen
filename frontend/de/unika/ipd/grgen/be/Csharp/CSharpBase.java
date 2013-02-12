@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.util.Util;
 public abstract class CSharpBase {
 	public interface ExpressionGenerationState {
 		Map<Expression, String> mapExprToTempVar();
-		boolean useVarForMapResult();
+		boolean useVarForResult();
 	}
 
 	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix) {
@@ -826,7 +826,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof IndexedAccessExpr) {
 			IndexedAccessExpr ia = (IndexedAccessExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ia));
 			}
 			else {
@@ -843,7 +843,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof MapSizeExpr) {
 			MapSizeExpr ms = (MapSizeExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ms));
 			}
 			else {
@@ -854,7 +854,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof MapEmptyExpr) {
 			MapEmptyExpr me = (MapEmptyExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(me));
 			}
 			else {
@@ -865,7 +865,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof MapDomainExpr) {
 			MapDomainExpr md = (MapDomainExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(md));
 			}
 			else {
@@ -876,7 +876,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof MapRangeExpr) {
 			MapRangeExpr mr = (MapRangeExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(mr));
 			}
 			else {
@@ -887,7 +887,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof MapPeekExpr) {
 			MapPeekExpr mp = (MapPeekExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(mp));
 			}
 			else {
@@ -900,7 +900,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof SetSizeExpr) {
 			SetSizeExpr ss = (SetSizeExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ss));
 			}
 			else {
@@ -911,7 +911,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof SetEmptyExpr) {
 			SetEmptyExpr se = (SetEmptyExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(se));
 			}
 			else {
@@ -922,7 +922,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof SetPeekExpr) {
 			SetPeekExpr sp = (SetPeekExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(sp));
 			}
 			else {
@@ -935,7 +935,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof ArraySizeExpr) {
 			ArraySizeExpr as = (ArraySizeExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(as));
 			}
 			else {
@@ -946,7 +946,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof ArrayEmptyExpr) {
 			ArrayEmptyExpr ae = (ArrayEmptyExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ae));
 			}
 			else {
@@ -957,7 +957,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof ArrayPeekExpr) {
 			ArrayPeekExpr ap = (ArrayPeekExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ap));
 			}
 			else {
@@ -976,7 +976,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof ArrayIndexOfExpr) {
 			ArrayIndexOfExpr ai = (ArrayIndexOfExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ai));
 			}
 			else {
@@ -989,7 +989,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof ArrayLastIndexOfExpr) {
 			ArrayLastIndexOfExpr ali = (ArrayLastIndexOfExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ali));
 			}
 			else {
@@ -1002,7 +1002,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof ArraySubarrayExpr) {
 			ArraySubarrayExpr asa = (ArraySubarrayExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(asa));
 			}
 			else {
@@ -1017,7 +1017,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof DequeSizeExpr) {
 			DequeSizeExpr ds = (DequeSizeExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ds));
 			}
 			else {
@@ -1028,7 +1028,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof DequeEmptyExpr) {
 			DequeEmptyExpr de = (DequeEmptyExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(de));
 			}
 			else {
@@ -1039,7 +1039,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof DequePeekExpr) {
 			DequePeekExpr dp = (DequePeekExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(dp));
 			}
 			else {
@@ -1055,7 +1055,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof DequeIndexOfExpr) {
 			DequeIndexOfExpr di = (DequeIndexOfExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(di));
 			}
 			else {
@@ -1068,7 +1068,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof DequeLastIndexOfExpr) {
 			DequeLastIndexOfExpr dli = (DequeLastIndexOfExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(dli));
 			}
 			else {
@@ -1081,7 +1081,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof DequeSubdequeExpr) {
 			DequeSubdequeExpr dsd = (DequeSubdequeExpr)expr;
-			if(modifyGenerationState.useVarForMapResult()) {
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(dsd));
 			}
 			else {
@@ -1189,6 +1189,19 @@ public abstract class CSharpBase {
 				}
 				sb.append(")");
 			}
+		}
+		else if (expr instanceof ComputationInvocationExpr) {
+			ComputationInvocationExpr ci = (ComputationInvocationExpr) expr;
+			sb.append("Computations." + ci.getComputation().getIdent().toString() + "(actionEnv, graph");
+			for(int i=0; i<ci.arity(); ++i) {
+				sb.append(", ");
+				Expression argument = ci.getArgument(i);
+				if(argument.getType() instanceof InheritanceType) {
+					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
+				}
+				genExpression(sb, argument, modifyGenerationState);
+			}
+			sb.append(")");
 		}
 		else if (expr instanceof ExternalFunctionInvocationExpr) {
 			ExternalFunctionInvocationExpr efi = (ExternalFunctionInvocationExpr)expr;
@@ -1326,11 +1339,11 @@ public abstract class CSharpBase {
 			sb.append(")");
 		}
 		else if (expr instanceof PowExpr) {
-			PowExpr m = (PowExpr)expr;
+			PowExpr p = (PowExpr)expr;
 			sb.append("Math.Pow(");
-			genExpression(sb, m.getLeftExpr(), modifyGenerationState);
+			genExpression(sb, p.getLeftExpr(), modifyGenerationState);
 			sb.append(", ");
-			genExpression(sb, m.getRightExpr(), modifyGenerationState);
+			genExpression(sb, p.getRightExpr(), modifyGenerationState);
 			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
