@@ -26,7 +26,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.EvalStatement;
+import de.unika.ipd.grgen.ir.EvalStatements;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
@@ -126,11 +126,11 @@ public class PatternGraphNode extends GraphNode {
 	public PatternGraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params, 
 			CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
-			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements,
+			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementsNode> orderedReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters,
 			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
 			CollectNode<ExprNode> conditions, 
-			CollectNode<EvalStatementNode> yieldsEvals,
+			CollectNode<EvalStatementsNode> yieldsEvals,
 			CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<TotallyHomNode> totallyHoms, 
 			CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
@@ -631,7 +631,7 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		// add yield assignments to the IR
-		for (EvalStatement n : getYieldEvalStatements()) {
+		for (EvalStatements n : getYieldEvalStatements()) {
 			gr.addYield(n);
 		}
 		
@@ -665,7 +665,7 @@ public class PatternGraphNode extends GraphNode {
 		// add Yielded elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the yield)
 		needs = new NeededEntities(true, true, true, false, false, true);
-		for(EvalStatement yield : gr.getYields()) {
+		for(EvalStatements yield : gr.getYields()) {
 			yield.collectNeededEntities(needs);
 		}
 		addNeededEntities(gr, needs);

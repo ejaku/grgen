@@ -1,0 +1,41 @@
+loopdown(var input:int) : int
+{
+	if(input > 1) {
+		return(loopdown(input - 1));
+	} else {
+		return(1);
+	}
+}
+
+foo() : int
+{
+	def var res:int = 42;
+	res = loopdown(res);
+	return(res);
+}
+
+test t : (int)
+{
+	def var res:int = 42;
+	
+	independent {
+		yield {
+			yield res = loopdown(res);
+		}
+	}
+	
+	return (res);
+}
+
+rule r : (int)
+{	
+	modify {
+		def var res:int = 42;
+		
+		eval { 
+			yield res = loopdown(res);
+		}
+		
+		return (res);
+	}
+}

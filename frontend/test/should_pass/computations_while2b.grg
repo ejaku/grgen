@@ -1,0 +1,83 @@
+pattern P(def var res:int, def var resa:int, def var resi:int) 
+	modify(def var resres:int, def var resresa:int, def var resresi:int)
+{
+	def var res_:int = 42;
+	def var resa_:int = 42;
+	def var resi_:int = 42;
+
+	independent {
+		yield {
+			while(res_ > 1) {
+				yield res_ = res_ - 1;
+			}
+			yield res = res_;
+		}
+	}
+	
+	alternative {
+		case1 {
+			yield {
+				while(resa_ > 1) {
+					yield resa_ = resa_ - 1;
+				}
+				yield resa = resa_;
+			}
+			modify {
+				eval {
+					while(resresa_ > 1) {
+						yield resresa_ = resresa_ - 1;
+					}
+					yield resresa = resresa_;
+				}
+			}
+		}
+	}
+	
+	iterated {
+		.;
+		
+		yield {
+			while(resi_ > 1) {
+				yield resi_ = resi_ - 1;
+			}
+			yield resi = resi_;
+		}
+		modify {
+			eval {
+				while(resresi_ > 1) {
+					yield resresi_ = resresi_ - 1;
+				}
+				yield resresi = resresi_;
+			}
+		}
+	}
+	
+	modify {
+		def var resres_:int = 42;
+		def var resresa_:int = 42;
+		def var resresi_:int = 42;
+
+		eval {
+			while(resres_ > 1) {
+				yield resres_ = resres_ - 1;
+			}
+			yield resres = resres_;
+		}
+	}
+}
+
+rule r : (int, int, int, int, int, int)
+{
+	def var res:int;
+	def var resa:int;
+	def var resi:int;
+	p:P(yield res, yield resa, yield resi);
+	
+	replace {
+		def var resres:int;
+		def var resresa:int;
+		def var resresi:int;
+		p(yield resres, yield resresa, yield resresi);
+		return(res, resa, resi, resres, resresa, resresi);
+	}
+}

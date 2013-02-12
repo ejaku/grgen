@@ -35,17 +35,17 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 
 	VarDeclNode iterationVariable;
 	IteratedNode iterated;
-	EvalStatementNode accumulationStatement;
+	CollectNode<EvalStatementNode> accumulationStatements;
 
 	public IteratedAccumulationYieldNode(Coords coords, BaseNode iterationVariable,
-			IdentNode iterated, EvalStatementNode accumulationStatement) {
+			IdentNode iterated, CollectNode<EvalStatementNode>  accumulationStatements) {
 		super(coords);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
 		this.iteratedUnresolved = iterated;
 		becomeParent(this.iteratedUnresolved);
-		this.accumulationStatement = accumulationStatement;
-		becomeParent(this.accumulationStatement);
+		this.accumulationStatements = accumulationStatements;
+		becomeParent(this.accumulationStatements);
 	}
 
 	/** returns children of this node */
@@ -54,7 +54,7 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
 		children.add(getValidVersion(iteratedUnresolved, iterated));
-		children.add(accumulationStatement);
+		children.add(accumulationStatements);
 		return children;
 	}
 
@@ -64,7 +64,7 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("iterationVariable");
 		childrenNames.add("iterated");
-		childrenNames.add("accumulationStatement");
+		childrenNames.add("accumulationStatements");
 		return childrenNames;
 	}
 
@@ -104,9 +104,6 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 		if(!iterationVariable.resolve())
 			successfullyResolved = false;
 
-		if(!accumulationStatement.resolve())
-			successfullyResolved = false;
-
 		return successfullyResolved;
 	}
 
@@ -117,7 +114,11 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 
 	@Override
 	protected IR constructIR() {
-		return new IteratedAccumulationYield(iterationVariable.checkIR(Variable.class),
-				iterated.checkIR(Rule.class), accumulationStatement.checkIR(EvalStatement.class));
+		IteratedAccumulationYield iay = new IteratedAccumulationYield(
+				iterationVariable.checkIR(Variable.class),
+				iterated.checkIR(Rule.class));
+		for(EvalStatementNode accumulationStatement : accumulationStatements.children) 	
+			iay.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
+		return iay;
 	}
 }

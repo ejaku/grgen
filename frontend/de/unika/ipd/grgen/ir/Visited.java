@@ -7,6 +7,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 public class Visited extends Expression {
 	private Expression visitorID;
 	private Entity entity;
@@ -27,7 +29,7 @@ public class Visited extends Expression {
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		if(!isGlobalVariable(entity))
+		if(!isGlobalVariable(entity) && (entity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
 			needs.add((GraphEntity) entity);
 		visitorID.collectNeededEntities(needs);
 	}

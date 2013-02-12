@@ -10,6 +10,8 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 
 /**
  * Represents an assignment statement in the IR.
@@ -48,7 +50,7 @@ public class AssignmentVar extends EvalStatement {
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(target))
+		if(!isGlobalVariable(target) && (target.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
 			needs.add(target);
 
 		getExpression().collectNeededEntities(needs);

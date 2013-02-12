@@ -3652,26 +3652,28 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing (explicit) local yield assignment operations
+    /// Class representing (explicit) local yielding operations
     /// </summary>
-    class LocalYieldAssignment : SearchProgramOperation
+    class LocalYielding : SearchProgramOperation
     {
-        public LocalYieldAssignment(string assignment)
+        public LocalYielding(string yielding)
         {
-            Assignment = assignment;
+            Yielding = yielding;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFrontFormat("LocalYieldAssignment {0}\n", Assignment);
+            builder.AppendFrontFormat("LocalYielding {0}\n", Yielding);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("{0}; // local yield\n", Assignment);
+            sourceCode.AppendFront("// local yielding --->\n");
+            sourceCode.AppendFrontFormat("{0}", Yielding);
+            sourceCode.AppendFront("// <---\n");
         }
 
-        string Assignment;
+        string Yielding;
     }
 
     /// <summary>

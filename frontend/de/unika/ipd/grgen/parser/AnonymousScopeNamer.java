@@ -15,27 +15,31 @@ package de.unika.ipd.grgen.parser;
 
 import de.unika.ipd.grgen.ast.IdentNode;
 
-public class AnonymousPatternNamer {
-	public AnonymousPatternNamer(de.unika.ipd.grgen.parser.ParserEnvironment env) {
+public class AnonymousScopeNamer {
+	public AnonymousScopeNamer(de.unika.ipd.grgen.parser.ParserEnvironment env) {
 		this.env = env;
 		altCount = 0;
 		altCaseCount = 0;
 		iterCount = 0;
 		negCount = 0;
 		idptCount = 0;
+		yieldCount = 0;
+		evalCount = 0;
 	}
 
-	public AnonymousPatternNamer() {
+	public AnonymousScopeNamer() {
 		curAlt = IdentNode.getInvalid();
 		curAltCase = IdentNode.getInvalid();
 		curIter = IdentNode.getInvalid();
 		curNeg = IdentNode.getInvalid();
 		curIdpt = IdentNode.getInvalid();
+		curYield = IdentNode.getInvalid();
+		curEval = IdentNode.getInvalid();
 	}
 
-	private static AnonymousPatternNamer dummy = new AnonymousPatternNamer();
+	private static AnonymousScopeNamer dummy = new AnonymousScopeNamer();
 
-	public static AnonymousPatternNamer getDummyNamer() // returns dummy object needed in syntactic predicate parsing
+	public static AnonymousScopeNamer getDummyNamer() // returns dummy object needed in syntactic predicate parsing
 	{
 		return dummy;
 	}
@@ -86,17 +90,39 @@ public class AnonymousPatternNamer {
 		return curIdpt;
 	}
 
+	public void defYield(IdentNode maybeIdent, Coords coords)	{
+		if(maybeIdent!=null) curYield = maybeIdent;
+		else curYield = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "yield_" + yieldCount, coords));
+		++yieldCount;
+	}
+	public IdentNode yield() {
+		return curYield;
+	}
+
+	public void defEval(IdentNode maybeIdent, Coords coords)	{
+		if(maybeIdent!=null) curEval = maybeIdent;
+		else curEval = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "eval_" + evalCount, coords));
+		++evalCount;
+	}
+	public IdentNode eval() {
+		return curEval;
+	}
+
 	private int altCount;
 	private int altCaseCount;
 	private int iterCount;
 	private int negCount;
 	private int idptCount;
+	private int yieldCount;
+	private int evalCount;
 
 	private IdentNode curAlt;
 	private IdentNode curAltCase;
 	private IdentNode curIter;
 	private IdentNode curNeg;
 	private IdentNode curIdpt;
+	private IdentNode curYield;
+	private IdentNode curEval;
 
 	private ParserEnvironment env;
 }

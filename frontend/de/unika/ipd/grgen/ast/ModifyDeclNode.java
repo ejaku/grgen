@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.OrderedReplacements;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.OrderedReplacement;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
@@ -179,13 +180,15 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 		for(SubpatternUsage sub : left.getSubpatternUsages()) {
 			boolean subHasDepModify = false;
-			for(OrderedReplacement orderedRepl: right.getOrderedReplacements()) {
-				if(!(orderedRepl instanceof SubpatternDependentReplacement))
-					continue;
-				SubpatternDependentReplacement subRepl = (SubpatternDependentReplacement)orderedRepl;
-				if(sub==subRepl.getSubpatternUsage()) {
-					subHasDepModify = true;
-					break;
+			for(OrderedReplacements orderedRepls: right.getOrderedReplacements()) {
+				for(OrderedReplacement orderedRepl: orderedRepls.orderedReplacements) {
+					if(!(orderedRepl instanceof SubpatternDependentReplacement))
+						continue;
+					SubpatternDependentReplacement subRepl = (SubpatternDependentReplacement)orderedRepl;
+					if(sub==subRepl.getSubpatternUsage()) {
+						subHasDepModify = true;
+						break;
+					}
 				}
 			}
 			boolean subInDeleteSet = false;

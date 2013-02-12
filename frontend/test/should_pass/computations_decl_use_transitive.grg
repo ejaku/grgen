@@ -1,0 +1,19 @@
+one() : int
+{
+	return(1);
+}
+
+three() : int
+{
+	return(two() + one());
+}
+
+two() : int
+{
+	return(one() + one());
+}
+
+test t : (int)
+{
+	return(three());
+}

@@ -24,6 +24,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
+import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumper;
@@ -49,6 +50,7 @@ public abstract class BaseNode extends Base
 	public static final int CONTEXT_NEGATIVE = 1<<3;
 	public static final int CONTEXT_INDEPENDENT = 1<<4;
 	public static final int CONTEXT_PARAMETER = 1<<5;
+	public static final int CONTEXT_COMPUTATION = 1<<6;
 
 	/**
 	 * AST global name map, that maps from Class to String.
@@ -613,6 +615,104 @@ public abstract class BaseNode extends Base
 	protected final boolean visitedDuringCheck() {
 		return checkVisited;
 	}
+	
+	/*
+	 * This sets the symbol definition to the right place, if the definition is behind the actual position.
+	 * TODO: fully extract and unify this method to a common place/remove code duplication
+	 * better yet: move it to own pass before resolving
+	 */
+	public static boolean fixupDefinition(BaseNode elem, Scope scope) {
+		if(!(elem instanceof IdentNode)) {
+			return true;
+		}
+		return fixupDefinition((IdentNode)elem, scope);
+	}
+
+	/*
+	 * This sets the symbol definition to the right place, if the definition is behind the actual position.
+	 * TODO: fully extract and unify this method to a common place/remove code duplication
+	 * better yet: move it to own pass before resolving
+	 */
+	public static boolean fixupDefinition(IdentNode id, Scope scope) {
+		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
+
+		// Get the definition of the ident's symbol local to the owned scope.
+		Symbol.Definition def = scope.getCurrDef(id.getSymbol());
+		debug.report(NOTE, "definition is: " + def);
+
+		// The result is true, if the definition's valid.
+		boolean res = def.isValid();
+
+		// If this definition is valid, i.e. it exists,
+		// the definition of the ident is rewritten to this definition,
+		// else, an error is emitted,
+		// since this ident was supposed to be defined in this scope.
+		if(res) {
+			id.setSymDef(def);
+		} else {
+			id.reportError("Identifier \"" + id + "\" not declared in this scope: " + scope);
+		}
+
+		return res;
+	}
+
+	/*
+	 * This sets the symbol definition to the right place, if the definition is behind the actual position.
+	 * TODO: fully extract and unify this method to a common place/remove code duplication
+	 * better yet: move it to own pass before resolving
+	 */
+	public static void tryfixupDefinition(BaseNode elem, Scope scope) {
+		if(!(elem instanceof IdentNode)) {
+			return;
+		}
+		IdentNode id = (IdentNode)elem;
+		
+		debug.report(NOTE, "try Fixup " + id + " in scope " + scope);
+
+		// Get the definition of the ident's symbol local to the owned scope.
+		Symbol.Definition def = scope.getCurrDef(id.getSymbol());
+		debug.report(NOTE, "definition is: " + def);
+
+		// If this definition is valid, i.e. it exists,
+		// the definition of the ident is rewritten to this definition,
+		// else nothing happens as this ident may be referenced in an
+		// attribute initialization expression within a node/edge type declaration
+		// and attributes from super types are not found in this stage
+		// this fixup stuff is crappy as hell
+		if(def.isValid()) {
+			id.setSymDef(def);
+		} 
+	}
+	
+	/*
+	 * This sets the symbol defintion to the right place, if the defintion is behind the actual position.
+	 * TODO: fully extract and unify this method to a common place/remove code duplication
+	 * better yet: move it to own pass before resolving
+	 * notice: getLocalDef here versus getCurrDef above
+	 */
+	protected static boolean fixupDefinition(IdentNode id, Scope scope, boolean reportErr) {
+		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
+
+		// Get the definition of the ident's symbol local to the owned scope.
+		Symbol.Definition def = scope.getLocalDef(id.getSymbol());
+		debug.report(NOTE, "definition is: " + def);
+
+		// The result is true, if the definition's valid.
+		boolean res = def.isValid();
+
+		// If this definition is valid, i.e. it exists,
+		// the definition of the ident is rewritten to this definition,
+		// else, an error is emitted,
+		// since this ident was supposed to be defined in this scope.
+		if(res)
+			id.setSymDef(def);
+		else if(reportErr)
+			id.reportError("Identifier \"" + id + "\" not declared in this scope: " + scope);
+
+		return res;
+	}
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////
 	// IR handling

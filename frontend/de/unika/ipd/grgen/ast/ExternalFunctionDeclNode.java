@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.ExternalFunction;
 import de.unika.ipd.grgen.ir.Type;
@@ -25,22 +24,21 @@ import java.util.Vector;
 /**
  * AST node class representing external function declarations
  */
-public class ExternalFunctionDeclNode extends DeclNode {
+public class ExternalFunctionDeclNode extends ComputationCharacter {
 	static {
 		setName(ExternalFunctionDeclNode.class, "external function declaration");
 	}
 
-	protected CollectNode<BaseNode> paramsUnresolved;
-	protected CollectNode<TypeNode> params;
-	protected BaseNode retUnresolved;
-	protected TypeNode ret;
+	protected CollectNode<BaseNode> paramTypesUnresolved;
+	protected CollectNode<TypeNode> paramTypes;
 
-	private static final ExternalFunctionTypeNode externalFunctionType = new ExternalFunctionTypeNode();
+	private static final ExternalFunctionTypeNode externalFunctionType =
+		new ExternalFunctionTypeNode();
 
-	public ExternalFunctionDeclNode(IdentNode id, CollectNode<BaseNode> params, BaseNode ret) {
+	public ExternalFunctionDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved, BaseNode ret) {
 		super(id, externalFunctionType);
-		this.paramsUnresolved = params;
-		becomeParent(this.paramsUnresolved);
+		this.paramTypesUnresolved = paramTypesUnresolved;
+		becomeParent(this.paramTypesUnresolved);
 		this.retUnresolved = ret;
 		becomeParent(this.retUnresolved);
 	}
@@ -50,7 +48,7 @@ public class ExternalFunctionDeclNode extends DeclNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(getValidVersion(paramsUnresolved, params));
+		children.add(getValidVersion(paramTypesUnresolved, paramTypes));
 		children.add(getValidVersion(retUnresolved, ret));
 		return children;
 	}
@@ -60,23 +58,19 @@ public class ExternalFunctionDeclNode extends DeclNode {
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
-		childrenNames.add("params");
+		childrenNames.add("paramTypes");
 		childrenNames.add("ret");
 		return childrenNames;
 	}
 
 	private static final CollectResolver<TypeNode> paramsTypeResolver = new CollectResolver<TypeNode>(
     		new DeclarationTypeResolver<TypeNode>(TypeNode.class));
-	private static final Resolver<TypeNode> retTypeResolver =
-    		new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		params = paramsTypeResolver.resolve(paramsUnresolved, this);
-		ret = retTypeResolver.resolve(retUnresolved, this);
-
-		return params != null && ret != null;
+		paramTypes = paramsTypeResolver.resolve(paramTypesUnresolved, this);	
+		return paramTypes != null && super.resolveLocal();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -84,19 +78,25 @@ public class ExternalFunctionDeclNode extends DeclNode {
 	protected boolean checkLocal() {
 		return true;
 	}
-
+	
 	@Override
 	public TypeNode getDeclType() {
 		assert isResolved();
-
+	
 		return externalFunctionType;
+	}
+
+	public Vector<TypeNode> getParameterTypes() {
+		assert isResolved();
+
+		return paramTypes.children;
 	}
 
 	@Override
 	protected IR constructIR() {
 		ExternalFunction externalFunc = new ExternalFunction(getIdentNode().toString(),
 				getIdentNode().getIdent(), ret.checkIR(Type.class));
-		for(TypeNode param : params.getChildren()) {
+		for(TypeNode param : paramTypes.getChildren()) {
 			externalFunc.addParameterType(param.checkIR(Type.class));
 		}
 		return externalFunc;

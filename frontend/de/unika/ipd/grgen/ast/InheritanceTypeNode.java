@@ -190,7 +190,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
     public boolean fixupDefinition(IdentNode id) {
 		assert isResolved();
 
-		if(super.fixupDefinition(id, false)) return true;
+		if(fixupDefinition(id, getScope(), false))
+			return true;
 
 		Symbol.Definition def = null;
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {

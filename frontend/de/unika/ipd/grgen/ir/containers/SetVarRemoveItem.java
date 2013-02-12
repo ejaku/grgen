@@ -11,6 +11,7 @@
 
 package de.unika.ipd.grgen.ir.containers;
 
+import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.*;
 
 public class SetVarRemoveItem extends EvalStatement {
@@ -33,7 +34,7 @@ public class SetVarRemoveItem extends EvalStatement {
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(target))
+		if(!isGlobalVariable(target) && (target.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
 			needs.add(target);
 
 		getValueExpr().collectNeededEntities(needs);

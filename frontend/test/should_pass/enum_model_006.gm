@@ -1,4 +1,4 @@
-enum bool { foreach = 0, object = 7, else = 19, FileNotFound = -1 }
+enum bool { foreach = 0, object = 7, else_ = 19, FileNotFound = -1 }
 
 node class struct {
     for_:bool;

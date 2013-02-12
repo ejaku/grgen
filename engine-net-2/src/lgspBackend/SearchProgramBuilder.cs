@@ -2984,8 +2984,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                             SourceBuilder yieldAssignmentSource = new SourceBuilder();
                             accumulationYield.Emit(yieldAssignmentSource);
-                            LocalYieldAssignment yieldAssignment =
-                                new LocalYieldAssignment(yieldAssignmentSource.ToString());
+                            LocalYielding yieldAssignment =
+                                new LocalYielding(yieldAssignmentSource.ToString());
                             insertionPoint = insertionPoint.Append(yieldAssignment);
 
                             insertionPoint = continuationPoint;
@@ -2995,8 +2995,8 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         SourceBuilder yieldAssignmentSource = new SourceBuilder();
                         yielding.YieldAssignment.Emit(yieldAssignmentSource);
-                        LocalYieldAssignment yieldAssignment =
-                            new LocalYieldAssignment(yieldAssignmentSource.ToString());
+                        LocalYielding yieldAssignment =
+                            new LocalYielding(yieldAssignmentSource.ToString());
                         insertionPoint = insertionPoint.Append(yieldAssignment);
                     }
                 }
@@ -3030,8 +3030,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                         SourceBuilder yieldAssignmentSource = new SourceBuilder();
                         assignment.Emit(yieldAssignmentSource);
-                        LocalYieldAssignment yieldAssignment =
-                            new LocalYieldAssignment(yieldAssignmentSource.ToString());
+                        LocalYielding yieldAssignment =
+                            new LocalYielding(yieldAssignmentSource.ToString());
                         insertionPoint = insertionPoint.Append(yieldAssignment);
                     }
                 }

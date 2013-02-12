@@ -1,0 +1,88 @@
+one() : int
+{
+	return(1);
+}
+
+two() : int
+{
+	return(2);
+}
+
+pattern P(var input:int, def var output:int) modify(var inputput:int, def var outputput:int)
+{
+	yield {
+		yield output = input;
+	}
+	
+	modify {
+		eval {
+			yield outputput = inputput;
+		}
+	}
+}
+
+pattern Pplus(var input:int, def var output:int) modify(var inputput:int, def var outputput:int)
+{
+	if ( one() < two() );
+
+	yield {
+		yield output = input + one();
+	}
+	
+	modify {
+		eval {
+			yield outputput = inputput + two();
+		}
+	}
+}
+
+test t : (int)
+{
+	if ( one() < two() );
+	
+	return (one() + two());
+}
+
+rule r : (int, int)
+{
+	def var res:int;
+	p:P(two() - one(), yield res);
+	
+	modify {
+		def var resres:int;
+		p(one() + one(), yield resres);
+				
+		return (res, resres + one());
+	}
+}
+
+rule q(var one:int, var two:int) : (int, int)
+{
+	def var res:int;
+	p:P(two - one, yield res);
+	
+	modify {
+		def var resres:int;
+		p(one + one, yield resres);
+				
+		return (res, resres + one);
+	}
+}
+
+rule rplus(var one:int, var two:int) : (int, int)
+{
+	def var res:int;
+	p:Pplus(two - one, yield res);
+	
+	modify {
+		def var resres:int;
+		p(one + one, yield resres);
+				
+		return (res, resres + one);
+	}
+}
+
+/*sequence s : (output:int, outputput:int, poutput:int, poutputput:int)
+{
+	(output,outputput)=r ;> (poutput,poutputput)=rplus(one(), two())
+}*/

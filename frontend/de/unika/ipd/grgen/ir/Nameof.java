@@ -7,6 +7,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 public class Nameof extends Expression {
 	/** The entity whose name we want to know. */
 	private final Entity entity;
@@ -27,7 +29,7 @@ public class Nameof extends Expression {
 		if(entity==null)
 			return;
 		else
-			if(!isGlobalVariable(entity))
+			if(!isGlobalVariable(entity) && (entity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
 				needs.add((GraphEntity) entity);
 	}
 }

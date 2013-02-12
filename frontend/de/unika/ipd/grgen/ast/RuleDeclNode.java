@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.EvalStatement;
+import de.unika.ipd.grgen.ir.EvalStatements;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
@@ -556,7 +556,7 @@ public class RuleDeclNode extends TestDeclNode {
 		constructIRaux(rule, this.right.graph.returns);
 
 		// add eval statements to the IR
-		for (EvalStatement n : this.right.getRHSGraph().getYieldEvalStatements()) {
+		for (EvalStatements n : this.right.getRHSGraph().getYieldEvalStatements()) {
 			rule.addEval(n);
 		}
 

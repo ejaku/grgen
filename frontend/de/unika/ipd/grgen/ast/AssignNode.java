@@ -150,10 +150,18 @@ public class AssignNode extends EvalStatementNode {
 		} else if (lhsGraphElement!=null) {
 			if(lhsGraphElement.defEntityToBeYieldedTo) {
 				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
-				if(!identExpr.yieldedTo) {
-					error.error(getCoords(), "only yield assignment allowed to a def graph element ("+lhsGraphElement.getIdentNode()+")");
-					return false;
+				if((lhsGraphElement.context&CONTEXT_COMPUTATION)!=CONTEXT_COMPUTATION) {
+					if(!identExpr.yieldedTo) {
+						error.error(getCoords(), "only yield assignment allowed to a def graph element ("+lhsGraphElement.getIdentNode()+")");
+						return false;
+					}
+				} else {
+					if(identExpr.yieldedTo) {
+						error.error(getCoords(), "use non-yield assignment to a computation local def graph element ("+lhsGraphElement.getIdentNode()+")");
+						return false;
+					}
 				}
+				
 				if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 					error.error(getCoords(), "can't yield from RHS to a LHS def graph element ("+lhsGraphElement.getIdentNode()+")");
@@ -173,13 +181,21 @@ public class AssignNode extends EvalStatementNode {
 		} else { //lhsVar!=null
 			if(lhsVar.defEntityToBeYieldedTo) {
 				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
-				if(!identExpr.yieldedTo) {
-					error.error(getCoords(), "only yield assignment allowed to a def variable ("+lhsVar.getIdentNode()+")");
-					return false;
+				if((lhsVar.context&CONTEXT_COMPUTATION)!=CONTEXT_COMPUTATION) {
+					if(!identExpr.yieldedTo) {
+						error.error(getCoords(), "only yield assignment allowed to a def variable ("+lhsVar.getIdentNode()+")");
+						return false;
+					}
+				} else {
+					if(identExpr.yieldedTo) {
+						error.error(getCoords(), "use non-yield assignment to a computation local def variable ("+lhsVar.getIdentNode()+")");
+						return false;
+					}
 				}
+				
 				if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-					error.error(getCoords(), "can't yield from RHS to a LHS def variable ("+lhsGraphElement.getIdentNode()+")");
+					error.error(getCoords(), "can't yield from RHS to a LHS def variable ("+lhsVar.getIdentNode()+")");
 					return false;
 				}
 			} else {

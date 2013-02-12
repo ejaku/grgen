@@ -1,0 +1,33 @@
+some(var in1:int, in2:Node, -in3:Edge->) : int
+{
+	def res2:Node = in2;
+	in2.visited[in1] = false;
+	res2.visited[in1] = !in2.visited[in1];
+
+	def -res3:Edge-> = in3;
+	in3.visited[in1] = false;
+	res3.visited[in1] = !in3.visited[in1];
+		
+	return(in1);
+}
+
+rule r(var in1:int, in2:Node, -in3:Edge->) : (int)
+{	
+	modify {
+		def var res:int;
+		
+		eval { 
+			def res2:Node = in2;
+			in2.visited[in1] = false;
+			res2.visited[in1] = !in2.visited[in1];
+
+			def -res3:Edge-> = in3;
+			in3.visited[in1] = false;
+			res3.visited[in1] = !in3.visited[in1];
+
+			yield res = some(in1,in2,in3);
+		}
+		
+		return (res);
+	}
+}

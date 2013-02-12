@@ -1,0 +1,36 @@
+one() : int
+{
+	def var temp1:int = 0;
+	def var temp2:int = temp1 + 1;
+	return(temp2);
+}
+
+test t : (int)
+{
+	def var res:int;
+	
+	independent {
+		yield {
+			def var temp1:int = 0;
+			def var temp2:int = temp1 + 1;
+			yield res = temp2;
+		}
+	}
+	
+	return (res);
+}
+
+rule r : (int)
+{	
+	modify {
+		def var res:int;
+		
+		eval { 
+			def var temp1:int = 0;
+			def var temp2:int = temp1 + 1;
+			yield res = temp2;
+		}
+		
+		return (res);
+	}
+}

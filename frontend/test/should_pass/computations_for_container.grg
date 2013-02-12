@@ -1,0 +1,50 @@
+foo(ref s:set<Node>) : int
+{
+	def ref a:array<Node>;
+	def var res:int = 0;
+	for(n:Node in s) {
+		a.add(n);
+	}
+	for(i:int->n:Node in a) {
+		res = res + 1; 
+	}
+	return(res);
+}
+
+test t(ref s:set<Node>) : (int)
+{
+	def var res:int = 0;
+	
+	independent {
+		yield {
+			def ref a:array<Node>;
+			for(n:Node in s) {
+				a.add(n);
+			}
+			for(i:int->n:Node in a) {
+				yield res = res + 1; 
+			}
+		}
+	}
+	
+	return (res);
+}
+
+rule r(ref s:set<Node>) : (int)
+{	
+	modify {
+		def var res:int = 0;
+		
+		eval { 
+			def ref a:array<Node>;
+			for(n:Node in s) {
+				a.add(n);
+			}
+			for(i:int->n:Node in a) {
+				yield res = res + 1; 
+			}
+		}
+		
+		return (res);
+	}
+}

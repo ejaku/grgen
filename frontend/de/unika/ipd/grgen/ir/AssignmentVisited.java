@@ -13,6 +13,8 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.HashSet;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 
 /**
  * Represents an assignment statement in the IR.
@@ -47,7 +49,7 @@ public class AssignmentVisited extends EvalStatement {
 	{
 		Entity entity = target.getEntity();
 		target.getVisitorID().collectNeededEntities(needs);
-		if(!isGlobalVariable(entity))
+		if(!isGlobalVariable(entity) && (entity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
 			needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for target

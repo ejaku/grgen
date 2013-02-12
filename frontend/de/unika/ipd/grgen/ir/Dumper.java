@@ -114,7 +114,12 @@ public class Dumper {
 		if(act instanceof Rule && ((Rule)act).getRight()!=null) {
 			Rule r = (Rule) act;
 			graphs.add(r.getRight());
-			Collection<EvalStatement> evals = r.getEvals();
+			Collection<EvalStatement> evals = new LinkedList<EvalStatement>();
+			for(EvalStatements evalStatements : r.getEvals()) {
+				for(EvalStatement evalStatement : evalStatements.evalStatements) {
+					evals.add(evalStatement);
+				}
+			}
 
 			if(!evals.isEmpty()) {
 				gd.beginSubgraph("evals");
@@ -247,6 +252,21 @@ public class Dumper {
 				}
 				else if(e instanceof DequeClear) {
 					// MAP TODO
+				}
+				else if(e instanceof ConditionStatement) {
+					// TODO
+				}
+				else if(e instanceof WhileStatement) {
+					// TODO
+				}
+				else if(e instanceof DefDeclGraphEntityStatement) {
+					// TODO
+				}
+				else if(e instanceof DefDeclVarStatement) {
+					// TODO
+				}
+				else if(e instanceof ContainerAccumulationYield) {
+					// TODO
 				}
 				else {
 					throw new UnsupportedOperationException("Unknown EvalStatement \"" + e + "\"");

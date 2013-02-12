@@ -52,7 +52,8 @@ public abstract class ParserEnvironment extends Base {
 	public static final int INDEPENDENTS = 5;
 	public static final int REPLACES = 6;
 	public static final int MODELS = 7;
-	public static final int EXTERNAL_FUNCTIONS = 8;
+	public static final int COMPUTATIONS_AND_EXTERNAL_FUNCTIONS = 8;
+	public static final int COMPUTATION_BLOCKS = 9;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types", TYPES),        // types and patterns
@@ -63,7 +64,8 @@ public abstract class ParserEnvironment extends Base {
 		new SymbolTable("independents", INDEPENDENTS),
 		new SymbolTable("replaces", REPLACES),
 		new SymbolTable("models", MODELS),
-		new SymbolTable("external functions", EXTERNAL_FUNCTIONS),
+		new SymbolTable("computations and external functions", COMPUTATIONS_AND_EXTERNAL_FUNCTIONS),
+		new SymbolTable("computation blocks", COMPUTATION_BLOCKS),
 	};
 
 	private final IntConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
@@ -150,12 +152,6 @@ public abstract class ParserEnvironment extends Base {
 		stdModelChilds.addChild(predefineType("double", BasicTypeNode.doubleType));
 		stdModelChilds.addChild(predefineType("object", BasicTypeNode.objectType));
 		stdModelChilds.addChild(predefineType("graph", BasicTypeNode.graphType));
-
-		predefine(EXTERNAL_FUNCTIONS, "min");
-		predefine(EXTERNAL_FUNCTIONS, "max");
-		predefine(EXTERNAL_FUNCTIONS, "pow");
-		predefine(EXTERNAL_FUNCTIONS, "incoming");
-		predefine(EXTERNAL_FUNCTIONS, "outgoing");
 	}
 
 	public ModelNode getStdModel() {

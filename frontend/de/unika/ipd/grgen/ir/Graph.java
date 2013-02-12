@@ -19,6 +19,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+import java.util.List;
 
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumpableProxy;
@@ -104,7 +105,7 @@ public abstract class Graph extends IR {
 
 	private Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
-	private Set<OrderedReplacement> orderedReplacement = new LinkedHashSet<OrderedReplacement>();
+	private List<OrderedReplacements> orderedReplacements = new LinkedList<OrderedReplacements>();
 	
 	PatternGraph directlyNestingLHSGraph; // either this or the left graph
 
@@ -242,8 +243,8 @@ public abstract class Graph extends IR {
 	 * @return A collection containing all ordered replacements in this graph.
 	 * Note: The collection is read-only and may not be modified.
 	 */
-	public Collection<OrderedReplacement> getOrderedReplacements() {
-		return Collections.unmodifiableCollection(orderedReplacement);
+	public Collection<OrderedReplacements> getOrderedReplacements() {
+		return Collections.unmodifiableCollection(orderedReplacements);
 	}
 
 	/**
@@ -363,8 +364,8 @@ public abstract class Graph extends IR {
 	}
 
 	/** Add a ordered replacement (subpattern dependent replacement, emit here) to the graph */
-	public void addOrderedReplacement(OrderedReplacement orderedRepl) {
-		orderedReplacement.add(orderedRepl);
+	public void addOrderedReplacement(OrderedReplacements orderedRepl) {
+		orderedReplacements.add(orderedRepl);
 	}
 
 	/** @return true, if the node is single (i.e. has no incident edges), false if not. */
