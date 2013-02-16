@@ -51,3 +51,34 @@ rule r : (int)
 		return (res);
 	}
 }
+
+pattern P(var x:int, def var res:int) modify(var xx:int, def var resres:int)
+{
+	independent {
+		independent {
+			yield {
+				def var ress:int;
+				ress = one() + 2;
+				yield res = ress;
+			}
+			yield {
+				def var ress:int;
+				ress = one() + 2;
+				yield res = ress;
+			}
+		}
+	}
+	
+	modify {
+		eval { 
+			def var resress:int;
+			resress = one() + 2;
+			yield resres = resress;
+		}
+		eval { 
+			def var resress:int;
+			resress = one() + 2;
+			yield resres = resress;
+		}
+	}
+}

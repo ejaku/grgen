@@ -2943,62 +2943,72 @@ namespace de.unika.ipd.grGen.lgsp
 
             //////////////////////////////////////////////////////
             // then 2. compute all local yields
-            foreach(PatternYielding yielding in patternGraph.YieldingsPlusInlined)
+            foreach(PatternYielding patternYielding in patternGraph.YieldingsPlusInlined)
             {
                 // in the inlined pass only the elements which were inlined into this pattern, in the non-inlined pass the original elements
-                bool wasInlined = yielding.originalYielding != null;
+                bool wasInlined = patternYielding.originalYielding != null;
                 if(inlined == wasInlined)
                 {
-                    // iterated potentially matching more than once can't be bubbled up normally,
-                    // they need accumulation with a for loop into a variable of the nesting pattern, 
-                    // that's done in/with the yield statements of the parent
-                    if(yielding.YieldAssignment is IteratedAccumulationYield)
+                    YieldingBlock yieldingBlock = new YieldingBlock(patternYielding.Name);
+                    yieldingBlock.NestedOperationsList = new SearchProgramList(yieldingBlock);
+                    SearchProgramOperation continuationPointOuter = insertionPoint.Append(yieldingBlock);
+                    insertionPoint = yieldingBlock.NestedOperationsList;
+                    
+                    foreach(Yielding yielding in patternYielding.ElementaryYieldings)
                     {
-                        IteratedAccumulationYield accumulationYield = (IteratedAccumulationYield)yielding.YieldAssignment;
-                        foreach(Iterated iterated in patternGraph.iteratedsPlusInlined)
+                        // iterated potentially matching more than once can't be bubbled up normally,
+                        // they need accumulation with a for loop into a variable of the nesting pattern, 
+                        // that's done in/with the yield statements of the parent
+                        if(yielding is IteratedAccumulationYield)
                         {
-                            // skip the iterateds we're not interested in
-                            if(accumulationYield.Iterated != iterated.iteratedPattern.Name)
-                                continue;
-
-                            // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
-                            // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
-                            string inlinedMatchObjectName = null;
-                            if(iterated.originalIterated != null)
+                            IteratedAccumulationYield accumulationYield = (IteratedAccumulationYield)yielding;
+                            foreach(Iterated iterated in patternGraph.iteratedsPlusInlined)
                             {
-                                inlinedMatchObjectName = "match_" + iterated.originalSubpatternEmbedding.Name;
+                                // skip the iterateds we're not interested in
+                                if(accumulationYield.Iterated != iterated.iteratedPattern.Name)
+                                    continue;
+
+                                // in inlined pass bubble up from the components of the inlined patterns to the elements resulting from of the inlined pattern 
+                                // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
+                                string inlinedMatchObjectName = null;
+                                if(iterated.originalIterated != null)
+                                {
+                                    inlinedMatchObjectName = "match_" + iterated.originalSubpatternEmbedding.Name;
+                                }
+
+                                String nestedMatchObjectName = (inlinedMatchObjectName ?? matchObjectName) + "._" + iterated.iteratedPattern.Name;
+                                AccumulateUpYieldIterated accumulateUpIterated =
+                                    new AccumulateUpYieldIterated(
+                                        nestedMatchObjectName,
+                                        rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + iterated.iteratedPattern.name,
+                                        "iteratedMatch");
+                                accumulateUpIterated.NestedOperationsList = new SearchProgramList(accumulateUpIterated);
+                                SearchProgramOperation continuationPoint = insertionPoint.Append(accumulateUpIterated);
+                                insertionPoint = accumulateUpIterated.NestedOperationsList;
+
+                                accumulationYield.IteratedMatchVariable = "iteratedMatch._" + NamesOfEntities.Variable(accumulationYield.UnprefixedVariable);
+                                accumulationYield.ReplaceVariableByIterationVariable(accumulationYield);
+
+                                SourceBuilder yieldAssignmentSource = new SourceBuilder();
+                                accumulationYield.Emit(yieldAssignmentSource);
+                                LocalYielding yieldAssignment =
+                                    new LocalYielding(yieldAssignmentSource.ToString());
+                                insertionPoint = insertionPoint.Append(yieldAssignment);
+
+                                insertionPoint = continuationPoint;
                             }
-
-                            String nestedMatchObjectName = (inlinedMatchObjectName ?? matchObjectName) + "._" + iterated.iteratedPattern.Name;
-                            AccumulateUpYieldIterated accumulateUpIterated =
-                                new AccumulateUpYieldIterated(
-                                    nestedMatchObjectName,
-                                    rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + iterated.iteratedPattern.name,
-                                    "iteratedMatch");
-                            accumulateUpIterated.NestedOperationsList = new SearchProgramList(accumulateUpIterated);
-                            SearchProgramOperation continuationPoint = insertionPoint.Append(accumulateUpIterated);
-                            insertionPoint = accumulateUpIterated.NestedOperationsList;
-
-                            accumulationYield.IteratedMatchVariable = "iteratedMatch._" + NamesOfEntities.Variable(accumulationYield.UnprefixedVariable);
-                            accumulationYield.ReplaceVariableByIterationVariable(accumulationYield);
-
+                        }
+                        else
+                        {
                             SourceBuilder yieldAssignmentSource = new SourceBuilder();
-                            accumulationYield.Emit(yieldAssignmentSource);
+                            yielding.Emit(yieldAssignmentSource);
                             LocalYielding yieldAssignment =
                                 new LocalYielding(yieldAssignmentSource.ToString());
                             insertionPoint = insertionPoint.Append(yieldAssignment);
-
-                            insertionPoint = continuationPoint;
                         }
                     }
-                    else
-                    {
-                        SourceBuilder yieldAssignmentSource = new SourceBuilder();
-                        yielding.YieldAssignment.Emit(yieldAssignmentSource);
-                        LocalYielding yieldAssignment =
-                            new LocalYielding(yieldAssignmentSource.ToString());
-                        insertionPoint = insertionPoint.Append(yieldAssignment);
-                    }
+
+                    insertionPoint = continuationPointOuter;
                 }
             }
 

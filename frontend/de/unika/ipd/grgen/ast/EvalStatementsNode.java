@@ -17,10 +17,12 @@ import de.unika.ipd.grgen.parser.Coords;
 
 public class EvalStatementsNode extends BaseNode
 {
+	public String name;
 	public CollectNode<EvalStatementNode> evalStatements;
 	
-	public EvalStatementsNode(Coords coords) {
+	public EvalStatementsNode(Coords coords, String name) {
 		super(coords);
+		this.name = name;
 		evalStatements = new CollectNode<EvalStatementNode>();
 	}
 	
@@ -54,7 +56,7 @@ public class EvalStatementsNode extends BaseNode
 	
 	@Override
 	protected IR constructIR() {
-		EvalStatements es = new EvalStatements("");
+		EvalStatements es = new EvalStatements(name);
 
 		for(EvalStatementNode evalStatement : evalStatements.children) {
 			es.evalStatements.add(evalStatement.checkIR(EvalStatement.class));

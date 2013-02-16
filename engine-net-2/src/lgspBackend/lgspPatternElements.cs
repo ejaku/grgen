@@ -939,32 +939,37 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Representation of some assignment to a def variable to be executed after matching completed
+    /// Representation of some yielding (a list of elementary yieldings, to be executed after matching completed)
     /// </summary>
     public class PatternYielding
     {
         /// <summary>
-        /// The yielding assignment to execute.
+        /// The name of the pattern yielding.
         /// </summary>
-        public Yielding YieldAssignment;
+        public String Name;
+        
+        /// <summary>
+        /// An array of elementary yieldings to execute (e.g. assignments to def variables).
+        /// </summary>
+        public Yielding[] ElementaryYieldings;
 
         /// <summary>
-        /// An array of node names needed by this yielding assignment.
+        /// An array of node names needed by this yielding.
         /// </summary>
         public String[] NeededNodes;
 
         /// <summary>
-        /// An array of edge names needed by this yielding assignment.
+        /// An array of edge names needed by this yielding.
         /// </summary>
         public String[] NeededEdges;
 
         /// <summary>
-        /// An array of variable names needed by this yielding assignment.
+        /// An array of variable names needed by this yielding.
         /// </summary>
         public String[] NeededVariables;
 
         /// <summary>
-        /// An array of variable types (corresponding to the variable names) needed by this yielding assignment.
+        /// An array of variable types (corresponding to the variable names) needed by this yielding.
         /// </summary>
         public VarType[] NeededVariableTypes;
 
@@ -985,15 +990,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Constructs a PatternYielding object.
         /// </summary>
-        /// <param name="yieldAssignment">The yield assignment to execute.</param>
-        /// <param name="neededNodes">An array of node names needed by this yielding assignment.</param>
-        /// <param name="neededEdges">An array of edge names needed by this yielding assignment.</param>
-        /// <param name="neededVariables">An array of variable names needed by this yielding assignment.</param>
-        /// <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this yielding assignment.</param>
-        public PatternYielding(Yielding yieldAssignment,
+        /// <param name="name">The name of the yielding to execute.</param>
+        /// <param name="elementaryYieldings">An array of elementary yieldings to execute.</param>
+        /// <param name="neededNodes">An array of node names needed by this yielding.</param>
+        /// <param name="neededEdges">An array of edge names needed by this yielding.</param>
+        /// <param name="neededVariables">An array of variable names needed by this yielding.</param>
+        /// <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this yielding.</param>
+        public PatternYielding(String name, Yielding[] elementaryYieldings,
             String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes)
         {
-            YieldAssignment = yieldAssignment;
+            Name = name;
+            ElementaryYieldings = elementaryYieldings;
             NeededNodes = neededNodes;
             NeededEdges = neededEdges;
             NeededVariables = neededVariables;
@@ -1010,7 +1017,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             originalYielding = original;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding;
-            YieldAssignment = (Yielding)original.YieldAssignment.Copy(renameSuffix);
+            Name = original.Name + renameSuffix;
+            ElementaryYieldings = new Yielding[original.ElementaryYieldings.Length];
+            for(int i = 0; i < original.ElementaryYieldings.Length; ++i)
+                ElementaryYieldings[i] = original.ElementaryYieldings[i].Copy(renameSuffix);
             NeededNodes = new String[original.NeededNodes.Length];
             for(int i = 0; i < original.NeededNodes.Length; ++i)
                 NeededNodes[i] = original.NeededNodes[i] + renameSuffix;
