@@ -195,8 +195,7 @@ public class ModifyGen extends CSharpBase {
 	final Collection<EvalStatements> emptyEvals = new LinkedList<EvalStatements>();
 
 	// eval statement generation state
-	HashSet<String> defined = new HashSet<String>();
-	int containerVarID;
+	int tmpVarID;
 
 	SearchPlanBackend2 be;
 	
@@ -1477,6 +1476,7 @@ public class ModifyGen extends CSharpBase {
 
 		// generate calls to the dependent modifications of the subpatterns
 		for(OrderedReplacements orderedReps : task.right.getOrderedReplacements()) {
+			sb.append("\t\t\t{ // " + orderedReps.getName() + "\n");
 			for(OrderedReplacement orderedRep : orderedReps.orderedReplacements) {
 				if(orderedRep instanceof SubpatternDependentReplacement) {
 					SubpatternDependentReplacement subRep = (SubpatternDependentReplacement)orderedRep;
@@ -1539,6 +1539,7 @@ public class ModifyGen extends CSharpBase {
 					genEvalStmt(sb, state, evalStmt);
 				}
 			}
+			sb.append("\t\t\t}\n");
 		}
 	}
 
@@ -1796,13 +1797,14 @@ public class ModifyGen extends CSharpBase {
 
 	private void initEvalGen() {
 		// init eval statement generation state
-		defined.clear();
-		containerVarID = 0;
+		tmpVarID = 0;
 	}
 
 	private void genAllEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<EvalStatements> evalStatements) {
 		for(EvalStatements evalStmts : evalStatements) {
+			sb.append("\t\t\t{ // " + evalStmts.getName() + "\n");
 			genEvals(sb, state, evalStmts.evalStatements);
+			sb.append("\t\t\t}\n");
 		}
 	}
 
@@ -1958,9 +1960,6 @@ public class ModifyGen extends CSharpBase {
 			|| targetType instanceof ArrayType
 			|| targetType instanceof DequeType)
 				&& !(ass instanceof AssignmentIndexed)) {
-			String typeName = formatAttributeType(targetType);
-			String varName = "tempcontainervar_" + containerVarID++;
-
 			// Check whether we have to make a copy of the right hand side of the assignment
 			boolean mustCopy = true;
 			if(expr instanceof Operator) {
@@ -1972,6 +1971,8 @@ public class ModifyGen extends CSharpBase {
 					mustCopy = false;
 			}
 
+			String typeName = formatAttributeType(targetType);
+			String varName = "tempvar_" + tmpVarID++;
 			sb.append("\t\t\t" + typeName + " " + varName + " = ");
 			if(mustCopy)
 				sb.append("new " + typeName + "(");
@@ -2000,76 +2001,8 @@ public class ModifyGen extends CSharpBase {
 			targetType = ((MapType)targetType).getValueType();
 		}
 
-		String varName, varType;
-		switch(targetType.classify()) {
-			case Type.IS_BOOLEAN:
-				varName = "tempvar_bool";
-				varType = defined.contains("bool") ? "" : "bool ";
-				defined.add("bool");
-				break;
-			case Type.IS_BYTE:
-				varName = "tempvar_sbyte";
-				varType = defined.contains("sbyte") ? "" : "sbyte ";
-				defined.add("sbyte");
-				break;
-			case Type.IS_SHORT:
-				varName = "tempvar_short";
-				varType = defined.contains("short") ? "" : "short ";
-				defined.add("short");
-				break;
-			case Type.IS_INTEGER:
-				varName = "tempvar_int";
-				varType = defined.contains("int") ? "" : "int ";
-				defined.add("int");
-				break;
-			case Type.IS_LONG:
-				varName = "tempvar_long";
-				varType = defined.contains("long") ? "" : "long ";
-				defined.add("long");
-				break;
-			case Type.IS_FLOAT:
-				varName = "tempvar_float";
-				varType = defined.contains("float") ? "" : "float ";
-				defined.add("float");
-				break;
-			case Type.IS_DOUBLE:
-				varName = "tempvar_double";
-				varType = defined.contains("double") ? "" : "double ";
-				defined.add("double");
-				break;
-			case Type.IS_STRING:
-				varName = "tempvar_string";
-				varType = defined.contains("string") ? "" : "string ";
-				defined.add("string");
-				break;
-			case Type.IS_OBJECT:
-				varName = "tempvar_object";
-				varType = defined.contains("object") ? "" : "Object ";
-				defined.add("object");
-				break;
-			case Type.IS_GRAPH:
-				varName = "tempvar_graph";
-				varType = defined.contains("graph") ? "" : "GRGEN_LIBGR.IGraph";
-				defined.add("graph");
-				break;
-			case Type.IS_EXTERNAL_TYPE:
-				varName = "tempvar_" + targetType.getIdent();
-				varType = defined.contains(targetType.getIdent().toString()) ? "" : "GRGEN_MODEL."+targetType.getIdent()+" ";
-				defined.add(targetType.getIdent().toString());
-				break;
-			case Type.IS_NODE:
-				varName = "tempvar_node";
-				varType = defined.contains("node") ? "" : "GRGEN_LIBGR.INode ";
-				defined.add("node");
-				break;
-			case Type.IS_EDGE:
-				varName = "tempvar_edge";
-				varType = defined.contains("edge") ? "" : "GRGEN_LIBGR.IEdge ";
-				defined.add("edge");
-				break;
-			default:
-				throw new IllegalArgumentException();
-		}
+		String varName = "tempvar_" + tmpVarID++;
+		String varType = getTypeNameForTempVarDecl(targetType) + " ";
 
 		sb.append("\t\t\t" + varType + varName + " = ");
 		if(targetType instanceof EnumType)
@@ -2083,9 +2016,8 @@ public class ModifyGen extends CSharpBase {
 
 			if(target.getType() instanceof ArrayType
 					|| target.getType() instanceof DequeType) {
-				String indexType = defined.contains("index") ? "" : "int ";
-				defined.add("index");
-				String indexName = "tempvar_index";
+				String indexType = "int ";
+				String indexName = "tempvar_index" + tmpVarID++;
 				sb.append("\t\t\t" + indexType + indexName + " = (int)");
 				genExpression(sb, assIdx.getIndex(), state);
 				sb.append(";\n");
@@ -2103,10 +2035,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append(indexName);
 				sb.append("]");
 			} else { //if(target.getType() instanceof MapType)
-				String keyType = ((MapType)target.getType()).getKeyType().getIdent().toString();
-				String indexType = defined.contains("index"+keyType) ? "" : (formatType(((MapType)target.getType()).getKeyType()) + " ");
-				defined.add("index"+keyType);
-				String indexName = "tempvar_index_"+keyType;
+				String indexType = formatType(((MapType)target.getType()).getKeyType()) + " ";
+				String indexName = "tempvar_index_" + tmpVarID++;
 				sb.append("\t\t\t" + indexType + indexName + " = ");
 				genExpression(sb, assIdx.getIndex(), state);
 				sb.append(";\n");
@@ -2248,9 +2178,8 @@ public class ModifyGen extends CSharpBase {
 			owner = changedTarget.getOwner();
 			isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
 			if(!isDeletedElem && be.system.mayFireEvents()) {
-				String varName = "tempvar_bool";
-				String varType = defined.contains("bool") ? "" : "bool ";
-				defined.add("bool");
+				String varName = "tempvar_" + tmpVarID++;
+				String varType = "bool ";
 
 				sb.append("\t\t\t" + varType + varName + " = ");
 				genExpression(sb, changedTarget, state);
@@ -2355,9 +2284,8 @@ public class ModifyGen extends CSharpBase {
 		Entity owner = changedTarget.getOwner();
 		boolean isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
 		if(!isDeletedElem && be.system.mayFireEvents()) {
-			String varName = "tempvar_bool";
-			String varType = defined.contains("bool") ? "" : "bool ";
-			defined.add("bool");
+			String varName = "tempvar_" + tmpVarID++;
+			String varType = "bool ";
 
 			sb.append("\t\t\t" + varType + varName + " = ");
 			genExpression(sb, changedTarget, state);
@@ -2972,7 +2900,7 @@ public class ModifyGen extends CSharpBase {
 
 	private void genDefDeclVarStatement(StringBuffer sb, ModifyGenerationStateConst state, DefDeclVarStatement ddvs) {
 		Variable var = ddvs.getTarget();
-		sb.append(formatType(var.getType()) + " " + formatEntity(var));
+		sb.append("\t\t\t" + formatType(var.getType()) + " " + formatEntity(var));
 		if(var.initialization!=null) {
 			sb.append(" = ");
 			genExpression(sb, var.initialization, state);		
@@ -2982,7 +2910,7 @@ public class ModifyGen extends CSharpBase {
 
 	private void genDefDeclGraphEntityStatement(StringBuffer sb, ModifyGenerationStateConst state, DefDeclGraphEntityStatement ddges) {
 		GraphEntity graphEntity = ddges.getTarget();
-		sb.append(formatType(graphEntity.getType()) + " " + formatEntity(graphEntity));
+		sb.append("\t\t\t" + formatType(graphEntity.getType()) + " " + formatEntity(graphEntity));
 		if(graphEntity.initialization!=null) {
 			sb.append(" = ");
 			genExpression(sb, graphEntity.initialization, state);		
@@ -3144,44 +3072,10 @@ public class ModifyGen extends CSharpBase {
 		String varTypeName;
 		String attrName = formatIdentifiable(entity);
 		Type type = entity.getType();
-		if(type instanceof EnumType)
+		if(type instanceof EnumType) {
 			varTypeName = "GRGEN_MODEL.ENUM_" + formatIdentifiable(type);
-		else {
-			switch(type.classify()) {
-				case Type.IS_BOOLEAN:
-					varTypeName = "bool";
-					break;
-				case Type.IS_BYTE:
-					varTypeName = "sbyte";
-					break;
-				case Type.IS_SHORT:
-					varTypeName = "short";
-					break;
-				case Type.IS_INTEGER:
-					varTypeName = "int";
-					break;
-				case Type.IS_LONG:
-					varTypeName = "long";
-					break;
-				case Type.IS_FLOAT:
-					varTypeName = "float";
-					break;
-				case Type.IS_DOUBLE:
-					varTypeName = "double";
-					break;
-				case Type.IS_STRING:
-					varTypeName = "string";
-					break;
-				case Type.IS_OBJECT:
-				case Type.IS_UNKNOWN:
-					varTypeName = "Object";
-					break;
-				case Type.IS_GRAPH:
-					varTypeName = "GRGEN_LIBGR.IGraph";
-					break;
-				default:
-					throw new IllegalArgumentException();
-			}
+		} else {
+			varTypeName = getTypeNameForTempVarDecl(type);
 		}
 
 		sb.append("\t\t\t" + varTypeName + " tempvar_" + ownerName + "_" + attrName);

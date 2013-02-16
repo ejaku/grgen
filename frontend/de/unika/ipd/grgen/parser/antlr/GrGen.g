@@ -688,7 +688,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 
 	: id=entIdentUse firstEdgeContinuation[id, conn, context, directlyNestingLHSGraph] // use of already declared node, continue looking for first edge
 	| id=entIdentUse l=LPAREN arguments[subpatternReplConn] RPAREN // use of already declared subpattern
-		{ OrderedReplacementsNode curOrderedRepl = new OrderedReplacementsNode(id.getCoords());
+		{ OrderedReplacementsNode curOrderedRepl = new OrderedReplacementsNode(id.getCoords(), id.toString());
 		  orderedReplacements.addChild(curOrderedRepl);
 		  curOrderedRepl.addChild(new SubpatternReplNode(id, subpatternReplConn));
 		}
@@ -1525,7 +1525,7 @@ evaluation [ CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplaceme
 	}
 	: e=EVAL
 			{ namer.defEval(null, getCoords(e));
-			  curEval = new EvalStatementsNode(getCoords(e));
+			  curEval = new EvalStatementsNode(getCoords(e), namer.eval().toString());
 			  evals.addChild(curEval);
 			}
 		LBRACE pushScope[namer.eval()]
@@ -1533,7 +1533,7 @@ evaluation [ CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplaceme
 		RBRACE popScope
 	| eh=EVALHERE
 			{ namer.defEval(null, getCoords(eh));
-			  curOrderedRepl = new OrderedReplacementsNode(getCoords(eh));
+			  curOrderedRepl = new OrderedReplacementsNode(getCoords(eh), namer.eval().toString());
 			  orderedReplacements.addChild(curOrderedRepl);
 			}
 		LBRACE pushScope[namer.eval()]
@@ -1547,7 +1547,7 @@ yielding [ CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int
 	}
 	: y=YIELD
 			{ namer.defYield(null, getCoords(y));
-			  curEval = new EvalStatementsNode(getCoords(y));
+			  curEval = new EvalStatementsNode(getCoords(y), namer.yield().toString());
 			  evals.addChild(curEval); }
 		LBRACE pushScope[namer.yield()]
 			( c=computation[true, context|BaseNode.CONTEXT_COMPUTATION, directlyNestingLHSGraph] { curEval.addChild(c); } )*
@@ -1584,12 +1584,12 @@ paramListOfEntIdentUse[CollectNode<IdentNode> res]
 
 alternativeOrIteratedRewriteUsage[CollectNode<OrderedReplacementsNode> orderedReplacements]
 	: a=ALTERNATIVE id=altIdentUse SEMI
-		{ OrderedReplacementsNode curOrderedRepl = new OrderedReplacementsNode(id.getCoords());
+		{ OrderedReplacementsNode curOrderedRepl = new OrderedReplacementsNode(id.getCoords(), id.toString());
 		  orderedReplacements.addChild(curOrderedRepl);
 		  curOrderedRepl.addChild(new AlternativeReplNode(id));
 		}
 	| i=ITERATED id=iterIdentUse SEMI
-		{ OrderedReplacementsNode curOrderedRepl = new OrderedReplacementsNode(id.getCoords());
+		{ OrderedReplacementsNode curOrderedRepl = new OrderedReplacementsNode(id.getCoords(), id.toString());
 		  orderedReplacements.addChild(curOrderedRepl);
 		  curOrderedRepl.addChild(new IteratedReplNode(id));
 		}
@@ -1613,7 +1613,7 @@ emitStmt[CollectNode<BaseNode> imperativeStmts, CollectNode<OrderedReplacementsN
 		RPAREN
 		{ 
 			if(isHere) {
-				OrderedReplacementsNode curOrderedRepl = new OrderedReplacementsNode(getCoords(e));
+				OrderedReplacementsNode curOrderedRepl = new OrderedReplacementsNode(getCoords(e), e.toString());
 				orderedReplacements.addChild(curOrderedRepl);
 				curOrderedRepl.addChild(emit);
 			} else {

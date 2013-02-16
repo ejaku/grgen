@@ -919,13 +919,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append(" }, \n");
 
 		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternYielding[] { ");
-		int cnt = 0;
 		for(EvalStatements evals : pattern.getYields()) {
-			for(EvalStatement eval : evals.evalStatements) {
-				sb.append(pathPrefixForElements+"yield_" + cnt + ", ");
-				++cnt;
-				eval.getName(); // make compiler happy, we don't need to access eval
-			}
+			sb.append(pathPrefixForElements + evals.getName() + ", ");
 		}
 		sb.append(" }, \n");
 
@@ -1248,26 +1243,30 @@ public class ActionsGen extends CSharpBase {
 			++i;
 		}
 
-		i = 0;
 		for(EvalStatements yields : pattern.getYields()) {
+			sb.append("\t\t\tGRGEN_LGSP.PatternYielding " + pathPrefixForElements+yields.getName()
+					+ " = new GRGEN_LGSP.PatternYielding(");
+			sb.append("\"" + yields.getName() + "\",\n ");
+			sb.append("\t\t\tnew GRGEN_EXPR.Yielding[] {\n ");
+
 			for(EvalStatement yield : yields.evalStatements) {
-				NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
-				yield.collectNeededEntities(needs);
-				sb.append("\t\t\tGRGEN_LGSP.PatternYielding " + pathPrefixForElements+"yield_"+i
-						+ " = new GRGEN_LGSP.PatternYielding(\n");
 				genYield(sb, yield, className, pathPrefixForElements, alreadyDefinedEntityToName);
 				sb.append(",\n");
-				sb.append("\t\t\t\tnew string[] ");
-				genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-				sb.append(", new string[] ");
-				genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-				sb.append(", new string[] ");
-				genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-				sb.append(", new GRGEN_LIBGR.VarType[] ");
-				genVarTypeSet(sb, needs.variables, true);
-				sb.append(");\n");
-				++i;
 			}
+			
+			sb.append("\t\t\t}, \n");
+
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
+			yields.collectNeededEntities(needs);
+			sb.append("\t\t\t\tnew string[] ");
+			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new string[] ");
+			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new string[] ");
+			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LIBGR.VarType[] ");
+			genVarTypeSet(sb, needs.variables, true);
+			sb.append(");\n");
 		}
 
 		for(Alternative alt : pattern.getAlts()) {

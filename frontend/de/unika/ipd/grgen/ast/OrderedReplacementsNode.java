@@ -17,10 +17,12 @@ import de.unika.ipd.grgen.parser.Coords;
 
 public class OrderedReplacementsNode extends BaseNode
 {
+	public String name;
 	public CollectNode<OrderedReplacementNode> orderedReplacements;
 
-	public OrderedReplacementsNode(Coords coords) {
+	public OrderedReplacementsNode(Coords coords, String name) {
 		super(coords);
+		this.name = name;
 		orderedReplacements = new CollectNode<OrderedReplacementNode>();
 	}
 	
@@ -54,7 +56,7 @@ public class OrderedReplacementsNode extends BaseNode
 	
 	@Override
 	protected IR constructIR() {
-		OrderedReplacements ors = new OrderedReplacements("");
+		OrderedReplacements ors = new OrderedReplacements(name);
 
 		for(OrderedReplacementNode orderedReplacement : orderedReplacements.children) {
 			ors.orderedReplacements.add((OrderedReplacement)orderedReplacement.getIR());

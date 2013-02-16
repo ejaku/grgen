@@ -1418,29 +1418,67 @@ public abstract class CSharpBase {
 
 	protected String getTypeNameForCast(Cast cast)
 	{
-		Type type = cast.getType();
-
-		String typeName = "";
-
-		switch(type.classify()) {
-			case Type.IS_STRING: typeName = "string"; break;
-			case Type.IS_BYTE: typeName = "sbyte"; break;
-			case Type.IS_SHORT: typeName = "short"; break;
-			case Type.IS_INTEGER: typeName = "int"; break;
-			case Type.IS_LONG: typeName = "long"; break;
-			case Type.IS_FLOAT: typeName = "float"; break;
-			case Type.IS_DOUBLE: typeName = "double"; break;
-			case Type.IS_BOOLEAN: typeName = "bool"; break;
-			case Type.IS_OBJECT: typeName = "object"; break;
-			case Type.IS_GRAPH: typeName = "GRGEN_LIBGR.IGraph"; break;
+		switch(cast.getType().classify()) {
+			case Type.IS_STRING:
+				return "string";
+			case Type.IS_BYTE:
+				return "sbyte";
+			case Type.IS_SHORT:
+				return "short";
+			case Type.IS_INTEGER:
+				return "int";
+			case Type.IS_LONG:
+				return "long";
+			case Type.IS_FLOAT:
+				return "float";
+			case Type.IS_DOUBLE:
+				return "double";
+			case Type.IS_BOOLEAN:
+				return "bool";
+			case Type.IS_OBJECT:
+				return "object";
+			case Type.IS_GRAPH:
+				return "GRGEN_LIBGR.IGraph";
 			default:
 				throw new UnsupportedOperationException(
 					"This is either a forbidden cast, which should have been " +
 						"rejected on building the IR, or an allowed cast, which " +
 						"should have been processed by the above code.");
 		}
-
-		return typeName;
+	}
+	
+	protected String getTypeNameForTempVarDecl(Type type) {
+		switch(type.classify()) {
+			case Type.IS_BOOLEAN:
+				return "bool";
+			case Type.IS_BYTE:
+				return "sbyte";
+			case Type.IS_SHORT:
+				return "short";
+			case Type.IS_INTEGER:
+				return "int";
+			case Type.IS_LONG:
+				return "long";
+			case Type.IS_FLOAT:
+				return "float";
+			case Type.IS_DOUBLE:
+				return "double";
+			case Type.IS_STRING:
+				return "string";
+			case Type.IS_OBJECT:
+			case Type.IS_UNKNOWN:
+				return "Object";
+			case Type.IS_GRAPH:
+				return "GRGEN_LIBGR.IGraph";
+			case Type.IS_EXTERNAL_TYPE:
+				return "GRGEN_MODEL."+type.getIdent();
+			case Type.IS_NODE:
+				return "GRGEN_LIBGR.INode";
+			case Type.IS_EDGE:
+				return "GRGEN_LIBGR.IEdge";
+			default:
+				throw new IllegalArgumentException();
+		}
 	}
 
 	protected String escapeDoubleQuotes(String input)

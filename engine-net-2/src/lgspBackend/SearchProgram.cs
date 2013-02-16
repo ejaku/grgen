@@ -3668,12 +3668,60 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("// local yielding --->\n");
             sourceCode.AppendFrontFormat("{0}", Yielding);
-            sourceCode.AppendFront("// <---\n");
         }
 
         string Yielding;
+    }
+
+    /// <summary>
+    /// Class representing a yielding block
+    /// </summary>
+    class YieldingBlock : SearchProgramOperation
+    {
+        public YieldingBlock(string name)
+        {
+            Name = name;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFrontFormat("YieldingBlock {0}\n", Name);
+            
+            // then nested content
+            if(NestedOperationsList != null)
+            {
+                builder.Indent();
+                NestedOperationsList.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("{ // " + Name + "\n");
+
+            sourceCode.Indent();
+            NestedOperationsList.Emit(sourceCode);
+            sourceCode.Unindent();
+            
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override bool IsSearchNestingOperation()
+        {
+            return true;
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return NestedOperationsList;
+        }
+
+        string Name;
+
+        public SearchProgramList NestedOperationsList;
     }
 
     /// <summary>
