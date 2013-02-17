@@ -34,5 +34,7 @@ public class DefDeclVarStatement extends EvalStatement {
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		//needs.add(target); needed?
+		if(target.initialization!=null)
+			target.initialization.collectNeededEntities(needs);
 	}
 }

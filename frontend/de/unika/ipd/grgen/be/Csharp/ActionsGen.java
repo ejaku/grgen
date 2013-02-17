@@ -260,9 +260,20 @@ public class ActionsGen extends CSharpBase {
 	private void genComputations(StringBuffer sb) {
 		sb.append("\tpublic class Computations\n");
 		sb.append("\t{\n");
+		
 		for(Computation computation : be.unit.getComputations()) {
 			genComputation(sb, computation);
 		}
+		
+		List<String> staticInitializers = new LinkedList<String>();
+		String pathPrefixForElements = "";
+		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
+
+		for(Computation computation : be.unit.getComputations()) {
+			genLocalContainersEvals(sb, computation.getComputationStatements(), staticInitializers,
+					pathPrefixForElements, alreadyDefinedEntityToName);
+		}
+		
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -310,18 +321,8 @@ public class ActionsGen extends CSharpBase {
 		PatternGraph pattern = rule.getPattern();
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
-		genLocalContainers(sb, rule.getLeft(), staticInitializers,
-				pathPrefixForElements, alreadyDefinedEntityToName);
-		for(EvalStatements evals : rule.getEvals()) {
-			genLocalContainers(sb, evals.evalStatements, staticInitializers,
-					pathPrefixForElements, alreadyDefinedEntityToName);
-		}
-		genLocalContainersJavaSucks(sb, rule.getReturns(), staticInitializers,
-				pathPrefixForElements, alreadyDefinedEntityToName);
-		if(rule.getRight()!=null) {
-			genLocalContainers(sb, rule.getRight().getImperativeStmts(), staticInitializers,
-					pathPrefixForElements, alreadyDefinedEntityToName);
-		}
+		genLocalContainers(sb, rule, staticInitializers, pathPrefixForElements,
+				alreadyDefinedEntityToName);
 		sb.append("\t\tpublic GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 
@@ -546,7 +547,53 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 	}
 
-	private void genLocalContainers(StringBuffer sb, PatternGraph pattern, List<String> staticInitializers,
+	private void genLocalContainers(StringBuffer sb, Rule rule,
+			List<String> staticInitializers, String pathPrefixForElements,
+			HashMap<Entity, String> alreadyDefinedEntityToName) {
+		genLocalContainers(sb, rule.getLeft(), staticInitializers,
+				pathPrefixForElements, alreadyDefinedEntityToName);
+		
+		for(EvalStatements evals : rule.getEvals()) {
+			genLocalContainersEvals(sb, evals.evalStatements, staticInitializers,
+					pathPrefixForElements, alreadyDefinedEntityToName);
+		}
+		genLocalContainersReturns(sb, rule.getReturns(), staticInitializers,
+				pathPrefixForElements, alreadyDefinedEntityToName);
+		if(rule.getRight()!=null) {
+			genLocalContainersInitializations(sb, rule.getRight(), rule.getLeft(), staticInitializers,
+					pathPrefixForElements, alreadyDefinedEntityToName);
+			genLocalContainersImperativeStatements(sb, rule.getRight().getImperativeStmts(), staticInitializers,
+					pathPrefixForElements, alreadyDefinedEntityToName);
+		}
+	}
+
+	private void genLocalContainers(StringBuffer sb, PatternGraph pattern,
+			List<String> staticInitializers, String pathPrefixForElements,
+			HashMap<Entity, String> alreadyDefinedEntityToName) {
+		genLocalContainersInitializations(sb, pattern, pattern, staticInitializers,
+				pathPrefixForElements, alreadyDefinedEntityToName);
+		genLocalContainersConditions(sb, pattern, staticInitializers,
+				pathPrefixForElements, alreadyDefinedEntityToName);
+		for(EvalStatements evals: pattern.getYields()) {
+			genLocalContainersEvals(sb, evals.evalStatements, staticInitializers,
+					pathPrefixForElements, alreadyDefinedEntityToName);
+		}
+	}
+
+	private void genLocalContainersInitializations(StringBuffer sb, PatternGraph pattern, PatternGraph directlyNestingLHSPattern, List<String> staticInitializers,
+			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
+		for(Variable var : pattern.getVars()) {
+			if(var.initialization!=null) {
+				if(var.directlyNestingLHSGraph==directlyNestingLHSPattern) {
+					var.initialization.collectNeededEntities(needs);
+				}
+			}
+		}
+		genLocalContainers(sb, needs, staticInitializers);
+	}
+
+	private void genLocalContainersConditions(StringBuffer sb, PatternGraph pattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
 		for(Expression expr : pattern.getConditions()) {
@@ -555,7 +602,7 @@ public class ActionsGen extends CSharpBase {
 		genLocalContainers(sb, needs, staticInitializers);
 	}
 
-	private void genLocalContainers(StringBuffer sb, Collection<EvalStatement> evals, List<String> staticInitializers,
+	private void genLocalContainersEvals(StringBuffer sb, Collection<EvalStatement> evals, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
 		for(EvalStatement eval : evals) {
@@ -589,12 +636,17 @@ public class ActionsGen extends CSharpBase {
 				CompoundAssignmentVar assignment = (CompoundAssignmentVar)eval;
 				assignment.getExpression().collectNeededEntities(needs);
 			}
+			else if(eval instanceof DefDeclVarStatement) {
+				DefDeclVarStatement assignment = (DefDeclVarStatement)eval;
+				if(assignment.getTarget().initialization != null)
+					assignment.getTarget().initialization.collectNeededEntities(needs);
+			}
 		}
 		genLocalContainers(sb, needs, staticInitializers);
 	}
 
 	// type collision with the method below cause java can't distinguish List<Expression> from List<ImperativeStmt>
-	private void genLocalContainersJavaSucks(StringBuffer sb, List<Expression> returns, List<String> staticInitializers,
+	private void genLocalContainersReturns(StringBuffer sb, List<Expression> returns, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
 		for(Expression expr : returns) {
@@ -603,7 +655,7 @@ public class ActionsGen extends CSharpBase {
 		genLocalContainers(sb, needs, staticInitializers);
 	}
 	
-	private void genLocalContainers(StringBuffer sb, List<ImperativeStmt> istmts, List<String> staticInitializers,
+	private void genLocalContainersImperativeStatements(StringBuffer sb, List<ImperativeStmt> istmts, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
@@ -1103,6 +1155,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append("null);\n");				
 			}
 			alreadyDefinedEntityToName.put(var, varName);
+			aux.append("\t\t\t" + varName + ".pointOfDefinition = " + (parameters.indexOf(var)==-1 ? patGraphVarName : "null") + ";\n");
 			addAnnotations(aux, var, varName+".annotations");
 		}
 
@@ -1135,7 +1188,13 @@ public class ActionsGen extends CSharpBase {
 				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
 						pathPrefixForElements, node);
 				sb.append((node instanceof RetypedNode ? formatEntity(((RetypedNode)node).getOldNode(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
-				sb.append(node.isDefToBeYieldedTo() ? "true);\n" : "false);\n");
+				sb.append(node.isDefToBeYieldedTo() ? "true," : "false,");
+				if(node.initialization!=null) {
+					genExpressionTree(sb, node.initialization, className, pathPrefixForElements, alreadyDefinedEntityToName);
+					sb.append(");\n");
+				} else {
+					sb.append("null);\n");				
+				}
 				alreadyDefinedEntityToName.put(node, nodeName);
 				aux.append("\t\t\t" + nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
 				addAnnotations(aux, node, nodeName+".annotations");
@@ -1167,7 +1226,13 @@ public class ActionsGen extends CSharpBase {
 				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
 						pathPrefixForElements, edge);
 				sb.append((edge instanceof RetypedEdge ? formatEntity(((RetypedEdge)edge).getOldEdge(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
-				sb.append(edge.isDefToBeYieldedTo() ? "true);\n" : "false);\n");
+				sb.append(edge.isDefToBeYieldedTo() ? "true," : "false,");
+				if(edge.initialization!=null) {
+					genExpressionTree(sb, edge.initialization, className, pathPrefixForElements, alreadyDefinedEntityToName);
+					sb.append(");\n");
+				} else {
+					sb.append("null);\n");				
+				}
 				alreadyDefinedEntityToName.put(edge, edgeName);
 				aux.append("\t\t\t" + edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
 				addAnnotations(aux, edge, edgeName+".annotations");
@@ -2992,7 +3057,8 @@ public class ActionsGen extends CSharpBase {
 					className, pathPrefix, alreadyDefinedEntityToName);
 		} 
 		else if(evalStmt instanceof MapVarClear) {
-			genMapVarClear(sb, (MapVarClear) evalStmt);
+			genMapVarClear(sb, (MapVarClear) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
 		} 
 		else if(evalStmt instanceof MapVarAddItem) {
 			genMapVarAddItem(sb, (MapVarAddItem) evalStmt,
@@ -3003,7 +3069,8 @@ public class ActionsGen extends CSharpBase {
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else if(evalStmt instanceof SetVarClear) {
-			genSetVarClear(sb, (SetVarClear) evalStmt);
+			genSetVarClear(sb, (SetVarClear) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else if(evalStmt instanceof SetVarAddItem) {
 			genSetVarAddItem(sb, (SetVarAddItem) evalStmt,
@@ -3014,7 +3081,8 @@ public class ActionsGen extends CSharpBase {
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else if(evalStmt instanceof ArrayVarClear) {
-			genArrayVarClear(sb, (ArrayVarClear) evalStmt);
+			genArrayVarClear(sb, (ArrayVarClear) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else if(evalStmt instanceof ArrayVarAddItem) {
 			genArrayVarAddItem(sb, (ArrayVarAddItem) evalStmt,
@@ -3025,7 +3093,8 @@ public class ActionsGen extends CSharpBase {
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else if(evalStmt instanceof DequeVarClear) {
-			genDequeVarClear(sb, (DequeVarClear) evalStmt);
+			genDequeVarClear(sb, (DequeVarClear) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else if(evalStmt instanceof DequeVarAddItem) {
 			genDequeVarAddItem(sb, (DequeVarAddItem) evalStmt,
@@ -3111,7 +3180,7 @@ public class ActionsGen extends CSharpBase {
 
 		Variable changedTarget = cass.getChangedTarget();	
 		sb.append("\t\t\t\tnew " + changedOperation + "(");
-		sb.append("\"" + changedTarget.getIdent() + "\"");
+		sb.append("\"" + formatEntity(changedTarget, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		genCompoundAssignmentVar(sb, cass, "", className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(")");
@@ -3131,7 +3200,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append("SetMapIntersect(");
 		else //if(cass.getOperation()==CompoundAssignment.WITHOUT)
 			sb.append("SetMapExcept(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(")");
@@ -3146,7 +3215,7 @@ public class ActionsGen extends CSharpBase {
 		String keyExprStr = sbtmp.toString();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.SetMapRemove(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(keyExprStr);
 		sb.append(")");
@@ -3154,11 +3223,12 @@ public class ActionsGen extends CSharpBase {
 		assert mvri.getNext()==null;
 	}
 
-	private void genMapVarClear(StringBuffer sb, MapVarClear mvc) {
+	private void genMapVarClear(StringBuffer sb, MapVarClear mvc,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		Variable target = mvc.getTarget();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.Clear(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(")");
 		
 		assert mvc.getNext()==null;
@@ -3176,7 +3246,7 @@ public class ActionsGen extends CSharpBase {
 		String keyExprStr = sbtmp.toString();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.MapAdd(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(keyExprStr);
 		sb.append(", ");
@@ -3195,7 +3265,7 @@ public class ActionsGen extends CSharpBase {
 		String valueExprStr = sbtmp.toString();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.SetMapRemove(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
 		sb.append(")");
@@ -3203,11 +3273,12 @@ public class ActionsGen extends CSharpBase {
 		assert svri.getNext()==null;
 	}
 
-	private void genSetVarClear(StringBuffer sb, SetVarClear svc) {
+	private void genSetVarClear(StringBuffer sb, SetVarClear svc,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		Variable target = svc.getTarget();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.Clear(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(")");
 		
 		assert svc.getNext()==null;
@@ -3222,7 +3293,7 @@ public class ActionsGen extends CSharpBase {
 		String valueExprStr = sbtmp.toString();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.SetAdd(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
 		sb.append(")");
@@ -3235,7 +3306,7 @@ public class ActionsGen extends CSharpBase {
 		Variable target = avri.getTarget();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.ArrayRemove(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		if(avri.getIndexExpr()!=null) {
 			sb.append(", ");
 			StringBuffer sbtmp = new StringBuffer();
@@ -3248,11 +3319,12 @@ public class ActionsGen extends CSharpBase {
 		assert avri.getNext()==null;
 	}
 
-	private void genArrayVarClear(StringBuffer sb, ArrayVarClear avc) {
+	private void genArrayVarClear(StringBuffer sb, ArrayVarClear avc,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		Variable target = avc.getTarget();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.Clear(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(")");
 		
 		assert avc.getNext()==null;
@@ -3267,7 +3339,7 @@ public class ActionsGen extends CSharpBase {
 		String valueExprStr = sbtmp.toString();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.ArrayAdd(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
 		if(avai.getIndexExpr()!=null) {
@@ -3287,7 +3359,7 @@ public class ActionsGen extends CSharpBase {
 		Variable target = dvri.getTarget();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.DequeRemove(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		if(dvri.getIndexExpr()!=null) {
 			sb.append(", ");
 			StringBuffer sbtmp = new StringBuffer();
@@ -3300,11 +3372,12 @@ public class ActionsGen extends CSharpBase {
 		assert dvri.getNext()==null;
 	}
 
-	private void genDequeVarClear(StringBuffer sb, DequeVarClear dvc) {
+	private void genDequeVarClear(StringBuffer sb, DequeVarClear dvc,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		Variable target = dvc.getTarget();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.Clear(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(")");
 		
 		assert dvc.getNext()==null;
@@ -3319,7 +3392,7 @@ public class ActionsGen extends CSharpBase {
 		String valueExprStr = sbtmp.toString();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.DequeAdd(");
-		sb.append("\"" + target.getIdent() + "\"");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
 		if(dvai.getIndexExpr()!=null) {

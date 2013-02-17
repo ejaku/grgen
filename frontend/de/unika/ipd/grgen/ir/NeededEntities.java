@@ -166,8 +166,8 @@ public class NeededEntities {
 	}
 
 	/**
-	 * Adds a map or set expression.
-	 * @param expr The map or set expressions.
+	 * Adds a container expression.
+	 * @param expr The container expressions.
 	 */
 	public void add(Expression expr) {
 		if(collectContainerExprs) containerExprs.add(expr);

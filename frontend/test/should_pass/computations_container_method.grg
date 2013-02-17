@@ -7,7 +7,22 @@ some(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>
 	de.add(e);
 	se.add("bar");
 
-	return(m.empty() || ar.empty() || de.empty() || se.empty());
+	return(!m.empty() && !ar.empty() && !de.empty() && !se.empty());
+}
+
+some2(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : boolean
+{
+	m.add("foo",n);
+	ar.add(n);
+	de.add(e);
+	se.add("bar");
+
+	m.rem("foo");
+	ar.rem();
+	de.rem();
+	se.rem("bar");
+
+	return(m.empty() && ar.empty() && de.empty() && se.empty());
 }
 
 test t(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : (boolean)
@@ -21,7 +36,30 @@ test t(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E
 			de.add(e);
 			se.add("bar");
 
-			yield res = m.empty() || ar.empty() || de.empty() || se.empty();
+			yield res = !m.empty() && !ar.empty() && !de.empty() && !se.empty();
+		}
+	}
+	
+	return (res);
+}
+
+test t2(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : (boolean)
+{
+	def var res:boolean;
+	
+	independent {
+		yield {
+			m.add("foo",n);
+			ar.add(n);
+			de.add(e);
+			se.add("bar");
+
+			m.rem("foo");
+			ar.rem();
+			de.rem();
+			se.rem("bar");
+
+			yield res =  m.empty() && ar.empty() && de.empty() && se.empty();
 		}
 	}
 	
@@ -39,7 +77,30 @@ rule r(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E
 			de.add(e);
 			se.add("bar");
 
-			yield res = m.empty() || ar.empty() || de.empty() || se.empty();
+			yield res = !m.empty() && !ar.empty() && !de.empty() && !se.empty();
+		}
+		
+		return (res);
+	}
+}
+
+rule r2(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : (boolean)
+{	
+	modify {
+		def var res:boolean;
+		
+		eval { 
+			m.add("foo",n);
+			ar.add(n);
+			de.add(e);
+			se.add("bar");
+
+			m.rem("foo");
+			ar.rem();
+			de.rem();
+			se.rem("bar");
+
+			yield res = m.empty() && ar.empty() && de.empty() && se.empty();
 		}
 		
 		return (res);

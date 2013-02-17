@@ -42,6 +42,11 @@ namespace de.unika.ipd.grGen.lgsp
         public bool DefToBeYieldedTo { get { return defToBeYieldedTo; } }
 
         /// <summary>
+        /// The initialization expression for the element if some was defined, otherwise null.
+        /// </summary>
+        public Expression Initialization { get { return initialization; } }
+
+        /// <summary>
         /// The annotations of the pattern element
         /// </summary>
         public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -83,6 +88,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// it gets matched in another, nested or called pattern which yields it to the containing pattern.
         /// </summary>
         public bool defToBeYieldedTo;
+
+        /// <summary>
+        /// The initialization expression for the element if some was defined, otherwise null.
+        /// </summary>
+        public Expression initialization;
 
         /// <summary>
         /// The annotations of the pattern element
@@ -192,12 +202,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
+        /// <param name="defToBeYieldedTo">The initialization expression for the element if some was defined, 
+        ///     only possible for defToBeYieldedTo elements, otherwise null.</param>
         public PatternElement(int typeID, String typeName, 
             String name, String unprefixedName, 
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
             StorageAccess storage, StorageAccessIndex storageIndex,
-            PatternElement elementBeforeCasting, bool defToBeYieldedTo)
+            PatternElement elementBeforeCasting,
+            bool defToBeYieldedTo, Expression initialization)
         {
             this.TypeID = typeID;
             this.typeName = typeName;
@@ -212,6 +225,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.StorageIndex = storageIndex;
             this.ElementBeforeCasting = elementBeforeCasting;
             this.defToBeYieldedTo = defToBeYieldedTo;
+            this.initialization = initialization;
             // TODO: the last parameters are (mostly) mutually exclusive, 
             // introduce some abstract details class with specialized classed for the different cases,
             // only one instance needed instead of the large amount of mostly null valued variables now
@@ -233,6 +247,7 @@ namespace de.unika.ipd.grGen.lgsp
             unprefixedName = original.unprefixedName + nameSuffix;
             pointOfDefinition = newHost;
             defToBeYieldedTo = original.defToBeYieldedTo;
+            initialization = original.initialization != null ? original.initialization.Copy(nameSuffix) : null;
             annotations = original.annotations;
             AllowedTypes = original.AllowedTypes;
             IsAllowedType = original.IsAllowedType;
@@ -311,15 +326,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
+        /// <param name="defToBeYieldedTo">The initialization expression for the node if some was defined, 
+        ///     only possible for defToBeYieldedTo nodes, otherwise null.</param>
         public PatternNode(int typeID, NodeType type, String typeName,
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
             StorageAccess storage, StorageAccessIndex storageIndex,
-            PatternElement elementBeforeCasting, bool defToBeYieldedTo)
+            PatternElement elementBeforeCasting,
+            bool defToBeYieldedTo, Expression initialization)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, 
                 cost, parameterIndex, maybeNull, storage, storageIndex,
-                elementBeforeCasting, defToBeYieldedTo)
+                elementBeforeCasting, defToBeYieldedTo, initialization)
         {
             this.type = type;
         }
@@ -397,16 +415,19 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
+        /// <param name="defToBeYieldedTo">The initialization expression for the edge if some was defined, 
+        ///     only possible for defToBeYieldedTo edges, otherwise null.</param>
         public PatternEdge(bool fixedDirection,
             int typeID, EdgeType type, String typeName, 
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex, bool maybeNull,
             StorageAccess storage, StorageAccessIndex storageIndex,
-            PatternElement elementBeforeCasting, bool defToBeYieldedTo)
+            PatternElement elementBeforeCasting,
+            bool defToBeYieldedTo, Expression initialization)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType,
                 cost, parameterIndex, maybeNull, storage, storageIndex,
-                elementBeforeCasting, defToBeYieldedTo)
+                elementBeforeCasting, defToBeYieldedTo, initialization)
         {
             this.fixedDirection = fixedDirection;
             this.type = type;

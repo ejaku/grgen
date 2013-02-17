@@ -98,7 +98,7 @@ namespace de.unika.ipd.grGen.lgsp
                     null, null,
                     1.0f, -1, false,
                     null, null, 
-                    null, false
+                    null, false, null
                 );
                 correspondingNodes[count] = node;
                 ++count;
@@ -117,7 +117,7 @@ namespace de.unika.ipd.grGen.lgsp
                     null, null,
                     1.0f, -1, false,
                     null, null,
-                    null, false
+                    null, false, null
                 );
                 correspondingEdges[count] = edge;
                 ++count;
@@ -1103,17 +1103,44 @@ exitSecondLoop: ;
             PriorityQueue<SearchPlanEdge> activeEdges = new PriorityQueue<SearchPlanEdge>();
 
             // first schedule all preset elements
-            foreach (SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
+            foreach(SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
             {
-                if (edge.Target.IsPreset && edge.Type!=SearchOperationType.DefToBeYieldedTo)
+                if(edge.Target.IsPreset && edge.Type != SearchOperationType.DefToBeYieldedTo)
                 {
-                    foreach (SearchPlanEdge edgeOutgoingFromPresetElement in edge.Target.OutgoingEdges)
+                    foreach(SearchPlanEdge edgeOutgoingFromPresetElement in edge.Target.OutgoingEdges)
                         activeEdges.Add(edgeOutgoingFromPresetElement);
 
                     // note: here a normal preset is converted into a neg/idpt preset operation if in negative/independent pattern
                     SearchOperation newOp = new SearchOperation(
                         isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : edge.Type,
                         edge.Target, spGraph.Root, 0);
+                    operations.Add(newOp);
+                }
+            }
+
+            // then schedule the initialization of all def to be yielded to elements and variables,
+            // must come after the preset elements, as they may be used in the def initialization
+            foreach(SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
+            {
+                if(edge.Type == SearchOperationType.DefToBeYieldedTo
+                    && (!isNegativeOrIndependent || (edge.Target.PatternElement.pointOfDefinition == patternGraph && edge.Target.PatternElement.originalElement==null)))
+                {
+                    SearchOperation newOp = new SearchOperation(
+                        SearchOperationType.DefToBeYieldedTo,
+                        edge.Target, spGraph.Root, 0);
+                    newOp.Expression = edge.Target.PatternElement.Initialization;
+                    operations.Add(newOp);
+                }
+            }
+            foreach(PatternVariable var in patternGraph.variablesPlusInlined)
+            {
+                if(var.defToBeYieldedTo
+                    && (!isNegativeOrIndependent || var.pointOfDefinition == patternGraph && var.originalVariable == null))
+                {
+                    SearchOperation newOp = new SearchOperation(
+                        SearchOperationType.DefToBeYieldedTo,
+                        var, spGraph.Root, 0);
+                    newOp.Expression = var.initialization;
                     operations.Add(newOp);
                 }
             }
@@ -1189,12 +1216,18 @@ exitSecondLoop: ;
         {
             for(int i = 0; i < operations.Count; ++i)
             {
-                PatternElement assignmentSource = ((SearchPlanNode)operations[i].Element).PatternElement.AssignmentSource;
+                PatternElement assignmentSource = null;
+                if(operations[i].Element is SearchPlanNode)
+                    assignmentSource = ((SearchPlanNode)operations[i].Element).PatternElement.AssignmentSource;
                 if(assignmentSource != null && operations[i].Type != SearchOperationType.Identity)
                 {
                     for(int j = 0; j < operations.Count; ++j)
                     {
-                        if(((SearchPlanNode)operations[j].Element).PatternElement == assignmentSource
+                        SearchPlanNode binder = null;
+                        if(operations[j].Element is SearchPlanNode)
+                            binder = (SearchPlanNode)operations[j].Element;
+                        if(binder != null 
+                            && binder.PatternElement == assignmentSource
                             && operations[j].Type != SearchOperationType.Identity)
                         {
                             if(operations[i].Type != SearchOperationType.Assign 
@@ -1202,7 +1235,7 @@ exitSecondLoop: ;
                             {
                                 int indexOfSecond = Math.Max(i, j);
                                 SearchOperation so = new SearchOperation(SearchOperationType.Identity,
-                                    operations[i].Element, (SearchPlanNode)operations[j].Element, operations[indexOfSecond].CostToEnd);
+                                    operations[i].Element, binder, operations[indexOfSecond].CostToEnd);
                                 operations.Insert(indexOfSecond + 1, so);
                                 break;
                             }
@@ -1226,12 +1259,9 @@ exitSecondLoop: ;
             // iterate operations of the search plan to append homomorphy checks
             for (int i = 0; i < ssp.Operations.Length; ++i)
             {
-                if (ssp.Operations[i].Type == SearchOperationType.Condition)
-                {
-                    continue;
-                }
-
-                if(ssp.Operations[i].Type == SearchOperationType.AssignVar)
+                if (ssp.Operations[i].Type == SearchOperationType.Condition
+                    || ssp.Operations[i].Type == SearchOperationType.AssignVar
+                    || ssp.Operations[i].Type == SearchOperationType.DefToBeYieldedTo)
                 {
                     continue;
                 }
@@ -1326,7 +1356,8 @@ exitSecondLoop: ;
                     || ssp.Operations[i].Type == SearchOperationType.NegativePattern
                     || ssp.Operations[i].Type == SearchOperationType.IndependentPattern
                     || ssp.Operations[i].Type == SearchOperationType.Assign
-                    || ssp.Operations[i].Type == SearchOperationType.AssignVar)
+                    || ssp.Operations[i].Type == SearchOperationType.AssignVar
+                    || ssp.Operations[i].Type == SearchOperationType.DefToBeYieldedTo)
                 {
                     continue;
                 }
@@ -1436,7 +1467,8 @@ exitSecondLoop: ;
                     || ssp.Operations[i].Type == SearchOperationType.NegativePattern
                     || ssp.Operations[i].Type == SearchOperationType.IndependentPattern
                     || ssp.Operations[i].Type == SearchOperationType.Assign 
-                    || ssp.Operations[i].Type == SearchOperationType.AssignVar)
+                    || ssp.Operations[i].Type == SearchOperationType.AssignVar
+                    || ssp.Operations[i].Type == SearchOperationType.DefToBeYieldedTo)
                 {
                     continue;
                 }
@@ -1550,11 +1582,14 @@ exitSecondLoop: ;
                     }
 
                     if (LazyNegativeIndependentConditionEvaluation)
-                        break;
-
-                    if (op.Type == SearchOperationType.LockLocalElementsForPatternpath)
                     {
-                        break; // LockLocalElementsForPatternpath is barrier for neg/idpt
+                        break;
+                    }
+
+                    if (op.Type == SearchOperationType.LockLocalElementsForPatternpath
+                        || op.Type == SearchOperationType.DefToBeYieldedTo)
+                    {
+                        break; // LockLocalElementsForPatternpath and DefToBeYieldedTo are barriers for neg/idpt
                     }
 
                     if (patternGraph.negativePatternGraphsPlusInlined[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
@@ -1601,11 +1636,14 @@ exitSecondLoop: ;
                     }
 
                     if (LazyNegativeIndependentConditionEvaluation)
-                        break;
-
-                    if (op.Type == SearchOperationType.LockLocalElementsForPatternpath)
                     {
-                        break; // LockLocalElementsForPatternpath is barrier for neg/idpt
+                        break;
+                    }
+
+                    if (op.Type == SearchOperationType.LockLocalElementsForPatternpath
+                        || op.Type == SearchOperationType.DefToBeYieldedTo)
+                    {
+                        break; // LockLocalElementsForPatternpath and DefToBeYieldedTo are barriers for neg/idpt
                     }
 
                     if (patternGraph.independentPatternGraphsPlusInlined[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
@@ -1670,13 +1708,16 @@ exitSecondLoop: ;
                     SearchOperation op = operations[j];
                     if (op.Type == SearchOperationType.Condition
                         || op.Type == SearchOperationType.NegativePattern
-                        || op.Type == SearchOperationType.IndependentPattern)
+                        || op.Type == SearchOperationType.IndependentPattern
+                        || op.Type == SearchOperationType.DefToBeYieldedTo)
                     {
                         continue;
                     }
 
                     if (LazyNegativeIndependentConditionEvaluation)
+                    {
                         break;
+                    }
 
                     if (op.Type == SearchOperationType.AssignVar)
                     {
@@ -1752,7 +1793,8 @@ exitSecondLoop: ;
                         || op.Type == SearchOperationType.Assign
                         || op.Type == SearchOperationType.AssignVar
                         || op.Type == SearchOperationType.NegativePattern
-                        || op.Type == SearchOperationType.IndependentPattern)
+                        || op.Type == SearchOperationType.IndependentPattern
+                        || op.Type == SearchOperationType.DefToBeYieldedTo)
                     {
                         continue;
                     }
