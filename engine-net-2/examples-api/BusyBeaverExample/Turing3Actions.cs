@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jan 27 13:45:24 CET 2013
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Feb 17 15:39:16 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -36,6 +36,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
+
 		public GRGEN_LGSP.PatternGraph pat_readZeroRule;
 
 
@@ -63,10 +65,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			bool[] readZeroRule_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] readZeroRule_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode readZeroRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "readZeroRule_node_s", "s", readZeroRule_node_s_AllowedTypes, readZeroRule_node_s_IsAllowedType, 5.5F, 0, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode readZeroRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode readZeroRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge readZeroRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readZero, GRGEN_MODEL.EdgeType_readZero.typeVar, "GRGEN_MODEL.IreadZero", "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode readZeroRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "readZeroRule_node_s", "s", readZeroRule_node_s_AllowedTypes, readZeroRule_node_s_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode readZeroRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode readZeroRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge readZeroRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readZero, GRGEN_MODEL.EdgeType_readZero.typeVar, "GRGEN_MODEL.IreadZero", "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition readZeroRule_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "readZeroRule_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -119,9 +121,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_MODEL.IWriteValue inode_wv = curMatch.node_wv;
 			graph.SettingAddedNodeNames( readZeroRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readZeroRule_addedEdgeNames );
-			int tempvar_int = inode_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
-			inode_bp.@value = tempvar_int;
+			{ // eval_0
+			int tempvar_0 = inode_wv.@value;
+			graph.ChangingNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
+			inode_bp.@value = tempvar_0;
+			}
 			output_0 = (GRGEN_MODEL.IWriteValue)(node_wv);
 			return;
 		}
@@ -332,6 +336,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
+
 		public GRGEN_LGSP.PatternGraph pat_readOneRule;
 
 
@@ -359,10 +365,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			bool[] readOneRule_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] readOneRule_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode readOneRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "readOneRule_node_s", "s", readOneRule_node_s_AllowedTypes, readOneRule_node_s_IsAllowedType, 5.5F, 0, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode readOneRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode readOneRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge readOneRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readOne, GRGEN_MODEL.EdgeType_readOne.typeVar, "GRGEN_MODEL.IreadOne", "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode readOneRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "readOneRule_node_s", "s", readOneRule_node_s_AllowedTypes, readOneRule_node_s_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode readOneRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode readOneRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge readOneRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readOne, GRGEN_MODEL.EdgeType_readOne.typeVar, "GRGEN_MODEL.IreadOne", "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition readOneRule_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
 				new string[] { "readOneRule_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -415,9 +421,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_MODEL.IWriteValue inode_wv = curMatch.node_wv;
 			graph.SettingAddedNodeNames( readOneRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readOneRule_addedEdgeNames );
-			int tempvar_int = inode_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
-			inode_bp.@value = tempvar_int;
+			{ // eval_0
+			int tempvar_0 = inode_wv.@value;
+			graph.ChangingNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
+			inode_bp.@value = tempvar_0;
+			}
 			output_0 = (GRGEN_MODEL.IWriteValue)(node_wv);
 			return;
 		}
@@ -628,6 +636,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_ensureMoveLeftValidRule;
 
 		public static GRGEN_LIBGR.NodeType[] ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes = null;
@@ -640,6 +649,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveLeftValidRule_neg_0_SubNums { };
 		public enum ensureMoveLeftValidRule_neg_0_AltNums { };
 		public enum ensureMoveLeftValidRule_neg_0_IterNums { };
+
 
 		public GRGEN_LGSP.PatternGraph ensureMoveLeftValidRule_neg_0;
 
@@ -668,10 +678,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			bool[] ensureMoveLeftValidRule_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] ensureMoveLeftValidRule_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "ensureMoveLeftValidRule_node_wv", "wv", ensureMoveLeftValidRule_node_wv_AllowedTypes, ensureMoveLeftValidRule_node_wv_IsAllowedType, 5.5F, 0, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "ensureMoveLeftValidRule_node__node0", "_node0", ensureMoveLeftValidRule_node__node0_AllowedTypes, ensureMoveLeftValidRule_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "ensureMoveLeftValidRule_node_bp", "bp", ensureMoveLeftValidRule_node_bp_AllowedTypes, ensureMoveLeftValidRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveLeft, GRGEN_MODEL.EdgeType_moveLeft.typeVar, "GRGEN_MODEL.ImoveLeft", "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "ensureMoveLeftValidRule_node_wv", "wv", ensureMoveLeftValidRule_node_wv_AllowedTypes, ensureMoveLeftValidRule_node_wv_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "ensureMoveLeftValidRule_node__node0", "_node0", ensureMoveLeftValidRule_node__node0_AllowedTypes, ensureMoveLeftValidRule_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "ensureMoveLeftValidRule_node_bp", "bp", ensureMoveLeftValidRule_node_bp_AllowedTypes, ensureMoveLeftValidRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveLeft, GRGEN_MODEL.EdgeType_moveLeft.typeVar, "GRGEN_MODEL.ImoveLeft", "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			bool[,] ensureMoveLeftValidRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -681,8 +691,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			bool[] ensureMoveLeftValidRule_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ensureMoveLeftValidRule_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "ensureMoveLeftValidRule_neg_0_node__node0", "_node0", ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes, ensureMoveLeftValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, GRGEN_MODEL.EdgeType_right.typeVar, "GRGEN_MODEL.Iright", "ensureMoveLeftValidRule_neg_0_edge__edge0", "_edge0", ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "ensureMoveLeftValidRule_neg_0_node__node0", "_node0", ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes, ensureMoveLeftValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, GRGEN_MODEL.EdgeType_right.typeVar, "GRGEN_MODEL.Iright", "ensureMoveLeftValidRule_neg_0_edge__edge0", "_edge0", ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			ensureMoveLeftValidRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ensureMoveLeftValidRule_",
@@ -1142,6 +1152,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_ensureMoveRightValidRule;
 
 		public static GRGEN_LIBGR.NodeType[] ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes = null;
@@ -1154,6 +1165,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveRightValidRule_neg_0_SubNums { };
 		public enum ensureMoveRightValidRule_neg_0_AltNums { };
 		public enum ensureMoveRightValidRule_neg_0_IterNums { };
+
 
 		public GRGEN_LGSP.PatternGraph ensureMoveRightValidRule_neg_0;
 
@@ -1182,10 +1194,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			bool[] ensureMoveRightValidRule_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] ensureMoveRightValidRule_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "ensureMoveRightValidRule_node_wv", "wv", ensureMoveRightValidRule_node_wv_AllowedTypes, ensureMoveRightValidRule_node_wv_IsAllowedType, 5.5F, 0, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "ensureMoveRightValidRule_node__node0", "_node0", ensureMoveRightValidRule_node__node0_AllowedTypes, ensureMoveRightValidRule_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "ensureMoveRightValidRule_node_bp", "bp", ensureMoveRightValidRule_node_bp_AllowedTypes, ensureMoveRightValidRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveRight, GRGEN_MODEL.EdgeType_moveRight.typeVar, "GRGEN_MODEL.ImoveRight", "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "ensureMoveRightValidRule_node_wv", "wv", ensureMoveRightValidRule_node_wv_AllowedTypes, ensureMoveRightValidRule_node_wv_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "ensureMoveRightValidRule_node__node0", "_node0", ensureMoveRightValidRule_node__node0_AllowedTypes, ensureMoveRightValidRule_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "ensureMoveRightValidRule_node_bp", "bp", ensureMoveRightValidRule_node_bp_AllowedTypes, ensureMoveRightValidRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveRight, GRGEN_MODEL.EdgeType_moveRight.typeVar, "GRGEN_MODEL.ImoveRight", "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			bool[,] ensureMoveRightValidRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1195,8 +1207,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			bool[] ensureMoveRightValidRule_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ensureMoveRightValidRule_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "ensureMoveRightValidRule_neg_0_node__node0", "_node0", ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes, ensureMoveRightValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, GRGEN_MODEL.EdgeType_right.typeVar, "GRGEN_MODEL.Iright", "ensureMoveRightValidRule_neg_0_edge__edge0", "_edge0", ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveRightValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "ensureMoveRightValidRule_neg_0_node__node0", "_node0", ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes, ensureMoveRightValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, GRGEN_MODEL.EdgeType_right.typeVar, "GRGEN_MODEL.Iright", "ensureMoveRightValidRule_neg_0_edge__edge0", "_edge0", ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveRightValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			ensureMoveRightValidRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ensureMoveRightValidRule_",
@@ -1660,6 +1672,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_moveLeftRule;
 
 
@@ -1689,12 +1702,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			bool[] moveLeftRule_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
 			bool[] moveLeftRule_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode moveLeftRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "moveLeftRule_node_wv", "wv", moveLeftRule_node_wv_AllowedTypes, moveLeftRule_node_wv_IsAllowedType, 5.5F, 0, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode moveLeftRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "moveLeftRule_node_s", "s", moveLeftRule_node_s_AllowedTypes, moveLeftRule_node_s_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode moveLeftRule_node_lbp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "moveLeftRule_node_lbp", "lbp", moveLeftRule_node_lbp_AllowedTypes, moveLeftRule_node_lbp_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode moveLeftRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "moveLeftRule_node_bp", "bp", moveLeftRule_node_bp_AllowedTypes, moveLeftRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveLeft, GRGEN_MODEL.EdgeType_moveLeft.typeVar, "GRGEN_MODEL.ImoveLeft", "moveLeftRule_edge__edge0", "_edge0", moveLeftRule_edge__edge0_AllowedTypes, moveLeftRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, GRGEN_MODEL.EdgeType_right.typeVar, "GRGEN_MODEL.Iright", "moveLeftRule_edge__edge1", "_edge1", moveLeftRule_edge__edge1_AllowedTypes, moveLeftRule_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "moveLeftRule_node_wv", "wv", moveLeftRule_node_wv_AllowedTypes, moveLeftRule_node_wv_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "moveLeftRule_node_s", "s", moveLeftRule_node_s_AllowedTypes, moveLeftRule_node_s_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_lbp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "moveLeftRule_node_lbp", "lbp", moveLeftRule_node_lbp_AllowedTypes, moveLeftRule_node_lbp_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "moveLeftRule_node_bp", "bp", moveLeftRule_node_bp_AllowedTypes, moveLeftRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveLeft, GRGEN_MODEL.EdgeType_moveLeft.typeVar, "GRGEN_MODEL.ImoveLeft", "moveLeftRule_edge__edge0", "_edge0", moveLeftRule_edge__edge0_AllowedTypes, moveLeftRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, GRGEN_MODEL.EdgeType_right.typeVar, "GRGEN_MODEL.Iright", "moveLeftRule_edge__edge1", "_edge1", moveLeftRule_edge__edge1_AllowedTypes, moveLeftRule_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_moveLeftRule = new GRGEN_LGSP.PatternGraph(
 				"moveLeftRule",
 				"",
@@ -1975,6 +1988,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_moveRightRule;
 
 
@@ -2004,12 +2018,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			bool[] moveRightRule_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
 			bool[] moveRightRule_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode moveRightRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "moveRightRule_node_wv", "wv", moveRightRule_node_wv_AllowedTypes, moveRightRule_node_wv_IsAllowedType, 5.5F, 0, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode moveRightRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "moveRightRule_node_s", "s", moveRightRule_node_s_AllowedTypes, moveRightRule_node_s_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode moveRightRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "moveRightRule_node_bp", "bp", moveRightRule_node_bp_AllowedTypes, moveRightRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode moveRightRule_node_rbp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "moveRightRule_node_rbp", "rbp", moveRightRule_node_rbp_AllowedTypes, moveRightRule_node_rbp_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveRight, GRGEN_MODEL.EdgeType_moveRight.typeVar, "GRGEN_MODEL.ImoveRight", "moveRightRule_edge__edge0", "_edge0", moveRightRule_edge__edge0_AllowedTypes, moveRightRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, GRGEN_MODEL.EdgeType_right.typeVar, "GRGEN_MODEL.Iright", "moveRightRule_edge__edge1", "_edge1", moveRightRule_edge__edge1_AllowedTypes, moveRightRule_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode moveRightRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, GRGEN_MODEL.NodeType_WriteValue.typeVar, "GRGEN_MODEL.IWriteValue", "moveRightRule_node_wv", "wv", moveRightRule_node_wv_AllowedTypes, moveRightRule_node_wv_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode moveRightRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, GRGEN_MODEL.NodeType_State.typeVar, "GRGEN_MODEL.IState", "moveRightRule_node_s", "s", moveRightRule_node_s_AllowedTypes, moveRightRule_node_s_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode moveRightRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "moveRightRule_node_bp", "bp", moveRightRule_node_bp_AllowedTypes, moveRightRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode moveRightRule_node_rbp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "moveRightRule_node_rbp", "rbp", moveRightRule_node_rbp_AllowedTypes, moveRightRule_node_rbp_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveRight, GRGEN_MODEL.EdgeType_moveRight.typeVar, "GRGEN_MODEL.ImoveRight", "moveRightRule_edge__edge0", "_edge0", moveRightRule_edge__edge0_AllowedTypes, moveRightRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, GRGEN_MODEL.EdgeType_right.typeVar, "GRGEN_MODEL.Iright", "moveRightRule_edge__edge1", "_edge1", moveRightRule_edge__edge1_AllowedTypes, moveRightRule_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_moveRightRule = new GRGEN_LGSP.PatternGraph(
 				"moveRightRule",
 				"",
@@ -2280,6 +2294,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_countZeros;
 
 
@@ -2303,7 +2318,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[,] countZeros_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] countZeros_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] countZeros_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode countZeros_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "bp", countZeros_node_bp_AllowedTypes, countZeros_node_bp_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode countZeros_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "bp", countZeros_node_bp_AllowedTypes, countZeros_node_bp_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition countZeros_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "countZeros_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -2528,6 +2543,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_countOnes;
 
 
@@ -2551,7 +2567,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[,] countOnes_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] countOnes_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] countOnes_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode countOnes_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "bp", countOnes_node_bp_AllowedTypes, countOnes_node_bp_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode countOnes_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "bp", countOnes_node_bp_AllowedTypes, countOnes_node_bp_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition countOnes_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
 				new string[] { "countOnes_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -2757,6 +2773,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			}
 		}
 
+	}
+
+	public class Computations
+	{
 	}
 
 	public class Turing3_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns

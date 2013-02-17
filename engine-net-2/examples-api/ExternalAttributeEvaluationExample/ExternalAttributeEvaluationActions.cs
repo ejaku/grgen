@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jan 27 13:45:31 CET 2013
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Feb 17 15:39:23 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 		public enum init_SubNums { };
 		public enum init_AltNums { };
 		public enum init_IterNums { };
+
 
 
 
@@ -265,6 +266,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 
 
+
+
 		public GRGEN_LGSP.PatternGraph pat_r;
 
 
@@ -290,8 +293,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			};
 			bool[] r_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] r_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition r_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.ExternalFunctionInvocation("foo", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Constant("42"), new GRGEN_EXPR.Constant("3.141"), new GRGEN_EXPR.ConstantEnumExpression("Enu", "hurz"), new GRGEN_EXPR.Constant("\"S21-heiteitei\""), }, new String[] {null, null, null, null, }), new GRGEN_EXPR.ExternalFunctionInvocation("foo", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "i"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "d"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "enu"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "s"), }, new String[] {null, null, null, null, })),
 				new string[] { "r_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -349,18 +352,20 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			graph.SettingAddedNodeNames( r_addedNodeNames );
 			GRGEN_MODEL.@N node_m = GRGEN_MODEL.@N.CreateNode(graph);
 			graph.SettingAddedEdgeNames( r_addedEdgeNames );
-			bool tempvar_bool = (GRGEN_EXPR.ExternalFunctions.foo(42, 3.141, GRGEN_MODEL.ENUM_Enu.@hurz, "S21-heiteitei") && GRGEN_EXPR.ExternalFunctions.foo(inode_n.@i, inode_n.@d, inode_n.@enu, inode_n.@s));
-			graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_b, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_bool, null);
-			node_m.@b = tempvar_bool;
-			Object tempvar_object = GRGEN_EXPR.ExternalFunctions.bar(null, inode_n.@o);
-			graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_o, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_object, null);
-			node_m.@o = tempvar_object;
-			tempvar_bool = GRGEN_EXPR.ExternalFunctions.bla((GRGEN_MODEL.IN)node_m, (GRGEN_MODEL.IE)edge_e);
-			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_b, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_bool, null);
-			inode_n.@b = tempvar_bool;
-			GRGEN_MODEL.OwnPown tempvar_OwnPown = GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)inode_n.@ow, (GRGEN_MODEL.OwnPown)inode_n.@op);
-			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_op, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_OwnPown, null);
-			inode_n.@op = tempvar_OwnPown;
+			{ // eval_0
+			bool tempvar_0 = (GRGEN_EXPR.ExternalFunctions.foo(42, 3.141, GRGEN_MODEL.ENUM_Enu.@hurz, "S21-heiteitei") && GRGEN_EXPR.ExternalFunctions.foo(inode_n.@i, inode_n.@d, inode_n.@enu, inode_n.@s));
+			graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_b, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
+			node_m.@b = tempvar_0;
+			Object tempvar_1 = GRGEN_EXPR.ExternalFunctions.bar(null, inode_n.@o);
+			graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_o, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
+			node_m.@o = tempvar_1;
+			bool tempvar_2 = GRGEN_EXPR.ExternalFunctions.bla((GRGEN_MODEL.IN)node_m, (GRGEN_MODEL.IE)edge_e);
+			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_b, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_2, null);
+			inode_n.@b = tempvar_2;
+			GRGEN_MODEL.OwnPown tempvar_3 = GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)inode_n.@ow, (GRGEN_MODEL.OwnPown)inode_n.@op);
+			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_op, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_3, null);
+			inode_n.@op = tempvar_3;
+			}
 			return;
 		}
 		private static string[] r_addedNodeNames = new string[] { "m" };
@@ -533,6 +538,10 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			}
 		}
 
+	}
+
+	public class Computations
+	{
 	}
 
 	public class ExternalAttributeEvaluation_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns

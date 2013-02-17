@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jan 27 13:45:48 CET 2013
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Feb 17 15:39:40 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -34,6 +34,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_newRule;
 
 
@@ -60,9 +61,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] newRule_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] newRule_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode newRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "newRule_node_p1", "p1", newRule_node_p1_AllowedTypes, newRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode newRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "newRule_node_p2", "p2", newRule_node_p2_AllowedTypes, newRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge newRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "newRule_edge_n", "n", newRule_edge_n_AllowedTypes, newRule_edge_n_IsAllowedType, 1.0F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode newRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "newRule_node_p1", "p1", newRule_node_p1_AllowedTypes, newRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode newRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "newRule_node_p2", "p2", newRule_node_p2_AllowedTypes, newRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge newRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "newRule_edge_n", "n", newRule_edge_n_AllowedTypes, newRule_edge_n_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
 			pat_newRule = new GRGEN_LGSP.PatternGraph(
 				"newRule",
 				"",
@@ -319,6 +320,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_killRule;
 
 
@@ -347,11 +349,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] killRule_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] killRule_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode killRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "killRule_node_p1", "p1", killRule_node_p1_AllowedTypes, killRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode killRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "killRule_node_p", "p", killRule_node_p_AllowedTypes, killRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode killRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "killRule_node_p2", "p2", killRule_node_p2_AllowedTypes, killRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge killRule_edge_n1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "killRule_edge_n1", "n1", killRule_edge_n1_AllowedTypes, killRule_edge_n1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge killRule_edge_n2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "killRule_edge_n2", "n2", killRule_edge_n2_AllowedTypes, killRule_edge_n2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode killRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "killRule_node_p1", "p1", killRule_node_p1_AllowedTypes, killRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode killRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "killRule_node_p", "p", killRule_node_p_AllowedTypes, killRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode killRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "killRule_node_p2", "p2", killRule_node_p2_AllowedTypes, killRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge killRule_edge_n1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "killRule_edge_n1", "n1", killRule_edge_n1_AllowedTypes, killRule_edge_n1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge killRule_edge_n2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "killRule_edge_n2", "n2", killRule_edge_n2_AllowedTypes, killRule_edge_n2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_killRule = new GRGEN_LGSP.PatternGraph(
 				"killRule",
 				"",
@@ -620,6 +622,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_mountRule;
 
 
@@ -643,7 +646,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] mountRule_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] mountRule_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] mountRule_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode mountRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "mountRule_node_p", "p", mountRule_node_p_AllowedTypes, mountRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode mountRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "mountRule_node_p", "p", mountRule_node_p_AllowedTypes, mountRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_mountRule = new GRGEN_LGSP.PatternGraph(
 				"mountRule",
 				"",
@@ -872,6 +875,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_unmountRule;
 
 
@@ -898,9 +902,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] unmountRule_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] unmountRule_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode unmountRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "unmountRule_node_r", "r", unmountRule_node_r_AllowedTypes, unmountRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode unmountRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "unmountRule_node_p", "p", unmountRule_node_p_AllowedTypes, unmountRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge unmountRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@token, GRGEN_MODEL.EdgeType_token.typeVar, "GRGEN_MODEL.Itoken", "unmountRule_edge_t", "t", unmountRule_edge_t_AllowedTypes, unmountRule_edge_t_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode unmountRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "unmountRule_node_r", "r", unmountRule_node_r_AllowedTypes, unmountRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode unmountRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "unmountRule_node_p", "p", unmountRule_node_p_AllowedTypes, unmountRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge unmountRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@token, GRGEN_MODEL.EdgeType_token.typeVar, "GRGEN_MODEL.Itoken", "unmountRule_edge_t", "t", unmountRule_edge_t_AllowedTypes, unmountRule_edge_t_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_unmountRule = new GRGEN_LGSP.PatternGraph(
 				"unmountRule",
 				"",
@@ -1155,6 +1159,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_passRule;
 
 		public static GRGEN_LIBGR.EdgeType[] passRule_neg_0_edge_req_AllowedTypes = null;
@@ -1165,6 +1170,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum passRule_neg_0_SubNums { };
 		public enum passRule_neg_0_AltNums { };
 		public enum passRule_neg_0_IterNums { };
+
 
 		public GRGEN_LGSP.PatternGraph passRule_neg_0;
 
@@ -1194,11 +1200,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] passRule_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] passRule_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode passRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "passRule_node_r", "r", passRule_node_r_AllowedTypes, passRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode passRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "passRule_node_p1", "p1", passRule_node_p1_AllowedTypes, passRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode passRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "passRule_node_p2", "p2", passRule_node_p2_AllowedTypes, passRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge passRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@token, GRGEN_MODEL.EdgeType_token.typeVar, "GRGEN_MODEL.Itoken", "passRule_edge__edge0", "_edge0", passRule_edge__edge0_AllowedTypes, passRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge passRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "passRule_edge_n", "n", passRule_edge_n_AllowedTypes, passRule_edge_n_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode passRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "passRule_node_r", "r", passRule_node_r_AllowedTypes, passRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode passRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "passRule_node_p1", "p1", passRule_node_p1_AllowedTypes, passRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode passRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "passRule_node_p2", "p2", passRule_node_p2_AllowedTypes, passRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge passRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@token, GRGEN_MODEL.EdgeType_token.typeVar, "GRGEN_MODEL.Itoken", "passRule_edge__edge0", "_edge0", passRule_edge__edge0_AllowedTypes, passRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge passRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "passRule_edge_n", "n", passRule_edge_n_AllowedTypes, passRule_edge_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			bool[,] passRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1208,7 +1214,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] passRule_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] passRule_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge passRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "passRule_neg_0_edge_req", "req", passRule_neg_0_edge_req_AllowedTypes, passRule_neg_0_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge passRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "passRule_neg_0_edge_req", "req", passRule_neg_0_edge_req_AllowedTypes, passRule_neg_0_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			passRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"passRule_",
@@ -1676,6 +1682,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_requestRule;
 
 		public static GRGEN_LIBGR.EdgeType[] requestRule_neg_0_edge_hb_AllowedTypes = null;
@@ -1686,6 +1693,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_neg_0_SubNums { };
 		public enum requestRule_neg_0_AltNums { };
 		public enum requestRule_neg_0_IterNums { };
+
 
 		public GRGEN_LGSP.PatternGraph requestRule_neg_0;
 
@@ -1699,6 +1707,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_neg_1_SubNums { };
 		public enum requestRule_neg_1_AltNums { };
 		public enum requestRule_neg_1_IterNums { };
+
 
 		public GRGEN_LGSP.PatternGraph requestRule_neg_1;
 
@@ -1724,8 +1733,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] requestRule_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] requestRule_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] requestRule_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode requestRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "requestRule_node_p", "p", requestRule_node_p_AllowedTypes, requestRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode requestRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "requestRule_node_r", "r", requestRule_node_r_AllowedTypes, requestRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode requestRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "requestRule_node_p", "p", requestRule_node_p_AllowedTypes, requestRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode requestRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "requestRule_node_r", "r", requestRule_node_r_AllowedTypes, requestRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
 			bool[,] requestRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1735,7 +1744,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] requestRule_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] requestRule_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge requestRule_neg_0_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "requestRule_neg_0_edge_hb", "hb", requestRule_neg_0_edge_hb_AllowedTypes, requestRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge requestRule_neg_0_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "requestRule_neg_0_edge_hb", "hb", requestRule_neg_0_edge_hb_AllowedTypes, requestRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			requestRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"requestRule_",
@@ -1774,8 +1783,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] requestRule_neg_1_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] requestRule_neg_1_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode requestRule_neg_1_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "requestRule_neg_1_node_m", "m", requestRule_neg_1_node_m_AllowedTypes, requestRule_neg_1_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge requestRule_neg_1_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "requestRule_neg_1_edge_req", "req", requestRule_neg_1_edge_req_AllowedTypes, requestRule_neg_1_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode requestRule_neg_1_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "requestRule_neg_1_node_m", "m", requestRule_neg_1_node_m_AllowedTypes, requestRule_neg_1_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge requestRule_neg_1_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "requestRule_neg_1_edge_req", "req", requestRule_neg_1_edge_req_AllowedTypes, requestRule_neg_1_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			requestRule_neg_1 = new GRGEN_LGSP.PatternGraph(
 				"neg_1",
 				"requestRule_",
@@ -2389,6 +2398,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_takeRule;
 
 
@@ -2416,10 +2426,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] takeRule_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] takeRule_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode takeRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "takeRule_node_r", "r", takeRule_node_r_AllowedTypes, takeRule_node_r_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode takeRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "takeRule_node_p", "p", takeRule_node_p_AllowedTypes, takeRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge takeRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@token, GRGEN_MODEL.EdgeType_token.typeVar, "GRGEN_MODEL.Itoken", "takeRule_edge_t", "t", takeRule_edge_t_AllowedTypes, takeRule_edge_t_IsAllowedType, 1.0F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge takeRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "takeRule_edge_req", "req", takeRule_edge_req_AllowedTypes, takeRule_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode takeRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "takeRule_node_r", "r", takeRule_node_r_AllowedTypes, takeRule_node_r_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode takeRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "takeRule_node_p", "p", takeRule_node_p_AllowedTypes, takeRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge takeRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@token, GRGEN_MODEL.EdgeType_token.typeVar, "GRGEN_MODEL.Itoken", "takeRule_edge_t", "t", takeRule_edge_t_AllowedTypes, takeRule_edge_t_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge takeRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "takeRule_edge_req", "req", takeRule_edge_req_AllowedTypes, takeRule_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_takeRule = new GRGEN_LGSP.PatternGraph(
 				"takeRule",
 				"",
@@ -2682,6 +2692,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_releaseRule;
 
 		public static GRGEN_LIBGR.NodeType[] releaseRule_neg_0_node_m_AllowedTypes = null;
@@ -2694,6 +2705,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseRule_neg_0_SubNums { };
 		public enum releaseRule_neg_0_AltNums { };
 		public enum releaseRule_neg_0_IterNums { };
+
 
 		public GRGEN_LGSP.PatternGraph releaseRule_neg_0;
 
@@ -2721,9 +2733,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] releaseRule_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] releaseRule_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode releaseRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "releaseRule_node_r", "r", releaseRule_node_r_AllowedTypes, releaseRule_node_r_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode releaseRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "releaseRule_node_p", "p", releaseRule_node_p_AllowedTypes, releaseRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge releaseRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "releaseRule_edge_hb", "hb", releaseRule_edge_hb_AllowedTypes, releaseRule_edge_hb_IsAllowedType, 1.0F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode releaseRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "releaseRule_node_r", "r", releaseRule_node_r_AllowedTypes, releaseRule_node_r_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode releaseRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "releaseRule_node_p", "p", releaseRule_node_p_AllowedTypes, releaseRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge releaseRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "releaseRule_edge_hb", "hb", releaseRule_edge_hb_AllowedTypes, releaseRule_edge_hb_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
 			bool[,] releaseRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -2733,8 +2745,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] releaseRule_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] releaseRule_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode releaseRule_neg_0_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "releaseRule_neg_0_node_m", "m", releaseRule_neg_0_node_m_AllowedTypes, releaseRule_neg_0_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge releaseRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "releaseRule_neg_0_edge_req", "req", releaseRule_neg_0_edge_req_AllowedTypes, releaseRule_neg_0_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode releaseRule_neg_0_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "releaseRule_neg_0_node_m", "m", releaseRule_neg_0_node_m_AllowedTypes, releaseRule_neg_0_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge releaseRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "releaseRule_neg_0_edge_req", "req", releaseRule_neg_0_edge_req_AllowedTypes, releaseRule_neg_0_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			releaseRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"releaseRule_",
@@ -3191,6 +3203,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_giveRule;
 
 
@@ -3219,11 +3232,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] giveRule_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] giveRule_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode giveRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "giveRule_node_r", "r", giveRule_node_r_AllowedTypes, giveRule_node_r_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode giveRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "giveRule_node_p1", "p1", giveRule_node_p1_AllowedTypes, giveRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode giveRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "giveRule_node_p2", "p2", giveRule_node_p2_AllowedTypes, giveRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge giveRule_edge_rel = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@release, GRGEN_MODEL.EdgeType_release.typeVar, "GRGEN_MODEL.Irelease", "giveRule_edge_rel", "rel", giveRule_edge_rel_AllowedTypes, giveRule_edge_rel_IsAllowedType, 1.0F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge giveRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "giveRule_edge_n", "n", giveRule_edge_n_AllowedTypes, giveRule_edge_n_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode giveRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "giveRule_node_r", "r", giveRule_node_r_AllowedTypes, giveRule_node_r_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode giveRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "giveRule_node_p1", "p1", giveRule_node_p1_AllowedTypes, giveRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode giveRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "giveRule_node_p2", "p2", giveRule_node_p2_AllowedTypes, giveRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge giveRule_edge_rel = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@release, GRGEN_MODEL.EdgeType_release.typeVar, "GRGEN_MODEL.Irelease", "giveRule_edge_rel", "rel", giveRule_edge_rel_AllowedTypes, giveRule_edge_rel_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge giveRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "giveRule_edge_n", "n", giveRule_edge_n_AllowedTypes, giveRule_edge_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_giveRule = new GRGEN_LGSP.PatternGraph(
 				"giveRule",
 				"",
@@ -3496,6 +3509,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_blockedRule;
 
 
@@ -3524,11 +3538,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] blockedRule_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] blockedRule_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode blockedRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "blockedRule_node_p1", "p1", blockedRule_node_p1_AllowedTypes, blockedRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode blockedRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "blockedRule_node_r", "r", blockedRule_node_r_AllowedTypes, blockedRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode blockedRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "blockedRule_node_p2", "p2", blockedRule_node_p2_AllowedTypes, blockedRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge blockedRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "blockedRule_edge_req", "req", blockedRule_edge_req_AllowedTypes, blockedRule_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge blockedRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "blockedRule_edge_hb", "hb", blockedRule_edge_hb_AllowedTypes, blockedRule_edge_hb_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode blockedRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "blockedRule_node_p1", "p1", blockedRule_node_p1_AllowedTypes, blockedRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode blockedRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "blockedRule_node_r", "r", blockedRule_node_r_AllowedTypes, blockedRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode blockedRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "blockedRule_node_p2", "p2", blockedRule_node_p2_AllowedTypes, blockedRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge blockedRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "blockedRule_edge_req", "req", blockedRule_edge_req_AllowedTypes, blockedRule_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge blockedRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "blockedRule_edge_hb", "hb", blockedRule_edge_hb_AllowedTypes, blockedRule_edge_hb_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_blockedRule = new GRGEN_LGSP.PatternGraph(
 				"blockedRule",
 				"",
@@ -3805,6 +3819,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_waitingRule;
 
 
@@ -3836,14 +3851,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] waitingRule_isNodeTotallyHomomorphic = new bool[5] { false, false, false, false, false,  };
 			bool[] waitingRule_isEdgeTotallyHomomorphic = new bool[3] { false, false, false,  };
-			GRGEN_LGSP.PatternNode waitingRule_node_r2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "waitingRule_node_r2", "r2", waitingRule_node_r2_AllowedTypes, waitingRule_node_r2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode waitingRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "waitingRule_node_p1", "p1", waitingRule_node_p1_AllowedTypes, waitingRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode waitingRule_node_r1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "waitingRule_node_r1", "r1", waitingRule_node_r1_AllowedTypes, waitingRule_node_r1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode waitingRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "waitingRule_node_p2", "p2", waitingRule_node_p2_AllowedTypes, waitingRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode waitingRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "waitingRule_node_r", "r", waitingRule_node_r_AllowedTypes, waitingRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge waitingRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@blocked, GRGEN_MODEL.EdgeType_blocked.typeVar, "GRGEN_MODEL.Iblocked", "waitingRule_edge_b", "b", waitingRule_edge_b_AllowedTypes, waitingRule_edge_b_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge waitingRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "waitingRule_edge_hb", "hb", waitingRule_edge_hb_AllowedTypes, waitingRule_edge_hb_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge waitingRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "waitingRule_edge_req", "req", waitingRule_edge_req_AllowedTypes, waitingRule_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode waitingRule_node_r2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "waitingRule_node_r2", "r2", waitingRule_node_r2_AllowedTypes, waitingRule_node_r2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode waitingRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "waitingRule_node_p1", "p1", waitingRule_node_p1_AllowedTypes, waitingRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode waitingRule_node_r1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "waitingRule_node_r1", "r1", waitingRule_node_r1_AllowedTypes, waitingRule_node_r1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode waitingRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "waitingRule_node_p2", "p2", waitingRule_node_p2_AllowedTypes, waitingRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode waitingRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "waitingRule_node_r", "r", waitingRule_node_r_AllowedTypes, waitingRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge waitingRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@blocked, GRGEN_MODEL.EdgeType_blocked.typeVar, "GRGEN_MODEL.Iblocked", "waitingRule_edge_b", "b", waitingRule_edge_b_AllowedTypes, waitingRule_edge_b_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge waitingRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "waitingRule_edge_hb", "hb", waitingRule_edge_hb_AllowedTypes, waitingRule_edge_hb_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge waitingRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "waitingRule_edge_req", "req", waitingRule_edge_req_AllowedTypes, waitingRule_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_waitingRule = new GRGEN_LGSP.PatternGraph(
 				"waitingRule",
 				"",
@@ -4141,6 +4156,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_ignoreRule;
 
 		public static GRGEN_LIBGR.NodeType[] ignoreRule_neg_0_node_m_AllowedTypes = null;
@@ -4153,6 +4169,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum ignoreRule_neg_0_SubNums { };
 		public enum ignoreRule_neg_0_AltNums { };
 		public enum ignoreRule_neg_0_IterNums { };
+
 
 		public GRGEN_LGSP.PatternGraph ignoreRule_neg_0;
 
@@ -4180,9 +4197,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] ignoreRule_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ignoreRule_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ignoreRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "ignoreRule_node_r", "r", ignoreRule_node_r_AllowedTypes, ignoreRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode ignoreRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "ignoreRule_node_p", "p", ignoreRule_node_p_AllowedTypes, ignoreRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ignoreRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@blocked, GRGEN_MODEL.EdgeType_blocked.typeVar, "GRGEN_MODEL.Iblocked", "ignoreRule_edge_b", "b", ignoreRule_edge_b_AllowedTypes, ignoreRule_edge_b_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ignoreRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "ignoreRule_node_r", "r", ignoreRule_node_r_AllowedTypes, ignoreRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ignoreRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "ignoreRule_node_p", "p", ignoreRule_node_p_AllowedTypes, ignoreRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge ignoreRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@blocked, GRGEN_MODEL.EdgeType_blocked.typeVar, "GRGEN_MODEL.Iblocked", "ignoreRule_edge_b", "b", ignoreRule_edge_b_AllowedTypes, ignoreRule_edge_b_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			bool[,] ignoreRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -4192,8 +4209,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] ignoreRule_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ignoreRule_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ignoreRule_neg_0_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "ignoreRule_neg_0_node_m", "m", ignoreRule_neg_0_node_m_AllowedTypes, ignoreRule_neg_0_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ignoreRule_neg_0_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "ignoreRule_neg_0_edge_hb", "hb", ignoreRule_neg_0_edge_hb_AllowedTypes, ignoreRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode ignoreRule_neg_0_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "ignoreRule_neg_0_node_m", "m", ignoreRule_neg_0_node_m_AllowedTypes, ignoreRule_neg_0_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge ignoreRule_neg_0_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "ignoreRule_neg_0_edge_hb", "hb", ignoreRule_neg_0_edge_hb_AllowedTypes, ignoreRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			ignoreRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ignoreRule_",
@@ -4645,6 +4662,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_unlockRule;
 
 
@@ -4672,10 +4690,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] unlockRule_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] unlockRule_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode unlockRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "unlockRule_node_r", "r", unlockRule_node_r_AllowedTypes, unlockRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode unlockRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "unlockRule_node_p", "p", unlockRule_node_p_AllowedTypes, unlockRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge unlockRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@blocked, GRGEN_MODEL.EdgeType_blocked.typeVar, "GRGEN_MODEL.Iblocked", "unlockRule_edge_b", "b", unlockRule_edge_b_AllowedTypes, unlockRule_edge_b_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge unlockRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "unlockRule_edge_hb", "hb", unlockRule_edge_hb_AllowedTypes, unlockRule_edge_hb_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode unlockRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "unlockRule_node_r", "r", unlockRule_node_r_AllowedTypes, unlockRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode unlockRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "unlockRule_node_p", "p", unlockRule_node_p_AllowedTypes, unlockRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge unlockRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@blocked, GRGEN_MODEL.EdgeType_blocked.typeVar, "GRGEN_MODEL.Iblocked", "unlockRule_edge_b", "b", unlockRule_edge_b_AllowedTypes, unlockRule_edge_b_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge unlockRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "unlockRule_edge_hb", "hb", unlockRule_edge_hb_AllowedTypes, unlockRule_edge_hb_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_unlockRule = new GRGEN_LGSP.PatternGraph(
 				"unlockRule",
 				"",
@@ -4946,6 +4964,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_requestStarRule;
 
 		public static GRGEN_LIBGR.EdgeType[] requestStarRule_neg_0_edge_req_AllowedTypes = null;
@@ -4956,6 +4975,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestStarRule_neg_0_SubNums { };
 		public enum requestStarRule_neg_0_AltNums { };
 		public enum requestStarRule_neg_0_IterNums { };
+
 
 		public GRGEN_LGSP.PatternGraph requestStarRule_neg_0;
 
@@ -4987,13 +5007,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] requestStarRule_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
 			bool[] requestStarRule_isEdgeTotallyHomomorphic = new bool[3] { false, false, false,  };
-			GRGEN_LGSP.PatternNode requestStarRule_node_r1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "requestStarRule_node_r1", "r1", requestStarRule_node_r1_AllowedTypes, requestStarRule_node_r1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode requestStarRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "requestStarRule_node_p1", "p1", requestStarRule_node_p1_AllowedTypes, requestStarRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode requestStarRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "requestStarRule_node_p2", "p2", requestStarRule_node_p2_AllowedTypes, requestStarRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode requestStarRule_node_r2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "requestStarRule_node_r2", "r2", requestStarRule_node_r2_AllowedTypes, requestStarRule_node_r2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge requestStarRule_edge_h1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "requestStarRule_edge_h1", "h1", requestStarRule_edge_h1_AllowedTypes, requestStarRule_edge_h1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge requestStarRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "requestStarRule_edge_n", "n", requestStarRule_edge_n_AllowedTypes, requestStarRule_edge_n_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge requestStarRule_edge_h2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "requestStarRule_edge_h2", "h2", requestStarRule_edge_h2_AllowedTypes, requestStarRule_edge_h2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode requestStarRule_node_r1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "requestStarRule_node_r1", "r1", requestStarRule_node_r1_AllowedTypes, requestStarRule_node_r1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode requestStarRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "requestStarRule_node_p1", "p1", requestStarRule_node_p1_AllowedTypes, requestStarRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode requestStarRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "requestStarRule_node_p2", "p2", requestStarRule_node_p2_AllowedTypes, requestStarRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode requestStarRule_node_r2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "requestStarRule_node_r2", "r2", requestStarRule_node_r2_AllowedTypes, requestStarRule_node_r2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge requestStarRule_edge_h1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "requestStarRule_edge_h1", "h1", requestStarRule_edge_h1_AllowedTypes, requestStarRule_edge_h1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge requestStarRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@next, GRGEN_MODEL.EdgeType_next.typeVar, "GRGEN_MODEL.Inext", "requestStarRule_edge_n", "n", requestStarRule_edge_n_AllowedTypes, requestStarRule_edge_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge requestStarRule_edge_h2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "requestStarRule_edge_h2", "h2", requestStarRule_edge_h2_AllowedTypes, requestStarRule_edge_h2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			bool[,] requestStarRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -5003,7 +5023,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] requestStarRule_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] requestStarRule_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge requestStarRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "requestStarRule_neg_0_edge_req", "req", requestStarRule_neg_0_edge_req_AllowedTypes, requestStarRule_neg_0_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge requestStarRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "requestStarRule_neg_0_edge_req", "req", requestStarRule_neg_0_edge_req_AllowedTypes, requestStarRule_neg_0_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			requestStarRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"requestStarRule_",
@@ -5496,6 +5516,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_releaseStarRule;
 
 
@@ -5526,13 +5547,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] releaseStarRule_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
 			bool[] releaseStarRule_isEdgeTotallyHomomorphic = new bool[3] { false, false, false,  };
-			GRGEN_LGSP.PatternNode releaseStarRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "releaseStarRule_node_p1", "p1", releaseStarRule_node_p1_AllowedTypes, releaseStarRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode releaseStarRule_node_r1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "releaseStarRule_node_r1", "r1", releaseStarRule_node_r1_AllowedTypes, releaseStarRule_node_r1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode releaseStarRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "releaseStarRule_node_p2", "p2", releaseStarRule_node_p2_AllowedTypes, releaseStarRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode releaseStarRule_node_r2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "releaseStarRule_node_r2", "r2", releaseStarRule_node_r2_AllowedTypes, releaseStarRule_node_r2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge releaseStarRule_edge_rq = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "releaseStarRule_edge_rq", "rq", releaseStarRule_edge_rq_AllowedTypes, releaseStarRule_edge_rq_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge releaseStarRule_edge_h1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "releaseStarRule_edge_h1", "h1", releaseStarRule_edge_h1_AllowedTypes, releaseStarRule_edge_h1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge releaseStarRule_edge_h2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "releaseStarRule_edge_h2", "h2", releaseStarRule_edge_h2_AllowedTypes, releaseStarRule_edge_h2_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode releaseStarRule_node_p1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "releaseStarRule_node_p1", "p1", releaseStarRule_node_p1_AllowedTypes, releaseStarRule_node_p1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode releaseStarRule_node_r1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "releaseStarRule_node_r1", "r1", releaseStarRule_node_r1_AllowedTypes, releaseStarRule_node_r1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode releaseStarRule_node_p2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "releaseStarRule_node_p2", "p2", releaseStarRule_node_p2_AllowedTypes, releaseStarRule_node_p2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode releaseStarRule_node_r2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "releaseStarRule_node_r2", "r2", releaseStarRule_node_r2_AllowedTypes, releaseStarRule_node_r2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge releaseStarRule_edge_rq = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "releaseStarRule_edge_rq", "rq", releaseStarRule_edge_rq_AllowedTypes, releaseStarRule_edge_rq_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge releaseStarRule_edge_h1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "releaseStarRule_edge_h1", "h1", releaseStarRule_edge_h1_AllowedTypes, releaseStarRule_edge_h1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge releaseStarRule_edge_h2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "releaseStarRule_edge_h2", "h2", releaseStarRule_edge_h2_AllowedTypes, releaseStarRule_edge_h2_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_releaseStarRule = new GRGEN_LGSP.PatternGraph(
 				"releaseStarRule",
 				"",
@@ -5818,6 +5839,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_requestSimpleRule;
 
 		public static GRGEN_LIBGR.EdgeType[] requestSimpleRule_neg_0_edge_req_AllowedTypes = null;
@@ -5828,6 +5850,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestSimpleRule_neg_0_SubNums { };
 		public enum requestSimpleRule_neg_0_AltNums { };
 		public enum requestSimpleRule_neg_0_IterNums { };
+
 
 		public GRGEN_LGSP.PatternGraph requestSimpleRule_neg_0;
 
@@ -5855,9 +5878,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] requestSimpleRule_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] requestSimpleRule_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode requestSimpleRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "requestSimpleRule_node_r", "r", requestSimpleRule_node_r_AllowedTypes, requestSimpleRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternNode requestSimpleRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "requestSimpleRule_node_p", "p", requestSimpleRule_node_p_AllowedTypes, requestSimpleRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge requestSimpleRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@token, GRGEN_MODEL.EdgeType_token.typeVar, "GRGEN_MODEL.Itoken", "requestSimpleRule_edge_t", "t", requestSimpleRule_edge_t_AllowedTypes, requestSimpleRule_edge_t_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode requestSimpleRule_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "requestSimpleRule_node_r", "r", requestSimpleRule_node_r_AllowedTypes, requestSimpleRule_node_r_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode requestSimpleRule_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "requestSimpleRule_node_p", "p", requestSimpleRule_node_p_AllowedTypes, requestSimpleRule_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge requestSimpleRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@token, GRGEN_MODEL.EdgeType_token.typeVar, "GRGEN_MODEL.Itoken", "requestSimpleRule_edge_t", "t", requestSimpleRule_edge_t_AllowedTypes, requestSimpleRule_edge_t_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			bool[,] requestSimpleRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -5867,7 +5890,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] requestSimpleRule_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] requestSimpleRule_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge requestSimpleRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "requestSimpleRule_neg_0_edge_req", "req", requestSimpleRule_neg_0_edge_req_AllowedTypes, requestSimpleRule_neg_0_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternEdge requestSimpleRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@request, GRGEN_MODEL.EdgeType_request.typeVar, "GRGEN_MODEL.Irequest", "requestSimpleRule_neg_0_edge_req", "req", requestSimpleRule_neg_0_edge_req_AllowedTypes, requestSimpleRule_neg_0_edge_req_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			requestSimpleRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"requestSimpleRule_",
@@ -6313,6 +6336,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_aux_attachResource;
 
 		public static GRGEN_LIBGR.NodeType[] aux_attachResource_neg_0_node_r_AllowedTypes = null;
@@ -6325,6 +6349,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum aux_attachResource_neg_0_SubNums { };
 		public enum aux_attachResource_neg_0_AltNums { };
 		public enum aux_attachResource_neg_0_IterNums { };
+
 
 		public GRGEN_LGSP.PatternGraph aux_attachResource_neg_0;
 
@@ -6349,7 +6374,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] aux_attachResource_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] aux_attachResource_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] aux_attachResource_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode aux_attachResource_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "aux_attachResource_node_p", "p", aux_attachResource_node_p_AllowedTypes, aux_attachResource_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode aux_attachResource_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Process, GRGEN_MODEL.NodeType_Process.typeVar, "GRGEN_MODEL.IProcess", "aux_attachResource_node_p", "p", aux_attachResource_node_p_AllowedTypes, aux_attachResource_node_p_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			bool[,] aux_attachResource_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -6359,8 +6384,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] aux_attachResource_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] aux_attachResource_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode aux_attachResource_neg_0_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "aux_attachResource_neg_0_node_r", "r", aux_attachResource_neg_0_node_r_AllowedTypes, aux_attachResource_neg_0_node_r_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge aux_attachResource_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "aux_attachResource_neg_0_edge__edge0", "_edge0", aux_attachResource_neg_0_edge__edge0_AllowedTypes, aux_attachResource_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode aux_attachResource_neg_0_node_r = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Resource, GRGEN_MODEL.NodeType_Resource.typeVar, "GRGEN_MODEL.IResource", "aux_attachResource_neg_0_node_r", "r", aux_attachResource_neg_0_node_r_AllowedTypes, aux_attachResource_neg_0_node_r_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge aux_attachResource_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@held_by, GRGEN_MODEL.EdgeType_held_by.typeVar, "GRGEN_MODEL.Iheld_by", "aux_attachResource_neg_0_edge__edge0", "_edge0", aux_attachResource_neg_0_edge__edge0_AllowedTypes, aux_attachResource_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			aux_attachResource_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"aux_attachResource_",
@@ -6789,6 +6814,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_annotationTestRule;
 
 
@@ -6815,8 +6841,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			};
 			bool[] annotationTestRule_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] annotationTestRule_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode annotationTestRule_node_n1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AnnotationTestNode, GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar, "GRGEN_MODEL.IAnnotationTestNode", "annotationTestRule_node_n1", "n1", annotationTestRule_node_n1_AllowedTypes, annotationTestRule_node_n1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge annotationTestRule_edge_e1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@annotationTestEdge, GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar, "GRGEN_MODEL.IannotationTestEdge", "annotationTestRule_edge_e1", "e1", annotationTestRule_edge_e1_AllowedTypes, annotationTestRule_edge_e1_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode annotationTestRule_node_n1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AnnotationTestNode, GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar, "GRGEN_MODEL.IAnnotationTestNode", "annotationTestRule_node_n1", "n1", annotationTestRule_node_n1_AllowedTypes, annotationTestRule_node_n1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge annotationTestRule_edge_e1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@annotationTestEdge, GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar, "GRGEN_MODEL.IannotationTestEdge", "annotationTestRule_edge_e1", "e1", annotationTestRule_edge_e1_AllowedTypes, annotationTestRule_edge_e1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_annotationTestRule = new GRGEN_LGSP.PatternGraph(
 				"annotationTestRule",
 				"",
@@ -7032,6 +7058,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 		}
 
+	}
+
+	public class Computations
+	{
 	}
 
 	public class MutexPimped_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun Jan 27 13:45:33 CET 2013
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun Feb 17 15:39:25 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 		public enum filterBase_SubNums { };
 		public enum filterBase_AltNums { };
 		public enum filterBase_IterNums { };
+
 
 
 
@@ -263,6 +264,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_filterBass;
 
 
@@ -288,8 +290,8 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			};
 			bool[] filterBass_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] filterBass_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode filterBass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "filterBass_node_n", "n", filterBass_node_n_AllowedTypes, filterBass_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge filterBass_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "filterBass_edge_e", "e", filterBass_edge_e_AllowedTypes, filterBass_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode filterBass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "filterBass_node_n", "n", filterBass_node_n_AllowedTypes, filterBass_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge filterBass_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "filterBass_edge_e", "e", filterBass_edge_e_AllowedTypes, filterBass_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_filterBass = new GRGEN_LGSP.PatternGraph(
 				"filterBass",
 				"",
@@ -548,8 +550,8 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			};
 			bool[] filterHass_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] filterHass_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode filterHass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "filterHass_node_n", "n", filterHass_node_n_AllowedTypes, filterHass_node_n_IsAllowedType, 5.5F, 0, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge filterHass_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "filterHass_edge_e", "e", filterHass_edge_e_AllowedTypes, filterHass_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode filterHass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "filterHass_node_n", "n", filterHass_node_n_AllowedTypes, filterHass_node_n_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge filterHass_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "filterHass_edge_e", "e", filterHass_edge_e_AllowedTypes, filterHass_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_filterHass = new GRGEN_LGSP.PatternGraph(
 				"filterHass",
 				"",
@@ -774,6 +776,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 		public enum init_SubNums { };
 		public enum init_AltNums { };
 		public enum init_IterNums { };
+
 
 
 
@@ -1018,6 +1021,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 
 
 
+
 		public GRGEN_LGSP.PatternGraph pat_r;
 
 
@@ -1043,8 +1047,8 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			};
 			bool[] r_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] r_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false);
-			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false);
+			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			pat_r = new GRGEN_LGSP.PatternGraph(
 				"r",
 				"",
@@ -1783,6 +1787,10 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 					  )
 		{
 		}
+	}
+
+	public class Computations
+	{
 	}
 
 	public class ExternalFiltersAndSequences_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
