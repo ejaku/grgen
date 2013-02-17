@@ -600,7 +600,7 @@ namespace de.unika.ipd.grGen.lgsp
 				return primes [i];
 			}
 			else {
-				FindPrimesTo (i);
+				FindPrimesTo (i+1);
 				return primes [i];
 			}
 		}
