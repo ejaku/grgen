@@ -3369,6 +3369,123 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the reachable nodes of a node (as set) reachable via outgoing edges
+    /// </summary>
+    public class IsReachableOutgoing : Expression
+    {
+        public IsReachableOutgoing(Expression startNode, Expression endNode,
+            String incidentEdgeType, String adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndNode = endNode;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsReachableOutgoing(StartNode.Copy(renameSuffix), EndNode.Copy(renameSuffix),
+                IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsReachableOutgoing(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.INode)");
+            EndNode.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression StartNode;
+        Expression EndNode;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable nodes of a node (as set) reachable via incoming edges
+    /// </summary>
+    public class IsReachableIncoming : Expression
+    {
+        public IsReachableIncoming(Expression startNode, Expression endNode,
+            String incidentEdgeType, String adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndNode = endNode;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsReachableIncoming(StartNode.Copy(renameSuffix), EndNode.Copy(renameSuffix),
+                IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsReachableIncoming(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.INode)");
+            EndNode.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression StartNode;
+        Expression EndNode;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable nodes of a node (as set) reachable via incident edges
+    /// </summary>
+    public class IsReachable : Expression
+    {
+        public IsReachable(Expression startNode, Expression endNode,
+            String incidentEdgeType, String adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndNode = endNode;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsReachable(StartNode.Copy(renameSuffix), EndNode.Copy(renameSuffix), 
+                IncidentEdgeType, AdjacentNodeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsReachable(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.INode)");
+            EndNode.Emit(sourceCode);
+            sourceCode.Append(", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        Expression StartNode;
+        Expression EndNode;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
     /// Class representing the max operator.
     /// </summary>
     public class Max : BinFuncOperator

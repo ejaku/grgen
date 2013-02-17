@@ -2272,6 +2272,31 @@ public class ActionsGen extends CSharpBase {
 					+ "\""+formatTypeClassRef(rn.getAdjacentNodeType()) + ".typeVar\""
 					+ ")");
 		}
+		else if (expr instanceof IsReachableNodeExpr) {
+			IsReachableNodeExpr irn = (IsReachableNodeExpr) expr;
+			if(irn.Direction()==IsReachableNodeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.IsReachableOutgoing(");
+			} else if(irn.Direction()==IsReachableNodeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.IsReachableIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.IsReachable(");
+			}
+			if(!Expression.isGlobalVariable(irn.getStartNode())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(irn.getStartNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(irn.getStartNode()) + "\", \"" + formatType(irn.getStartNode().getType()) + "\")");
+			}
+			sb.append(", ");
+			if(!Expression.isGlobalVariable(irn.getEndNode())) {
+				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(irn.getEndNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(irn.getEndNode()) + "\", \"" + formatType(irn.getEndNode().getType()) + "\")");
+			}
+			sb.append(", "
+					+ "\""+formatTypeClassRef(irn.getIncidentEdgeType()) + ".typeVar\", "
+					+ "\""+formatTypeClassRef(irn.getAdjacentNodeType()) + ".typeVar\""
+					+ ")");
+		}
 		else if (expr instanceof MaxExpr) {
 			MaxExpr m = (MaxExpr) expr;
 			sb.append("new GRGEN_EXPR.Max(");

@@ -3254,7 +3254,9 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (id.toString().equals("incoming") || id.toString().equals("outgoing") || id.toString().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (id.toString().equals("adjacentIncoming") || id.toString().equals("adjacentOutgoing") || id.toString().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (id.toString().equals("reachableIncoming") || id.toString().equals("reachableOutgoing") || id.toString().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (id.toString().equals("reachableEdgesIncoming") || id.toString().equals("reachableEdgesOutgoing") || id.toString().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 )
+				|| (id.toString().equals("reachableEdgesIncoming") || id.toString().equals("reachableEdgesOutgoing") || id.toString().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
+				|| (id.toString().equals("isReachableIncoming") || id.toString().equals("isReachableOutgoing") || id.toString().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+			  )
 			{
 				res = new FunctionInvocationExprNode(id, params, env);
 			} else {
