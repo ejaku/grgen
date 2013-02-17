@@ -156,7 +156,9 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 		}
-		else if(functionName.equals("incoming") || functionName.equals("outgoing") || functionName.equals("incident")) {
+		else if(functionName.equals("incoming")
+				|| functionName.equals("outgoing")
+				|| functionName.equals("incident")) {
 			int direction;
 			if(functionName.equals("incoming"))
 				direction = IncidentEdgeExprNode.INCOMING;
@@ -194,10 +196,10 @@ public class FunctionInvocationExprNode extends ExprNode
 			if(params.size() == 1) {
 				result = new IncidentEdgeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
 			}
-			else  if(params.size() == 2) {
+			else if(params.size() == 2) {
 				result = new IncidentEdgeExprNode(getCoords(), first, second, direction, env.getNodeRoot());
 			}
-			else  if(params.size() == 3) {
+			else if(params.size() == 3) {
 				result = new IncidentEdgeExprNode(getCoords(), first, second, direction, third);
 			}
 			else {
@@ -205,7 +207,9 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 		}
-		else if(functionName.equals("adjacentIncoming") || functionName.equals("adjacentOutgoing") || functionName.equals("adjacent")) {
+		else if(functionName.equals("adjacentIncoming")
+				|| functionName.equals("adjacentOutgoing")
+				|| functionName.equals("adjacent")) {
 			int direction;
 			if(functionName.equals("adjacentIncoming"))
 				direction = AdjacentNodeExprNode.INCOMING;
@@ -243,10 +247,10 @@ public class FunctionInvocationExprNode extends ExprNode
 			if(params.size() == 1) {
 				result = new AdjacentNodeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
 			}
-			else  if(params.size() == 2) {
+			else if(params.size() == 2) {
 				result = new AdjacentNodeExprNode(getCoords(), first, second, direction, env.getNodeRoot());
 			}
-			else  if(params.size() == 3) {
+			else if(params.size() == 3) {
 				result = new AdjacentNodeExprNode(getCoords(), first, second, direction, third);
 			}
 			else {
@@ -254,7 +258,9 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 		}
-		else if(functionName.equals("reachableEdgesIncoming") || functionName.equals("reachableEdgesOutgoing") || functionName.equals("reachableEdges")) {
+		else if(functionName.equals("reachableEdgesIncoming")
+				|| functionName.equals("reachableEdgesOutgoing")
+				|| functionName.equals("reachableEdges")) {
 			int direction;
 			if(functionName.equals("reachableEdgesIncoming"))
 				direction = ReachableEdgeExprNode.INCOMING;
@@ -292,10 +298,10 @@ public class FunctionInvocationExprNode extends ExprNode
 			if(params.size() == 1) {
 				result = new ReachableEdgeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
 			}
-			else  if(params.size() == 2) {
+			else if(params.size() == 2) {
 				result = new ReachableEdgeExprNode(getCoords(), first, second, direction, env.getNodeRoot());
 			}
-			else  if(params.size() == 3) {
+			else if(params.size() == 3) {
 				result = new ReachableEdgeExprNode(getCoords(), first, second, direction, third);
 			}
 			else {
@@ -303,7 +309,9 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 		}
-		else if(functionName.equals("reachableIncoming") || functionName.equals("reachableOutgoing") || functionName.equals("reachable")) {
+		else if(functionName.equals("reachableIncoming")
+				|| functionName.equals("reachableOutgoing")
+				|| functionName.equals("reachable")) {
 			int direction;
 			if(functionName.equals("reachableIncoming"))
 				direction = ReachableNodeExprNode.INCOMING;
@@ -341,14 +349,72 @@ public class FunctionInvocationExprNode extends ExprNode
 			if(params.size() == 1) {
 				result = new ReachableNodeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
 			}
-			else  if(params.size() == 2) {
+			else if(params.size() == 2) {
 				result = new ReachableNodeExprNode(getCoords(), first, second, direction, env.getNodeRoot());
 			}
-			else  if(params.size() == 3) {
+			else if(params.size() == 3) {
 				result = new ReachableNodeExprNode(getCoords(), first, second, direction, third);
 			}
 			else {
 				reportError(functionName + "() takes 1-3 parameters.");
+				return false;
+			}
+		}
+		else if(functionName.equals("isReachableIncoming")
+				|| functionName.equals("isReachableOutgoing")
+				|| functionName.equals("isReachable")) {
+			int direction;
+			if(functionName.equals("isReachableIncoming"))
+				direction = IsReachableNodeExprNode.INCOMING;
+			else if(functionName.equals("isReachableOutgoing"))
+				direction = IsReachableNodeExprNode.OUTGOING;
+			else
+				direction = IsReachableNodeExprNode.ADJACENT;
+			
+			IdentNode first = null;
+			IdentNode second = null;
+			IdentNode third = null;
+			IdentNode fourth = null;
+			if(params.size() >= 2) {
+				if(!(params.get(0) instanceof IdentExprNode)) {
+					reportError("first parameter of " + functionName + "() must be a graph entity (identifier)");
+					return false;
+				}
+				first = ((IdentExprNode)params.get(0)).getIdent();
+
+				if(!(params.get(1) instanceof IdentExprNode)) {
+					reportError("second parameter of " + functionName + "() must be a graph entity (identifier)");
+					return false;
+				}
+				second = ((IdentExprNode)params.get(1)).getIdent();
+
+				if(params.size() >= 3) {
+					if(!(params.get(2) instanceof IdentExprNode)) {
+						reportError("third parameter of " + functionName + "() must be an edge type (identifier)");
+						return false;
+					}
+					third = ((IdentExprNode)params.get(2)).getIdent();
+
+					if(params.size() >= 4) {
+						if(!(params.get(3) instanceof IdentExprNode)) {
+							reportError("fourth parameter of " + functionName + "() must be a node type (identifier)");
+							return false;
+						}
+						fourth = ((IdentExprNode)params.get(3)).getIdent();
+					}
+				}
+			}
+			if(params.size() == 2) {
+				result = new IsReachableNodeExprNode(getCoords(), first, second, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
+			}
+			else if(params.size() == 3) {
+				result = new IsReachableNodeExprNode(getCoords(), first, second, third, direction, env.getNodeRoot());
+			}
+			else if(params.size() == 4) {
+				result = new IsReachableNodeExprNode(getCoords(), first, second, third, direction, fourth);
+			}
+			else {
+				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
 			}
 		}

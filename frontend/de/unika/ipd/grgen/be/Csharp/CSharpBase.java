@@ -1322,6 +1322,31 @@ public abstract class CSharpBase {
 				+ formatTypeClassRef(rn.getAdjacentNodeType()) + ".typeVar"
 				+ ")");
 		}
+		else if (expr instanceof IsReachableNodeExpr) {
+			IsReachableNodeExpr irn = (IsReachableNodeExpr) expr;
+			if(irn.Direction()==IsReachableNodeExpr.OUTGOING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableOutgoing(graph, ");
+			} else if(irn.Direction()==IsReachableNodeExpr.INCOMING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableIncoming(graph, ");
+			} else {
+				sb.append("GRGEN_LIBGR.GraphHelper.IsReachable(graph, ");
+			}
+			if(!Expression.isGlobalVariable(irn.getStartNode())) {
+				sb.append(formatEntity(irn.getStartNode())); 
+			} else {
+				sb.append(formatGlobalVariableRead(irn.getStartNode()));
+			}
+			sb.append(", ");
+			if(!Expression.isGlobalVariable(irn.getEndNode())) {
+				sb.append(formatEntity(irn.getEndNode())); 
+			} else {
+				sb.append(formatGlobalVariableRead(irn.getEndNode()));
+			}
+			sb.append(", "
+				+ formatTypeClassRef(irn.getIncidentEdgeType()) + ".typeVar, "
+				+ formatTypeClassRef(irn.getAdjacentNodeType()) + ".typeVar"
+				+ ")");
+		}
 		else if (expr instanceof MaxExpr) {
 			MaxExpr m = (MaxExpr)expr;
 			sb.append("Math.Max(");
