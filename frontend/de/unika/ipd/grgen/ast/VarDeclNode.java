@@ -53,6 +53,7 @@ public class VarDeclNode extends DeclNode {
 		super(id, type);
 		this.type = type;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
+		this.defEntityToBeYieldedTo = defEntityToBeYieldedTo;
 		this.context = context;
 	}
 

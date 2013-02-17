@@ -13,11 +13,6 @@ some(n:A, -e:E1->) : boolean
 	i2 = i1 * (int)f;
 	def var b:boolean = true;
 
-    def ref m:map<string, Node> = map<string,Node>{s->n};
-    def ref ar:array<Node> = array<Node>[n];
-    def ref de:deque<E1> = deque<E1>]e[;
-    def ref se:set<string> = set<string>{s};
-
 	return(n.b);
 }
 
@@ -38,11 +33,6 @@ test t(n:A, -e:E1->) : (boolean)
 			i2 = i1 * (int)f;
 			def var b:boolean = true;
 
-			def ref m:map<string, Node> = map<string,Node>{s->n};
-			def ref ar:array<Node> = array<Node>[n];
-			def ref de:deque<E1> = deque<E1>]e[;
-			def ref se:set<string> = set<string>{s};
-
 			yield res = n.b;
 		}
 	}
@@ -50,11 +40,11 @@ test t(n:A, -e:E1->) : (boolean)
 	return (res);
 }
 
-rule r(n:A, -e:E1->) : (boolean)
+rule r(n:A, -e:E1->, var x:int) : (boolean)
 {	
 	modify {
 		def var res:boolean;
-		
+
 		eval { 
 			def var by:byte = (byte)42;
 			def var sh:short = (short)42;
@@ -67,14 +57,76 @@ rule r(n:A, -e:E1->) : (boolean)
 			i2 = i1 * (int)f;
 			def var b:boolean = true;
 
-			def ref m:map<string, Node> = map<string,Node>{s->n};
-			def ref ar:array<Node> = array<Node>[n];
-			def ref de:deque<E1> = deque<E1>]e[;
-			def ref se:set<string> = set<string>{s};
-
 			yield res = n.b;
 		}
 		
 		return (res);
+	}
+}
+
+pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var resres:int)
+{
+	independent {
+		independent {
+			yield {
+				def var by:byte = (byte)42;
+				def var sh:short = (short)42;
+				def var i1:int = x;
+				def var l:long = 0xdeadbeefl;
+				def var f:float = 42.815f;
+				def var s:string = "hello world";
+				def var i2:int = i1 * (int)f;
+				f = 42.815f;
+				i2 = i1 * (int)f;
+				def var b:boolean = true;
+
+				yield res = n.i1 + i1;
+			}
+			yield {
+				def var by:byte = (byte)42;
+				def var sh:short = (short)42;
+				def var i1:int = x;
+				def var l:long = 0xdeadbeefl;
+				def var f:float = 42.815f;
+				def var s:string = "hello world";
+				def var i2:int = i1 * (int)f;
+				f = 42.815f;
+				i2 = i1 * (int)f;
+				def var b:boolean = true;
+
+				yield res = n.i1 + i1;
+			}
+		}
+	}
+	
+	modify {
+		eval { 
+			def var by:byte = (byte)42;
+			def var sh:short = (short)42;
+			def var i1:int = xx;
+			def var l:long = 0xdeadbeefl;
+			def var f:float = 42.815f;
+			def var s:string = "hello world";
+			def var i2:int = i1 * (int)f;
+			f = 42.815f;
+			i2 = i1 * (int)f;
+			def var b:boolean = true;
+
+			yield resres = n.i1 + i1;
+		}
+		eval { 
+			def var by:byte = (byte)42;
+			def var sh:short = (short)42;
+			def var i1:int = xx;
+			def var l:long = 0xdeadbeefl;
+			def var f:float = 42.815f;
+			def var s:string = "hello world";
+			def var i2:int = i1 * (int)f;
+			f = 42.815f;
+			i2 = i1 * (int)f;
+			def var b:boolean = true;
+
+			yield resres = n.i1 + i1;
+		}
 	}
 }

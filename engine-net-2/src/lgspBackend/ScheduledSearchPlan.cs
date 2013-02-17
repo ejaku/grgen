@@ -109,21 +109,28 @@ namespace de.unika.ipd.grGen.lgsp
     public class SearchOperation : IComparable<SearchOperation>, ICloneable
     {
         public SearchOperationType Type;
+
         /// <summary>
-        /// If Type is NegativePattern or IndependentPattern, Element is a negative ScheduledSearchPlan object.
+        /// If Type is NegativePattern or IndependentPattern, Element is a ScheduledSearchPlan object.
         /// If Type is Condition, Element is a Condition object.
-        /// If Type is AssignVar, Element is a Variable object.
+        /// If Type is AssignVar, Element is a PatternVariable object.
+        /// If Type is DefToBeYieldedTo, Element is a Variable object in case of a variable, or a SearchPlanNode in case of a graph element.
         /// Otherwise Element is the target SearchPlanNode for this operation.
         /// </summary>
         public object Element;
-        public SearchPlanNode SourceSPNode;
-        public StorageAccess Storage;
-        public StorageAccessIndex StorageIndex;
-        public expression.Expression Expression;
-        public float CostToEnd;
+
+        public SearchPlanNode SourceSPNode; // the source element that must be matched before, this operation depends upon
+
+        public StorageAccess Storage; // set for storage access
+        public StorageAccessIndex StorageIndex; // set for storage access with index
+
+        public expression.Expression Expression; // set for inlined assignments, for initializations of defs
+
+        public float CostToEnd; // for scheduling
 
         // used in check for isomorphic elements
         public IsomorphyInformation Isomorphy = new IsomorphyInformation();
+
 
         public SearchOperation(SearchOperationType type, object elem,
             SearchPlanNode srcSPNode, float costToEnd)
@@ -235,6 +242,10 @@ namespace de.unika.ipd.grGen.lgsp
                     sb.AppendFront("lock for patternpath");
                     break;
                 case SearchOperationType.DefToBeYieldedTo:
+                    if(Element is PatternVariable)
+                        sb.AppendFront("def " + ((PatternVariable)Element).Name);
+                    else
+                        sb.AppendFront("def " + ((SearchPlanNode)Element).PatternElement.Name);
                     break;
             }
         }

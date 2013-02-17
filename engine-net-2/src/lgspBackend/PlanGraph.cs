@@ -116,7 +116,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PlanNode(String rootName)
         {
             NodeType = PlanNodeType.Root;
-            PatternElement = new PatternNode(-1, null, "", rootName, rootName, null, null, 0.0f, -1, false, null, null, null, false);
+            PatternElement = new PatternNode(-1, null, "", rootName, rootName, null, null, 0.0f, -1, false, null, null, null, false, null);
         }
 
         /// <summary>

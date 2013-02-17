@@ -1,0 +1,110 @@
+using model_init;
+
+some(n:A, -e:E1->) : boolean
+{
+	def var s:string = "hello world";
+
+    def ref m:map<string, Node> = map<string,Node>{s->n};
+    def ref ar:array<Node> = array<Node>[n];
+    def ref de:deque<E1> = deque<E1>]e[;
+    def ref se:set<string> = set<string>{s};
+
+	return(n.b);
+}
+
+test t(n:A, -e:E1->) : (boolean)
+{
+	def var res:boolean;
+	
+	independent {
+		yield {
+			def var s:string = "hello world";
+
+			def ref m:map<string, Node> = map<string,Node>{s->n};
+			def ref ar:array<Node> = array<Node>[n];
+			def ref de:deque<E1> = deque<E1>]e[;
+			def ref se:set<string> = set<string>{s};
+
+			yield res = n.b;
+		}
+	}
+	
+	return (res);
+}
+
+rule r(n:A, -e:E1->, var x:int) : (boolean)
+{	
+	modify {
+		def var res:boolean;
+		
+		eval { 
+			def var s:string = "hello world";
+
+			def ref m:map<string, Node> = map<string,Node>{s->n};
+			def ref ar:array<Node> = array<Node>[n];
+			def ref de:deque<E1> = deque<E1>]e[;
+			def ref se:set<string> = set<string>{s};
+			def ref sei:set<int> = set<int>{x};
+			def var ii:int = x;
+
+			yield res = n.b;
+		}
+		
+		return (res);
+	}
+}
+
+pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var resres:int)
+{
+	independent {
+		independent {
+			yield {
+				def var i1:int = x;
+				def var s:string = "hello world";
+
+				def ref m:map<string, Node> = map<string,Node>{s->n};
+				def ref ar:array<Node> = array<Node>[n];
+				def ref de:deque<E1> = deque<E1>]e[;
+				def ref se:set<string> = set<string>{s};
+
+				yield res = n.i1 + i1;
+			}
+			yield {
+				def var i1:int = x;
+				def var s:string = "hello world";
+
+				def ref m:map<string, Node> = map<string,Node>{s->n};
+				def ref ar:array<Node> = array<Node>[n];
+				def ref de:deque<E1> = deque<E1>]e[;
+				def ref se:set<string> = set<string>{s};
+
+				yield res = n.i1 + i1;
+			}
+		}
+	}
+	
+	modify {
+		eval { 
+			def var i1:int = xx;
+			def var s:string = "hello world";
+
+			def ref m:map<string, Node> = map<string,Node>{s->n};
+			def ref ar:array<Node> = array<Node>[n];
+			def ref de:deque<E1> = deque<E1>]e[;
+			def ref se:set<string> = set<string>{s};
+
+			yield resres = n.i1 + i1;
+		}
+		eval { 
+			def var i1:int = xx;
+			def var s:string = "hello world";
+
+			def ref m:map<string, Node> = map<string,Node>{s->n};
+			def ref ar:array<Node> = array<Node>[n];
+			def ref de:deque<E1> = deque<E1>]e[;
+			def ref se:set<string> = set<string>{s};
+
+			yield resres = n.i1 + i1;
+		}
+	}
+}

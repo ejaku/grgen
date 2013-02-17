@@ -1,0 +1,91 @@
+using model_init;
+
+// not really computations, just yielding
+test t(n:A, -e:E1->, var spat:string) : (boolean)
+{
+	def var res:boolean;
+	
+	def ref mpat:map<string, Node> = map<string,Node>{spat->n};
+	def ref arpat:array<Node> = array<Node>[n];
+	def ref depat:deque<E1> = deque<E1>]e[;
+	def ref sepat:set<string> = set<string>{spat};
+	
+	independent {
+		yield {
+			yield mpat.add(spat, n);
+			yield arpat.add(n);
+			yield depat.add(e);
+			yield sepat.add(spat);
+
+			yield res = mpat[spat] in arpat;
+		}
+	}
+	
+	return (res);
+}
+
+rule r(n:A, -e:E1->, var spat:string, var x:int) : (boolean)
+{	
+	modify {
+		def var res:boolean;
+
+		def ref mpat:map<string, Node> = map<string,Node>{spat->n};
+		def ref arpat:array<Node> = array<Node>[n];
+		def ref depat:deque<E1> = deque<E1>]e[;
+		def ref sepat:set<string> = set<string>{spat};
+		
+		eval { 
+			yield mpat.add(spat, n);
+			yield arpat.add(n);
+			yield depat.add(e);
+			yield sepat.add(spat);
+			
+			yield res = spat == sepat.peek(0);
+		}
+		
+		return (res);
+	}
+}
+
+pattern P(var spat:string, n:A, -e:E1->) modify(var _spat:string, _n:A)
+{
+	independent {
+		def ref mpat:map<string, Node> = map<string,Node>{spat->n};
+		def ref arpat:array<Node> = array<Node>[n];
+		def ref depat:deque<E1> = deque<E1>]e[;
+		def ref sepat:set<string> = set<string>{spat};
+
+		independent {
+			yield {
+				mpat.add(spat, n);
+				arpat.add(n);
+				depat.add(e);
+				sepat.add(spat);
+			}
+		}
+	}
+	
+	modify {
+		def ref mpat:map<string, Node> = map<string,Node>{spat->n};
+		def ref arpat:array<Node> = array<Node>[n];
+		def ref depat:deque<E1> = deque<E1>]e[;
+		def ref sepat:set<string> = set<string>{spat};
+
+		def ref _mpat:map<string, Node> = map<string,Node>{_spat->_n};
+		def ref _arpat:array<Node> = array<Node>[_n];
+		def ref _depat:deque<E1> = deque<E1>]e[;
+		def ref _sepat:set<string> = set<string>{_spat};
+
+		eval { 
+			mpat.add(spat, n);
+			arpat.add(n);
+			depat.add(e);
+			sepat.add(spat);
+			
+			_mpat.add(_spat, _n);
+			_arpat.add(_n);
+			_depat.add(e);
+			_sepat.add(_spat);
+		}
+	}
+}

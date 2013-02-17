@@ -350,60 +350,21 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Inserts declarations for variables extracted from parameters and for def variables to be yielded to
+        /// Inserts declarations for variables extracted from parameters
         /// </summary>
         private SearchProgramOperation insertVariableDeclarations(SearchProgramOperation insertionPoint, PatternGraph patternGraph)
         {
             foreach(PatternVariable var in patternGraph.variablesPlusInlined)
             {
-                if(var.defToBeYieldedTo)
-                {
-                    String initializationExpression;
-                    if(var.initialization != null)
-                    {
-                        SourceBuilder builder = new SourceBuilder();
-                        var.initialization.Emit(builder);
-                        initializationExpression = builder.ToString();
-                    }
-                    else
-                    {
-                        string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(var.type), model);
-                        initializationExpression = TypesHelper.DefaultValueString(typeName, model);
-                    }
-                    insertionPoint = insertionPoint.Append(
-                        new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.type), var.Name, 
-                            initializationExpression)
-                    );
-                }
-                else
+                if(!var.defToBeYieldedTo) // def variables are handled with the schedule, must come after the presets
                 {
                     // inlined variables are handled later, cause they may depend on elements matched
-                    if(var.originalVariable==null || !patternGraph.WasInlinedHere(var.originalSubpatternEmbedding))
+                    if(var.originalVariable == null || !patternGraph.WasInlinedHere(var.originalSubpatternEmbedding))
                     {
                         insertionPoint = insertionPoint.Append(
                             new ExtractVariable(TypesHelper.TypeName(var.type), var.Name)
                         );
                     }
-                }
-            }
-
-            foreach(PatternNode node in patternGraph.nodesPlusInlined)
-            {
-                if(node.defToBeYieldedTo)
-                {
-                    insertionPoint = insertionPoint.Append(
-                        new DeclareDefElement(EntityType.Node, "GRGEN_LGSP.LGSPNode", node.Name, "null")
-                    );
-                }
-            }
-
-            foreach(PatternEdge edge in patternGraph.edgesPlusInlined)
-            {
-                if(edge.defToBeYieldedTo)
-                {
-                    insertionPoint = insertionPoint.Append(
-                        new DeclareDefElement(EntityType.Edge, "GRGEN_LGSP.LGSPEdge", edge.Name, "null")
-                    );
                 }
             }
 
@@ -489,7 +450,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
 
-            if (indexOfScheduledSearchPlanOperationToBuild >=
+            if(indexOfScheduledSearchPlanOperationToBuild >=
                 patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].Operations.Length)
             { // end of scheduled search plan reached, stop recursive iteration
                 return buildMatchComplete(insertionPointWithinSearchProgram);
@@ -500,10 +461,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             // for current scheduled search plan operation 
             // insert corresponding search program operations into search program
-            switch (op.Type)
+            switch(op.Type)
             {
                 case SearchOperationType.Void:
-                case SearchOperationType.DefToBeYieldedTo:
                     return BuildScheduledSearchPlanOperationIntoSearchProgram(
                         indexOfScheduledSearchPlanOperationToBuild + 1,
                         insertionPointWithinSearchProgram);
@@ -525,6 +485,11 @@ namespace de.unika.ipd.grGen.lgsp
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
                         op.Isomorphy);
+
+                case SearchOperationType.DefToBeYieldedTo:
+                    return buildDefToBeYieldedTo(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        op.Element);
 
                 case SearchOperationType.Lookup:
                     return buildLookup(insertionPointWithinSearchProgram,
@@ -849,6 +814,89 @@ namespace de.unika.ipd.grGen.lgsp
 
             // unmark element for possibly following run
             target.Visited = false;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// DefElementToBeYieldedTo search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildDefToBeYieldedTo(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            object target)
+        {
+            if(target is PatternVariable)
+            {
+                PatternVariable var = (PatternVariable)target;
+
+                String initializationExpression;
+                if(var.initialization != null)
+                {
+                    SourceBuilder builder = new SourceBuilder();
+                    var.initialization.Emit(builder);
+                    initializationExpression = builder.ToString();
+                }
+                else
+                {
+                    string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(var.type), model);
+                    initializationExpression = TypesHelper.DefaultValueString(typeName, model);
+                }
+                insertionPoint = insertionPoint.Append(
+                    new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.type), var.Name,
+                        initializationExpression)
+                );
+            }
+            else
+            {
+                if(((SearchPlanNode)target).PatternElement is PatternNode)
+                {
+                    PatternNode node = (PatternNode)((SearchPlanNode)target).PatternElement;
+
+                    String initializationExpression;
+                    if(node.initialization != null)
+                    {
+                        SourceBuilder builder = new SourceBuilder();
+                        node.initialization.Emit(builder);
+                        initializationExpression = builder.ToString();
+                    }
+                    else
+                    {
+                        initializationExpression = "null";
+                    }
+                    insertionPoint = insertionPoint.Append(
+                        new DeclareDefElement(EntityType.Node, "GRGEN_LGSP.LGSPNode", node.Name, initializationExpression)
+                    );
+                }
+                else
+                {
+                    PatternEdge edge = (PatternEdge)((SearchPlanNode)target).PatternElement;
+
+                    String initializationExpression;
+                    if(edge.initialization != null)
+                    {
+                        SourceBuilder builder = new SourceBuilder();
+                        edge.initialization.Emit(builder);
+                        initializationExpression = builder.ToString();
+                    }
+                    else
+                    {
+                        initializationExpression = "null";
+                    }
+                    insertionPoint = insertionPoint.Append(
+                        new DeclareDefElement(EntityType.Edge, "GRGEN_LGSP.LGSPEdge", edge.Name, initializationExpression)
+                    );
+                }
+            }
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
 
             return insertionPoint;
         }

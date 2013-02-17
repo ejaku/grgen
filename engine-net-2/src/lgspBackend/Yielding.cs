@@ -381,7 +381,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(".Add(");
             Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append(", null)");
             sourceCode.Append(";\n");
         }
     }

@@ -34,8 +34,8 @@ namespace de.unika.ipd.grGen.lgsp
         SubPreset,
         /// <summary>
         /// Def element to be yielded to, postset after matching with match parts of nested/called stuff.
-        /// Has no meaning in matching, but it is easier to use them as fake preset pattern elements
-        /// in search planning than to introduce special cases in the algorithms and data structures for them.
+        /// Has no meaning in search planning, but is easier to handle with fake preset pattern elements there.
+        /// Is used afterwards in scheduling to insert the def-initialization after the real preset elements.
         /// </summary>
         DefToBeYieldedTo,
         /// <summary>
