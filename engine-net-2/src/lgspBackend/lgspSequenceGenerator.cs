@@ -239,6 +239,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignRandomDoubleToVar:
                 case SequenceType.DeclareVariable:
                 case SequenceType.AssignConstToVar:
+                case SequenceType.AssignContainerConstructorToVar:
                 case SequenceType.AssignVarToVar:
                 {
 					SequenceAssignToVar toVar = (SequenceAssignToVar) seq;
@@ -1038,6 +1039,14 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront(SetResultVar(seqToVar, "true"));
 					break;
 				}
+
+                case SequenceType.AssignContainerConstructorToVar:
+                {
+                    SequenceAssignContainerConstructorToVar seqToVar = (SequenceAssignContainerConstructorToVar)seq;
+                    source.AppendFront(SetVar(seqToVar.DestVar, GetSequenceExpression(seqToVar.Constructor, source)));
+                    source.AppendFront(SetResultVar(seqToVar, "true"));
+                    break;
+                }
 
                 case SequenceType.AssignVarToVar:
                 {
@@ -2857,16 +2866,17 @@ namespace de.unika.ipd.grGen.lgsp
 
                     string container;
                     string ContainerType;
-                    if(seqIn.Container != null)
+                    if(seqIn.ContainerExpr is SequenceExpressionAttributeAccess)
                     {
-                        container = GetSequenceExpression(seqIn.Container, source);
-                        ContainerType = seqIn.Container.Type(env);
+                        SequenceExpressionAttributeAccess seqInAttribute = (SequenceExpressionAttributeAccess)(seqIn.ContainerExpr);
+                        string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqInAttribute.SourceVar) + ")";
+                        container = element + ".GetAttribute(\"" + seqInAttribute.AttributeName + "\")";
+                        ContainerType = seqInAttribute.Type(env);
                     }
                     else
                     {
-                        string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqIn.Attribute.SourceVar) + ")";
-                        container = element + ".GetAttribute(\"" + seqIn.Attribute.AttributeName + "\")";
-                        ContainerType = seqIn.Attribute.Type(env);
+                        container = GetSequenceExpression(seqIn.ContainerExpr, source);
+                        ContainerType = seqIn.ContainerExpr.Type(env);
                     }
 
                     if(ContainerType == "")
@@ -3087,7 +3097,7 @@ namespace de.unika.ipd.grGen.lgsp
                         EmitSequenceComputation(seqContainerSize.MethodCall, source);
                     }
 
-                    string container = GetContainerValue(seqContainerSize);
+                    string container = GetContainerValue(seqContainerSize, source);
 
                     if(seqContainerSize.ContainerType(env) == "")
                     {
@@ -3141,7 +3151,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         EmitSequenceComputation(seqContainerEmpty.MethodCall, source);
                     }
-                    string container = GetContainerValue(seqContainerEmpty);
+                    string container = GetContainerValue(seqContainerEmpty, source);
 
                     if(seqContainerEmpty.ContainerType(env) == "")
                     {
@@ -3192,23 +3202,24 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceExpressionContainerAccess seqContainerAccess = (SequenceExpressionContainerAccess)expr; // todo: dst type unknownTypesHelper.ExtractSrc(seqMapAccessToVar.Setmap.Type)
                     string container;
                     string ContainerType;
-                    if(seqContainerAccess.Container != null)
+                    if(seqContainerAccess.ContainerExpr is SequenceExpressionAttributeAccess)
                     {
-                        container = GetVar(seqContainerAccess.Container);
-                        ContainerType = seqContainerAccess.Container.Type;
-                    }
-                    else
-                    {
-                        string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqContainerAccess.Attribute.SourceVar) + ")";
-                        container = element + ".GetAttribute(\"" + seqContainerAccess.Attribute.AttributeName + "\")";
-                        if(seqContainerAccess.Attribute.SourceVar.Type == "")
+                        SequenceExpressionAttributeAccess seqContainerAttribute = (SequenceExpressionAttributeAccess)(seqContainerAccess.ContainerExpr);
+                        string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqContainerAttribute.SourceVar) + ")";
+                        container = element + ".GetAttribute(\"" + seqContainerAttribute.AttributeName + "\")";
+                        if(seqContainerAttribute.SourceVar.Type == "")
                             ContainerType = "";
                         else
                         {
-                            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(seqContainerAccess.Attribute.SourceVar.Type, env.Model);
-                            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(seqContainerAccess.Attribute.AttributeName);
+                            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(seqContainerAttribute.SourceVar.Type, env.Model);
+                            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(seqContainerAttribute.AttributeName);
                             ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
                         }
+                    }
+                    else
+                    {
+                        container = GetSequenceExpression(seqContainerAccess.ContainerExpr, source);
+                        ContainerType = seqContainerAccess.ContainerExpr.Type(env);
                     }
 
                     if(ContainerType == "")
@@ -3282,7 +3293,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         EmitSequenceComputation(seqContainerPeek.MethodCall, source);
                     }
-                    string container = GetContainerValue(seqContainerPeek);
+                    string container = GetContainerValue(seqContainerPeek, source);
 
                     if(seqContainerPeek.KeyExpr != null)
                     {
@@ -3324,6 +3335,56 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionConstant seqConst = (SequenceExpressionConstant)expr;
                     return GetConstant(seqConst.Constant);
+                }
+
+                case SequenceExpressionType.SetConstructor:
+                case SequenceExpressionType.ArrayConstructor:
+                case SequenceExpressionType.DequeConstructor:
+                {
+                    SequenceExpressionContainerConstructor seqConstr = (SequenceExpressionContainerConstructor)expr;
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("fillFromSequence_" + seqConstr.Id);
+                    sb.Append("(");
+                    for(int i = 0; i < seqConstr.ContainerItems.Length; ++i)
+                    {
+                        if(i > 0)
+                            sb.Append(", ");
+                        sb.Append("(");
+                        sb.Append(TypesHelper.XgrsTypeToCSharpType(seqConstr.ValueType, model));
+                        sb.Append(")");
+                        sb.Append("(");
+                        sb.Append(GetSequenceExpression(seqConstr.ContainerItems[i], source));
+                        sb.Append(")");
+                    }
+                    sb.Append(")");
+                    return sb.ToString();
+                }
+
+                case SequenceExpressionType.MapConstructor:
+                {
+                    SequenceExpressionMapConstructor seqConstr = (SequenceExpressionMapConstructor)expr;
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("fillFromSequence_" + seqConstr.Id);
+                    sb.Append("(");
+                    for(int i = 0; i < seqConstr.ContainerItems.Length; ++i)
+                    {
+                        if(i > 0)
+                            sb.Append(", ");
+                        sb.Append("(");
+                        sb.Append(TypesHelper.XgrsTypeToCSharpType(seqConstr.KeyType, model));
+                        sb.Append(")");
+                        sb.Append("(");
+                        sb.Append(GetSequenceExpression(seqConstr.MapKeyItems[i], source));
+                        sb.Append("), ");
+                        sb.Append("(");
+                        sb.Append(TypesHelper.XgrsTypeToCSharpType(seqConstr.ValueType, model));
+                        sb.Append(")");
+                        sb.Append("(");
+                        sb.Append(GetSequenceExpression(seqConstr.ContainerItems[i], source));
+                        sb.Append(")");
+                    }
+                    sb.Append(")");
+                    return sb.ToString();
                 }
 
                 case SequenceExpressionType.GraphElementAttribute:
@@ -3421,14 +3482,20 @@ namespace de.unika.ipd.grGen.lgsp
             return "(" + incidentEdgeType + ")";
         }
 
-        string GetContainerValue(SequenceExpressionContainer container)
+        string GetContainerValue(SequenceExpressionContainer container, SourceBuilder source)
         {
             if(container.MethodCall != null)
                 return GetResultVar(container.MethodCall);
-            else if(container.Container != null)
-                return GetVar(container.Container);
             else
-                return "((GRGEN_LIBGR.IGraphElement)" + GetVar(container.Attribute.SourceVar) + ")" + ".GetAttribute(\"" + container.Attribute.AttributeName + "\")";
+            {
+                if(container.ContainerExpr is SequenceExpressionAttributeAccess)
+                {
+                    SequenceExpressionAttributeAccess attribute = (SequenceExpressionAttributeAccess)container.ContainerExpr;
+                    return "((GRGEN_LIBGR.IGraphElement)" + GetVar(attribute.SourceVar) + ")" + ".GetAttribute(\"" + attribute.AttributeName + "\")";
+                }
+                else
+                    return GetSequenceExpression(container.ContainerExpr, source);
+            }
         }
 
         private string GetConstant(object constant)
@@ -3568,13 +3635,21 @@ namespace de.unika.ipd.grGen.lgsp
 
 			knownRules.Clear();
 
-  			EmitNeededVarAndRuleEntities(seq, source);
+            EmitNeededVarAndRuleEntities(seq, source);
 
 			EmitSequence(seq, source);
 
             source.AppendFront("return " + GetResultVar(seq) + ";\n");
 			source.Unindent();
 			source.AppendFront("}\n");
+
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            seq.GetLocalVariables(variables, containerConstructors, null);
+            foreach(SequenceExpressionContainerConstructor cc in containerConstructors)
+            {
+                GenerateContainerConstructor(cc, source);
+            }
 
 			return true;
 		}
@@ -3719,6 +3794,14 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("return " + GetResultVar(seq) + ";\n");
             source.Unindent();
             source.AppendFront("}\n");
+
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            seq.GetLocalVariables(variables, containerConstructors, null);
+            foreach(SequenceExpressionContainerConstructor cc in containerConstructors)
+            {
+                GenerateContainerConstructor(cc, source);
+            }
         }
 
         private void GenerateInternalDefinedSequenceApplicationMethodStub(SourceBuilder source, DefinedSequenceInfo sequence, String externalActionsExtensionFilename)
@@ -3900,9 +3983,66 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        void GenerateContainerConstructor(SequenceExpressionContainerConstructor cc, SourceBuilder source)
+        {
+            string containerType = TypesHelper.XgrsTypeToCSharpType(GetContainerType(cc), model);
+            string valueType = TypesHelper.XgrsTypeToCSharpType(cc.ValueType, model);
+            string keyType = null;
+            if(cc is SequenceExpressionMapConstructor)
+                keyType = TypesHelper.XgrsTypeToCSharpType(((SequenceExpressionMapConstructor)cc).KeyType, model);
+
+            source.Append("\n");
+            source.AppendFront("public static ");
+            source.Append(containerType);
+            source.Append(" fillFromSequence_" + cc.Id);
+            source.Append("(");
+            for(int i = 0; i < cc.ContainerItems.Length; ++i)
+            {
+                if(i > 0)
+                    source.Append(", ");
+                if(keyType != null)
+                    source.AppendFormat("{0} paramkey{1}, ", keyType, i);
+                source.AppendFormat("{0} param{1}", valueType, i);
+            }
+            source.Append(")\n");
+            
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFrontFormat("{0} container = new {0}();\n", containerType);
+            for(int i = 0; i < cc.ContainerItems.Length; ++i)
+            {
+                if(cc is SequenceExpressionSetConstructor)
+                    source.AppendFrontFormat("container.Add(param{0}, null);\n", i);
+                else if(cc is SequenceExpressionMapConstructor)
+                    source.AppendFrontFormat("container.Add(paramkey{0}, param{0});\n", i);
+                else if(cc is SequenceExpressionArrayConstructor)
+                    source.AppendFrontFormat("container.Add(param{0});\n", i);
+                else //if(cc is SequenceExpressionDequeConstructor)
+                    source.AppendFrontFormat("container.Enqueue(param{0});\n", i);
+            }
+            source.AppendFront("return container;\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        static string GetContainerType(SequenceExpressionContainerConstructor cc)
+        {
+            if(cc is SequenceExpressionSetConstructor)
+                return "set<" + cc.ValueType + ">";
+            else if(cc is SequenceExpressionMapConstructor)
+                return "map<" + ((SequenceExpressionMapConstructor)cc).KeyType + "," + cc.ValueType + ">";
+            else if(cc is SequenceExpressionArrayConstructor)
+                return "array<" + cc.ValueType + ">";
+            else //if(cc is SequenceExpressionDequeConstructor)
+                return "deque<" + cc.ValueType + ">";
+        }
+
         void HandleSequenceParserException(SequenceParserException ex)
         {
-            if(ex.Name == null && ex.Kind != SequenceParserError.TypeMismatch)
+            if(ex.Name == null 
+                && ex.Kind != SequenceParserError.TypeMismatch
+                && ex.Kind != SequenceParserError.FilterError
+                && ex.Kind != SequenceParserError.OperatorNotFound)
             {
                 Console.Error.WriteLine("Unknown rule/sequence: \"{0}\"", ex.Name);
                 return;
@@ -3928,6 +4068,14 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceParserError.BadReturnParameter:
                     Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for action/sequence \"" + ex.Name + "\"!");
                     break;
+
+                case SequenceParserError.FilterError:
+                    Console.Error.WriteLine("Can't apply filter " + ex.FilterName + " to rule!");
+                    return;
+
+                case SequenceParserError.OperatorNotFound:
+                    Console.Error.WriteLine("Operator not found/arguments not of correct type: " + ex.Expression);
+                    return;
 
                 case SequenceParserError.RuleNameUsedByVariable:
                     Console.Error.WriteLine("The name of the variable conflicts with the name of action/sequence \"" + ex.Name + "\"!");

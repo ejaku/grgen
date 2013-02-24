@@ -332,7 +332,7 @@ void Argument(List<SequenceExpression> argExprs):
 	}
 }
 
-object SimpleConstant():
+object Constant():
 {
 	object constant = null;
 	Token tok;
@@ -390,73 +390,53 @@ object SimpleConstant():
 	}
 }
 
-object Constant():
+SequenceExpression InitContainerExpr():
 {
-	object constant = null;
-	object src = null, dst = null;
 	string typeName, typeNameDst;
-	Type srcType, dstType;
+	List<SequenceExpression> srcItems = null;
+	List<SequenceExpression> dstItems = null;
+	SequenceExpression src = null, dst = null, res = null;
 }
 {
 	(
-		constant=SimpleConstant()
-    |
-		"set" "<" typeName=Word() ">"
-		{
-			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, model);
-			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
-			if(srcType!=null)
-				constant = ContainerHelper.NewDictionary(srcType, dstType);
-			if(constant==null)
-				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
-		}
+		"set" "<" typeName=Word() ">" { srcItems = new List<SequenceExpression>(); }
 		"{"
-			( src=SimpleConstant() { ((IDictionary)constant).Add(src, null); } )?
-				( "," src=SimpleConstant() { ((IDictionary)constant).Add(src, null); })*
+			( src=Expression() { srcItems.Add(src); } )?
+				( "," src=Expression() { srcItems.Add(src); })*
 		"}"
-	|
-		"map" "<" typeName=Word() "," typeNameDst=Word() ">"
 		{
-			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, model);
-			dstType = ContainerHelper.GetTypeFromNameForContainer(typeNameDst, model);
-			if(srcType!=null && dstType!=null)
-				constant = ContainerHelper.NewDictionary(srcType, dstType);
-			if(constant==null)
-				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
+			res = new SequenceExpressionSetConstructor(typeName, srcItems.ToArray());
 		}
+	|
+		"map" "<" typeName=Word() "," typeNameDst=Word() ">" { srcItems = new List<SequenceExpression>(); dstItems = new List<SequenceExpression>(); }
 		"{"
-			( src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )?
-				( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )*
+			( src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )?
+				( "," src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )*
 		"}"
-	|
-		"array" "<" typeName=Word() ">"
 		{
-			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, model);
-			if(srcType!=null)
-				constant = ContainerHelper.NewList(srcType);
-			if(constant==null)
-				throw new ParseException("Invalid constant \"array<"+typeName+">\"!");
+			res = new SequenceExpressionMapConstructor(typeName, typeNameDst, srcItems.ToArray(), dstItems.ToArray());
 		}
-		"["
-			( src=SimpleConstant() { ((IList)constant).Add(src); } )?
-				( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
-		"]"
 	|
-		"deque" "<" typeName=Word() ">"
-		{
-			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, model);
-			if(srcType!=null)
-				constant = ContainerHelper.NewDeque(srcType);
-			if(constant==null)
-				throw new ParseException("Invalid constant \"deque<"+typeName+">\"!");
-		}
-		"]"
-			( src=SimpleConstant() { ((IDeque)constant).Enqueue(src); } )?
-				( "," src=SimpleConstant() { ((IDeque)constant).Enqueue(src); })*
+		"array" "<" typeName=Word() ">" { srcItems = new List<SequenceExpression>(); }
 		"["
+			( src=Expression() { srcItems.Add(src); } )?
+				( "," src=Expression() { srcItems.Add(src); })*
+		"]"
+		{
+			res = new SequenceExpressionArrayConstructor(typeName, srcItems.ToArray());
+		}
+	|
+		"deque" "<" typeName=Word() ">" { srcItems = new List<SequenceExpression>(); }
+		"]"
+			( src=Expression() { srcItems.Add(src); } )?
+				( "," src=Expression() { srcItems.Add(src); })*
+		"["
+		{
+			res = new SequenceExpressionDequeConstructor(typeName, srcItems.ToArray());
+		}
 	)
 	{
-		return constant;
+		return res;
 	}
 }
 
@@ -869,6 +849,11 @@ Sequence SimpleSequence():
 			return new SequenceAssignConstToVar(toVar, constant); // needed as sequence to allow variable declaration and initialization in sequence scope
 		}
 	|
+	    expr=InitContainerExpr()
+		{
+			return new SequenceAssignContainerConstructorToVar(toVar, expr); // needed as sequence to allow variable declaration and initialization in sequence scope
+		}
+	|
 		fromVar=Variable()
 		{
 			return new SequenceAssignVarToVar(toVar, fromVar); // needed as sequence to allow variable declaration and initialization in sequence scope
@@ -909,6 +894,11 @@ Sequence SimpleSequence():
 		constant=Constant()
 		{
 			return new SequenceBooleanComputation(new SequenceComputationAssignment(new AssignmentTargetYieldingVar(toVar), new SequenceExpressionConstant(constant)), null, false);
+		}
+	|
+	    expr=InitContainerExpr()
+		{
+			return new SequenceBooleanComputation(new SequenceComputationAssignment(new AssignmentTargetYieldingVar(toVar), expr), null, false);
 		}
 	|
 		fromVar=Variable()
@@ -1097,8 +1087,16 @@ SequenceComputation Computation():
 		return new SequenceComputationVariableDeclaration(toVar);
 	}
 |
-	LOOKAHEAD(MethodCall(false))
+	LOOKAHEAD( { (GetToken(1).kind==WORD && GetToken(2).kind==DOT && GetToken(3).kind==WORD && GetToken(4).kind==LPARENTHESIS && (GetToken(3).image=="add" || GetToken(3).image=="rem" || GetToken(3).image=="clear")) 
+				|| (GetToken(1).kind==DOUBLECOLON && GetToken(2).kind==WORD && GetToken(3).kind==DOT && GetToken(4).kind==WORD && GetToken(5).kind==LPARENTHESIS && (GetToken(4).image=="add" || GetToken(4).image=="rem" || GetToken(4).image=="clear")) } )
 	comp=MethodCallRepeated()
+	{
+		return comp;
+	}
+|
+	LOOKAHEAD( { (GetToken(1).kind==WORD && GetToken(2).kind==DOT && GetToken(3).kind==WORD && GetToken(4).kind==DOT && GetToken(5).kind==WORD && GetToken(6).kind==LPARENTHESIS && (GetToken(5).image=="add" || GetToken(5).image=="rem" || GetToken(5).image=="clear")) 
+				|| (GetToken(1).kind==DOUBLECOLON && GetToken(2).kind==WORD && GetToken(3).kind==DOT && GetToken(4).kind==WORD && GetToken(5).kind==DOT && GetToken(6).kind==WORD && GetToken(7).kind==LPARENTHESIS && (GetToken(6).image=="add" || GetToken(6).image=="rem" || GetToken(6).image=="clear")) } )
+	comp=AttributeMethodCall()
 	{
 		return comp;
 	}
@@ -1258,8 +1256,7 @@ SequenceExpression ExpressionRelation():
 						| ">" seq2=ExpressionAdd() { seq = new SequenceExpressionGreater(seq, seq2); }
 						| "<=" seq2=ExpressionAdd() { seq = new SequenceExpressionLowerEqual(seq, seq2); }
 						| ">=" seq2=ExpressionAdd() { seq = new SequenceExpressionGreaterEqual(seq, seq2); }
-						| "in" (LOOKAHEAD(VariableUse() "." Word()) fromVar=VariableUse() "." attrName=Word() { seq = new SequenceExpressionInContainer(seq, new SequenceExpressionAttributeAccess(fromVar, attrName)); }
-								| seq2=ExpressionAdd() { seq = new SequenceExpressionInContainer(seq, seq2); })
+						| "in" seq2=ExpressionAdd() { seq = new SequenceExpressionInContainer(seq, seq2); }
 						)* 
 	{ return seq; }
 }
@@ -1281,53 +1278,24 @@ SequenceExpression ExpressionUnary():
 	object type;
 }
 {
-    LOOKAHEAD("(" SimpleConstant() ")") "(" type=SimpleConstant() ")" seq=ExpressionBasic() { return new SequenceExpressionCast(seq, type); }
+    LOOKAHEAD("(" Constant() ")") "(" type=Constant() ")" seq=ExpressionBasic() { return new SequenceExpressionCast(seq, type); }
     | "!" seq=ExpressionBasic() { return new SequenceExpressionNot(seq); }
 	| seq=ExpressionBasic() { return seq; }
 }
 
 SequenceExpression ExpressionBasic():
 {
-	List<SequenceVariable> variableList1 = new List<SequenceVariable>();
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 	SequenceVariable fromVar;
-	String attrName, method, elemName;
+	String elemName;
 	SequenceExpression expr;
-	SequenceComputation comp;
 	object constant;
 }
 {
-	LOOKAHEAD(MethodCall(true))
-	comp=MethodCall(true)
-	{
-		if(comp is SequenceExpression)
-			return (SequenceExpression)comp;
-		else
-			throw new ParseException("expression method call expected, not the compution method call with side effects: "+comp.Symbol);
-	}
-|
 	LOOKAHEAD(VariableUse() "." "visited")
 	fromVar=VariableUse() "." "visited" "[" expr=Expression() "]"
 	{
 		return new SequenceExpressionIsVisited(fromVar, expr);
-	}
-|
-	LOOKAHEAD(VariableUse() ".")
-	fromVar=VariableUse() "." attrName=Word()
-	( "[" expr=Expression() "]" 
-		{ return new SequenceExpressionContainerAccess(new SequenceExpressionAttributeAccess(fromVar, attrName), expr); } 
-	)? // todo: this should be a composition of the two expressions, not a fixed special one
-	{
-		if(fromVar.Type.StartsWith("match<"))
-			return new SequenceExpressionMatchAccess(fromVar, attrName);
-		else
-			return new SequenceExpressionAttributeAccess(fromVar, attrName);
-	}
-|
-	LOOKAHEAD(VariableUse() "[")
-	fromVar=VariableUse() "[" expr=Expression() "]"
-	{
-		return new SequenceExpressionContainerAccess(fromVar, expr);
 	}
 |
 	LOOKAHEAD(FunctionCall())
@@ -1342,14 +1310,30 @@ SequenceExpression ExpressionBasic():
 		return new SequenceExpressionConstant(constant);
 	}
 |
+	expr=InitContainerExpr()
+	{
+		return expr;
+	}
+|
 	"def" "(" Arguments(argExprs) ")"
 	{
 		return new SequenceExpressionDef(argExprs.ToArray());
 	}
 |
-	fromVar=VariableUse()
-	{
-		return new SequenceExpressionVariable(fromVar);
+	fromVar=VariableUse() { expr = new SequenceExpressionVariable(fromVar); }
+	(LOOKAHEAD({ GetToken(1).kind==LBOXBRACKET && // we're at a deque end or at an indexed access?
+		( GetToken(2).kind!=THENLEFT && GetToken(2).kind!=THENRIGHT
+			&& GetToken(2).kind!=DOUBLEPIPE && GetToken(2).kind!=DOUBLEAMPERSAND 
+			&& GetToken(2).kind!=PIPE && GetToken(2).kind!=CIRCUMFLEX 
+			&& GetToken(2).kind!=AMPERSAND && GetToken(2).kind!=PLUS
+			&& GetToken(2).kind!=RPARENTHESIS && GetToken(2).kind!=RBOXBRACKET
+			&& GetToken(2).kind!=EOF
+		)
+		|| GetToken(1).kind==DOT}) 
+		expr=SelectorExpression(expr)
+	)*
+	{	
+		return expr;
 	}
 |
 	"@" "(" elemName=Text() ")"
@@ -1363,6 +1347,43 @@ SequenceExpression ExpressionBasic():
 	}
 }
 
+SequenceExpression SelectorExpression(SequenceExpression fromExpr):
+{
+	String methodOrAttrName;
+	SequenceExpression fromExpr2 = null;
+}
+{
+	"." methodOrAttrName=Word()
+	(
+		"(" ( fromExpr2=Expression() )? ")"
+		{
+			if(methodOrAttrName=="size") {
+				if(fromExpr2!=null) throw new ParseException("\"" + methodOrAttrName + "\" expects no parameters)");
+				return new SequenceExpressionContainerSize(fromExpr);
+			} else if(methodOrAttrName=="empty") {
+				if(fromExpr2!=null) throw new ParseException("\"" + methodOrAttrName + "\" expects no parameters)");
+				return new SequenceExpressionContainerEmpty(fromExpr);
+			} else if(methodOrAttrName=="peek") {
+				return new SequenceExpressionContainerPeek(fromExpr, fromExpr2);
+			} else {
+				throw new ParseException("Unknown method name: \"" + methodOrAttrName + "\"! (available are size|empty|peek as expressions on set/map/array/deque)");
+			}
+		}
+	|
+		{
+			if(fromExpr is SequenceExpressionVariable && ((SequenceExpressionVariable)fromExpr).Variable.Type.StartsWith("match<"))
+				return new SequenceExpressionMatchAccess(((SequenceExpressionVariable)fromExpr).Variable, methodOrAttrName);
+			else
+				return new SequenceExpressionAttributeAccess(((SequenceExpressionVariable)fromExpr).Variable, methodOrAttrName);
+		}
+	)
+|
+	"[" fromExpr2=Expression() "]"
+	{
+		return new SequenceExpressionContainerAccess(fromExpr, fromExpr2);
+	}
+}
+			
 SequenceComputation ProcedureCall():
 {
 	String procedure;
@@ -1487,61 +1508,48 @@ SequenceExpression FunctionCall():
     }
 }
 
-SequenceComputation MethodCall(bool attributeAccessAllowed):
+SequenceComputation AttributeMethodCall():
 {
 	String attrName = null, method;
 	SequenceVariable fromVar;
 	SequenceExpression fromExpr2 = null, fromExpr3 = null;
 }
 {
-	(LOOKAHEAD(fromVar=VariableUse() "." attrName=Word() ".") 
-		fromVar=VariableUse() "." attrName=Word() "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
-	|
-		fromVar=VariableUse() "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
-	)
+	fromVar=VariableUse() "." attrName=Word() "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
 	{
 		if(method=="add") {
 			if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,deque,array end) or 2(for map,array with index) parameters)");
-			if(!attributeAccessAllowed && attrName!=null) throw new ParseException("No attribute access allowed here (repeated method call).");
-			if(attrName==null)
-				return new SequenceComputationContainerAdd(fromVar, fromExpr2, fromExpr3);
-			else
-				return new SequenceComputationContainerAdd(new SequenceExpressionAttributeAccess(fromVar, attrName), fromExpr2, fromExpr3);
+			return new SequenceComputationContainerAdd(new SequenceExpressionAttributeAccess(fromVar, attrName), fromExpr2, fromExpr3);
 		} else if(method=="rem") {
 			if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for deque,array end) parameters )");
-			if(!attributeAccessAllowed && attrName!=null) throw new ParseException("No attribute access allowed here (repeated method call).");
-			if(attrName==null)
-				return new SequenceComputationContainerRem(fromVar, fromExpr2);
-			else
-				return new SequenceComputationContainerRem(new SequenceExpressionAttributeAccess(fromVar, attrName), fromExpr2);
+			return new SequenceComputationContainerRem(new SequenceExpressionAttributeAccess(fromVar, attrName), fromExpr2);
 		} else if(method=="clear") {
 			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
-			if(!attributeAccessAllowed && attrName!=null) throw new ParseException("No attribute access allowed here (repeated method call).");
-			if(attrName==null)
-				return new SequenceComputationContainerClear(fromVar);
-			else
-				return new SequenceComputationContainerClear(new SequenceExpressionAttributeAccess(fromVar, attrName));
-		} else if(method=="size") {
+			return new SequenceComputationContainerClear(new SequenceExpressionAttributeAccess(fromVar, attrName));
+		} else {
+			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences on set/map/array/deque)");
+		}
+    }
+}
+
+SequenceComputation MethodCall():
+{
+	String method;
+	SequenceVariable fromVar;
+	SequenceExpression fromExpr2 = null, fromExpr3 = null;
+}
+{
+	fromVar=VariableUse() "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
+	{
+		if(method=="add") {
+			if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,deque,array end) or 2(for map,array with index) parameters)");
+			return new SequenceComputationContainerAdd(fromVar, fromExpr2, fromExpr3);
+		} else if(method=="rem") {
+			if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for deque,array end) parameters )");
+			return new SequenceComputationContainerRem(fromVar, fromExpr2);
+		} else if(method=="clear") {
 			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
-			if(!attributeAccessAllowed && attrName!=null) throw new ParseException("No attribute access allowed here (repeated method call).");
-			if(attrName==null)
-				return new SequenceExpressionContainerSize(fromVar);
-			else
-				return new SequenceExpressionContainerSize(new SequenceExpressionAttributeAccess(fromVar, attrName));
-		} else if(method=="empty") {
-			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
-			if(!attributeAccessAllowed && attrName!=null) throw new ParseException("No attribute access allowed here (repeated method call).");
-			if(attrName==null)
-				return new SequenceExpressionContainerEmpty(fromVar);
-			else
-				return new SequenceExpressionContainerEmpty(new SequenceExpressionAttributeAccess(fromVar, attrName));
-		} else if(method=="peek") {
-			if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1 parameter or 0(for array end, deque begin))");
-			if(!attributeAccessAllowed && attrName!=null) throw new ParseException("No attribute access allowed here (repeated method call).");
-			if(attrName==null)
-				return new SequenceExpressionContainerPeek(fromVar, fromExpr2);
-			else
-				return new SequenceExpressionContainerPeek(new SequenceExpressionAttributeAccess(fromVar, attrName), fromExpr2);
+			return new SequenceComputationContainerClear(fromVar);
 		} else {
 			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty|peek as expressions on set/map/array/deque)");
 		}
@@ -1555,7 +1563,7 @@ SequenceComputation MethodCallRepeated():
 	SequenceExpression fromExpr2 = null, fromExpr3 = null;
 }
 {
-	methodCall=MethodCall(false)
+	methodCall=MethodCall()
 	( "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
 		{
 			if(method=="add") {

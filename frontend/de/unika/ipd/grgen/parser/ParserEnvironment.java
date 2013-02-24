@@ -88,8 +88,13 @@ public abstract class ParserEnvironment extends Base {
 	private final ModelNode stdModel;
 
 	private HashSet<String> keywords = new HashSet<String>();
+	
+	// ANTLR is only SLL, not LL, can't disambiguate based on the context = the stuff on the stack,
+	// here we emulate a "stack" for a particular question where we just can't get along without,
+	// with only one type of tokens pushable to that stack, so a counter of the stack depth is sufficient
+	private int containerInitNestingLevel = 0; 
 
-
+	
 	/**
 	 * Make a new parser environment.
 	 */
@@ -322,6 +327,19 @@ public abstract class ParserEnvironment extends Base {
 
 	public boolean isLexerKeyword(String str) {
 		return keywords.contains(str);
+	}
+	
+	public void enterContainerInit() {
+		++containerInitNestingLevel;
+	}
+
+	public void leaveContainerInit() {
+		assert(inContainerInit());
+		--containerInitNestingLevel;
+	}
+	
+	public boolean inContainerInit() {
+		return containerInitNestingLevel>=1;
 	}
 
 	/**

@@ -647,7 +647,8 @@ namespace de.unika.ipd.grGen.grShell
 
             // variable
             Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
-            (debugSequences.Peek()).GetLocalVariables(seqVars, seq);
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            (debugSequences.Peek()).GetLocalVariables(seqVars, containerConstructors, seq);
             foreach(SequenceVariable var in seqVars.Keys)
             {
                 if(var.Name == argument)
@@ -1478,6 +1479,7 @@ namespace de.unika.ipd.grGen.grShell
                 // Atoms (assignments)
                 case SequenceType.AssignVarToVar:
                 case SequenceType.AssignConstToVar:
+                case SequenceType.AssignContainerConstructorToVar:
                 case SequenceType.DeclareVariable:
                     {
                         Console.Write(seq.Symbol);
@@ -1562,7 +1564,8 @@ namespace de.unika.ipd.grGen.grShell
             {
                 Console.WriteLine("Available local variables:");
                 Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
-                seqStart.GetLocalVariables(seqVars, seq);
+                List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+                seqStart.GetLocalVariables(seqVars, containerConstructors, seq);
                 foreach(SequenceVariable var in seqVars.Keys)
                 {
                     string type;

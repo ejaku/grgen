@@ -63,10 +63,11 @@ namespace de.unika.ipd.grGen.libGr
             Arguments = arguments;
         }
 
-        public void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        public void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             foreach(SequenceExpression seqExpr in ArgumentExpressions)
-                seqExpr.GetLocalVariables(variables);
+                seqExpr.GetLocalVariables(variables, containerConstructors);
             foreach(SequenceVariable seqVar in ReturnVars)
                 seqVar.GetLocalVariables(variables);
         }

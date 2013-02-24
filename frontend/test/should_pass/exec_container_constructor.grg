@@ -1,0 +1,32 @@
+using deep_model_001;
+
+rule r(var x:int, y:Node)
+{
+  a:A;
+  b:B;
+
+  if ( set<int>{}.empty() && array<int>[].empty() && deque<int>][.empty() && map<int,int>{}.empty() );
+  
+  modify {
+    c:Node;
+    d:AB;
+	def var z:int = 0;
+
+    exec( s1:set<int>=set<int>{} ;> s2:set<int>=set<int>{0,1,2} ); 
+	exec( s1:set<int>=set<int>{x,z} ;> s2:set<int>=set<int>{x+z,2-1} );
+    exec( s1:set<Node>=set<Node>{} ;> s2:set<Node>=set<Node>{a,b,c,d,y} );
+
+    exec( a1:array<int>=array<int>[] ;> a2:array<int>=array<int>[0,1,2] );
+	exec( a1:array<int>=array<int>[x,z] ;> a2:array<int>=array<int>[x+z,2-1] );
+    exec( a1:array<Node>=array<Node>[] ;> a2:array<Node>=array<Node>[a,b,c,d,y] );
+
+    exec( d1:deque<int>=deque<int>][ ;> d2:deque<int>=deque<int>]0,1,2[ );
+	exec( d1:deque<int>=deque<int>]x,z[ ;> d2:deque<int>=deque<int>]x+z,2-1[ );
+ 	exec( a1:array<int>=array<int>[x,z] ;> d1:deque<int>=deque<int>]a1[x][ ;> d2:deque<int>=deque<int>]a1[x],x[ );
+    exec( d1:deque<Node>=deque<Node>][ ;> d2:deque<Node>=deque<Node>]a,b,c,d,y[ );
+
+    exec( m1:map<int,int>=map<int,int>{} ;> m2:map<int,int>=map<int,int>{0->0,1->1,2->2} );
+	exec( m1:map<int,int>=map<int,int>{x->x,z->z} ;> m2:map<int,int>=map<int,int>{x+z->x+z,2-1->2-1} );
+    exec( m1:map<Node,Node>=map<Node,Node>{} ;> m2:map<Node,Node>=map<Node,Node>{a->a,b->b,c->c,d->d,y->y} );
+  }
+}

@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.libGr
         RuleCall, RuleAllCall,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
         AssignUserInputToVar, AssignRandomIntToVar, AssignRandomDoubleToVar, // needed as sequence because of debugger integration
-        DeclareVariable, AssignConstToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
+        DeclareVariable, AssignConstToVar, AssignContainerConstructorToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
         Highlight,
         BooleanComputation
@@ -179,12 +179,15 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Walks the sequence tree from this on to the given target sequence (inclusive),
-        /// collecting all variables found on the way into the variables dictionary.
+        /// collecting all variables found on the way into the variables dictionary,
+        /// and all container constructors used into the constructors array.
         /// </summary>
         /// <param name="variables">Contains the variables found</param>
+        /// <param name="containerConstructors">Contains the container constructors walked by</param>
         /// <param name="target">The target sequence up to which to walk</param>
         /// <returns>Returns whether the target was hit, so the parent can abort walking</returns>
-        public virtual bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public virtual bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             return this == target;
         }
@@ -284,9 +287,10 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, 
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            if(Seq.GetLocalVariables(variables, target))
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             return this == target;
         }
@@ -345,11 +349,12 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            if(Left.GetLocalVariables(variables, target))
+            if(Left.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            if(Right.GetLocalVariables(variables, target))
+            if(Right.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             return this == target;
         }
@@ -406,10 +411,11 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             foreach(Sequence seq in Sequences)
-                if(seq.GetLocalVariables(variables, target))
+                if(seq.GetLocalVariables(variables, containerConstructors, target))
                     return true;
             return this == target;
         }
@@ -447,7 +453,8 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             DestVar.GetLocalVariables(variables);
             return this == target;
@@ -777,9 +784,10 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            ParamBindings.GetLocalVariables(variables);
+            ParamBindings.GetLocalVariables(variables, containerConstructors);
             return this == target;
         }
 
@@ -1040,9 +1048,10 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            ParamBindings.GetLocalVariables(variables);
+            ParamBindings.GetLocalVariables(variables, containerConstructors);
             if(MinVarChooseRandom!=null) MinVarChooseRandom.GetLocalVariables(variables);
             if(MaxVarChooseRandom!=null) MaxVarChooseRandom.GetLocalVariables(variables);
             return this == target;
@@ -1222,14 +1231,57 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(Constant == null)
                     return DestVar.Name + "=" + "null";
-                else if(Constant.GetType().Name == "Dictionary`2")
-                    return DestVar.Name + "=" + "{}"; // only empty set/map assignment possible as of now
-                else if(Constant.GetType().Name == "List`1")
-                    return DestVar.Name + "=" + "[]"; // only empty array assignment possible as of now
-                else if(Constant.GetType().Name == "Deque`1")
-                    return DestVar.Name + "=" + "]["; // only empty deque assignment possible as of now
                 else
                     return DestVar.Name + "=" + Constant.ToString();
+            }
+        }
+    }
+
+    public class SequenceAssignContainerConstructorToVar : SequenceAssignToVar
+    {
+        public SequenceExpression Constructor;
+
+        public SequenceAssignContainerConstructorToVar(SequenceVariable destVar, SequenceExpression constructor)
+            : base(destVar, SequenceType.AssignContainerConstructorToVar)
+        {
+            Constructor = constructor;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            Constructor.Check(env);
+
+            if(!TypesHelper.IsSameOrSubtype(Constructor.Type(env), DestVar.Type, env.Model))
+                throw new SequenceParserException(Constructor.Symbol, DestVar.Type, Constructor.Type(env));
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceAssignContainerConstructorToVar copy = (SequenceAssignContainerConstructorToVar)MemberwiseClone();
+            copy.DestVar = DestVar.Copy(originalToCopy, procEnv);
+            copy.Constructor = Constructor.CopyExpression(originalToCopy, procEnv);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            return Assign(Constructor.Evaluate(procEnv), procEnv);
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            DestVar.GetLocalVariables(variables);
+            Constructor.GetLocalVariables(variables, containerConstructors);
+            return this == target;
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                return DestVar.Name + "=" + Constructor.Symbol;
             }
         }
     }
@@ -1261,7 +1313,8 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             DestVar.GetLocalVariables(variables);
             Variable.GetLocalVariables(variables);
@@ -1330,10 +1383,11 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             DestVar.GetLocalVariables(variables);
-            if(Seq.GetLocalVariables(variables, target))
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             return this == target;
         }
@@ -1930,11 +1984,12 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            if(Rule.GetLocalVariables(variables, target))
+            if(Rule.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            if(Seq.GetLocalVariables(variables, target))
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             return this == target;
         }
@@ -2032,15 +2087,16 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            if(Condition.GetLocalVariables(variables, target))
+            if(Condition.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            if(TrueCase.GetLocalVariables(variables, target))
+            if(TrueCase.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingTrueCase)
                 variables.Remove(seqVar);
-            if(FalseCase.GetLocalVariables(variables, target))
+            if(FalseCase.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingIf)
                 variables.Remove(seqVar);
@@ -2086,11 +2142,12 @@ namespace de.unika.ipd.grGen.libGr
             return Left.Apply(procEnv) ? Right.Apply(procEnv) : true; // lazy implication
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            if(Left.GetLocalVariables(variables, target))
+            if(Left.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            if(Right.GetLocalVariables(variables, target))
+            if(Right.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingTrueCase)
                 variables.Remove(seqVar);
@@ -2207,12 +2264,13 @@ namespace de.unika.ipd.grGen.libGr
             return res;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, 
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             Var.GetLocalVariables(variables);
             if(VarDst != null)
                 VarDst.GetLocalVariables(variables);
-            if(Seq.GetLocalVariables(variables, target))
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
                 variables.Remove(seqVar);
@@ -2468,15 +2526,16 @@ namespace de.unika.ipd.grGen.libGr
             return nodeType;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             Var.GetLocalVariables(variables);
-            Expr.GetLocalVariables(variables);
+            Expr.GetLocalVariables(variables, containerConstructors);
             if(IncidentEdgeType != null)
-                IncidentEdgeType.GetLocalVariables(variables);
+                IncidentEdgeType.GetLocalVariables(variables, containerConstructors);
             if(AdjacentNodeType != null)
-                AdjacentNodeType.GetLocalVariables(variables);
-            if(Seq.GetLocalVariables(variables, target))
+                AdjacentNodeType.GetLocalVariables(variables, containerConstructors);
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
                 variables.Remove(seqVar);
@@ -2574,10 +2633,11 @@ namespace de.unika.ipd.grGen.libGr
             return res;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             Var.GetLocalVariables(variables);
-            if(Seq.GetLocalVariables(variables, target))
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
                 variables.Remove(seqVar);
@@ -2704,12 +2764,13 @@ namespace de.unika.ipd.grGen.libGr
             return res;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             Var.GetLocalVariables(variables);
-            if(Rule.GetLocalVariables(variables, target))
+            if(Rule.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            if(Seq.GetLocalVariables(variables, target))
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
                 variables.Remove(seqVar);
@@ -2925,13 +2986,14 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             foreach(SequenceVariable seqVar in InputVariables)
                 seqVar.GetLocalVariables(variables);
             foreach(SequenceVariable seqVar in OutputVariables)
                 seqVar.GetLocalVariables(variables);
-            if(Seq.GetLocalVariables(variables, target))
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             return this == target;
         }
@@ -3006,7 +3068,8 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("GetCurrentlyExecutedSequence not supported on compiled sequences");
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             throw new Exception("GetLocalVariables not supported on compiled sequences");
         }
@@ -3062,9 +3125,10 @@ namespace de.unika.ipd.grGen.libGr
             return res;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            ParamBindings.GetLocalVariables(variables);
+            ParamBindings.GetLocalVariables(variables, containerConstructors);
             return this == target;
         }
 
@@ -3197,9 +3261,10 @@ namespace de.unika.ipd.grGen.libGr
                 return true;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            Computation.GetLocalVariables(variables);
+            Computation.GetLocalVariables(variables, containerConstructors);
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingComputation)
                 variables.Remove(seqVar);
             return this == target;
