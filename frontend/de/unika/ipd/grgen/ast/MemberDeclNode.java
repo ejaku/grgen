@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -29,7 +30,7 @@ public class MemberDeclNode extends DeclNode {
 		setName(MemberDeclNode.class, "member declaration");
 	}
 
-	protected TypeNode type;
+	public TypeNode type;
 	private boolean isConst;
 	private BaseNode constInitializer;
 
@@ -60,11 +61,11 @@ public class MemberDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
-	protected boolean isConst() {
+	public boolean isConst() {
 		return isConst;
 	}
 
-	protected BaseNode getConstInitializer() {
+	public BaseNode getConstInitializer() {
 		return constInitializer;
 	}
 

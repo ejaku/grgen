@@ -27,7 +27,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		setName(DeclNode.class, "declaration");
 	}
 
-	protected IdentNode ident;
+	public IdentNode ident;
 
 	// TODO this should not be public
 	public BaseNode typeUnresolved;

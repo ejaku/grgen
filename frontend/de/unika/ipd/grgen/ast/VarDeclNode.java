@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -28,11 +29,11 @@ public class VarDeclNode extends DeclNode {
 	private TypeNode type;
 
 	protected PatternGraphNode directlyNestingLHSGraph;
-	boolean defEntityToBeYieldedTo;
+	public boolean defEntityToBeYieldedTo;
 
 	ExprNode initialization = null;
 
-	int context;
+	public int context;
 
 
 	public VarDeclNode(IdentNode id, IdentNode type,

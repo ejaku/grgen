@@ -123,7 +123,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	}
 
 	@Override
-	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
+	public void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		assert isResolved();
 
 		for(NodeTypeNode inh : extend.getChildren()) {

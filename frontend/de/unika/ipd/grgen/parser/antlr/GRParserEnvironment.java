@@ -11,17 +11,17 @@
 
 package de.unika.ipd.grgen.parser.antlr;
 
-import org.antlr.runtime.*;
-
-import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.ast.ModelNode;
-import de.unika.ipd.grgen.ast.UnitNode;
-import de.unika.ipd.grgen.parser.ParserEnvironment;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
+
+import org.antlr.runtime.*;
+
+import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.parser.ParserEnvironment;
 
 /**
  * Ease the ANTLR parser calling

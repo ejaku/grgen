@@ -65,7 +65,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @return		the compatibility distance or -1 if no compatibility could
 	 * 				be found
 	 */
-	protected int compatibilityDist(TypeNode type) {
+	public int compatibilityDist(TypeNode type) {
 		if ( this.isEqual(type) ) {
 			return 0;
 		}
@@ -87,7 +87,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @param t A type.
 	 * @return true, if this type is compatible or equal to <code>t</code>
 	 */
-	protected boolean isCompatibleTo(TypeNode t) {
+	public boolean isCompatibleTo(TypeNode t) {
 		if(isEqual(t)) return true;
 
 		return getCompatibleToTypes().contains(t);
@@ -99,7 +99,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @param t A type.
 	 * @return true, if this type is just castable to <code>t</code>.
 	 */
-	protected boolean isCastableTo(TypeNode t) {
+	public boolean isCastableTo(TypeNode t) {
 		return getCastableToTypes().contains(t);
 	}
 
@@ -137,7 +137,7 @@ public abstract class TypeNode extends BaseNode {
 	/**
 	 * Returns a collection of all compatible types which are compatible to this one.
 	 */
-	protected final Collection<TypeNode> getCompatibleToTypes() {
+	public final Collection<TypeNode> getCompatibleToTypes() {
 		if(compatibleToTypes != null) return compatibleToTypes;
 
 		HashSet<TypeNode> coll = new HashSet<TypeNode>();
@@ -173,7 +173,7 @@ public abstract class TypeNode extends BaseNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
 	 */
-	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
+	public void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		debug.report(NOTE, "compatible types to " + getName() + ":");
 
 		Collection<TypeNode> compat = compatibleMap.get(this);

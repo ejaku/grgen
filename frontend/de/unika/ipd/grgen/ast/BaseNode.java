@@ -726,7 +726,7 @@ public abstract class BaseNode extends Base
 	 * node, {@link #constructIR()} is just called once.
 	 * @return The constructed/stored IR object.
 	 */
-	protected final IR getIR() {
+	public final IR getIR() {
 		if(irObject == null)
 			setIR(constructIR());
 		return irObject;

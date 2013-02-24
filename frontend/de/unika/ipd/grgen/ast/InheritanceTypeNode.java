@@ -64,7 +64,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	/** Contains all sub types of this type (not including this itself) */
 	private Collection<InheritanceTypeNode> allSubTypes = null;
 
-	protected void addDirectSubType(InheritanceTypeNode type) {
+	public void addDirectSubType(InheritanceTypeNode type) {
 		directSubTypes.add(type);
 	}
 
@@ -216,7 +216,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		return (modifiers & MOD_ABSTRACT) != 0;
 	}
 
-	protected final boolean isConst() {
+	public final boolean isConst() {
 		return (modifiers & MOD_CONST) != 0;
 	}
 
