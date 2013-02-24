@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.containers.ArrayInit;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.MemberInit;
+import de.unika.ipd.grgen.ir.exprevals.MemberInit;
 import de.unika.ipd.grgen.ir.containers.MapInit;
 import de.unika.ipd.grgen.ir.containers.DequeInit;
 import de.unika.ipd.grgen.ir.containers.SetInit;

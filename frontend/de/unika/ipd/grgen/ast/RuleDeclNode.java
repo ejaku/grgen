@@ -20,7 +20,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.EvalStatements;
+import de.unika.ipd.grgen.ir.exprevals.EvalStatements;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;

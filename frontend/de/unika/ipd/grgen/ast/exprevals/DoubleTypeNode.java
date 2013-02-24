@@ -8,7 +8,7 @@
 package de.unika.ipd.grgen.ast.exprevals;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.DoubleType;
+import de.unika.ipd.grgen.ir.exprevals.DoubleType;
 import de.unika.ipd.grgen.ir.IR;
 
 /** The double precision floating point basic type. */

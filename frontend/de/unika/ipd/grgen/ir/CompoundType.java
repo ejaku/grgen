@@ -55,7 +55,7 @@ public abstract class CompoundType extends Type {
 		fields.put("members", members.iterator());
 	}
 
-	void addToDigest(StringBuffer sb) {
+	public void addToDigest(StringBuffer sb) {
 		sb.append(this);
 		sb.append('[');
 

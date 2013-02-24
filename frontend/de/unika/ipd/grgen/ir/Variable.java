@@ -12,6 +12,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.exprevals.*;
+
 public class Variable extends Entity {
 	// the pattern graph of the variable
 	public PatternGraph directlyNestingLHSGraph;

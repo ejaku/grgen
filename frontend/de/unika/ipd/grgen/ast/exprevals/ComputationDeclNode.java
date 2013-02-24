@@ -15,9 +15,9 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.Computation;
+import de.unika.ipd.grgen.ir.exprevals.Computation;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EvalStatement;
+import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 

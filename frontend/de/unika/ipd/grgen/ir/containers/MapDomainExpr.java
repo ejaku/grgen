@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.exprevals.*;
 
 public class MapDomainExpr extends Expression {
 	Expression targetExpr;

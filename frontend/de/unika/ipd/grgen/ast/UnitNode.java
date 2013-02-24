@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.Computation;
+import de.unika.ipd.grgen.ir.exprevals.Computation;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Rule;

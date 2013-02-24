@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.ast.exprevals;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.VoidType;
+import de.unika.ipd.grgen.ir.exprevals.VoidType;
 
 /**
  * The void basic type. It is compatible to no other type.

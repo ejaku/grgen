@@ -16,10 +16,10 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
-import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapRemoveItem;
-import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MapRemoveItemNode extends EvalStatementNode

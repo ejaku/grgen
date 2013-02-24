@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.util.Util;
 
 /**
@@ -136,7 +137,7 @@ public class Unit extends IR {
 		}
 	}
 
-	void addToDigest(StringBuffer sb) {
+	public void addToDigest(StringBuffer sb) {
 		for(Iterator<Model> it = models.iterator(); it.hasNext();) {
 			Model model = it.next();
 			model.addToDigest(sb);

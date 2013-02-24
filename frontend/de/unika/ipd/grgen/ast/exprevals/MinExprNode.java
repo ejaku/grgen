@@ -15,9 +15,9 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.MinExpr;
+import de.unika.ipd.grgen.ir.exprevals.MinExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MinExprNode extends ExprNode {

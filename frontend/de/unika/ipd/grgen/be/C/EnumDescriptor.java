@@ -10,10 +10,10 @@
  */
 
 package de.unika.ipd.grgen.be.C;
+
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.EnumItem;
-
+import de.unika.ipd.grgen.ir.exprevals.EnumItem;
 
 
 public class EnumDescriptor

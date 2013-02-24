@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ReachableNodeExpr;
+import de.unika.ipd.grgen.ir.exprevals.ReachableNodeExpr;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.Coords;

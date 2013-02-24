@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ir.containers;
 
-import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.exprevals.*;
 
 public class SetSizeExpr extends Expression {
 	Expression targetExpr;

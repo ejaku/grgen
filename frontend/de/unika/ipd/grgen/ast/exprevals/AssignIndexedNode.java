@@ -15,13 +15,13 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.*;
-import de.unika.ipd.grgen.ir.AssignmentIndexed;
-import de.unika.ipd.grgen.ir.AssignmentVarIndexed;
+import de.unika.ipd.grgen.ir.exprevals.AssignmentIndexed;
+import de.unika.ipd.grgen.ir.exprevals.AssignmentVarIndexed;
 import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 

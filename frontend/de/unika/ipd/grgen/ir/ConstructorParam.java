@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.exprevals.*;;
+
 public class ConstructorParam extends IR {
 	private Entity entity;
 	private Expression defValue;

@@ -14,8 +14,8 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.DefDeclGraphEntityStatement;
-import de.unika.ipd.grgen.ir.DefDeclVarStatement;
+import de.unika.ipd.grgen.ir.exprevals.DefDeclGraphEntityStatement;
+import de.unika.ipd.grgen.ir.exprevals.DefDeclVarStatement;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Variable;

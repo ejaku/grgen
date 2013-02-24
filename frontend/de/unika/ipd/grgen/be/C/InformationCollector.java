@@ -23,25 +23,8 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.BooleanType;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EnumItem;
-import de.unika.ipd.grgen.ir.EnumType;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.Graph;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.IntType;
-import de.unika.ipd.grgen.ir.MatchingAction;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.StringType;
-import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.util.Annotations;
 
 public class InformationCollector extends CBackend {
