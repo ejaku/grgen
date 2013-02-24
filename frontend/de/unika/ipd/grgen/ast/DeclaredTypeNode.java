@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ir.exprevals.PrimitiveType;
+
 /**
  * Base class for all AST nodes representing declared types.
  * Declared types have identifiers (and declaration nodes).
@@ -18,8 +20,6 @@ package de.unika.ipd.grgen.ast;
  * constructor
  * @see DeclNode#DeclNode(IdentNode, BaseNode)
  */
-import de.unika.ipd.grgen.ir.PrimitiveType;
-
 public abstract class DeclaredTypeNode extends TypeNode
 {
 	private DeclNode decl = null;

@@ -11,9 +11,11 @@
 
 package de.unika.ipd.grgen.ir.containers;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ir.*;
 import java.util.HashSet;
+
+import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ast.BaseNode;
 
 public class ArrayClear extends EvalStatement {
 	Qualification target;

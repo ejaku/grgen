@@ -17,9 +17,9 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.EnumExpression;
-import de.unika.ipd.grgen.ir.EnumItem;
-import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.exprevals.EnumExpression;
+import de.unika.ipd.grgen.ir.exprevals.EnumItem;
+import de.unika.ipd.grgen.ir.exprevals.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 

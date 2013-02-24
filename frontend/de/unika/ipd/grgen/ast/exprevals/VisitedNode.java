@@ -14,9 +14,9 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Visited;
+import de.unika.ipd.grgen.ir.exprevals.Visited;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class VisitedNode extends ExprNode {

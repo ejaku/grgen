@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import de.unika.ipd.grgen.ir.exprevals.*;;
+
 /**
  * A XGRS in an exec statement.
  */

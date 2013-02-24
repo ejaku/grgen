@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.containers.MapType;
 import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.ObjectType;
+import de.unika.ipd.grgen.ir.exprevals.ObjectType;
 import de.unika.ipd.grgen.ir.containers.SetType;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Coords;

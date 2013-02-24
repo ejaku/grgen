@@ -23,12 +23,12 @@ import de.unika.ipd.grgen.ast.util.CollectQuadrupleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationQuadrupleResolver;
 import de.unika.ipd.grgen.ast.util.Quadruple;
 import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
-import de.unika.ipd.grgen.ir.GraphEntityExpression;
+import de.unika.ipd.grgen.ir.exprevals.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.VariableExpression;
+import de.unika.ipd.grgen.ir.exprevals.VariableExpression;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Symbol;
 

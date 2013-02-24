@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
-import de.unika.ipd.grgen.ir.ExternalFunction;
+import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
 
 
 public class ModelNode extends DeclNode {

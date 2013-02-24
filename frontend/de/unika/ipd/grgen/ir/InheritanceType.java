@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.ir.containers.*;
 
 

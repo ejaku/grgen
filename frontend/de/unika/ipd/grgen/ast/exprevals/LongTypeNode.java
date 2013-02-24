@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.ast.exprevals;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.LongType;
+import de.unika.ipd.grgen.ir.exprevals.LongType;
 
 /**
  * The long basic type.

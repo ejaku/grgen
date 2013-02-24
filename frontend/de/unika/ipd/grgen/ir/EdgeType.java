@@ -74,7 +74,7 @@ public class EdgeType extends InheritanceType {
 		fields.put("conn_asserts", connectionAsserts.iterator());
 	}
 
-	void addToDigest(StringBuffer sb) {
+	public void addToDigest(StringBuffer sb) {
 		super.addToDigest(sb);
 
 		sb.append('[');

@@ -17,7 +17,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.EnumItem;
+import de.unika.ipd.grgen.ir.exprevals.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.util.Walkable;
 

@@ -16,9 +16,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.EvalStatement;
+import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.IteratedAccumulationYield;
+import de.unika.ipd.grgen.ir.exprevals.IteratedAccumulationYield;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;

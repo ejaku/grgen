@@ -12,7 +12,7 @@
 package de.unika.ipd.grgen.ast.exprevals;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.Constant;
+import de.unika.ipd.grgen.ir.exprevals.Constant;
 import de.unika.ipd.grgen.ir.IR;
 
 /**

@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.ir.containers.*;
 import de.unika.ipd.grgen.util.Formatter;
 import de.unika.ipd.grgen.util.GraphDumpable;

@@ -13,8 +13,6 @@
 
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.ast.PatternGraphNode; // for the MOD_... - constants
-import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,6 +21,10 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+
+import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ast.PatternGraphNode; // for the MOD_... - constants
+import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
 
 /**
  * A pattern graph is a graph as it occurs in left hand rule sides and negative parts.

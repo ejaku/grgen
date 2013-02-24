@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.ir.containers.*;
 
 import de.unika.ipd.grgen.util.Base;

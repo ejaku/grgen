@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import de.unika.ipd.grgen.ir.exprevals.*;
+
 public class Model extends Identifiable {
 	private List<Model> usedModels = new LinkedList<Model>();
 	private List<Type> types = new LinkedList<Type>();
@@ -100,7 +102,7 @@ public class Model extends Identifiable {
 		}
 	}
 
-	void addToDigest(StringBuffer sb) {
+	public void addToDigest(StringBuffer sb) {
 		sb.append(this);
 		sb.append('[');
 

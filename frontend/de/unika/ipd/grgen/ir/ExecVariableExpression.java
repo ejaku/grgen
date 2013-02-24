@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.exprevals.*;;
+
 /**
  * A exec variable expression node.
  */

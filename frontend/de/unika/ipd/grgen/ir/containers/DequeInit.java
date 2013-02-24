@@ -11,8 +11,10 @@
 
 package de.unika.ipd.grgen.ir.containers;
 
-import de.unika.ipd.grgen.ir.*;
 import java.util.Collection;
+
+import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.exprevals.*;
 
 public class DequeInit extends Expression {
 	private Collection<DequeItem> dequeItems;

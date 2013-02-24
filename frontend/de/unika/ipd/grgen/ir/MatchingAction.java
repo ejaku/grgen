@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.unika.ipd.grgen.ir.exprevals.*;
+
 /**
  * An action that represents something that does graph matching.
  */

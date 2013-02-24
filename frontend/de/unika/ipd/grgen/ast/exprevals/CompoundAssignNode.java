@@ -16,19 +16,19 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.*;
-import de.unika.ipd.grgen.ir.CompoundAssignment;
-import de.unika.ipd.grgen.ir.CompoundAssignmentChanged;
-import de.unika.ipd.grgen.ir.CompoundAssignmentChangedVar;
-import de.unika.ipd.grgen.ir.CompoundAssignmentChangedVisited;
-import de.unika.ipd.grgen.ir.CompoundAssignmentVar;
-import de.unika.ipd.grgen.ir.CompoundAssignmentVarChanged;
-import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVar;
-import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVisited;
-import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.exprevals.CompoundAssignment;
+import de.unika.ipd.grgen.ir.exprevals.CompoundAssignmentChanged;
+import de.unika.ipd.grgen.ir.exprevals.CompoundAssignmentChangedVar;
+import de.unika.ipd.grgen.ir.exprevals.CompoundAssignmentChangedVisited;
+import de.unika.ipd.grgen.ir.exprevals.CompoundAssignmentVar;
+import de.unika.ipd.grgen.ir.exprevals.CompoundAssignmentVarChanged;
+import de.unika.ipd.grgen.ir.exprevals.CompoundAssignmentVarChangedVar;
+import de.unika.ipd.grgen.ir.exprevals.CompoundAssignmentVarChangedVisited;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.Visited;
+import de.unika.ipd.grgen.ir.exprevals.Visited;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class CompoundAssignNode extends EvalStatementNode

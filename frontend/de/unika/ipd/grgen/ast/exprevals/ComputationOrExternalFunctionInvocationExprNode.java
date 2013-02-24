@@ -17,11 +17,11 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.Computation;
-import de.unika.ipd.grgen.ir.ComputationInvocationExpr;
-import de.unika.ipd.grgen.ir.ExternalFunction;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.ExternalFunctionInvocationExpr;
+import de.unika.ipd.grgen.ir.exprevals.Computation;
+import de.unika.ipd.grgen.ir.exprevals.ComputationInvocationExpr;
+import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.exprevals.ExternalFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 

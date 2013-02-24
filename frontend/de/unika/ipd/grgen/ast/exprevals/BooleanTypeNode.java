@@ -8,7 +8,7 @@
 package de.unika.ipd.grgen.ast.exprevals;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.BooleanType;
+import de.unika.ipd.grgen.ir.exprevals.BooleanType;
 import de.unika.ipd.grgen.ir.IR;
 
 /**

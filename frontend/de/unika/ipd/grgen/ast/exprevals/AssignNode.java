@@ -17,17 +17,17 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.*;
-import de.unika.ipd.grgen.ir.Assignment;
-import de.unika.ipd.grgen.ir.AssignmentGraphEntity;
-import de.unika.ipd.grgen.ir.AssignmentIdentical;
-import de.unika.ipd.grgen.ir.AssignmentVar;
+import de.unika.ipd.grgen.ir.exprevals.Assignment;
+import de.unika.ipd.grgen.ir.exprevals.AssignmentGraphEntity;
+import de.unika.ipd.grgen.ir.exprevals.AssignmentIdentical;
+import de.unika.ipd.grgen.ir.exprevals.AssignmentVar;
 import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.EvalStatement;
-import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 

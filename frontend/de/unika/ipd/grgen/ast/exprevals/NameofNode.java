@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Nameof;
+import de.unika.ipd.grgen.ir.exprevals.Nameof;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

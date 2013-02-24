@@ -107,7 +107,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 	}
 
 	/** Add this type to the digest. */
-	void addToDigest(StringBuffer sb) {
+	public void addToDigest(StringBuffer sb) {
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////

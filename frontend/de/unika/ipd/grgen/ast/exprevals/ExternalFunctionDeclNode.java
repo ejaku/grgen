@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ExternalFunction;
+import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
 import de.unika.ipd.grgen.ir.Type;
 
 import java.util.Collection;

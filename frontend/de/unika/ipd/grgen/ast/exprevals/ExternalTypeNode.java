@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ExternalType;
+import de.unika.ipd.grgen.ir.exprevals.ExternalType;
 
 /**
  * A class representing a node type

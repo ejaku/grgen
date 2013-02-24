@@ -10,7 +10,7 @@
  */
 package de.unika.ipd.grgen.ir.containers;
 
-import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.exprevals.*;
 
 public class DequeSubdequeExpr extends Expression {
 	private Expression targetExpr, startExpr, lengthExpr;
