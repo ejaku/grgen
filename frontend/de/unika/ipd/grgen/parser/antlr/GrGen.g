@@ -2994,6 +2994,12 @@ options { k = 5; }
 	  f=FOR LPAREN pushScopeStr["for", getCoords(f)] fc=forContent[getCoords(f), onLHS, context, directlyNestingLHSGraph]
 			{ res=fc; }
 	|
+	  c=CONTINUE SEMI
+			{ res=new ContinueStatementNode(getCoords(c)); }
+	|
+	  b=BREAK SEMI
+			{ res=new BreakStatementNode(getCoords(b)); }
+	|
 	  ie=ifelse[onLHS, context, directlyNestingLHSGraph]
 			{ res=ie; }
 	|
@@ -3002,8 +3008,14 @@ options { k = 5; }
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
 		RBRACE popScope
 			{ res=new WhileStatementNode(getCoords(w), e, cs); }
+	|
+	  { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vfreenonreset") || input.LT(1).getText().equals("vreset") 
+		|| input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") 
+		|| input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
+		(i=IDENT | i=EMIT) LPAREN params=paramExprs[false] RPAREN
+			{ res=new ProcedureCallNode(getCoords(i), i.getText(), params); }
 	;
-
+	
 ifelse [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 	@init{
 		CollectNode<EvalStatementNode> elseRemainder = new CollectNode<EvalStatementNode>();
@@ -3628,6 +3640,7 @@ CLASS : 'class';
 COPY : 'copy';
 CONNECT : 'connect';
 CONST : 'const';
+CONTINUE : 'continue';
 DEF : 'def';
 DELETE : 'delete';
 DIRECTED : 'directed';
