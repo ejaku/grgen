@@ -18,6 +18,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.CollectQuadrupleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationQuadrupleResolver;
 import de.unika.ipd.grgen.ast.util.Quadruple;

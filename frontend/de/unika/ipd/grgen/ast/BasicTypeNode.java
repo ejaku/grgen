@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.exprevals.*;
+
 /**
  * A basic type AST node such as string or int
  */
@@ -165,7 +167,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	}
 
 	/** Return the Java class, that represents a value of a constant in this type. */
-	protected final Class<?> getValueType() {
+	public final Class<?> getValueType() {
 		if(!valueMap.containsKey(this)) {
 			return invalidValueType.getClass();
 		} else {

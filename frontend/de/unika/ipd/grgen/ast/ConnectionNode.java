@@ -51,7 +51,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	private NodeDeclNode right;
 
 	private BaseNode leftUnresolved;
-	protected BaseNode edgeUnresolved;
+	public BaseNode edgeUnresolved;
 	private BaseNode rightUnresolved;
 
 	/** Construct a new connection node.

@@ -160,7 +160,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	}
 
 	@Override
-	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
+	public void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		assert isResolved();
 
 		for(EdgeTypeNode inh : extend.getChildren()) {

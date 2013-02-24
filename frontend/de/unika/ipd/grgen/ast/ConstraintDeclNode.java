@@ -13,6 +13,7 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.exprevals.*;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -22,11 +23,11 @@ public abstract class ConstraintDeclNode extends DeclNode
 {
 	protected TypeExprNode constraints;
 
-	protected int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
+	public int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
 				 // or CONTEXT_RHS if declaration is located on right hand side
 
-	protected PatternGraphNode directlyNestingLHSGraph;
-	boolean defEntityToBeYieldedTo;
+	public PatternGraphNode directlyNestingLHSGraph;
+	public boolean defEntityToBeYieldedTo;
 
 	/** The retyped version of this element if any. */
 	protected ConstraintDeclNode retypedElem = null;

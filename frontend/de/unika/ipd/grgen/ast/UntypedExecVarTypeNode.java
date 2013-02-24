@@ -40,13 +40,13 @@ public class UntypedExecVarTypeNode extends DeclaredTypeNode
 	}
 
 	@Override
-	protected boolean isCompatibleTo(TypeNode t) {
+	public boolean isCompatibleTo(TypeNode t) {
 		// compatible to everything
 		return true;
 	}
 
 	@Override
-	protected boolean isCastableTo(TypeNode t) {
+	public boolean isCastableTo(TypeNode t) {
 		return isCompatibleTo(t);
 	}
 

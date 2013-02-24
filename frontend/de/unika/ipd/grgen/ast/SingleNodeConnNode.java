@@ -31,7 +31,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	}
 
 	private NodeDeclNode node;
-	protected BaseNode nodeUnresolved;
+	public BaseNode nodeUnresolved;
 
 
 	public SingleNodeConnNode(BaseNode n) {

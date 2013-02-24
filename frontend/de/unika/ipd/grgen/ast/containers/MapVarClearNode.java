@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapVarClear;
 import de.unika.ipd.grgen.ir.Variable;
