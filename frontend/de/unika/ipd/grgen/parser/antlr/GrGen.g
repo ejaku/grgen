@@ -1892,19 +1892,38 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	: (methodCall[null]) => methodCall[xg]
 	| (xgrsVarUse[null] DOT VISITED) => xgrsVarUse[xg] DOT VISITED LBRACK 
 		{ xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); }
-	| (xgrsVarUse[null] DOT IDENT) => target=xgrsVarUse[xg] d=DOT attr=memberIdentUse 
-		{ xg.append("."+attr.getSymbol().getText()); res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
-		(l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
-			{ res = new IndexedAccessExprNode(getCoords(l), res, key); })?
-	| (xgrsVarUse[null] LBRACK) => target=xgrsVarUse[xg] l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
-		{ res = new IndexedAccessExprNode(getCoords(l), new IdentExprNode((IdentNode)target), key); }
+	| (xgrsVarUse[null] DOT IDENT) => target=xgrsVarUse[xg] d=DOT attr=memberIdentUse { xg.append("."+attr.getSymbol().getText()); }
+			{ res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
+		sel=seqExprSelector[res, xg] { res = sel; }
 	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
 	| (functionCall[null]) => functionCall[xg]
+	| (xgrsVarUse[null]) => target=xgrsVarUse[xg]
+			{ res = new IdentExprNode((IdentNode)target); }
+		sel=seqExprSelector[res, xg] { res = sel; }
 	| RANDOM LPAREN { xg.append("random"); xg.append("("); } ( fromExpr=seqExpression[xg] )? RPAREN { xg.append(")"); }
 	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
-	| (xgrsVarUse[null])=> exp=xgrsVarUse[xg] { res = new IdentExprNode((IdentNode)exp); }
 	| a=AT LPAREN { xg.append("@("); } (i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
+	;
+
+seqExprSelector[ExprNode prefix, ExecNode xg] returns[ExprNode res = prefix]
+	: (LBRACK seqExprSelectorTerminator) => // terminate, deque end
+	| (LBRACK) => l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
+			{ res = new IndexedAccessExprNode(getCoords(l), prefix, key); } // array/deque/map access
+	| // no selector
+	;
+	
+seqExprSelectorTerminator
+	: THENLEFT
+	| THENRIGHT
+	| LOR
+	| LAND 
+	| BOR
+	| BXOR 
+	| BAND
+	| PLUS
+	| RPAREN
+	| RBRACE
 	;
 
 procedureCall[ExecNode xg]
@@ -1957,10 +1976,70 @@ xgrsConstant[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	| ff=FALSE { xg.append(ff.getText()); res = new BoolConstNode(getCoords(ff), false); }
 	| n=NULL { xg.append(n.getText()); res = new NullConstNode(getCoords(n)); }
 	| tid=typeIdentUse d=DOUBLECOLON id=entIdentUse { xg.append(tid + "::" + id); res = new DeclExprNode(new EnumExprNode(getCoords(d), tid, id)); }
-	| MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT LBRACE RBRACE { xg.append("map<"+typeName+","+toTypeName+">{ }"); }
-	| SET LT typeName=typeIdentUse GT LBRACE RBRACE { xg.append("set<"+typeName+">{ }"); }
-	| ARRAY LT typeName=typeIdentUse GT LBRACK RBRACK { xg.append("array<"+typeName+">[ ]"); }
-	| DEQUE LT typeName=typeIdentUse GT RBRACK LBRACK { xg.append("deque<"+typeName+">] ["); }
+	| MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT { xg.append("map<"+typeName+","+toTypeName+">"); } e1=seqInitMapExpr[xg, MapTypeNode.getMapType(typeName, toTypeName)] { res = e1; }
+	| SET LT typeName=typeIdentUse GT { xg.append("set<"+typeName+">"); } e2=seqInitSetExpr[xg, SetTypeNode.getSetType(typeName)] { res = e2; }
+	| ARRAY LT typeName=typeIdentUse GT { xg.append("array<"+typeName+">"); } e3=seqInitArrayExpr[xg, ArrayTypeNode.getArrayType(typeName)] { res = e3; }
+	| DEQUE LT typeName=typeIdentUse GT { xg.append("deque<"+typeName+">"); } e4=seqInitDequeExpr[xg, DequeTypeNode.getDequeType(typeName)] { res = e4; }
+	;
+
+seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ MapInitNode res = null ]
+	: l=LBRACE { xg.append("{"); } { res = new MapInitNode(getCoords(l), null, mapType); }
+		( item1=seqMapItem[xg] { res.addMapItem(item1); }
+			( COMMA { xg.append(","); } item2=seqMapItem[xg] { res.addMapItem(item2); } )*
+		)?
+	  RBRACE { xg.append("}"); }
+	;
+
+seqInitSetExpr [ExecNode xg, SetTypeNode setType] returns [ SetInitNode res = null ]
+	: l=LBRACE { xg.append("{"); } { res = new SetInitNode(getCoords(l), null, setType); }	
+		( item1=seqSetItem[xg] { res.addSetItem(item1); }
+			( COMMA { xg.append(","); } item2=seqSetItem[xg] { res.addSetItem(item2); } )*
+		)?
+	  RBRACE { xg.append("}"); }
+	;
+
+seqInitArrayExpr [ExecNode xg, ArrayTypeNode arrayType] returns [ ArrayInitNode res = null ]
+	: l=LBRACK { xg.append("["); } { res = new ArrayInitNode(getCoords(l), null, arrayType); }	
+		( item1=seqArrayItem[xg] { res.addArrayItem(item1); }
+			( COMMA { xg.append(","); } item2=seqArrayItem[xg] { res.addArrayItem(item2); } )*
+		)?
+	  RBRACK { xg.append("]"); }
+	;
+
+seqInitDequeExpr [ExecNode xg, DequeTypeNode dequeType] returns [ DequeInitNode res = null ]
+	: l=RBRACK { xg.append("]"); } { res = new DequeInitNode(getCoords(l), null, dequeType); }	
+		( item1=seqDequeItem[xg] { res.addDequeItem(item1); }
+			( COMMA { xg.append(","); } item2=seqDequeItem[xg] { res.addDequeItem(item2); } )*
+		)?
+	  LBRACK { xg.append("["); }
+	;
+
+seqMapItem [ExecNode xg] returns [ MapItemNode res = null ]
+	: key=seqExpression[xg] a=RARROW { xg.append("->"); } value=seqExpression[xg]
+		{
+			res = new MapItemNode(getCoords(a), key, value);
+		}
+	;
+
+seqSetItem [ExecNode xg] returns [ SetItemNode res = null ]
+	: value=seqExpression[xg]
+		{
+			res = new SetItemNode(value.getCoords(), value);
+		}
+	;
+
+seqArrayItem [ExecNode xg] returns [ ArrayItemNode res = null ]
+	: value=seqExpression[xg]
+		{
+			res = new ArrayItemNode(value.getCoords(), value);
+		}
+	;
+
+seqDequeItem [ExecNode xg] returns [ DequeItemNode res = null ]
+	: value=seqExpression[xg]
+		{
+			res = new DequeItemNode(value.getCoords(), value);
+		}
 	;
 	
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
@@ -2548,32 +2627,65 @@ initExprDecl [IdentNode id] returns [ MemberInitNode res = null ]
 		}
 	;
 
-initMapExpr [IdentNode id, MapTypeNode mapType] returns [ MapInitNode res = null ]
-	: l=LBRACE { res = new MapInitNode(getCoords(l), id, mapType); }
+initMapExprNonEmpty [IdentNode id, MapTypeNode mapType] returns [ MapInitNode res = null ]
+	: l=LBRACE { env.enterContainerInit(); res = new MapInitNode(getCoords(l), id, mapType); }
 	          item1=mapItem { res.addMapItem(item1); }
 	  ( COMMA item2=mapItem { res.addMapItem(item2); } )*
-	  RBRACE
+	  RBRACE { env.leaveContainerInit(); }
+	;
+
+initSetExprNonEmpty [IdentNode id, SetTypeNode setType] returns [ SetInitNode res = null ]
+	: l=LBRACE { env.enterContainerInit(); res = new SetInitNode(getCoords(l), id, setType); }	
+	          item1=setItem { res.addSetItem(item1); }
+	  ( COMMA item2=setItem { res.addSetItem(item2); } )*
+	  RBRACE { env.leaveContainerInit(); }
+	;
+
+initArrayExprNonEmpty [IdentNode id, ArrayTypeNode arrayType] returns [ ArrayInitNode res = null ]
+	: l=LBRACK { env.enterContainerInit(); res = new ArrayInitNode(getCoords(l), id, arrayType); }	
+	          item1=arrayItem { res.addArrayItem(item1); }
+	  ( COMMA item2=arrayItem { res.addArrayItem(item2); } )*
+	  RBRACK { env.leaveContainerInit(); }
+	;
+
+initDequeExprNonEmpty [IdentNode id, DequeTypeNode dequeType] returns [ DequeInitNode res = null ]
+	: l=RBRACK { env.enterContainerInit(); res = new DequeInitNode(getCoords(l), id, dequeType); }	
+	          item1=dequeItem { res.addDequeItem(item1); }
+	  ( COMMA item2=dequeItem { res.addDequeItem(item2); } )*
+	  LBRACK { env.leaveContainerInit(); }
+	;
+
+initMapExpr [IdentNode id, MapTypeNode mapType] returns [ MapInitNode res = null ]
+	: l=LBRACE { env.enterContainerInit(); res = new MapInitNode(getCoords(l), id, mapType); }
+		( item1=mapItem { res.addMapItem(item1); }
+			( COMMA item2=mapItem { res.addMapItem(item2); } )*
+		)?
+	  RBRACE { env.leaveContainerInit(); }
 	;
 
 initSetExpr [IdentNode id, SetTypeNode setType] returns [ SetInitNode res = null ]
-	: l=LBRACE { res = new SetInitNode(getCoords(l), id, setType); }	
-	          item1=setItem { res.addSetItem(item1); }
-	  ( COMMA item2=setItem { res.addSetItem(item2); } )*
-	  RBRACE
+	: l=LBRACE { env.enterContainerInit(); res = new SetInitNode(getCoords(l), id, setType); }	
+		( item1=setItem { res.addSetItem(item1); }
+			( COMMA item2=setItem { res.addSetItem(item2); } )*
+		)?
+	  RBRACE { env.leaveContainerInit(); }
 	;
 
 initArrayExpr [IdentNode id, ArrayTypeNode arrayType] returns [ ArrayInitNode res = null ]
-	: l=LBRACK { res = new ArrayInitNode(getCoords(l), id, arrayType); }	
-	          item1=arrayItem { res.addArrayItem(item1); }
-	  ( COMMA item2=arrayItem { res.addArrayItem(item2); } )*
-	  RBRACK
+	: l=LBRACK { env.enterContainerInit(); res = new ArrayInitNode(getCoords(l), id, arrayType); }	
+		( item1=arrayItem { res.addArrayItem(item1); }
+			( COMMA item2=arrayItem { res.addArrayItem(item2); } )*
+		)?
+	  RBRACK { env.leaveContainerInit(); }
 	;
 
+
 initDequeExpr [IdentNode id, DequeTypeNode dequeType] returns [ DequeInitNode res = null ]
-	: l=RBRACK { res = new DequeInitNode(getCoords(l), id, dequeType); }	
-	          item1=dequeItem { res.addDequeItem(item1); }
-	  ( COMMA item2=dequeItem { res.addDequeItem(item2); } )*
-	  LBRACK
+	: l=RBRACK { env.enterContainerInit(); res = new DequeInitNode(getCoords(l), id, dequeType); }	
+		( item1=dequeItem { res.addDequeItem(item1); }
+			( COMMA item2=dequeItem { res.addDequeItem(item2); } )*
+		)?
+	  LBRACK { env.leaveContainerInit(); }
 	;
 
 mapItem returns [ MapItemNode res = null ]
@@ -3170,10 +3282,14 @@ initContainerExpr returns [ ExprNode res = env.initExprNode() ]
 	| SET LT valueType=typeIdentUse GT e2=initSetExpr[null, SetTypeNode.getSetType(valueType)] { res = e2; }
 	| ARRAY LT valueType=typeIdentUse GT e3=initArrayExpr[null, ArrayTypeNode.getArrayType(valueType)] { res = e3; }
 	| DEQUE LT valueType=typeIdentUse GT e4=initDequeExpr[null, DequeTypeNode.getDequeType(valueType)] { res = e4; }
-	| (LBRACE expr[false] RARROW) => e1=initMapExpr[null, null] { res = e1; }
-	| (LBRACE) => e2=initSetExpr[null, null] { res = e2; }
-	| (LBRACK) => e3=initArrayExpr[null, null] { res = e3; }
-	| (RBRACK) => e4=initDequeExpr[null, null] { res = e4; }
+	| {!env.inContainerInit()}? e5=initContainerExprNonEmpty { res = e5; }
+	;
+
+initContainerExprNonEmpty returns [ ExprNode res = env.initExprNode() ]
+	: (LBRACE expr[false] RARROW) => e1=initMapExprNonEmpty[null, null] { res = e1; }
+	| (LBRACE) => e2=initSetExprNonEmpty[null, null] { res = e2; }
+	| (LBRACK) => e3=initArrayExprNonEmpty[null, null] { res = e3; }
+	| (RBRACK) => e4=initDequeExprNonEmpty[null, null] { res = e4; }
 	;
 	
 constant returns [ ExprNode res = env.initExprNode() ]

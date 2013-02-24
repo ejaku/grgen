@@ -116,7 +116,8 @@ namespace de.unika.ipd.grGen.libGr
             DestVar.SetVariableValue(value, procEnv);
         }
 
-        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             DestVar.GetLocalVariables(variables);
         }
@@ -152,7 +153,8 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("yield is only available in the compiled sequences (exec)");
         }
 
-        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             DestVar.GetLocalVariables(variables);
         }
@@ -248,10 +250,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             DestVar.GetLocalVariables(variables);
-            KeyExpression.GetLocalVariables(variables);
+            KeyExpression.GetLocalVariables(variables, containerConstructors);
         }
 
         public override string Symbol { get { return DestVar.Name + "[" + KeyExpression.Symbol + "]"; } }
@@ -320,7 +323,8 @@ namespace de.unika.ipd.grGen.libGr
             elem.SetAttribute(AttributeName, value);
         }
 
-        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             DestVar.GetLocalVariables(variables);
         }
@@ -445,9 +449,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             DestVar.GetLocalVariables(variables);
+            KeyExpression.GetLocalVariables(variables, containerConstructors);
         }
 
         public override string Symbol { get { return DestVar.Name + "." + AttributeName + "[" + KeyExpression.Symbol + "]"; } }
@@ -501,10 +507,11 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Graph.SetVisited(elem, visitedFlag, (bool)value);
         }
 
-        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             GraphElementVar.GetLocalVariables(variables);
-            VisitedFlagExpression.GetLocalVariables(variables);
+            VisitedFlagExpression.GetLocalVariables(variables, containerConstructors);
         }
 
         public override string Symbol { get { return GraphElementVar.Name + ".visited[" + VisitedFlagExpression.Symbol + "]"; } }
