@@ -32,7 +32,8 @@ fast: .grammar
 	fi
 
 .generator_build: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
-	find de -type f -name "*.java" | xargs javac -encoding ISO8859_1 -d build -classpath "$(ANTLR_RUNTIME_JAR);$(JARGS_JAR)" -source 1.5 -target 1.5
+	find de -type f -name "*.java" > toCompile
+	javac -encoding ISO8859_1 -d build -classpath "$(ANTLR_RUNTIME_JAR);$(JARGS_JAR)" -source 1.5 -target 1.5 @toCompile
 	jar -cmf GrGenManifest.mf $(GRGEN_JAR) -C build .
 	@touch .generator_build
 
