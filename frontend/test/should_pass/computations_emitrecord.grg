@@ -1,0 +1,48 @@
+using model_init;
+
+foo(n:Node) : string
+{
+	emit("bar");
+	emit(42);
+	emit(n);
+	record("bar");
+	record(42);
+	record(n);
+	return("muh");
+}
+
+test t()
+{
+	independent {
+		n:Node;
+		yield {
+			emit("bar");
+			emit(42);
+			emit(n);
+			record("bar");
+			record(42);
+			record(n);
+		}
+	}
+}
+
+rule r()
+{	
+	n:Node;
+	modify {
+		def var res:string;
+		
+		eval { 
+			emit("bar");
+			emit(42);
+			emit(n);
+			record("bar");
+			record(42);
+			record(n);
+		}
+		eval {
+			emit(res);
+			record(res);
+		}
+	}
+}

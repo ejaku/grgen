@@ -3013,7 +3013,7 @@ options { k = 5; }
 	  { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vfreenonreset") || input.LT(1).getText().equals("vreset") 
 		|| input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") 
 		|| input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
-		(i=IDENT | i=EMIT) LPAREN params=paramExprs[false] RPAREN
+		(i=IDENT | i=EMIT) params=paramExprs[false] SEMI
 			{ res=new ProcedureCallNode(getCoords(i), i.getText(), params); }
 	;
 	
@@ -3385,6 +3385,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (id.toString().equals("reachableIncoming") || id.toString().equals("reachableOutgoing") || id.toString().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (id.toString().equals("reachableEdgesIncoming") || id.toString().equals("reachableEdgesOutgoing") || id.toString().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
 				|| (id.toString().equals("isReachableIncoming") || id.toString().equals("isReachableOutgoing") || id.toString().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| id.toString().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()<=3)
 			  )
 			{
 				res = new FunctionInvocationExprNode(id, params, env);
@@ -3392,6 +3393,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				res = new ComputationOrExternalFunctionInvocationExprNode(id, params);
 			}
 		}
+	| v=VALLOC LPAREN RPAREN { res = new VAllocExprNode(getCoords(v)); }
 	;
 	
 selectorExpr [ ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]

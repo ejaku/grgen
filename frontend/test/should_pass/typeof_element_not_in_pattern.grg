@@ -1,6 +1,6 @@
 pattern add_in_edge_last_verb(r:Node, n:Node, -e:Edge->){
   alternative {
-    continue{
+    continue_{
       nr:Node;
       r -:Edge-> nr;
       aielv:add_in_edge_last_verb(nr, n, e);

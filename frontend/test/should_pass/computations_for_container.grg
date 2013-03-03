@@ -1,6 +1,6 @@
 foo(ref s:set<Node>) : int
 {
-	def ref a:array<Node>;
+	def ref a:array<Node> = array<Node>[];
 	def var res:int = 0;
 	for(n:Node in s) {
 		a.add(n);
@@ -17,7 +17,7 @@ test t(ref s:set<Node>) : (int)
 	
 	independent {
 		yield {
-			def ref a:array<Node>;
+			def ref a:array<Node> = array<Node>[];
 			for(n:Node in s) {
 				a.add(n);
 			}
@@ -36,7 +36,7 @@ rule r(ref s:set<Node>) : (int)
 		def var res:int = 0;
 		
 		eval { 
-			def ref a:array<Node>;
+			def ref a:array<Node> = array<Node>[];
 			for(n:Node in s) {
 				a.add(n);
 			}

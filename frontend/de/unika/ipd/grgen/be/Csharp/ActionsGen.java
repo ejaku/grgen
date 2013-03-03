@@ -642,6 +642,10 @@ public class ActionsGen extends CSharpBase {
 				if(assignment.getTarget().initialization != null)
 					assignment.getTarget().initialization.collectNeededEntities(needs);
 			}
+			else if(eval instanceof ReturnStatement) {
+				ReturnStatement returnStmt = (ReturnStatement)eval;
+				returnStmt.getReturnValueExpr().collectNeededEntities(needs);
+			}
 		}
 		genLocalContainers(sb, needs, staticInitializers);
 	}
@@ -2322,6 +2326,11 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, p.getRightExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof VAllocExpr
+			|| expr instanceof GraphAddNodeExpr
+			|| expr instanceof GraphAddEdgeExpr) {
+			throw new UnsupportedOperationException("valloc, add(NodeType), add(EdgeType, SrcNode, TgtNode) are not available in LHS expressions");
+		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
 
@@ -3150,6 +3159,29 @@ public class ActionsGen extends CSharpBase {
 			genDefDeclGraphEntityStatement(sb, (DefDeclGraphEntityStatement) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
+		else if(evalStmt instanceof BreakStatement) {
+			genBreakStatement(sb, (BreakStatement) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof ContinueStatement) {
+			genContinueStatement(sb, (ContinueStatement) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof EmitStatement) {
+			genEmitStatement(sb, (EmitStatement) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof RecordStatement) {
+			genRecordStatement(sb, (RecordStatement) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof GraphClear
+				|| evalStmt instanceof GraphRemove
+				|| evalStmt instanceof VFreeStatement
+				|| evalStmt instanceof VFreeNonResetStatement
+				|| evalStmt instanceof VResetStatement) {
+			throw new UnsupportedOperationException("Visited flag manipulation and graph manipulation not allowed as yield statements; \"" + evalStmt + "\"");
+		}
 		else {
 			throw new UnsupportedOperationException("Unexpected yield statement \"" + evalStmt + "\"");
 		}
@@ -3460,12 +3492,30 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.ContainerAccumulationYield(");
 		sb.append("\"" + formatEntity(iterationVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
 		sb.append("\"" + formatIdentifiable(iterationVar) + "\", ");
+		Type valueType;
+		Type indexType = null;
+		if(container.getType() instanceof SetType) {
+			valueType = ((SetType)container.getType()).getValueType();
+		} else if(container.getType() instanceof MapType) {
+			valueType = ((MapType)container.getType()).getValueType();
+			indexType = ((MapType)container.getType()).getKeyType();
+		} else if(container.getType() instanceof ArrayType) {
+			valueType = ((ArrayType)container.getType()).getValueType();
+			indexType = IntType.getType();
+		} else {
+			valueType = ((DequeType)container.getType()).getValueType();
+			indexType = IntType.getType();
+		}
+		sb.append("\"" + formatType(valueType) + "\", ");
 		if(indexVar!=null)
 		{
 			sb.append("\"" + formatEntity(indexVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
 			sb.append("\"" + formatIdentifiable(indexVar) + "\", ");
+			sb.append("\"" + formatType(indexType) + "\", ");
 		}
+		sb.append("\"" + formatEntity(container, pathPrefix, alreadyDefinedEntityToName) + "\", ");
 		sb.append("\"" + formatIdentifiable(container) + "\", ");
+		sb.append("\"" + formatType(container.getType()) + "\", ");
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
 		for(EvalStatement statement : cay.getAccumulationStatements()) {
 			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
@@ -3538,6 +3588,30 @@ public class ActionsGen extends CSharpBase {
 		} else {
 			sb.append("null");
 		}
+		sb.append(")");
+	}
+
+	private void genBreakStatement(StringBuffer sb, BreakStatement bs,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.BreakStatement()");
+	}
+
+	private void genContinueStatement(StringBuffer sb, ContinueStatement cs,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.ContinueStatement()");
+	}
+
+	private void genEmitStatement(StringBuffer sb, EmitStatement es,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.EmitStatement(");
+		genExpressionTree(sb, es.getToEmitExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(")");
+	}
+
+	private void genRecordStatement(StringBuffer sb, RecordStatement rs,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.RecordStatement(");
+		genExpressionTree(sb, rs.getToRecordExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(")");
 	}
 

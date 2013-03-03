@@ -60,7 +60,7 @@ public class ProcedureCallNode extends EvalStatementNode
 				return false;
 			}
 			else {
-//				result = new GraphRemoveNode(getCoords(), params.get(0));
+				result = new GraphRemoveNode(getCoords(), params.get(0));
 			}
 		}
 		else if(procedureName.equals("clear")) {
@@ -69,7 +69,52 @@ public class ProcedureCallNode extends EvalStatementNode
 				return false;
 			}
 			else {
-//				result = new GraphClearNode(getCoords());
+				result = new GraphClearNode(getCoords());
+			}
+		}
+		else if(procedureName.equals("vfree")) {
+			if(params.size() != 1) {
+				reportError("vfree(value) takes one parameter.");
+				return false;
+			}
+			else {
+				result = new VFreeStatementNode(getCoords(), params.get(0));
+			}
+		}
+		else if(procedureName.equals("vfreenonreset")) {
+			if(params.size() != 1) {
+				reportError("vfreenonreset(value) takes one parameter.");
+				return false;
+			}
+			else {
+				result = new VFreeNonResetStatementNode(getCoords(), params.get(0));
+			}
+		}
+		else if(procedureName.equals("vreset")) {
+			if(params.size() != 1) {
+				reportError("vreset(value) takes one parameter.");
+				return false;
+			}
+			else {
+				result = new VResetStatementNode(getCoords(), params.get(0));
+			}
+		}
+		else if(procedureName.equals("record")) {
+			if(params.size() != 1) {
+				reportError("record(value) takes one parameter.");
+				return false;
+			}
+			else {
+				result = new RecordStatementNode(getCoords(), params.get(0));
+			}
+		}
+		else if(procedureName.equals("emit")) {
+			if(params.size() != 1) {
+				reportError("emit(value) takes one parameter.");
+				return false;
+			}
+			else {
+				result = new EmitStatementNode(getCoords(), params.get(0));
 			}
 		}
 		else {

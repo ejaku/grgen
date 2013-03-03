@@ -24,6 +24,13 @@ namespace de.unika.ipd.grGen.expression
         /// copies the yielding, renaming all variables with the given suffix
         /// </summary>
         public abstract Yielding Copy(string renameSuffix);
+
+        public static int fetchId()
+        {
+            return idGenerator++;
+        }
+
+        private static int idGenerator = 0;
     }
 
     /// <summary>
@@ -665,22 +672,28 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ContainerAccumulationYield : Yielding
     {
-        // TODO: kopie von iterated, anpassen, spezialmagie für iterated entfernen
-        public ContainerAccumulationYield(String variable, String unprefixedVariable, String container, Yielding[] statements)
+        public ContainerAccumulationYield(String variable, String unprefixedVariable, String variableType, String container, String unprefixedContainer, String containerType, Yielding[] statements)
         {
             Variable = variable;
             UnprefixedVariable = unprefixedVariable;
+            VariableType = variableType;
             Container = container;
+            UnprefixedContainer = unprefixedContainer;
+            ContainerType = containerType;
             Statements = statements;
         }
 
-        public ContainerAccumulationYield(String variable, String unprefixedVariable, String index, String unprefixedIndex, String container, Yielding[] statement)
+        public ContainerAccumulationYield(String variable, String unprefixedVariable, String variableType, String index, String unprefixedIndex, String indexType, String container, String unprefixedContainer, String containerType, Yielding[] statement)
         {
             Variable = variable;
             UnprefixedVariable = unprefixedVariable;
+            VariableType = variableType;
             Index = index;
             UnprefixedIndex = unprefixedIndex;
+            IndexType = indexType;
             Container = container;
+            UnprefixedContainer = unprefixedContainer;
+            ContainerType = containerType;
             Statements = statement;
         }
 
@@ -690,38 +703,71 @@ namespace de.unika.ipd.grGen.expression
             for(int i = 0; i < Statements.Length; ++i)
                 statementsCopy[i] = Statements[i].Copy(renameSuffix);
             if(Index != null)
-                return new ContainerAccumulationYield(Variable + renameSuffix, UnprefixedVariable + renameSuffix, Index + renameSuffix, UnprefixedIndex + renameSuffix, Container, statementsCopy);
+                return new ContainerAccumulationYield(Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, Index + renameSuffix, UnprefixedIndex + renameSuffix, IndexType, Container, UnprefixedContainer + renameSuffix, ContainerType, statementsCopy);
             else
-                return new ContainerAccumulationYield(Variable + renameSuffix, UnprefixedVariable + renameSuffix, Container, statementsCopy);
-        }
-
-        public void ReplaceVariableByIterationVariable(ExpressionOrYielding curr)
-        {
-            // traverses the yielding and expression tree, if it visits a reference to the iteration variable
-            // it switches it from a normal variable reference into a iteration variable reference
-            foreach(ExpressionOrYielding eoy in curr)
-                ReplaceVariableByIterationVariable(eoy);
-
-            if(curr is VariableExpression)
-            {
-                VariableExpression ve = (VariableExpression)curr;
-                if(ve.Entity == Variable)
-                {
-                    ve.MatchEntity = IteratedMatchVariable;
-                }
-                if(ve.Entity == Index)
-                {
-                    ve.MatchEntity = IteratedMatchVariable;
-                }
-            }
+                return new ContainerAccumulationYield(Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, Container, UnprefixedContainer + renameSuffix, ContainerType, statementsCopy);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            //sourceCode.Append(NamesOfEntities.Variable(Variable) + " ");
-            //sourceCode.Append(IteratedMatchVariable);
+            String id = fetchId().ToString();
+            if(ContainerType.StartsWith("List"))
+            {
+                sourceCode.AppendFrontFormat("{0} entry_{1} = ({0}) " + NamesOfEntities.Variable(Container) + ";\n", ContainerType, id);
+                sourceCode.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", id);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                if(Index != null)
+                {
+                    sourceCode.AppendFront(IndexType + " " + NamesOfEntities.Variable(Index) + " = index_" + id + ";\n");
+                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + "[index_" + id + "];\n");
+                }
+                else
+                {
+                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + "[index_" + id + "];\n");
+                }
+            }
+            else if(ContainerType.StartsWith("GRGEN_LIBGR.Deque"))
+            {
+                sourceCode.AppendFrontFormat("{0} entry_{1} = ({0}) " + NamesOfEntities.Variable(Container) + ";\n", ContainerType, id);
+                sourceCode.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", id);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                if(Index != null)
+                {
+                    sourceCode.AppendFront(IndexType + " " + NamesOfEntities.Variable(Index) + " = index_" + id + ";\n");
+                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + "[index_" + id + "];\n");
+                }
+                else
+                {
+                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + "[index_" + id + "];\n");
+                }
+            }
+            else if(ContainerType.StartsWith("Dictionary") && ContainerType.Contains("SetValueType"))
+            {
+                sourceCode.AppendFrontFormat("foreach(KeyValuePair<{0},GRGEN_LIBGR.SetValueType> entry_{1} in {2})\n", VariableType, id, NamesOfEntities.Variable(Container));
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + ".Key;\n");
+            }
+            else
+            {
+                sourceCode.AppendFrontFormat("foreach(KeyValuePair<{0},{1}> entry_{2} in {3})\n", IndexType, VariableType, id, NamesOfEntities.Variable(Container));
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFront(IndexType + " " + NamesOfEntities.Variable(Index) + " = entry_" + id + ".Key;\n");
+                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + ".Value;\n");
+            }
+
             foreach(Yielding statement in Statements)
                 statement.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -732,9 +778,13 @@ namespace de.unika.ipd.grGen.expression
 
         public String Variable;
         public String UnprefixedVariable;
+        public String VariableType;
         public String Index;
         public String UnprefixedIndex;
+        public String IndexType;
         public String Container;
+        public String UnprefixedContainer;
+        public String ContainerType;
         Yielding[] Statements;
 
         public String IteratedMatchVariable;
@@ -769,18 +819,18 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("if(");
+            sourceCode.AppendFront("if(");
             Condition.Emit(sourceCode);
             sourceCode.Append(") {\n");
             foreach(Yielding statement in TrueCaseStatements)
                 statement.Emit(sourceCode);
             if(FalseCaseStatements != null)
             {
-                sourceCode.Append("} else {\n");
+                sourceCode.AppendFront("} else {\n");
                 foreach(Yielding statement in FalseCaseStatements)
                     statement.Emit(sourceCode);
             }
-            sourceCode.Append("}\n");
+            sourceCode.AppendFront("}\n");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -818,12 +868,12 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("while(");
+            sourceCode.AppendFront("while(");
             Condition.Emit(sourceCode);
             sourceCode.Append(") {\n");
             foreach(Yielding statement in LoopedStatements)
                 statement.Emit(sourceCode);
-            sourceCode.Append("}\n");
+            sourceCode.AppendFront("}\n");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -855,7 +905,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append(Type + " " + NamesOfEntities.Variable(Name));
+            sourceCode.AppendFront(Type + " " + NamesOfEntities.Variable(Name));
             if(Initialization != null)
             {
                 sourceCode.Append(" = ");
@@ -872,5 +922,117 @@ namespace de.unika.ipd.grGen.expression
         String Name;
         String Type;
         Expression Initialization;
+    }
+
+    /// <summary>
+    /// Class representing a break statement
+    /// </summary>
+    public class BreakStatement : Yielding
+    {
+        public BreakStatement()
+        {
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new BreakStatement();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("break;\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator() { yield break; }
+    }
+
+    /// <summary>
+    /// Class representing a continue statement
+    /// </summary>
+    public class ContinueStatement : Yielding
+    {
+        public ContinueStatement()
+        {
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new ContinueStatement();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("continue;\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator() { yield break; }
+    }
+
+    /// <summary>
+    /// Class representing an emit statement
+    /// </summary>
+    public class EmitStatement : Yielding
+    {
+        public EmitStatement(Expression toEmit)
+        {
+            ToEmitExpression = toEmit;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new EmitStatement(ToEmitExpression.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String emitVar = "emit_value_" + fetchId().ToString();
+            sourceCode.AppendFront("object " + emitVar + " = ");
+            ToEmitExpression.Emit(sourceCode);
+            sourceCode.Append(";\n");
+            sourceCode.Append("\t\t\tif(" + emitVar + " != null)\n");
+            sourceCode.Append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
+                    + "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + emitVar + ", graph));\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield break;
+        }
+
+        Expression ToEmitExpression;
+    }
+
+    /// <summary>
+    /// Class representing a record statement
+    /// </summary>
+    public class RecordStatement : Yielding
+    {
+        public RecordStatement(Expression toRecord)
+        {
+            ToRecordExpression = toRecord;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new EmitStatement(ToRecordExpression.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String recordVar = "emit_value_" + fetchId().ToString();
+            sourceCode.AppendFront("object " + recordVar + " = ");
+            ToRecordExpression.Emit(sourceCode);
+            sourceCode.Append(";\n");
+            sourceCode.Append("\t\t\tif(" + recordVar + " != null)\n");
+            sourceCode.Append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
+                    + "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + recordVar + ", graph));\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield break;
+        }
+
+        Expression ToRecordExpression;
     }
 }

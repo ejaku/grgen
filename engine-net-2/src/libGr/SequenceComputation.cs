@@ -873,16 +873,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             object value = Expression.Evaluate(procEnv);
             if(value != null)
-            {
-                if(value is IDictionary)
-                    procEnv.EmitWriter.Write(ContainerHelper.ToString((IDictionary)value, procEnv.Graph));
-                else if(value is IList)
-                    procEnv.EmitWriter.Write(ContainerHelper.ToString((IList)value, procEnv.Graph));
-                else if(value is IDeque)
-                    procEnv.EmitWriter.Write(ContainerHelper.ToString((IDeque)value, procEnv.Graph));
-                else
-                    procEnv.EmitWriter.Write(ContainerHelper.ToString(value, procEnv.Graph));
-            }
+                procEnv.EmitWriter.Write(ContainerHelper.ToStringNonNull(value, procEnv.Graph));
             return value;
         }
 
@@ -929,16 +920,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             object value = Expression.Evaluate(procEnv);
             if(value != null)
-            {
-                if(value is IDictionary)
-                    procEnv.Recorder.Write(ContainerHelper.ToString((IDictionary)value, procEnv.Graph));
-                else if(value is IList)
-                    procEnv.Recorder.Write(ContainerHelper.ToString((IList)value, procEnv.Graph));
-                else if(value is IDeque)
-                    procEnv.Recorder.Write(ContainerHelper.ToString((IDeque)value, procEnv.Graph));
-                else
-                    procEnv.Recorder.Write(ContainerHelper.ToString(value, procEnv.Graph));
-            }
+                procEnv.Recorder.Write(ContainerHelper.ToStringNonNull(value, procEnv.Graph));
             return value;
         }
 
