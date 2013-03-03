@@ -419,6 +419,43 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 		}
+		else if(functionName.equals("add")) {
+			if(params.size() == 1) {
+				IdentNode first = null;
+				if(!(params.get(0) instanceof IdentExprNode)) {
+					reportError("first parameter of " + functionName + "() must be a node type (identifier)");
+					return false;
+				}
+				first = ((IdentExprNode)params.get(0)).getIdent();
+				result = new GraphAddNodeExprNode(getCoords(), first);
+			} else if(params.size() == 3) {
+				IdentNode first = null;
+				if(!(params.get(0) instanceof IdentExprNode)) {
+					reportError("first parameter of " + functionName + "() must be an edge type (identifier)");
+					return false;
+				}
+				first = ((IdentExprNode)params.get(0)).getIdent();
+
+				IdentNode second = null;
+				if(!(params.get(1) instanceof IdentExprNode)) {
+					reportError("second parameter of " + functionName + "() must be a source node (identifier)");
+					return false;
+				}
+				second = ((IdentExprNode)params.get(1)).getIdent();
+
+				IdentNode third = null;
+				if(!(params.get(2) instanceof IdentExprNode)) {
+					reportError("third parameter of " + functionName + "() must be a target node (identifier)");
+					return false;
+				}
+				third = ((IdentExprNode)params.get(2)).getIdent();
+
+				result = new GraphAddEdgeExprNode(getCoords(), first, second, third);
+			} else {
+				reportError(functionName + "() takes 1 or 3 parameters.");
+				return false;
+			}
+		}
 		else {
 			reportError("no function " +functionName + " known");
 			return false;

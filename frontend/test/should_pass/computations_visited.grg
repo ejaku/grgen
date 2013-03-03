@@ -1,0 +1,30 @@
+some(n:Node) : int
+{
+	def var id:int = valloc();
+	vfree(id);
+	id = valloc();
+	n.visited[id] = !n.visited[id];
+	vreset(id);
+	vfreenonreset(id);
+	return(id);
+}
+
+rule r() : (int)
+{
+	n:Node;
+	
+	modify {
+		def var res:int;
+		
+		eval { 
+			def var id:int = valloc();
+			vfree(id);
+			id = valloc();
+			n.visited[id] = !n.visited[id];
+			vreset(id);
+			vfreenonreset(id);
+		}
+		
+		return(some(n));
+	}
+}

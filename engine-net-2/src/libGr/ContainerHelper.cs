@@ -1913,6 +1913,24 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Returns a string representation of the given value, which must be not null (for emit,record)
+        /// </summary>
+        /// <param name="value">The value of which to get the string representation</param>
+        /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        /// <returns>string representation of the value</returns>
+        public static string ToStringNonNull(object value, IGraph graph)
+        {
+            if(value is IDictionary)
+                return ContainerHelper.ToString((IDictionary)value, graph);
+            else if(value is IList)
+                return ContainerHelper.ToString((IList)value, graph);
+            else if(value is IDeque)
+                return ContainerHelper.ToString((IDeque)value, graph);
+            else
+                return ContainerHelper.ToString(value, graph);
+        }
+
+        /// <summary>
         /// Returns a string representation of the given scalar value
         /// </summary>
         /// <param name="value">The scalar value of which to get the string representation</param>

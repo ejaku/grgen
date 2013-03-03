@@ -16,7 +16,7 @@ public class MinExpr extends Expression {
 	private Expression rightExpr;
 
 	public MinExpr(Expression leftExpr, Expression rightExpr) {
-		super("max expr", leftExpr.getType());
+		super("min expr", leftExpr.getType());
 		this.leftExpr = leftExpr;
 		this.rightExpr = rightExpr;
 	}

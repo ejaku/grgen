@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.ir.containers.*;
@@ -1942,10 +1943,36 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof DefDeclGraphEntityStatement) {
 			genDefDeclGraphEntityStatement(sb, state, (DefDeclGraphEntityStatement) evalStmt);
 		}
-// TODO:
-//		else if(evalStmt instanceof ContainerAccumulationYield) {
-//			genContainerAccumulationYield(sb, state, (ContainerAccumulationYield) evalStmt);
-//		}
+		else if(evalStmt instanceof ContainerAccumulationYield) {
+			genContainerAccumulationYield(sb, state, (ContainerAccumulationYield) evalStmt);
+		}
+		else if(evalStmt instanceof BreakStatement) {
+			genBreakStatement(sb, state, (BreakStatement) evalStmt);
+		}
+		else if(evalStmt instanceof ContinueStatement) {
+			genContinueStatement(sb, state, (ContinueStatement) evalStmt);
+		}
+		else if(evalStmt instanceof EmitStatement) {
+			genEmitStatement(sb, state, (EmitStatement) evalStmt);
+		}
+		else if(evalStmt instanceof RecordStatement) {
+			genRecordStatement(sb, state, (RecordStatement) evalStmt);
+		}
+		else if(evalStmt instanceof GraphClear) {
+			genGraphClearStatement(sb, state, (GraphClear) evalStmt);
+		}
+		else if(evalStmt instanceof GraphRemove) {
+			genGraphRemoveStatement(sb, state, (GraphRemove) evalStmt);
+		}
+		else if(evalStmt instanceof VFreeStatement) {
+			genVFreeStatement(sb, state, (VFreeStatement) evalStmt);
+		}
+		else if(evalStmt instanceof VFreeNonResetStatement) {
+			genVFreeNonResetStatement(sb, state, (VFreeNonResetStatement) evalStmt);
+		}
+		else if(evalStmt instanceof VResetStatement) {
+			genVResetStatement(sb, state, (VResetStatement) evalStmt);
+		}
 		else {
 			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
 		}
@@ -2904,7 +2931,9 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t" + formatType(var.getType()) + " " + formatEntity(var));
 		if(var.initialization!=null) {
 			sb.append(" = ");
+			sb.append("(" + formatType(var.getType()) + ")(");
 			genExpression(sb, var.initialization, state);		
+			sb.append(")");
 		}
 		sb.append(";\n");
 	}
@@ -2914,9 +2943,188 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t" + formatType(graphEntity.getType()) + " " + formatEntity(graphEntity));
 		if(graphEntity.initialization!=null) {
 			sb.append(" = ");
+			sb.append("(" + formatType(graphEntity.getType()) + ")(");
 			genExpression(sb, graphEntity.initialization, state);		
+			sb.append(")");
 		}
 		sb.append(";\n");
+	}
+
+	private void genContainerAccumulationYield(StringBuffer sb, ModifyGenerationStateConst state, ContainerAccumulationYield cay) {
+        if(cay.getContainer().getType() instanceof ArrayType)
+        {
+        	Type arrayValueType = ((ArrayType)cay.getContainer().getType()).getValueType();
+        	String arrayValueTypeStr = formatType(arrayValueType);
+        	String indexVar = "index_" + tmpVarID++;
+        	String entryVar = "entry_" + tmpVarID++; // for the container itself
+            sb.append("\t\t\tList<" + arrayValueTypeStr + "> " + entryVar + " = (List<" + arrayValueTypeStr + ">) " + formatEntity(cay.getContainer()) + ";\n");
+            sb.append("\t\t\tfor(int " + indexVar + "=0; " + indexVar + "<" + entryVar + ".Count; ++" + indexVar + ")\n");
+            sb.append("\t\t\t{\n");
+
+            if(cay.getIndexVar() != null)
+            {
+                if(!Expression.isGlobalVariable(cay.getIndexVar()) || (cay.getIndexVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+                    sb.append("\t\t\t" + "int" + " " + formatEntity(cay.getIndexVar()) + " = " + indexVar + ";\n");
+        		} else {
+        			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIndexVar(), indexVar) + ";\n");
+        		}
+        		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+                    sb.append("\t\t\t" + arrayValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + "[" + indexVar + "];\n");
+        		} else {
+        			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + "[" + indexVar + "]") + ";\n");
+        		}
+            }
+            else
+            {
+        		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+                    sb.append("\t\t\t" + arrayValueTypeStr + " "  + formatEntity(cay.getIterationVar()) + " = " + entryVar + "[" + indexVar + "];\n");
+        		} else {
+        			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + "[" + indexVar + "]") + ";\n");
+        		}
+            }
+
+    		genEvals(sb, state, cay.getAccumulationStatements());
+
+            sb.append("\t\t\t}\n");
+        }
+        else if(cay.getContainer().getType() instanceof DequeType)
+        {
+        	Type dequeValueType = ((DequeType)cay.getContainer().getType()).getValueType();
+        	String dequeValueTypeStr = formatType(dequeValueType);
+        	String indexVar = "index_" + tmpVarID++;
+        	String entryVar = "entry_" + tmpVarID++; // for the container itself
+            sb.append("\t\t\tGRGEN_LIBGR.Deque<" + dequeValueTypeStr + "> " + entryVar + " = (GRGEN_LIBGR.Deque<" + dequeValueTypeStr + ">) " + formatEntity(cay.getContainer()) + ";\n");
+            sb.append("\t\t\tfor(int " + indexVar + "=0; " + indexVar + "<" + entryVar + ".Count; ++" + indexVar + ")\n");
+            sb.append("\t\t\t{\n");
+
+            if(cay.getIndexVar() != null)
+            {
+                if(!Expression.isGlobalVariable(cay.getIndexVar()) || (cay.getIndexVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+                    sb.append("\t\t\t" + "int" + " " + formatEntity(cay.getIndexVar()) + " = " + indexVar + ";\n");
+        		} else {
+        			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIndexVar(), indexVar) + ";\n");
+        		}
+        		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+                    sb.append("\t\t\t" + dequeValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + "[" + indexVar + "];\n");
+        		} else {
+        			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + "[" + indexVar + "]") + ";\n");
+        		}
+            }
+            else
+            {
+        		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+                    sb.append("\t\t\t" + dequeValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + "[" + indexVar + "];\n");
+        		} else {
+        			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + "[" + indexVar + "]") + ";\n");
+        		}
+            }
+
+    		genEvals(sb, state, cay.getAccumulationStatements());
+
+            sb.append("\t\t\t}\n");
+        }
+        else if(cay.getContainer().getType() instanceof SetType)
+        {
+        	Type setValueType = ((SetType)cay.getContainer().getType()).getValueType();
+        	String setValueTypeStr = formatType(setValueType);
+        	String entryVar = "entry_" + tmpVarID++;
+            sb.append("\t\t\tforeach(KeyValuePair<" + setValueTypeStr + ", GRGEN_LIBGR.SetValueType> " + entryVar + " in " + formatEntity(cay.getContainer()) + ")\n");
+            sb.append("\t\t\t{\n");
+
+    		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+                sb.append("\t\t\t" + setValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + ".Key;\n");
+    		} else {
+    			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + ".Key") + ";\n");
+    		}
+
+    		genEvals(sb, state, cay.getAccumulationStatements());
+
+            sb.append("\t\t\t}\n");
+        }
+        else //if(cay.getContainer().getType() instanceof MapType)
+        {
+        	Type mapKeyType = ((MapType)cay.getContainer().getType()).getKeyType();
+        	String mapKeyTypeStr = formatType(mapKeyType);
+        	Type mapValueType = ((MapType)cay.getContainer().getType()).getValueType();
+        	String mapValueTypeStr = formatType(mapValueType);
+        	String entryVar = "entry_" + tmpVarID++;
+            sb.append("\t\t\tforeach(KeyValuePair<" + mapKeyTypeStr + ", " + mapValueTypeStr + "> " + entryVar + " in " + formatEntity(cay.getContainer()) + ")\n");
+            sb.append("\t\t\t{\n");
+
+    		if(!Expression.isGlobalVariable(cay.getIndexVar()) || (cay.getIndexVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+                sb.append("\t\t\t" + mapKeyTypeStr + " " + formatEntity(cay.getIndexVar()) + " = " + entryVar + ".Key;\n");
+    		} else {
+    			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIndexVar(), entryVar + ".Key") + ";\n");
+    		}
+    		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+                sb.append("\t\t\t" + mapValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + ".Value;\n");
+    		} else {
+    			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + ".Value") + ";\n");
+    		}
+
+    		genEvals(sb, state, cay.getAccumulationStatements());
+
+            sb.append("\t\t\t}\n");            
+        }
+	}
+
+	private void genBreakStatement(StringBuffer sb, ModifyGenerationStateConst state, BreakStatement bs) {
+		sb.append("\t\t\tbreak;\n");
+	}
+
+	private void genContinueStatement(StringBuffer sb, ModifyGenerationStateConst state, ContinueStatement cs) {
+		sb.append("\t\t\tcontinue;\n");
+	}
+
+	private void genEmitStatement(StringBuffer sb, ModifyGenerationStateConst state, EmitStatement es) {
+    	String emitVar = "emit_value_" + tmpVarID++;
+		sb.append("\t\t\tobject " + emitVar + " = ");
+		genExpression(sb, es.getToEmitExpr(), state);
+		sb.append(";\n");
+		sb.append("\t\t\tif(" + emitVar + " != null)\n");
+		sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
+				+ "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + emitVar + ", graph));\n");
+	}
+
+	private void genRecordStatement(StringBuffer sb, ModifyGenerationStateConst state, RecordStatement rs) {
+    	String recordVar = "record_value_" + tmpVarID++;
+		sb.append("\t\t\tobject " + recordVar + " = ");
+		genExpression(sb, rs.getToRecordExpr(), state);
+		sb.append(";\n");
+		sb.append("\t\t\tif(" + recordVar + " != null)\n");
+		sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
+				+ "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + recordVar + ", graph));\n");
+	}
+
+	private void genGraphClearStatement(StringBuffer sb, ModifyGenerationStateConst state, GraphClear gcs) {
+		sb.append("\t\t\tgraph.Clear();\n");
+	}
+
+	private void genGraphRemoveStatement(StringBuffer sb, ModifyGenerationStateConst state, GraphRemove grs) {
+		if(grs.getEntity() instanceof Node) {
+			sb.append("\t\t\tgraph.RemoveEdges((GRGEN_LIBGR.INode)" + formatEntity(grs.getEntity()) + ");\n");
+			sb.append("\t\t\tgraph.Remove((GRGEN_LIBGR.INode)" + formatEntity(grs.getEntity()) + ");\n");
+		} else {
+			sb.append("\t\t\tgraph.Remove((GRGEN_LIBGR.IEdge)" + formatEntity(grs.getEntity()) + ");\n");
+		}
+	}
+
+	private void genVFreeStatement(StringBuffer sb, ModifyGenerationStateConst state, VFreeStatement vfs) {
+		sb.append("\t\t\tgraph.FreeVisitedFlag((int)");
+		genExpression(sb, vfs.getVisitedFlagExpr(), state);
+		sb.append(");\n");
+	}
+	
+	private void genVFreeNonResetStatement(StringBuffer sb, ModifyGenerationStateConst state, VFreeNonResetStatement vfnrs) {
+		sb.append("\t\t\tgraph.FreeVisitedFlagNonReset((int)");
+		genExpression(sb, vfnrs.getVisitedFlagExpr(), state);
+		sb.append(");\n");
+	}
+	
+	private void genVResetStatement(StringBuffer sb, ModifyGenerationStateConst state, VResetStatement vrs) {
+		sb.append("\t\t\tgraph.ResetVisitedFlag((int)");
+		genExpression(sb, vrs.getVisitedFlagExpr(), state);
+		sb.append(");\n");
 	}
 
 	//////////////////////

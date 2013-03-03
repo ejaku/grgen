@@ -1,0 +1,86 @@
+foo(ref m:map<int,Node>) : int
+{
+	def ref d:deque<Node> = deque<Node>][;
+	def var res:int = 0;
+	for(n:Node in d) {
+		if(true) {
+			break;
+		}
+		if(false) {
+			continue;
+		}
+		d.add(n);
+	}
+	for(i:int->n:Node in m) {
+		res = res + 1; 
+		if(i==42) {
+			break;
+		}
+		if(i==1) {
+			continue;
+		}
+	}
+	return(res);
+}
+
+test t(ref m:map<int,Node>) : (int)
+{
+	def var res:int = 0;
+	
+	independent {
+		yield {
+			def ref d:deque<Node> = deque<Node>][;
+			for(n:Node in d) {
+				d.add(n);
+				if(true) {
+					break;
+				}
+				if(false) {
+					continue;
+				}
+			}
+			for(i:int->n:Node in m) {
+				yield res = res + 1; 
+				if(i==42) {
+					break;
+				}
+				if(i==1) {
+					continue;
+				}
+			}
+		}
+	}
+	
+	return (res);
+}
+
+rule r(ref m:map<int,Node>) : (int)
+{	
+	modify {
+		def var res:int = 0;
+		
+		eval { 
+			def ref d:deque<Node> = deque<Node>][;
+			for(n:Node in d) {
+				if(true) {
+					break;
+				}
+				if(false) {
+					continue;
+				}
+				d.add(n);
+			}
+			for(i:int->n:Node in m) {
+				if(i==42) {
+					break;
+				}
+				if(i==1) {
+					continue;
+				}
+				yield res = res + 1; 
+			}
+		}
+		
+		return (res);
+	}
+}

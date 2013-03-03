@@ -48,7 +48,10 @@ public class ErrorReporter extends Reporter {
 	 * @param msg The error message.
 	 */
 	public void error(Location loc, String msg) {
-		report(ERROR, loc, getMsg(ERROR, msg));
+		if(msg.equals("rule initContainerExpr failed predicate: {!env.inContainerInit()}?"))
+			report(ERROR, loc, "empty container initialization without type not allowed -- " + getMsg(ERROR, msg));
+		else
+			report(ERROR, loc, getMsg(ERROR, msg));
 		++errCount;
 	}
 

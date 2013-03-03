@@ -1372,6 +1372,31 @@ public abstract class CSharpBase {
 			genExpression(sb, p.getRightExpr(), modifyGenerationState);
 			sb.append(")");
 		}
+		else if(expr instanceof VAllocExpr) {
+			sb.append("graph.AllocateVisitedFlag()");
+		}
+		else if(expr instanceof GraphAddNodeExpr) {
+			GraphAddNodeExpr gan = (GraphAddNodeExpr) expr;
+			sb.append("(" + formatType(gan.getNodeType()) + ")"
+					+ "GRGEN_LIBGR.GraphHelper.AddNodeOfType("
+					+ formatTypeClassRef(gan.getNodeType()) + ".typeVar"
+					+ ", "
+					+ "graph"
+					+ ")");
+		}
+		else if(expr instanceof GraphAddEdgeExpr) {
+			GraphAddEdgeExpr gae = (GraphAddEdgeExpr) expr;
+			sb.append("(" + formatType(gae.getEdgeType()) + ")" 
+					+ "GRGEN_LIBGR.GraphHelper.AddEdgeOfType("
+					+ formatTypeClassRef(gae.getEdgeType()) + ".typeVar"
+					+ ", "
+					+ formatEntity(gae.getSourceNode())
+					+ ", "
+					+ formatEntity(gae.getTargetNode())
+					+ ", "
+					+ "graph"
+					+ ")");
+		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
 

@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ir.exprevals;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.*;
 
 /**
@@ -56,8 +57,12 @@ public class ContainerAccumulationYield extends EvalStatement {
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
+		if(!isGlobalVariable(containerVar) && (containerVar.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
+			needs.add(containerVar);
 		for(EvalStatement accumulationStatement : accumulationStatements)
 			accumulationStatement.collectNeededEntities(needs);
 		needs.variables.remove(iterationVar);
+		if(indexVar != null)
+			needs.variables.remove(indexVar);
 	}
 }
