@@ -16,7 +16,7 @@ rule Transkription
 pattern DNAChainBegin(pOfNext:P) modify(oOfNext:O)
 {
 	c5:Beg --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 
 	modify {
 		rep_c1:C; 
@@ -54,7 +54,7 @@ pattern DNAChain(pOfPrev:P) modify(oOfPrev:O)
 pattern DNAChainElement(pOfPrev:P, pOfNext:P) modify(oOfPrev:O, oOfNext:O)
 {
 	pOfPrev --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 
 	modify {
 		:RNAChainElement(oOfPrev, oOfNext, rep_c1); 
@@ -75,7 +75,7 @@ pattern DNAChainEnd(pOfPrev:P) modify(oOfPrev:O)
 pattern RNAChainElement(oOfPrev:O, oOfNext:O, c1:C)
 {
 	oOfPrev --> p:P; 
-	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> do_:O;  p --> do_;  p --> :O --> :H; 
 	p --> :O --> c5; 
 	
 	// Ribose core
@@ -91,7 +91,7 @@ pattern RNAChainElement(oOfPrev:O, oOfNext:O, c1:C)
 pattern RNAChainBegin(oOfNext:O, c1:C)
 {
 	p:P --> :O --> :H; 
-	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> do_:O;  p --> do_;  p --> :O --> :H; 
 	p --> :O --> c5; 
 
 	// Ribose core
@@ -107,7 +107,7 @@ pattern RNAChainBegin(oOfNext:O, c1:C)
 pattern RNAChainEnd(oOfPrev:O, c1:C)
 {
 	oOfPrev --> p:P; 
-	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> do_:O;  p --> do_;  p --> :O --> :H; 
 	p --> :O --> c5; 
 
 	// Ribose core
@@ -123,13 +123,13 @@ pattern RNAChainEnd(oOfPrev:O, c1:C)
 pattern DNAChainBeginW(pOfNext:P)
 {
 	c5:Beg --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 }
 
 pattern DNAChainElementW(pOfPrev:P, pOfNext:P)
 {
 	pOfPrev --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 }
 
 pattern DNAChainEndW(pOfPrev:P)

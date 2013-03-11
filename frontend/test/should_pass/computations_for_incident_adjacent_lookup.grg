@@ -1,0 +1,256 @@
+using model_init;
+
+foo(start:Node) : int
+{
+	def var res:int = 0;
+	def tmpNode:Node;
+	def -tmpEdge:Edge->;
+	def tmpNode_:A;
+	def -tmpEdge_:EE->;
+
+	for(n:Node) {
+		res = res + 1;
+		tmpNode = n;
+	}
+	for(e:Edge) {
+		res = res + 1;
+		tmpEdge = e;
+	}
+
+	for(n:A) {
+		res = res + 1;
+		tmpNode_ = n;
+	}
+	for(e:EE) {
+		res = res + 1;
+		tmpEdge_ = e;
+	}
+	
+	for(n:Node in adjacent(start) ) {
+		res = res + 1;
+		tmpNode = n;
+	}
+	for(n:Node in adjacentIncoming(start)) {
+		res = res + 1;
+		tmpNode = n;
+	}
+	for(n:Node in adjacentOutgoing(start)) {
+		res = res + 1;
+		tmpNode = n;
+	}
+
+	for(n:A in adjacent(start) ) {
+		res = res + 1;
+		tmpNode_ = n;
+	}
+	for(n:A in adjacentIncoming(start)) {
+		res = res + 1;
+		tmpNode_ = n;
+	}
+	for(n:A in adjacentOutgoing(start)) {
+		res = res + 1;
+		tmpNode_ = n;
+	}
+	
+	for(e:Edge in incident(start)) {
+		res = res + 1;
+		tmpEdge = e;
+	}
+	for(e:Edge in incoming(start)) {
+		res = res + 1;
+		tmpEdge = e;
+	}
+	for(e:Edge in outgoing(start)) {
+		res = res + 1;
+		tmpEdge = e;
+	}
+
+	for(e:EE in incident(start)) {
+		res = res + 1;
+		tmpEdge_ = e;
+	}
+	for(e:EE in incoming(start)) {
+		res = res + 1;
+		tmpEdge_ = e;
+	}
+	for(e:EE in outgoing(start)) {
+		res = res + 1;
+		tmpEdge_ = e;
+	}
+
+	return(res);
+}
+
+test t() : (int)
+{
+	start:Node;
+	
+	def var res:int = 0;
+	def tmpNode:Node;
+	def -tmpEdge:Edge->;
+	def tmpNode_:A;
+	def -tmpEdge_:EE->;
+	
+	independent {
+		yield {
+			for(n:Node) {
+				yield res = res + 1;
+				yield tmpNode = n;
+			}
+			for(e:Edge) {
+				yield res = res + 1;
+				yield tmpEdge = e;
+			}
+
+			for(n:A) {
+				yield res = res + 1;
+				yield tmpNode_ = n;
+			}
+			for(e:EE) {
+				yield res = res + 1;
+				yield tmpEdge_ = e;
+			}
+			
+			for(n:Node in adjacent(start)) {
+				yield res = res + 1;
+				yield tmpNode = n;
+			}
+			for(n:Node in adjacentIncoming(start)) {
+				yield res = res + 1;
+				yield tmpNode = n;
+			}
+			for(n:Node in adjacentOutgoing(start)) {
+				yield res = res + 1;
+				yield tmpNode = n;
+			}
+
+			for(n:A in adjacent(start)) {
+				yield res = res + 1;
+				yield tmpNode_ = n;
+			}
+			for(n:A in adjacentIncoming(start)) {
+				yield res = res + 1;
+				yield tmpNode_ = n;
+			}
+			for(n:A in adjacentOutgoing(start)) {
+				yield res = res + 1;
+				yield tmpNode_ = n;
+			}
+			
+			for(e:Edge in incident(start)) {
+				yield res = res + 1;
+				yield tmpEdge = e;
+			}
+			for(e:Edge in incoming(start)) {
+				yield res = res + 1;
+				yield tmpEdge = e;
+			}
+			for(e:Edge in outgoing(start)) {
+				yield res = res + 1;
+				yield tmpEdge = e;
+			}
+			
+			for(e:EE in incident(start)) {
+				yield res = res + 1;
+				yield tmpEdge_ = e;
+			}
+			for(e:EE in incoming(start)) {
+				yield res = res + 1;
+				yield tmpEdge_ = e;
+			}
+			for(e:EE in outgoing(start)) {
+				yield res = res + 1;
+				yield tmpEdge_ = e;
+			}
+		}
+	}
+	
+	return (res);
+}
+
+rule r() : (int)
+{	
+	modify {
+		start:Node;
+		
+		def var res:int = 0;
+		def tmpNode:Node;
+		def -tmpEdge:Edge->;
+		def tmpNode_:Node;
+		def -tmpEdge_:Edge->;
+		
+		eval { 
+			for(n:Node) {
+				yield res = res + 1;
+				yield tmpNode = n;
+			}
+			for(e:Edge) {
+				yield res = res + 1;
+				yield tmpEdge = e;
+			}
+
+			for(n:A) {
+				yield res = res + 1;
+				yield tmpNode_ = n;
+			}
+			for(e:EE) {
+				yield res = res + 1;
+				yield tmpEdge_ = e;
+			}
+			
+			for(n:Node in adjacent(start)) {
+				yield res = res + 1;
+				yield tmpNode = n;
+			}
+			for(n:Node in adjacentIncoming(start)) {
+				yield res = res + 1;
+				yield tmpNode = n;
+			}
+			for(n:Node in adjacentOutgoing(start)) {
+				yield res = res + 1;
+				yield tmpNode = n;
+			}
+
+			for(n:A in adjacent(start)) {
+				yield res = res + 1;
+				yield tmpNode_ = n;
+			}
+			for(n:A in adjacentIncoming(start)) {
+				yield res = res + 1;
+				yield tmpNode_ = n;
+			}
+			for(n:A in adjacentOutgoing(start)) {
+				yield res = res + 1;
+				yield tmpNode_ = n;
+			}
+						
+			for(e:Edge in incident(start)) {
+				yield res = res + 1;
+				yield tmpEdge = e;
+			}
+			for(e:Edge in incoming(start)) {
+				yield res = res + 1;
+				yield tmpEdge = e;
+			}
+			for(e:Edge in outgoing(start)) {
+				yield res = res + 1;
+				yield tmpEdge = e;
+			}
+			
+			for(e:EE in incident(start)) {
+				yield res = res + 1;
+				yield tmpEdge_ = e;
+			}
+			for(e:EE in incoming(start)) {
+				yield res = res + 1;
+				yield tmpEdge_ = e;
+			}
+			for(e:EE in outgoing(start)) {
+				yield res = res + 1;
+				yield tmpEdge_ = e;
+			}
+		}
+		
+		return (res);
+	}
+}

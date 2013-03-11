@@ -1348,6 +1348,34 @@ public abstract class CSharpBase {
 				+ formatTypeClassRef(irn.getAdjacentNodeType()) + ".typeVar"
 				+ ")");
 		}
+		else if (expr instanceof InducedSubgraphExpr) {
+			InducedSubgraphExpr is = (InducedSubgraphExpr) expr;
+			sb.append("GRGEN_LIBGR.GraphHelper.InducedSubgraph((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");
+			genExpression(sb, is.getSetExpr(), modifyGenerationState);
+			sb.append(", graph)");
+		}
+		else if (expr instanceof DefinedSubgraphExpr) {
+			DefinedSubgraphExpr ds = (DefinedSubgraphExpr) expr;
+			sb.append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
+			genExpression(sb, ds.getSetExpr(), modifyGenerationState);
+			sb.append(", graph)");
+		}
+		else if (expr instanceof InsertInducedSubgraphExpr) {
+			InsertInducedSubgraphExpr iis = (InsertInducedSubgraphExpr) expr;
+			sb.append("GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");
+			genExpression(sb, iis.getSetExpr(), modifyGenerationState);
+			sb.append(", ");
+			genExpression(sb, iis.getNodeExpr(), modifyGenerationState);
+			sb.append(", graph)");
+		}
+		else if (expr instanceof InsertDefinedSubgraphExpr) {
+			InsertDefinedSubgraphExpr ids = (InsertDefinedSubgraphExpr) expr;
+			sb.append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
+			genExpression(sb, ids.getSetExpr(), modifyGenerationState);
+			sb.append(", ");
+			genExpression(sb, ids.getEdgeExpr(), modifyGenerationState);
+			sb.append(", graph)");
+		}
 		else if (expr instanceof MaxExpr) {
 			MaxExpr m = (MaxExpr)expr;
 			sb.append("Math.Max(");
@@ -1364,13 +1392,57 @@ public abstract class CSharpBase {
 			genExpression(sb, m.getRightExpr(), modifyGenerationState);
 			sb.append(")");
 		}
+		else if (expr instanceof AbsExpr) {
+			AbsExpr a = (AbsExpr)expr;
+			sb.append("Math.Abs(");
+			genExpression(sb, a.getExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof SinCosTanExpr) {
+			SinCosTanExpr sct = (SinCosTanExpr)expr;
+			switch(sct.getWhich()) {
+			case SinCosTanExpr.SIN:
+				sb.append("Math.Sin(");
+				break;
+			case SinCosTanExpr.COS:
+				sb.append("Math.Cos(");
+				break;
+			case SinCosTanExpr.TAN:
+				sb.append("Math.Tan(");
+				break;
+			}
+			genExpression(sb, sct.getExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof CanonizeExpr) {
+			CanonizeExpr c = (CanonizeExpr)expr;
+			sb.append("(");
+			genExpression(sb, c.getGraphExpr(), modifyGenerationState);
+			sb.append(").Canonize()");
+		}
+		else if (expr instanceof LogExpr) {
+			LogExpr l = (LogExpr)expr;
+			sb.append("Math.Log(");
+			genExpression(sb, l.getLeftExpr(), modifyGenerationState);
+			if(l.getRightExpr()!=null) {
+				sb.append(", ");
+				genExpression(sb, l.getRightExpr(), modifyGenerationState);
+			}
+			sb.append(")");
+		}
 		else if (expr instanceof PowExpr) {
 			PowExpr p = (PowExpr)expr;
-			sb.append("Math.Pow(");
-			genExpression(sb, p.getLeftExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, p.getRightExpr(), modifyGenerationState);
-			sb.append(")");
+			if(p.getLeftExpr()!=null) {
+				sb.append("Math.Pow(");
+				genExpression(sb, p.getLeftExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, p.getRightExpr(), modifyGenerationState);
+				sb.append(")");
+			} else {
+				sb.append("Math.Exp(");
+				genExpression(sb, p.getRightExpr(), modifyGenerationState);
+				sb.append(")");
+			}
 		}
 		else if(expr instanceof VAllocExpr) {
 			sb.append("graph.AllocateVisitedFlag()");
@@ -1395,6 +1467,24 @@ public abstract class CSharpBase {
 					+ formatEntity(gae.getTargetNode())
 					+ ", "
 					+ "graph"
+					+ ")");
+		}
+		else if(expr instanceof GraphRetypeNodeExpr) {
+			GraphRetypeNodeExpr grn = (GraphRetypeNodeExpr) expr;
+			sb.append("(" + formatType(grn.getNewNodeType()) + ")"
+					+ "graph.Retype("
+					+ formatEntity(grn.getNode())
+					+ ", "
+					+ formatTypeClassRef(grn.getNewNodeType()) + ".typeVar"
+					+ ")");
+		}
+		else if(expr instanceof GraphRetypeEdgeExpr) {
+			GraphRetypeEdgeExpr gre = (GraphRetypeEdgeExpr) expr;
+			sb.append("(" + formatType(gre.getNewEdgeType()) + ")"
+					+ "graph.Retype("
+					+ formatEntity(gre.getEdge())
+					+ ", "
+					+ formatTypeClassRef(gre.getNewEdgeType()) + ".typeVar"
 					+ ")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");

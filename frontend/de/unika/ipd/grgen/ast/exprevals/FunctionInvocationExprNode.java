@@ -91,13 +91,57 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new MaxExprNode(getCoords(), params.get(0), params.get(1));
 		}
-		else if(functionName.equals("pow")) {
-			if(params.size() != 2) {
-				reportError("pow(.,.) takes two parameters.");
+		else if(functionName.equals("sin")) {
+			if(params.size() != 1) {
+				reportError("sin(.) takes one parameter.");
 				return false;
 			}
 			else
+				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.SIN, params.get(0));
+		}
+		else if(functionName.equals("cos")) {
+			if(params.size() != 1) {
+				reportError("cos(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.COS, params.get(0));
+		}
+		else if(functionName.equals("tan")) {
+			if(params.size() != 1) {
+				reportError("tan(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TAN, params.get(0));
+		}
+		else if(functionName.equals("pow")) {
+			if(params.size() == 2) {
 				result = new PowExprNode(getCoords(), params.get(0), params.get(1));
+			} else if(params.size() == 1) {
+				result = new PowExprNode(getCoords(), params.get(0));
+			} else {
+				reportError("pow(.,.)/pow(.) takes one or two parameters (one means base e).");
+				return false;
+			}
+		}
+		else if(functionName.equals("log")) {
+			if(params.size() == 2) {
+				result = new LogExprNode(getCoords(), params.get(0), params.get(1));
+			} else if(params.size() == 1) {
+				result = new LogExprNode(getCoords(), params.get(0));
+			} else {
+				reportError("log(.,.)/log(.) takes one or two parameters (one means base e).");
+				return false;
+			}
+		}
+		else if(functionName.equals("abs")) {
+			if(params.size() != 1) {
+				reportError("abs(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new AbsExprNode(getCoords(), params.get(0));
 		}
 		else if(functionName.equals("nodes")) {
 			if(params.size() > 1) {
@@ -455,6 +499,68 @@ public class FunctionInvocationExprNode extends ExprNode
 				reportError(functionName + "() takes 1 or 3 parameters.");
 				return false;
 			}
+		}
+		else if(functionName.equals("retype")) {
+			if(params.size() == 2) {
+				IdentNode first = null;
+				if(!(params.get(0) instanceof IdentExprNode)) {
+					reportError("first parameter of " + functionName + "() must be an edge type (identifier)");
+					return false;
+				}
+				first = ((IdentExprNode)params.get(0)).getIdent();
+
+				IdentNode second = null;
+				if(!(params.get(1) instanceof IdentExprNode)) {
+					reportError("second parameter of " + functionName + "() must be a source node (identifier)");
+					return false;
+				}
+				second = ((IdentExprNode)params.get(1)).getIdent();
+
+				result = new GraphRetypeExprNode(getCoords(), first, second);
+			} else {
+				reportError(functionName + "() takes 2 parameters.");
+				return false;
+			}
+		}
+		else if(functionName.equals("inducedSubgraph")) {
+			if(params.size() != 1) {
+				reportError("inducedSubgraph(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new InducedSubgraphExprNode(getCoords(), params.get(0));
+		}
+		else if(functionName.equals("definedSubgraph")) {
+			if(params.size() != 1) {
+				reportError("definedSubgraph(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new DefinedSubgraphExprNode(getCoords(), params.get(0));
+		}
+		else if(functionName.equals("insertInduced")) {
+			if(params.size() != 2) {
+				reportError("insertInduced(.,.) takes two parameters.");
+				return false;
+			}
+			else
+				result = new InsertInducedSubgraphExprNode(getCoords(), params.get(0), params.get(1));
+		}
+		else if(functionName.equals("insertDefined")) {
+			if(params.size() != 2) {
+				reportError("insertDefined(.,.) takes two parameters.");
+				return false;
+			}
+			else
+				result = new InsertDefinedSubgraphExprNode(getCoords(), params.get(0), params.get(1));
+		}
+		else if(functionName.equals("canonize")) {
+			if(params.size() != 1) {
+				reportError("canonize(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new CanonizeExprNode(getCoords(), params.get(0));
 		}
 		else {
 			reportError("no function " +functionName + " known");

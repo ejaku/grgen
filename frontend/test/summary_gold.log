@@ -115,6 +115,7 @@ OK     should_pass/cast_003.grg
 OK     should_pass/computationoperators.grg
 OK     should_pass/computations_addrem.grg
 OK     should_pass/computations_break_continue.grg
+OK     should_pass/computations_canonize.grg
 OK     should_pass/computations_container_def.grg
 OK     should_pass/computations_container_method.grg
 OK     should_pass/computations_decl_use_recursive.grg
@@ -128,9 +129,15 @@ OK     should_pass/computations_def_decl3.grg
 OK     should_pass/computations_def_decl3b.grg
 OK     should_pass/computations_def_decl4.grg
 OK     should_pass/computations_def_decl4b.grg
+OK     should_pass/computations_do_while.grg
 OK     should_pass/computations_emitrecord.grg
 OK     should_pass/computations_for_container.grg
+OK     should_pass/computations_for_incident_adjacent_lookup.grg
 OK     should_pass/computations_if_else.grg
+OK     should_pass/computations_induced_defined.grg
+OK     should_pass/computations_powlogabs.grg
+OK     should_pass/computations_retype.grg
+OK     should_pass/computations_sincostan.grg
 OK     should_pass/computations_var.grg
 OK     should_pass/computations_visited.grg
 OK     should_pass/computations_while.grg

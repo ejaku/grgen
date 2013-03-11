@@ -667,8 +667,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an container accumulation yield executed after the match was found
-    /// accumulating the values in a container with chosen statements
+    /// Class representing an container accumulation yield, accumulating the values in a container with chosen statements
     /// </summary>
     public class ContainerAccumulationYield : Yielding
     {
@@ -786,10 +785,200 @@ namespace de.unika.ipd.grGen.expression
         public String UnprefixedContainer;
         public String ContainerType;
         Yielding[] Statements;
-
-        public String IteratedMatchVariable;
     }
 
+    /// <summary>
+    /// Class representing a lookup of entities of given type in the graph
+    /// </summary>
+    public class ForLookup : Yielding
+    {
+        public ForLookup(String variable, String unprefixedVariable, String variableType, bool isNode, Yielding[] statements)
+        {
+            Variable = variable;
+            UnprefixedVariable = unprefixedVariable;
+            VariableType = variableType;
+            IsNode = isNode;
+            Statements = statements;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Yielding[] statementsCopy = new Yielding[Statements.Length];
+            for(int i = 0; i < Statements.Length; ++i)
+                statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            return new ForLookup(Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, IsNode, statementsCopy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String id = fetchId().ToString();
+
+            if(IsNode)
+            {
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode node_{0} in graph.GetCompatibleNodes(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, VariableType);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = (" + VariableType + ") node_" + id + ";\n");
+            }
+            else
+            {
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in graph.GetCompatibleEdges(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, VariableType);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = (" + VariableType + ") edge_" + id + ";\n");
+            }
+
+            foreach(Yielding statement in Statements)
+                statement.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(Yielding statement in Statements)
+                yield return statement;
+        }
+
+        public String Variable;
+        public String UnprefixedVariable;
+        public String VariableType;
+        public bool IsNode;
+        Yielding[] Statements;
+    }
+
+    /// <summary>
+    /// Class representing an iteration over helper function results (incident/adjacent stuff)
+    /// </summary>
+    public class ForFunction : Yielding
+    {
+        public ForFunction(String variable, String unprefixedVariable, String variableType, Expression adjacentIncident, Yielding[] statements)
+        {
+            Variable = variable;
+            UnprefixedVariable = unprefixedVariable;
+            VariableType = variableType;
+            AdjacentIncident = adjacentIncident;
+            Statements = statements;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Yielding[] statementsCopy = new Yielding[Statements.Length];
+            for(int i = 0; i < Statements.Length; ++i)
+                statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            return new ForFunction(Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, AdjacentIncident.Copy(renameSuffix), statementsCopy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String id = fetchId().ToString();
+
+            if(AdjacentIncident is Adjacent)
+            {
+                Adjacent adjacent = (Adjacent)AdjacentIncident;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                adjacent.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, adjacent.IncidentEdgeType);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("if(!edge_{0}.GetOther(node_{0}).InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, adjacent.AdjacentNodeType);
+                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.GetOther(node_{2});\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncident is AdjacentIncoming)
+            {
+                AdjacentIncoming adjacentIncoming = (AdjacentIncoming)AdjacentIncident;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                adjacentIncoming.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, adjacentIncoming.IncidentEdgeType);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, adjacentIncoming.AdjacentNodeType);
+                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Source;\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncident is AdjacentOutgoing)
+            {
+                AdjacentOutgoing adjacentOutgoing = (AdjacentOutgoing)AdjacentIncident;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                adjacentOutgoing.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, adjacentOutgoing.IncidentEdgeType);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, adjacentOutgoing.AdjacentNodeType);
+                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Target;\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncident is Incident)
+            {
+                Incident incident = (Incident)AdjacentIncident;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                incident.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, incident.IncidentEdgeType);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("if(!edge_{0}.GetOther(node_{0}).InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, incident.AdjacentNodeType);
+                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncident is Incoming)
+            {
+                Incoming incoming = (Incoming)AdjacentIncident;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                incoming.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, incoming.IncidentEdgeType);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, incoming.AdjacentNodeType);
+                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncident is Outgoing)
+            {
+                Outgoing outgoing = (Outgoing)AdjacentIncident;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                outgoing.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, outgoing.IncidentEdgeType);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, outgoing.AdjacentNodeType);
+                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+
+            foreach(Yielding statement in Statements)
+                statement.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(Yielding statement in Statements)
+                yield return statement;
+        }
+
+        public String Variable;
+        public String UnprefixedVariable;
+        public String VariableType;
+        public Expression AdjacentIncident;
+        Yielding[] Statements;
+    }
+    
     /// <summary>
     /// Class representing an if statement, maybe with else part
     /// </summary>
@@ -884,6 +1073,45 @@ namespace de.unika.ipd.grGen.expression
 
         Expression Condition;
         Yielding[] LoopedStatements;
+    }
+
+    /// <summary>
+    /// Class representing do while statement
+    /// </summary>
+    public class DoWhileStatement : Yielding
+    {
+        public DoWhileStatement(Yielding[] loopedStatements, Expression condition)
+        {
+            LoopedStatements = loopedStatements;
+            Condition = condition;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Yielding[] loopedStatementsCopy = new Yielding[LoopedStatements.Length];
+            for(int i = 0; i < LoopedStatements.Length; ++i)
+                loopedStatementsCopy[i] = LoopedStatements[i].Copy(renameSuffix);
+            return new WhileStatement(Condition.Copy(renameSuffix), loopedStatementsCopy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("do {\n");
+            foreach(Yielding statement in LoopedStatements)
+                statement.Emit(sourceCode);
+            sourceCode.AppendFront("} while(");
+            Condition.Emit(sourceCode);
+            sourceCode.Append(");\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(Yielding statement in LoopedStatements)
+                yield return statement;
+        }
+
+        Yielding[] LoopedStatements;
+        Expression Condition;
     }
 
     /// <summary>

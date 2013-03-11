@@ -1937,6 +1937,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof WhileStatement) {
 			genWhileStatement(sb, state, (WhileStatement) evalStmt);
 		}
+		else if(evalStmt instanceof DoWhileStatement) {
+			genDoWhileStatement(sb, state, (DoWhileStatement) evalStmt);
+		}
 		else if(evalStmt instanceof DefDeclVarStatement) {
 			genDefDeclVarStatement(sb, state, (DefDeclVarStatement) evalStmt);
 		}
@@ -1945,6 +1948,12 @@ public class ModifyGen extends CSharpBase {
 		}
 		else if(evalStmt instanceof ContainerAccumulationYield) {
 			genContainerAccumulationYield(sb, state, (ContainerAccumulationYield) evalStmt);
+		}
+		else if(evalStmt instanceof ForLookup) {
+			genForLookup(sb, state, (ForLookup) evalStmt);
+		}
+		else if(evalStmt instanceof ForFunction) {
+			genForFunction(sb, state, (ForFunction) evalStmt);
 		}
 		else if(evalStmt instanceof BreakStatement) {
 			genBreakStatement(sb, state, (BreakStatement) evalStmt);
@@ -2918,12 +2927,20 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t}\n");
 	}
 
-	private void genWhileStatement(StringBuffer sb, ModifyGenerationStateConst state, WhileStatement cs) {
+	private void genWhileStatement(StringBuffer sb, ModifyGenerationStateConst state, WhileStatement ws) {
 		sb.append("\t\t\twhile(");
-		genExpression(sb, cs.getConditionExpr(), state);
+		genExpression(sb, ws.getConditionExpr(), state);
 		sb.append(") {\n");
-		genEvals(sb, state, cs.getLoopedStatements());
+		genEvals(sb, state, ws.getLoopedStatements());
 		sb.append("}\n");
+	}
+
+	private void genDoWhileStatement(StringBuffer sb, ModifyGenerationStateConst state, DoWhileStatement dws) {
+		sb.append("\t\t\tdo {\n");
+		genEvals(sb, state, dws.getLoopedStatements());
+		sb.append("\t\t\t} while(");
+		genExpression(sb, dws.getConditionExpr(), state);
+		sb.append(");\n");
 	}
 
 	private void genDefDeclVarStatement(StringBuffer sb, ModifyGenerationStateConst state, DefDeclVarStatement ddvs) {
@@ -3066,6 +3083,108 @@ public class ModifyGen extends CSharpBase {
 
             sb.append("\t\t\t}\n");            
         }
+	}
+
+	private void genForLookup(StringBuffer sb, ModifyGenerationStateConst state, ForLookup fl) {
+    	String id = Integer.toString(tmpVarID++);
+
+        if(fl.getIterationVar().getType() instanceof NodeType)
+        {
+        	sb.append("\t\t\tforeach(GRGEN_LIBGR.INode node_" + id + " in graph.GetCompatibleNodes(GRGEN_LIBGR.TypesHelper.GetNodeType(\""+formatIdentifiable(fl.getIterationVar().getType())+"\", graph.Model)))\n");
+        	sb.append("\t\t\t{\n");
+            sb.append("\t\t\t" + formatElementClassRef(fl.getIterationVar().getType()) + " " + formatEntity(fl.getIterationVar()) + " = " + "(" + formatElementClassRef(fl.getIterationVar().getType()) + ")node_" + id + ";\n");
+        }
+        else
+        {
+        	sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in graph.GetCompatibleEdges(GRGEN_LIBGR.TypesHelper.GetEdgeType(\""+formatIdentifiable(fl.getIterationVar().getType())+"\", graph.Model)))\n");
+        	sb.append("\t\t\t{\n");
+            sb.append("\t\t\t" + formatElementClassRef(fl.getIterationVar().getType()) + " " + formatEntity(fl.getIterationVar()) + " = " + "(" + formatElementClassRef(fl.getIterationVar().getType()) + ")edge_" + id + ";\n");
+        }
+
+		genEvals(sb, state, fl.getLoopedStatements());
+        
+        sb.append("\t\t\t}\n");
+	}
+
+	private void genForFunction(StringBuffer sb, ModifyGenerationStateConst state, ForFunction ff) {
+    	String id = Integer.toString(tmpVarID++);
+    	
+		if(ff.getFunction() instanceof AdjacentNodeExpr) {
+			AdjacentNodeExpr adjacent = (AdjacentNodeExpr)ff.getFunction();
+			if(adjacent.Direction()==AdjacentNodeExpr.ADJACENT) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = " + formatEntity(adjacent.getNode()));
+				//genExpression(sb, adjacent.getNode(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id + ".GetCompatibleIncident(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + formatIdentifiable(adjacent.getIncidentEdgeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t{\n");
+	
+		        sb.append("\t\t\tif(!edge_" + id + ".GetOther(node_" + id + ").InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + formatType(adjacent.getAdjacentNodeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t\tcontinue;\n");
+		        sb.append("\t\t\t" + formatElementClassRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementClassRef(ff.getIterationVar().getType()) + ")edge_" + id + ".GetOther(node_" + id + ");\n");
+			}
+			else if(adjacent.Direction()==AdjacentNodeExpr.INCOMING) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = " + formatEntity(adjacent.getNode()));
+				//genExpression(sb, adjacent.getNode(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id + ".GetCompatibleIncoming(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + formatIdentifiable(adjacent.getIncidentEdgeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t{\n");
+	
+		        sb.append("\t\t\tif(!edge_" + id + ".Source.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + formatType(adjacent.getAdjacentNodeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t\tcontinue;\n");
+		        sb.append("\t\t\t" + formatElementClassRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementClassRef(ff.getIterationVar().getType()) + ")edge_" + id + ".Source;\n");
+			}
+			else if(adjacent.Direction()==AdjacentNodeExpr.OUTGOING) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = " + formatEntity(adjacent.getNode()));
+				//genExpression(sb, adjacent.getNode(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id + ".GetCompatibleOutgoing(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + formatIdentifiable(adjacent.getIncidentEdgeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t{\n");
+	
+		        sb.append("\t\t\tif(!edge_" + id + ".Target.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + formatType(adjacent.getAdjacentNodeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t\tcontinue;\n");
+		        sb.append("\t\t\t" + formatElementClassRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementClassRef(ff.getIterationVar().getType()) + ")edge_" + id + ".Target;\n");
+			}
+		}
+		if(ff.getFunction() instanceof IncidentEdgeExpr) {
+			IncidentEdgeExpr incident = (IncidentEdgeExpr)ff.getFunction();
+			if(incident.Direction()==IncidentEdgeExpr.INCIDENT) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = " + formatEntity(incident.getNode()));
+				//genExpression(sb, adjacent.getNode(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id + ".GetCompatibleIncident(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + formatIdentifiable(incident.getIncidentEdgeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t{\n");
+	
+		        sb.append("\t\t\tif(!edge_" + id + ".GetOther(node_" + id + ").InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + formatType(incident.getAdjacentNodeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t\tcontinue;\n");
+		        sb.append("\t\t\t" + formatElementClassRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementClassRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			}
+			else if(incident.Direction()==IncidentEdgeExpr.INCOMING) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = " + formatEntity(incident.getNode()));
+				//genExpression(sb, adjacent.getNode(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id + ".GetCompatibleIncoming(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + formatIdentifiable(incident.getIncidentEdgeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t{\n");
+	
+		        sb.append("\t\t\tif(!edge_" + id + ".Source.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + formatType(incident.getAdjacentNodeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t\tcontinue;\n");
+		        sb.append("\t\t\t" + formatElementClassRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementClassRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			}
+			else if(incident.Direction()==IncidentEdgeExpr.OUTGOING) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = " + formatEntity(incident.getNode()));
+				//genExpression(sb, adjacent.getNode(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id + ".GetCompatibleOutgoing(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + formatIdentifiable(incident.getIncidentEdgeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t{\n");
+	
+		        sb.append("\t\t\tif(!edge_" + id + ".Target.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + formatType(incident.getAdjacentNodeType()) + "\", graph.Model)))\n");
+		        sb.append("\t\t\t\tcontinue;\n");
+		        sb.append("\t\t\t" + formatElementClassRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementClassRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			}
+		}
+
+		genEvals(sb, state, ff.getLoopedStatements());
+
+        sb.append("\t\t\t}\n");
 	}
 
 	private void genBreakStatement(StringBuffer sb, ModifyGenerationStateConst state, BreakStatement bs) {
