@@ -27,7 +27,7 @@ pattern DNAChainBegin(pOfNext:P) modify(oOfNext:O)
 	n:Nukleinbase(c1);
 	
 	c5 --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 
 	modify {
 		rep_c1:C; 
@@ -76,7 +76,7 @@ pattern DNAChainElement(pOfPrev:P, pOfNext:P) modify(oOfPrev:O, oOfNext:O)
 
 	n:Nukleinbase(c1); 
 	c5 --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 
 	modify {
 		:RNAChainElement(oOfPrev, oOfNext, rep_c1); 
@@ -98,7 +98,7 @@ pattern DNAChainEnd(pOfPrev:P) modify(oOfPrev:O)
 	
 	n:Nukleinbase(c1); 
 	c5 --> :O --> p:P; 
-	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> do_:O;  p --> do_;  p --> :O --> :H; 
 	p --> :O --> :H; 
 
 	modify {
@@ -111,7 +111,7 @@ pattern DNAChainEnd(pOfPrev:P) modify(oOfPrev:O)
 pattern RNAChainElement(oOfPrev:O, oOfNext:O, c1:C)
 {
 	oOfPrev --> p:P; 
-	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> do_:O;  p --> do_;  p --> :O --> :H; 
 	p --> :O --> c5; 
 	
 	// Ribose core
@@ -127,7 +127,7 @@ pattern RNAChainElement(oOfPrev:O, oOfNext:O, c1:C)
 pattern RNAChainBegin(oOfNext:O, c1:C)
 {
 	p:P --> :O --> :H; 
-	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> do_:O;  p --> do_;  p --> :O --> :H; 
 	p --> :O --> c5; 
 
 	// Ribose core
@@ -143,7 +143,7 @@ pattern RNAChainBegin(oOfNext:O, c1:C)
 pattern RNAChainEnd(oOfPrev:O, c1:C)
 {
 	oOfPrev --> p:P; 
-	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> do_:O;  p --> do_;  p --> :O --> :H; 
 	p --> :O --> c5; 
 
 	// Ribose core
@@ -262,7 +262,7 @@ pattern DNAChainBeginAdenin(pOfNext:P)
 	:Adenin(c1);
 	
 	c5 --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 }
 
 pattern DNAChainElementAdenin(pOfPrev:P, pOfNext:P)
@@ -279,7 +279,7 @@ pattern DNAChainElementAdenin(pOfPrev:P, pOfNext:P)
 	:Adenin(c1); 
 
 	c5 --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 }
 
 pattern DNAChainElementCytosin(pOfPrev:P, pOfNext:P)
@@ -296,7 +296,7 @@ pattern DNAChainElementCytosin(pOfPrev:P, pOfNext:P)
 	:Cytosin(c1); 
 
 	c5 --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 }
 
 pattern DNAChainElementGuanin(pOfPrev:P, pOfNext:P)
@@ -313,7 +313,7 @@ pattern DNAChainElementGuanin(pOfPrev:P, pOfNext:P)
 	:Guanin(c1); 
 
 	c5 --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 }
 
 pattern DNAChainElementThymin(pOfPrev:P, pOfNext:P)
@@ -330,7 +330,7 @@ pattern DNAChainElementThymin(pOfPrev:P, pOfNext:P)
 	:Thymin(c1); 
 
 	c5 --> :O --> pOfNext; 
-	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+	pOfNext --> do_:O;  pOfNext --> do_;  pOfNext --> :O --> :H; 
 }
 
 pattern DNAChainEndAdenin(pOfPrev:P)
@@ -347,7 +347,7 @@ pattern DNAChainEndAdenin(pOfPrev:P)
 	:Adenin(c1); 
 
 	c5 --> :O --> p:P; 
-	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> do_:O;  p --> do_;  p --> :O --> :H; 
 	p --> :O --> :H; 
 }
 

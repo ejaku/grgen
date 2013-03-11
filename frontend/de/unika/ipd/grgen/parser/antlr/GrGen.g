@@ -3010,6 +3010,13 @@ options { k = 5; }
 		RBRACE popScope
 			{ res=new WhileStatementNode(getCoords(w), e, cs); }
 	|
+	  d=DO 
+		LBRACE pushScopeStr["do", getCoords(d)]
+			cs=computations[onLHS, context, directlyNestingLHSGraph]
+		RBRACE popScope
+	  WHILE LPAREN e=expr[false] RPAREN
+			{ res=new DoWhileStatementNode(getCoords(d), cs, e); }
+	|
 	  { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vfreenonreset") || input.LT(1).getText().equals("vreset") 
 		|| input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") 
 		|| input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
@@ -3045,6 +3052,7 @@ options { k = *; }
 	@init{
 		IdentNode iterIdentUse = null;
 		IdentNode containerIdentUse = null;
+		IdentNode functionIdentUse = null;
 		VarDeclNode iterVar = null;
 		VarDeclNode iterIndex = null;
 	}
@@ -3076,6 +3084,25 @@ options { k = *; }
 			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
 			iterIndex = new VarDeclNode(index, indexType, directlyNestingLHSGraph, context);
 			res = new ContainerAccumulationYieldNode(f, iterVar, iterIndex, containerIdentUse, cs);
+		}
+	| variable=entIdentDecl COLON type=typeIdentUse IN
+			{ input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
+			  || input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing") }?
+			function=externalFunctionInvocationExpr[false] RPAREN 
+		LBRACE
+			cs=computations[onLHS, context, directlyNestingLHSGraph]
+		RBRACE popScope
+		{
+			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
+			res = new ForFunctionNode(f, iterVar, (FunctionInvocationExprNode)function, cs);
+		}
+	| variable=entIdentDecl COLON type=typeIdentUse RPAREN 
+		LBRACE 
+			cs=computations[onLHS, context, directlyNestingLHSGraph]
+		RBRACE popScope
+		{
+			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
+			res = new ForLookupNode(f, iterVar, cs);
 		}
 	;
 	
@@ -3377,7 +3404,10 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: id=computationOrExtFuncIdentUse params=paramExprs[inEnumInit]
 		{
-			if( (id.toString().equals("min") || id.toString().equals("max") || id.toString().equals("pow")) && params.getChildren().size()==2
+			if( (id.toString().equals("min") || id.toString().equals("max")) && params.getChildren().size()==2
+				|| (id.toString().equals("sin") || id.toString().equals("cos") || id.toString().equals("tan")) && params.getChildren().size()==1
+				|| (id.toString().equals("pow") || id.toString().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
+				|| id.toString().equals("abs") && params.getChildren().size()==1
 				|| (id.toString().equals("nodes") || id.toString().equals("edges")) && params.getChildren().size()<=1
 				|| (id.toString().equals("source") || id.toString().equals("target")) && params.getChildren().size()==1
 				|| (id.toString().equals("incoming") || id.toString().equals("outgoing") || id.toString().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
@@ -3385,7 +3415,12 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (id.toString().equals("reachableIncoming") || id.toString().equals("reachableOutgoing") || id.toString().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (id.toString().equals("reachableEdgesIncoming") || id.toString().equals("reachableEdgesOutgoing") || id.toString().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
 				|| (id.toString().equals("isReachableIncoming") || id.toString().equals("isReachableOutgoing") || id.toString().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+//				|| id.toString().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
+				|| id.toString().equals("canonize") && params.getChildren().size()==1
+				|| (id.toString().equals("inducedSubgraph") || id.toString().equals("definedSubgraph")) && params.getChildren().size()==1
+				|| (id.toString().equals("insertInduced") || id.toString().equals("insertDefined")) && params.getChildren().size()==2
 				|| id.toString().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()<=3)
+				|| id.toString().equals("retype") && params.getChildren().size()==2
 			  )
 			{
 				res = new FunctionInvocationExprNode(id, params, env);
@@ -3647,6 +3682,7 @@ CONTINUE : 'continue';
 DEF : 'def';
 DELETE : 'delete';
 DIRECTED : 'directed';
+DO : 'do';
 EDGE : 'edge';
 ELSE : 'else';
 EMIT : 'emit';

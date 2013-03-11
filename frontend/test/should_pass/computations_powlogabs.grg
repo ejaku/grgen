@@ -1,0 +1,51 @@
+foo() : double
+{
+	def var temp1:double = pow(1.0, 1.0);
+	def var temp1b:double = pow(1.0);
+	def var temp2:double = log(1.0, 1.0);
+	def var temp2b:double = log(1.0);
+	def var temp3:double = abs(-1.0);
+	def var temp3b:long = abs(-1);
+	return(temp1+temp2+temp3);
+}
+
+test t : (double)
+{
+	def var res:double;
+	
+	independent {
+		yield {
+			def var temp1:double = pow(1.0, 1.0);
+			def var temp1b:double = pow(1.0);
+			def var temp2:double = log(1.0, 1.0);
+			def var temp2b:double = log(1.0);
+			def var temp3:double = abs(-1.0);
+			def var temp3b:long = abs(-1);
+			yield res = temp1+temp2+temp3;
+		}
+	}
+	
+	return (res);
+}
+
+rule r : (double)
+{	
+	if(pow(0.0)+log(0.0) == pow(0.0,0.0)+log(0.0,0.0));
+	if(abs(-1)<abs(-1.0));
+	
+	modify {
+		def var res:double;
+		
+		eval {
+			def var temp1:double = pow(1.0, 1.0);
+			def var temp1b:double = pow(1.0);
+			def var temp2:double = log(1.0, 1.0);
+			def var temp2b:double = log(1.0);
+			def var temp3:double = abs(-1.0);
+			def var temp3b:long = abs(-1);
+			yield res = temp1+temp2+temp3;
+		}
+		
+		return (res);
+	}
+}

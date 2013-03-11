@@ -228,6 +228,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		if(edge instanceof EdgeTypeChangeNode) {
 			return true; // edge is a type change edge of an edge declared within the pattern
 		}
+		if(edge.defEntityToBeYieldedTo) {
+			return true; // edge is a def to be yielded to, i.e. output variable
+		}
 
 		edge.reportError("dangling edges in replace/modify part must have been declared in pattern part");
 		return false;

@@ -3011,9 +3011,9 @@ namespace de.unika.ipd.grGen.expression
                 + ")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public String IncidentEdgeType;
+        public String AdjacentNodeType;
     }
 
     /// <summary>
@@ -3043,9 +3043,9 @@ namespace de.unika.ipd.grGen.expression
                 + ")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public String IncidentEdgeType;
+        public String AdjacentNodeType;
     }
 
     /// <summary>
@@ -3075,9 +3075,9 @@ namespace de.unika.ipd.grGen.expression
                 + ")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public String IncidentEdgeType;
+        public String AdjacentNodeType;
     }
 
     /// <summary>
@@ -3107,9 +3107,9 @@ namespace de.unika.ipd.grGen.expression
                 + ")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public String IncidentEdgeType;
+        public String AdjacentNodeType;
     }
 
     /// <summary>
@@ -3139,9 +3139,9 @@ namespace de.unika.ipd.grGen.expression
                 + ")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public String IncidentEdgeType;
+        public String AdjacentNodeType;
     }
 
     /// <summary>
@@ -3171,9 +3171,9 @@ namespace de.unika.ipd.grGen.expression
                 + ")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public String IncidentEdgeType;
+        public String AdjacentNodeType;
     }
 
     /// <summary>
@@ -3369,7 +3369,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing expression returning the reachable nodes of a node (as set) reachable via outgoing edges
+    /// Class representing expression returning whether the end node is reachable from the start node via outgoing edges
     /// </summary>
     public class IsReachableOutgoing : Expression
     {
@@ -3408,7 +3408,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing expression returning the reachable nodes of a node (as set) reachable via incoming edges
+    /// Class representing expression returning whether the end node is reachable from the start node via incoming edges
     /// </summary>
     public class IsReachableIncoming : Expression
     {
@@ -3447,7 +3447,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing expression returning the reachable nodes of a node (as set) reachable via incident edges
+    /// Class representing expression returning whether the end node is reachable from the start node via incident edges
     /// </summary>
     public class IsReachable : Expression
     {
@@ -3483,6 +3483,56 @@ namespace de.unika.ipd.grGen.expression
         Expression EndNode;
         String IncidentEdgeType;
         String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the induced subgraph from the given set of nodes
+    /// </summary>
+    public class InducedSubgraph : Expression
+    {
+        public InducedSubgraph(Expression nodeSet)
+        {
+            NodeSet = nodeSet;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new InducedSubgraph(NodeSet.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.InducedSubgraph((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");
+            NodeSet.Emit(sourceCode);
+            sourceCode.Append(", graph)");
+        }
+
+        Expression NodeSet;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the defined subgraph from the given set of edges
+    /// </summary>
+    public class DefinedSubgraph : Expression
+    {
+        public DefinedSubgraph(Expression edgeSet)
+        {
+            EdgeSet = edgeSet;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DefinedSubgraph(EdgeSet.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
+            EdgeSet.Emit(sourceCode);
+            sourceCode.Append(", graph)");
+        }
+
+        Expression EdgeSet;
     }
 
     /// <summary>
@@ -3522,21 +3572,226 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing the to-the-power-of operator.
+    /// Class representing expression returning the absolute value
     /// </summary>
-    public class Pow : BinFuncOperator
+    public class Abs : Expression
     {
-        public Pow(Expression left, Expression right) : base(left, right) { }
+        public Abs(Expression expr)
+        {
+            Expr = expr;
+        }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Pow(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            return new Abs(Expr.Copy(renameSuffix));
         }
 
-        public override string GetFuncOperatorAndLParen()
+        public override void Emit(SourceBuilder sourceCode)
         {
-            return "Math.Pow(";
+            sourceCode.Append("Math.Abs(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
         }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the sinus value
+    /// </summary>
+    public class Sin : Expression
+    {
+        public Sin(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Sin(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Sin(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the cosinus value
+    /// </summary>
+    public class Cos : Expression
+    {
+        public Cos(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Cos(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Cos(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the tangens value
+    /// </summary>
+    public class Tan : Expression
+    {
+        public Tan(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Tan(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Tan(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning a canonical string representation of a graph
+    /// </summary>
+    public class Canonize : Expression
+    {
+        public Canonize(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Abs(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(").Canonize()");
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing the logarithm function.
+    /// </summary>
+    public class Log : Expression
+    {
+        public Log(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public Log(Expression left)
+        {
+            Left = left;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            if(Right != null)
+                return new Log(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            else
+                return new Log(Left.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Log(");
+            Left.Emit(sourceCode);
+            if(Right != null)
+            {
+                sourceCode.Append(", ");
+                Right.Emit(sourceCode);
+            }
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            if(Right != null) yield return Right; else yield break;
+        }
+
+        public Expression Left;
+        public Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing the to-the-power-of operator.
+    /// </summary>
+    public class Pow : Expression
+    {
+        public Pow(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public Pow(Expression right)
+        {
+            Right = right;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            if(Left != null)
+                return new Pow(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            else
+                return new Pow(Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(Left != null)
+            {
+                sourceCode.Append("Math.Pow(");
+                Left.Emit(sourceCode);
+                sourceCode.Append(", ");
+                Right.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
+            else
+            {
+                sourceCode.Append("Math.Exp(");
+                Right.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            if(Left != null) yield return Left;
+            yield return Right;
+        }
+
+        public Expression Left;
+        public Expression Right;
     }
 
 

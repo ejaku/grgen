@@ -32,9 +32,9 @@ public class TargetExprNode extends ExprNode {
 	private EdgeDeclNode edgeDecl;
 	private NodeTypeNode nodeType;
 	
-	public TargetExprNode(Coords coords, IdentNode node, IdentNode nodeType) {
+	public TargetExprNode(Coords coords, IdentNode edge, IdentNode nodeType) {
 		super(coords);
-		this.edgeUnresolved = node;
+		this.edgeUnresolved = edge;
 		becomeParent(this.edgeUnresolved);
 		this.nodeTypeUnresolved = nodeType;
 		becomeParent(this.nodeTypeUnresolved);
