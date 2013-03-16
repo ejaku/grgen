@@ -12,13 +12,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.*;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.AdjacentNodeExpr;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -29,39 +25,37 @@ public class AdjacentNodeExprNode extends ExprNode {
 		setName(AdjacentNodeExprNode.class, "adjacent node expr");
 	}
 
-	private IdentNode nodeUnresolved;
-	private IdentNode incidentTypeUnresolved;
-	private IdentNode adjacentTypeUnresolved;
+	private ExprNode startNodeExpr;
+	private ExprNode incidentTypeExpr;
+	private ExprNode adjacentTypeExpr;
 
-	private NodeDeclNode nodeDecl;
-	private EdgeTypeNode incidentType;
 	private int direction;
-	private NodeTypeNode adjacentType;
 	
 	public static final int ADJACENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
 	
-	public AdjacentNodeExprNode(Coords coords, IdentNode node,
-			IdentNode incidentType, int direction,
-			IdentNode adjacentType) {
+	public AdjacentNodeExprNode(Coords coords,
+			ExprNode startNodeExpr,
+			ExprNode incidentTypeExpr, int direction,
+			ExprNode adjacentTypeExpr) {
 		super(coords);
-		this.nodeUnresolved = node;
-		becomeParent(this.nodeUnresolved);
-		this.incidentTypeUnresolved = incidentType;
-		becomeParent(this.incidentTypeUnresolved);
+		this.startNodeExpr = startNodeExpr;
+		becomeParent(this.startNodeExpr);
+		this.incidentTypeExpr = incidentTypeExpr;
+		becomeParent(this.incidentTypeExpr);
 		this.direction = direction;
-		this.adjacentTypeUnresolved = adjacentType;
-		becomeParent(this.adjacentTypeUnresolved);
+		this.adjacentTypeExpr = adjacentTypeExpr;
+		becomeParent(this.adjacentTypeExpr);
 	}
 
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(nodeUnresolved, nodeDecl));
-		children.add(getValidVersion(incidentTypeUnresolved, incidentType));
-		children.add(getValidVersion(adjacentTypeUnresolved, adjacentType));
+		children.add(startNodeExpr);
+		children.add(incidentTypeExpr);
+		children.add(adjacentTypeExpr);
 		return children;
 	}
 
@@ -69,53 +63,47 @@ public class AdjacentNodeExprNode extends ExprNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("node");
-		childrenNames.add("incident type");
-		childrenNames.add("adjacent type");
+		childrenNames.add("start node expr");
+		childrenNames.add("incident type expr");
+		childrenNames.add("adjacent type expr");
 		return childrenNames;
 	}
-
-	private static final DeclarationResolver<NodeDeclNode> nodeResolver =
-		new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
-	private static final DeclarationTypeResolver<EdgeTypeNode> edgeTypeResolver =
-		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
-	private static final DeclarationTypeResolver<NodeTypeNode> nodeTypeResolver =
-		new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		nodeDecl = nodeResolver.resolve(nodeUnresolved, this);
-		incidentType = edgeTypeResolver.resolve(incidentTypeUnresolved, this);
-		adjacentType = nodeTypeResolver.resolve(adjacentTypeUnresolved, this);
-		return nodeDecl!=null && incidentType!=null && adjacentType!=null && getType().resolve();
+		return getType().resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
+		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
+			reportError("first argument of adjacentNodes(.,.,.) must be a node");
+			return false;
+		}
+		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
+			reportError("second argument of adjacentNodes(.,.,.) must be an edge type");
+			return false;
+		}
+		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
+			reportError("third argument of adjacentNodes(.,.,.) must be a node type");
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
-		return new AdjacentNodeExpr(nodeDecl.checkIR(Node.class), 
-								incidentType.checkIR(EdgeType.class), direction,
-								adjacentType.checkIR(NodeType.class),
+		return new AdjacentNodeExpr(startNodeExpr.checkIR(Expression.class), 
+								incidentTypeExpr.checkIR(Expression.class), direction,
+								adjacentTypeExpr.checkIR(Expression.class),
 								getType().getType());
 	}
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(adjacentTypeUnresolved);
-	}
-	
-	public boolean noDefElementInCondition() {
-		if(nodeDecl.defEntityToBeYieldedTo) {
-			nodeDecl.reportError("A def entity ("+nodeDecl+") can't be accessed from an if");
-			return false;
-		}
-		return true;
+		return SetTypeNode.getSetType(((DeclaredTypeNode)adjacentTypeExpr.getType()).getIdentNode());
 	}
 }

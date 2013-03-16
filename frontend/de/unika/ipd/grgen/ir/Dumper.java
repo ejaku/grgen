@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
-import de.unika.ipd.grgen.ir.containers.*;
 import de.unika.ipd.grgen.util.Formatter;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumper;
@@ -146,131 +145,9 @@ public class Dumper {
 						gd.edge(a, expr);
 					}
 				}
-				else if(e instanceof AssignmentVar) {
-					// TODO
-				}
-				else if(e instanceof AssignmentGraphEntity) {
-					// TODO
-				}
-				else if(e instanceof AssignmentVisited) {
-					// TODO
-				}
-				else if(e instanceof AssignmentIdentical) {
-					// TODO
-				}
-				else if(e instanceof CompoundAssignmentChanged) {
-					// MAP TODO
-				}
-				else if(e instanceof CompoundAssignmentChangedVar) {
-					// MAP TODO
-				}
-				else if(e instanceof CompoundAssignmentChangedVisited) {
-					// MAP TODO
-				}
-				else if(e instanceof CompoundAssignment) {
-					// MAP TODO
-				}
-				else if(e instanceof CompoundAssignmentVarChanged) {
-					// MAP TODO
-				}
-				else if(e instanceof CompoundAssignmentVarChangedVar) {
-					// MAP TODO
-				}
-				else if(e instanceof CompoundAssignmentVarChangedVisited) {
-					// MAP TODO
-				}
-				else if(e instanceof CompoundAssignmentVar) {
-					// MAP TODO
-				}
-				else if(e instanceof MapAddItem) {
-					// MAP TODO
-				}
-				else if(e instanceof MapRemoveItem) {
-					// MAP TODO
-				}
-				else if(e instanceof MapClear) {
-					// MAP TODO
-				}
-				else if(e instanceof SetAddItem) {
-					// MAP TODO
-				}
-				else if(e instanceof SetRemoveItem) {
-					// MAP TODO
-				}
-				else if(e instanceof SetClear) {
-					// MAP TODO
-				}
-				else if(e instanceof ArrayAddItem) {
-					// MAP TODO
-				}
-				else if(e instanceof ArrayRemoveItem) {
-					// MAP TODO
-				}
-				else if(e instanceof ArrayClear) {
-					// MAP TODO
-				}
-				else if(e instanceof DequeAddItem) {
-					// MAP TODO
-				}
-				else if(e instanceof DequeRemoveItem) {
-					// MAP TODO
-				}
-				else if(e instanceof DequeClear) {
-					// MAP TODO
-				}
-				else if(e instanceof MapVarAddItem) {
-					// MAP TODO
-				}
-				else if(e instanceof MapVarRemoveItem) {
-					// MAP TODO
-				}
-				else if(e instanceof MapVarClear) {
-					// MAP TODO
-				}
-				else if(e instanceof SetVarAddItem) {
-					// MAP TODO
-				}
-				else if(e instanceof SetVarRemoveItem) {
-					// MAP TODO
-				}
-				else if(e instanceof SetClear) {
-					// MAP TODO
-				}
-				else if(e instanceof ArrayVarAddItem) {
-					// MAP TODO
-				}
-				else if(e instanceof ArrayVarRemoveItem) {
-					// MAP TODO
-				}
-				else if(e instanceof ArrayClear) {
-					// MAP TODO
-				}
-				else if(e instanceof DequeVarAddItem) {
-					// MAP TODO
-				}
-				else if(e instanceof DequeVarRemoveItem) {
-					// MAP TODO
-				}
-				else if(e instanceof DequeClear) {
-					// MAP TODO
-				}
-				else if(e instanceof ConditionStatement) {
-					// TODO
-				}
-				else if(e instanceof WhileStatement) {
-					// TODO
-				}
-				else if(e instanceof DefDeclGraphEntityStatement) {
-					// TODO
-				}
-				else if(e instanceof DefDeclVarStatement) {
-					// TODO
-				}
-				else if(e instanceof ContainerAccumulationYield) {
-					// TODO
-				}
 				else {
-					throw new UnsupportedOperationException("Unknown EvalStatement \"" + e + "\"");
+					// just swallow, it's on the ones who need this to re-enable and implement
+					// throw new UnsupportedOperationException("Unknown EvalStatement \"" + e + "\"");
 				}
 				oldEvalStatement = e;
 			}

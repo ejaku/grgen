@@ -858,7 +858,7 @@ namespace de.unika.ipd.grGen.expression
             Variable = variable;
             UnprefixedVariable = unprefixedVariable;
             VariableType = variableType;
-            AdjacentIncident = adjacentIncident;
+            AdjacentIncidentReachable = adjacentIncident;
             Statements = statements;
         }
 
@@ -867,95 +867,227 @@ namespace de.unika.ipd.grGen.expression
             Yielding[] statementsCopy = new Yielding[Statements.Length];
             for(int i = 0; i < Statements.Length; ++i)
                 statementsCopy[i] = Statements[i].Copy(renameSuffix);
-            return new ForFunction(Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, AdjacentIncident.Copy(renameSuffix), statementsCopy);
+            return new ForFunction(Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, AdjacentIncidentReachable.Copy(renameSuffix), statementsCopy);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             String id = fetchId().ToString();
 
-            if(AdjacentIncident is Adjacent)
+            if(AdjacentIncidentReachable is Adjacent)
             {
-                Adjacent adjacent = (Adjacent)AdjacentIncident;
+                Adjacent adjacent = (Adjacent)AdjacentIncidentReachable;
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
                 adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, adjacent.IncidentEdgeType);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                adjacent.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.GetOther(node_{0}).InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, adjacent.AdjacentNodeType);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                adjacent.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.GetOther(node_{2});\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Opposite(node_{2});\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
-            else if(AdjacentIncident is AdjacentIncoming)
+            else if(AdjacentIncidentReachable is AdjacentIncoming)
             {
-                AdjacentIncoming adjacentIncoming = (AdjacentIncoming)AdjacentIncident;
+                AdjacentIncoming adjacent = (AdjacentIncoming)AdjacentIncidentReachable;
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
-                adjacentIncoming.Node.Emit(sourceCode);
+                adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, adjacentIncoming.IncidentEdgeType);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                adjacent.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, adjacentIncoming.AdjacentNodeType);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                adjacent.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Source;\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
-            else if(AdjacentIncident is AdjacentOutgoing)
+            else if(AdjacentIncidentReachable is AdjacentOutgoing)
             {
-                AdjacentOutgoing adjacentOutgoing = (AdjacentOutgoing)AdjacentIncident;
+                AdjacentOutgoing adjacent = (AdjacentOutgoing)AdjacentIncidentReachable;
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
-                adjacentOutgoing.Node.Emit(sourceCode);
+                adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, adjacentOutgoing.IncidentEdgeType);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                adjacent.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, adjacentOutgoing.AdjacentNodeType);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                adjacent.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Target;\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
-            else if(AdjacentIncident is Incident)
+            else if(AdjacentIncidentReachable is Incident)
             {
-                Incident incident = (Incident)AdjacentIncident;
+                Incident incident = (Incident)AdjacentIncidentReachable;
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
                 incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, incident.IncidentEdgeType);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                incident.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.GetOther(node_{0}).InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, incident.AdjacentNodeType);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                incident.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
-            else if(AdjacentIncident is Incoming)
+            else if(AdjacentIncidentReachable is Incoming)
             {
-                Incoming incoming = (Incoming)AdjacentIncident;
+                Incoming incident = (Incoming)AdjacentIncidentReachable;
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
-                incoming.Node.Emit(sourceCode);
+                incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, incoming.IncidentEdgeType);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                incident.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, incoming.AdjacentNodeType);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                incident.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
-            else if(AdjacentIncident is Outgoing)
+            else if(AdjacentIncidentReachable is Outgoing)
             {
-                Outgoing outgoing = (Outgoing)AdjacentIncident;
+                Outgoing incident = (Outgoing)AdjacentIncidentReachable;
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
-                outgoing.Node.Emit(sourceCode);
+                incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"{1}\", graph.Model)))\n", id, outgoing.IncidentEdgeType);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                incident.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(GRGEN_LIBGR.TypesHelper.GetNodeType(\"{1}\", graph.Model)))\n", id, outgoing.AdjacentNodeType);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                incident.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model)))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncidentReachable is Reachable)
+            {
+                Reachable reachable = (Reachable)AdjacentIncidentReachable;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.Reachable(node_{0}, ", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("graph))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncidentReachable is ReachableIncoming)
+            {
+                ReachableIncoming reachable = (ReachableIncoming)AdjacentIncidentReachable;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.ReachableIncoming(node_{0}, ", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("graph))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncidentReachable is ReachableOutgoing)
+            {
+                ReachableOutgoing reachable = (ReachableOutgoing)AdjacentIncidentReachable;
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.ReachableOutgoing(node_{0}, ", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("graph))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncidentReachable is ReachableEdges)
+            {
+                ReachableEdges reachable = (ReachableEdges)AdjacentIncidentReachable;
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdges(node_{0}, ", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("graph))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncidentReachable is ReachableEdgesIncoming)
+            {
+                ReachableEdgesIncoming reachable = (ReachableEdgesIncoming)AdjacentIncidentReachable;
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming(node_{0}, ", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("graph))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(AdjacentIncidentReachable is ReachableEdgesOutgoing)
+            {
+                ReachableEdgesOutgoing reachable = (ReachableEdgesOutgoing)AdjacentIncidentReachable;
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing(node_{0}, ", id);
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append("graph))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
 
@@ -975,7 +1107,7 @@ namespace de.unika.ipd.grGen.expression
         public String Variable;
         public String UnprefixedVariable;
         public String VariableType;
-        public Expression AdjacentIncident;
+        public Expression AdjacentIncidentReachable;
         Yielding[] Statements;
     }
     

@@ -10,20 +10,21 @@ package de.unika.ipd.grgen.ir.exprevals;
 import de.unika.ipd.grgen.ir.*;
 
 public class NodesExpr extends Expression {
-	private final NodeType nodeType;
+	private final Expression nodeType;
 
-	public NodesExpr(NodeType nodeType, Type type) {
+	public NodesExpr(Expression nodeType, Type type) {
 		super("nodes expression", type);
 		this.nodeType = nodeType;
 	}
 
-	public NodeType getNodeType() {
+	public Expression getNodeTypeExpr() {
 		return nodeType;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
+		nodeType.collectNeededEntities(needs);
 	}
 }
 

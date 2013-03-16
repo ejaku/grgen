@@ -1766,7 +1766,9 @@ options { k = 3; }
 	: (RARROW { xg.append(" -> "); } xgrsEntity[xg])? IN { xg.append(" in "); } xgrsEntity[xg]
 			SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
 	| IN { xg.append(" in "); } { input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
-			|| input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing") }?
+			|| input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing")
+			|| input.LT(1).getText().equals("reachable") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing")
+			|| input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing") }?
 			i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); }
 			expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] (COMMA { xg.append(","); } expr3=seqExpression[xg])? )?
 			RPAREN { xg.append(")"); }
@@ -3087,8 +3089,10 @@ options { k = *; }
 		}
 	| variable=entIdentDecl COLON type=typeIdentUse IN
 			{ input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
-			  || input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing") }?
-			function=externalFunctionInvocationExpr[false] RPAREN 
+			  || input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing")
+			  || input.LT(1).getText().equals("reachable") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing")
+			  || input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableEdgesIncoming") || input.LT(1).getText().equals("reachableEdgesOutgoing") }?
+			function=externalFunctionInvocationExpr[false] RPAREN
 		LBRACE
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
 		RBRACE popScope
@@ -3410,11 +3414,15 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| id.toString().equals("abs") && params.getChildren().size()==1
 				|| (id.toString().equals("nodes") || id.toString().equals("edges")) && params.getChildren().size()<=1
 				|| (id.toString().equals("source") || id.toString().equals("target")) && params.getChildren().size()==1
+				|| id.toString().equals("opposite") && params.getChildren().size()==2
 				|| (id.toString().equals("incoming") || id.toString().equals("outgoing") || id.toString().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (id.toString().equals("adjacentIncoming") || id.toString().equals("adjacentOutgoing") || id.toString().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (id.toString().equals("reachableIncoming") || id.toString().equals("reachableOutgoing") || id.toString().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (id.toString().equals("reachableEdgesIncoming") || id.toString().equals("reachableEdgesOutgoing") || id.toString().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
+				|| (id.toString().equals("isIncoming") || id.toString().equals("isOutgoing") || id.toString().equals("isIncident")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| (id.toString().equals("isAdjacentIncoming") || id.toString().equals("isAdjacentOutgoing") || id.toString().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 				|| (id.toString().equals("isReachableIncoming") || id.toString().equals("isReachableOutgoing") || id.toString().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| (id.toString().equals("isReachableEdgesIncoming") || id.toString().equals("isReachableEdgesOutgoing") || id.toString().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
 //				|| id.toString().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 				|| id.toString().equals("canonize") && params.getChildren().size()==1
 				|| (id.toString().equals("inducedSubgraph") || id.toString().equals("definedSubgraph")) && params.getChildren().size()==1

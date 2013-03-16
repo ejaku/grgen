@@ -8,49 +8,49 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 public class AdjacentNodeExpr extends Expression {
-	private final Node node;
-	private final EdgeType incidentEdgeType;
+	private final Expression startNodeExpr;
+	private final Expression incidentEdgeTypeExpr;
 	private final int direction;
-	private final NodeType adjacentNodeType;
+	private final Expression adjacentNodeTypeExpr;
 
 	public static final int ADJACENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
 
-	public AdjacentNodeExpr(Node node,
-			EdgeType incidentEdgeType, int direction,
-			NodeType adjacentNodeType, Type type) {
+	public AdjacentNodeExpr(Expression startNodeExpression,
+			Expression incidentEdgeTypeExpr, int direction,
+			Expression adjacentNodeTypeExpr, Type type) {
 		super("adjacent node expression", type);
-		this.node = node;
-		this.incidentEdgeType = incidentEdgeType;
+		this.startNodeExpr = startNodeExpression;
+		this.incidentEdgeTypeExpr = incidentEdgeTypeExpr;
 		this.direction = direction;
-		this.adjacentNodeType = adjacentNodeType;
+		this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
 	}
 
-	public Node getNode() {
-		return node;
+	public Expression getStartNodeExpr() {
+		return startNodeExpr;
 	}
 
-	public EdgeType getIncidentEdgeType() {
-		return incidentEdgeType;
+	public Expression getIncidentEdgeTypeExpr() {
+		return incidentEdgeTypeExpr;
 	}
 
 	public int Direction() {
 		return direction;
 	}
 
-	public NodeType getAdjacentNodeType() {
-		return adjacentNodeType;
+	public Expression getAdjacentNodeTypeExpr() {
+		return adjacentNodeTypeExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		if(!isGlobalVariable(node) && (node.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
-			needs.add(node);
+		startNodeExpr.collectNeededEntities(needs);
+		incidentEdgeTypeExpr.collectNeededEntities(needs);
+		adjacentNodeTypeExpr.collectNeededEntities(needs);
 	}
 }
 

@@ -10,20 +10,21 @@ package de.unika.ipd.grgen.ir;
 import de.unika.ipd.grgen.ir.exprevals.*;;
 
 public class EdgesExpr extends Expression {
-	private final EdgeType edgeType;
+	private final Expression edgeType;
 
-	public EdgesExpr(EdgeType edgeType, Type type) {
+	public EdgesExpr(Expression edgeType, Type type) {
 		super("edges expression", type);
 		this.edgeType = edgeType;
 	}
 
-	public EdgeType getEdgeType() {
+	public Expression getEdgeTypeExpr() {
 		return edgeType;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
+		edgeType.collectNeededEntities(needs);
 	}
 }
 

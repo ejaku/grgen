@@ -319,6 +319,19 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceType.ForReachableNodes:
+                case SequenceType.ForReachableNodesViaIncoming:
+                case SequenceType.ForReachableNodesViaOutgoing:
+                case SequenceType.ForReachableEdges:
+                case SequenceType.ForReachableEdgesViaIncoming:
+                case SequenceType.ForReachableEdgesViaOutgoing:
+                {
+                    SequenceForReachable seqFor = (SequenceForReachable)seq;
+                    EmitVarIfNew(seqFor.Var, source);
+                    EmitNeededVarAndRuleEntities(seqFor.Seq, source);
+                    break;
+                }
+
                 case SequenceType.ForMatch:
                 {
                     SequenceForMatch seqFor = (SequenceForMatch)seq;
@@ -883,7 +896,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         case SequenceType.ForAdjacentNodes:
                             edgeMethod = "Incident";
-                            theOther = "edge_" + seqFor.Id + ".GetOther(node_" + seqFor.Id + ")";
+                            theOther = "edge_" + seqFor.Id + ".Opposite(node_" + seqFor.Id + ")";
                             iterationVariable = theOther;
                             break;
                         case SequenceType.ForAdjacentNodesViaIncoming:
@@ -898,7 +911,7 @@ namespace de.unika.ipd.grGen.lgsp
                             break;
                         case SequenceType.ForIncidentEdges:
                             edgeMethod = "Incident";
-                            theOther = "edge_" + seqFor.Id + ".GetOther(node_" + seqFor.Id + ")";
+                            theOther = "edge_" + seqFor.Id + ".Opposite(node_" + seqFor.Id + ")";
                             iterationVariable = "edge_" + seqFor.Id;
                             break;
                         case SequenceType.ForIncomingEdges:
@@ -924,6 +937,80 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFrontFormat("if(!{0}.InstanceOf({1}))\n",
                         theOther, adjacentNodeTypeExpr);
                     source.AppendFront("\tcontinue;\n");
+
+                    source.AppendFront(SetVar(seqFor.Var, iterationVariable));
+
+                    EmitSequence(seqFor.Seq, source);
+
+                    source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
+                    source.Unindent();
+                    source.AppendFront("}\n");
+
+                    break;
+                }
+
+                case SequenceType.ForReachableNodes:
+                case SequenceType.ForReachableNodesViaIncoming:
+                case SequenceType.ForReachableNodesViaOutgoing:
+                case SequenceType.ForReachableEdges:
+                case SequenceType.ForReachableEdgesViaIncoming:
+                case SequenceType.ForReachableEdgesViaOutgoing:
+                {
+                    SequenceForReachable seqFor = (SequenceForReachable)seq;
+
+                    source.AppendFront(SetResultVar(seqFor, "true"));
+
+                    string sourceNodeExpr = GetSequenceExpression(seqFor.Expr, source);
+                    source.AppendFrontFormat("GRGEN_LIBGR.INode node_{0} = (GRGEN_LIBGR.INode)({1});\n", seqFor.Id, sourceNodeExpr);
+
+                    string incidentEdgeTypeExpr = ExtractEdgeType(source, seqFor.IncidentEdgeType);
+                    string adjacentNodeTypeExpr = ExtractNodeType(source, seqFor.AdjacentNodeType);
+
+                    string reachableMethod;
+                    string iterationVariable;
+                    switch(seqFor.SequenceType)
+                    {
+                        case SequenceType.ForReachableNodes:
+                            reachableMethod = "";
+                            iterationVariable = "iter_" + seqFor.Id; ;
+                            break;
+                        case SequenceType.ForReachableNodesViaIncoming:
+                            reachableMethod = "Incoming";
+                            iterationVariable = "iter_" + seqFor.Id; ;
+                            break;
+                        case SequenceType.ForReachableNodesViaOutgoing:
+                            reachableMethod = "Outgoing";
+                            iterationVariable = "iter_" + seqFor.Id; ;
+                            break;
+                        case SequenceType.ForReachableEdges:
+                            reachableMethod = "Edges";
+                            iterationVariable = "edge_" + seqFor.Id;
+                            break;
+                        case SequenceType.ForReachableEdgesViaIncoming:
+                            reachableMethod = "EdgesIncoming";
+                            iterationVariable = "edge_" + seqFor.Id;
+                            break;
+                        case SequenceType.ForReachableEdgesViaOutgoing:
+                            reachableMethod = "EdgesOutgoing";
+                            iterationVariable = "edge_" + seqFor.Id;
+                            break;
+                        default:
+                            reachableMethod = iterationVariable = "INTERNAL ERROR";
+                            break;
+                    }
+
+                    if(seqFor.SequenceType == SequenceType.ForReachableNodes || seqFor.SequenceType == SequenceType.ForReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableNodesViaOutgoing)
+                    {
+                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GraphHelper.Reachable{1}(node_{0}, ({2}), ({3}), graph))\n",
+                            seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
+                    }
+                    else
+                    {
+                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GraphHelper.Reachable{1}(edge_{0}, ({2}), ({3}), graph))\n",
+                            seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
+                    }
+                    source.AppendFront("{\n");
+                    source.Indent();
 
                     source.AppendFront(SetVar(seqFor.Var, iterationVariable));
 
@@ -3029,6 +3116,104 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
+                case SequenceExpressionType.IsAdjacentNodes:
+                case SequenceExpressionType.IsAdjacentNodesViaIncoming:
+                case SequenceExpressionType.IsAdjacentNodesViaOutgoing:
+                case SequenceExpressionType.IsIncidentEdges:
+                case SequenceExpressionType.IsIncomingEdges:
+                case SequenceExpressionType.IsOutgoingEdges:
+                {
+                    SequenceExpressionIsAdjacentIncident seqIsAdjInc = (SequenceExpressionIsAdjacentIncident)expr;
+                    string sourceNode = GetSequenceExpression(seqIsAdjInc.SourceNode, source);
+                    string endElement = GetSequenceExpression(seqIsAdjInc.EndElement, source);
+                    string endElementType;
+                    string incidentEdgeType = ExtractEdgeType(source, seqIsAdjInc.EdgeType);
+                    string adjacentNodeType = ExtractNodeType(source, seqIsAdjInc.OppositeNodeType);
+                    string function;
+                    switch(seqIsAdjInc.SequenceExpressionType)
+                    {
+                        case SequenceExpressionType.IsAdjacentNodes:
+                            function = "IsAdjacent";
+                            endElementType = "(GRGEN_LIBGR.INode)";
+                            break;
+                        case SequenceExpressionType.IsAdjacentNodesViaIncoming:
+                            function = "IsAdjacentIncoming";
+                            endElementType = "(GRGEN_LIBGR.INode)";
+                            break;
+                        case SequenceExpressionType.IsAdjacentNodesViaOutgoing:
+                            function = "IsAdjacentOutgoing";
+                            endElementType = "(GRGEN_LIBGR.INode)";
+                            break;
+                        case SequenceExpressionType.IsIncidentEdges:
+                            function = "IsIncident";
+                            endElementType = "(GRGEN_LIBGR.IEdge)";
+                            break;
+                        case SequenceExpressionType.IsIncomingEdges:
+                            function = "IsIncoming";
+                            endElementType = "(GRGEN_LIBGR.IEdge)";
+                            break;
+                        case SequenceExpressionType.IsOutgoingEdges:
+                            function = "IsOutgoing";
+                            endElementType = "(GRGEN_LIBGR.IEdge)";
+                            break;
+                        default:
+                            function = "INTERNAL ERROR";
+                            endElementType = "INTERNAL ERROR";
+                            break;
+                    }
+                    return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode + ", " + endElementType + " " + endElement
+                        + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                }
+
+                case SequenceExpressionType.IsReachableNodes:
+                case SequenceExpressionType.IsReachableNodesViaIncoming:
+                case SequenceExpressionType.IsReachableNodesViaOutgoing:
+                case SequenceExpressionType.IsReachableEdges:
+                case SequenceExpressionType.IsReachableEdgesViaIncoming:
+                case SequenceExpressionType.IsReachableEdgesViaOutgoing:
+                {
+                    SequenceExpressionIsReachable seqIsReach = (SequenceExpressionIsReachable)expr;
+                    string sourceNode = GetSequenceExpression(seqIsReach.SourceNode, source);
+                    string endElement = GetSequenceExpression(seqIsReach.EndElement, source);
+                    string endElementType;
+                    string incidentEdgeType = ExtractEdgeType(source, seqIsReach.EdgeType);
+                    string adjacentNodeType = ExtractNodeType(source, seqIsReach.OppositeNodeType);
+                    string function;
+                    switch(seqIsReach.SequenceExpressionType)
+                    {
+                        case SequenceExpressionType.IsReachableNodes:
+                            function = "IsReachable";
+                            endElementType = "(GRGEN_LIBGR.INode)";
+                            break;
+                        case SequenceExpressionType.IsReachableNodesViaIncoming:
+                            function = "IsReachableIncoming";
+                            endElementType = "(GRGEN_LIBGR.INode)";
+                            break;
+                        case SequenceExpressionType.IsReachableNodesViaOutgoing:
+                            function = "IsReachableOutgoing";
+                            endElementType = "(GRGEN_LIBGR.INode)";
+                            break;
+                        case SequenceExpressionType.IsReachableEdges:
+                            function = "IsReachableEdges";
+                            endElementType = "(GRGEN_LIBGR.IEdge)";
+                            break;
+                        case SequenceExpressionType.IsReachableEdgesViaIncoming:
+                            function = "IsReachableEdgesIncoming";
+                            endElementType = "(GRGEN_LIBGR.IEdge)";
+                            break;
+                        case SequenceExpressionType.IsReachableEdgesViaOutgoing:
+                            function = "IsReachableEdgesOutgoing";
+                            endElementType = "(GRGEN_LIBGR.IEdge)";
+                            break;
+                        default:
+                            function = "INTERNAL ERROR";
+                            endElementType = "INTERNAL ERROR";
+                            break;
+                    }
+                    return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode + ", " + endElementType + " " + endElement
+                        + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                }
+
                 case SequenceExpressionType.InducedSubgraph:
                 {
                     SequenceExpressionInducedSubgraph seqInduced = (SequenceExpressionInducedSubgraph)expr;
@@ -3425,6 +3610,12 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionTarget seqTgt = (SequenceExpressionTarget)expr;
                     return "((GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqTgt.Edge, source) + ").Target";
+                }
+
+                case SequenceExpressionType.Opposite:
+                {
+                    SequenceExpressionOpposite seqOpp = (SequenceExpressionOpposite)expr;
+                    return "((GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqOpp.Edge, source) + ").Opposite(" + GetSequenceExpression(seqOpp.Node, source) + ")";
                 }
 
                 case SequenceExpressionType.Variable:

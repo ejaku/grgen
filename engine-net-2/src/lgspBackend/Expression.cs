@@ -2893,22 +2893,24 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Nodes : Expression
     {
-        public Nodes(String nodeType)
+        public Nodes(Expression nodeType)
         {
             NodeType = nodeType;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Nodes(NodeType);
+            return new Nodes(NodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Nodes(graph, " + NodeType + ")");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Nodes(graph, ");
+            NodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
-        String NodeType;
+        Expression NodeType;
     }
 
     /// <summary>
@@ -2916,22 +2918,24 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Edges : Expression
     {
-        public Edges(String edgeType)
+        public Edges(Expression edgeType)
         {
             EdgeType = edgeType;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Edges(EdgeType);
+            return new Edges(EdgeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Edges(graph, " + EdgeType + ")");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Edges(graph, ");
+            EdgeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
-        String EdgeType;
+        Expression EdgeType;
     }
 
     /// <summary>
@@ -2985,11 +2989,40 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the opposite node of an edge and a node
+    /// </summary>
+    public class Opposite : Expression
+    {
+        public Opposite(Expression edge, Expression node)
+        {
+            Edge = edge;
+            Node = node;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Opposite(Edge.Copy(renameSuffix), Node.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((");
+            Edge.Emit(sourceCode);
+            sourceCode.Append(").Opposite(");
+            Node.Emit(sourceCode);
+            sourceCode.Append("))");
+        }
+
+        Expression Edge;
+        Expression Node;
+    }
+
+    /// <summary>
     /// Class representing expression returning the outgoing edges of a node (as set)
     /// </summary>
     public class Outgoing : Expression
     {
-        public Outgoing(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public Outgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -2998,22 +3031,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Outgoing(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new Outgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Outgoing((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
         public Expression Node;
-        public String IncidentEdgeType;
-        public String AdjacentNodeType;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3021,7 +3055,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Incoming : Expression
     {
-        public Incoming(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public Incoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3030,22 +3064,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Incoming(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new Incoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incoming((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
         public Expression Node;
-        public String IncidentEdgeType;
-        public String AdjacentNodeType;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3053,7 +3088,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Incident : Expression
     {
-        public Incident(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public Incident(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3062,22 +3097,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Incident(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new Incident(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incident((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
         public Expression Node;
-        public String IncidentEdgeType;
-        public String AdjacentNodeType;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3085,7 +3121,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class AdjacentOutgoing : Expression
     {
-        public AdjacentOutgoing(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public AdjacentOutgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3094,22 +3130,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new AdjacentOutgoing(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new AdjacentOutgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.AdjacentOutgoing((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
         public Expression Node;
-        public String IncidentEdgeType;
-        public String AdjacentNodeType;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3117,7 +3154,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class AdjacentIncoming : Expression
     {
-        public AdjacentIncoming(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public AdjacentIncoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3126,22 +3163,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new AdjacentIncoming(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new AdjacentIncoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.AdjacentIncoming((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
         public Expression Node;
-        public String IncidentEdgeType;
-        public String AdjacentNodeType;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3149,7 +3187,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Adjacent : Expression
     {
-        public Adjacent(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public Adjacent(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3158,22 +3196,263 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Adjacent(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new Adjacent(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Adjacent((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
         public Expression Node;
-        public String IncidentEdgeType;
-        public String AdjacentNodeType;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end node is adjacent to the start node with an outgoing edge
+    /// </summary>
+    public class IsAdjacentOutgoing : Expression
+    {
+        public IsAdjacentOutgoing(Expression startNode, Expression endNode,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndNode = endNode;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsAdjacentOutgoing(StartNode.Copy(renameSuffix), EndNode.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsAdjacentOutgoing(");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.INode)");
+            EndNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StartNode;
+        Expression EndNode;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end node is adjacent to the start node with an incoming edge
+    /// </summary>
+    public class IsAdjacentIncoming : Expression
+    {
+        public IsAdjacentIncoming(Expression startNode, Expression endNode,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndNode = endNode;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsAdjacentIncoming(StartNode.Copy(renameSuffix), EndNode.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsAdjacentIncoming(");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.INode)");
+            EndNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StartNode;
+        Expression EndNode;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end node is adjacent to the start node with an incident edge
+    /// </summary>
+    public class IsAdjacent : Expression
+    {
+        public IsAdjacent(Expression startNode, Expression endNode,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndNode = endNode;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsAdjacent(StartNode.Copy(renameSuffix), EndNode.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsAdjacent(");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.INode)");
+            EndNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StartNode;
+        Expression EndNode;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end edge is incident to the start node with an outgoing edge
+    /// </summary>
+    public class IsOutgoing : Expression
+    {
+        public IsOutgoing(Expression startNode, Expression endEdge,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndEdge = endEdge;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsOutgoing(StartNode.Copy(renameSuffix), EndEdge.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsOutgoing(");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.IEdge)");
+            EndEdge.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StartNode;
+        Expression EndEdge;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end edge is incident to the start node with an incoming edge
+    /// </summary>
+    public class IsIncoming : Expression
+    {
+        public IsIncoming(Expression startNode, Expression endEdge,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndEdge = endEdge;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsIncoming(StartNode.Copy(renameSuffix), EndEdge.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsIncoming(");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.IEdge)");
+            EndEdge.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StartNode;
+        Expression EndEdge;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end edge is incident to the start node with an incident edge
+    /// </summary>
+    public class IsIncident : Expression
+    {
+        public IsIncident(Expression startNode, Expression endEdge,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndEdge = endEdge;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsReachableEdges(StartNode.Copy(renameSuffix), EndEdge.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsIncident(");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.IEdge)");
+            EndEdge.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StartNode;
+        Expression EndEdge;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3181,7 +3460,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ReachableEdgesOutgoing : Expression
     {
-        public ReachableEdgesOutgoing(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public ReachableEdgesOutgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3190,22 +3469,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ReachableEdgesOutgoing(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new ReachableEdgesOutgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing(graph, (GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3213,7 +3493,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ReachableEdgesIncoming : Expression
     {
-        public ReachableEdgesIncoming(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public ReachableEdgesIncoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3222,22 +3502,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ReachableEdgesIncoming(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new ReachableEdgesIncoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming(graph, (GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3245,7 +3526,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ReachableEdges : Expression
     {
-        public ReachableEdges(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public ReachableEdges(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3254,22 +3535,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ReachableEdges(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new ReachableEdges(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdges(graph, (GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3277,7 +3559,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ReachableOutgoing : Expression
     {
-        public ReachableOutgoing(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public ReachableOutgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3286,22 +3568,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ReachableOutgoing(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new ReachableOutgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableOutgoing((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3309,7 +3592,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ReachableIncoming : Expression
     {
-        public ReachableIncoming(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public ReachableIncoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3318,22 +3601,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ReachableIncoming(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new ReachableIncoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableIncoming((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3341,7 +3625,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Reachable : Expression
     {
-        public Reachable(Expression node, String incidentEdgeType, String adjacentNodeType)
+        public Reachable(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -3350,22 +3634,23 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Reachable(Node.Copy(renameSuffix), IncidentEdgeType, AdjacentNodeType);
+            return new Reachable(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Reachable((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
-        Expression Node;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3374,7 +3659,7 @@ namespace de.unika.ipd.grGen.expression
     public class IsReachableOutgoing : Expression
     {
         public IsReachableOutgoing(Expression startNode, Expression endNode,
-            String incidentEdgeType, String adjacentNodeType)
+            Expression incidentEdgeType, Expression adjacentNodeType)
         {
             StartNode = startNode;
             EndNode = endNode;
@@ -3385,7 +3670,7 @@ namespace de.unika.ipd.grGen.expression
         public override Expression Copy(string renameSuffix)
         {
             return new IsReachableOutgoing(StartNode.Copy(renameSuffix), EndNode.Copy(renameSuffix),
-                IncidentEdgeType, AdjacentNodeType);
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -3395,16 +3680,17 @@ namespace de.unika.ipd.grGen.expression
             StartNode.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.INode)");
             EndNode.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
         Expression StartNode;
         Expression EndNode;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3413,7 +3699,7 @@ namespace de.unika.ipd.grGen.expression
     public class IsReachableIncoming : Expression
     {
         public IsReachableIncoming(Expression startNode, Expression endNode,
-            String incidentEdgeType, String adjacentNodeType)
+            Expression incidentEdgeType, Expression adjacentNodeType)
         {
             StartNode = startNode;
             EndNode = endNode;
@@ -3424,7 +3710,7 @@ namespace de.unika.ipd.grGen.expression
         public override Expression Copy(string renameSuffix)
         {
             return new IsReachableIncoming(StartNode.Copy(renameSuffix), EndNode.Copy(renameSuffix),
-                IncidentEdgeType, AdjacentNodeType);
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -3434,16 +3720,17 @@ namespace de.unika.ipd.grGen.expression
             StartNode.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.INode)");
             EndNode.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
         Expression StartNode;
         Expression EndNode;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
     }
 
     /// <summary>
@@ -3452,7 +3739,7 @@ namespace de.unika.ipd.grGen.expression
     public class IsReachable : Expression
     {
         public IsReachable(Expression startNode, Expression endNode,
-            String incidentEdgeType, String adjacentNodeType)
+            Expression incidentEdgeType, Expression adjacentNodeType)
         {
             StartNode = startNode;
             EndNode = endNode;
@@ -3462,8 +3749,8 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new IsReachable(StartNode.Copy(renameSuffix), EndNode.Copy(renameSuffix), 
-                IncidentEdgeType, AdjacentNodeType);
+            return new IsReachable(StartNode.Copy(renameSuffix), EndNode.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -3473,16 +3760,137 @@ namespace de.unika.ipd.grGen.expression
             StartNode.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.INode)");
             EndNode.Emit(sourceCode);
-            sourceCode.Append(", "
-                + IncidentEdgeType + ", "
-                + AdjacentNodeType
-                + ")");
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
         }
 
         Expression StartNode;
         Expression EndNode;
-        String IncidentEdgeType;
-        String AdjacentNodeType;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end edge is reachable from the start node via outgoing edges
+    /// </summary>
+    public class IsReachableEdgesOutgoing : Expression
+    {
+        public IsReachableEdgesOutgoing(Expression startNode, Expression endEdge,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndEdge = endEdge;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsReachableEdgesOutgoing(StartNode.Copy(renameSuffix), EndEdge.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsReachableEdgesOutgoing(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.IEdge)");
+            EndEdge.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StartNode;
+        Expression EndEdge;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end edge is reachable from the start node via incoming edges
+    /// </summary>
+    public class IsReachableEdgesIncoming : Expression
+    {
+        public IsReachableEdgesIncoming(Expression startNode, Expression endEdge,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndEdge = endEdge;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsReachableEdgesIncoming(StartNode.Copy(renameSuffix), EndEdge.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsReachableEdgesIncoming(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.IEdge)");
+            EndEdge.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StartNode;
+        Expression EndEdge;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end edge is reachable from the start node via incident edges
+    /// </summary>
+    public class IsReachableEdges : Expression
+    {
+        public IsReachableEdges(Expression startNode, Expression endEdge,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndEdge = endEdge;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsReachableEdges(StartNode.Copy(renameSuffix), EndEdge.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsReachableEdges(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.IEdge)");
+            EndEdge.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StartNode;
+        Expression EndEdge;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
     }
 
     /// <summary>

@@ -69,7 +69,7 @@ namespace VisitedExample
 
             foreach(IEdge edge in edgesToNext)
             {
-                INode next = edge.GetOther(node);
+                INode next = edge.Opposite(node);
 
                 WalkerResult res = DoDFS(next);
                 if(res == WalkerResult.Abort) return WalkerResult.Abort;
@@ -132,7 +132,7 @@ namespace VisitedExample
                 else throw new InvalidOperationException("Invalid walker mode!");
 
                 foreach(IEdge edge in edgesToNext)
-                    workList.AddLast(edge.GetOther(curNode));
+                    workList.AddLast(edge.Opposite(curNode));
             }
             while(workList.Count != 0);
 

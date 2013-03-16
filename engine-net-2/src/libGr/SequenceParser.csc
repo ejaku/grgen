@@ -1022,6 +1022,18 @@ Sequence SimpleSequence():
 				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForIncomingEdges, expr, expr2, expr3, seq, variableList1);
 			} else if(str=="outgoing") {
 				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForOutgoingEdges, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="reachable") {
+				return new SequenceForReachable(fromVar, SequenceType.ForReachableNodes, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="reachableIncoming") {
+				return new SequenceForReachable(fromVar, SequenceType.ForReachableNodesViaIncoming, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="reachableOutgoing") {
+				return new SequenceForReachable(fromVar, SequenceType.ForReachableNodesViaOutgoing, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="reachableEdges") {
+				return new SequenceForReachable(fromVar, SequenceType.ForReachableEdges, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="reachableEdgesIncoming") {
+				return new SequenceForReachable(fromVar, SequenceType.ForReachableEdgesViaIncoming, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="reachableEdgesOutgoing") {
+				return new SequenceForReachable(fromVar, SequenceType.ForReachableEdgesViaOutgoing, expr, expr2, expr3, seq, variableList1);
 			}
 		}
 	|
@@ -1425,10 +1437,10 @@ SequenceComputation ProcedureCall():
 SequenceExpression FunctionCall():
 {
 	String function;
-	SequenceExpression fromExpr = null, fromExpr2 = null, fromExpr3 = null;
+	SequenceExpression fromExpr = null, fromExpr2 = null, fromExpr3 = null, fromExpr4 = null;
 }
 {
-	function=Word() "(" ( fromExpr=Expression() ("," fromExpr2=Expression() ("," fromExpr3=Expression())? )? )? ")"
+	function=Word() "(" ( fromExpr=Expression() ("," fromExpr2=Expression() ("," fromExpr3=Expression() ("," fromExpr4=Expression())? )? )? )? ")"
 	{
 		if(function=="valloc") {
 			if(fromExpr!=null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects no parameters)");
@@ -1478,6 +1490,42 @@ SequenceExpression FunctionCall():
 		} else if(function=="reachableEdgesOutgoing") {
 			if(fromExpr==null) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
 			return new SequenceExpressionReachable(fromExpr, fromExpr2, fromExpr3, SequenceExpressionType.ReachableEdgesViaOutgoing);
+		} else if(function=="isAdjacent") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsAdjacentIncident(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsAdjacentNodes);
+		} else if(function=="isAdjacentIncoming") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsAdjacentIncident(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsAdjacentNodesViaIncoming);
+		} else if(function=="isAdjacentOutgoing") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsAdjacentIncident(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsAdjacentNodesViaOutgoing);
+		} else if(function=="isIncident") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsAdjacentIncident(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsIncidentEdges);
+		} else if(function=="isIncoming") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsAdjacentIncident(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsIncomingEdges);
+		} else if(function=="isOutgoing") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsAdjacentIncident(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsOutgoingEdges);
+		} else if(function=="isReachable") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsReachable(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsReachableNodes);
+		} else if(function=="isReachableIncoming") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsReachable(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsReachableNodesViaIncoming);
+		} else if(function=="isReachableOutgoing") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsReachable(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsReachableNodesViaOutgoing);
+		} else if(function=="isReachableEdges") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsReachable(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsReachableEdges);
+		} else if(function=="isReachableEdgesIncoming") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsReachable(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsReachableEdgesViaIncoming);
+		} else if(function=="isReachableEdgesOutgoing") {
+			if(fromExpr==null || fromExpr2==null) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsReachable(fromExpr, fromExpr2, fromExpr3, fromExpr4, SequenceExpressionType.IsReachableEdgesViaOutgoing);
 		} else if(function=="inducedSubgraph") {
 			if(fromExpr==null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 1 parameter (the set of nodes to construct the induced subgraph from)");
 			return new SequenceExpressionInducedSubgraph(fromExpr);
@@ -1496,6 +1544,9 @@ SequenceExpression FunctionCall():
 		} else if(function=="target") {
 			if(fromExpr==null || fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 1 parameter (the edge to get the target node from)");
 			return new SequenceExpressionTarget(fromExpr);
+		} else if(function=="opposite") {
+			if(fromExpr==null || fromExpr2==null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects 2 parameters (the edge and the node to get the opposite node from)");
+			return new SequenceExpressionOpposite(fromExpr, fromExpr2);
 		} else if(function=="random") {
 			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + function + "\" expects none (returns double in [0..1[) or 1 parameter (returns int in [0..parameter[)");
 			return new SequenceExpressionRandom(fromExpr);

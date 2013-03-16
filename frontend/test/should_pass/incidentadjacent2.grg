@@ -8,67 +8,46 @@ rule t
 
 	if { edges(Edge).size()!=0; }
 	if { nodes(Node).size()!=0; }
-
-	if { source(e)!=n; }
-	if { source(::g_e)!=::g_n; }
-	if { target(e)!=n; }
-	if { target(::g_e)!=::g_n; }
 	
 	if { incident(::g_n, Edge).size()!=0 && incoming(::g_n, Edge).size()!=0 && outgoing(::g_n, Edge).size()!=0; }
 	if { incident(n, Edge).size()!=0 && incoming(n, Edge).size()!=0 && outgoing(n, Edge).size()!=0; }
 	if { adjacent(::g_n, Edge).size()!=0 && adjacentIncoming(::g_n, Edge).size()!=0 && adjacentOutgoing(::g_n, Edge).size()!=0; }
 	if { adjacent(n, Edge).size()!=0 && adjacentIncoming(n, Edge).size()!=0 && adjacentOutgoing(n, Edge).size()!=0; }
 	
-	if { reachableEdges(::g_n, Edge).size()!=0 && reachableEdgesIncoming(::g_n, Edge).size()!=0 && reachableEdgesOutgoing(::g_n, Edge).size()!=0; }
-	if { reachableEdges(n, Edge).size()!=0 && reachableEdgesIncoming(n, Edge).size()!=0 && reachableEdgesOutgoing(n, Edge).size()!=0; }
-	if { reachable(::g_n, Edge).size()!=0 && reachableIncoming(::g_n, Edge).size()!=0 && reachableOutgoing(::g_n, Edge).size()!=0; }
-	if { reachable(n, Edge).size()!=0 && reachableIncoming(n, Edge).size()!=0 && reachableOutgoing(n, Edge).size()!=0; }
-	if { isReachable(::g_n, ::g_m, Edge) && isReachableIncoming(::g_n, ::g_m, Edge) && isReachableOutgoing(::g_n, ::g_m, Edge); }
-	if { isReachable(n, m, Edge) && isReachableIncoming(n, m, Edge) && isReachableOutgoing(n, m, Edge); }
-	
+	if { isIncident(::g_n, ::g_e, Edge) && isIncoming(::g_n, ::g_e, Edge) && isOutgoing(::g_n, ::g_e, Edge); }
+	if { isIncident(n, e, Edge) && isIncoming(n, e, Edge) && isOutgoing(n, e, Edge); }
+	if { isAdjacent(::g_n, ::g_m, Edge) && isAdjacentIncoming(::g_n, ::g_m, Edge) && isAdjacentOutgoing(::g_n, ::g_m, Edge); }
+	if { isAdjacent(n, m, Edge) && isAdjacentIncoming(n, m, Edge) && isAdjacentOutgoing(n, m, Edge); }
+		
 	modify {
 		def var res:boolean;
 		
 		eval { yield res = edges(Edge).size()!=0; }
 		eval { yield res = nodes(Node).size()!=0; }
 
-		eval { yield res = source(e)!=n; }
-		eval { yield res = source(::g_e)!=::g_n; }
-		eval { yield res = target(e)!=n; }
-		eval { yield res = target(::g_e)!=::g_n; }
-		
 		eval { yield res = incident(::g_n, Edge).size()!=0 && incoming(::g_n, Edge).size()!=0 && outgoing(::g_n, Edge).size()!=0; }
 		eval { yield res = incident(n, Edge).size()!=0 && incoming(n, Edge).size()!=0 && outgoing(n, Edge).size()!=0; }
 		eval { yield res = adjacent(::g_n, Edge).size()!=0 && adjacentIncoming(::g_n, Edge).size()!=0 && adjacentOutgoing(::g_n, Edge).size()!=0; }
 		eval { yield res = adjacent(n, Edge).size()!=0 && adjacentIncoming(n, Edge).size()!=0 && adjacentOutgoing(n, Edge).size()!=0; }
-		
-		eval { yield res = reachableEdges(::g_n, Edge).size()!=0 && reachableEdgesIncoming(::g_n, Edge).size()!=0 && reachableEdgesOutgoing(::g_n, Edge).size()!=0; }
-		eval { yield res = reachableEdges(n, Edge).size()!=0 && reachableEdgesIncoming(n, Edge).size()!=0 && reachableEdgesOutgoing(n, Edge).size()!=0; }
-		eval { yield res = reachable(::g_n, Edge).size()!=0 && reachableIncoming(::g_n, Edge).size()!=0 && reachableOutgoing(::g_n, Edge).size()!=0; }
-		eval { yield res = reachable(n, Edge).size()!=0 && reachableIncoming(n, Edge).size()!=0 && reachableOutgoing(n, Edge).size()!=0; }
-		eval { yield res = isReachable(::g_n, ::g_m, Edge) && isReachableIncoming(::g_n, ::g_m, Edge) && isReachableOutgoing(::g_n, ::g_m, Edge); }
-		eval { yield res = isReachable(n, m, Edge) && isReachableIncoming(n, m, Edge) && isReachableOutgoing(n, m, Edge); }
+	
+		eval { yield res = isIncident(::g_n, ::g_e, Edge) && isIncoming(::g_n, ::g_e, Edge) && isOutgoing(::g_n, ::g_e, Edge); }
+		eval { yield res = isIncident(n, e, Edge) && isIncoming(n, e, Edge) && isOutgoing(n, e, Edge); }
+		eval { yield res = isAdjacent(::g_n, ::g_m, Edge) && isAdjacentIncoming(::g_n, ::g_m, Edge) && isAdjacentOutgoing(::g_n, ::g_m, Edge); }
+		eval { yield res = isAdjacent(n, m, Edge) && isAdjacentIncoming(n, m, Edge) && isAdjacentOutgoing(n, m, Edge); }
 	
 /*
 		exec ( { res = edges(Edge).size()!=0; } )
 		exec ( { res = nodes(Node).size()!=0; } )
 
-		exec ( { res = source(e)!=n; } )
-		exec ( { res = source(::g_e)!=::g_n; } )
-		exec ( { res = target(e)!=n; } )
-		exec ( { res = target(::g_e)!=::g_n; } )
-		
 		exec ( { res = incident(::g_n, Edge).size()!=0 && incoming(::g_n, Edge).size()!=0 && outgoing(::g_n, Edge).size()!=0; } )
 		exec ( { res = incident(n, Edge).size()!=0 && incoming(n, Edge).size()!=0 && outgoing(n, Edge).size()!=0; } )
 		exec ( { res = adjacent(::g_n, Edge).size()!=0 && adjacentIncoming(::g_n, Edge).size()!=0 && adjacentOutgoing(::g_n, Edge).size()!=0; } )
 		exec ( { res = adjacent(n, Edge).size()!=0 && adjacentIncoming(n, Edge).size()!=0 && adjacentOutgoing(n, Edge).size()!=0; } )
 		
-		exec ( { res = reachableEdges(::g_n, Edge).size()!=0 && reachableEdgesIncoming(::g_n, Edge).size()!=0 && reachableEdgesOutgoing(::g_n, Edge).size()!=0; } )
-		exec ( { res = reachableEdges(n, Edge).size()!=0 && reachableEdgesIncoming(n, Edge).size()!=0 && reachableEdgesOutgoing(n, Edge).size()!=0; } )
-		exec ( { res = reachable(::g_n, Edge).size()!=0 && reachableIncoming(::g_n, Edge).size()!=0 && reachableOutgoing(::g_n, Edge).size()!=0; } )
-		exec ( { res = reachable(n, Edge).size()!=0 && reachableIncoming(n, Edge).size()!=0 && reachableOutgoing(n, Edge).size()!=0; } )
-		exec ( { res = isReachable(::g_n, ::g_m, Edge) && isReachableIncoming(::g_n, ::g_m, Edge) && isReachableOutgoing(::g_n, ::g_m, Edge); } )
-		exec ( { res = isReachable(n, m, Edge) && isReachableIncoming(n, m, Edge) && isReachableOutgoing(n, m, Edge); } )
+		exec ( { res = isIncident(::g_n, ::g_e, Edge) && isIncoming(::g_n, ::g_e, Edge) && isOutgoing(::g_n, ::g_e, Edge); } )
+		exec ( { res = isIncident(n, e, Edge) && isIncoming(n, e, Edge) && isOutgoing(n, e, Edge); } )
+		exec ( { res = isAdjacent(::g_n, ::g_m, Edge) && isAdjacentIncoming(::g_n, ::g_m, Edge) && isAdjacentOutgoing(::g_n, ::g_m, Edge); } )
+		exec ( { res = isAdjacent(n, m, Edge) && isAdjacentIncoming(n, m, Edge) && isAdjacentOutgoing(n, m, Edge); } )
 */
 	}
 }
