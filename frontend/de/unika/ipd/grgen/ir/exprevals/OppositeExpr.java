@@ -9,30 +9,28 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class GraphRetypeNodeExpr extends Expression {
+public class OppositeExpr extends Expression {
+	private final Expression edge;
 	private final Expression node;
-	private final Expression newNodeType;
 
-	public GraphRetypeNodeExpr(Expression node,
-			Expression newNodeType, Type type) {
-		super("graph retype node expression", type);
+	public OppositeExpr(Expression edge, Expression node, Type type) {
+		super("opposite expression", type);
+		this.edge = edge;
 		this.node = node;
-		this.newNodeType = newNodeType;
+	}
+
+	public Expression getEdgeExpr() {
+		return edge;
 	}
 
 	public Expression getNodeExpr() {
 		return node;
 	}
 
-	public Expression getNewNodeTypeExpr() {
-		return newNodeType;
-	}
-
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		needs.needsGraph();
+		edge.collectNeededEntities(needs);
 		node.collectNeededEntities(needs);
-		newNodeType.collectNeededEntities(needs);
 	}
 }
 

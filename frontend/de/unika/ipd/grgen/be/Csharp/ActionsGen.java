@@ -2175,30 +2175,34 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if (expr instanceof EdgesExpr) {
 			EdgesExpr e = (EdgesExpr) expr;
-			sb.append("new GRGEN_EXPR.Edges(\""+formatTypeClassRef(e.getEdgeType()) + ".typeVar\")");
+			sb.append("new GRGEN_EXPR.Edges(");
+			genExpressionTree(sb, e.getEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
 		}
 		else if (expr instanceof NodesExpr) {
 			NodesExpr n = (NodesExpr) expr;
-			sb.append("new GRGEN_EXPR.Nodes(\""+formatTypeClassRef(n.getNodeType()) + ".typeVar\")");
+			sb.append("new GRGEN_EXPR.Nodes(");
+			genExpressionTree(sb, n.getNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
 		}
 		else if (expr instanceof SourceExpr) {
 			SourceExpr s = (SourceExpr) expr;
 			sb.append("new GRGEN_EXPR.Source(");
-			if(!Expression.isGlobalVariable(s.getEdge())) {
-				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(s.getEdge(), pathPrefix, alreadyDefinedEntityToName) + "\")");
-			} else {
-				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(s.getEdge()) + "\", \"" + formatType(s.getEdge().getType()) + "\")");
-			}
+			genExpressionTree(sb, s.getEdgeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof TargetExpr) {
 			TargetExpr t = (TargetExpr) expr;
 			sb.append("new GRGEN_EXPR.Target(");
-			if(!Expression.isGlobalVariable(t.getEdge())) {
-				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(t.getEdge(), pathPrefix, alreadyDefinedEntityToName) + "\")");
-			} else {
-				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(t.getEdge()) + "\", \"" + formatType(t.getEdge().getType()) + "\")");
-			}
+			genExpressionTree(sb, t.getEdgeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof OppositeExpr) {
+			OppositeExpr o = (OppositeExpr) expr;
+			sb.append("new GRGEN_EXPR.Opposite(");
+			genExpressionTree(sb, o.getEdgeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(",");
+			genExpressionTree(sb, o.getNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof IncidentEdgeExpr) {
@@ -2210,15 +2214,12 @@ public class ActionsGen extends CSharpBase {
 			} else {
 				sb.append("new GRGEN_EXPR.Incident(");
 			}
-			if(!Expression.isGlobalVariable(ie.getNode())) {
-				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(ie.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
-			} else {
-				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(ie.getNode()) + "\", \"" + formatType(ie.getNode().getType()) + "\")");
-			}
-			sb.append(", "
-					+ "\""+formatTypeClassRef(ie.getIncidentEdgeType()) + ".typeVar\", "
-					+ "\""+formatTypeClassRef(ie.getAdjacentNodeType()) + ".typeVar\""
-					+ ")");
+			genExpressionTree(sb, ie.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ie.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ie.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
 		}
 		else if (expr instanceof AdjacentNodeExpr) {
 			AdjacentNodeExpr an = (AdjacentNodeExpr) expr;
@@ -2229,15 +2230,48 @@ public class ActionsGen extends CSharpBase {
 			} else {
 				sb.append("new GRGEN_EXPR.Adjacent(");
 			}
-			if(!Expression.isGlobalVariable(an.getNode())) {
-				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(an.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			genExpressionTree(sb, an.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, an.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, an.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof IsAdjacentNodeExpr) {
+			IsAdjacentNodeExpr ian = (IsAdjacentNodeExpr) expr;
+			if(ian.Direction()==IsAdjacentNodeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.IsAdjacentOutgoing(");
+			} else if(ian.Direction()==IsAdjacentNodeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.IsAdjacentIncoming(");
 			} else {
-				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(an.getNode()) + "\", \"" + formatType(an.getNode().getType()) + "\")");
+				sb.append("new GRGEN_EXPR.IsAdjacent(");
 			}
-			sb.append(", "
-					+ "\""+formatTypeClassRef(an.getIncidentEdgeType()) + ".typeVar\", "
-					+ "\""+formatTypeClassRef(an.getAdjacentNodeType()) + ".typeVar\""
-					+ ")");
+			genExpressionTree(sb, ian.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ian.getEndNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ian.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ian.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof IsIncidentEdgeExpr) {
+			IsIncidentEdgeExpr iie = (IsIncidentEdgeExpr) expr;
+			if(iie.Direction()==IsIncidentEdgeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.IsOutgoing(");
+			} else if(iie.Direction()==IsIncidentEdgeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.IsIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.IsIncident(");
+			}
+			genExpressionTree(sb, iie.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, iie.getEndEdgeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, iie.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, iie.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
 		}
 		else if (expr instanceof ReachableEdgeExpr) {
 			ReachableEdgeExpr re = (ReachableEdgeExpr) expr;
@@ -2248,15 +2282,12 @@ public class ActionsGen extends CSharpBase {
 			} else {
 				sb.append("new GRGEN_EXPR.ReachableEdges(");
 			}
-			if(!Expression.isGlobalVariable(re.getNode())) {
-				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(re.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
-			} else {
-				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(re.getNode()) + "\", \"" + formatType(re.getNode().getType()) + "\")");
-			}
-			sb.append(", "
-					+ "\""+formatTypeClassRef(re.getIncidentEdgeType()) + ".typeVar\", "
-					+ "\""+formatTypeClassRef(re.getAdjacentNodeType()) + ".typeVar\""
-					+ ")");
+			genExpressionTree(sb, re.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, re.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, re.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
 		}
 		else if (expr instanceof ReachableNodeExpr) {
 			ReachableNodeExpr rn = (ReachableNodeExpr) expr;
@@ -2267,15 +2298,12 @@ public class ActionsGen extends CSharpBase {
 			} else {
 				sb.append("new GRGEN_EXPR.Reachable(");
 			}
-			if(!Expression.isGlobalVariable(rn.getNode())) {
-				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(rn.getNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
-			} else {
-				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(rn.getNode()) + "\", \"" + formatType(rn.getNode().getType()) + "\")");
-			}
-			sb.append(", "
-					+ "\""+formatTypeClassRef(rn.getIncidentEdgeType()) + ".typeVar\", "
-					+ "\""+formatTypeClassRef(rn.getAdjacentNodeType()) + ".typeVar\""
-					+ ")");
+			genExpressionTree(sb, rn.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, rn.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, rn.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
 		}
 		else if (expr instanceof IsReachableNodeExpr) {
 			IsReachableNodeExpr irn = (IsReachableNodeExpr) expr;
@@ -2286,21 +2314,32 @@ public class ActionsGen extends CSharpBase {
 			} else {
 				sb.append("new GRGEN_EXPR.IsReachable(");
 			}
-			if(!Expression.isGlobalVariable(irn.getStartNode())) {
-				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(irn.getStartNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
-			} else {
-				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(irn.getStartNode()) + "\", \"" + formatType(irn.getStartNode().getType()) + "\")");
-			}
+			genExpressionTree(sb, irn.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			if(!Expression.isGlobalVariable(irn.getEndNode())) {
-				sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(irn.getEndNode(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+			genExpressionTree(sb, irn.getEndNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, irn.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, irn.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof IsReachableEdgeExpr) {
+			IsReachableEdgeExpr ire = (IsReachableEdgeExpr) expr;
+			if(ire.Direction()==IsReachableEdgeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.IsReachableEdgesOutgoing(");
+			} else if(ire.Direction()==IsReachableEdgeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.IsReachableEdgesIncoming(");
 			} else {
-				sb.append("new GRGEN_EXPR.GlobalVariableExpression(\"" + formatIdentifiable(irn.getEndNode()) + "\", \"" + formatType(irn.getEndNode().getType()) + "\")");
+				sb.append("new GRGEN_EXPR.IsReachableEdges(");
 			}
-			sb.append(", "
-					+ "\""+formatTypeClassRef(irn.getIncidentEdgeType()) + ".typeVar\", "
-					+ "\""+formatTypeClassRef(irn.getAdjacentNodeType()) + ".typeVar\""
-					+ ")");
+			genExpressionTree(sb, ire.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ire.getEndEdgeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ire.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ire.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
 		}
 		else if (expr instanceof InducedSubgraphExpr) {
 			InducedSubgraphExpr is = (InducedSubgraphExpr) expr;
@@ -3622,10 +3661,20 @@ public class ActionsGen extends CSharpBase {
 			StringBuffer sbtmp = new StringBuffer();
 			genExpressionTree(sbtmp, adjacentExpr, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(sbtmp.toString() + ", ");
-		} else { //if(ff.getFunction() instanceof IncidentEdgeExpr)
+		} else if(ff.getFunction() instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr incidentExpr = (IncidentEdgeExpr)ff.getFunction();
 			StringBuffer sbtmp = new StringBuffer();
 			genExpressionTree(sbtmp, incidentExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof ReachableNodeExpr) {
+			ReachableNodeExpr reachableExpr = (ReachableNodeExpr)ff.getFunction();
+			StringBuffer sbtmp = new StringBuffer();
+			genExpressionTree(sbtmp, reachableExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof ReachableEdgeExpr) {
+			ReachableEdgeExpr reachableExpr = (ReachableEdgeExpr)ff.getFunction();
+			StringBuffer sbtmp = new StringBuffer();
+			genExpressionTree(sbtmp, reachableExpr, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(sbtmp.toString() + ", ");
 		}
 		sb.append("new GRGEN_EXPR.Yielding[] { ");

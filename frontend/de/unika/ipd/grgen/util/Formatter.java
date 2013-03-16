@@ -15,7 +15,6 @@ package de.unika.ipd.grgen.util;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
-import de.unika.ipd.grgen.ir.containers.*;
 
 public class Formatter {
 
@@ -140,61 +139,9 @@ public class Formatter {
 			formatConditionEvalAux(sb, vis.getVisitorID());
 			sb.append(")");
 		}
-		else if(cond instanceof Nameof) {
-			// TODO
+		else {
+			sb.append("Unsupported expression type (" + cond + ")");
 		}
-		else if(cond instanceof IncidentEdgeExpr) {
-			// TODO
-		}
-		else if(cond instanceof IndexedAccessExpr) {
-			// MAP TODO
-		}
-		else if(cond instanceof MapSizeExpr) {
-			// MAP TODO
-		}
-		else if(cond instanceof MapEmptyExpr) {
-			// MAP TODO
-		}
-		else if(cond instanceof MapInit) {
-			// MAP TODO
-		}
-		else if(cond instanceof SetSizeExpr) {
-			// MAP TODO
-		}
-		else if(cond instanceof SetEmptyExpr) {
-			// MAP TODO
-		}
-		else if(cond instanceof SetInit) {
-			// MAP TODO
-		}
-		else if(cond instanceof ArraySizeExpr) {
-			// MAP TODO
-		}
-		else if(cond instanceof ArrayEmptyExpr) {
-			// MAP TODO
-		}
-		else if(cond instanceof ArrayInit) {
-			// MAP TODO
-		}
-		else if(cond instanceof DequeSizeExpr) {
-			// MAP TODO
-		}
-		else if(cond instanceof DequeEmptyExpr) {
-			// MAP TODO
-		}
-		else if(cond instanceof DequeInit) {
-			// MAP TODO
-		}
-		else if(cond instanceof GraphEntityExpression) {
-			// MAP TODO
-		}
-		else if(cond instanceof ExternalFunctionInvocationExpr) {
-			// TODO
-		}
-		else if(cond instanceof ComputationInvocationExpr) {
-			// TODO
-		}
-		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
 
 	private static String formatIdentifiable(Identifiable id) {

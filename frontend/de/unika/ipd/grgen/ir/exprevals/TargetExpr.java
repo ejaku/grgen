@@ -8,24 +8,22 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 public class TargetExpr extends Expression {
-	private final Edge edge;
+	private final Expression edge;
 
-	public TargetExpr(Edge edge, Type type) {
+	public TargetExpr(Expression edge, Type type) {
 		super("target expression", type);
 		this.edge = edge;
 	}
 
-	public Edge getEdge() {
+	public Expression getEdgeExpr() {
 		return edge;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		if(!isGlobalVariable(edge) && (edge.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
-			needs.add(edge);
+		edge.collectNeededEntities(needs);
 	}
 }
 

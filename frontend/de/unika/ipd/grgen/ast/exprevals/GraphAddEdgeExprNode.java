@@ -11,12 +11,9 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.GraphAddEdgeExpr;
-import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -27,32 +24,28 @@ public class GraphAddEdgeExprNode extends ExprNode {
 		setName(GraphAddEdgeExprNode.class, "reachable edge expr");
 	}
 
-	private IdentNode edgeTypeUnresolved;
-	private IdentNode sourceNodeUnresolved;
-	private IdentNode targetNodeUnresolved;
-
-	private EdgeTypeNode edgeType;
-	private NodeDeclNode sourceNodeDecl;
-	private NodeDeclNode targetNodeDecl;
+	private ExprNode edgeType;
+	private ExprNode sourceNode;
+	private ExprNode targetNode;
 		
-	public GraphAddEdgeExprNode(Coords coords, IdentNode edgeType,
-			IdentNode sourceNode, IdentNode targetNode) {
+	public GraphAddEdgeExprNode(Coords coords, ExprNode edgeType,
+			ExprNode sourceNode, ExprNode targetNode) {
 		super(coords);
-		this.edgeTypeUnresolved = edgeType;
-		becomeParent(this.edgeTypeUnresolved);
-		this.sourceNodeUnresolved = sourceNode;
-		becomeParent(this.sourceNodeUnresolved);
-		this.targetNodeUnresolved = targetNode;
-		becomeParent(this.targetNodeUnresolved);
+		this.edgeType = edgeType;
+		becomeParent(this.edgeType);
+		this.sourceNode = sourceNode;
+		becomeParent(this.sourceNode);
+		this.targetNode = targetNode;
+		becomeParent(this.targetNode);
 	}
 
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(edgeTypeUnresolved, edgeType));
-		children.add(getValidVersion(sourceNodeUnresolved, sourceNodeDecl));
-		children.add(getValidVersion(targetNodeUnresolved, targetNodeDecl));
+		children.add(edgeType);
+		children.add(sourceNode);
+		children.add(targetNode);
 		return children;
 	}
 
@@ -66,36 +59,40 @@ public class GraphAddEdgeExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<EdgeTypeNode> edgeTypeResolver =
-		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
-	private static final DeclarationResolver<NodeDeclNode> nodeResolver =
-		new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		edgeType = edgeTypeResolver.resolve(edgeTypeUnresolved, this);
-		sourceNodeDecl = nodeResolver.resolve(sourceNodeUnresolved, this);
-		targetNodeDecl = nodeResolver.resolve(targetNodeUnresolved, this);
-		return edgeType!=null && sourceNodeDecl!=null && targetNodeDecl!=null && getType().resolve();
+		return getType().resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
+		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
+			reportError("first argument of add(.,.,.) must be an edge type");
+			return false;
+		}
+		if(!(sourceNode.getType() instanceof NodeTypeNode)) {
+			reportError("second argument of add(.,.,.) must be a node (source)");
+			return false;
+		}
+		if(!(targetNode.getType() instanceof NodeTypeNode)) {
+			reportError("third argument of add(.,.,.) must be a node (target)");
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new GraphAddEdgeExpr(edgeType.checkIR(EdgeType.class),
-								sourceNodeDecl.checkIR(Node.class), 
-								targetNodeDecl.checkIR(Node.class), 
+		return new GraphAddEdgeExpr(edgeType.checkIR(Expression.class),
+								sourceNode.checkIR(Expression.class), 
+								targetNode.checkIR(Expression.class), 
 								getType().getType());
 	}
 
 	@Override
 	public TypeNode getType() {
-		return edgeType;
+		return edgeType.getType();
 	}
 }

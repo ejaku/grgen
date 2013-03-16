@@ -8,16 +8,15 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 public class GraphAddEdgeExpr extends Expression {
-	private final Node sourceNode;
-	private final Node targetNode;
-	private final EdgeType edgeType;
+	private final Expression sourceNode;
+	private final Expression targetNode;
+	private final Expression edgeType;
 
-	public GraphAddEdgeExpr(EdgeType edgeType,
-			Node sourceNode,
-			Node targetNode,
+	public GraphAddEdgeExpr(Expression edgeType,
+			Expression sourceNode,
+			Expression targetNode,
 			Type type) {
 		super("graph add edge expression", type);
 		this.edgeType = edgeType;
@@ -25,25 +24,24 @@ public class GraphAddEdgeExpr extends Expression {
 		this.targetNode = targetNode;
 	}
 
-	public EdgeType getEdgeType() {
+	public Expression getEdgeTypeExpr() {
 		return edgeType;
 	}
 
-	public Node getSourceNode() {
+	public Expression getSourceNodeExpr() {
 		return sourceNode;
 	}
 
-	public Node getTargetNode() {
+	public Expression getTargetNodeExpr() {
 		return targetNode;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		if(!isGlobalVariable(sourceNode) && (sourceNode.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
-			needs.add(sourceNode);
-		if(!isGlobalVariable(targetNode) && (targetNode.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
-			needs.add(targetNode);
+		edgeType.collectNeededEntities(needs);
+		sourceNode.collectNeededEntities(needs);
+		targetNode.collectNeededEntities(needs);
 	}
 }
 

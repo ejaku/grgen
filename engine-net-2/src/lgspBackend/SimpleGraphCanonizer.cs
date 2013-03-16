@@ -274,7 +274,7 @@ namespace de.unika.ipd.grGen.lgsp
 			foreach (var curNode in graph.Nodes) {
 				Dictionary<INode, IEdgeList> neighborMap = new Dictionary<INode, IEdgeList> ();
 				foreach (var e in curNode.Incident) {
-					INode toNode = e.GetOther (curNode);
+					INode toNode = e.Opposite (curNode);
 					if (!neighborMap.ContainsKey (toNode)) {
 						neighborMap [toNode] = new IEdgeList ();
 					}

@@ -32,7 +32,7 @@ namespace de.unika.ipd.grGen.libGr
         IsVisited,
         InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
         ElementFromGraph,
-        Source, Target,
+        Source, Target, Opposite,
         GraphElementAttribute,
         ElementOfMatch,
         Nodes, Edges,
@@ -40,6 +40,10 @@ namespace de.unika.ipd.grGen.libGr
         IncidentEdges, IncomingEdges, OutgoingEdges,
         ReachableNodes, ReachableNodesViaIncoming, ReachableNodesViaOutgoing,
         ReachableEdges, ReachableEdgesViaIncoming, ReachableEdgesViaOutgoing,
+        IsAdjacentNodes, IsAdjacentNodesViaIncoming, IsAdjacentNodesViaOutgoing,
+        IsIncidentEdges, IsIncomingEdges, IsOutgoingEdges,
+        IsReachableNodes, IsReachableNodesViaIncoming, IsReachableNodesViaOutgoing,
+        IsReachableEdges, IsReachableEdgesViaIncoming, IsReachableEdgesViaOutgoing,
         InducedSubgraph, DefinedSubgraph,
         Canonize,
         VAlloc, GraphAdd, InsertInduced, InsertDefined // has side effects, but parser accepts it only in assignments
@@ -1919,6 +1923,41 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "target(" + Edge.Symbol + ")"; } }
     }
 
+    public class SequenceExpressionOpposite : SequenceExpression
+    {
+        public SequenceExpression Edge;
+        public SequenceExpression Node;
+
+        public SequenceExpressionOpposite(SequenceExpression edge, SequenceExpression node)
+            : base(SequenceExpressionType.Opposite)
+        {
+            Edge = edge;
+            Node = node;
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "Node";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionOpposite copy = (SequenceExpressionOpposite)MemberwiseClone();
+            copy.Edge = Edge.CopyExpression(originalToCopy, procEnv);
+            copy.Node = Node.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ((IEdge)Edge.Execute(procEnv)).Opposite((INode)Node.Execute(procEnv));
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Edge; yield return Node; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "opposite(" + Edge.Symbol + "," + Node.Symbol + ")"; } }
+    }
+
     public class SequenceExpressionAttributeAccess : SequenceExpression
     {
         public SequenceVariable SourceVar;
@@ -2574,6 +2613,374 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return FunctionSymbol + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionIsAdjacentIncident : SequenceExpression
+    {
+        public SequenceExpression SourceNode;
+        public SequenceExpression EndElement;
+        public SequenceExpression EdgeType;
+        public SequenceExpression OppositeNodeType;
+
+        public SequenceExpressionIsAdjacentIncident(SequenceExpression sourceNode, SequenceExpression endElement, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
+            : base(type)
+        {
+            SourceNode = sourceNode;
+            EndElement = endElement;
+            EdgeType = edgeType;
+            OppositeNodeType = oppositeNodeType;
+            if(!(type == SequenceExpressionType.IsAdjacentNodes || type == SequenceExpressionType.IsAdjacentNodesViaIncoming || type == SequenceExpressionType.IsAdjacentNodesViaOutgoing)
+                && !(type == SequenceExpressionType.IsIncidentEdges || type == SequenceExpressionType.IsIncomingEdges || type == SequenceExpressionType.IsOutgoingEdges))
+                throw new Exception("Internal failure, isAdjacent/isIncident with wrong type");
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
+                if(nodeType == null)
+                {
+                    throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
+                }
+            }
+            if(EndElement.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if(SequenceExpressionType == SequenceExpressionType.IsAdjacentNodes || SequenceExpressionType == SequenceExpressionType.IsAdjacentNodesViaIncoming || SequenceExpressionType == SequenceExpressionType.IsAdjacentNodesViaOutgoing)
+                {
+                    NodeType nodeType = TypesHelper.GetNodeType(EndElement.Type(env), env.Model);
+                    if(nodeType == null)
+                    {
+                        throw new SequenceParserException(Symbol + ", second argument", "node type", EndElement.Type(env));
+                    }
+                }
+                else
+                {
+                    EdgeType edgeType = TypesHelper.GetEdgeType(EndElement.Type(env), env.Model);
+                    if(edgeType == null)
+                    {
+                        throw new SequenceParserException(Symbol + ", second argument", "edge type", EndElement.Type(env));
+                    }
+                }
+            }
+            if(EdgeType != null && EdgeType.Type(env) != "")
+            {
+                string typeString = null;
+                if(EdgeType.Type(env) == "string")
+                {
+                    if(EdgeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
+                }
+                else
+                {
+                    typeString = EdgeType.Type(env);
+                }
+                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
+                if(edgeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", third argument", "edge type or string denoting edge type", typeString);
+                }
+            }
+            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
+            {
+                string typeString = null;
+                if(OppositeNodeType.Type(env) == "string")
+                {
+                    if(OppositeNodeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
+                }
+                else
+                {
+                    typeString = OppositeNodeType.Type(env);
+                }
+                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
+                if(nodeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", fourth argument", "node type or string denoting node type", typeString);
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionIsAdjacentIncident copy = (SequenceExpressionIsAdjacentIncident)MemberwiseClone();
+            copy.SourceNode = SourceNode.CopyExpression(originalToCopy, procEnv);
+            copy.EndElement = EndElement.CopyExpression(originalToCopy, procEnv);
+            if(EdgeType != null) copy.EdgeType = EdgeType.CopyExpression(originalToCopy, procEnv);
+            if(OppositeNodeType!=null)copy.OppositeNodeType = OppositeNodeType.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
+            IGraphElement endElement = (IGraphElement)EndElement.Evaluate(procEnv);
+            EdgeType edgeType = null;
+            if(EdgeType != null)
+            {
+                object tmp = EdgeType.Evaluate(procEnv);
+                if(tmp is string) edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
+                else if(tmp is EdgeType) edgeType = (EdgeType)tmp;
+                if(edgeType == null) throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
+            }
+            else
+            {
+                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
+            }
+            NodeType nodeType = null;
+            if(OppositeNodeType != null)
+            {
+                object tmp = OppositeNodeType.Evaluate(procEnv);
+                if(tmp is string) nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
+                else if(tmp is NodeType) nodeType = (NodeType)tmp;
+                if(nodeType == null) throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
+            }
+            else
+            {
+                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            }
+
+            switch(SequenceExpressionType)
+            {
+                case SequenceExpressionType.IsAdjacentNodes:
+                    return GraphHelper.IsAdjacent(sourceNode, (INode)endElement, edgeType, nodeType);
+                case SequenceExpressionType.IsAdjacentNodesViaIncoming:
+                    return GraphHelper.IsAdjacentIncoming(sourceNode, (INode)endElement, edgeType, nodeType);
+                case SequenceExpressionType.IsAdjacentNodesViaOutgoing:
+                    return GraphHelper.IsAdjacentOutgoing(sourceNode, (INode)endElement, edgeType, nodeType);
+                case SequenceExpressionType.IsIncidentEdges:
+                    return GraphHelper.IsIncident(sourceNode, (IEdge)endElement, edgeType, nodeType);
+                case SequenceExpressionType.IsIncomingEdges:
+                    return GraphHelper.IsIncoming(sourceNode, (IEdge)endElement, edgeType, nodeType);
+                case SequenceExpressionType.IsOutgoingEdges:
+                    return GraphHelper.IsOutgoing(sourceNode, (IEdge)endElement, edgeType, nodeType);
+                default:
+                    return null; // internal failure
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            SourceNode.GetLocalVariables(variables, containerConstructors);
+            EndElement.GetLocalVariables(variables, containerConstructors);
+            if(EdgeType != null) EdgeType.GetLocalVariables(variables, containerConstructors);
+            if(OppositeNodeType != null) OppositeNodeType.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return SourceNode; yield return EndElement; if(EdgeType != null) yield return EdgeType; if(OppositeNodeType != null) yield return OppositeNodeType; } }
+        public override int Precedence { get { return 8; } }
+        public string FunctionSymbol
+        {
+            get
+            {
+                switch(SequenceExpressionType)
+                {
+                case SequenceExpressionType.IsAdjacentNodes: return "isAdjacent";
+                case SequenceExpressionType.IsAdjacentNodesViaIncoming: return "isAdjacentIncoming";
+                case SequenceExpressionType.IsAdjacentNodesViaOutgoing: return "isAdjacentOutgoing";
+                case SequenceExpressionType.IsIncidentEdges: return "isIncident";
+                case SequenceExpressionType.IsIncomingEdges: return "isIncoming";
+                case SequenceExpressionType.IsOutgoingEdges: return "isOutgoing";
+                default: return "INTERNAL FAILURE!";
+                }
+            }
+        }
+        public override string Symbol
+        {
+            get { return FunctionSymbol + SourceNode.Symbol + "," + EndElement.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionIsReachable : SequenceExpression
+    {
+        public SequenceExpression SourceNode;
+        public SequenceExpression EndElement;
+        public SequenceExpression EdgeType;
+        public SequenceExpression OppositeNodeType;
+
+        public SequenceExpressionIsReachable(SequenceExpression sourceNode, SequenceExpression endElement, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
+            : base(type)
+        {
+            SourceNode = sourceNode;
+            EndElement = endElement;
+            EdgeType = edgeType;
+            OppositeNodeType = oppositeNodeType;
+            if(!(type == SequenceExpressionType.IsReachableNodes || type == SequenceExpressionType.IsReachableNodesViaIncoming || type == SequenceExpressionType.IsReachableNodesViaOutgoing)
+                && !(type == SequenceExpressionType.IsReachableEdges || type == SequenceExpressionType.IsReachableEdgesViaIncoming || type == SequenceExpressionType.IsReachableEdgesViaOutgoing))
+                throw new Exception("Internal failure, reachable with wrong type");
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
+                if(nodeType == null)
+                {
+                    throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
+                }
+            }
+            if(EndElement.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if(SequenceExpressionType == SequenceExpressionType.IsReachableNodes || SequenceExpressionType == SequenceExpressionType.IsReachableNodesViaIncoming || SequenceExpressionType == SequenceExpressionType.IsReachableNodesViaOutgoing)
+                {
+                    NodeType nodeType = TypesHelper.GetNodeType(EndElement.Type(env), env.Model);
+                    if(nodeType == null)
+                    {
+                        throw new SequenceParserException(Symbol + ", second argument", "node type", EndElement.Type(env));
+                    }
+                }
+                else
+                {
+                    EdgeType edgeType = TypesHelper.GetEdgeType(EndElement.Type(env), env.Model);
+                    if(edgeType == null)
+                    {
+                        throw new SequenceParserException(Symbol + ", second argument", "edge type", EndElement.Type(env));
+                    }
+                }
+            }
+            if(EdgeType != null && EdgeType.Type(env) != "")
+            {
+                string typeString = null;
+                if(EdgeType.Type(env) == "string")
+                {
+                    if(EdgeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
+                }
+                else
+                {
+                    typeString = EdgeType.Type(env);
+                }
+                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
+                if(edgeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", third argument", "edge type or string denoting edge type", typeString);
+                }
+            }
+            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
+            {
+                string typeString = null;
+                if(OppositeNodeType.Type(env) == "string")
+                {
+                    if(OppositeNodeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
+                }
+                else
+                {
+                    typeString = OppositeNodeType.Type(env);
+                }
+                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
+                if(nodeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", fourth argument", "node type or string denoting node type", typeString);
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionIsAdjacentIncident copy = (SequenceExpressionIsAdjacentIncident)MemberwiseClone();
+            copy.SourceNode = SourceNode.CopyExpression(originalToCopy, procEnv);
+            copy.EndElement = EndElement.CopyExpression(originalToCopy, procEnv);
+            if(EdgeType != null) copy.EdgeType = EdgeType.CopyExpression(originalToCopy, procEnv);
+            if(OppositeNodeType!=null)copy.OppositeNodeType = OppositeNodeType.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
+            IGraphElement endElement = (IGraphElement)EndElement.Evaluate(procEnv);
+            EdgeType edgeType = null;
+            if(EdgeType != null)
+            {
+                object tmp = EdgeType.Evaluate(procEnv);
+                if(tmp is string) edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
+                else if(tmp is EdgeType) edgeType = (EdgeType)tmp;
+                if(edgeType == null) throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
+            }
+            else
+            {
+                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
+            }
+            NodeType nodeType = null;
+            if(OppositeNodeType != null)
+            {
+                object tmp = OppositeNodeType.Evaluate(procEnv);
+                if(tmp is string) nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
+                else if(tmp is NodeType) nodeType = (NodeType)tmp;
+                if(nodeType == null) throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
+            }
+            else
+            {
+                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            }
+
+            switch(SequenceExpressionType)
+            {
+                case SequenceExpressionType.IsReachableNodes:
+                    return GraphHelper.IsReachable(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
+                case SequenceExpressionType.IsReachableNodesViaIncoming:
+                    return GraphHelper.IsReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
+                case SequenceExpressionType.IsReachableNodesViaOutgoing:
+                    return GraphHelper.IsReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
+                case SequenceExpressionType.IsReachableEdges:
+                    return GraphHelper.IsReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
+                case SequenceExpressionType.IsReachableEdgesViaIncoming:
+                    return GraphHelper.IsReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
+                case SequenceExpressionType.IsReachableEdgesViaOutgoing:
+                    return GraphHelper.IsReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
+                default:
+                    return null; // internal failure
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            SourceNode.GetLocalVariables(variables, containerConstructors);
+            EndElement.GetLocalVariables(variables, containerConstructors);
+            if(EdgeType != null) EdgeType.GetLocalVariables(variables, containerConstructors);
+            if(OppositeNodeType != null) OppositeNodeType.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return SourceNode; yield return EndElement; if(EdgeType != null) yield return EdgeType; if(OppositeNodeType != null) yield return OppositeNodeType; } }
+        public override int Precedence { get { return 8; } }
+        public string FunctionSymbol
+        {
+            get
+            {
+                switch(SequenceExpressionType)
+                {
+                case SequenceExpressionType.IsReachableNodes: return "isReachable";
+                case SequenceExpressionType.IsReachableNodesViaIncoming: return "isReachableIncoming";
+                case SequenceExpressionType.IsReachableNodesViaOutgoing: return "isReachableOutgoing";
+                case SequenceExpressionType.IsReachableEdges: return "isReachableEdges";
+                case SequenceExpressionType.IsReachableEdgesViaIncoming: return "isReachableEdgesIncoming";
+                case SequenceExpressionType.IsReachableEdgesViaOutgoing: return "isReachableEdgesOutgoing";
+                default: return "INTERNAL FAILURE!";
+                }
+            }
+        }
+        public override string Symbol
+        {
+            get { return FunctionSymbol + SourceNode.Symbol + "," + EndElement.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
         }
     }
 

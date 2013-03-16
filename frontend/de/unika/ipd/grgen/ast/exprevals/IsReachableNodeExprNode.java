@@ -11,13 +11,9 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.IsReachableNodeExpr;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -28,45 +24,41 @@ public class IsReachableNodeExprNode extends ExprNode {
 		setName(IsReachableNodeExprNode.class, "is reachable node expr");
 	}
 
-	private IdentNode startNodeUnresolved;
-	private IdentNode endNodeUnresolved;
-	private IdentNode incidentTypeUnresolved;
-	private IdentNode adjacentTypeUnresolved;
+	private ExprNode startNodeExpr;
+	private ExprNode endNodeExpr;
+	private ExprNode incidentTypeExpr;
+	private ExprNode adjacentTypeExpr;
 
-	private NodeDeclNode startNodeDecl;
-	private NodeDeclNode endNodeDecl;
-	private EdgeTypeNode incidentType;
 	private int direction;
-	private NodeTypeNode adjacentType;
 	
 	public static final int ADJACENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
 	
 	public IsReachableNodeExprNode(Coords coords, 
-			IdentNode startNode, IdentNode endNode,
-			IdentNode incidentType, int direction,
-			IdentNode adjacentType) {
+			ExprNode startNodeExpr, ExprNode endNodeExpr,
+			ExprNode incidentTypeExpr, int direction,
+			ExprNode adjacentTypeExpr) {
 		super(coords);
-		this.startNodeUnresolved = startNode;
-		becomeParent(this.startNodeUnresolved);
-		this.endNodeUnresolved = endNode;
-		becomeParent(this.endNodeUnresolved);
-		this.incidentTypeUnresolved = incidentType;
-		becomeParent(this.incidentTypeUnresolved);
+		this.startNodeExpr = startNodeExpr;
+		becomeParent(this.startNodeExpr);
+		this.endNodeExpr = endNodeExpr;
+		becomeParent(this.endNodeExpr);
+		this.incidentTypeExpr = incidentTypeExpr;
+		becomeParent(this.incidentTypeExpr);
 		this.direction = direction;
-		this.adjacentTypeUnresolved = adjacentType;
-		becomeParent(this.adjacentTypeUnresolved);
+		this.adjacentTypeExpr = adjacentTypeExpr;
+		becomeParent(this.adjacentTypeExpr);
 	}
 
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(startNodeUnresolved, startNodeDecl));
-		children.add(getValidVersion(endNodeUnresolved, endNodeDecl));
-		children.add(getValidVersion(incidentTypeUnresolved, incidentType));
-		children.add(getValidVersion(adjacentTypeUnresolved, adjacentType));
+		children.add(startNodeExpr);
+		children.add(endNodeExpr);
+		children.add(incidentTypeExpr);
+		children.add(adjacentTypeExpr);
 		return children;
 	}
 
@@ -74,60 +66,53 @@ public class IsReachableNodeExprNode extends ExprNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("start node");
-		childrenNames.add("end node");
-		childrenNames.add("incident type");
-		childrenNames.add("adjacent type");
+		childrenNames.add("start node expr");
+		childrenNames.add("end node expr");
+		childrenNames.add("incident type expr");
+		childrenNames.add("adjacent type expr");
 		return childrenNames;
 	}
-
-	private static final DeclarationResolver<NodeDeclNode> nodeResolver =
-		new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
-	private static final DeclarationTypeResolver<EdgeTypeNode> edgeTypeResolver =
-		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
-	private static final DeclarationTypeResolver<NodeTypeNode> nodeTypeResolver =
-		new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		startNodeDecl = nodeResolver.resolve(startNodeUnresolved, this);
-		endNodeDecl = nodeResolver.resolve(endNodeUnresolved, this);
-		incidentType = edgeTypeResolver.resolve(incidentTypeUnresolved, this);
-		adjacentType = nodeTypeResolver.resolve(adjacentTypeUnresolved, this);
-		return startNodeDecl!=null && endNodeDecl!=null && incidentType!=null && adjacentType!=null && getType().resolve();
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
+		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
+			reportError("first argument of isReachableNode(.,.,.,.) must be a node");
+			return false;
+		}
+		if(!(endNodeExpr.getType() instanceof NodeTypeNode)) {
+			reportError("second argument of isReachableNode(.,.,.,.) must be a node");
+			return false;
+		}
+		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
+			reportError("third argument of isReachableNode(.,.,.,.) must be an edge type");
+			return false;
+		}
+		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
+			reportError("fourth argument of isReachableNode(.,.,.,.) must be a node type");
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
-		return new IsReachableNodeExpr(startNodeDecl.checkIR(Node.class),
-								endNodeDecl.checkIR(Node.class), 
-								incidentType.checkIR(EdgeType.class), direction,
-								adjacentType.checkIR(NodeType.class),
+		return new IsReachableNodeExpr(startNodeExpr.checkIR(Expression.class),
+								endNodeExpr.checkIR(Expression.class), 
+								incidentTypeExpr.checkIR(Expression.class), direction,
+								adjacentTypeExpr.checkIR(Expression.class),
 								getType().getType());
 	}
 
 	@Override
 	public TypeNode getType() {
 		return BooleanTypeNode.booleanType;
-	}
-	
-	public boolean noDefElementInCondition() {
-		if(startNodeDecl.defEntityToBeYieldedTo) {
-			startNodeDecl.reportError("A def entity ("+startNodeDecl+") can't be accessed from an if");
-			return false;
-		}
-		if(endNodeDecl.defEntityToBeYieldedTo) {
-			endNodeDecl.reportError("A def entity ("+endNodeDecl+") can't be accessed from an if");
-			return false;
-		}
-		return true;
 	}
 }

@@ -12,10 +12,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.*;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.EdgesExpr;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -26,21 +25,19 @@ public class EdgesExprNode extends ExprNode {
 		setName(EdgesExprNode.class, "edges expr");
 	}
 
-	private IdentNode edgeTypeUnresolved;
-
-	private EdgeTypeNode edgeType;
+	private ExprNode edgeType;
 	
-	public EdgesExprNode(Coords coords, IdentNode edgeType) {
+	public EdgesExprNode(Coords coords, ExprNode edgeType) {
 		super(coords);
-		this.edgeTypeUnresolved = edgeType;
-		becomeParent(this.edgeTypeUnresolved);
+		this.edgeType = edgeType;
+		becomeParent(this.edgeType);
 	}
 
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(edgeTypeUnresolved, edgeType));
+		children.add(edgeType);
 		return children;
 	}
 
@@ -52,29 +49,29 @@ public class EdgesExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<EdgeTypeNode> edgeTypeResolver =
-		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		edgeType = edgeTypeResolver.resolve(edgeTypeUnresolved, this);
-		return edgeType!=null && getType().resolve();
+		return getType().resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
+		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
+			reportError("argument of edges(.) must be an edge type");
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new EdgesExpr(edgeType.checkIR(EdgeType.class), getType().getType());
+		return new EdgesExpr(edgeType.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(edgeTypeUnresolved);
+		return SetTypeNode.getSetType(((DeclaredTypeNode)edgeType.getType()).getIdentNode());
 	}	
 }

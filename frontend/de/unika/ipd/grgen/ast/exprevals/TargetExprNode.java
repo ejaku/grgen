@@ -11,11 +11,10 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.SourceExpr;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.exprevals.TargetExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -26,16 +25,15 @@ public class TargetExprNode extends ExprNode {
 		setName(TargetExprNode.class, "target expr");
 	}
 
-	private IdentNode edgeUnresolved;
-	private IdentNode nodeTypeUnresolved;
+	private ExprNode edge;
 
-	private EdgeDeclNode edgeDecl;
+	private IdentNode nodeTypeUnresolved;
 	private NodeTypeNode nodeType;
 	
-	public TargetExprNode(Coords coords, IdentNode edge, IdentNode nodeType) {
+	public TargetExprNode(Coords coords, ExprNode edge, IdentNode nodeType) {
 		super(coords);
-		this.edgeUnresolved = edge;
-		becomeParent(this.edgeUnresolved);
+		this.edge = edge;
+		becomeParent(this.edge);
 		this.nodeTypeUnresolved = nodeType;
 		becomeParent(this.nodeTypeUnresolved);
 	}
@@ -44,7 +42,7 @@ public class TargetExprNode extends ExprNode {
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(edgeUnresolved, edgeDecl));
+		children.add(edge);
 		children.add(getValidVersion(nodeTypeUnresolved, nodeType));
 		return children;
 	}
@@ -58,40 +56,33 @@ public class TargetExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<EdgeDeclNode> edgeResolver =
-		new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
 	private static final DeclarationTypeResolver<NodeTypeNode> nodeTypeResolver =
 		new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		edgeDecl = edgeResolver.resolve(edgeUnresolved, this);
 		nodeType = nodeTypeResolver.resolve(nodeTypeUnresolved, this);
-		return edgeDecl!=null && nodeType!=null && getType().resolve();
+		return nodeType!=null && getType().resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
+		if(!(edge.getType() instanceof EdgeTypeNode)) {
+			reportError("argument of target(.) must be an edge type");
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new SourceExpr(edgeDecl.checkIR(Edge.class), getType().getType());
+		return new TargetExpr(edge.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
 	public TypeNode getType() {
 		return nodeType;
-	}
-	
-	public boolean noDefElementInCondition() {
-		if(edgeDecl.defEntityToBeYieldedTo) {
-			edgeDecl.reportError("A def entity ("+edgeDecl+") can't be accessed from an if");
-			return false;
-		}
-		return true;
 	}
 }

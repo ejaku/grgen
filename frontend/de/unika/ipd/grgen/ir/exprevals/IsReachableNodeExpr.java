@@ -8,57 +8,56 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 public class IsReachableNodeExpr extends Expression {
-	private final Node startNode;
-	private final Node endNode;
-	private final EdgeType incidentEdgeType;
+	private final Expression startNodeExpr;
+	private final Expression endNodeExpr;
+	private final Expression incidentEdgeTypeExpr;
 	private final int direction;
-	private final NodeType adjacentNodeType;
+	private final Expression adjacentNodeTypeExpr;
 
 	public static final int ADJACENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
 
-	public IsReachableNodeExpr(Node startNode, Node endNode,
-			EdgeType incidentEdgeType, int direction,
-			NodeType adjacentNodeType, Type type) {
-		super("reachable node expression", type);
-		this.startNode = startNode;
-		this.endNode = endNode;
-		this.incidentEdgeType = incidentEdgeType;
+	public IsReachableNodeExpr(Expression startNodeExpression, Expression endNodeExpression,
+			Expression incidentEdgeTypeExpr, int direction,
+			Expression adjacentNodeTypeExpr, Type type) {
+		super("is reachable node expression", type);
+		this.startNodeExpr = startNodeExpression;
+		this.endNodeExpr = endNodeExpression;
+		this.incidentEdgeTypeExpr = incidentEdgeTypeExpr;
 		this.direction = direction;
-		this.adjacentNodeType = adjacentNodeType;
+		this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
 	}
 
-	public Node getStartNode() {
-		return startNode;
+	public Expression getStartNodeExpr() {
+		return startNodeExpr;
 	}
 
-	public Node getEndNode() {
-		return endNode;
+	public Expression getEndNodeExpr() {
+		return endNodeExpr;
 	}
 
-	public EdgeType getIncidentEdgeType() {
-		return incidentEdgeType;
+	public Expression getIncidentEdgeTypeExpr() {
+		return incidentEdgeTypeExpr;
 	}
 
 	public int Direction() {
 		return direction;
 	}
 
-	public NodeType getAdjacentNodeType() {
-		return adjacentNodeType;
+	public Expression getAdjacentNodeTypeExpr() {
+		return adjacentNodeTypeExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		if(!isGlobalVariable(startNode) && (startNode.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
-			needs.add(startNode);
-		if(!isGlobalVariable(endNode) && (endNode.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
-			needs.add(endNode);
+		startNodeExpr.collectNeededEntities(needs);
+		endNodeExpr.collectNeededEntities(needs);
+		incidentEdgeTypeExpr.collectNeededEntities(needs);
+		adjacentNodeTypeExpr.collectNeededEntities(needs);
 	}
 }
 

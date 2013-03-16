@@ -11,10 +11,9 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.GraphAddNodeExpr;
-import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -25,21 +24,19 @@ public class GraphAddNodeExprNode extends ExprNode {
 		setName(GraphAddNodeExprNode.class, "graph add node expr");
 	}
 
-	private IdentNode nodeTypeUnresolved;
-	private NodeTypeNode nodeType;
+	private ExprNode nodeType;
 	
-	
-	public GraphAddNodeExprNode(Coords coords, IdentNode adjacentType) {
+	public GraphAddNodeExprNode(Coords coords, ExprNode nodeType) {
 		super(coords);
-		this.nodeTypeUnresolved = adjacentType;
-		becomeParent(this.nodeTypeUnresolved);
+		this.nodeType = nodeType;
+		becomeParent(this.nodeType);
 	}
 
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(nodeTypeUnresolved, nodeType));
+		children.add(nodeType);
 		return children;
 	}
 
@@ -51,30 +48,30 @@ public class GraphAddNodeExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<NodeTypeNode> nodeTypeResolver =
-		new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		nodeType = nodeTypeResolver.resolve(nodeTypeUnresolved, this);
-		return nodeType!=null && getType().resolve();
+		return getType().resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
+		if(!(nodeType.getType() instanceof NodeTypeNode)) {
+			reportError("argument of add(.) must be a node type");
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new GraphAddNodeExpr(nodeType.checkIR(NodeType.class),
+		return new GraphAddNodeExpr(nodeType.checkIR(Expression.class),
 								getType().getType());
 	}
 
 	@Override
 	public TypeNode getType() {
-		return nodeType;
+		return nodeType.getType();
 	}
 }

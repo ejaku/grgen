@@ -166,7 +166,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <remarks>If the given node is not the source, the source will be returned.</remarks>
         /// <param name="sourceOrTarget">One node of this edge.</param>
         /// <returns>The other node of this edge.</returns>
-        INode GetOther(INode sourceOrTarget);
+        INode Opposite(INode sourceOrTarget);
 
         /// <summary>
         /// Creates a copy of this edge.

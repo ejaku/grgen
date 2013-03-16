@@ -1,0 +1,44 @@
+::g_n:Node;
+-::g_e:Edge->;
+::g_m:Node;
+
+rule t
+{
+	n:Node -e:Edge-> m:Node;
+	
+	if { reachableEdges(::g_n).size()!=0 && reachableEdgesIncoming(::g_n).size()!=0 && reachableEdgesOutgoing(::g_n).size()!=0; }
+	if { reachableEdges(n).size()!=0 && reachableEdgesIncoming(n).size()!=0 && reachableEdgesOutgoing(n).size()!=0; }
+	if { reachable(::g_n).size()!=0 && reachableIncoming(::g_n).size()!=0 && reachableOutgoing(::g_n).size()!=0; }
+	if { reachable(n).size()!=0 && reachableIncoming(n).size()!=0 && reachableOutgoing(n).size()!=0; }
+
+	if { isReachable(::g_n, ::g_m) && isReachableIncoming(::g_n, ::g_m) && isReachableOutgoing(::g_n, ::g_m); }
+	if { isReachable(n, m) && isReachableIncoming(n, m) && isReachableOutgoing(n, m); }
+	if { isReachableEdges(::g_n, ::g_e) && isReachableEdgesIncoming(::g_n, ::g_e) && isReachableEdgesOutgoing(::g_n, ::g_e); }
+	if { isReachableEdges(n, e) && isReachableEdgesIncoming(n, e) && isReachableEdgesOutgoing(n, e); }
+	
+	modify {
+		def var res:boolean;
+		
+		eval { yield res = reachableEdges(::g_n).size()!=0 && reachableEdgesIncoming(::g_n).size()!=0 && reachableEdgesOutgoing(::g_n).size()!=0; }
+		eval { yield res = reachableEdges(n).size()!=0 && reachableEdgesIncoming(n).size()!=0 && reachableEdgesOutgoing(n).size()!=0; }
+		eval { yield res = reachable(::g_n).size()!=0 && reachableIncoming(::g_n).size()!=0 && reachableOutgoing(::g_n).size()!=0; }
+		eval { yield res = reachable(n).size()!=0 && reachableIncoming(n).size()!=0 && reachableOutgoing(n).size()!=0; }
+
+		eval { yield res = isReachable(::g_n, ::g_m) && isReachableIncoming(::g_n, ::g_m) && isReachableOutgoing(::g_n, ::g_m); }
+		eval { yield res = isReachable(n, m) && isReachableIncoming(n, m) && isReachableOutgoing(n, m); }
+		eval { yield res = isReachableEdges(::g_n, ::g_e) && isReachableEdgesIncoming(::g_n, ::g_e) && isReachableEdgesOutgoing(::g_n, ::g_e); }
+		eval { yield res = isReachableEdges(n, e) && isReachableEdgesIncoming(n, e) && isReachableEdgesOutgoing(n, e); }
+	
+/*
+		exec ( { res = reachableEdges(::g_n).size()!=0 && reachableEdgesIncoming(::g_n).size()!=0 && reachableEdgesOutgoing(::g_n).size()!=0; } )
+		exec ( { res = reachableEdges(n).size()!=0 && reachableEdgesIncoming(n).size()!=0 && reachableEdgesOutgoing(n).size()!=0; } )
+		exec ( { res = reachable(::g_n).size()!=0 && reachableIncoming(::g_n).size()!=0 && reachableOutgoing(::g_n).size()!=0; } )
+		exec ( { res = reachable(n).size()!=0 && reachableIncoming(n).size()!=0 && reachableOutgoing(n).size()!=0; } )
+
+		exec ( { res = isReachable(::g_n, ::g_m) && isReachableIncoming(::g_n, ::g_m) && isReachableOutgoing(::g_n, ::g_m); } )
+		exec ( { res = isReachable(n, m) && isReachableIncoming(n, m) && isReachableOutgoing(n, m); } )
+		exec { { res = isReachableEdges(::g_n, ::g_e) && isReachableEdgesIncoming(::g_n, ::g_e) && isReachableEdgesOutgoing(::g_n, ::g_e); } )
+		exec { { res = isReachableEdges(n, e) && isReachableEdgesIncoming(n, e) && isReachableEdgesOutgoing(n, e); } )
+*/
+	}
+}

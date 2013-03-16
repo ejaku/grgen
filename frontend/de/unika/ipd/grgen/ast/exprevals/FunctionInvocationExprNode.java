@@ -149,14 +149,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 			else {
-				if(params.size() == 1) {
-					if(!(params.get(0) instanceof IdentExprNode)) {
-						reportError("parameter of " + functionName + "() must be a node type (identifier)");
-						return false;
-					}
-				}
-				IdentNode nodeType = params.size() == 1 ? ((IdentExprNode)params.get(0)).getIdent() : env.getNodeRoot();
-				result = new NodesExprNode(getCoords(), nodeType);
+				result = new NodesExprNode(getCoords(), params.size()==1 ? params.get(0) : new IdentExprNode(env.getNodeRoot()));
 			}
 		}
 		else if(functionName.equals("edges")) {
@@ -165,23 +158,12 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 			else {
-				if(params.size() == 1) {
-					if(!(params.get(0) instanceof IdentExprNode)) {
-						reportError("parameter of " + functionName + "() must be an edge type (identifier)");
-						return false;
-					}
-				}
-				IdentNode edgeType = params.size() == 1 ? ((IdentExprNode)params.get(0)).getIdent() : env.getDirectedEdgeRoot();
-				result = new EdgesExprNode(getCoords(), edgeType);
+				result = new EdgesExprNode(getCoords(), params.size()==1 ? params.get(0) : new IdentExprNode(env.getDirectedEdgeRoot()));
 			}
 		}
 		else if(functionName.equals("source")) {			
 			if(params.size() == 1) {
-				if(!(params.get(0) instanceof IdentExprNode)) {
-					reportError("parameter of " + functionName + "() must be a graph entity (identifier)");
-					return false;
-				}
-				result = new SourceExprNode(getCoords(), ((IdentExprNode)params.get(0)).getIdent(), env.getNodeRoot());
+				result = new SourceExprNode(getCoords(), params.get(0), env.getNodeRoot());
 			}
 			else {
 				reportError(functionName + "() takes 1 parameter.");
@@ -190,14 +172,19 @@ public class FunctionInvocationExprNode extends ExprNode
 		}
 		else if(functionName.equals("target")) {			
 			if(params.size() == 1) {
-				if(!(params.get(0) instanceof IdentExprNode)) {
-					reportError("parameter of " + functionName + "() must be a graph entity (identifier)");
-					return false;
-				}
-				result = new TargetExprNode(getCoords(), ((IdentExprNode)params.get(0)).getIdent(), env.getNodeRoot());
+				result = new TargetExprNode(getCoords(), params.get(0), env.getNodeRoot());
 			}
 			else {
 				reportError(functionName + "() takes 1 parameter.");
+				return false;
+			}
+		}
+		else if(functionName.equals("opposite")) {			
+			if(params.size() == 2) {
+				result = new OppositeExprNode(getCoords(), params.get(0), params.get(1), env.getNodeRoot());
+			}
+			else {
+				reportError(functionName + "() takes 2 parameters.");
 				return false;
 			}
 		}
@@ -212,40 +199,14 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = IncidentEdgeExprNode.INCIDENT;
 			
-			IdentNode first = null;
-			IdentNode second = null;
-			IdentNode third = null;
-			if(params.size() >= 1) {
-				if(!(params.get(0) instanceof IdentExprNode)) {
-					reportError("first parameter of " + functionName + "() must be a graph entity (identifier)");
-					return false;
-				}
-				first = ((IdentExprNode)params.get(0)).getIdent();
-
-				if(params.size() >= 2) {
-					if(!(params.get(1) instanceof IdentExprNode)) {
-						reportError("second parameter of " + functionName + "() must be an edge type (identifier)");
-						return false;
-					}
-					second = ((IdentExprNode)params.get(1)).getIdent();
-
-					if(params.size() >= 3) {
-						if(!(params.get(2) instanceof IdentExprNode)) {
-							reportError("third parameter of " + functionName + "() must be a node type (identifier)");
-							return false;
-						}
-						third = ((IdentExprNode)params.get(2)).getIdent();
-					}
-				}
-			}
 			if(params.size() == 1) {
-				result = new IncidentEdgeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
+				result = new IncidentEdgeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 2) {
-				result = new IncidentEdgeExprNode(getCoords(), first, second, direction, env.getNodeRoot());
+				result = new IncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
-				result = new IncidentEdgeExprNode(getCoords(), first, second, direction, third);
+				result = new IncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), direction, params.get(2));
 			}
 			else {
 				reportError(functionName + "() takes 1-3 parameters.");
@@ -263,43 +224,67 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = AdjacentNodeExprNode.ADJACENT;
 			
-			IdentNode first = null;
-			IdentNode second = null;
-			IdentNode third = null;
-			if(params.size() >= 1) {
-				if(!(params.get(0) instanceof IdentExprNode)) {
-					reportError("first parameter of " + functionName + "() must be a graph entity (identifier)");
-					return false;
-				}
-				first = ((IdentExprNode)params.get(0)).getIdent();
-
-				if(params.size() >= 2) {
-					if(!(params.get(1) instanceof IdentExprNode)) {
-						reportError("second parameter of " + functionName + "() must be an edge type (identifier)");
-						return false;
-					}
-					second = ((IdentExprNode)params.get(1)).getIdent();
-
-					if(params.size() >= 3) {
-						if(!(params.get(2) instanceof IdentExprNode)) {
-							reportError("third parameter of " + functionName + "() must be a node type (identifier)");
-							return false;
-						}
-						third = ((IdentExprNode)params.get(2)).getIdent();
-					}
-				}
-			}
 			if(params.size() == 1) {
-				result = new AdjacentNodeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
+				result = new AdjacentNodeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 2) {
-				result = new AdjacentNodeExprNode(getCoords(), first, second, direction, env.getNodeRoot());
+				result = new AdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
-				result = new AdjacentNodeExprNode(getCoords(), first, second, direction, third);
+				result = new AdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), direction, params.get(2));
 			}
 			else {
 				reportError(functionName + "() takes 1-3 parameters.");
+				return false;
+			}
+		}
+		else if(functionName.equals("isIncoming")
+				|| functionName.equals("isOutgoing")
+				|| functionName.equals("isIncident")) {
+			int direction;
+			if(functionName.equals("isIncoming"))
+				direction = IsIncidentEdgeExprNode.INCOMING;
+			else if(functionName.equals("isOutgoing"))
+				direction = IsIncidentEdgeExprNode.OUTGOING;
+			else
+				direction = IsIncidentEdgeExprNode.INCIDENT;
+			
+			if(params.size() == 2) {
+				result = new IsIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+			}
+			else if(params.size() == 3) {
+				result = new IsIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
+			}
+			else if(params.size() == 4) {
+				result = new IsIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, params.get(3));
+			}
+			else {
+				reportError(functionName + "() takes 2-4 parameters.");
+				return false;
+			}
+		}
+		else if(functionName.equals("isAdjacentIncoming")
+				|| functionName.equals("isAdjacentOutgoing")
+				|| functionName.equals("isAdjacent")) {
+			int direction;
+			if(functionName.equals("isReachableEdgesIncoming"))
+				direction = IsAdjacentNodeExprNode.INCOMING;
+			else if(functionName.equals("isReachableEdgesOutgoing"))
+				direction = IsAdjacentNodeExprNode.OUTGOING;
+			else
+				direction = IsAdjacentNodeExprNode.ADJACENT;
+			
+			if(params.size() == 2) {
+				result = new IsAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+			}
+			else if(params.size() == 3) {
+				result = new IsAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
+			}
+			else if(params.size() == 4) {
+				result = new IsAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, params.get(3));
+			}
+			else {
+				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
 			}
 		}
@@ -314,40 +299,14 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = ReachableEdgeExprNode.INCIDENT;
 			
-			IdentNode first = null;
-			IdentNode second = null;
-			IdentNode third = null;
-			if(params.size() >= 1) {
-				if(!(params.get(0) instanceof IdentExprNode)) {
-					reportError("first parameter of " + functionName + "() must be a graph entity (identifier)");
-					return false;
-				}
-				first = ((IdentExprNode)params.get(0)).getIdent();
-
-				if(params.size() >= 2) {
-					if(!(params.get(1) instanceof IdentExprNode)) {
-						reportError("second parameter of " + functionName + "() must be an edge type (identifier)");
-						return false;
-					}
-					second = ((IdentExprNode)params.get(1)).getIdent();
-
-					if(params.size() >= 3) {
-						if(!(params.get(2) instanceof IdentExprNode)) {
-							reportError("third parameter of " + functionName + "() must be a node type (identifier)");
-							return false;
-						}
-						third = ((IdentExprNode)params.get(2)).getIdent();
-					}
-				}
-			}
 			if(params.size() == 1) {
-				result = new ReachableEdgeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
+				result = new ReachableEdgeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 2) {
-				result = new ReachableEdgeExprNode(getCoords(), first, second, direction, env.getNodeRoot());
+				result = new ReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
-				result = new ReachableEdgeExprNode(getCoords(), first, second, direction, third);
+				result = new ReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), direction, params.get(2));
 			}
 			else {
 				reportError(functionName + "() takes 1-3 parameters.");
@@ -364,41 +323,15 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = ReachableNodeExprNode.OUTGOING;
 			else
 				direction = ReachableNodeExprNode.ADJACENT;
-			
-			IdentNode first = null;
-			IdentNode second = null;
-			IdentNode third = null;
-			if(params.size() >= 1) {
-				if(!(params.get(0) instanceof IdentExprNode)) {
-					reportError("first parameter of " + functionName + "() must be a graph entity (identifier)");
-					return false;
-				}
-				first = ((IdentExprNode)params.get(0)).getIdent();
 
-				if(params.size() >= 2) {
-					if(!(params.get(1) instanceof IdentExprNode)) {
-						reportError("second parameter of " + functionName + "() must be an edge type (identifier)");
-						return false;
-					}
-					second = ((IdentExprNode)params.get(1)).getIdent();
-
-					if(params.size() >= 3) {
-						if(!(params.get(2) instanceof IdentExprNode)) {
-							reportError("third parameter of " + functionName + "() must be a node type (identifier)");
-							return false;
-						}
-						third = ((IdentExprNode)params.get(2)).getIdent();
-					}
-				}
-			}
 			if(params.size() == 1) {
-				result = new ReachableNodeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
+				result = new ReachableNodeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 2) {
-				result = new ReachableNodeExprNode(getCoords(), first, second, direction, env.getNodeRoot());
+				result = new ReachableNodeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
-				result = new ReachableNodeExprNode(getCoords(), first, second, direction, third);
+				result = new ReachableNodeExprNode(getCoords(), params.get(0), params.get(1), direction, params.get(2));
 			}
 			else {
 				reportError(functionName + "() takes 1-3 parameters.");
@@ -416,47 +349,39 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = IsReachableNodeExprNode.ADJACENT;
 			
-			IdentNode first = null;
-			IdentNode second = null;
-			IdentNode third = null;
-			IdentNode fourth = null;
-			if(params.size() >= 2) {
-				if(!(params.get(0) instanceof IdentExprNode)) {
-					reportError("first parameter of " + functionName + "() must be a graph entity (identifier)");
-					return false;
-				}
-				first = ((IdentExprNode)params.get(0)).getIdent();
-
-				if(!(params.get(1) instanceof IdentExprNode)) {
-					reportError("second parameter of " + functionName + "() must be a graph entity (identifier)");
-					return false;
-				}
-				second = ((IdentExprNode)params.get(1)).getIdent();
-
-				if(params.size() >= 3) {
-					if(!(params.get(2) instanceof IdentExprNode)) {
-						reportError("third parameter of " + functionName + "() must be an edge type (identifier)");
-						return false;
-					}
-					third = ((IdentExprNode)params.get(2)).getIdent();
-
-					if(params.size() >= 4) {
-						if(!(params.get(3) instanceof IdentExprNode)) {
-							reportError("fourth parameter of " + functionName + "() must be a node type (identifier)");
-							return false;
-						}
-						fourth = ((IdentExprNode)params.get(3)).getIdent();
-					}
-				}
-			}
 			if(params.size() == 2) {
-				result = new IsReachableNodeExprNode(getCoords(), first, second, env.getDirectedEdgeRoot(), direction, env.getNodeRoot());
+				result = new IsReachableNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
-				result = new IsReachableNodeExprNode(getCoords(), first, second, third, direction, env.getNodeRoot());
+				result = new IsReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 4) {
-				result = new IsReachableNodeExprNode(getCoords(), first, second, third, direction, fourth);
+				result = new IsReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, params.get(3));
+			}
+			else {
+				reportError(functionName + "() takes 2-4 parameters.");
+				return false;
+			}
+		}
+		else if(functionName.equals("isReachableEdgesIncoming")
+				|| functionName.equals("isReachableEdgesOutgoing")
+				|| functionName.equals("isReachableEdges")) {
+			int direction;
+			if(functionName.equals("isReachableEdgesIncoming"))
+				direction = IsReachableEdgeExprNode.INCOMING;
+			else if(functionName.equals("isReachableEdgesOutgoing"))
+				direction = IsReachableEdgeExprNode.OUTGOING;
+			else
+				direction = IsReachableEdgeExprNode.INCIDENT;
+			
+			if(params.size() == 2) {
+				result = new IsReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+			}
+			else if(params.size() == 3) {
+				result = new IsReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
+			}
+			else if(params.size() == 4) {
+				result = new IsReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, params.get(3));
 			}
 			else {
 				reportError(functionName + "() takes 2-4 parameters.");
@@ -465,36 +390,9 @@ public class FunctionInvocationExprNode extends ExprNode
 		}
 		else if(functionName.equals("add")) {
 			if(params.size() == 1) {
-				IdentNode first = null;
-				if(!(params.get(0) instanceof IdentExprNode)) {
-					reportError("first parameter of " + functionName + "() must be a node type (identifier)");
-					return false;
-				}
-				first = ((IdentExprNode)params.get(0)).getIdent();
-				result = new GraphAddNodeExprNode(getCoords(), first);
+				result = new GraphAddNodeExprNode(getCoords(), params.get(0));
 			} else if(params.size() == 3) {
-				IdentNode first = null;
-				if(!(params.get(0) instanceof IdentExprNode)) {
-					reportError("first parameter of " + functionName + "() must be an edge type (identifier)");
-					return false;
-				}
-				first = ((IdentExprNode)params.get(0)).getIdent();
-
-				IdentNode second = null;
-				if(!(params.get(1) instanceof IdentExprNode)) {
-					reportError("second parameter of " + functionName + "() must be a source node (identifier)");
-					return false;
-				}
-				second = ((IdentExprNode)params.get(1)).getIdent();
-
-				IdentNode third = null;
-				if(!(params.get(2) instanceof IdentExprNode)) {
-					reportError("third parameter of " + functionName + "() must be a target node (identifier)");
-					return false;
-				}
-				third = ((IdentExprNode)params.get(2)).getIdent();
-
-				result = new GraphAddEdgeExprNode(getCoords(), first, second, third);
+				result = new GraphAddEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2));
 			} else {
 				reportError(functionName + "() takes 1 or 3 parameters.");
 				return false;
@@ -502,21 +400,7 @@ public class FunctionInvocationExprNode extends ExprNode
 		}
 		else if(functionName.equals("retype")) {
 			if(params.size() == 2) {
-				IdentNode first = null;
-				if(!(params.get(0) instanceof IdentExprNode)) {
-					reportError("first parameter of " + functionName + "() must be an edge type (identifier)");
-					return false;
-				}
-				first = ((IdentExprNode)params.get(0)).getIdent();
-
-				IdentNode second = null;
-				if(!(params.get(1) instanceof IdentExprNode)) {
-					reportError("second parameter of " + functionName + "() must be a source node (identifier)");
-					return false;
-				}
-				second = ((IdentExprNode)params.get(1)).getIdent();
-
-				result = new GraphRetypeExprNode(getCoords(), first, second);
+				result = new GraphRetypeExprNode(getCoords(), params.get(0), params.get(1));
 			} else {
 				reportError(functionName + "() takes 2 parameters.");
 				return false;
