@@ -625,7 +625,7 @@ See subsection \ref{custom} for more on this.
 \subsubsection*{Memorize, Don't Search}
 Often in a transformation you know the location you want to process from a previous step.
 In this case, store these locations in variables of node (or edge) type, and hand them in as parameters to the rules and return them out from the rules.
-In case of a statically not known number of locations as they appear e.g. in wavefront algorithm, you may store the locations in storages (cf. chapter \ref{cha:storagesvisited}), i.e. collection valued variables (which are iterated over in the sequences or passed to the rules as \texttt{ref} parameters).
+In case of a statically not known number of locations as they appear e.g. in wavefront algorithm, you may store the locations in storages (cf. chapter \ref{cha:container}), i.e. collection valued variables (which are iterated over in the sequences or passed to the rules as \texttt{ref} parameters).
 Search will then start from these parameters, instead of a looking up a value in the graph by type (unless search planning taking the statistics about the graph into account comes to the conclusion  that a lookup on a very seldom type is still the better approach).
 
 A sophisticated way of remembering facts about non-local properties is to computed them with data flow analyses (see section \ref{subsub:flow}) and store them as attributes in the graph elements.

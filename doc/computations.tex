@@ -1,0 +1,141 @@
+\chapter{Computations (Extended Attribute Evaluation)}\indexmain{computations}\indexmain{attribute evaluation}
+\label{cha:computations}
+
+In this chapter we'll have a look at the computations available in the rule language.
+Their most important construct is the attribute assignment to assign new values to graph element attributes.
+Besides this, further types of assignments are available, and several control flow constructs as known from imperative programming languages of the C-family.
+Furthermore, container methods may be called (more on this in the following chapter \ref{cha:container}), 
+and global graph functions may be called (more on this in the following chapter \ref{cha:graph}).
+
+\begin{rail}
+  Statement:
+      Assignment
+    | CompoundAssignment
+    | IndexedAssignment
+    | ContainerMethodCall
+    | GlobalGraphFunctionCall
+    | VisitedAssignment
+    | MiscGlobalFunctionCall
+    | LocalVariableDecl
+    | Decision
+    | WhileLoop
+    | ForLoop
+    | EarlyExit
+    | ReturnStatement
+    ;
+\end{rail}\ixnterm{Statement}\label{computationstatemet}
+
+%explain method calls, function calls, compound assignment, for loops in the container and graph chapters.
+%The \emph{Assignment} will be explained below, the \emph{CompoundAssignment}, \emph{VisitedAssignment} and \emph{ContainerMethodCall} clauses will be introduced in chapter \ref{cha:container} and \ref{cha:graph}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Assignments} \label{sub:assignments}\indexmain{assignments}
+
+\begin{rail}
+  Assignment:
+	  NodeOrEdge '.' Ident '=' Expression ';' |
+	  '::' GlobalVarIdent '.' Ident '=' Expression ';' |
+	  Variable '=' Expression ';' |
+	  '::' GlobalVarIdent '=' Expression ';'
+	;
+\end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}
+
+Evaluation statements have \indexedsee{imperative}{attribute evaluation} semantics.
+In particular, \GrG\ does not care about data dependencies (you must care for them!).
+Assignment is carried out using value semantics, even for entities of container or \texttt{string} type.
+The only exception is the type \texttt{object}, there reference semantics is used.
+You can find out about the available \emph{Expression}s in chapter \ref{cha:typeexpr}.
+
+%compound assignments are given in following chapters
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Local Variable Declarations} 
+
+\begin{rail} 
+  LocalVariableDecl: 
+	'def' Name ':' Type ('=' Expression)? ';' |
+	'def' '-' Name ':' Type '->' ('=' Expression)? ';' |
+	'def' 'var' Name ':' Type ('=' Expression)? ';'
+	;
+\end{rail}\ixnterm{LocalVariableDecl}
+
+Local variables can be defined with the syntax known for local def pattern variables, as already introduced in \ref{sec:localvarorderedevalyield}, i.e. \texttt{def var name:type} for variables, or \texttt{def name:type} for nodes, or \texttt{def -name:type->} for edges.
+At their definition, an initializing expression may be given.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Misc. Global Functions} 
+
+There are functions to emit text or record graph changes available in the computations: 
+
+\begin{description}
+\item[\texttt{emit(.)}] writes the argument value, typically a test string, to stdout, or to a file if output was redirected. 
+\item[\texttt{record(.)}] writes the argument value, typically a text string, to the graph change record.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Control flow} \label{sub:controlflow}\indexmain{controlflow}
+
+Based on the value of a boolean expression different computations can be executed conditionally with the \texttt{if} and \texttt{else} statements. Please not that the braces are mandatory.
+
+\begin{rail} 
+  Decision: IfPart ((ElseIfPart)*()) (ElsePart)? ;
+	IfPart: 'if' '(' BoolExpr ')' lbrace (Statement*) rbrace ;
+	ElseIfPart: 'else' 'if' '(' BoolExpr ')' lbrace (Statement*) rbrace ;
+	ElsePart: 'else' lbrace (Statement*) rbrace ;
+\end{rail}\ixnterm{Decision}\ixkeyw{if}\ixkeyw{else}
+
+Computations may be executed repeatedly by the \texttt{while} and \texttt{do-while} statements. Please note that the braces are mandatory and that the \texttt{do-while} loop does not need a terminating semicolon.
+
+\begin{rail} 
+  WhileLoop: 
+	'while' '(' BoolExpr ')' lbrace (Statement*) rbrace |
+	'do' lbrace (Statement*) rbrace 'while' '(' BoolExpr ')' 
+	;
+\end{rail}\ixnterm{Loop}\ixkeyw{while}\ixkeyw{do}
+
+%\section{Container iteration}
+
+The containers introduced in chapter \ref{cha:container} may be iterated over with a for loop, one assigning the current value to a variable, the other assigning the current index and the current value to a variable.
+\begin{rail}
+  ForLoop: (ForHeader | IndexedForHeader) lbrace (Statement*) rbrace;
+  ForHeader: 'for' '(' Var ':' Type 'in' ContainerVar ')';
+  IndexedForHeader: 'for' '(' IndexVar ':' Type '->' Var ':' Type 'in' ContainerVar ')' ;
+\end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{ForLoop}
+
+Loop body execution may be exited early or continued with the next iteration with the \texttt{break} and \texttt{continue} statements. Such a statement must not occur outside of a loop.
+
+\begin{rail} 
+  EarlyExit: 
+	'break' ';' |	'continue' ';'
+	;
+\end{rail}\ixnterm{EarlyExit}\ixkeyw{break}\ixkeyw{continue}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Computation definition} \label{sub:compdef}\indexmain{computation definition}
+
+Computations that are occuring frequently may be factored out into a computation definition given in the header of a rule file.
+\begin{rail} 
+  ComputationDefinition: 
+	Name '(' (Parameter * ',') ')' ':' ReturnType \\
+	lbrace (Statement+) rbrace
+  ;
+  Parameter: IdentDecl ':' NodeType |
+  '-' IdentDecl ':' EdgeType '->' |
+  ('var' | 'ref') IdentDecl ':' VarType
+	;
+\end{rail}\ixnterm{Parameter}\ixkeyw{var}\ixkeyw{ref}
+
+The computation definition must return a value with a return statement (at least one).
+The type of the one return value must be compatible to the return type specified in the computation definition.
+A return statement must not occur outside of a computation definition.
+
+\begin{rail}
+  ReturnStatement: 'return' '(' Expression ')' ';' ;
+\end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
+
+A such defined computation may then be called as an expression atom from anywhere in the rule language file where an expression is required.
+
+\begin{rail}
+  CallExpr: Name '(' (Expression * ',') ')' ;
+\end{rail}\ixnterm{CallExpr}

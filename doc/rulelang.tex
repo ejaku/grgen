@@ -631,7 +631,7 @@ The \emph{ExecStatement} will be introduced in chapter \ref{cha:imperativeandsta
   ReplaceStatement:
     Graphlet ';' |
     'delete' '(' (Ident + ',') ')' ';' |
-    'eval' lbrace ((Assignment|CompoundAssignment|VisitedAssignment|ContainerStateChange) ';' +) rbrace |
+    'eval' lbrace (ComputationStatement +) rbrace |
     SubpatternRewriteApplication
     ;
 \end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixnterm{ReplaceStatement}\label{replstmt}
@@ -639,28 +639,14 @@ The semantics of the various replace statements are given below:
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets.
   \item[Deletion] \indexmain{deletion}The \texttt{delete} operator is only available in the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
-  \item[Attribute Evaluation] \indexmain{attribute evaluation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements. The \emph{Assignment} will be explained below, the \emph{CompoundAssignment}, \emph{VisitedAssignment} and \emph{ContainerStateChange} clauses will be introduced in chapter \ref{cha:imperativeandstate}.
+  \item[Computation (Attribute Evaluation)] \indexmain{computation}\indexmainsee{attribute evaluation}{computation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements. Besides attribute evaluations, further computations may be executed and side effects applied, see Chapter~\ref{cha:computations} for more on this.
   \item[SubpatternRewriteApplication] will be explained in \ref{sec:subrule}.
 \end{description}
 
-\begin{rail}
-  Assignment:
-	  NodeOrEdge '.' Ident '=' Expression |
-	  '::' GlobalVarIdent '.' Ident '=' Expression |
-	  Variable '=' Expression |
-	  '::' GlobalVarIdent '=' Expression
-	;
-\end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}
 Several evaluation parts are allowed within the replace part.
 Multiple evaluation statements will be internally concatenated, preserving their order.
-Evaluation statements have \indexedsee{imperative}{attribute evaluation} semantics.
-In particular, \GrG\ does not care about data dependencies (you must care for them!).
-Evaluation takes place before any graph element gets deleted and after all the new elements have been created.
+Evaluation takes place before any graph element specified to be deleted by the rule gets deleted and after all the new elements (according to the rule rewrite part) have been created.
 You may read (and write, although this is pointless) attributes of graph elements to be deleted.
-Assignment is carried out using value semantics, even for entities of container or \texttt{string} type.
-The only exception is the type \texttt{object}, there reference semantics is used.
-The variable assignments are only useful in a few limited situations due to parameter passing being by-value.
-You can find out about the available \emph{Expression}s in chapter \ref{cha:typeexpr}.
 
 \begin{example}
 \begin{grgen}
