@@ -1,9 +1,9 @@
-\chapter{Container and Graph Types}
-\label{cha:container}
+\chapter{Container Types and Computations}
+\label{cha:container}\indexmain{storage}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Built-In Types}
+\section{Built-In Types and Concept of Containers}
 \label{sec:builtingenerictypes}
 Besides the types already introduced, \GrG\ supports the built-in \indexed{generic types}\indexmainsee{built-in generic types}{generic types} in Table~\ref{builtingenerictypes}.
 The exact type format is \indexed{backend} specific.
@@ -12,41 +12,71 @@ The \indexed{LGSPBackend} maps the generic types to generic C\#-Dictionaries (i.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}
 	\hline
-	\texttt{\indexed{set}<T>} & A (mathematical) set of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. \\
-	\texttt{\indexed{map}<S,T>} & A (mathematical) map from type \texttt{S} to type \texttt{T}, where \texttt{S} and \texttt{T} may be enumeration types or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. \\
-	\texttt{\indexed{array}<T>} & An array of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. Shares some similarities with \texttt{map<int,T>}. \\
-	\texttt{\indexed{deque}<T>} & A deque of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. Shares some similarities with \texttt{array<T>}. \\
-	\hline
-	\texttt{\indexed{graph}} & A subgraph of the host graph\\
+	\texttt{\indexed{set}<T>} & A (mathematical) set of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from \ref{sec:builtintypes}; it may even be a node or edge type, then we speak of storages. \\
+	\texttt{\indexed{map}<S,T>} & A (mathematical) map from type \texttt{S} to type \texttt{T}, where \texttt{S} and \texttt{T} may be enumeration types or one of the primitive types from \ref{sec:builtintypes}; it may even be a node or edge type, then we speak of storages. \\
+	\texttt{\indexed{array}<T>} & An array of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from \ref{sec:builtintypes}; it may even be a node or edge type, then we speak of storages. Shares some similarities with \texttt{map<int,T>}. \\
+	\texttt{\indexed{deque}<T>} & A deque of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from \ref{sec:builtintypes}; it may even be a node or edge type, then we speak of storages. Shares some similarities with \texttt{array<T>}. \\
 	\hline
 \end{tabularx}
 \caption{\GrG\ built-in generic types}
 \label{builtingenerictypes}
 \end{table}
 
-The type \texttt{graph} is not availble for general multi-graph processing but for storing subgraphs of the current host graph.
-The only operations supported on it are equality and inequality, i.e. graph isomorphy checking 
-(they are considered equal if they can be mapped onto each other showing the same structure and attribute values).
+The four container types supported by GrGen share a lot of conceptual similarities and can be accessed in a similar way.
+They support multiple methods to update them:
+\texttt{add} to add an element to the container,
+\texttt{rem} to remove an element from the container,
+and \texttt{clear} to remove all elements from the container.
+Furthermore, they support multiple methods to query them:
+\texttt{size} to return the count of elements in the container,
+\texttt{empty} to return whether the container is empty or not,
+and \texttt{peek} to return an element from the container.
+
+In addition to those common methods there is special syntax support available.
+Left associative binary expressions allow to compute a new container from two input containers, or to compare two containers.
+Indexed access returns an element at an index position, and indexed assignment overwrites an element at a specified position with another one.
+Container typed variables as such may be assigned a container, employing value semantics.
+Compound assignments combine a binary expression with an assignment.
+The \texttt{in} operator allows to query for containment.
+Constructor literals may be used to create and initialize containers.
+And finally iteration over the elements in the container is supported with a \texttt{for} loop.
+These operations are available in the rule language, as an extension of the expressions from \ref{cha:typeexpr} and the computation statements from \ref{cha:computations}; 
+most of them are available in the sequence computations language, too
+(\ref{sec:storages} will tell about the differences compared to the rule language).
+In the \texttt{if} attribute evaluation clause only side-effect free container queries are allowed.
+In the following the container operations will be explained in detail for one type after another.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Expressions}\indexmain{container expression}\label{sub:containerexpr}
-
-\GrG~supports numerous operations on the entities of the types introduced above, which are organized into left associative expressions.
-In the following they will be explained with their semantics one type after another in the order of the rail diagram below.
-
-\begin{rail}
-  Expression: SetExpr | MapExpr | ArrayExpr | DequeExpr | RelationalExpr | PrimaryExpr;
-\end{rail}\ixnterm{Expression}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Set Expression}\label{sec:setexpr}
+\section{Set Operations}\label{sec:setexpr}
 
 Set expressions consist of the known mathematical set operations, plus some operations in method call notation.
 
 \begin{rail}
-  SetExpr: Expr 'in' SetExpr | SetExpr (backslash | ampersand | '|') SetExpr | PrimaryExpr (MethodSelector)?;
-\end{rail}\ixnterm{SetExpr}\ixkeyw{in}
+  SetExpr: PrimaryExpr (MethodSelector)? | Expr 'in' SetExpr | SetExpr SetOperator SetExpr ;
+  MethodCall: SetEntity MethodSelector ;
+  Assignment: SetEntity '=' SetExpr ;
+  CompoundAssignment: SetEntity SetOperator '=' Expr ChangeAssignment? ;
+  SetConstructor: ('set' '<' Type '>')? \\ lbrace ( Expression*',' ) rbrace ;
+\end{rail}\ixnterm{MethodCall}\ixnterm{SetExpr}\ixkeyw{in}\ixnterm{SetOperator}\ixnterm{CompoundAssignment}\ixnterm{SetConstructor}
+
+\noindent The query method calls on sets are:
+
+\begin{description}
+\item[\texttt{.size()}] returns the number of elements in the set, as \texttt{int}
+\item[\texttt{.empty()}] returns whether the set is empty, as \texttt{boolean}
+\item[\texttt{.peek(num)}] returns the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{T} for \verb#set<T>#; the higher the number, the longer retrieval takes
+\end{description}
+
+\noindent The update method calls on sets are:
+
+\begin{description}
+\item[Set addition:] \texttt{s.add(v)} adds the value \texttt{v} to the set \texttt{s}.
+\item[Set removal:] \texttt{s.rem(v)} removes the value \texttt{v} from the set \texttt{s}.
+\item[Set clearing:] \texttt{s.clear()} removes all values from the set \texttt{s}.
+\end{description}
+
+\noindent The binary set operators are:
 
 \begin{table}[htbp]
   \centering
@@ -62,16 +92,51 @@ Set expressions consist of the known mathematical set operations, plus some oper
 
 The binary set operators require the left and right operands to be of identical type \verb#set<T>#.
 The operator \texttt{x in s} denotes set membership $x \in s$, returning whether the set contains the given element, as \texttt{boolean}.
-Furthermore there are two operations on sets available in method call notation (MethodSelector):
+Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
+The set only allows for non-indexed iteration.
 
-\begin{description}
-\item[\texttt{.size()}] returns the number of elements in the set, as \texttt{int}
-\item[\texttt{.peek(num)}] returns the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{T} for \verb#set<T>#; the higher the number, the longer retrieval takes
-\end{description}
+The relational expressions (already introduced in \ref{sec:relational}) used to compare enitites of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compset}:
+Some set \texttt{A} is a subset of \texttt{B} iff all elements in \texttt{A} are contained in \texttt{B}, too.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
+    \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
+    \texttt{A <\ \ B} & True, iff $A$ is a subset of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A >\ \ B} & True, iff $A$ is a superset of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A <= B} & True, iff $A$ is a subset of $B$ or $A$ and $B$ are identical. \\
+    \texttt{A >= B} & True, iff $A$ is a superset of $B$ or $A$ and $B$ are identical. \\ \hline
+  \end{tabularx}
+  \caption{Binary set operators for comparison}
+  \label{compset}
+\end{table}
+
+The assignments implement the computation constructs introduced in \ref{cha:computations}.
+The pure assignment overwrites the target set with the source set, commonly with value semantics, creating a copy of the source set. Only if a local variable (i.e. not an attribute) is assigned to a local variable, is reference semantics used (i.e. both variables point afterwards to the same set).
+Compound assignments are assignments which use the first source as target, too,
+only adapting the target value instead of computing a new value and overwriting the target with it.
+For scalars this is not supported, but for container valued entities it is offered due to the potential for massive computational cost savings.
+The compound assignment statements on sets are a set union \verb#|=#, intersection \verb#&=# and difference \verb#\=# assignment.
+
+\begin{rail}
+  ChangeAssignment: ('=' '>' | '|' '>' | ampersand '>') (NodeOrEdge '.' BoolAttribute | BoolVariable | VisitedFlag) ;
+\end{rail}\ixnterm{ChangeAssignment}
+
+The compound assignments on sets and maps may be enhanced with a change assignment declaration.
+The change value is \texttt{true} in case the target collection changes and \texttt{false} in case the target collection is not altered.
+The assign-to operator \verb#=># assigns the change value to the specified target, the or-to operator \verb#|># assigns the boolean disjunction of the change value target with the change value to the change value target, the and-to operator \verb#&># assigns the boolean conjunction of the change value target with the change value to the change value target.
+This addition allows for efficient data flow computations not needing to check for a change by set comparison, see \ref{subsub:flow}.
+
+The \emph{SetConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
+It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
+It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
+If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
+Without the type prefix all elements given in the constructor must be of the same type.
 
 \begin{note}
 To add a value to a set you may use set union with a single valued set constructor,
-to remove a value from a set you may use set difference with a single valued set constructor (for set constructors cf. \ref{sec:primexpr}).
+to remove a value from a set you may use set difference with a single valued set constructor.
 \begin{grgen}
 s | { "foo" }
 s \ { n.a }
@@ -81,13 +146,38 @@ Used in this way they get internally optimized to the imperative set addition \t
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Map Expression} \label{sec:mapexpr}
+\section{Map Operations} \label{sec:mapexpr}
 
 Map expressions consist of the known mathematical set operations extended to maps, and map value lookup, plus some operations in method call notation.
 
 \begin{rail}
-  MapExpr: Expr 'in' MapExpr | MapExpr '[' Expr ']' | MapExpr (backslash | ampersand | '|') MapExpr | PrimaryExpr (MethodSelector)?;
-\end{rail}\ixnterm{MapExpr}\ixkeyw{in}
+  MapExpr: PrimaryExpr (MethodSelector)? | Expr 'in' MapExpr | MapExpr '[' Expr ']' | MapExpr MapOperator MapExpr ;
+  MethodCall: MapEntity MethodSelector ;
+  Assignment: MapEntity '=' MapExpr ;
+  IndexedAssignment: MapEntity '[' IndexExpr ']' '=' Expr ;
+  CompoundAssignment: MapEntity MapOperator '=' Expr ChangeAssignment? ;
+  MapConstructor: ('map' '<' Type ',' Type '>')? \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
+\end{rail}\ixnterm{MethodCall}\ixnterm{MapExpr}\ixkeyw{in}\ixnterm{MapOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{MapConstructor}
+
+\noindent The query method calls on maps are:
+
+\begin{description}
+\item[\texttt{.size()}] returns the number of elements in the map, as \texttt{int}
+\item[\texttt{.empty()}] returns whether the map is empty, as \texttt{boolean}
+\item[\texttt{.peek(num)}] returns the key of the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{S} for \verb#map<S,T>#; the higher the number, the longer retrieval takes
+\item[\texttt{.domain()}] returns the set of elements in the domain of the map, as \verb#set<S># for \verb#map<S,T>#
+\item[\texttt{.range()}] returns the set of elements in the range of the map, as \verb#set<T># for \verb#map<S,T>#
+\end{description}
+
+\noindent The update method calls on maps are:
+
+\begin{description}
+\item[Map addition:] \texttt{m.add(k,v)} adds the pair (\texttt{k},\texttt{v}) to the map \texttt{m}, overwrites the old value if a pair (\texttt{k},unknown) was already existing.
+\item[Map removal:] \texttt{m.rem(k)} removes the pair (\texttt{k},unknown) from the map \texttt{m}.
+\item[Map clearing:] \texttt{m.clear()} removes all values from the map \texttt{m}.
+\end{description}
+
+\noindent The binary map operators are:
 
 \begin{table}[htbp]
   \centering
@@ -105,18 +195,43 @@ The binary map operators require the left and right operands to be of identical 
 with one exception for map difference, this operator accepts for a left operand of type \verb#map<S,T># a right operand of type \verb#set<S>#, too.
 The operator \texttt{x in m} denotes map domain membership $x \in dom(m)$, returning whether the domain of the map contains the given element, as \texttt{boolean}.
 The operator \texttt{m[x]} denotes map lookup, i.e. it returns the value \texttt{y} which is stored in the map \texttt{m} for the value \texttt{x} (domain value \texttt{x} is mapped by the mapping \texttt{m} to range value \texttt{y}). The value \texttt{x} \emph{must} be in the map, i.e. \texttt{x in m} must hold.
-There are several operations on maps available in method call notation (MethodSelector), these are:
+Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
+The map only allows for indexed iteration, with the key getting assigned to the index variable and the corresponding value getting assigned to the value variable.
 
-\begin{description}
-\item[\texttt{.size()}] returns the number of elements in the map, as \texttt{int}
-\item[\texttt{.domain()}] returns the set of elements in the domain of the map, as \verb#set<S># for \verb#map<S,T>#
-\item[\texttt{.range()}] returns the set of elements in the range of the map, as \verb#set<T># for \verb#map<S,T>#
-\item[\texttt{.peek(num)}] returns the key of the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{S} for \verb#map<S,T>#; the higher the number, the longer retrieval takes
-\end{description}
+The relational expressions (already introduced in \ref{sec:relational}) used to compare enitites of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compmap}:
+A map \texttt{A} is a submap of \texttt{B} iff all key-value pairs of \texttt{A} are contained in \texttt{B}, too. If they have a key in common but map to a different value, they count as not identical.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
+    \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
+    \texttt{A <\ \ B} & True, iff $A$ is a submap of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A >\ \ B} & True, iff $A$ is a supermap of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A <= B} & True, iff $A$ is a submap of $B$ or $A$ and $B$ are identical. \\
+    \texttt{A >= B} & True, iff $A$ is a supermap of $B$ or $A$ and $B$ are identical. \\ \hline
+  \end{tabularx}
+  \caption{Binary map operators for comparison}
+  \label{compmap}
+\end{table}
+
+The assignments implement the computation constructs introduced in \ref{cha:computations}.
+The pure assignment overwrites the target map with the source map, commonly with value semantics, creating a copy of the source map. Only if a local variable (i.e. not an attribute) is assigned to a local variable, is reference semantics used  (i.e. both variables point afterwards to the same map).
+The indexed assignment \texttt{m[i]=v} overwrites the old value at index \texttt{i} in the map \texttt{m} with the new value \texttt{v}.
+Compound assignments are assignments which use the first source as target, too,
+only adapting the target value instead of computing a new value and overwriting the target with it.
+For scalars this is not supported, but for container valued entities it is offered due to the potential for massive computational cost savings.
+The compound assignment statements on maps are a map union \verb#|=#, intersection \verb#&=# and difference \verb#\=# assignment.
+
+The \emph{MapConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
+It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
+It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
+If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
+Without the type prefix all elements given in the constructor must be of the same type.
 
 \begin{note}
-To add a key,value-pair to a map you may use map union with a single valued map constructor,
-to remove a value from a map you may use map difference with a single valued set or map constructor (for map constructors cf. \ref{sec:primexpr}).
+To add a (key,value)-pair to a map you may use map union with a single valued map constructor,
+to remove a value from a map you may use map difference with a single valued set or map constructor.
 \begin{grgen}
 m | { "foo" -> 42 }
 m \ { n.a -> n.b } or m \ { n.a }
@@ -126,61 +241,178 @@ Used in this way they get internally optimized to the imperative map addition \t
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Array Expression} \label{sec:arrayexpr}
+\section{Array Operations} \label{sec:arrayexpr}
 
 Array expressions consist of array membership checking, array value lookup, and array concatenation, plus some operations in method call notation.
 
 \begin{rail}
-  ArrayExpr: Expr 'in' ArrayExpr | ArrayExpr '[' Expr ']' | ArrayExpr '+' ArrayExpr | PrimaryExpr (MethodSelector)?;
-\end{rail}\ixnterm{ArrayExpr}\ixkeyw{in}
+  ArrayExpr: PrimaryExpr (MethodSelector)? | Expr 'in' ArrayExpr | ArrayExpr '[' Expr ']' | ArrayExpr ArrayOperator ArrayExpr;
+  MethodCall: ArrayEntity MethodSelector ;
+  Assignment: ArrayEntity '=' ArrayExpr ;
+  IndexedAssignment: ArrayEntity '[' IndexExpr ']' '=' Expr ;
+  CompoundAssignment: ArrayEntity ArrayOperator '=' Expr ChangeAssignment? ;
+  ArrayConstructor: ('array' '<' Type '>')? \\ '[' ( Expression*',' ) ']' ;
+\end{rail}\ixnterm{MethodCall}\ixnterm{ArrayExpr}\ixkeyw{in}\ixnterm{ArrayOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{ArrayConstructor}
+
+\noindent The query method calls on arrays are:
+
+\begin{description}
+\item[\texttt{.size()}] returns the number of elements in the array, as \texttt{int}
+\item[\texttt{.empty()}] returns whether the array is empty, as \texttt{boolean}
+\item[\texttt{.peek(num)}] returns the value stored in the array at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
+\item[\texttt{.peek()}] returns the last value stored in the array; retrieval occurs in constant time.
+\item[\texttt{.indexOf(valueToSearchFor)}] returns first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.subarray(startIndex, length)}] returns subarray of given \texttt{length:int} from \texttt{startIndex:int} on
+\end{description}
+
+\noindent The update method calls on arrays are:
+
+\begin{description}
+\item[Array addition:] \texttt{a.add(v)} adds the value \texttt{v} to the end of array \texttt{a}.
+\item[Array addition:] \texttt{a.add(v,i)} inserts the value \texttt{v} at index \texttt{i} to array \texttt{a}.
+\item[Array removal:] \texttt{a.rem()} removes the value at then end of the array \texttt{a}.
+\item[Array removal:] \texttt{a.rem(i)} removes the value at index \texttt{i} from the array \texttt{a}.
+\item[Array clearing:] \texttt{a.clear()} removes all values from the array \texttt{a}.
+\end{description}
+
+\noindent The binary array operators are:
+
+\begin{table}[htbp]
+  \centering
+  %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
+  \begin{tabular}[c]{|ll|} \hline
+    \begin{tabular}[c]{l} \verb#+# \end{tabular} & \begin{tabular}[c]{l}Array concatenation: returns new array with the right appended to the left array\\the left and right operands must be of identical type \verb#array<T>#
+    \end{tabular}\\ \hline
+  \end{tabular}
+  \caption{Binary array operators, in ascending order of precedence}\indexmain{order of precedence}
+  \label{tabarraybinops}
+\end{table}
 
 The operator \texttt{x in a} denotes array value membership, returning whether the array contains the given element, as \texttt{boolean}.
 The operator \texttt{a[x]} denotes array lookup, i.e. it returns the value \texttt{y} which is stored in the array \texttt{a} at the index \texttt{x}.
 The index \texttt{x} \emph{must} be a valid array index.
-The operator \texttt{x + y} denotes array concatenation, which requires the left and right operands to be of identical type \verb#array<T>#.
-There are several operations on arrays available in method call notation (MethodSelector), these are:
+Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
+The array allows for non-indexed as well as indexed iteration; if non-indexed iteration is used the array values are iterated over, if indexed iteration is used the index is assigned to the index variable and the corrsponding value is assigned to the value variable. 
 
-\begin{description}
-\item[\texttt{.size()}] returns the number of elements in the array, as \texttt{int}
-\item[\texttt{.indexOf(valueToSearchFor)}] returns first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
-\item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
-\item[\texttt{.subarray(startIndex, length)}] returns subarray of given \texttt{length:int} from \texttt{startIndex:int} on
-\item[\texttt{.peek(num)}] returns the value stored in the array at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
-\item[\texttt{.peek()}] returns the last value stored in the array; retrieval occurs in constant time.
-\end{description}
+The relational expressions (already introduced in \ref{sec:relational}) used to compare enitites of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{comparray}:
+An array \texttt{A} is a subarray of \texttt{B} iff it is smaller or equal in size and the values at each common index are identical (lexicographic order as for strings).
 
-\begin{note}
-In contrast to sets and maps which can be handled well by expressions, arrays are meant to be modified by imperative \texttt{eval} block and XGRS statements like array addition \texttt{a.add(value)}/\texttt{a.add(value, index)} and removal \texttt{s.rem()}/\texttt{s.rem(index)}.
-For declarative array construction please have a look at \ref{sec:primexpr}.
-\end{note}
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
+    \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
+    \texttt{A <\ \ B} & True, iff $A$ is a subarray of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A >\ \ B} & True, iff $A$ is a superarray of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A <= B} & True, iff $A$ is a subarray of $B$ or $A$ and $B$ are identical. \\
+    \texttt{A >= B} & True, iff $A$ is a superarray of $B$ or $A$ and $B$ are identical. \\ \hline
+  \end{tabularx}
+  \caption{Binary array operators for comparison}
+  \label{comparray}
+\end{table}
 
+The assignments implement the computation constructs introduced in \ref{cha:computations}.
+The pure assignment overwrites the target array with the source array, commonly with value semantics, creating a copy of the source array. Only if a local variable (i.e. not an attribute) is assigned to a local variable, is reference semantics used  (i.e. both variables point afterwards to the same array).
+The indexed assignment \texttt{a[i]=v} overwrites the old value at index \texttt{i} in the array \texttt{a} with the new value \texttt{v}.
+Compound assignments are assignments which use the first source as target, too,
+only adapting the target value instead of computing a new value and overwriting the target with it.
+For scalars this is not supported, but for container valued entities it is offered due to the potential for massive computational cost savings.
+The compound assignment statement on arrays is the concatenation assignment \verb#+=#.
+
+The \emph{ArrayConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
+It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
+It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
+If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
+Without the type prefix all elements given in the constructor must be of the same type.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Deque Expression} \label{sec:dequeexpr}
+\section{Deque Operations} \label{sec:dequeexpr}
 
 Deque expressions consist of deque membership checking, deque value lookup, and deque concatenation, plus some operations in method call notation.
 
 \begin{rail}
-  DequeExpr: Expr 'in' DequeExpr | DequeExpr '[' Expr ']' | DequeExpr '+' DequeExpr | PrimaryExpr (MethodSelector)?;
-\end{rail}\ixnterm{DequeExpr}\ixkeyw{in}
+  DequeExpr: PrimaryExpr (MethodSelector)? | Expr 'in' DequeExpr | DequeExpr '[' Expr ']' | DequeExpr DequeOperator DequeExpr;
+  MethodCall: DequeEntity MethodSelector ;
+  Assignment: DequeEntity '=' DequeExpr ;
+  IndexedAssignment: DequeEntity '[' IndexExpr ']' '=' Expr ;
+  CompoundAssignment: DequeEntity DequeOperator '=' Expr ChangeAssignment? ;
+  DequeConstructor: ('deque' '<' Type '>')? \\ ']' ( Expression*',' ) '[' ;
+\end{rail}\ixnterm{MethodCall}\ixnterm{DequeExpr}\ixkeyw{in}\ixnterm{DequeOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{DequeConstructor}
+
+\noindent The query method calls on deques are:
+
+\begin{description}
+\item[\texttt{.size()}] returns the number of elements in the deque, as \texttt{int}
+\item[\texttt{.empty()}] returns whether the deque is empty, as \texttt{boolean}
+\item[\texttt{.peek(num)}] returns the value stored in the deque at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
+\item[\texttt{.peek()}] returns the first value stored in the deque; retrieval occurs in constant time.
+\item[\texttt{.indexOf(valueToSearchFor)}] returns first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.subdeque(startIndex, length)}] returns subdeque of given \texttt{length:int} from \texttt{startIndex:int} on
+\end{description}
+
+\noindent The update method calls on deques are:
+
+\begin{description}
+\item[Deque addition:] \texttt{d.add(v)} adds the value \texttt{v} to the end of deque \texttt{d}.
+\item[Deque addition:] \texttt{d.add(v,i)} inserts the value \texttt{v} at index \texttt{i} to deque \texttt{d}.
+\item[Deque removal:] \texttt{d.rem()} removes the value at then begin of the deque \texttt{d}.
+\item[Deque removal:] \texttt{d.rem(i)} removes the value at index \texttt{i} from the deque \texttt{d}.
+\item[Deque clearing:] \texttt{d.clear()} removes all values from the deque \texttt{d}.
+\end{description}
+
+\noindent The binary deque operators are:
+
+\begin{table}[htbp]
+  \centering
+  %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
+  \begin{tabular}[c]{|ll|} \hline
+    \begin{tabular}[c]{l} \verb#+# \end{tabular} & \begin{tabular}[c]{l}Deque concatenation: returns new deque with the right appended to the left deque\\the left and right operands must be of identical type \verb#deque<T>#
+    \end{tabular}\\ \hline
+  \end{tabular}
+  \caption{Binary deque operators, in ascending order of precedence}\indexmain{order of precedence}
+  \label{tabdequebinops}
+\end{table}
 
 The operator \texttt{x in d} denotes deque value membership, returning whether the deque contains the given element, as \texttt{boolean}.
 The operator \texttt{d[x]} denotes deque lookup, i.e. it returns the value \texttt{y} which is stored in the deque \texttt{d} at the index \texttt{x}.
 The index \texttt{x} \emph{must} be a valid deque index.
-The operator \texttt{x + y} denotes deque concatenation, which requires the left and right operands to be of identical type \verb#deque<T>#.
-There are several operations on deques available in method call notation (MethodSelector), these are:
+Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
+The deque allows for non-indexed as well as indexed iteration; if non-indexed iteration is used the deque values are iterated over, if indexed iteration is used the index is assigned to the index variable and the corrsponding value is assigned to the value variable. 
 
-\begin{description}
-\item[\texttt{.size()}] returns the number of elements in the deque, as \texttt{int}
-\item[\texttt{.indexOf(valueToSearchFor)}] returns first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
-\item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
-\item[\texttt{.subdeque(startIndex, length)}] returns subdeque of given \texttt{length:int} from \texttt{startIndex:int} on
-\item[\texttt{.peek(num)}] returns the value stored in the deque at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
-\item[\texttt{.peek()}] returns the first value stored in the deque; retrieval occurs in constant time.
-\end{description}
+The relational expressions (already introduced in \ref{sec:relational}) used to compare enitites of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compdeque}:
+A deque \texttt{A} is a subdeque of \texttt{B} iff it is smaller or equal in size and the values at each common index are identical (lexicographic order as for strings).
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
+    \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
+    \texttt{A <\ \ B} & True, iff $A$ is a subdeque of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A >\ \ B} & True, iff $A$ is a superdeque of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A <= B} & True, iff $A$ is a subdeque of $B$ or $A$ and $B$ are identical. \\
+    \texttt{A >= B} & True, iff $A$ is a superdeque of $B$ or $A$ and $B$ are identical. \\ \hline
+  \end{tabularx}
+  \caption{Binary deque operators for comparison}
+  \label{compdeque}
+\end{table}
+
+The assignments implement the computation constructs introduced in \ref{cha:computations}.
+The pure assignment overwrites the target deque with the source deque, commonly with value semantics, creating a copy of the source deque. Only if a local variable (i.e. not an attribute) is assigned to a local variable, is reference semantics used  (i.e. both variables point afterwards to the same deque).
+The indexed assignment \texttt{d[i]=v} overwrites the old value at index \texttt{i} in the deque \texttt{d} with the new value \texttt{v}.
+Compound assignments are assignments which use the first source as target, too,
+only adapting the target value instead of computing a new value and overwriting the target with it.
+For scalars this is not supported, but for container valued entities it is offered due to the potential for massive computational cost savings.
+The compound assignment statement on deques is the concatenation assignment \verb#+=#.
+
+The \emph{DequeConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
+It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
+It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
+If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
+Without the type prefix all elements given in the constructor must be of the same type.
 
 \begin{note}
-In contrast to sets and maps which can be handled well by expressions, deques are meant to be modified by imperative \texttt{eval} block and XGRS statements like deque addition \texttt{d.add(value)}/\texttt{d.add(value, index)} and removal \texttt{d.rem()}/\texttt{d.rem(index)}.
 The double ended queue allows for fast addition and removal both at the frond and at the back, in contrast to arrays that only support this at the end.
 It is implemented by a ringbuffer that is grown as needed, a lookup is slightly more expensive than an array lookup.
 The primary usage of the deque is as a queue, as needed for breadth first search, accessed FIFO.
@@ -189,73 +421,82 @@ This is in contrast to the array that is suited to be employed as a stack, e.g. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Relational Expressions}\label{sec:relationalcontainer}
+\section{Storage Access in the Rules} \label{sub:storageaccess}\indexmain{storage access}
 
-The relational expressions compare enitites of different kinds, mapping them to the type boolean.
-They were alreay introduced in \ref{sec:relational}, here we extend them with container and graph types.
+Storages can be used in the rule application control language as introduced above \ref{sec:storages}, they can get filled or emptied in the rules as defined here \ref{replstmt}, a discussion about their usage and examples are given here \ref{sub:mergesplit}, here \ref{subsub:copystructure}, and here \ref{subsub:flow}.
+In the pattern part you may ask for an element to get bound to an element from a storage or a storage attribute;
+this is syntactically specified by giving the storage enclosed in left and right braces.
+You may ask for an element to get bound to the value element queried from a storagemap by a key graph element;
+this is syntactically specified by giving the storagemap indexed by the key graph element enclosed in left and right braces
+(this is not possible for storage map attributes due to internal limitations with the search planning).
+If the type of the element retrieved from the storage is not compatible to the type of the pattern element specified,
+or if the storage is empty, or if the key element is not contained in the storagemap, matching fails.
 
-For container expressions, table~\ref{compandsetmap} describes the semantics of the compare operators.
-Some set A is a subset of B iff all elements in A are contained in B, too.
-A map A is a submap of B iff all key-value pairs of A are contained in B, too. If they have a key in common but map to a different value, they count as not identical.
-An array A is a subarray of B iff it is smaller or equal in size and the values at each common index are identical.
-A deque A is a subdeque of B iff it is smaller or equal in size and the values at each common index are identical.
-\begin{table}[htbp]
-  \centering
-  \begin{tabularx}{\linewidth}{|l|X|} \hline
-    \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
-    \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
-    \texttt{A <\ \ B} & True, iff $A$ is a subset/map/array/deque of $B$, but $A$ and $B$ are not identical. \\
-    \texttt{A >\ \ B} & True, iff $A$ is a superset/map/array/deque of $B$, but $A$ and $B$ are not identical. \\
-    \texttt{A <= B} & True, iff $A$ is a subset/map/array/deque of $B$ or $A$ and $B$ are identical. \\
-    \texttt{A >= B} & True, iff $A$ is a superset/map/array/deque of $B$ or $A$ and $B$ are identical. \\ \hline
-  \end{tabularx}
-  \caption{Compare operators on container expressions}
-  \label{compandsetmap}
-\end{table}
+The advantage of this storage querying inside the rule over handing in a value from a for loop iterating the storage values outside the rule are: i) a more concise syntax, ii) the ability to access a storage attribute of an element just matched or to access a storage map with an element just matched in the same rule, which would require to break up the rule in two rules in the other case, and iii), a restriction of the iteration to the matching phase, so that at rewriting one can happily manipulate the storage without destroying the iterator/enumerator used in the loop which would be the case when using an outside loop.
 
-\begin{table}[htbp]
-  \centering
-  \begin{tabularx}{\linewidth}{|l|X|} \hline
-    \texttt{A == B} & True, iff $A$ is isomorphic to $B$. \\
-    \texttt{A != B} & True, iff $A$ is not isomorphic to $B$. \\
-    \texttt{A \textasciitilde\textasciitilde{ } B} & True, iff $A$ is structurally the same as $B$ but maybe different regarding the attributes. \\ \hline
-  \end{tabularx}
-  \caption{Compare operators on graph expressions}
-  \label{compandgraph}
-\end{table}
+The following syntax diagram gives an extensions to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}, pattern part:
+\begin{rail}
+  StorageAccess:
+    lbrace StorageVariable rbrace |
+    lbrace NodeOrEdge '.' StorageAttribute rbrace |
+    lbrace StorageMap '[' Ident ']' rbrace;
+\end{rail}\ixnterm{StorageAccess}
 
-\texttt{Graph} types support only the \texttt{==}, the \texttt{!=}, and the \texttt{\textasciitilde\textasciitilde} operators;
-on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}) or not, including the attributes, or whether the (sub)graphs are isomorphic disregarding the attributes.
+\begin{example}
+Queries the graph for the neighbouring cities to the cities contained in the storageset.
+\begin{grgen}
+test neighbour(ref startCities:set<City>) : City
+{
+    :City{startCities} -:Street-> n:City;
+    return(n);
+}
+\end{grgen}
+\end{example}
 
-These operators consist just of two charactes, but don't underestimate their impact on performance:
-they do graph isomorphy checking, which is expensive.
-They are implemented in an early out style, i.e. the more different the graphs are, the earlier does the check return with the result they are not isomorphic.
-But if the graphs you are checking are isomorphic (which will happen easily if you use automorphic patterns), then you have to pay the full price for isomorphy checking; if this occurs often, your solution may become prohibitively costly (including an external graph canonization library may be of interest in that case).
+\begin{example}
+Queries for the neighbour of the neighbour of a city matched.
+With the first neigbouring relation queried from the storagemap assumed to contain the neighbouring relation of some cities of interest, and the second neighbouring relation queried from the graph.
+\begin{grgen}
+test neighbourneighbour(ref neighbours:map<City, City>) : City
+{
+    someCity:City;
+    nc:City{neighbours[someCity]} -:Street-> nnc:City;
+    return(nnc);
+}
+\end{grgen}
+\end{example}
 
-Some notes on the early out implementation: first the number of nodes and edges per type are checked, if they are different the graphs can't be isomorphic. The numbers are directly supplied by the \texttt{lgspBackend}, refuting isomorphy based on them is extremely cheap.
-Then the \indexed{V-Structure}s (see \ref{searchplanning}) used in computing better matchers at runtime are first computed and then compared; if they are different the graphs can't be isomorphic. They are a good deal less expensive to compute than trying to match the one graph in the other; on well typed graphs the V-Structure counts are highly discriminating.
-
-If these two pruning methods failed, a matcher is computed from one graph with search planning based on the V-Structure information just computed, and then applied on the other graph.
-The matchers are stored in the graphs from which they originated, so if you do repeated comparisons of a subgraph which does not change, take care to extract that subgraph only once, store it, e.g. as an attribute in the graph, and continue to compare against it. 
-This will save you from the cost of repeated search planning; in addition, often-used isomorphy matchers get eventually compiled resulting in a further speed up.
+%These were the storage queries available in the pattern part.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Primary Expressions}\label{sec:containerprimexpr}
+\section{Hints on container usage}
 
-Besides the \emph{Constant} already introduced as a part of the \emph{Literal}, cf. \ref{literaldef}, the literals \emph{SetConstructor}, \emph{MapConstructor}, \emph{ArrayConstructor} and \emph{DequeConstructor} are supported as well.
+%das noch als container hints hintendran, erklären wofür gut/wofür nicht
+%deklarative vs imperative nutzung.
+%also storages nutzung, data flow nutzung, constructoren für vergleiche gegen viele werte, wenn constant dann ist das effizient (todo: stimmt für regeln, aber auch für computations?)
+%das zusammenspiel byref/byvalue bei aufrufen, innerhalb der regeln/computations erklären, copy weil graph container changes fürchterliche nebenwirking wären. hinweis: neben addbefüllen gibt es deklarative konstruktoren verfügbar.
 
-\begin{rail}
-  SetConstructor: ('set' '<' Type '>')? \\ lbrace ( Expression*',' ) rbrace ;
-  MapConstructor: ('map' '<' Type ',' Type '>')? \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
-  ArrayConstructor: ('array' '<' Type '>')? \\ '[' ( Expression*',' ) ']' ;
-  DequeConstructor: ('deque' '<' Type '>')? \\ ']' ( Expression*',' ) '[' ;
-\end{rail}\ixnterm{SetConstructor}\ixnterm{MapConstructor}\ixnterm{ArrayConstructor}\ixnterm{DequeConstructor}
+%The by-ref container parameters or container attributes can be operated upon by the container state change methods,
+%which allow to only partially change the container by adding or removing or overwriting elements resp. pairs of elements (in contrast to normal assignments which replace overwrite the target variable entirely);
+%they are especially useful for containers containing nodes or edges.
 
-The container constructors are constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
-They are non-constant if they contain nodes/edges/or member accesses, which is the common case if used in rules.
-If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
-Without the type prefix all elements given in the constructor must be of the same type.
+\begin{example}
+The container state change methods \texttt{add} and \texttt{rem} allow to add graph elements to storages or remove graph elements from storages, i.e. sets or maps or arrays or deques holding nodes and edges used for rewrite in the calling sequence (cf. \ref{sec:storages}).
+This way you can write transformations consisting of several passes with one pass operating on nodes/edges determined in a previous pass,
+without the need to mark the element in the graph by helper edges or visited flags.
+	\begin{grgen}
+rule foo(ref storage:set<Node>)
+{
+  n:Node;
+  modify {
+    eval {
+      storage.add(n);
+    }
+  }
+}
+	\end{grgen}
+\end{example}
 
 \begin{example}
 Some examples of container literals:
@@ -265,7 +506,5 @@ map<string,int>{ (n.strVal+m.strVal)->(m.intVal+n.intVal), intVal->strVal, "fool
 [ 1,2,3 ] // a constant array<int> constructor
 ] 1,2,3 [ // a constant deque<int> constructor
 \end{grgen}
-\end{example}
-
-A function call as already inroduced in \ref{sec:primexpr} may consist of one of the built-in functions for querying the elements of a type, the direct neighbourhood of a node, or the transitive neighbourhood of a node introduced in section \ref{neighbouringelementsfunctions}, returning a set of the graph elements of interest.
+\end{example}\label{containerconstructorex}
 

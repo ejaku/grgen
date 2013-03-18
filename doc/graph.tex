@@ -1,0 +1,297 @@
+\chapter{Graph Type and Computations}
+\label{cha:graph}\indexmain{visited flag}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Built-In Types}
+\label{sec:builtingenerictypes}
+Besides the types already introduced, \GrG\ offers supports for a \texttt{\indexed{graph}} type.
+If used explicitely, it denotes a subgraph of the host graph, which can be used for storing and comparing subgraphs of the current host graph (after subgraph extraction no further graph operations are possible (unless the API is used), because of the "there is only a single host graph"-design of GrGen).
+
+But more important are the large number of global functions (with function call syntax as already inroduced in \ref{sec:primexpr}, semantically distinguished into \emph{GlobalGraphFunctionCall}, cf. \ref{cha:computations}) that implicitely operate on the single host graph (and thus on the graph type).
+There are update functions available that allow to manipulate the graph available with \texttt{add}, \texttt{rem} and \texttt{retype}.
+The host graph may be queried for all \texttt{nodes} or \texttt{edges} of a given type.
+An edge may be queried for its \texttt{source} and \texttt{target} elements,
+while a node may be queried for its direct neighbourhood with all \texttt{incident} edges, or all \texttt{adjacent} nodes.
+Or even for its transitive neighbourhood with all \texttt{reachable} nodes or edges.
+In the form of functions returning \texttt{set}s of nodes or edges, or in the form of iterations with \texttt{for} loops, or in the form of boolean predicates to test the neighbourhood if two elements are given.
+The \texttt{induced} subgraph of a set of nodes or edges may be computed, or directly \texttt{insert}ed into the host graph.
+
+Furthermore, \texttt{visited} flags may be used for marking already visited elements during graph walks or for partitioning a graph.
+These operations are available in the rule language, as an extension of the expressions from \ref{cha:typeexpr} and the computation statements from \ref{cha:computations}; 
+most of them are available in the sequence computations language, too
+(\ref{sec:seqcomp} and \ref{sec:seqcomp} will tell about the differences compared to the rule language).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Global Graph Functions}\indexmain{global graph functions}\label{neighbouringelementsfunctions}
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Graph Updates / Basic Graph Manipulation}
+
+There are functions to update the graph by adding or removing or retyping available, on nodes and edges: 
+
+\begin{description}
+\item[\texttt{add(.)}] adds a new node of the given node type to the host graph, returns the added node.
+\item[\texttt{add(.,.,.)}] adds a new edge of the given edge type to the host graph, in between the source node specified as second argument and the target node specified as third argument, returns the added edge.
+\item[\texttt{rem(.)}] removes the node or edge given from the host graph (no expression, does not return anything).
+\item[\texttt{retype(.,.)}] retypes the node or edge given to the node type or edge type given as second argument, returns the retyped entity.
+\item[\texttt{clear()}] clears the host graph.
+\end{description}
+
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Graph Query by Types}
+
+There are functions to ask for all nodes or edges of a type available: 
+\begin{description}
+\item[\texttt{nodes(.)}] returns all nodes in the graph compatible to the given node type, as set.
+\item[\texttt{nodes()}] returns all nodes in the graph, as set.
+\item[\texttt{edges(.)}] returns all edges in the graph compatible to the given edge type, as set.
+\item[\texttt{edges()}] returns all edges in the graph, as set.
+\end{description}
+
+The same functions can be used from for loops to iterate over the entities, omitting the filling of a set: 
+\begin{description}
+\item[\texttt{for(n:NodyType in nodes(NodeType)) \{Statements\}} ] iterates over all nodes in the graph compatible to the given node type.
+\item[\texttt{for(n:Node in nodes()) \{Statements\}} ] iterates over all nodes in the graph.
+\item[\texttt{for(e:EdgeType in edges(EdgeType)) \{Statements\}} ] iterates over all edges in the graph compatible to the given edge type.
+\item[\texttt{for(e:Edge in edges()) \{Statements\}} ] iterates over all edges in the graph.
+\end{description}
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Graph Query by Neighbourhood}
+
+Multiple functions are available to query the neighbourhood of nodes and edges.
+
+\subsubsection*{Edge Neighbourhood}
+
+The nodes incident to a given edge may be queried by the following functions: 
+
+\begin{description}
+\item[\texttt{source(.)}] returns the source node of the given edge.
+\item[\texttt{target(.)}] returns the target node of the given edge.
+\item[\texttt{opposite(.,.)}] returns the opposite node of the edge and the node (second argument) given.
+\end{description}
+
+\subsubsection*{Node Neighbourhood Common Concepts}
+
+The edges \texttt{incident} or the nodes \texttt{adjacent} to a given node may be queried.
+
+The neighbourhood query functions allow to additionally constrain the direction of the edges to \texttt{incoming} or \texttt{outgoing} edges, otherwise both directions are accepted.
+
+The neighbourhood query functions furthermore allow to constrain the accepted situations by optional arguments. The type the incident edges must have to be accounted for can be specified. Or the type the incident edges must have to be accounted for and the type the adjacent nodes must have to be accounted for (cf. \ref{NeighbourhoodFunctionCallTypes}).
+
+\begin{rail}
+NeighbourhoodFunctionCall: 
+  FunctionName '(' StartNodeExpr ')' |
+  FunctionName '(' StartNodeExpr ',' EdgeType ')' |
+  FunctionName '(' StartNodeExpr ',' EdgeType ',' NodeType ')'
+  ;
+\end{rail}\label{NeighbourhoodFunctionCallTypes}
+
+The neighbourhood query function can be used in three possible ways: 
+\begin{description}
+	\item[Set functions:] The neighbourhood function returns a set of neighbouring entities of the start node. It builds a set that is likely thrown away thereafter, so esp. for large sets this functions is less efficent than the other versions.
+\begin{rail}
+Expression:
+  FunctionName '(' StartNodeExpr ')' ;
+\end{rail}
+	\item[Iteration loops:] The neighbourhood function is employed from a for loop that allows to iterate the neighbouring entities of the start node. No set needs to be built here. But if the source node has multiple edges to a target node, it might be iterated multiple times. And an edge may be iterated twice in case of the undirected functions.
+\begin{rail}
+ForLoop: 
+  'for' '(' Name ':' Type 'in' FunctionName '(' StartNodeExpr ')' \\ lbrace Statements rbrace;
+\end{rail}
+	\item[Boolean functions:] The neighbourhood function is employed in a boolean predicate version that allows the check whether a second target entity is in the queried neighbourhood of the start node. The computation has the smallest internal processing overhead of the three options and stops as soon as a positive result is obtained.
+\begin{rail}
+Expression:
+  FunctionNamePredicate '(' StartNodeExpr ',' TargetEntity ')' ;
+\end{rail}
+The \emph{FunctionNamePredicate} is built from the \emph{FunctionName} by prepending \texttt{is} and switching the first charecter of \emph{FunctionName} to upper case.
+\end{description}
+
+
+\subsubsection*{Direct Node Neighbourhood}
+
+Available are queries for the neighbouring edges:
+
+\begin{description}
+\item[\texttt{incident(.)}] returns the set of the edges that are incident to the node given as argument value.
+\item[\texttt{incoming(.)}] same as the incident above, but restricted to incoming edges.
+\item[\texttt{outgoing(.)}] same as the incident above, but restricted to outgoing edges.
+\end{description}
+
+In the two argument version, only edges of the type given as second argument are contained.
+The three argument version behaves as the two argument version, but additionally only edges incident to an opposite node of the type given as third argument are contained.
+
+\begin{example}
+\begin{grgen}
+rule foo {
+    src:Node -e:Edge->; 
+    if(!isIncoming(src, e));
+    
+    modify {
+        eval {
+            if(incident(src, NiftyEdge, NiftyNode).size()>2)
+            {
+	              for(ne:NiftyEdge in outgoing(src, NiftyEdge))
+	              {
+	                  ne.attr = 42;
+	              }
+	          }
+        }
+    }
+}
+\end{grgen}
+Some fabricated example showing how to use the incoming, outgoing, and incident functions in their boolean predicate, set function, and for iteration versions, with and without constraining the edge and node types.
+\end{example}
+
+Available are queries for the neighbouring nodes:
+
+\begin{description}
+\item[\texttt{adjacent(.)}] returns the set of the nodes that are adjacent to the node given as argument value.
+\item[\texttt{adjacentIncoming(.)}] same as the adjacent above, but restricted to nodes reachable via incoming edges.
+\item[\texttt{adjacentOutgoing(.)}] same as the adjacent above, but restricted to nodes reachable via outgoing edges.
+\end{description}
+
+In the two argument version, nodes incident to an edge of the type given as second argument are contained.
+The three argument version behaves as the two argument version, but additionally only nodes of the node type given as third argument are contained.
+
+\subsubsection*{Transitive Node Neighbourhood}
+
+Besides direct neighbourhood, transitive neighbourhood can be queried with the reachability functions.
+
+Available are queries for the reachable edges:
+
+\begin{description}
+\item[\texttt{reachableEdges(.)}] returns the set of the edges that are reachable from the node given as argument value.
+\item[\texttt{reachableEdgesIncoming(.)}] same as the reachableEdges above, but restricted to incoming edges.
+\item[\texttt{reachableEdgesOutgoing(.)}] same as the reachableEdges above, but restricted to outgoing edges.
+\end{description}
+
+In the two argument version, only edges of the type given as second argument are contained and followed.
+The three argument version behaves as the two argument version, but additionally only edges incident to an opposite node of the type given as third argument are contained and followed.
+
+Available are queries for the reachable nodes:
+
+\begin{description}
+\item[\texttt{reachable(.)}] returns the set of the nodes that are reachable from the node given as argument value.
+\item[\texttt{reachableIncoming(.)}] same as any of the reachables above, but restricted to nodes reachable via incoming edges.
+\item[\texttt{reachableOutgoing(.)}] same as any of the reachables above, but restricted to nodes reachable via outgoing edges.
+\end{description}
+
+In the two argument version, nodes incident to an edge of the type given as second argument are contained and followed.
+The three argument version behaves as the two argument version, but additionally only nodes of the node type given as third argument are contained and followed.
+
+\begin{example}
+\begin{grgen}
+rule bar {
+    src:Node; 
+    tgt:Node;
+    if(isReachableOutgoing(src, tgt, NiftyEdge));
+    
+    modify {
+        eval {
+            if(!(reachableIncoming(src) & reachableOutgoing(src)).empty())
+            {
+                for(ne:NiftyEdge in reachable(src))
+                {
+                    ne.attr = 42;
+                }
+            }
+        }
+    }
+}
+\end{grgen}
+Some fabricated example showing how to use the \texttt{isReachableOutgoing} function to check for an \indexed{iterated path} between the \texttt{src} and \texttt{target} nodes, how to check for loops by interesecting the sets of nodes reachable by outgoing edges from a node and reachable by incoming edges to a node, and how to iterate with one loop over all edges reachable in either way from a node.
+
+The isReachable functions give the most efficient and most convenient way to check for an iterated path in GrGen, if you need more elaborate checking than constraining the edge type to one type and the taget node type to one type you need to program the iterated path with subpattern recursion.
+
+The reachable iteration is the most concise way to note down a depth first walk over a graph, visiting all elements reachable from a source node on.
+\end{example}
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Induced Subgraph Computation and Graph Update by Subgraph Insertion}
+
+Functions that allow to compute (node-or-edge) induced subgraphs, and to insert clones of induced subgraphs are available.
+They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
+
+\begin{description}
+\item[\texttt{inducedSubgraph(.)}] returns the induced subgraph (type: \texttt{graph}) of the host graph for the set of nodes given as argument value.
+\item[\texttt{definedSubgraph(.)}] returns the defined (edge-induced) subgraph (type: \texttt{graph}) of the host graph for the set of edges given as argument value.
+\item[\texttt{insertInduced(.,.)}] adds a clone of the subgraph induced by the set of nodes given as first argument to the host graph, returns the clone of the anchor node given as second argument.
+\item[\texttt{insertDefined(.,.)}] adds a clone of the subgraph defined (edge-induced) by the set of edges given as first argument to the host graph, returns the clone of the anchor edge given as second argument.
+\end{description}
+
+% todo: mehr beispiele
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph comparison}\label{sec:relationalgraph}
+
+Here we extend the relational expressions already introduced in \ref{sec:relational} (and already extended in \ref{cha:container} to include container types) with the (sub)graph type.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ is isomorphic to $B$. \\
+    \texttt{A != B} & True, iff $A$ is not isomorphic to $B$. \\
+    \texttt{A \textasciitilde\textasciitilde{ } B} & True, iff $A$ is structurally the same as $B$ but maybe different regarding the attributes. \\ \hline
+  \end{tabularx}
+  \caption{Compare operators on graph expressions}
+  \label{compandgraph}
+\end{table}
+
+The \texttt{graph} type support the \texttt{==}, the \texttt{!=}, and the \texttt{\textasciitilde\textasciitilde} operators;
+on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}) or not, including the attributes, or whether the (sub)graphs are isomorphic disregarding the attributes.
+
+These operators consist just of two charactes, but don't underestimate their impact on performance:
+they do graph isomorphy checking, which is expensive.
+They are implemented in an early out style, i.e. the more different the graphs are, the earlier does the check return with the result they are not isomorphic.
+But if the graphs you are checking are isomorphic (which will happen easily if you use automorphic patterns), then you have to pay the full price for isomorphy checking; if this occurs often, your solution may become prohibitively costly (including an external graph canonization library or the \texttt{canonize} function may be of interest in that case).
+
+Some notes on the early out implementation: first the number of nodes and edges per type are checked, if they are different the graphs can't be isomorphic. The numbers are directly supplied by the \texttt{lgspBackend}, refuting isomorphy based on them is extremely cheap.
+Then the \indexed{V-Structure}s (see \ref{searchplanning}) used in computing better matchers at runtime are first computed and then compared; if they are different the graphs can't be isomorphic. They are a good deal less expensive to compute than trying to match the one graph in the other; on well typed graphs the V-Structure counts are highly discriminating.
+
+If these two pruning methods failed, a matcher is computed from one graph with search planning based on the V-Structure information just computed, and then applied on the other graph.
+The matchers are stored in the graphs from which they originated, so if you do repeated comparisons of a subgraph which does not change, take care to extract that subgraph only once, store it, e.g. as an attribute in the graph, and continue to compare against it. 
+This will save you from the cost of repeated search planning; in addition, often-used isomorphy matchers get eventually compiled resulting in a further speed-up.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Visited Flags} \label{sub:visitedaccess}\indexmain{visited access}
+
+The boolean \texttt{visited} flags may be used for marking already visited graph elements during graph walks or for partitioning a graph.
+They may be queried with a function of the expressions, and set in the computations (extended attribute evaluation functions).
+The following syntax diagram gives an extensions to the \emph{Expression} clause of chapter \ref{cha:typeexpr} and an extension to the computation \emph{Statements} of chapter \ref{cha:computations}:
+
+\begin{rail}
+	Expression: VisitedFlag ;
+  VisitedAssignment: VisitedFlag '=' BoolExpr ';';
+	VisitedFlag: NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? ;
+\end{rail}\ixnterm{VisitedFlag}\ixnterm{VisitedAssignment}\ixkeyw{visited}
+
+The \texttt{visited} flag expression returns the \texttt{boolean} status of the \indexed{visited flag} of the given number for the given graph element.
+The \texttt{visited} flag assignment sets the status of the \indexed{visited flag} of the given number for the given graph element to the value defined by the \texttt{boolean} expression.
+If no \texttt{int} flag number is given, the default number for the first visited flag of 0 is used.
+
+The visited flags are stored in some excess bits of the graph elements, if this pool is exceeded they are stored in additional dictionaries, one per visited flag requested.
+Due to this flags must get allocated before they are used and deallocated afterwards, and all flag related operations require an integer number -- the flag id -- specifying the flag to operate on (with exception of the allocation operation returning this flag id).
+If you try to access a not previously allocated visited flag, an exception is thrown.
+
+\begin{rail}
+  FunctionName: 'valloc' | 'vfree' | 'vreset' | 'vfreenonreset';
+\end{rail}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{vreset}\ixkeyw{vfreenonreset}
+
+The operations managing the visited flags are:
+\begin{description}
+\item[Flag allocation:] By \texttt{valloc()}\label{allocvisitflag} -- allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0.
+Afterwards, the visited flag of the id can be read and written by the \texttt{visited}-expression and the \texttt{visited}-assignment.
+The first visited flags are stored in some excess bits of the graph elements and are thus essentially for free,
+but if this implementation defined space is used up completely, the information is stored in graph element external dictionaries.
+\item[Flag deallocation:] By \texttt{vfree} -- frees the space previously allocated for the visited flag; afterwards you must not access it anymore.
+The value passed in \texttt{vfree(IntExpr)} must be of integer type, stemming from a previous allocation.
+This function internally calls a \texttt{vreset} to ensure that no corresponding visited flag is set in the graph.
+\item[Flag resetting:] By \texttt{vreset} -- resets the visitor flag given by the flag id variable in \emph{all} graph elements.
+\item[Flag deallocation without reset:] With \texttt{vfreenonreset} the space previously allocated for the visited flag is freed, too, but the implicit internal \texttt{vreset(id)} of \texttt{vfree} is not executed. It is your duty to ensure the flag is \texttt{false} in all graph elements -- otherwise after a following allocation elements may start as being marked. This saves us an O(n) operation, but opens the door to nasty bugs if you can't design your algorithm in a way which renders unmarking trivial.
+\end{description}

@@ -1,10 +1,7 @@
-\chapter{Advanced Control and Sequence Computations}\indexmain{advanced control}\indexmain{sequence computations}
-\label{cha:transaction}
+\chapter{Advanced Control}\indexmain{advanced control}\label{cha:transaction}
 
 In this chapter we'll have a look at advanced graph rewrite sequence constructs,
-with the \indexed{subsequences} and the backtracking double angles as the central statements;
-and at sequence computations, which are not concerned with directly controling rules,
-but with computing values or creating side effects.
+with the \indexed{subsequences} and the backtracking double angles as the central statements.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -191,205 +188,10 @@ the subsequence of the interval the number falls into is executed,
 the result of the sequence is the result of the chosen subsequence.
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Sequence Computation} \label{sec:seqcomp}
-
-\begin{rail} 
-  RewriteComputationUsage: (percent)? lbrace CompoundComputation rbrace; 
-\end{rail}\ixnterm{RewriteFactor}
-
-The non-computation constructs introduced before are used for executing rules, to determine which rule to execute next depending on success and failure of the previous rule applications, and where to apply it next by transmitting simple valued variables in between the rules.
-Sequence computations in contrast are used for manipulating complex valued variables, evaluating computational expressions, or for causing side effects like output or element markings.
-The computation will return a boolean value by comparing the return value of the compound computation to the default value of the corresponding type, and returning false if equal, or true if unequal; a computation without a return value always returns true.
-So just using a boolean variable as computation returns the value of the variable.
-A prepended \texttt{\%} attaches a \indexed{break point} to the computation.
-
-\begin{rail} 
-  CompoundComputation: Computation ((';' Computation)*); 
-\end{rail}
-
-A compound computation consists of a computation followed by an optional list of computations separated by semicolons.
-The computations are executed from left to right;
-the value of the compound computation is the value of the last computation (so you must give an expression there in order to return a value, whereas it is pointless to specify an expression before).
-
-\begin{rail} 
-  Computation:
-     VariableDeclaration |
-     Assignment |
-     MethodCall |
-     FunctionCall |
-     SequenceExpression
-  ;
-	Assignment:	AssignmentTarget '=' (SequenceExpression | Assignment); 
-	MethodCall: (Variable | GraphElement '.' Attribute) (SingleMethodCall +);
-	SingleMethodCall: '.' MethodName '(' Arguments ')';
-	FunctionCall: FunctionName '(' Arguments ')';
-	Arguments: (SequenceExpression * ',');
-\end{rail}\ixnterm{Computation}\label{recstmt}\indexmain{record}\indexmain{emit}
-
-A variable declaration declares a local variable in the same way as in the sequences.
-An assignment assigns the value of a sequence expression to an assignment target.
-It may be chained; such an assignment chain is executed from right to left, assigning the rightmost value to all the assignment targets given.
-The form of expressions and assignment targets will be specifed below.
-
-A method call executes a (predefined) method on a variable, passing further arguments.
-It may be chained; such a method call chain is executed from left to right. 
-This is possible with storage changing methods which return the variable again, better: which return the then altered variable. 
-They were already explained in \ref{sec:storages}.
-
-A function call executes a (predefined) function, passing further arguments.
-In addition to the visited flag functions which were already explained in more detail in \ref{sec:visited},
-\texttt{emit}, \texttt{record}, and \texttt{export} function calls can be given here: the emit function writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
-The record function writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
-The export function exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
-It behaves like the export command from the GrShell, see \ref{outputcmds}.
-Having it available in the sequences allows for programmed exporting, and exporting of parts of the graph, with the subgraph containment just computed.
-
-Furthermore, a function \texttt{canonize(g:graph):string} is available,
-which delivers a canonical representation of the graph, 
-and allows to reduce graph comparisons to string comparisons,
-at the price of computing the canonical representation.
-The method supposedly doesn't work on isospectral graphs.
-
-Finally, an expression (without side effects) can be evaluated, this allows to return a (boolean) value from a computation.
-
-\begin{rail}
-  AssignmentTarget: 
-    Variable (':' Type)? |
-    'yield' Variable |
-    GraphElement '.' Attribute |
-    Variable '[' SequenceExpression ']' |
-    GraphElement '.' Attribute '[' SequenceExpression ']' |
-    GraphElement '.' 'visited' '[' SequenceExpression ']'
-;
-\end{rail}\ixnterm{AssignmentTarget}\ixkeyw{visited}\ixkeyw{yield}
-
-Possible targets of assignments are the variables and def-variables to be yielded to, as in the simple assignments of the sequences. 
-A \texttt{yield} assignment writes the rhs variable value to the lhs variable which must be declared as a  def-to-be-yielded-to variable (\texttt{def}-prefix) in the pattern containing the \texttt{exec} statement.
-Yielding is only possible from compiled sequences, it always succeeds.
-Further on, the attributes of graph elements may be written to, the values at given positions of array or deque or map variables may be written to, and the visited status of graph elements may be changed.
-
-\begin{rail}
-  SequenceExpression:  
-    ConditionalSequenceExpression |
-    BooleanSequenceExpression |
-    RelationalSequenceExpression |
-    ArtihemticSequenceExpression |
-    PrimarySequenceExpression;
-\end{rail}\ixnterm{SequenceExpression}
-
-Sequence expressions are basically a subset of the expressions introduced in \ref{sub:expr}.
-
-\begin{rail}
-  ConditionalSequenceExpression: 
-    BooleanSequenceExpression '?' SequenceExpression ':' SequenceExpression;
-\end{rail}\ixnterm{ConditionalSequenceExpression}
-
-The conditional operator has lowest priority, if the condition evaluates to true the first expression is evaluated and returned, otherwise the second.
-
-\begin{rail}
-  BooleanSequenceExpression: 
-    SequenceExpression (ampersand | xorhat | '|' | doubleampersand | '||') SequenceExpression |
-    '!' SequenceExpression;
-\end{rail}\ixnterm{BooleanSequenceExpression}
-
-The boolean operators have the same semantics and same priority as in \ref{sub:expr}.
-
-\begin{rail}
-  RelationalSequenceExpression: 
-    SequenceExpression ('==' | '!=' | '<' | '<='| '>' | '>=' | 'in' | titilde) SequenceExpression;
-\end{rail}\ixnterm{RelationalSequenceExpression}
-
-The equality operators work for every type and return whether the values to compare are equal or unequal.
-The relational operators on numerical, graph, and container types work as specified in \ref{sub:expr} and \ref{cha:container}.
-
-\begin{rail}
-  ArithmeticSequenceExpression:
-    SequenceExpression ('+' | '-') SequenceExpression;
-\end{rail}\ixnterm{ArithmeticSequenceExpression}
-
-The arithemtic operator plus is used to denote addition of numerical values or string concatenation,
-the arithemtic operator minus is used to denote subtraction of numerical values.
-
-\begin{rail}
-  PrimarySequenceExpression:
-    BasicSequenceExpression |
-    SpecialSequenceExpression;
-\end{rail}\ixnterm{PrimarySequenceExpression}
-
-The atoms of the expressions are the basic and the special sequence expressions.
-
-\begin{rail}
-  BasicSequenceExpression:
-    'def' '(' (Variable+',') ')' |
-	  railat '(' NameString ')' |
- 	  GraphElement '.' Attribute |
-	  Variable | 
-    Literal
-  ;
-\end{rail}\ixnterm{BasicSequenceExpression}\ixkeyw{def}
-
-The basic sequence expressions are the building blocks of the computation sequences.
-A \texttt{def} term is successful iff all the variables are defined (not null).
-The at operator allows to access a graph element by its \indexed{persistent name}.
-The attribute access clause returns the attribute value of the given graph element.
-The variable and literal basic expressions are the same as in the SimpleOrInteractiveExpression;
-this means esp. that a Variable may denote a graph global variable if prefixed with a double colon as in  \ref{sec:simplevarhandling}, here as well as in the AssignmentTarget.
-
-\begin{rail}
-  SpecialSequenceExpression:
-    Variable '[' SequenceExpression ']' |
-    GraphElement '.' Attribute '[' SequenceExpression ']' |
-    GraphElement '.' 'visited' '[' SequenceExpression ']' |
-    MethodCall |
-    FunctionCall;
-  ;
-\end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{visited}
-
-The special sequence expressions are used for storage and visited flag handling, for random value queries, and for graph and subgraph handling.
-
-The storage and visited flag oriented ones are used to check whether a value is marked, to access a storage, or to call a method on a storage (note: here it is not possible to build method call chains). 
-They were explained in chapter \ref{cha:storagesvisited}.
-
-The random value function \texttt{random} behaves like the random function from the expressions, see \ref{sec:primexpr};
-i.e. if noted down with an integer as argument it returns a random integer in between 0 and that upper bound, exclusive; if given without an argument it returns a random double in between 0.0 and 1.0, exclusive.
-
-The graph and subgraph oriented ones can be separated into three groups.
-
-\subsubsection*{Basic Graph Manipulation}
-The first group is built from basic graph manipulation operators used for adding or removing elements:
-
-\begin{description}
-\item[\texttt{add(.)}] creates a node of the given type and adds it to the host graph.
-\item[\texttt{add(.,.,.)}] creates an edge of the given type and adds it to the host graph, starting at the node given as second argument, ending at the node given as third argument.
-\item[\texttt{rem(.)}] removes the given node or edge from the graph.
-\item[\texttt{clear()}] clears the host graph.
-\end{description}
-
-\subsubsection*{Connectedness Queries}
-The second group is built from the operators querying primarily the connectedness of graph elements.
-See \ref{neighbouringelementsfunctions} for more on them; they were moved to an own chapter, because besides being available in the expressions of the sequence computations we take care of here,
-they are available in the expressions of the rules, too.
-
-\subsubsection*{Subgraph Operations}\label{subgraphoperations}
-The third group is defined by functions which operate on (sub-)graphs:
-It contains functions which allow to compute (node-or-edge) induced subgraphs, and to insert clones of induced subgraphs.
-They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
-
-\begin{description}
-\item[\texttt{inducedSubgraph(.)}] returns the induced subgraph (type: \texttt{graph}) of the host graph for the set of nodes given as argument value.
-\item[\texttt{definedSubgraph(.)}] returns the defined (edge-induced) subgraph (type: \texttt{graph}) of the host graph for the set of edges given as argument value.
-\item[\texttt{insertInduced(.,.)}] adds a clone of the subgraph induced by the set of nodes given as first argument to the host graph, returns the clone of the anchor node given as second argument.
-\item[\texttt{insertDefined(.,.)}] adds a clone of the subgraph defined (edge-induced) by the set of edges given as first argument to the host, returns the clone of the anchor edge given as second argument.
-\end{description}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick Reference Table}
 
-Table~\ref{seqtab} lists most of the operations of the graph rewrite sequences at a glance,
-whereas Table~\ref{comptab} lists most of the operations of the graph rewrite computations at a glance.
+Table~\ref{seqtab} lists most of the operations of the graph rewrite sequences at a glance.
 
 %\makeatletter
 \begin{table}[htbp]
@@ -412,7 +214,7 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 \texttt{for\{v:T; s\}}	& Execute \texttt{s} for every \texttt{v} of type \texttt{T} available in the graph. One \texttt{s} failing pins the execution result to failure.\\
 \texttt{for\{v in func(w); s\}}	& Execute \texttt{s} for every edge/node incident/adjacent to \texttt{w} . One \texttt{s} failing pins the execution result to failure.\\
 \hline
-\texttt{\{comp\}}	& An unspecified sequence computation (see following table).\\
+\texttt{\{comp\}}	& An unspecified sequence computation (see table \ref{comptab}).\\
 \hline
 \end{tabularx}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}
 \end{minipage}\\
@@ -420,63 +222,6 @@ whereas Table~\ref{comptab} lists most of the operations of the graph rewrite co
 {\small Let \texttt{r}, \texttt{s}, \texttt{t} be sequences, \texttt{u}, \texttt{v}, \texttt{w} variable identifiers, \texttt{<op>} $\in \{\texttt{|}, \texttt{\textasciicircum}, \texttt{\&}, \texttt{||}, \texttt{\&\&}\}$ }%and \texttt{n}, \texttt{m} $\in \N_0$.}
 \caption{Sequences at a glance}
 \label{seqtab}
-\end{table}
-%\makeatother
- 
-%\makeatletter
-\begin{table}[htbp]
-\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
-\begin{tabularx}{\linewidth}{|lX|}
-\hline
-\texttt{c;d}	& Computes c then d; the value of the computation is d\\
-\texttt{t=e}	& Simple assignment of an expression value to an assignment target\\
-\texttt{t=e=f}	& Chained assignment \\
-\texttt{v.m(e)}	& Simple method call, with m e.g. being storage add \\
-\texttt{v.m(e).m(e)}	& Chained method call\\
-\hline
-\texttt{e ? f : g}	& Returns f if e evaluates to true, otherwise g \\
-\texttt{e op f}	& For \texttt{op} being one of the boolean operators \texttt{||,|,\&,\&\&,\^\ } \\
-\texttt{e op f}	& For \texttt{op} being one of comparison operators \texttt{==,!=,<,<=,>,>=,in} \\
-\texttt{e + f}	& Numerical addition or string concatenation \\
-\hline
-\texttt{v} & Variable. Assignment target or expression.\\
-\texttt{v.name} & Attribute of graph element. Assignment target or expression.\\
-\texttt{@(name)} & Return graph element of given name.\\
-\texttt{emit(v)} & Emits value of v to stdout.\\
-\texttt{record(v)} & Records value of v to the replay log.\\
-\texttt{export(filename)} & Exports the current graph to a file with the specified name. \\
-\texttt{export(graph, path)} & Exports the (sub)graph given to the path given.\\
-\texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
-\texttt{random(upperBound)} & Returns random number from [0;upper bound[, if upper bound is missing from [0.0;1.0[.\\
-\hline
-\texttt{v=valloc()} & Allocates a visited-flag, assigns its id to v.\\
-\texttt{vfree(e)} & Frees the visited-flag given.\\
-\texttt{vreset(e)} & Resets the visited-flag given in all graph elements.\\
-\texttt{u.visited[e]} & Visited flag e of u. Assignment target or expression.\\
-\hline
-\texttt{u=set<Node>\{\}}	& Create storage set and assign to \texttt{u}.\\
-\texttt{u.add(e)}	& Add \texttt{e} to storage set \texttt{u}.\\
-\texttt{u.rem(e)}	& Remove \texttt{e} from storage set \texttt{u}.\\
-\texttt{u.clear()}	& Clears the storage set \texttt{u}.\\
-\texttt{u.size()}	& Returns the size of storage set \texttt{u}.\\
-\texttt{u.empty()} & Returns whether storage set \texttt{u} is empty.\\
-\texttt{u=map<N,Edge>\{\}}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
-\texttt{u[e]}	& Target value of \texttt{e} in \texttt{u}. Fails if \texttt{!(e in u)}. Assignment target or expression.\\
-\hline
-\texttt{add(T)}	& Adds a node to the graph.\\
-\texttt{add(T,src,tgt)}	& Adds an edge to the graph.\\
-\texttt{rem(e)}	& Remove the node or edge \texttt{e} from the graph.\\
-\texttt{clear()}	& Clears the graph.\\
-\texttt{incident(n)}	& Returns the set of edges incident to \texttt{n}.\\
-\texttt{adjacent(n)} & Returns the set of nodes adjacent to \texttt{n}.\\
-\texttt{subgraph operations} & The subgraph operations allow to compute an induced or defined subgraph, or allow to replicate an induced or defined subgraph.\\
-\hline
-\end{tabularx}
-\end{minipage}\\
-\\ 
-{\small Let \texttt{c} and \texttt{d} be computations, \texttt{t} be an assignment target, \texttt{e}, \texttt{f}, \texttt{g} be expressions, \texttt{u}, \texttt{v}, \texttt{w} be variable identifiers }
-\caption{Sequence computations at a glance}
-\label{comptab}
 \end{table}
 %\makeatother
  

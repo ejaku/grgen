@@ -27,7 +27,7 @@ Subpatterns can receive additional rewrite parameters in contrast to the actions
 
 \begin{rail}  
   SubpatternEntityDeclaration: 
-    Ident ':' SubpatternType '(' (Ident * ',') ')' ';' ;
+    Ident ':' SubpatternType '(' ((Ident|Expression) * ',') ')' ';' ;
 \end{rail}\ixnterm{SubpatternEntityDeclaration}\indexmain{subpattern entity declaration}
 
 Subpattern entity declarations instantiate an entity of the subpattern type (i.e. specified shape), which means the subpattern must get matched for the matching of the enclosing pattern to succeed.
@@ -435,7 +435,7 @@ Normally the rewrite order is as given in table \ref{table:executionorderrewriti
   \label{table:executionorderrewriting}
 \end{table}
 
-So first the subpatterns rewrites, then the iterated rewrites, then the alternative rewrits are executed, and finally the local eval statements.
+So first the subpatterns rewrites, then the iterated rewrites, then the alternative rewrits are executed, and finally the local eval statements (computations).
 This might be sufficient in some cases, but in other cases when you want to compute an attributation over a tree/a graph, you want to have local computations influenced by attributes in nested/called children or its siblings, and attributes in nested/called children influenced by its parents or siblings.
 So we need a language device which allows us to intermingle attribute computations in between the rewrite part executions of nested patterns and subpattern rewrite calls.
 And a language device which allows us to give the execution oder of the alternative and iterated statements relative to the subpattern rewrite calls and attribute evaluations.
@@ -592,7 +592,7 @@ Furthermore subpattern parameters may be declared as def parameters in the subpa
 These elements can then be yielded to from within \texttt{eval} statements inside a \texttt{yield} block
 (maybe with iterated accumulation) and subpattern usages.
 A \texttt{yield} block is a constrained \texttt{eval} block which can be given in the pattern part;
-it does not allow to assign to or change non-\texttt{def} variables.
+it does not allow to assign to or change non-\texttt{def} variables, or carry out graph-changing commands.
 Yielding is specified by prepending the \texttt{yield}\indexmain{yield} keyword to the entity yielded to,
 in the assignment or method call.
 The \texttt{yield} must be prepended to the argument for a subpattern def parameter, too.

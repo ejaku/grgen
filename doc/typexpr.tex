@@ -1,4 +1,4 @@
-\chapter{Types and Expressions}
+\chapter{Basic Types and Expressions}
 \label{cha:typeexpr}
 %In the following sections \emph{Ident} refers to an identifier of the graph model language (see Section~\ref{modelbb}) or the rule set language (see Section~\ref{rulebb}).
 %\emph{TypeIdent} is an identifier of a node type or an edge type, \emph{NodeOrEdge} is an identifier of a node or an edge.
@@ -234,8 +234,9 @@ If one operand is \texttt{double} the operation is carried out with 64 Bits, oth
 String expressions combine string values by string operations, with integer numbers used as helpers to denote positions in the strings (and giving the result of length counting).
 
 \begin{rail}
-  StringExpr: PrimaryExpr (MethodSelector)? | StringExpr '+' StringExpr;
-\end{rail}\ixnterm{StringExpr}
+  StringExpr: PrimaryExpr (MethodSelector)? | StringExpr '+' StringExpr ;
+  MethodSelector: '.' MethodName '(' (Variable*',') ')' ;
+\end{rail}\ixnterm{StringExpr}\ixnterm{MethodSelector}
 The operator \texttt{+} concatenates two strings.
 There are several operations on strings available in method call notation (MethodSelector), these are
 
@@ -301,17 +302,10 @@ After we've seen the all the ways to combine expressions, finally we'll have a l
   		| FunctionCall
   		| VarIdent
   		| '::' GlobalVarIdent
-  		| NodeOrEdge '.' 'visited' ('[' FlagNumber ']')?
   		| 'nameof' '(' NodeOrEdge? ')'
   		| 'random' '(' ( IntExpr )? ')'
   		| '(' Expression ')';
-\end{rail}\ixnterm{PrimaryExpr}\ixkeyw{visited}\ixkeyw{nameof}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
-
-The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
-If no flag number is given, the default number for the first visited flag of 0 is used.
-The visited flags are written in the assignments of the eval statements (see section \ref{sec:replacemodify}).
-Make sure to allocate \ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them
-(and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
+\end{rail}\ixnterm{PrimaryExpr}\ixkeyw{nameof}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
 
 The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex}) of the given graph element as \texttt{string}
 (graphs elements of pure \texttt{LGSPGraph}s bear no name, then the query fails, but normally you are using \texttt{LGSPNamedGraph}s).
@@ -333,11 +327,18 @@ A function call employs an external (attribute evaluation) function (cf. \ref{su
 \begin{description}
 \item[\texttt{min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
 \item[\texttt{max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
+\item[\texttt{abs(.)}] returns the absolute value of the argument, which must be of numeric type (i.e. \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
 \item[\texttt{pow(.,.)}] returns the first argument value to the power of the second value; both must be of type \texttt{double}
+\item[\texttt{pow(.)}] returns $e$ to the power of the argument value, which must be of type \texttt{double}
+\item[\texttt{log(.,.)}] returns the logarithm of the first argument value regarding the base given by the second value; both must be of type \texttt{double}
+\item[\texttt{log(.,.)}] returns the logarithm of the argument value that must be of type \texttt{double} regarding the base $e$
+\item[\texttt{sin(.)}] returns the sinus of the argument, which must be of type \texttt{double}
+\item[\texttt{cos(.)}] returns the cosinus of the argument, which must be of type \texttt{double}
+\item[\texttt{tan(.)}] returns the tangens of the argument, which must be of type \texttt{double}
 \end{description}
 
 \begin{rail}
-  Literal: Constant | SetConstructor | MapConstructor | ArrayConstructor | DequeConstructor ;
+  Literal: Constant | ContainerConstructor ;
   Constant: EnumLit | Number | HexNumber | FloatingNumber | QuotedText | BoolLit | NullLit;
 \end{rail}\ixnterm{Constant}\ixnterm{Literal}\label{literaldef}
 
