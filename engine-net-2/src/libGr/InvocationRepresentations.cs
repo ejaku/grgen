@@ -11,15 +11,15 @@ using System.Collections.Generic;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// An object representing a rule or sequence invocation.
-    /// It stores the input arguments (values),
-    /// tells with which sequence expressions to compute them,
-    /// and where (which variables) to store the output values.
+    /// An object representing a rule or sequence or computation invocation.
+    /// It stores the input arguments (values) and
+    /// tells with which sequence expressions to compute them.
     /// </summary>
-    public abstract class InvocationParameterBindings
+    public class InvocationParameterBindings
     {
         /// <summary>
-        /// The name of the rule or the sequence. Used for generation, where the rule or sequence representation objects do not exist yet.
+        /// The name of the rule or sequence or computation.
+        /// Used for generation, where the rule or sequence or computation representation objects do not exist yet.
         /// </summary>
         public String Name;
 
@@ -34,12 +34,6 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpression[] ArgumentExpressions;
 
         /// <summary>
-        /// An array of variables used for the return values.
-        /// Might be empty if the rule/sequence caller is not interested in available returns values.
-        /// </summary>
-        public SequenceVariable[] ReturnVars;
-
-        /// <summary>
         /// Buffer to store the argument values for the call;
         /// used by libGr to avoid unneccessary memory allocations.
         /// </summary>
@@ -50,20 +44,52 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="argExprs">An array of expressions used to compute the arguments</param>
         /// <param name="arguments">An array of arguments.</param>
-        /// <param name="returnVars">An array of variables used for the return values</param>
-        public InvocationParameterBindings(SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars)
+        public InvocationParameterBindings(SequenceExpression[] argExprs, object[] arguments)
         {
             if(argExprs.Length != arguments.Length)
                 throw new ArgumentException("Lengths of argument expression array and argument array do not match");
-            foreach(SequenceVariable var in returnVars)
-                if(var==null) throw new Exception("Null entry in return vars");
-            Name = "<Unknown rule/sequence>";
+            Name = "<Unknown rule/sequence/computation>";
             ArgumentExpressions = argExprs;
-            ReturnVars = returnVars;
             Arguments = arguments;
         }
 
-        public void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+        public virtual void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            foreach(SequenceExpression seqExpr in ArgumentExpressions)
+                seqExpr.GetLocalVariables(variables, containerConstructors);
+        }
+    }
+
+    /// <summary>
+    /// An object representing a rule or sequence invocation.
+    /// It stores the input arguments (values),
+    /// tells with which sequence expressions to compute them,
+    /// and where (which variables) to store the output values.
+    /// </summary>
+    public abstract class InvocationParameterBindingsWithReturns : InvocationParameterBindings
+    {
+        /// <summary>
+        /// An array of variables used for the return values.
+        /// Might be empty if the rule/sequence caller is not interested in available returns values.
+        /// </summary>
+        public SequenceVariable[] ReturnVars;
+
+        /// <summary>
+        /// Instantiates a new InvocationParameterBindingsWithReturns object
+        /// </summary>
+        /// <param name="argExprs">An array of expressions used to compute the arguments</param>
+        /// <param name="arguments">An array of arguments.</param>
+        /// <param name="returnVars">An array of variables used for the return values</param>
+        public InvocationParameterBindingsWithReturns(SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars)
+            : base(argExprs, arguments)
+        {
+            foreach(SequenceVariable var in returnVars)
+                if(var==null) throw new Exception("Null entry in return vars");
+            ReturnVars = returnVars;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             foreach(SequenceExpression seqExpr in ArgumentExpressions)
@@ -79,7 +105,7 @@ namespace de.unika.ipd.grGen.libGr
     /// tells with which sequence expressions to compute them,
     /// and where (which variables) to store the output values.
     /// </summary>
-    public class RuleInvocationParameterBindings : InvocationParameterBindings
+    public class RuleInvocationParameterBindings : InvocationParameterBindingsWithReturns
     {
         /// <summary>
         /// The IAction instance to be used
@@ -123,7 +149,7 @@ namespace de.unika.ipd.grGen.libGr
     /// tells with which sequence expressions to compute them,
     /// and where (which variables) to store the output values.
     /// </summary>
-    public class SequenceInvocationParameterBindings : InvocationParameterBindings
+    public class SequenceInvocationParameterBindings : InvocationParameterBindingsWithReturns
     {
         /// <summary>
         /// The defined sequence to be used
@@ -154,6 +180,50 @@ namespace de.unika.ipd.grGen.libGr
             copy.ReturnVars = new SequenceVariable[ReturnVars.Length];
             for(int i = 0; i < ReturnVars.Length; ++i)
                 copy.ReturnVars[i] = ReturnVars[i].Copy(originalToCopy, procEnv);
+            copy.Arguments = new object[Arguments.Length];
+            for(int i = 0; i < Arguments.Length; ++i)
+                copy.Arguments[i] = Arguments[i];
+            return copy;
+        }
+    }
+
+    /// <summary>
+    /// An object representing a computation invocation.
+    /// It stores the input arguments (values) and
+    /// tells with which sequence expressions to compute them.
+    /// </summary>
+    public class ComputationInvocationParameterBindings : InvocationParameterBindings
+    {
+        /// <summary>
+        /// The computation to be used
+        /// </summary>
+        public ComputationInfo ComputationDef;
+
+        /// <summary>
+        /// The type returned
+        /// </summary>
+        public string ReturnType;
+
+        /// <summary>
+        /// Instantiates a new ComputationInvocationParameterBindings object
+        /// </summary>
+        /// <param name="sequenceDef">The defined computation to be used</param>
+        /// <param name="argExprs">An array of expressions used to compute the arguments</param>
+        /// <param name="arguments">An array of arguments.</param>
+        public ComputationInvocationParameterBindings(ComputationInfo computationDef,
+            SequenceExpression[] argExprs, object[] arguments)
+            : base(argExprs, arguments)
+        {
+            ComputationDef = computationDef;
+            if(computationDef != null) Name = computationDef.name;
+        }
+
+        public ComputationInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            ComputationInvocationParameterBindings copy = (ComputationInvocationParameterBindings)MemberwiseClone();
+            copy.ArgumentExpressions = new SequenceExpression[ArgumentExpressions.Length];
+            for(int i = 0; i < ArgumentExpressions.Length; ++i)
+                copy.ArgumentExpressions[i] = ArgumentExpressions[i].CopyExpression(originalToCopy, procEnv);
             copy.Arguments = new object[Arguments.Length];
             for(int i = 0; i < Arguments.Length; ++i)
                 copy.Arguments[i] = Arguments[i];

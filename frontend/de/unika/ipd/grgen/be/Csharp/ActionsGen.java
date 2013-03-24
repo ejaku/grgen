@@ -95,6 +95,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\trulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern["+
 				be.unit.getSubpatternRules().size()+"+"+be.unit.getActionRules().size()+"];\n");
 		sb.append("\t\t\tdefinedSequences = new GRGEN_LIBGR.DefinedSequenceInfo["+be.unit.getSequences().size()+"];\n");
+		sb.append("\t\t\tcomputations = new GRGEN_LIBGR.ComputationInfo["+be.unit.getComputations().size()+"];\n");	
 		int i = 0;
 		for(Rule subpatternRule : be.unit.getSubpatternRules()) {
 			sb.append("\t\t\tsubpatterns["+i+"] = Pattern_"+formatIdentifiable(subpatternRule)+".Instance;\n");
@@ -112,6 +113,11 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\tdefinedSequences["+i+"] = SequenceInfo_"+formatIdentifiable(sequence)+".Instance;\n");
 			++i;
 		}
+		i = 0;
+		for(Computation computation : be.unit.getComputations()) {
+			sb.append("\t\t\tcomputations["+i+"] = ComputationInfo_"+formatIdentifiable(computation)+".Instance;\n");
+			++i;
+		}
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override GRGEN_LGSP.LGSPRulePattern[] Rules { get { return rules; } }\n");
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPRulePattern[] rules;\n");
@@ -121,6 +127,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;\n");
 		sb.append("\t\tpublic override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }\n");
 		sb.append("\t\tprivate GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;\n");
+		sb.append("\t\tpublic override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }\n");
+		sb.append("\t\tprivate GRGEN_LIBGR.ComputationInfo[] computations;\n");
 		sb.append("\t}\n");
 		sb.append("\n");
 
@@ -277,6 +285,10 @@ public class ActionsGen extends CSharpBase {
 		
 		sb.append("\t}\n");
 		sb.append("\n");
+		
+		for(Computation computation : be.unit.getComputations()) {
+			genComputationInfo(sb, computation);
+		}
 	}
 
 	private void genComputation(StringBuffer sb, Computation computation) {
@@ -294,6 +306,62 @@ public class ActionsGen extends CSharpBase {
 			modifyGenForComputations.genEvalStmt(sb, null, evalStmt);
 		}
 		sb.append("\t\t}\n");
+	}
+
+	/**
+	 * Generates the computation info for the given computation
+	 */
+	private void genComputationInfo(StringBuffer sb, Computation computation) {
+		String computationName = formatIdentifiable(computation);
+		String className = "ComputationInfo_"+computationName;
+
+		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.ComputationInfo\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); } return instance; } }\n");
+		sb.append("\n");
+
+		sb.append("\t\tprivate " + className + "()\n");
+		sb.append("\t\t\t\t\t: base(\n");
+		sb.append("\t\t\t\t\t\t\"" + computationName + "\",\n");
+		sb.append("\t\t\t\t\t\tnew String[] { ");
+		for(Entity inParam : computation.getParameters()) {
+			sb.append("\"" + inParam.getIdent() + "\", ");
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Entity inParam : computation.getParameters()) {
+			if(inParam.getType() instanceof InheritanceType) {
+				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
+			}
+		}
+		sb.append(" },\n");
+		Type outParamType = computation.getReturnType();
+		if(outParamType instanceof InheritanceType) {
+			sb.append("\t\t\t\t\t\t" + formatTypeClassRef(outParamType) + ".typeVar\n");
+		} else {
+			sb.append("\t\t\t\t\t\tGRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outParamType) + "))\n");
+		}
+		sb.append("\t\t\t\t\t  )\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ComputationInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\treturn Computations." + computationName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
+		int i = 0;
+		for(Entity inParam : computation.getParameters()) {			
+			sb.append(", (" + formatType(inParam.getType()) + ")paramBindings.Arguments[" + i + "]");
+			++i;
+		}
+		sb.append(");\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t}\n");
+		sb.append("\n");
 	}
 
 	/**
