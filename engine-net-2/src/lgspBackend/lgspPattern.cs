@@ -1259,5 +1259,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// All the defined sequence representations generated
         /// </summary>
         public abstract DefinedSequenceInfo[] DefinedSequences { get; }
+
+        /// <summary>
+        /// All the computation representations generated
+        /// </summary>
+        public abstract ComputationInfo[] Computations { get; }
     }
 }

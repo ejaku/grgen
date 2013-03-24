@@ -63,10 +63,19 @@ namespace de.unika.ipd.grGen.lgsp
         // maps sequence names available in the .grg to compile to the list of the output typ names
         Dictionary<String, List<String>> sequencesToOutputTypes;
 
+        // maps computation names available in the .grg to compile to the list of the input typ names
+        Dictionary<String, List<String>> computationsToInputTypes;
+        // maps computation names available in the .grg to compile to the list of the output typ names
+        Dictionary<String, String> computationsToOutputType;
+        
         // array containing the names of the rules available in the .grg to compile
         String[] ruleNames;
         // array containing the names of the sequences available in the .grg to compile
         String[] sequenceNames;
+        // array containing the names of the computations available in the .grg to compile
+        String[] computationNames;
+        // array containing the output types names of the computations available in the .grg to compile
+        String[] computationOutputTypes;
 
         // environment for (type) checking the compiled sequences
         SequenceCheckingEnvironment env;
@@ -85,7 +94,8 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPSequenceGenerator(LGSPGrGen gen, IGraphModel model,
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
-            Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes)
+            Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
+            Dictionary<String, List<String>> computationsToInputTypes, Dictionary<String, String> computationsToOutputType)
         {
             this.gen = gen;
             this.model = model;
@@ -96,6 +106,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
             this.sequencesToOutputTypes = sequencesToOutputTypes;
+            this.computationsToInputTypes = computationsToInputTypes;
+            this.computationsToOutputType = computationsToOutputType;
 
             // extract rule names from domain of rule names to input types map
             ruleNames = new String[rulesToInputTypes.Count];
@@ -114,12 +126,29 @@ namespace de.unika.ipd.grGen.lgsp
                 sequenceNames[i] = sequenceToInputTypes.Key;
                 ++i;
             }
+            // extract computation names from domain of computation names to input types map
+            computationNames = new String[computationsToInputTypes.Count];
+            i = 0;
+            foreach(KeyValuePair<String, List<String>> computationToInputTypes in computationsToInputTypes)
+            {
+                computationNames[i] = computationToInputTypes.Key;
+                ++i;
+            }
+            // extract computation output types from range of computation names to output types map
+            computationOutputTypes = new String[computationsToOutputType.Count];
+            i = 0;
+            foreach(KeyValuePair<String, String> computationToOutputType in computationsToOutputType)
+            {
+                computationOutputTypes[i] = computationToOutputType.Value;
+                ++i;
+            }
 
             // create the environment for (type) checking the compiled sequences after parsing
-            env = new SequenceCheckingEnvironmentCompiled(ruleNames, sequenceNames, 
+            env = new SequenceCheckingEnvironmentCompiled(ruleNames, sequenceNames, computationNames,
                 rulesToInputTypes, rulesToOutputTypes, rulesToFilters, 
                 rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
                 sequencesToInputTypes, sequencesToOutputTypes,
+                computationsToInputTypes, computationsToOutputType,
                 model);
         }
 
@@ -2661,8 +2690,10 @@ namespace de.unika.ipd.grGen.lgsp
                     String typeName;
                     if(rulesToInputTypes.ContainsKey(paramBindings.Name))
                         typeName = rulesToInputTypes[paramBindings.Name][j];
-                    else
+                    else if(sequencesToInputTypes.ContainsKey(paramBindings.Name))
                         typeName = sequencesToInputTypes[paramBindings.Name][j];
+                    else
+                        typeName = computationsToInputTypes[paramBindings.Name][j];
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
                     parameters += ", " + cast + GetSequenceExpression(paramBindings.ArgumentExpressions[j], null);
                 }
@@ -3624,6 +3655,18 @@ namespace de.unika.ipd.grGen.lgsp
                     return GetVar(seqVar.Variable);
                 }
 
+                case SequenceExpressionType.ComputationCall:
+                {
+                    SequenceExpressionComputationCall seqCompCall = (SequenceExpressionComputationCall)expr;
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("Computations.");
+                    sb.Append(seqCompCall.ParamBindings.Name);
+                    sb.Append("(procEnv, graph");
+                    sb.Append(BuildParameters(seqCompCall.ParamBindings));
+                    sb.Append(")");
+                    return sb.ToString();
+                }
+
                 default:
                     throw new Exception("Unknown sequence expression type: " + expr.SequenceExpressionType);
             }
@@ -3783,7 +3826,9 @@ namespace de.unika.ipd.grGen.lgsp
             try
             {
                 List<string> warnings = new List<string>();
-                seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, sequenceNames, varDecls, model, warnings);
+                seq = SequenceParser.ParseSequence(xgrsStr, 
+                    ruleNames, sequenceNames, computationNames,
+                    computationOutputTypes, varDecls, model, warnings);
                 foreach(string warning in warnings)
                 {
                     Console.Error.WriteLine("The exec statement \"" + xgrsStr
@@ -3861,7 +3906,9 @@ namespace de.unika.ipd.grGen.lgsp
             try
             {
                 List<string> warnings = new List<string>();
-                seq = SequenceParser.ParseSequence(sequence.XGRS, ruleNames, sequenceNames, varDecls, model, warnings);
+                seq = SequenceParser.ParseSequence(sequence.XGRS, 
+                    ruleNames, sequenceNames, computationNames, 
+                    computationOutputTypes, varDecls, model, warnings);
                 foreach(string warning in warnings)
                 {
                     Console.Error.WriteLine("In the defined sequence " + sequence.Name

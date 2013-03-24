@@ -129,5 +129,35 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         #endregion Sequence handling
+
+        #region Computations handling
+
+        private Dictionary<String, ComputationInfo> namesToComputationDefinitions = new Dictionary<string, ComputationInfo>();
+
+        /// <summary>
+        /// Retrieve a computation definition.
+        /// </summary>
+        /// <param name="name">The name of the computation to retrieve</param>
+        /// <returns>The computation or null if no such sequence exists.</returns>
+        public ComputationInfo RetrieveComputationDefinition(String name)
+        {
+            ComputationInfo compDef;
+            namesToComputationDefinitions.TryGetValue(name, out compDef);
+            return compDef;
+        }
+
+        /// <summary>
+        /// Enumerates all computations definitions.
+        /// </summary>
+        public IEnumerable<ComputationInfo> ComputationDefinitions
+        {
+            get
+            {
+                foreach(ComputationInfo compDef in namesToComputationDefinitions.Values)
+                    yield return compDef;
+            }
+        }
+
+        #endregion Computations handling
     }
 }

@@ -46,6 +46,7 @@ namespace de.unika.ipd.grGen.libGr
         IsReachableEdges, IsReachableEdgesViaIncoming, IsReachableEdgesViaOutgoing,
         InducedSubgraph, DefinedSubgraph,
         Canonize,
+        ComputationCall,
         VAlloc, GraphAdd, InsertInduced, InsertDefined // has side effects, but parser accepts it only in assignments
     }
 
@@ -3456,5 +3457,57 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Graph; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "canonize(" + Graph.Symbol + ")"; } }
+    }
+
+    public class SequenceExpressionComputationCall : SequenceExpression
+    {
+        public ComputationInvocationParameterBindings ParamBindings;
+
+        public SequenceExpressionComputationCall(ComputationInvocationParameterBindings paramBindings)
+            : base(SequenceExpressionType.ComputationCall)
+        {
+            ParamBindings = paramBindings;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+            env.CheckComputationCall(this);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            if(ParamBindings.ComputationDef != null)
+               return TypesHelper.DotNetTypeToXgrsType(ParamBindings.ComputationDef.output);
+            else // compiled sequence
+               return ParamBindings.ReturnType;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionComputationCall copy = (SequenceExpressionComputationCall)MemberwiseClone();
+            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            ComputationInfo compDef = ParamBindings.ComputationDef;
+            object res = compDef.Apply(procEnv, procEnv.Graph, ParamBindings);
+            return res;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ParamBindings.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { foreach(SequenceExpression argument in ParamBindings.ArgumentExpressions) yield return argument; }
+        }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return ParamBindings.Name + "(...)"; } }
     }
 }
