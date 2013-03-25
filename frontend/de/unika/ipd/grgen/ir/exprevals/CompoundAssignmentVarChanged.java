@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir.exprevals;
 import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 
 /**
@@ -54,7 +53,7 @@ public class CompoundAssignmentVarChanged extends CompoundAssignmentVar {
 		super.collectNeededEntities(needs);
 
 		Entity entity = changedTarget.getOwner();
-		if(!isGlobalVariable(entity) && (entity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
+		if(!isGlobalVariable(entity))
 			needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for changed target

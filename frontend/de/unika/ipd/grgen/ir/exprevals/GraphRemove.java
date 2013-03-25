@@ -8,7 +8,6 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 public class GraphRemove extends EvalStatement {
 	private Entity entity;
@@ -24,7 +23,7 @@ public class GraphRemove extends EvalStatement {
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		if(!isGlobalVariable(entity) && (entity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
+		if(!isGlobalVariable(entity))
 			needs.add((GraphEntity) entity);
 	}
 }

@@ -197,7 +197,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
 		// will add them to the left hand side, too
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false);
 		Collection<EvalStatements> evalStatements = graph.getYieldEvalStatements();
 		for(EvalStatements eval : evalStatements) {
 			eval.collectNeededEntities(needs);

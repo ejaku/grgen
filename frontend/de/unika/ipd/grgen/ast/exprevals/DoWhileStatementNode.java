@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * AST node representing a condition statement.
+ * AST node representing a do while statement.
  */
 public class DoWhileStatementNode extends EvalStatementNode {
 	static {

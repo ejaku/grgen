@@ -717,7 +717,7 @@ public class PatternGraph extends Graph {
 			for(OrderedReplacement orderedRep : ors.orderedReplacements) {
 				if(orderedRep instanceof EvalStatement) {
 					EvalStatement evalStmt = (EvalStatement)orderedRep;
-					NeededEntities needs = new NeededEntities(false, true, false, false, true, false);
+					NeededEntities needs = new NeededEntities(false, true, false, false, true, false, false);
 					evalStmt.collectNeededEntities(needs);
 					for(Edge edge : needs.edges) {
 						if((edge.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {

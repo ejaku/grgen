@@ -9,30 +9,31 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ir.containers;
+package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayVarClear extends EvalStatement {
-	Variable target;
+/**
+ * Represents an exec statement embedded within a computation in the IR.
+ */
+public class ExecStatement extends EvalStatement {
 
-	public ArrayVarClear(Variable target) {
-		super("array var clear");
-		this.target = target;
+	private Exec exec;
+
+	public ExecStatement(Exec exec) {
+		super("exec statement");
+		this.exec = exec;
 	}
 
-	public Variable getTarget() {
-		return target;
+	public Exec getExec() {
+		return exec;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(target))
-			needs.add(target);
-
-		if(getNext()!=null) {
-			getNext().collectNeededEntities(needs);
+		needs.needsGraph();
+		for(Expression arg : getExec().getArguments()) {
+			arg.collectNeededEntities(needs);
 		}
 	}
 }

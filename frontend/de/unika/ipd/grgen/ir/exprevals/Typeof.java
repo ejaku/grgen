@@ -8,7 +8,6 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 public class Typeof extends Expression {
 	/** The entity whose type we want to know. */
@@ -29,7 +28,7 @@ public class Typeof extends Expression {
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		if(!isGlobalVariable(entity) && (entity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
+		if(!isGlobalVariable(entity))
 			needs.add((GraphEntity) entity);
 	}
 }

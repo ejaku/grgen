@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir.exprevals;
 import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 
 /**
@@ -50,7 +49,7 @@ public class AssignmentVisited extends EvalStatement {
 	{
 		Entity entity = target.getEntity();
 		target.getVisitorID().collectNeededEntities(needs);
-		if(!isGlobalVariable(entity) && (entity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
+		if(!isGlobalVariable(entity))
 			needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for target

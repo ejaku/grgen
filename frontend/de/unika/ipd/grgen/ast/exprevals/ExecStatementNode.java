@@ -15,38 +15,31 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.exprevals.ExecStatement;
+import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.WhileStatement;
-import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * AST node representing a while statement.
+ * AST node representing an embedded exec statement.
  */
-public class WhileStatementNode extends EvalStatementNode {
+public class ExecStatementNode extends EvalStatementNode {
 	static {
-		setName(WhileStatementNode.class, "WhileStatement");
+		setName(ExecStatementNode.class, "ExecStatement");
 	}
 
-	private ExprNode conditionExpr;
-	CollectNode<EvalStatementNode> loopedStatements;
+	ExecNode exec;
 
-	public WhileStatementNode(Coords coords, ExprNode conditionExpr,
-			CollectNode<EvalStatementNode> loopedStatements) {
-		super(coords);
-		this.conditionExpr = conditionExpr;
-		becomeParent(conditionExpr);
-		this.loopedStatements = loopedStatements;
-		becomeParent(this.loopedStatements);
+	public ExecStatementNode(ExecNode exec) {
+		super(exec.getCoords());
+		this.exec = exec;
+		becomeParent(this.exec);
 	}
 
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(conditionExpr);
-		children.add(loopedStatements);
+		children.add(exec);
 		return children;
 	}
 
@@ -54,8 +47,7 @@ public class WhileStatementNode extends EvalStatementNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("condition");
-		childrenNames.add("loopedStatements");
+		childrenNames.add("exec");
 		return childrenNames;
 	}
 
@@ -71,9 +63,7 @@ public class WhileStatementNode extends EvalStatementNode {
 	
 	@Override
 	protected IR constructIR() {
-		WhileStatement ws = new WhileStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode loopedStatement : loopedStatements.children) 	
-			ws.addLoopedStatement(loopedStatement.checkIR(EvalStatement.class));
+		ExecStatement ws = new ExecStatement(exec.checkIR(Exec.class));
 		return ws;
 	}
 }
