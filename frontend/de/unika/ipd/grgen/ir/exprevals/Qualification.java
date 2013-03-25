@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 public class Qualification extends Expression {
 	/** The owner of the expression. */
@@ -41,7 +40,7 @@ public class Qualification extends Expression {
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		if(!isGlobalVariable(owner) && (owner.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
+		if(!isGlobalVariable(owner))
 			needs.addAttr((GraphEntity) owner, member);
 	}
 }

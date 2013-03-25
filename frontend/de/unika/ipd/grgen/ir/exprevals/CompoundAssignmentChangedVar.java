@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 
 /**
@@ -51,7 +50,7 @@ public class CompoundAssignmentChangedVar extends CompoundAssignment {
 	{
 		super.collectNeededEntities(needs);
 
-		if(!isGlobalVariable(changedTarget) && (changedTarget.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
+		if(!isGlobalVariable(changedTarget))
 			needs.add(changedTarget);
 	}
 }

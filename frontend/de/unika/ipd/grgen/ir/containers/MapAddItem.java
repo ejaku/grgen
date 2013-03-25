@@ -15,7 +15,6 @@ import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 public class MapAddItem extends EvalStatement {
 	Qualification target;
@@ -44,7 +43,7 @@ public class MapAddItem extends EvalStatement {
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();
-		if(!isGlobalVariable(entity) && (entity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
+		if(!isGlobalVariable(entity))
 			needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for target

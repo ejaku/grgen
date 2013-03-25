@@ -59,6 +59,8 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	interface ModifyGenerationStateConst extends ExpressionGenerationState {
+		String computationName();
+		
 		Collection<Node> commonNodes();
 		Collection<Edge> commonEdges();
 		Collection<SubpatternUsage> commonSubpatternUsages();
@@ -95,6 +97,8 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	class ModifyGenerationState implements ModifyGenerationStateConst {
+		public String computationName() { return computationName; }
+
 		public Collection<Node> commonNodes() { return Collections.unmodifiableCollection(commonNodes); }
 		public Collection<Edge> commonEdges() { return Collections.unmodifiableCollection(commonEdges); }
 		public Collection<SubpatternUsage> commonSubpatternUsages() { return Collections.unmodifiableCollection(commonSubpatternUsages); }
@@ -134,6 +138,10 @@ public class ModifyGen extends CSharpBase {
 
 		// --------------------
 
+		// if not null this is the generation state of a computation (with all entries empty)
+		// otherwise it is the generation state of the modify of an action
+		public String computationName;
+		
 		public HashSet<Node> commonNodes = new LinkedHashSet<Node>();
 		public HashSet<Edge> commonEdges = new LinkedHashSet<Edge>();
 		public HashSet<SubpatternUsage> commonSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
@@ -198,6 +206,7 @@ public class ModifyGen extends CSharpBase {
 
 	// eval statement generation state
 	int tmpVarID;
+	int embeddedComputationXgrsID;
 
 	SearchPlanBackend2 be;
 	
@@ -581,7 +590,7 @@ public class ModifyGen extends CSharpBase {
 
 		collectElementsAccessedByInterface(task, state.accessViaInterface);
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, true, true);
+		NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false);
 		collectElementsAndAttributesNeededByImperativeStatements(task, needs);
 		collectElementsAndAttributesNeededByReturns(task, needs);
 		collectElementsNeededBySubpatternCreation(task, needs);
@@ -1111,7 +1120,7 @@ public class ModifyGen extends CSharpBase {
 					sb.append("\t\t\t" + closureName + " xgrs"+xgrsID + " = "
 							+"new "+ closureName + "(");
 					boolean first = true;
-					for(Entity neededEntity : exec.getNeededEntities()) {
+					for(Entity neededEntity : exec.getNeededEntities(false)) {
 						if(first) {
 							first = false;
 						} else {
@@ -1125,7 +1134,7 @@ public class ModifyGen extends CSharpBase {
 					sb.append(");\n");
 					sb.append("\t\t\tprocEnv.sequencesManager.AddDeferredSequence(xgrs"+xgrsID+");\n");
 				} else {
-					for(Entity neededEntity : exec.getNeededEntities()) {
+					for(Entity neededEntity : exec.getNeededEntities(false)) {
 						if(neededEntity.isDefToBeYieldedTo()) {
 							if(neededEntity instanceof GraphEntity) {
 								sb.append("\t\t\t" + formatElementInterfaceRef(neededEntity.getType()) + " ");
@@ -1142,7 +1151,7 @@ public class ModifyGen extends CSharpBase {
 						}
 					}
 					sb.append("\t\t\tApplyXGRS_" + task.left.getNameOfGraph() + "_" + xgrsID + "(procEnv");
-					for(Entity neededEntity : exec.getNeededEntities()) {
+					for(Entity neededEntity : exec.getNeededEntities(false)) {
 						if(!neededEntity.isDefToBeYieldedTo()) {
 							sb.append(", ");
 							if(neededEntity.getType() instanceof InheritanceType) {
@@ -1151,14 +1160,14 @@ public class ModifyGen extends CSharpBase {
 							sb.append(formatEntity(neededEntity));
 						}
 					}
-					for(Entity neededEntity : exec.getNeededEntities()) {
+					for(Entity neededEntity : exec.getNeededEntities(false)) {
 						if(neededEntity.isDefToBeYieldedTo()) {
 							sb.append(", ref ");
 							sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID);
 						}
 					}
 					sb.append(");\n");
-					for(Entity neededEntity : exec.getNeededEntities()) {
+					for(Entity neededEntity : exec.getNeededEntities(false)) {
 						if(neededEntity.isDefToBeYieldedTo()) {
 							sb.append("\t\t\t" + formatEntity(neededEntity) + " = ");
 							if(neededEntity instanceof Node) {
@@ -1487,7 +1496,7 @@ public class ModifyGen extends CSharpBase {
 					sb.append("\t\t\tPattern_" + formatIdentifiable(subRule)
 							+ ".Instance." + formatIdentifiable(subRule) +
 							"_Modify(actionEnv, subpattern_" + subName);
-					NeededEntities needs = new NeededEntities(true, true, true, false, true, true);
+					NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false);
 					List<Entity> replParameters = subRule.getRight().getReplParameters();
 					for(int i=0; i<subRep.getReplConnections().size(); ++i) {
 						Expression expr = subRep.getReplConnections().get(i);
@@ -1800,6 +1809,7 @@ public class ModifyGen extends CSharpBase {
 	private void initEvalGen() {
 		// init eval statement generation state
 		tmpVarID = 0;
+		embeddedComputationXgrsID = 0;
 	}
 
 	private void genAllEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<EvalStatements> evalStatements) {
@@ -1981,6 +1991,9 @@ public class ModifyGen extends CSharpBase {
 		}
 		else if(evalStmt instanceof VResetStatement) {
 			genVResetStatement(sb, state, (VResetStatement) evalStmt);
+		}
+		else if(evalStmt instanceof ExecStatement) {
+			genExecStatement(sb, state, (ExecStatement) evalStmt);
 		}
 		else {
 			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
@@ -3376,6 +3389,56 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\tgraph.ResetVisitedFlag((int)");
 		genExpression(sb, vrs.getVisitedFlagExpr(), state);
 		sb.append(");\n");
+	}
+
+	private void genExecStatement(StringBuffer sb, ModifyGenerationStateConst state, ExecStatement es) {
+		Exec exec = es.getExec();
+		for(Entity neededEntity : exec.getNeededEntities(true)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				if(neededEntity instanceof GraphEntity) {
+					sb.append("\t\t\t" + formatElementInterfaceRef(neededEntity.getType()) + " ");
+					sb.append("tmp_" + formatEntity(neededEntity) + "_" + embeddedComputationXgrsID + " = ");
+					sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
+					sb.append(formatEntity(neededEntity) + ";\n");
+				}
+				else { // if(neededEntity instanceof Variable) 
+					sb.append("\t\t\t" + formatAttributeType(neededEntity.getType()) + " ");
+					sb.append("tmp_" + formatEntity(neededEntity) + "_" + embeddedComputationXgrsID + " = ");
+					sb.append("("+formatAttributeType(neededEntity.getType())+")");
+					sb.append(formatEntity(neededEntity) + ";\n");
+				}
+			}
+		}
+		sb.append("\t\t\tApplyXGRS_" + state.computationName() + "_" + embeddedComputationXgrsID + "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv");
+		for(Entity neededEntity : exec.getNeededEntities(true)) {
+			if(!neededEntity.isDefToBeYieldedTo()) {
+				sb.append(", ");
+				if(neededEntity.getType() instanceof InheritanceType) {
+					sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
+				}
+				sb.append(formatEntity(neededEntity));
+			}
+		}
+		for(Entity neededEntity : exec.getNeededEntities(true)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				sb.append(", ref ");
+				sb.append("tmp_" + formatEntity(neededEntity) + "_" + embeddedComputationXgrsID);
+			}
+		}
+		sb.append(");\n");
+		for(Entity neededEntity : exec.getNeededEntities(true)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				sb.append("\t\t\t" + formatEntity(neededEntity) + " = ");
+				if(neededEntity instanceof Node) {
+					sb.append("(GRGEN_LGSP.LGSPNode)");
+				} else if(neededEntity instanceof Edge) {
+					sb.append("(GRGEN_LGSP.LGSPEdge)");
+				}
+				sb.append("tmp_" + formatEntity(neededEntity) + "_" + embeddedComputationXgrsID + ";\n");
+			}
+		}
+		
+		++embeddedComputationXgrsID;
 	}
 
 	//////////////////////

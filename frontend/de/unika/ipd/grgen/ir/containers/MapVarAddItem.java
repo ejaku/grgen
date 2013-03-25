@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
-import de.unika.ipd.grgen.ast.BaseNode;
 
 public class MapVarAddItem extends EvalStatement {
 	Variable target;
@@ -41,7 +40,7 @@ public class MapVarAddItem extends EvalStatement {
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(target) && (target.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION)
+		if(!isGlobalVariable(target))
 			needs.add(target);
 
 		getKeyExpr().collectNeededEntities(needs);

@@ -430,9 +430,9 @@ patternOrActionOrSequenceOrComputationDecl [ CollectNode<IdentNode> patternChild
 			sequenceChilds.addChild(id);
 		}
 	| id=computationOrExtFuncIdentDecl pushScope[id] 
-		params=parameters[BaseNode.CONTEXT_COMPUTATION, null] COLON retType=returnType
+		params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] COLON retType=returnType
 		LBRACE
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, null] { evals.addChild(c); } )*
+			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
 			id.setDecl(new ComputationDeclNode(id, evals, params, retType));
@@ -1595,12 +1595,10 @@ alternativeOrIteratedRewriteUsage[CollectNode<OrderedReplacementsNode> orderedRe
 		  curOrderedRepl.addChild(new IteratedReplNode(id));
 		}
 	;
-	
-execStmt[CollectNode<BaseNode> imperativeStmts, int context, PatternGraphNode directlyNestingLHSGraph]
-    @init{ ExecNode exec = null; }
-    
+
+execStmt[CollectNode<BaseNode> imperativeStmts, int context, PatternGraphNode directlyNestingLHSGraph] returns[ExecNode exec = null]
 	: e=EXEC pushScopeStr["exec_", getCoords(e)] { exec = new ExecNode(getCoords(e)); } LPAREN xgrs[exec] RPAREN
-		{ imperativeStmts.addChild(exec); } popScope
+		{ if(imperativeStmts!=null) imperativeStmts.addChild(exec); } popScope
 	;
 
 emitStmt[CollectNode<BaseNode> imperativeStmts, CollectNode<OrderedReplacementsNode> orderedReplacements]
@@ -2064,7 +2062,7 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	
 	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
 		id=actionIdentUse {xg.append(id);}
-		(LPAREN {xg.append("(");} ruleParams[xg, params] RPAREN {xg.append(")");})?
+		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
 		(BACKSLASH filterId=actionIdentUse {xg.append("\\"); xg.append(filterId);} | BACKSLASH AUTO {xg.append("\\"); xg.append("auto");})?
 		{
 			xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns, filterId));
@@ -3024,6 +3022,10 @@ options { k = 5; }
 		|| input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
 		(i=IDENT | i=EMIT) params=paramExprs[false] SEMI
 			{ res=new ProcedureCallNode(getCoords(i), i.getText(), params); }
+//	| functioncall=externalFunctionInvocationExpr[false] SEMI
+//		{ res = new FunctionCallStatementNode(functioncall); }
+	| exec=execStmt[null, context, directlyNestingLHSGraph] SEMI
+		{ res = new ExecStatementNode(exec); }
 	;
 	
 ifelse [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]

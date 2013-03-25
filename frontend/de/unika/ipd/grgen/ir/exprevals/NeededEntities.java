@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 
+import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.*;
 
 /**
@@ -31,9 +32,11 @@ public class NeededEntities {
 	 *      automatically added to the nodes, edges, and entities sets, but only
 	 *      in the attrNodes and attrEdges sets.
 	 * @param collectContainerExprs Specifies, whether map, set, array, deque expressions shall be collected.
+	 * @param collectComputationContext Specifies, whether entities declared in computation context shall be collected.
 	 */
 	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars,
-			boolean collectAllEntities, boolean collectAllAttributes, boolean collectContainerExprs) {
+			boolean collectAllEntities, boolean collectAllAttributes, boolean collectContainerExprs,
+			boolean collectComputationContext) {
 		if(collectNodes)       nodes     = new LinkedHashSet<Node>();
 		if(collectEdges)       edges     = new LinkedHashSet<Edge>();
 		if(collectVars)        variables = new LinkedHashSet<Variable>();
@@ -47,6 +50,7 @@ public class NeededEntities {
 			this.collectContainerExprs = true;
 			containerExprs = new LinkedHashSet<Expression>();
 		}
+		this.collectComputationContext = collectComputationContext;
 	}
 
 	/**
@@ -100,10 +104,20 @@ public class NeededEntities {
 	public HashSet<Expression> containerExprs;
 
 	/**
+	 * Specifies whether entities declared in computation context should be collected.
+	 */
+	public boolean collectComputationContext;
+
+	
+	/**
 	 * Adds a needed graph entity.
 	 * @param entity The needed entity.
 	 */
 	public void add(GraphEntity entity) {
+		if((entity.getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION 
+				&& !collectComputationContext)
+			return;
+			
 		if(entity instanceof Node) {
 			if(nodes != null) nodes.add((Node) entity);
 		}
@@ -121,6 +135,9 @@ public class NeededEntities {
 	 * @param node The needed node.
 	 */
 	public void add(Node node) {
+		if((node.getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION 
+				&& !collectComputationContext)
+			return;
 		if(nodes != null) nodes.add(node);
 		if(entities != null) entities.add(node);
 	}
@@ -130,6 +147,9 @@ public class NeededEntities {
 	 * @param edge The needed edge.
 	 */
 	public void add(Edge edge) {
+		if((edge.getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION 
+				&& !collectComputationContext)
+			return;
 		if(edges != null) edges.add(edge);
 		if(entities != null) entities.add(edge);
 	}
@@ -139,6 +159,9 @@ public class NeededEntities {
 	 * @param var The needed variable.
 	 */
 	public void add(Variable var) {
+		if((var.getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION 
+				&& !collectComputationContext)
+			return;
 		if(variables != null) variables.add(var);
 		if(entities != null) entities.add(var);
 	}
@@ -149,6 +172,10 @@ public class NeededEntities {
 	 * @param attr The needed attribute.
 	 */
 	public void addAttr(GraphEntity grEnt, Entity attr) {
+		if((grEnt.getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION 
+				&& !collectComputationContext)
+			return;
+
 		if(attrEntityMap == null) {
 			add(grEnt);
 			return;
@@ -172,7 +199,8 @@ public class NeededEntities {
 	 * @param expr The container expressions.
 	 */
 	public void add(Expression expr) {
-		if(collectContainerExprs) containerExprs.add(expr);
+		if(collectContainerExprs)
+			containerExprs.add(expr);
 	}
 
 	public void needsGraph() {

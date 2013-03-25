@@ -23,6 +23,7 @@ import de.unika.ipd.grgen.ir.exprevals.*;;
 public class Exec extends IR implements ImperativeStmt {
 	private Set<Expression> parameters = new LinkedHashSet<Expression>();
 	private Set<Entity> neededEntities;
+	private Set<Entity> neededEntitiesForComputation;
 	private String xgrsString;
 	private int lineNr;
 
@@ -47,14 +48,25 @@ public class Exec extends IR implements ImperativeStmt {
 		return Collections.unmodifiableSet(parameters);
 	}
 
-	public Set<Entity> getNeededEntities() {
-		if(neededEntities == null) {
-			NeededEntities needs = new NeededEntities(false, false, false, true, false, false);  // collect all entities
-			for(Expression param : getArguments())
-				param.collectNeededEntities(needs);
-
-			neededEntities = needs.entities;
+	public Set<Entity> getNeededEntities(boolean forComputation) {
+		if(forComputation) {
+			if(neededEntitiesForComputation == null) {
+				NeededEntities needs = new NeededEntities(false, false, false, true, false, false, true);  // collect all entities
+				for(Expression param : getArguments())
+					param.collectNeededEntities(needs);
+	
+				neededEntitiesForComputation = needs.entities;
+			}
+			return neededEntitiesForComputation;
+		} else {
+			if(neededEntities == null) {
+				NeededEntities needs = new NeededEntities(false, false, false, true, false, false, false);  // collect all entities
+				for(Expression param : getArguments())
+					param.collectNeededEntities(needs);
+	
+				neededEntities = needs.entities;
+			}
+			return neededEntities;
 		}
-		return neededEntities;
 	}
 }
