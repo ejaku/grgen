@@ -1796,7 +1796,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            int transactionID = procEnv.TransactionManager.StartTransaction();
+            int transactionID = procEnv.TransactionManager.Start();
             int oldRewritesPerformed;
 
             if(procEnv.PerformanceInfo != null) oldRewritesPerformed = procEnv.PerformanceInfo.RewritesPerformed;
@@ -1921,7 +1921,7 @@ namespace de.unika.ipd.grGen.libGr
 #endif
 
                 // start a transaction
-                int transactionID = procEnv.TransactionManager.StartTransaction();
+                int transactionID = procEnv.TransactionManager.Start();
                 int oldRewritesPerformed = -1;
 
                 if(procEnv.PerformanceInfo != null) oldRewritesPerformed = procEnv.PerformanceInfo.RewritesPerformed;

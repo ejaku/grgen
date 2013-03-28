@@ -1,0 +1,35 @@
+foo(n1:Node, n2:Node, -e:Edge->) : string
+{
+	def var s:string = "hokus pokus";
+	merge(n1,n2);
+	merge(n1,n2,s);
+	redirectSource(e,n1);
+	redirectSource(e,n1,s);
+	redirectTarget(e,n2);
+	redirectTarget(e,n2,s);
+	redirectSourceAndTarget(e,n1,n2);
+	redirectSourceAndTarget(e,n1,n2,s,s);
+	return(s);
+}
+
+rule r : (string)
+{	
+	modify {
+		n1:Node -e:Edge-> n2:Node;
+		
+		def var s:string = "it's magic";
+		
+		eval { 
+			merge(n1,n2);
+			merge(n1,n2,s);
+			redirectSource(e,n1);
+			redirectSource(e,n1,s);
+			redirectTarget(e,n2);
+			redirectTarget(e,n2,s);
+			redirectSourceAndTarget(e,n1,n2);
+			redirectSourceAndTarget(e,n1,n2,s,s);
+		}
+		
+		return (s);
+	}
+}

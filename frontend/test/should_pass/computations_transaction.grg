@@ -1,0 +1,28 @@
+foo() : int
+{
+	def var transactionId:int = startTransaction();
+	pauseTransaction();
+	resumeTransaction();
+	commitTransaction(transactionId);
+	transactionId = startTransaction();
+	rollbackTransaction(transactionId);
+	return(transactionId);
+}
+
+rule r : (int)
+{	
+	modify {
+		def var transactionId:int;
+		
+		eval { 
+			yield transactionId = startTransaction();
+			pauseTransaction();
+			resumeTransaction();
+			commitTransaction(transactionId);
+			yield transactionId = startTransaction();
+			rollbackTransaction(transactionId);
+		}
+		
+		return (transactionId);
+	}
+}

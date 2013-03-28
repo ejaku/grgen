@@ -47,10 +47,8 @@ public class AssignmentVisited extends EvalStatement {
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		Entity entity = target.getEntity();
+		target.getEntity().collectNeededEntities(needs);
 		target.getVisitorID().collectNeededEntities(needs);
-		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for target
 		HashSet<Variable> varSet = needs.variables;

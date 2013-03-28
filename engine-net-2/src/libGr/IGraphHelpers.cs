@@ -73,7 +73,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Starts a transaction
         /// </summary>
         /// <returns>A transaction ID to be used with Commit or Rollback</returns>
-        int StartTransaction();
+        int Start();
 
         /// <summary>
         /// Pauses the running transactions,
@@ -90,7 +90,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Removes the rollback data and stops this transaction
         /// </summary>
-        /// <param name="transactionID">Transaction ID returned by a StartTransaction call</param>
+        /// <param name="transactionID">Transaction ID returned by a Start call</param>
         void Commit(int transactionID);
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Indicates, whether a transaction is currently active.
         /// </summary>
-        bool TransactionActive { get; }
+        bool IsActive { get; }
     }
 
     /// <summary>

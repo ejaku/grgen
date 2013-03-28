@@ -5,40 +5,38 @@
  * www.grgen.net
  */
 
+/**
+ * @author Edgar Jakumeit
+ */
+
 package de.unika.ipd.grgen.ast.exprevals;
 
 import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.GraphRemove;
+import de.unika.ipd.grgen.ir.exprevals.PauseTransaction;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class GraphRemoveNode extends EvalStatementNode {
+public class PauseTransactionNode extends EvalStatementNode {
 	static {
-		setName(GraphRemoveNode.class, "graph remove statement");
+		setName(PauseTransactionNode.class, "pause transaction statement");
 	}
 
-	private ExprNode entityExpr;
-
-	public GraphRemoveNode(Coords coords, ExprNode entityExpr) {
+	public PauseTransactionNode(Coords coords) {
 		super(coords);
-
-		this.entityExpr = entityExpr;
-		becomeParent(entityExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(entityExpr);
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("entity");
 		return childrenNames;
 	}
 
@@ -49,18 +47,11 @@ public class GraphRemoveNode extends EvalStatementNode {
 
 	@Override
 	protected boolean checkLocal() {
-		if(entityExpr.getType() instanceof EdgeTypeNode) {
-			return true;
-		}
-		if(entityExpr.getType() instanceof NodeTypeNode) {
-			return true;
-		}
-		reportError("argument of rem(.) must be a node or edge type");
-		return false;
+		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new GraphRemove(entityExpr.checkIR(Expression.class));
+		return new PauseTransaction();
 	}
 }

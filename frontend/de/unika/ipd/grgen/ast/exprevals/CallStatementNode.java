@@ -5,62 +5,65 @@
  * www.grgen.net
  */
 
+/**
+ * @author Edgar Jakumeit
+ */
+
 package de.unika.ipd.grgen.ast.exprevals;
 
 import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ir.exprevals.CallStatement;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.GraphRemove;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class GraphRemoveNode extends EvalStatementNode {
+/**
+ * AST node representing a call statement (of a function normally returning a value, throwing that value away).
+ */
+public class CallStatementNode extends EvalStatementNode {
 	static {
-		setName(GraphRemoveNode.class, "graph remove statement");
+		setName(CallStatementNode.class, "CallStatement");
 	}
 
-	private ExprNode entityExpr;
+	private ExprNode calledFunction;
 
-	public GraphRemoveNode(Coords coords, ExprNode entityExpr) {
+	public CallStatementNode(Coords coords, ExprNode calledFunction) {
 		super(coords);
-
-		this.entityExpr = entityExpr;
-		becomeParent(entityExpr);
+		this.calledFunction = calledFunction;
+		becomeParent(calledFunction);
 	}
 
-	public Collection<? extends BaseNode> getChildren() {
+	/** returns children of this node */
+	@Override
+	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(entityExpr);
+		children.add(calledFunction);
 		return children;
 	}
 
+	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("entity");
+		childrenNames.add("calledFunction");
 		return childrenNames;
+	}
+
+	@Override
+	protected boolean checkLocal() {
+		return true;
 	}
 
 	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
-
-	@Override
-	protected boolean checkLocal() {
-		if(entityExpr.getType() instanceof EdgeTypeNode) {
-			return true;
-		}
-		if(entityExpr.getType() instanceof NodeTypeNode) {
-			return true;
-		}
-		reportError("argument of rem(.) must be a node or edge type");
-		return false;
-	}
-
+	
 	@Override
 	protected IR constructIR() {
-		return new GraphRemove(entityExpr.checkIR(Expression.class));
+		return new CallStatement(calledFunction.checkIR(Expression.class));
 	}
 }

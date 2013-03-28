@@ -574,7 +574,7 @@ namespace de.unika.ipd.grGen.lgsp
             procEnv.graph.ReuseOptimization = reuseOptimizationBackup;
         }
 
-        public int StartTransaction()
+        public int Start()
         {
             // TODO: allow transactions within pauses, nesting of pauses with transactions
             // this requires a stack of transactions; not difficult, but would eat a bit of performance,
@@ -582,7 +582,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(paused)
                 throw new Exception("Transaction handling is currently paused, can't start a transaction!");
 #if LOG_TRANSACTION_HANDLING
-            writer.WriteLine(new String(' ', transactionLevel) + "StartTransaction");
+            writer.WriteLine(new String(' ', transactionLevel) + "Start");
             writer.Flush();
             ++transactionLevel;
 #endif
@@ -782,6 +782,6 @@ namespace de.unika.ipd.grGen.lgsp
                 currentlyRedirectedEdge = edge;
         }
 
-        public bool TransactionActive { get { return recording; } }
+        public bool IsActive { get { return recording; } }
     }
 }

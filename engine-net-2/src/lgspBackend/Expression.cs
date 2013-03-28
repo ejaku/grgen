@@ -1355,7 +1355,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Visited : Expression
     {
-        public Visited(String entity, Expression nested) // nested = expression computing visited-id
+        public Visited(Expression entity, Expression nested) // nested = expression computing visited-id
         {
             Entity = entity;
             Nested = nested;
@@ -1363,22 +1363,25 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Visited(Entity + renameSuffix, Nested.Copy(renameSuffix));
+            return new Visited(Entity.Copy(renameSuffix), Nested.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("graph.IsVisited(" + NamesOfEntities.CandidateVariable(Entity) + ", ");
+            sourceCode.Append("graph.IsVisited(");
+            Entity.Emit(sourceCode);
+            sourceCode.Append(", ");
             Nested.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
+            yield return Entity;
             yield return Nested;
         }
 
-        String Entity;
+        Expression Entity;
         Expression Nested;
     }
 

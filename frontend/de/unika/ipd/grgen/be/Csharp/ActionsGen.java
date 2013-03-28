@@ -2012,7 +2012,9 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(expr instanceof Visited) {
 			Visited vis = (Visited) expr;
-			sb.append("new GRGEN_EXPR.Visited(\"" + formatEntity(vis.getEntity(), pathPrefix, alreadyDefinedEntityToName) + "\", ");
+			sb.append("new GRGEN_EXPR.Visited(");
+			genExpressionTree(sb, vis.getEntity(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
 			genExpressionTree(sb, vis.getVisitorID(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
@@ -2612,8 +2614,9 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if (expr instanceof VAllocExpr
 			|| expr instanceof GraphAddNodeExpr
-			|| expr instanceof GraphAddEdgeExpr) {
-			throw new UnsupportedOperationException("valloc, add(NodeType), add(EdgeType, SrcNode, TgtNode) are not available in LHS expressions");
+			|| expr instanceof GraphAddEdgeExpr
+			|| expr instanceof StartTransactionExpr) {
+			throw new UnsupportedOperationException("valloc, add(NodeType), add(EdgeType, SrcNode, TgtNode) are not available in rule LHS expressions");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

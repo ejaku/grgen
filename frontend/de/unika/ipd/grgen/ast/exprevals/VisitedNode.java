@@ -11,9 +11,6 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.Visited;
@@ -25,25 +22,22 @@ public class VisitedNode extends ExprNode {
 	}
 
 	private ExprNode visitorIDExpr;
+	private ExprNode entityExpr;
 
-	private BaseNode entityUnresolved;
-	private NodeDeclNode entityNodeDecl;
-	private EdgeDeclNode entityEdgeDecl;
-
-	public VisitedNode(Coords coords, ExprNode visitorIDExpr, BaseNode entity) {
+	public VisitedNode(Coords coords, ExprNode visitorIDExpr, ExprNode entityExpr) {
 		super(coords);
 
 		this.visitorIDExpr = visitorIDExpr;
 		becomeParent(visitorIDExpr);
 
-		entityUnresolved = entity;
-		becomeParent(entityUnresolved);
+		this.entityExpr = entityExpr;
+		becomeParent(entityExpr);
 	}
 
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(visitorIDExpr);
-		children.add(getValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl));
+		children.add(entityExpr);
 		return children;
 	}
 
@@ -54,20 +48,9 @@ public class VisitedNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<EdgeDeclNode, NodeDeclNode> entityResolver =
-		new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
-
 	@Override
 	protected boolean resolveLocal() {
-		boolean res = fixupDefinition(entityUnresolved, entityUnresolved.getScope());
-		
-		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
-		if (resolved != null) {
-			entityEdgeDecl = resolved.fst;
-			entityNodeDecl = resolved.snd;
-		}
-
-		return res && resolved != null;
+		return true;
 	}
 
 	@Override
@@ -76,34 +59,23 @@ public class VisitedNode extends ExprNode {
 			visitorIDExpr.reportError("Visitor ID expression must be of type int");
 			return false;
 		}
+		if(entityExpr.getType() instanceof EdgeTypeNode) {
+			return true;
+		}
+		if(entityExpr.getType() instanceof NodeTypeNode) {
+			return true;
+		}
+		reportError("visited entity expr must be of node or edge type");
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		Entity entity = getValidResolvedVersion(entityEdgeDecl, entityNodeDecl).checkIR(Entity.class);
-
-		return new Visited(visitorIDExpr.checkIR(Expression.class), entity);
+		return new Visited(visitorIDExpr.checkIR(Expression.class), entityExpr.checkIR(Expression.class));
 	}
 
 	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.booleanType;
-	}
-	
-	public boolean noDefElementInCondition() {
-		if(entityEdgeDecl!=null) {
-			if(entityEdgeDecl.defEntityToBeYieldedTo) {
-				entityEdgeDecl.reportError("A def entity ("+entityEdgeDecl+") can't be accessed from an if");
-				return false;
-			}
-		}
-		if(entityNodeDecl!=null) {
-			if(entityNodeDecl.defEntityToBeYieldedTo) {
-				entityNodeDecl.reportError("A def variable ("+entityNodeDecl+") can't be accessed from an if");
-				return false;
-			}
-		}
-		return true;
 	}
 }

@@ -117,6 +117,90 @@ public class ProcedureCallNode extends EvalStatementNode
 				result = new EmitStatementNode(getCoords(), params.get(0));
 			}
 		}
+		else if(procedureName.equals("merge")) {
+			if(params.size() < 2 || params.size() > 3) {
+				reportError("merge(target,source,oldSourceName) takes two or three parameters.");
+				return false;
+			}
+			else {
+				if(params.size() == 2)
+					result = new GraphMergeNode(getCoords(), params.get(0), params.get(1), null);
+				else
+					result = new GraphMergeNode(getCoords(), params.get(0), params.get(1), params.get(2));
+			}
+		}
+		else if(procedureName.equals("redirectSource")) {
+			if(params.size() < 2 || params.size() > 3) {
+				reportError("redirectSource(edge,newSource,oldSourceName) takes two or three parameters.");
+				return false;
+			}
+			else {
+				if(params.size() == 2)
+					result = new GraphRedirectSourceNode(getCoords(), params.get(0), params.get(1), null);
+				else
+					result = new GraphRedirectSourceNode(getCoords(), params.get(0), params.get(1), params.get(2));
+			}
+		}
+		else if(procedureName.equals("redirectTarget")) {
+			if(params.size() < 2 || params.size() > 3) {
+				reportError("redirectTarget(edge,newTarget,oldTargetName) takes two or three parameters.");
+				return false;
+			}
+			else {
+				if(params.size() == 2)
+					result = new GraphRedirectTargetNode(getCoords(), params.get(0), params.get(1), null);
+				else
+					result = new GraphRedirectTargetNode(getCoords(), params.get(0), params.get(1), params.get(2));
+			}
+		}
+		else if(procedureName.equals("redirectSourceAndTarget")) {
+			if(params.size() != 3 && params.size() != 5) {
+				reportError("redirectSourceAndTarget(edge,newSource,newTarget,oldSourceName,oldTargetName) takes three or five parameters.");
+				return false;
+			}
+			else {
+				if(params.size() == 3)
+					result = new GraphRedirectSourceAndTargetNode(getCoords(), params.get(0), params.get(1), params.get(2), null, null);
+				else
+					result = new GraphRedirectSourceAndTargetNode(getCoords(), params.get(0), params.get(1), params.get(2), params.get(3), params.get(4));
+			}
+		}
+		else if(procedureName.equals("pauseTransaction")) {
+			if(params.size() != 0) {
+				reportError("pauseTransaction() takes no parameters.");
+				return false;
+			}
+			else {
+				result = new PauseTransactionNode(getCoords());
+			}
+		}
+		else if(procedureName.equals("resumeTransaction")) {
+			if(params.size() != 0) {
+				reportError("resumeTransaction() takes no parameters.");
+				return false;
+			}
+			else {
+				result = new ResumeTransactionNode(getCoords());
+			}
+		}
+		else if(procedureName.equals("commitTransaction")) {
+			if(params.size() != 1) {
+				reportError("commitTransaction(transactionId) takes one parameter.");
+				return false;
+			}
+			else {
+				result = new CommitTransactionNode(getCoords(), params.get(0));
+			}
+		}
+		else if(procedureName.equals("rollbackTransaction")) {
+			if(params.size() != 1) {
+				reportError("rollbackTransaction(transactionId) takes one parameter.");
+				return false;
+			}
+			else {
+				result = new RollbackTransactionNode(getCoords(), params.get(0));
+			}
+		}
 		else {
 			reportError("no procedure named \"" + procedureName + "\" known");
 			return false;

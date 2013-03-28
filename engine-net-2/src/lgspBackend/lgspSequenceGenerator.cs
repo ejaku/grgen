@@ -1265,7 +1265,7 @@ namespace de.unika.ipd.grGen.lgsp
 				case SequenceType.Transaction:
 				{
 					SequenceTransaction seqTrans = (SequenceTransaction) seq;
-                    source.AppendFront("int transID_" + seqTrans.Id + " = procEnv.TransactionManager.StartTransaction();\n");
+                    source.AppendFront("int transID_" + seqTrans.Id + " = procEnv.TransactionManager.Start();\n");
 					EmitSequence(seqTrans.Seq, source);
                     source.AppendFront("if("+ GetResultVar(seqTrans.Seq) + ") procEnv.TransactionManager.Commit(transID_" + seqTrans.Id + ");\n");
                     source.AppendFront("else procEnv.TransactionManager.Rollback(transID_" + seqTrans.Id + ");\n");
@@ -1357,7 +1357,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("++" + matchesTriedName + ";\n");
 
             // start a transaction
-            source.AppendFront("int transID_" + seq.Id + " = procEnv.TransactionManager.StartTransaction();\n");
+            source.AppendFront("int transID_" + seq.Id + " = procEnv.TransactionManager.Start();\n");
             source.AppendFront("int oldRewritesPerformed_" + seq.Id + " = -1;\n");
             source.AppendFront("if(procEnv.PerformanceInfo!=null) oldRewritesPerformed_"+seq.Id+" = procEnv.PerformanceInfo.RewritesPerformed;\n");
             if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
