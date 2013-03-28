@@ -57,10 +57,11 @@ It behaves like the export command from the GrShell, see \ref{outputcmds}.
 Having it available in the sequences allows for programmed exporting, and exporting of parts of the graph, with the subgraph containment just computed.
 
 Furthermore, a function \texttt{canonize(g:graph):string} is available,
-which delivers a canonical representation of the graph, 
-and allows to reduce graph comparisons to string comparisons,
-at the price of computing the canonical representation.
-The method supposedly doesn't work on isospectral graphs.
+which is intended to provide a canonical string representation for any graph, but currently does not work for all graphs.
+The function currently uses the SMILES\cite{SMILES} method of producing an equitable partition of graph nodes, not a canonical order; while not offering full fledged graph conanization this algorithm is sufficient for many purposes. 
+It allows to reduce graph comparisons to string comparisons, at the price of computing the Weininger algorithm for equitable partitions of nodes.
+
+Besides those predefined functions, you may call computation functions, defined in the rules file; cf. \ref{sub:compdef}.
 
 Finally, an expression (without side effects) can be evaluated, this allows to return a (boolean) value from a computation.
 

@@ -39,6 +39,17 @@ There are functions to update the graph by adding or removing or retyping availa
 \item[\texttt{clear()}] clears the host graph.
 \end{description}
 
+\noindent Besidse those basic graph manipulation functions, the advanced rewriting operations are available as statements, too:
+
+\begin{description}
+\item[\texttt{merge(.,.)}] merges the source node given as second argument into the target node given as first argument.
+\item[\texttt{redirectSource(.,.)}] redirects the edge given as first argument to the new source node given as second argument.
+\item[\texttt{redirectTarget(.,.)}] redirects the edge given as first argument to the new target node given as second argument.
+\item[\texttt{redirectSourceAndTarget(.,.)}] redirects the edge given as first argument to the new source node given as second argument and the new target node given as third argument.
+\end{description}
+
+The versions introduced above are only available on named graphs, as they fetch the debug display name from the old element.
+If you want to use them on unnamed graphs you must supply an additional argument giving the name of the old element; in case of the \texttt{redirectSourceAndTarget} you must supply two additional arguments, first the string to use for the old source node name, then the string to use for the old target node name.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Graph Query by Types}
@@ -157,7 +168,7 @@ Available are queries for the neighbouring nodes:
 In the two argument version, nodes incident to an edge of the type given as second argument are contained.
 The three argument version behaves as the two argument version, but additionally only nodes of the node type given as third argument are contained.
 
-\subsubsection*{Transitive Node Neighbourhood}
+\subsubsection*{Transitive Node Neighbourhood}\label{transitiveneighbour}
 
 Besides direct neighbourhood, transitive neighbourhood can be queried with the reachability functions.
 
@@ -211,7 +222,7 @@ The reachable iteration is the most concise way to note down a depth first walk 
 \end{example}
 
 %-----------------------------------------------------------------------------------------------
-\subsection{Induced Subgraph Computation and Graph Update by Subgraph Insertion}
+\subsection{Induced Subgraph Computation and Insertion to Host Graph}
 
 Functions that allow to compute (node-or-edge) induced subgraphs, and to insert clones of induced subgraphs are available.
 They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
@@ -295,3 +306,22 @@ This function internally calls a \texttt{vreset} to ensure that no corresponding
 \item[Flag resetting:] By \texttt{vreset} -- resets the visitor flag given by the flag id variable in \emph{all} graph elements.
 \item[Flag deallocation without reset:] With \texttt{vfreenonreset} the space previously allocated for the visited flag is freed, too, but the implicit internal \texttt{vreset(id)} of \texttt{vfree} is not executed. It is your duty to ensure the flag is \texttt{false} in all graph elements -- otherwise after a following allocation elements may start as being marked. This saves us an O(n) operation, but opens the door to nasty bugs if you can't design your algorithm in a way which renders unmarking trivial.
 \end{description}
+
+An example implementing \indexed{depth-first search} and \indexed{breadth-first search} as computations of the rule language utilizing the constructs introduced so far can be found in \texttt{test/should\_pass}, in \texttt{/DfsBfsSearch.grg}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Transaction Handling}\label{sub:transaction}
+
+In addition to the functions implemented directly in the graph there are the transaction manager functions available, implemented in the graph processing environment.
+While a transaction is underway, an undo log is filled with commands to undo the changes that occured in the graph in the meantime.
+Those transaction handling functions are:
+
+\begin{description}
+\item[\texttt{startTransaction()}] starts a transaction and returns its transaction id (as number of type \texttt{int}).
+\item[\texttt{pauseTransaction()}] pauses transaction handling so changes are not recorded and can't be undone.
+\item[\texttt{resumeTransaction()}] resumes paused transaction handling.
+\item[\texttt{commitTransaction(.)}] keeps the changes of the transaction of the given id (of type \texttt{int}) in the graph, removing undo information.
+\item[\texttt{rollbackTransaction(.)}] reverts the changes of the transaction of the given id (of type \texttt{int}) in the graph by executing the undo log.
+\end{description}
+
+Please note that transactions may be nested; those functions are used in implementing the transaction and backtracking constructs explained in \ref{sec:extctrl}.

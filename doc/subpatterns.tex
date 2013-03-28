@@ -93,6 +93,7 @@ pattern IteratedPath(prev:Node)
   
 The code above searches an \indexed{iterated path} from the root node on, here an assignment list. 
 The iterated \indexed{path} with the optional is equivalent to the code below. Note the negative which ensures you get a longest match -- without it the empty case may be chosen lazily just in the beginning.
+Please note that if you only need to check for the existence of such a simple iterated path you can use the \texttt{reachable} function introduced in \ref{transitiveneighbour}.
 
   \begin{grgen}
 pattern IteratedPath(prev:Node)
