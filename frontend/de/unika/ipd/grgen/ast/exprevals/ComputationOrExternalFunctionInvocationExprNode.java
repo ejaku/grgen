@@ -68,7 +68,10 @@ public class ComputationOrExternalFunctionInvocationExprNode extends ExprNode
 	protected boolean resolveLocal() {
 		fixupDefinition((IdentNode)computationOrFunctionUnresolved, computationOrFunctionUnresolved.getScope());
 		Pair<ComputationDeclNode, ExternalFunctionDeclNode> resolved = resolver.resolve(computationOrFunctionUnresolved, this);
-		if(resolved == null) return false;
+		if(resolved == null) {
+			computationOrFunctionUnresolved.reportError("Unknown function called -- misspelled function name?");
+			return false;
+		}
 		computationDecl = resolved.fst;
 		functionDecl = resolved.snd;
 		return true;

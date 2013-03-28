@@ -143,6 +143,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         long ChangesCounter { get; }
 
+
         /// <summary>
         /// The total number of nodes in the graph.
         /// </summary>
@@ -183,6 +184,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Enumerates all edges with the exact given edge type.
         /// </summary>
         IEnumerable<IEdge> GetExactEdges(EdgeType edgeType);
+
 
         /// <summary>
         /// Returns the number of nodes compatible to the given node type.
@@ -237,6 +239,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The newly created edge.</returns>
         IEdge AddEdge(EdgeType edgeType, INode source, INode target);
 
+
         /// <summary>
         /// Removes the given node from the graph.
         /// There must be no edges left incident to the node (you may use RemoveEdges to ensure this).
@@ -258,6 +261,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         void Clear();
 
+
         /// <summary>
         /// Retypes a node by creating a new node of the given type.
         /// All incident edges as well as all attributes from common super classes are kept.
@@ -275,6 +279,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newEdgeType">The new type for the edge.</param>
         /// <returns>The new edge object representing the retyped edge.</returns>
         IEdge Retype(IEdge edge, EdgeType newEdgeType);
+
 
         /// <summary>
         /// Merges the source node into the target node,
@@ -334,6 +339,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>A new empty graph of the same model.</returns>
         IGraph CreateEmptyEquivalent(String newName);
 
+        
         /// <summary>
         /// Returns whether this graph is isomorph to that graph (including the attribute values)
         /// If a graph changed only in attribute values since the last comparison, results will be wrong!
@@ -356,6 +362,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>a canonical representation of the graph as a string</returns>
         string Canonize();
 
+
         /// <summary>
         /// Checks whether a graph meets the connection assertions.
         /// </summary>
@@ -369,6 +376,7 @@ namespace de.unika.ipd.grGen.libGr
         /// This is for debugging the underlying implementation from positions outside the implementation.
         /// </summary>
         void Check();
+
 
         #region Visited flags management
 

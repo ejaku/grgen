@@ -1791,7 +1791,6 @@ seqComputation[ExecNode xg]
 seqExpressionOrAssign[ExecNode xg]
 	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); }) seqExpressionOrAssign[xg]
 	| seqExpression[xg] 
-	| VALLOC LPAREN RPAREN { xg.append("valloc()"); }
 	;
 
 seqAssignTarget[ExecNode xg]
@@ -1930,7 +1929,8 @@ seqExprSelectorTerminator
 procedureCall[ExecNode xg]
 	: { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vfreenonreset") || input.LT(1).getText().equals("vreset") 
 		|| input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") 
-		|| input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
+		|| input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")
+		}?
 		(i=IDENT | i=EMIT) LPAREN { xg.append(i.getText()); xg.append("("); } ( seqExpression[xg] )? RPAREN { xg.append(")"); }
 	;
 
@@ -3017,13 +3017,52 @@ options { k = 5; }
 	  WHILE LPAREN e=expr[false] RPAREN
 			{ res=new DoWhileStatementNode(getCoords(d), cs, e); }
 	|
-	  { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vfreenonreset") || input.LT(1).getText().equals("vreset") 
-		|| input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") 
-		|| input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")}?
-		(i=IDENT | i=EMIT) params=paramExprs[false] SEMI
-			{ res=new ProcedureCallNode(getCoords(i), i.getText(), params); }
-//	| functioncall=externalFunctionInvocationExpr[false] SEMI
-//		{ res = new FunctionCallStatementNode(functioncall); }
+	  (i=IDENT | i=EMIT) params=paramExprs[false] SEMI
+			{ 
+				if(    i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
+					|| i.getText().equals("record") || i.getText().equals("emit") 
+					|| i.getText().equals("rem") || i.getText().equals("clear")
+					|| i.getText().equals("merge")
+					|| i.getText().equals("redirectSource") || i.getText().equals("redirectTarget")
+					|| i.getText().equals("redirectSourceAndTarget")
+					|| i.getText().equals("pauseTransaction") || i.getText().equals("resumeTransaction")
+					|| i.getText().equals("commitTransaction") || i.getText().equals("rollbackTransaction")
+					)
+				{
+					res=new ProcedureCallNode(getCoords(i), i.getText(), params);
+				}
+				else if((i.getText().equals("min") || i.getText().equals("max")) && params.getChildren().size()==2
+					|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
+					|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
+					|| i.getText().equals("abs") && params.getChildren().size()==1
+					|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
+					|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
+					|| i.getText().equals("opposite") && params.getChildren().size()==2
+					|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+					|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+					|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+					|| (i.getText().equals("reachableEdgesIncoming") || i.getText().equals("reachableEdgesOutgoing") || i.getText().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
+					|| (i.getText().equals("isIncoming") || i.getText().equals("isOutgoing") || i.getText().equals("isIncident")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+					|| (i.getText().equals("isAdjacentIncoming") || i.getText().equals("isAdjacentOutgoing") || i.getText().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+					|| (i.getText().equals("isReachableIncoming") || i.getText().equals("isReachableOutgoing") || i.getText().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+					|| (i.getText().equals("isReachableEdgesIncoming") || i.getText().equals("isReachableEdgesOutgoing") || i.getText().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
+//					|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
+					|| i.getText().equals("canonize") && params.getChildren().size()==1
+					|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
+					|| (i.getText().equals("insertInduced") || i.getText().equals("insertDefined")) && params.getChildren().size()==2
+					|| i.getText().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()<=3)
+					|| i.getText().equals("retype") && params.getChildren().size()==2
+					|| i.getText().equals("startTransaction") && params.getChildren().size()==0
+					|| i.getText().equals("valloc") && params.getChildren().size()==0
+					)
+				{
+					res = new CallStatementNode(getCoords(i), new FunctionInvocationExprNode(new IdentNode(env.occurs(ParserEnvironment.COMPUTATIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))), params, env));
+				}
+				else
+				{
+					res = new CallStatementNode(getCoords(i), new ComputationOrExternalFunctionInvocationExprNode(new IdentNode(env.occurs(ParserEnvironment.COMPUTATIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))), params));
+				}
+			}
 	| exec=execStmt[null, context, directlyNestingLHSGraph] SEMI
 		{ res = new ExecStatementNode(exec); }
 	;
@@ -3273,7 +3312,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	; 
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-options { k = 3; }
+options { k = 4; }
 	: e=visited { res = e; }
 	| e=randomExpr { res = e; }
 	| e=nameOf { res = e; }
@@ -3290,15 +3329,14 @@ options { k = 3; }
 	;
 
 visited returns [ VisitedNode res ]
-	: v=VISITED LPAREN elem=entIdentUse 
+	: v=VISITED LPAREN elem=expr[false] 
 		( COMMA idExpr=expr[false] RPAREN
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
 		| RPAREN
 			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), elem); }
 		)
-		{ reportWarning(getCoords(v), "visited in function notation deprecated, use element.visited[flag-id] instead"); }
 	|
-		elem=entIdentUse DOT v=VISITED  
+		(elem=identExpr | elem=globalsAccessExpr) DOT v=VISITED  
 		( (LBRACK) => LBRACK idExpr=expr[false] RBRACK // [ starts a visited flag expression, not a following map access selector expression
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
 		| 
@@ -3431,6 +3469,8 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (id.toString().equals("insertInduced") || id.toString().equals("insertDefined")) && params.getChildren().size()==2
 				|| id.toString().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()<=3)
 				|| id.toString().equals("retype") && params.getChildren().size()==2
+				|| id.toString().equals("startTransaction") && params.getChildren().size()==0
+				|| id.toString().equals("valloc") && params.getChildren().size()==0
 			  )
 			{
 				res = new FunctionInvocationExprNode(id, params, env);
@@ -3438,7 +3478,6 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				res = new ComputationOrExternalFunctionInvocationExprNode(id, params);
 			}
 		}
-	| v=VALLOC LPAREN RPAREN { res = new VAllocExprNode(getCoords(v)); }
 	;
 	
 selectorExpr [ ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
@@ -3735,7 +3774,6 @@ TRUE : 'true';
 TYPEOF : 'typeof';
 UNDIRECTED : 'undirected';
 USING : 'using';
-VALLOC : 'valloc';
 VISITED : 'visited';
 WHILE : 'while';
 YIELD : 'yield';

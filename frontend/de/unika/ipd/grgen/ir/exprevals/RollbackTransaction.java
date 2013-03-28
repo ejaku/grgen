@@ -5,22 +5,26 @@
  * www.grgen.net
  */
 
+/**
+ * @author Edgar Jakumeit
+ */
+
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class GraphRemove extends EvalStatement {
-	private Expression entity;
+public class RollbackTransaction extends EvalStatement {
+	private Expression transactionIdExpr;
 
-	public GraphRemove(Expression entity) {
-		super("graph remove");
-		this.entity = entity;
+	public RollbackTransaction(Expression transactionIdExpr) {
+		super("rollback transaction statement");
+		this.transactionIdExpr = transactionIdExpr;
 	}
 
-	public Expression getEntity() {
-		return entity;
+	public Expression getTransactionId() {
+		return transactionIdExpr;
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		entity.collectNeededEntities(needs);
+		transactionIdExpr.collectNeededEntities(needs);
 	}
 }

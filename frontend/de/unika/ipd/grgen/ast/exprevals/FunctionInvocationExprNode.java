@@ -446,6 +446,22 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new CanonizeExprNode(getCoords(), params.get(0));
 		}
+		else if(functionName.equals("valloc")) {
+			if(params.size() != 0) {
+				reportError("valloc() takes no parameters.");
+				return false;
+			}
+			else
+				result = new VAllocExprNode(getCoords());
+		}
+		else if(functionName.equals("startTransaction")) {
+			if(params.size() != 0) {
+				reportError("startTransaction() takes no parameters.");
+				return false;
+			}
+			else
+				result = new StartTransactionExprNode(getCoords());
+		}
 		else {
 			reportError("no function " +functionName + " known");
 			return false;

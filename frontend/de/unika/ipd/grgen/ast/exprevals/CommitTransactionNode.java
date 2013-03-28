@@ -5,40 +5,46 @@
  * www.grgen.net
  */
 
+/**
+ * @author Edgar Jakumeit
+ */
+
 package de.unika.ipd.grgen.ast.exprevals;
 
 import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ir.exprevals.CommitTransaction;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.GraphRemove;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class GraphRemoveNode extends EvalStatementNode {
+public class CommitTransactionNode extends EvalStatementNode {
 	static {
-		setName(GraphRemoveNode.class, "graph remove statement");
+		setName(CommitTransactionNode.class, "commit transaction statement");
 	}
 
-	private ExprNode entityExpr;
+	private ExprNode transactionIdExpr;
 
-	public GraphRemoveNode(Coords coords, ExprNode entityExpr) {
+
+	public CommitTransactionNode(Coords coords, ExprNode transactionIdExpr) {
 		super(coords);
 
-		this.entityExpr = entityExpr;
-		becomeParent(entityExpr);
+		this.transactionIdExpr = becomeParent(transactionIdExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(entityExpr);
+		children.add(transactionIdExpr);
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("entity");
+		childrenNames.add("transactionIdExpr");
 		return childrenNames;
 	}
 
@@ -49,18 +55,15 @@ public class GraphRemoveNode extends EvalStatementNode {
 
 	@Override
 	protected boolean checkLocal() {
-		if(entityExpr.getType() instanceof EdgeTypeNode) {
-			return true;
+		if(!transactionIdExpr.getType().isEqual(BasicTypeNode.intType)) {
+			transactionIdExpr.reportError("Argument (transaction id) to commitTransaction statement must be of type int");
+			return false;
 		}
-		if(entityExpr.getType() instanceof NodeTypeNode) {
-			return true;
-		}
-		reportError("argument of rem(.) must be a node or edge type");
-		return false;
+		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new GraphRemove(entityExpr.checkIR(Expression.class));
+		return new CommitTransaction(transactionIdExpr.checkIR(Expression.class));
 	}
 }

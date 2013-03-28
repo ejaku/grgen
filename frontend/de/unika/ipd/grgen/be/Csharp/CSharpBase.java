@@ -763,7 +763,9 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof Visited) {
 			Visited vis = (Visited) expr;
-			sb.append("graph.IsVisited(" + formatEntity(vis.getEntity()) + ", ");
+			sb.append("graph.IsVisited(");
+			genExpression(sb, vis.getEntity(), modifyGenerationState);
+			sb.append(", ");
 			genExpression(sb, vis.getVisitorID(), modifyGenerationState);
 			sb.append(")");
 		}
@@ -1483,6 +1485,9 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof VAllocExpr) {
 			sb.append("graph.AllocateVisitedFlag()");
+		}
+		else if(expr instanceof StartTransactionExpr) {
+			sb.append("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Start()");
 		}
 		else if(expr instanceof GraphAddNodeExpr) {
 			GraphAddNodeExpr gan = (GraphAddNodeExpr) expr;

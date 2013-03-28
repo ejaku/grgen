@@ -44,6 +44,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The graph element for the given name or null, if there is no graph element with this name.</returns>
         IGraphElement GetGraphElement(String name);
 
+
         /// <summary>
         /// Adds an existing node to the graph and names it.
         /// </summary>
@@ -85,5 +86,37 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newName">Name of the new graph.</param>
         /// <returns>A new graph with the same structure and names as this graph.</returns>
         INamedGraph CloneNamed(String newName);
+
+
+        /// <summary>
+        /// Merges the source node into the target node,
+        /// i.e. all edges incident to the source node are redirected to the target node, then the source node is deleted.
+        /// </summary>
+        /// <param name="target">The node which remains after the merge.</param>
+        /// <param name="source">The node to be merged.</param>
+        void Merge(INode target, INode source);
+
+        /// <summary>
+        /// Changes the source node of the edge from the old source to the given new source.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newSource">The new source node of the edge.</param>
+        void RedirectSource(IEdge edge, INode newSource);
+
+        /// <summary>
+        /// Changes the target node of the edge from the old target to the given new target.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newTarget">The new target node of the edge.</param>
+        void RedirectTarget(IEdge edge, INode newTarget);
+
+        /// <summary>
+        /// Changes the source of the edge from the old source to the given new source,
+        /// and changes the target node of the edge from the old target to the given new target.
+        /// </summary>
+        /// <param name="edge">The edge to redirect.</param>
+        /// <param name="newSource">The new source node of the edge.</param>
+        /// <param name="newTarget">The new target node of the edge.</param>
+        void RedirectSourceAndTarget(IEdge edge, INode newSource, INode newTarget);
     }
 }

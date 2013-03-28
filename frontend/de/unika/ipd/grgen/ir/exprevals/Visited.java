@@ -7,13 +7,11 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-import de.unika.ipd.grgen.ir.*;
-
 public class Visited extends Expression {
 	private Expression visitorID;
-	private Entity entity;
+	private Expression entity;
 
-	public Visited(Expression visitorID, Entity entity) {
+	public Visited(Expression visitorID, Expression entity) {
 		super("visited", BooleanType.getType());
 		this.visitorID = visitorID;
 		this.entity = entity;
@@ -23,14 +21,13 @@ public class Visited extends Expression {
 		return visitorID;
 	}
 
-	public Entity getEntity() {
+	public Expression getEntity() {
 		return entity;
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity) entity);
+		entity.collectNeededEntities(needs);
 		visitorID.collectNeededEntities(needs);
 	}
 }

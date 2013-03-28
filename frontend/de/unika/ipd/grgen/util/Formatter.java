@@ -135,9 +135,10 @@ public class Formatter {
 		}
 		else if(cond instanceof Visited) {
 			Visited vis = (Visited) cond;
-			sb.append("visited(" + formatIdentifiable(vis.getEntity()) + ", ");
+			formatConditionEvalAux(sb, vis.getEntity());
+			sb.append(".visited[");
 			formatConditionEvalAux(sb, vis.getVisitorID());
-			sb.append(")");
+			sb.append("]");
 		}
 		else {
 			sb.append("Unsupported expression type (" + cond + ")");

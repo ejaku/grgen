@@ -1983,6 +1983,18 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof GraphRemove) {
 			genGraphRemoveStatement(sb, state, (GraphRemove) evalStmt);
 		}
+		else if(evalStmt instanceof GraphMerge) {
+			genGraphMergeStatement(sb, state, (GraphMerge) evalStmt);
+		}
+		else if(evalStmt instanceof GraphRedirectSource) {
+			genGraphRedirectSourceStatement(sb, state, (GraphRedirectSource) evalStmt);
+		}
+		else if(evalStmt instanceof GraphRedirectTarget) {
+			genGraphRedirectTargetStatement(sb, state, (GraphRedirectTarget) evalStmt);
+		}
+		else if(evalStmt instanceof GraphRedirectSourceAndTarget) {
+			genGraphRedirectSourceAndTargetStatement(sb, state, (GraphRedirectSourceAndTarget) evalStmt);
+		}
 		else if(evalStmt instanceof VFreeStatement) {
 			genVFreeStatement(sb, state, (VFreeStatement) evalStmt);
 		}
@@ -1991,6 +2003,21 @@ public class ModifyGen extends CSharpBase {
 		}
 		else if(evalStmt instanceof VResetStatement) {
 			genVResetStatement(sb, state, (VResetStatement) evalStmt);
+		}
+		else if(evalStmt instanceof PauseTransaction) {
+			genPauseTransactionStatement(sb, state, (PauseTransaction) evalStmt);
+		}
+		else if(evalStmt instanceof ResumeTransaction) {
+			genResumeTransactionStatement(sb, state, (ResumeTransaction) evalStmt);
+		}
+		else if(evalStmt instanceof CommitTransaction) {
+			genCommitTransactionStatement(sb, state, (CommitTransaction) evalStmt);
+		}
+		else if(evalStmt instanceof RollbackTransaction) {
+			genRollbackTransactionStatement(sb, state, (RollbackTransaction) evalStmt);
+		}
+		else if(evalStmt instanceof CallStatement) {
+			genCallStatement(sb, state, (CallStatement) evalStmt);
 		}
 		else if(evalStmt instanceof ExecStatement) {
 			genExecStatement(sb, state, (ExecStatement) evalStmt);
@@ -2204,7 +2231,9 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genAssignmentVisited(StringBuffer sb, ModifyGenerationStateConst state, AssignmentVisited ass) {
-		sb.append("\t\t\tgraph.SetVisited(" + formatEntity(ass.getTarget().getEntity()) + ", ");
+		sb.append("\t\t\tgraph.SetVisited(");
+		genExpression(sb, ass.getTarget().getEntity(), state);
+		sb.append(", ");
 		genExpression(sb, ass.getTarget().getVisitorID(), state);
 		sb.append(", ");
 		genExpression(sb, ass.getExpression(), state);
@@ -2271,14 +2300,14 @@ public class ModifyGen extends CSharpBase {
 		Visited changedTarget = cass.getChangedTarget();
 
 		StringBuffer changedTargetBuffer = new StringBuffer();
+		genExpression(changedTargetBuffer, changedTarget.getEntity(), state);
+		changedTargetBuffer.append(", ");
 		genExpression(changedTargetBuffer, changedTarget.getVisitorID(), state);
 
 		String prefix = "\t\t\t" + "graph.SetVisited("
-			+ formatEntity(changedTarget.getEntity()) + ", "
 			+ changedTargetBuffer.toString() + ", ";
 		if(cass.getChangedOperation()!=CompoundAssignment.ASSIGN) {
-			prefix += "graph.IsVisited(" + formatEntity(changedTarget.getEntity())
-				+ ", " + changedTargetBuffer.toString() + ")"
+			prefix += "graph.IsVisited(" + changedTargetBuffer.toString() + ")"
 				+ (cass.getChangedOperation()==CompoundAssignment.UNION ? " | " : " & ");
 		}
 
@@ -2376,14 +2405,14 @@ public class ModifyGen extends CSharpBase {
 		Visited changedTarget = cass.getChangedTarget();
 
 		StringBuffer changedTargetBuffer = new StringBuffer();
+		genExpression(changedTargetBuffer, changedTarget.getEntity(), state);
+		changedTargetBuffer.append(", ");
 		genExpression(changedTargetBuffer, changedTarget.getVisitorID(), state);
 
 		String prefix = "\t\t\t" + "graph.SetVisited("
-			+ formatEntity(changedTarget.getEntity()) + ", "
 			+ changedTargetBuffer.toString() + ", ";
 		if(cass.getChangedOperation()!=CompoundAssignment.ASSIGN) {
-			prefix += "graph.IsVisited(" + formatEntity(changedTarget.getEntity())
-				+ ", " + changedTargetBuffer.toString() + ")"
+			prefix += "graph.IsVisited(" + changedTargetBuffer.toString() + ")"
 				+ (cass.getChangedOperation()==CompoundAssignment.UNION ? " | " : " & ");
 		}
 
@@ -3360,16 +3389,101 @@ public class ModifyGen extends CSharpBase {
 				+ "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + recordVar + ", graph));\n");
 	}
 
-	private void genGraphClearStatement(StringBuffer sb, ModifyGenerationStateConst state, GraphClear gcs) {
+	private void genGraphClearStatement(StringBuffer sb, ModifyGenerationStateConst state, GraphClear gc) {
 		sb.append("\t\t\tgraph.Clear();\n");
 	}
 
-	private void genGraphRemoveStatement(StringBuffer sb, ModifyGenerationStateConst state, GraphRemove grs) {
-		if(grs.getEntity() instanceof Node) {
-			sb.append("\t\t\tgraph.RemoveEdges((GRGEN_LIBGR.INode)" + formatEntity(grs.getEntity()) + ");\n");
-			sb.append("\t\t\tgraph.Remove((GRGEN_LIBGR.INode)" + formatEntity(grs.getEntity()) + ");\n");
+	private void genGraphRemoveStatement(StringBuffer sb, ModifyGenerationStateConst state, GraphRemove gr) {
+        if(gr.getEntity().getType() instanceof NodeType) {
+			sb.append("\t\t\tgraph.RemoveEdges((GRGEN_LIBGR.INode)");
+			genExpression(sb, gr.getEntity(), state);
+			sb.append(");\n");
+
+			sb.append("\t\t\tgraph.Remove((GRGEN_LIBGR.INode)");
+			genExpression(sb, gr.getEntity(), state);
+			sb.append(");\n");
 		} else {
-			sb.append("\t\t\tgraph.Remove((GRGEN_LIBGR.IEdge)" + formatEntity(grs.getEntity()) + ");\n");
+			sb.append("\t\t\tgraph.Remove((GRGEN_LIBGR.IEdge)");
+			genExpression(sb, gr.getEntity(), state);
+			sb.append(");\n");
+		}
+	}
+
+	private void genGraphMergeStatement(StringBuffer sb, ModifyGenerationStateConst state, GraphMerge gm) {
+        if(gm.getSourceName() != null) {
+			sb.append("\t\t\tgraph.Merge((GRGEN_LIBGR.INode)");
+			genExpression(sb, gm.getTarget(), state);
+			sb.append(", (GRGEN_LIBGR.INode)");
+			genExpression(sb, gm.getSource(), state);
+			sb.append(", (String)");
+			genExpression(sb, gm.getSourceName(), state);
+			sb.append(");\n");
+		} else {
+			sb.append("\t\t\t((GRGEN_LGSP.LGSPNamedGraph)graph).Merge((GRGEN_LIBGR.INode)");
+			genExpression(sb, gm.getTarget(), state);
+			sb.append(", (GRGEN_LIBGR.INode)");
+			genExpression(sb, gm.getSource(), state);
+			sb.append(");\n");
+		}
+	}
+
+	private void genGraphRedirectSourceStatement(StringBuffer sb, ModifyGenerationStateConst state, GraphRedirectSource grs) {
+        if(grs.getOldSourceName() != null) {
+			sb.append("\t\t\tgraph.RedirectSource((GRGEN_LIBGR.IEdge)");
+			genExpression(sb, grs.getEdge(), state);
+			sb.append(", (GRGEN_LIBGR.INode)");
+			genExpression(sb, grs.getNewSource(), state);
+			sb.append(", (String)");
+			genExpression(sb, grs.getOldSourceName(), state);
+			sb.append(");\n");
+		} else {
+			sb.append("\t\t\t((GRGEN_LGSP.LGSPNamedGraph)graph).RedirectSource((GRGEN_LIBGR.IEdge)");
+			genExpression(sb, grs.getEdge(), state);
+			sb.append(", (GRGEN_LIBGR.INode)");
+			genExpression(sb, grs.getNewSource(), state);
+			sb.append(");\n");
+		}
+	}
+
+	private void genGraphRedirectTargetStatement(StringBuffer sb, ModifyGenerationStateConst state, GraphRedirectTarget grt) {
+        if(grt.getOldTargetName() != null) {
+			sb.append("\t\t\tgraph.RedirectTarget((GRGEN_LIBGR.IEdge)");
+			genExpression(sb, grt.getEdge(), state);
+			sb.append(", (GRGEN_LIBGR.INode)");
+			genExpression(sb, grt.getNewTarget(), state);
+			sb.append(", (String)");
+			genExpression(sb, grt.getOldTargetName(), state);
+			sb.append(");\n");
+		} else {
+			sb.append("\t\t\t((GRGEN_LGSP.LGSPNamedGraph)graph).RedirectTarget((GRGEN_LIBGR.IEdge)");
+			genExpression(sb, grt.getEdge(), state);
+			sb.append(", (GRGEN_LIBGR.INode)");
+			genExpression(sb, grt.getNewTarget(), state);
+			sb.append(");\n");
+		}
+	}
+
+	private void genGraphRedirectSourceAndTargetStatement(StringBuffer sb, ModifyGenerationStateConst state, GraphRedirectSourceAndTarget grsat) {
+        if(grsat.getOldSourceName() != null) {
+			sb.append("\t\t\tgraph.RedirectSourceAndTarget((GRGEN_LIBGR.IEdge)");
+			genExpression(sb, grsat.getEdge(), state);
+			sb.append(", (GRGEN_LIBGR.INode)");
+			genExpression(sb, grsat.getNewSource(), state);
+			sb.append(", (GRGEN_LIBGR.INode)");
+			genExpression(sb, grsat.getNewTarget(), state);
+			sb.append(", (String)");
+			genExpression(sb, grsat.getOldSourceName(), state);
+			sb.append(", (String)");
+			genExpression(sb, grsat.getOldTargetName(), state);
+			sb.append(");\n");
+		} else {
+			sb.append("\t\t\t((GRGEN_LGSP.LGSPNamedGraph)graph).RedirectSourceAndTarget((GRGEN_LIBGR.IEdge)");
+			genExpression(sb, grsat.getEdge(), state);
+			sb.append(", (GRGEN_LIBGR.INode)");
+			genExpression(sb, grsat.getNewSource(), state);
+			sb.append(", (GRGEN_LIBGR.INode)");
+			genExpression(sb, grsat.getNewTarget(), state);
+			sb.append(");\n");
 		}
 	}
 
@@ -3389,6 +3503,32 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\tgraph.ResetVisitedFlag((int)");
 		genExpression(sb, vrs.getVisitedFlagExpr(), state);
 		sb.append(");\n");
+	}
+
+	private void genPauseTransactionStatement(StringBuffer sb, ModifyGenerationStateConst state, PauseTransaction pt) {
+		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Pause();\n");
+	}
+
+	private void genResumeTransactionStatement(StringBuffer sb, ModifyGenerationStateConst state, ResumeTransaction rt) {
+		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Resume();\n");
+	}
+
+	private void genCommitTransactionStatement(StringBuffer sb, ModifyGenerationStateConst state, CommitTransaction ct) {
+		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Commit((int)");
+		genExpression(sb, ct.getTransactionId(), state);
+		sb.append(");\n");
+	}
+
+	private void genRollbackTransactionStatement(StringBuffer sb, ModifyGenerationStateConst state, RollbackTransaction rt) {
+		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Rollback((int)");
+		genExpression(sb, rt.getTransactionId(), state);
+		sb.append(");\n");
+	}
+
+	private void genCallStatement(StringBuffer sb, ModifyGenerationStateConst state, CallStatement cs) {
+		sb.append("\t\t\tobject dummyvar_" + tmpVarID++ + " = "); // needed cause some function calls come with result cast, which is not allowed as C# statement
+		genExpression(sb, cs.getCalledFunction(), state);
+		sb.append(";\n");
 	}
 
 	private void genExecStatement(StringBuffer sb, ModifyGenerationStateConst state, ExecStatement es) {

@@ -527,6 +527,28 @@ namespace de.unika.ipd.grGen.lgsp
                 return base.Retype(edge, newEdgeType);
         }
 
+
+        public void Merge(INode target, INode source)
+        {
+            Merge(target, source, GetElementName(source));
+        }
+
+        public void RedirectSource(IEdge edge, INode newSource)
+        {
+            RedirectSource(edge, newSource, GetElementName(edge.Source));
+        }
+
+        public void RedirectTarget(IEdge edge, INode newTarget)
+        {
+            RedirectTarget(edge, newTarget, GetElementName(edge.Target));
+        }
+
+        public void RedirectSourceAndTarget(IEdge edge, INode newSource, INode newTarget)
+        {
+            RedirectSourceAndTarget(edge, newSource, newTarget, GetElementName(edge.Source), GetElementName(edge.Target));
+        }
+
+        
         public override IGraph Clone(String newName)
         {
             return CloneNamed(newName);
