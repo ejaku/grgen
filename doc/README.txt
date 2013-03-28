@@ -39,7 +39,7 @@ For Windows:
     Of course you have to replace <GrGenNETPath> by your chosen path.
 
     ATTENTION: Do NOT add ""s around any part of the path, even if it
-      contains spaces! Otherwise yComp, a graph visualisation tool, will not
+      contains spaces! Otherwise yComp, our graph visualisation tool, will not
       run out of GrShell!
 	  
 	If you run into "Unable to process specification: 
@@ -81,11 +81,9 @@ Example:
 TESTS
 -----
 
-The tests subdirectory contains an automated testbench used to check the
+The test and tests subdirectories contain an automated testbench used to check the
 consistency of our GrGen.NET releases. You can run the testbench by executing
 the "test.sh" shell script (for Windows you must use Cygwin).
-The source distribution contains further frontend/generation only tests,
-regarding exection the same applies as for the backend/shell execution tests.
 
 
 HELP

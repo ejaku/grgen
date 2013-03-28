@@ -15,7 +15,8 @@ and global graph functions may be called (more on this in the following chapter 
     | ContainerMethodCall
     | GlobalGraphFunctionCall
     | VisitedAssignment
-    | MiscGlobalFunctionCall
+    | CallOrMiscGlobalFunctionCall
+    | EmbeddedExec
     | LocalVariableDecl
     | Decision
     | WhileLoop
@@ -64,13 +65,26 @@ Local variables can be defined with the syntax known for local def pattern varia
 At their definition, an initializing expression may be given.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Misc. Global Functions} 
+\section{Calls and Misc. Global Functions} 
 
-There are functions to emit text or record graph changes available in the computations: 
+You may call any of the functions from the expressions that were already introduced or that will be introduced just for its side effects, throwing away the result.
+Besides there are functions to emit text or record graph changes available in the computations: 
 
 \begin{description}
 \item[\texttt{emit(.)}] writes the argument value, typically a test string, to stdout, or to a file if output was redirected. 
 \item[\texttt{record(.)}] writes the argument value, typically a text string, to the graph change record.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Embedded Exec} 
+
+As in the rules (cf. chapter \ref{cha:imperativeandstate}), \texttt{exec} statements may be embedded.
+They are executing the graph rewrite sequence (see chapter \ref{cha:xgrs}) contained, with access to the variables defined outside.
+This means for one reading this variables, but for the other assigning to that variables with \texttt{yield}.
+The embedded \texttt{exec}s allow to apply rules from the computations, while the sequence computations may call defined computations, mixing and merging declarative rule-based graph rewriting (pattern matching and dependent modifications) with traditional graph programming; in addition to the computations as such, which are already going into that direction, enriching rules with general graph programming.
+
+\begin{description}
+\item[\texttt{exec(.)}] executes the graph rewrite sequence given. 
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -126,7 +140,7 @@ Computations that are occuring frequently may be factored out into a computation
 	;
 \end{rail}\ixnterm{Parameter}\ixkeyw{var}\ixkeyw{ref}
 
-The computation definition must return a value with a return statement (at least one).
+The computation definition must return a value with a return statement (so there must be at least one return statement).
 The type of the one return value must be compatible to the return type specified in the computation definition.
 A return statement must not occur outside of a computation definition.
 
@@ -134,7 +148,7 @@ A return statement must not occur outside of a computation definition.
   ReturnStatement: 'return' '(' Expression ')' ';' ;
 \end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
 
-A such defined computation may then be called as an expression atom from anywhere in the rule language file where an expression is required.
+A such defined computation may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations.
 
 \begin{rail}
   CallExpr: Name '(' (Expression * ',') ')' ;
