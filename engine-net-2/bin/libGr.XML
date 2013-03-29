@@ -4,93 +4,6 @@
         <name>libGr</name>
     </assembly>
     <members>
-        <member name="T:de.unika.ipd.grGen.libGr.InvocationParameterBindings">
-            <summary>
-            An object representing a rule or sequence invocation.
-            It stores the input arguments (values),
-            tells with which sequence expressions to compute them,
-            and where (which variables) to store the output values.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.Name">
-            <summary>
-            The name of the rule or the sequence. Used for generation, where the rule or sequence representation objects do not exist yet.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.ArgumentExpressions">
-            <summary>
-            An array of expressions used to compute the input arguments.
-            It must have the same length as Arguments.
-            If an entry is null, the according entry in Arguments is used unchanged.
-            Otherwise the entry in Arguments is filled with the evaluation result of the expression.
-            The sequence parser generates argument expressions for every entry;
-            they may be omitted by a user assembling an invocation at API level.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.ReturnVars">
-            <summary>
-            An array of variables used for the return values.
-            Might be empty if the rule/sequence caller is not interested in available returns values.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.Arguments">
-            <summary>
-            Buffer to store the argument values for the call;
-            used by libGr to avoid unneccessary memory allocations.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.InvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
-            <summary>
-            Instantiates a new InvocationParameterBindings object
-            </summary>
-            <param name="argExprs">An array of expressions used to compute the arguments</param>
-            <param name="arguments">An array of arguments.</param>
-            <param name="returnVars">An array of variables used for the return values</param>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings">
-            <summary>
-            An object representing a rule invocation.
-            It stores the input arguments (values),
-            tells with which sequence expressions to compute them,
-            and where (which variables) to store the output values.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.Action">
-            <summary>
-            The IAction instance to be used
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.IAction,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
-            <summary>
-            Instantiates a new RuleInvocationParameterBindings object
-            </summary>
-            <param name="action">The IAction instance to be used</param>
-            <param name="argExprs">An array of expressions used to compute the arguments</param>
-            <param name="arguments">An array of arguments.</param>
-            <param name="returnVars">An array of variables used for the return values</param>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings">
-            <summary>
-            An object representing a sequence invocation.
-            It stores the input arguments (values),
-            tells with which sequence expressions to compute them,
-            and where (which variables) to store the output values.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings.SequenceDef">
-            <summary>
-            The defined sequence to be used
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.SequenceDefinition,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
-            <summary>
-            Instantiates a new SequenceInvocationParameterBindings object
-            </summary>
-            <param name="sequenceDef">The defined sequence to be used</param>
-            <param name="argExprs">An array of expressions used to compute the arguments</param>
-            <param name="arguments">An array of arguments.</param>
-            <param name="returnVars">An array of variables used for the return values</param>
-        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IDumper">
             <summary>
             A dumper for output of graphs.
@@ -370,6 +283,16 @@
             The names of the sequences used in the specification, set if parsing an xgrs to be compiled
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.computationNames">
+            <summary>
+            The names of the computations used in the specification, set if parsing an xgrs to be compiled
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.computationOutputTypes">
+            <summary>
+            The output types of the computations used in the specification, set if parsing an xgrs to be compiled
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.model">
             <summary>
             The model used in the specification
@@ -410,13 +333,15 @@
             <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserException">Thrown when a rule is used with the wrong number of arguments
             or return parameters.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,System.String[],System.String[],System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,System.String[],System.String[],System.String[],System.String[],System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.List{System.String})">
             <summary>
             Parses a given string in xgrs syntax and builds a Sequence object. Used for the compiled xgrs.
             </summary>
             <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
             <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
             <param name="sequenceNames">An array containing the names of the sequences used in the specification.</param>
+            <param name="computationNames">An array containing the names of the computations used in the specification.</param>
+            <param name="computationOutputTypes">An array containing the output types of the computations used in the specification.</param>
             <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
             <param name="model">The model used in the specification.</param>
             <param name="warnings">A list which receives the warnings generated during parsing.</param>
@@ -539,9 +464,10 @@
             <returns>The value resulting from computing this sequence computation, 
                      null if there is no result value</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.GetLocalVariables(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SetValueType})">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.GetLocalVariables(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceExpressionContainerConstructor})">
             <summary>
-            Collects all variables of the sequence expression tree into the variables dictionary.
+            Collects all variables of the sequence expression tree into the variables dictionary,
+            and all container constructors used into the constructors array.
             </summary>
             <param name="variables">Contains the variables found</param>
         </member>
@@ -610,92 +536,182 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Adjacent(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of nodes adjacent to the source node, under the type constraints given
+            Returns set of nodes adjacent to the start node, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AdjacentOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of nodes adjacent to the source node via outgoing edges, under the type constraints given
+            Returns set of nodes adjacent to the start node via outgoing edges, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AdjacentIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of nodes adjacent to the source node via incoming edges, under the type constraints given
+            Returns set of nodes adjacent to the start node via incoming edges, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Incident(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of edges incident to the source node, under the type constraints given
+            Returns set of edges incident to the start node, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Outgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of edges outgoing from the source node, under the type constraints given
+            Returns set of edges outgoing from the start node, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Incoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of edges incoming to the source node, under the type constraints given
+            Returns set of edges incoming to the start node, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Reachable(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of nodes reachable from the source node, under the type constraints given
+            Returns set of nodes reachable from the start node, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Reachable(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType})">
             <summary>
-            Fills set of nodes reachable from the source node, under the type constraints given, in a depth-first walk
+            Fills set of nodes reachable from the start node, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of nodes reachable from the source node via outgoing edges, under the type constraints given
+            Returns set of nodes reachable from the start node via outgoing edges, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType})">
             <summary>
-            Fills set of nodes reachable from the source node via outgoing edges, under the type constraints given, in a depth-first walk
+            Fills set of nodes reachable from the start node via outgoing edges, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of nodes reachable from the source node via incoming edges, under the type constraints given
+            Returns set of nodes reachable from the start node via incoming edges, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType})">
             <summary>
-            Fills set of nodes reachable from the source node via incoming edges, under the type constraints given, in a depth-first walk
+            Fills set of nodes reachable from the start node via incoming edges, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdges(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of edges reachable from the source node, under the type constraints given
+            Returns set of edges reachable from the start node, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdges(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
             <summary>
-            Fills set of edges reachable from the source node, under the type constraints given, in a depth-first walk
+            Fills set of edges reachable from the start node, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of outgoing edges reachable from the source node, under the type constraints given
+            Returns set of outgoing edges reachable from the start node, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
             <summary>
-            Fills set of outgoing edges reachable from the source node, under the type constraints given, in a depth-first walk
+            Fills set of outgoing edges reachable from the start node, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncoming(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
-            Returns set of incoming edges reachable from the source node, under the type constraints given
+            Returns set of incoming edges reachable from the start node, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
             <summary>
-            Fills set of incoming edges reachable from the source node, under the type constraints given, in a depth-first walk
+            Fills set of incoming edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsAdjacent(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end node is adajcent to the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsAdjacentOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end node is adajcent to the start node via outgoing edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsAdjacentIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end node is adajcent to the start node via incoming edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsIncident(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end edge is incident to the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end edge is incident to the start node as outgoing edge, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end edge is incident to the start node as outgoing edge, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachable(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end node is reachable from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachable(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,de.unika.ipd.grGen.libGr.IGraph,System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.INode})">
+            <summary>
+            Returns whether the end node is reachable from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachableOutgoing(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end node is reachable from the start node, via outgoing edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachableOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,de.unika.ipd.grGen.libGr.IGraph,System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.INode})">
+            <summary>
+            Returns whether the end node is reachable from the start node, via outgoing edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachableIncoming(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end node is reachable from the start node, via incoming edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachableIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,de.unika.ipd.grGen.libGr.IGraph,System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.INode})">
+            <summary>
+            Returns whether the end node is reachable from the start node, via incoming edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachableEdges(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end edge is reachable from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachableEdges(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,de.unika.ipd.grGen.libGr.IGraph,System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IGraphElement})">
+            <summary>
+            Returns whether the end edge is reachable from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end edge is reachable from the start node, via outgoing edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,de.unika.ipd.grGen.libGr.IGraph,System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IGraphElement})">
+            <summary>
+            Returns whether the end edge is reachable from the start node, via outgoing edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachableEdgesIncoming(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns whether the end edge is reachable from the start node, via incoming edges, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IsReachableEdgesIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,de.unika.ipd.grGen.libGr.IGraph,System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IGraphElement})">
+            <summary>
+            Returns whether the end edge is reachable from the start node, via incoming edges, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InducedSubgraph(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
@@ -1518,6 +1534,133 @@
                 it must be conformant to the model used in the file to be imported.</param>
             <param name="actions">Receives the actions object in case a .grg model is given.</param>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.InvocationParameterBindings">
+            <summary>
+            An object representing a rule or sequence or computation invocation.
+            It stores the input arguments (values) and
+            tells with which sequence expressions to compute them.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.Name">
+            <summary>
+            The name of the rule or sequence or computation.
+            Used for generation, where the rule or sequence or computation representation objects do not exist yet.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.ArgumentExpressions">
+            <summary>
+            An array of expressions used to compute the input arguments.
+            It must have the same length as Arguments.
+            If an entry is null, the according entry in Arguments is used unchanged.
+            Otherwise the entry in Arguments is filled with the evaluation result of the expression.
+            The sequence parser generates argument expressions for every entry;
+            they may be omitted by a user assembling an invocation at API level.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.Arguments">
+            <summary>
+            Buffer to store the argument values for the call;
+            used by libGr to avoid unneccessary memory allocations.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.InvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[])">
+            <summary>
+            Instantiates a new InvocationParameterBindings object
+            </summary>
+            <param name="argExprs">An array of expressions used to compute the arguments</param>
+            <param name="arguments">An array of arguments.</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.InvocationParameterBindingsWithReturns">
+            <summary>
+            An object representing a rule or sequence invocation.
+            It stores the input arguments (values),
+            tells with which sequence expressions to compute them,
+            and where (which variables) to store the output values.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindingsWithReturns.ReturnVars">
+            <summary>
+            An array of variables used for the return values.
+            Might be empty if the rule/sequence caller is not interested in available returns values.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.InvocationParameterBindingsWithReturns.#ctor(de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
+            <summary>
+            Instantiates a new InvocationParameterBindingsWithReturns object
+            </summary>
+            <param name="argExprs">An array of expressions used to compute the arguments</param>
+            <param name="arguments">An array of arguments.</param>
+            <param name="returnVars">An array of variables used for the return values</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings">
+            <summary>
+            An object representing a rule invocation.
+            It stores the input arguments (values),
+            tells with which sequence expressions to compute them,
+            and where (which variables) to store the output values.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.Action">
+            <summary>
+            The IAction instance to be used
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.IAction,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
+            <summary>
+            Instantiates a new RuleInvocationParameterBindings object
+            </summary>
+            <param name="action">The IAction instance to be used</param>
+            <param name="argExprs">An array of expressions used to compute the arguments</param>
+            <param name="arguments">An array of arguments.</param>
+            <param name="returnVars">An array of variables used for the return values</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings">
+            <summary>
+            An object representing a sequence invocation.
+            It stores the input arguments (values),
+            tells with which sequence expressions to compute them,
+            and where (which variables) to store the output values.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings.SequenceDef">
+            <summary>
+            The defined sequence to be used
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.SequenceDefinition,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
+            <summary>
+            Instantiates a new SequenceInvocationParameterBindings object
+            </summary>
+            <param name="sequenceDef">The defined sequence to be used</param>
+            <param name="argExprs">An array of expressions used to compute the arguments</param>
+            <param name="arguments">An array of arguments.</param>
+            <param name="returnVars">An array of variables used for the return values</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ComputationInvocationParameterBindings">
+            <summary>
+            An object representing a computation invocation.
+            It stores the input arguments (values) and
+            tells with which sequence expressions to compute them.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ComputationInvocationParameterBindings.ComputationDef">
+            <summary>
+            The computation to be used
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ComputationInvocationParameterBindings.ReturnType">
+            <summary>
+            The type returned
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ComputationInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.ComputationInfo,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[])">
+            <summary>
+            Instantiates a new ComputationInvocationParameterBindings object
+            </summary>
+            <param name="sequenceDef">The defined computation to be used</param>
+            <param name="argExprs">An array of expressions used to compute the arguments</param>
+            <param name="arguments">An array of arguments.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetDictionaryTypes(System.Object,System.Type@,System.Type@)">
             <summary>
             If dict is dictionary, the dictionary is returned together with its key and value type
@@ -2167,6 +2310,14 @@
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <returns>string representation of scalar value</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToStringNonNull(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given value, which must be not null (for emit,record)
+            </summary>
+            <param name="value">The value of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of the value</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns a string representation of the given scalar value
@@ -2215,6 +2366,11 @@
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.UnknownRuleOrSequence">
             <summary>
             The rule or sequence is unknown.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.UnknownComputation">
+            <summary>
+            The computation is unknown.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.BadNumberOfParametersOrReturnParameters">
@@ -2369,20 +2525,37 @@
             <param name="ruleName">Name of the rule or sequence or variable.</param>
             <param name="errorKind">The kind of error.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.InvocationParameterBindings,de.unika.ipd.grGen.libGr.SequenceParserError)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.InvocationParameterBindingsWithReturns,de.unika.ipd.grGen.libGr.SequenceParserError)">
             <summary>
-            Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
-            given name does not exist or input or output parameters do not match.
+            Creates an instance of a SequenceParserException used by the SequenceParser, when the rule or sequence
+            with the given name does not exist or input or output parameters do not match.
             </summary>
             <param name="paramBindings">The parameter bindings of the rule/sequence invocation.</param>
             <param name="errorKind">The kind of error.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.InvocationParameterBindings,de.unika.ipd.grGen.libGr.SequenceParserError,System.Int32)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.InvocationParameterBindingsWithReturns,de.unika.ipd.grGen.libGr.SequenceParserError,System.Int32)">
             <summary>
-            Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
-            given name does not exist or input or output parameters do not match.
+            Creates an instance of a SequenceParserException used by the SequenceParser, when the rule or sequence 
+            with the given name does not exist or input or output parameters do not match.
             </summary>
             <param name="paramBindings">The parameter bindings of the rule/sequence invocation.</param>
+            <param name="errorKind">The kind of error.</param>
+            <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.InvocationParameterBindings,de.unika.ipd.grGen.libGr.SequenceParserError)">
+            <summary>
+            Creates an instance of a SequenceParserException used by the SequenceParser, when the computation
+            with the given name does not exist or input or output parameters do not match.
+            </summary>
+            <param name="paramBindings">The parameter bindings of the computation invocation.</param>
+            <param name="errorKind">The kind of error.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.InvocationParameterBindings,de.unika.ipd.grGen.libGr.SequenceParserError,System.Int32)">
+            <summary>
+            Creates an instance of a SequenceParserException used by the SequenceParser, when the computation 
+            with the given name does not exist or input or output parameters do not match.
+            </summary>
+            <param name="paramBindings">The parameter bindings of the computation invocation.</param>
             <param name="errorKind">The kind of error.</param>
             <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
         </member>
@@ -2549,7 +2722,7 @@
             A GrGen edge
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IEdge.GetOther(de.unika.ipd.grGen.libGr.INode)">
+        <member name="M:de.unika.ipd.grGen.libGr.IEdge.Opposite(de.unika.ipd.grGen.libGr.INode)">
             <summary>
             Retrieves the other incident node of this edge.
             </summary>
@@ -3064,6 +3237,40 @@
             Implemented by a ring buffer that is doubled in size (and the old content copied) when necessary (so insert is only amortized O(1)).
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ComputationInfo">
+            <summary>
+            A description of a GrGen attribute evaluation computation.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ComputationInfo.#ctor(System.String,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType)">
+            <summary>
+            Constructs a ComputationInfo object.
+            </summary>
+            <param name="name">The name the computation was defined with.</param>
+            <param name="inputNames">The names of the input parameters.</param>
+            <param name="inputs">The types of the input parameters.</param>
+            <param name="output">The types of the output parameters.</param>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ComputationInfo.name">
+            <summary>
+            The name of the computation.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ComputationInfo.inputNames">
+            <summary>
+            Names of the computation parameters.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ComputationInfo.inputs">
+            <summary>
+            The GrGen types of the computation parameters.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ComputationInfo.output">
+            <summary>
+            The GrGen type of the computation return value.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IMatch">
             <summary>
             Base class of classes representing matches.
@@ -3549,7 +3756,7 @@
             An interface for managing graph transactions.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ITransactionManager.StartTransaction">
+        <member name="M:de.unika.ipd.grGen.libGr.ITransactionManager.Start">
             <summary>
             Starts a transaction
             </summary>
@@ -3571,7 +3778,7 @@
             <summary>
             Removes the rollback data and stops this transaction
             </summary>
-            <param name="transactionID">Transaction ID returned by a StartTransaction call</param>
+            <param name="transactionID">Transaction ID returned by a Start call</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ITransactionManager.Rollback(System.Int32)">
             <summary>
@@ -3579,7 +3786,7 @@
             </summary>
             <param name="transactionID">The ID of the transaction to be rollbacked</param>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ITransactionManager.TransactionActive">
+        <member name="P:de.unika.ipd.grGen.libGr.ITransactionManager.IsActive">
             <summary>
             Indicates, whether a transaction is currently active.
             </summary>
@@ -4661,6 +4868,13 @@
             <param name="name">The name of the defined sequence to retrieve</param>
             <returns>The defined sequence or null if no such sequence exists.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseActions.RetrieveComputationDefinition(System.String)">
+            <summary>
+            Retrieve a computation definition.
+            </summary>
+            <param name="name">The name of the computation to retrieve</param>
+            <returns>The computation or null if no such sequence exists.</returns>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.BaseActions.Name">
             <summary>
             An associated name.
@@ -4685,6 +4899,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.BaseActions.GraphRewriteSequenceDefinitions">
             <summary>
             Enumerates all graph rewrite sequence definitions.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseActions.ComputationDefinitions">
+            <summary>
+            Enumerates all computations definitions.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.porter.ParseException">
@@ -5069,9 +5288,8 @@
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.IsIsomorph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns whether this graph is isomorph to that graph (including the attribute values)
-            Each graph must be either unanalyzed or unchanged since the last analyze,
-            otherwise results will be wrong!
-            Graph comparison is for constant graphs only!
+            If a graph changed only in attribute values since the last comparison, results will be wrong!
+            (Do a fake node insert and removal to ensure the graph is recognized as having changed.)
             </summary>
             <param name="that">The other graph we check for isomorphy against</param>
             <returns>true if that is isomorph (structure and attributes) to this, false otherwise</returns>
@@ -5079,9 +5297,6 @@
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.HasSameStructure(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
-            Each graph must be either unanalyzed or unchanged since the last analyze,
-            otherwise results will be wrong!
-            Graph comparison is for constant graphs only!
             </summary>
             <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
             <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
@@ -5212,6 +5427,13 @@
             As a result new elements may not be discriminable anymore from
             already deleted elements using object equality, hash maps, etc.
             In cases where this is needed this optimization should be disabled.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraph.ChangesCounter">
+            <summary>
+            Returns a counter of the number of changes that occured since the graph was created.
+            If it's different since last time you visited, the graph has changed (but it may be back again in the original state).
+            Only graph structure changes are counted, attribute changes are not included.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraph.NumNodes">
@@ -5541,12 +5763,14 @@
             </summary>
             <returns>The innermost sequence currently executed, or null if there is no such</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Sequence.GetLocalVariables(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.libGr.Sequence.GetLocalVariables(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceExpressionContainerConstructor},de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             Walks the sequence tree from this on to the given target sequence (inclusive),
-            collecting all variables found on the way into the variables dictionary.
+            collecting all variables found on the way into the variables dictionary,
+            and all container constructors used into the constructors array.
             </summary>
             <param name="variables">Contains the variables found</param>
+            <param name="containerConstructors">Contains the container constructors walked by</param>
             <param name="target">The target sequence up to which to walk</param>
             <returns>Returns whether the target was hit, so the parent can abort walking</returns>
         </member>
@@ -6358,6 +6582,37 @@
             <param name="newName">Name of the new graph.</param>
             <returns>A new graph with the same structure and names as this graph.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.INamedGraph.Merge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Merges the source node into the target node,
+            i.e. all edges incident to the source node are redirected to the target node, then the source node is deleted.
+            </summary>
+            <param name="target">The node which remains after the merge.</param>
+            <param name="source">The node to be merged.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.INamedGraph.RedirectSource(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Changes the source node of the edge from the old source to the given new source.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newSource">The new source node of the edge.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.INamedGraph.RedirectTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Changes the target node of the edge from the old target to the given new target.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newTarget">The new target node of the edge.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.INamedGraph.RedirectSourceAndTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Changes the source of the edge from the old source to the given new source,
+            and changes the target node of the edge from the old target to the given new target.
+            </summary>
+            <param name="edge">The edge to redirect.</param>
+            <param name="newSource">The new source node of the edge.</param>
+            <param name="newTarget">The new target node of the edge.</param>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.AfterMatchHandler">
             <summary>
             Represents a method called after all requested matches of an action have been matched.
@@ -6692,6 +6947,14 @@
             Throws an exception when an error is found.
             </summary>
             <param name="seq">The sequence to check, must be a rule call, a rule all call, or a sequence call</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckComputationCall(de.unika.ipd.grGen.libGr.SequenceExpression)">
+            <summary>
+            Helper for checking computation calls.
+            Checks whether called entity exists, and type checks the input.
+            Throws an exception when an error is found.
+            </summary>
+            <param name="seq">The sequence to check, must be a computation call</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.TypeOfTopLevelEntityInRule(System.String,System.String)">
             <summary>

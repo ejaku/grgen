@@ -473,9 +473,14 @@
             Class representing a block around implicit yield bubble up assignments for nested alternatives
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.LocalYieldAssignment">
+        <member name="T:de.unika.ipd.grGen.lgsp.LocalYielding">
             <summary>
-            Class representing (explicit) local yield assignment operations
+            Class representing (explicit) local yielding operations
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.YieldingBlock">
+            <summary>
+            Class representing a yielding block
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.AdjustListHeadsTypes">
@@ -845,6 +850,12 @@
             not null if/after comparing type counts and vstructs was insufficient
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.changesCounterAtInterpretationPlanBuilding">
+            <summary>
+            The changes counter of the graph when the interpretation plan was built
+            (the compiled matcher depends on this, too)
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.compiledMatcher">
             <summary>
             The compiled graph comparison matcher, built from the interpretation plan
@@ -858,7 +869,7 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.numMatchings">
              <summary>
-            Tells how many matches were carried out with this interpretation plan or compiled matches
+            Tells how many matches were carried out with this interpretation plan or compiled matcher
              </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.candidatesForCompilation">
@@ -899,8 +910,8 @@
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.DefToBeYieldedTo">
             <summary>
             Def element to be yielded to, postset after matching with match parts of nested/called stuff.
-            Has no meaning in matching, but it is easier to use them as fake preset pattern elements
-            in search planning than to introduce special cases in the algorithms and data structures for them.
+            Has no meaning in search planning, but is easier to handle with fake preset pattern elements there.
+            Is used afterwards in scheduling to insert the def-initialization after the real preset elements.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.Lookup">
@@ -1020,7 +1031,7 @@
             The C#-part responsible for compiling the XGRSs of the exec statements.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.#ctor(de.unika.ipd.grGen.lgsp.LGSPGrGen,de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.#ctor(de.unika.ipd.grGen.lgsp.LGSPGrGen,de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
             Constructs the sequence generator
             </summary>
@@ -1215,9 +1226,10 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperation.Element">
             <summary>
-            If Type is NegativePattern or IndependentPattern, Element is a negative ScheduledSearchPlan object.
+            If Type is NegativePattern or IndependentPattern, Element is a ScheduledSearchPlan object.
             If Type is Condition, Element is a Condition object.
-            If Type is AssignVar, Element is a Variable object.
+            If Type is AssignVar, Element is a PatternVariable object.
+            If Type is DefToBeYieldedTo, Element is a Variable object in case of a variable, or a SearchPlanNode in case of a graph element.
             Otherwise Element is the target SearchPlanNode for this operation.
             </summary>
         </member>
@@ -1658,6 +1670,11 @@
         <member name="M:de.unika.ipd.grGen.lgsp.GraphComparisonMatcher.IsIsomorph(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraph)">
             <summary>
             Returns whether the graph which resulted in thisPattern is isomorph to the graph given.        
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.GraphComparisonMatcher.Name">
+            <summary>
+            Returns the name of the compiled matcher, same as the name of the interpretation plan.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPGraph">
@@ -2137,10 +2154,9 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.IsIsomorph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            Returns whether this graph is isomorph to that graph
-            Each graph must be either unanalyzed or unchanged since the last analyze,
-            otherwise results will be wrong!
-            Graph comparison is for constant graphs only!
+            Returns whether this graph is isomorph to that graph (including the attribute values)
+            If a graph changed only in attribute values since the last comparison, results will be wrong!
+            (Do a fake node insert and removal to ensure the graph is recognized as having changed.)
             </summary>
             <param name="that">The other graph we check for isomorphy against</param>
             <returns>true if that is isomorph to this, false otherwise</returns>
@@ -2148,9 +2164,6 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.HasSameStructure(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
-            Each graph must be either unanalyzed or unchanged since the last analyze,
-            otherwise results will be wrong!
-            Graph comparison is for constant graphs only!
             </summary>
             <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
             <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
@@ -2168,6 +2181,13 @@
             As a result new elements may not be discriminable anymore from
             already deleted elements using object equality, hash maps, etc.
             In cases where this is needed this optimization should be disabled.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.ChangesCounter">
+            <summary>
+            Returns a counter of the number of changes that occured since the graph was created.
+            If it's different since last time you visited, the graph has changed (but it may be back again in the original state).
+            Only graph structure changes are counted, attribute changes are not included.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Name">
@@ -2196,6 +2216,189 @@
             <summary>
             A hash map containing all visited elements (in the keys, the dictionary values are not used).
             This is unused (and thus null), if the graph element flags are used for this visitor ID.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Yielding">
+            <summary>
+            Base class of yielding in assignments and expressions
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ExpressionOrYielding">
+            <summary>
+            Base class of expressions and yieldings
+            which allows to emit code and to iterate over the contained children
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            emits c# code implementing the construct into the source builder
+            to be implemented by concrete subclasses
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.GetEnumerator">
+            <summary>
+            returns an enumerator over the contained children of this construct
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.expression.Yielding.Copy(System.String)">
+            <summary>
+            copies the yielding, renaming all variables with the given suffix
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.YieldAssignment">
+            <summary>
+            Class representing a yielding assignment executed after the match was found
+            writing a value computed from the right expression into the left def variable
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.YieldAssignmentIndexed">
+            <summary>
+            Class representing a yielding indexed assignment executed after the match was found
+            writing a value computed from the right expression
+            into the position at the given index of the left def variable of type array (TODO: extend to map)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.YieldChangeAssignment">
+            <summary>
+            Class representing a yielding change assignment executed after the match was found
+            writing the information whether the right yield method changed the set/map it operates upon
+            to the left def variable
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.YieldChangeConjunctionAssignment">
+            <summary>
+            Class representing a yielding change conjunction assignment executed after the match was found
+            writing the information whether the right yield method changed the set/map it operates upon
+            and'ed with the left def variable to the left def variable
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.YieldChangeDisjunctionAssignment">
+            <summary>
+            Class representing a yielding change disjunction assignment executed after the match was found
+            writing the information whether the right yield method changed the set/map it operates upon
+            or'ed with the left def variable to the left def variable
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.YieldMethod">
+            <summary>
+            Class representing a yielding method call executed after the match was found
+            writing a value computed from the right expression into the left def variable
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetMapRemove">
+            <summary>
+            Class representing a remove from set or map
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayRemove">
+            <summary>
+            Class representing a remove from an array
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DequeRemove">
+            <summary>
+            Class representing a remove from a deque
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Clear">
+            <summary>
+            Class representing a clearing of a set or a map or an array or a deque
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetAdd">
+            <summary>
+            Class representing an add to set
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.MapAdd">
+            <summary>
+            Class representing an add to map
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayAdd">
+            <summary>
+            Class representing an add to an array
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DequeAdd">
+            <summary>
+            Class representing an add to a deque
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetMapUnion">
+            <summary>
+            Class representing a change set or map by union with another one
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetMapIntersect">
+            <summary>
+            Class representing a change set or map by intersection with another one
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetMapExcept">
+            <summary>
+            Class representing a change set or map by subtracting another one
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IteratedAccumulationYield">
+            <summary>
+            Class representing an iterated accumulation yield executed after the match was found
+            accumulating the values matched by a nested iterated with chosen statements
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ContainerAccumulationYield">
+            <summary>
+            Class representing an container accumulation yield, accumulating the values in a container with chosen statements
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ForLookup">
+            <summary>
+            Class representing a lookup of entities of given type in the graph
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ForFunction">
+            <summary>
+            Class representing an iteration over helper function results (incident/adjacent stuff)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ConditionStatement">
+            <summary>
+            Class representing an if statement, maybe with else part
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.WhileStatement">
+            <summary>
+            Class representing while statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DoWhileStatement">
+            <summary>
+            Class representing do while statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DefDeclaration">
+            <summary>
+            Class representing a def declaration (variable or graph entity), potentially including initialization
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.BreakStatement">
+            <summary>
+            Class representing a break statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ContinueStatement">
+            <summary>
+            Class representing a continue statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EmitStatement">
+            <summary>
+            Class representing an emit statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.RecordStatement">
+            <summary>
+            Class representing a record statement
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPElemFlags">
@@ -2520,7 +2723,7 @@
             <param name="sourceNode">The source node.</param>
             <param name="targetNode">The target node.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.GetOther(de.unika.ipd.grGen.libGr.INode)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.Opposite(de.unika.ipd.grGen.libGr.INode)">
             <summary>
             Retrieves the other incident node of this edge.
             </summary>
@@ -3090,6 +3293,11 @@
             it gets matched in another, nested or called pattern which yields it to the containing pattern.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.initialization">
+            <summary>
+            The initialization expression for the element if some was defined, otherwise null.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.annotations">
             <summary>
             The annotations of the pattern element
@@ -3170,7 +3378,7 @@
             visited flag used to compute pattern connectedness for inlining, just hacked into this place
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean,de.unika.ipd.grGen.expression.Expression)">
             <summary>
             Instantiates a new PatternElement object.
             </summary>
@@ -3193,6 +3401,8 @@
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
+            <param name="defToBeYieldedTo">The initialization expression for the element if some was defined, 
+                only possible for defToBeYieldedTo elements, otherwise null.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String)">
             <summary>
@@ -3235,6 +3445,11 @@
             it gets matched in another, nested or called pattern which yields it to the containing pattern.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternElement.Initialization">
+            <summary>
+            The initialization expression for the element if some was defined, otherwise null.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternElement.Annotations">
             <summary>
             The annotations of the pattern element
@@ -3255,7 +3470,7 @@
             The GrGen type of the pattern node
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,de.unika.ipd.grGen.libGr.NodeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,de.unika.ipd.grGen.libGr.NodeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean,de.unika.ipd.grGen.expression.Expression)">
             <summary>
             Instantiates a new PatternNode object
             </summary>
@@ -3279,6 +3494,8 @@
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
+            <param name="defToBeYieldedTo">The initialization expression for the node if some was defined, 
+                only possible for defToBeYieldedTo nodes, otherwise null.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(de.unika.ipd.grGen.lgsp.PatternNode,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String)">
             <summary>
@@ -3321,7 +3538,7 @@
             Indicates, whether this pattern edge should be matched with a fixed direction or not.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean,de.unika.ipd.grGen.expression.Expression)">
             <summary>
             Instantiates a new PatternEdge object
             </summary>
@@ -3346,6 +3563,8 @@
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
+            <param name="defToBeYieldedTo">The initialization expression for the edge if some was defined, 
+                only possible for defToBeYieldedTo edges, otherwise null.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(de.unika.ipd.grGen.lgsp.PatternEdge,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String)">
             <summary>
@@ -3638,32 +3857,37 @@
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternYielding">
             <summary>
-            Representation of some assignment to a def variable to be executed after matching completed
+            Representation of some yielding (a list of elementary yieldings, to be executed after matching completed)
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.YieldAssignment">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.Name">
             <summary>
-            The yielding assignment to execute.
+            The name of the pattern yielding.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.ElementaryYieldings">
+            <summary>
+            An array of elementary yieldings to execute (e.g. assignments to def variables).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededNodes">
             <summary>
-            An array of node names needed by this yielding assignment.
+            An array of node names needed by this yielding.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededEdges">
             <summary>
-            An array of edge names needed by this yielding assignment.
+            An array of edge names needed by this yielding.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededVariables">
             <summary>
-            An array of variable names needed by this yielding assignment.
+            An array of variable names needed by this yielding.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededVariableTypes">
             <summary>
-            An array of variable types (corresponding to the variable names) needed by this yielding assignment.
+            An array of variable types (corresponding to the variable names) needed by this yielding.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.originalYielding">
@@ -3676,15 +3900,16 @@
             Links to the original subpattern embedding which was inlined in case this yielding was inlined, otherwise null.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.#ctor(de.unika.ipd.grGen.expression.Yielding,System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.#ctor(System.String,de.unika.ipd.grGen.expression.Yielding[],System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[])">
             <summary>
             Constructs a PatternYielding object.
             </summary>
-            <param name="yieldAssignment">The yield assignment to execute.</param>
-            <param name="neededNodes">An array of node names needed by this yielding assignment.</param>
-            <param name="neededEdges">An array of edge names needed by this yielding assignment.</param>
-            <param name="neededVariables">An array of variable names needed by this yielding assignment.</param>
-            <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this yielding assignment.</param>
+            <param name="name">The name of the yielding to execute.</param>
+            <param name="elementaryYieldings">An array of elementary yieldings to execute.</param>
+            <param name="neededNodes">An array of node names needed by this yielding.</param>
+            <param name="neededEdges">An array of edge names needed by this yielding.</param>
+            <param name="neededVariables">An array of variable names needed by this yielding.</param>
+            <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this yielding.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.#ctor(de.unika.ipd.grGen.lgsp.PatternYielding,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,System.String)">
             <summary>
@@ -4833,6 +5058,11 @@
             All the defined sequence representations generated
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.Computations">
+            <summary>
+            All the computation representations generated
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramType">
             <summary>
             says what kind of search program to build
@@ -4871,7 +5101,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertVariableDeclarations(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
-            Inserts declarations for variables extracted from parameters and for def variables to be yielded to
+            Inserts declarations for variables extracted from parameters
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.programType">
@@ -4957,6 +5187,13 @@
             <summary>
             Search program operations implementing the
             SubPreset search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildDefToBeYieldedTo(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,System.Object)">
+            <summary>
+            Search program operations implementing the
+            DefElementToBeYieldedTo search plan operation
             are created and inserted into search program
             </summary>
         </member>
@@ -5869,23 +6106,6 @@
             <param name="flags">Specifies how the specification is to be processed.</param>
             <param name="externalAssemblies">External assemblies to reference</param>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.ExpressionOrYielding">
-            <summary>
-            Base class of expressions and yieldings
-            which allows to emit code and to iterate over the contained children
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder)">
-            <summary>
-            emits c# code implementing the construct into the source builder
-            to be implemented by concrete subclasses
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.GetEnumerator">
-            <summary>
-            returns an enumerator over the contained children of this construct
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.expression.Expression">
             <summary>
             Base class of expressions used in conditions to constrain the pattern
@@ -6246,6 +6466,11 @@
             Class representing a map size expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.MapEmpty">
+            <summary>
+            Class representing a map empty expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.MapPeek">
             <summary>
             Class representing a map peek expression.
@@ -6266,6 +6491,11 @@
             Class representing a set size expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetEmpty">
+            <summary>
+            Class representing a set empty expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.SetPeek">
             <summary>
             Class representing a set peek expression.
@@ -6274,6 +6504,11 @@
         <member name="T:de.unika.ipd.grGen.expression.ArraySize">
             <summary>
             Class representing an array size expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayEmpty">
+            <summary>
+            Class representing an array empty expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayPeek">
@@ -6299,6 +6534,11 @@
         <member name="T:de.unika.ipd.grGen.expression.DequeSize">
             <summary>
             Class representing a deque size expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DequeEmpty">
+            <summary>
+            Class representing a deque empty expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.DequePeek">
@@ -6381,6 +6621,11 @@
             Class representing a deque item.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.ComputationInvocation">
+            <summary>
+            Class representing a computation invocation (extended internal attribute evaluation function).
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ExternalFunctionInvocation">
             <summary>
             Class representing a function invocation of an external attribute evaluation function.
@@ -6404,6 +6649,11 @@
         <member name="T:de.unika.ipd.grGen.expression.Target">
             <summary>
             Class representing expression returning the target node of an edge
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Opposite">
+            <summary>
+            Class representing expression returning the opposite node of an edge and a node
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Outgoing">
@@ -6436,6 +6686,36 @@
             Class representing expression returning the adjacent nodes of a node (as set) reachable via incident edges
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsAdjacentOutgoing">
+            <summary>
+            Class representing expression returning whether the end node is adjacent to the start node with an outgoing edge
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsAdjacentIncoming">
+            <summary>
+            Class representing expression returning whether the end node is adjacent to the start node with an incoming edge
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsAdjacent">
+            <summary>
+            Class representing expression returning whether the end node is adjacent to the start node with an incident edge
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsOutgoing">
+            <summary>
+            Class representing expression returning whether the end edge is incident to the start node with an outgoing edge
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsIncoming">
+            <summary>
+            Class representing expression returning whether the end edge is incident to the start node with an incoming edge
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsIncident">
+            <summary>
+            Class representing expression returning whether the end edge is incident to the start node with an incident edge
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ReachableEdgesOutgoing">
             <summary>
             Class representing expression returning the reachable edges via outgoing edges of a node (as set)
@@ -6466,6 +6746,46 @@
             Class representing expression returning the reachable nodes of a node (as set) reachable via incident edges
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsReachableOutgoing">
+            <summary>
+            Class representing expression returning whether the end node is reachable from the start node via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsReachableIncoming">
+            <summary>
+            Class representing expression returning whether the end node is reachable from the start node via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsReachable">
+            <summary>
+            Class representing expression returning whether the end node is reachable from the start node via incident edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsReachableEdgesOutgoing">
+            <summary>
+            Class representing expression returning whether the end edge is reachable from the start node via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsReachableEdgesIncoming">
+            <summary>
+            Class representing expression returning whether the end edge is reachable from the start node via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsReachableEdges">
+            <summary>
+            Class representing expression returning whether the end edge is reachable from the start node via incident edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.InducedSubgraph">
+            <summary>
+            Class representing expression returning the induced subgraph from the given set of nodes
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DefinedSubgraph">
+            <summary>
+            Class representing expression returning the defined subgraph from the given set of edges
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Max">
             <summary>
             Class representing the max operator.
@@ -6476,121 +6796,39 @@
             Class representing the min operator.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.Abs">
+            <summary>
+            Class representing expression returning the absolute value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Sin">
+            <summary>
+            Class representing expression returning the sinus value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Cos">
+            <summary>
+            Class representing expression returning the cosinus value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Tan">
+            <summary>
+            Class representing expression returning the tangens value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Canonize">
+            <summary>
+            Class representing expression returning a canonical string representation of a graph
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Log">
+            <summary>
+            Class representing the logarithm function.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Pow">
             <summary>
             Class representing the to-the-power-of operator.
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.Yielding">
-            <summary>
-            Base class of yielding in assignments and expressions
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.expression.Yielding.Copy(System.String)">
-            <summary>
-            copies the yielding, renaming all variables with the given suffix
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.YieldAssignment">
-            <summary>
-            Class representing a yielding assignment executed after the match was found
-            writing a value computed from the right expression into the left def variable
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.YieldAssignmentIndexed">
-            <summary>
-            Class representing a yielding indexed assignment executed after the match was found
-            writing a value computed from the right expression
-            into the position at the given index of the left def variable of type array (TODO: extend to map)
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.YieldChangeAssignment">
-            <summary>
-            Class representing a yielding change assignment executed after the match was found
-            writing the information whether the right yield method changed the set/map it operates upon
-            to the left def variable
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.YieldChangeConjunctionAssignment">
-            <summary>
-            Class representing a yielding change conjunction assignment executed after the match was found
-            writing the information whether the right yield method changed the set/map it operates upon
-            and'ed with the left def variable to the left def variable
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.YieldChangeDisjunctionAssignment">
-            <summary>
-            Class representing a yielding change disjunction assignment executed after the match was found
-            writing the information whether the right yield method changed the set/map it operates upon
-            or'ed with the left def variable to the left def variable
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.YieldMethod">
-            <summary>
-            Class representing a yielding method call executed after the match was found
-            writing a value computed from the right expression into the left def variable
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.SetMapRemove">
-            <summary>
-            Class representing a remove from set or map
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.ArrayRemove">
-            <summary>
-            Class representing a remove from an array
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.DequeRemove">
-            <summary>
-            Class representing a remove from a deque
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.Clear">
-            <summary>
-            Class representing a clearing of a set or a map or an array or a deque
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.SetAdd">
-            <summary>
-            Class representing an add to set
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.MapAdd">
-            <summary>
-            Class representing an add to map
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.ArrayAdd">
-            <summary>
-            Class representing an add to an array
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.DequeAdd">
-            <summary>
-            Class representing an add to a deque
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.SetMapUnion">
-            <summary>
-            Class representing a change set or map by union with another one
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.SetMapIntersect">
-            <summary>
-            Class representing a change set or map by intersection with another one
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.SetMapExcept">
-            <summary>
-            Class representing a change set or map by subtracting another one
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.expression.IteratedAccumulationYield">
-            <summary>
-            Class representing an iterated accumulation yield executed after the match was found
-            accumulating the values matched by a nested iterated with a chosen operator
-            writing the accumulated value into the target def variable
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.AreAttributesEqual">
