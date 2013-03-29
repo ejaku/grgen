@@ -1,10 +1,10 @@
 rule WhileStatement_to_IfStatement_then {
-	while:dom_WhileStatement;
-	while -e:dom_WhileStatement_expression-> expr:dom_Expression;
-	while -f:dom_WhileStatement_body-> then:dom_Statement;
+	whilee:dom_WhileStatement;
+	whilee -e:dom_WhileStatement_expression-> expr:dom_Expression;
+	whilee -f:dom_WhileStatement_body-> then:dom_Statement;
 
 	modify {
-		iff:dom_IfStatement<while>;
+		iff:dom_IfStatement<whilee>;
 		-:dom_IfStatement_expression<e>->;
 		-:dom_IfStatement_thenStatement<f>->;
 		iff -:dom_IfStatement_elseStatement-> :dom_EmptyStatement;
@@ -12,12 +12,12 @@ rule WhileStatement_to_IfStatement_then {
 }
 
 rule WhileStatement_to_IfStatement_else {
-	while:dom_WhileStatement;
-	while -e:dom_WhileStatement_expression-> expr:dom_Expression;
-	while -f:dom_WhileStatement_body-> then:dom_Statement;
+	whilee:dom_WhileStatement;
+	whilee -e:dom_WhileStatement_expression-> expr:dom_Expression;
+	whilee -f:dom_WhileStatement_body-> then:dom_Statement;
 
 	modify {
-		iff:dom_IfStatement<while>;
+		iff:dom_IfStatement<whilee>;
 		-:dom_IfStatement_expression<e>->;
 		-:dom_IfStatement_elseStatement<f>->;
 		iff -:dom_IfStatement_thenStatement-> :dom_EmptyStatement;

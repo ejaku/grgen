@@ -15,15 +15,15 @@ rule CFG_handle_IfStatement
 {
 	iff:dom_IfStatement -:org_amma_cfg_AbstractNode_toNode->;
 	iff -then_edge:dom_IfStatement_thenStatement-> then:dom_Statement;
-	iff -else_edge:dom_IfStatement_elseStatement-> else:dom_Statement;
+	iff -else_edge:dom_IfStatement_elseStatement-> elsee:dom_Statement;
 
 	modify {
 		delete(then_edge, else_edge);
 
 		iff -:org_amma_cfg_ConditionalNode_trueConditionNode-> then;
-		iff -:org_amma_cfg_ConditionalNode_falseConditionNode-> else;
+		iff -:org_amma_cfg_ConditionalNode_falseConditionNode-> elsee;
 		then -:org_amma_cfg_AbstractNode_toNode-> iff;
-		else -:org_amma_cfg_AbstractNode_toNode-> iff;
+		elsee -:org_amma_cfg_AbstractNode_toNode-> iff;
 	}
 }
 
@@ -56,21 +56,21 @@ rule CFG_handle_IfStatement_Block
 
 rule CFG_handle_WhileStatement
 {
-	while:dom_WhileStatement -cfgfalse:org_amma_cfg_AbstractNode_toNode->;
-	while -:dom_WhileStatement_body-> body:dom_Statement;
+	whilee:dom_WhileStatement -cfgfalse:org_amma_cfg_AbstractNode_toNode->;
+	whilee -:dom_WhileStatement_body-> body:dom_Statement;
 
 	modify {
 		-:org_amma_cfg_IterativeNode_falseConditionNode<cfgfalse>->;
-		while -:org_amma_cfg_IterativeNode_trueConditionNode-> body;
-		body -:org_amma_cfg_AbstractNode_toNode-> while;
+		whilee -:org_amma_cfg_IterativeNode_trueConditionNode-> body;
+		body -:org_amma_cfg_AbstractNode_toNode-> whilee;
 	}
 }
 
 rule CFG_handle_WhileStatement_Block
 {
 	block:dom_Block;
-	block <-cfgtrue:org_amma_cfg_IterativeNode_trueConditionNode- while:dom_WhileStatement;
-	block -endwhile:org_amma_cfg_AbstractNode_toNode-> while;
+	block <-cfgtrue:org_amma_cfg_IterativeNode_trueConditionNode- whilee:dom_WhileStatement;
+	block -endwhile:org_amma_cfg_AbstractNode_toNode-> whilee;
 
 	hom(first, last);
 	hom(st1, st2);
@@ -87,8 +87,8 @@ rule CFG_handle_WhileStatement_Block
 		delete(cfgtrue);
 		delete(endwhile);
 
-		while -:org_amma_cfg_IterativeNode_trueConditionNode-> first;
-		last -:org_amma_cfg_AbstractNode_toNode-> while;
+		whilee -:org_amma_cfg_IterativeNode_trueConditionNode-> first;
+		last -:org_amma_cfg_AbstractNode_toNode-> whilee;
 	}
 }
 

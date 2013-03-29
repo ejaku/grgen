@@ -51,7 +51,7 @@ node class AggregationKind_Value {
 enum ParameterDirectionKind {
 
 	//Indicates that parameter values are passed into the behavioral element by the caller.
-	in,
+	in_,
 	//Indicates that parameter values are passed into a behavioral element by the caller and then back out to the caller from the behavioral element.
 	inout,
 	//Indicates that parameter values are passed from a behavioral element out to the caller.
@@ -175,7 +175,7 @@ enum InteractionOperatorKind {
 	//The interactionOperator opt designates that the CombinedFragment represents a choice of behavior where either the (sole) operand happens or nothing happens. An option is semantically equivalent to an alternative CombinedFragment where there is one operand with non-empty content and the second operand is empty.
 	opt,
 	//The interactionOperator break designates that the CombinedFragment represents a breaking scenario in the sense that the operand is a scenario that is performed instead of the remainder of the enclosing InteractionFragment. A break operator with a guard is chosen when the guard is true and the rest of the enclosing Interaction Fragment is ignored. When the guard of the break operand is false, the break operand is ignored and the rest of the enclosing InteractionFragment is chosen. The choice between a break operand without a guard and the rest of the enclosing InteractionFragment is done non-deterministically.
-	break,
+	break_,
 	//The interactionOperator par designates that the CombinedFragment represents a parallel merge between the behaviors of the operands. The OccurrenceSpecifications of the different operands can be interleaved in any way as long as the ordering imposed by each operand as such is preserved.
 	par,
 	//The interactionOperator strict designates that the CombinedFragment represents a strict sequencing between the behaviors of the operands. The semantics of strict sequencing defines a strict ordering of the operands on the first level within the CombinedFragment with interactionOperator strict. Therefore OccurrenceSpecifications within contained CombinedFragment will not directly be compared with other OccurrenceSpecifications of the enclosing CombinedFragment.
@@ -384,7 +384,7 @@ edge class general extends attribute connect
 //A parameter is a specification of an argument used to pass information into or out of an invocation of a behavioral feature.
 node class Parameter extends TypedElement, MultiplicityElement {
 
-	direction : ParameterDirectionKind = ParameterDirectionKind::in;
+	direction : ParameterDirectionKind = ParameterDirectionKind::in_;
 
 }
 edge class default extends association connect
@@ -1930,7 +1930,7 @@ edge class profileApplication extends attribute connect
 //A class describes a set of objects that share the same specifications of features, constraints, and semantics.
 node class Class extends BehavioredClassifier, EncapsulatedClassifier {
 
-	isAbstract : boolean = false;
+	isAbstract = false;
 	isActive : boolean = false;
 
 }

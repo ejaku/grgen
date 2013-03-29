@@ -1,5 +1,3 @@
-new graph test_Infrastructure
-new graph test_Superstructure
 new graph test_L0
 new graph test_L1
 new graph test_L2
