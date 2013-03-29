@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun Feb 17 15:39:28 CET 2013
+// Generated from "..\..\tests\independent\Independent.grg" on Fri Mar 29 08:39:18 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -5037,6 +5037,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			rules = new GRGEN_LGSP.LGSPRulePattern[7];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[2+7];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
+			computations = new GRGEN_LIBGR.ComputationInfo[0];
 			subpatterns[0] = Pattern_iteratedPath.Instance;
 			rulesAndSubpatterns[0] = Pattern_iteratedPath.Instance;
 			subpatterns[1] = Pattern_iteratedPathToIntNode.Instance;
@@ -5064,6 +5065,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
 		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
+		public override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }
+		private GRGEN_LIBGR.ComputationInfo[] computations;
 	}
 
 

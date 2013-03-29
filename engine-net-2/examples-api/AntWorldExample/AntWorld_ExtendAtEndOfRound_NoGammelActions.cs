@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Feb 17 15:39:13 CET 2013
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Fri Mar 29 08:39:03 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -6643,6 +6643,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 			rules = new GRGEN_LGSP.LGSPRulePattern[18];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+18];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
+			computations = new GRGEN_LIBGR.ComputationInfo[0];
 			rules[0] = Rule_InitWorld.Instance;
 			rulesAndSubpatterns[0+0] = Rule_InitWorld.Instance;
 			rules[1] = Rule_TakeFood.Instance;
@@ -6688,6 +6689,8 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
 		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
+		public override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }
+		private GRGEN_LIBGR.ComputationInfo[] computations;
 	}
 
 

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Feb 17 15:39:34 CET 2013
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Fri Mar 29 08:39:23 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -277,7 +277,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleContainedPackagesOrClasses.Match_MultipleContainedPackagesOrClasses subpattern_mpc = curMatch.@_mpc;
 			graph.SettingAddedNodeNames( MultipleContainedPackagesOrClasses_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@2916,596:603='emithere',<44>,34:3]
+			{ // [@2916,596:603='emithere',<46>,34:3]
 			procEnv.EmitWriter.Write("package ");
 			procEnv.EmitWriter.Write(inode_sub.@name);
 			procEnv.EmitWriter.Write("\n{\n");
@@ -285,7 +285,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			{ // mpc
 			Pattern_MultipleContainedPackagesOrClasses.Instance.MultipleContainedPackagesOrClasses_Modify(actionEnv, subpattern_mpc);
 			}
-			{ // [@2935,652:659='emithere',<44>,36:3]
+			{ // [@2935,652:659='emithere',<46>,36:3]
 			procEnv.EmitWriter.Write("}\n");
 			}
 			graph.SettingAddedEdgeNames( MultipleContainedPackagesOrClasses_iter_0_addedEdgeNames );
@@ -332,7 +332,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleVariables.Match_MultipleVariables subpattern_mv = curMatch.@_mv;
 			graph.SettingAddedNodeNames( MultipleContainedPackagesOrClasses_iter_1_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@2981,798:805='emithere',<44>,46:3]
+			{ // [@2981,798:805='emithere',<46>,46:3]
 			procEnv.EmitWriter.Write("class ");
 			procEnv.EmitWriter.Write(inode_c.@name);
 			procEnv.EmitWriter.Write(" {\n");
@@ -343,7 +343,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			{ // mv
 			Pattern_MultipleVariables.Instance.MultipleVariables_Modify(actionEnv, subpattern_mv);
 			}
-			{ // [@3005,858:865='emithere',<44>,49:3]
+			{ // [@3005,858:865='emithere',<46>,49:3]
 			procEnv.EmitWriter.Write("}\n");
 			}
 			graph.SettingAddedEdgeNames( MultipleContainedPackagesOrClasses_iter_1_addedEdgeNames );
@@ -1088,7 +1088,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IVariable inode_v = curMatch.node_v;
 			graph.SettingAddedNodeNames( MultipleVariables_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3053,1004:1011='emithere',<44>,62:3]
+			{ // [@3053,1004:1011='emithere',<46>,62:3]
 			procEnv.EmitWriter.Write("var ");
 			procEnv.EmitWriter.Write(inode_v.@name);
 			procEnv.EmitWriter.Write(";\n");
@@ -1640,13 +1640,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MethodBodyAndImplementation.Match_MethodBodyAndImplementation subpattern_bi = curMatch.@_bi;
 			graph.SettingAddedNodeNames( MultipleMethodBodies_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3117,1213:1220='emithere',<44>,77:3]
+			{ // [@3117,1213:1220='emithere',<46>,77:3]
 			procEnv.EmitWriter.Write("method body");
 			}
 			{ // bi
 			Pattern_MethodBodyAndImplementation.Instance.MethodBodyAndImplementation_Modify(actionEnv, subpattern_bi);
 			}
-			{ // [@3128,1252:1259='emithere',<44>,79:3]
+			{ // [@3128,1252:1259='emithere',<46>,79:3]
 			procEnv.EmitWriter.Write(";\n");
 			}
 			graph.SettingAddedEdgeNames( MultipleMethodBodies_iter_0_addedEdgeNames );
@@ -2315,13 +2315,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleExpressions.Match_MultipleExpressions subpattern_me = curMatch.@_me;
 			graph.SettingAddedNodeNames( MethodBodyAndImplementation_iter_1_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3219,1658:1665='emithere',<44>,102:3]
+			{ // [@3219,1658:1665='emithere',<46>,102:3]
 			procEnv.EmitWriter.Write(" {");
 			}
 			{ // me
 			Pattern_MultipleExpressions.Instance.MultipleExpressions_Modify(actionEnv, subpattern_me);
 			}
-			{ // [@3230,1688:1695='emithere',<44>,104:3]
+			{ // [@3230,1688:1695='emithere',<46>,104:3]
 			procEnv.EmitWriter.Write("}");
 			}
 			graph.SettingAddedEdgeNames( MethodBodyAndImplementation_iter_1_addedEdgeNames );
@@ -3678,13 +3678,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_ExpressionChain.Match_ExpressionChain subpattern_ec = curMatch.@_ec;
 			graph.SettingAddedNodeNames( MultipleExpressions_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3329,2005:2012='emithere',<44>,130:3]
+			{ // [@3329,2005:2012='emithere',<46>,130:3]
 			procEnv.EmitWriter.Write("exp");
 			}
 			{ // ec
 			Pattern_ExpressionChain.Instance.ExpressionChain_Modify(actionEnv, subpattern_ec);
 			}
-			{ // [@3340,2036:2043='emithere',<44>,132:3]
+			{ // [@3340,2036:2043='emithere',<46>,132:3]
 			procEnv.EmitWriter.Write(" ");
 			}
 			graph.SettingAddedEdgeNames( MultipleExpressions_iter_0_addedEdgeNames );
@@ -3730,13 +3730,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleActualParameters.Match_MultipleActualParameters subpattern__sub0 = curMatch.@__sub0;
 			graph.SettingAddedNodeNames( MultipleExpressions_iter_1_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3385,2189:2196='emithere',<44>,142:3]
+			{ // [@3385,2189:2196='emithere',<46>,142:3]
 			procEnv.EmitWriter.Write("call");
 			}
 			{ // ec
 			Pattern_ExpressionChain.Instance.ExpressionChain_Modify(actionEnv, subpattern_ec);
 			}
-			{ // [@3396,2221:2228='emithere',<44>,144:3]
+			{ // [@3396,2221:2228='emithere',<46>,144:3]
 			procEnv.EmitWriter.Write(" ");
 			}
 			graph.SettingAddedEdgeNames( MultipleExpressions_iter_1_addedEdgeNames );
@@ -4674,7 +4674,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_ExpressionChain.Match_ExpressionChain subpattern_ec = curMatch.@_ec;
 			graph.SettingAddedNodeNames( ExpressionChain_alt_0_ExprAndAgain_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3458,2433:2440='emithere',<44>,159:4]
+			{ // [@3458,2433:2440='emithere',<46>,159:4]
 			procEnv.EmitWriter.Write("--exp");
 			}
 			{ // ec
@@ -4709,7 +4709,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleActualParameters.Match_MultipleActualParameters subpattern__sub0 = curMatch.@__sub0;
 			graph.SettingAddedNodeNames( ExpressionChain_alt_0_CallAndAgain_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3508,2611:2618='emithere',<44>,169:4]
+			{ // [@3508,2611:2618='emithere',<46>,169:4]
 			procEnv.EmitWriter.Write("--call");
 			}
 			{ // ec
@@ -9571,7 +9571,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodePackage_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodePackage_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodePackage_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Package, GRGEN_MODEL.NodeType_Package.typeVar, "GRGEN_MODEL.IPackage", "dumpNodePackage_node_n", "n", dumpNodePackage_node_n_AllowedTypes, dumpNodePackage_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodePackage_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodePackage_node_n", new GRGEN_EXPR.VariableExpression("dumpNodePackage_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodePackage_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodePackage_var_v"))),
 				new string[] { "dumpNodePackage_node_n" }, new string[] {  }, new string[] { "dumpNodePackage_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodePackage = new GRGEN_LGSP.PatternGraph(
 				"dumpNodePackage",
@@ -9845,7 +9845,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeClass_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeClass_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeClass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, GRGEN_MODEL.NodeType_Class.typeVar, "GRGEN_MODEL.IClass", "dumpNodeClass_node_n", "n", dumpNodeClass_node_n_AllowedTypes, dumpNodeClass_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeClass_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeClass_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeClass_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeClass_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeClass_var_v"))),
 				new string[] { "dumpNodeClass_node_n" }, new string[] {  }, new string[] { "dumpNodeClass_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeClass = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeClass",
@@ -10131,7 +10131,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeInterface_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeInterface_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeInterface_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Interface, GRGEN_MODEL.NodeType_Interface.typeVar, "GRGEN_MODEL.IInterface", "dumpNodeInterface_node_n", "n", dumpNodeInterface_node_n_AllowedTypes, dumpNodeInterface_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeInterface_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeInterface_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeInterface_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeInterface_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeInterface_var_v"))),
 				new string[] { "dumpNodeInterface_node_n" }, new string[] {  }, new string[] { "dumpNodeInterface_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeInterface = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeInterface",
@@ -10413,7 +10413,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeVariable_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeVariable_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeVariable_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Variable, GRGEN_MODEL.NodeType_Variable.typeVar, "GRGEN_MODEL.IVariable", "dumpNodeVariable_node_n", "n", dumpNodeVariable_node_n_AllowedTypes, dumpNodeVariable_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeVariable_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeVariable_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeVariable_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeVariable_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeVariable_var_v"))),
 				new string[] { "dumpNodeVariable_node_n" }, new string[] {  }, new string[] { "dumpNodeVariable_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeVariable = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeVariable",
@@ -10699,7 +10699,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeOperation_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeOperation_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeOperation_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Operation, GRGEN_MODEL.NodeType_Operation.typeVar, "GRGEN_MODEL.IOperation", "dumpNodeOperation_node_n", "n", dumpNodeOperation_node_n_AllowedTypes, dumpNodeOperation_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeOperation_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeOperation_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeOperation_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeOperation_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeOperation_var_v"))),
 				new string[] { "dumpNodeOperation_node_n" }, new string[] {  }, new string[] { "dumpNodeOperation_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeOperation = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeOperation",
@@ -10989,7 +10989,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeMethodBody_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeMethodBody_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeMethodBody_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, GRGEN_MODEL.NodeType_MethodBody.typeVar, "GRGEN_MODEL.IMethodBody", "dumpNodeMethodBody_node_n", "n", dumpNodeMethodBody_node_n_AllowedTypes, dumpNodeMethodBody_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeMethodBody_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeMethodBody_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeMethodBody_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeMethodBody_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeMethodBody_var_v"))),
 				new string[] { "dumpNodeMethodBody_node_n" }, new string[] {  }, new string[] { "dumpNodeMethodBody_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeMethodBody = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeMethodBody",
@@ -11258,7 +11258,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeAccess_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeAccess_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeAccess_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Access, GRGEN_MODEL.NodeType_Access.typeVar, "GRGEN_MODEL.IAccess", "dumpNodeAccess_node_n", "n", dumpNodeAccess_node_n_AllowedTypes, dumpNodeAccess_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeAccess_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeAccess_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeAccess_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeAccess_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeAccess_var_v"))),
 				new string[] { "dumpNodeAccess_node_n" }, new string[] {  }, new string[] { "dumpNodeAccess_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeAccess = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeAccess",
@@ -11532,7 +11532,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeUpdate_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeUpdate_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeUpdate_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Update, GRGEN_MODEL.NodeType_Update.typeVar, "GRGEN_MODEL.IUpdate", "dumpNodeUpdate_node_n", "n", dumpNodeUpdate_node_n_AllowedTypes, dumpNodeUpdate_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeUpdate_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeUpdate_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeUpdate_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeUpdate_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeUpdate_var_v"))),
 				new string[] { "dumpNodeUpdate_node_n" }, new string[] {  }, new string[] { "dumpNodeUpdate_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeUpdate = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeUpdate",
@@ -11806,7 +11806,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeCall_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeCall_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeCall_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Call, GRGEN_MODEL.NodeType_Call.typeVar, "GRGEN_MODEL.ICall", "dumpNodeCall_node_n", "n", dumpNodeCall_node_n_AllowedTypes, dumpNodeCall_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeCall_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeCall_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeCall_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeCall_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeCall_var_v"))),
 				new string[] { "dumpNodeCall_node_n" }, new string[] {  }, new string[] { "dumpNodeCall_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeCall = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeCall",
@@ -12084,7 +12084,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeIstantiation_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeIstantiation_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeIstantiation_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Instantiation, GRGEN_MODEL.NodeType_Instantiation.typeVar, "GRGEN_MODEL.IInstantiation", "dumpNodeIstantiation_node_n", "n", dumpNodeIstantiation_node_n_AllowedTypes, dumpNodeIstantiation_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeIstantiation_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeIstantiation_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeIstantiation_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeIstantiation_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeIstantiation_var_v"))),
 				new string[] { "dumpNodeIstantiation_node_n" }, new string[] {  }, new string[] { "dumpNodeIstantiation_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeIstantiation = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeIstantiation",
@@ -12353,7 +12353,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeOperator_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeOperator_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeOperator_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Operator, GRGEN_MODEL.NodeType_Operator.typeVar, "GRGEN_MODEL.IOperator", "dumpNodeOperator_node_n", "n", dumpNodeOperator_node_n_AllowedTypes, dumpNodeOperator_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeOperator_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeOperator_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeOperator_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeOperator_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeOperator_var_v"))),
 				new string[] { "dumpNodeOperator_node_n" }, new string[] {  }, new string[] { "dumpNodeOperator_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeOperator = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeOperator",
@@ -12627,7 +12627,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeReturn_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeReturn_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeReturn_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Return, GRGEN_MODEL.NodeType_Return.typeVar, "GRGEN_MODEL.IReturn", "dumpNodeReturn_node_n", "n", dumpNodeReturn_node_n_AllowedTypes, dumpNodeReturn_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeReturn_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeReturn_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeReturn_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeReturn_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeReturn_var_v"))),
 				new string[] { "dumpNodeReturn_node_n" }, new string[] {  }, new string[] { "dumpNodeReturn_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeReturn = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeReturn",
@@ -12896,7 +12896,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeBlock_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeBlock_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeBlock_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Block, GRGEN_MODEL.NodeType_Block.typeVar, "GRGEN_MODEL.IBlock", "dumpNodeBlock_node_n", "n", dumpNodeBlock_node_n_AllowedTypes, dumpNodeBlock_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeBlock_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeBlock_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeBlock_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeBlock_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeBlock_var_v"))),
 				new string[] { "dumpNodeBlock_node_n" }, new string[] {  }, new string[] { "dumpNodeBlock_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeBlock = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeBlock",
@@ -13165,7 +13165,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeLiteral_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeLiteral_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeLiteral_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Literal, GRGEN_MODEL.NodeType_Literal.typeVar, "GRGEN_MODEL.ILiteral", "dumpNodeLiteral_node_n", "n", dumpNodeLiteral_node_n_AllowedTypes, dumpNodeLiteral_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeLiteral_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeLiteral_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeLiteral_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeLiteral_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeLiteral_var_v"))),
 				new string[] { "dumpNodeLiteral_node_n" }, new string[] {  }, new string[] { "dumpNodeLiteral_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeLiteral = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeLiteral",
@@ -13439,7 +13439,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternVariable dumpNodeParameter_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeParameter_var_v", "v", 0, false, null);
 			GRGEN_LGSP.PatternNode dumpNodeParameter_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Parameter, GRGEN_MODEL.NodeType_Parameter.typeVar, "GRGEN_MODEL.IParameter", "dumpNodeParameter_node_n", "n", dumpNodeParameter_node_n_AllowedTypes, dumpNodeParameter_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpNodeParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeParameter_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeParameter_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpNodeParameter_node_n"), new GRGEN_EXPR.VariableExpression("dumpNodeParameter_var_v"))),
 				new string[] { "dumpNodeParameter_node_n" }, new string[] {  }, new string[] { "dumpNodeParameter_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeParameter = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeParameter",
@@ -13717,7 +13717,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeBelongsTo_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "dumpEdgeBelongsTo_node_tgt", "tgt", dumpEdgeBelongsTo_node_tgt_AllowedTypes, dumpEdgeBelongsTo_node_tgt_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge dumpEdgeBelongsTo_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@belongsTo, GRGEN_MODEL.EdgeType_belongsTo.typeVar, "GRGEN_MODEL.IbelongsTo", "dumpEdgeBelongsTo_edge_e", "e", dumpEdgeBelongsTo_edge_e_AllowedTypes, dumpEdgeBelongsTo_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpEdgeBelongsTo_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeBelongsTo_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeBelongsTo_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpEdgeBelongsTo_edge_e"), new GRGEN_EXPR.VariableExpression("dumpEdgeBelongsTo_var_v"))),
 				new string[] {  }, new string[] { "dumpEdgeBelongsTo_edge_e" }, new string[] { "dumpEdgeBelongsTo_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeBelongsTo = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeBelongsTo",
@@ -14020,7 +14020,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeType_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "dumpEdgeType_node_tgt", "tgt", dumpEdgeType_node_tgt_AllowedTypes, dumpEdgeType_node_tgt_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge dumpEdgeType_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@type_, GRGEN_MODEL.EdgeType_type_.typeVar, "GRGEN_MODEL.Itype_", "dumpEdgeType_edge_e", "e", dumpEdgeType_edge_e_AllowedTypes, dumpEdgeType_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpEdgeType_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeType_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeType_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpEdgeType_edge_e"), new GRGEN_EXPR.VariableExpression("dumpEdgeType_var_v"))),
 				new string[] {  }, new string[] { "dumpEdgeType_edge_e" }, new string[] { "dumpEdgeType_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeType = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeType",
@@ -14323,7 +14323,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeExtends_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "dumpEdgeExtends_node_tgt", "tgt", dumpEdgeExtends_node_tgt_AllowedTypes, dumpEdgeExtends_node_tgt_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge dumpEdgeExtends_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@extends_, GRGEN_MODEL.EdgeType_extends_.typeVar, "GRGEN_MODEL.Iextends_", "dumpEdgeExtends_edge_e", "e", dumpEdgeExtends_edge_e_AllowedTypes, dumpEdgeExtends_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpEdgeExtends_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeExtends_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeExtends_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpEdgeExtends_edge_e"), new GRGEN_EXPR.VariableExpression("dumpEdgeExtends_var_v"))),
 				new string[] {  }, new string[] { "dumpEdgeExtends_edge_e" }, new string[] { "dumpEdgeExtends_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeExtends = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeExtends",
@@ -14626,7 +14626,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeImports_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "dumpEdgeImports_node_tgt", "tgt", dumpEdgeImports_node_tgt_AllowedTypes, dumpEdgeImports_node_tgt_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge dumpEdgeImports_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@imports, GRGEN_MODEL.EdgeType_imports.typeVar, "GRGEN_MODEL.Iimports", "dumpEdgeImports_edge_e", "e", dumpEdgeImports_edge_e_AllowedTypes, dumpEdgeImports_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpEdgeImports_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeImports_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeImports_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpEdgeImports_edge_e"), new GRGEN_EXPR.VariableExpression("dumpEdgeImports_var_v"))),
 				new string[] {  }, new string[] { "dumpEdgeImports_edge_e" }, new string[] { "dumpEdgeImports_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeImports = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeImports",
@@ -14929,7 +14929,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeImplements_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "dumpEdgeImplements_node_tgt", "tgt", dumpEdgeImplements_node_tgt_AllowedTypes, dumpEdgeImplements_node_tgt_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge dumpEdgeImplements_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@implements, GRGEN_MODEL.EdgeType_implements.typeVar, "GRGEN_MODEL.Iimplements", "dumpEdgeImplements_edge_e", "e", dumpEdgeImplements_edge_e_AllowedTypes, dumpEdgeImplements_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpEdgeImplements_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeImplements_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeImplements_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpEdgeImplements_edge_e"), new GRGEN_EXPR.VariableExpression("dumpEdgeImplements_var_v"))),
 				new string[] {  }, new string[] { "dumpEdgeImplements_edge_e" }, new string[] { "dumpEdgeImplements_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeImplements = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeImplements",
@@ -15232,7 +15232,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeParameter_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "dumpEdgeParameter_node_tgt", "tgt", dumpEdgeParameter_node_tgt_AllowedTypes, dumpEdgeParameter_node_tgt_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge dumpEdgeParameter_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@parameter, GRGEN_MODEL.EdgeType_parameter.typeVar, "GRGEN_MODEL.Iparameter", "dumpEdgeParameter_edge_e", "e", dumpEdgeParameter_edge_e_AllowedTypes, dumpEdgeParameter_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpEdgeParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeParameter_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeParameter_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpEdgeParameter_edge_e"), new GRGEN_EXPR.VariableExpression("dumpEdgeParameter_var_v"))),
 				new string[] {  }, new string[] { "dumpEdgeParameter_edge_e" }, new string[] { "dumpEdgeParameter_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeParameter = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeParameter",
@@ -15535,7 +15535,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeBinding_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "dumpEdgeBinding_node_tgt", "tgt", dumpEdgeBinding_node_tgt_AllowedTypes, dumpEdgeBinding_node_tgt_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge dumpEdgeBinding_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@binding, GRGEN_MODEL.EdgeType_binding.typeVar, "GRGEN_MODEL.Ibinding", "dumpEdgeBinding_edge_e", "e", dumpEdgeBinding_edge_e_AllowedTypes, dumpEdgeBinding_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpEdgeBinding_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeBinding_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeBinding_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpEdgeBinding_edge_e"), new GRGEN_EXPR.VariableExpression("dumpEdgeBinding_var_v"))),
 				new string[] {  }, new string[] { "dumpEdgeBinding_edge_e" }, new string[] { "dumpEdgeBinding_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeBinding = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeBinding",
@@ -15838,7 +15838,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeLink_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "dumpEdgeLink_node_tgt", "tgt", dumpEdgeLink_node_tgt_AllowedTypes, dumpEdgeLink_node_tgt_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge dumpEdgeLink_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@link, GRGEN_MODEL.EdgeType_link.typeVar, "GRGEN_MODEL.Ilink", "dumpEdgeLink_edge_e", "e", dumpEdgeLink_edge_e_AllowedTypes, dumpEdgeLink_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpEdgeLink_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeLink_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeLink_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpEdgeLink_edge_e"), new GRGEN_EXPR.VariableExpression("dumpEdgeLink_var_v"))),
 				new string[] {  }, new string[] { "dumpEdgeLink_edge_e" }, new string[] { "dumpEdgeLink_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeLink = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeLink",
@@ -16141,7 +16141,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeExpression_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "dumpEdgeExpression_node_tgt", "tgt", dumpEdgeExpression_node_tgt_AllowedTypes, dumpEdgeExpression_node_tgt_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge dumpEdgeExpression_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, GRGEN_MODEL.EdgeType_expression.typeVar, "GRGEN_MODEL.Iexpression", "dumpEdgeExpression_edge_e", "e", dumpEdgeExpression_edge_e_AllowedTypes, dumpEdgeExpression_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpEdgeExpression_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeExpression_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeExpression_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpEdgeExpression_edge_e"), new GRGEN_EXPR.VariableExpression("dumpEdgeExpression_var_v"))),
 				new string[] {  }, new string[] { "dumpEdgeExpression_edge_e" }, new string[] { "dumpEdgeExpression_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeExpression = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeExpression",
@@ -16444,7 +16444,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeActualParameter_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "dumpEdgeActualParameter_node_tgt", "tgt", dumpEdgeActualParameter_node_tgt_AllowedTypes, dumpEdgeActualParameter_node_tgt_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge dumpEdgeActualParameter_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@actualParameter, GRGEN_MODEL.EdgeType_actualParameter.typeVar, "GRGEN_MODEL.IactualParameter", "dumpEdgeActualParameter_edge_e", "e", dumpEdgeActualParameter_edge_e_AllowedTypes, dumpEdgeActualParameter_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition dumpEdgeActualParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeActualParameter_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeActualParameter_var_v"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("dumpEdgeActualParameter_edge_e"), new GRGEN_EXPR.VariableExpression("dumpEdgeActualParameter_var_v"))),
 				new string[] {  }, new string[] { "dumpEdgeActualParameter_edge_e" }, new string[] { "dumpEdgeActualParameter_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeActualParameter = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeActualParameter",
@@ -16869,7 +16869,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPMatchesList<Match_emitSpanningTree_iter_0, IMatch_emitSpanningTree_iter_0> iterated_iter_0 = curMatch._iter_0;
 			graph.SettingAddedNodeNames( emitSpanningTree_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@2859,372:379='emithere',<44>,23:2]
+			{ // [@2859,372:379='emithere',<46>,23:2]
 			procEnv.EmitWriter.Write("// java program ");
 			procEnv.EmitWriter.Write(graph.Name);
 			procEnv.EmitWriter.Write("\n");
@@ -16896,7 +16896,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleContainedPackagesOrClasses.Match_MultipleContainedPackagesOrClasses subpattern_mpc = curMatch.@_mpc;
 			graph.SettingAddedNodeNames( emitSpanningTree_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@2826,276:283='emithere',<44>,16:3]
+			{ // [@2826,276:283='emithere',<46>,16:3]
 			procEnv.EmitWriter.Write("package ");
 			procEnv.EmitWriter.Write(inode_p.@name);
 			procEnv.EmitWriter.Write("\n{\n");
@@ -16904,7 +16904,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			{ // mpc
 			Pattern_MultipleContainedPackagesOrClasses.Instance.MultipleContainedPackagesOrClasses_Modify(actionEnv, subpattern_mpc);
 			}
-			{ // [@2845,330:337='emithere',<44>,18:3]
+			{ // [@2845,330:337='emithere',<46>,18:3]
 			procEnv.EmitWriter.Write("}\n");
 			}
 			graph.SettingAddedEdgeNames( emitSpanningTree_iter_0_addedEdgeNames );
@@ -25376,7 +25376,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternEdge markExpressionOfBody_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@belongsTo, GRGEN_MODEL.EdgeType_belongsTo.typeVar, "GRGEN_MODEL.IbelongsTo", "markExpressionOfBody_edge__edge0", "_edge0", markExpressionOfBody_edge__edge0_AllowedTypes, markExpressionOfBody_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge markExpressionOfBody_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, GRGEN_MODEL.EdgeType_expression.typeVar, "GRGEN_MODEL.Iexpression", "markExpressionOfBody_edge__edge1", "_edge1", markExpressionOfBody_edge__edge1_AllowedTypes, markExpressionOfBody_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition markExpressionOfBody_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("markExpressionOfBody_node_exp", new GRGEN_EXPR.Constant("0"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("markExpressionOfBody_node_exp"), new GRGEN_EXPR.Constant("0"))),
 				new string[] { "markExpressionOfBody_node_exp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_markExpressionOfBody = new GRGEN_LGSP.PatternGraph(
 				"markExpressionOfBody",
@@ -25730,7 +25730,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode markExpressionFollowingExpression_node_exp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, GRGEN_MODEL.NodeType_Expression.typeVar, "GRGEN_MODEL.IExpression", "markExpressionFollowingExpression_node_exp", "exp", markExpressionFollowingExpression_node_exp_AllowedTypes, markExpressionFollowingExpression_node_exp_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge markExpressionFollowingExpression_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, GRGEN_MODEL.EdgeType_expression.typeVar, "GRGEN_MODEL.Iexpression", "markExpressionFollowingExpression_edge__edge0", "_edge0", markExpressionFollowingExpression_edge__edge0_AllowedTypes, markExpressionFollowingExpression_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition markExpressionFollowingExpression_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("markExpressionFollowingExpression_node_exp", new GRGEN_EXPR.Constant("0"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("markExpressionFollowingExpression_node_exp"), new GRGEN_EXPR.Constant("0"))),
 				new string[] { "markExpressionFollowingExpression_node_exp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_markExpressionFollowingExpression = new GRGEN_LGSP.PatternGraph(
 				"markExpressionFollowingExpression",
@@ -26066,7 +26066,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode markExpressionFollowingActualParameter_node_exp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, GRGEN_MODEL.NodeType_Expression.typeVar, "GRGEN_MODEL.IExpression", "markExpressionFollowingActualParameter_node_exp", "exp", markExpressionFollowingActualParameter_node_exp_AllowedTypes, markExpressionFollowingActualParameter_node_exp_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternEdge markExpressionFollowingActualParameter_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@actualParameter, GRGEN_MODEL.EdgeType_actualParameter.typeVar, "GRGEN_MODEL.IactualParameter", "markExpressionFollowingActualParameter_edge__edge0", "_edge0", markExpressionFollowingActualParameter_edge__edge0_AllowedTypes, markExpressionFollowingActualParameter_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition markExpressionFollowingActualParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("markExpressionFollowingActualParameter_node_exp", new GRGEN_EXPR.Constant("0"))),
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("markExpressionFollowingActualParameter_node_exp"), new GRGEN_EXPR.Constant("0"))),
 				new string[] { "markExpressionFollowingActualParameter_node_exp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_markExpressionFollowingActualParameter = new GRGEN_LGSP.PatternGraph(
 				"markExpressionFollowingActualParameter",
@@ -26393,7 +26393,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool[] unmarkExpression_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternNode unmarkExpression_node_exp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, GRGEN_MODEL.NodeType_Expression.typeVar, "GRGEN_MODEL.IExpression", "unmarkExpression_node_exp", "exp", unmarkExpression_node_exp_AllowedTypes, unmarkExpression_node_exp_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition unmarkExpression_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.Visited("unmarkExpression_node_exp", new GRGEN_EXPR.Constant("0")),
+				new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("unmarkExpression_node_exp"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "unmarkExpression_node_exp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_unmarkExpression = new GRGEN_LGSP.PatternGraph(
 				"unmarkExpression",
@@ -26644,7 +26644,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool[] callToSuperExists_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternNode callToSuperExists_node_call = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Call, GRGEN_MODEL.NodeType_Call.typeVar, "GRGEN_MODEL.ICall", "callToSuperExists_node_call", "call", callToSuperExists_node_call_AllowedTypes, callToSuperExists_node_call_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition callToSuperExists_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.Qualification("GRGEN_MODEL.ICall", "callToSuperExists_node_call", "super"), new GRGEN_EXPR.Visited("callToSuperExists_node_call", new GRGEN_EXPR.Constant("0"))),
+				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.Qualification("GRGEN_MODEL.ICall", "callToSuperExists_node_call", "super"), new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("callToSuperExists_node_call"), new GRGEN_EXPR.Constant("0"))),
 				new string[] { "callToSuperExists_node_call" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_callToSuperExists = new GRGEN_LGSP.PatternGraph(
 				"callToSuperExists",
@@ -27466,7 +27466,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool[] thisIsAccessed_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternNode thisIsAccessed_node_access = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Access, GRGEN_MODEL.NodeType_Access.typeVar, "GRGEN_MODEL.IAccess", "thisIsAccessed_node_access", "access", thisIsAccessed_node_access_AllowedTypes, thisIsAccessed_node_access_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition thisIsAccessed_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.Visited("thisIsAccessed_node_access", new GRGEN_EXPR.Constant("0")),
+				new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("thisIsAccessed_node_access"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "thisIsAccessed_node_access" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			bool[,] thisIsAccessed_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
@@ -28193,7 +28193,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode useSourceParameter_node_srcparam = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Parameter, GRGEN_MODEL.NodeType_Parameter.typeVar, "GRGEN_MODEL.IParameter", "useSourceParameter_node_srcparam", "srcparam", useSourceParameter_node_srcparam_AllowedTypes, useSourceParameter_node_srcparam_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternNode useSourceParameter_node_access = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Access, GRGEN_MODEL.NodeType_Access.typeVar, "GRGEN_MODEL.IAccess", "useSourceParameter_node_access", "access", useSourceParameter_node_access_AllowedTypes, useSourceParameter_node_access_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition useSourceParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.Visited("useSourceParameter_node_access", new GRGEN_EXPR.Constant("0")),
+				new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("useSourceParameter_node_access"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "useSourceParameter_node_access" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			bool[,] useSourceParameter_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
@@ -33180,6 +33180,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			rules = new GRGEN_LGSP.LGSPRulePattern[69];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[11+69];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
+			computations = new GRGEN_LIBGR.ComputationInfo[0];
 			subpatterns[0] = Pattern_MultipleContainedPackagesOrClasses.Instance;
 			rulesAndSubpatterns[0] = Pattern_MultipleContainedPackagesOrClasses.Instance;
 			subpatterns[1] = Pattern_MultipleVariables.Instance;
@@ -33349,6 +33350,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
 		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
+		public override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }
+		private GRGEN_LIBGR.ComputationInfo[] computations;
 	}
 
 

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Feb 17 15:39:51 CET 2013
+// Generated from "..\..\tests\TNT\TNT.grg" on Fri Mar 29 08:39:38 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -12074,6 +12074,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			rules = new GRGEN_LGSP.LGSPRulePattern[19];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[11+19];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
+			computations = new GRGEN_LIBGR.ComputationInfo[0];
 			subpatterns[0] = Pattern_BenzolRing.Instance;
 			rulesAndSubpatterns[0] = Pattern_BenzolRing.Instance;
 			subpatterns[1] = Pattern_BenzolRingC123456Exposed.Instance;
@@ -12143,6 +12144,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
 		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
+		public override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }
+		private GRGEN_LIBGR.ComputationInfo[] computations;
 	}
 
 
