@@ -1,4 +1,185 @@
-﻿v3.6.ms2 (2013-01-28)
+﻿v4.0alpha (2013-03-29)
+
+ Extended attribute evaluations to general computations 
+ -- with general control flow constructs:
+ - Allowed to declare attribute evaluation functions (computations) with syntax
+   name(parameters) : return-type { statements }
+   The function must end with a return(expr); statement returning the function value.
+ - The declared computations can be used from rule language expressions and from sequence expressions
+   with syntax name(arguments), yielding the computed value
+   The declared computations may call other computations, or themselves recursively.
+ - Added if condition to computations, with syntax
+   if(expr) { stmts } [ else if(expr) { stmts } ]* [else { stmts }]?
+ - Added loops to yields/evals/computations, with syntax
+   while(expr) { stmts } for a pre-test loop
+   do { statements } while(expr) for a post-test loop
+   no semicolon needed at post-test loop, but all constructs require the braces
+ - Functions can be called as statements
+ - Embedded sequences can be specified in the computations with the syntax 
+   exec(sequence)
+   (Similar to the rule language, entities from outside can be read, and written to with yield.)
+ -- with local variable declarations:
+   Added local variable declarations to yields/evals/computations,
+   with the syntax known from def variables in pattern (def var, def ref, def).
+   They have to be assigned without yield prefix, that one is only for pattern entities.
+   Allowed initialization of def entities of graph element type,
+   with parameters, or elements from the outer pattern.
+ Have a look at test/should_pass/DfsBfsSearch.grg or the computations_*.grg for an example.
+ 
+ Extended attribute evaluations and sequences - where not already available - with multiple iteration loops:
+ - for(val in container) { stmts }, or for(index->val in container) { stmts },
+   where val, index are variable declarations of type compatible to the container.
+   Added to computations for iterating over containers
+ - for(n:NodeType) { statements } a loop over all nodes of the given node type in the graph
+ - for(e:EdgeType) { statements } a loop over all edges of the given edge type in the graph
+ - for(function(params)) { statements} a loop over all neighbouring nodes or edges of a start node,
+   under the given type constraints, where function is one of incident, incoming, outgoing, for edges;
+   or adjacent, adjacentIncoming, adjacentOutgoing for nodes.
+   Params consist only of a node for the start node,
+   or additionally an EdgeType for the type the incident edges must be of,
+   or then additionally an NodeType for the type the adjacent nodes must be of.
+ - Added reachability for loops, encapsulating a depth first walk in an iterator
+   with for(n:Node in reachableNodes(start node, incident edge type, adjacent node type))
+        { statements } as prototype
+   and additionally reachableNodesIncoming, reachableNodesOutgoing for nodes,
+   and reachableEdges, reachableEdgesIncoming, reachableEdgesOutgoing for edges.
+ - Changed syntax of for command for accumulation of iterated to
+   for(val in iterated) { stmts }  (only in rule language available)
+   Here val is an entity from the iterated pattern, and comes without type.
+
+ Added direct and transitive graph neighbourhood queries to attribute evaluations and sequence expressions
+ - added isAdjacent, isAdjacentOutgoing, isAdjacentIncoming functions,
+   behaving basically like an efficient "end-node in adjacent(start-node, ...)", ...,
+ - and isIncident, isOutgoing, isIncoming functions,
+   behaving basically like an efficient "end-edge in incident(start-node, ...)", ...,
+ - and isReachable, isReachableOutgoing, isReachableIncoming functions,
+   behaving basically like an efficient "end-node in reachable(start-node, ...)", ...,
+ - and isReachableEdges, isReachableEdgesOutgoing, isReachableEdgesIncoming functions,
+   behaving basically like an efficient "end-edge in reachableEdges(start-node, ...)", ...,
+ - all for parameters (start-node, end-node, incident edge type, adjacent node type).
+ - the isReachable predicates return whether the end-node can be reached from the start-node,
+   by incident edges of the specified kind;
+   they additionally come in the extended versions
+   -...(start:Node, end:Node, incidentEdgeType:EdgeType) 
+   that constrains the edges to the given EdgeType, and
+   -...(start:Node, end:Node, incidentEdgeType:EdgeType, adjacentNodeType:NodeType)
+   that additionally constrains the nodes to the given NodeType.
+   This iterated path searching is implemented with a manually coded depth first search, 
+   which is for one more efficient and for the other more convenient to use 
+   than programming the same with subpatterns/controlled tests, but limited to simple type conditions.
+ 
+ Extended the expressions and computation statements of the attribute evaluation language:
+ 
+ -- with basic graph manipulation functions
+ - add(NodeType):Node and add(EdgeType, SrcNode, TgtNode):Edge,
+   for adding a node or edge to the graph, returning the added entity
+ - rem(Node) and rem(Edge) procedures, for removing from the graph
+ - retype(node,NodeType):NodeType retypes node to the new node type, returns the retyped node
+ - retype(edge,EdgeType):EdgeType retyped edge to the new edge type, returns the retyped edge
+ - clear() procedure for clearing the graph
+
+ -- with advanced graph manipulation functions
+ - merge(tgt,src) merges the source node with/into the target node, redirecting incident edges
+ - redirectSource(edge,newSrc) redirects the edge to the new source node
+ - redirectTarget(edge,newTgt) redirects the edge to the new target node
+ - redirectSourceAndTarget(edge,newSrc,newTgt) redirects the edge to the new source and the new target node
+  Those functions require a named graph as they fetch the debug display name from the old element.
+  In addition, they are available in versions with an additional string as parameter,
+  giving the name of the old element; in that case an unnamed graph is sufficient
+  (the redirectSourceAndTarget requires two strings).
+
+ -- with induced subgraph computations and insertions:
+ - inducedSubgraph(set<NodeType>):graph returning the induced graph of the node set
+ - definedSubgraph(set<EdgeType>):graph returning the defined graph of the edge set
+ - insertInduced(set<NodeType>,node):node inserts a copy of the graph induced by the node set,
+   returns the copy of the node given as second argument
+ - insertDefined(set<EdgeType>,edge):edge inserts a copy of the graph defined by the edge set,
+   returns the copy of the edge given as second argument
+
+ -- with numeric functions
+ - abs(numeric):numeric returning the absolute value of the input
+ - sin(double):double returning the sine of the input
+ - cos(double):double returning the cosine of the input
+ - tan(double):double returning the tangent of the input
+ - log(double,double):double returning the logarithm of the first argument 
+   to the base given by the second argument
+ - log(double):double returning the logarithm of the argument to the base e
+ - pow(double,double):double returning the first argument
+   to the power of the second argument (was already available)
+ - pow(double):double returning e to the power of the argument
+
+ -- with visited flag management
+ - added valloc() function, for allocating a visited flag, returning it
+ - added vfree(flag), vfreenonreset(flag), vreset(flag) procedures 
+   for freeing a flag and resetting it in all graph elements
+
+ -- with global functions for transaction handling:
+ - startTransaction():int returning transaction id,
+ - pauseTransaction() pausing transaction handling so changes are not recorded and can't be undone
+ - resumeTransaction() resuming paused transaction handling
+ - commitTransaction(int) keeping the changes of the transaction of given id in the graph, 
+   removing the undo information
+ - rollbackTransaction(int) reverting the changes by executing the undo log
+
+  -- with text output procedures
+ - added emit(string) procedure for emitting to stdout or a file
+ - added record(string) procedure for writing to a graph change record
+
+ -- with equitable partition computation
+ - canonize(graph):string returning a canonical string representation of the graph input
+
+ Container constructors are now available in the sequences, too
+ - only the explicit ones, as expression, esp. in variable initialization
+ - allowed empty container constructors again in rules language,
+   but only for the explicit ones, i.e. set<int>{}, map<int,float>{}, array<Node>[], deque<string>][;
+   not for the implicit ones: {3}, {3->3.141593}, [x], ]"foo"[.
+   Had to disallow nesting of the implicit ones in exchange.
+
+ Added a changes counter to the graph, increased at each graph structure changing operation:
+ - used to find out about about the outdatedness of 
+  graph analyzation results, isomorphy checkers, and canonical representations,
+  thus allowing to keep them as long as they are still valid, 
+  and preventing bugs from changes that occured after those were computed.
+ - the changes counter is printed as additional statistics during shell execution
+  (non-debugging, at the once-per-second sign-of-life-timer)
+
+ Smaller extensions:
+ - Implemented opposite(edge, node):other-node in rule language and sequences,
+   in addition to source(edge) and target(edge).
+ - Container constructors are now supported in initialization of def elements 
+   in lhs and rhs of rules, tests, subpattern; and in computations.
+ - The .empty() method on container types is now supported in the rule expressions, too.
+ - Generalized entity arguments for esp. neighbourhood (but also other) functions 
+   to compositional expression arguments
+ - Added USE_NET_3_5 flag for letting GrGen target .NET 3.5;
+   not needed for the generated code, but maybe for the user extensions.
+ - The external attributes interface file was only created in tmpgrgenX folder,
+   where it was deleted afterwards unless -keep was used;
+   now FooModelExternalFunctions.cs is copied to parent folder (where rules reside),
+   so that users required to implement that interface get to see it.
+ 
+ Adaptation of user manual to computations extension:
+ - added a dedicated chapter on the by-now massively extended computations,
+   offering esp. control flow and computation definitions over simple assignments
+ - split (and removed) the overly heterogenous storagesvisited chapter into
+   - a massive extension of chapter container, now including everything container related
+   - a new chapter graph containing everything graph type related,
+     esp. global functions, visited flags, transactions
+ - split chapter sequencecomputation out of chaper sequencesadvanced
+  
+ Bugfixes: 
+ - allowed rule/sequence calls with empty parenthesis again
+   (after some grammar refactoring in the past zero argument calls had to be given without parenthesis)
+ - fixed off-by-one in SimpleGraphCanonizer
+ - fixed bug in type balancing of graph comparisons of untyped global variables
+ - fixed bug in compiled version of "interpretation plan" used for isomorphy checking
+ - several other/smaller bugs fixed
+
+ Release is only an alpha because of the missing static semantic checks 
+ regarding the new computation constructs, which need to be constrained.
+
+ 
+v3.6.ms2 (2013-01-28)
  Generic datatype deque<T> introduced:
   - mapping to custom C# Deque implemented with a ringbuffer doubled in size as needed,
     so insertion and removal from front and back in amortized O(1)
