@@ -307,8 +307,6 @@ This function internally calls a \texttt{vreset} to ensure that no corresponding
 \item[Flag deallocation without reset:] With \texttt{vfreenonreset} the space previously allocated for the visited flag is freed, too, but the implicit internal \texttt{vreset(id)} of \texttt{vfree} is not executed. It is your duty to ensure the flag is \texttt{false} in all graph elements -- otherwise after a following allocation elements may start as being marked. This saves us an O(n) operation, but opens the door to nasty bugs if you can't design your algorithm in a way which renders unmarking trivial.
 \end{description}
 
-An example implementing \indexed{depth-first search} and \indexed{breadth-first search} as computations of the rule language utilizing the constructs introduced so far can be found in \texttt{test/should\_pass}, in \texttt{/DfsBfsSearch.grg}.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Transaction Handling}\label{sub:transaction}
 

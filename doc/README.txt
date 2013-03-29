@@ -1,5 +1,5 @@
-GrGen.NET v3.6.ms2 (2013-01-28)
--------------------------------
+GrGen.NET v4.0alpha (2013-03-29)
+--------------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
@@ -160,7 +160,7 @@ COPYING
 
 Copyright (C) 2003-2013 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 3.6
+This file is part of GrGen, Version GrGen.NET 4.0
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
