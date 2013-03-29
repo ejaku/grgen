@@ -1900,7 +1900,6 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	| (xgrsVarUse[null]) => target=xgrsVarUse[xg]
 			{ res = new IdentExprNode((IdentNode)target); }
 		sel=seqExprSelector[res, xg] { res = sel; }
-	| RANDOM LPAREN { xg.append("random"); xg.append("("); } ( fromExpr=seqExpression[xg] )? RPAREN { xg.append(")"); }
 	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
 	| a=AT LPAREN { xg.append("@("); } (i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
@@ -3046,7 +3045,7 @@ options { k = 5; }
 					|| (i.getText().equals("isAdjacentIncoming") || i.getText().equals("isAdjacentOutgoing") || i.getText().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 					|| (i.getText().equals("isReachableIncoming") || i.getText().equals("isReachableOutgoing") || i.getText().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 					|| (i.getText().equals("isReachableEdgesIncoming") || i.getText().equals("isReachableEdgesOutgoing") || i.getText().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
-//					|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
+					|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 					|| i.getText().equals("canonize") && params.getChildren().size()==1
 					|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
 					|| (i.getText().equals("insertInduced") || i.getText().equals("insertDefined")) && params.getChildren().size()==2
@@ -3314,7 +3313,6 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 options { k = 4; }
 	: e=visited { res = e; }
-	| e=randomExpr { res = e; }
 	| e=nameOf { res = e; }
 	| e=identExpr { res = e; }
 	| e=globalsAccessExpr { res = e; }
@@ -3341,15 +3339,6 @@ visited returns [ VisitedNode res ]
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
 		| 
 			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), elem); }
-		)
-	;
-
-randomExpr returns [ ExprNode res = env.initExprNode() ]
-	: r=RANDOM LPAREN 
-		( numExpr=expr[false] RPAREN
-			{ res = new RandomNode(getCoords(r), numExpr); }
-		| RPAREN
-			{ res = new RandomNode(getCoords(r), null); }
 		)
 	;
 
@@ -3463,7 +3452,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (id.toString().equals("isAdjacentIncoming") || id.toString().equals("isAdjacentOutgoing") || id.toString().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 				|| (id.toString().equals("isReachableIncoming") || id.toString().equals("isReachableOutgoing") || id.toString().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 				|| (id.toString().equals("isReachableEdgesIncoming") || id.toString().equals("isReachableEdgesOutgoing") || id.toString().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
-//				|| id.toString().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
+				|| id.toString().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 				|| id.toString().equals("canonize") && params.getChildren().size()==1
 				|| (id.toString().equals("inducedSubgraph") || id.toString().equals("definedSubgraph")) && params.getChildren().size()==1
 				|| (id.toString().equals("insertInduced") || id.toString().equals("insertDefined")) && params.getChildren().size()==2
@@ -3763,7 +3752,6 @@ OPTIONAL : 'optional';
 PATTERN : 'pattern';
 PATTERNPATH : 'patternpath';
 DEQUE : 'deque';
-RANDOM : 'random';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';

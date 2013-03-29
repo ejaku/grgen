@@ -143,6 +143,16 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new AbsExprNode(getCoords(), params.get(0));
 		}
+		else if(functionName.equals("random")) {
+			if(params.size() == 1) {
+				result = new RandomNode(getCoords(), params.get(0));
+			} else if(params.size() == 0) {
+				result = new RandomNode(getCoords(), null);
+			} else {
+				reportError("random(.)/random() takes one or no parameters.");
+				return false;
+			}
+		}
 		else if(functionName.equals("nodes")) {
 			if(params.size() > 1) {
 				reportError("nodes() takes one or none parameter.");
