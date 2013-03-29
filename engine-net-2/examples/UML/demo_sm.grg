@@ -114,9 +114,9 @@ rule forwardTransition3(sm:StateMachine) {
   }
 
   negative {
-    reg -:transition-> xz:Transition;
-    x -:source-> xz -:target-> z;
-    xz -:trigger-> trig;
+    reg -:transition-> nxz:Transition;
+    x -:source-> nxz -:target-> z;
+    nxz -:trigger-> trig;
   }
 
   modify {
@@ -168,13 +168,13 @@ rule removeEpsilonTransition(sm:StateMachine) {
 
 rule createGraph {
   replace {
-    rootpack:Package -:name-> rootpackname:String;
+    rootpack:Package -:name_-> rootpackname:String;
     eval { rootpackname.value = "Root"; }
 
-    rootpack -:packagedElement-> cv:Package -:name-> cvname:String;
+    rootpack -:packagedElement-> cv:Package -:name_-> cvname:String;
     eval { cvname.value = "Component View"; }
 
-    cv -: packagedElement -> sm:StateMachine -:name-> smname:String;
+    cv -: packagedElement -> sm:StateMachine -:name_-> smname:String;
     eval { smname.value = "EpsilonMachine"; }
 
     // the machine and its region

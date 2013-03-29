@@ -141,13 +141,13 @@ pattern DesoxyriboseCore(c1:A_C, c3:A_C, c5:A_C)
 pattern PhosphateGroup(c5:A_C, p:A_P)
 {
 	c5 --> :A_O --> p;
-	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H;
+	p --> do_:A_O;  p --> do_;  p --> :A_O --> :A_H;
 }
 
 pattern PhosphateGroupEnd(c5:A_C)
 {
 	c5 --> :A_O --> p:A_P;
-	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H;
+	p --> do_:A_O;  p --> do_;  p --> :A_O --> :A_H;
 	p --> :A_O --> :A_H;
 }
 
@@ -232,7 +232,7 @@ pattern DNAChainBegin(pOfNext:A_P) modify(oOfNext:A_O)
 	n:Nukleinbase(c1);
 
 	c5 --> :A_O --> pOfNext;
-	pOfNext --> do:A_O;  pOfNext --> do;  pOfNext --> :A_O --> :A_H;
+	pOfNext --> do_:A_O;  pOfNext --> do_;  pOfNext --> :A_O --> :A_H;
 
 	modify {
 		rep_c1:A_C;
@@ -281,7 +281,7 @@ pattern DNAChainElement(pOfPrev:A_P, pOfNext:A_P) modify(oOfPrev:A_O, oOfNext:A_
 
 	n:Nukleinbase(c1);
 	c5 --> :A_O --> pOfNext;
-	pOfNext --> do:A_O;  pOfNext --> do;  pOfNext --> :A_O --> :A_H;
+	pOfNext --> do_:A_O;  pOfNext --> do_;  pOfNext --> :A_O --> :A_H;
 
 	modify {
 		:RNAChainElement(oOfPrev, oOfNext, rep_c1);
@@ -303,7 +303,7 @@ pattern DNAChainEnd(pOfPrev:A_P) modify(oOfPrev:A_O)
 
 	n:Nukleinbase(c1);
 	c5 --> :A_O --> p:A_P;
-	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H;
+	p --> do_:A_O;  p --> do_;  p --> :A_O --> :A_H;
 	p --> :A_O --> :A_H;
 
 	modify {
@@ -316,7 +316,7 @@ pattern DNAChainEnd(pOfPrev:A_P) modify(oOfPrev:A_O)
 pattern RNAChainElement(oOfPrev:A_O, oOfNext:A_O, c1:A_C)
 {
 	oOfPrev --> p:A_P;
-	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H;
+	p --> do_:A_O;  p --> do_;  p --> :A_O --> :A_H;
 	p --> :A_O --> c5;
 
 	// Ribose core
@@ -332,7 +332,7 @@ pattern RNAChainElement(oOfPrev:A_O, oOfNext:A_O, c1:A_C)
 pattern RNAChainBegin(oOfNext:A_O, c1:A_C)
 {
 	p:A_P --> :A_O --> :A_H;
-	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H;
+	p --> do_:A_O;  p --> do_;  p --> :A_O --> :A_H;
 	p --> :A_O --> c5;
 
 	// Ribose core
@@ -348,7 +348,7 @@ pattern RNAChainBegin(oOfNext:A_O, c1:A_C)
 pattern RNAChainEnd(oOfPrev:A_O, c1:A_C)
 {
 	oOfPrev --> p:A_P;
-	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H;
+	p --> do_:A_O;  p --> do_;  p --> :A_O --> :A_H;
 	p --> :A_O --> c5;
 
 	// Ribose core

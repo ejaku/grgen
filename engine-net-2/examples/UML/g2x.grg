@@ -31,7 +31,7 @@ rule deleteAUX_Counter(cntr:AUX_Counter) {
 // ****************************************************
 rule toXmi {
 	// search the initial package with value == "Root"
-	rootpack:Package -:name-> rootpackname:String;
+	rootpack:Package -:name_-> rootpackname:String;
   	if { rootpackname.value == "Root"; }
 	modify {
 

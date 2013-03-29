@@ -51,7 +51,7 @@ node class AggregationKind_Value {
 enum ParameterDirectionKind {
 
 	//Indicates that parameter values are passed into the behavioral element by the caller.
-	in,
+	in_,
 	//Indicates that parameter values are passed into a behavioral element by the caller and then back out to the caller from the behavioral element.
 	inout,
 	//Indicates that parameter values are passed from a behavioral element out to the caller.
@@ -282,7 +282,7 @@ edge class general extends attribute connect
 //A parameter is a specification of an argument used to pass information into or out of an invocation of a behavioral feature.
 node class Parameter extends TypedElement, MultiplicityElement {
 
-	direction : ParameterDirectionKind = ParameterDirectionKind::in;
+	direction : ParameterDirectionKind = ParameterDirectionKind::in_;
 
 }
 edge class default extends association connect
@@ -1074,7 +1074,7 @@ edge class changeExpression extends attribute connect
 //A class describes a set of objects that share the same specifications of features, constraints, and semantics.
 node class Class extends BehavioredClassifier {
 
-	isAbstract : boolean = false;
+	isAbstract = false;
 	isActive : boolean = false;
 
 }

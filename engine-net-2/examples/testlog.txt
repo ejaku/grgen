@@ -16,14 +16,12 @@ CompilerOptimization-TTC2011:
   OptimizationDebug.grs -> 0
 ConferenceScheduling-GraBaTs08-Live-Contest-Winning-Solution:
   conference.grs -> 0
-  conferenceShow.grs -> 0
   conferenceassignment4.grs -> 0
+  conferenceShow.grs -> 0
 Connectivity:
   Connectivity.grs -> 0
 ConveyorBeltSystem-GraBaTs09-Live-Contest-Winning-Solution:
   Run.grs -> 0
-DTree:
-  DTree.grs -> 0
 DebugExec:
   debugexec.grs -> 0
 DebugTesting:
@@ -31,8 +29,12 @@ DebugTesting:
 Dragon:
   Dragon.grs -> 0
   DragonDebug.grs -> 0
+DTree:
+  DTree.grs -> 0
 ExternalAttributeEvaluationExample:
   ExternalAttributeEvaluation.grs -> 0
+ExternalFiltersAndSequencesExample:
+  ExternalFiltersAndSequences.grs -> 0
 FiniteStateMachine:
   reduced.grs -> 0
   removeEpsilons.grs -> 0
@@ -133,8 +135,8 @@ Snowflake:
 Transkription:
   Transkription.grs -> 0
 TranskriptionAbstrakt:
-  TranskriptionAbstrakt.grs -> 0
   generateGraph.grs -> 0
+  TranskriptionAbstrakt.grs -> 0
 TranskriptionAbstraktNachAtom:
   TranskriptionAbstraktNachAtom.grs -> 0
 Turing:
@@ -148,16 +150,16 @@ Turing3:
 TuringRubino:
   TuringRubino_BB3.grs -> 0
 UML:
-  StateMachine_001.grs -> 127
-  demo_sm.grs -> 127
-  g2x.grs -> 127
-  test.grs -> 127
-UML2CSP-GraBaTs09:
-  UML2CSP.grs -> 0
+  demo_sm.grs -> 0
+  g2x.grs -> 0
+  test.grs -> 0
 UML2CSP2-GraBaTs08:
+  UML2CSP.grs -> 0
+UML2CSP-GraBaTs09:
   UML2CSP.grs -> 0
 Visualization:
   Debugging.grs -> 0
+  Highlighting.grs -> 0
   Visualization.grs -> 0
 WeakComponents:
   visit.grs -> 0
