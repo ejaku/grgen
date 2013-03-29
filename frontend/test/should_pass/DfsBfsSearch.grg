@@ -1,0 +1,127 @@
+using DfsBfsSearchModel;
+
+ref ::foundInCall:boolean;
+ref ::ctr:int;
+
+earlyOutCondition() : boolean
+{
+	ctr = ctr + 1;
+	if(ctr%2 == 0) {
+		return(true);
+	} else {
+		return(false);
+	}
+}
+
+foundCondition() : boolean
+{
+	return(false);
+}
+
+// bfs with a queue (could assign bfs number when putting to queue, saving the visited flag)
+BreadthFirstSearch(root:WalkOrder) : boolean
+{
+	def ref d:deque<WalkOrder> = deque<WalkOrder>][;
+	def var vis:int = valloc();
+	def var num:int = 0;
+	d.add(root);
+	root.visited[vis] = true;
+	def var found:boolean = false;
+
+	while(!d.empty())
+	{
+		def cur:WalkOrder = d.peek();
+		d.rem();
+		cur.num = num;
+		num = num + 1;
+		for(n:WalkOrder in adjacentOutgoing(cur))
+		{ 
+			if(!n.visited[vis]) {
+				if(earlyOutCondition()) {
+					continue;
+				}
+				if(foundCondition()) {
+					found = true;
+					break;
+				}
+
+				d.add(n);
+				n.visited[vis] = true;
+			}
+		}
+		if(found) {
+			break;
+		}
+	}
+
+	vfree(vis);
+	return(found);
+}
+
+// dfs with a stack (must assign dfs number when removing from stack, so we need a visited flag or an O(n) search on the stack)
+DepthFirstSearch(root:WalkOrder) : boolean
+{
+	def ref a:array<WalkOrder> = array<WalkOrder>[];
+	def var vis:int = valloc();
+	def var num:int = 0;
+	a.add(root);
+	root.visited[vis] = true;
+	def var found:boolean = false;
+
+	while(!a.empty())
+	{
+		def cur:WalkOrder = a.peek();
+		a.rem();
+		cur.num = num;
+		num = num + 1; 
+		for(n:WalkOrder in adjacentOutgoing(cur))
+		{ 
+			if(!n.visited[vis]) {
+				if(earlyOutCondition()) {
+					continue;
+				}
+				if(foundCondition()) {
+					found = true;
+					break;
+				}
+
+				a.add(n);
+				n.visited[vis] = true;
+			}
+		}
+		if(found) {
+			break;
+		}
+	}
+
+	vfree(vis);
+	return(found);
+}
+
+// dfs with implicit call stack (could replace visited flag by checking num for != -1)
+DepthFirstSearchCall(root:WalkOrder, var num:int, var vis:int) : int
+{
+	root.visited[vis] = true;
+	root.num = num;
+	num = num + 1; 
+	::foundInCall = false;
+	
+	for(n:WalkOrder in adjacentOutgoing(root))
+	{ 
+		if(earlyOutCondition()) {
+			continue;
+		}
+		if(foundCondition()) {
+			::foundInCall = true;
+			break;
+		}
+		if(!n.visited[vis]) {
+			num = DepthFirstSearchCall(n, num, vis);
+		}
+		if(::foundInCall) {
+			return(num);
+		}
+	}
+	
+	return(num);
+}
