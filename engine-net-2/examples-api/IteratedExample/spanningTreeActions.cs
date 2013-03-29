@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Feb 17 15:39:31 CET 2013
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Fri Mar 29 08:39:20 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -3233,7 +3233,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[] edgesVisited_isEdgeTotallyHomomorphic = new bool[1] { false,  };
 			GRGEN_LGSP.PatternEdge edgesVisited_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, GRGEN_MODEL.EdgeType_UEdge.typeVar, "GRGEN_LIBGR.IEdge", "edgesVisited_edge_e", "e", edgesVisited_edge_e_AllowedTypes, edgesVisited_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition edgesVisited_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.Visited("edgesVisited_edge_e", new GRGEN_EXPR.Constant("0")),
+				new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("edgesVisited_edge_e"), new GRGEN_EXPR.Constant("0")),
 				new string[] {  }, new string[] { "edgesVisited_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_edgesVisited = new GRGEN_LGSP.PatternGraph(
 				"edgesVisited",
@@ -3476,7 +3476,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[] nodesVisited_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternNode nodesVisited_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "nodesVisited_node_n", "n", nodesVisited_node_n_AllowedTypes, nodesVisited_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition nodesVisited_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.Visited("nodesVisited_node_n", new GRGEN_EXPR.Constant("0")),
+				new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("nodesVisited_node_n"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "nodesVisited_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_nodesVisited = new GRGEN_LGSP.PatternGraph(
 				"nodesVisited",
@@ -4460,6 +4460,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			rules = new GRGEN_LGSP.LGSPRulePattern[9];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[4+9];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
+			computations = new GRGEN_LIBGR.ComputationInfo[0];
 			subpatterns[0] = Pattern_SpanningTree.Instance;
 			rulesAndSubpatterns[0] = Pattern_SpanningTree.Instance;
 			subpatterns[1] = Pattern_SpanningTreeReverse.Instance;
@@ -4495,6 +4496,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
 		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
+		public override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }
+		private GRGEN_LIBGR.ComputationInfo[] computations;
 	}
 
 

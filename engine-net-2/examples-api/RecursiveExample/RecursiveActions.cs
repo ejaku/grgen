@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Feb 17 15:39:47 CET 2013
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Fri Mar 29 08:39:35 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -12119,6 +12119,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			rules = new GRGEN_LGSP.LGSPRulePattern[13];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[10+13];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
+			computations = new GRGEN_LIBGR.ComputationInfo[0];
 			subpatterns[0] = Pattern_ChainFromTo.Instance;
 			rulesAndSubpatterns[0] = Pattern_ChainFromTo.Instance;
 			subpatterns[1] = Pattern_ChainFrom.Instance;
@@ -12174,6 +12175,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
 		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
+		public override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }
+		private GRGEN_LIBGR.ComputationInfo[] computations;
 	}
 
 
