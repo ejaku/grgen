@@ -2039,11 +2039,18 @@ void DumpCommand():
 }
 
 void DumpSet():
-{ }
+{ 
+	int contextDepth = 1;
+}
 {
 	"node" DumpSetNode()
 |
 	"edge" DumpSetEdge()
+|
+	"graph" "exclude" "option" contextDepth=Number() LineEnd()
+	{
+		noError = impl.SetDumpExcludeGraphOption(contextDepth);
+	}
 }
 
 void DumpSetNode():
@@ -2125,6 +2132,11 @@ void DumpAdd():
 	"node" DumpAddNode()
 |
 	"edge" DumpAddEdge()
+|
+	"graph" "exclude" LineEnd()
+	{
+		noError = impl.AddDumpExcludeGraph();
+	}
 }
 
 void DumpAddNode():

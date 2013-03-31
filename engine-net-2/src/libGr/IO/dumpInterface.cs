@@ -284,6 +284,9 @@ namespace de.unika.ipd.grGen.libGr
         GrLineStyle[] edgeLineStyles = new GrLineStyle[4];
         int[] edgeThicknesses = new int[4];
 
+        bool isExcludedGraph = false;
+        int excludeGraphContextDepth = 1;
+
         Dictionary<NodeType, bool> excludedNodeTypes = new Dictionary<NodeType, bool>();
         Dictionary<EdgeType, bool> excludedEdgeTypes = new Dictionary<EdgeType, bool>();
         List<GroupNodeType> groupNodeTypes = new List<GroupNodeType>();
@@ -342,6 +345,26 @@ namespace de.unika.ipd.grGen.libGr
         {
             elementNameGetter = nameGetter;
             InitDumpColors();
+        }
+
+        public void ExcludeGraph()
+        {
+            isExcludedGraph = true;
+        }
+
+        public bool IsExcludedGraph()
+        {
+            return isExcludedGraph;
+        }
+
+        public void SetExcludeGraphContextDepth(int contextDepth)
+        {
+            excludeGraphContextDepth = contextDepth;
+        }
+
+        public int GetExcludeGraphContextDepth()
+        {
+            return excludeGraphContextDepth;
         }
 
         public void ExcludeNodeType(NodeType nodeType)

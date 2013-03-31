@@ -118,6 +118,9 @@ namespace de.unika.ipd.grGen.grShell
         Dictionary<INode, bool> retypedNodes = new Dictionary<INode, bool>();
         Dictionary<IEdge, bool> retypedEdges = new Dictionary<IEdge, bool>();
 
+        Dictionary<INode, bool> excludedGraphNodesIncluded = new Dictionary<INode, bool>();
+        Dictionary<IEdge, bool> excludedGraphEdgesIncluded = new Dictionary<IEdge, bool>();
+
         public YCompClient YCompClient { get { return ycompClient; } }
         public bool ConnectionLost { get { return ycompClient.ConnectionLost; } }
 
@@ -219,7 +222,8 @@ namespace de.unika.ipd.grGen.grShell
                     }
                 }
 
-                UploadGraph();
+                if(!ycompClient.dumpInfo.IsExcludedGraph())
+                    UploadGraph();
             }
             catch(OperationCanceledException)
             {
@@ -2380,10 +2384,134 @@ namespace de.unika.ipd.grGen.grShell
         #endregion Possible user choices during sequence execution
 
 
+        #region Partial graph adding on matches for excluded graph debugging
+
+        private void AddNeededGraphElements(IMatch match)
+        {
+            foreach(INode node in match.Nodes)
+            {
+                if(!excludedGraphNodesIncluded.ContainsKey(node))
+                {
+                    excludedGraphNodesIncluded.Add(node, true);
+                    ycompClient.AddNode(node);
+                }
+            }
+            foreach(IEdge edge in match.Edges)
+            {
+                if(!excludedGraphEdgesIncluded.ContainsKey(edge))
+                {
+                    excludedGraphEdgesIncluded.Add(edge, true);
+                    ycompClient.AddEdge(edge);
+                }
+            }
+            AddNeededGraphElements(match.EmbeddedGraphs);
+            foreach(IMatches iteratedsMatches in match.Iterateds)
+                AddNeededGraphElements(iteratedsMatches);
+            AddNeededGraphElements(match.Alternatives);
+            AddNeededGraphElements(match.Independents);
+        }
+
+        private void AddNeededGraphElements(IEnumerable<IMatch> matches)
+        {
+            foreach(IMatch match in matches)
+            {
+                AddNeededGraphElements(match);
+            }
+        }
+
+        private void AddDirectNeighboursOfNeededGraphElements(Set<INode> nodesIncluded)
+        {
+            foreach(INode node in nodesIncluded)
+            {
+                foreach(IEdge edge in node.Incident)
+                {
+                    if(!excludedGraphNodesIncluded.ContainsKey(node))
+                    {
+                        excludedGraphNodesIncluded.Add(node, true);
+                        ycompClient.AddNode(node);
+                    }
+                    if(!excludedGraphEdgesIncluded.ContainsKey(edge))
+                    {
+                        excludedGraphEdgesIncluded.Add(edge, true);
+                        ycompClient.AddEdge(edge);
+                    }
+                }
+            }
+            foreach(INode node in excludedGraphNodesIncluded.Keys)
+                if(!nodesIncluded.Contains(node))
+                    nodesIncluded.Add(node);
+        }
+
+        private void AddParentsOfNeededGraphElements(Set<INode> latelyAddedNodes)
+        {
+            Set<INode> newlyAddedNodes = new Set<INode>();
+
+            // wavefront algorithm, in the following step all nodes added by the previous step are inspected,
+            // until the wave collapses cause no not already added node is added any more
+            while(latelyAddedNodes.Count > 0)
+            {
+                foreach(INode node in latelyAddedNodes)
+                {
+                    bool parentFound = false;
+                    foreach(GroupNodeType groupNodeType in ycompClient.dumpInfo.GroupNodeTypes)
+                    {
+                        foreach(IEdge edge in node.Incoming)
+                        {
+                            INode parent = edge.Source;
+                            if(!groupNodeType.NodeType.IsMyType(parent.Type.TypeID)) continue;
+                            GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, node.Type);
+                            if((grpMode & GroupMode.GroupOutgoingNodes) == 0) continue;
+                            if(!excludedGraphNodesIncluded.ContainsKey(parent))
+                            {
+                                newlyAddedNodes.Add(parent);
+                                ycompClient.AddNode(parent);
+                                excludedGraphNodesIncluded.Add(parent, true);
+                                ycompClient.AddEdge(edge);
+                                if(!excludedGraphEdgesIncluded.ContainsKey(edge))
+                                    excludedGraphEdgesIncluded.Add(edge, true);
+                            }
+                            parentFound = true;
+                        }
+                        if(parentFound)
+                            break;
+                        foreach(IEdge edge in node.Outgoing)
+                        {
+                            INode parent = edge.Target;
+                            if(!groupNodeType.NodeType.IsMyType(parent.Type.TypeID)) continue;
+                            GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, node.Type);
+                            if((grpMode & GroupMode.GroupIncomingNodes) == 0) continue;
+                            if(!excludedGraphNodesIncluded.ContainsKey(parent))
+                            {
+                                newlyAddedNodes.Add(parent);
+                                ycompClient.AddNode(parent);
+                                excludedGraphNodesIncluded.Add(parent, true);
+                                ycompClient.AddEdge(edge);
+                                if(!excludedGraphEdgesIncluded.ContainsKey(edge))
+                                    excludedGraphEdgesIncluded.Add(edge, true);
+                            }
+                            parentFound = true;
+                        }
+                        if(parentFound)
+                            break;
+                    }
+                }
+                Set<INode> tmp = latelyAddedNodes;
+                latelyAddedNodes = newlyAddedNodes;
+                newlyAddedNodes = tmp;
+                newlyAddedNodes.Clear();
+            }
+        }
+
+        #endregion Partial graph adding on matches for excluded graph debugging
+
+
         #region Event Handling
 
         void DebugNodeAdded(INode node)
         {
+            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+                return;
+
             ycompClient.AddNode(node);
             if(recordMode)
             {
@@ -2395,6 +2523,9 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugEdgeAdded(IEdge edge)
         {
+            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+                return;
+            
             ycompClient.AddEdge(edge);
             if(recordMode)
             {
@@ -2406,6 +2537,9 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugDeletingNode(INode node)
         {
+            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+                return;
+            
             if(!recordMode)
             {
                 ycompClient.DeleteNode(node);
@@ -2424,6 +2558,9 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugDeletingEdge(IEdge edge)
         {
+            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+                return;
+            
             if(!recordMode)
             {
                 ycompClient.DeleteEdge(edge);
@@ -2442,23 +2579,35 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugClearingGraph()
         {
+            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+                return;
+            
             ycompClient.ClearGraph();
         }
 
         void DebugChangingNodeAttribute(INode node, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
+            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+                return;
+            
             ycompClient.ChangeNodeAttribute(node, attrType, changeType, newValue, keyValue);
         }
 
         void DebugChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
+            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+                return;
+            
             ycompClient.ChangeEdgeAttribute(edge, attrType, changeType, newValue, keyValue);
         }
 
         void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
+            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+                return;
+            
             ycompClient.RetypingElement(oldElem, newElem);
             if(!recordMode) return;
 
@@ -2544,6 +2693,32 @@ namespace de.unika.ipd.grGen.grShell
             annotatedEdges.Clear();
 
             curRulePattern = matches.Producer.RulePattern;
+
+            if(ycompClient.dumpInfo.IsExcludedGraph())
+            {
+                if(!recordMode)
+                {
+                    ycompClient.ClearGraph();
+                    excludedGraphNodesIncluded.Clear();
+                    excludedGraphEdgesIncluded.Clear();
+                }
+
+                // add all elements from match to graph and excludedGraphElementsIncluded
+                if(match != null)
+                    AddNeededGraphElements(match);
+                else
+                    AddNeededGraphElements(matches);
+
+                // add all neighbours of elements to graph and excludedGraphElementsIncluded (1-level direct context by default, maybe overriden by user)
+                Set<INode> nodesIncluded = new Set<INode>(); // second variable needed to prevent disturbing iteration
+                foreach(INode node in excludedGraphNodesIncluded.Keys)
+                    nodesIncluded.Add(node);
+                for(int i = 0; i < ycompClient.dumpInfo.GetExcludeGraphContextDepth(); ++i)
+                    AddDirectNeighboursOfNeededGraphElements(nodesIncluded);
+
+                // add all parents of elements to graph and excludedGraphElementsIncluded (n-level nesting)
+                AddParentsOfNeededGraphElements(nodesIncluded);
+            }
 
             if(match!=null)
                 MarkMatch(match, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);

@@ -3775,6 +3775,18 @@ showavail:
             return true;
         }
 
+        public bool AddDumpExcludeGraph()
+        {
+            curShellProcEnv.DumpInfo.ExcludeGraph();
+            return true;
+        }
+
+        public bool SetDumpExcludeGraphOption(int contextDepth)
+        {
+            curShellProcEnv.DumpInfo.SetExcludeGraphContextDepth(contextDepth);
+            return true;
+        }
+
         public bool AddDumpExcludeNodeType(NodeType nodeType, bool only)
         {
             if(nodeType == null) return false;
