@@ -137,7 +137,7 @@ namespace de.unika.ipd.grGen.grShell
 
         INamedGraph graph;
         
-        DumpInfo dumpInfo;
+        public DumpInfo dumpInfo;
 
         bool isDirty = false;
         bool isLayoutDirty = false;
