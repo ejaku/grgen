@@ -1349,8 +1349,8 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.AppendFront("object " + emitVar + " = ");
             ToEmitExpression.Emit(sourceCode);
             sourceCode.Append(";\n");
-            sourceCode.Append("\t\t\tif(" + emitVar + " != null)\n");
-            sourceCode.Append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
+            sourceCode.AppendFront("if(" + emitVar + " != null)\n");
+            sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
                     + "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + emitVar + ", graph));\n");
         }
 
@@ -1360,6 +1360,64 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression ToEmitExpression;
+    }
+
+    /// <summary>
+    /// Class representing a highlight statement
+    /// </summary>
+    public class HighlightStatement : Yielding
+    {
+        public HighlightStatement(Expression[] values, string[] sourceNames)
+        {
+            Values = values;
+            SourceNames = sourceNames;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Expression[] valuesCopy = new Expression[Values.Length];
+            for(int i = 0; i < Values.Length; ++i)
+                valuesCopy[i] = Values[i].Copy(renameSuffix);
+            return new HighlightStatement(Values, SourceNames);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String highlightValuesArray = "highlight_values_" + fetchId().ToString();
+		    sourceCode.AppendFront("List<object> " + highlightValuesArray + " = new List<object>();");
+    	    String highlightSourceNamesArray = "highlight_source_names_" + fetchId().ToString();
+		    sourceCode.AppendFront("List<string> " + highlightSourceNamesArray + " = new List<string>();");
+            foreach(Expression value in Values)
+            {
+			    sourceCode.AppendFront(highlightValuesArray + ".Add(");
+			    value.Emit(sourceCode);
+			    sourceCode.Append(");\n");
+            }
+            foreach(String sourceName in SourceNames)
+            {
+                sourceCode.AppendFront(highlightSourceNamesArray + ".Add(");
+                if(sourceName != null)
+                {
+                    sourceCode.Append("\"");
+                    sourceCode.Append(sourceName);
+                    sourceCode.Append("\"");
+                }
+                else
+                    sourceCode.Append("null");
+                sourceCode.Append(");\n");
+            }
+            sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).UserProxy.Highlight"
+				    + "(" + highlightValuesArray + ", " + highlightSourceNamesArray + ");\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(Expression expr in Values)
+                yield return expr;
+        }
+
+        Expression[] Values;
+        String[] SourceNames;
     }
 
     /// <summary>
@@ -1383,8 +1441,8 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.AppendFront("object " + recordVar + " = ");
             ToRecordExpression.Emit(sourceCode);
             sourceCode.Append(";\n");
-            sourceCode.Append("\t\t\tif(" + recordVar + " != null)\n");
-            sourceCode.Append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
+            sourceCode.AppendFront("if(" + recordVar + " != null)\n");
+            sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
                     + "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + recordVar + ", graph));\n");
         }
 

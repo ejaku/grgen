@@ -15,6 +15,7 @@ namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// A proxy querying or simulating a user for choices during sequence execution
+    /// TODO: general user proxy, not just for sequence execution
     /// </summary>
     public interface IUserProxyForSequenceExecution
     {
@@ -70,6 +71,11 @@ namespace de.unika.ipd.grGen.libGr
         /// highlights the arguments in the graphs if debugging is active
         /// </summary>
         void Highlight(string arguments, Sequence seq);
+
+        /// <summary>
+        /// highlights the values in the graphs if debugging is active (annotating them with the source names)
+        /// </summary>
+        void Highlight(List<object> values, List<string> sourceNames);
     }
 
 

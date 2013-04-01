@@ -3019,7 +3019,7 @@ options { k = 5; }
 	  (i=IDENT | i=EMIT) params=paramExprs[false] SEMI
 			{ 
 				if(    i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
-					|| i.getText().equals("record") || i.getText().equals("emit") 
+					|| i.getText().equals("record") || i.getText().equals("emit") || i.getText().equals("highlight") 
 					|| i.getText().equals("rem") || i.getText().equals("clear")
 					|| i.getText().equals("merge")
 					|| i.getText().equals("redirectSource") || i.getText().equals("redirectTarget")
