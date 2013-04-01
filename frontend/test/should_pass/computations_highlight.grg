@@ -1,0 +1,33 @@
+using model_init;
+
+foo(n:Node) : string
+{
+	highlight(42, n, "bar");
+	return("muh");
+}
+
+test t()
+{
+	independent {
+		n:Node;
+		yield {
+			highlight(42, n, "bar");
+		}
+	}
+}
+
+rule r()
+{	
+	n:Node;
+	modify {
+		def var vis:int;
+		def var res:string;
+		
+		eval { 
+			highlight(42, n, "bar");
+		}
+		eval {
+			highlight(n, n, res, vis, "foo");
+		}
+	}
+}

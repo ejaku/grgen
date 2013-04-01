@@ -364,5 +364,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             // nop
         }
+
+        public void Highlight(List<object> values, List<string> sourceNames)
+        {
+            // nop
+        }
     }
 }

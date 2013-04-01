@@ -1974,6 +1974,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof EmitStatement) {
 			genEmitStatement(sb, state, (EmitStatement) evalStmt);
 		}
+		else if(evalStmt instanceof HighlightStatement) {
+			genHighlightStatement(sb, state, (HighlightStatement) evalStmt);
+		}
 		else if(evalStmt instanceof RecordStatement) {
 			genRecordStatement(sb, state, (RecordStatement) evalStmt);
 		}
@@ -3377,6 +3380,31 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\tif(" + emitVar + " != null)\n");
 		sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
 				+ "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + emitVar + ", graph));\n");
+	}
+
+	private void genHighlightStatement(StringBuffer sb, ModifyGenerationStateConst state, HighlightStatement hs) {
+    	String highlightValuesArray = "highlight_values_" + tmpVarID++;
+		sb.append("\t\t\tList<object> " + highlightValuesArray + " = new List<object>();\n");
+    	String highlightSourceNamesArray = "highlight_source_names_" + tmpVarID++;
+		sb.append("\t\t\tList<string> " + highlightSourceNamesArray + " = new List<string>();\n");
+		for(Expression expr : hs.getToHighlightExpressions()) {
+			sb.append("\t\t\t" + highlightValuesArray + ".Add(");
+			genExpression(sb, expr, state);
+			sb.append(");\n");
+			if(expr instanceof GraphEntityExpression) {
+				sb.append("\t\t\t" + highlightSourceNamesArray + ".Add(\"");
+				sb.append(formatIdentifiable(((GraphEntityExpression)expr).getGraphEntity()));
+				sb.append("\");\n");
+			} else if(expr instanceof VariableExpression) {
+				sb.append("\t\t\t" + highlightSourceNamesArray + ".Add(\"");
+				sb.append(formatIdentifiable(((VariableExpression)expr).getVariable()));
+				sb.append("\");\n");
+			} else {
+				sb.append("\t\t\t" + highlightSourceNamesArray + ".Add(null);\n");
+			}
+		}
+		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).UserProxy.Highlight"
+				+ "(" + highlightValuesArray + ", " + highlightSourceNamesArray + ");\n");
 	}
 
 	private void genRecordStatement(StringBuffer sb, ModifyGenerationStateConst state, RecordStatement rs) {

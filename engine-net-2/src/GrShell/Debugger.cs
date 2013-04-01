@@ -601,51 +601,67 @@ namespace de.unika.ipd.grGen.grShell
         {
             Console.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
             String str = Console.ReadLine();
-            HandleHighlight(seq, str);
+            List<object> values;
+            List<string> annotations;
+            ComputeHighlight(seq, str, out values, out annotations);
+            DoHighlight(values, annotations);
         }
 
         void HandleHighlight(Sequence seq, String str)
         {
-            if(str.Length > 0)
-            {
-                string[] arguments = str.Split(',');
-
-                for(int i = 0; i < arguments.Length; ++i)
-                {
-                    string argument = arguments[i].Trim();
-                    HandleHighlightArgument(seq, argument, true);
-                }
-
-                foreach(KeyValuePair<INode, string> nodeToName in annotatedNodes)
-                    ycompClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
-                foreach(KeyValuePair<IEdge, string> edgeToName in annotatedEdges)
-                    ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
-
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
-                Console.WriteLine("Press any key to continue...");
-                ReadKeyWithCancel();
-
-                for(int i = 0; i < arguments.Length; ++i)
-                {
-                    string argument = arguments[i].Trim();
-                    HandleHighlightArgument(seq, argument, false);
-                }
-
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
-            }
-
-            Console.WriteLine("End of highlighting");
+            List<object> values;
+            List<string> annotations;
+            ComputeHighlight(seq, str, out values, out annotations);
+            DoHighlight(values, annotations);
         }
 
-        private void HandleHighlightArgument(Sequence seq, string argument, bool addAnnotation)
+        void HandleHighlight(List<object> originalValues, List<string> sourceNames)
         {
-            // visited flag directly given
+            List<object> values;
+            List<string> annotations;
+            ComputeHighlight(originalValues, sourceNames, out values, out annotations);
+            DoHighlight(values, annotations);
+        }
+
+        void ComputeHighlight(Sequence seq, String str, out List<object> values, out List<string> annotations)
+        {
+            values = new List<object>();
+            annotations = new List<string>();
+
+            if(str.Length == 0)
+                return;
+
+            string[] arguments = str.Split(',');
+
+            for(int i = 0; i < arguments.Length; ++i)
+            {
+                string argument = arguments[i].Trim();
+                if(i + 1 < arguments.Length)
+                {
+                    string potentialAnnotationArgument = arguments[i + 1];
+                    if(potentialAnnotationArgument.StartsWith("\"") && potentialAnnotationArgument.EndsWith("\"")
+                        || potentialAnnotationArgument.StartsWith("'") && potentialAnnotationArgument.EndsWith("'"))
+                    {
+                        ComputeHighlightArgument(seq, argument, potentialAnnotationArgument.Substring(1, argument.Length-2), values, annotations);
+                        ++i; // skip the annotation argument
+                    }
+                }
+                else
+                    ComputeHighlightArgument(seq, argument, null, values, annotations);
+            }
+        }
+
+        private void ComputeHighlightArgument(Sequence seq, string argument, string annotation, List<object> sources, List<string> annotations)
+        {
+            // visited flag directly given as constant
             int num;
             if(int.TryParse(argument, out num))
             {
-                HighlightValue(num, num.ToString(), addAnnotation);
+                sources.Add(num);
+                if(annotation != null)
+                    annotations.Add(annotation);
+                else
+                    annotations.Add(num.ToString());
                 return;
             }
 
@@ -657,7 +673,11 @@ namespace de.unika.ipd.grGen.grShell
             {
                 if(var.Name == argument)
                 {
-                    HighlightValue(var.Value, var.Name, addAnnotation);
+                    sources.Add(var.Value);
+                    if(annotation != null)
+                        annotations.Add(annotation);
+                    else
+                        annotations.Add(var.Name);
                     return;
                 }
             }
@@ -665,12 +685,83 @@ namespace de.unika.ipd.grGen.grShell
             {
                 if(var.Name == argument)
                 {
-                    HighlightValue(var.Value, var.Name, addAnnotation);
+                    sources.Add(var.Value);
+                    if(annotation != null)
+                        annotations.Add(annotation);
+                    else
+                        annotations.Add(var.Name);
                     return;
                 }
             }
             Console.WriteLine("Unknown variable " + argument + "!");
             Console.WriteLine("Use v(ariables) to print variables and visited flags.");
+        }
+
+        void ComputeHighlight(List<object> originalValues, List<string> sourceNames, out List<object> values, out List<string> annotations)
+        {
+            values = new List<object>();
+            annotations = new List<string>();
+
+            for(int i = 0; i < originalValues.Count; ++i)
+            {
+                object originalValue = originalValues[i];
+                if(i + 1 < originalValues.Count)
+                {
+                    object potentialAnnotation = originalValues[i + 1];
+                    if(potentialAnnotation is String)
+                    {
+                        values.Add(originalValue);
+                        annotations.Add(potentialAnnotation as String);
+                        ++i; // skip the annotation value
+                    }
+                }
+                else
+                {
+                    values.Add(originalValue);
+                    annotations.Add(sourceNames[i]);
+                }
+            }
+        }
+
+        void DoHighlight(List<object> sources, List<string> annotations)
+        {
+            if(ycompClient.dumpInfo.IsExcludedGraph())
+            {
+                ycompClient.ClearGraph();
+                excludedGraphNodesIncluded.Clear();
+                excludedGraphEdgesIncluded.Clear();
+            }
+
+            for(int i = 0; i < sources.Count; ++i)
+            {
+                HighlightValue(sources[i], annotations[i], true);
+            }
+
+            if(ycompClient.dumpInfo.IsExcludedGraph())
+            {
+                // highlight values added in highlight value calls to excludedGraphNodesIncluded
+                AddNeighboursAndParentsOfNeededGraphElements();
+            }
+
+            foreach(KeyValuePair<INode, string> nodeToName in annotatedNodes)
+                ycompClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
+            foreach(KeyValuePair<IEdge, string> edgeToName in annotatedEdges)
+                ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+            Console.WriteLine("Press any key to continue...");
+            ReadKeyWithCancel();
+
+            for(int i = 0; i < sources.Count; ++i)
+            {
+                HighlightValue(sources[i], annotations[i], false);
+            }
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            Console.WriteLine("End of highlighting");
         }
 
         void HighlightValue(object value, string name, bool addAnnotation)
@@ -805,6 +896,15 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(addAnnotation)
             {
+                if(ycompClient.dumpInfo.IsExcludedGraph())
+                {
+                    if(!excludedGraphNodesIncluded.ContainsKey(node))
+                    {
+                        ycompClient.AddNode(node);
+                        excludedGraphNodesIncluded.Add(node, true);
+                    }
+                }
+
                 ycompClient.ChangeNode(node, realizers.MatchedNodeRealizer);
                 if(annotatedNodes.ContainsKey(node))
                     annotatedNodes[node] += ", " + name;
@@ -823,6 +923,15 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(addAnnotation)
             {
+                if(ycompClient.dumpInfo.IsExcludedGraph())
+                {
+                    if(!excludedGraphEdgesIncluded.ContainsKey(edge))
+                    {
+                        ycompClient.AddEdge(edge);
+                        excludedGraphEdgesIncluded.Add(edge, true);
+                    }
+                }
+
                 ycompClient.ChangeEdge(edge, realizers.MatchedEdgeRealizer);
                 if(annotatedEdges.ContainsKey(edge))
                     annotatedEdges[edge] += ", " + name;
@@ -2381,6 +2490,15 @@ namespace de.unika.ipd.grGen.grShell
             HandleHighlight(seq, arguments);
         }
 
+        /// <summary>
+        /// highlights the values in the graphs if debugging is active (annotating them with the source names)
+        /// </summary>
+        public void Highlight(List<object> values, List<string> sourceNames)
+        {
+            Console.WriteLine("Highlighting called...");
+            HandleHighlight(values, sourceNames);
+        }
+
         #endregion Possible user choices during sequence execution
 
 
@@ -2417,6 +2535,19 @@ namespace de.unika.ipd.grGen.grShell
             {
                 AddNeededGraphElements(match);
             }
+        }
+
+        private void AddNeighboursAndParentsOfNeededGraphElements()
+        {
+            // add all neighbours of elements to graph and excludedGraphElementsIncluded (1-level direct context by default, maybe overriden by user)
+            Set<INode> nodesIncluded = new Set<INode>(); // second variable needed to prevent disturbing iteration
+            foreach(INode node in excludedGraphNodesIncluded.Keys)
+                nodesIncluded.Add(node);
+            for(int i = 0; i < ycompClient.dumpInfo.GetExcludeGraphContextDepth(); ++i)
+                AddDirectNeighboursOfNeededGraphElements(nodesIncluded);
+
+            // add all parents of elements to graph and excludedGraphElementsIncluded (n-level nesting)
+            AddParentsOfNeededGraphElements(nodesIncluded);
         }
 
         private void AddDirectNeighboursOfNeededGraphElements(Set<INode> nodesIncluded)
@@ -2709,15 +2840,7 @@ namespace de.unika.ipd.grGen.grShell
                 else
                     AddNeededGraphElements(matches);
 
-                // add all neighbours of elements to graph and excludedGraphElementsIncluded (1-level direct context by default, maybe overriden by user)
-                Set<INode> nodesIncluded = new Set<INode>(); // second variable needed to prevent disturbing iteration
-                foreach(INode node in excludedGraphNodesIncluded.Keys)
-                    nodesIncluded.Add(node);
-                for(int i = 0; i < ycompClient.dumpInfo.GetExcludeGraphContextDepth(); ++i)
-                    AddDirectNeighboursOfNeededGraphElements(nodesIncluded);
-
-                // add all parents of elements to graph and excludedGraphElementsIncluded (n-level nesting)
-                AddParentsOfNeededGraphElements(nodesIncluded);
+                AddNeighboursAndParentsOfNeededGraphElements();
             }
 
             if(match!=null)

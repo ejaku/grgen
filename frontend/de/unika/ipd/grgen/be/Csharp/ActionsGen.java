@@ -3470,6 +3470,10 @@ public class ActionsGen extends CSharpBase {
 			genEmitStatement(sb, (EmitStatement) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
+		else if(evalStmt instanceof HighlightStatement) {
+			genHighlightStatement(sb, (HighlightStatement) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
 		else if(evalStmt instanceof RecordStatement) {
 			genRecordStatement(sb, (RecordStatement) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -3976,6 +3980,29 @@ public class ActionsGen extends CSharpBase {
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.EmitStatement(");
 		genExpressionTree(sb, es.getToEmitExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(")");
+	}
+
+	private void genHighlightStatement(StringBuffer sb, HighlightStatement hs,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.HighlightStatement(");
+		sb.append("new GRGEN_EXPR.Expression[] { ");
+		for(Expression expr : hs.getToHighlightExpressions()) {
+			genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+		}
+		sb.append("}, ");
+		sb.append("new string[] { ");
+		for(Expression expr : hs.getToHighlightExpressions()) {
+			if(expr instanceof VariableExpression) {
+				sb.append("\"");
+				formatIdentifiable(((VariableExpression)expr).getVariable());
+				sb.append("\", ");
+			} else {
+				sb.append("null, ");
+			}
+		}
+		sb.append("}");
 		sb.append(")");
 	}
 

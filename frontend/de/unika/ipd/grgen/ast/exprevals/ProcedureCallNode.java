@@ -117,6 +117,13 @@ public class ProcedureCallNode extends EvalStatementNode
 				result = new EmitStatementNode(getCoords(), params.get(0));
 			}
 		}
+		else if(procedureName.equals("highlight")) {
+			HighlightStatementNode highlight = new HighlightStatementNode(getCoords());
+			for(ExprNode param : params.getChildren()) {
+				highlight.addExpressionToHighlight(param);
+			}
+			result = highlight;
+		}
 		else if(procedureName.equals("merge")) {
 			if(params.size() < 2 || params.size() > 3) {
 				reportError("merge(target,source,oldSourceName) takes two or three parameters.");
