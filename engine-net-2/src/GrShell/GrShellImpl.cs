@@ -255,6 +255,7 @@ namespace de.unika.ipd.grGen.grShell
         bool pendingDebugEnable = false;
         String debugLayout = "Orthogonal";
         public bool nonDebugNonGuiExitOnError = false;
+        public bool showIncludes = false;
         public TextWriter debugOut = System.Console.Out;
         public TextWriter errOut = System.Console.Error;
         public IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
@@ -1136,6 +1137,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             try
             {
+                if(showIncludes)
+                    debugOut.WriteLine("Including " + filename);
                 TextReader reader = null;
                 if (filename.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
                     FileStream filereader = new FileStream(filename, FileMode.Open,  FileAccess.Read);
@@ -1158,12 +1161,17 @@ namespace de.unika.ipd.grGen.grShell
                         while(!grShell.Quit && !grShell.Eof)
                         {
                             if(!grShell.ParseShellCommand())
+                            {
+                                errOut.WriteLine("Shell command parsing failed in include of \"" + filename + "\" (at nesting level " + TokenSourceStack.Count + ")");
                                 return false;
+                            }
                         }
                         grShell.Eof = false;
                     }
                     finally
                     {
+                        if(showIncludes)
+                            debugOut.WriteLine("Leaving " + filename);
                         TokenSourceStack.RemoveFirst();
                         grShell.ReInit(TokenSourceStack.First.Value);
                         grShell.ShowPrompt = oldShowPrompt;

@@ -35,6 +35,7 @@ PARSER_BEGIN(GrShell)
             ArrayList scriptFilename = new ArrayList();
             bool showUsage = false;
             bool nonDebugNonGuiExitOnError = false;
+            bool showIncludes = false;
 			int errorCode = 0; // 0==success, the return value
 
             GrShellImpl.PrintVersion();
@@ -65,6 +66,10 @@ PARSER_BEGIN(GrShell)
                     else if(args[i] == "-N")
                     {
                         nonDebugNonGuiExitOnError = true;
+                    }
+                    else if(args[i] == "-SI")
+                    {
+                        showIncludes = true;
                     }
                     else if(args[i] == "--help")
                     {
@@ -107,7 +112,9 @@ PARSER_BEGIN(GrShell)
                 Console.WriteLine("Options:");
                 Console.WriteLine("  -C <command> Specifies a command to be executed >first<. Using");
                 Console.WriteLine("               ';;' as a delimiter it can actually contain multiple shell commands");
+                Console.WriteLine("               Use '#\u00A7' in that case to terminate contained exec.");
                 Console.WriteLine("  -N           non-interactive non-gui shell which exits on error instead of waiting for user input");
+                Console.WriteLine("  -SI          prints to console when includes are entered and exited");
                 Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
                 return errorCode;
             }
@@ -152,6 +159,7 @@ PARSER_BEGIN(GrShell)
             shell.impl = new GrShellImpl();
             shell.impl.TokenSourceStack.AddFirst(shell.token_source);
             shell.impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
+			shell.impl.showIncludes = showIncludes;
             try
             {
                 while(!shell.Quit && !shell.Eof)
@@ -394,7 +402,7 @@ TOKEN: {
 }
 
 SPECIAL_TOKEN: {
-	< SINGLE_LINE_COMMENT: "#" (~["\n", "\r", "#"])* ("#")?>
+	< SINGLE_LINE_COMMENT: "#" (~["\n", "\r", "\u00A7"])* ("\u00A7")? > // \u00A7 == "§"
 }
 
 <WithinFilename> SKIP: {
@@ -1386,6 +1394,7 @@ void ShellCommand():
     }
     catch(ParseException ex)
     {
+		Console.WriteLine(ex.Message);
         throw new ParseException("Unknown command. Enter \"help\" to get a list of commands.");
     }
 }
@@ -1448,6 +1457,7 @@ void NewCommand():
 	}
 	catch(ParseException ex)
 	{
+		Console.WriteLine(ex.Message);
 		Console.WriteLine("Invalid command!");
 		impl.HelpNew(new List<String>());
 		errorSkipSilent();
@@ -1579,6 +1589,7 @@ void SelectCommand():
 	}
 	catch(ParseException ex)
 	{
+		Console.WriteLine(ex.Message);
 		Console.WriteLine("Invalid command!");
 		impl.HelpSelect(new List<String>());
 		errorSkipSilent();
@@ -1625,6 +1636,7 @@ void DeleteCommand():
 	}
 	catch(ParseException ex)
 	{
+		Console.WriteLine(ex.Message);
 		Console.WriteLine("Invalid command!");
 		impl.HelpDelete(new List<String>());
 		errorSkipSilent();
@@ -1653,6 +1665,7 @@ void RetypeCommand():
 	}
 	catch(ParseException ex)
 	{
+		Console.WriteLine(ex.Message);
 		Console.WriteLine("Invalid command!");
 		impl.HelpRetype(new List<String>());
 		errorSkipSilent();
@@ -1681,6 +1694,7 @@ void RedirectCommand():
 	}
 	catch(ParseException ex)
 	{
+		Console.WriteLine(ex.Message);
 		Console.WriteLine("Invalid command!");
 		impl.HelpRedirect(new List<String>());
 		errorSkipSilent();
@@ -1763,6 +1777,7 @@ void ShowCommand():
 	}
 	catch(ParseException ex)
 	{
+		Console.WriteLine(ex.Message);
 		Console.WriteLine("Invalid command!");
 		impl.HelpShow(new List<String>());
 		errorSkipSilent();
@@ -1938,6 +1953,7 @@ void DebugCommand():
 	}
 	catch(ParseException ex)
 	{
+		Console.WriteLine(ex.Message);
 		Console.WriteLine("Invalid command!");
 		impl.HelpDebug(new List<String>());
 		errorSkipSilent();
@@ -2031,6 +2047,7 @@ void DumpCommand():
 	}
 	catch(ParseException ex)
 	{
+		Console.WriteLine(ex.Message);
 		Console.WriteLine("Invalid command!");
 		impl.HelpDump(new List<String>());
 		errorSkipSilent();
