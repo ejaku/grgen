@@ -20,9 +20,9 @@ namespace de.unika.ipd.grGen.libGr
         UnknownRuleOrSequence,
 
         /// <summary>
-        /// The computation is unknown.
+        /// The function is unknown.
         /// </summary>
-        UnknownComputation,
+        UnknownFunction,
 
         /// <summary>
         /// The number of parameters and/or return parameters does not match the action.
@@ -296,7 +296,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                // TODO: computation
+                // TODO: function
 
                 if (this.Action == null && this.Kind != SequenceParserError.TypeMismatch && this.Kind != SequenceParserError.FilterError) {
                     return "Unknown rule/sequence: \"" + this.Name + "\"";

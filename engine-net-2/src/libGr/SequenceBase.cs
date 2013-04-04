@@ -143,18 +143,18 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Helper for checking computation calls.
+        /// Helper for checking function calls.
         /// Checks whether called entity exists, and type checks the input.
         /// Throws an exception when an error is found.
         /// </summary>
-        /// <param name="seq">The sequence to check, must be a computation call</param>
-        public void CheckComputationCall(SequenceExpression seq)
+        /// <param name="seq">The sequence to check, must be a function call</param>
+        public void CheckFunctionCall(SequenceExpression seq)
         {
-            InvocationParameterBindings paramBindings = (seq as SequenceExpressionComputationCall).ParamBindings;
+            InvocationParameterBindings paramBindings = (seq as SequenceExpressionFunctionCall).ParamBindings;
 
             // check the name against the available names
             if(!IsCalledEntityExisting(paramBindings))
-                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownComputation);
+                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownFunction);
 
             // Check whether number of parameters and return parameters match
             if(NumInputParameters(paramBindings) != paramBindings.ArgumentExpressions.Length)
@@ -258,8 +258,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                ComputationInvocationParameterBindings compParamBindings = (ComputationInvocationParameterBindings)paramBindings;
-                return compParamBindings.ComputationDef != null;
+                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return compParamBindings.FunctionDef != null;
             }
         }
 
@@ -286,8 +286,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                ComputationInvocationParameterBindings compParamBindings = (ComputationInvocationParameterBindings)paramBindings;
-                return compParamBindings.ComputationDef.inputs.Length;
+                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return compParamBindings.FunctionDef.inputs.Length;
             }
         }
 
@@ -337,8 +337,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                ComputationInvocationParameterBindings compParamBindings = (ComputationInvocationParameterBindings)paramBindings;
-                return TypesHelper.DotNetTypeToXgrsType(compParamBindings.ComputationDef.inputs[i]);
+                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return TypesHelper.DotNetTypeToXgrsType(compParamBindings.FunctionDef.inputs[i]);
             }
         }
 
@@ -378,16 +378,16 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceCheckingEnvironmentCompiled : SequenceCheckingEnvironment
     {
         // constructor for compiled sequences
-        public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames, String[] computationNames,
+        public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames, String[] functionNames,
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
-            Dictionary<String, List<String>> computationsToInputTypes, Dictionary<String, String> computationsToOutputType,
+            Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType,
             IGraphModel model)
         {
             this.ruleNames = ruleNames;
             this.sequenceNames = sequenceNames;
-            this.computationNames = computationNames;
+            this.functionNames = functionNames;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
             this.rulesToFilters = rulesToFilters;
@@ -395,8 +395,8 @@ namespace de.unika.ipd.grGen.libGr
             this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
             this.sequencesToOutputTypes = sequencesToOutputTypes;
-            this.computationsToInputTypes = computationsToInputTypes;
-            this.computationsToOutputType = computationsToOutputType;
+            this.functionsToInputTypes = functionsToInputTypes;
+            this.functionsToOutputType = functionsToOutputType;
             this.model = model;
         }
 
@@ -408,8 +408,8 @@ namespace de.unika.ipd.grGen.libGr
         // the sequence names available in the .grg to compile
         private String[] sequenceNames;
 
-        // the computation names available in the .grg to compile
-        private String[] computationNames;
+        // the function names available in the .grg to compile
+        private String[] functionNames;
 
         // maps rule names available in the .grg to compile to the list of the input typ names
         private Dictionary<String, List<String>> rulesToInputTypes;
@@ -429,10 +429,10 @@ namespace de.unika.ipd.grGen.libGr
         // maps sequence names available in the .grg to compile to the list of the output typ names
         private Dictionary<String, List<String>> sequencesToOutputTypes;
 
-        // maps computation names available in the .grg to compile to the list of the input typ names
-        Dictionary<String, List<String>> computationsToInputTypes;
-        // maps computation names available in the .grg to compile to the list of the output typ names
-        Dictionary<String, String> computationsToOutputType;
+        // maps function names available in the .grg to compile to the list of the input typ names
+        Dictionary<String, List<String>> functionsToInputTypes;
+        // maps function names available in the .grg to compile to the list of the output typ name
+        Dictionary<String, String> functionsToOutputType;
 
         // returns rule or sequence name to input types dictionary depending on argument
         private Dictionary<String, List<String>> toInputTypes(bool rule) { return rule ? rulesToInputTypes : sequencesToInputTypes; }
@@ -476,8 +476,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                ComputationInvocationParameterBindings compParamBindings = (ComputationInvocationParameterBindings)paramBindings;
-                return Array.IndexOf(computationNames, compParamBindings.Name) != -1;
+                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return Array.IndexOf(functionNames, compParamBindings.Name) != -1;
             }
         }
 
@@ -495,8 +495,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                ComputationInvocationParameterBindings compParamBindings = (ComputationInvocationParameterBindings)paramBindings;
-                return computationsToInputTypes[compParamBindings.Name].Count;
+                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return functionsToInputTypes[compParamBindings.Name].Count;
             }
         }
 
@@ -528,8 +528,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                ComputationInvocationParameterBindings compParamBindings = (ComputationInvocationParameterBindings)paramBindings;
-                return computationsToInputTypes[compParamBindings.Name][i];
+                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return functionsToInputTypes[compParamBindings.Name][i];
             }
         }
 

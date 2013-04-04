@@ -97,7 +97,7 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	class ModifyGenerationState implements ModifyGenerationStateConst {
-		public String computationName() { return computationName; }
+		public String computationName() { return functionName; }
 
 		public Collection<Node> commonNodes() { return Collections.unmodifiableCollection(commonNodes); }
 		public Collection<Edge> commonEdges() { return Collections.unmodifiableCollection(commonEdges); }
@@ -140,7 +140,7 @@ public class ModifyGen extends CSharpBase {
 
 		// if not null this is the generation state of a computation (with all entries empty)
 		// otherwise it is the generation state of the modify of an action
-		public String computationName;
+		public String functionName;
 		
 		public HashSet<Node> commonNodes = new LinkedHashSet<Node>();
 		public HashSet<Edge> commonEdges = new LinkedHashSet<Edge>();

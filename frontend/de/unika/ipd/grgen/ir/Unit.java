@@ -36,7 +36,7 @@ public class Unit extends IR {
 
 	private final List<Sequence> sequences = new LinkedList<Sequence>();
 
-	private final List<Computation> computations = new LinkedList<Computation>();
+	private final List<Function> functions = new LinkedList<Function>();
 
 	private final List<Model> models = new LinkedList<Model>();
 
@@ -83,13 +83,13 @@ public class Unit extends IR {
 		return Collections.unmodifiableCollection(sequences);
 	}
 	
-	/** Add a computation to the unit. */
-	public void addComputation(Computation computation) {
-		computations.add(computation);
+	/** Add a function to the unit. */
+	public void addFunction(Function function) {
+		functions.add(function);
 	}
 
-	public Collection<Computation> getComputations() {
-		return Collections.unmodifiableCollection(computations);
+	public Collection<Function> getFunctions() {
+		return Collections.unmodifiableCollection(functions);
 	}
 
 	/** Add a model to the unit. */

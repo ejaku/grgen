@@ -18,20 +18,20 @@ import java.util.List;
 import de.unika.ipd.grgen.ir.*;
 
 /**
- * A computation invocation is an expression.
+ * A function invocation is an expression.
  */
-public class ComputationInvocationExpr extends Expression {
-	/** The arguments of the computation invocation expression. */
+public class FunctionInvocationExpr extends Expression {
+	/** The arguments of the function invocation expression. */
 	protected List<Expression> arguments = new ArrayList<Expression>();
 
-	/** The computation of the computation invocation expression. */
-	protected Computation computation;
+	/** The computation of the function invocation expression. */
+	protected Function function;
 
 
-	public ComputationInvocationExpr(Type type, Computation computation) {
-		super("computation invocation expr", type);
+	public FunctionInvocationExpr(Type type, Function function) {
+		super("function invocation expr", type);
 
-		this.computation = computation;
+		this.function = function;
 	}
 
 	/** @return The number of arguments. */
@@ -39,8 +39,8 @@ public class ComputationInvocationExpr extends Expression {
 		return arguments.size();
 	}
 
-	public Computation getComputation() {
-		return computation;
+	public Function getFunction() {
+		return function;
 	}
 
 	/**

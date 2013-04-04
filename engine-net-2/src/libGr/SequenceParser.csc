@@ -32,14 +32,14 @@ PARSER_BEGIN(SequenceParser)
 		String[] sequenceNames;
 
 		/// <summary>
-		/// The names of the computations used in the specification, set if parsing an xgrs to be compiled
+		/// The names of the functions used in the specification, set if parsing an xgrs to be compiled
 		/// </summary>
-		String[] computationNames;
+		String[] functionNames;
 
 		/// <summary>
-		/// The output types of the computations used in the specification, set if parsing an xgrs to be compiled
+		/// The output types of the functions used in the specification, set if parsing an xgrs to be compiled
 		/// </summary>
-		String[] computationOutputTypes;
+		String[] functionOutputTypes;
 
 		/// <summary>
 		/// The model used in the specification
@@ -113,8 +113,8 @@ PARSER_BEGIN(SequenceParser)
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
         /// <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
         /// <param name="sequenceNames">An array containing the names of the sequences used in the specification.</param>
-        /// <param name="computationNames">An array containing the names of the computations used in the specification.</param>
-        /// <param name="computationOutputTypes">An array containing the output types of the computations used in the specification.</param>
+        /// <param name="functionNames">An array containing the names of the functions used in the specification.</param>
+        /// <param name="functionOutputTypes">An array containing the output types of the functions used in the specification.</param>
         /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
         /// <param name="model">The model used in the specification.</param>
         /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
@@ -122,15 +122,16 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames, String[] sequenceNames, String[] computationNames, String[] computationOutputTypes,
+		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames, String[] sequenceNames,
+				String[] functionNames, String[] functionOutputTypes,
 		        Dictionary<String, String> predefinedVariables, IGraphModel model, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = null;
 			parser.ruleNames = ruleNames;
 			parser.sequenceNames = sequenceNames;
-			parser.computationNames = computationNames;
-			parser.computationOutputTypes = computationOutputTypes;
+			parser.functionNames = functionNames;
+			parser.functionOutputTypes = functionOutputTypes;
 			parser.model = model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
@@ -1568,10 +1569,10 @@ SequenceExpression FunctionCall():
 			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the graph to generate the canonical string representation for)");
 			return new SequenceExpressionCanonize(getArgument(argExprs, 0));
 		} else {
-			if(IsComputationName(function)) {
-				return new SequenceExpressionComputationCall(CreateComputationInvocationParameterBindings(function, argExprs));
+			if(IsFunctionName(function)) {
+				return new SequenceExpressionFunctionCall(CreateFunctionInvocationParameterBindings(function, argExprs));
 			} else {
-				throw new ParseException("Unknown function name: \"" + function + "\"! (available are valloc|add|nodes|edges|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|inducedSubgraph|definedSubgraph|insertInduced|insertDefined|source|target|random|canonize) or one of the computations defined in the .grg");
+				throw new ParseException("Unknown function name: \"" + function + "\"! (available are valloc|add|nodes|edges|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|inducedSubgraph|definedSubgraph|insertInduced|insertDefined|source|target|random|canonize) or one of the functions defined in the .grg");
 			}
 		}
     }
@@ -1779,23 +1780,23 @@ SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(St
 }
 
 CSHARPCODE
-ComputationInvocationParameterBindings CreateComputationInvocationParameterBindings(String computationName,
+FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(String functionName,
 				List<SequenceExpression> argExprs)
 {
-	ComputationInfo compDef = null;
+	FunctionInfo functionDef = null;
 	if(actions != null) {
-		compDef = actions.RetrieveComputationDefinition(computationName);
+		functionDef = actions.RetrieveFunctionDefinition(functionName);
 	}
 
-	ComputationInvocationParameterBindings paramBindings = new ComputationInvocationParameterBindings(compDef,
+	FunctionInvocationParameterBindings paramBindings = new FunctionInvocationParameterBindings(functionDef,
 			argExprs.ToArray(), new object[argExprs.Count]);
 
-	if(compDef == null)
+	if(functionDef == null)
 	{
-		paramBindings.Name = computationName;
-		for(int i=0; i<computationNames.Length; ++i)
-			if(computationNames[i] == computationName)
-				paramBindings.ReturnType = computationOutputTypes[i];
+		paramBindings.Name = functionName;
+		for(int i=0; i<functionNames.Length; ++i)
+			if(functionNames[i] == functionName)
+				paramBindings.ReturnType = functionOutputTypes[i];
 	}
 
 	return paramBindings;
@@ -1815,13 +1816,13 @@ bool IsSequenceName(String ruleOrSequenceName)
 }
 
 CSHARPCODE
-bool IsComputationName(String computationName)
+bool IsFunctionName(String functionName)
 {
 	if(actions != null) {
-		return actions.RetrieveComputationDefinition(computationName) != null;
+		return actions.RetrieveFunctionDefinition(functionName) != null;
 	} else {
-		foreach(String compName in computationNames)
-			if(compName == computationName)
+		foreach(String funcName in functionNames)
+			if(funcName == functionName)
 				return true;
 		return false;
 	}

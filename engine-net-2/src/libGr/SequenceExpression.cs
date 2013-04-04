@@ -3459,11 +3459,11 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "canonize(" + Graph.Symbol + ")"; } }
     }
 
-    public class SequenceExpressionComputationCall : SequenceExpression
+    public class SequenceExpressionFunctionCall : SequenceExpression
     {
-        public ComputationInvocationParameterBindings ParamBindings;
+        public FunctionInvocationParameterBindings ParamBindings;
 
-        public SequenceExpressionComputationCall(ComputationInvocationParameterBindings paramBindings)
+        public SequenceExpressionFunctionCall(FunctionInvocationParameterBindings paramBindings)
             : base(SequenceExpressionType.ComputationCall)
         {
             ParamBindings = paramBindings;
@@ -3472,27 +3472,27 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
-            env.CheckComputationCall(this);
+            env.CheckFunctionCall(this);
         }
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            if(ParamBindings.ComputationDef != null)
-               return TypesHelper.DotNetTypeToXgrsType(ParamBindings.ComputationDef.output);
+            if(ParamBindings.FunctionDef != null)
+               return TypesHelper.DotNetTypeToXgrsType(ParamBindings.FunctionDef.output);
             else // compiled sequence
                return ParamBindings.ReturnType;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            SequenceExpressionComputationCall copy = (SequenceExpressionComputationCall)MemberwiseClone();
+            SequenceExpressionFunctionCall copy = (SequenceExpressionFunctionCall)MemberwiseClone();
             copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
             return copy;
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            ComputationInfo compDef = ParamBindings.ComputationDef;
+            FunctionInfo compDef = ParamBindings.FunctionDef;
             object res = compDef.Apply(procEnv, procEnv.Graph, ParamBindings);
             return res;
         }

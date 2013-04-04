@@ -13,11 +13,11 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 
 /**
- * Type of computation node declaration.
+ * Type of function node declaration.
  */
-public class ComputationTypeNode extends TypeNode {
+public class FunctionTypeNode extends TypeNode {
 	static {
-		setName(ComputationTypeNode.class, "computation type");
+		setName(FunctionTypeNode.class, "function type");
 	}
 
 	/** returns children of this node */

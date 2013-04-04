@@ -1263,6 +1263,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// All the computation representations generated
         /// </summary>
-        public abstract ComputationInfo[] Computations { get; }
+        public abstract FunctionInfo[] Functions { get; }
     }
 }

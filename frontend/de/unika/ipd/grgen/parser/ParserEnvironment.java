@@ -37,7 +37,7 @@ public abstract class ParserEnvironment extends Base {
 	public static final int INDEPENDENTS = 5;
 	public static final int REPLACES = 6;
 	public static final int MODELS = 7;
-	public static final int COMPUTATIONS_AND_EXTERNAL_FUNCTIONS = 8;
+	public static final int FUNCTIONS_AND_EXTERNAL_FUNCTIONS = 8;
 	public static final int COMPUTATION_BLOCKS = 9;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
@@ -49,7 +49,7 @@ public abstract class ParserEnvironment extends Base {
 		new SymbolTable("independents", INDEPENDENTS),
 		new SymbolTable("replaces", REPLACES),
 		new SymbolTable("models", MODELS),
-		new SymbolTable("computations and external functions", COMPUTATIONS_AND_EXTERNAL_FUNCTIONS),
+		new SymbolTable("functions and external functions", FUNCTIONS_AND_EXTERNAL_FUNCTIONS),
 		new SymbolTable("computation blocks", COMPUTATION_BLOCKS),
 	};
 

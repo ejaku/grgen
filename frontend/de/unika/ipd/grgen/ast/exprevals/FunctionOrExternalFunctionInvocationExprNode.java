@@ -17,39 +17,39 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.exprevals.Computation;
-import de.unika.ipd.grgen.ir.exprevals.ComputationInvocationExpr;
 import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.ExternalFunctionInvocationExpr;
+import de.unika.ipd.grgen.ir.exprevals.Function;
+import de.unika.ipd.grgen.ir.exprevals.FunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 
 /**
- * Invocation of a computation or an external function
+ * Invocation of a function or an external function
  */
-public class ComputationOrExternalFunctionInvocationExprNode extends ExprNode
+public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 {
 	static {
-		setName(ComputationOrExternalFunctionInvocationExprNode.class, "computation or external function invocation expression");
+		setName(FunctionOrExternalFunctionInvocationExprNode.class, "function or external function invocation expression");
 	}
 
-	private IdentNode computationOrFunctionUnresolved;
-	private ExternalFunctionDeclNode functionDecl;
-	private ComputationDeclNode computationDecl;
+	private IdentNode functionOrExternalFunctionUnresolved;
+	private ExternalFunctionDeclNode externalFunctionDecl;
+	private FunctionDeclNode functionDecl;
 	private CollectNode<ExprNode> arguments;
 
-	public ComputationOrExternalFunctionInvocationExprNode(IdentNode computationOrFunctionUnresolved, CollectNode<ExprNode> arguments)
+	public FunctionOrExternalFunctionInvocationExprNode(IdentNode functionOrExternalFunctionUnresolved, CollectNode<ExprNode> arguments)
 	{
-		super(computationOrFunctionUnresolved.getCoords());
-		this.computationOrFunctionUnresolved = becomeParent(computationOrFunctionUnresolved);
+		super(functionOrExternalFunctionUnresolved.getCoords());
+		this.functionOrExternalFunctionUnresolved = becomeParent(functionOrExternalFunctionUnresolved);
 		this.arguments = becomeParent(arguments);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(computationOrFunctionUnresolved, computationDecl, functionDecl));
+		children.add(getValidVersion(functionOrExternalFunctionUnresolved, functionDecl, externalFunctionDecl));
 		children.add(arguments);
 		return children;
 	}
@@ -57,23 +57,23 @@ public class ComputationOrExternalFunctionInvocationExprNode extends ExprNode
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("computation or function");
+		childrenNames.add("function or external function");
 		childrenNames.add("arguments");
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<ComputationDeclNode, ExternalFunctionDeclNode> resolver =
-			new DeclarationPairResolver<ComputationDeclNode, ExternalFunctionDeclNode>(ComputationDeclNode.class, ExternalFunctionDeclNode.class);
+	private static final DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode> resolver =
+			new DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode>(FunctionDeclNode.class, ExternalFunctionDeclNode.class);
 
 	protected boolean resolveLocal() {
-		fixupDefinition((IdentNode)computationOrFunctionUnresolved, computationOrFunctionUnresolved.getScope());
-		Pair<ComputationDeclNode, ExternalFunctionDeclNode> resolved = resolver.resolve(computationOrFunctionUnresolved, this);
+		fixupDefinition((IdentNode)functionOrExternalFunctionUnresolved, functionOrExternalFunctionUnresolved.getScope());
+		Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved = resolver.resolve(functionOrExternalFunctionUnresolved, this);
 		if(resolved == null) {
-			computationOrFunctionUnresolved.reportError("Unknown function called -- misspelled function name?");
+			functionOrExternalFunctionUnresolved.reportError("Unknown function called -- misspelled function name?");
 			return false;
 		}
-		computationDecl = resolved.fst;
-		functionDecl = resolved.snd;
+		functionDecl = resolved.fst;
+		externalFunctionDecl = resolved.snd;
 		return true;
 	}
 
@@ -84,14 +84,14 @@ public class ComputationOrExternalFunctionInvocationExprNode extends ExprNode
 
 	/** Check whether the usage adheres to the signature of the declaration */
 	private boolean checkSignatureAdhered() {
-		ComputationCharacter cc = computationDecl!=null ? computationDecl : functionDecl;
+		FunctionCharacter fc = functionDecl!=null ? functionDecl : externalFunctionDecl;
 		
 		// check if the number of parameters are correct
-		int expected = cc.getParameterTypes().size();
+		int expected = fc.getParameterTypes().size();
 		int actual = arguments.getChildren().size();
 		if (expected != actual) {
-			String patternName = cc.ident.toString();
-			computationOrFunctionUnresolved.reportError("The computation \"" + patternName + "\" needs "
+			String patternName = fc.ident.toString();
+			functionOrExternalFunctionUnresolved.reportError("The function \"" + patternName + "\" needs "
 					+ expected + " parameters, given are " + actual);
 			return false;
 		}
@@ -101,13 +101,13 @@ public class ComputationOrExternalFunctionInvocationExprNode extends ExprNode
 		for (int i = 0; i < arguments.children.size(); ++i) {
 			ExprNode actualParameter = arguments.children.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
-			TypeNode formalParameterType = cc.getParameterTypes().get(i);
+			TypeNode formalParameterType = fc.getParameterTypes().get(i);
 			
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
 				String exprTypeName = getTypeName(actualParameterType);
 				String paramTypeName = getTypeName(formalParameterType);
-				computationOrFunctionUnresolved.reportError("Cannot convert " + (i + 1) + ". computation argument from \""
+				functionOrExternalFunctionUnresolved.reportError("Cannot convert " + (i + 1) + ". function argument from \""
 						+ exprTypeName + "\" to \"" + paramTypeName + "\"");
 			}
 		}
@@ -127,23 +127,23 @@ public class ComputationOrExternalFunctionInvocationExprNode extends ExprNode
 	@Override
 	public TypeNode getType() {
 		assert isResolved();
-		return computationDecl!=null ? computationDecl.getReturnType() : functionDecl.getReturnType();
+		return functionDecl!=null ? functionDecl.getReturnType() : externalFunctionDecl.getReturnType();
 	}
 
 	@Override
 	protected IR constructIR() {
-		if(computationDecl!=null) {
-			ComputationInvocationExpr ci = new ComputationInvocationExpr(
-					computationDecl.ret.checkIR(Type.class),
-					computationDecl.checkIR(Computation.class));
+		if(functionDecl!=null) {
+			FunctionInvocationExpr ci = new FunctionInvocationExpr(
+					functionDecl.ret.checkIR(Type.class),
+					functionDecl.checkIR(Function.class));
 			for(ExprNode expr : arguments.getChildren()) {
 				ci.addArgument(expr.checkIR(Expression.class));
 			}
 			return ci;
 		} else {
 			ExternalFunctionInvocationExpr efi = new ExternalFunctionInvocationExpr(
-					functionDecl.ret.checkIR(Type.class),
-					functionDecl.checkIR(ExternalFunction.class));
+					externalFunctionDecl.ret.checkIR(Type.class),
+					externalFunctionDecl.checkIR(ExternalFunction.class));
 			for(ExprNode expr : arguments.getChildren()) {
 				efi.addArgument(expr.checkIR(Expression.class));
 			}

@@ -1193,12 +1193,12 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
-		else if (expr instanceof ComputationInvocationExpr) {
-			ComputationInvocationExpr ci = (ComputationInvocationExpr) expr;
-			sb.append("Computations." + ci.getComputation().getIdent().toString() + "(actionEnv, graph");
-			for(int i=0; i<ci.arity(); ++i) {
+		else if (expr instanceof FunctionInvocationExpr) {
+			FunctionInvocationExpr fi = (FunctionInvocationExpr) expr;
+			sb.append("Functions." + fi.getFunction().getIdent().toString() + "(actionEnv, graph");
+			for(int i=0; i<fi.arity(); ++i) {
 				sb.append(", ");
-				Expression argument = ci.getArgument(i);
+				Expression argument = fi.getArgument(i);
 				if(argument.getType() instanceof InheritanceType) {
 					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
 				}
