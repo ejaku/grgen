@@ -130,34 +130,34 @@ namespace de.unika.ipd.grGen.libGr
 
         #endregion Sequence handling
 
-        #region Computations handling
+        #region Functions handling
 
-        private Dictionary<String, ComputationInfo> namesToComputationDefinitions = new Dictionary<string, ComputationInfo>();
+        private Dictionary<String, FunctionInfo> namesToFunctionDefinitions = new Dictionary<string, FunctionInfo>();
 
         /// <summary>
-        /// Retrieve a computation definition.
+        /// Retrieve a function definition.
         /// </summary>
-        /// <param name="name">The name of the computation to retrieve</param>
-        /// <returns>The computation or null if no such sequence exists.</returns>
-        public ComputationInfo RetrieveComputationDefinition(String name)
+        /// <param name="name">The name of the function to retrieve</param>
+        /// <returns>The function or null if no such function exists.</returns>
+        public FunctionInfo RetrieveFunctionDefinition(String name)
         {
-            ComputationInfo compDef;
-            namesToComputationDefinitions.TryGetValue(name, out compDef);
-            return compDef;
+            FunctionInfo functionDef;
+            namesToFunctionDefinitions.TryGetValue(name, out functionDef);
+            return functionDef;
         }
 
         /// <summary>
-        /// Enumerates all computations definitions.
+        /// Enumerates all function definitions.
         /// </summary>
-        public IEnumerable<ComputationInfo> ComputationDefinitions
+        public IEnumerable<FunctionInfo> FunctionDefinitions
         {
             get
             {
-                foreach(ComputationInfo compDef in namesToComputationDefinitions.Values)
-                    yield return compDef;
+                foreach(FunctionInfo functionDef in namesToFunctionDefinitions.Values)
+                    yield return functionDef;
             }
         }
 
-        #endregion Computations handling
+        #endregion Functions handling
     }
 }

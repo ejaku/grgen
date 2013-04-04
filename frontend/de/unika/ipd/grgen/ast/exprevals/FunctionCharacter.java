@@ -6,12 +6,12 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 
-public abstract class ComputationCharacter extends DeclNode
+public abstract class FunctionCharacter extends DeclNode
 {
 	protected BaseNode retUnresolved;
 	protected TypeNode ret;
 	
-	public ComputationCharacter(IdentNode n, BaseNode t) {
+	public FunctionCharacter(IdentNode n, BaseNode t) {
 		super(n, t);
 	}
 

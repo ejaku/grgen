@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.exprevals.Computation;
+import de.unika.ipd.grgen.ir.exprevals.Function;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
@@ -23,22 +23,22 @@ import de.unika.ipd.grgen.ir.Type;
 
 
 /**
- * AST node class representing computation declarations
+ * AST node class representing function declarations
  */
-public class ComputationDeclNode extends ComputationCharacter {
+public class FunctionDeclNode extends FunctionCharacter {
 	static {
-		setName(ComputationDeclNode.class, "computation declaration");
+		setName(FunctionDeclNode.class, "function declaration");
 	}
 
 	protected CollectNode<BaseNode> paramsUnresolved;
 	protected CollectNode<DeclNode> params;
 	
 	protected CollectNode<EvalStatementNode> evals;
-	static final ComputationTypeNode computationType =
-		new ComputationTypeNode();
+	static final FunctionTypeNode functionType =
+		new FunctionTypeNode();
 
-	public ComputationDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, BaseNode ret) {
-		super(id, computationType);
+	public FunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, BaseNode ret) {
+		super(id, functionType);
 		this.evals = evals;
 		becomeParent(this.evals);
 		this.paramsUnresolved = params;
@@ -92,16 +92,16 @@ public class ComputationDeclNode extends ComputationCharacter {
 		return true;
 	}
 
-	/** Returns the IR object for this computation node. */
-    public Computation getComputation() {
-        return checkIR(Computation.class);
+	/** Returns the IR object for this function node. */
+    public Function getFunction() {
+        return checkIR(Function.class);
     }
     
 	@Override
 	public TypeNode getDeclType() {
 		assert isResolved();
 	
-		return computationType;
+		return functionType;
 	}
 	
 	public Vector<TypeNode> getParameterTypes() {
@@ -123,23 +123,23 @@ public class ComputationDeclNode extends ComputationCharacter {
 			return getIR();
 		}
 
-		Computation computation = new Computation(getIdentNode().toString(),
+		Function function = new Function(getIdentNode().toString(),
 				getIdentNode().getIdent(), ret.checkIR(Type.class));
 
 		// mark this node as already visited
-		setIR(computation);
+		setIR(function);
 
 		// add Params to the IR
 		for(DeclNode decl : params.getChildren()) {
-			computation.addParameter(decl.checkIR(Entity.class));
+			function.addParameter(decl.checkIR(Entity.class));
 		}
 
 		// add Computation Statements to the IR
 		for(EvalStatementNode eval : evals.getChildren()) {
-			computation.addComputationStatement(eval.checkIR(EvalStatement.class));
+			function.addComputationStatement(eval.checkIR(EvalStatement.class));
 		}
 
-		return computation;
+		return function;
 	}
 }
 

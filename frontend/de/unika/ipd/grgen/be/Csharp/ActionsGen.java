@@ -40,11 +40,11 @@ public class ActionsGen extends CSharpBase {
 		be = backend;
 		model = be.unit.getActionsGraphModel();
 		mg = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix);
-		modifyGenForComputations = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix);
+		modifyGenForFunctions = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix);
 	}
 
 	/**
-	 * Generates the subpatterns, actions, sequences, computations sourcecode for this unit.
+	 * Generates the subpatterns, actions, sequences, functions sourcecode for this unit.
 	 */
 	public void genActionlike() {
 		StringBuffer sb = new StringBuffer();
@@ -82,7 +82,7 @@ public class ActionsGen extends CSharpBase {
 			genSequence(sb, sequence);
 		}
 		
-		genComputations(sb);
+		genFunctions(sb);
 		
 		/////////////////////////////////////////////////////////
 		
@@ -95,7 +95,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\trulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern["+
 				be.unit.getSubpatternRules().size()+"+"+be.unit.getActionRules().size()+"];\n");
 		sb.append("\t\t\tdefinedSequences = new GRGEN_LIBGR.DefinedSequenceInfo["+be.unit.getSequences().size()+"];\n");
-		sb.append("\t\t\tcomputations = new GRGEN_LIBGR.ComputationInfo["+be.unit.getComputations().size()+"];\n");	
+		sb.append("\t\t\tfunctions = new GRGEN_LIBGR.FunctionInfo["+be.unit.getFunctions().size()+"];\n");	
 		int i = 0;
 		for(Rule subpatternRule : be.unit.getSubpatternRules()) {
 			sb.append("\t\t\tsubpatterns["+i+"] = Pattern_"+formatIdentifiable(subpatternRule)+".Instance;\n");
@@ -114,8 +114,8 @@ public class ActionsGen extends CSharpBase {
 			++i;
 		}
 		i = 0;
-		for(Computation computation : be.unit.getComputations()) {
-			sb.append("\t\t\tcomputations["+i+"] = ComputationInfo_"+formatIdentifiable(computation)+".Instance;\n");
+		for(Function function : be.unit.getFunctions()) {
+			sb.append("\t\t\tfunctions["+i+"] = FunctionInfo_"+formatIdentifiable(function)+".Instance;\n");
 			++i;
 		}
 		sb.append("\t\t}\n");
@@ -127,8 +127,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;\n");
 		sb.append("\t\tpublic override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }\n");
 		sb.append("\t\tprivate GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;\n");
-		sb.append("\t\tpublic override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }\n");
-		sb.append("\t\tprivate GRGEN_LIBGR.ComputationInfo[] computations;\n");
+		sb.append("\t\tpublic override GRGEN_LIBGR.FunctionInfo[] Functions { get { return functions; } }\n");
+		sb.append("\t\tprivate GRGEN_LIBGR.FunctionInfo[] functions;\n");
 		sb.append("\t}\n");
 		sb.append("\n");
 
@@ -266,41 +266,41 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\n");
 	}
 	
-	private void genComputations(StringBuffer sb) {
-		sb.append("\tpublic class Computations\n");
+	private void genFunctions(StringBuffer sb) {
+		sb.append("\tpublic class Functions\n");
 		sb.append("\t{\n");
 		
-		for(Computation computation : be.unit.getComputations()) {
-			genComputation(sb, computation);
+		for(Function function : be.unit.getFunctions()) {
+			genFunction(sb, function);
 		}
 
 		List<String> staticInitializers = new LinkedList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 
-		for(Computation computation : be.unit.getComputations()) {
-			genLocalContainersEvals(sb, computation.getComputationStatements(), staticInitializers,
+		for(Function function : be.unit.getFunctions()) {
+			genLocalContainersEvals(sb, function.getComputationStatements(), staticInitializers,
 					pathPrefixForElements, alreadyDefinedEntityToName);
 		}
 		
-		sb.append("#if INITIAL_WARMUP\t\t// GrGen computation exec section:\n");
-		for(Computation computation : be.unit.getComputations()) {
-			genImperativeStatements(sb, computation);
+		sb.append("#if INITIAL_WARMUP\t\t// GrGen function exec section:\n");
+		for(Function function : be.unit.getFunctions()) {
+			genImperativeStatements(sb, function);
 		}
 		sb.append("#endif\n");
 
 		sb.append("\t}\n");
 		sb.append("\n");
 		
-		for(Computation computation : be.unit.getComputations()) {
-			genComputationInfo(sb, computation);
+		for(Function function : be.unit.getFunctions()) {
+			genFunctionInfo(sb, function);
 		}
 	}
 
-	private void genComputation(StringBuffer sb, Computation computation) {
-		sb.append("\t\tpublic static " + formatType(computation.getReturnType()) + " ");
-		sb.append(computation.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
-		for(Entity inParam : computation.getParameters()) {
+	private void genFunction(StringBuffer sb, Function function) {
+		sb.append("\t\tpublic static " + formatType(function.getReturnType()) + " ");
+		sb.append(function.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
+		for(Entity inParam : function.getParameters()) {
 			sb.append(", ");
 			sb.append(formatType(inParam.getType()));
 			sb.append(" ");
@@ -308,22 +308,22 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-		ModifyGen.ModifyGenerationState modifyGenState = modifyGenForComputations.new ModifyGenerationState();
-		for(EvalStatement evalStmt : computation.getComputationStatements()) {
-			modifyGenState.computationName = computation.getIdent().toString();
-			modifyGenForComputations.genEvalStmt(sb, modifyGenState, evalStmt);
+		ModifyGen.ModifyGenerationState modifyGenState = modifyGenForFunctions.new ModifyGenerationState();
+		for(EvalStatement evalStmt : function.getComputationStatements()) {
+			modifyGenState.functionName = function.getIdent().toString();
+			modifyGenForFunctions.genEvalStmt(sb, modifyGenState, evalStmt);
 		}
 		sb.append("\t\t}\n");
 	}
 
 	/**
-	 * Generates the computation info for the given computation
+	 * Generates the function info for the given function
 	 */
-	private void genComputationInfo(StringBuffer sb, Computation computation) {
-		String computationName = formatIdentifiable(computation);
-		String className = "ComputationInfo_"+computationName;
+	private void genFunctionInfo(StringBuffer sb, Function function) {
+		String functionName = formatIdentifiable(function);
+		String className = "FunctionInfo_"+functionName;
 
-		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.ComputationInfo\n");
+		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.FunctionInfo\n");
 		sb.append("\t{\n");
 		sb.append("\t\tprivate static " + className + " instance = null;\n");
 		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
@@ -332,14 +332,14 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\t\tprivate " + className + "()\n");
 		sb.append("\t\t\t\t\t: base(\n");
-		sb.append("\t\t\t\t\t\t\"" + computationName + "\",\n");
+		sb.append("\t\t\t\t\t\t\"" + functionName + "\",\n");
 		sb.append("\t\t\t\t\t\tnew String[] { ");
-		for(Entity inParam : computation.getParameters()) {
+		for(Entity inParam : function.getParameters()) {
 			sb.append("\"" + inParam.getIdent() + "\", ");
 		}
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
-		for(Entity inParam : computation.getParameters()) {
+		for(Entity inParam : function.getParameters()) {
 			if(inParam.getType() instanceof InheritanceType) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
@@ -347,7 +347,7 @@ public class ActionsGen extends CSharpBase {
 			}
 		}
 		sb.append(" },\n");
-		Type outParamType = computation.getReturnType();
+		Type outParamType = function.getReturnType();
 		if(outParamType instanceof InheritanceType) {
 			sb.append("\t\t\t\t\t\t" + formatTypeClassRef(outParamType) + ".typeVar\n");
 		} else {
@@ -359,9 +359,9 @@ public class ActionsGen extends CSharpBase {
 		
 		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ComputationInvocationParameterBindings paramBindings)\n");
 		sb.append("\t\t{\n");
-		sb.append("\t\t\treturn Computations." + computationName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
+		sb.append("\t\t\treturn Functions." + functionName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
 		int i = 0;
-		for(Entity inParam : computation.getParameters()) {			
+		for(Entity inParam : function.getParameters()) {			
 			sb.append(", (" + formatType(inParam.getType()) + ")paramBindings.Arguments[" + i + "]");
 			++i;
 		}
@@ -1765,55 +1765,55 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private void genImperativeStatements(StringBuffer sb, Computation computation) {
+	private void genImperativeStatements(StringBuffer sb, Function function) {
 		int xgrsID = 0;
-		for(EvalStatement evalStmt : computation.getComputationStatements()) {
-			xgrsID = genImperativeStatements(sb, computation, evalStmt, xgrsID);
+		for(EvalStatement evalStmt : function.getComputationStatements()) {
+			xgrsID = genImperativeStatements(sb, function, evalStmt, xgrsID);
 		}
 	}
 
-	private int genImperativeStatements(StringBuffer sb, Computation computation, EvalStatement evalStmt, int xgrsID) {
+	private int genImperativeStatements(StringBuffer sb, Function function, EvalStatement evalStmt, int xgrsID) {
 		if(evalStmt instanceof ExecStatement) {
-			genImperativeStatement(sb, computation, (ExecStatement)evalStmt, xgrsID);
+			genImperativeStatement(sb, function, (ExecStatement)evalStmt, xgrsID);
 			++xgrsID;
 		} else if(evalStmt instanceof ConditionStatement) {
 			ConditionStatement condStmt = (ConditionStatement)evalStmt;
 			for(EvalStatement childEvalStmt : condStmt.getTrueCaseStatements()) {
-				xgrsID = genImperativeStatements(sb, computation, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
 			}
 			if(condStmt.getFalseCaseStatements()!=null) {
 				for(EvalStatement childEvalStmt : condStmt.getFalseCaseStatements()) {
-					xgrsID = genImperativeStatements(sb, computation, childEvalStmt, xgrsID);
+					xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
 				}
 			}
 		} else if(evalStmt instanceof ContainerAccumulationYield) {
 			for(EvalStatement childEvalStmt : ((ContainerAccumulationYield)evalStmt).getAccumulationStatements()) {
-				xgrsID = genImperativeStatements(sb, computation, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof DoWhileStatement) {
 			for(EvalStatement childEvalStmt : ((DoWhileStatement)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, computation, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ForFunction) {
 			for(EvalStatement childEvalStmt : ((ForFunction)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, computation, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ForLookup) {
 			for(EvalStatement childEvalStmt : ((ForLookup)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, computation, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof WhileStatement) {
 			for(EvalStatement childEvalStmt : ((WhileStatement)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, computation, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
 			}
 		}
 		return xgrsID;
 	}
 
-	private void genImperativeStatement(StringBuffer sb, Computation computation, ExecStatement execStmt, int xgrsID) {
+	private void genImperativeStatement(StringBuffer sb, Function function, ExecStatement execStmt, int xgrsID) {
 		Exec exec = execStmt.getExec();
 		
-		sb.append("\t\tpublic static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + formatIdentifiable(computation) + "_" + xgrsID
+		sb.append("\t\tpublic static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + formatIdentifiable(function) + "_" + xgrsID
 				+ " = new GRGEN_LIBGR.EmbeddedSequenceInfo(\n");
 		sb.append("\t\t\tnew string[] {");
 		for(Entity neededEntity : exec.getNeededEntities(true)) {
@@ -1857,7 +1857,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t" + exec.getLineNr() + "\n");
 		sb.append("\t\t);\n");
 		
-		sb.append("\t\tprivate static bool ApplyXGRS_" + formatIdentifiable(computation) + "_" + xgrsID + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+		sb.append("\t\tprivate static bool ApplyXGRS_" + formatIdentifiable(function) + "_" + xgrsID + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 		for(Entity neededEntity : exec.getNeededEntities(true)) {
 			if(!neededEntity.isDefToBeYieldedTo()) {
 				sb.append(", " + formatType(neededEntity.getType()) + " var_" + neededEntity.getIdent());
@@ -2324,18 +2324,18 @@ public class ActionsGen extends CSharpBase {
 				sb.append(")");
 			}
 		}
-		else if (expr instanceof ComputationInvocationExpr) {
-			ComputationInvocationExpr ci = (ComputationInvocationExpr) expr;
-			sb.append("new GRGEN_EXPR.ComputationInvocation(\"" + ci.getComputation().getIdent() + "\", new GRGEN_EXPR.Expression[] {");
-			for(int i=0; i<ci.arity(); ++i) {
-				Expression argument = ci.getArgument(i);
+		else if (expr instanceof FunctionInvocationExpr) {
+			FunctionInvocationExpr fi = (FunctionInvocationExpr) expr;
+			sb.append("new GRGEN_EXPR.ComputationInvocation(\"" + fi.getFunction().getIdent() + "\", new GRGEN_EXPR.Expression[] {");
+			for(int i=0; i<fi.arity(); ++i) {
+				Expression argument = fi.getArgument(i);
 				genExpressionTree(sb, argument, className, pathPrefix, alreadyDefinedEntityToName);
 				sb.append(", ");
 			}
 			sb.append("}, ");
 			sb.append("new String[] {");
-			for(int i=0; i<ci.arity(); ++i) {
-				Expression argument = ci.getArgument(i);
+			for(int i=0; i<fi.arity(); ++i) {
+				Expression argument = fi.getArgument(i);
 				if(argument.getType() instanceof InheritanceType) {
 					sb.append("\"" + formatElementInterfaceRef(argument.getType()) + "\"");
 				} else {
@@ -4019,7 +4019,7 @@ public class ActionsGen extends CSharpBase {
 
 	private SearchPlanBackend2 be;
 	private ModifyGen mg;
-	private ModifyGen modifyGenForComputations;
+	private ModifyGen modifyGenForFunctions;
 	private Model model;
 }
 

@@ -191,7 +191,7 @@ textActions returns [ UnitNode main = null ]
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
-		CollectNode<IdentNode> computationChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> functionChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
 		if(!Util.isFilenameValidActionName(getFilename())) {
 			reportError(new de.unika.ipd.grgen.parser.Coords(), "the filename "+getFilename()+" can't be used as action name, must be similar to an identifier");
@@ -215,7 +215,7 @@ textActions returns [ UnitNode main = null ]
 	
 	( globalVarDecl )*
 
-	( patternOrActionOrSequenceOrComputationDecls[patternChilds, actionChilds, sequenceChilds, computationChilds] )? EOF
+	( patternOrActionOrSequenceOrFunctionDecls[patternChilds, actionChilds, sequenceChilds, functionChilds] )? EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
@@ -231,7 +231,7 @@ textActions returns [ UnitNode main = null ]
 				modelChilds.addChild(model);
 			}
 			main = new UnitNode(actionsName, getFilename(), env.getStdModel(), 
-								modelChilds, patternChilds, actionChilds, sequenceChilds, computationChilds);
+								modelChilds, patternChilds, actionChilds, sequenceChilds, functionChilds);
 		}
 	;
 
@@ -300,10 +300,10 @@ globalVarDecl
 		SEMI
 	;
 
-patternOrActionOrSequenceOrComputationDecls[ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
-											 CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> computationChilds ]
+patternOrActionOrSequenceOrFunctionDecls[ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
+											 CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> functionChilds ]
 	@init{ mod = 0; }
-	: ( mod=patternModifiers patternOrActionOrSequenceOrComputationDecl[patternChilds, actionChilds, sequenceChilds, computationChilds, mod] )+
+	: ( mod=patternModifiers patternOrActionOrSequenceOrFunctionDecl[patternChilds, actionChilds, sequenceChilds, functionChilds, mod] )+
 	;
 	
 patternModifiers returns [ int res = 0 ]
@@ -348,8 +348,8 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 		}
 	;
 
-patternOrActionOrSequenceOrComputationDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
-											 CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> computationChilds,
+patternOrActionOrSequenceOrFunctionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
+											 CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> functionChilds,
 											 int mod ]
 	@init{
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
@@ -429,14 +429,14 @@ patternOrActionOrSequenceOrComputationDecl [ CollectNode<IdentNode> patternChild
 			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
 			sequenceChilds.addChild(id);
 		}
-	| id=computationOrExtFuncIdentDecl pushScope[id] 
+	| id=funcOrExtFuncIdentDecl pushScope[id] 
 		params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] COLON retType=returnType
 		LBRACE
 			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
-			id.setDecl(new ComputationDeclNode(id, evals, params, retType));
-			computationChilds.addChild(id);
+			id.setDecl(new FunctionDeclNode(id, evals, params, retType));
+			functionChilds.addChild(id);
 		}
 	;
 
@@ -846,7 +846,7 @@ defEdgeToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph ] r
 defGraphElementInitialization [ int context, ConstraintDeclNode graphElement ]
 	: a=ASSIGN e=expr[false] 
 	    { if((context & BaseNode.CONTEXT_COMPUTATION) != BaseNode.CONTEXT_COMPUTATION) {
-			reportError(getCoords(a), "initialization of a def node/edge only allowed in a computation");
+			reportError(getCoords(a), "initialization of a def node/edge only allowed in a function");
 	      } else {
 			if(graphElement!=null) graphElement.setInitialization(e);
 		  }
@@ -2234,7 +2234,7 @@ typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs 
 	;
 
 externalFunctionDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: id=computationOrExtFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
+	: id=funcOrExtFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
 		{
 			id.setDecl(new ExternalFunctionDeclNode(id, params, ret));
 			res = id;
@@ -2821,9 +2821,9 @@ patIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
-computationOrExtFuncIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+funcOrExtFuncIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT 
-		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.COMPUTATIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
@@ -2878,9 +2878,9 @@ patIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
 	;
 
-computationOrExtFuncIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+funcOrExtFuncIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT 
-	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.COMPUTATIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
 	;
 
 	
@@ -3055,11 +3055,11 @@ options { k = 5; }
 					|| i.getText().equals("valloc") && params.getChildren().size()==0
 					)
 				{
-					res = new CallStatementNode(getCoords(i), new FunctionInvocationExprNode(new IdentNode(env.occurs(ParserEnvironment.COMPUTATIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))), params, env));
+					res = new CallStatementNode(getCoords(i), new FunctionInvocationExprNode(new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))), params, env));
 				}
 				else
 				{
-					res = new CallStatementNode(getCoords(i), new ComputationOrExternalFunctionInvocationExprNode(new IdentNode(env.occurs(ParserEnvironment.COMPUTATIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))), params));
+					res = new CallStatementNode(getCoords(i), new FunctionOrExternalFunctionInvocationExprNode(new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))), params));
 				}
 			}
 	| exec=execStmt[null, context, directlyNestingLHSGraph] SEMI
@@ -3435,7 +3435,7 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 	;
 
 externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: id=computationOrExtFuncIdentUse params=paramExprs[inEnumInit]
+	: id=funcOrExtFuncIdentUse params=paramExprs[inEnumInit]
 		{
 			if( (id.toString().equals("min") || id.toString().equals("max")) && params.getChildren().size()==2
 				|| (id.toString().equals("sin") || id.toString().equals("cos") || id.toString().equals("tan")) && params.getChildren().size()==1
@@ -3464,7 +3464,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 			{
 				res = new FunctionInvocationExprNode(id, params, env);
 			} else {
-				res = new ComputationOrExternalFunctionInvocationExprNode(id, params);
+				res = new FunctionOrExternalFunctionInvocationExprNode(id, params);
 			}
 		}
 	;

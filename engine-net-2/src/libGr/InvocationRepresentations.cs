@@ -11,15 +11,15 @@ using System.Collections.Generic;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// An object representing a rule or sequence or computation invocation.
+    /// An object representing a rule or sequence or function invocation.
     /// It stores the input arguments (values) and
     /// tells with which sequence expressions to compute them.
     /// </summary>
     public class InvocationParameterBindings
     {
         /// <summary>
-        /// The name of the rule or sequence or computation.
-        /// Used for generation, where the rule or sequence or computation representation objects do not exist yet.
+        /// The name of the rule or sequence or function.
+        /// Used for generation, where the rule or sequence or function representation objects do not exist yet.
         /// </summary>
         public String Name;
 
@@ -48,7 +48,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(argExprs.Length != arguments.Length)
                 throw new ArgumentException("Lengths of argument expression array and argument array do not match");
-            Name = "<Unknown rule/sequence/computation>";
+            Name = "<Unknown rule/sequence/function>";
             ArgumentExpressions = argExprs;
             Arguments = arguments;
         }
@@ -188,16 +188,16 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// An object representing a computation invocation.
+    /// An object representing a function invocation.
     /// It stores the input arguments (values) and
-    /// tells with which sequence expressions to compute them.
+    /// tells with which function to compute them.
     /// </summary>
-    public class ComputationInvocationParameterBindings : InvocationParameterBindings
+    public class FunctionInvocationParameterBindings : InvocationParameterBindings
     {
         /// <summary>
-        /// The computation to be used
+        /// The function to be used
         /// </summary>
-        public ComputationInfo ComputationDef;
+        public FunctionInfo FunctionDef;
 
         /// <summary>
         /// The type returned
@@ -205,22 +205,22 @@ namespace de.unika.ipd.grGen.libGr
         public string ReturnType;
 
         /// <summary>
-        /// Instantiates a new ComputationInvocationParameterBindings object
+        /// Instantiates a new FunctionInvocationParameterBindings object
         /// </summary>
-        /// <param name="sequenceDef">The defined computation to be used</param>
+        /// <param name="functionDef">The defined function to be used</param>
         /// <param name="argExprs">An array of expressions used to compute the arguments</param>
         /// <param name="arguments">An array of arguments.</param>
-        public ComputationInvocationParameterBindings(ComputationInfo computationDef,
+        public FunctionInvocationParameterBindings(FunctionInfo functionDef,
             SequenceExpression[] argExprs, object[] arguments)
             : base(argExprs, arguments)
         {
-            ComputationDef = computationDef;
-            if(computationDef != null) Name = computationDef.name;
+            FunctionDef = functionDef;
+            if(functionDef != null) Name = functionDef.name;
         }
 
-        public ComputationInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        public FunctionInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            ComputationInvocationParameterBindings copy = (ComputationInvocationParameterBindings)MemberwiseClone();
+            FunctionInvocationParameterBindings copy = (FunctionInvocationParameterBindings)MemberwiseClone();
             copy.ArgumentExpressions = new SequenceExpression[ArgumentExpressions.Length];
             for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 copy.ArgumentExpressions[i] = ArgumentExpressions[i].CopyExpression(originalToCopy, procEnv);

@@ -12,18 +12,18 @@ using System.Text;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A description of a GrGen attribute evaluation computation.
+    /// A description of a GrGen attribute evaluation function.
     /// </summary>
-    public abstract class ComputationInfo
+    public abstract class FunctionInfo
     {
         /// <summary>
-        /// Constructs a ComputationInfo object.
+        /// Constructs a FunctionInfo object.
         /// </summary>
-        /// <param name="name">The name the computation was defined with.</param>
+        /// <param name="name">The name the function was defined with.</param>
         /// <param name="inputNames">The names of the input parameters.</param>
         /// <param name="inputs">The types of the input parameters.</param>
         /// <param name="output">The types of the output parameters.</param>
-        public ComputationInfo(String name, String[] inputNames, GrGenType[] inputs, GrGenType output)
+        public FunctionInfo(String name, String[] inputNames, GrGenType[] inputs, GrGenType output)
         {
             this.name = name;
             this.inputNames = inputNames;
@@ -31,25 +31,25 @@ namespace de.unika.ipd.grGen.libGr
             this.output = output;
         }
 
-        public abstract object Apply(IActionExecutionEnvironment actionEnv, IGraph graph, ComputationInvocationParameterBindings paramBindings);
+        public abstract object Apply(IActionExecutionEnvironment actionEnv, IGraph graph, FunctionInvocationParameterBindings paramBindings);
 
         /// <summary>
-        /// The name of the computation.
+        /// The name of the function.
         /// </summary>
         public string name;
 
         /// <summary>
-        /// Names of the computation parameters.
+        /// Names of the function parameters.
         /// </summary>
         public string[] inputNames;
 
         /// <summary>
-        /// The GrGen types of the computation parameters.
+        /// The GrGen types of the function parameters.
         /// </summary>
         public GrGenType[] inputs;
 
         /// <summary>
-        /// The GrGen type of the computation return value.
+        /// The GrGen type of the function return value.
         /// </summary>
         public GrGenType output;
     }

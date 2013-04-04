@@ -18,9 +18,9 @@ import java.util.List;
 import de.unika.ipd.grgen.ir.*;
 
 /**
- * A computation.
+ * A function.
  */
-public class Computation extends Identifiable {
+public class Function extends Identifiable {
 	/** A list of the parameters */
 	private List<Entity> params = new LinkedList<Entity>();
 
@@ -31,33 +31,33 @@ public class Computation extends Identifiable {
 	private List<EvalStatement> computationStatements = new LinkedList<EvalStatement>();
 
 
-	public Computation(String name, Ident ident, Type retType) {
+	public Function(String name, Ident ident, Type retType) {
 		super(name, ident);
 
 		this.retType = retType;
 	}
 
-	/** Add a parameter to the computation. */
+	/** Add a parameter to the function. */
 	public void addParameter(Entity entity) {
 		params.add(entity);
 	}
 
-	/** Get all parameters of this computation. */
+	/** Get all parameters of this function. */
 	public List<Entity> getParameters() {
 		return Collections.unmodifiableList(params);
 	}
 
-	/** Get the return type of this computation. */
+	/** Get the return type of this function. */
 	public Type getReturnType() {
 		return retType;
 	}
 	
-	/** Add a computation statement to the computation. */
+	/** Add a computation statement to the function. */
 	public void addComputationStatement(EvalStatement eval) {
 		computationStatements.add(eval);
 	}
 
-	/** Get all computation statements of this computation. */
+	/** Get all computation statements of this function. */
 	public List<EvalStatement> getComputationStatements() {
 		return Collections.unmodifiableList(computationStatements);
 	}

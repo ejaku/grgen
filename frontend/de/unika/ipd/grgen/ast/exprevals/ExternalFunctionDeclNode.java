@@ -25,7 +25,7 @@ import java.util.Vector;
 /**
  * AST node class representing external function declarations
  */
-public class ExternalFunctionDeclNode extends ComputationCharacter {
+public class ExternalFunctionDeclNode extends FunctionCharacter {
 	static {
 		setName(ExternalFunctionDeclNode.class, "external function declaration");
 	}
