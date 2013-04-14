@@ -91,6 +91,10 @@ public class MapAddItemNode extends EvalStatementNode
 		return true;
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new MapAddItem(target.checkIR(Qualification.class),

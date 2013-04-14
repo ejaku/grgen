@@ -24,20 +24,8 @@ public class FunctionInvocationExprNode extends ExprNode
 		setName(FunctionInvocationExprNode.class, "function invocation expression");
 	}
 
-	static TypeNode functionTypeNode = new TypeNode() {
-		public Collection<BaseNode> getChildren() {
-			Vector<BaseNode> children = new Vector<BaseNode>();
-			// no children
-			return children;
-		}
-
-		public Collection<String> getChildrenNames() {
-			Vector<String> childrenNames = new Vector<String>();
-			// no children
-			return childrenNames;
-		}
-	};
-
+	static TypeNode functionTypeNode = new FunctionTypeNode();
+	
 	private IdentNode functionIdent;
 	private CollectNode<ExprNode> params;
 	private ExprNode result;
@@ -398,24 +386,6 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 		}
-		else if(functionName.equals("add")) {
-			if(params.size() == 1) {
-				result = new GraphAddNodeExprNode(getCoords(), params.get(0));
-			} else if(params.size() == 3) {
-				result = new GraphAddEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2));
-			} else {
-				reportError(functionName + "() takes 1 or 3 parameters.");
-				return false;
-			}
-		}
-		else if(functionName.equals("retype")) {
-			if(params.size() == 2) {
-				result = new GraphRetypeExprNode(getCoords(), params.get(0), params.get(1));
-			} else {
-				reportError(functionName + "() takes 2 parameters.");
-				return false;
-			}
-		}
 		else if(functionName.equals("inducedSubgraph")) {
 			if(params.size() != 1) {
 				reportError("inducedSubgraph(.) takes one parameter.");
@@ -432,22 +402,6 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new DefinedSubgraphExprNode(getCoords(), params.get(0));
 		}
-		else if(functionName.equals("insertInduced")) {
-			if(params.size() != 2) {
-				reportError("insertInduced(.,.) takes two parameters.");
-				return false;
-			}
-			else
-				result = new InsertInducedSubgraphExprNode(getCoords(), params.get(0), params.get(1));
-		}
-		else if(functionName.equals("insertDefined")) {
-			if(params.size() != 2) {
-				reportError("insertDefined(.,.) takes two parameters.");
-				return false;
-			}
-			else
-				result = new InsertDefinedSubgraphExprNode(getCoords(), params.get(0), params.get(1));
-		}
 		else if(functionName.equals("canonize")) {
 			if(params.size() != 1) {
 				reportError("canonize(.) takes one parameter.");
@@ -455,22 +409,6 @@ public class FunctionInvocationExprNode extends ExprNode
 			}
 			else
 				result = new CanonizeExprNode(getCoords(), params.get(0));
-		}
-		else if(functionName.equals("valloc")) {
-			if(params.size() != 0) {
-				reportError("valloc() takes no parameters.");
-				return false;
-			}
-			else
-				result = new VAllocExprNode(getCoords());
-		}
-		else if(functionName.equals("startTransaction")) {
-			if(params.size() != 0) {
-				reportError("startTransaction() takes no parameters.");
-				return false;
-			}
-			else
-				result = new StartTransactionExprNode(getCoords());
 		}
 		else {
 			reportError("no function " +functionName + " known");

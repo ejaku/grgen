@@ -66,6 +66,10 @@ public class SetVarAddItemNode extends EvalStatementNode
 		return checkType(valueExpr, targetValueType, "set add item statement", "value");
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new SetVarAddItem(target.checkIR(Variable.class),

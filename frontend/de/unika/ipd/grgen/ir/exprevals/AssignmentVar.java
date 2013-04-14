@@ -16,13 +16,10 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents an assignment statement in the IR.
  */
-public class AssignmentVar extends EvalStatement {
+public class AssignmentVar extends AssignmentBase {
 
 	/** The lhs of the assignment. */
 	private Variable target;
-
-	/** The rhs of the assignment. */
-	private Expression expr;
 
 	public AssignmentVar(Variable target, Expression expr) {
 		super("assignment var");
@@ -38,10 +35,6 @@ public class AssignmentVar extends EvalStatement {
 
 	public Variable getTarget() {
 		return target;
-	}
-
-	public Expression getExpression() {
-		return expr;
 	}
 
 	public String toString() {

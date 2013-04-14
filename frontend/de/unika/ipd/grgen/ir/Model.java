@@ -32,6 +32,7 @@ public class Model extends Identifiable {
 	private Set<EnumType> enumTypes = new LinkedHashSet<EnumType>();
 	private Set<ExternalType> externalTypes = new LinkedHashSet<ExternalType>();
 	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
+	private Set<ExternalComputation> externalComps = new LinkedHashSet<ExternalComputation>();
 
 
 	public Model(Ident ident) {
@@ -63,6 +64,14 @@ public class Model extends Identifiable {
 
 	public Collection<ExternalFunction> getExternalFunctions() {
 		return Collections.unmodifiableCollection(externalFuncs);
+	}
+
+	public void addExternalComputation(ExternalComputation externalComp) {
+		externalComps.add(externalComp);
+	}
+
+	public Collection<ExternalComputation> getExternalComputations() {
+		return Collections.unmodifiableCollection(externalComps);
 	}
 
 	/** @return The types in the type model. */

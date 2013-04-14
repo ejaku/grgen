@@ -20,6 +20,11 @@ namespace de.unika.ipd.grGen.libGr
         UnknownRuleOrSequence,
 
         /// <summary>
+        /// The computation is unknown.
+        /// </summary>
+        UnknownComputation,
+
+        /// <summary>
         /// The function is unknown.
         /// </summary>
         UnknownFunction,

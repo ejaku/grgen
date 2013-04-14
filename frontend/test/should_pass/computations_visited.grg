@@ -1,9 +1,15 @@
-some(n:Node) : int
+some(n:Node, var id:int) : boolean
 {
-	def var id:int = valloc();
+	return(!n.visited[id]);
+}
+
+someMore(n:Node) : (int)
+{
+	def var id:int;
+	(id) = valloc();
 	vfree(id);
-	id = valloc();
-	n.visited[id] = !n.visited[id];
+	(id) = valloc();
+	n.visited[id] = some(n, id);
 	vreset(id);
 	vfreenonreset(id);
 	return(id);
@@ -17,14 +23,17 @@ rule r() : (int)
 		def var res:int;
 		
 		eval { 
-			def var id:int = valloc();
+			def var id:int;
+			(id) = valloc();
 			vfree(id);
-			id = valloc();
-			n.visited[id] = !n.visited[id];
+			(id) = valloc();
+			n.visited[id] = some(n, id);
 			vreset(id);
 			vfreenonreset(id);
+			(id) = someMore(n);
+			yield res = id;
 		}
 		
-		return(some(n));
+		return(res);
 	}
 }

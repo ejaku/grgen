@@ -32,7 +32,7 @@ public abstract class EvalStatement extends IR implements OrderedReplacement
 	}
 
 	/**
-	 * Method collectNeededEntities extracts the nodes, edges, and variables occurring in this Expression.
+	 * Method collectNeededEntities extracts the nodes, edges, and variables occurring in this EvalStatement.
 	 * We don't collect global variables (::-prefixed), as no entities and no processing are needed for them at all, they are only accessed.
 	 * @param needs A NeededEntities instance aggregating the needed elements.
 	 */

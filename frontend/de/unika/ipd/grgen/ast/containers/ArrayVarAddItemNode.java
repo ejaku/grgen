@@ -77,6 +77,10 @@ public class ArrayVarAddItemNode extends EvalStatementNode
 		return success;
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new ArrayVarAddItem(target.checkIR(Variable.class),

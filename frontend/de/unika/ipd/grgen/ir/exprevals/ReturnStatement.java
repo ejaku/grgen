@@ -12,7 +12,7 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 /**
- * Represents a return statement in the IR.
+ * Represents a return statement of a function in the IR.
  */
 public class ReturnStatement extends EvalStatement {
 

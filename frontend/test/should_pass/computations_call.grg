@@ -4,10 +4,8 @@ foo(n1:Node, -e1:Edge->) : int
 
 	valloc();
 	startTransaction();
-	adjacent(n1);
 	add(Edge, n1, n1);
 	retype(n1, Node);
-	min(max(res, 1), res);
 
 	return(res);
 }
@@ -20,10 +18,8 @@ rule r(n1:Node, -e1:Edge->) : (int)
 		eval { 
 			valloc();
 			startTransaction();
-			adjacent(n1);
 			add(Edge, n1, n1);
 			retype(n1, Node);
-			min(max(res, 1), res);
 		}
 		
 		return (res);

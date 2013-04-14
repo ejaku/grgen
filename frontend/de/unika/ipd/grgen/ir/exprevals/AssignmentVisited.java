@@ -19,13 +19,10 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents an assignment statement in the IR.
  */
-public class AssignmentVisited extends EvalStatement {
+public class AssignmentVisited extends AssignmentBase {
 
 	/** The lhs of the assignment. */
 	private Visited target;
-
-	/** The rhs of the assignment. */
-	private Expression expr;
 
 	public AssignmentVisited(Visited target, Expression expr) {
 		super("assignment visited");
@@ -35,10 +32,6 @@ public class AssignmentVisited extends EvalStatement {
 
 	public Visited getTarget() {
 		return target;
-	}
-
-	public Expression getExpression() {
-		return expr;
 	}
 
 	public String toString() {

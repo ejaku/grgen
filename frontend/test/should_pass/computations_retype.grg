@@ -2,16 +2,24 @@ using model_init;
 
 foo() : set<Node>
 {
-	def res1:Node = add(Node);
-	def res2:A = add(A);
-	def -res3:Edge-> = add(Edge, res1, res2);
-	def -res4:E1-> = add(E1, res2, res1);
-	def res1b:Node = retype(res2, Node);
-	def res2b:A = retype(res1, A);
-	def -res3b:Edge-> = retype(res4, Edge);
-	def -res4b:E1-> = retype(res3, E1);
+	def res1:Node;
+	(res1) = add(Node);
+	def res2:A;
+	(res2) = add(A);
+	def -res3:Edge->;
+	(res3) = add(Edge, res1, res2);
+	def -res4:E1->;
+	(res4) = add(E1, res2, res1);
+	def res1b:Node;
+	(res1b) = retype(res2, Node);
+	def res2b:A;
+	(res2b) = retype(res1, A);
+	def -res3b:Edge->;
+	(res3b) = retype(res4, Edge);
+	def -res4b:E1->;
+	(res4b) = retype(res3, E1);
 
-	return( set<Node>{add(Node), add(A)} );
+	return( set<Node>{res1, res2} );
 }
 
 rule r()
@@ -20,16 +28,24 @@ rule r()
 		def ref res:set<Node>;
 		
 		eval { 
-			def res1:Node = add(Node);
-			def res2:A = add(A);
-			def -res3:Edge-> = add(Edge, res1, res2);
-			def -res4:E1-> = add(E1, res2, res1);
-			def res1b:Node = retype(res2, Node);
-			def res2b:A = retype(res1, A);
-			def -res3b:Edge-> = retype(res4, Edge);
-			def -res4b:E1-> = retype(res3, E1);
+			def res1:Node;
+			(res1) = add(Node);
+			def res2:A;
+			(res2) = add(A);
+			def -res3:Edge->;
+			(res3) = add(Edge, res1, res2);
+			def -res4:E1->;
+			(res4) = add(E1, res2, res1);
+			def res1b:Node;
+			(res1b) = retype(res2, Node);
+			def res2b:A;
+			(res2b) = retype(res1, A);
+			def -res3b:Edge->;
+			(res3b) = retype(res4, Edge);
+			def -res4b:E1->;
+			(res4b) = retype(res3, E1);
 
-			yield res = foo() | { add(Node) };
+			yield res = foo() | { res1 };
 		}
 	}
 }

@@ -39,7 +39,7 @@ public class IteratedNode extends ActionDeclNode  {
 		setName(IteratedNode.class, "iterated");
 	}
 
-	private PatternGraphNode pattern;
+	protected PatternGraphNode pattern;
 	protected CollectNode<RhsDeclNode> right;
 	private IteratedTypeNode type;
 	private int minMatches;

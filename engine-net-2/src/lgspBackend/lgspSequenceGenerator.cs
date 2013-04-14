@@ -3655,14 +3655,14 @@ namespace de.unika.ipd.grGen.lgsp
                     return GetVar(seqVar.Variable);
                 }
 
-                case SequenceExpressionType.ComputationCall:
+                case SequenceExpressionType.FunctionCall:
                 {
-                    SequenceExpressionFunctionCall seqCompCall = (SequenceExpressionFunctionCall)expr;
+                    SequenceExpressionFunctionCall seqFuncCall = (SequenceExpressionFunctionCall)expr;
                     StringBuilder sb = new StringBuilder();
-                    sb.Append("Computations.");
-                    sb.Append(seqCompCall.ParamBindings.Name);
+                    sb.Append("Functions.");
+                    sb.Append(seqFuncCall.ParamBindings.Name);
                     sb.Append("(procEnv, graph");
-                    sb.Append(BuildParameters(seqCompCall.ParamBindings));
+                    sb.Append(BuildParameters(seqFuncCall.ParamBindings));
                     sb.Append(")");
                     return sb.ToString();
                 }

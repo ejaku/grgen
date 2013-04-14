@@ -26,6 +26,7 @@ namespace de.unika.ipd.grGen.libGr
         Assignment,
         VariableDeclaration,
         Emit, Record, Export, GraphRem, GraphClear,
+        ComputationCall,
         AssignmentTarget, // every assignment target (lhs value) is a computation
         Expression // every expression (rhs value) is a computation
     }
@@ -1073,5 +1074,97 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceComputation> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "clear()"; } }
+    }
+
+    public class SequenceComputationCall : SequenceComputation
+    {
+        public ComputationInvocationParameterBindings ParamBindings;
+
+        public SequenceComputationCall(ComputationInvocationParameterBindings paramBindings, bool special)
+            : base(SequenceComputationType.ComputationCall)
+        {
+            ParamBindings = paramBindings;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            //base.Check(env); // check children
+            env.CheckComputationCall(this);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationCall copy = (SequenceComputationCall)MemberwiseClone();
+            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            ComputationInfo computationDef = ParamBindings.ComputationDef;
+            computationDef.Apply(procEnv, procEnv.Graph, ParamBindings);
+            return true;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ParamBindings.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+
+        public String GetComputationCallString(IGraphProcessingEnvironment procEnv)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(ParamBindings.ComputationDef.name);
+            if(ParamBindings.ArgumentExpressions.Length > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
+                {
+                    if(ParamBindings.ArgumentExpressions[i] != null)
+                        sb.Append(ContainerHelper.ToStringAutomatic(ParamBindings.ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
+                    else
+                        sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
+                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
+                }
+                sb.Append(")");
+            }
+            return sb.ToString();
+        }
+
+        protected String GetComputationString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if(ParamBindings.ReturnVars.Length > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
+                {
+                    sb.Append(ParamBindings.ReturnVars[i].Name);
+                    if(i != ParamBindings.ReturnVars.Length - 1) sb.Append(",");
+                }
+                sb.Append(")=");
+            }
+            sb.Append(ParamBindings.ComputationDef.name);
+            if(ParamBindings.ArgumentExpressions.Length > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
+                {
+                    if(ParamBindings.ArgumentExpressions[i] != null)
+                        sb.Append(ParamBindings.ArgumentExpressions[i].Symbol);
+                    else
+                        sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
+                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
+                }
+                sb.Append(")");
+            }
+            return sb.ToString();
+        }
+
+        public override string Symbol { get { return GetComputationString(); } }
     }
 }

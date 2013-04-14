@@ -17,13 +17,10 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents an assignment statement in the IR.
  */
-public class AssignmentGraphEntity extends EvalStatement {
+public class AssignmentGraphEntity extends AssignmentBase {
 
 	/** The lhs of the assignment. */
 	private GraphEntity target;
-
-	/** The rhs of the assignment. */
-	private Expression expr;
 
 	public AssignmentGraphEntity(GraphEntity target, Expression expr) {
 		super("assignment graph entity");
@@ -33,10 +30,6 @@ public class AssignmentGraphEntity extends EvalStatement {
 
 	public GraphEntity getTarget() {
 		return target;
-	}
-
-	public Expression getExpression() {
-		return expr;
 	}
 
 	public String toString() {

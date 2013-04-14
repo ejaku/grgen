@@ -1732,6 +1732,12 @@ Sequence Rule():
 				return new SequenceSequenceCall(
 								CreateSequenceInvocationParameterBindings(str, argExprs, returnVars),
 								special);
+			} else if(IsComputationName(str)) {
+				if(filter!=null)
+					throw new SequenceParserException(str, filter, SequenceParserError.FilterError);
+				return new SequenceComputationCall(
+								CreateComputationInvocationParameterBindings(str, argExprs, returnVars),
+								special);
 			} else {
 				return new SequenceRuleCall(
 								CreateRuleInvocationParameterBindings(str, argExprs, returnVars),
@@ -1778,6 +1784,25 @@ SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(St
 
 	return paramBindings;
 }
+
+CSHARPCODE
+ComputationInvocationParameterBindings CreateComputationInvocationParameterBindings(String computationName,
+				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+{
+	ComputationInfo computationDef = null;
+	if(actions != null) {
+		computationDef = actions.RetrieveComputationDefinition(computationName);
+	}
+
+	ComputationInvocationParameterBindings paramBindings = new ComputationInvocationParameterBindings(computationDef,
+			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
+
+	if(computationDef == null)
+		paramBindings.Name = computationName;
+
+	return paramBindings;
+}
+
 
 CSHARPCODE
 FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(String functionName,

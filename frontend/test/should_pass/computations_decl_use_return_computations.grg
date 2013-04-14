@@ -1,0 +1,67 @@
+none()
+{
+	return;
+}
+
+nonetoo : ()
+{
+	return;
+}
+
+one() : (int)
+{
+	return(1);
+}
+
+onetwo() : (int, int)
+{
+	return(1, 2);
+}
+
+einszweipolizei() : (int, int, int)
+{
+	one();
+	onetwo();
+	return(1, 2, 3);
+}
+
+rule r : (int)
+{	
+	modify {
+		def var res1:int;
+		
+		eval { 
+			def var res2:int;
+			def var res3:int;
+			none();
+			(yield res1) = one();
+			(yield res1, res2) = onetwo();
+			einszweipolizei();
+		}
+		
+		return (res1);
+	}
+}
+
+pattern P() modify(var input:int, def var output:int)
+{
+	modify {
+		eval {
+			(yield output) = one();
+			yield output = output + input;
+		}
+	}
+}
+
+rule r2d2 : (int, int)
+{
+	p:P();
+	
+	modify {
+		def var res:int = 42;
+		def var resres:int;
+		p(res, yield resres);
+				
+		return (res, resres);
+	}
+}

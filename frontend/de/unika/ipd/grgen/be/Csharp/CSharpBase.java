@@ -1399,22 +1399,6 @@ public abstract class CSharpBase {
 			genExpression(sb, ds.getSetExpr(), modifyGenerationState);
 			sb.append(", graph)");
 		}
-		else if (expr instanceof InsertInducedSubgraphExpr) {
-			InsertInducedSubgraphExpr iis = (InsertInducedSubgraphExpr) expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");
-			genExpression(sb, iis.getSetExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, iis.getNodeExpr(), modifyGenerationState);
-			sb.append(", graph)");
-		}
-		else if (expr instanceof InsertDefinedSubgraphExpr) {
-			InsertDefinedSubgraphExpr ids = (InsertDefinedSubgraphExpr) expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
-			genExpression(sb, ids.getSetExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ids.getEdgeExpr(), modifyGenerationState);
-			sb.append(", graph)");
-		}
 		else if (expr instanceof MaxExpr) {
 			MaxExpr m = (MaxExpr)expr;
 			sb.append("Math.Max(");
@@ -1483,51 +1467,9 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
-		else if(expr instanceof VAllocExpr) {
-			sb.append("graph.AllocateVisitedFlag()");
-		}
-		else if(expr instanceof StartTransactionExpr) {
-			sb.append("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Start()");
-		}
-		else if(expr instanceof GraphAddNodeExpr) {
-			GraphAddNodeExpr gan = (GraphAddNodeExpr) expr;
-			Constant constant = (Constant)gan.getNodeTypeExpr();
-			sb.append("(" + formatType((Type)constant.getValue()) + ")"
-					+ "GRGEN_LIBGR.GraphHelper.AddNodeOfType(");
-			genExpression(sb, gan.getNodeTypeExpr(), modifyGenerationState);
-			sb.append(", graph)");
-		}
-		else if(expr instanceof GraphAddEdgeExpr) {
-			GraphAddEdgeExpr gae = (GraphAddEdgeExpr) expr;
-			Constant constant = (Constant)gae.getEdgeTypeExpr();
-			sb.append("(" + formatType((Type)constant.getValue()) + ")" 
-					+ "GRGEN_LIBGR.GraphHelper.AddEdgeOfType(");
-			genExpression(sb, gae.getEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, gae.getSourceNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, gae.getTargetNodeExpr(), modifyGenerationState);
-			sb.append(", graph)");
-		}
-		else if(expr instanceof GraphRetypeNodeExpr) {
-			GraphRetypeNodeExpr grn = (GraphRetypeNodeExpr) expr;
-			Constant constant = (Constant)grn.getNewNodeTypeExpr();
-			sb.append("(" + formatType((Type)constant.getValue()) + ")"
-					+ "graph.Retype(");
-			genExpression(sb, grn.getNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, grn.getNewNodeTypeExpr(), modifyGenerationState);
-			sb.append(")");
-		}
-		else if(expr instanceof GraphRetypeEdgeExpr) {
-			GraphRetypeEdgeExpr gre = (GraphRetypeEdgeExpr) expr;
-			Constant constant = (Constant)gre.getNewEdgeTypeExpr();
-			sb.append("(" + formatType((Type)constant.getValue()) + ")"
-					+ "graph.Retype(");
-			genExpression(sb, gre.getEdgeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, gre.getNewEdgeTypeExpr(), modifyGenerationState);
-			sb.append(")");
+		else if(expr instanceof ProjectionExpr) {
+			ProjectionExpr proj = (ProjectionExpr) expr;
+			sb.append(proj.getProjectedValueVarName());
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

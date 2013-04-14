@@ -59,6 +59,10 @@ public class MapClearNode extends EvalStatementNode
 		return true;
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new MapClear(target.checkIR(Qualification.class));

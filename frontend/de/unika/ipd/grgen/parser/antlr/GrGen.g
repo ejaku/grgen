@@ -192,6 +192,7 @@ textActions returns [ UnitNode main = null ]
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> functionChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> computationChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
 		if(!Util.isFilenameValidActionName(getFilename())) {
 			reportError(new de.unika.ipd.grgen.parser.Coords(), "the filename "+getFilename()+" can't be used as action name, must be similar to an identifier");
@@ -215,7 +216,7 @@ textActions returns [ UnitNode main = null ]
 	
 	( globalVarDecl )*
 
-	( patternOrActionOrSequenceOrFunctionDecls[patternChilds, actionChilds, sequenceChilds, functionChilds] )? EOF
+	( patternOrActionOrSequenceOrFunctionOrComputationDecls[patternChilds, actionChilds, sequenceChilds, functionChilds, computationChilds] )? EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
@@ -226,12 +227,14 @@ textActions returns [ UnitNode main = null ]
 				//
 				IdentNode id = new IdentNode(env.define(ParserEnvironment.ENTITIES, actionsName,
 					modelChilds.getCoords()));
-				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds);
+				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(), 
+						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds);
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
 			main = new UnitNode(actionsName, getFilename(), env.getStdModel(), 
-								modelChilds, patternChilds, actionChilds, sequenceChilds, functionChilds);
+								modelChilds, patternChilds, actionChilds, 
+								sequenceChilds, functionChilds, computationChilds);
 		}
 	;
 
@@ -300,10 +303,11 @@ globalVarDecl
 		SEMI
 	;
 
-patternOrActionOrSequenceOrFunctionDecls[ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
-											 CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> functionChilds ]
+patternOrActionOrSequenceOrFunctionOrComputationDecls[ CollectNode<IdentNode> patternChilds, 
+														CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> sequenceChilds, 
+														CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> computationChilds ]
 	@init{ mod = 0; }
-	: ( mod=patternModifiers patternOrActionOrSequenceOrFunctionDecl[patternChilds, actionChilds, sequenceChilds, functionChilds, mod] )+
+	: ( mod=patternModifiers patternOrActionOrSequenceOrFunctionOrComputationDecl[patternChilds, actionChilds, sequenceChilds, functionChilds, computationChilds, mod] )+
 	;
 	
 patternModifiers returns [ int res = 0 ]
@@ -348,14 +352,14 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 		}
 	;
 
-patternOrActionOrSequenceOrFunctionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
+patternOrActionOrSequenceOrFunctionOrComputationDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
 											 CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> functionChilds,
+											 CollectNode<IdentNode> computationChilds,
 											 int mod ]
 	@init{
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 		CollectNode<BaseNode> modifyParams = new CollectNode<BaseNode>();
-		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 		ExecNode exec = null;
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 		TestDeclNode actionDecl = null;
@@ -429,8 +433,17 @@ patternOrActionOrSequenceOrFunctionDecl [ CollectNode<IdentNode> patternChilds, 
 			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
 			sequenceChilds.addChild(id);
 		}
-	| id=funcOrExtFuncIdentDecl pushScope[id] 
-		params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] COLON retType=returnType
+	| id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
+		functionOrComputationDecl[id, params, functionChilds, computationChilds]
+	;
+
+functionOrComputationDecl[IdentNode id, CollectNode<BaseNode> params,
+							CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> computationChilds]
+	@init{
+		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
+		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
+	}
+	: COLON retType=returnType
 		LBRACE
 			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
@@ -438,8 +451,16 @@ patternOrActionOrSequenceOrFunctionDecl [ CollectNode<IdentNode> patternChilds, 
 			id.setDecl(new FunctionDeclNode(id, evals, params, retType));
 			functionChilds.addChild(id);
 		}
+	| (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)?
+		LBRACE
+			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+		RBRACE popScope
+		{
+			id.setDecl(new ComputationDeclNode(id, evals, params, returnTypes));
+			computationChilds.addChild(id);
+		}
 	;
-
+	
 parameters [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
 	: LPAREN (paramList[res, context, directlyNestingLHSGraph])? RPAREN
 	|
@@ -2207,6 +2228,7 @@ textTypes returns [ ModelNode model = null ]
 		CollectNode<ModelNode> modelChilds = new CollectNode<ModelNode>();
 		CollectNode<IdentNode> types = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> externalFuncs = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> externalComps = new CollectNode<IdentNode>();
 		IdentNode id = env.getDummyIdent();
 
 		String modelName = Util.removeFileSuffix(Util.removePathPrefix(getFilename()), "gm");
@@ -2220,24 +2242,38 @@ textTypes returns [ ModelNode model = null ]
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
 		)?
 		( usingDecl[modelChilds] )?
-		typeDecls[types, externalFuncs] EOF
+		typeDecls[types, externalFuncs, externalComps] EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
-			model = new ModelNode(id, types, externalFuncs, modelChilds);
+			model = new ModelNode(id, types, externalFuncs, externalComps, modelChilds);
 		}
 	;
 
-typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs ]
-	: ( type=typeDecl { types.addChild(type); } |
-		externalFunc=externalFunctionDecl { externalFuncs.addChild(externalFunc); })*
+typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,  CollectNode<IdentNode> externalComps ]
+	: (
+		type=typeDecl { types.addChild(type); }
+	  |
+		id=funcOrExtFuncIdentDecl params=paramTypes
+		externalFunctionOrComputationDecl[id, params, externalFuncs, externalComps]
+	  )*
 	;
 
-externalFunctionDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: id=funcOrExtFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
+externalFunctionOrComputationDecl [ IdentNode id, CollectNode<BaseNode> params,
+									CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalComps ]
+									returns [ IdentNode res = env.getDummyIdent() ]
+	@init{
+		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
+	}
+	: COLON ret=returnType SEMI
 		{
 			id.setDecl(new ExternalFunctionDeclNode(id, params, ret));
-			res = id;
+			externalFuncs.addChild(id);
+		}
+	| COLON LPAREN (returnTypeList[returnTypes])? RPAREN
+		{
+			id.setDecl(new ExternalComputationDeclNode(id, params, returnTypes));
+			externalComps.addChild(id);
 		}
 	;
 
@@ -2943,6 +2979,9 @@ options { k = 5; }
 		BaseNode tgtChanged = null;
 		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
 		boolean yielded = false;
+		CollectNode<ExprNode> returnValues = new CollectNode<ExprNode>();
+		CollectNode<ProjectionExprNode> targetProjs = new CollectNode<ProjectionExprNode>();
+		CollectNode<EvalStatementNode> targets = new CollectNode<EvalStatementNode>();
 	}
 
 	: (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[false] SEMI//'false' because this rule is not used for the assignments in enum item decls
@@ -2988,8 +3027,8 @@ options { k = 5; }
 	  dp=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph] SEMI
 			{ res=new DefDeclStatementNode(dp.getCoords(), dp, context); }
 	|
-	  r=RETURN LPAREN e=expr[false] RPAREN SEMI
-			{ res=new ReturnStatementNode(getCoords(r), e); }
+	  r=RETURN ( retValues=paramExprs[false] { returnValues = retValues; } )? SEMI
+			{ res=new ReturnStatementNode(getCoords(r), returnValues); }
 	|
 	  f=FOR LPAREN pushScopeStr["for", getCoords(f)] fc=forContent[getCoords(f), onLHS, context, directlyNestingLHSGraph]
 			{ res=fc; }
@@ -3016,7 +3055,8 @@ options { k = 5; }
 	  WHILE LPAREN e=expr[false] RPAREN
 			{ res=new DoWhileStatementNode(getCoords(d), cs, e); }
 	|
-	  (i=IDENT | i=EMIT) params=paramExprs[false] SEMI
+	  (l=LPAREN tgts=targets[getCoords(l)] RPAREN ASSIGN { targetProjs = tgts.tgtProjs; targets = tgts.tgts; } )? 
+		(i=IDENT|i=EMIT) params=paramExprs[false] SEMI
 			{ 
 				if(    i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
 					|| i.getText().equals("record") || i.getText().equals("emit") || i.getText().equals("highlight") 
@@ -3026,28 +3066,6 @@ options { k = 5; }
 					|| i.getText().equals("redirectSourceAndTarget")
 					|| i.getText().equals("pauseTransaction") || i.getText().equals("resumeTransaction")
 					|| i.getText().equals("commitTransaction") || i.getText().equals("rollbackTransaction")
-					)
-				{
-					res=new ProcedureCallNode(getCoords(i), i.getText(), params);
-				}
-				else if((i.getText().equals("min") || i.getText().equals("max")) && params.getChildren().size()==2
-					|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
-					|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
-					|| i.getText().equals("abs") && params.getChildren().size()==1
-					|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
-					|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
-					|| i.getText().equals("opposite") && params.getChildren().size()==2
-					|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-					|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-					|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-					|| (i.getText().equals("reachableEdgesIncoming") || i.getText().equals("reachableEdgesOutgoing") || i.getText().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
-					|| (i.getText().equals("isIncoming") || i.getText().equals("isOutgoing") || i.getText().equals("isIncident")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-					|| (i.getText().equals("isAdjacentIncoming") || i.getText().equals("isAdjacentOutgoing") || i.getText().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-					|| (i.getText().equals("isReachableIncoming") || i.getText().equals("isReachableOutgoing") || i.getText().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-					|| (i.getText().equals("isReachableEdgesIncoming") || i.getText().equals("isReachableEdgesOutgoing") || i.getText().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
-					|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
-					|| i.getText().equals("canonize") && params.getChildren().size()==1
-					|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
 					|| (i.getText().equals("insertInduced") || i.getText().equals("insertDefined")) && params.getChildren().size()==2
 					|| i.getText().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()<=3)
 					|| i.getText().equals("retype") && params.getChildren().size()==2
@@ -3055,16 +3073,59 @@ options { k = 5; }
 					|| i.getText().equals("valloc") && params.getChildren().size()==0
 					)
 				{
-					res = new CallStatementNode(getCoords(i), new FunctionInvocationExprNode(new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))), params, env));
+					IdentNode compIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+					ComputationInvocationNode comp = new ComputationInvocationNode(compIdent, params, env);
+					res = new ReturnAssignmentNode(getCoords(i), comp, targets, context);
+					for(ProjectionExprNode proj : targetProjs.getChildren()) {
+						proj.setComputation(comp);
+					}
 				}
 				else
 				{
-					res = new CallStatementNode(getCoords(i), new FunctionOrExternalFunctionInvocationExprNode(new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))), params));
+					IdentNode compIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+					ComputationOrExternalComputationInvocationNode comp = new ComputationOrExternalComputationInvocationNode(compIdent, params);
+					res = new ReturnAssignmentNode(getCoords(i), comp, targets, context);
+					for(ProjectionExprNode proj : targetProjs.getChildren()) {
+						proj.setComputation(comp);
+					}
 				}
 			}
-	| exec=execStmt[null, context, directlyNestingLHSGraph] SEMI
+	|
+	  exec=execStmt[null, context, directlyNestingLHSGraph] SEMI
 		{ res = new ExecStatementNode(exec); }
 	;
+
+targets	[Coords coords] returns [ CollectNode<ProjectionExprNode> tgtProjs = new CollectNode<ProjectionExprNode>(), CollectNode<EvalStatementNode> tgts = new CollectNode<EvalStatementNode>() ]
+	@init{
+		int index = 0; // index of return target in sequence of returns
+		ProjectionExprNode e = null;
+	}
+	: ( { e = new ProjectionExprNode(coords, index); $tgtProjs.addChild(e); } tgt=assignmentTarget[coords, e, index] { $tgts.addChild(tgt); ++index; } 
+		  ( c=COMMA { e = new ProjectionExprNode(getCoords(c), index); $tgtProjs.addChild(e); } tgt=assignmentTarget[coords, e, index] { $tgts.addChild(tgt); ++index; } )*
+	  )?
+	;
+
+assignmentTarget [ Coords coords, ProjectionExprNode e, int context ] returns [ EvalStatementNode res = null ]
+options { k = 5; }
+	@init{
+		boolean yielded = false;
+	}
+
+	: (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse
+		{ res = new AssignNode(coords, new QualIdentNode(getCoords(d), owner, member), e, context); }
+	|
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse
+		{ res = new AssignNode(coords, new IdentExprNode(variable, yielded), e, context); }
+	|
+	  vis=visited
+		{ res = new AssignVisitedNode(coords, vis, e); }
+	| 
+	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[false] RBRACK
+		{ res = new AssignIndexedNode(coords, new QualIdentNode(getCoords(d), owner, member), e, idx); }
+	|
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[false] RBRACK
+		{ res = new AssignIndexedNode(coords, new IdentExprNode(variable, yielded), e, idx); }
+	;	
 	
 ifelse [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 	@init{
@@ -3149,7 +3210,7 @@ options { k = *; }
 			res = new ForLookupNode(f, iterVar, cs);
 		}
 	;
-	
+
 assignTo returns [ int ccat = CompoundAssignNode.NONE, BaseNode tgtChanged = null ]
 	: (ASSIGN_TO { $ccat = CompoundAssignNode.ASSIGN; }
 		| BOR_TO { $ccat = CompoundAssignNode.UNION; }
@@ -3455,11 +3516,6 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| id.toString().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 				|| id.toString().equals("canonize") && params.getChildren().size()==1
 				|| (id.toString().equals("inducedSubgraph") || id.toString().equals("definedSubgraph")) && params.getChildren().size()==1
-				|| (id.toString().equals("insertInduced") || id.toString().equals("insertDefined")) && params.getChildren().size()==2
-				|| id.toString().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()<=3)
-				|| id.toString().equals("retype") && params.getChildren().size()==2
-				|| id.toString().equals("startTransaction") && params.getChildren().size()==0
-				|| id.toString().equals("valloc") && params.getChildren().size()==0
 			  )
 			{
 				res = new FunctionInvocationExprNode(id, params, env);

@@ -76,6 +76,10 @@ public class MapRemoveItemNode extends EvalStatementNode
 		return true;
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new MapRemoveItem(target.checkIR(Qualification.class),

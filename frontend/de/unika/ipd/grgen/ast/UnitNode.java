@@ -25,6 +25,7 @@ import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Sequence;
 import de.unika.ipd.grgen.ir.Unit;
+import de.unika.ipd.grgen.ir.exprevals.Computation;
 import de.unika.ipd.grgen.ir.exprevals.Function;
 
 /**
@@ -51,6 +52,9 @@ public class UnitNode extends BaseNode {
 	private CollectNode<FunctionDeclNode> functions;
 	private CollectNode<IdentNode> functionsUnresolved;
 
+	private CollectNode<ComputationDeclNode> computations;
+	private CollectNode<IdentNode> computationsUnresolved;
+
 	/**
 	 * The name for this unit node
 	 */
@@ -61,9 +65,9 @@ public class UnitNode extends BaseNode {
 	 */
 	private String filename;
 
-	public UnitNode(String unitname, String filename, ModelNode stdModel, CollectNode<ModelNode> models,
-			CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions, 
-			CollectNode<IdentNode> sequences, CollectNode<IdentNode> functions) {
+	public UnitNode(String unitname, String filename, ModelNode stdModel,
+			CollectNode<ModelNode> models, CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions, 
+			CollectNode<IdentNode> sequences, CollectNode<IdentNode> functions, CollectNode<IdentNode> computations) {
 		this.stdModel = stdModel;
 		this.models = models;
 		becomeParent(this.models);
@@ -75,6 +79,8 @@ public class UnitNode extends BaseNode {
 		becomeParent(this.sequencesUnresolved);
 		this.functionsUnresolved = functions;
 		becomeParent(this.functionsUnresolved);
+		this.computationsUnresolved = computations;
+		becomeParent(this.computationsUnresolved);
 		this.unitname = unitname;
 		this.filename = filename;
 	}
@@ -96,6 +102,7 @@ public class UnitNode extends BaseNode {
 		children.add(getValidVersion(actionsUnresolved, actions));
 		children.add(getValidVersion(sequencesUnresolved, sequences));
 		children.add(getValidVersion(functionsUnresolved, functions));
+		children.add(getValidVersion(computationsUnresolved, computations));
 		return children;
 	}
 
@@ -108,6 +115,7 @@ public class UnitNode extends BaseNode {
 		childrenNames.add("actions");
 		childrenNames.add("sequences");
 		childrenNames.add("functions");
+		childrenNames.add("computations");
 		return childrenNames;
 	}
 
@@ -123,6 +131,9 @@ public class UnitNode extends BaseNode {
 	private static final CollectResolver<FunctionDeclNode> functionsResolver = new CollectResolver<FunctionDeclNode>(
 			new DeclarationResolver<FunctionDeclNode>(FunctionDeclNode.class));
 
+	private static final CollectResolver<ComputationDeclNode> computationsResolver = new CollectResolver<ComputationDeclNode>(
+			new DeclarationResolver<ComputationDeclNode>(ComputationDeclNode.class));
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
@@ -130,8 +141,9 @@ public class UnitNode extends BaseNode {
 		subpatterns  = subpatternsResolver.resolve(subpatternsUnresolved, this);
 		sequences    = sequencesResolver.resolve(sequencesUnresolved, this);
 		functions = functionsResolver.resolve(functionsUnresolved, this);
+		computations = computationsResolver.resolve(computationsUnresolved, this);
 
-		return actions != null && subpatterns != null && sequences != null && functions != null;
+		return actions != null && subpatterns != null && sequences != null && functions != null && computations != null;
 	}
 
 	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
@@ -139,7 +151,65 @@ public class UnitNode extends BaseNode {
 	@Override
 	protected boolean checkLocal() {
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
-		return modelChecker.check(models, error);
+		boolean res = modelChecker.check(models, error);
+		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {	
+			res &= checkStatementsLHS(subpattern, subpattern.pattern);
+			if(subpattern.right.size()>0)
+				res &= checkStatementsRHS(subpattern, subpattern.right.children.get(0).graph);
+		}
+		for(TestDeclNode action : actions.getChildren()) {
+			res &= checkStatementsLHS(action, action.pattern);
+			if(action instanceof RuleDeclNode) {
+				RuleDeclNode rule = (RuleDeclNode)action;
+				res &= checkStatementsRHS(action, rule.right.graph);
+			}
+		}
+		for(FunctionDeclNode function : functions.getChildren()) {
+			res &= EvalStatementNode.checkStatements(true, function, null, function.evals, true);
+		}
+		for(ComputationDeclNode computation : computations.getChildren()) {
+			res &= EvalStatementNode.checkStatements(false, computation, null, computation.evals, true);
+		}
+		return res;
+	}
+	
+	protected boolean checkStatementsLHS(DeclNode root, PatternGraphNode curPattern) {
+		boolean res = true;
+
+		// traverse graph structure
+		for(AlternativeNode alt : curPattern.alts.getChildren()) {
+			for(AlternativeCaseNode altCase : alt.getChildren()) {
+				res &= checkStatementsLHS(root, altCase.pattern);
+				if(altCase.right.size()>0)
+					res &= checkStatementsRHS(root, altCase.right.children.get(0).graph);
+			}
+		}
+		for(IteratedNode iter : curPattern.iters.getChildren()) {
+			res &= checkStatementsLHS(root, iter.pattern);
+			if(iter.right.size()>0)
+				res &= checkStatementsRHS(root, iter.right.children.get(0).graph);
+		}
+		for(PatternGraphNode idpt : curPattern.idpts.getChildren()) {
+			res &= checkStatementsLHS(root, idpt);
+		}
+		
+		// spawn checking computation statement structure
+		for(EvalStatementsNode yields : curPattern.yieldsEvals.getChildren()) {
+			res &= EvalStatementNode.checkStatements(true, root, null, yields.evalStatements, true);
+		}
+		
+		return res;
+	}
+
+	protected boolean checkStatementsRHS(DeclNode root, GraphNode curGraph) {
+		boolean res = true;
+
+		// spawn checking computation statement structure
+		for(EvalStatementsNode evals : curGraph.yieldsEvals.getChildren()) {
+			res &= EvalStatementNode.checkStatements(false, root, null, evals.evalStatements, true);
+		}
+		
+		return res;
 	}
 
 	/**
@@ -182,6 +252,11 @@ public class UnitNode extends BaseNode {
 		for(FunctionDeclNode n : functions.getChildren()) {
 			Function function = n.getFunction();
 			res.addFunction(function);
+		}
+
+		for(ComputationDeclNode n : computations.getChildren()) {
+			Computation computation = n.getComputation();
+			res.addComputation(computation);
 		}
 
 		return res;

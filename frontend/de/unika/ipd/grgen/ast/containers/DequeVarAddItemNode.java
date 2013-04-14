@@ -77,6 +77,10 @@ public class DequeVarAddItemNode extends EvalStatementNode
 		return success;
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new DequeVarAddItem(target.checkIR(Variable.class),

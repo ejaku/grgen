@@ -1,0 +1,31 @@
+one() : (int)
+{
+	return(1);
+}
+
+three() : (int)
+{
+	def var res1:int;
+	(res1) = one();
+	def var res2:int;
+	(res2) = two();
+	return(res1 + res2);
+}
+
+two() : (int)
+{
+	def var res:int;
+	(res) = one();
+	return(res + res);
+}
+
+rule r : (int)
+{
+	modify {
+		def var res:int;
+		eval {
+			(yield res) = three();
+		}
+		return(res);
+	}
+}
