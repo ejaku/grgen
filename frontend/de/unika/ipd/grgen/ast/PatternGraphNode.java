@@ -71,7 +71,7 @@ public class PatternGraphNode extends GraphNode {
 	protected CollectNode<AlternativeNode> alts;
 	protected CollectNode<IteratedNode> iters;
 	protected CollectNode<PatternGraphNode> negs; // NACs
-	private CollectNode<PatternGraphNode> idpts; // PACs
+	protected CollectNode<PatternGraphNode> idpts; // PACs
 	private CollectNode<HomNode> homs;
 	private CollectNode<TotallyHomNode> totallyHoms;
 	private CollectNode<ExactNode> exact;

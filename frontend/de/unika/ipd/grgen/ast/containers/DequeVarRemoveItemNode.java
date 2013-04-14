@@ -70,6 +70,10 @@ public class DequeVarRemoveItemNode extends EvalStatementNode
 			return true;
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new DequeVarRemoveItem(target.checkIR(Variable.class),

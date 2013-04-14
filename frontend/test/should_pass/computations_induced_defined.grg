@@ -4,8 +4,10 @@ foo(n1:Node, -e1:Edge->) : int
 	
 	def var g1:graph = inducedSubgraph(adjacent(n1));
 	def var g2:graph = definedSubgraph(incident(n1));
-	def var n2:Node = insertInduced(adjacent(n1), n1);
-	def var e2:Edge = insertDefined(incident(n1), e1);
+	def var n2:Node;
+	(n2) = insertInduced(adjacent(n1), n1);
+	def var e2:Edge;
+	(e2) = insertDefined(incident(n1), e1);
 	
 	return(res);
 }
@@ -34,8 +36,10 @@ rule r(n1:Node, -e1:Edge->) : (int)
 		eval { 
 			def var g1:graph = inducedSubgraph(adjacent(n1));
 			def var g2:graph = definedSubgraph(incident(n1));
-			def var n2:Node = insertInduced(adjacent(n1), n1);
-			def var e2:Edge = insertDefined(incident(n1), e1);
+			def var n2:Node;
+			(n2) = insertInduced(adjacent(n1), n1);
+			def var e2:Edge;
+			(e2) = insertDefined(incident(n1), e1);
 		}
 		
 		return (res);

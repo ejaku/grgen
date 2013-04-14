@@ -46,7 +46,7 @@ namespace de.unika.ipd.grGen.libGr
         IsReachableEdges, IsReachableEdgesViaIncoming, IsReachableEdgesViaOutgoing,
         InducedSubgraph, DefinedSubgraph,
         Canonize,
-        ComputationCall,
+        FunctionCall,
         VAlloc, GraphAdd, InsertInduced, InsertDefined // has side effects, but parser accepts it only in assignments
     }
 
@@ -3464,7 +3464,7 @@ namespace de.unika.ipd.grGen.libGr
         public FunctionInvocationParameterBindings ParamBindings;
 
         public SequenceExpressionFunctionCall(FunctionInvocationParameterBindings paramBindings)
-            : base(SequenceExpressionType.ComputationCall)
+            : base(SequenceExpressionType.FunctionCall)
         {
             ParamBindings = paramBindings;
         }
@@ -3492,8 +3492,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            FunctionInfo compDef = ParamBindings.FunctionDef;
-            object res = compDef.Apply(procEnv, procEnv.Graph, ParamBindings);
+            FunctionInfo funcDef = ParamBindings.FunctionDef;
+            object res = funcDef.Apply(procEnv, procEnv.Graph, ParamBindings);
             return res;
         }
 

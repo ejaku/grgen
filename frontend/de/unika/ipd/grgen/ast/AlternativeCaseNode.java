@@ -39,7 +39,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		setName(AlternativeCaseNode.class, "alternative case");
 	}
 
-	private PatternGraphNode pattern;
+	protected PatternGraphNode pattern;
 	protected CollectNode<RhsDeclNode> right;
 	private AlternativeCaseTypeNode type;
 

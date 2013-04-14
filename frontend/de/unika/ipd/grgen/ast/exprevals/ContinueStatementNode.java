@@ -52,10 +52,17 @@ public class ContinueStatementNode extends EvalStatementNode {
 
 	@Override
 	protected boolean checkLocal() {
-		// TODO: check whether in loop
 		return true;
 	}
-	
+
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		if(enclosingLoop==null) {
+			reportError("continue must be nested inside a loop (where to continue?)");
+			return false;
+		}
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new ContinueStatement();

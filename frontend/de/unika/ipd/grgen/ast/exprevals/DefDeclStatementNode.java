@@ -83,6 +83,10 @@ public class DefDeclStatementNode extends EvalStatementNode {
 		return true;
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		// potential initialization is attached to the Var or the GraphEntity

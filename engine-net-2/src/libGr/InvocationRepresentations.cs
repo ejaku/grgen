@@ -11,15 +11,15 @@ using System.Collections.Generic;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// An object representing a rule or sequence or function invocation.
+    /// An object representing a rule or sequence or function or computation invocation.
     /// It stores the input arguments (values) and
     /// tells with which sequence expressions to compute them.
     /// </summary>
     public class InvocationParameterBindings
     {
         /// <summary>
-        /// The name of the rule or sequence or function.
-        /// Used for generation, where the rule or sequence or function representation objects do not exist yet.
+        /// The name of the rule or sequence or function or computation.
+        /// Used for generation, where the rule or sequence or function or computation representation objects do not exist yet.
         /// </summary>
         public String Name;
 
@@ -62,7 +62,7 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// An object representing a rule or sequence invocation.
+    /// An object representing a rule or sequence or computation invocation.
     /// It stores the input arguments (values),
     /// tells with which sequence expressions to compute them,
     /// and where (which variables) to store the output values.
@@ -71,7 +71,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         /// <summary>
         /// An array of variables used for the return values.
-        /// Might be empty if the rule/sequence caller is not interested in available returns values.
+        /// Might be empty if the rule/sequence/computation caller is not interested in available returns values.
         /// </summary>
         public SequenceVariable[] ReturnVars;
 
@@ -174,6 +174,50 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceInvocationParameterBindings copy = (SequenceInvocationParameterBindings)MemberwiseClone();
+            copy.ArgumentExpressions = new SequenceExpression[ArgumentExpressions.Length];
+            for(int i = 0; i < ArgumentExpressions.Length; ++i)
+                copy.ArgumentExpressions[i] = ArgumentExpressions[i].CopyExpression(originalToCopy, procEnv);
+            copy.ReturnVars = new SequenceVariable[ReturnVars.Length];
+            for(int i = 0; i < ReturnVars.Length; ++i)
+                copy.ReturnVars[i] = ReturnVars[i].Copy(originalToCopy, procEnv);
+            copy.Arguments = new object[Arguments.Length];
+            for(int i = 0; i < Arguments.Length; ++i)
+                copy.Arguments[i] = Arguments[i];
+            return copy;
+        }
+    }
+
+    /// <summary>
+    /// An object representing a computation.
+    /// It stores the input arguments (values),
+    /// tells with which sequence expressions to compute them,
+    /// and where (which variables) to store the output values.
+    /// </summary>
+    public class ComputationInvocationParameterBindings : InvocationParameterBindingsWithReturns
+    {
+        /// <summary>
+        /// The computation to be used
+        /// </summary>
+        public ComputationInfo ComputationDef;
+
+        /// <summary>
+        /// Instantiates a new ComputationInvocationParameterBindings object
+        /// </summary>
+        /// <param name="computationDef">The defined computation to be used</param>
+        /// <param name="argExprs">An array of expressions used to compute the arguments</param>
+        /// <param name="arguments">An array of arguments.</param>
+        /// <param name="returnVars">An array of variables used for the return values</param>
+        public ComputationInvocationParameterBindings(ComputationInfo computationDef,
+            SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars)
+            : base(argExprs, arguments, returnVars)
+        {
+            ComputationDef = computationDef;
+            if(computationDef != null) Name = computationDef.name;
+        }
+
+        public ComputationInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            ComputationInvocationParameterBindings copy = (ComputationInvocationParameterBindings)MemberwiseClone();
             copy.ArgumentExpressions = new SequenceExpression[ArgumentExpressions.Length];
             for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 copy.ArgumentExpressions[i] = ArgumentExpressions[i].CopyExpression(originalToCopy, procEnv);

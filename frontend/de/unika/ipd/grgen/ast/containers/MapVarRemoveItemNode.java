@@ -66,6 +66,10 @@ public class MapVarRemoveItemNode extends EvalStatementNode
 		return checkType(keyExpr, targetKeyType, "map remove item statement", "key");
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new MapVarRemoveItem(target.checkIR(Variable.class),

@@ -69,12 +69,16 @@ public class ConditionStatementNode extends EvalStatementNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean resolveLocal() {
 		return true;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean checkLocal() {
+		return true;
+	}
+
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
 		return true;
 	}
 	

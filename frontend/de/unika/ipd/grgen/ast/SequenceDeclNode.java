@@ -109,5 +109,13 @@ public class SequenceDeclNode extends DeclNode {
 
 		return type;
 	}
+	
+	public static String getKindStr() {
+		return "sequence declaration";
+	}
+
+	public static String getUseStr() {
+		return "sequence";
+	}
 }
 

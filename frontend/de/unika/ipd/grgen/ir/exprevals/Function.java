@@ -20,21 +20,19 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * A function.
  */
-public class Function extends Identifiable {
+public class Function extends FunctionBase {
 	/** A list of the parameters */
 	private List<Entity> params = new LinkedList<Entity>();
 
-	/** The return-parameter type */
-	private Type retType = null;
+	/** A list of the parameter types, computed from the parameters */
+	private List<Type> parameterTypes = null;
 	
 	/** The computation statements */
 	private List<EvalStatement> computationStatements = new LinkedList<EvalStatement>();
 
 
 	public Function(String name, Ident ident, Type retType) {
-		super(name, ident);
-
-		this.retType = retType;
+		super(name, ident, retType);
 	}
 
 	/** Add a parameter to the function. */
@@ -46,11 +44,6 @@ public class Function extends Identifiable {
 	public List<Entity> getParameters() {
 		return Collections.unmodifiableList(params);
 	}
-
-	/** Get the return type of this function. */
-	public Type getReturnType() {
-		return retType;
-	}
 	
 	/** Add a computation statement to the function. */
 	public void addComputationStatement(EvalStatement eval) {
@@ -60,5 +53,16 @@ public class Function extends Identifiable {
 	/** Get all computation statements of this function. */
 	public List<EvalStatement> getComputationStatements() {
 		return Collections.unmodifiableList(computationStatements);
+	}
+	
+	/** Get all parameter types of this external function. */
+	public List<Type> getParameterTypes() {
+		if(parameterTypes==null) {
+			parameterTypes = new LinkedList<Type>();
+			for(Entity entity : getParameters()) {
+				parameterTypes.add(entity.getType());
+			}
+		}
+		return Collections.unmodifiableList(parameterTypes);
 	}
 }

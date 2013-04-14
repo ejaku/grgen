@@ -38,6 +38,8 @@ public class Unit extends IR {
 
 	private final List<Function> functions = new LinkedList<Function>();
 
+	private final List<Computation> computations = new LinkedList<Computation>();
+
 	private final List<Model> models = new LinkedList<Model>();
 
 	private String digest = "";
@@ -90,6 +92,15 @@ public class Unit extends IR {
 
 	public Collection<Function> getFunctions() {
 		return Collections.unmodifiableCollection(functions);
+	}
+
+	/** Add a computation to the unit. */
+	public void addComputation(Computation computation) {
+		computations.add(computation);
+	}
+
+	public Collection<Computation> getComputations() {
+		return Collections.unmodifiableCollection(computations);
 	}
 
 	/** Add a model to the unit. */

@@ -40,7 +40,7 @@ public class ActionsGen extends CSharpBase {
 		be = backend;
 		model = be.unit.getActionsGraphModel();
 		mg = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix);
-		modifyGenForFunctions = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix);
+		mgFuncComp = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix);
 	}
 
 	/**
@@ -83,7 +83,9 @@ public class ActionsGen extends CSharpBase {
 		}
 		
 		genFunctions(sb);
-		
+
+		genComputations(sb);
+
 		/////////////////////////////////////////////////////////
 		
 		sb.append("\tpublic class " + be.unit.getUnitName() + "_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns\n");
@@ -96,6 +98,7 @@ public class ActionsGen extends CSharpBase {
 				be.unit.getSubpatternRules().size()+"+"+be.unit.getActionRules().size()+"];\n");
 		sb.append("\t\t\tdefinedSequences = new GRGEN_LIBGR.DefinedSequenceInfo["+be.unit.getSequences().size()+"];\n");
 		sb.append("\t\t\tfunctions = new GRGEN_LIBGR.FunctionInfo["+be.unit.getFunctions().size()+"];\n");	
+		sb.append("\t\t\tcomputations = new GRGEN_LIBGR.ComputationInfo["+be.unit.getComputations().size()+"];\n");	
 		int i = 0;
 		for(Rule subpatternRule : be.unit.getSubpatternRules()) {
 			sb.append("\t\t\tsubpatterns["+i+"] = Pattern_"+formatIdentifiable(subpatternRule)+".Instance;\n");
@@ -118,6 +121,11 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\tfunctions["+i+"] = FunctionInfo_"+formatIdentifiable(function)+".Instance;\n");
 			++i;
 		}
+		i = 0;
+		for(Computation computation : be.unit.getComputations()) {
+			sb.append("\t\t\tcomputations["+i+"] = ComputationInfo_"+formatIdentifiable(computation)+".Instance;\n");
+			++i;
+		}
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override GRGEN_LGSP.LGSPRulePattern[] Rules { get { return rules; } }\n");
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPRulePattern[] rules;\n");
@@ -129,6 +137,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;\n");
 		sb.append("\t\tpublic override GRGEN_LIBGR.FunctionInfo[] Functions { get { return functions; } }\n");
 		sb.append("\t\tprivate GRGEN_LIBGR.FunctionInfo[] functions;\n");
+		sb.append("\t\tpublic override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }\n");
+		sb.append("\t\tprivate GRGEN_LIBGR.ComputationInfo[] computations;\n");
 		sb.append("\t}\n");
 		sb.append("\n");
 
@@ -265,7 +275,10 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
-	
+
+	/**
+	 * Generates the function representation sourcecode for the given function
+	 */
 	private void genFunctions(StringBuffer sb) {
 		sb.append("\tpublic class Functions\n");
 		sb.append("\t{\n");
@@ -308,10 +321,10 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-		ModifyGen.ModifyGenerationState modifyGenState = modifyGenForFunctions.new ModifyGenerationState();
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState();
 		for(EvalStatement evalStmt : function.getComputationStatements()) {
-			modifyGenState.functionName = function.getIdent().toString();
-			modifyGenForFunctions.genEvalStmt(sb, modifyGenState, evalStmt);
+			modifyGenState.functionOrComputationName = function.getIdent().toString();
+			mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
 		}
 		sb.append("\t\t}\n");
 	}
@@ -347,17 +360,17 @@ public class ActionsGen extends CSharpBase {
 			}
 		}
 		sb.append(" },\n");
-		Type outParamType = function.getReturnType();
-		if(outParamType instanceof InheritanceType) {
-			sb.append("\t\t\t\t\t\t" + formatTypeClassRef(outParamType) + ".typeVar\n");
+		Type outType = function.getReturnType();
+		if(outType instanceof InheritanceType) {
+			sb.append("\t\t\t\t\t\t" + formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
-			sb.append("\t\t\t\t\t\tGRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outParamType) + "))\n");
+			sb.append("\t\t\t\t\t\tGRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
 		}
 		sb.append("\t\t\t\t\t  )\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ComputationInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\treturn Functions." + functionName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
 		int i = 0;
@@ -366,6 +379,147 @@ public class ActionsGen extends CSharpBase {
 			++i;
 		}
 		sb.append(");\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
+	/**
+	 * Generates the computation representation sourcecode for the given computation
+	 */
+	private void genComputations(StringBuffer sb) {
+		sb.append("\tpublic class Computations\n");
+		sb.append("\t{\n");
+		
+		for(Computation computation : be.unit.getComputations()) {
+			genComputation(sb, computation);
+		}
+
+		List<String> staticInitializers = new LinkedList<String>();
+		String pathPrefixForElements = "";
+		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
+
+		for(Computation computation : be.unit.getComputations()) {
+			genLocalContainersEvals(sb, computation.getComputationStatements(), staticInitializers,
+					pathPrefixForElements, alreadyDefinedEntityToName);
+		}
+		
+		sb.append("#if INITIAL_WARMUP\t\t// GrGen computation exec section:\n");
+		for(Computation computation : be.unit.getComputations()) {
+			genImperativeStatements(sb, computation);
+		}
+		sb.append("#endif\n");
+
+		sb.append("\t}\n");
+		sb.append("\n");
+		
+		for(Computation computation : be.unit.getComputations()) {
+			genComputationInfo(sb, computation);
+		}
+	}
+
+	private void genComputation(StringBuffer sb, Computation computation) {
+		sb.append("\t\tpublic static void ");
+		sb.append(computation.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
+		for(Entity inParam : computation.getParameters()) {
+			sb.append(", ");
+			sb.append(formatType(inParam.getType()));
+			sb.append(" ");
+			sb.append(formatEntity(inParam));
+		}
+		int i = 0;
+		for(Type outType : computation.getReturnTypes()) {
+			sb.append(", out ");
+			sb.append(formatType(outType));
+			sb.append(" ");
+			sb.append("_out_param_" + i);
+			++i;
+		}
+		sb.append(")\n");
+		sb.append("\t\t{\n");
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState();
+		for(EvalStatement evalStmt : computation.getComputationStatements()) {
+			modifyGenState.functionOrComputationName = computation.getIdent().toString();
+			mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
+		}
+		sb.append("\t\t}\n");
+	}
+
+	/**
+	 * Generates the computation info for the given computation
+	 */
+	private void genComputationInfo(StringBuffer sb, Computation computation) {
+		String computationName = formatIdentifiable(computation);
+		String className = "ComputationInfo_"+computationName;
+
+		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.ComputationInfo\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); } return instance; } }\n");
+		sb.append("\n");
+
+		sb.append("\t\tprivate " + className + "()\n");
+		sb.append("\t\t\t\t\t: base(\n");
+		sb.append("\t\t\t\t\t\t\"" + computationName + "\",\n");
+		sb.append("\t\t\t\t\t\tnew String[] { ");
+		for(Entity inParam : computation.getParameters()) {
+			sb.append("\"" + inParam.getIdent() + "\", ");
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Entity inParam : computation.getParameters()) {
+			if(inParam.getType() instanceof InheritanceType) {
+				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
+			}
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Type outType : computation.getReturnTypes()) {
+			if(outType instanceof InheritanceType) {
+				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
+			}
+		}
+		sb.append(" }\n");
+		sb.append("\t\t\t\t\t  )\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ComputationInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\t{\n");
+		
+		int i = 0;
+		for(Type outType : computation.getReturnTypes()) {
+			sb.append("\t\t\t" + formatType(outType));
+			sb.append(" ");
+			sb.append("_out_param_" + i + ";\n");
+			++i;
+		}
+
+		sb.append("\t\t\tComputations." + computationName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
+		i = 0;
+		for(Entity inParam : computation.getParameters()) {
+			sb.append(", (" + formatType(inParam.getType()) + ")paramBindings.Arguments[" + i + "]");
+			++i;
+		}
+		for(i=0; i<computation.getReturnTypes().size(); ++i) {
+			sb.append(", out ");
+			sb.append("_out_param_" + i);
+		}
+		sb.append(");\n");
+
+		for(i=0; i<computation.getReturnTypes().size(); ++i) {
+			sb.append("\t\t\tReturnArray[" + i + "] = ");
+			sb.append("_out_param_" + i + ";\n");
+		}
+
+		sb.append("\t\t\treturn ReturnArray;\n");
+
 		sb.append("\t\t}\n");
 
 		sb.append("\t}\n");
@@ -721,6 +875,16 @@ public class ActionsGen extends CSharpBase {
 			else if(eval instanceof ReturnStatement) {
 				ReturnStatement returnStmt = (ReturnStatement)eval;
 				returnStmt.getReturnValueExpr().collectNeededEntities(needs);
+			}
+			else if(eval instanceof ReturnStatementComputation) {
+				ReturnStatementComputation returnStmtComp = (ReturnStatementComputation)eval;
+				for(Expression returnValueExpr : returnStmtComp.getReturnValueExpr()) {
+					returnValueExpr.collectNeededEntities(needs);
+				}
+			}
+			else if(eval instanceof ReturnAssignment) {
+				ReturnAssignment returnAssignment = (ReturnAssignment)eval;
+				returnAssignment.getComputationInvocation().collectNeededEntities(needs);
 			}
 		}
 		genLocalContainers(sb, needs, staticInitializers);
@@ -1772,48 +1936,56 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private int genImperativeStatements(StringBuffer sb, Function function, EvalStatement evalStmt, int xgrsID) {
+	private void genImperativeStatements(StringBuffer sb, Computation computation) {
+		int xgrsID = 0;
+		for(EvalStatement evalStmt : computation.getComputationStatements()) {
+			xgrsID = genImperativeStatements(sb, computation, evalStmt, xgrsID);
+		}
+	}
+
+	private int genImperativeStatements(StringBuffer sb, Identifiable functionOrComputation, EvalStatement evalStmt, int xgrsID) {
 		if(evalStmt instanceof ExecStatement) {
-			genImperativeStatement(sb, function, (ExecStatement)evalStmt, xgrsID);
+			genImperativeStatement(sb, functionOrComputation, (ExecStatement)evalStmt, xgrsID);
 			++xgrsID;
 		} else if(evalStmt instanceof ConditionStatement) {
 			ConditionStatement condStmt = (ConditionStatement)evalStmt;
 			for(EvalStatement childEvalStmt : condStmt.getTrueCaseStatements()) {
-				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, functionOrComputation, childEvalStmt, xgrsID);
 			}
 			if(condStmt.getFalseCaseStatements()!=null) {
 				for(EvalStatement childEvalStmt : condStmt.getFalseCaseStatements()) {
-					xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
+					xgrsID = genImperativeStatements(sb, functionOrComputation, childEvalStmt, xgrsID);
 				}
 			}
 		} else if(evalStmt instanceof ContainerAccumulationYield) {
 			for(EvalStatement childEvalStmt : ((ContainerAccumulationYield)evalStmt).getAccumulationStatements()) {
-				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, functionOrComputation, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof DoWhileStatement) {
 			for(EvalStatement childEvalStmt : ((DoWhileStatement)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, functionOrComputation, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ForFunction) {
 			for(EvalStatement childEvalStmt : ((ForFunction)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, functionOrComputation, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ForLookup) {
 			for(EvalStatement childEvalStmt : ((ForLookup)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, functionOrComputation, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof WhileStatement) {
 			for(EvalStatement childEvalStmt : ((WhileStatement)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, function, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, functionOrComputation, childEvalStmt, xgrsID);
 			}
 		}
 		return xgrsID;
 	}
 
-	private void genImperativeStatement(StringBuffer sb, Function function, ExecStatement execStmt, int xgrsID) {
+	private void genImperativeStatement(StringBuffer sb, Identifiable functionOrComputation,
+			ExecStatement execStmt, int xgrsID) {
 		Exec exec = execStmt.getExec();
 		
-		sb.append("\t\tpublic static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + formatIdentifiable(function) + "_" + xgrsID
+		sb.append("\t\tpublic static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + formatIdentifiable(functionOrComputation) + "_" + xgrsID
 				+ " = new GRGEN_LIBGR.EmbeddedSequenceInfo(\n");
 		sb.append("\t\t\tnew string[] {");
 		for(Entity neededEntity : exec.getNeededEntities(true)) {
@@ -1857,7 +2029,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t" + exec.getLineNr() + "\n");
 		sb.append("\t\t);\n");
 		
-		sb.append("\t\tprivate static bool ApplyXGRS_" + formatIdentifiable(function) + "_" + xgrsID + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+		sb.append("\t\tprivate static bool ApplyXGRS_" + formatIdentifiable(functionOrComputation) + "_" + xgrsID + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 		for(Entity neededEntity : exec.getNeededEntities(true)) {
 			if(!neededEntity.isDefToBeYieldedTo()) {
 				sb.append(", " + formatType(neededEntity.getType()) + " var_" + neededEntity.getIdent());
@@ -2326,7 +2498,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if (expr instanceof FunctionInvocationExpr) {
 			FunctionInvocationExpr fi = (FunctionInvocationExpr) expr;
-			sb.append("new GRGEN_EXPR.ComputationInvocation(\"" + fi.getFunction().getIdent() + "\", new GRGEN_EXPR.Expression[] {");
+			sb.append("new GRGEN_EXPR.FunctionInvocation(\"" + fi.getFunction().getIdent() + "\", new GRGEN_EXPR.Expression[] {");
 			for(int i=0; i<fi.arity(); ++i) {
 				Expression argument = fi.getArgument(i);
 				genExpressionTree(sb, argument, className, pathPrefix, alreadyDefinedEntityToName);
@@ -2611,12 +2783,6 @@ public class ActionsGen extends CSharpBase {
 			}
 			genExpressionTree(sb, p.getRightExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
-		}
-		else if (expr instanceof VAllocExpr
-			|| expr instanceof GraphAddNodeExpr
-			|| expr instanceof GraphAddEdgeExpr
-			|| expr instanceof StartTransactionExpr) {
-			throw new UnsupportedOperationException("valloc, add(NodeType), add(EdgeType, SrcNode, TgtNode) are not available in rule LHS expressions");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
@@ -3466,24 +3632,21 @@ public class ActionsGen extends CSharpBase {
 			genContinueStatement(sb, (ContinueStatement) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
-		else if(evalStmt instanceof EmitStatement) {
-			genEmitStatement(sb, (EmitStatement) evalStmt,
+		else if(evalStmt instanceof EmitComp) {
+			genEmitComp(sb, (EmitComp) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
-		else if(evalStmt instanceof HighlightStatement) {
-			genHighlightStatement(sb, (HighlightStatement) evalStmt,
+		else if(evalStmt instanceof HighlightComp) {
+			genHighlightComp(sb, (HighlightComp) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
-		else if(evalStmt instanceof RecordStatement) {
-			genRecordStatement(sb, (RecordStatement) evalStmt,
+		else if(evalStmt instanceof RecordComp) {
+			genRecordComp(sb, (RecordComp) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
-		else if(evalStmt instanceof GraphClear
-				|| evalStmt instanceof GraphRemove
-				|| evalStmt instanceof VFreeStatement
-				|| evalStmt instanceof VFreeNonResetStatement
-				|| evalStmt instanceof VResetStatement) {
-			throw new UnsupportedOperationException("Visited flag manipulation and graph manipulation not allowed as yield statements; \"" + evalStmt + "\"");
+		else if(evalStmt instanceof ReturnAssignment) {
+			genYield(sb, ((ReturnAssignment) evalStmt).getComputationInvocation(), 
+					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else {
 			throw new UnsupportedOperationException("Unexpected yield statement \"" + evalStmt + "\"");
@@ -3976,24 +4139,24 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.ContinueStatement()");
 	}
 
-	private void genEmitStatement(StringBuffer sb, EmitStatement es,
+	private void genEmitComp(StringBuffer sb, EmitComp ec,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.EmitStatement(");
-		genExpressionTree(sb, es.getToEmitExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		genExpressionTree(sb, ec.getToEmitExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(")");
 	}
 
-	private void genHighlightStatement(StringBuffer sb, HighlightStatement hs,
+	private void genHighlightComp(StringBuffer sb, HighlightComp hc,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.HighlightStatement(");
 		sb.append("new GRGEN_EXPR.Expression[] { ");
-		for(Expression expr : hs.getToHighlightExpressions()) {
+		for(Expression expr : hc.getToHighlightExpressions()) {
 			genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 		}
 		sb.append("}, ");
 		sb.append("new string[] { ");
-		for(Expression expr : hs.getToHighlightExpressions()) {
+		for(Expression expr : hc.getToHighlightExpressions()) {
 			if(expr instanceof VariableExpression) {
 				sb.append("\"");
 				formatIdentifiable(((VariableExpression)expr).getVariable());
@@ -4006,10 +4169,10 @@ public class ActionsGen extends CSharpBase {
 		sb.append(")");
 	}
 
-	private void genRecordStatement(StringBuffer sb, RecordStatement rs,
+	private void genRecordComp(StringBuffer sb, RecordComp rc,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.RecordStatement(");
-		genExpressionTree(sb, rs.getToRecordExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		genExpressionTree(sb, rc.getToRecordExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(")");
 	}
 
@@ -4019,7 +4182,7 @@ public class ActionsGen extends CSharpBase {
 
 	private SearchPlanBackend2 be;
 	private ModifyGen mg;
-	private ModifyGen modifyGenForFunctions;
+	private ModifyGen mgFuncComp;
 	private Model model;
 }
 

@@ -24,7 +24,7 @@ public class FunctionInvocationExpr extends Expression {
 	/** The arguments of the function invocation expression. */
 	protected List<Expression> arguments = new ArrayList<Expression>();
 
-	/** The computation of the function invocation expression. */
+	/** The function of the function invocation expression. */
 	protected Function function;
 
 

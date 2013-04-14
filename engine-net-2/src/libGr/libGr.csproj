@@ -66,6 +66,7 @@
     <Compile Include="backendInterface.cs" />
     <Compile Include="BaseActions.cs" />
     <Compile Include="BaseGraph.cs" />
+    <Compile Include="ComputationInfo.cs" />
     <Compile Include="ContainerHelper.cs" />
     <Compile Include="Deque.cs" />
     <Compile Include="FunctionInfo.cs" />

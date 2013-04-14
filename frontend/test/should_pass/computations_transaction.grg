@@ -1,12 +1,13 @@
-foo() : int
+foo
 {
-	def var transactionId:int = startTransaction();
+	def var transactionId:int;
+	(transactionId) = startTransaction();
 	pauseTransaction();
 	resumeTransaction();
 	commitTransaction(transactionId);
-	transactionId = startTransaction();
+	(transactionId) = startTransaction();
 	rollbackTransaction(transactionId);
-	return(transactionId);
+	return;
 }
 
 rule r : (int)
@@ -15,11 +16,11 @@ rule r : (int)
 		def var transactionId:int;
 		
 		eval { 
-			yield transactionId = startTransaction();
+			(yield transactionId) = startTransaction();
 			pauseTransaction();
 			resumeTransaction();
 			commitTransaction(transactionId);
-			yield transactionId = startTransaction();
+			(yield transactionId) = startTransaction();
 			rollbackTransaction(transactionId);
 		}
 		

@@ -286,6 +286,10 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		return noRewriteParts && childs && edgeReUse && returnParams;
 	}
 
+	public boolean checkControlFlow() {
+		return true;
+	}
+
 	protected void constructIRaux(MatchingAction ma, CollectNode<ExprNode> aReturns) {
 		PatternGraph patternGraph = ma.getPattern();
 

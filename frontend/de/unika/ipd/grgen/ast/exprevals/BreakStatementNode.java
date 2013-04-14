@@ -52,7 +52,14 @@ public class BreakStatementNode extends EvalStatementNode {
 	
 	@Override
 	protected boolean checkLocal() {
-		// TODO: check whether in loop
+		return true;
+	}
+
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		if(enclosingLoop==null) {
+			reportError("break must be nested inside a loop (where to break out?)");
+			return false;
+		}
 		return true;
 	}
 

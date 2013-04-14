@@ -1,16 +1,20 @@
 using model_init;
 
-foo() : set<Node>
+foo() : (set<Node>)
 {
-	def res1:Node = add(Node);
-	def res2:A = add(A);
-	def -res3:Edge-> = add(Edge, res1, res2);
-	def -res4:E1-> = add(E1, res2, res1);
+	def res1:Node;
+	(res1) = add(Node);
+	def res2:A;
+	(res2) = add(A);
+	def -res3:Edge->;
+	(res3) = add(Edge, res1, res2);
+	def -res4:E1->;
+	(res4) = add(E1, res2, res1);
 	rem(res1);
 	rem(res2);
 	rem(res3);
 	rem(res4);
-	return( set<Node>{add(Node), add(A)} );
+	return( set<Node>{res1, res2} );
 }
 
 rule r()
@@ -19,15 +23,20 @@ rule r()
 		def ref res:set<Node>;
 		
 		eval { 
-			def res1:Node = add(Node);
-			def res2:A = add(A);
-			def -res3:Edge-> = add(Edge, res1, res2);
-			def -res4:E1-> = add(E1, res2, res1);
+			def res1:Node;
+			(res1) = add(Node);
+			def res2:A;
+			(res2) = add(A);
+			def -res3:Edge->;
+			(res3) = add(Edge, res1, res2);
+			def -res4:E1->;
+			(res4) = add(E1, res2, res1);
 			rem(res1);
 			rem(res2);
 			rem(res3);
 			rem(res4);
-			yield res = foo() | { add(Node) };
+			(yield res) = foo();
+			yield res = res | { res1 };
 		}
 	}
 }

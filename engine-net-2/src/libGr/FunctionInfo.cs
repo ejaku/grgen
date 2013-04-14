@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="name">The name the function was defined with.</param>
         /// <param name="inputNames">The names of the input parameters.</param>
         /// <param name="inputs">The types of the input parameters.</param>
-        /// <param name="output">The types of the output parameters.</param>
+        /// <param name="output">The type of the output parameter.</param>
         public FunctionInfo(String name, String[] inputNames, GrGenType[] inputs, GrGenType output)
         {
             this.name = name;

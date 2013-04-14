@@ -66,6 +66,10 @@ public class SetVarRemoveItemNode extends EvalStatementNode
 		return checkType(valueExpr, targetValueType, "value", "set remove item statement");
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new SetVarRemoveItem(target.checkIR(Variable.class),

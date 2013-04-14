@@ -41,4 +41,109 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		}
 		return true;
 	}
+	
+	public abstract boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop);
+	
+	public static boolean checkStatements(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop, CollectNode<EvalStatementNode> evals, boolean evalsAreTopLevel) {
+		// check computation statement structure
+		boolean res = true;
+
+		EvalStatementNode last = null;
+		boolean returnPassed = false;
+		for(EvalStatementNode eval : evals.getChildren()) {
+			if(returnPassed) {
+				eval.reportError("no statements allowed after a return statement (at the same nesting level)");
+				res = false;
+			}
+
+			res &= eval.checkStatementLocal(isLHS, root, enclosingLoop);
+			last = eval;
+
+			if(eval instanceof ConditionStatementNode) {
+				ConditionStatementNode csn = (ConditionStatementNode)eval;
+				res &= checkStatements(isLHS, root, enclosingLoop, csn.trueCaseStatements, false);
+				res &= checkStatements(isLHS, root, enclosingLoop, csn.falseCaseStatements, false);
+			} else if(eval instanceof WhileStatementNode) {
+				WhileStatementNode wsn = (WhileStatementNode)eval;
+				res &= checkStatements(isLHS, root, wsn, wsn.loopedStatements, false);
+			} else if(eval instanceof DoWhileStatementNode) {
+				DoWhileStatementNode dwsn = (DoWhileStatementNode)eval;
+				res &= checkStatements(isLHS, root, dwsn, dwsn.loopedStatements, false);
+			} else if(eval instanceof ForFunctionNode) {
+				ForFunctionNode ffn = (ForFunctionNode)eval;
+				res &= checkStatements(isLHS, root, ffn, ffn.loopedStatements, false);
+			} else if(eval instanceof ForLookupNode) {
+				ForLookupNode fln = (ForLookupNode)eval;
+				res &= checkStatements(isLHS, root, fln, fln.loopedStatements, false);
+			} else if(eval instanceof ContainerAccumulationYieldNode) {
+				ContainerAccumulationYieldNode cayn = (ContainerAccumulationYieldNode)eval;
+				res &= checkStatements(isLHS, root, cayn, cayn.accumulationStatements, false);
+			} else if(eval instanceof IteratedAccumulationYieldNode) {
+				IteratedAccumulationYieldNode iayn = (IteratedAccumulationYieldNode)eval;
+				res &= checkStatements(isLHS, root, iayn, iayn.accumulationStatements, false);
+			} else if(eval instanceof ReturnStatementNode) {
+				returnPassed = true;
+			}
+		}
+		
+		if(evalsAreTopLevel) {
+			if(root instanceof FunctionDeclNode) {
+				if(!(last instanceof ReturnStatementNode)) {
+					if(last instanceof ConditionStatementNode) {
+						if(!allCasesEndWithReturn((ConditionStatementNode)last)) {
+							last.reportError("all cases of the if in the function must end with a return statement");
+							res = false;
+						}
+					} else {
+						last.reportError("function must end with a return statement");
+						res = false;
+					}
+				}
+			}
+			if(root instanceof ComputationDeclNode) {
+				if(!(last instanceof ReturnStatementNode)) {
+					if(last instanceof ConditionStatementNode) {
+						if(!allCasesEndWithReturn((ConditionStatementNode)last)) {
+							last.reportError("all cases of the if in the computation must end with a return statement");
+							res = false;
+						}
+					} else {
+						last.reportError("computation must end with a return statement");
+						res = false;
+					}
+				}
+			}
+		}
+
+		return res;
+	}
+	
+	public static boolean allCasesEndWithReturn(ConditionStatementNode condition) {
+		boolean allEndWithReturn = true;
+		
+		EvalStatementNode last = null;
+		for(EvalStatementNode eval : condition.trueCaseStatements.getChildren()) {
+			last = eval;
+		}
+		if(!(last instanceof ReturnStatementNode)) {
+			if(last instanceof ConditionStatementNode) {
+				allEndWithReturn &= allCasesEndWithReturn((ConditionStatementNode)last);
+			} else {
+				return false;
+			}
+		}
+
+		for(EvalStatementNode eval : condition.falseCaseStatements.getChildren()) {
+			last = eval;
+		}
+		if(!(last instanceof ReturnStatementNode)) {
+			if(last instanceof ConditionStatementNode) {
+				allEndWithReturn &= allCasesEndWithReturn((ConditionStatementNode)last);
+			} else {
+				return false;
+			}
+		}
+	
+		return allEndWithReturn;
+	}
 }

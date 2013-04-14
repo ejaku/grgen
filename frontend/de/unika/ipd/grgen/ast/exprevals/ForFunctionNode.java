@@ -100,6 +100,10 @@ public class ForFunctionNode extends EvalStatementNode {
 		}
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		ForFunction ff = new ForFunction(

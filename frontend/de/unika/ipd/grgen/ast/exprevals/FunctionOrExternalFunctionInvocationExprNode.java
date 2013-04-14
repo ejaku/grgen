@@ -69,7 +69,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 		fixupDefinition((IdentNode)functionOrExternalFunctionUnresolved, functionOrExternalFunctionUnresolved.getScope());
 		Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved = resolver.resolve(functionOrExternalFunctionUnresolved, this);
 		if(resolved == null) {
-			functionOrExternalFunctionUnresolved.reportError("Unknown function called -- misspelled function name?");
+			functionOrExternalFunctionUnresolved.reportError("Unknown function called -- misspelled function name? Or computation call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
 			return false;
 		}
 		functionDecl = resolved.fst;
@@ -84,13 +84,13 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 
 	/** Check whether the usage adheres to the signature of the declaration */
 	private boolean checkSignatureAdhered() {
-		FunctionCharacter fc = functionDecl!=null ? functionDecl : externalFunctionDecl;
+		FunctionBase fb = functionDecl!=null ? functionDecl : externalFunctionDecl;
 		
 		// check if the number of parameters are correct
-		int expected = fc.getParameterTypes().size();
+		int expected = fb.getParameterTypes().size();
 		int actual = arguments.getChildren().size();
 		if (expected != actual) {
-			String patternName = fc.ident.toString();
+			String patternName = fb.ident.toString();
 			functionOrExternalFunctionUnresolved.reportError("The function \"" + patternName + "\" needs "
 					+ expected + " parameters, given are " + actual);
 			return false;
@@ -101,7 +101,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 		for (int i = 0; i < arguments.children.size(); ++i) {
 			ExprNode actualParameter = arguments.children.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
-			TypeNode formalParameterType = fc.getParameterTypes().get(i);
+			TypeNode formalParameterType = fb.getParameterTypes().get(i);
 			
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;

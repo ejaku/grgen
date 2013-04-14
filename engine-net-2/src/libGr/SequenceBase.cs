@@ -143,11 +143,57 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Helper for checking computation calls.
+        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Throws an exception when an error is found.
+        /// </summary>
+        /// <param name="seq">The sequence computation to check, must be a computation call</param>
+        public void CheckComputationCall(SequenceComputation seq)
+        {
+            InvocationParameterBindingsWithReturns paramBindings = (seq as SequenceComputationCall).ParamBindings;
+
+            // check the name against the available names
+            if(!IsCalledEntityExisting(paramBindings))
+                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownComputation);
+
+            // Check whether number of parameters and return parameters match
+            if(NumInputParameters(paramBindings) != paramBindings.ArgumentExpressions.Length
+                    || paramBindings.ReturnVars.Length != 0 && NumOutputParameters(paramBindings) != paramBindings.ReturnVars.Length)
+                throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+
+            // Check parameter types
+            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+            {
+                paramBindings.ArgumentExpressions[i].Check(this);
+
+                if(paramBindings.ArgumentExpressions[i] != null)
+                {
+                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings), Model))
+                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
+                }
+                else
+                {
+                    if(paramBindings.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings), Model))
+                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
+                }
+            }
+
+            // Check return types
+            for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
+            {
+                if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings), paramBindings.ReturnVars[i].Type, Model))
+                    throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
+            }
+
+            // ok, this is a well-formed invocation
+        }
+
+        /// <summary>
         /// Helper for checking function calls.
         /// Checks whether called entity exists, and type checks the input.
         /// Throws an exception when an error is found.
         /// </summary>
-        /// <param name="seq">The sequence to check, must be a function call</param>
+        /// <param name="seq">The sequence expression to check, must be a function call</param>
         public void CheckFunctionCall(SequenceExpression seq)
         {
             InvocationParameterBindings paramBindings = (seq as SequenceExpressionFunctionCall).ParamBindings;

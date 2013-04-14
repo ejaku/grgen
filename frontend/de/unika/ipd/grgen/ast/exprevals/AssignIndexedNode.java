@@ -220,6 +220,10 @@ public class AssignIndexedNode extends EvalStatementNode {
 			return index != ConstNode.getInvalid();
 		}
 	}
+	
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
 
 	/**
 	 * Construct the immediate representation from an indexed assignment node.

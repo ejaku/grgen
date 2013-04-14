@@ -89,6 +89,10 @@ public class ForLookupNode extends EvalStatementNode {
 			return false;
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		ForLookup fl = new ForLookup(iterationVariable.checkIR(Variable.class));

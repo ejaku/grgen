@@ -72,6 +72,10 @@ public class MapVarAddItemNode extends EvalStatementNode
 				&& checkType(valueExpr, targetValueType, "map add item statement", "value");
 	}
 
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		return new MapVarAddItem(target.checkIR(Variable.class),

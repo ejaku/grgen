@@ -22,7 +22,8 @@ foundCondition() : boolean
 BreadthFirstSearch(root:WalkOrder) : boolean
 {
 	def ref d:deque<WalkOrder> = deque<WalkOrder>][;
-	def var vis:int = valloc();
+	def var vis:int;
+	(vis) = valloc();
 	def var num:int = 0;
 	d.add(root);
 	root.visited[vis] = true;
@@ -62,7 +63,8 @@ BreadthFirstSearch(root:WalkOrder) : boolean
 DepthFirstSearch(root:WalkOrder) : boolean
 {
 	def ref a:array<WalkOrder> = array<WalkOrder>[];
-	def var vis:int = valloc();
+	def var vis:int;
+	(vis) = valloc();
 	def var num:int = 0;
 	a.add(root);
 	root.visited[vis] = true;

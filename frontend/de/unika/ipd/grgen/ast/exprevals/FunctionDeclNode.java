@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * AST node class representing function declarations
  */
-public class FunctionDeclNode extends FunctionCharacter {
+public class FunctionDeclNode extends FunctionBase {
 	static {
 		setName(FunctionDeclNode.class, "function declaration");
 	}
@@ -33,9 +33,8 @@ public class FunctionDeclNode extends FunctionCharacter {
 	protected CollectNode<BaseNode> paramsUnresolved;
 	protected CollectNode<DeclNode> params;
 	
-	protected CollectNode<EvalStatementNode> evals;
-	static final FunctionTypeNode functionType =
-		new FunctionTypeNode();
+	public CollectNode<EvalStatementNode> evals;
+	static final FunctionTypeNode functionType = new FunctionTypeNode();
 
 	public FunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, BaseNode ret) {
 		super(id, functionType);
@@ -140,6 +139,14 @@ public class FunctionDeclNode extends FunctionCharacter {
 		}
 
 		return function;
+	}
+	
+	public static String getKindStr() {
+		return "function declaration";
+	}
+
+	public static String getUseStr() {
+		return "function";
 	}
 }
 

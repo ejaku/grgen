@@ -68,7 +68,11 @@ public class WhileStatementNode extends EvalStatementNode {
 	protected boolean resolveLocal() {
 		return true;
 	}
-	
+
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+		return true;
+	}
+
 	@Override
 	protected IR constructIR() {
 		WhileStatement ws = new WhileStatement(conditionExpr.checkIR(Expression.class));

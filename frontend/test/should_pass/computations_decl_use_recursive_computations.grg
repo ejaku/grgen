@@ -1,0 +1,21 @@
+rule t : (int)
+{
+	modify {
+		def var res:int;
+		eval {
+			(yield res) = number(3);
+		}
+		return(res);
+	}
+}
+
+number(var x:int) : (int)
+{
+	if(x<=1) {
+		return(1);
+	} else {
+	    def var res:int;
+		(res) = number(x - 1);
+		return(1 + res);
+	}
+}

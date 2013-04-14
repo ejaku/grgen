@@ -2806,11 +2806,11 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a computation invocation (extended internal attribute evaluation function).
+    /// Class representing a function invocation (internal attribute evaluation function).
     /// </summary>
-    public class ComputationInvocation : Expression
+    public class FunctionInvocation : Expression
     {
-        public ComputationInvocation(String functionName, Expression[] arguments, String[] argumentTypes)
+        public FunctionInvocation(String functionName, Expression[] arguments, String[] argumentTypes)
         {
             FunctionName = functionName;
             Arguments = arguments;
@@ -2821,12 +2821,12 @@ namespace de.unika.ipd.grGen.expression
         {
             Expression[] newArguments = new Expression[Arguments.Length];
             for(int i = 0; i < Arguments.Length; ++i) newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
-            return new ComputationInvocation(FunctionName, newArguments, (String[])ArgumentTypes.Clone());
+            return new FunctionInvocation(FunctionName, newArguments, (String[])ArgumentTypes.Clone());
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("Computations." + FunctionName + "(actionEnv, graph");
+            sourceCode.Append("Functions." + FunctionName + "(actionEnv, graph");
             for(int i = 0; i < Arguments.Length; ++i)
             {
                 sourceCode.Append(", ");

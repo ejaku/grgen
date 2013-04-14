@@ -159,5 +159,35 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         #endregion Functions handling
+
+        #region Computation handling
+
+        private Dictionary<String, ComputationInfo> namesToComputationDefinitions = new Dictionary<string, ComputationInfo>();
+
+        /// <summary>
+        /// Retrieve a compuation definition.
+        /// </summary>
+        /// <param name="name">The name of the computation to retrieve</param>
+        /// <returns>The computation or null if no such computation exists.</returns>
+        public ComputationInfo RetrieveComputationDefinition(String name)
+        {
+            ComputationInfo computationDef;
+            namesToComputationDefinitions.TryGetValue(name, out computationDef);
+            return computationDef;
+        }
+
+        /// <summary>
+        /// Enumerates all computation definitions.
+        /// </summary>
+        public IEnumerable<ComputationInfo> ComputationDefinitions
+        {
+            get
+            {
+                foreach(ComputationInfo computationDef in namesToComputationDefinitions.Values)
+                    yield return computationDef;
+            }
+        }
+
+        #endregion Computation handling
     }
 }
