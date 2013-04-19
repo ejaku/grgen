@@ -8,7 +8,7 @@ show num edges
 redirect emit set0-output-grgen.xmi
 exec xmlPrefix
 exec (::counter)=initXMLCounter
-exec {::visID = valloc()}
+exec {(::visID) = valloc()}
 exec ((::counter)=filter(::visID, ::counter))*
 exec {vfree(::visID)}
 exec xmlSuffix

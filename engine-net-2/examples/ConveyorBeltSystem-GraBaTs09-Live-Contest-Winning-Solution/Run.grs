@@ -20,7 +20,7 @@ exec InitialGraph
 
 debug exec InitStatechart && ((s:State)=CreateCompoundStateAndInit && ((s)=CreateStates(s))*)* && FixupInitialStates*
 
-exec {::flags = valloc()}
+exec {(::flags) = valloc()}
 exec i:int=0 ;> ((i)=LableLinks(i))*
 
 exec CreatePredSucc* && CopyPredSucc*

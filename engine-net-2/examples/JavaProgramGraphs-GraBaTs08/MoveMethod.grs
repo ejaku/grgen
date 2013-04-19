@@ -5,7 +5,7 @@ include InstanceGraphLayout.grsi
 
 # programmed gxl dumper, not needed any more, shell can export to .gxl as of no
 redirect emit program.gxl
-exec visId:int && {visId=valloc()} && dumpGxl(visId) && {vfree(visId)}
+exec visId:int && {(visId)=valloc()} && dumpGxl(visId) && {vfree(visId)}
 
 exec InsertHelperEdgesForNestedLayout
 
@@ -79,4 +79,4 @@ exec unmarkExpression*
 
 # programmed gxl dumper, not needed any more, shell can export to .gxl as of no
 redirect emit programafter.gxl
-exec visId:int && {visId=valloc()} && dumpGxl(visId) && {vfree(visId)}
+exec visId:int && {(visId)=valloc()} && dumpGxl(visId) && {vfree(visId)}

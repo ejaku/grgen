@@ -24,7 +24,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {::visID=valloc()}
+xgrs {(::visID)=valloc()}
 xgrs (::counter)=initCounter
 xgrs ((::counter)=componentStart(::counter) && markComponent*)*
 show var counter
@@ -58,7 +58,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {::visID=valloc()}
+xgrs {(::visID)=valloc()}
 xgrs (::counter)=initCounter
 xgrs ((::counter)=componentStart(::counter) && markComponent*)*
 show var counter
@@ -92,7 +92,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {::visID=valloc()}
+xgrs {(::visID)=valloc()}
 xgrs (::counter)=initCounter
 xgrs ((::counter)=componentStart(::counter) && markComponent*)*
 show var counter
@@ -126,7 +126,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {::visID=valloc()}
+xgrs {(::visID)=valloc()}
 xgrs (::counter)=initCounter
 xgrs ((::counter)=componentStart(::counter) && markComponent*)*
 show var counter
@@ -160,7 +160,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {::visID=valloc()}
+xgrs {(::visID)=valloc()}
 xgrs (::counter)=initCounter
 xgrs ((::counter)=componentStart(::counter) && markComponent*)*
 show var counter
@@ -194,7 +194,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {::visID=valloc()}
+xgrs {(::visID)=valloc()}
 xgrs (::counter)=initCounter
 xgrs ((::counter)=componentStart(::counter) && markComponent*)*
 show var counter
@@ -228,7 +228,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
-xgrs {::visID=valloc()}
+xgrs {(::visID)=valloc()}
 xgrs (::counter)=initCounter
 xgrs ((::counter)=componentStart(::counter) && markComponent*)*
 show var counter

@@ -102,8 +102,8 @@ rule smokeTest : (Node)
 	modify {
 		n:Node;
 		
-		exec( { vid:int=valloc(); vreset(vid); vfreenonreset(vid) } );
-		exec( { vid:int=valloc(); n.visited[vid] = n.visited[vid] ? false : true; vfree(vid) } );
+		exec( { (vid:int)=valloc(); vreset(vid); vfreenonreset(vid) } );
+		exec( { (vid:int)=valloc(); n.visited[vid] = n.visited[vid] ? false : true; vfree(vid) } );
 		
 		return (n);
 	}
