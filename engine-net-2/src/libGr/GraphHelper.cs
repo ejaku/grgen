@@ -1018,6 +1018,38 @@ namespace de.unika.ipd.grGen.libGr
 
         //////////////////////////////////////////////////////////////////////////////////////////////
 
+        /// <summary>
+        /// retypes a node to the given type, returns it
+        /// type might be a string denoting a NodeType or a NodeType
+        /// </summary>
+        public static INode RetypeNode(INode node, object type, IGraph graph)
+        {
+            return graph.Retype(node, type is string ? graph.Model.NodeModel.GetType((string)type) : (NodeType)type);
+        }
+
+        /// <summary>
+        /// retypes an edge to the given type, returns it
+        /// type might be a string denoting an EdgeType or an EdgeType
+        /// </summary>
+        public static IEdge RetypeEdge(IEdge edge, object type, IGraph graph)
+        {
+            return graph.Retype(edge, type is string ? graph.Model.EdgeModel.GetType((string)type) : (EdgeType)type);
+        }
+
+        /// <summary>
+        /// retypes a graph element to the given type, returns it
+        /// type might be a string denoting a NodeType or EdgeType, or a NodeType or EdgeType
+        /// </summary>
+        public static IGraphElement RetypeGraphElement(IGraphElement elem, object type, IGraph graph)
+        {
+            if(elem is INode)
+                return RetypeNode((INode)elem, type, graph);
+            else
+                return RetypeEdge((IEdge)elem, type, graph);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
         public static IEnumerable<INode> Reachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph)
         {
             int flag = -1;

@@ -32,6 +32,11 @@ PARSER_BEGIN(SequenceParser)
 		String[] sequenceNames;
 
 		/// <summary>
+		/// The names of the procedures used in the specification, set if parsing an xgrs to be compiled
+		/// </summary>
+		String[] procedureNames;
+
+		/// <summary>
 		/// The names of the functions used in the specification, set if parsing an xgrs to be compiled
 		/// </summary>
 		String[] functionNames;
@@ -113,6 +118,7 @@ PARSER_BEGIN(SequenceParser)
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
         /// <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
         /// <param name="sequenceNames">An array containing the names of the sequences used in the specification.</param>
+        /// <param name="procedureNames">An array containing the names of the procedures used in the specification.</param>
         /// <param name="functionNames">An array containing the names of the functions used in the specification.</param>
         /// <param name="functionOutputTypes">An array containing the output types of the functions used in the specification.</param>
         /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
@@ -123,13 +129,14 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames, String[] sequenceNames,
-				String[] functionNames, String[] functionOutputTypes,
+				String[] procedureNames, String[] functionNames, String[] functionOutputTypes,
 		        Dictionary<String, String> predefinedVariables, IGraphModel model, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = null;
 			parser.ruleNames = ruleNames;
 			parser.sequenceNames = sequenceNames;
+			parser.procedureNames = procedureNames;
 			parser.functionNames = functionNames;
 			parser.functionOutputTypes = functionOutputTypes;
 			parser.model = model;
@@ -981,7 +988,7 @@ Sequence SimpleSequence():
 |
 	LOOKAHEAD(3)
 	( "$" { chooseRandSpecified=true; } ("%" { choice = true; } )? )?
-		"{" "(" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* ")" "}"
+		"{" "<" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* ">" "}"
 	{
 		return new SequenceSomeFromSet(sequences, chooseRandSpecified, choice);
 	}
@@ -1128,10 +1135,7 @@ SequenceComputation Computation():
 		return comp;
 	}
 |
-	LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(2).kind==LPARENTHESIS 
-				&& (GetToken(1).image=="vfree" || GetToken(1).image=="vfreenonreset" || GetToken(1).image=="vreset"
-					|| GetToken(1).image=="emit" || GetToken(1).image=="record" || GetToken(1).image=="export"
-					|| GetToken(1).image=="rem" || GetToken(1).image=="clear")})
+	LOOKAHEAD(3)
 	comp=ProcedureCall()
 	{
 		return comp;
@@ -1414,37 +1418,58 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
 SequenceComputation ProcedureCall():
 {
 	String procedure;
-	SequenceExpression fromExpr = null, fromExpr2 = null;
+	List<SequenceExpression> argExprs = new List<SequenceExpression>();
+	List<SequenceVariable> returnVars = new List<SequenceVariable>();
 }
 {
-	procedure=Word() "(" ( fromExpr=Expression() ("," fromExpr2=Expression())? )? ")"
+	("(" VariableList(returnVars) ")" "=" )?
+		procedure=Word() "(" (Arguments(argExprs))? ")"
 	{
-		if(procedure=="vfree") {
-			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationVFree(fromExpr, true);
+		if(procedure=="valloc") {
+			if(argExprs.Count!=0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
+			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationVAlloc(), returnVars);
+		} else if(procedure=="vfree") {
+			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationVFree(getArgument(argExprs, 0), true);
 		} else if(procedure=="vfreenonreset") {
-			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationVFree(fromExpr, false);
+			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationVFree(getArgument(argExprs, 0), false);
 		} else if(procedure=="vreset") {
-			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationVReset(fromExpr);
+			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationVReset(getArgument(argExprs, 0));
 		} else if(procedure=="emit") {
-			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationEmit(fromExpr);
+			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationEmit(getArgument(argExprs, 0));
 		} else if(procedure=="record") {
-			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationRecord(fromExpr);
+			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationRecord(getArgument(argExprs, 0));
 		} else if(procedure=="export") {
-			if(fromExpr==null) throw new ParseException("\"" + procedure + "\" expects 1 (name of file only) or 2 (graph to export, name of file) parameters)");
-			return new SequenceComputationExport(fromExpr, fromExpr2);
+			if(argExprs.Count!=1 && argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 1 (name of file only) or 2 (graph to export, name of file) parameters)");
+			return new SequenceComputationExport(getArgument(argExprs, 0), getArgument(argExprs, 1));
+		} else if(procedure=="add") {
+			if(argExprs.Count!=1 && argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 1(for a node) or 3(for an edge) parameters)");
+			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAdd(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2)), returnVars);
 		} else if(procedure=="rem") {
-			if(fromExpr==null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationGraphRem(fromExpr);
+			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+			return new SequenceComputationGraphRem(getArgument(argExprs, 0));
 		} else if(procedure=="clear") {
-			if(fromExpr!=null || fromExpr2!=null) throw new ParseException("\"" + procedure + "\" expects no parameters)");
+			if(argExprs.Count!=0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
 			return new SequenceComputationGraphClear();
+		} else if(procedure=="retype") {
+			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (graph entity, new type) parameters)");
+			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphRetype(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
+		} else if(procedure=="insertInduced") {
+			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of nodes to compute the induced subgraph from which will be cloned and inserted, and one node of the set of which the clone will be returned)");
+			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertInduced(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
+		} else if(procedure=="insertDefined") {
+			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of edges which define the subgraph which will be cloned and inserted, and one edge of the set of which the clone will be returned)");
+			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertDefined(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
 		} else {
-			throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are vfree|vfreenonreset|vreset|emit|record|export|rem|clear)");
+			if(IsProcedureName(procedure)) {
+				return new SequenceComputationProcedureCall(CreateComputationInvocationParameterBindings(procedure, argExprs, returnVars));
+			} else {
+				throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|export|add|rem|clear|retype|insertInduced|insertDefined)");
+			}
 		}
     }
 }
@@ -1457,13 +1482,7 @@ SequenceExpression FunctionCall():
 {
 	function=Word() "(" (Arguments(argExprs))? ")"
 	{
-		if(function=="valloc") {
-			if(argExprs.Count!=0) throw new ParseException("\"" + function + "\" expects no parameters)");
-			return new SequenceExpressionVAlloc();
-		} else if(function=="add") {
-			if(argExprs.Count!=1 && argExprs.Count!=3) throw new ParseException("\"" + function + "\" expects 1(for a node) or 3(for an edge) parameters)");
-			return new SequenceExpressionGraphAdd(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2));
-		} else if(function=="nodes") {
+		if(function=="nodes") {
 			if(argExprs.Count>1) throw new ParseException("\"" + function + "\" expects 1 parameter (node type) or none (to get all nodes)");
 			return new SequenceExpressionNodes(getArgument(argExprs, 0));
 		} else if(function=="edges") {
@@ -1547,12 +1566,6 @@ SequenceExpression FunctionCall():
 		} else if(function=="definedSubgraph") {
 			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the set of edges to construct the defined subgraph from)");
 			return new SequenceExpressionDefinedSubgraph(getArgument(argExprs, 0));
-		} else if(function=="insertInduced") {
-			if(argExprs.Count!=2) throw new ParseException("\"" + function + "\" expects 2 parameters (the set of nodes to compute the induced subgraph from which will be cloned and inserted, and one node of the set of which the clone will be returned)");
-			return new SequenceExpressionInsertInduced(getArgument(argExprs, 0), getArgument(argExprs, 1));
-		} else if(function=="insertDefined") {
-			if(argExprs.Count!=2) throw new ParseException("\"" + function + "\" expects 2 parameters (the set of edges which define the subgraph which will be cloned and inserted, and one edge of the set of which the clone will be returned)");
-			return new SequenceExpressionInsertDefined(getArgument(argExprs, 0), getArgument(argExprs, 1));
 		} else if(function=="source") {
 			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the edge to get the source node from)");
 			return new SequenceExpressionSource(getArgument(argExprs, 0));
@@ -1572,7 +1585,11 @@ SequenceExpression FunctionCall():
 			if(IsFunctionName(function)) {
 				return new SequenceExpressionFunctionCall(CreateFunctionInvocationParameterBindings(function, argExprs));
 			} else {
-				throw new ParseException("Unknown function name: \"" + function + "\"! (available are valloc|add|nodes|edges|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|inducedSubgraph|definedSubgraph|insertInduced|insertDefined|source|target|random|canonize) or one of the functions defined in the .grg");
+				if(function=="valloc" || function=="add" || function=="retype" || function=="insertInduced" || function=="insertDefined") {
+					throw new ParseException("\"" + function + "\" is a procedure, call with (var)=" + function + "();");
+				} else {
+					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|inducedSubgraph|definedSubgraph|source|target|random|canonize) or one of the functions defined in the .grg");
+				}
 			}
 		}
     }
@@ -1732,12 +1749,6 @@ Sequence Rule():
 				return new SequenceSequenceCall(
 								CreateSequenceInvocationParameterBindings(str, argExprs, returnVars),
 								special);
-			} else if(IsComputationName(str)) {
-				if(filter!=null)
-					throw new SequenceParserException(str, filter, SequenceParserError.FilterError);
-				return new SequenceComputationCall(
-								CreateComputationInvocationParameterBindings(str, argExprs, returnVars),
-								special);
 			} else {
 				return new SequenceRuleCall(
 								CreateRuleInvocationParameterBindings(str, argExprs, returnVars),
@@ -1848,6 +1859,19 @@ bool IsFunctionName(String functionName)
 	} else {
 		foreach(String funcName in functionNames)
 			if(funcName == functionName)
+				return true;
+		return false;
+	}
+}
+
+CSHARPCODE
+bool IsProcedureName(String procedureName)
+{
+	if(actions != null) {
+		return actions.RetrieveComputationDefinition(procedureName) != null;
+	} else {
+		foreach(String procName in procedureNames)
+			if(procName == procedureName)
 				return true;
 		return false;
 	}

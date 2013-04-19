@@ -63,6 +63,11 @@ namespace de.unika.ipd.grGen.lgsp
         // maps sequence names available in the .grg to compile to the list of the output typ names
         Dictionary<String, List<String>> sequencesToOutputTypes;
 
+        // maps procedure names available in the .grg to compile to the list of the input typ names
+        Dictionary<String, List<String>> proceduresToInputTypes;
+        // maps procedure names available in the .grg to compile to the list of the output typ names
+        Dictionary<String, List<String>> proceduresToOutputTypes;
+        
         // maps function names available in the .grg to compile to the list of the input typ names
         Dictionary<String, List<String>> functionsToInputTypes;
         // maps function names available in the .grg to compile to the output typ name
@@ -72,6 +77,8 @@ namespace de.unika.ipd.grGen.lgsp
         String[] ruleNames;
         // array containing the names of the sequences available in the .grg to compile
         String[] sequenceNames;
+        // array containing the names of the procedures available in the .grg to compile
+        String[] procedureNames;
         // array containing the names of the functions available in the .grg to compile
         String[] functionNames;
         // array containing the output types names of the functions available in the .grg to compile
@@ -95,6 +102,7 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
+            Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes,
             Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType)
         {
             this.gen = gen;
@@ -106,6 +114,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
             this.sequencesToOutputTypes = sequencesToOutputTypes;
+            this.proceduresToInputTypes = proceduresToInputTypes;
+            this.proceduresToOutputTypes = proceduresToOutputTypes;
             this.functionsToInputTypes = functionsToInputTypes;
             this.functionsToOutputType = functionsToOutputType;
 
@@ -126,28 +136,38 @@ namespace de.unika.ipd.grGen.lgsp
                 sequenceNames[i] = sequenceToInputTypes.Key;
                 ++i;
             }
-            // extract computation names from domain of computation names to input types map
-            functionNames = new String[functionsToInputTypes.Count];
+            // extract procedure names from domain of procedure names to input types map
+            procedureNames = new String[proceduresToInputTypes.Count];
             i = 0;
-            foreach(KeyValuePair<String, List<String>> computationToInputTypes in functionsToInputTypes)
+            foreach(KeyValuePair<String, List<String>> procedureToInputTypes in proceduresToInputTypes)
             {
-                functionNames[i] = computationToInputTypes.Key;
+                procedureNames[i] = procedureToInputTypes.Key;
                 ++i;
             }
-            // extract computation output types from range of computation names to output types map
+            // extract function names from domain of function names to input types map
+            functionNames = new String[functionsToInputTypes.Count];
+            i = 0;
+            foreach(KeyValuePair<String, List<String>> functionToInputTypes in functionsToInputTypes)
+            {
+                functionNames[i] = functionToInputTypes.Key;
+                ++i;
+            }
+            // extract function output types from range of function names to output types map
             functionOutputTypes = new String[functionsToOutputType.Count];
             i = 0;
-            foreach(KeyValuePair<String, String> computationToOutputType in functionsToOutputType)
+            foreach(KeyValuePair<String, String> functionToOutputType in functionsToOutputType)
             {
-                functionOutputTypes[i] = computationToOutputType.Value;
+                functionOutputTypes[i] = functionToOutputType.Value;
                 ++i;
             }
 
             // create the environment for (type) checking the compiled sequences after parsing
-            env = new SequenceCheckingEnvironmentCompiled(ruleNames, sequenceNames, functionNames,
+            env = new SequenceCheckingEnvironmentCompiled(
+                ruleNames, sequenceNames, procedureNames, functionNames,
                 rulesToInputTypes, rulesToOutputTypes, rulesToFilters, 
                 rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
                 sequencesToInputTypes, sequencesToOutputTypes,
+                proceduresToInputTypes, proceduresToOutputTypes,
                 functionsToInputTypes, functionsToOutputType,
                 model);
         }
@@ -402,6 +422,30 @@ namespace de.unika.ipd.grGen.lgsp
                         EmitNeededVarEntities(assign.SourceValueProvider, source);
 					break;
 				}
+
+                case SequenceComputationType.ProcedureCall:
+                {
+                    SequenceComputationProcedureCall seqProc = (SequenceComputationProcedureCall)seqComp;
+                    // no handling for the input arguments seqProc.ParamBindings.ArgumentExpressions needed 
+                    // because there can only be variable uses
+                    for(int i = 0; i < seqProc.ParamBindings.ReturnVars.Length; ++i)
+                    {
+                        EmitVarIfNew(seqProc.ParamBindings.ReturnVars[i], source);
+                    }
+                    break;
+                }
+
+                case SequenceComputationType.BuiltinProcedureCall:
+                {
+                    SequenceComputationBuiltinProcedureCall seqProc = (SequenceComputationBuiltinProcedureCall)seqComp;
+                    // no handling for the input arguments seqProc.ParamBindings.ArgumentExpressions needed 
+                    // because there can only be variable uses
+                    for(int i = 0; i < seqProc.ReturnVars.Count; ++i)
+                    {
+                        EmitVarIfNew(seqProc.ReturnVars[i], source);
+                    }
+                    break;
+                }
 
 				default:
 					foreach(SequenceComputation childSeqComp in seqComp.Children)
@@ -2274,6 +2318,10 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceComputationType.VAlloc:
+                    source.Append("graph.AllocateVisitedFlag()");
+                    break;
+
                 case SequenceComputationType.VFree:
                 case SequenceComputationType.VFreeNonReset:
                 {
@@ -2390,6 +2438,24 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceComputationType.GraphAdd:
+                {
+                    SequenceComputationGraphAdd seqAdd = (SequenceComputationGraphAdd)seqComp;
+                    if(seqAdd.ExprSrc == null)
+                    {
+                        string typeExpr = GetSequenceExpression(seqAdd.Expr, source);
+                        source.Append("GRGEN_LIBGR.GraphHelper.AddNodeOfType(" + typeExpr + ", graph)");
+                    }
+                    else
+                    {
+                        string typeExpr = GetSequenceExpression(seqAdd.Expr, source);
+                        string srcExpr = GetSequenceExpression(seqAdd.ExprSrc, source);
+                        string tgtExpr = GetSequenceExpression(seqAdd.ExprDst, source);
+                        source.Append("GRGEN_LIBGR.GraphHelper.AddEdgeOfType(" + typeExpr + ", (GRGEN_LIBGR.INode)" + srcExpr + ", (GRGEN_LIBGR.INode)" + tgtExpr + ", graph)");
+                    }
+                    break;
+                }
+                
                 case SequenceComputationType.GraphRem:
                 {
                     SequenceComputationGraphRem seqRem = (SequenceComputationGraphRem)seqComp;
@@ -2411,10 +2477,77 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceComputationType.GraphRetype:
+                {
+                    SequenceComputationGraphRetype seqRetype = (SequenceComputationGraphRetype)seqComp;
+                    string typeExpr = GetSequenceExpression(seqRetype.TypeExpr, source);
+                    string elemExpr = GetSequenceExpression(seqRetype.ElemExpr, source);
+                    source.Append("GRGEN_LIBGR.GraphHelper.RetypeGraphElement((GRGEN_LIBGR.IGraphElement)" + elemExpr + ", "  + typeExpr + ", graph)");
+                    break;
+                }
+
+                case SequenceComputationType.InsertInduced:
+                {
+                    SequenceComputationInsertInduced seqInsInd = (SequenceComputationInsertInduced)seqComp;
+                    source.Append("GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInsInd.NodeSet, source) + ", (GRGEN_LIBGR.INode)" + GetSequenceExpression(seqInsInd.RootNode, source) + ", graph)");
+                    break;
+                }
+
+                case SequenceComputationType.InsertDefined:
+                {
+                    SequenceComputationInsertDefined seqInsDef = (SequenceComputationInsertDefined)seqComp;
+                    source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
+                    break;
+                }
+
                 case SequenceComputationType.Expression:
                 {
                     SequenceExpression seqExpr = (SequenceExpression)seqComp;
                     source.AppendFront(SetResultVar(seqExpr, GetSequenceExpression(seqExpr, source)));
+                    break;
+                }
+
+                case SequenceComputationType.BuiltinProcedureCall:
+                {
+                    SequenceComputationBuiltinProcedureCall seqCall = (SequenceComputationBuiltinProcedureCall)seqComp;
+                    SourceBuilder sb = new SourceBuilder();
+                    EmitSequenceComputation(seqCall.BuiltinProcedure, sb);
+                    if(seqCall.ReturnVars.Count > 0)
+                    {
+                        source.AppendFront(SetVar(seqCall.ReturnVars[0], sb.ToString()));
+                        source.AppendFront(SetResultVar(seqCall, GetVar(seqCall.ReturnVars[0])));
+                    }
+                    else
+                    {
+                        source.AppendFront(sb.ToString() + ";\n");
+                        source.AppendFront(SetResultVar(seqCall, "null"));
+                    }
+                    break;
+                }
+
+                case SequenceComputationType.ProcedureCall:
+                {
+                    SequenceComputationProcedureCall seqCall = (SequenceComputationProcedureCall)seqComp;
+
+                    String returnParameterDeclarations;
+                    String returnArguments;
+                    String returnAssignments;
+                    BuildReturnParameters(seqCall.ParamBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+
+                    if(returnParameterDeclarations.Length != 0)
+                        source.AppendFront(returnParameterDeclarations + "\n");
+
+                    source.AppendFront("Computations.");
+                    source.Append(seqCall.ParamBindings.Name);
+                    source.Append("(procEnv, graph");
+                    source.Append(BuildParameters(seqCall.ParamBindings));
+                    source.Append(returnArguments);
+                    source.Append(");\n");
+
+                    if(returnAssignments.Length != 0)
+                        source.AppendFront(returnAssignments + "\n");
+
+                    source.AppendFront(SetResultVar(seqCall, "null"));
                     break;
                 }
 
@@ -2683,19 +2816,21 @@ namespace de.unika.ipd.grGen.lgsp
         private String BuildParameters(InvocationParameterBindings paramBindings)
         {
             String parameters = "";
-            for (int j = 0; j < paramBindings.ArgumentExpressions.Length; j++)
+            for (int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
             {
-                if (paramBindings.ArgumentExpressions[j] != null)
+                if (paramBindings.ArgumentExpressions[i] != null)
                 {
                     String typeName;
                     if(rulesToInputTypes.ContainsKey(paramBindings.Name))
-                        typeName = rulesToInputTypes[paramBindings.Name][j];
+                        typeName = rulesToInputTypes[paramBindings.Name][i];
                     else if(sequencesToInputTypes.ContainsKey(paramBindings.Name))
-                        typeName = sequencesToInputTypes[paramBindings.Name][j];
+                        typeName = sequencesToInputTypes[paramBindings.Name][i];
+                    else if(proceduresToInputTypes.ContainsKey(paramBindings.Name))
+                        typeName = proceduresToInputTypes[paramBindings.Name][i];
                     else
-                        typeName = functionsToInputTypes[paramBindings.Name][j];
+                        typeName = functionsToInputTypes[paramBindings.Name][i];
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + GetSequenceExpression(paramBindings.ArgumentExpressions[j], null);
+                    parameters += ", " + cast + GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
                 }
                 else
                 {
@@ -2711,20 +2846,20 @@ namespace de.unika.ipd.grGen.lgsp
             outParameterDeclarations = "";
             outArguments = "";
             outAssignments = "";
-            for(int j = 0; j < sequencesToOutputTypes[paramBindings.Name].Count; j++)
+            for(int i = 0; i < sequencesToOutputTypes[paramBindings.Name].Count; i++)
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0)
-                    varName = tmpVarCtr.ToString() + paramBindings.ReturnVars[j].PureName;
+                    varName = tmpVarCtr.ToString() + paramBindings.ReturnVars[i].PureName;
                 else
                     varName = tmpVarCtr.ToString();
                 ++tmpVarCtr;
-                String typeName = sequencesToOutputTypes[paramBindings.Name][j];
+                String typeName = sequencesToOutputTypes[paramBindings.Name][i];
                 outParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName
                     + " = " + TypesHelper.DefaultValueString(typeName, model) + ";";
                 outArguments += ", ref tmpvar_" + varName;
                 if(paramBindings.ReturnVars.Length != 0)
-                    outAssignments += SetVar(paramBindings.ReturnVars[j], "tmpvar_" + varName);
+                    outAssignments += SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName);
             }
         }
 
@@ -2738,21 +2873,48 @@ namespace de.unika.ipd.grGen.lgsp
             returnParameterDeclarations = "";
             returnArguments = "";
             returnAssignments = "";
-            for(int j = 0; j < rulesToOutputTypes[paramBindings.Name].Count; j++)
+            for(int i = 0; i < rulesToOutputTypes[paramBindings.Name].Count; i++)
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0)
-                    varName = tmpVarCtr.ToString() + paramBindings.ReturnVars[j].PureName;
+                    varName = tmpVarCtr.ToString() + paramBindings.ReturnVars[i].PureName;
                 else
                     varName = tmpVarCtr.ToString();
                 ++tmpVarCtr;
-                String typeName = rulesToOutputTypes[paramBindings.Name][j];
+                String typeName = rulesToOutputTypes[paramBindings.Name][i];
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
                 if(paramBindings.ReturnVars.Length != 0)
-                    returnAssignments += SetVar(paramBindings.ReturnVars[j], "tmpvar_" + varName);
+                    returnAssignments += SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName);
             }
         }
+
+        private void BuildReturnParameters(ComputationInvocationParameterBindings paramBindings, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
+        {
+            // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
+            // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype
+            // so we create temporary variables of exact type, which are used to receive the return values,
+            // and finally we assign these temporary variables to the real xgrs variables
+
+            returnParameterDeclarations = "";
+            returnArguments = "";
+            returnAssignments = "";
+            for(int i = 0; i < proceduresToOutputTypes[paramBindings.Name].Count; i++)
+            {
+                String varName;
+                if(paramBindings.ReturnVars.Length != 0)
+                    varName = tmpVarCtr.ToString() + paramBindings.ReturnVars[i].PureName;
+                else
+                    varName = tmpVarCtr.ToString();
+                ++tmpVarCtr;
+                String typeName = proceduresToOutputTypes[paramBindings.Name][i];
+                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
+                returnArguments += ", out tmpvar_" + varName;
+                if(paramBindings.ReturnVars.Length != 0)
+                    returnAssignments += SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName);
+            }
+        }
+
 
         string GetContainerValue(SequenceComputationContainer container)
         {
@@ -3270,38 +3432,6 @@ namespace de.unika.ipd.grGen.lgsp
                         return "GRGEN_LIBGR.Sequence.randomGenerator.Next((int)" + GetSequenceExpression(seqRandom.UpperBound, source) + ")";
                     else
                         return "GRGEN_LIBGR.Sequence.randomGenerator.NextDouble()";
-                }
-
-                case SequenceExpressionType.VAlloc:
-                    return "graph.AllocateVisitedFlag()";
-
-                case SequenceExpressionType.GraphAdd:
-                {
-                    SequenceExpressionGraphAdd seqAdd = (SequenceExpressionGraphAdd)expr;
-                    if(seqAdd.ExprSrc == null)
-                    {
-                        string typeExpr = GetSequenceExpression(seqAdd.Expr, source);
-                        return "GRGEN_LIBGR.GraphHelper.AddNodeOfType(" + typeExpr + ", graph)";
-                    }
-                    else
-                    {
-                        string typeExpr = GetSequenceExpression(seqAdd.Expr, source);
-                        string srcExpr = GetSequenceExpression(seqAdd.ExprSrc, source);
-                        string tgtExpr = GetSequenceExpression(seqAdd.ExprDst, source);
-                        return "GRGEN_LIBGR.GraphHelper.AddEdgeOfType(" + typeExpr + ", (GRGEN_LIBGR.INode)" + srcExpr + ", (GRGEN_LIBGR.INode)" + tgtExpr + ", graph)";
-                    }
-                }
-
-                case SequenceExpressionType.InsertInduced:
-                {
-                    SequenceExpressionInsertInduced seqInsInd = (SequenceExpressionInsertInduced)expr;
-                    return "GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInsInd.NodeSet, source) + ", (GRGEN_LIBGR.INode)" + GetSequenceExpression(seqInsInd.RootNode, source) + ", graph)";
-                }
-
-                case SequenceExpressionType.InsertDefined:
-                {
-                    SequenceExpressionInsertDefined seqInsDef = (SequenceExpressionInsertDefined)expr;
-                    return "GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)";
                 }
 
                 case SequenceExpressionType.ContainerSize:
@@ -3827,7 +3957,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 List<string> warnings = new List<string>();
                 seq = SequenceParser.ParseSequence(xgrsStr, 
-                    ruleNames, sequenceNames, functionNames,
+                    ruleNames, sequenceNames, procedureNames, functionNames,
                     functionOutputTypes, varDecls, model, warnings);
                 foreach(string warning in warnings)
                 {
@@ -3907,7 +4037,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 List<string> warnings = new List<string>();
                 seq = SequenceParser.ParseSequence(sequence.XGRS, 
-                    ruleNames, sequenceNames, functionNames, 
+                    ruleNames, sequenceNames, procedureNames, functionNames, 
                     functionOutputTypes, varDecls, model, warnings);
                 foreach(string warning in warnings)
                 {

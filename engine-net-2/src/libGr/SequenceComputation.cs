@@ -21,12 +21,14 @@ namespace de.unika.ipd.grGen.libGr
     public enum SequenceComputationType
     {
         Then,
-        VFree, VFreeNonReset, VReset,
+        VAlloc, VFree, VFreeNonReset, VReset,
         ContainerAdd, ContainerRem, ContainerClear,
         Assignment,
         VariableDeclaration,
-        Emit, Record, Export, GraphRem, GraphClear,
-        ComputationCall,
+        Emit, Record, Export,
+        GraphAdd, GraphRem, GraphClear, GraphRetype,
+        InsertInduced, InsertDefined,
+        ProcedureCall, BuiltinProcedureCall,
         AssignmentTarget, // every assignment target (lhs value) is a computation
         Expression // every expression (rhs value) is a computation
     }
@@ -239,6 +241,34 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return left.Symbol + "; " + right.Symbol; } }
     }
 
+
+    public class SequenceComputationVAlloc : SequenceComputation
+    {
+        public SequenceComputationVAlloc()
+            : base(SequenceComputationType.VAlloc)
+        {
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationVAlloc copy = (SequenceComputationVAlloc)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return procEnv.Graph.AllocateVisitedFlag();
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "valloc()"; } }
+    }
 
     public class SequenceComputationVFree : SequenceComputation
     {
@@ -990,6 +1020,151 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "export(" + (Graph!=null ? Graph.Symbol + ", " : "") + Name.Symbol + ")"; } }
     }
 
+
+    public class SequenceComputationGraphAdd : SequenceComputation
+    {
+        public SequenceExpression Expr;
+        public SequenceExpression ExprSrc;
+        public SequenceExpression ExprDst;
+
+        public SequenceComputationGraphAdd(SequenceExpression expr, SequenceExpression exprSrc, SequenceExpression exprDst)
+            : base(SequenceComputationType.GraphAdd)
+        {
+            Expr = expr;
+            ExprSrc = exprSrc;
+            ExprDst = exprDst;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Expr.Type(env) != "")
+            {
+                if(ExprSrc != null)
+                {
+                    string typeString = null;
+                    if(Expr.Type(env) == "string")
+                    {
+                        if(Expr is SequenceExpressionConstant)
+                            typeString = (string)((SequenceExpressionConstant)Expr).Constant;
+                    }
+                    else
+                    {
+                        typeString = Expr.Type(env);
+                    }
+                    EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
+                    if(edgeType == null && typeString != null)
+                    {
+                        throw new SequenceParserException(Symbol + ", first argument", "edge type or string denoting edge type", typeString);
+                    }
+                }
+                else
+                {
+                    string typeString = null;
+                    if(Expr.Type(env) == "string")
+                    {
+                        if(Expr is SequenceExpressionConstant)
+                            typeString = (string)((SequenceExpressionConstant)Expr).Constant;
+                    }
+                    else
+                    {
+                        typeString = Expr.Type(env);
+                    }
+                    NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
+                    if(nodeType == null && typeString != null)
+                    {
+                        throw new SequenceParserException(Symbol + ", first argument", "node type or string denoting node type", typeString);
+                    }
+                }
+            }
+            if(ExprSrc != null)
+            {
+                if(ExprSrc.Type(env) != "")
+                {
+                    if(!TypesHelper.IsSameOrSubtype(ExprSrc.Type(env), "Node", env.Model))
+                    {
+                        throw new SequenceParserException(Symbol + "second argument", "node", ExprSrc.Type(env));
+                    }
+                }
+            }
+            if(ExprDst != null)
+            {
+                if(ExprDst.Type(env) != "")
+                {
+                    if(!TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "Node", env.Model))
+                    {
+                        throw new SequenceParserException(Symbol + "third argument", "node", ExprDst.Type(env));
+                    }
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            string typeString = "";
+
+            if(Expr.Type(env) != "")
+            {
+                if(ExprSrc != null)
+                {
+                    if(Expr.Type(env) == "string")
+                    {
+                        if(Expr is SequenceExpressionConstant)
+                            typeString = (string)((SequenceExpressionConstant)Expr).Constant;
+                    }
+                    else
+                    {
+                        typeString = Expr.Type(env);
+                    }
+                }
+                else
+                {
+                    if(Expr.Type(env) == "string")
+                    {
+                        if(Expr is SequenceExpressionConstant)
+                            typeString = (string)((SequenceExpressionConstant)Expr).Constant;
+                    }
+                    else
+                    {
+                        typeString = Expr.Type(env);
+                    }
+                }
+            }
+
+            return typeString;
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationGraphAdd copy = (SequenceComputationGraphAdd)MemberwiseClone();
+            copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
+            if(ExprSrc != null) copy.ExprSrc = ExprSrc.CopyExpression(originalToCopy, procEnv);
+            if(ExprDst != null) copy.ExprDst = ExprDst.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(ExprSrc == null)
+                return GraphHelper.AddNodeOfType(Expr.Evaluate(procEnv), procEnv.Graph);
+            else
+                return GraphHelper.AddEdgeOfType(Expr.Evaluate(procEnv), (INode)ExprSrc.Evaluate(procEnv), (INode)ExprDst.Evaluate(procEnv), procEnv.Graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            Expr.GetLocalVariables(variables, containerConstructors);
+            if(ExprSrc != null) ExprSrc.GetLocalVariables(variables, containerConstructors);
+            if(ExprDst != null) ExprDst.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield return Expr; if(ExprSrc != null) yield return ExprSrc; if(ExprDst != null) yield return ExprDst; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "add(" + Expr.Symbol + (ExprSrc != null ? "," + ExprSrc.Symbol + "," + ExprDst.Symbol : "") + ")"; } }
+    }
+
     public class SequenceComputationGraphRem : SequenceComputation
     {
         public SequenceExpression Expr;
@@ -1076,12 +1251,336 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "clear()"; } }
     }
 
-    public class SequenceComputationCall : SequenceComputation
+    public class SequenceComputationGraphRetype : SequenceComputation
+    {
+        public SequenceExpression TypeExpr;
+        public SequenceExpression ElemExpr;
+
+        public SequenceComputationGraphRetype(SequenceExpression elemExpr, SequenceExpression typeExpr)
+            : base(SequenceComputationType.GraphRetype)
+        {
+            ElemExpr = elemExpr;
+            TypeExpr = typeExpr;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(ElemExpr.Type(env) != "")
+            {
+                if(!TypesHelper.IsSameOrSubtype(ElemExpr.Type(env), "Node", env.Model)
+                    && !TypesHelper.IsSameOrSubtype(ElemExpr.Type(env), "Edge", env.Model))
+                {
+                    throw new SequenceParserException(Symbol + ", first argument", "node or edge", ElemExpr.Type(env));
+                }
+            }
+
+            string typeString = null;
+            if(TypeExpr.Type(env) == "string")
+            {
+                if(TypeExpr is SequenceExpressionConstant)
+                    typeString = (string)((SequenceExpressionConstant)TypeExpr).Constant;
+            }
+            else
+            {
+                typeString = TypeExpr.Type(env);
+            }
+            NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
+            if(nodeType == null && typeString != null)
+            {
+                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
+                if(edgeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", second argument", "node or edge type or string denoting node or edge type", typeString);
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            string typeString = "";
+
+            if(TypeExpr.Type(env) != "")
+            {
+                if(TypeExpr.Type(env) == "string")
+                {
+                    if(TypeExpr is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)TypeExpr).Constant;
+                }
+                else
+                {
+                    typeString = TypeExpr.Type(env);
+                }
+            }
+
+            return typeString;
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationGraphRetype copy = (SequenceComputationGraphRetype)MemberwiseClone();
+            copy.ElemExpr = ElemExpr.CopyExpression(originalToCopy, procEnv);
+            copy.TypeExpr = TypeExpr.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return GraphHelper.RetypeGraphElement((IGraphElement)ElemExpr.Evaluate(procEnv), TypeExpr.Evaluate(procEnv), procEnv.Graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ElemExpr.GetLocalVariables(variables, containerConstructors);
+            TypeExpr.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield return ElemExpr; yield return TypeExpr; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "retype(" + ElemExpr.Symbol + "," + TypeExpr.Symbol + ")"; } }
+    }
+
+    public class SequenceComputationInsertInduced : SequenceComputation
+    {
+        public SequenceExpression NodeSet;
+        public SequenceExpression RootNode;
+
+        public SequenceComputationInsertInduced(SequenceExpression nodeSet, SequenceExpression rootNode)
+            : base(SequenceComputationType.InsertInduced)
+        {
+            NodeSet = nodeSet;
+            RootNode = rootNode;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(NodeSet.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if(!NodeSet.Type(env).StartsWith("set<"))
+                {
+                    throw new SequenceParserException(Symbol, "set<Node> type", NodeSet.Type(env));
+                }
+                if(TypesHelper.ExtractSrc(NodeSet.Type(env)) != "Node")
+                {
+                    throw new SequenceParserException(Symbol, "set<Node> type", NodeSet.Type(env));
+                }
+            }
+
+            if(RootNode.Type(env) != "")
+            {
+                if(!TypesHelper.IsSameOrSubtype(RootNode.Type(env), "Node", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "Node", RootNode.Type(env));
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return RootNode.Type(env);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationInsertInduced copy = (SequenceComputationInsertInduced)MemberwiseClone();
+            copy.NodeSet = NodeSet.CopyExpression(originalToCopy, procEnv);
+            copy.RootNode = RootNode.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object nodeSet = NodeSet.Evaluate(procEnv);
+            object rootNode = RootNode.Evaluate(procEnv);
+            return GraphHelper.InsertInduced((IDictionary<INode, SetValueType>)nodeSet, (INode)rootNode, procEnv.Graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            NodeSet.GetLocalVariables(variables, containerConstructors);
+            RootNode.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield return NodeSet; yield return RootNode; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "insertInduced(" + NodeSet.Symbol + "," + RootNode.Symbol + ")"; } }
+    }
+
+    public class SequenceComputationInsertDefined : SequenceComputation
+    {
+        public SequenceExpression EdgeSet;
+        public SequenceExpression RootEdge;
+
+        public SequenceComputationInsertDefined(SequenceExpression edgeSet, SequenceExpression rootEdge)
+            : base(SequenceComputationType.InsertDefined)
+        {
+            EdgeSet = edgeSet;
+            RootEdge = rootEdge;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(EdgeSet.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if(!EdgeSet.Type(env).StartsWith("set<"))
+                {
+                    throw new SequenceParserException(Symbol, "set<Edge> type", EdgeSet.Type(env));
+                }
+                if(TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "Edge")
+                {
+                    throw new SequenceParserException(Symbol, "set<Edge> type", EdgeSet.Type(env));
+                }
+            }
+
+            if(RootEdge.Type(env) != "")
+            {
+                if(!TypesHelper.IsSameOrSubtype(RootEdge.Type(env), "Edge", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "Edge", RootEdge.Type(env));
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return RootEdge.Type(env);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationInsertDefined copy = (SequenceComputationInsertDefined)MemberwiseClone();
+            copy.EdgeSet = EdgeSet.CopyExpression(originalToCopy, procEnv);
+            copy.RootEdge = RootEdge.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object edgeSet = EdgeSet.Evaluate(procEnv);
+            object rootEdge = RootEdge.Evaluate(procEnv);
+            return GraphHelper.InsertDefined((IDictionary<IEdge, SetValueType>)edgeSet, (IEdge)rootEdge, procEnv.Graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            EdgeSet.GetLocalVariables(variables, containerConstructors);
+            RootEdge.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield return EdgeSet; yield return RootEdge; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "insertDefined(" + EdgeSet.Symbol + "," + RootEdge.Symbol + ")"; } }
+    }
+
+
+    public class SequenceComputationBuiltinProcedureCall : SequenceComputation
+    {
+        public SequenceComputation BuiltinProcedure;
+        public List<SequenceVariable> ReturnVars;
+
+        public SequenceComputationBuiltinProcedureCall(SequenceComputation builtinProcedure, List<SequenceVariable> returnVars)
+            : base(SequenceComputationType.BuiltinProcedureCall)
+        {
+            BuiltinProcedure = builtinProcedure;
+            ReturnVars = returnVars;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+            //env.CheckProcedureCall(this);
+            if(!(BuiltinProcedure is SequenceComputationVAlloc) 
+                && !(BuiltinProcedure is SequenceComputationGraphAdd)
+                && !(BuiltinProcedure is SequenceComputationGraphRetype)
+                && !(BuiltinProcedure is SequenceComputationInsertInduced)
+                && !(BuiltinProcedure is SequenceComputationInsertDefined))
+            {
+                throw new Exception("Procedure call of builtin unknown procedure");
+            }
+            if(ReturnVars.Count > 1)
+                throw new Exception("Procedure returns 1 output value, can't assign more");
+            // 0 Return Vars, i.e. throwing away the value returned is ok
+            if(ReturnVars.Count == 0)
+                return;
+
+            if(BuiltinProcedure is SequenceComputationVAlloc
+                || BuiltinProcedure is SequenceComputationGraphAdd
+                || BuiltinProcedure is SequenceComputationGraphRetype
+                || BuiltinProcedure is SequenceComputationInsertInduced
+                || BuiltinProcedure is SequenceComputationInsertDefined
+                ) 
+            {
+                if(!TypesHelper.IsSameOrSubtype(BuiltinProcedure.Type(env), ReturnVars[0].Type, env.Model))
+                {
+                    throw new SequenceParserException(Symbol, ReturnVars[0].Type, BuiltinProcedure.Type(env));
+                }
+            }
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationBuiltinProcedureCall copy = (SequenceComputationBuiltinProcedureCall)MemberwiseClone();
+            copy.BuiltinProcedure = BuiltinProcedure.Copy(originalToCopy, procEnv);
+            copy.ReturnVars = new List<SequenceVariable>();
+            for(int i = 0; i < ReturnVars.Count; ++i)
+                copy.ReturnVars.Add(ReturnVars[i].Copy(originalToCopy, procEnv));
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(ReturnVars.Count > 0)
+                ReturnVars[0].SetVariableValue(BuiltinProcedure.Execute(procEnv), procEnv);
+            else
+                BuiltinProcedure.Execute(procEnv);
+            return null;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            BuiltinProcedure.GetLocalVariables(variables, containerConstructors);
+            for(int i = 0; i < ReturnVars.Count; ++i)
+                ReturnVars[i].GetLocalVariables(variables);
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+
+        protected String GetProcedureString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if(ReturnVars.Count > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ReturnVars.Count; ++i)
+                {
+                    sb.Append(ReturnVars[i].Name);
+                    if(i != ReturnVars.Count - 1) sb.Append(",");
+                }
+                sb.Append(")=");
+            }
+            sb.Append(BuiltinProcedure.Symbol);
+            return sb.ToString();
+        }
+
+        public override string Symbol { get { return GetProcedureString(); } }
+    }
+    
+    public class SequenceComputationProcedureCall : SequenceComputation
     {
         public ComputationInvocationParameterBindings ParamBindings;
 
-        public SequenceComputationCall(ComputationInvocationParameterBindings paramBindings, bool special)
-            : base(SequenceComputationType.ComputationCall)
+        public SequenceComputationProcedureCall(ComputationInvocationParameterBindings paramBindings)
+            : base(SequenceComputationType.ProcedureCall)
         {
             ParamBindings = paramBindings;
         }
@@ -1089,12 +1588,12 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             //base.Check(env); // check children
-            env.CheckComputationCall(this);
+            env.CheckProcedureCall(this);
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            SequenceComputationCall copy = (SequenceComputationCall)MemberwiseClone();
+            SequenceComputationProcedureCall copy = (SequenceComputationProcedureCall)MemberwiseClone();
             copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
             return copy;
         }
@@ -1102,8 +1601,13 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             ComputationInfo computationDef = ParamBindings.ComputationDef;
-            computationDef.Apply(procEnv, procEnv.Graph, ParamBindings);
-            return true;
+            object[] resultVars = computationDef.Apply(procEnv, procEnv.Graph, ParamBindings);
+            if(ParamBindings.ReturnVars.Length>0)
+            {
+                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
+                    ParamBindings.ReturnVars[i].SetVariableValue(resultVars[i], procEnv);
+            }
+            return null;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -1115,27 +1619,7 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceComputation> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
 
-        public String GetComputationCallString(IGraphProcessingEnvironment procEnv)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(ParamBindings.ComputationDef.name);
-            if(ParamBindings.ArgumentExpressions.Length > 0)
-            {
-                sb.Append("(");
-                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
-                {
-                    if(ParamBindings.ArgumentExpressions[i] != null)
-                        sb.Append(ContainerHelper.ToStringAutomatic(ParamBindings.ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
-                    else
-                        sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
-                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
-                }
-                sb.Append(")");
-            }
-            return sb.ToString();
-        }
-
-        protected String GetComputationString()
+        protected String GetProcedureString()
         {
             StringBuilder sb = new StringBuilder();
             if(ParamBindings.ReturnVars.Length > 0)
@@ -1165,6 +1649,6 @@ namespace de.unika.ipd.grGen.libGr
             return sb.ToString();
         }
 
-        public override string Symbol { get { return GetComputationString(); } }
+        public override string Symbol { get { return GetProcedureString(); } }
     }
 }
