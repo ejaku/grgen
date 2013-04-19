@@ -6,7 +6,7 @@ include statespaceChemistry/layout.grsi
 
 def addReactionResultsIfNotYetExisting(mol:Molecule) {\
 	( existsChild(mol) && ((newmol:Molecule)=buildMoleculeFromReactionResult(mol) <; adj:set<Node>=set<Node>{} <; {newmol.sub=inducedSubgraph(adj)}) &&\
-	( sub:graph ;> newmolcopy:Molecule ;> {adj=adjacentOutgoing(newmol, contains); sub=inducedSubgraph(adj)} ;> if{ for{others:Molecule; {sub!=others.sub} } ; / {newmolcopy=insertInduced(adj, newmol)} && {newmolcopy.sub=sub} / } ;> deleteTree(newmol) ) )*\
+	( sub:graph ;> newmolcopy:Molecule ;> {adj=adjacentOutgoing(newmol, contains); sub=inducedSubgraph(adj)} ;> if{ for{others:Molecule; {sub!=others.sub} } ; / {(newmolcopy)=insertInduced(adj, newmol)} && {newmolcopy.sub=sub} / } ;> deleteTree(newmol) ) )*\
 }
 
 def stateStepIsoCheck(level:int) { false }

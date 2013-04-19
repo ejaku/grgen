@@ -28,7 +28,7 @@ show node n4
 
 exec for{n:WalkOrder; {n.num = -1}}
 
-exec vis:int ;> {vis=valloc()} ;> (urgs:int)=DepthFirstCallCompiled(::n1, 0, vis) ;> {vfree(vis)}
+exec vis:int ;> {(vis)=valloc()} ;> (urgs:int)=DepthFirstCallCompiled(::n1, 0, vis) ;> {vfree(vis)}
 
 show node n1
 show node n2

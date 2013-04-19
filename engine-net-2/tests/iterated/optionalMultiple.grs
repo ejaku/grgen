@@ -36,7 +36,7 @@ xgrs addDirected(::src,::tgt)
 show num nodes
 show num edges
 
-xgrs {::visID = valloc()}
+xgrs {(::visID) = valloc()}
 
 xgrs foo
 xgrs unmarkEdge*

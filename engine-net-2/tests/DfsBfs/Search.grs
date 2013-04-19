@@ -12,7 +12,7 @@ new n3 --> n4
 
 def BreadthFirst(root:WalkOrder)\
 {\
-	d:deque<WalkOrder>=deque<WalkOrder>][ ;> vis:int ;> {vis=valloc()} ;> num:int=0 ;> {d.add(root); root.visited[vis]=true} ;>\
+	d:deque<WalkOrder>=deque<WalkOrder>][ ;> vis:int ;> {(vis)=valloc()} ;> num:int=0 ;> {d.add(root); root.visited[vis]=true} ;>\
 	(if{ {!d.empty()} ;\
 		cur:WalkOrder ;> {cur=d.peek(); d.rem(); cur.num=num; num=num+1} ;> \
 		for{n:WalkOrder in adjacentOutgoing(cur); \
@@ -24,7 +24,7 @@ def BreadthFirst(root:WalkOrder)\
 
 def DepthFirst(root:WalkOrder)\
 {\
-	a:array<WalkOrder>=array<WalkOrder>[] ;> vis:int ;> {vis=valloc()} ;> num:int=0 ;> {a.add(root); root.visited[vis]=true} ;>\
+	a:array<WalkOrder>=array<WalkOrder>[] ;> vis:int ;> {(vis)=valloc()} ;> num:int=0 ;> {a.add(root); root.visited[vis]=true} ;>\
 	(if{ {!a.empty()} ;\
 		cur:WalkOrder ;> {cur=a.peek(); a.rem(); cur.num=num; num=num+1} ;> \
 		for{n:WalkOrder in adjacentOutgoing(cur); \
@@ -64,7 +64,7 @@ show node n4
 
 exec for{n:WalkOrder; {n.num = -1}}
 
-exec vis:int ;> {vis=valloc()} ;> (urgs:int)=DepthFirstCall(::n1, 0, vis) ;> {vfree(vis)}
+exec vis:int ;> {(vis)=valloc()} ;> (urgs:int)=DepthFirstCall(::n1, 0, vis) ;> {vfree(vis)}
 
 show node n1
 show node n2

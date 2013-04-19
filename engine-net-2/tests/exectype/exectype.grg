@@ -637,7 +637,7 @@ rule AssignAttributeToVarUntyped(x:A)
 rule Visited(n:A,-e:H->)
 {
 	modify {
-		exec(i:int=0 && {i=valloc()} && v:boolean=false && {n.visited[i]=v} && v=true && {e.visited[i]=v}
+		exec(i:int=0 && {(i)=valloc()} && v:boolean=false && {n.visited[i]=v} && v=true && {e.visited[i]=v}
 			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
 			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vreset(i)}
@@ -651,7 +651,7 @@ rule Visited(n:A,-e:H->)
 rule VisitedUntyped(n:A,-e:H->)
 {
 	modify {
-		exec({::i=valloc()} && ::v=false && {n.visited[::i]=::v} && ::v=true && {e.visited[::i]=::v}
+		exec({(::i)=valloc()} && ::v=false && {n.visited[::i]=::v} && ::v=true && {e.visited[::i]=::v}
 			;> {n.visited[::i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
 			;> {e.visited[::i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vreset(::i)}
@@ -665,7 +665,7 @@ rule VisitedUntyped(n:A,-e:H->)
 rule VisitedPartial2(n:A,-e:H->)
 {
 	modify {
-		exec({::ifirst=valloc()} && {::i=valloc()} && v:boolean=false && {n.visited[::i]=v} && v=true && {e.visited[::i]=v}
+		exec({(::ifirst)=valloc()} && {(::i)=valloc()} && v:boolean=false && {n.visited[::i]=v} && v=true && {e.visited[::i]=v}
 			;> {n.visited[::i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
 			;> {e.visited[::i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vreset(::i)}
@@ -679,7 +679,7 @@ rule VisitedPartial2(n:A,-e:H->)
 rule VisitedPartial1(n:A,-e:H->)
 {
 	modify {
-		exec(i:int=0 && {i=valloc()} && ::v=false && {n.visited[i]=::v} && ::v=true && {e.visited[i]=::v}
+		exec(i:int=0 && {(i)=valloc()} && ::v=false && {n.visited[i]=::v} && ::v=true && {e.visited[i]=::v}
 			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
 			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vreset(i)}
