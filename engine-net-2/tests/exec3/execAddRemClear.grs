@@ -6,7 +6,7 @@ show num nodes "A"
 show num nodes "B"
 show num edges "ee"
 
-exec {::a=add(A)}
+exec {(::a)=add(A)}
 
 show num nodes
 show num edges
@@ -14,7 +14,7 @@ show num nodes "A"
 show num nodes "B"
 show num edges "ee"
 
-exec {::b=add(B)}
+exec {(::b)=add(B)}
 
 show num nodes
 show num edges
@@ -22,7 +22,7 @@ show num nodes "A"
 show num nodes "B"
 show num edges "ee"
 
-exec {::c=add(Node)}
+exec {(::c)=add(Node)}
 
 show num nodes
 show num edges
@@ -30,7 +30,7 @@ show num nodes "A"
 show num nodes "B"
 show num edges "ee"
 
-exec {::e=add(ee,::a,::b)}
+exec {(::e)=add(ee,::a,::b)}
 
 show num nodes
 show num edges
@@ -38,7 +38,7 @@ show num nodes "A"
 show num nodes "B"
 show num edges "ee"
 
-exec {::f=add(ee,::b,::c)}
+exec {(::f)=add(ee,::b,::c)}
 
 show num nodes
 show num edges
@@ -46,7 +46,7 @@ show num nodes "A"
 show num nodes "B"
 show num edges "ee"
 
-exec {::g=add(Edge,::c,::c)}
+exec {(::g)=add(Edge,::c,::c)}
 
 show num nodes
 show num edges

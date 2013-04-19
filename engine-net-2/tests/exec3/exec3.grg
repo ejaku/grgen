@@ -8,42 +8,42 @@ test Match
 rule addA
 {
 	modify {
-		exec({::a=add(A)});
+		exec({(::a)=add(A)});
 	}
 }
 
 rule addB
 {
 	modify {
-		exec({::b=add(B)});
+		exec({(::b)=add(B)});
 	}
 }
 
 rule addC
 {
 	modify {
-		exec({::c=add(Node)});
+		exec({(::c)=add(Node)});
 	}
 }
 
 rule addE
 {
 	modify {
-		exec({::e=add(ee,::a,::b)});
+		exec({(::e)=add(ee,::a,::b)});
 	}
 }
 
 rule addF
 {
 	modify {
-		exec({::f=add(ee,::b,::c)});
+		exec({(::f)=add(ee,::b,::c)});
 	}
 }
 
 rule addG
 {
 	modify {
-		exec({::g=add(Edge,::c,::c)});
+		exec({(::g)=add(Edge,::c,::c)});
 	}
 }
 
