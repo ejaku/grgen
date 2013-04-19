@@ -143,14 +143,14 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Helper for checking computation calls.
+        /// Helper for checking procedure calls.
         /// Checks whether called entity exists, type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seq">The sequence computation to check, must be a computation call</param>
-        public void CheckComputationCall(SequenceComputation seq)
+        public void CheckProcedureCall(SequenceComputation seq)
         {
-            InvocationParameterBindingsWithReturns paramBindings = (seq as SequenceComputationCall).ParamBindings;
+            InvocationParameterBindingsWithReturns paramBindings = (seq as SequenceComputationProcedureCall).ParamBindings;
 
             // check the name against the available names
             if(!IsCalledEntityExisting(paramBindings))
@@ -302,10 +302,15 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 return seqParamBindings.SequenceDef != null;
             }
+            else if(paramBindings is ComputationInvocationParameterBindings)
+            {
+                ComputationInvocationParameterBindings procParamBindings = (ComputationInvocationParameterBindings)paramBindings;
+                return procParamBindings.ComputationDef != null;
+            }
             else
             {
-                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return compParamBindings.FunctionDef != null;
+                FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return funcParamBindings.FunctionDef != null;
             }
         }
 
@@ -330,10 +335,15 @@ namespace de.unika.ipd.grGen.libGr
                     return seqDef.SeqInfo.ParameterTypes.Length;
                 }
             }
+            else if(paramBindings is ComputationInvocationParameterBindings)
+            {
+                ComputationInvocationParameterBindings procParamBindings = (ComputationInvocationParameterBindings)paramBindings;
+                return procParamBindings.ComputationDef.inputs.Length;
+            }
             else
             {
-                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return compParamBindings.FunctionDef.inputs.Length;
+                FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return funcParamBindings.FunctionDef.inputs.Length;
             }
         }
 
@@ -344,7 +354,7 @@ namespace de.unika.ipd.grGen.libGr
                 RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
                 return ruleParamBindings.Action.RulePattern.Outputs.Length;
             }
-            else
+            else if(paramBindings is SequenceInvocationParameterBindings)
             {
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 if(seqParamBindings.SequenceDef is SequenceDefinitionInterpreted)
@@ -357,6 +367,11 @@ namespace de.unika.ipd.grGen.libGr
                     SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqParamBindings.SequenceDef;
                     return seqDef.SeqInfo.OutParameterTypes.Length;
                 }
+            }
+            else
+            {
+                ComputationInvocationParameterBindings procParamBindings = (ComputationInvocationParameterBindings)paramBindings;
+                return procParamBindings.ComputationDef.outputs.Length;
             }
         }
 
@@ -381,10 +396,15 @@ namespace de.unika.ipd.grGen.libGr
                     return TypesHelper.DotNetTypeToXgrsType(seqDef.SeqInfo.ParameterTypes[i]);
                 }
             }
+            else if(paramBindings is ComputationInvocationParameterBindings)
+            {
+                ComputationInvocationParameterBindings compParamBindings = (ComputationInvocationParameterBindings)paramBindings;
+                return TypesHelper.DotNetTypeToXgrsType(compParamBindings.ComputationDef.inputs[i]);
+            }
             else
             {
-                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return TypesHelper.DotNetTypeToXgrsType(compParamBindings.FunctionDef.inputs[i]);
+                FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return TypesHelper.DotNetTypeToXgrsType(funcParamBindings.FunctionDef.inputs[i]);
             }
         }
 
@@ -395,7 +415,7 @@ namespace de.unika.ipd.grGen.libGr
                 RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
                 return TypesHelper.DotNetTypeToXgrsType(ruleParamBindings.Action.RulePattern.Outputs[i]);
             }
-            else
+            else if(paramBindings is SequenceInvocationParameterBindings)
             {
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 if(seqParamBindings.SequenceDef is SequenceDefinitionInterpreted)
@@ -408,6 +428,11 @@ namespace de.unika.ipd.grGen.libGr
                     SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqParamBindings.SequenceDef;
                     return TypesHelper.DotNetTypeToXgrsType(seqDef.SeqInfo.OutParameterTypes[i]);
                 }
+            }
+            else
+            {
+                ComputationInvocationParameterBindings compParamBindings = (ComputationInvocationParameterBindings)paramBindings;
+                return TypesHelper.DotNetTypeToXgrsType(compParamBindings.ComputationDef.outputs[i]);
             }
         }
 
@@ -424,15 +449,17 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceCheckingEnvironmentCompiled : SequenceCheckingEnvironment
     {
         // constructor for compiled sequences
-        public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames, String[] functionNames,
+        public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames, String[] procedureNames, String[] functionNames,
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
+            Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes,
             Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType,
             IGraphModel model)
         {
             this.ruleNames = ruleNames;
             this.sequenceNames = sequenceNames;
+            this.procedureNames = procedureNames;
             this.functionNames = functionNames;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
@@ -441,6 +468,8 @@ namespace de.unika.ipd.grGen.libGr
             this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
             this.sequencesToOutputTypes = sequencesToOutputTypes;
+            this.proceduresToInputTypes = proceduresToInputTypes;
+            this.proceduresToOutputTypes = proceduresToOutputTypes;
             this.functionsToInputTypes = functionsToInputTypes;
             this.functionsToOutputType = functionsToOutputType;
             this.model = model;
@@ -453,6 +482,9 @@ namespace de.unika.ipd.grGen.libGr
 
         // the sequence names available in the .grg to compile
         private String[] sequenceNames;
+
+        // the procedure names available in the .grg to compile
+        private String[] procedureNames;
 
         // the function names available in the .grg to compile
         private String[] functionNames;
@@ -475,10 +507,15 @@ namespace de.unika.ipd.grGen.libGr
         // maps sequence names available in the .grg to compile to the list of the output typ names
         private Dictionary<String, List<String>> sequencesToOutputTypes;
 
+        // maps procedure names available in the .grg to compile to the list of the input typ names
+        private Dictionary<String, List<String>> proceduresToInputTypes;
+        // maps procedure names available in the .grg to compile to the list of the output typ names
+        private Dictionary<String, List<String>> proceduresToOutputTypes;
+
         // maps function names available in the .grg to compile to the list of the input typ names
-        Dictionary<String, List<String>> functionsToInputTypes;
+        private Dictionary<String, List<String>> functionsToInputTypes;
         // maps function names available in the .grg to compile to the list of the output typ name
-        Dictionary<String, String> functionsToOutputType;
+        private Dictionary<String, String> functionsToOutputType;
 
         // returns rule or sequence name to input types dictionary depending on argument
         private Dictionary<String, List<String>> toInputTypes(bool rule) { return rule ? rulesToInputTypes : sequencesToInputTypes; }
@@ -520,10 +557,15 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 return Array.IndexOf(sequenceNames, seqParamBindings.Name) != -1;
             }
+            else if(paramBindings is ComputationInvocationParameterBindings)
+            {
+                ComputationInvocationParameterBindings procParamBindings = (ComputationInvocationParameterBindings)paramBindings;
+                return Array.IndexOf(procedureNames, procParamBindings.Name) != -1;
+            }
             else
             {
-                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return Array.IndexOf(functionNames, compParamBindings.Name) != -1;
+                FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return Array.IndexOf(functionNames, funcParamBindings.Name) != -1;
             }
         }
 
@@ -539,10 +581,15 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 return sequencesToInputTypes[seqParamBindings.Name].Count;
             }
+            else if(paramBindings is ComputationInvocationParameterBindings)
+            {
+                ComputationInvocationParameterBindings procParamBindings = (ComputationInvocationParameterBindings)paramBindings;
+                return proceduresToInputTypes[procParamBindings.Name].Count;
+            }
             else
             {
-                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return functionsToInputTypes[compParamBindings.Name].Count;
+                FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return functionsToInputTypes[funcParamBindings.Name].Count;
             }
         }
 
@@ -553,10 +600,15 @@ namespace de.unika.ipd.grGen.libGr
                 RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
                 return rulesToOutputTypes[ruleParamBindings.Name].Count;
             }
-            else
+            else if(paramBindings is SequenceInvocationParameterBindings)
             {
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 return sequencesToOutputTypes[seqParamBindings.Name].Count;
+            }
+            else
+            {
+                ComputationInvocationParameterBindings procParamBindings = (ComputationInvocationParameterBindings)paramBindings;
+                return proceduresToOutputTypes[procParamBindings.Name].Count;
             }
         }
 
@@ -572,10 +624,15 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 return sequencesToInputTypes[seqParamBindings.Name][i];
             }
+            else if(paramBindings is ComputationInvocationParameterBindings)
+            {
+                ComputationInvocationParameterBindings procParamBindings = (ComputationInvocationParameterBindings)paramBindings;
+                return proceduresToInputTypes[procParamBindings.Name][i];
+            }
             else
             {
-                FunctionInvocationParameterBindings compParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return functionsToInputTypes[compParamBindings.Name][i];
+                FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                return functionsToInputTypes[funcParamBindings.Name][i];
             }
         }
 
@@ -586,10 +643,15 @@ namespace de.unika.ipd.grGen.libGr
                 RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
                 return rulesToOutputTypes[ruleParamBindings.Name][i];
             }
-            else
+            else if(paramBindings is SequenceInvocationParameterBindings)
             {
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 return sequencesToOutputTypes[seqParamBindings.Name][i];
+            }
+            else
+            {
+                ComputationInvocationParameterBindings procParamBindings = (ComputationInvocationParameterBindings)paramBindings;
+                return proceduresToOutputTypes[procParamBindings.Name][i];
             }
         }
 

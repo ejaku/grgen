@@ -1762,8 +1762,8 @@ options { k = 3; }
 	| FALSE { xg.append("false"); }
 	| (parallelCallRule[null, null]) => parallelCallRule[xg, returns]
 	| DOUBLECOLON id=entIdentUse { xg.append("::" + id); xg.addUsage(id); }
-	| (( DOLLAR ( MOD )? )? LBRACE LPAREN) => ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
-		LBRACE LPAREN { xg.append("{("); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* RPAREN RBRACE { xg.append(")}"); }
+	| (( DOLLAR ( MOD )? )? LBRACE LT) => ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
+		LBRACE LT { xg.append("{<"); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* GT RBRACE { xg.append(">}"); }
 	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? 
 		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); }) 
 		LPAREN { xg.append("("); } xgrs[xg] (COMMA { xg.append(","); } xgrs[xg])* RPAREN { xg.append(")"); }
@@ -1776,8 +1776,8 @@ options { k = 3; }
 	| IF l=LBRACE pushScopeStr["if/exec", getCoords(l)] { xg.append("if{"); } xgrs[xg] s=SEMI 
 		pushScopeStr["if/then-part", getCoords(s)] { xg.append("; "); } xgrs[xg] popScope
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
-	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] forSeqRemainder[xg, returns]
-	| LBRACE { xg.append("{"); } seqCompoundComputation[xg] (SEMI)? RBRACE { xg.append("}"); } 
+	| FOR l=LBRACE pushScopeStr["for/exec", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] forSeqRemainder[xg, returns]
+	| LBRACE { xg.append("{"); } pushScopeStr["sequence computation", getCoords(l)] seqCompoundComputation[xg] (SEMI)? popScope RBRACE { xg.append("}"); } 
 	;
 
 forSeqRemainder[ExecNode xg, CollectNode<BaseNode> returns]
@@ -1947,11 +1947,12 @@ seqExprSelectorTerminator
 	;
 
 procedureCall[ExecNode xg]
-	: { input.LT(1).getText().equals("vfree") || input.LT(1).getText().equals("vfreenonreset") || input.LT(1).getText().equals("vreset") 
-		|| input.LT(1).getText().equals("record") || input.LT(1).getText().equals("emit") 
-		|| input.LT(1).getText().equals("rem") || input.LT(1).getText().equals("clear")
-		}?
-		(i=IDENT | i=EMIT) LPAREN { xg.append(i.getText()); xg.append("("); } ( seqExpression[xg] )? RPAREN { xg.append(")"); }
+	@init{
+		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
+	}
+	// built-in procedure or user defined procedure, backend has to decide whether the call is valid
+	: ( LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
+		(i=IDENT | i=EMIT) LPAREN { xg.append(i.getText()); xg.append("("); } functionCallParameters[xg] RPAREN { xg.append(")"); }
 	;
 
 functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
