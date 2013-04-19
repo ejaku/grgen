@@ -120,9 +120,12 @@ OK     should_pass/computations_canonize.grg
 OK     should_pass/computations_container_def.grg
 OK     should_pass/computations_container_method.grg
 OK     should_pass/computations_decl_use_recursive.grg
+OK     should_pass/computations_decl_use_recursive_computations.grg
 OK     should_pass/computations_decl_use_return.grg
+OK     should_pass/computations_decl_use_return_computations.grg
 OK     should_pass/computations_decl_use_return2.grg
 OK     should_pass/computations_decl_use_transitive.grg
+OK     should_pass/computations_decl_use_transitive_computations.grg
 OK     should_pass/computations_def_decl.grg
 OK     should_pass/computations_def_decl2.grg
 OK     should_pass/computations_def_decl2b.grg
@@ -134,6 +137,7 @@ OK     should_pass/computations_do_while.grg
 OK     should_pass/computations_emitrecord.grg
 OK     should_pass/computations_for_container.grg
 OK     should_pass/computations_for_incident_adjacent_lookup.grg
+OK     should_pass/computations_highlight.grg
 OK     should_pass/computations_if_else.grg
 OK     should_pass/computations_induced_defined.grg
 OK     should_pass/computations_merge_redirect.grg

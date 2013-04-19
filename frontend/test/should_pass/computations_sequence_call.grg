@@ -2,14 +2,14 @@ using model_init;
 
 sequence s(x:int, y:Node, -z:Edge->, y2:A, -z2:E1->) : (n:int)
 {
-    { n = foo(x, y, z, y2, z2); } ;> (::num)=t() ;> { n = ::num + bar(); }
+    { (n) = foo(x, y, z, y2, z2); } ;> (::num)=t() ;> { n = ::num + bar(); }
 }
 
 test t : (int)
 {
 	y:Node -z:Edge->;
 	y2:A -z2:E1->;
-	return( foo(3, y, z, y2, z2) + bar() ); // todo: test should not be allowed to call state changing computations
+	return( bar() );
 }
 
 rule r(var n:int) : (int)
@@ -18,21 +18,28 @@ rule r(var n:int) : (int)
 		def var res:int = 0; 
 		y:Node -z:Edge-> y2;
 		y2:A -z2:E1-> y;
-		exec( { yield res = foo(n, y, z, y2, z2); } ;> (::num)=t() ;> { yield res = res + ::num + bar(); } );
-		return( foo(res, y, z, y2, z2) + bar() );
+		// TODO: das muss verboten sein, da fehlt yield
+		exec( { (res) = foo(n, y, z, y2, z2); } ;> (::num)=t() ;> { yield res = res + ::num + bar(); } );
+		def var resres:int = 0; 
+		eval {
+			(yield resres) = foo(res, y, z, y2, z2);
+		}
+		return( res + resres + bar() );
 	}
 }
 
-foo(var x:int, y:Node, -z:Edge->, y2:A, -z2:E1->) : int
+foo(var x:int, y:Node, -z:Edge->, y2:A, -z2:E1->) : (int)
 {
 	if(x<=1) {
 		return(1);
 	} else {
 		def var n:int = 0;
 		exec( (::num)=t() ;> { yield n=::num + bar(); } );
-		exec( if{ {42 <= bar()}; { foo(x,y,z,y2,z2) > bar() } } );
-		exec( y3:Node ;> { y3=add(A); nn:int = foo(n,y3,z,y2,z2); } );
-		return(1 + foo(x - 1, y, z, y2, z2) - n);
+		exec( if{ {42 <= bar()}; { (resres:int) = foo(x,y,z,y2,z2); resres > bar() } } );
+		exec( y3:Node ;> { (y3)=add(A); (nn:int) = foo(n,y3,z,y2,z2); } );
+		def var res:int;
+		(res) = foo(x - 1, y, z, y2, z2);
+		return(1 + res - n);
 	}
 }
 

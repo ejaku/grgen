@@ -102,8 +102,8 @@ rule fromGrs()
 	n3:Node;
 	
 	modify {
-		exec(visId1:int=0 ;> {visId1=valloc()}
-			;> visId2:int=0 ;> {visId2=valloc()}
+		exec(visId1:int=0 ;> {(visId1)=valloc()}
+			;> visId2:int=0 ;> {(visId2)=valloc()}
 			;> {n1.visited[visId1]=true}
 			;> {n2.visited[visId2]=true}
 			;> {n1.visited[visId1]} && empty
