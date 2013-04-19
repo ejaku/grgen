@@ -22,6 +22,6 @@ exec $::x[filterBass\f3]
 exec [filterBass\auto]
 exec (::ee)=filterHass(::n)\f4
 exec <<filterBase\f1;filterBase\f1>>
-exec ${(filterBase\f1,[filterBass\f2])}
+exec ${<filterBase\f1,[filterBass\f2]>}
 
 exit

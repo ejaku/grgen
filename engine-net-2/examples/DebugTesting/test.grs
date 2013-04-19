@@ -12,7 +12,7 @@ debug exec domatch & domatch
 
 new n:N
 
-debug exec {::id=valloc()} && matchmark+
+debug exec {(::id)=valloc()} && matchmark+
 debug exec {::n.visited[::id]} && {vreset(::id)} && matchmark* && {::n.visited[::id] = false}
 
 debug exec if{domatch; domatch; dontmatch}

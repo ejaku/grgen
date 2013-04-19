@@ -16,7 +16,7 @@ echo "  connected components consisting of nodes of type N in the current graph"
 echo "==========================================================================="
 echo ""
 
-exec {::visID = valloc()}
+exec {(::visID) = valloc()}
 
 # HACK: The visID variable should be given to the findComponent rule,
 #       but as subpatterns don't support value variables yet and the first

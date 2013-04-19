@@ -64,7 +64,7 @@ rule r
 				;> [filterBass\auto]
 				;> (::ee)=filterHass(::n)\f4
 				;> <<filterBase\f1;filterBase\f1>>
-				;> ${(filterBase\f1,[filterBass\f2])}
+				;> ${<filterBase\f1,[filterBass\f2]>}
 		);
 	}
 }
