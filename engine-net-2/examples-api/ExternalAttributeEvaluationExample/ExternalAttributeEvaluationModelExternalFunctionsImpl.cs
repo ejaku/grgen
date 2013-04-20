@@ -46,12 +46,12 @@ namespace de.unika.ipd.grGen.expression
 
         public static object bar(object a, object b)
         {
-            return null;
+            return a ?? b ?? null;
         }
 
         public static bool isnull(object a)
         {
-            return true;
+            return a == null;
         }
 
         public static bool bla(GRGEN_MODEL.IN a, GRGEN_MODEL.IE b)
@@ -78,5 +78,54 @@ namespace de.unika.ipd.grGen.expression
 		{
 			return a!=null ? a.aha==null : true;
 		}
+    }
+}
+
+namespace de.unika.ipd.grGen.expression
+{
+    using GRGEN_MODEL = de.unika.ipd.grGen.Model_ExternalAttributeEvaluation;
+
+    public partial class ExternalProcedures
+    {
+        public static void fooProc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, int a, double b, GRGEN_MODEL.ENUM_Enu c, string d)
+        {
+        }
+
+        public static void barProc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object a, object b, out object res)
+        {
+            res = a ?? b ?? null;
+        }
+
+        public static void isnullProc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object a, out bool res)
+        {
+            res = a == null;
+        }
+
+        public static void blaProc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IN a, GRGEN_MODEL.IE b, out bool res1, out bool res2)
+        {
+            res1 = a.b;
+            res2 = !a.b;
+            return;
+        }
+
+        public static void bloProc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode a, GRGEN_LIBGR.IEdge b, out GRGEN_MODEL.IN res)
+        {
+            res = ((GRGEN_MODEL.ExternalAttributeEvaluationGraph)graph).CreateNodeN();
+        }
+
+        public static void harProc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.Own a, GRGEN_MODEL.OwnPown b, out GRGEN_MODEL.OwnPown res1, out GRGEN_MODEL.Own res2, out GRGEN_MODEL.IN res3)
+        {
+            res1 = b;
+            res2 = b;
+            res3 = ((GRGEN_MODEL.ExternalAttributeEvaluationGraph)graph).CreateNodeN();
+        }
+
+        public static void hurProc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.OwnPown a)
+        {
+        }
+
+        public static void hurdurProc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.OwnPownHome a)
+        {
+        }
     }
 }

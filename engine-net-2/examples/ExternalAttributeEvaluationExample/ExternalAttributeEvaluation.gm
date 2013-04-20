@@ -1,4 +1,4 @@
-// we declare two external classes we want to use in our external attribute computation functions
+// we declare two external classes we want to use in our external attribute computations
 // signature only, external implmentation!
 class Own;
 class OwnPown extends Own;
@@ -29,7 +29,7 @@ node class N
 
 edge class E;
 
-// we declare the external attribute computation functions
+// we declare the external attribute functions
 // signature only, external implementation!
 foo(int, double, Enu, string) : boolean;
 bar(object, object) : object;
@@ -39,3 +39,15 @@ blo(Node, Edge) : N;
 har(Own, OwnPown) : OwnPown;
 hur(OwnPown) : boolean;
 hurdur(OwnPownHome) : boolean;
+
+// we declare the external attribute procedures
+// signature only, external implementation!
+fooProc(int, double, Enu, string);
+barProc(object, object) : (object);
+isnullProc(object) : (boolean);
+blaProc(N, E) : (boolean, boolean);
+bloProc(Node, Edge) : (N);
+harProc(Own, OwnPown) : (OwnPown, Own, N);
+hurProc(OwnPown);
+hurdurProc(OwnPownHome);
+

@@ -158,7 +158,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 			for(ExprNode expr : arguments.getChildren()) {
 				epi.addArgument(expr.checkIR(Expression.class));
 			}
-			for(TypeNode type : procedureDecl.returnTypes.children) {
+			for(TypeNode type : externalProcedureDecl.returnTypes.children) {
 				epi.addReturnType(type.checkIR(Type.class));
 			}
 			return epi;

@@ -105,8 +105,10 @@ public class ModelGen extends CSharpBase {
 		
 		///////////////////////////////////////////////////////////////////////////////////////////
 		// generate the external functions and types stub file
-		// only if there are external functions or external types required
-		if(model.getExternalTypes().isEmpty() && model.getExternalFunctions().isEmpty())
+		// only if there are external functions or external procedures or external types required
+		if(model.getExternalTypes().isEmpty() 
+				&& model.getExternalFunctions().isEmpty()
+				&& model.getExternalProcedures().isEmpty())
 			return;
 
 		filename = model.getIdent() + "ModelExternalFunctions.cs";
@@ -149,6 +151,26 @@ public class ModelGen extends CSharpBase {
 					+ "\n");
 
 			genExternalFunctionHeaders();
+
+			sb.append("\t}\n");
+
+			sb.append("}\n");
+		}
+
+		if(!model.getExternalProcedures().isEmpty())
+		{
+			sb.append("\n");
+			sb.append("namespace de.unika.ipd.grGen.expression\n"
+					+ "{\n"
+					+ "\tusing GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n"
+					+ "\n");
+
+			sb.append("\tpublic partial class ExternalProcedures\n");
+			sb.append("\t{\n");
+			sb.append("\t\t// You must implement the following procedures in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n"
+					+ "\n");
+
+			genExternalProcedureHeaders();
 
 			sb.append("\t}\n");
 
@@ -1964,6 +1986,22 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				if(!first) sb.append(", ");
 				sb.append(formatType(paramType));
 				first = false;
+			}
+			sb.append(");\n");
+		}
+	}
+
+	private void genExternalProcedureHeaders() {
+		for(ExternalProcedure ep : model.getExternalProcedures()) {
+			sb.append("\t\t//public static void " + ep.getName() + "(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph");
+			for(Type paramType : ep.getParameterTypes()) {
+				sb.append(", ");
+				sb.append(formatType(paramType));
+			}
+			for(Type retType : ep.getReturnTypes()) {
+				sb.append(", ");
+				sb.append("out ");
+				sb.append(formatType(retType));
 			}
 			sb.append(");\n");
 		}
