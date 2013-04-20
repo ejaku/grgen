@@ -14,24 +14,24 @@ import java.util.Vector;
 
 
 /**
- * Represents an assignment of computation invocation return values statement in the IR.
+ * Represents an assignment of procedure invocation return values statement in the IR.
  */
 public class ReturnAssignment extends EvalStatement {
-	ComputationInvocationBase computationInvocation;
+	ProcedureInvocationBase procedureInvocation;
 	Vector<AssignmentBase> targets = new Vector<AssignmentBase>();
 
-	public ReturnAssignment(ComputationInvocationBase computationInvocation) {
+	public ReturnAssignment(ProcedureInvocationBase procedureInvocation) {
 		super("return assignment");
 		
-		this.computationInvocation = computationInvocation;
+		this.procedureInvocation = procedureInvocation;
 	}
 	
 	public void addAssignment(AssignmentBase target) {
 		targets.add(target);
 	}
 	
-	public ComputationInvocationBase getComputationInvocation() {
-		return computationInvocation;
+	public ProcedureInvocationBase getProcedureInvocation() {
+		return procedureInvocation;
 	}
 	
 	public Vector<AssignmentBase> getTargets() {
@@ -43,6 +43,6 @@ public class ReturnAssignment extends EvalStatement {
 		for(EvalStatement target : targets) {
 			target.collectNeededEntities(needs);
 		}
-		computationInvocation.collectNeededEntities(needs);
+		procedureInvocation.collectNeededEntities(needs);
 	}
 }

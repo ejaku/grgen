@@ -15,39 +15,39 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.exprevals.AssignmentBase;
-import de.unika.ipd.grgen.ir.exprevals.ComputationInvocationBase;
+import de.unika.ipd.grgen.ir.exprevals.ProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.exprevals.ReturnAssignment;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * AST node representing an assignment of computation invocation return values.
+ * AST node representing an assignment of procedure invocation return values.
  */
 public class ReturnAssignmentNode extends EvalStatementNode {
 	static {
 		setName(ReturnAssignmentNode.class, "Return Assign");
 	}
 
-	ComputationOrExternalComputationInvocationNode computation;
-	ComputationInvocationNode builtinComputation;
+	ProcedureOrExternalProcedureInvocationNode procedure;
+	ProcedureInvocationNode builtinProcedure;
 	CollectNode<EvalStatementNode> targets;
 	int context;
 	
-	public ReturnAssignmentNode(Coords coords, ComputationOrExternalComputationInvocationNode computation,
+	public ReturnAssignmentNode(Coords coords, ProcedureOrExternalProcedureInvocationNode procedure,
 			CollectNode<EvalStatementNode> targets, int context) {
 		super(coords);
-		this.computation = computation;
-		becomeParent(this.computation);
+		this.procedure = procedure;
+		becomeParent(this.procedure);
 		this.targets = targets;
 		becomeParent(this.targets);
 		this.context = context;
 	}
 
-	public ReturnAssignmentNode(Coords coords, ComputationInvocationNode builtinComputation,
+	public ReturnAssignmentNode(Coords coords, ProcedureInvocationNode builtinProcedure,
 			CollectNode<EvalStatementNode> targets, int context) {
 		super(coords);
-		this.builtinComputation = builtinComputation;
-		becomeParent(this.builtinComputation);
+		this.builtinProcedure = builtinProcedure;
+		becomeParent(this.builtinProcedure);
 		this.targets = targets;
 		becomeParent(this.targets);
 		this.context = context;
@@ -57,7 +57,7 @@ public class ReturnAssignmentNode extends EvalStatementNode {
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(builtinComputation!=null ? builtinComputation : computation);
+		children.add(builtinProcedure!=null ? builtinProcedure : procedure);
 		children.add(targets);
 		return children;
 	}
@@ -83,14 +83,14 @@ public class ReturnAssignmentNode extends EvalStatementNode {
 		// targets is one of AssignNode, AssignVisitedNode, AssignIndexedNode
 		// with QualIdentNode or IdentExprNode as owner/target
 		// and a projection expr node as source -- maybe with a cast prefix after type adjust
-		if(computation!=null) {
-			if(targets.children.size() != computation.getNumReturnTypes() && targets.children.size()!=0) {
-				computation.reportError("Expected " + computation.getNumReturnTypes() + " computation return variables, given " + targets.children.size());
+		if(procedure!=null) {
+			if(targets.children.size() != procedure.getNumReturnTypes() && targets.children.size()!=0) {
+				procedure.reportError("Expected " + procedure.getNumReturnTypes() + " procedure return variables, given " + targets.children.size());
 				return false;
 			}
 		} else {
-			if(targets.children.size() != builtinComputation.getNumReturnTypes() && targets.children.size()!=0) {
-				builtinComputation.reportError("Expected " + builtinComputation.getNumReturnTypes() + " procedure return variables, given " + targets.children.size());
+			if(targets.children.size() != builtinProcedure.getNumReturnTypes() && targets.children.size()!=0) {
+				builtinProcedure.reportError("Expected " + builtinProcedure.getNumReturnTypes() + " procedure return variables, given " + targets.children.size());
 				return false;
 			}
 		}
@@ -109,12 +109,12 @@ public class ReturnAssignmentNode extends EvalStatementNode {
 	@Override
 	protected IR constructIR() {	
 		ReturnAssignment retAssign;
-		if(computation != null) {
+		if(procedure != null) {
 			retAssign = new ReturnAssignment(
-					computation.checkIR(ComputationInvocationBase.class));
+					procedure.checkIR(ProcedureInvocationBase.class));
 		} else {
 			retAssign = new ReturnAssignment(
-					builtinComputation.checkIR(ComputationInvocationBase.class));
+					builtinProcedure.checkIR(ProcedureInvocationBase.class));
 		}
 		for(EvalStatementNode target : targets.getChildren()) {
 			retAssign.addAssignment(target.checkIR(AssignmentBase.class));

@@ -12,7 +12,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.ComputationInvocationBase;
+import de.unika.ipd.grgen.ir.exprevals.ProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.exprevals.ProjectionExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -22,7 +22,7 @@ public class ProjectionExprNode extends ExprNode {
 	}
 
 	private int index;
-	private ComputationInvocationBaseNode computation;
+	private ProcedureInvocationBaseNode procedure;
 	
 	public ProjectionExprNode(Coords coords, int index) {
 		super(coords);
@@ -30,9 +30,9 @@ public class ProjectionExprNode extends ExprNode {
 		this.index = index;
 	}
 
-	public void setComputation(ComputationInvocationBaseNode computation) {
-		this.computation = computation;
-		becomeParent(computation);
+	public void setProcedure(ProcedureInvocationBaseNode procedure) {
+		this.procedure = procedure;
+		becomeParent(procedure);
 	}
 
 	public Collection<? extends BaseNode> getChildren() {
@@ -53,12 +53,12 @@ public class ProjectionExprNode extends ExprNode {
 	@Override
 	protected IR constructIR() {
 		return new ProjectionExpr(index, 
-				computation.checkIR(ComputationInvocationBase.class).getComputationBase(), 
-				computation.getType().get(index).getType());
+				procedure.checkIR(ProcedureInvocationBase.class).getProcedureBase(), 
+				procedure.getType().get(index).getType());
 	}
 
 	@Override
 	public TypeNode getType() {
-		return computation.getType().get(index);
+		return procedure.getType().get(index);
 	}
 }

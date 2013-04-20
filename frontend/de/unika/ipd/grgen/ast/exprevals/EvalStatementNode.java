@@ -100,15 +100,15 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 					}
 				}
 			}
-			if(root instanceof ComputationDeclNode) {
+			if(root instanceof ProcedureDeclNode) {
 				if(!(last instanceof ReturnStatementNode)) {
 					if(last instanceof ConditionStatementNode) {
 						if(!allCasesEndWithReturn((ConditionStatementNode)last)) {
-							last.reportError("all cases of the if in the computation must end with a return statement");
+							last.reportError("all cases of the if in the procedure must end with a return statement");
 							res = false;
 						}
 					} else {
-						last.reportError("computation must end with a return statement");
+						last.reportError("procedure must end with a return statement");
 						res = false;
 					}
 				}

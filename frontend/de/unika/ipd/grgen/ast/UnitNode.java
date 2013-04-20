@@ -25,8 +25,8 @@ import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Sequence;
 import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.ir.exprevals.Computation;
 import de.unika.ipd.grgen.ir.exprevals.Function;
+import de.unika.ipd.grgen.ir.exprevals.Procedure;
 
 /**
  * The main node of the text. It is the root of the AST.
@@ -52,8 +52,8 @@ public class UnitNode extends BaseNode {
 	private CollectNode<FunctionDeclNode> functions;
 	private CollectNode<IdentNode> functionsUnresolved;
 
-	private CollectNode<ComputationDeclNode> computations;
-	private CollectNode<IdentNode> computationsUnresolved;
+	private CollectNode<ProcedureDeclNode> procedures;
+	private CollectNode<IdentNode> proceduresUnresolved;
 
 	/**
 	 * The name for this unit node
@@ -67,7 +67,7 @@ public class UnitNode extends BaseNode {
 
 	public UnitNode(String unitname, String filename, ModelNode stdModel,
 			CollectNode<ModelNode> models, CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions, 
-			CollectNode<IdentNode> sequences, CollectNode<IdentNode> functions, CollectNode<IdentNode> computations) {
+			CollectNode<IdentNode> sequences, CollectNode<IdentNode> functions, CollectNode<IdentNode> procedures) {
 		this.stdModel = stdModel;
 		this.models = models;
 		becomeParent(this.models);
@@ -79,8 +79,8 @@ public class UnitNode extends BaseNode {
 		becomeParent(this.sequencesUnresolved);
 		this.functionsUnresolved = functions;
 		becomeParent(this.functionsUnresolved);
-		this.computationsUnresolved = computations;
-		becomeParent(this.computationsUnresolved);
+		this.proceduresUnresolved = procedures;
+		becomeParent(this.proceduresUnresolved);
 		this.unitname = unitname;
 		this.filename = filename;
 	}
@@ -102,7 +102,7 @@ public class UnitNode extends BaseNode {
 		children.add(getValidVersion(actionsUnresolved, actions));
 		children.add(getValidVersion(sequencesUnresolved, sequences));
 		children.add(getValidVersion(functionsUnresolved, functions));
-		children.add(getValidVersion(computationsUnresolved, computations));
+		children.add(getValidVersion(proceduresUnresolved, procedures));
 		return children;
 	}
 
@@ -115,7 +115,7 @@ public class UnitNode extends BaseNode {
 		childrenNames.add("actions");
 		childrenNames.add("sequences");
 		childrenNames.add("functions");
-		childrenNames.add("computations");
+		childrenNames.add("procedures");
 		return childrenNames;
 	}
 
@@ -131,8 +131,8 @@ public class UnitNode extends BaseNode {
 	private static final CollectResolver<FunctionDeclNode> functionsResolver = new CollectResolver<FunctionDeclNode>(
 			new DeclarationResolver<FunctionDeclNode>(FunctionDeclNode.class));
 
-	private static final CollectResolver<ComputationDeclNode> computationsResolver = new CollectResolver<ComputationDeclNode>(
-			new DeclarationResolver<ComputationDeclNode>(ComputationDeclNode.class));
+	private static final CollectResolver<ProcedureDeclNode> proceduresResolver = new CollectResolver<ProcedureDeclNode>(
+			new DeclarationResolver<ProcedureDeclNode>(ProcedureDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
@@ -141,9 +141,9 @@ public class UnitNode extends BaseNode {
 		subpatterns  = subpatternsResolver.resolve(subpatternsUnresolved, this);
 		sequences    = sequencesResolver.resolve(sequencesUnresolved, this);
 		functions = functionsResolver.resolve(functionsUnresolved, this);
-		computations = computationsResolver.resolve(computationsUnresolved, this);
+		procedures = proceduresResolver.resolve(proceduresUnresolved, this);
 
-		return actions != null && subpatterns != null && sequences != null && functions != null && computations != null;
+		return actions != null && subpatterns != null && sequences != null && functions != null && procedures != null;
 	}
 
 	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
@@ -167,8 +167,8 @@ public class UnitNode extends BaseNode {
 		for(FunctionDeclNode function : functions.getChildren()) {
 			res &= EvalStatementNode.checkStatements(true, function, null, function.evals, true);
 		}
-		for(ComputationDeclNode computation : computations.getChildren()) {
-			res &= EvalStatementNode.checkStatements(false, computation, null, computation.evals, true);
+		for(ProcedureDeclNode procedure : procedures.getChildren()) {
+			res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evals, true);
 		}
 		return res;
 	}
@@ -254,9 +254,9 @@ public class UnitNode extends BaseNode {
 			res.addFunction(function);
 		}
 
-		for(ComputationDeclNode n : computations.getChildren()) {
-			Computation computation = n.getComputation();
-			res.addComputation(computation);
+		for(ProcedureDeclNode n : procedures.getChildren()) {
+			Procedure procedure = n.getProcedure();
+			res.addProcedure(procedure);
 		}
 
 		return res;

@@ -69,7 +69,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 		fixupDefinition((IdentNode)functionOrExternalFunctionUnresolved, functionOrExternalFunctionUnresolved.getScope());
 		Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved = resolver.resolve(functionOrExternalFunctionUnresolved, this);
 		if(resolved == null) {
-			functionOrExternalFunctionUnresolved.reportError("Unknown function called -- misspelled function name? Or computation call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
+			functionOrExternalFunctionUnresolved.reportError("Unknown function called -- misspelled function name? Or procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
 			return false;
 		}
 		functionDecl = resolved.fst;

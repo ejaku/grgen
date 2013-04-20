@@ -160,34 +160,34 @@ namespace de.unika.ipd.grGen.libGr
 
         #endregion Functions handling
 
-        #region Computation handling
+        #region Procedure handling
 
-        private Dictionary<String, ComputationInfo> namesToComputationDefinitions = new Dictionary<string, ComputationInfo>();
+        private Dictionary<String, ProcedureInfo> namesToProcedureDefinitions = new Dictionary<string, ProcedureInfo>();
 
         /// <summary>
-        /// Retrieve a compuation definition.
+        /// Retrieve a procedure definition.
         /// </summary>
-        /// <param name="name">The name of the computation to retrieve</param>
-        /// <returns>The computation or null if no such computation exists.</returns>
-        public ComputationInfo RetrieveComputationDefinition(String name)
+        /// <param name="name">The name of the procedure to retrieve</param>
+        /// <returns>The procedure or null if no such procedure exists.</returns>
+        public ProcedureInfo RetrieveProcedureDefinition(String name)
         {
-            ComputationInfo computationDef;
-            namesToComputationDefinitions.TryGetValue(name, out computationDef);
-            return computationDef;
+            ProcedureInfo procedureDef;
+            namesToProcedureDefinitions.TryGetValue(name, out procedureDef);
+            return procedureDef;
         }
 
         /// <summary>
-        /// Enumerates all computation definitions.
+        /// Enumerates all procedure definitions.
         /// </summary>
-        public IEnumerable<ComputationInfo> ComputationDefinitions
+        public IEnumerable<ProcedureInfo> ProcedureDefinitions
         {
             get
             {
-                foreach(ComputationInfo computationDef in namesToComputationDefinitions.Values)
-                    yield return computationDef;
+                foreach(ProcedureInfo procedureDef in namesToProcedureDefinitions.Values)
+                    yield return procedureDef;
             }
         }
 
-        #endregion Computation handling
+        #endregion Procedure handling
     }
 }

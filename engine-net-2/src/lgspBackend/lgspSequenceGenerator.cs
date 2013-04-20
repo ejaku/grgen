@@ -2537,7 +2537,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(returnParameterDeclarations.Length != 0)
                         source.AppendFront(returnParameterDeclarations + "\n");
 
-                    source.AppendFront("Computations.");
+                    source.AppendFront("Procedures.");
                     source.Append(seqCall.ParamBindings.Name);
                     source.Append("(procEnv, graph");
                     source.Append(BuildParameters(seqCall.ParamBindings));
@@ -2889,7 +2889,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private void BuildReturnParameters(ComputationInvocationParameterBindings paramBindings, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
+        private void BuildReturnParameters(ProcedureInvocationParameterBindings paramBindings, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
         {
             // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
             // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype

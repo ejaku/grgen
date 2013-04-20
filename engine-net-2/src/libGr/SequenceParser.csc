@@ -1466,7 +1466,7 @@ SequenceComputation ProcedureCall():
 			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertDefined(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
 		} else {
 			if(IsProcedureName(procedure)) {
-				return new SequenceComputationProcedureCall(CreateComputationInvocationParameterBindings(procedure, argExprs, returnVars));
+				return new SequenceComputationProcedureCall(CreateProcedureInvocationParameterBindings(procedure, argExprs, returnVars));
 			} else {
 				throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|export|add|rem|clear|retype|insertInduced|insertDefined)");
 			}
@@ -1797,19 +1797,19 @@ SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(St
 }
 
 CSHARPCODE
-ComputationInvocationParameterBindings CreateComputationInvocationParameterBindings(String computationName,
+ProcedureInvocationParameterBindings CreateProcedureInvocationParameterBindings(String procedureName,
 				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
 {
-	ComputationInfo computationDef = null;
+	ProcedureInfo procedureDef = null;
 	if(actions != null) {
-		computationDef = actions.RetrieveComputationDefinition(computationName);
+		procedureDef = actions.RetrieveProcedureDefinition(procedureName);
 	}
 
-	ComputationInvocationParameterBindings paramBindings = new ComputationInvocationParameterBindings(computationDef,
+	ProcedureInvocationParameterBindings paramBindings = new ProcedureInvocationParameterBindings(procedureDef,
 			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
 
-	if(computationDef == null)
-		paramBindings.Name = computationName;
+	if(procedureDef == null)
+		paramBindings.Name = procedureName;
 
 	return paramBindings;
 }
@@ -1868,7 +1868,7 @@ CSHARPCODE
 bool IsProcedureName(String procedureName)
 {
 	if(actions != null) {
-		return actions.RetrieveComputationDefinition(procedureName) != null;
+		return actions.RetrieveProcedureDefinition(procedureName) != null;
 	} else {
 		foreach(String procName in procedureNames)
 			if(procName == procedureName)
