@@ -1,0 +1,53 @@
+using Powertrain;
+
+rule init_conventional : (Powertrain)
+{
+	modify {
+		gr:Powertrain;
+		a1:ICE --> a2:Gearbox --> a3:Differential --> a4:Wheels;
+		gr -:contains-> a1;
+		gr -:contains-> a2;
+		gr -:contains-> a3;
+		gr -:contains-> a4;
+		return(gr);
+	}
+}
+
+test compare_struct()
+{
+	gr1:Powertrain;
+	gr2:Powertrain;
+	if {gr1.sub ~~ gr2.sub;}
+}
+
+rule compare_same
+{
+	c1:Powertrain;
+	c2:Powertrain;
+	negative
+	{
+		c1 -:same-> :BOOL <-:same- c2;
+	}
+	alternative
+	{
+		A1 
+		{
+			if {c1.sub != c2.sub;}
+			modify
+			{
+				c1 -:same-> :FALSE <-:same- c2;
+			}
+		}
+		A2
+		{
+			if {c1.sub == c2.sub;}
+			modify
+			{
+				c1 -:same-> :TRUE <-:same- c2;
+			}
+		}
+	}
+	modify
+	{
+	}
+}

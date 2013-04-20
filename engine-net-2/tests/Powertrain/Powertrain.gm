@@ -1,0 +1,17 @@
+node class Powertrain
+{
+	sub:graph; // the subgraph starting at this node as graph to be used for isomorphy checks
+}
+
+abstract node class Component;
+node class ICE extends Component;
+node class Gearbox extends Component;
+node class Differential extends Component;
+node class Wheels extends Component;
+node class Electric_Engine extends Component;
+
+edge class contains;
+edge class same;
+node class BOOL;
+node class TRUE;
+node class FALSE;
