@@ -29,29 +29,30 @@ public class Operator extends Expression {
 	public static final int BIT_AND = 5;
 	public static final int EQ = 6;
 	public static final int NE = 7;
-	public static final int SE = 8;
-	public static final int LT = 9;
-	public static final int LE = 10;
-	public static final int GT = 11;
-	public static final int GE = 12;
-	public static final int SHL = 13;
-	public static final int SHR = 14;
-	public static final int BIT_SHR = 15;
-	public static final int ADD = 16;
-	public static final int SUB = 17;
-	public static final int MUL = 18;
-	public static final int DIV = 19;
-	public static final int MOD = 20;
-	public static final int LOG_NOT = 21;
-	public static final int BIT_NOT = 22;
-	public static final int NEG = 23;
-	public static final int IN = 24;
-	public static final int EXCEPT = 25;
-	
+	public static final int LT = 8;
+	public static final int LE = 9;
+	public static final int GT = 10;
+	public static final int GE = 11;
+	public static final int SHL = 12;
+	public static final int SHR = 13;
+	public static final int BIT_SHR = 14;
+	public static final int ADD = 15;
+	public static final int SUB = 16;
+	public static final int MUL = 17;
+	public static final int DIV = 18;
+	public static final int MOD = 19;
+	public static final int LOG_NOT = 20;
+	public static final int BIT_NOT = 21;
+	public static final int NEG = 22;
+	public static final int IN = 23;
+	public static final int EXCEPT = 24;
+	public static final int SE = 25;
+
+	// THIS ARRAY MUST BE IN THE SAME ORDER AS CSharpBase.opSymbols! (append new operator at the end)
 	public static final String[] opNames = {
 		"COND",	"LOG_OR", "LOG_AND", "BIT_OR", "BIT_XOR", "BIT_AND",
-		"EQ", "NE", "SE", "LT", "LE", "GT", "GE", "SHL", "SHR", "BIT_SHR", "ADD",
-		"SUB", "MUL", "DIV", "MOD", "LOG_NOT", "BIT_NOT", "NEG", "IN", "EXCEPT"
+		"EQ", "NE", "LT", "LE", "GT", "GE", "SHL", "SHR", "BIT_SHR", "ADD",
+		"SUB", "MUL", "DIV", "MOD", "LOG_NOT", "BIT_NOT", "NEG", "IN", "EXCEPT", "SE"
 	};
 
 	/** The operands of the expression. */

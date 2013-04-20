@@ -11,7 +11,7 @@ public class CanonizeExpr extends Expression {
 	private Expression graphExpr;
 
 	public CanonizeExpr(Expression graphExpr) {
-		super("canonize expr", graphExpr.getType());
+		super("canonize expr", StringType.getType());
 		this.graphExpr = graphExpr;
 	}
 
