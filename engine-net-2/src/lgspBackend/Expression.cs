@@ -740,6 +740,111 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a graph is-isomorph comparison.
+    /// </summary>
+    public class GRAPH_EQ : Operator
+    {
+        public GRAPH_EQ(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new GRAPH_EQ(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((GRGEN_LIBGR.IGraph)");
+            Left.Emit(sourceCode);
+            sourceCode.Append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
+        protected Expression Left;
+        protected Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing a graph is-not-isomorph comparison.
+    /// </summary>
+    public class GRAPH_NE : Operator
+    {
+        public GRAPH_NE(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new GRAPH_NE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("!((GRGEN_LIBGR.IGraph)");
+            Left.Emit(sourceCode);
+            sourceCode.Append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
+        protected Expression Left;
+        protected Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing a graph is-structural-equal (isomorph disregarding attributes) comparison.
+    /// </summary>
+    public class GRAPH_SE : Operator
+    {
+        public GRAPH_SE(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new GRAPH_SE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((GRGEN_LIBGR.IGraph)");
+            Left.Emit(sourceCode);
+            sourceCode.Append(").HasSameStructure((GRGEN_LIBGR.IGraph)");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
+        protected Expression Left;
+        protected Expression Right;
+    }
+
+    /// <summary>
     /// Class representing a shift left expression.
     /// </summary>
     public class SHL : BinInfixOperator

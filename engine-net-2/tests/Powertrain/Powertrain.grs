@@ -1,0 +1,17 @@
+new graph Powertrain/Powertrain
+
+dump add node Powertrain group by hidden outgoing contains
+dump set node TRUE color white
+dump set node FALSE color black
+
+exec (gr1:Powertrain) = init_conventional & {adj:set<Node>=adjacent(gr1, contains); gr1.sub=inducedSubgraph(adj)}
+exec (gr2:Powertrain) = init_conventional & {adj:set<Node>=adjacent(gr2, contains); gr2.sub=inducedSubgraph(adj)}
+
+exec compare_struct
+
+exec compare_same
+
+show num nodes TRUE
+show num nodes FALSE
+
+quit

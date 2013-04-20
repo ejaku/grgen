@@ -96,6 +96,7 @@ tokens {
 		putOpId(QUESTION, OperatorSignature.COND);
 		putOpId(EQUAL, OperatorSignature.EQ);
 		putOpId(NOT_EQUAL, OperatorSignature.NE);
+		putOpId(STRUCTURAL_EQUAL, OperatorSignature.SE);
 		putOpId(NOT, OperatorSignature.LOG_NOT);
 		putOpId(TILDE, OperatorSignature.BIT_NOT);
 		putOpId(SL, OperatorSignature.SHL);
@@ -3289,6 +3290,7 @@ exceptExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 eqOp returns [ Token t = null ]
 	: e=EQUAL { t = e; }
 	| n=NOT_EQUAL { t = n; }
+	| s=STRUCTURAL_EQUAL { t = s; }
 	;
 
 eqExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]

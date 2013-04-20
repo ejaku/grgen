@@ -1,0 +1,35 @@
+rule r1
+{
+	n:Node;
+	if(inducedSubgraph(adjacent(n)) == definedSubgraph(incident(n)));
+
+	modify {
+		eval{ 
+			def var res:boolean = inducedSubgraph(adjacent(n)) == definedSubgraph(incident(n)); 
+		}
+	}
+}
+
+rule r2
+{
+	n:Node;
+	if(inducedSubgraph(adjacent(n)) != definedSubgraph(incident(n)));
+
+	modify {
+		eval{ 
+			def var res:boolean = inducedSubgraph(adjacent(n)) != definedSubgraph(incident(n)); 
+		}
+	}
+}
+
+rule r3
+{
+	n:Node;
+	if(inducedSubgraph(adjacent(n)) ~~ definedSubgraph(incident(n)));
+
+	modify {
+		eval{ 
+			def var res:boolean = inducedSubgraph(adjacent(n)) ~~ definedSubgraph(incident(n)); 
+		}
+	}
+}

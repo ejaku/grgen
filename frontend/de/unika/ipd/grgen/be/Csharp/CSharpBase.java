@@ -497,9 +497,9 @@ public abstract class CSharpBase {
 								sb.append(")");
 							}
 							else if(opType instanceof GraphType) {
-								sb.append("((IGraph)");
+								sb.append("((GRGEN_LIBGR.IGraph)");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(").IsIsomorph((IGraph)");
+								sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							} else {
@@ -533,15 +533,25 @@ public abstract class CSharpBase {
 								sb.append(")");
 							}
 							else if(opType instanceof GraphType) {
-								sb.append("!((IGraph)");
+								sb.append("!((GRGEN_LIBGR.IGraph)");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(").IsIsomorph((IGraph)");
+								sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
 							else {
 								genBinOpDefault(sb, op, modifyGenerationState);
 							}
+							break;
+						}
+
+						case Operator.SE:
+						{
+							sb.append("((GRGEN_LIBGR.IGraph)");
+							genExpression(sb, op.getOperand(0), modifyGenerationState);
+							sb.append(").HasSameStructure((GRGEN_LIBGR.IGraph)");
+							genExpression(sb, op.getOperand(1), modifyGenerationState);
+							sb.append(")");
 							break;
 						}
 
