@@ -32,28 +32,28 @@ public class OperatorSignature extends FunctionSignature {
 	public static final int BIT_AND = 5;
 	public static final int EQ = 6;
 	public static final int NE = 7;
-	public static final int SE = 8;
-	public static final int LT = 9;
-	public static final int LE = 10;
-	public static final int GT = 11;
-	public static final int GE = 12;
-	public static final int SHL = 13;
-	public static final int SHR = 14;
-	public static final int BIT_SHR = 15;
-	public static final int ADD = 16;
-	public static final int SUB = 17;
-	public static final int MUL = 18;
-	public static final int DIV = 19;
-	public static final int MOD = 20;
-	public static final int LOG_NOT = 21;
-	public static final int BIT_NOT = 22;
-	public static final int NEG = 23;
-	public static final int CONST = 24;
-	public static final int COND = 25;
-	public static final int IN = 26; // MAP TODO: den operator richtig implementieren, mit typbalancing etc.
-	public static final int EXCEPT = 27;
+	public static final int LT = 8;
+	public static final int LE = 9;
+	public static final int GT = 10;
+	public static final int GE = 11;
+	public static final int SHL = 12;
+	public static final int SHR = 13;
+	public static final int BIT_SHR = 14;
+	public static final int ADD = 15;
+	public static final int SUB = 16;
+	public static final int MUL = 17;
+	public static final int DIV = 18;
+	public static final int MOD = 19;
+	public static final int LOG_NOT = 20;
+	public static final int BIT_NOT = 21;
+	public static final int NEG = 22;
+	public static final int CONST = 23;
+	public static final int COND = 24;
+	public static final int IN = 25; // MAP TODO: den operator richtig implementieren, mit typbalancing etc.
+	public static final int EXCEPT = 26;
+	public static final int SE = 27;
 
-	private static final int OPERATORS = EXCEPT + 1;
+	private static final int OPERATORS = SE + 1;
 
 	/** Arity map of the operators. */
 	private static final Map<Integer, Integer> arities = new HashMap<Integer, Integer>();
@@ -86,7 +86,6 @@ public class OperatorSignature extends FunctionSignature {
 		names.put(new Integer(BIT_AND), "BitAnd");
 		names.put(new Integer(EQ), "Eq");
 		names.put(new Integer(NE), "Ne");
-		names.put(new Integer(SE), "Se");
 		names.put(new Integer(LT), "Lt");
 		names.put(new Integer(LE), "Le");
 		names.put(new Integer(GT), "Gt");
@@ -105,6 +104,7 @@ public class OperatorSignature extends FunctionSignature {
 		names.put(new Integer(CONST), "Const");
 		names.put(new Integer(IN), "In");
 		names.put(new Integer(EXCEPT), "Except");
+		names.put(new Integer(SE), "Se");
 		names.put(new Integer(ERROR), "Error");
 	}
 

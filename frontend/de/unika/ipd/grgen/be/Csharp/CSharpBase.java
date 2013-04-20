@@ -1654,6 +1654,7 @@ public abstract class CSharpBase {
 
 	/* binary operator symbols of the C-language */
 	// The first two shift operations are signed shifts, the second right shift is unsigned.
+	// THIS ARRAY MUST BE IN THE SAME ORDER AS Operator.opNames and the corresponding constants!
 	private String[] opSymbols = {
 		null, "||", "&&", "|", "^", "&",
 			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
