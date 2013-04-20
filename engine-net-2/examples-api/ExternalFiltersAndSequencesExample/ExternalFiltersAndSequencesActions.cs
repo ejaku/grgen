@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Fri Mar 29 08:39:15 CET 2013
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sat Apr 20 13:15:20 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -1789,7 +1789,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 		}
 	}
 
-	public class Computations
+	public class Functions
+	{
+	}
+
+	public class Procedures
 	{
 	}
 
@@ -1801,7 +1805,8 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 			rules = new GRGEN_LGSP.LGSPRulePattern[5];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+5];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[9];
-			computations = new GRGEN_LIBGR.ComputationInfo[0];
+			functions = new GRGEN_LIBGR.FunctionInfo[0];
+			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
 			rules[0] = Rule_filterBase.Instance;
 			rulesAndSubpatterns[0+0] = Rule_filterBase.Instance;
 			rules[1] = Rule_filterBass.Instance;
@@ -1830,8 +1835,10 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
 		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
-		public override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }
-		private GRGEN_LIBGR.ComputationInfo[] computations;
+		public override GRGEN_LIBGR.FunctionInfo[] Functions { get { return functions; } }
+		private GRGEN_LIBGR.FunctionInfo[] functions;
+		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
+		private GRGEN_LIBGR.ProcedureInfo[] procedures;
 	}
 
 

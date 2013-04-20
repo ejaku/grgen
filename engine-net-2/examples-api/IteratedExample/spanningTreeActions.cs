@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Fri Mar 29 08:39:20 CET 2013
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sat Apr 20 13:15:26 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -4448,7 +4448,11 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 	}
 
-	public class Computations
+	public class Functions
+	{
+	}
+
+	public class Procedures
 	{
 	}
 
@@ -4460,7 +4464,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			rules = new GRGEN_LGSP.LGSPRulePattern[9];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[4+9];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
-			computations = new GRGEN_LIBGR.ComputationInfo[0];
+			functions = new GRGEN_LIBGR.FunctionInfo[0];
+			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
 			subpatterns[0] = Pattern_SpanningTree.Instance;
 			rulesAndSubpatterns[0] = Pattern_SpanningTree.Instance;
 			subpatterns[1] = Pattern_SpanningTreeReverse.Instance;
@@ -4496,8 +4501,10 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
 		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
-		public override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }
-		private GRGEN_LIBGR.ComputationInfo[] computations;
+		public override GRGEN_LIBGR.FunctionInfo[] Functions { get { return functions; } }
+		private GRGEN_LIBGR.FunctionInfo[] functions;
+		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
+		private GRGEN_LIBGR.ProcedureInfo[] procedures;
 	}
 
 
