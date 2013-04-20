@@ -868,9 +868,9 @@ namespace de.unika.ipd.grGen.lgsp
                 return result;
 
             Dictionary<String, Type> actionTypes;
-            Type computationType;
+            Type proceduresType;
             LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns;
-            CollectActionTypes(initialAssembly, out actionTypes, out computationType, out ruleAndMatchingPatterns);
+            CollectActionTypes(initialAssembly, out actionTypes, out proceduresType, out ruleAndMatchingPatterns);
 
             Dictionary<String, List<String>> rulesToInputTypes;
             Dictionary<String, List<String>> rulesToOutputTypes;
@@ -923,7 +923,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool actionPointFound;
             String actionsNamespace;
             result = CopyIntermediateCodeInsertingSequencesCode(cc.actionsFilename, 
-                actionTypes, computationType,
+                actionTypes, proceduresType,
                 seqGen, source, out actionPointFound, out actionsNamespace);
             if(result != ErrorType.NoError)
                 return result;
@@ -1428,7 +1428,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private static ErrorType CopyIntermediateCodeInsertingSequencesCode(String actionsFilename,
-            Dictionary<String, Type> actionTypes, Type computationType, 
+            Dictionary<String, Type> actionTypes, Type proceduresType, 
             LGSPSequenceGenerator seqGen, SourceBuilder source, 
             out bool actionPointFound, out String actionsNamespace)
         {
@@ -1473,18 +1473,18 @@ namespace de.unika.ipd.grGen.lgsp
                         }
                     }
                     else if(line.Length > 0 && line[0] == '#'
-                        && line.Contains("// GrGen computation exec section")
+                        && line.Contains("// GrGen procedure exec section")
                         && seqGen != null)
                     {
                         int lastSpace = line.LastIndexOf(' ');
-                        String computationName = line.Substring(lastSpace + 1);
-                        FieldInfo[] computationFields = computationType.GetFields();
-                        for(int i = 0; i < computationFields.Length; ++i)
+                        String procedureName = line.Substring(lastSpace + 1);
+                        FieldInfo[] procedureFields = proceduresType.GetFields();
+                        for(int i = 0; i < procedureFields.Length; ++i)
                         {
-                            if(computationFields[i].Name.StartsWith("XGRSInfo_") && computationFields[i].FieldType == typeof(EmbeddedSequenceInfo))
+                            if(procedureFields[i].Name.StartsWith("XGRSInfo_") && procedureFields[i].FieldType == typeof(EmbeddedSequenceInfo))
                             {
-                                EmbeddedSequenceInfo xgrsInfo = (EmbeddedSequenceInfo)computationFields[i].GetValue(null);
-                                if(!seqGen.GenerateXGRSCode(computationFields[i].Name.Substring("XGRSInfo_".Length),
+                                EmbeddedSequenceInfo xgrsInfo = (EmbeddedSequenceInfo)procedureFields[i].GetValue(null);
+                                if(!seqGen.GenerateXGRSCode(procedureFields[i].Name.Substring("XGRSInfo_".Length),
                                     xgrsInfo.XGRS, xgrsInfo.Parameters, xgrsInfo.ParameterTypes,
                                     xgrsInfo.OutParameters, xgrsInfo.OutParameterTypes, source, xgrsInfo.LineNr))
                                 {
@@ -1661,7 +1661,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            foreach(ComputationInfo procedure in ruleAndMatchingPatterns.Computations)
+            foreach(ProcedureInfo procedure in ruleAndMatchingPatterns.Procedures)
             {
                 List<String> inputTypes = new List<String>();
                 proceduresToInputTypes.Add(procedure.name, inputTypes);
@@ -1691,18 +1691,18 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private static void CollectActionTypes(Assembly initialAssembly, out Dictionary<String, Type> actionTypes, out Type computationType, out LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns)
+        private static void CollectActionTypes(Assembly initialAssembly, out Dictionary<String, Type> actionTypes, out Type proceduresType, out LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns)
         {
             actionTypes = new Dictionary<string, Type>();
-            computationType = null;
+            proceduresType = null;
 
             foreach(Type type in initialAssembly.GetTypes())
             {
                 if(!type.IsClass || type.IsNotPublic) continue;
                 if(type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
                     actionTypes.Add(type.Name, type);
-                if(type.Name == "Computations")
-                    computationType = type;
+                if(type.Name == "Procedures")
+                    proceduresType = type;
             }
 
             ruleAndMatchingPatterns = null;

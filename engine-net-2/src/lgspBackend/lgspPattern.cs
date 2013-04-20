@@ -1266,8 +1266,8 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract FunctionInfo[] Functions { get; }
 
         /// <summary>
-        /// All the computation representations generated
+        /// All the procedure representations generated
         /// </summary>
-        public abstract ComputationInfo[] Computations { get; }
+        public abstract ProcedureInfo[] Procedures { get; }
     }
 }

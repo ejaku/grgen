@@ -192,7 +192,7 @@ textActions returns [ UnitNode main = null ]
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> functionChilds = new CollectNode<IdentNode>();
-		CollectNode<IdentNode> computationChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> procedureChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
 		if(!Util.isFilenameValidActionName(getFilename())) {
 			reportError(new de.unika.ipd.grgen.parser.Coords(), "the filename "+getFilename()+" can't be used as action name, must be similar to an identifier");
@@ -216,7 +216,7 @@ textActions returns [ UnitNode main = null ]
 	
 	( globalVarDecl )*
 
-	( patternOrActionOrSequenceOrFunctionOrComputationDecls[patternChilds, actionChilds, sequenceChilds, functionChilds, computationChilds] )? EOF
+	( patternOrActionOrSequenceOrFunctionOrProcedureDecls[patternChilds, actionChilds, sequenceChilds, functionChilds, procedureChilds] )? EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
@@ -234,7 +234,7 @@ textActions returns [ UnitNode main = null ]
 			}
 			main = new UnitNode(actionsName, getFilename(), env.getStdModel(), 
 								modelChilds, patternChilds, actionChilds, 
-								sequenceChilds, functionChilds, computationChilds);
+								sequenceChilds, functionChilds, procedureChilds);
 		}
 	;
 
@@ -303,11 +303,11 @@ globalVarDecl
 		SEMI
 	;
 
-patternOrActionOrSequenceOrFunctionOrComputationDecls[ CollectNode<IdentNode> patternChilds, 
+patternOrActionOrSequenceOrFunctionOrProcedureDecls[ CollectNode<IdentNode> patternChilds, 
 														CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> sequenceChilds, 
-														CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> computationChilds ]
+														CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> procedureChilds ]
 	@init{ mod = 0; }
-	: ( mod=patternModifiers patternOrActionOrSequenceOrFunctionOrComputationDecl[patternChilds, actionChilds, sequenceChilds, functionChilds, computationChilds, mod] )+
+	: ( mod=patternModifiers patternOrActionOrSequenceOrFunctionOrProcedureDecl[patternChilds, actionChilds, sequenceChilds, functionChilds, procedureChilds, mod] )+
 	;
 	
 patternModifiers returns [ int res = 0 ]
@@ -352,9 +352,9 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 		}
 	;
 
-patternOrActionOrSequenceOrFunctionOrComputationDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
+patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
 											 CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> functionChilds,
-											 CollectNode<IdentNode> computationChilds,
+											 CollectNode<IdentNode> procedureChilds,
 											 int mod ]
 	@init{
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
@@ -434,11 +434,11 @@ patternOrActionOrSequenceOrFunctionOrComputationDecl [ CollectNode<IdentNode> pa
 			sequenceChilds.addChild(id);
 		}
 	| id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
-		functionOrComputationDecl[id, params, functionChilds, computationChilds]
+		functionOrProcedureDecl[id, params, functionChilds, procedureChilds]
 	;
 
-functionOrComputationDecl[IdentNode id, CollectNode<BaseNode> params,
-							CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> computationChilds]
+functionOrProcedureDecl[IdentNode id, CollectNode<BaseNode> params,
+							CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> procedureChilds]
 	@init{
 		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
@@ -456,8 +456,8 @@ functionOrComputationDecl[IdentNode id, CollectNode<BaseNode> params,
 			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
-			id.setDecl(new ComputationDeclNode(id, evals, params, returnTypes));
-			computationChilds.addChild(id);
+			id.setDecl(new ProcedureDeclNode(id, evals, params, returnTypes));
+			procedureChilds.addChild(id);
 		}
 	;
 	
@@ -2229,7 +2229,7 @@ textTypes returns [ ModelNode model = null ]
 		CollectNode<ModelNode> modelChilds = new CollectNode<ModelNode>();
 		CollectNode<IdentNode> types = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> externalFuncs = new CollectNode<IdentNode>();
-		CollectNode<IdentNode> externalComps = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> externalProcs = new CollectNode<IdentNode>();
 		IdentNode id = env.getDummyIdent();
 
 		String modelName = Util.removeFileSuffix(Util.removePathPrefix(getFilename()), "gm");
@@ -2243,25 +2243,25 @@ textTypes returns [ ModelNode model = null ]
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
 		)?
 		( usingDecl[modelChilds] )?
-		typeDecls[types, externalFuncs, externalComps] EOF
+		typeDecls[types, externalFuncs, externalProcs] EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
-			model = new ModelNode(id, types, externalFuncs, externalComps, modelChilds);
+			model = new ModelNode(id, types, externalFuncs, externalProcs, modelChilds);
 		}
 	;
 
-typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,  CollectNode<IdentNode> externalComps ]
+typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,  CollectNode<IdentNode> externalProcs ]
 	: (
 		type=typeDecl { types.addChild(type); }
 	  |
 		id=funcOrExtFuncIdentDecl params=paramTypes
-		externalFunctionOrComputationDecl[id, params, externalFuncs, externalComps]
+		externalFunctionOrProcedureDecl[id, params, externalFuncs, externalProcs]
 	  )*
 	;
 
-externalFunctionOrComputationDecl [ IdentNode id, CollectNode<BaseNode> params,
-									CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalComps ]
+externalFunctionOrProcedureDecl [ IdentNode id, CollectNode<BaseNode> params,
+									CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs ]
 									returns [ IdentNode res = env.getDummyIdent() ]
 	@init{
 		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
@@ -2273,8 +2273,8 @@ externalFunctionOrComputationDecl [ IdentNode id, CollectNode<BaseNode> params,
 		}
 	| COLON LPAREN (returnTypeList[returnTypes])? RPAREN
 		{
-			id.setDecl(new ExternalComputationDeclNode(id, params, returnTypes));
-			externalComps.addChild(id);
+			id.setDecl(new ExternalProcedureDeclNode(id, params, returnTypes));
+			externalProcs.addChild(id);
 		}
 	;
 
@@ -3074,20 +3074,20 @@ options { k = 5; }
 					|| i.getText().equals("valloc") && params.getChildren().size()==0
 					)
 				{
-					IdentNode compIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
-					ComputationInvocationNode comp = new ComputationInvocationNode(compIdent, params, env);
-					res = new ReturnAssignmentNode(getCoords(i), comp, targets, context);
+					IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+					ProcedureInvocationNode proc = new ProcedureInvocationNode(procIdent, params, env);
+					res = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 					for(ProjectionExprNode proj : targetProjs.getChildren()) {
-						proj.setComputation(comp);
+						proj.setProcedure(proc);
 					}
 				}
 				else
 				{
-					IdentNode compIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
-					ComputationOrExternalComputationInvocationNode comp = new ComputationOrExternalComputationInvocationNode(compIdent, params);
-					res = new ReturnAssignmentNode(getCoords(i), comp, targets, context);
+					IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+					ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, params);
+					res = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 					for(ProjectionExprNode proj : targetProjs.getChildren()) {
-						proj.setComputation(comp);
+						proj.setProcedure(proc);
 					}
 				}
 			}

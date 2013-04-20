@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ir.exprevals.ReturnStatement;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * AST node representing a return statement (of function or computation).
+ * AST node representing a return statement (of function or procedure).
  */
 public class ReturnStatementNode extends EvalStatementNode {
 	static {
@@ -66,8 +66,8 @@ public class ReturnStatementNode extends EvalStatementNode {
 	}
 
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
-		if(!(root instanceof FunctionDeclNode) && !(root instanceof ComputationDeclNode)){
-			reportError("return must be nested inside a function or computation (from where to return?)");
+		if(!(root instanceof FunctionDeclNode) && !(root instanceof ProcedureDeclNode)){
+			reportError("return must be nested inside a function or procedure (from where to return?)");
 			return false;
 		}
 		Vector<TypeNode> retTypes;
@@ -77,8 +77,8 @@ public class ReturnStatementNode extends EvalStatementNode {
 			retTypes = new Vector<TypeNode>();
 			retTypes.add(function.getReturnType());
 		} else {
-			ComputationDeclNode computation = (ComputationDeclNode)root;
-			retTypes = computation.getReturnTypes();
+			ProcedureDeclNode procedure = (ProcedureDeclNode)root;
+			retTypes = procedure.getReturnTypes();
 		}
 		return checkReturns(retTypes, root);
 	}

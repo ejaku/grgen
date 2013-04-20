@@ -38,7 +38,7 @@ public class Unit extends IR {
 
 	private final List<Function> functions = new LinkedList<Function>();
 
-	private final List<Computation> computations = new LinkedList<Computation>();
+	private final List<Procedure> procedures = new LinkedList<Procedure>();
 
 	private final List<Model> models = new LinkedList<Model>();
 
@@ -94,13 +94,13 @@ public class Unit extends IR {
 		return Collections.unmodifiableCollection(functions);
 	}
 
-	/** Add a computation to the unit. */
-	public void addComputation(Computation computation) {
-		computations.add(computation);
+	/** Add a procedure to the unit. */
+	public void addProcedure(Procedure procedure) {
+		procedures.add(procedure);
 	}
 
-	public Collection<Computation> getComputations() {
-		return Collections.unmodifiableCollection(computations);
+	public Collection<Procedure> getProcedures() {
+		return Collections.unmodifiableCollection(procedures);
 	}
 
 	/** Add a model to the unit. */

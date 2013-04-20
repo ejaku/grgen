@@ -15,21 +15,21 @@ import de.unika.ipd.grgen.ir.Type;
 
 public class ProjectionExpr extends Expression {
 	private int index;
-	private ComputationBase computation;
+	private ProcedureBase procedure;
 	private String projectedValueVarName;
 
-	public ProjectionExpr(int index, ComputationBase computation, Type type) {
+	public ProjectionExpr(int index, ProcedureBase procedure, Type type) {
 		super("projection expr", type);
 		this.index = index;
-		this.computation = computation;
+		this.procedure = procedure;
 	}
 
 	public int getIndex() {
 		return index;
 	}
 
-	public ComputationBase getComputation() {
-		return computation;
+	public ProcedureBase getProcedure() {
+		return procedure;
 	}
 
 	public String getProjectedValueVarName() {

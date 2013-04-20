@@ -31,6 +31,11 @@ namespace de.unika.ipd.grGen.libGr
             this.output = output;
         }
 
+        /// <summary>
+        /// Applies this function with the given action environment on the given graph.
+        /// Takes the parameters from paramBindings as inputs.
+        /// Returns the one output value.
+        /// </summary>
         public abstract object Apply(IActionExecutionEnvironment actionEnv, IGraph graph, FunctionInvocationParameterBindings paramBindings);
 
         /// <summary>

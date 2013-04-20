@@ -1577,9 +1577,9 @@ namespace de.unika.ipd.grGen.libGr
     
     public class SequenceComputationProcedureCall : SequenceComputation
     {
-        public ComputationInvocationParameterBindings ParamBindings;
+        public ProcedureInvocationParameterBindings ParamBindings;
 
-        public SequenceComputationProcedureCall(ComputationInvocationParameterBindings paramBindings)
+        public SequenceComputationProcedureCall(ProcedureInvocationParameterBindings paramBindings)
             : base(SequenceComputationType.ProcedureCall)
         {
             ParamBindings = paramBindings;
@@ -1600,8 +1600,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            ComputationInfo computationDef = ParamBindings.ComputationDef;
-            object[] resultVars = computationDef.Apply(procEnv, procEnv.Graph, ParamBindings);
+            ProcedureInfo procedureDef = ParamBindings.ProcedureDef;
+            object[] resultVars = procedureDef.Apply(procEnv, procEnv.Graph, ParamBindings);
             if(ParamBindings.ReturnVars.Length>0)
             {
                 for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
@@ -1632,7 +1632,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sb.Append(")=");
             }
-            sb.Append(ParamBindings.ComputationDef.name);
+            sb.Append(ParamBindings.ProcedureDef.name);
             if(ParamBindings.ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");

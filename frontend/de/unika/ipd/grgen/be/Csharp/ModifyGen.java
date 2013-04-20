@@ -60,7 +60,7 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	interface ModifyGenerationStateConst extends ExpressionGenerationState {
-		String functionOrComputationName();
+		String functionOrProcedureName();
 		
 		Collection<Node> commonNodes();
 		Collection<Edge> commonEdges();
@@ -98,7 +98,7 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	class ModifyGenerationState implements ModifyGenerationStateConst {
-		public String functionOrComputationName() { return functionOrComputationName; }
+		public String functionOrProcedureName() { return functionOrProcedureName; }
 
 		public Collection<Node> commonNodes() { return Collections.unmodifiableCollection(commonNodes); }
 		public Collection<Edge> commonEdges() { return Collections.unmodifiableCollection(commonEdges); }
@@ -139,9 +139,9 @@ public class ModifyGen extends CSharpBase {
 
 		// --------------------
 
-		// if not null this is the generation state of a functionor computation (with all entries empty)
+		// if not null this is the generation state of a function or procedure (with all entries empty)
 		// otherwise it is the generation state of the modify of an action
-		public String functionOrComputationName;
+		public String functionOrProcedureName;
 		
 		public HashSet<Node> commonNodes = new LinkedHashSet<Node>();
 		public HashSet<Edge> commonEdges = new LinkedHashSet<Edge>();
@@ -3357,7 +3357,7 @@ public class ModifyGen extends CSharpBase {
 				}
 			}
 		}
-		sb.append("\t\t\tApplyXGRS_" + state.functionOrComputationName() + "_" + embeddedComputationXgrsID + "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv");
+		sb.append("\t\t\tApplyXGRS_" + state.functionOrProcedureName() + "_" + embeddedComputationXgrsID + "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv");
 		for(Entity neededEntity : exec.getNeededEntities(true)) {
 			if(!neededEntity.isDefToBeYieldedTo()) {
 				sb.append(", ");
@@ -3391,14 +3391,14 @@ public class ModifyGen extends CSharpBase {
 
 	private void genReturnAssignment(StringBuffer sb, ModifyGenerationStateConst state, ReturnAssignment ra) {
 		// declare temporary out variables
-		ComputationInvocationBase computation = ra.getComputationInvocation();
+		ProcedureInvocationBase procedure = ra.getProcedureInvocation();
 		Collection<AssignmentBase> targets = ra.getTargets();
 		Vector<String> outParams = new Vector<String>();
-		for(int i=0; i<computation.getNumReturnTypes(); ++i) {
+		for(int i=0; i<procedure.getNumReturnTypes(); ++i) {
 			String outParam = "outvar_" + tmpVarID;
 			outParams.add(outParam);
 			++tmpVarID;
-			sb.append("\t\t\t" + formatType(computation.getReturnType(i)) + " " + outParam + ";\n");
+			sb.append("\t\t\t" + formatType(procedure.getReturnType(i)) + " " + outParam + ";\n");
 		}
 		int i=0;
 		for(AssignmentBase assignment : targets) {
@@ -3413,12 +3413,12 @@ public class ModifyGen extends CSharpBase {
 			++i;
 		}
 
-		// do the call, with out variables, depending on the type of computation 
-		if(ra.getComputationInvocation() instanceof ComputationInvocation
-			|| ra.getComputationInvocation() instanceof ExternalComputationInvocation) {
-			genReturnAssignmentComputationOrExternalComputationInvocation(sb, state, ra, outParams);
+		// do the call, with out variables, depending on the type of procedure
+		if(ra.getProcedureInvocation() instanceof ProcedureInvocation
+			|| ra.getProcedureInvocation() instanceof ExternalProcedureInvocation) {
+			genReturnAssignmentProcedureOrExternalProcedureInvocation(sb, state, ra, outParams);
 		} else {
-			genReturnAssignmentBuiltinComputationInvocation(sb, state, ra, outParams);
+			genReturnAssignmentBuiltinProcedureInvocation(sb, state, ra, outParams);
 		}
 		
 		// assign out variables to the real targets
@@ -3427,141 +3427,141 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genReturnAssignmentComputationOrExternalComputationInvocation(StringBuffer sb, ModifyGenerationStateConst state, ReturnAssignment ra, Vector<String> outParams) {
-		// call the computation with out variables  
-		ComputationInvocationBase computation = ra.getComputationInvocation();
-		if(computation instanceof ComputationInvocation) {
-			ComputationInvocation call = (ComputationInvocation)computation;
-			sb.append("\t\t\tComputations." + call.getComputation().getIdent().toString() + "(actionEnv, graph");
+	private void genReturnAssignmentProcedureOrExternalProcedureInvocation(StringBuffer sb, ModifyGenerationStateConst state, ReturnAssignment ra, Vector<String> outParams) {
+		// call the procedure with out variables  
+		ProcedureInvocationBase procedure = ra.getProcedureInvocation();
+		if(procedure instanceof ProcedureInvocation) {
+			ProcedureInvocation call = (ProcedureInvocation)procedure;
+			sb.append("\t\t\tProcedures." + call.getProcedure().getIdent().toString() + "(actionEnv, graph");
 		} else {
-			ExternalComputationInvocation call = (ExternalComputationInvocation)computation;
-			sb.append("\t\t\tGRGEN_EXPR.ExternalComputations." + call.getExternalComp().getIdent().toString() + "(actionEnv, graph");
+			ExternalProcedureInvocation call = (ExternalProcedureInvocation)procedure;
+			sb.append("\t\t\tGRGEN_EXPR.ExternalProcedures." + call.getExternalProc().getIdent().toString() + "(actionEnv, graph");
 		}
-		for(int i=0; i<computation.arity(); ++i) {
+		for(int i=0; i<procedure.arity(); ++i) {
 			sb.append(", ");
-			Expression argument = computation.getArgument(i);
+			Expression argument = procedure.getArgument(i);
 			if(argument.getType() instanceof InheritanceType) {
 				sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
 			}
 			genExpression(sb, argument, state);
 		}
-		for(int i=0; i<computation.returnArity(); ++i) {
+		for(int i=0; i<procedure.returnArity(); ++i) {
 			sb.append(", out " + outParams.get(i));
 		}
 		sb.append(");\n");
 	}
 
-	private void genReturnAssignmentBuiltinComputationInvocation(StringBuffer sb, ModifyGenerationStateConst state, ReturnAssignment ra, Vector<String> outParams) {
-		// call the computation, either without return value, or with one return value, more not supported as of now
-		ComputationInvocationBase computation = ra.getComputationInvocation();
+	private void genReturnAssignmentBuiltinProcedureInvocation(StringBuffer sb, ModifyGenerationStateConst state, ReturnAssignment ra, Vector<String> outParams) {
+		// call the procedure, either without return value, or with one return value, more not supported as of now
+		ProcedureInvocationBase procedure = ra.getProcedureInvocation();
 		if(outParams.size()==0) {
-			genEvalComp(sb, state, computation);
+			genEvalComp(sb, state, procedure);
 		} else {
 			assert(outParams.size()==1);
 			sb.append("\t\t\t" + outParams.get(0) + " = ");
-			genEvalComp(sb, state, computation);
+			genEvalComp(sb, state, procedure);
 			sb.append(";\n");
 		}
 	}
 
-	/////////////////////////////////
-	// Computation call generation //
-	/////////////////////////////////
+	///////////////////////////////
+	// Procedure call generation //
+	///////////////////////////////
 
-	public void genEvalComp(StringBuffer sb, ModifyGenerationStateConst state, ComputationInvocationBase evalComp) {
-		if(evalComp instanceof EmitComp) {
-			genEmitComp(sb, state, (EmitComp) evalComp);
+	public void genEvalComp(StringBuffer sb, ModifyGenerationStateConst state, ProcedureInvocationBase evalProc) {
+		if(evalProc instanceof EmitProc) {
+			genEmitProc(sb, state, (EmitProc) evalProc);
 		}
-		else if(evalComp instanceof HighlightComp) {
-			genHighlightComp(sb, state, (HighlightComp) evalComp);
+		else if(evalProc instanceof HighlightProc) {
+			genHighlightProc(sb, state, (HighlightProc) evalProc);
 		}
-		else if(evalComp instanceof RecordComp) {
-			genRecordComp(sb, state, (RecordComp) evalComp);
+		else if(evalProc instanceof RecordProc) {
+			genRecordProc(sb, state, (RecordProc) evalProc);
 		}
-		else if(evalComp instanceof GraphAddNodeComp) {
-			genGraphAddNodeComp(sb, state, (GraphAddNodeComp) evalComp);
+		else if(evalProc instanceof GraphAddNodeProc) {
+			genGraphAddNodeProc(sb, state, (GraphAddNodeProc) evalProc);
 		}
-		else if(evalComp instanceof GraphAddEdgeComp) {
-			genGraphAddEdgeComp(sb, state, (GraphAddEdgeComp) evalComp);
+		else if(evalProc instanceof GraphAddEdgeProc) {
+			genGraphAddEdgeProc(sb, state, (GraphAddEdgeProc) evalProc);
 		}
-		else if(evalComp instanceof GraphRetypeNodeComp) {
-			genGraphRetypeNodeComp(sb, state, (GraphRetypeNodeComp) evalComp);
+		else if(evalProc instanceof GraphRetypeNodeProc) {
+			genGraphRetypeNodeProc(sb, state, (GraphRetypeNodeProc) evalProc);
 		}
-		else if(evalComp instanceof GraphRetypeEdgeComp) {
-			genGraphRetypeEdgeComp(sb, state, (GraphRetypeEdgeComp) evalComp);
+		else if(evalProc instanceof GraphRetypeEdgeProc) {
+			genGraphRetypeEdgeProc(sb, state, (GraphRetypeEdgeProc) evalProc);
 		}
-		else if(evalComp instanceof GraphClearComp) {
-			genGraphClearComp(sb, state, (GraphClearComp) evalComp);
+		else if(evalProc instanceof GraphClearProc) {
+			genGraphClearProc(sb, state, (GraphClearProc) evalProc);
 		}
-		else if(evalComp instanceof GraphRemoveComp) {
-			genGraphRemoveComp(sb, state, (GraphRemoveComp) evalComp);
+		else if(evalProc instanceof GraphRemoveProc) {
+			genGraphRemoveProc(sb, state, (GraphRemoveProc) evalProc);
 		}
-		else if(evalComp instanceof GraphMergeComp) {
-			genGraphMergeComp(sb, state, (GraphMergeComp) evalComp);
+		else if(evalProc instanceof GraphMergeProc) {
+			genGraphMergeProc(sb, state, (GraphMergeProc) evalProc);
 		}
-		else if(evalComp instanceof GraphRedirectSourceComp) {
-			genGraphRedirectSourceComp(sb, state, (GraphRedirectSourceComp) evalComp);
+		else if(evalProc instanceof GraphRedirectSourceProc) {
+			genGraphRedirectSourceProc(sb, state, (GraphRedirectSourceProc) evalProc);
 		}
-		else if(evalComp instanceof GraphRedirectTargetComp) {
-			genGraphRedirectTargetComp(sb, state, (GraphRedirectTargetComp) evalComp);
+		else if(evalProc instanceof GraphRedirectTargetProc) {
+			genGraphRedirectTargetProc(sb, state, (GraphRedirectTargetProc) evalProc);
 		}
-		else if(evalComp instanceof GraphRedirectSourceAndTargetComp) {
-			genGraphRedirectSourceAndTargetComp(sb, state, (GraphRedirectSourceAndTargetComp) evalComp);
+		else if(evalProc instanceof GraphRedirectSourceAndTargetProc) {
+			genGraphRedirectSourceAndTargetProc(sb, state, (GraphRedirectSourceAndTargetProc) evalProc);
 		}
-		else if (evalComp instanceof InsertInducedSubgraphComp) {
-			genInsertInducedSubgraphComp(sb, state, (InsertInducedSubgraphComp) evalComp);
+		else if (evalProc instanceof InsertInducedSubgraphProc) {
+			genInsertInducedSubgraphProc(sb, state, (InsertInducedSubgraphProc) evalProc);
 		}
-		else if (evalComp instanceof InsertDefinedSubgraphComp) {
-			genInsertDefinedSubgraphComp(sb, state, (InsertDefinedSubgraphComp) evalComp);
+		else if (evalProc instanceof InsertDefinedSubgraphProc) {
+			genInsertDefinedSubgraphProc(sb, state, (InsertDefinedSubgraphProc) evalProc);
 		}
-		else if(evalComp instanceof VAllocComp) {
-			genVAllocComp(sb, state, (VAllocComp) evalComp);
+		else if(evalProc instanceof VAllocProc) {
+			genVAllocProc(sb, state, (VAllocProc) evalProc);
 		}
-		else if(evalComp instanceof VFreeComp) {
-			genVFreeComp(sb, state, (VFreeComp) evalComp);
+		else if(evalProc instanceof VFreeProc) {
+			genVFreeProc(sb, state, (VFreeProc) evalProc);
 		}
-		else if(evalComp instanceof VFreeNonResetComp) {
-			genVFreeNonResetComp(sb, state, (VFreeNonResetComp) evalComp);
+		else if(evalProc instanceof VFreeNonResetProc) {
+			genVFreeNonResetProc(sb, state, (VFreeNonResetProc) evalProc);
 		}
-		else if(evalComp instanceof VResetComp) {
-			genVResetComp(sb, state, (VResetComp) evalComp);
+		else if(evalProc instanceof VResetProc) {
+			genVResetProc(sb, state, (VResetProc) evalProc);
 		}
-		else if(evalComp instanceof StartTransactionComp) {
-			genStartTransactionComp(sb, state, (StartTransactionComp) evalComp);
+		else if(evalProc instanceof StartTransactionProc) {
+			genStartTransactionProc(sb, state, (StartTransactionProc) evalProc);
 		}
-		else if(evalComp instanceof PauseTransactionComp) {
-			genPauseTransactionComp(sb, state, (PauseTransactionComp) evalComp);
+		else if(evalProc instanceof PauseTransactionProc) {
+			genPauseTransactionProc(sb, state, (PauseTransactionProc) evalProc);
 		}
-		else if(evalComp instanceof ResumeTransactionComp) {
-			genResumeTransactionComp(sb, state, (ResumeTransactionComp) evalComp);
+		else if(evalProc instanceof ResumeTransactionProc) {
+			genResumeTransactionProc(sb, state, (ResumeTransactionProc) evalProc);
 		}
-		else if(evalComp instanceof CommitTransactionComp) {
-			genCommitTransactionComp(sb, state, (CommitTransactionComp) evalComp);
+		else if(evalProc instanceof CommitTransactionProc) {
+			genCommitTransactionProc(sb, state, (CommitTransactionProc) evalProc);
 		}
-		else if(evalComp instanceof RollbackTransactionComp) {
-			genRollbackTransactionComp(sb, state, (RollbackTransactionComp) evalComp);
+		else if(evalProc instanceof RollbackTransactionProc) {
+			genRollbackTransactionProc(sb, state, (RollbackTransactionProc) evalProc);
 		}
 		else {
-			throw new UnsupportedOperationException("Unexpected eval computation \"" + evalComp + "\"");
+			throw new UnsupportedOperationException("Unexpected eval procedure \"" + evalProc + "\"");
 		}
 	}
 
-	private void genEmitComp(StringBuffer sb, ModifyGenerationStateConst state, EmitComp ec) {
+	private void genEmitProc(StringBuffer sb, ModifyGenerationStateConst state, EmitProc ep) {
     	String emitVar = "emit_value_" + tmpVarID++;
 		sb.append("\t\t\tobject " + emitVar + " = ");
-		genExpression(sb, ec.getToEmitExpr(), state);
+		genExpression(sb, ep.getToEmitExpr(), state);
 		sb.append(";\n");
 		sb.append("\t\t\tif(" + emitVar + " != null)\n");
 		sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
 				+ "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + emitVar + ", graph));\n");
 	}
 
-	private void genHighlightComp(StringBuffer sb, ModifyGenerationStateConst state, HighlightComp hc) {
+	private void genHighlightProc(StringBuffer sb, ModifyGenerationStateConst state, HighlightProc hp) {
     	String highlightValuesArray = "highlight_values_" + tmpVarID++;
 		sb.append("\t\t\tList<object> " + highlightValuesArray + " = new List<object>();\n");
     	String highlightSourceNamesArray = "highlight_source_names_" + tmpVarID++;
 		sb.append("\t\t\tList<string> " + highlightSourceNamesArray + " = new List<string>();\n");
-		for(Expression expr : hc.getToHighlightExpressions()) {
+		for(Expression expr : hp.getToHighlightExpressions()) {
 			sb.append("\t\t\t" + highlightValuesArray + ".Add(");
 			genExpression(sb, expr, state);
 			sb.append(");\n");
@@ -3581,213 +3581,213 @@ public class ModifyGen extends CSharpBase {
 				+ "(" + highlightValuesArray + ", " + highlightSourceNamesArray + ");\n");
 	}
 
-	private void genRecordComp(StringBuffer sb, ModifyGenerationStateConst state, RecordComp rc) {
+	private void genRecordProc(StringBuffer sb, ModifyGenerationStateConst state, RecordProc rp) {
     	String recordVar = "record_value_" + tmpVarID++;
 		sb.append("\t\t\tobject " + recordVar + " = ");
-		genExpression(sb, rc.getToRecordExpr(), state);
+		genExpression(sb, rp.getToRecordExpr(), state);
 		sb.append(";\n");
 		sb.append("\t\t\tif(" + recordVar + " != null)\n");
 		sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
 				+ "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + recordVar + ", graph));\n");
 	}
 
-	private void genGraphAddNodeComp(StringBuffer sb, ModifyGenerationStateConst state, GraphAddNodeComp ganc) {
-		Constant constant = (Constant)ganc.getNodeTypeExpr();
+	private void genGraphAddNodeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphAddNodeProc ganp) {
+		Constant constant = (Constant)ganp.getNodeTypeExpr();
 		sb.append("(" + formatType((Type)constant.getValue()) + ")"
 				+ "GRGEN_LIBGR.GraphHelper.AddNodeOfType(");
-		genExpression(sb, ganc.getNodeTypeExpr(), state);
+		genExpression(sb, ganp.getNodeTypeExpr(), state);
 		sb.append(", graph)");
 	}
 
-	private void genGraphAddEdgeComp(StringBuffer sb, ModifyGenerationStateConst state, GraphAddEdgeComp gaec) {
-		Constant constant = (Constant)gaec.getEdgeTypeExpr();
+	private void genGraphAddEdgeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphAddEdgeProc gaep) {
+		Constant constant = (Constant)gaep.getEdgeTypeExpr();
 		sb.append("(" + formatType((Type)constant.getValue()) + ")" 
 				+ "GRGEN_LIBGR.GraphHelper.AddEdgeOfType(");
-		genExpression(sb, gaec.getEdgeTypeExpr(), state);
+		genExpression(sb, gaep.getEdgeTypeExpr(), state);
 		sb.append(", ");
-		genExpression(sb, gaec.getSourceNodeExpr(), state);
+		genExpression(sb, gaep.getSourceNodeExpr(), state);
 		sb.append(", ");
-		genExpression(sb, gaec.getTargetNodeExpr(), state);
+		genExpression(sb, gaep.getTargetNodeExpr(), state);
 		sb.append(", graph)");
 	}
 
-	private void genGraphRetypeNodeComp(StringBuffer sb, ModifyGenerationStateConst state, GraphRetypeNodeComp grnc) {
-		Constant constant = (Constant)grnc.getNewNodeTypeExpr();
+	private void genGraphRetypeNodeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphRetypeNodeProc grnp) {
+		Constant constant = (Constant)grnp.getNewNodeTypeExpr();
 		sb.append("(" + formatType((Type)constant.getValue()) + ")"
 				+ "graph.Retype(");
-		genExpression(sb, grnc.getNodeExpr(), state);
+		genExpression(sb, grnp.getNodeExpr(), state);
 		sb.append(", ");
-		genExpression(sb, grnc.getNewNodeTypeExpr(), state);
+		genExpression(sb, grnp.getNewNodeTypeExpr(), state);
 		sb.append(")");
 	}
 
-	private void genGraphRetypeEdgeComp(StringBuffer sb, ModifyGenerationStateConst state, GraphRetypeEdgeComp grec) {
-		Constant constant = (Constant)grec.getNewEdgeTypeExpr();
+	private void genGraphRetypeEdgeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphRetypeEdgeProc grep) {
+		Constant constant = (Constant)grep.getNewEdgeTypeExpr();
 		sb.append("(" + formatType((Type)constant.getValue()) + ")"
 				+ "graph.Retype(");
-		genExpression(sb, grec.getEdgeExpr(), state);
+		genExpression(sb, grep.getEdgeExpr(), state);
 		sb.append(", ");
-		genExpression(sb, grec.getNewEdgeTypeExpr(), state);
+		genExpression(sb, grep.getNewEdgeTypeExpr(), state);
 		sb.append(")");
 	}
 
-	private void genGraphClearComp(StringBuffer sb, ModifyGenerationStateConst state, GraphClearComp gcc) {
+	private void genGraphClearProc(StringBuffer sb, ModifyGenerationStateConst state, GraphClearProc gcp) {
 		sb.append("\t\t\tgraph.Clear();\n");
 	}
 
-	private void genGraphRemoveComp(StringBuffer sb, ModifyGenerationStateConst state, GraphRemoveComp grc) {
-        if(grc.getEntity().getType() instanceof NodeType) {
+	private void genGraphRemoveProc(StringBuffer sb, ModifyGenerationStateConst state, GraphRemoveProc grp) {
+        if(grp.getEntity().getType() instanceof NodeType) {
 			sb.append("\t\t\tgraph.RemoveEdges((GRGEN_LIBGR.INode)");
-			genExpression(sb, grc.getEntity(), state);
+			genExpression(sb, grp.getEntity(), state);
 			sb.append(");\n");
 
 			sb.append("\t\t\tgraph.Remove((GRGEN_LIBGR.INode)");
-			genExpression(sb, grc.getEntity(), state);
+			genExpression(sb, grp.getEntity(), state);
 			sb.append(");\n");
 		} else {
 			sb.append("\t\t\tgraph.Remove((GRGEN_LIBGR.IEdge)");
-			genExpression(sb, grc.getEntity(), state);
+			genExpression(sb, grp.getEntity(), state);
 			sb.append(");\n");
 		}
 	}
 
-	private void genGraphMergeComp(StringBuffer sb, ModifyGenerationStateConst state, GraphMergeComp gmc) {
-        if(gmc.getSourceName() != null) {
+	private void genGraphMergeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphMergeProc gmp) {
+        if(gmp.getSourceName() != null) {
 			sb.append("\t\t\tgraph.Merge((GRGEN_LIBGR.INode)");
-			genExpression(sb, gmc.getTarget(), state);
+			genExpression(sb, gmp.getTarget(), state);
 			sb.append(", (GRGEN_LIBGR.INode)");
-			genExpression(sb, gmc.getSource(), state);
+			genExpression(sb, gmp.getSource(), state);
 			sb.append(", (String)");
-			genExpression(sb, gmc.getSourceName(), state);
+			genExpression(sb, gmp.getSourceName(), state);
 			sb.append(");\n");
 		} else {
 			sb.append("\t\t\t((GRGEN_LGSP.LGSPNamedGraph)graph).Merge((GRGEN_LIBGR.INode)");
-			genExpression(sb, gmc.getTarget(), state);
+			genExpression(sb, gmp.getTarget(), state);
 			sb.append(", (GRGEN_LIBGR.INode)");
-			genExpression(sb, gmc.getSource(), state);
+			genExpression(sb, gmp.getSource(), state);
 			sb.append(");\n");
 		}
 	}
 
-	private void genGraphRedirectSourceComp(StringBuffer sb, ModifyGenerationStateConst state, GraphRedirectSourceComp grsc) {
-        if(grsc.getOldSourceName() != null) {
+	private void genGraphRedirectSourceProc(StringBuffer sb, ModifyGenerationStateConst state, GraphRedirectSourceProc grsp) {
+        if(grsp.getOldSourceName() != null) {
 			sb.append("\t\t\tgraph.RedirectSource((GRGEN_LIBGR.IEdge)");
-			genExpression(sb, grsc.getEdge(), state);
+			genExpression(sb, grsp.getEdge(), state);
 			sb.append(", (GRGEN_LIBGR.INode)");
-			genExpression(sb, grsc.getNewSource(), state);
+			genExpression(sb, grsp.getNewSource(), state);
 			sb.append(", (String)");
-			genExpression(sb, grsc.getOldSourceName(), state);
+			genExpression(sb, grsp.getOldSourceName(), state);
 			sb.append(");\n");
 		} else {
 			sb.append("\t\t\t((GRGEN_LGSP.LGSPNamedGraph)graph).RedirectSource((GRGEN_LIBGR.IEdge)");
-			genExpression(sb, grsc.getEdge(), state);
+			genExpression(sb, grsp.getEdge(), state);
 			sb.append(", (GRGEN_LIBGR.INode)");
-			genExpression(sb, grsc.getNewSource(), state);
+			genExpression(sb, grsp.getNewSource(), state);
 			sb.append(");\n");
 		}
 	}
 
-	private void genGraphRedirectTargetComp(StringBuffer sb, ModifyGenerationStateConst state, GraphRedirectTargetComp grtc) {
-        if(grtc.getOldTargetName() != null) {
+	private void genGraphRedirectTargetProc(StringBuffer sb, ModifyGenerationStateConst state, GraphRedirectTargetProc grtp) {
+        if(grtp.getOldTargetName() != null) {
 			sb.append("\t\t\tgraph.RedirectTarget((GRGEN_LIBGR.IEdge)");
-			genExpression(sb, grtc.getEdge(), state);
+			genExpression(sb, grtp.getEdge(), state);
 			sb.append(", (GRGEN_LIBGR.INode)");
-			genExpression(sb, grtc.getNewTarget(), state);
+			genExpression(sb, grtp.getNewTarget(), state);
 			sb.append(", (String)");
-			genExpression(sb, grtc.getOldTargetName(), state);
+			genExpression(sb, grtp.getOldTargetName(), state);
 			sb.append(");\n");
 		} else {
 			sb.append("\t\t\t((GRGEN_LGSP.LGSPNamedGraph)graph).RedirectTarget((GRGEN_LIBGR.IEdge)");
-			genExpression(sb, grtc.getEdge(), state);
+			genExpression(sb, grtp.getEdge(), state);
 			sb.append(", (GRGEN_LIBGR.INode)");
-			genExpression(sb, grtc.getNewTarget(), state);
+			genExpression(sb, grtp.getNewTarget(), state);
 			sb.append(");\n");
 		}
 	}
 
-	private void genGraphRedirectSourceAndTargetComp(StringBuffer sb, ModifyGenerationStateConst state, GraphRedirectSourceAndTargetComp grsatc) {
-        if(grsatc.getOldSourceName() != null) {
+	private void genGraphRedirectSourceAndTargetProc(StringBuffer sb, ModifyGenerationStateConst state, GraphRedirectSourceAndTargetProc grsatp) {
+        if(grsatp.getOldSourceName() != null) {
 			sb.append("\t\t\tgraph.RedirectSourceAndTarget((GRGEN_LIBGR.IEdge)");
-			genExpression(sb, grsatc.getEdge(), state);
+			genExpression(sb, grsatp.getEdge(), state);
 			sb.append(", (GRGEN_LIBGR.INode)");
-			genExpression(sb, grsatc.getNewSource(), state);
+			genExpression(sb, grsatp.getNewSource(), state);
 			sb.append(", (GRGEN_LIBGR.INode)");
-			genExpression(sb, grsatc.getNewTarget(), state);
+			genExpression(sb, grsatp.getNewTarget(), state);
 			sb.append(", (String)");
-			genExpression(sb, grsatc.getOldSourceName(), state);
+			genExpression(sb, grsatp.getOldSourceName(), state);
 			sb.append(", (String)");
-			genExpression(sb, grsatc.getOldTargetName(), state);
+			genExpression(sb, grsatp.getOldTargetName(), state);
 			sb.append(");\n");
 		} else {
 			sb.append("\t\t\t((GRGEN_LGSP.LGSPNamedGraph)graph).RedirectSourceAndTarget((GRGEN_LIBGR.IEdge)");
-			genExpression(sb, grsatc.getEdge(), state);
+			genExpression(sb, grsatp.getEdge(), state);
 			sb.append(", (GRGEN_LIBGR.INode)");
-			genExpression(sb, grsatc.getNewSource(), state);
+			genExpression(sb, grsatp.getNewSource(), state);
 			sb.append(", (GRGEN_LIBGR.INode)");
-			genExpression(sb, grsatc.getNewTarget(), state);
+			genExpression(sb, grsatp.getNewTarget(), state);
 			sb.append(");\n");
 		}
 	}
 
-	private void genInsertInducedSubgraphComp(StringBuffer sb, ModifyGenerationStateConst state, InsertInducedSubgraphComp iisc) {
+	private void genInsertInducedSubgraphProc(StringBuffer sb, ModifyGenerationStateConst state, InsertInducedSubgraphProc iisp) {
 		sb.append("GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");
-		genExpression(sb, iisc.getSetExpr(), state);
+		genExpression(sb, iisp.getSetExpr(), state);
 		sb.append(", ");
-		genExpression(sb, iisc.getNodeExpr(), state);
+		genExpression(sb, iisp.getNodeExpr(), state);
 		sb.append(", graph)");
 	}
 
-	private void genInsertDefinedSubgraphComp(StringBuffer sb, ModifyGenerationStateConst state, InsertDefinedSubgraphComp idsc) {
+	private void genInsertDefinedSubgraphProc(StringBuffer sb, ModifyGenerationStateConst state, InsertDefinedSubgraphProc idsp) {
 		sb.append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
-		genExpression(sb, idsc.getSetExpr(), state);
+		genExpression(sb, idsp.getSetExpr(), state);
 		sb.append(", ");
-		genExpression(sb, idsc.getEdgeExpr(), state);
+		genExpression(sb, idsp.getEdgeExpr(), state);
 		sb.append(", graph)");
 	}
 
-	private void genVAllocComp(StringBuffer sb, ModifyGenerationStateConst state, VAllocComp vac) {
+	private void genVAllocProc(StringBuffer sb, ModifyGenerationStateConst state, VAllocProc vap) {
 		sb.append("graph.AllocateVisitedFlag()");
 	}
 	
-	private void genVFreeComp(StringBuffer sb, ModifyGenerationStateConst state, VFreeComp vfc) {
+	private void genVFreeProc(StringBuffer sb, ModifyGenerationStateConst state, VFreeProc vfp) {
 		sb.append("\t\t\tgraph.FreeVisitedFlag((int)");
-		genExpression(sb, vfc.getVisitedFlagExpr(), state);
+		genExpression(sb, vfp.getVisitedFlagExpr(), state);
 		sb.append(");\n");
 	}
 	
-	private void genVFreeNonResetComp(StringBuffer sb, ModifyGenerationStateConst state, VFreeNonResetComp vfnrc) {
+	private void genVFreeNonResetProc(StringBuffer sb, ModifyGenerationStateConst state, VFreeNonResetProc vfnrp) {
 		sb.append("\t\t\tgraph.FreeVisitedFlagNonReset((int)");
-		genExpression(sb, vfnrc.getVisitedFlagExpr(), state);
+		genExpression(sb, vfnrp.getVisitedFlagExpr(), state);
 		sb.append(");\n");
 	}
 	
-	private void genVResetComp(StringBuffer sb, ModifyGenerationStateConst state, VResetComp vrc) {
+	private void genVResetProc(StringBuffer sb, ModifyGenerationStateConst state, VResetProc vrp) {
 		sb.append("\t\t\tgraph.ResetVisitedFlag((int)");
-		genExpression(sb, vrc.getVisitedFlagExpr(), state);
+		genExpression(sb, vrp.getVisitedFlagExpr(), state);
 		sb.append(");\n");
 	}
 
-	private void genStartTransactionComp(StringBuffer sb, ModifyGenerationStateConst state, StartTransactionComp stc) {
+	private void genStartTransactionProc(StringBuffer sb, ModifyGenerationStateConst state, StartTransactionProc stp) {
 		sb.append("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Start()");
 	}
 
-	private void genPauseTransactionComp(StringBuffer sb, ModifyGenerationStateConst state, PauseTransactionComp ptc) {
+	private void genPauseTransactionProc(StringBuffer sb, ModifyGenerationStateConst state, PauseTransactionProc ptp) {
 		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Pause();\n");
 	}
 
-	private void genResumeTransactionComp(StringBuffer sb, ModifyGenerationStateConst state, ResumeTransactionComp rtc) {
+	private void genResumeTransactionProc(StringBuffer sb, ModifyGenerationStateConst state, ResumeTransactionProc rtp) {
 		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Resume();\n");
 	}
 
-	private void genCommitTransactionComp(StringBuffer sb, ModifyGenerationStateConst state, CommitTransactionComp ctc) {
+	private void genCommitTransactionProc(StringBuffer sb, ModifyGenerationStateConst state, CommitTransactionProc ctp) {
 		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Commit((int)");
-		genExpression(sb, ctc.getTransactionId(), state);
+		genExpression(sb, ctp.getTransactionId(), state);
 		sb.append(");\n");
 	}
 
-	private void genRollbackTransactionComp(StringBuffer sb, ModifyGenerationStateConst state, RollbackTransactionComp rtc) {
+	private void genRollbackTransactionProc(StringBuffer sb, ModifyGenerationStateConst state, RollbackTransactionProc rtp) {
 		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Rollback((int)");
-		genExpression(sb, rtc.getTransactionId(), state);
+		genExpression(sb, rtp.getTransactionId(), state);
 		sb.append(");\n");
 	}
 	

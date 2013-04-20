@@ -20,9 +20,9 @@ namespace de.unika.ipd.grGen.libGr
         UnknownRuleOrSequence,
 
         /// <summary>
-        /// The computation is unknown.
+        /// The procedure is unknown.
         /// </summary>
-        UnknownComputation,
+        UnknownProcedure,
 
         /// <summary>
         /// The function is unknown.
@@ -226,10 +226,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the computation
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the function
         /// with the given name does not exist or input or output parameters do not match.
         /// </summary>
-        /// <param name="paramBindings">The parameter bindings of the computation invocation.</param>
+        /// <param name="paramBindings">The parameter bindings of the function invocation.</param>
         /// <param name="errorKind">The kind of error.</param>
         public SequenceParserException(InvocationParameterBindings paramBindings, SequenceParserError errorKind)
             : this(paramBindings, errorKind, -1)
@@ -237,10 +237,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the computation 
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the function 
         /// with the given name does not exist or input or output parameters do not match.
         /// </summary>
-        /// <param name="paramBindings">The parameter bindings of the computation invocation.</param>
+        /// <param name="paramBindings">The parameter bindings of the function invocation.</param>
         /// <param name="errorKind">The kind of error.</param>
         /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
         public SequenceParserException(InvocationParameterBindings paramBindings, SequenceParserError errorKind, int badParamIndex)

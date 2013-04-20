@@ -23,8 +23,8 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
-import de.unika.ipd.grgen.ir.exprevals.ExternalComputation;
 import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
+import de.unika.ipd.grgen.ir.exprevals.ExternalProcedure;
 
 
 public class ModelNode extends DeclNode {
@@ -40,12 +40,12 @@ public class ModelNode extends DeclNode {
 	private CollectNode<IdentNode> declsUnresolved;
 	protected CollectNode<ExternalFunctionDeclNode> externalFuncDecls;
 	private CollectNode<IdentNode> externalFuncDeclsUnresolved;
-	protected CollectNode<ExternalComputationDeclNode> externalCompDecls;
-	private CollectNode<IdentNode> externalCompDeclsUnresolved;
+	protected CollectNode<ExternalProcedureDeclNode> externalProcDecls;
+	private CollectNode<IdentNode> externalProcDeclsUnresolved;
 	private ModelTypeNode type;
 
 	public ModelNode(IdentNode id, CollectNode<IdentNode> decls, 
-			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalComps, 
+			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
 			CollectNode<ModelNode> usedModels) {
 		super(id, modelType);
 
@@ -53,8 +53,8 @@ public class ModelNode extends DeclNode {
 		becomeParent(this.declsUnresolved);
 		this.externalFuncDeclsUnresolved = externalFuncs;
 		becomeParent(this.externalFuncDeclsUnresolved);
-		this.externalCompDeclsUnresolved = externalComps;
-		becomeParent(this.externalCompDeclsUnresolved);
+		this.externalProcDeclsUnresolved = externalProcs;
+		becomeParent(this.externalProcDeclsUnresolved);
 		this.usedModels = usedModels;
 		becomeParent(this.usedModels);
 	}
@@ -67,7 +67,7 @@ public class ModelNode extends DeclNode {
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(getValidVersion(declsUnresolved, decls));
 		children.add(getValidVersion(externalFuncDeclsUnresolved, externalFuncDecls));
-		children.add(getValidVersion(externalCompDeclsUnresolved, externalCompDecls));
+		children.add(getValidVersion(externalProcDeclsUnresolved, externalProcDecls));
 		children.add(usedModels);
 		return children;
 	}
@@ -80,7 +80,7 @@ public class ModelNode extends DeclNode {
 		childrenNames.add("type");
 		childrenNames.add("decls");
 		childrenNames.add("externalFuncDecls");
-		childrenNames.add("externalCompDecls");
+		childrenNames.add("externalProcDecls");
 		childrenNames.add("usedModels");
 		return childrenNames;
 	}
@@ -89,8 +89,8 @@ public class ModelNode extends DeclNode {
 		new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
 	private static CollectResolver<ExternalFunctionDeclNode> externalFunctionsResolver = new CollectResolver<ExternalFunctionDeclNode>(
 			new DeclarationResolver<ExternalFunctionDeclNode>(ExternalFunctionDeclNode.class));
-	private static CollectResolver<ExternalComputationDeclNode> externalComputationsResolver = new CollectResolver<ExternalComputationDeclNode>(
-			new DeclarationResolver<ExternalComputationDeclNode>(ExternalComputationDeclNode.class));
+	private static CollectResolver<ExternalProcedureDeclNode> externalProceduresResolver = new CollectResolver<ExternalProcedureDeclNode>(
+			new DeclarationResolver<ExternalProcedureDeclNode>(ExternalProcedureDeclNode.class));
 
 	private static DeclarationTypeResolver<ModelTypeNode> typeResolver = new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
 
@@ -99,10 +99,10 @@ public class ModelNode extends DeclNode {
 	protected boolean resolveLocal() {
 		decls = declsResolver.resolve(declsUnresolved, this);
 		externalFuncDecls = externalFunctionsResolver.resolve(externalFuncDeclsUnresolved, this);
-		externalCompDecls = externalComputationsResolver.resolve(externalCompDeclsUnresolved, this);
+		externalProcDecls = externalProceduresResolver.resolve(externalProcDeclsUnresolved, this);
 		type = typeResolver.resolve(typeUnresolved, this);
 
-		return decls != null && externalFuncDecls!=null && externalCompDecls!=null && type != null;
+		return decls != null && externalFuncDecls!=null && externalProcDecls!=null && type != null;
 	}
 
 	/**
@@ -143,8 +143,8 @@ public class ModelNode extends DeclNode {
 		for(ExternalFunctionDeclNode externalFunctionDecl : externalFuncDecls.getChildren()) {
 			res.addExternalFunction(externalFunctionDecl.checkIR(ExternalFunction.class));
 		}
-		for(ExternalComputationDeclNode externalComputationDecl : externalCompDecls.getChildren()) {
-			res.addExternalComputation(externalComputationDecl.checkIR(ExternalComputation.class));
+		for(ExternalProcedureDeclNode externalProcedureDecl : externalProcDecls.getChildren()) {
+			res.addExternalProcedure(externalProcedureDecl.checkIR(ExternalProcedure.class));
 		}
 		return res;
 	}
