@@ -2272,7 +2272,7 @@ externalFunctionOrProcedureDecl [ IdentNode id, CollectNode<BaseNode> params,
 			id.setDecl(new ExternalFunctionDeclNode(id, params, ret));
 			externalFuncs.addChild(id);
 		}
-	| COLON LPAREN (returnTypeList[returnTypes])? RPAREN
+	| (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
 		{
 			id.setDecl(new ExternalProcedureDeclNode(id, params, returnTypes));
 			externalProcs.addChild(id);
