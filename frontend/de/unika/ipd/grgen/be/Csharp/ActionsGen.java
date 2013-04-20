@@ -296,12 +296,6 @@ public class ActionsGen extends CSharpBase {
 					pathPrefixForElements, alreadyDefinedEntityToName);
 		}
 		
-		sb.append("#if INITIAL_WARMUP\t\t// GrGen function exec section:\n");
-		for(Function function : be.unit.getFunctions()) {
-			genImperativeStatements(sb, function);
-		}
-		sb.append("#endif\n");
-
 		sb.append("\t}\n");
 		sb.append("\n");
 		
@@ -1929,13 +1923,6 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private void genImperativeStatements(StringBuffer sb, Function function) {
-		int xgrsID = 0;
-		for(EvalStatement evalStmt : function.getComputationStatements()) {
-			xgrsID = genImperativeStatements(sb, function, evalStmt, xgrsID);
-		}
-	}
-
 	private void genImperativeStatements(StringBuffer sb, Procedure procedure) {
 		int xgrsID = 0;
 		for(EvalStatement evalStmt : procedure.getComputationStatements()) {
@@ -1943,49 +1930,49 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private int genImperativeStatements(StringBuffer sb, Identifiable functionOrProcedure, EvalStatement evalStmt, int xgrsID) {
+	private int genImperativeStatements(StringBuffer sb, Identifiable procedure, EvalStatement evalStmt, int xgrsID) {
 		if(evalStmt instanceof ExecStatement) {
-			genImperativeStatement(sb, functionOrProcedure, (ExecStatement)evalStmt, xgrsID);
+			genImperativeStatement(sb, procedure, (ExecStatement)evalStmt, xgrsID);
 			++xgrsID;
 		} else if(evalStmt instanceof ConditionStatement) {
 			ConditionStatement condStmt = (ConditionStatement)evalStmt;
 			for(EvalStatement childEvalStmt : condStmt.getTrueCaseStatements()) {
-				xgrsID = genImperativeStatements(sb, functionOrProcedure, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 			if(condStmt.getFalseCaseStatements()!=null) {
 				for(EvalStatement childEvalStmt : condStmt.getFalseCaseStatements()) {
-					xgrsID = genImperativeStatements(sb, functionOrProcedure, childEvalStmt, xgrsID);
+					xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 				}
 			}
 		} else if(evalStmt instanceof ContainerAccumulationYield) {
 			for(EvalStatement childEvalStmt : ((ContainerAccumulationYield)evalStmt).getAccumulationStatements()) {
-				xgrsID = genImperativeStatements(sb, functionOrProcedure, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof DoWhileStatement) {
 			for(EvalStatement childEvalStmt : ((DoWhileStatement)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, functionOrProcedure, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ForFunction) {
 			for(EvalStatement childEvalStmt : ((ForFunction)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, functionOrProcedure, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ForLookup) {
 			for(EvalStatement childEvalStmt : ((ForLookup)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, functionOrProcedure, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof WhileStatement) {
 			for(EvalStatement childEvalStmt : ((WhileStatement)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, functionOrProcedure, childEvalStmt, xgrsID);
+				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		}
 		return xgrsID;
 	}
 
-	private void genImperativeStatement(StringBuffer sb, Identifiable functionOrProcedure,
+	private void genImperativeStatement(StringBuffer sb, Identifiable procedure,
 			ExecStatement execStmt, int xgrsID) {
 		Exec exec = execStmt.getExec();
 		
-		sb.append("\t\tpublic static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + formatIdentifiable(functionOrProcedure) + "_" + xgrsID
+		sb.append("\t\tpublic static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + formatIdentifiable(procedure) + "_" + xgrsID
 				+ " = new GRGEN_LIBGR.EmbeddedSequenceInfo(\n");
 		sb.append("\t\t\tnew string[] {");
 		for(Entity neededEntity : exec.getNeededEntities(true)) {
@@ -2029,7 +2016,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t" + exec.getLineNr() + "\n");
 		sb.append("\t\t);\n");
 		
-		sb.append("\t\tprivate static bool ApplyXGRS_" + formatIdentifiable(functionOrProcedure) + "_" + xgrsID + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+		sb.append("\t\tprivate static bool ApplyXGRS_" + formatIdentifiable(procedure) + "_" + xgrsID + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 		for(Entity neededEntity : exec.getNeededEntities(true)) {
 			if(!neededEntity.isDefToBeYieldedTo()) {
 				sb.append(", " + formatType(neededEntity.getType()) + " var_" + neededEntity.getIdent());
