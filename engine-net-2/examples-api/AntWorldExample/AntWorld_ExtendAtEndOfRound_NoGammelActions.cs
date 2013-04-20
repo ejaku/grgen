@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Fri Mar 29 08:39:03 CET 2013
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sat Apr 20 13:15:09 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -6631,7 +6631,11 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 
 	}
 
-	public class Computations
+	public class Functions
+	{
+	}
+
+	public class Procedures
 	{
 	}
 
@@ -6643,7 +6647,8 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 			rules = new GRGEN_LGSP.LGSPRulePattern[18];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+18];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
-			computations = new GRGEN_LIBGR.ComputationInfo[0];
+			functions = new GRGEN_LIBGR.FunctionInfo[0];
+			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
 			rules[0] = Rule_InitWorld.Instance;
 			rulesAndSubpatterns[0+0] = Rule_InitWorld.Instance;
 			rules[1] = Rule_TakeFood.Instance;
@@ -6689,8 +6694,10 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
 		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
-		public override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }
-		private GRGEN_LIBGR.ComputationInfo[] computations;
+		public override GRGEN_LIBGR.FunctionInfo[] Functions { get { return functions; } }
+		private GRGEN_LIBGR.FunctionInfo[] functions;
+		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
+		private GRGEN_LIBGR.ProcedureInfo[] procedures;
 	}
 
 

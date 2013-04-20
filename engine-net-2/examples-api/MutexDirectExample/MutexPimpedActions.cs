@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Fri Mar 29 08:39:28 CET 2013
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sat Apr 20 13:15:34 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -7060,7 +7060,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 	}
 
-	public class Computations
+	public class Functions
+	{
+	}
+
+	public class Procedures
 	{
 	}
 
@@ -7072,7 +7076,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			rules = new GRGEN_LGSP.LGSPRulePattern[18];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+18];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
-			computations = new GRGEN_LIBGR.ComputationInfo[0];
+			functions = new GRGEN_LIBGR.FunctionInfo[0];
+			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
 			rules[0] = Rule_newRule.Instance;
 			rulesAndSubpatterns[0+0] = Rule_newRule.Instance;
 			rules[1] = Rule_killRule.Instance;
@@ -7118,8 +7123,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
 		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
-		public override GRGEN_LIBGR.ComputationInfo[] Computations { get { return computations; } }
-		private GRGEN_LIBGR.ComputationInfo[] computations;
+		public override GRGEN_LIBGR.FunctionInfo[] Functions { get { return functions; } }
+		private GRGEN_LIBGR.FunctionInfo[] functions;
+		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
+		private GRGEN_LIBGR.ProcedureInfo[] procedures;
 	}
 
 
