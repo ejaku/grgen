@@ -283,14 +283,19 @@
             The names of the sequences used in the specification, set if parsing an xgrs to be compiled
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.computationNames">
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.procedureNames">
             <summary>
-            The names of the computations used in the specification, set if parsing an xgrs to be compiled
+            The names of the procedures used in the specification, set if parsing an xgrs to be compiled
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.computationOutputTypes">
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.functionNames">
             <summary>
-            The output types of the computations used in the specification, set if parsing an xgrs to be compiled
+            The names of the functions used in the specification, set if parsing an xgrs to be compiled
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.functionOutputTypes">
+            <summary>
+            The output types of the functions used in the specification, set if parsing an xgrs to be compiled
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.model">
@@ -333,15 +338,16 @@
             <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserException">Thrown when a rule is used with the wrong number of arguments
             or return parameters.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,System.String[],System.String[],System.String[],System.String[],System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,System.String[],System.String[],System.String[],System.String[],System.String[],System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.List{System.String})">
             <summary>
             Parses a given string in xgrs syntax and builds a Sequence object. Used for the compiled xgrs.
             </summary>
             <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
             <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
             <param name="sequenceNames">An array containing the names of the sequences used in the specification.</param>
-            <param name="computationNames">An array containing the names of the computations used in the specification.</param>
-            <param name="computationOutputTypes">An array containing the output types of the computations used in the specification.</param>
+            <param name="procedureNames">An array containing the names of the procedures used in the specification.</param>
+            <param name="functionNames">An array containing the names of the functions used in the specification.</param>
+            <param name="functionOutputTypes">An array containing the output types of the functions used in the specification.</param>
             <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
             <param name="model">The model used in the specification.</param>
             <param name="warnings">A list which receives the warnings generated during parsing.</param>
@@ -748,6 +754,24 @@
             <summary>
             creates an edge of given type and adds it to the graph between from and to, returns it
             type might be a string denoting an EdgeType or an EdgeType
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.RetypeNode(de.unika.ipd.grGen.libGr.INode,System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            retypes a node to the given type, returns it
+            type might be a string denoting a NodeType or a NodeType
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.RetypeEdge(de.unika.ipd.grGen.libGr.IEdge,System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            retypes an edge to the given type, returns it
+            type might be a string denoting an EdgeType or an EdgeType
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.RetypeGraphElement(de.unika.ipd.grGen.libGr.IGraphElement,System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            retypes a graph element to the given type, returns it
+            type might be a string denoting a NodeType or EdgeType, or a NodeType or EdgeType
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SymmetryChecker">
@@ -1292,6 +1316,7 @@
         <member name="T:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution">
             <summary>
             A proxy querying or simulating a user for choices during sequence execution
+            TODO: general user proxy, not just for sequence execution
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution.ChooseDirection(System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
@@ -1345,6 +1370,11 @@
         <member name="M:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution.Highlight(System.String,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             highlights the arguments in the graphs if debugging is active
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution.Highlight(System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.String})">
+            <summary>
+            highlights the values in the graphs if debugging is active (annotating them with the source names)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.Recorder">
@@ -1536,15 +1566,15 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.InvocationParameterBindings">
             <summary>
-            An object representing a rule or sequence or computation invocation.
+            An object representing a rule or sequence or procedure or function invocation.
             It stores the input arguments (values) and
             tells with which sequence expressions to compute them.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.Name">
             <summary>
-            The name of the rule or sequence or computation.
-            Used for generation, where the rule or sequence or computation representation objects do not exist yet.
+            The name of the rule or sequence or procedure or function.
+            Used for generation, where the rule or sequence or procedure or function representation objects do not exist yet.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.ArgumentExpressions">
@@ -1572,7 +1602,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.InvocationParameterBindingsWithReturns">
             <summary>
-            An object representing a rule or sequence invocation.
+            An object representing a rule or sequence or procedure invocation.
             It stores the input arguments (values),
             tells with which sequence expressions to compute them,
             and where (which variables) to store the output values.
@@ -1581,7 +1611,7 @@
         <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindingsWithReturns.ReturnVars">
             <summary>
             An array of variables used for the return values.
-            Might be empty if the rule/sequence caller is not interested in available returns values.
+            Might be empty if the rule/sequence/procedure caller is not interested in available returns values.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.InvocationParameterBindingsWithReturns.#ctor(de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
@@ -1636,28 +1666,50 @@
             <param name="arguments">An array of arguments.</param>
             <param name="returnVars">An array of variables used for the return values</param>
         </member>
-        <member name="T:de.unika.ipd.grGen.libGr.ComputationInvocationParameterBindings">
+        <member name="T:de.unika.ipd.grGen.libGr.ProcedureInvocationParameterBindings">
             <summary>
-            An object representing a computation invocation.
+            An object representing a procedure.
+            It stores the input arguments (values),
+            tells with which sequence expressions to compute them,
+            and where (which variables) to store the output values.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ProcedureInvocationParameterBindings.ProcedureDef">
+            <summary>
+            The procedure to be used
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ProcedureInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.ProcedureInfo,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
+            <summary>
+            Instantiates a new ProcedureInvocationParameterBindings object
+            </summary>
+            <param name="procedureDef">The defined procedure to be used</param>
+            <param name="argExprs">An array of expressions used to compute the arguments</param>
+            <param name="arguments">An array of arguments.</param>
+            <param name="returnVars">An array of variables used for the return values</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.FunctionInvocationParameterBindings">
+            <summary>
+            An object representing a function invocation.
             It stores the input arguments (values) and
-            tells with which sequence expressions to compute them.
+            tells with which function to compute them.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ComputationInvocationParameterBindings.ComputationDef">
+        <member name="F:de.unika.ipd.grGen.libGr.FunctionInvocationParameterBindings.FunctionDef">
             <summary>
-            The computation to be used
+            The function to be used
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ComputationInvocationParameterBindings.ReturnType">
+        <member name="F:de.unika.ipd.grGen.libGr.FunctionInvocationParameterBindings.ReturnType">
             <summary>
             The type returned
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ComputationInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.ComputationInfo,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[])">
+        <member name="M:de.unika.ipd.grGen.libGr.FunctionInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.FunctionInfo,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[])">
             <summary>
-            Instantiates a new ComputationInvocationParameterBindings object
+            Instantiates a new FunctionInvocationParameterBindings object
             </summary>
-            <param name="sequenceDef">The defined computation to be used</param>
+            <param name="functionDef">The defined function to be used</param>
             <param name="argExprs">An array of expressions used to compute the arguments</param>
             <param name="arguments">An array of arguments.</param>
         </member>
@@ -2368,9 +2420,14 @@
             The rule or sequence is unknown.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.UnknownComputation">
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.UnknownProcedure">
             <summary>
-            The computation is unknown.
+            The procedure is unknown.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.UnknownFunction">
+            <summary>
+            The function is unknown.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.BadNumberOfParametersOrReturnParameters">
@@ -2544,18 +2601,18 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.InvocationParameterBindings,de.unika.ipd.grGen.libGr.SequenceParserError)">
             <summary>
-            Creates an instance of a SequenceParserException used by the SequenceParser, when the computation
+            Creates an instance of a SequenceParserException used by the SequenceParser, when the function
             with the given name does not exist or input or output parameters do not match.
             </summary>
-            <param name="paramBindings">The parameter bindings of the computation invocation.</param>
+            <param name="paramBindings">The parameter bindings of the function invocation.</param>
             <param name="errorKind">The kind of error.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.InvocationParameterBindings,de.unika.ipd.grGen.libGr.SequenceParserError,System.Int32)">
             <summary>
-            Creates an instance of a SequenceParserException used by the SequenceParser, when the computation 
+            Creates an instance of a SequenceParserException used by the SequenceParser, when the function 
             with the given name does not exist or input or output parameters do not match.
             </summary>
-            <param name="paramBindings">The parameter bindings of the computation invocation.</param>
+            <param name="paramBindings">The parameter bindings of the function invocation.</param>
             <param name="errorKind">The kind of error.</param>
             <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
         </member>
@@ -3235,40 +3292,6 @@
             Class implementing a Double Ended Queue. 
             Items can be added and removed in O(1) at the beginning and at the end, and accessed at an arbitrary index in O(1).
             Implemented by a ring buffer that is doubled in size (and the old content copied) when necessary (so insert is only amortized O(1)).
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.ComputationInfo">
-            <summary>
-            A description of a GrGen attribute evaluation computation.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ComputationInfo.#ctor(System.String,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType)">
-            <summary>
-            Constructs a ComputationInfo object.
-            </summary>
-            <param name="name">The name the computation was defined with.</param>
-            <param name="inputNames">The names of the input parameters.</param>
-            <param name="inputs">The types of the input parameters.</param>
-            <param name="output">The types of the output parameters.</param>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ComputationInfo.name">
-            <summary>
-            The name of the computation.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ComputationInfo.inputNames">
-            <summary>
-            Names of the computation parameters.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ComputationInfo.inputs">
-            <summary>
-            The GrGen types of the computation parameters.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ComputationInfo.output">
-            <summary>
-            The GrGen type of the computation return value.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IMatch">
@@ -4868,12 +4891,19 @@
             <param name="name">The name of the defined sequence to retrieve</param>
             <returns>The defined sequence or null if no such sequence exists.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.BaseActions.RetrieveComputationDefinition(System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.BaseActions.RetrieveFunctionDefinition(System.String)">
             <summary>
-            Retrieve a computation definition.
+            Retrieve a function definition.
             </summary>
-            <param name="name">The name of the computation to retrieve</param>
-            <returns>The computation or null if no such sequence exists.</returns>
+            <param name="name">The name of the function to retrieve</param>
+            <returns>The function or null if no such function exists.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseActions.RetrieveProcedureDefinition(System.String)">
+            <summary>
+            Retrieve a procedure definition.
+            </summary>
+            <param name="name">The name of the procedure to retrieve</param>
+            <returns>The procedure or null if no such procedure exists.</returns>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.BaseActions.Name">
             <summary>
@@ -4901,9 +4931,61 @@
             Enumerates all graph rewrite sequence definitions.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.BaseActions.ComputationDefinitions">
+        <member name="P:de.unika.ipd.grGen.libGr.BaseActions.FunctionDefinitions">
             <summary>
-            Enumerates all computations definitions.
+            Enumerates all function definitions.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseActions.ProcedureDefinitions">
+            <summary>
+            Enumerates all procedure definitions.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ProcedureInfo">
+            <summary>
+            A description of a GrGen procedure.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ProcedureInfo.#ctor(System.String,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType[])">
+            <summary>
+            Constructs a ProcedureInfo object.
+            </summary>
+            <param name="name">The name the procedure was defined with.</param>
+            <param name="inputNames">The names of the input parameters.</param>
+            <param name="inputs">The types of the input parameters.</param>
+            <param name="outputs">The types of the output parameters.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ProcedureInfo.Apply(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.ProcedureInvocationParameterBindings)">
+            <summary>
+            Applies this procedure with the given action environment on the given graph.
+            Takes the parameters from paramBindings as inputs.
+            Returns an array of output values.
+            Attention: at the next call of Apply, the array returned from previous call is overwritten with the new return values.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.name">
+            <summary>
+            The name of the procedure.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.inputNames">
+            <summary>
+            Names of the procedure parameters.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.inputs">
+            <summary>
+            The GrGen types of the procedure parameters.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.outputs">
+            <summary>
+            The GrGen types of the procedure return values.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.ReturnArray">
+            <summary>
+            Performance optimization: saves us usage of new in implementing the Apply method for returning an array.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.porter.ParseException">
@@ -6319,6 +6401,47 @@
             Delegate-type called shortly before elements are added to the graph, with the names of the elements added.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.FunctionInfo">
+            <summary>
+            A description of a GrGen attribute evaluation function.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.FunctionInfo.#ctor(System.String,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType)">
+            <summary>
+            Constructs a FunctionInfo object.
+            </summary>
+            <param name="name">The name the function was defined with.</param>
+            <param name="inputNames">The names of the input parameters.</param>
+            <param name="inputs">The types of the input parameters.</param>
+            <param name="output">The type of the output parameter.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.FunctionInfo.Apply(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.FunctionInvocationParameterBindings)">
+            <summary>
+            Applies this function with the given action environment on the given graph.
+            Takes the parameters from paramBindings as inputs.
+            Returns the one output value.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FunctionInfo.name">
+            <summary>
+            The name of the function.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FunctionInfo.inputNames">
+            <summary>
+            Names of the function parameters.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FunctionInfo.inputs">
+            <summary>
+            The GrGen types of the function parameters.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FunctionInfo.output">
+            <summary>
+            The GrGen type of the function return value.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.VCGFlags">
             <summary>
             Specifies flags how the graph should be displayed by a graph layouter.
@@ -6948,13 +7071,21 @@
             </summary>
             <param name="seq">The sequence to check, must be a rule call, a rule all call, or a sequence call</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckComputationCall(de.unika.ipd.grGen.libGr.SequenceExpression)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckProcedureCall(de.unika.ipd.grGen.libGr.SequenceComputation)">
             <summary>
-            Helper for checking computation calls.
+            Helper for checking procedure calls.
+            Checks whether called entity exists, type checks the input, type checks the output.
+            Throws an exception when an error is found.
+            </summary>
+            <param name="seq">The sequence computation to check, must be a procedure call</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckFunctionCall(de.unika.ipd.grGen.libGr.SequenceExpression)">
+            <summary>
+            Helper for checking function calls.
             Checks whether called entity exists, and type checks the input.
             Throws an exception when an error is found.
             </summary>
-            <param name="seq">The sequence to check, must be a computation call</param>
+            <param name="seq">The sequence expression to check, must be a function call</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.TypeOfTopLevelEntityInRule(System.String,System.String)">
             <summary>
