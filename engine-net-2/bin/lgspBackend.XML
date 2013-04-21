@@ -1031,7 +1031,7 @@
             The C#-part responsible for compiling the XGRSs of the exec statements.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.#ctor(de.unika.ipd.grGen.lgsp.LGSPGrGen,de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.#ctor(de.unika.ipd.grGen.lgsp.LGSPGrGen,de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
             Constructs the sequence generator
             </summary>
@@ -2394,6 +2394,11 @@
         <member name="T:de.unika.ipd.grGen.expression.EmitStatement">
             <summary>
             Class representing an emit statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.HighlightStatement">
+            <summary>
+            Class representing a highlight statement
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.RecordStatement">
@@ -5058,9 +5063,14 @@
             All the defined sequence representations generated
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.Computations">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.Functions">
             <summary>
-            All the computation representations generated
+            All the function representations generated
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.Procedures">
+            <summary>
+            All the procedure representations generated
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramType">
@@ -6296,6 +6306,21 @@
             Class representing superdeque comparison.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.GRAPH_EQ">
+            <summary>
+            Class representing a graph is-isomorph comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.GRAPH_NE">
+            <summary>
+            Class representing a graph is-not-isomorph comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.GRAPH_SE">
+            <summary>
+            Class representing a graph is-structural-equal (isomorph disregarding attributes) comparison.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.SHL">
             <summary>
             Class representing a shift left expression.
@@ -6621,9 +6646,9 @@
             Class representing a deque item.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.ComputationInvocation">
+        <member name="T:de.unika.ipd.grGen.expression.FunctionInvocation">
             <summary>
-            Class representing a computation invocation (extended internal attribute evaluation function).
+            Class representing a function invocation (internal attribute evaluation function).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ExternalFunctionInvocation">
