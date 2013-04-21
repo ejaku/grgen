@@ -186,7 +186,7 @@ LGSPGraphProcessingEnvironment procEnv = ...;
 ITransactionManager tm = procEnv.TransactionManager;
 public interface ITransactionManager
 {
-    int StartTransaction();
+    int Start();
     void Pause();
     void Resume();
     void Commit(int transactionID);
@@ -195,9 +195,9 @@ public interface ITransactionManager
 \end{verbatim}
 \end{example}
 
-The \texttt{StartTransaction} starts a transaction and returns its id; it may be called multiple times returning different ids for the then nested transactions (i.e. a failing outer one rolls back the changes of an inner transaction which succeeded).
+The \texttt{Start} starts a transaction and returns its id; it may be called multiple times returning different ids for the then nested transactions (i.e. a failing outer one rolls back the changes of an inner transaction which succeeded).
 Changes to the graph are recorded thereafter into an undo log, unless a \texttt{Pause} was called not yet followed by a \texttt{Resume}.
-When the changes of interest were carried out the transaction identified by its id is either \texttt{Commit}ed, which causes the changes recorded since the corresponding \texttt{StartTransaction} to stay in the graph, or rolled back by calling \texttt{Rollback}, in that case all the changes recorded since the corresponding \texttt{StartTransaction} are undone.
+When the changes of interest were carried out the transaction identified by its id is either \texttt{Commit}ed, which causes the changes recorded since the corresponding \texttt{Start} to stay in the graph, or rolled back by calling \texttt{Rollback}, in that case all the changes recorded since the corresponding \texttt{Start} are undone.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Import/Export and Miscellaneous Stuff}\label{sub:imexport}\indexmain{import}\indexmain{export}
@@ -273,19 +273,20 @@ b = bla;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{External Class and Function Implementation}\label{sub:extclsfctimpl}\indexmain{external class implementation}\indexmain{external function implementation}
+\section{External Class, Function and Procedure Implementation}\label{sub:extclsfctimpl}\indexmain{external class implementation}\indexmain{external function implementation}\indexmain{external procedure implementation}
 
 For a model file \texttt{Foo} which contains external functions (cf. \ref{sub:extfct}) and/or classes (cf. \ref{sub:extcls}), \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files, which contains
 \begin{itemize}
 	\item within the model namespace public partial classes named as given in the external class declaration,
 inherting from each other as stated in the external class declarations.
-	\item within the \texttt{de.unika.ipd.grGen.expression} namespace a public partial class named \texttt{ExternalFunctions} with a body of comments giving the expected function prototypes.
+	\item within the \texttt{de.unika.ipd.grGen.expression} namespace a public partial class named \texttt{ExternalFunctions} with a body of comments giving the expected function and procedure prototypes.
 \end{itemize}
 
 \noindent The partial classes are empty, you must implement them in a file named \texttt{FooModelExternal\-FunctionsImpl.cs} located in the folder of the \texttt{FooModelExternalFunctions.cs} file by
 \begin{itemize}
 	\item fleshing out the partial classes skeletons with attributes containing data of interest and maybe helper methods
-	\item fleshing out the \texttt{ExternalFunctions} partial class skeleton with the functions you declared in the external function declarations, obeying the function signatures as specified; here you can access the now know attributes or methods of the external classes, or do complicated custom computations with the values you receive from a function call.
+	\item fleshing out the \texttt{ExternalFunctions} partial class skeleton with the functions you declared in the external function declarations, obeying the function signatures as specified; here you can access the now know attributes or methods of the external classes, or do complicated custom computations or graph querying with the values you receive from a function call.
+	\item fleshing out the \texttt{ExternalProcedures} partial class skeleton with the procedures you declared in the external procedure declarations, obeying the procedure signatures as specified; here you can access the now know attributes or methods of the external classes, or do complicated custom computations or graph manipulations with the values you receive from a procedure call.
 \end{itemize}
 
 \noindent Don't forget that the source code file \texttt{FooModelExternalFunctionsImpl.cs} is an integral part of your \GrG~graph transformation project, in contrast to the other C\# files generated (and overwritten) for you.

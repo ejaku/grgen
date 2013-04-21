@@ -497,8 +497,8 @@ For rewriting the execution order of the parts can be defined, to allow programm
 (A depth first run with a defined order in between the siblings, comparable to an LAG/RAG run in compiler construction, but with an explicitely defined sequence of children visits, instead of a temperal succession implicitely induced by the syntactical left-to-right ordering).
 In contrast to rewriting, the \emph{matching} order of the pattern parts can \emph{not} be defined, to allow the compiler/the runtime to use the evaluation order it estimates to be the best.
 So we can't access attributes from sibling elements, we can only compute attributes top down from local elements or elments handed in on matching, and later on bottom up from local elements or elements bubbleing up at match object tree construction.
-Top down attribute evaluation operates on the already matched elements and attribute values or the ones received as inputs, which are handed down implicitely into nested patterns or explicitely via subpattern parameters into subpattern instances. (A depth first run too, but without a defined order in between the siblings, comparable to an IAG run in compiler construction computed during matching while descending).
-Bottom up attribute evalutaion operates on the matched elements and attribute values locally available or the ones received into def elements yielded implicitely upwards from the nested patterns or explicitely accumulating iterated results or with assigning out parameters of subpatterns. (The same depth first run, but with attributes computed while ascending, comparable to an SAG run in compiler construction.)
+Top down attribute evaluation operates on the already matched elements and attribute values or the ones received as inputs, which are handed down implicitely into nested patterns or explicitely via subpattern parameters into subpattern instances. (A depth first run too, but without a defined order in between the siblings, comparable to an IAG run in compiler construction for computing inherited attributes during matching while descending).
+Bottom up attribute evalutaion operates on the matched elements and attribute values locally available or the ones received into def elements yielded implicitely upwards from the nested patterns or explicitely accumulating iterated results or with assigning out parameters of subpatterns. (The same depth first run, but with attributes computed while ascending, comparable to an SAG run in compiler construction for computing synthesized attributes.)
 \end{note}
 
 \subsection*{Yielding Outwards During Rewriting}\label{sub:yield} 
@@ -692,7 +692,10 @@ test sumOfWeight(start:Node) : (int,int)
 	} 
 
 	yield {
-		for{i in it; yield sum = sum + i};
+		for(i in it)
+		{
+		  yield sum = sum + i;
+		}
 	}
 
 	return (sum,v);

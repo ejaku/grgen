@@ -154,8 +154,8 @@ Arguments is a comma-separated list of variable names or visited flag ids, the g
 \begin{rail} 
   ExtendedControl: 
 	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')' |
-	(dollar (percent)? )? lbrace '(' ((RuleExecution)+(',')) ')' rbrace |
-	dollar (percent)? '.' '(' WeightedSequencesList ')'
+	dollar (percent)? '.' '(' WeightedSequencesList ')' |
+	(dollar (percent)? )? lbrace '<' ((RuleExecution)+(',')) '>' rbrace
 	;
   SequencesList:
 	RewriteSequence ((',' RewriteSequence)*())

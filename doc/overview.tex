@@ -56,9 +56,9 @@ We have organized the presentation of the features of the \GrG\ languages accord
   \item The graph model (meta-model) language supports:
   \begin{itemize}
     \item Typed nodes and edges, with multiple inheritance on types
-    \item Directed multigraphs (including multiple edges of the same type)
+    \item Directed multigraphs (supporting multiple edges of the same type between two nodes)
     \item Undirected and arbitrarily directed edges
-    \item Node and edge types can be equipped with typed attributes (like structs) including generic set, map, and array types
+    \item Node and edge types can be equipped with typed attributes (like structs), of the commonly known elementary types or of some container types
     \item Connection assertions to restrict the ``shape'' of graphs
     \item Turing complete language for checking complex conditions
   \end{itemize}
@@ -67,8 +67,10 @@ We have organized the presentation of the features of the \GrG\ languages accord
   \begin{itemize}
     \item Plain isomorphic subgraph matching (injective mapping)
     \item Homomorphic matching for a selectable set of pattern elements, so that they may match (non-injectively) the same graph element
+    \item Type conditions (including instanceof-like type expressions)
     \item Attribute conditions (e.g. arithmetic-,boolean-,string- or set-expressions on the attributes)
-    \item Type conditions (including powerful instanceof-like type expressions)
+    \item User-defined functions for complex attribute conditions, and graph querying
+    \item Subgraph extraction and graph comparison operators (graph isomorphism)
     \item Nested patterns, specifying negative and positive application conditions as well as iterated, optional, or alternative structures
     \item Subpatterns for pattern reuse, allowing via recursion to match substructures of arbitraty depth (e.g. iterated paths) and breadth (e.g multinodes)
     \item Parameter passing to rules and subpatterns
@@ -77,16 +79,17 @@ We have organized the presentation of the features of the \GrG\ languages accord
   \item The rewrite language supports:
   \begin{itemize}
     \item Keeping, adding and deleting graph elements according to the SPO approach
-	\item Choosing out of three additional rule application semantics: DPO or exact patterns only or induced subgraphs only
-    \item Attribute re-/calculation (assigning the result of e.g. arithmetic expressions to the attributes)
+    \item Choosing out of three additional rule application semantics: DPO or exact patterns only or induced subgraphs only
     \item Retyping of nodes/edges (a more general version of casts known from common programming languages)
-    \item Creation of new nodes/edges of only dynamically known types or as exact copies of other nodes/edges
-	\pagebreak
+    \item Creation of new nodes/edges of only dynamically known types or as exact copies of other
     \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match
+    \item Attribute re-/calculation (assigning the result of e.g. arithmetic expressions to the attributes)
+    \item User-defined procedures for complex attribute assignments, and graph manipulations
+%	\pagebreak
     \item A rewrite part for the nested patterns and subpatterns, so that complex structures can not only get matched (parsing), but also get rewritten (transduction)
     \item Embedded graph rewrite sequences capable of calling other rules (with access to the nodes/edges of the rule)
     \item Emitting user-defined text to \texttt{stdout} or files during the rewrite steps
-	\item Visited flags and storages to communicate between rule applications using state
+    \item Visited flags and storages to communicate between rule applications using state
     \item Parameter passing out of rules and subpatterns
   \end{itemize}
 
@@ -94,13 +97,13 @@ We have organized the presentation of the features of the \GrG\ languages accord
   \begin{itemize}
     \item Rule execution
     \item Logical and sequential connectives
-    \item Loops
-    \item Variable handling
-    \item Basic graph querying and manipulation
-    \item Visited flags and storages management
+    \item Decisions and loops for control-flow orchestration of the rule applications
+    \item Variables for data-flow orchestration of the rule applications
+    \item A computations sublanguage offering basic graph querying and manipulation\\
+     --- as well as visited flags and storages management
     \item Extended control (e.g decisions, transactions, backtracking, indeterministic choice)
-    \item Sequence definitions (procedural abstraction)
-    \item These constructs combined allow to program a state space enumeration
+    \item Sequence definitions (for procedural abstraction of rule application strategies)
+    \item These constructs combined allow to easily program searches or state space enumerations
   \end{itemize}
 \end{itemize}
 
@@ -121,20 +124,21 @@ which features commands for
 %\end{table}
 \begin{itemize}
 	\item graph management
+	\item graph import and export
 	\item graph validation
-	\item graph input and output
+	\item direct graph manipulation
 	\item graph change recording and replaying
-	\item graph manipulation
 	\item graph and model queries
-	\item graph visualisation (including \emph{nested} graphs keeping large graphs understandable)
-	\item action execution
-	\item \emph{debugging}
-	\item backend selection and usage
+	\item highly customizable graph visualisation\\(including automagically \emph{nested} graphs keeping large graphs understandable)
+	\item graph rewrite sequence execution
+	\item \emph{debugging} (step-by-step execution of the sequences, highlighting the matches of the rules  in the graph, and their changes to the graph)
+%	\item backend selection and usage
 \end{itemize}
 
 \noindent The debugging and graph visualisation commands are implemented in cooperation with the graph viewer \yComp.
 Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr.
 This way you can build your own algorithmic rule applications in a .NET language of your choice.
+The other way round you can include C\#-code into your specifications by using external types or calling external functions and procedures, as well as sequences.
 
 \pagebreak
 
@@ -490,6 +494,7 @@ If we apply $p_2$ to the modified $H_1$ this leads to
 All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}.
 Notice that the \yComp\ graph viewer is not a part of \GrG ; \yComp\ ships with its own license.
 Although \yComp\ is not free software, it's free for use in academic and non-commercial areas.
+This means especially that you are not allowed to ship it with a release of your own commercial software, in contrast to the \GrG libraries.
 You'll find the tools in the \texttt{bin} subdirectory of your \GrG\ installation.
 
 %\pagebreak
@@ -562,13 +567,14 @@ you may need to install a JDK to a non system path and add the bin folder of the
 For further information about the \GrShell\ language see Chapter~\ref{chapgrshell}.
 
 \begin{description}
-  \item[Usage] \texttt{[mono] grShell.exe [-N] [-C "<commands>"] <grshell-script>*} \\
+  \item[Usage] \texttt{[mono] grShell.exe [-N] [-SI] [-C "<commands>"] <grshell-script>*} \\
      Opens the interactive shell. The \GrShell\ will include and execute the commands in the optional list of \emph{grshell-script}s\indexmain{graph rewrite script} (usually \texttt{*\indexed{.grs}} files) in the given order.
 	 The \texttt{grs} suffixes may be omitted. \GrShell\ returns 0 on successful execution, or in non-interactive mode -1 if the specified shell script could not be executed, or -2 if a \texttt{validate} with \texttt{exitonfailure} failed.
   \item[Options] \mbox{}
     \begin{tabularx}{\linewidth}{lX}
       \texttt{-N} & Enables non-debug non-gui mode which exits on error with an error code instead of waiting for user input.\\
-      \texttt{-C} & Execute the quoted \GrShell\ commands immediately (before the first script file). Instead of a line break use a double semicolon \texttt{;;} to separate commands.
+      \texttt{-SI} & Show Includes prints out to the console when includes are entered and left.\\
+      \texttt{-C} & Execute the quoted \GrShell\ commands immediately (before the first script file). Instead of a line break use a double semicolon \texttt{;;} to separate commands. Take care that an exec inside such a command line needs to be exited with \indexed{\texttt{\#\S}} (to open and immediately close a shell comment, needed as exec terminator, because newline termination is not available here).
     \end{tabularx}
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above).
 \end{description}
@@ -577,7 +583,7 @@ For further information about the \GrShell\ language see Chapter~\ref{chapgrshel
 \subsection{\texttt{LibGr.dll}}
 \label{sct:API}
 The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}.
-See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_3_5/};
+See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_4_0/};
 a short introduction is given in chaper \ref{cha:api}.
 
 %-----------------------------------------------------------------------------------------------

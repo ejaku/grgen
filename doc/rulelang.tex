@@ -286,7 +286,7 @@ And some illegal graphlets:\\
 \label{ruledecls}
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
-  RuleSet: FileHeader ((TestDeclaration | RuleDeclaration | SubpatternDeclaration | RewriteSequenceDefinition)+) ;
+  RuleSet: FileHeader ((TestDeclaration | RuleDeclaration | SubpatternDeclaration | RewriteSequenceDefinition | ComputationDefinition)+) ;
   FileHeader: (ModelUsage)? ((RulesInclusion)*()) ((GlobalVarDecl)*());
   ModelUsage: 'using' ((ModelIdent)+',') ';';
   RulesInclusion: '\#include' Filename;
@@ -296,10 +296,13 @@ The structure of a \indexed{rule set} file is as follows:
 A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}, rewrite sequence definitions in \ref{sec:sequencedefinition}).
 (As a hint regarding the syntax diagrams: please note that the bottom rail in the \emph{RuleSet} diagram departs before the end and joins in after the \emph{FileHeader}, i.e. it denotes a looping back edge (a fast forward edge would have split and join points at the same positions but of the opposite direction)).
 Additionally you may \texttt{include} further rule set files (without \texttt{using} directives, we prefer to suffix them with \texttt{.gri} in this case).
-Furthermore, you may declare \indexed{graph global variable}s; this is a pure declaration that they will exist with the given type during execution. It renders them accessible in the rules (esp. the attribute condition and attribute evaluation), but you must define and assign them  before rule execution outside of the rules. See \ref{cha:xgrs} for more on this.
+
+Furthermore, you may declare \indexed{graph global variable}s; this is a pure declaration that they will exist with the given type during execution. It renders them accessible in the rules (esp. the attribute condition and attribute evaluation), but you must define and assign them  before rule execution outside of the rules. They are made available to allow for an easy parameterization of entire transformations, defining the environment; other uses are discouraged. See \ref{cha:xgrs} for more on this.
+
 In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations.
-There is (unfortunately) no built-in conflict resolution mechanism for models like packages or namespaces.
+There is no built-in conflict resolution mechanism for models like packages or namespaces.
 If necessary you must use prefixes as you might do in C.
+(We doubt that graph rewriting kernels will be combined from the work of \emph{many} programmers or used to built large application suites, so the simple model modularization available as of now should be sufficient or even a better fit for the overwhelming majority of tasks.)
 
 \begin{rail}
   TestDeclaration: TestModifier 'test' ActionSignature lbrace Pattern rbrace MatchFilter;
@@ -445,6 +448,7 @@ See Chapter~\ref{cha:xgrs} for further information on graph rewrite sequences.
     HomomorphySpecification ';' |
     ('exact' | 'induced') '(' (Ident+',') ')' |
     'if' lbrace (BooleanExpr ';' +) rbrace |
+    'if' '(' BooleanExpr ')' ';'|
     NestedPattern |
     SubpatternEntityDeclaration
     ;
