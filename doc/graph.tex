@@ -8,7 +8,7 @@
 Besides the types already introduced, \GrG\ offers supports for a \texttt{\indexed{graph}} type.
 If used explicitely, it denotes a subgraph of the host graph, which can be used for storing and comparing subgraphs of the current host graph (after subgraph extraction no further graph operations are possible (unless the API is used), because of the "there is only a single host graph"-design of GrGen).
 
-But more important are the large number of global functions (with function call syntax as already inroduced in \ref{sec:primexpr}, semantically distinguished into \emph{GlobalGraphFunctionCall}, cf. \ref{cha:computations}) that implicitely operate on the single host graph (and thus on the graph type).
+But more important are the large number of global functions (with call syntax as already inroduced in \ref{sec:primexpr}) and global procedures (with call syntax as already inroduced in \ref{sec:proccall}) that implicitely operate on the single host graph (and thus on the graph type).
 There are update functions available that allow to manipulate the graph available with \texttt{add}, \texttt{rem} and \texttt{retype}.
 The host graph may be queried for all \texttt{nodes} or \texttt{edges} of a given type.
 An edge may be queried for its \texttt{source} and \texttt{target} elements,
@@ -18,18 +18,19 @@ In the form of functions returning \texttt{set}s of nodes or edges, or in the fo
 The \texttt{induced} subgraph of a set of nodes or edges may be computed, or directly \texttt{insert}ed into the host graph.
 
 Furthermore, \texttt{visited} flags may be used for marking already visited elements during graph walks or for partitioning a graph.
-These operations are available in the rule language, as an extension of the expressions from \ref{cha:typeexpr} and the computation statements from \ref{cha:computations}; 
+These operations are available in the rule language, as function atoms of the expression sublanguage from \ref{cha:typeexpr}, and as procedure atoms of the statement sublanguage from \ref{cha:computations}; 
 most of them are available in the sequence computations language, too
-(\ref{sec:seqcomp} and \ref{sec:seqcomp} will tell about the differences compared to the rule language).
+(\ref{sec:seqcomp} will tell about the differences compared to the rule language).
 
+The graph manipulation procedures, the transaction handling procedures, and the visited flag management and assignment procedures are not available in the function abstraction; they may only be called from the procedures.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Global Graph Functions}\indexmain{global graph functions}\label{neighbouringelementsfunctions}
+\section{Graph Functions And Procedures}\indexmain{graph functions}\indexmain{graph procedures}\label{neighbouringelementsfunctions}
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Graph Updates / Basic Graph Manipulation}
 
-There are functions to update the graph by adding or removing or retyping available, on nodes and edges: 
+There are procedures to update the graph by adding or removing or retyping available, on nodes and edges: 
 
 \begin{description}
 \item[\texttt{add(.)}] adds a new node of the given node type to the host graph, returns the added node.
@@ -39,7 +40,7 @@ There are functions to update the graph by adding or removing or retyping availa
 \item[\texttt{clear()}] clears the host graph.
 \end{description}
 
-\noindent Besidse those basic graph manipulation functions, the advanced rewriting operations are available as statements, too:
+\noindent Besidse those basic graph manipulation functions, some advanced rewriting operations are available as procedures, too:
 
 \begin{description}
 \item[\texttt{merge(.,.)}] merges the source node given as second argument into the target node given as first argument.
@@ -224,7 +225,7 @@ The reachable iteration is the most concise way to note down a depth first walk 
 %-----------------------------------------------------------------------------------------------
 \subsection{Induced Subgraph Computation and Insertion to Host Graph}
 
-Functions that allow to compute (node-or-edge) induced subgraphs, and to insert clones of induced subgraphs are available.
+Functions that allow to compute (node-or-edge) induced subgraphs, and procedures to insert clones of induced subgraphs are available.
 They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
 
 \begin{description}
@@ -273,7 +274,7 @@ This will save you from the cost of repeated search planning; in addition, often
 \section{Visited Flags} \label{sub:visitedaccess}\indexmain{visited access}
 
 The boolean \texttt{visited} flags may be used for marking already visited graph elements during graph walks or for partitioning a graph.
-They may be queried with a function of the expressions, and set in the computations (extended attribute evaluation functions).
+They may be queried with a function of the expressions, and set or administered with procedures of the computations.
 The following syntax diagram gives an extensions to the \emph{Expression} clause of chapter \ref{cha:typeexpr} and an extension to the computation \emph{Statements} of chapter \ref{cha:computations}:
 
 \begin{rail}
@@ -291,7 +292,7 @@ Due to this flags must get allocated before they are used and deallocated afterw
 If you try to access a not previously allocated visited flag, an exception is thrown.
 
 \begin{rail}
-  FunctionName: 'valloc' | 'vfree' | 'vreset' | 'vfreenonreset';
+  ProcedureName: 'valloc' | 'vfree' | 'vreset' | 'vfreenonreset';
 \end{rail}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{vreset}\ixkeyw{vfreenonreset}
 
 The operations managing the visited flags are:
@@ -308,11 +309,13 @@ This function internally calls a \texttt{vreset} to ensure that no corresponding
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Transaction Handling}\label{sub:transaction}
+\section{Graph Processing Environment Procedures}
 
-In addition to the functions implemented directly in the graph there are the transaction manager functions available, implemented in the graph processing environment.
+\subsection{Transaction Handling}\label{sub:transaction}
+
+In addition to the procedures implemented directly in the graph, there are transaction manager procedures available, implemented in the graph processing environment.
 While a transaction is underway, an undo log is filled with commands to undo the changes that occured in the graph in the meantime.
-Those transaction handling functions are:
+Those transaction handling procedures are:
 
 \begin{description}
 \item[\texttt{startTransaction()}] starts a transaction and returns its transaction id (as number of type \texttt{int}).
@@ -323,3 +326,13 @@ Those transaction handling functions are:
 \end{description}
 
 Please note that transactions may be nested; those functions are used in implementing the transaction and backtracking constructs explained in \ref{sec:extctrl}.
+
+
+\subsection{Misc. Global Procedures}
+
+Besides there are procedures to emit text or record graph changes available: 
+
+\begin{description}
+\item[\texttt{emit(.)}] writes the argument value, typically a test string, to stdout, or to a file if output was redirected. 
+\item[\texttt{record(.)}] writes the argument value, typically a text string, to the graph change record.
+\end{description}

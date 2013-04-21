@@ -100,6 +100,12 @@ In the following example \emph{river} and \emph{jam} are info tags:
 \end{center}
 
 \begin{rail}
+  'dump' 'add' 'graph' 'exclude';
+  'dump' 'set' 'graph' 'exclude' 'option' ContextDepth;  
+\end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{graph}\ixkeyw{exclude}\ixkeyw{option}
+The dump graph exclude commands allow to suppress the display of the graph during debugging. Instead only the match of the current rule is shown, plus some context up do a certain depth, plus the parent nodes according to the nesting commands. The default depth is 1, i.e. the match plus its direct neighbours are displayed (plus the nesting nodes); you may set it to 0 or a higher value. These commands allow you to still use the debugger if the graph as such is too large to be layed out (or laying it out takes too long to be convenient).
+
+\begin{rail}
   'dump' 'reset'
 \end{rail}\ixkeyw{dump}\ixkeyw{reset}
 Resets all style options (\texttt{dump set}\dots) and (\texttt{dump add}\dots) to their default values.

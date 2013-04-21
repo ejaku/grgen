@@ -16,10 +16,20 @@ Registers a new attribute type with \GrG. You may declare the base types of the 
 \begin{rail}
   ExternalFunctionDeclaration: IdentDecl '(' ( () | (Type + ',') ) ')' ':' Type ';';
 \end{rail}\ixnterm{ExternalFunctionDeclaration}
-Registers an \indexed{external function} with \GrG~to be used in attribue computation.
+Registers an \indexed{external function} with \GrG~to be used in attribute computations.
 An external function declaration specifies the expected input types and the output type. The function must be implemented externally, see \ref{sub:extclsfctimpl}.
 An external function call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types; the real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in as well as of the external attribute types.
-You may extend \GrG~with external functions if the built-in attribute computation capabilities (cf. \ref{sub:expr}) are insufficient for your needs.
+You may extend \GrG~with external functions if the built-in attribute computation capabilities (cf. \ref{sub:expr}) or graph querying capabilities are insufficient for your needs.
+
+%-----------------------------------------------------------------------------------------------
+\section{External Procedure Types}\label{sub:extproc}
+\begin{rail}
+  ExternalProcedureDeclaration: IdentDecl '(' ( () | (Type + ',') ) ')' ( ':' '(' (Type + ',') ')' )? ';';
+\end{rail}\ixnterm{ExternalProcedureDeclaration}
+Registers an \indexed{external procedure} with \GrG~to be used in attribute computations.
+An external procedure declaration specifies the expected input types and the output types. The procedure must be implemented externally, see \ref{sub:extclsfctimpl}.
+An external procedure call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types; the real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in as well as of the external attribute types.
+You may extend \GrG~with external procedures if the built-in attribute computation capabilities (cf. \ref{sub:expr}) or graph manipulation capabilities are insufficient for your needs.
 
 %-----------------------------------------------------------------------------------------------
 \section{External Match Filters}\label{sub:extflt}

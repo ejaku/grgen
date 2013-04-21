@@ -1,5 +1,68 @@
-﻿v4.0alpha (2013-03-29)
+﻿v4.0alpha2 (2013-04-21)
+ Split computation abstraction into functions and procedures
+   Functions are not allowed to manipulate the graph, and return exactly one result.
+   Procedures may manipulate the graph, and can return 0-k results.
+   (Computations are the general concept, split into side-effect-free ones and the others.)
+ - You may declare functions with syntax
+   name(parameters) : return-type { statements }
+ - And procedures with syntax
+   name(parameters) : (return parameters) { statements }
+ - The declared functions can be used from rule language expressions and from sequence expressions
+   with syntax name(arguments), yielding the computed value.
+ - The declared procedures can be used from rule language evaluations and from sequence computations
+   with syntax (out-variables) = name(arguments), assigning the output values to the out-variables,
+   (i.e. similar to rule calls in the sequence);   
+   or just name(arguments), throwing away output values 
+   (in case there are some, a procedure may be declared without output parameters)
+ - Generalized return statements to versions with 0 - k return values to be used for computations
+ 
+ The previously built-in special side-effect-functions
+  add, retype, insertInduced, insertDefined, valloc, startTransaction
+  are _only_ available as procedure calls from now on, as well as to the old "procedures"
+  emit, highlight, record,
+  clear, remove, merge, redirectSource, redirectTarget, redirectSourceAndTarget,
+  vfree, vfreenonreset, vreset,
+  pauseTransaction, resumeTransaction, commitTransaction, rollbackTransaction.
+  (So (id)=valloc() instead of id=valloc(), and only as statement,
+   or def var id:int; (id)=valloc() instead of def var id:int = valloc())
 
+ Implemented retype procedure in sequence computations:
+  (node-var)=retype(old-node-var, new-node-type)
+  (edge-var)=retype(old-edge-var, new-edge-type)
+
+ Implemented external procedures in addition to external functions (and external sequences)
+
+ Syntax of the one-of-set/some-of-set changed from {(...)} to {<...>}
+  (because it would otherwise collide with {(...)=p(...)} for a procedure call
+
+ Implemented graph comparison operators (==,!=,~~) in rule language
+  
+ Added highlight statement to computations:
+  highlights the nodes/edges or visited flags or storages in the graph that are given as arguments,
+  similar to the highlight statement of the sequences/of the debugger.
+ Highlighting extended:
+  - if a string typed value is given, it is used as annotation for the previous value
+  - the same exclude graph (layout) rules that apply to matches apply to highlighting
+ 
+ Added commands to suppress graph display during debugging
+  instead only the match of the current rule is shown,
+  plus some context up do a configured depth,
+  plus the parent nodes according to the nesting commands;
+  these commands allow to still use the debugger if the graph as such is too large to be layed out.
+
+ Shell comments are not terminated at # any more, this just feels awkward;
+  instead § can be used as shell comment terminator.
+  (For usage with "-C" commands given as argument to GrShell, to break out of an exec.)
+
+ Added show includes "-SI" option to shell to print entry and exit of include.
+
+ Fixes: 
+  - sequence computations in frontend now open a scope
+  - canonize used from rule language had internally a wrong type
+  - some error message improvements
+  - added checks for correct usage of return, break, continue
+
+v4.0alpha (2013-03-29)
  Extended attribute evaluations to general computations 
  -- with general control flow constructs:
  - Allowed to declare attribute evaluation functions (computations) with syntax

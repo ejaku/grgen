@@ -28,14 +28,15 @@ the value of the compound computation is the value of the last computation (so y
      VariableDeclaration |
      Assignment |
      MethodCall |
-     FunctionCall |
+     ProcedureCall |
      SequenceExpression
   ;
 	Assignment:	AssignmentTarget '=' (SequenceExpression | Assignment); 
 	MethodCall: (Variable | GraphElement '.' Attribute) (SingleMethodCall +);
 	SingleMethodCall: '.' MethodName '(' Arguments ')';
-	FunctionCall: FunctionName '(' Arguments ')';
+	ProcedureCall: ('(' Variables ')' '=')? ProcedureName '(' Arguments ')';
 	Arguments: (SequenceExpression * ',');
+	Varibales: (Variable + ',');
 \end{rail}\ixnterm{Computation}\label{recstmt}\indexmain{record}\indexmain{emit}
 
 A variable declaration declares a local variable in the same way as in the sequences.
@@ -48,11 +49,11 @@ It may be chained; such a method call chain is executed from left to right.
 This is possible with storage changing methods which return the variable again, better: which return the then altered variable. 
 They were already explained in \ref{sec:storages}.
 
-A function call executes a (predefined) function, passing further arguments.
-In addition to the visited flag functions which were already explained in more detail in \ref{sec:visited},
-\texttt{emit}, \texttt{record}, and \texttt{export} function calls can be given here: the emit function writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
-The record function writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
-The export function exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
+A procedure call executes a (built-in or user defined) procedure, passing further arguments.
+In addition to the visited flag functions and procedures which were already explained in more detail in \ref{sec:visited},
+\texttt{emit}, \texttt{record}, and \texttt{export} procedure calls can be given here: the emit procedure writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
+The record procedure writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
+The export procedure exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
 It behaves like the export command from the GrShell, see \ref{outputcmds}.
 Having it available in the sequences allows for programmed exporting, and exporting of parts of the graph, with the subgraph containment just computed.
 
@@ -61,7 +62,7 @@ which is intended to provide a canonical string representation for any graph, bu
 The function currently uses the SMILES\cite{SMILES} method of producing an equitable partition of graph nodes, not a canonical order; while not offering full fledged graph conanization this algorithm is sufficient for many purposes. 
 It allows to reduce graph comparisons to string comparisons, at the price of computing the Weininger algorithm for equitable partitions of nodes.
 
-Besides those predefined functions, you may call computation functions, defined in the rules file; cf. \ref{sub:compdef}.
+Besides those predefined procedures (and functions), you may call user procedures (and functions), defined in the rules file; cf. \ref{sub:compdef}.
 
 Finally, an expression (without side effects) can be evaluated, this allows to return a (boolean) value from a computation.
 
@@ -90,7 +91,7 @@ Further on, the attributes of graph elements may be written to, the values at gi
     PrimarySequenceExpression;
 \end{rail}\ixnterm{SequenceExpression}
 
-Sequence expressions are basically a subset of the expressions introduced in \ref{sub:expr}.
+Sequence expressions are a subset of the expressions introduced in \ref{sub:expr}, containing the boolean and comparison operators, but only a small bit of the other operators.
 
 \begin{rail}
   ConditionalSequenceExpression: 
@@ -154,7 +155,7 @@ this means esp. that a Variable may denote a graph global variable if prefixed w
     GraphElement '.' Attribute '[' SequenceExpression ']' |
     GraphElement '.' 'visited' '[' SequenceExpression ']' |
     MethodCall |
-    FunctionCall;
+    ProcedureCall;
   ;
 \end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{visited}
 
@@ -177,6 +178,7 @@ The first group is built from basic graph manipulation operators used for adding
 \item[\texttt{add(.)}] creates a node of the given type and adds it to the host graph.
 \item[\texttt{add(.,.,.)}] creates an edge of the given type and adds it to the host graph, starting at the node given as second argument, ending at the node given as third argument.
 \item[\texttt{rem(.)}] removes the given node or edge from the graph.
+\item[\texttt{retpye(.,.)}] retypes the given node or edge to the node or edge type given as second argument.
 \item[\texttt{clear()}] clears the host graph.
 \end{description}
 
@@ -186,8 +188,8 @@ See \ref{neighbouringelementsfunctions} for more on them; they were moved to an 
 they are available in the expressions of the rules, too.
 
 \subsubsection*{Subgraph Operations}\label{subgraphoperations}
-The third group is defined by functions which operate on (sub-)graphs:
-It contains functions which allow to compute (node-or-edge) induced subgraphs, and to insert clones of induced subgraphs.
+The third group is defined by functions and procedures that operate on (sub-)graphs:
+It contains functions which allow to compute (node-or-edge) induced subgraphs, and procedures to insert clones of induced subgraphs.
 They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
 
 \begin{description}
@@ -213,7 +215,7 @@ The operations always return true as sequence results (with exception of the ope
 if you try to access a not previously allocated visited flag, an exception is thrown.
 
 \begin{rail}
-  FunctionName: 'valloc' | 'vfree' | 'vreset' | 'vfreenonreset';
+  ProcedureName: 'valloc' | 'vfree' | 'vreset' | 'vfreenonreset';
 \end{rail}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{vreset}\ixkeyw{vfreenonreset}
 
 The operations managing the visited flags are:
