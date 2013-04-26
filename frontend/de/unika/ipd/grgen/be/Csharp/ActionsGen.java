@@ -2749,6 +2749,22 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, sct.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof ArcSinCosTanExpr) {
+			ArcSinCosTanExpr asct = (ArcSinCosTanExpr)expr;
+			switch(asct.getWhich()) {
+			case ArcSinCosTanExpr.ARC_SIN:
+				sb.append("new GRGEN_EXPR.ArcSin(");
+				break;
+			case ArcSinCosTanExpr.ARC_COS:
+				sb.append("new GRGEN_EXPR.ArcCos(");
+				break;
+			case ArcSinCosTanExpr.ARC_TAN:
+				sb.append("new GRGEN_EXPR.ArcTan(");
+				break;
+			}
+			genExpressionTree(sb, asct.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof CanonizeExpr) {
 			CanonizeExpr c = (CanonizeExpr) expr;
 			sb.append("new GRGEN_EXPR.Canonize(");

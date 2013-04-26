@@ -1,0 +1,41 @@
+foo() : double
+{
+	def var temp1:double = arcsin(0.0);
+	def var temp2:double = arccos(0.0);
+	def var temp3:double = arctan(0.0);
+	return(temp1+temp2+temp3);
+}
+
+test t : (double)
+{
+	def var res:double;
+	
+	independent {
+		yield {
+			def var temp1:double = arcsin(0.0);
+			def var temp2:double = arccos(0.0);
+			def var temp3:double = arctan(0.0);
+			yield res = temp1+temp2+temp3;
+		}
+	}
+	
+	return (res);
+}
+
+rule r : (double)
+{	
+	if(arcsin(0.0)+arccos(0.0) == arctan(0.0));
+	
+	modify {
+		def var res:double;
+		
+		eval { 
+			def var temp1:double = arcsin(0.0);
+			def var temp2:double = arccos(0.0);
+			def var temp3:double = arctan(0.0);
+			yield res = temp1+temp2+temp3;
+		}
+		
+		return (res);
+	}
+}

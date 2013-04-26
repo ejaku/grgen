@@ -103,6 +103,30 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TAN, params.get(0));
 		}
+		else if(functionName.equals("arcsin")) {
+			if(params.size() != 1) {
+				reportError("arcsin(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ARC_SIN, params.get(0));
+		}
+		else if(functionName.equals("arccos")) {
+			if(params.size() != 1) {
+				reportError("arccos(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ARC_COS, params.get(0));
+		}
+		else if(functionName.equals("arctan")) {
+			if(params.size() != 1) {
+				reportError("arctan(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ARC_TAN, params.get(0));
+		}
 		else if(functionName.equals("pow")) {
 			if(params.size() == 2) {
 				result = new PowExprNode(getCoords(), params.get(0), params.get(1));
