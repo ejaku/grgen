@@ -1447,6 +1447,22 @@ public abstract class CSharpBase {
 			genExpression(sb, sct.getExpr(), modifyGenerationState);
 			sb.append(")");
 		}
+		else if (expr instanceof ArcSinCosTanExpr) {
+			ArcSinCosTanExpr asct = (ArcSinCosTanExpr)expr;
+			switch(asct.getWhich()) {
+			case ArcSinCosTanExpr.ARC_SIN:
+				sb.append("Math.Asin(");
+				break;
+			case ArcSinCosTanExpr.ARC_COS:
+				sb.append("Math.Acos(");
+				break;
+			case ArcSinCosTanExpr.ARC_TAN:
+				sb.append("Math.Atan(");
+				break;
+			}
+			genExpression(sb, asct.getExpr(), modifyGenerationState);
+			sb.append(")");
+		}
 		else if (expr instanceof CanonizeExpr) {
 			CanonizeExpr c = (CanonizeExpr)expr;
 			sb.append("(");

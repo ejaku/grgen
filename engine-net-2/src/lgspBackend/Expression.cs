@@ -4188,6 +4188,81 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the arcus sinus value
+    /// </summary>
+    public class ArcSin : Expression
+    {
+        public ArcSin(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArcSin(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Asin(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the arcus cosinus value
+    /// </summary>
+    public class ArcCos : Expression
+    {
+        public ArcCos(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArcCos(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Acos(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the arcus tangens value
+    /// </summary>
+    public class ArcTan : Expression
+    {
+        public ArcTan(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArcTan(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Atan(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
     /// Class representing expression returning a canonical string representation of a graph
     /// </summary>
     public class Canonize : Expression

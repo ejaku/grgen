@@ -3503,6 +3503,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 		{
 			if( (id.toString().equals("min") || id.toString().equals("max")) && params.getChildren().size()==2
 				|| (id.toString().equals("sin") || id.toString().equals("cos") || id.toString().equals("tan")) && params.getChildren().size()==1
+				|| (id.toString().equals("arcsin") || id.toString().equals("arccos") || id.toString().equals("arctan")) && params.getChildren().size()==1
 				|| (id.toString().equals("pow") || id.toString().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
 				|| id.toString().equals("abs") && params.getChildren().size()==1
 				|| (id.toString().equals("nodes") || id.toString().equals("edges")) && params.getChildren().size()<=1
