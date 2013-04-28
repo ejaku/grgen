@@ -1,3 +1,7 @@
+enum Foo { 
+	bar, baz, qux
+}
+
 node class A {
 	by : byte = (byte)42;
 	sh : short = (short)42;

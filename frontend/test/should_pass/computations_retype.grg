@@ -1,6 +1,6 @@
 using model_init;
 
-foo() : set<Node>
+foo() : (set<Node>)
 {
 	def res1:Node;
 	(res1) = add(Node);
@@ -44,8 +44,9 @@ rule r()
 			(res3b) = retype(res4, Edge);
 			def -res4b:E1->;
 			(res4b) = retype(res3, E1);
+			(yield res)=foo();
 
-			yield res = foo() | { res1 };
+			yield res = res | { res1 };
 		}
 	}
 }

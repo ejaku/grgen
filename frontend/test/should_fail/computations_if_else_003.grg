@@ -1,0 +1,15 @@
+rule buh(var x:int)
+{
+	modify {
+		eval {
+			if(x==1) {
+				x = 1;
+			} else {
+				x = 2;
+			} else {
+				x = 3;
+			}
+		}
+	}
+}
+

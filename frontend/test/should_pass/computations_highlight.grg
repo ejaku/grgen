@@ -6,6 +6,12 @@ foo(n:Node) : string
 	return("muh");
 }
 
+bar(n:Node) : (string)
+{
+	highlight(42, n, "foo");
+	return("muh");
+}
+
 test t()
 {
 	independent {

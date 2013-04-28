@@ -1,0 +1,14 @@
+rule r : (int)
+{	
+	modify {
+		def var res:int = 42;
+		
+		eval { 
+			do {
+				yield res = res - 1;
+			} while(res > 1);
+		}
+		
+		return (res);
+	}
+}

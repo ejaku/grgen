@@ -1,0 +1,12 @@
+rule r : (int, int)
+{
+	independent {
+		yield {
+			return (0,1);
+		}
+	}
+	
+	modify {
+		return (0,1);
+	}
+}

@@ -1,0 +1,17 @@
+using model_init;
+
+func(-e:E1->) : Edge
+{
+	return(e);
+}
+
+rule r
+{
+	-e:Edge->;
+	modify {
+		eval {
+			def -e1:Edge-> = func(e);
+		}
+	}
+}
+

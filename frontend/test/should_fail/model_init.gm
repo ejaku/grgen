@@ -1,0 +1,55 @@
+enum Foo { 
+	bar, baz, qux
+}
+
+node class A {
+	by : byte = (byte)42;
+	sh : short = (short)42;
+	i1 : int = 42;
+	l : long = 0xdeadbeefl;
+	f  : float = 42.815f;
+	s  : string = "hello world";
+	i2 : int = i1 * (int)f;
+	f = 42.815f;
+	i2 = i1 * (int)f;
+	b : boolean = true;
+
+    m : map<string, Node>;
+    ar : array<Node>;
+    de : deque<Node>;
+    se : set<string>;
+}
+
+node class B extends A {
+	i1 = 42;
+	f = f * f;
+	i3 : int = 43;
+	i2 = i3 / i2;
+}
+
+node class BB extends B {
+	i1 = 42;
+	f = f * f;
+	i4 : int = 43;
+	i2 = i3 / i2;
+}
+
+node class C extends B, BB;
+
+node class CC extends C {
+	i5 : int = 18;
+	i1 = i2 + i3 + i4 * i5;
+}
+
+edge class E1 {
+	i1 : int;
+}
+
+edge class E2 {
+	i2 : int = 23;
+}
+
+edge class EE extends E1, E2 {
+	i1 = i2 + 42;
+}
+

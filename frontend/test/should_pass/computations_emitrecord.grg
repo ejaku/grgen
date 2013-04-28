@@ -5,6 +5,14 @@ foo(n:Node) : string
 	emit("bar");
 	emit(42);
 	emit(n);
+	return("muh");
+}
+
+bar(n:Node) : (string)
+{
+	emit("bar");
+	emit(42);
+	emit(n);
 	record("bar");
 	record(42);
 	record(n);
@@ -19,9 +27,6 @@ test t()
 			emit("bar");
 			emit(42);
 			emit(n);
-			record("bar");
-			record(42);
-			record(n);
 		}
 	}
 }

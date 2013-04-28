@@ -1,0 +1,11 @@
+pattern p()
+{
+	yield {
+		continue;
+	}
+	
+	modify {
+		eval {
+		}
+	}
+}

@@ -1,0 +1,18 @@
+using model_init;
+
+proc(-e:E1->) : (Edge)
+{
+	return(e);
+}
+
+rule r
+{
+	-e:Edge->;
+	modify {
+		eval {
+			def -e1:Edge->;
+			(e1) = proc(e);
+		}
+	}
+}
+

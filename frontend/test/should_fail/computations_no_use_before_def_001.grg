@@ -1,0 +1,7 @@
+one() : int
+{
+	res = 1;
+	def var res:int;
+	return(res);
+}
+

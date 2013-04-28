@@ -12,6 +12,7 @@ some(n:A, -e:E1->) : boolean
 	f = 42.815f;
 	i2 = i1 * (int)f;
 	def var b:boolean = true;
+	def var enu:Foo = Foo::bar;
 
 	return(n.b);
 }
@@ -32,6 +33,7 @@ test t(n:A, -e:E1->) : (boolean)
 			f = 42.815f;
 			i2 = i1 * (int)f;
 			def var b:boolean = true;
+			def var enu:Foo = Foo::bar;
 
 			yield res = n.b;
 		}
@@ -56,6 +58,7 @@ rule r(n:A, -e:E1->, var x:int) : (boolean)
 			f = 42.815f;
 			i2 = i1 * (int)f;
 			def var b:boolean = true;
+			def var enu:Foo = Foo::bar;
 
 			yield res = n.b;
 		}
@@ -79,6 +82,7 @@ pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var r
 				f = 42.815f;
 				i2 = i1 * (int)f;
 				def var b:boolean = true;
+				def var enu:Foo = Foo::bar;
 
 				yield res = n.i1 + i1;
 			}
@@ -93,6 +97,7 @@ pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var r
 				f = 42.815f;
 				i2 = i1 * (int)f;
 				def var b:boolean = true;
+				def var enu:Foo = Foo::bar;
 
 				yield res = n.i1 + i1;
 			}
@@ -111,6 +116,7 @@ pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var r
 			f = 42.815f;
 			i2 = i1 * (int)f;
 			def var b:boolean = true;
+			def var enu:Foo = Foo::bar;
 
 			yield resres = n.i1 + i1;
 		}
@@ -125,6 +131,7 @@ pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var r
 			f = 42.815f;
 			i2 = i1 * (int)f;
 			def var b:boolean = true;
+			def var enu:Foo = Foo::bar;
 
 			yield resres = n.i1 + i1;
 		}

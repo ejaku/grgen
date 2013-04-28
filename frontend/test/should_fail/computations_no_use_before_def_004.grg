@@ -1,0 +1,21 @@
+muh() : (int)
+{
+	def var res:int;
+	res = 1;
+	return(res);
+}
+
+rule r : (int)
+{	
+	modify {
+		def var res:int;
+		
+		eval { 
+			(resres) = muh();
+			def var resres:int;
+			yield res = resres;
+		}
+		
+		return (res);
+	}
+}

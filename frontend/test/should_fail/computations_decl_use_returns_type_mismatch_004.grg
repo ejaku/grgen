@@ -1,0 +1,7 @@
+using model_init;
+
+proc(b:Node) : (B)
+{
+	return(b);
+}
+

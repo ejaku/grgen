@@ -110,7 +110,7 @@ public class ReturnStatementNode extends EvalStatementNode {
 		//check the number of returned elements
 		if (actualNumRets != declaredNumRets) {
 			res = false;
-			returnValueExprs.reportError("Trying to return " + actualNumRets + " values, but expected are " + declaredNumRets + "values, for " + ident);
+			returnValueExprs.reportError("Trying to return " + actualNumRets + " values, but expected are " + declaredNumRets + " values, for " + ident);
 		}
 		return res;
 	}

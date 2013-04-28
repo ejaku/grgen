@@ -1,0 +1,15 @@
+var ::glob:int;
+
+onetwo() : (int, int)
+{
+	if(::glob==42) {
+		return(1,2);
+	} else if(::glob!=0) {
+		if(::glob==1) {
+			return(0,1);
+		} else {
+		}
+	} else {
+		return(2,3);
+	}
+}

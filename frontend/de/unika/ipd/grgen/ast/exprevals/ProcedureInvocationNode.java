@@ -294,6 +294,10 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 	public int getNumReturnTypes() {
 		return result.getType().size();
 	}
+	
+	public String getProcedureName() {
+		return procedureIdent.toString();
+	}
 
 	@Override
 	protected IR constructIR() {
