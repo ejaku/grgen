@@ -47,10 +47,23 @@ namespace de.unika.ipd.grGen.lgsp
         public void Initialize(LGSPGraph graph, LGSPActions actions)
         {
             SetClearVariables(false);
-            this.graph = graph;
+            this.Graph = graph;
             this.Actions = actions;
             ((Recorder)recorder).Initialize(graph as LGSPNamedGraph, this);
             SetClearVariables(true);
+        }
+
+        public void SwitchToSubgraph(IGraph newGraph)
+        {
+            usedGraphs.Push((LGSPGraph)newGraph);
+            SwitchingToSubgraph(newGraph);
+        }
+
+        public IGraph ReturnFromSubgraph()
+        {
+            IGraph oldGraph = usedGraphs.Pop();
+            ReturningFromSubgraph(usedGraphs.Peek());
+            return oldGraph;
         }
 
         void RemovingNodeListener(INode node)
@@ -254,6 +267,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else parameters = null;
 
+            if(paramBindings.Subgraph != null)
+                SwitchToSubgraph((IGraph)paramBindings.Subgraph.GetVariableValue(this));
+
             if(PerformanceInfo != null) PerformanceInfo.StartLocal();
             IMatches matches = paramBindings.Action.Match(this, curMaxMatches, parameters);
             if(PerformanceInfo != null) PerformanceInfo.StopMatch();
@@ -262,11 +278,21 @@ namespace de.unika.ipd.grGen.lgsp
                 paramBindings.Action.Filter(this, matches, filter);
 
             Matched(matches, null, special);
-            if(matches.Count == 0) return 0;
+            if(matches.Count == 0)
+            {
+                if(paramBindings.Subgraph != null)
+                    ReturnFromSubgraph();
+                return 0;
+            }
 
             if(PerformanceInfo != null) PerformanceInfo.MatchesFound += matches.Count;
 
-            if(test) return matches.Count;
+            if(test)
+            {
+                if(paramBindings.Subgraph != null)
+                    ReturnFromSubgraph();
+                return matches.Count;
+            }
 
             Finishing(matches, special);
 
@@ -278,6 +304,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             Finished(matches, special);
 
+            if(paramBindings.Subgraph != null)
+                ReturnFromSubgraph();
             return matches.Count;
         }
 
@@ -598,10 +626,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public bool ValidateWithSequence(Sequence seq)
         {
-            LGSPGraph old = graph;
-            graph = (LGSPGraph)graph.Clone("clonedGraph");
+            SwitchToSubgraph(graph.Clone("clonedGraph"));
             bool valid = seq.Apply(this);
-            graph = old;
+            ReturnFromSubgraph();
             return valid;
         }
 
@@ -638,9 +665,24 @@ namespace de.unika.ipd.grGen.lgsp
 
         #region Events
 
+        public event SwitchToSubgraphHandler OnSwitchingToSubgraph;
+        public event ReturnFromSubgraphHandler OnReturningFromSubgraph;
+        
         public event EnterSequenceHandler OnEntereringSequence;
         public event ExitSequenceHandler OnExitingSequence;
         public event EndOfIterationHandler OnEndOfIteration;
+
+        private void SwitchingToSubgraph(IGraph graph)
+        {
+            SwitchToSubgraphHandler handler = OnSwitchingToSubgraph;
+            if(handler != null) handler(graph);
+        }
+
+        private void ReturningFromSubgraph(IGraph graph)
+        {
+            ReturnFromSubgraphHandler handler = OnReturningFromSubgraph;
+            if(handler != null) handler(graph);
+        }
 
 
         public void EnteringSequence(Sequence seq)

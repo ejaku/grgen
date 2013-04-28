@@ -14,6 +14,21 @@ namespace de.unika.ipd.grGen.libGr
     #region GraphProcessingDelegates
 
     /// <summary>
+    /// Represents a method called directly after graph processing switched to a subgraph.
+    /// (Graph processing means rule and sequence execution. Not called when the main graph is replaced.)
+    /// </summary>
+    /// <param name="graph">The graph switched to.</param>
+    public delegate void SwitchToSubgraphHandler(IGraph graph);
+
+    /// <summary>
+    /// Represents a method called directly after graph processing returned back after a switch.
+    /// (To the main graph, or a subgraph previously switched to. Graph processing means rule and sequence execution.)
+    /// </summary>
+    /// <param name="graph">The graph returned to.</param>
+    public delegate void ReturnFromSubgraphHandler(IGraph graph);
+
+
+    /// <summary>
     /// Represents a method called directly after a sequence has been entered.
     /// </summary>
     /// <param name="seq">The current sequence object.</param>
@@ -34,10 +49,26 @@ namespace de.unika.ipd.grGen.libGr
 
 
     /// <summary>
-    /// An environment for the advanced processing of graphs / execution of sequences.
+    /// An environment for the advanced processing of graphs and the execution of sequences.
+    /// With global variables, textual output, (sub)graph switching, and transaction management.
     /// </summary>
     public interface IGraphProcessingEnvironment : IActionExecutionEnvironment
     {
+        /// <summary>
+        /// Switches the graph to the given (sub)graph.
+        /// (One level added to the current graph stack.)
+        /// </summary>
+        /// <param name="newGraph">The new graph to use as current graph</param>
+        void SwitchToSubgraph(IGraph newGraph);
+
+        /// <summary>
+        /// Returns from the last switch to subgraph.
+        /// (One level back on the current graph stack.)
+        /// </summary>
+        /// <returns>The lastly used (sub)graph, now not used any more</returns>
+        IGraph ReturnFromSubgraph();
+
+
         /// <summary>
         /// Returns the transaction manager of the graph.
         /// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
@@ -271,6 +302,19 @@ namespace de.unika.ipd.grGen.libGr
         
         
         #region Events
+
+        /// <summary>
+        /// Fired when graph processing (rule and sequence execution) is switched to a (sub)graph.
+        /// (Not fired when the main graph is replaced by another main graph, or initialized.)
+        /// </summary>
+        event SwitchToSubgraphHandler OnSwitchingToSubgraph;
+
+        /// <summary>
+        /// Fired when graph processing is returning back after a switch.
+        /// (To the main graph, or a subgraph previously switched to.)
+        /// </summary>
+        event ReturnFromSubgraphHandler OnReturningFromSubgraph;
+
 
         /// <summary>
         /// Fired when a sequence is entered.

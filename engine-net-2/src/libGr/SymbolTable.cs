@@ -22,7 +22,8 @@ namespace de.unika.ipd.grGen.libGr
         For,
         If,
         IfThenPart,
-        Computation
+        Computation,
+        InSubgraph
     }
 
     /// <summary>
@@ -39,6 +40,8 @@ namespace de.unika.ipd.grGen.libGr
                 this.scopeType = scopeType;
                 forCount = 0;
                 ifCount = 0;
+                computationCount = 0;
+                inSubgraphCount = 0;
             }
 
             public String name;
@@ -46,6 +49,7 @@ namespace de.unika.ipd.grGen.libGr
             public int forCount;
             public int ifCount;
             public int computationCount;
+            public int inSubgraphCount;
         }
 
 		public SymbolTable()
@@ -81,6 +85,10 @@ namespace de.unika.ipd.grGen.libGr
                 case ScopeType.Computation:
                     scopeName = "computation" + scopesMeta.Peek().computationCount;
                     ++scopesMeta.Peek().computationCount;
+                    break;
+                case ScopeType.InSubgraph:
+                    scopeName = "insubgraph" + scopesMeta.Peek().inSubgraphCount;
+                    ++scopesMeta.Peek().inSubgraphCount;
                     break;
                 default:
                     Debug.Assert(false); // only first scopes can be of type Globals and Sequence

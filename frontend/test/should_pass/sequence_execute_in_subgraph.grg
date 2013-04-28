@@ -1,0 +1,53 @@
+rule r
+{
+	n:Node;
+	
+	modify {
+		m:Node;
+	}
+}
+
+sequence s1(n:Node)
+{
+	sub:graph ;> { sub=inducedSubgraph(adjacent(n)) } ;> in sub { r() ;> r() }
+}
+
+sequence s2(n:Node)
+{
+	{ ::sub=inducedSubgraph(adjacent(n)) } ;> in ::sub { r() ;> r() }
+}
+
+sequence s3(n:Node)
+{
+	sub:graph ;> { sub=inducedSubgraph(adjacent(n)) } ;> sub.r()
+}
+
+sequence s4(n:Node)
+{
+	{ ::sub=inducedSubgraph(adjacent(n)) } ;> ::sub.r()
+}
+
+sequence s5(n:Node)
+{
+	sub:graph ;> { sub=inducedSubgraph(adjacent(n)) } ;> sub.s6(n)
+}
+
+sequence s6(n:Node)
+{
+	{ ::sub=inducedSubgraph(adjacent(n)) } ;> ::sub.s5(n)
+}
+
+rule in_subgraph
+{
+	n:Node;
+
+	modify {
+		exec( sub:graph ;> { sub=inducedSubgraph(adjacent(n)) } ;> in sub { r() ;> r() } );
+		exec( { ::sub=inducedSubgraph(adjacent(n)) } ;> in ::sub { r() ;> r() } );
+		exec( sub:graph ;> { sub=inducedSubgraph(adjacent(n)) } ;> sub.r() );
+		exec( { ::sub=inducedSubgraph(adjacent(n)) } ;> ::sub.r() );
+		exec( sub:graph ;> { sub=inducedSubgraph(adjacent(n)) } ;> sub.s5(n) );
+		exec( { ::sub=inducedSubgraph(adjacent(n)) } ;> ::sub.s6(n) );
+	}
+}
+

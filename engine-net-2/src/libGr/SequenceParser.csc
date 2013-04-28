@@ -588,18 +588,18 @@ String Type():
 { 
 	(type=Word()
 	| LOOKAHEAD("set" "<" Word() ">") "set" "<" typeParam=Word() ">" { type = "set<"+typeParam+">"; }
-		("{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
+		(LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
 	| LOOKAHEAD("map" "<" Word() "," Word() ">") "map" "<" typeParam=Word() "," typeParamDst=Word() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
-		("{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
+		(LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
 	| LOOKAHEAD("array" "<" Word() ">") "array" "<" typeParam=Word() ">" { type = "array<"+typeParam+">"; }
 		(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
 	| LOOKAHEAD("deque" "<" Word() ">") "deque" "<" typeParam=Word() ">" { type = "deque<"+typeParam+">"; }
 		(LOOKAHEAD(2) "]" { throw new ParseException("no ][ allowed at deque declaration, use d:deque<T> = deque<T>][ for initialization"); })?
 	// for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
 	| LOOKAHEAD("set" "<" Word() ">=") "set" "<" typeParam=Word() { type = "set<"+typeParam+">"; }
-		("{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
+		(LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
 	| LOOKAHEAD("map" "<" Word() "," Word() ">=") "map" "<" typeParam=Word() "," typeParamDst=Word() { type = "map<"+typeParam+","+typeParamDst+">"; }
-		("{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
+		(LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
 	| LOOKAHEAD("array" "<" Word() ">=") "array" "<" typeParam=Word() { type = "array<"+typeParam+">"; }
 		(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
 	| LOOKAHEAD("deque" "<" Word() ">=") "deque" "<" typeParam=Word() { type = "deque<"+typeParam+">"; }
@@ -1076,6 +1076,11 @@ Sequence SimpleSequence():
 	{
 		return new SequenceHighlight(str);
 	}
+|
+    "in" toVar=Variable() "{" { varDecls.PushScope(ScopeType.InSubgraph); } seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
+    {
+        return new SequenceExecuteInSubgraph(toVar, seq);
+    }
 |
 	("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); } comp=CompoundComputation() { varDecls.PopScope(variableList1); } (";")? "}"
 	{
@@ -1614,7 +1619,7 @@ SequenceComputation AttributeMethodCall():
 			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
 			return new SequenceComputationContainerClear(new SequenceExpressionAttributeAccess(fromVar, attrName));
 		} else {
-			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences on set/map/array/deque)");
+			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as procedures on set/map/array/deque)");
 		}
     }
 }
@@ -1638,7 +1643,7 @@ SequenceComputation MethodCall():
 			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
 			return new SequenceComputationContainerClear(fromVar);
 		} else {
-			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty|peek as expressions on set/map/array/deque)");
+			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as procedures and size|empty|peek as expressions on set/map/array/deque)");
 		}
     }
 }
@@ -1674,7 +1679,7 @@ SequenceComputation MethodCallRepeated():
 				if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1 parameter or 0(for array end, deque begin))");
 				return new SequenceExpressionContainerPeek(methodCall, fromExpr2);
 			} else {
-				throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as sequences and size|empty|peek as expressions on set/map/array/deque)");
+				throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as procedures and size|empty|peek as expressions on set/map/array/deque)");
 			}
 		}
 	)*
@@ -1690,7 +1695,7 @@ void RuleLookahead():
 	(
 	    ( "$" ("%")? ( Variable() ("," (Variable() | "*"))? )? )? "["
 	|
-	    ( "%" | "?" )* Word()
+	    ( "%" | "?" )* (LOOKAHEAD(2) Word() |  Variable() ".")
 	)
 }
 
@@ -1699,7 +1704,7 @@ Sequence Rule():
 	bool special = false, test = false;
 	String str, filter = null;
 	bool chooseRandSpecified = false, chooseRandSpecified2 = false, choice = false;
-	SequenceVariable varChooseRand = null, varChooseRand2 = null;
+	SequenceVariable varChooseRand = null, varChooseRand2 = null, subgraph = null;
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();
 }
@@ -1710,7 +1715,7 @@ Sequence Rule():
 			"$" ("%" { choice = true; })? ( varChooseRand=Variable() ("," (varChooseRand2=Variable() | "*") { chooseRandSpecified2 = true; })? )? { chooseRandSpecified = true; }
 		)?
 		"[" ("%" { special = true; } | "?" { test = true; })* 
-		str=Word() ("(" (Arguments(argExprs))? ")")?
+		(LOOKAHEAD(2) subgraph=Variable() ".")? str=Word() ("(" (Arguments(argExprs))? ")")?
 			("\\" filter=Word())?
 		"]"
 		{
@@ -1718,12 +1723,12 @@ Sequence Rule():
 			if(varDecls.Lookup(str)!=null)
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-			return new SequenceRuleAllCall(CreateRuleInvocationParameterBindings(str, argExprs, returnVars),
+			return new SequenceRuleAllCall(CreateRuleInvocationParameterBindings(str, argExprs, returnVars, subgraph),
 					special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice, filter);
 		}
 	|
 		("%" { special = true; } | "?" { test = true; })*
-		str=Word() ("(" (Arguments(argExprs))? ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
+		(LOOKAHEAD(2) subgraph=Variable() ".")? str=Word() ("(" (Arguments(argExprs))? ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
 			("\\" filter=Word())?
 		{
 			if(argExprs.Count==0 && returnVars.Count==0)
@@ -1735,6 +1740,8 @@ Sequence Rule():
 						throw new SequenceParserException(str, "untyped or bool", var.Type);
 					if(filter!=null)
 						throw new SequenceParserException(str, filter, SequenceParserError.FilterError);
+					if(subgraph!=null)
+						throw new SequenceParserException(str, "", SequenceParserError.SubgraphError);
 					return new SequenceBooleanComputation(new SequenceExpressionVariable(var), null, special);
 				}
 			}
@@ -1747,11 +1754,11 @@ Sequence Rule():
 				if(filter!=null)
 					throw new SequenceParserException(str, filter, SequenceParserError.FilterError);
 				return new SequenceSequenceCall(
-								CreateSequenceInvocationParameterBindings(str, argExprs, returnVars),
+								CreateSequenceInvocationParameterBindings(str, argExprs, returnVars, subgraph),
 								special);
 			} else {
 				return new SequenceRuleCall(
-								CreateRuleInvocationParameterBindings(str, argExprs, returnVars),
+								CreateRuleInvocationParameterBindings(str, argExprs, returnVars, subgraph),
 								special, test, filter);
 			}
 		}
@@ -1760,7 +1767,7 @@ Sequence Rule():
 
 CSHARPCODE
 RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName,
-				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
 {
 	IAction action = null;
 	if(actions != null) {
@@ -1770,7 +1777,7 @@ RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String rul
 	}
 
 	RuleInvocationParameterBindings paramBindings = new RuleInvocationParameterBindings(action,
-			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
+			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray(), subgraph);
 
 	if(action == null)
 		paramBindings.Name = ruleName;
@@ -1780,7 +1787,7 @@ RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String rul
 
 CSHARPCODE
 SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName,
-				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
 {
 	SequenceDefinition sequenceDef = null;
 	if(actions != null) {
@@ -1788,7 +1795,7 @@ SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(St
 	}
 
 	SequenceInvocationParameterBindings paramBindings = new SequenceInvocationParameterBindings(sequenceDef,
-			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
+			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray(), subgraph);
 
 	if(sequenceDef == null)
 		paramBindings.Name = sequenceName;

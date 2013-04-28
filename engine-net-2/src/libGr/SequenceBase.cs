@@ -138,6 +138,14 @@ namespace de.unika.ipd.grGen.libGr
                 if((seq as SequenceRuleCall).Filter!=null)
                     if(!IsFilterExisting(seq as SequenceRuleCall))
                         throw new SequenceParserException(paramBindings.Name, (seq as SequenceRuleCall).Filter, SequenceParserError.FilterError);
+
+            SequenceVariable subgraph;
+            if(paramBindings is RuleInvocationParameterBindings)
+                subgraph = ((RuleInvocationParameterBindings)paramBindings).Subgraph;
+            else
+                subgraph = ((SequenceInvocationParameterBindings)paramBindings).Subgraph;
+            if(subgraph!=null && !TypesHelper.IsSameOrSubtype("graph", subgraph.Type, Model))
+                throw new SequenceParserException(paramBindings.Name, subgraph.Type, SequenceParserError.SubgraphTypeError);
     
             // ok, this is a well-formed invocation
         }

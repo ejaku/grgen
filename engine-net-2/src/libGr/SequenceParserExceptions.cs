@@ -75,6 +75,16 @@ namespace de.unika.ipd.grGen.libGr
         FilterError,
 
         /// <summary>
+        /// The given subgraph is of wrong type
+        /// </summary>
+        SubgraphTypeError,
+
+        /// <summary>
+        /// The construct does not accept a subgraph
+        /// </summary>
+        SubgraphError,
+
+        /// <summary>
         /// The element is not contained in the rule pattern (thus in the match of the rule)
         /// </summary>
         UnknownPatternElement,
@@ -346,6 +356,12 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.FilterError:
                     return "The filter \"" + this.FilterName + "\" can't be applied to \"" + this.Name + "\"!";
+
+                case SequenceParserError.SubgraphError:
+                    return "The construct \"" + this.VariableOrFunctionName  + "\" does not support subgraph prefixes!";
+
+                case SequenceParserError.SubgraphTypeError:
+                    return "The subgraph prefix \"" + this.VariableOrFunctionName + "\" must be of type:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
 
                 case SequenceParserError.UnknownRule:
                     return "Unknown rule \"" + this.Name + "\" (in match<" + this.Name + ">)!";
