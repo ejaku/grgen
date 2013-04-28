@@ -42,6 +42,7 @@ namespace de.unika.ipd.grGen.libGr
         DeclareVariable, AssignConstToVar, AssignContainerConstructorToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
         Highlight,
+        ExecuteInSubgraph,
         BooleanComputation
     }
 
@@ -799,6 +800,8 @@ namespace de.unika.ipd.grGen.libGr
         public String GetRuleCallString(IGraphProcessingEnvironment procEnv)
         {
             StringBuilder sb = new StringBuilder();
+            if(ParamBindings.Subgraph != null)
+                sb.Append(ParamBindings.Subgraph.Name + ".");
             sb.Append(ParamBindings.Action.Name);
             if(ParamBindings.ArgumentExpressions.Length > 0)
             {
@@ -831,6 +834,8 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sb.Append(")=");
             }
+            if(ParamBindings.Subgraph != null)
+                sb.Append(ParamBindings.Subgraph.Name + ".");
             sb.Append(ParamBindings.Action.Name);
             if(ParamBindings.ArgumentExpressions.Length > 0)
             {
@@ -958,6 +963,9 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 else parameters = null;
 
+                if(ParamBindings.Subgraph!=null)
+                    procEnv.SwitchToSubgraph((IGraph)ParamBindings.Subgraph.GetVariableValue(procEnv));
+
                 if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
                 IMatches matches;
                 try
@@ -979,7 +987,12 @@ namespace de.unika.ipd.grGen.libGr
 
                 procEnv.Matched(matches, null, Special);
 
-                return Rewrite(procEnv, matches, null);
+                bool result = Rewrite(procEnv, matches, null);
+
+                if(ParamBindings.Subgraph != null)
+                    procEnv.ReturnFromSubgraph();
+                
+                return result;
             }
         }
 
@@ -1615,7 +1628,7 @@ namespace de.unika.ipd.grGen.libGr
                     SequenceRuleAllCall ruleAll = (SequenceRuleAllCall)Sequences[i];
                     if (ruleAll.Choice)
                     {
-                        Console.WriteLine("Warning: No user choice % available inside {(...)}, removing choice modificator from " + ruleAll.Symbol + " (user choice handled by $%{(...)} construct)");
+                        Console.WriteLine("Warning: No user choice % available inside {<...>}, removing choice modificator from " + ruleAll.Symbol + " (user choice handled by $%{(...)} construct)");
                         ruleAll.Choice = false;
                     }
                 }
@@ -1631,7 +1644,9 @@ namespace de.unika.ipd.grGen.libGr
                 if(seqChild is SequenceRuleAllCall
                     && ((SequenceRuleAllCall)seqChild).MinVarChooseRandom != null
                     && ((SequenceRuleAllCall)seqChild).MaxVarChooseRandom != null)
-                    throw new Exception("Sequence SomeFromSet (e.g. {(r1,[r2],$[r3])} can't contain a select with variable from all construct (e.g. $v[r4], e.g. $v1,v2[r4])");
+                    throw new Exception("Sequence SomeFromSet (e.g. {<r1,[r2],$[r3>)} can't contain a select with variable from all construct (e.g. $v[r4], e.g. $v1,v2[r4])");
+                if(((SequenceRuleCall)seqChild).ParamBindings.Subgraph != null)
+                    throw new Exception("Sequence SomeFromSet (e.g. {<r1,[r2],$[r3>)} can't contain a call with subgraph prefix (e.g. sg.r4, e.g. $[sg.r4])");
             }
         }
 
@@ -1785,7 +1800,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "{( ... )}"; } }
+        public override string Symbol { get { return "{< ... >}"; } }
     }
 
     public class SequenceTransaction : SequenceUnary
@@ -1836,6 +1851,8 @@ namespace de.unika.ipd.grGen.libGr
                 throw new Exception("Sequence Backtrack can't contain a bracketed rule all call");
             if(Rule.Test)
                 throw new Exception("Sequence Backtrack can't contain a call to a rule reduced to a test");
+            if(Rule.ParamBindings.Subgraph != null)
+                throw new Exception("Sequence Backtrack can't employ a call with subgraph prefix (no <<sg.r; seq>> possible)");
             base.Check(env);
         }
 
@@ -2939,6 +2956,8 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(Var.Name, "a match type (match<rulename>)", "statically unknown type");
             if(!TypesHelper.IsSameOrSubtype(Var.Type, "match<"+Rule.ParamBindings.Name+">", env.Model))
                 throw new SequenceParserException(Symbol, "match<" + Rule.ParamBindings.Name + ">", Var.Type);
+            if(Rule.ParamBindings.Subgraph != null)
+                throw new Exception("Sequence ForMatch can't employ a call with subgraph prefix (no for{v in [?sg.r]; seq} possible)");
             base.Check(env);
         }
 
@@ -3211,7 +3230,13 @@ namespace de.unika.ipd.grGen.libGr
                     InputVariables[i].SetVariableValue(sequenceInvocation.Arguments[i], procEnv);
             }
 
+            if(sequenceInvocation.Subgraph != null)
+                procEnv.SwitchToSubgraph((IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv));
+
             bool success = Seq.Apply(procEnv);
+
+            if(sequenceInvocation.Subgraph != null)
+                procEnv.ReturnFromSubgraph();
 
             if(success)
             {
@@ -3432,6 +3457,8 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sb.Append(")=");
             }
+            if(ParamBindings.Subgraph != null)
+                sb.Append(ParamBindings.Subgraph.Name + ".");
             sb.Append(ParamBindings.SequenceDef.SequenceName);
             if(ParamBindings.ArgumentExpressions.Length > 0)
             {
@@ -3485,6 +3512,58 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
+    }
+
+    public class SequenceExecuteInSubgraph : SequenceUnary
+    {
+        public SequenceVariable SubgraphVar;
+
+        public SequenceExecuteInSubgraph(SequenceVariable subgraphVar, Sequence seq)
+            : base(seq, SequenceType.ExecuteInSubgraph)
+        {
+            SubgraphVar = subgraphVar;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+            if(!TypesHelper.IsSameOrSubtype(SubgraphVar.Type, "graph", env.Model))
+            {
+                throw new SequenceParserException(Symbol, "graph", SubgraphVar.Type);
+            }
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExecuteInSubgraph copy = (SequenceExecuteInSubgraph)MemberwiseClone();
+            copy.Seq = Seq.Copy(originalToCopy, procEnv);
+            copy.SubgraphVar = SubgraphVar.Copy(originalToCopy, procEnv);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            Seq.GetLocalVariables(variables, containerConstructors, target);
+            SubgraphVar.GetLocalVariables(variables);
+            return this == target;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IGraph subgraph = (IGraph)SubgraphVar.Value;
+            procEnv.SwitchToSubgraph(subgraph);
+
+            bool res = Seq.Apply(procEnv);
+
+            procEnv.ReturnFromSubgraph();
+
+            return res;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "in " + SubgraphVar.Name + "{ }" ; } }
     }
 
     public class SequenceBooleanComputation : SequenceSpecial

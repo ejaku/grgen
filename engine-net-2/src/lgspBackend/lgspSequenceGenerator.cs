@@ -329,7 +329,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.SequenceCall:
                 {
                     SequenceSequenceCall seqSeq = (SequenceSequenceCall)seq;
-                    // no handling for the input arguments seqSeq.ParamBindings.ArgumentExpressions needed 
+                    // no handling for the input arguments seqSeq.ParamBindings.ArgumentExpressions or the optional Subgraph needed 
                     // because there can only be variable uses
                     for(int i = 0; i < seqSeq.ParamBindings.ReturnVars.Length; ++i)
                     {
@@ -529,13 +529,25 @@ namespace de.unika.ipd.grGen.lgsp
         {
             RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
             String specialStr = seqRule.Special ? "true" : "false";
-            String parameters = BuildParameters(paramBindings);
+            String parameterDeclarations = null;
+            String parameters = null;
+            if(paramBindings.Subgraph != null)
+                parameters = BuildParametersInDeclarations(paramBindings, out parameterDeclarations);
+            else
+                parameters = BuildParameters(paramBindings);
             String matchingPatternClassName = "Rule_" + paramBindings.Name;
             String patternName = paramBindings.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             String matchName = "match_" + seqRule.Id;
             String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
             String matchesName = "matches_" + seqRule.Id;
+
+            if(paramBindings.Subgraph != null)
+            {
+                source.AppendFront(parameterDeclarations + "\n");
+                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + GetVar(paramBindings.Subgraph) + ");\n");
+            }
+
             source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                 + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                 + parameters + ");\n");
@@ -623,16 +635,30 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
+
+            if(paramBindings.Subgraph != null)
+                source.AppendFront("procEnv.ReturnFromSubgraph();\n");
         }
 
         void EmitSequenceCall(SequenceSequenceCall seqSeq, SourceBuilder source)
         {
             SequenceInvocationParameterBindings paramBindings = seqSeq.ParamBindings;
-            String parameters = BuildParameters(paramBindings);
+            String parameterDeclarations = null;
+            String parameters = null;
+            if(paramBindings.Subgraph != null)
+                parameters = BuildParametersInDeclarations(paramBindings, out parameterDeclarations);
+            else
+                parameters = BuildParameters(paramBindings);
             String outParameterDeclarations;
             String outArguments;
             String outAssignments;
             BuildOutParameters(paramBindings, out outParameterDeclarations, out outArguments, out outAssignments);
+
+            if(paramBindings.Subgraph != null)
+            {
+                source.AppendFront(parameterDeclarations + "\n");
+                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + GetVar(paramBindings.Subgraph) + ");\n");
+            }
 
             if(outParameterDeclarations.Length != 0)
                 source.AppendFront(outParameterDeclarations + "\n");
@@ -648,6 +674,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(SetResultVar(seqSeq, "false"));
             source.Unindent();
             source.AppendFront("}\n");
+
+            if(paramBindings.Subgraph != null)
+                source.AppendFront("procEnv.ReturnFromSubgraph();\n");
         }
 
 		void EmitSequence(Sequence seq, SourceBuilder source)
@@ -1331,6 +1360,16 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitSequence(seqPause.Seq, source);
                     source.AppendFront("procEnv.TransactionManager.Resume();\n");
                     source.AppendFront(SetResultVar(seqPause, GetResultVar(seqPause.Seq)));
+                    break;
+                }
+
+                case SequenceType.ExecuteInSubgraph:
+                {
+                    SequenceExecuteInSubgraph seqExecInSub = (SequenceExecuteInSubgraph)seq;
+                    source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + GetVar(seqExecInSub.SubgraphVar) + ");\n");
+                    EmitSequence(seqExecInSub.Seq, source);
+                    source.AppendFront("procEnv.ReturnFromSubgraph();\n");
+                    source.AppendFront(SetResultVar(seqExecInSub, GetResultVar(seqExecInSub.Seq)));
                     break;
                 }
 
@@ -2841,6 +2880,34 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
+        private String BuildParametersInDeclarations(InvocationParameterBindings paramBindings, out String declarations)
+        {
+            String parameters = "";
+            declarations = "";
+            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+            {
+                if(paramBindings.ArgumentExpressions[i] != null)
+                {
+                    String typeName;
+                    if(rulesToInputTypes.ContainsKey(paramBindings.Name))
+                        typeName = rulesToInputTypes[paramBindings.Name][i];
+                    else 
+                        typeName = sequencesToInputTypes[paramBindings.Name][i];
+                    String type = TypesHelper.XgrsTypeToCSharpType(typeName, model);
+                    String name = "tmpvar_" + tmpVarCtr.ToString();
+                    ++tmpVarCtr;
+                    declarations += type + " " + name + " = " + "(" + type + ")" + GetSequenceExpression(paramBindings.ArgumentExpressions[i], null) + ";";
+                    parameters += ", " + name;
+                }
+                else
+                {
+                    // the sequence parser always emits all argument expressions, for interpreted and compiled
+                    throw new Exception("Internal error: missing argument expressions");
+                }
+            }
+            return parameters;
+        }
+
         private void BuildOutParameters(SequenceInvocationParameterBindings paramBindings, out String outParameterDeclarations, out String outArguments, out String outAssignments)
         {
             outParameterDeclarations = "";
@@ -4261,6 +4328,9 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(" = " + TypesHelper.DefaultValueString(typeName, model) + ";\n");
             }
 
+            source.AppendFront("if(sequenceInvocation.Subgraph!=null)\n");
+            source.AppendFront("\tprocEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv));\n");
+
             source.AppendFront("bool result = ApplyXGRS_" + sequence.Name + "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv");
             for(int i = 0; i < sequence.Parameters.Length; ++i)
             {
@@ -4271,6 +4341,10 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(", ref var_" + sequence.OutParameters[i]);
             }
             source.Append(");\n");
+
+            source.AppendFront("if(sequenceInvocation.Subgraph!=null)\n");
+            source.AppendFront("\tprocEnv.ReturnFromSubgraph();\n");
+
             if(sequence.OutParameters.Length > 0)
             {
                 source.AppendFront("if(result) {\n");

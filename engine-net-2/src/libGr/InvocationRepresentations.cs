@@ -113,6 +113,11 @@ namespace de.unika.ipd.grGen.libGr
         public IAction Action;
 
         /// <summary>
+        /// The subgraph to be switched to for rule execution
+        /// </summary>
+        public SequenceVariable Subgraph;
+
+        /// <summary>
         /// Instantiates a new RuleInvocationParameterBindings object
         /// </summary>
         /// <param name="action">The IAction instance to be used</param>
@@ -120,11 +125,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="arguments">An array of arguments.</param>
         /// <param name="returnVars">An array of variables used for the return values</param>
         public RuleInvocationParameterBindings(IAction action,
-            SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars)
+            SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars, SequenceVariable subgraph)
             : base(argExprs, arguments, returnVars)
         {
             Action = action;
             if(action != null) Name = action.Name;
+            Subgraph = subgraph;
         }
 
         public RuleInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -139,7 +145,17 @@ namespace de.unika.ipd.grGen.libGr
             copy.Arguments = new object[Arguments.Length];
             for(int i = 0; i < Arguments.Length; ++i)
                 copy.Arguments[i] = Arguments[i];
+            if(copy.Subgraph != null)
+                copy.Subgraph = Subgraph.Copy(originalToCopy, procEnv);
             return copy;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            base.GetLocalVariables(variables, containerConstructors);
+            if(Subgraph != null)
+                Subgraph.GetLocalVariables(variables);
         }
     }
 
@@ -157,6 +173,11 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceDefinition SequenceDef;
 
         /// <summary>
+        /// The subgraph to be switched to for sequence execution
+        /// </summary>
+        public SequenceVariable Subgraph;
+
+        /// <summary>
         /// Instantiates a new SequenceInvocationParameterBindings object
         /// </summary>
         /// <param name="sequenceDef">The defined sequence to be used</param>
@@ -164,11 +185,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="arguments">An array of arguments.</param>
         /// <param name="returnVars">An array of variables used for the return values</param>
         public SequenceInvocationParameterBindings(SequenceDefinition sequenceDef,
-            SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars)
+            SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars, SequenceVariable subgraph)
             : base(argExprs, arguments, returnVars)
         {
             SequenceDef = sequenceDef;
             if(sequenceDef != null) Name = sequenceDef.SequenceName;
+            Subgraph = subgraph;
         }
 
         public SequenceInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -183,7 +205,17 @@ namespace de.unika.ipd.grGen.libGr
             copy.Arguments = new object[Arguments.Length];
             for(int i = 0; i < Arguments.Length; ++i)
                 copy.Arguments[i] = Arguments[i];
+            if(copy.Subgraph != null)
+                copy.Subgraph = Subgraph.Copy(originalToCopy, procEnv);
             return copy;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            base.GetLocalVariables(variables, containerConstructors);
+            if(Subgraph != null)
+                Subgraph.GetLocalVariables(variables);
         }
     }
 

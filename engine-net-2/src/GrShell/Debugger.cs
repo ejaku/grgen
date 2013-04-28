@@ -1277,6 +1277,16 @@ namespace de.unika.ipd.grGen.grShell
                         Console.Write("}");
                         break;
                     }
+                case SequenceType.ExecuteInSubgraph:
+                    {
+                        SequenceExecuteInSubgraph seqExecInSub = (SequenceExecuteInSubgraph)seq;
+                        Console.Write("in ");
+                        Console.Write(seqExecInSub.SubgraphVar);
+                        Console.Write("{");
+                        PrintSequence(seqExecInSub.Seq, seq, context);
+                        Console.Write("}");
+                        break;
+                    }
 
                 // Ternary
                 case SequenceType.IfThenElse:
@@ -1434,7 +1444,7 @@ namespace de.unika.ipd.grGen.grShell
                         {
                             PrintChoice(seqSome, context);
                             ++context.cpPosCounter;
-                            Console.Write(seqSome.Choice ? "$%{(" : "${(");
+                            Console.Write(seqSome.Choice ? "$%{<" : "${<");
                             bool first = true;
                             foreach(Sequence seqChild in seqSome.Children)
                             {
@@ -1456,7 +1466,7 @@ namespace de.unika.ipd.grGen.grShell
 
                         if(highlight && context.choice)
                         {
-                            context.workaround.PrintHighlighted("$%{(", HighlightingMode.Choicepoint);
+                            context.workaround.PrintHighlighted("$%{<", HighlightingMode.Choicepoint);
                             bool first = true;
                             int numCurTotalMatch = 0;
                             foreach(Sequence seqChild in seqSome.Children)
@@ -1484,15 +1494,15 @@ namespace de.unika.ipd.grGen.grShell
                                     context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
                                 first = false;
                             }
-                            context.workaround.PrintHighlighted(")}", HighlightingMode.Choicepoint);
+                            context.workaround.PrintHighlighted(">}", HighlightingMode.Choicepoint);
                             break;
                         }
 
                         bool succesBackup = context.success;
                         if(highlight) context.success = true;
-                        Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{(" : "${(") : "{(");
+                        Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{<" : "${<") : "{<");
                         PrintChildren(seqSome, context);
-                        Console.Write(")}");
+                        Console.Write(">}");
                         context.success = succesBackup;
                         break;
                     }

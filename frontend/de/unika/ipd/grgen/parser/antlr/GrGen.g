@@ -1778,6 +1778,7 @@ options { k = 3; }
 		pushScopeStr["if/then-part", getCoords(s)] { xg.append("; "); } xgrs[xg] popScope
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
 	| FOR l=LBRACE pushScopeStr["for/exec", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] forSeqRemainder[xg, returns]
+	| IN { xg.append("in "); } xgrsVarUse[xg] LBRACE { xg.append("{"); } pushScopeStr["in subgraph sequence", getCoords(l)] xgrs[xg] popScope RBRACE { xg.append("}"); } 
 	| LBRACE { xg.append("{"); } pushScopeStr["sequence computation", getCoords(l)] seqCompoundComputation[xg] (SEMI)? popScope RBRACE { xg.append("}"); } 
 	;
 
@@ -2083,6 +2084,7 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	}
 	
 	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
+		(xgrsVarUse[xg] DOT {xg.append(".");})?
 		id=actionIdentUse {xg.append(id);}
 		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
 		(BACKSLASH filterId=actionIdentUse {xg.append("\\"); xg.append(filterId);} | BACKSLASH AUTO {xg.append("\\"); xg.append("auto");})?

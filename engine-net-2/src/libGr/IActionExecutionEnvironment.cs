@@ -48,10 +48,22 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// An environment for the execution of actions (without embedded sequences).
-    /// Holds a refernce to the current graph.
+    /// Holds a reference to the current graph.
     /// </summary>
     public interface IActionExecutionEnvironment
     {
+        /// <summary>
+        /// Returns the graph currently focused in processing / sequence execution.
+        /// This may be the initial main graph, or a subgraph switched to, the current top element of the graph usage stack.
+        /// </summary>
+        IGraph Graph { get; set; }
+
+        /// <summary>
+        /// The actions employed by this graph processing environment
+        /// </summary>
+        BaseActions Actions { get; set; }
+        
+
         /// <summary>
         /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
         /// By default it should be null.
@@ -66,17 +78,7 @@ namespace de.unika.ipd.grGen.libGr
         int MaxMatches { get; set; }
 
         /// <summary>
-        /// Returns the graph currently focused in processing / sequence execution.
-        /// </summary>
-        IGraph Graph { get; set; }
-
-        /// <summary>
-        /// The actions employed by this graph processing environment
-        /// </summary>
-        BaseActions Actions { get; set; }
-
-        /// <summary>
-        /// Does graph processing environment dependent stuff.
+        /// Does action execution environment dependent stuff.
         /// </summary>
         /// <param name="args">Any kind of paramteres for the stuff to do</param>
         void Custom(params object[] args);

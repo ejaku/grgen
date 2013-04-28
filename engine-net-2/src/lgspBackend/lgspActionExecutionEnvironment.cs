@@ -23,16 +23,39 @@ namespace de.unika.ipd.grGen.lgsp
         private PerformanceInfo perfInfo = null;
         private int maxMatches = 0;
         private Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
-        public LGSPGraph graph;
+        public LGSPGraph graph { get { return usedGraphs.Peek(); } }
+        protected Stack<LGSPGraph> usedGraphs;
         public LGSPActions curActions;
 
 
         public LGSPActionExecutionEnvironment(LGSPGraph graph, LGSPActions actions)
         {
             // TODO: evt. IGraph + BaseActions und dann hier cast auf LGSP, mal gucken was an Schnittstelle besser paﬂt
-            this.graph = graph;
+            this.usedGraphs = new Stack<LGSPGraph>();
+            this.usedGraphs.Push(graph);
             this.curActions = actions;
         }
+
+        public IGraph Graph
+        {
+            get { return graph; }
+            set {
+                if(usedGraphs.Count != 1)
+                    throw new Exception("Can't replace graph while a subgraph is used by an action/sequence!");
+                else
+                {
+                    usedGraphs.Clear();
+                    usedGraphs.Push((LGSPGraph)value);
+                }
+            }
+        }
+
+        public BaseActions Actions
+        {
+            get { return curActions; }
+            set { curActions = (LGSPActions)value; }
+        }
+        
 
         public PerformanceInfo PerformanceInfo
         {
@@ -46,18 +69,6 @@ namespace de.unika.ipd.grGen.lgsp
             set { maxMatches = value; }
         }
         
-        public IGraph Graph
-        {
-            get { return graph; }
-            set { graph = (LGSPGraph)value; }
-        }
-
-        public BaseActions Actions
-        {
-            get { return curActions; }
-            set { curActions = (LGSPActions)value; }
-        }
-
         public virtual void Custom(params object[] args)
         {
             if(args.Length == 0) goto invalidCommand;
