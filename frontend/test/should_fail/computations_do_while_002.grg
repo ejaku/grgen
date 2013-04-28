@@ -1,0 +1,8 @@
+muh(var x:int) : int
+{
+	do
+		return(1);
+	while(x==1)
+	return(0);
+}
+

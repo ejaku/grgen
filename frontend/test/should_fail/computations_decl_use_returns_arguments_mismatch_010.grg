@@ -1,0 +1,6 @@
+using model_init;
+
+proc() : (boolean)
+{
+	return(true,false);
+}

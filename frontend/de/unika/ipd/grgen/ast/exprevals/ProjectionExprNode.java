@@ -59,6 +59,10 @@ public class ProjectionExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
+		if(index >= procedure.getType().size()) {
+			return BasicTypeNode.getErrorType(IdentNode.getInvalid());
+		}
+		
 		return procedure.getType().get(index);
 	}
 }

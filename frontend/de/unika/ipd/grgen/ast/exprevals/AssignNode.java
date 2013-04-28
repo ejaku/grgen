@@ -148,6 +148,16 @@ public class AssignNode extends EvalStatementNode {
 					return false;
 				}
 			}
+			
+			if(owner instanceof ConstraintDeclNode) {
+				ConstraintDeclNode entity = (ConstraintDeclNode)owner;
+				if((entity.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {					
+					if(getCoords().comesBefore(entity.getCoords())) {
+						reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned.");
+						return false;
+					}
+				}
+			}
 		} else if (lhsGraphElement!=null) {
 			if(lhsGraphElement.defEntityToBeYieldedTo) {
 				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
@@ -163,10 +173,12 @@ public class AssignNode extends EvalStatementNode {
 					}
 				}
 				
-				if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
-						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-					error.error(getCoords(), "can't yield from RHS to a LHS def graph element ("+lhsGraphElement.getIdentNode()+")");
-					return false;
+				if((lhsGraphElement.context&CONTEXT_COMPUTATION)!=CONTEXT_COMPUTATION) {
+					if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
+							&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+						error.error(getCoords(), "can't yield from RHS to a LHS def graph element ("+lhsGraphElement.getIdentNode()+")");
+						return false;
+					}
 				}
 			} else {
 				if(lhsGraphElement.directlyNestingLHSGraph!=null) {
@@ -176,6 +188,13 @@ public class AssignNode extends EvalStatementNode {
 						return false;
 					}
 					error.error(getCoords(), "only a def graph element can be assigned to ("+lhsGraphElement.getIdentNode()+")");
+					return false;
+				}
+			}
+			
+			if((lhsGraphElement.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {					
+				if(getCoords().comesBefore(lhsGraphElement.getCoords())) {
+					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned.");
 					return false;
 				}
 			}
@@ -194,10 +213,12 @@ public class AssignNode extends EvalStatementNode {
 					}
 				}
 				
-				if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
-						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-					error.error(getCoords(), "can't yield from RHS to a LHS def variable ("+lhsVar.getIdentNode()+")");
-					return false;
+				if((lhsVar.context&CONTEXT_COMPUTATION)!=CONTEXT_COMPUTATION) {
+					if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
+							&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+						error.error(getCoords(), "can't yield from RHS to a LHS def variable ("+lhsVar.getIdentNode()+")");
+						return false;
+					}
 				}
 			} else {
 				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
@@ -206,8 +227,15 @@ public class AssignNode extends EvalStatementNode {
 					return false;
 				}
 			}
+			
+			if((lhsVar.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {					
+				if(getCoords().comesBefore(lhsVar.getCoords())) {
+					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned.");
+					return false;
+				}
+			}
 		}
-		
+				
 		return typeCheckLocal();
 	}
 

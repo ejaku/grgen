@@ -270,35 +270,41 @@ globalVarDecl
 		{
 			id.setDecl(new EdgeDeclNode(id, type, false, 0, TypeExprNode.getEmpty(), null));
 		}
-	| ref=IDENT DOUBLECOLON id=entIdentDecl COLON 
-		{
-			if(!ref.getText().equals("ref"))
-				{ reportError(getCoords(ref), "ref keyword needed before (non-node/edge) global variable"); }
-		}
+	| modifier=IDENT DOUBLECOLON id=entIdentDecl COLON 
 		(
 			type=typeIdentUse
 			{
 				id.setDecl(new VarDeclNode(id, type, null, 0));
+				if(!modifier.getText().equals("var")) 
+					{ reportError(getCoords(modifier), "var keyword needed before non graph element and non container global variable"); }
 			}
 		|
 			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				id.setDecl(new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), null, 0));
+				if(!modifier.getText().equals("ref"))
+					{ reportError(getCoords(modifier), "ref keyword needed before map global variable"); }
 			}
 		|
 			SET LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				id.setDecl(new VarDeclNode(id, SetTypeNode.getSetType(keyType), null, 0));
+				if(!modifier.getText().equals("ref"))
+					{ reportError(getCoords(modifier), "ref keyword needed before set global variable"); }
 			}
 		|
 			ARRAY LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				id.setDecl(new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), null, 0));
+				if(!modifier.getText().equals("ref"))
+					{ reportError(getCoords(modifier), "ref keyword needed before array global variable"); }
 			}
 		|
 			DEQUE LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				id.setDecl(new VarDeclNode(id, DequeTypeNode.getDequeType(keyType), null, 0));
+				if(!modifier.getText().equals("ref"))
+					{ reportError(getCoords(modifier), "ref keyword needed before deque global variable"); }
 			}
 		)
 		SEMI

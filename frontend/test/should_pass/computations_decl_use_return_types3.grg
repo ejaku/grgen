@@ -1,0 +1,42 @@
+using model_init;
+
+some(ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : boolean
+{
+	return(true);
+}
+
+someproc(ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) 
+ : (map<string, Node>, array<Node>, deque<E1>, set<string>)
+{
+	return(m, ar, de, se);
+}
+
+rule r() : (boolean)
+{
+	def var res:boolean;
+	n:Node -e:E1->;
+
+	yield {
+		def var s:string = "hello world";
+
+		def ref m:map<string, Node> = map<string,Node>{s->n};
+		def ref ar:array<Node> = array<Node>[n];
+		def ref de:deque<E1> = deque<E1>]e[;
+		def ref se:set<string> = set<string>{s};
+
+		yield res = true;
+	}
+
+	modify {		
+		eval { 
+			def var s:string = "hello world";
+
+			def ref m:map<string, Node> = map<string,Node>{s->n};
+			def ref ar:array<Node> = array<Node>[n];
+			def ref de:deque<E1> = deque<E1>]e[;
+			def ref se:set<string> = set<string>{s};
+		}
+		
+		return (res);
+	}
+}

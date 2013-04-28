@@ -8,6 +8,15 @@ two() : int
 	return(2);
 }
 
+three(var v:int) : int
+{
+	if(v==3) {
+		return(v);
+	} else {
+		return(two()+one());
+	}
+}
+
 test t : (int)
 {
 	def var res:int;

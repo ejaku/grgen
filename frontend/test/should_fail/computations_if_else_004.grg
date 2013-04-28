@@ -1,0 +1,6 @@
+njet(var x:int) : (int)
+{
+	if(x==1)
+		return(1);
+	return(0);
+}

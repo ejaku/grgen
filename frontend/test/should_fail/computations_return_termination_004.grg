@@ -1,0 +1,15 @@
+var ::glob:int;
+
+one() : (int)
+{
+	def var x:int = 42;
+	return(x);
+}
+
+onetwo() : (int, int)
+{
+	if(::glob==42) {
+		return(1,2);
+	} else {
+	}
+}

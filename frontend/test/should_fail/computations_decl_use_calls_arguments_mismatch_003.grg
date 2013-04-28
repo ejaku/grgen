@@ -1,0 +1,12 @@
+func(var b:boolean) : boolean
+{
+	return(b);
+}
+
+call()
+{
+	def var b:boolean;
+	func(b);
+	return;
+}
+

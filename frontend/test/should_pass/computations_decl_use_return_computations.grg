@@ -18,6 +18,18 @@ onetwo() : (int, int)
 	return(1, 2);
 }
 
+three(var v:int) : (int)
+{
+	if(v==3) {
+		return(v);
+	} else {
+		def var v1:int;
+		def var v2:int;
+		(v1,v2)=onetwo();
+		return(v1+v2);
+	}
+}
+
 einszweipolizei() : (int, int, int)
 {
 	one();

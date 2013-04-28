@@ -1,0 +1,17 @@
+using model_init;
+
+func(b:B) : Node
+{
+	return(b);
+}
+
+rule r
+{
+	n:Node;
+	modify {
+		eval {
+			def n2:Node = func(n);
+		}
+	}
+}
+

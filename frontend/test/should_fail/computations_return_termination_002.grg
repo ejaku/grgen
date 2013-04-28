@@ -1,0 +1,10 @@
+var ::glob:int;
+
+two() : int
+{
+	if(::glob==42) {
+	} else {
+		return(1);
+	}
+}
+

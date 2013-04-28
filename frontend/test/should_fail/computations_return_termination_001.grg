@@ -1,0 +1,8 @@
+var ::glob:int;
+
+one() : int
+{
+	def var x:int = 42;
+}
+
+

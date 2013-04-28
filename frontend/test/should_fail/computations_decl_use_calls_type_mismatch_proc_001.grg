@@ -1,0 +1,18 @@
+using model_init;
+
+proc(b:B) : (Node)
+{
+	return(b);
+}
+
+rule r
+{
+	n:Node;
+	modify {
+		eval {
+			def n2:Node;
+			(n2) = proc(n);
+		}
+	}
+}
+

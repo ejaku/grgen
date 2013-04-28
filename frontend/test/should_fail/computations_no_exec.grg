@@ -1,0 +1,9 @@
+test t()
+{
+}
+
+bar() : int
+{
+	exec( t() ); // no exec in function
+	return(42);
+}

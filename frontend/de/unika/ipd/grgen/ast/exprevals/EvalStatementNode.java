@@ -52,7 +52,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		boolean returnPassed = false;
 		for(EvalStatementNode eval : evals.getChildren()) {
 			if(returnPassed) {
-				eval.reportError("no statements allowed after a return statement (at the same nesting level)");
+				eval.reportError("no statements allowed after a return statement (at the same nesting level) (dead code)");
 				res = false;
 			}
 
@@ -83,6 +83,24 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 				res &= checkStatements(isLHS, root, iayn, iayn.accumulationStatements, false);
 			} else if(eval instanceof ReturnStatementNode) {
 				returnPassed = true;
+			} else if(eval instanceof ExecStatementNode) {
+				if(root instanceof FunctionDeclNode) {
+					eval.reportError("exec not allowed in function");					
+					res = false;
+				}
+			} else if(eval instanceof ReturnAssignmentNode) {
+				if(root instanceof FunctionDeclNode || isLHS) {
+					ReturnAssignmentNode node = (ReturnAssignmentNode)eval;
+					if(node.builtinProcedure==null 
+							|| (!node.builtinProcedure.getProcedureName().equals("emit")
+									&& !node.builtinProcedure.getProcedureName().equals("highlight"))) {
+						if(root instanceof FunctionDeclNode)
+							eval.reportError("procedure call not allowed in function (only emit and highlight)");
+						else
+							eval.reportError("procedure call not allowed in yield (only emit and highlight)");
+						res = false;
+					}
+				}				
 			}
 		}
 		
@@ -95,7 +113,10 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 							res = false;
 						}
 					} else {
-						last.reportError("function must end with a return statement");
+						if(last!=null)
+							last.reportError("function must end with a return statement");
+						else
+							root.reportError("function must end with a return statement");
 						res = false;
 					}
 				}
@@ -108,13 +129,22 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 							res = false;
 						}
 					} else {
-						last.reportError("procedure must end with a return statement");
+						if(last!=null)
+							last.reportError("procedure must end with a return statement");
+						else
+							root.reportError("procedure must end with a return statement");
 						res = false;
 					}
 				}
 			}
 		}
 
+		// TODO: check for def before use in computations, of computations entities
+		// did for assignment targets and indexed assignment targets (see "Variables (node,edge,var,ref) of computations must be declared before they can be assigned");
+		// but this is far from sufficient, needed for other kinds of assignments, too
+		// and for reads, expressions, too 
+		// -- massive externsion/refactoring needed (or clever hack?) cause grgen was built for not distinguishing order of entities
+		
 		return res;
 	}
 	
@@ -133,6 +163,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 			}
 		}
 
+		last = null;
 		for(EvalStatementNode eval : condition.falseCaseStatements.getChildren()) {
 			last = eval;
 		}

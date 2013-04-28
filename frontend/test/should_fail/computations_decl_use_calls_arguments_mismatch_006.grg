@@ -1,0 +1,12 @@
+proc(var b:boolean) : (boolean)
+{
+	return(b);
+}
+
+call()
+{
+	def var b:boolean;
+	(b) = proc(b, b);
+	return;
+}
+

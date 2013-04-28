@@ -1,0 +1,9 @@
+var ::glob:int;
+
+one() : (int)
+{
+	def var x:int = 42;
+	return(x);
+	def var y:int = 42;
+	return(y);
+}

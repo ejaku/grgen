@@ -152,4 +152,16 @@ public class Coords implements Location {
 		return filename;
 	}
 
+	public boolean comesBefore(Coords that) {
+		if(!this.valid())
+			return false;
+		if(!that.valid())
+			return false;
+		if(this.getLine()<that.getLine())
+			return true;
+		if(this.getLine()==that.getLine())
+			if(this.getColumn()<that.getColumn())
+				return true;
+		return false;
+	}
 }

@@ -1,0 +1,10 @@
+foo()
+{
+	return;
+}
+
+bar() : int
+{
+	foo();
+	return(42);
+}

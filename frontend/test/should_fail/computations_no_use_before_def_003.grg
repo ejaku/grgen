@@ -1,0 +1,22 @@
+one() : int
+{
+	def var res:int;
+	res = 1;
+	return(res);
+}
+
+test t : (int)
+{
+	def var res:int;
+	
+	independent {
+		yield {
+			resres = one() + 2;
+			def var resres:int;
+			yield res = resres;
+		}
+	}
+	
+	return (res);
+}
+

@@ -145,6 +145,25 @@ public class AssignIndexedNode extends EvalStatementNode {
 					return false;
 				}
 			}
+			
+			if(owner instanceof ConstraintDeclNode) {
+				ConstraintDeclNode entity = (ConstraintDeclNode)owner;
+				if((entity.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {					
+					if(getCoords().comesBefore(entity.getCoords())) {
+						reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned (with index).");
+						return false;
+					}
+				}
+			}
+		}
+		else
+		{
+			if((lhsVar.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {					
+				if(getCoords().comesBefore(lhsVar.getCoords())) {
+					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned (with index).");
+					return false;
+				}
+			}
 		}
 
 		return typeCheckLocal();

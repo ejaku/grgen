@@ -1,0 +1,6 @@
+using model_init;
+
+func() : boolean
+{
+	return(true, false);
+}

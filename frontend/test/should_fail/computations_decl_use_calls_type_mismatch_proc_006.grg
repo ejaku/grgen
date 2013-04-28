@@ -1,0 +1,17 @@
+using model_init;
+
+proc(var d:double) : (double)
+{
+	return(d);
+}
+
+rule r
+{
+	modify {
+		eval {
+			def var d:double = 3.141592654;
+			def var i:int;
+			(i) = proc(d);
+		}
+	}
+}
