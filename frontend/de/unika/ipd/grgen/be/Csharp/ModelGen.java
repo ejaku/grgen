@@ -1250,7 +1250,18 @@ deque_init_loop:
 			else
 				sb.append("\t\t\treturn new " + allocName
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
+			sb.append("\t\t}\n\n");
+			sb.append("\t\tpublic override void SetSourceAndTarget("
+					+ "GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)\n"
+				+ "\t\t{\n");
+			if(type.isAbstract())
+				sb.append("\t\t\tthrow new Exception(\"The abstract edge type "
+						+ typeident + " does not support source and target setting!\");\n");
+			else
+				sb.append("\t\t\t((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget" 
+						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
 			sb.append("\t\t}\n");
+
 		}
 
 		sb.append("\t\tpublic override bool IsAbstract { get { return " + (type.isAbstract() ? "true" : "false") + "; } }\n");

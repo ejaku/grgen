@@ -76,7 +76,6 @@
     <Compile Include="elementInterface.cs" />
     <Compile Include="IO\GraphDumper.cs" />
     <Compile Include="GraphValidator.cs" />
-    <Compile Include="GRSImporter\GRSImporter.cs" />
     <Compile Include="IActionExecutionEnvironment.cs" />
     <Compile Include="IGraph.cs" />
     <Compile Include="IGraphHelpers.cs" />
@@ -85,6 +84,7 @@
     <Compile Include="IO\ECoreImport.cs" />
     <Compile Include="IO\GrgExport.cs" />
     <Compile Include="IO\GrsExport.cs" />
+    <Compile Include="IO\GrsImport.cs" />
     <Compile Include="IO\GXLExport.cs" />
     <Compile Include="IO\GXLImport.cs" />
     <Compile Include="matchesInterface.cs" />
@@ -92,12 +92,6 @@
     <Compile Include="ParseException.cs" />
     <Compile Include="patternInterface.cs" />
     <Compile Include="IO\Porter.cs" />
-    <Compile Include="GRSImporter\GRSImporterConstants.cs" />
-    <Compile Include="GRSImporter\GRSImporterTokenManager.cs" />
-    <Compile Include="GRSImporter\ParseException.cs" />
-    <Compile Include="GRSImporter\SimpleCharStream.cs" />
-    <Compile Include="GRSImporter\Token.cs" />
-    <Compile Include="GRSImporter\TokenMgrError.cs" />
     <Compile Include="ProcedureInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recorder.cs" />
@@ -124,7 +118,6 @@
     <Compile Include="IO\VCGDumper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GRSImporter\GRSImporter.csc" />
     <None Include="SequenceParser.csc" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

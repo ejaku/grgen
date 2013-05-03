@@ -927,6 +927,26 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IEdge CreateEdge(INode source, INode target);
 
         /// <summary>
+        /// Creates an IEdge object according to this type.
+        /// ATTENTION: You must call SetSourceAndTarget() before adding an edge created this way to a graph.
+        /// This is an unsafe function that allows to first set the attributes of an edge, as needed in efficient .grs importing.
+        /// </summary>
+        /// <returns>The created IEdge object.</returns>
+        public IEdge CreateEdge()
+        {
+            return CreateEdge(null, null);
+        }
+
+        /// <summary>
+        /// Sets the source and target nodes of the edge after creation without.
+        /// Must be called before an edge created with CreateEdge() is added to the graph.
+        /// </summary>
+        /// <param name="edge">The edge to set the source and target for.</param>
+        /// <param name="source">The source of the edge.</param>
+        /// <param name="target">The target of the edge.</param>
+        public abstract void SetSourceAndTarget(IEdge edge, INode source, INode target);
+
+        /// <summary>
         /// Creates an IEdge object according to this type and copies all
         /// common attributes from the given edge.
         /// </summary>
