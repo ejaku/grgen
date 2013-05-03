@@ -48,9 +48,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             String assemblyName = Assembly.GetAssembly(graphModel.GetType()).Location;
             int capacity = 0;
-            foreach(String parameter in parameters)
-                if(parameter.StartsWith("capacity="))
-                    capacity = int.Parse(parameter.Substring("capacity=".Length));
+            if(parameters != null)
+                foreach(String parameter in parameters)
+                    if(parameter.StartsWith("capacity="))
+                        capacity = int.Parse(parameter.Substring("capacity=".Length));
             return new LGSPNamedGraph(this, graphModel, graphName, assemblyName, capacity);
         }
 
@@ -152,9 +153,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             IGraphModel graphModel = (IGraphModel)Activator.CreateInstance(modelType);
             int capacity = 0;
-            foreach(String parameter in parameters)
-                if(parameter.StartsWith("capacity="))
-                    capacity = int.Parse(parameter.Substring("capacity=".Length));
+            if(parameters != null)
+                foreach(String parameter in parameters)
+                    if(parameter.StartsWith("capacity="))
+                        capacity = int.Parse(parameter.Substring("capacity=".Length));
             return named ? new LGSPNamedGraph(this, graphModel, graphName, assemblyName, capacity) : new LGSPGraph(this, graphModel, graphName, assemblyName);
         }
 
