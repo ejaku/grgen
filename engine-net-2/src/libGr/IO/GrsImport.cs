@@ -594,6 +594,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private sbyte ParseByteValue()
         {
+            TransformDoubleQuotedToByte();
             if(LookaheadToken() == TokenKind.HEXNUMBER_BYTE)
                 return SByte.Parse(EatAndReturnToken(), System.Globalization.NumberStyles.HexNumber);
             else if(LookaheadToken() == TokenKind.NUMBER_BYTE)
@@ -604,6 +605,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private short ParseShortValue()
         {
+            TransformDoubleQuotedToShort();
             if(LookaheadToken() == TokenKind.HEXNUMBER_SHORT)
                 return Int16.Parse(EatAndReturnToken(), System.Globalization.NumberStyles.HexNumber);
             else if(LookaheadToken() == TokenKind.NUMBER_SHORT)
@@ -614,6 +616,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private int ParseIntValue()
         {
+            TransformDoubleQuotedToInt();
             if(LookaheadToken() == TokenKind.HEXNUMBER)
                 return Int32.Parse(EatAndReturnToken(), System.Globalization.NumberStyles.HexNumber);
             else if(LookaheadToken() == TokenKind.NUMBER)
@@ -624,6 +627,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private long ParseLongValue()
         {
+            TransformDoubleQuotedToLong();
             if(LookaheadToken() == TokenKind.HEXNUMBER_LONG)
                 return Int64.Parse(EatAndReturnToken(), System.Globalization.NumberStyles.HexNumber);
             else if(LookaheadToken() == TokenKind.NUMBER_LONG)
@@ -634,6 +638,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private bool ParseBooleanValue()
         {
+            TransformDoubleQuotedToBoolean();
             if(LookaheadToken() == TokenKind.TRUE)
             {
                 EatToken();
@@ -669,8 +674,16 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                enumValue = enumName;
-                enumName = enumAttrType.Name;
+                if(enumName.Contains("::"))
+                {
+                    enumValue = enumName.Substring(enumName.LastIndexOf(':') + 1);
+                    enumName = enumName.Substring(0, enumName.IndexOf(':'));
+                }
+                else
+                {
+                    enumValue = enumName;
+                    enumName = enumAttrType.Name;
+                }
             }
 
             if(enumAttrType.Name != enumName)
@@ -690,6 +703,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private float ParseFloatValue()
         {
+            TransformDoubleQuotedToFloat();
             if(LookaheadToken() == TokenKind.NUMFLOAT)
                 return Single.Parse(EatAndReturnToken(), System.Globalization.CultureInfo.InvariantCulture);
             else if(LookaheadToken() == TokenKind.NUMBER)
@@ -700,6 +714,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private double ParseDoubleValue()
         {
+            TransformDoubleQuotedToDouble();
             if(LookaheadToken() == TokenKind.NUMDOUBLE)
                 return Double.Parse(EatAndReturnToken(), System.Globalization.CultureInfo.InvariantCulture);
             else if(LookaheadToken() == TokenKind.NUMBER)
@@ -732,6 +747,106 @@ namespace de.unika.ipd.grGen.libGr
         private IEdge ParseEdgeValue(string typeName)
         {
             return GetEdgeByName(ParseText());
+        }
+
+        void TransformDoubleQuotedToByte()
+        {
+            if(LookaheadToken() == TokenKind.DOUBLEQUOTEDTEXT)
+            {
+                if(tokenContent.Length >= 2 && tokenContent[0] == '0'
+                    && (tokenContent[1] == 'x' || tokenContent[1] == 'X'))
+                {
+                    tokenKind = TokenKind.HEXNUMBER_BYTE;
+                    tokenContent.Remove(0, 2);
+                }
+                else
+                    tokenKind = TokenKind.NUMBER_BYTE;
+                if(tokenContent[tokenContent.Length - 1] == 'y' || tokenContent[tokenContent.Length - 1] == 'Y')
+                    tokenContent.Length = tokenContent.Length - 1;
+            }
+        }
+
+        void TransformDoubleQuotedToShort()
+        {
+            if(LookaheadToken() == TokenKind.DOUBLEQUOTEDTEXT)
+            {
+                if(tokenContent.Length >= 2 && tokenContent[0] == '0'
+                    && (tokenContent[1] == 'x' || tokenContent[1] == 'X'))
+                {
+                    tokenKind = TokenKind.HEXNUMBER_SHORT;
+                    tokenContent.Remove(0, 2);
+                }
+                else
+                    tokenKind = TokenKind.NUMBER_SHORT;
+                if(tokenContent[tokenContent.Length - 1] == 's' || tokenContent[tokenContent.Length - 1] == 'S')
+                    tokenContent.Length = tokenContent.Length - 1;
+            }
+        }
+
+        void TransformDoubleQuotedToInt()
+        {
+            if(LookaheadToken() == TokenKind.DOUBLEQUOTEDTEXT)
+            {
+                if(tokenContent.Length >= 2 && tokenContent[0] == '0'
+                    && (tokenContent[1] == 'x' || tokenContent[1] == 'X'))
+                {
+                    tokenKind = TokenKind.HEXNUMBER;
+                    tokenContent.Remove(0, 2);
+                }
+                else
+                    tokenKind = TokenKind.NUMBER;
+            }
+        }
+
+        void TransformDoubleQuotedToLong()
+        {
+            if(LookaheadToken() == TokenKind.DOUBLEQUOTEDTEXT)
+            {
+                if(tokenContent.Length >= 2 && tokenContent[0] == '0'
+                    && (tokenContent[1] == 'x' || tokenContent[1] == 'X'))
+                {
+                    tokenKind = TokenKind.HEXNUMBER_LONG;
+                    tokenContent.Remove(0, 2);
+                }
+                else
+                    tokenKind = TokenKind.NUMBER_LONG;
+                if(tokenContent[tokenContent.Length - 1] == 'l' || tokenContent[tokenContent.Length - 1] == 'L')
+                    tokenContent.Length = tokenContent.Length - 1;
+            }
+        }
+
+        void TransformDoubleQuotedToBoolean()
+        {
+            if(LookaheadToken() == TokenKind.DOUBLEQUOTEDTEXT)
+            {
+                tokenKind = TokenKind.NUMBER_BYTE;
+                if(tokenContent.Length == 4 && (tokenContent[0] == 't' || tokenContent[0] == 'T')
+                    && tokenContent[1] == 'r' && tokenContent[2] == 'u' && tokenContent[3] == 'e')
+                    tokenKind = TokenKind.TRUE;
+                else if(tokenContent.Length == 5 && (tokenContent[0] == 'f' || tokenContent[0] == 'F')
+                    && tokenContent[1] == 'a' && tokenContent[2] == 'l' && tokenContent[3] == 's' && tokenContent[4] == 'e')
+                    tokenKind = TokenKind.FALSE;
+            }
+        }
+
+        void TransformDoubleQuotedToFloat()
+        {
+            if(LookaheadToken() == TokenKind.DOUBLEQUOTEDTEXT)
+            {
+                tokenKind = TokenKind.NUMFLOAT;
+                if(tokenContent[tokenContent.Length - 1] == 'f' || tokenContent[tokenContent.Length - 1] == 'F')
+                    tokenContent.Length = tokenContent.Length - 1;
+            }
+        }
+
+        void TransformDoubleQuotedToDouble()
+        {
+            if(LookaheadToken() == TokenKind.DOUBLEQUOTEDTEXT)
+            {
+                tokenKind = TokenKind.NUMDOUBLE;
+                if(tokenContent[tokenContent.Length - 1] == 'd' || tokenContent[tokenContent.Length - 1] == 'D')
+                    tokenContent.Length = tokenContent.Length - 1;
+            }
         }
 
         private void ThrowSyntaxError(TokenKind kind)
