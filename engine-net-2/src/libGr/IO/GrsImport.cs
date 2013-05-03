@@ -1126,7 +1126,7 @@ namespace de.unika.ipd.grGen.libGr
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 's':
-                    if(tokenContent.Length == 5
+                    if(tokenContent.Length == 3
                         && tokenContent[1] == 'e'
                         && tokenContent[2] == 't')
                         return FoundToken(TokenKind.SET);
@@ -1134,7 +1134,7 @@ namespace de.unika.ipd.grGen.libGr
                         return FoundToken(TokenKind.IDENT);
                 case 't':
                 case 'T':
-                    if(tokenContent.Length == 5
+                    if(tokenContent.Length == 4
                         && tokenContent[1] == 'r'
                         && tokenContent[2] == 'u'
                         && tokenContent[3] == 'e')
