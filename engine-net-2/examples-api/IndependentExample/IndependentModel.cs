@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sat Apr 20 13:15:23 CEST 2013
+// Generated from "..\..\tests\independent\Independent.grg" on Thu May 02 20:05:48 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -418,6 +418,11 @@ namespace de.unika.ipd.grGen.Model_Independent
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			throw new Exception("The abstract edge type AEdge does not support source and target setting!");
+		}
 		public override bool IsAbstract { get { return true; } }
 		public override bool IsConst { get { return false; } }
 		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -542,6 +547,11 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -668,6 +678,11 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }

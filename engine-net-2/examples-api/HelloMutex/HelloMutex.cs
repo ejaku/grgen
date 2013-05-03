@@ -15,7 +15,7 @@ class HelloMutex
         LGSPNamedGraph graph;
         LGSPActions actions;
 
-        new LGSPBackend().CreateNamedFromSpec("Mutex.grg", out graph, out actions);
+        new LGSPBackend().CreateNamedFromSpec("Mutex.grg", 0, out graph, out actions);
 
         LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
