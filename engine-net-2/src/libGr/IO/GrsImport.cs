@@ -73,6 +73,7 @@ namespace de.unika.ipd.grGen.libGr
         String modelOverride;
         BaseActions actions;
         TextReader reader; // the text reader containing the grs contents to import
+        long fileSize; // the size of the grs file, used to initialize the capacity of the name maps of the named graph
         int line; // the current line reached during parsing/lexing, for error messages
         int column; // the current column reached during parsing/lexing, for error messages
         bool tokenFound; // tells whether a token was matched lately, cleared by the parser when asking for the next one to be delivered
@@ -93,7 +94,9 @@ namespace de.unika.ipd.grGen.libGr
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
         public static INamedGraph Import(String importFilename, String modelOverride, IBackend backend, out BaseActions actions)
         {
-            return Import(new StreamReader(importFilename), modelOverride, backend, out actions);
+            FileInfo fi = new FileInfo(importFilename);
+            long fileSize = fi.Length;
+            return Import(new StreamReader(importFilename), fileSize, modelOverride, backend, out actions);
         }
 
         /// <summary>
@@ -101,6 +104,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Any errors will be reported by exception.
         /// </summary>
         /// <param name="reader">The text reader input stream import source.</param>
+        /// <param name="fileSize">The size of the input file.</param>
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="modelOverride">The graph model to be used, 
         ///     it must be conformant to the model used in the file to be imported.</param>
@@ -108,9 +112,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The imported graph. 
         /// An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        public static INamedGraph Import(TextReader reader, String modelOverride, IBackend backend, out BaseActions actions)
+        public static INamedGraph Import(TextReader reader, long fileSize, String modelOverride, IBackend backend, out BaseActions actions)
         {
-            GRSImport importer = new GRSImport(reader);
+            GRSImport importer = new GRSImport(reader, fileSize);
             importer.backend = backend;
             importer.modelOverride = modelOverride;
             importer.model = null;
@@ -147,7 +151,9 @@ namespace de.unika.ipd.grGen.libGr
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
         public static INamedGraph Import(String importFilename, IBackend backend, IGraphModel graphModel, out BaseActions actions)
         {
-            return Import(new StreamReader(importFilename), backend, graphModel, out actions);
+            FileInfo fi = new FileInfo(importFilename);
+            long fileSize = fi.Length;
+            return Import(new StreamReader(importFilename), fileSize, backend, graphModel, out actions);
         }
         
         /// <summary>
@@ -155,15 +161,16 @@ namespace de.unika.ipd.grGen.libGr
         /// Any errors will be reported by exception.
         /// </summary>
         /// <param name="reader">The text reader input stream import source.</param>
+        /// <param name="fileSize">The size of the input file.</param>
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="graphModel">The graph model to be used.</param>
         /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
         /// <returns>The imported graph. 
         /// An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        public static INamedGraph Import(TextReader reader, IBackend backend, IGraphModel graphModel, out BaseActions actions)
+        public static INamedGraph Import(TextReader reader, long fileSize, IBackend backend, IGraphModel graphModel, out BaseActions actions)
         {
-            GRSImport importer = new GRSImport(reader);
+            GRSImport importer = new GRSImport(reader, fileSize);
             importer.backend = backend;
             importer.modelOverride = null;
             importer.model = graphModel;
@@ -172,8 +179,9 @@ namespace de.unika.ipd.grGen.libGr
             return importer.graph;
         }
 
-        private GRSImport(TextReader reader) {
+        private GRSImport(TextReader reader, long fileSize) {
             this.reader = reader;
+            this.fileSize = fileSize;
             this.line = 1;
             this.column = 1;
             this.tokenFound = false;
@@ -210,15 +218,19 @@ namespace de.unika.ipd.grGen.libGr
             else
                 modelFilename += ".gm";
 
+            // estimate a line creating one node or edge to 50 bytes
+            int capacity = (int)(fileSize / 50);
+            String capacityStr = "capacity=" + capacity.ToString();
+
             if(model!=null)
-                graph = backend.CreateNamedGraph(model, graphName);
+                graph = backend.CreateNamedGraph(model, graphName, capacityStr);
             else 
             {
                 if(modelFilename.EndsWith(".grg"))
-                    backend.CreateNamedFromSpec(modelFilename, graphName, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), 
+                    backend.CreateNamedFromSpec(modelFilename, graphName, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), capacity,
                         out graph, out actions);
                 else
-                    graph = backend.CreateNamedGraph(modelFilename, graphName);
+                    graph = backend.CreateNamedGraph(modelFilename, graphName, capacityStr);
             }
         }
 
