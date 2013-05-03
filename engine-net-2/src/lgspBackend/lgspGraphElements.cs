@@ -623,6 +623,17 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Sets source and target to the LGSPEdge object instantiated before with source and target being null.
+        /// </summary>
+        /// <param name="sourceNode">The source node.</param>
+        /// <param name="targetNode">The target node.</param>
+        public void SetSourceAndTarget(LGSPNode sourceNode, LGSPNode targetNode)
+        {
+            lgspSource = sourceNode;
+            lgspTarget = targetNode;
+        }
+
+        /// <summary>
         /// This is true, if this edge is a valid graph element, i.e. it is part of a graph.
         /// </summary>
         public bool Valid
