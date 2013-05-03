@@ -113,6 +113,8 @@ namespace de.unika.ipd.grGen.libGr
         public static IGraph Import(IBackend backend, List<String> filenameParameters, out BaseActions actions)
         {
             String first = ListGet(filenameParameters, 0);
+            FileInfo fi = new FileInfo(first);
+            long fileSize = fi.Length;
             StreamReader reader = null;
             if (first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
                 FileStream filereader = new FileStream(first, FileMode.Open,  FileAccess.Read);
@@ -126,7 +128,7 @@ namespace de.unika.ipd.grGen.libGr
                 return GXLImport.Import(reader, ListGet(filenameParameters, 1), backend, out actions);
             else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                         || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
-                return GRSImport.Import(reader, ListGet(filenameParameters, 1), backend, out actions);
+                return GRSImport.Import(reader, fileSize, ListGet(filenameParameters, 1), backend, out actions);
             else if(first.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
             {
                 List<String> ecores = new List<String>();

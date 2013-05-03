@@ -151,10 +151,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graphName">Name of the new graph.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
+        /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         /// <param name="newGraph">Returns the new named graph.</param>
         /// <param name="newActions">Returns the new BaseActions object.</param>
         /// <exception cref="System.Exception">Thrown when something goes wrong.</exception>
-        void CreateNamedFromSpec(String grgFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies,
+        void CreateNamedFromSpec(String grgFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies, int capacity,
             out INamedGraph newGraph, out BaseActions newActions);
 
         /// <summary>
@@ -178,10 +179,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graphName">Name of the new graph.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
+        /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
         /// <returns>The new INamedGraph backend instance.</returns>
-        INamedGraph CreateNamedFromSpec(String gmFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies);
+        INamedGraph CreateNamedFromSpec(String gmFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies, int capacity);
 
         /// <summary>
         /// Processes the given rule specification file and generates a model and actions library.

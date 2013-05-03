@@ -1335,7 +1335,7 @@ namespace de.unika.ipd.grGen.grShell
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
                         graph = curGraphBackend.CreateNamedFromSpec(specFilename, graphName, 
-                            flags, newGraphExternalAssembliesReferenced);
+                            flags, newGraphExternalAssembliesReferenced, 0);
                     }
                     catch(Exception e)
                     {
@@ -1366,7 +1366,7 @@ namespace de.unika.ipd.grGen.grShell
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
                         curGraphBackend.CreateNamedFromSpec(specFilename, graphName, 
-                            flags, newGraphExternalAssembliesReferenced,
+                            flags, newGraphExternalAssembliesReferenced, 0,
                             out graph, out actions);
                     }
                     catch(Exception e)
@@ -4309,7 +4309,9 @@ showavail:
 
             try
             {
+                int startTime = Environment.TickCount;
                 Porter.Export(curShellProcEnv.Graph, filenameParameters);
+                debugOut.WriteLine("export done after: " + (Environment.TickCount - startTime) + " ms");
             }
             catch(Exception e)
             {

@@ -1,0 +1,54 @@
+new graph "sierpinski\Sierpinski" "Sierpinski-Triangle"
+
+xgrs init
+
+show num nodes
+show num edges
+show num nodes AB
+show num nodes BC
+show num nodes CA
+show num nodes A
+show num nodes B
+show num nodes C
+show num edges E0
+show num edges E1
+
+xgrs (gen0* & gen1*)[6]
+show num nodes
+show num edges
+show num nodes AB
+show num nodes BC
+show num nodes CA
+show num nodes A
+show num nodes B
+show num nodes C
+show num edges E0
+show num edges E1
+
+echo "exporting..."
+export sierpinski/test_sir.grs
+echo "...done"
+
+clear graph
+show num nodes
+show num edges
+
+echo "importing..."
+import sierpinski/test_sir.grs sierpinski/SierpinskiModel.gm
+echo "...done"
+
+show num nodes
+show num edges
+show num nodes AB
+show num nodes BC
+show num nodes CA
+show num nodes A
+show num nodes B
+show num nodes C
+show num edges E0
+show num edges E1
+
+# the test script tries to test all available .grs; no sense in trying to test the exported graph
+#!rm sierpinski/test_sir.grs
+
+quit

@@ -22,8 +22,8 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPNamedGraph : LGSPGraph, INamedGraph
     {
-        internal Dictionary<String, IGraphElement> NameToElem = new Dictionary<String, IGraphElement>();
-        internal Dictionary<IGraphElement, String> ElemToName = new Dictionary<IGraphElement, String>();
+        internal Dictionary<String, IGraphElement> NameToElem;
+        internal Dictionary<IGraphElement, String> ElemToName;
 
         private static IDictionary<IGraphElement, IGraphElement> tmpOldToNewMap; // workaround to hide map parameter passing in copy constructor
 
@@ -45,9 +45,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs an LGSPNamedGraph object with the given model and an automatically generated name.
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
-        public LGSPNamedGraph(IGraphModel grmodel)
+        /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+        public LGSPNamedGraph(IGraphModel grmodel, int capacity)
             : base(grmodel)
         {
+            NameToElem = new Dictionary<String, IGraphElement>(capacity);
+            ElemToName = new Dictionary<IGraphElement, String>(capacity);
         }
 
         /// <summary>
@@ -55,9 +58,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
         /// <param name="grname">The name for the graph.</param>
-        public LGSPNamedGraph(IGraphModel grmodel, String grname)
+        /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+        public LGSPNamedGraph(IGraphModel grmodel, String grname, int capacity)
             : base(grmodel, grname)
         {
+            NameToElem = new Dictionary<String, IGraphElement>(capacity);
+            ElemToName = new Dictionary<IGraphElement, String>(capacity);
         }
 
         /// <summary>
@@ -68,9 +74,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="grmodel">The graph model.</param>
         /// <param name="grname">The name for the graph.</param>
         /// <param name="modelassemblyname">The name of the model assembly.</param>
-        public LGSPNamedGraph(LGSPBackend lgspBackend, IGraphModel grmodel, String grname, String modelassemblyname)
+        /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+        public LGSPNamedGraph(LGSPBackend lgspBackend, IGraphModel grmodel, String grname, String modelassemblyname, int capacity)
             : base(lgspBackend, grmodel, grname, modelassemblyname)
         {
+            NameToElem = new Dictionary<String, IGraphElement>(capacity);
+            ElemToName = new Dictionary<IGraphElement, String>(capacity);
         }
 
         /// <summary>
@@ -80,6 +89,8 @@ namespace de.unika.ipd.grGen.lgsp
         protected LGSPNamedGraph(String grname)
             : base(grname)
         {
+            NameToElem = new Dictionary<String, IGraphElement>();
+            ElemToName = new Dictionary<IGraphElement, String>();
         }
 
         /// <summary>
@@ -91,6 +102,8 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPNamedGraph(LGSPNamedGraph dataSource, String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
             : base(dataSource, newName, out oldToNewMap)
         {
+            NameToElem = new Dictionary<String, IGraphElement>(dataSource.NumNodes + dataSource.NumEdges);
+            ElemToName = new Dictionary<IGraphElement, String>(dataSource.NumNodes + dataSource.NumEdges);
             CopyNames(dataSource, oldToNewMap);
         }
 
@@ -102,6 +115,8 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPNamedGraph(LGSPNamedGraph dataSource, String newName)
             : base(dataSource, newName, out tmpOldToNewMap)
         {
+            NameToElem = new Dictionary<String, IGraphElement>(dataSource.NumNodes + dataSource.NumEdges);
+            ElemToName = new Dictionary<IGraphElement, String>(dataSource.NumNodes + dataSource.NumEdges);
             CopyNames(dataSource, tmpOldToNewMap);
             tmpOldToNewMap = null;
         }
@@ -143,6 +158,8 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPNamedGraph(LGSPGraph graph, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
             : base(graph, graph.Name, out oldToNewMap)
         {
+            NameToElem = new Dictionary<String, IGraphElement>(graph.NumNodes + graph.NumEdges);
+            ElemToName = new Dictionary<IGraphElement, String>(graph.NumNodes + graph.NumEdges);
             DoName();
         }
 
@@ -154,6 +171,8 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPNamedGraph(LGSPGraph graph)
             : base(graph, graph.Name, out tmpOldToNewMap)
         {
+            NameToElem = new Dictionary<String, IGraphElement>(graph.NumNodes + graph.NumEdges);
+            ElemToName = new Dictionary<IGraphElement, String>(graph.NumNodes + graph.NumEdges);
             tmpOldToNewMap = null;
             DoName();
         }
@@ -189,6 +208,8 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPNamedGraph(LGSPGraph graph, String nameAttributeName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
             : base(graph, graph.Name, out oldToNewMap)
         {
+            NameToElem = new Dictionary<String, IGraphElement>(graph.NumNodes + graph.NumEdges);
+            ElemToName = new Dictionary<IGraphElement, String>(graph.NumNodes + graph.NumEdges);
             DoName(nameAttributeName);
         }
 
@@ -201,6 +222,8 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPNamedGraph(LGSPGraph graph, String nameAttributeName)
             : base(graph, graph.Name, out tmpOldToNewMap)
         {
+            NameToElem = new Dictionary<String, IGraphElement>(graph.NumNodes + graph.NumEdges);
+            ElemToName = new Dictionary<IGraphElement, String>(graph.NumNodes + graph.NumEdges);
             tmpOldToNewMap = null;
             DoName(nameAttributeName);
         }
@@ -556,7 +579,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override IGraph CreateEmptyEquivalent(String newName)
         {
-            return new LGSPNamedGraph(this.model, newName);
+            return new LGSPNamedGraph(this.model, newName, 0);
         }
 
         public INamedGraph CloneNamed(String newName)
