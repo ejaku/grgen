@@ -48,7 +48,7 @@ namespace YCompExample
 
             try
             {
-                new LGSPBackend().CreateNamedFromSpec("Mutex.grg", out graph, out actions);
+                new LGSPBackend().CreateNamedFromSpec("Mutex.grg", 0, out graph, out actions);
                 procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
             }
             catch(Exception ex)

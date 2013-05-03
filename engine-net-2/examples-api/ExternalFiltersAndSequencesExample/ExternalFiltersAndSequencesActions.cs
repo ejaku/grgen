@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sat Apr 20 13:15:20 CEST 2013
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Thu May 02 20:05:46 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -2981,7 +2981,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             GRGEN_LIBGR.INode var_v2 = (GRGEN_LIBGR.INode)sequenceInvocation.ArgumentExpressions[1].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             int var_r1 = 0;
             GRGEN_LIBGR.INode var_r2 = null;
+            if(sequenceInvocation.Subgraph!=null)
+            	procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv));
             bool result = ApplyXGRS_counterExample1((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, var_v1, var_v2, ref var_r1, ref var_r2);
+            if(sequenceInvocation.Subgraph!=null)
+            	procEnv.ReturnFromSubgraph();
             if(result) {
                 sequenceInvocation.ReturnVars[0].SetVariableValue(var_r1, procEnv);
                 sequenceInvocation.ReturnVars[1].SetVariableValue(var_r2, procEnv);
@@ -3015,7 +3019,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 
         public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)        {
             GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;
+            if(sequenceInvocation.Subgraph!=null)
+            	procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv));
             bool result = ApplyXGRS_counterExample2((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
+            if(sequenceInvocation.Subgraph!=null)
+            	procEnv.ReturnFromSubgraph();
             return result;
         }
     }

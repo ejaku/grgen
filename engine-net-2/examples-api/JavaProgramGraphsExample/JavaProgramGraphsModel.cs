@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sat Apr 20 13:15:28 CEST 2013
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Thu May 02 20:05:53 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -3661,6 +3661,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			throw new Exception("The abstract edge type AEdge does not support source and target setting!");
+		}
 		public override bool IsAbstract { get { return true; } }
 		public override bool IsConst { get { return false; } }
 		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -3785,6 +3790,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -3911,6 +3921,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -4047,6 +4062,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			return new GRGEN_MODEL.@belongsTo((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -4181,6 +4201,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			return new GRGEN_MODEL.@type_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -4317,6 +4342,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			return new GRGEN_MODEL.@extends_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -4452,6 +4482,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			return new GRGEN_MODEL.@imports((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -4586,6 +4621,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			return new GRGEN_MODEL.@implements((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -4744,6 +4784,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			return new GRGEN_MODEL.@parameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -4905,6 +4950,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			return new GRGEN_MODEL.@actualParameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -5040,6 +5090,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			return new GRGEN_MODEL.@binding((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -5174,6 +5229,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			return new GRGEN_MODEL.@link((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -5332,6 +5392,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			return new GRGEN_MODEL.@expression((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -5493,6 +5558,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			return new GRGEN_MODEL.@inBlock((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -5627,6 +5697,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			return new GRGEN_MODEL.@inClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
