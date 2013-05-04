@@ -145,6 +145,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("// GrGen insert Actions here\n");
 		sb.append("}\n");
 
+		System.out.println("    writing to " + be.path + " / " + filename);
 		writeFile(be.path, filename, sb);
 	}
 

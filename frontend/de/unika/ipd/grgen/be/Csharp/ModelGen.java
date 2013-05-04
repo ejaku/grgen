@@ -95,7 +95,9 @@ public class ModelGen extends CSharpBase {
 
 		sb.append("}\n");
 
+		System.out.println("    writing to " + be.path + " / " + filename);
 		writeFile(be.path, filename, sb);
+
 		if(stubsb != null) {
 			String stubFilename = model.getIdent() + "ModelStub.cs";
 			System.out.println("  writing the " + stubFilename + " stub file...");
@@ -177,8 +179,11 @@ public class ModelGen extends CSharpBase {
 			sb.append("}\n");
 		}
 
+		System.out.println("    writing to " + be.path + " / " + filename);
 		writeFile(be.path, filename, sb);
-		copyFile(new File(be.path, filename), new File(be.path.getParent(), filename));
+
+		System.out.println("    copying " + be.path + " / " + filename + " to " + be.path.getAbsoluteFile().getParent() + " / " + filename);
+		copyFile(new File(be.path, filename), new File(be.path.getAbsoluteFile().getParent(), filename));
 	}
 
 	private StringBuffer getStubBuffer() {
