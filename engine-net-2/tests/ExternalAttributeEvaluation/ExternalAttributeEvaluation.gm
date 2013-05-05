@@ -1,0 +1,24 @@
+// we declare three external classes we want to use in our external attribute computations
+// signature only, external implmentation!
+class Own;
+class OwnPown extends Own;
+class OwnPownHome extends OwnPown;
+
+// we declare that we want to implement parsing, serializing, and debug output generation 
+// of objects of external types or of object type
+emit class;
+
+node class N
+{
+	i:int;
+	ow:Own; // attributes of type externally defined
+	s:string;
+	op:OwnPown; // attributes of type externally defined
+	o1:object;
+	o2:object;
+	oh:OwnPownHome; // attributes of type externally defined
+}
+
+own() : Own;
+ownPown() : OwnPown;
+ownPownHome() : OwnPownHome;

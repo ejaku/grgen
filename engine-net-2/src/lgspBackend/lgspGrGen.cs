@@ -111,7 +111,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     Console.Error.WriteLine("Illegal model C# source code: " + compResults.Errors.Count + " Errors:");
                     foreach(CompilerError error in compResults.Errors)
-                        Console.Error.WriteLine("Line: " + error.Line + " - " + error.ErrorText);
+                        Console.Error.WriteLine("Line: " + error.Line + " - " + error.ErrorText + " @ " + error.FileName);
                     return false;
                 }
             }

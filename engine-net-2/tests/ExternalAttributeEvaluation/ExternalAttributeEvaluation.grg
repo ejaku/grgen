@@ -1,0 +1,24 @@
+using ExternalAttributeEvaluation;
+
+rule init : (N)
+{
+	replace {
+		n:N;
+		eval {
+			n.i = 42;
+			n.ow = own();
+			n.s = "weil ich es kann!";
+			n.op = ownPown();
+			n.o1 = null;
+			n.o2 = (object)ownPown();
+			n.oh = ownPownHome();
+		}
+		return(n);
+	}
+}
+
+test findN : (N)
+{
+	n:N;
+	return(n);
+}

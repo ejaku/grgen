@@ -2393,14 +2393,14 @@ namespace de.unika.ipd.grGen.lgsp
                             || seqEmit.Expression.Type(env).StartsWith("array<") || seqEmit.Expression.Type(env).StartsWith("deque<"))
                         {
                             source.AppendFront("if(" + emitVal + " is IDictionary)\n");
-                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
+                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
                             source.AppendFront("else if(" + emitVal + " is IList)\n");
-                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString((IList)" + emitVal + ", graph));\n");
+                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToString((IList)" + emitVal + ", graph));\n");
                             source.AppendFront("else if(" + emitVal + " is GRGEN_LIBGR.IDeque)\n");
-                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString((GRGEN_LIBGR.IDeque)" + emitVal + ", graph));\n");
+                            source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToString((GRGEN_LIBGR.IDeque)" + emitVal + ", graph));\n");
                             source.AppendFront("else\n\t");
                         }
-                        source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString(" + emitVal + ", graph));\n");
+                        source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToString(" + emitVal + ", graph));\n");
                     } else {
                         SequenceExpressionConstant constant = (SequenceExpressionConstant)seqEmit.Expression;
                         if(constant.Constant is string)
@@ -2412,7 +2412,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("procEnv.EmitWriter.Write(\"" + text + "\");\n");
                         }
                         else
-                            source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.ContainerHelper.ToString(" + GetSequenceExpression(seqEmit.Expression, source) + ", graph));\n");
+                            source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToString(" + GetSequenceExpression(seqEmit.Expression, source) + ", graph));\n");
                     }
                     source.AppendFront(SetResultVar(seqEmit, "null"));
                     break;
@@ -2430,14 +2430,14 @@ namespace de.unika.ipd.grGen.lgsp
                             || seqRec.Expression.Type(env).StartsWith("array<") || seqRec.Expression.Type(env).StartsWith("deque<"))
                         {
                             source.AppendFront("if(" + recVal + " is IDictionary)\n");
-                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString((IDictionary)" + recVal + ", graph));\n");
+                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString((IDictionary)" + recVal + ", graph));\n");
                             source.AppendFront("else if(" + recVal + " is IList)\n");
-                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString((IList)" + recVal + ", graph));\n");
+                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString((IList)" + recVal + ", graph));\n");
                             source.AppendFront("else if(" + recVal + " is GRGEN_LIBGR.IDeque)\n");
-                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString((GRGEN_LIBGR.IDeque)" + recVal + ", graph));\n");
+                            source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString((GRGEN_LIBGR.IDeque)" + recVal + ", graph));\n");
                             source.AppendFront("else\n\t");
                         }
-                        source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString(" + recVal + ", graph));\n");
+                        source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString(" + recVal + ", graph));\n");
                     } else {
                         SequenceExpressionConstant constant = (SequenceExpressionConstant)seqRec.Expression;
                         if(constant.Constant is string)
@@ -2449,7 +2449,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("procEnv.Recorder.Write(\"" + text + "\");\n");
                         }
                         else
-                            source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.ContainerHelper.ToString(" + GetSequenceExpression(seqRec.Expression, source) + ", graph));\n");
+                            source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString(" + GetSequenceExpression(seqRec.Expression, source) + ", graph));\n");
                     }
                     source.AppendFront(SetResultVar(seqRec, "null"));
                     break;

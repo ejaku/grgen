@@ -3553,7 +3553,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append(";\n");
 		sb.append("\t\t\tif(" + emitVar + " != null)\n");
 		sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
-				+ "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + emitVar + ", graph));\n");
+				+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
 	}
 
 	private void genHighlightProc(StringBuffer sb, ModifyGenerationStateConst state, HighlightProc hp) {
@@ -3588,7 +3588,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append(";\n");
 		sb.append("\t\t\tif(" + recordVar + " != null)\n");
 		sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
-				+ "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + recordVar + ", graph));\n");
+				+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + recordVar + ", graph));\n");
 	}
 
 	private void genGraphAddNodeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphAddNodeProc ganp) {

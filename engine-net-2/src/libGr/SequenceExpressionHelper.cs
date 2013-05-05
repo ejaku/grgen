@@ -2817,32 +2817,32 @@ namespace de.unika.ipd.grGen.libGr
                 if(leftType == "string")
                 {
                     if(rightType.StartsWith("set<"))
-                        return (string)leftValue + ContainerHelper.ToString((IDictionary)rightValue, graph);
+                        return (string)leftValue + EmitHelper.ToString((IDictionary)rightValue, graph);
                     else if(rightType.StartsWith("map<"))
-                        return (string)leftValue + ContainerHelper.ToString((IDictionary)rightValue, graph);
+                        return (string)leftValue + EmitHelper.ToString((IDictionary)rightValue, graph);
                     else if(rightType.StartsWith("array<"))
-                        return (string)leftValue + ContainerHelper.ToString((IList)rightValue, graph);
+                        return (string)leftValue + EmitHelper.ToString((IList)rightValue, graph);
                     else if(rightType.StartsWith("deque<"))
-                        return (string)leftValue + ContainerHelper.ToString((IDeque)rightValue, graph);
+                        return (string)leftValue + EmitHelper.ToString((IDeque)rightValue, graph);
                     else if(rightType == "string")
                         return (string)leftValue + (string)rightValue;
                     else
-                        return (string)leftValue + ContainerHelper.ToString(rightValue, graph);
+                        return (string)leftValue + EmitHelper.ToString(rightValue, graph);
                 }
                 else //rightType == "string"
                 {
                     if(leftType.StartsWith("set<"))
-                        return ContainerHelper.ToString((IDictionary)leftValue, graph) + (string)rightValue;
+                        return EmitHelper.ToString((IDictionary)leftValue, graph) + (string)rightValue;
                     else if(leftType.StartsWith("map<"))
-                        return ContainerHelper.ToString((IDictionary)leftValue, graph) + (string)rightValue;
+                        return EmitHelper.ToString((IDictionary)leftValue, graph) + (string)rightValue;
                     else if(leftType.StartsWith("array<"))
-                        return ContainerHelper.ToString((IList)leftValue, graph) + (string)rightValue;
+                        return EmitHelper.ToString((IList)leftValue, graph) + (string)rightValue;
                     else if(leftType.StartsWith("deque<"))
-                        return ContainerHelper.ToString((IDeque)leftValue, graph) + (string)rightValue;
+                        return EmitHelper.ToString((IDeque)leftValue, graph) + (string)rightValue;
                     else if(leftType == "string")
                         return (string)leftValue + (string)rightValue;
                     else
-                        return ContainerHelper.ToString(leftValue, graph) + (string)rightValue;
+                        return EmitHelper.ToString(leftValue, graph) + (string)rightValue;
                 }
             }
             else if(balancedType.StartsWith("array<"))
@@ -2883,32 +2883,32 @@ namespace de.unika.ipd.grGen.libGr
                 if(leftType == "string")
                 {
                     if(rightType.StartsWith("set<"))
-                        return "("+leftValue+" + GRGEN_LIBGR.ContainerHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph))";
                     else if(rightType.StartsWith("map<"))
-                        return "("+leftValue+" + GRGEN_LIBGR.ContainerHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph))";
                     else if(rightType.StartsWith("array<"))
-                        return "("+leftValue+" + GRGEN_LIBGR.ContainerHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph))";
                     else if(rightType.StartsWith("deque<"))
-                        return "(" + leftValue + " + GRGEN_LIBGR.ContainerHelper.ToString(" + rightValue + ", graph))";
+                        return "(" + leftValue + " + GRGEN_LIBGR.EmitHelper.ToString(" + rightValue + ", graph))";
                     else if(rightType == "string")
                         return "("+leftValue+" + "+rightValue+")";
                     else
-                        return "("+leftValue+" + GRGEN_LIBGR.ContainerHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph))";
                 }
                 else //rightType == "string"
                 {
                     if(leftType.StartsWith("set<"))
-                        return "(GRGEN_LIBGR.ContainerHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph) + "+rightValue+")";
                     else if(leftType.StartsWith("map<"))
-                        return "(GRGEN_LIBGR.ContainerHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph) + "+rightValue+")";
                     else if(leftType.StartsWith("array<"))
-                        return "(GRGEN_LIBGR.ContainerHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph) + "+rightValue+")";
                     else if(leftType.StartsWith("deque<"))
-                        return "(GRGEN_LIBGR.ContainerHelper.ToString(" + leftValue + ", graph) + " + rightValue + ")";
+                        return "(GRGEN_LIBGR.EmitHelper.ToString(" + leftValue + ", graph) + " + rightValue + ")";
                     else if(leftType == "string")
                         return "("+leftValue+" + "+rightValue+")";
                     else
-                        return "(GRGEN_LIBGR.ContainerHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph) + "+rightValue+")";
                 }
             }
             else if(balancedType.StartsWith("array<"))

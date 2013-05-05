@@ -63,6 +63,7 @@ public class ModelGen extends CSharpBase {
 				+ "\n"
 				+ "using System;\n"
 				+ "using System.Collections.Generic;\n"
+				+ "using System.IO;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
 				+ "\n"
@@ -107,10 +108,11 @@ public class ModelGen extends CSharpBase {
 		
 		///////////////////////////////////////////////////////////////////////////////////////////
 		// generate the external functions and types stub file
-		// only if there are external functions or external procedures or external types required
+		// only if there are external functions or external procedures or external types required or the emit class is to be generated
 		if(model.getExternalTypes().isEmpty() 
 				&& model.getExternalFunctions().isEmpty()
-				&& model.getExternalProcedures().isEmpty())
+				&& model.getExternalProcedures().isEmpty()
+				&& !model.isEmitClassDefined())
 			return;
 
 		filename = model.getIdent() + "ModelExternalFunctions.cs";
@@ -125,16 +127,20 @@ public class ModelGen extends CSharpBase {
 				+ "\n"
 				+ "using System;\n"
 				+ "using System.Collections.Generic;\n"
+				+ "using System.IO;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n");
 
-		if(!model.getExternalTypes().isEmpty())
+		if(!model.getExternalTypes().isEmpty() || model.isEmitClassDefined())
 		{
 			sb.append("\n");
 			sb.append("namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n"
 					+ "{\n");
 
 			genExternalClasses();
+
+			if(model.isEmitClassDefined())
+				genEmitterParserClass();
 
 			sb.append("}\n");
 		}
@@ -182,8 +188,12 @@ public class ModelGen extends CSharpBase {
 		System.out.println("    writing to " + be.path + " / " + filename);
 		writeFile(be.path, filename, sb);
 
-		System.out.println("    copying " + be.path + " / " + filename + " to " + be.path.getAbsoluteFile().getParent() + " / " + filename);
-		copyFile(new File(be.path, filename), new File(be.path.getAbsoluteFile().getParent(), filename));
+		if(be.path.compareTo(new File("."))==0) {
+			System.out.println("    no copy needed for " + be.path + " / " + filename);
+		} else {
+			System.out.println("    copying " + be.path + " / " + filename + " to " + be.path.getAbsoluteFile().getParent() + " / " + filename);
+			copyFile(new File(be.path, filename), new File(be.path.getAbsoluteFile().getParent(), filename));
+		}
 	}
 
 	private StringBuffer getStubBuffer() {
@@ -1394,32 +1404,32 @@ deque_init_loop:
 		if (t instanceof EnumType) {
 			sb.append(getAttributeKind(t) + ", GRGEN_MODEL.Enums.@" + formatIdentifiable(t) + ", "
 					+ "null, null, "
-					+ "null");
+					+ "null, typeof(" + formatAttributeType(t) + ")");
 		} else if (t instanceof MapType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_map_range_type" + ", "
 					+ formatAttributeTypeName(e) + "_map_domain_type" + ", "
-					+ "null");
+					+ "null, typeof(" + formatAttributeType(t) + ")");
 		} else if (t instanceof SetType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_set_member_type" + ", null, "
-					+ "null");
+					+ "null, typeof(" + formatAttributeType(t) + ")");
 		} else if (t instanceof ArrayType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_array_member_type" + ", null, "
-					+ "null");
+					+ "null, typeof(" + formatAttributeType(t) + ")");
 		} else if (t instanceof DequeType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_deque_member_type" + ", null, "
-					+ "null");
+					+ "null, typeof(" + formatAttributeType(t) + ")");
 		} else if (t instanceof NodeType || t instanceof EdgeType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ "null, null, "
-					+ "\"" + formatIdentifiable(t) + "\"");
+					+ "\"" + formatIdentifiable(t) + "\", typeof(" + formatElementInterfaceRef(t) + ")");
 		} else {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ "null, null, "
-					+ "null");
+					+ "null, typeof(" + formatAttributeType(t) + ")");
 		}
 	}
 
@@ -1936,7 +1946,36 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo "
 				+ "{ get { return validateInfos; } }\n");
 		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes "
-				+ "{ get { return enumAttributeTypes; } }\n");
+				+ "{ get { return enumAttributeTypes; } }\n\n");
+		if(model.isEmitClassDefined()) {
+			sb.append("\t\tpublic object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn AttributeTypeObjectEmitterParser.Parse(reader, attrType, graph);\n");
+			sb.append("\t\t}\n");
+			sb.append("\t\tpublic string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn AttributeTypeObjectEmitterParser.Serialize(attribute, attrType, graph);\n");
+			sb.append("\t\t}\n");
+			sb.append("\t\tpublic string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);\n");
+			sb.append("\t\t}\n\n");
+		} else {
+			sb.append("\t\tpublic object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'\n");
+			sb.append("\t\t\treturn null;\n");
+			sb.append("\t\t}\n");
+			sb.append("\t\tpublic string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\tConsole.WriteLine(\"Warning: Exporting attribute of object type to null\");\n");
+			sb.append("\t\t\treturn \"null\";\n");
+			sb.append("\t\t}\n");
+			sb.append("\t\tpublic string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn attribute!=null ? attribute.ToString() : \"null\";\n");
+			sb.append("\t\t}\n\n");
+		}
 		sb.append("\t\tpublic string MD5Hash { get { return \"" + be.unit.getTypeDigest() + "\"; } }\n");
 	}
 
@@ -1991,6 +2030,48 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t// You must implement this class in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n");
 			sb.append("\t}\n");
 		}
+	}
+
+	private void genEmitterParserClass() {
+		sb.append("\tpublic partial class AttributeTypeObjectEmitterParser");
+		sb.append("\n");
+		sb.append("\t{\n");
+		sb.append("\t\t// You must implement this class in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n");
+		sb.append("\t\t// You must implement the functions called by the following functions inside that class (same name plus suffix Impl):\n");
+		sb.append("\n");
+		sb.append("\t\t// Called during .grs import, at exactly the position in the text reader where the attribute begins.\n");
+		sb.append("\t\t// For attribute type object or a user defined type, which is treated as object.\n");
+		sb.append("\t\t// The implementation must parse from there on the attribute type requested.\n");
+		sb.append("\t\t// It must not parse beyond the serialized representation of the attribute, \n");
+		sb.append("\t\t// i.e. Peek() must return the first character not belonging to the attribute type any more.\n");
+		sb.append("\t\t// Returns the parsed object.\n");
+		sb.append("\t\tpublic static object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\treturn ParseImpl(reader, attrType, graph);\n");
+		sb.append("\t\t\t//reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l' // default implementation\n");
+		sb.append("\t\t\t//return null; // default implementation\n");
+		sb.append("\t\t}\n");
+		sb.append("\n");
+		sb.append("\t\t// Called during .grs export, the implementation must return a string representation for the attribute.\n");
+		sb.append("\t\t// For attribute type object or a user defined type, which is treated as object.\n");
+		sb.append("\t\t// The serialized string must be parseable by Parse.\n");
+		sb.append("\t\tpublic static string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\treturn SerializeImpl(attribute, attrType, graph);\n");
+		sb.append("\t\t\t//Console.WriteLine(\"Warning: Exporting attribute of object type to null\"); // default implementation\n");
+		sb.append("\t\t\t//return \"null\"; // default implementation\n");
+		sb.append("\t\t}\n");
+		sb.append("\n");
+		sb.append("\t\t// Called during debugging or emit writing, the implementation must return a string representation for the attribute.\n");
+		sb.append("\t\t// For attribute type object or a user defined type, which is treated as object.\n");
+		sb.append("\t\t// The attribute type may be null.\n");
+		sb.append("\t\t// The string is meant for consumption by humans, it does not need to be parseable.\n");
+		sb.append("\t\tpublic static string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\treturn EmitImpl(attribute, attrType, graph);\n");
+		sb.append("\t\t\t//return \"null\"; // default implementation\n");
+		sb.append("\t\t}\n");
+		sb.append("\t}\n");
 	}
 
 	private void genExternalFunctionHeaders() {

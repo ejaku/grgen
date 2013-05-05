@@ -797,22 +797,22 @@ namespace de.unika.ipd.grGen.grShell
         {
             if (attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
-                ContainerHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.ArrayAttr)
             {
-                ContainerHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.DequeAttr)
             {
-                ContainerHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
             else
             {
-                ContainerHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
         }
@@ -822,22 +822,22 @@ namespace de.unika.ipd.grGen.grShell
         {
             if (attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
-                ContainerHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.ArrayAttr)
             {
-                ContainerHelper.ToString((IList)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.DequeAttr)
             {
-                ContainerHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), changeType, newValue, out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), changeType, newValue, out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
             else
             {
-                ContainerHelper.ToString(newValue, out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString(newValue, out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
         }

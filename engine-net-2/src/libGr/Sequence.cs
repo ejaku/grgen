@@ -809,7 +809,7 @@ namespace de.unika.ipd.grGen.libGr
                 for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
                 {
                     if(ParamBindings.ArgumentExpressions[i] != null)
-                        sb.Append(ContainerHelper.ToStringAutomatic(ParamBindings.ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
+                        sb.Append(EmitHelper.ToStringAutomatic(ParamBindings.ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
                     else
                         sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
                     if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
@@ -3434,7 +3434,7 @@ namespace de.unika.ipd.grGen.libGr
                 for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
                 {
                     if(ParamBindings.ArgumentExpressions[i] != null)
-                        sb.Append(ContainerHelper.ToStringAutomatic(ParamBindings.ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
+                        sb.Append(EmitHelper.ToStringAutomatic(ParamBindings.ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
                     else
                         sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
                     if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");

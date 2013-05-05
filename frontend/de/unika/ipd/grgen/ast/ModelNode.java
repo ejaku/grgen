@@ -43,10 +43,11 @@ public class ModelNode extends DeclNode {
 	protected CollectNode<ExternalProcedureDeclNode> externalProcDecls;
 	private CollectNode<IdentNode> externalProcDeclsUnresolved;
 	private ModelTypeNode type;
+	private boolean isEmitClassDefined;
 
 	public ModelNode(IdentNode id, CollectNode<IdentNode> decls, 
 			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
-			CollectNode<ModelNode> usedModels) {
+			CollectNode<ModelNode> usedModels, boolean isEmitClassDefined) {
 		super(id, modelType);
 
 		this.declsUnresolved = decls;
@@ -57,6 +58,7 @@ public class ModelNode extends DeclNode {
 		becomeParent(this.externalProcDeclsUnresolved);
 		this.usedModels = usedModels;
 		becomeParent(this.usedModels);
+		this.isEmitClassDefined = isEmitClassDefined;
 	}
 
 	/** returns children of this node */
@@ -117,6 +119,10 @@ public class ModelNode extends DeclNode {
 	protected boolean checkLocal() {
 		return checkInhCycleFree();
 	}
+	
+	public boolean IsEmitClassDefined() {
+		return isEmitClassDefined;
+	}
 
 	/**
 	 * Get the IR model node for this AST node.
@@ -134,7 +140,7 @@ public class ModelNode extends DeclNode {
 	@Override
 	protected Model constructIR() {
 		Ident id = ident.checkIR(Ident.class);
-		Model res = new Model(id);
+		Model res = new Model(id, isEmitClassDefined);
 		for(ModelNode model : usedModels.getChildren())
 			res.addUsedModel(model.getModel());
 		for(TypeDeclNode typeDecl : decls.getChildren()) {

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Diagnostics;
+using System.IO;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -261,6 +262,37 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IEnumerable<ValidateInfo> ValidateInfo { get; }
 
+
+        #region Emitting and parsing of attributes of object or a user defined type
+        
+        /// <summary>
+        /// Called during .grs import, at exactly the position in the text reader where the attribute begins.
+        /// For attribute type object or a user defined type, which is treated as object.
+        /// The implementation must parse from there on the attribute type requested.
+        /// It must not parse beyond the serialized representation of the attribute, 
+        /// i.e. Peek() must return the first character not belonging to the attribute type any more.
+        /// Returns the parsed object.
+        /// </summary>
+        object Parse(TextReader reader, AttributeType attrType, IGraph graph);
+
+        /// <summary>
+        /// Called during .grs export, the implementation must return a string representation for the attribute.
+        /// For attribute type object or a user defined type, which is treated as object.
+        /// The serialized string must be parseable by Parse.
+        /// </summary>
+        string Serialize(object attribute, AttributeType attrType, IGraph graph);
+
+        /// <summary>
+        /// Called during debugging or emit writing, the implementation must return a string representation for the attribute.
+        /// For attribute type object or a user defined type, which is treated as object.
+        /// The attribute type may be null.
+        /// The string is meant for consumption by humans, it does not need to be parseable.
+        /// </summary>
+        string Emit(object attribute, AttributeType attrType, IGraph graph);
+
+        #endregion Emitting and parsing of attributes of object or a user defined type
+
+
         /// <summary>
         /// An MD5 hash sum of the model.
         /// </summary>
@@ -372,6 +404,11 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String TypeName;
 
         /// <summary>
+        /// The .NET type of the Attribute Type
+        /// </summary>
+        public readonly Type Type;
+
+        /// <summary>
         /// The annotations of the attribute
         /// </summary>
         public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -393,7 +430,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="typeName">The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr; otherwise null.</param>
         public AttributeType(String name, GrGenType ownerType, AttributeKind kind,
             EnumAttributeType enumType, AttributeType valueType, AttributeType keyType,
-            String typeName)
+            String typeName, Type type)
         {
             Name = name;
             OwnerType = ownerType;
@@ -402,6 +439,7 @@ namespace de.unika.ipd.grGen.libGr
             ValueType = valueType;
             KeyType = keyType;
             TypeName = typeName;
+            Type = type;
         }
 
         /// <summary>

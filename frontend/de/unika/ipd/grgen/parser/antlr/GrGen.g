@@ -228,8 +228,12 @@ textActions returns [ UnitNode main = null ]
 				//
 				IdentNode id = new IdentNode(env.define(ParserEnvironment.ENTITIES, actionsName,
 					modelChilds.getCoords()));
+				boolean isEmitClassDefined = false;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					isEmitClassDefined |= modelChild.IsEmitClassDefined();
+				}
 				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(), 
-						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds);
+						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, isEmitClassDefined);
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
@@ -2252,20 +2256,23 @@ textTypes returns [ ModelNode model = null ]
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
 		)?
 		( usingDecl[modelChilds] )?
-		typeDecls[types, externalFuncs, externalProcs] EOF
+		isEmitClassDefined = typeDecls[types, externalFuncs, externalProcs] EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
-			model = new ModelNode(id, types, externalFuncs, externalProcs, modelChilds);
+			model = new ModelNode(id, types, externalFuncs, externalProcs, modelChilds, isEmitClassDefined);
 		}
 	;
 
 typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,  CollectNode<IdentNode> externalProcs ]
+	returns [ boolean isEmitClassDefined = false; ]
 	: (
 		type=typeDecl { types.addChild(type); }
 	  |
 		id=funcOrExtFuncIdentDecl params=paramTypes
 		externalFunctionOrProcedureDecl[id, params, externalFuncs, externalProcs]
+	  |
+	    EMIT CLASS SEMI { isEmitClassDefined = true; }
 	  )*
 	;
 
