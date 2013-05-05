@@ -206,7 +206,7 @@ Table~\ref{seqtab} lists most of the operations of the graph rewrite sequences a
 \hline
 \texttt{highlight(vars)} & Highlights the content of the variables in the graph. \\
 \hline
-\texttt{\$\{(r1,[r2],\$[r3])\}}	& Tries to match all contained rules, then rewrites indeterministically one of the rules which matched. True if at least one matched.\\
+\texttt{\$\{<r1,[r2],\$[r3]>\}}	& Tries to match all contained rules, then rewrites indeterministically one of the rules which matched. True if at least one matched.\\
 \hline
 \texttt{for\{v in u; t\}}	& Execute \texttt{t} for every \texttt{v} in storage set \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
 \texttt{for\{v->w in u; t\}}	& Execute \texttt{t} for every pair (\texttt{v},\texttt{w} in storage map \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\

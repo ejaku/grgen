@@ -10,6 +10,7 @@ The primary means available are: external attribute types, external functions, m
   ExternalClassDeclaration: 'class' IdentDecl (() | 'extends' (ExternalClassType+',')) ';';
 \end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{class}\ixkeyw{extends}
 Registers a new attribute type with \GrG. You may declare the base types of the type, but not give attributes. The attribute type must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions can do computations with it. You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs.
+(Those types are not implicitely casted to \texttt{object}, but can be explicitely casted.)
 
 %-----------------------------------------------------------------------------------------------
 \section{External Function Types}\label{sub:extfct}
@@ -67,6 +68,17 @@ The same holds for independent patterns; negative patterns do not appear in the 
 Registers an \indexed{external sequence} similar to a defined sequence (cf. \ref{sec:sequencedefinition}) but in contrast to that it must or can be implemented outside in C\# code.
 An external sequence declaration specifies the expected input types and the output types. The sequence must be implemented externally, see \ref{sub:extfltseqimpl}.
 You may extend \GrG~with external sequences if you want to call into external code to interface with libraries from outside the domain of graph rewriting, or if the \GrG-languages are not well suited for parts of the task at hand.
+
+%-----------------------------------------------------------------------------------------------
+\section{External Emitting and Parsing}\label{sub:extemitparse}
+\begin{rail}
+  EmitParseDeclaration: 'emit' 'class' ';';
+\end{rail}\ixnterm{EmitParseDeclaration}\ixkeyw{emit}\ixkeyw{class}
+Tells \GrG~that the developer wants to extend grs importing and exporting, as well as emitting and debugger display, so that they can handle external types, or the type \texttt{object}.
+This allows for a tight integration of external types with the built-in functionality;
+it allows to inspect types not defined in \GrG~in the debugger (incl. yComp),
+and it allows to serialize/deserialize of graphs including types not defined in \GrG.
+See \ref{sub:apiextemitparse} for an explanation on what needs to be implement in this case.
 
 %-----------------------------------------------------------------------------------------------
 \section{Shell Commands}
