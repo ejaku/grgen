@@ -1,9 +1,10 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Thu May 02 20:05:48 CEST 2013
+// Generated from "..\..\tests\independent\Independent.grg" on Sun May 05 20:06:44 CEST 2013
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 
@@ -273,7 +274,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public static GRGEN_LIBGR.AttributeType AttributeType_val;
 		public NodeType_intNode() : base((int) NodeTypes.@intNode)
 		{
-			AttributeType_val = new GRGEN_LIBGR.AttributeType("val", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_val = new GRGEN_LIBGR.AttributeType("val", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "intNode"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Independent.IintNode"; } }
@@ -801,6 +802,22 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
 	}
 
@@ -846,6 +863,22 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
 	}
 
@@ -911,6 +944,22 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
 	}
 }

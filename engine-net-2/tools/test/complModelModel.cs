@@ -1,9 +1,10 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Thu May 02 20:06:53 CEST 2013
+// Generated from "test.grg" on Sun May 05 20:06:30 CEST 2013
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 
@@ -273,7 +274,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_a1;
 		public NodeType_A1() : base((int) NodeTypes.@A1)
 		{
-			AttributeType_a1 = new GRGEN_LIBGR.AttributeType("a1", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_a1 = new GRGEN_LIBGR.AttributeType("a1", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "A1"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IA1"; } }
@@ -453,7 +454,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_a2;
 		public NodeType_A2() : base((int) NodeTypes.@A2)
 		{
-			AttributeType_a2 = new GRGEN_LIBGR.AttributeType("a2", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_a2 = new GRGEN_LIBGR.AttributeType("a2", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "A2"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IA2"; } }
@@ -640,7 +641,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_a3;
 		public NodeType_A3() : base((int) NodeTypes.@A3)
 		{
-			AttributeType_a3 = new GRGEN_LIBGR.AttributeType("a3", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_a3 = new GRGEN_LIBGR.AttributeType("a3", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "A3"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IA3"; } }
@@ -820,7 +821,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_a4;
 		public NodeType_A4() : base((int) NodeTypes.@A4)
 		{
-			AttributeType_a4 = new GRGEN_LIBGR.AttributeType("a4", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_a4 = new GRGEN_LIBGR.AttributeType("a4", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "A4"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IA4"; } }
@@ -1008,7 +1009,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_a5;
 		public NodeType_A5() : base((int) NodeTypes.@A5)
 		{
-			AttributeType_a5 = new GRGEN_LIBGR.AttributeType("a5", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_a5 = new GRGEN_LIBGR.AttributeType("a5", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "A5"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IA5"; } }
@@ -1209,7 +1210,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_b21;
 		public NodeType_B21() : base((int) NodeTypes.@B21)
 		{
-			AttributeType_b21 = new GRGEN_LIBGR.AttributeType("b21", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_b21 = new GRGEN_LIBGR.AttributeType("b21", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "B21"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB21"; } }
@@ -1425,7 +1426,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_b22;
 		public NodeType_B22() : base((int) NodeTypes.@B22)
 		{
-			AttributeType_b22 = new GRGEN_LIBGR.AttributeType("b22", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_b22 = new GRGEN_LIBGR.AttributeType("b22", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "B22"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB22"; } }
@@ -1641,7 +1642,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_b23;
 		public NodeType_B23() : base((int) NodeTypes.@B23)
 		{
-			AttributeType_b23 = new GRGEN_LIBGR.AttributeType("b23", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_b23 = new GRGEN_LIBGR.AttributeType("b23", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "B23"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB23"; } }
@@ -1857,7 +1858,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_b41;
 		public NodeType_B41() : base((int) NodeTypes.@B41)
 		{
-			AttributeType_b41 = new GRGEN_LIBGR.AttributeType("b41", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_b41 = new GRGEN_LIBGR.AttributeType("b41", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "B41"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB41"; } }
@@ -2074,7 +2075,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_b42;
 		public NodeType_B42() : base((int) NodeTypes.@B42)
 		{
-			AttributeType_b42 = new GRGEN_LIBGR.AttributeType("b42", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_b42 = new GRGEN_LIBGR.AttributeType("b42", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "B42"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB42"; } }
@@ -2508,7 +2509,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_c221;
 		public NodeType_C221() : base((int) NodeTypes.@C221)
 		{
-			AttributeType_c221 = new GRGEN_LIBGR.AttributeType("c221", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_c221 = new GRGEN_LIBGR.AttributeType("c221", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "C221"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IC221"; } }
@@ -2794,7 +2795,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_c222_411;
 		public NodeType_C222_411() : base((int) NodeTypes.@C222_411)
 		{
-			AttributeType_c222_411 = new GRGEN_LIBGR.AttributeType("c222_411", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_c222_411 = new GRGEN_LIBGR.AttributeType("c222_411", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "C222_411"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IC222_411"; } }
@@ -3391,7 +3392,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_c432_422;
 		public NodeType_C432_422() : base((int) NodeTypes.@C432_422)
 		{
-			AttributeType_c432_422 = new GRGEN_LIBGR.AttributeType("c432_422", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_c432_422 = new GRGEN_LIBGR.AttributeType("c432_422", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "C432_422"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IC432_422"; } }
@@ -3733,7 +3734,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_d11_2221;
 		public NodeType_D11_2221() : base((int) NodeTypes.@D11_2221)
 		{
-			AttributeType_d11_2221 = new GRGEN_LIBGR.AttributeType("d11_2221", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_d11_2221 = new GRGEN_LIBGR.AttributeType("d11_2221", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "D11_2221"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.ID11_2221"; } }
@@ -4139,7 +4140,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_d2211_2222_31;
 		public NodeType_D2211_2222_31() : base((int) NodeTypes.@D2211_2222_31)
 		{
-			AttributeType_d2211_2222_31 = new GRGEN_LIBGR.AttributeType("d2211_2222_31", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_d2211_2222_31 = new GRGEN_LIBGR.AttributeType("d2211_2222_31", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "D2211_2222_31"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.ID2211_2222_31"; } }
@@ -4479,7 +4480,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_d231_4121;
 		public NodeType_D231_4121() : base((int) NodeTypes.@D231_4121)
 		{
-			AttributeType_d231_4121 = new GRGEN_LIBGR.AttributeType("d231_4121", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_d231_4121 = new GRGEN_LIBGR.AttributeType("d231_4121", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "D231_4121"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.ID231_4121"; } }
@@ -5519,6 +5520,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
 	}
 
@@ -5649,6 +5666,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
 	}
 
@@ -5884,6 +5917,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
 	}
 }

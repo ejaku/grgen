@@ -1,9 +1,10 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Thu May 02 20:05:53 CEST 2013
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun May 05 20:06:50 CEST 2013
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 
@@ -273,7 +274,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_name;
 		public NodeType_Package() : base((int) NodeTypes.@Package)
 		{
-			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null);
+			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
 		}
 		public override string Name { get { return "Package"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IPackage"; } }
@@ -484,9 +485,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_isAbstract;
 		public NodeType_Classifier() : base((int) NodeTypes.@Classifier)
 		{
-			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null);
-			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null);
-			AttributeType_isAbstract = new GRGEN_LIBGR.AttributeType("isAbstract", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
+			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
+			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
+			AttributeType_isAbstract = new GRGEN_LIBGR.AttributeType("isAbstract", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Classifier"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IClassifier"; } }
@@ -721,7 +722,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_isFinal;
 		public NodeType_Class() : base((int) NodeTypes.@Class)
 		{
-			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
+			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Class"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IClass"; } }
@@ -1193,10 +1194,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_isFinal;
 		public NodeType_Variable() : base((int) NodeTypes.@Variable)
 		{
-			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null);
-			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null);
-			AttributeType_isStatic = new GRGEN_LIBGR.AttributeType("isStatic", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
-			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
+			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
+			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
+			AttributeType_isStatic = new GRGEN_LIBGR.AttributeType("isStatic", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Variable"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IVariable"; } }
@@ -1448,11 +1449,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_isFinal;
 		public NodeType_Operation() : base((int) NodeTypes.@Operation)
 		{
-			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null);
-			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null);
-			AttributeType_isAbstract = new GRGEN_LIBGR.AttributeType("isAbstract", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
-			AttributeType_isStatic = new GRGEN_LIBGR.AttributeType("isStatic", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
-			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
+			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
+			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
+			AttributeType_isAbstract = new GRGEN_LIBGR.AttributeType("isAbstract", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_isStatic = new GRGEN_LIBGR.AttributeType("isStatic", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Operation"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IOperation"; } }
@@ -1911,7 +1912,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_this;
 		public NodeType_Access() : base((int) NodeTypes.@Access)
 		{
-			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
+			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Access"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IAccess"; } }
@@ -2096,7 +2097,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_this;
 		public NodeType_Update() : base((int) NodeTypes.@Update)
 		{
-			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
+			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Update"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IUpdate"; } }
@@ -2297,8 +2298,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_super;
 		public NodeType_Call() : base((int) NodeTypes.@Call)
 		{
-			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
-			AttributeType_super = new GRGEN_LIBGR.AttributeType("super", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
+			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_super = new GRGEN_LIBGR.AttributeType("super", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Call"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.ICall"; } }
@@ -2623,7 +2624,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_name;
 		public NodeType_Operator() : base((int) NodeTypes.@Operator)
 		{
-			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null);
+			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
 		}
 		public override string Name { get { return "Operator"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IOperator"; } }
@@ -3076,7 +3077,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_Literal() : base((int) NodeTypes.@Literal)
 		{
-			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null);
+			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
 		}
 		public override string Name { get { return "Literal"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.ILiteral"; } }
@@ -4775,7 +4776,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_order;
 		public EdgeType_parameter() : base((int) EdgeTypes.@parameter)
 		{
-			AttributeType_order = new GRGEN_LIBGR.AttributeType("order", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_order = new GRGEN_LIBGR.AttributeType("order", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "parameter"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iparameter"; } }
@@ -5383,7 +5384,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_order;
 		public EdgeType_expression() : base((int) EdgeTypes.@expression)
 		{
-			AttributeType_order = new GRGEN_LIBGR.AttributeType("order", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_order = new GRGEN_LIBGR.AttributeType("order", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "expression"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iexpression"; } }
@@ -6050,6 +6051,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "8fd694f4f8cc691f8759cb852bb0c81c"; } }
 	}
 
@@ -6235,6 +6252,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "8fd694f4f8cc691f8759cb852bb0c81c"; } }
 	}
 
@@ -6580,6 +6613,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "8fd694f4f8cc691f8759cb852bb0c81c"; } }
 	}
 }

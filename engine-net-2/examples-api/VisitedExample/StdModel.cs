@@ -1,9 +1,10 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "VisitedExample.grg" on Thu May 02 20:06:11 CEST 2013
+// Generated from "VisitedExample.grg" on Sun May 05 20:07:09 CEST 2013
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 
@@ -604,6 +605,22 @@ namespace de.unika.ipd.grGen.Model_Std
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
 	}
 
@@ -644,6 +661,22 @@ namespace de.unika.ipd.grGen.Model_Std
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
 	}
 
@@ -699,6 +732,22 @@ namespace de.unika.ipd.grGen.Model_Std
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+
+		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+			return null;
+		}
+		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.WriteLine("Warning: Exporting attribute of object type to null");
+			return "null";
+		}
+		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return attribute!=null ? attribute.ToString() : "null";
+		}
+
 		public string MD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
 	}
 }

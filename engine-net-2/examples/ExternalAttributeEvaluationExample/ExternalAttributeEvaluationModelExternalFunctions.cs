@@ -1,9 +1,10 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalAttributeEvaluation.grg" on Sat Apr 20 20:01:22 CEST 2013
+// Generated from "ExternalAttributeEvaluation.grg" on Sun May 05 18:06:47 CEST 2013
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 
@@ -20,6 +21,44 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	public partial class OwnPownHome : OwnPown
 	{
 		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
+	}
+	public partial class AttributeTypeObjectEmitterParser
+	{
+		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
+		// You must implement the functions called by the following functions inside that class (same name plus suffix Impl):
+
+		// Called during .grs import, at exactly the position in the text reader where the attribute begins.
+		// For attribute type object or a user defined type, which is treated as object.
+		// The implementation must parse from there on the attribute type requested.
+		// It must not parse beyond the serialized representation of the attribute, 
+		// i.e. Peek() must return the first character not belonging to the attribute type any more.
+		// Returns the parsed object.
+		public static object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return ParseImpl(reader, attrType, graph);
+			//reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l' // default implementation
+			//return null; // default implementation
+		}
+
+		// Called during .grs export, the implementation must return a string representation for the attribute.
+		// For attribute type object or a user defined type, which is treated as object.
+		// The serialized string must be parseable by Parse.
+		public static string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return SerializeImpl(attribute, attrType, graph);
+			//Console.WriteLine("Warning: Exporting attribute of object type to null"); // default implementation
+			//return "null"; // default implementation
+		}
+
+		// Called during debugging or emit writing, the implementation must return a string representation for the attribute.
+		// For attribute type object or a user defined type, which is treated as object.
+		// The attribute type may be null.
+		// The string is meant for consumption by humans, it does not need to be parseable.
+		public static string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return EmitImpl(attribute, attrType, graph);
+			//return "null"; // default implementation
+		}
 	}
 }
 
@@ -39,6 +78,9 @@ namespace de.unika.ipd.grGen.expression
 		//public static GRGEN_MODEL.OwnPown har(GRGEN_MODEL.Own, GRGEN_MODEL.OwnPown);
 		//public static bool hur(GRGEN_MODEL.OwnPown);
 		//public static bool hurdur(GRGEN_MODEL.OwnPownHome);
+		//public static GRGEN_MODEL.Own own();
+		//public static GRGEN_MODEL.OwnPown ownPown();
+		//public static GRGEN_MODEL.OwnPownHome ownPownHome();
 	}
 }
 

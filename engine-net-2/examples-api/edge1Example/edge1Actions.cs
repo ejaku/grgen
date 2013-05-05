@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Thu May 02 20:05:41 CEST 2013
+// Generated from "..\..\tests\edge1\edge1.grg" on Sun May 05 20:06:35 CEST 2013
 
 using System;
 using System.Collections.Generic;
