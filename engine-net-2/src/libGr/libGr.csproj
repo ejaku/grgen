@@ -68,6 +68,7 @@
     <Compile Include="BaseGraph.cs" />
     <Compile Include="ContainerHelper.cs" />
     <Compile Include="Deque.cs" />
+    <Compile Include="EmitHelper.cs" />
     <Compile Include="FunctionInfo.cs" />
     <Compile Include="GraphHelper.cs" />
     <Compile Include="InvocationRepresentations.cs" />

@@ -904,7 +904,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             object value = Expression.Evaluate(procEnv);
             if(value != null)
-                procEnv.EmitWriter.Write(ContainerHelper.ToStringNonNull(value, procEnv.Graph));
+                procEnv.EmitWriter.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph));
             return value;
         }
 
@@ -951,7 +951,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             object value = Expression.Evaluate(procEnv);
             if(value != null)
-                procEnv.Recorder.Write(ContainerHelper.ToStringNonNull(value, procEnv.Graph));
+                procEnv.Recorder.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph));
             return value;
         }
 

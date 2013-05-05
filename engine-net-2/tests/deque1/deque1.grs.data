@@ -1,15 +1,15 @@
-"]foo, bar[".
-"]1, 2[".
+"]foo,bar[".
+"]1,2[".
 "argl".
-"]foo, bar[".
-"]1, 2[".
+"]foo,bar[".
+"]1,2[".
 "gurgl".
 "]blubb[".
 "]3[".
-"]foo, bar[".
-"]1, 2[".
-"]foo, bar[".
-"]1, 2[".
+"]foo,bar[".
+"]1,2[".
+"]foo,bar[".
+"]1,2[".
 "]blubb[".
 "]3[".
 0
@@ -17,18 +17,18 @@
 "]blubb[".
 1
 1
-"]blubb, foo, huu[".
+"]blubb,foo,huu[".
 1
 1
 1
 1
-"]foo, bar[".
+"]foo,bar[".
 1
 1
 "]foo[".
 1
 1
-"]foo, harr[".
+"]foo,harr[".
 1
 1
 "]harr[".
@@ -40,7 +40,7 @@
 1
 0
 0
-"]Hallo, Handtuch[".
+"]Hallo,Handtuch[".
 "]Hallo,Handtuch["
 yes
 1

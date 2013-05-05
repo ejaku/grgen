@@ -1,0 +1,30 @@
+new graph ExternalAttributeEvaluation/ExternalAttributeEvaluation
+
+exec (::n)=init
+n.i
+n.ow
+n.s
+n.op
+n.o1
+n.o2
+n.oh
+
+export ExternalAttributeEvaluation/eae.grs
+
+clear graph
+
+import ExternalAttributeEvaluation/eae.grs ExternalAttributeEvaluation/ExternalAttributeEvaluation.grg
+
+exec (::n)=findN
+n.i
+n.ow
+n.s
+n.op
+n.o1
+n.o2
+n.oh
+
+# the test script tries to test all available .grs; no sense in trying to test the exported graph
+!rm ExternalAttributeEvaluation/eae.grs
+
+quit

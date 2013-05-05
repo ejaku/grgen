@@ -242,7 +242,7 @@ namespace de.unika.ipd.grGen.libGr
                             writer.Write(".add(");
                             writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
                             writer.Write(", ");
-                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                             writer.WriteLine(")");
                         }
                         break;
@@ -258,7 +258,7 @@ namespace de.unika.ipd.grGen.libGr
                             writer.Write(".add(");
                             writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
                             writer.Write(", ");
-                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                             writer.WriteLine(")");
                         }
                         break;
@@ -283,13 +283,13 @@ namespace de.unika.ipd.grGen.libGr
                     case AttributeKind.ArrayAttr:
                         writer.Write(".rem(");
                         if(keyValue!=null)
-                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                         writer.WriteLine(")");
                         break;
                     case AttributeKind.DequeAttr:
                         writer.Write(".rem(");
                         if(keyValue != null)
-                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                         writer.WriteLine(")");
                         break;
                     default:
@@ -302,13 +302,13 @@ namespace de.unika.ipd.grGen.libGr
                     {
                     case AttributeKind.ArrayAttr:
                         writer.Write("[");
-                        writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                        writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                         writer.Write("] = ");
                         writer.WriteLine(GRSExport.ToString(newValue, attrType.ValueType, graph));
                         break;
                     case AttributeKind.DequeAttr:
                         writer.Write("[");
-                        writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                        writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                         writer.Write("] = ");
                         writer.WriteLine(GRSExport.ToString(newValue, attrType.ValueType, graph));
                         break;

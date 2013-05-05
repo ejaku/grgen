@@ -33,10 +33,13 @@ public class Model extends Identifiable {
 	private Set<ExternalType> externalTypes = new LinkedHashSet<ExternalType>();
 	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
 	private Set<ExternalProcedure> externalProcs = new LinkedHashSet<ExternalProcedure>();
+	private boolean isEmitClassDefined;
 
 
-	public Model(Ident ident) {
+	public Model(Ident ident, boolean isEmitClassDefined) {
 		super("model", ident);
+		
+		this.isEmitClassDefined = isEmitClassDefined;
 	}
 
 	public void addUsedModel(Model model) {
@@ -97,6 +100,10 @@ public class Model extends Identifiable {
 
 	public Collection<Model> getUsedModels() {
 		return Collections.unmodifiableCollection(usedModels);
+	}
+	
+	public boolean isEmitClassDefined() {
+		return isEmitClassDefined;
 	}
 
 	/** Canonicalize the type model. */

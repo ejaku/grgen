@@ -30,10 +30,10 @@
 "{bar}".
 "{bar->foo}".
 "{bar->foo}".
-"[foo, bar]".
-"[foo, bar]".
-"]foo, bar[".
-"]foo, bar[".
+"[foo,bar]".
+"[foo,bar]".
+"]foo,bar[".
+"]foo,bar[".
 "{foo}".
 "{foo}".
 "{foo->bar}".
@@ -62,11 +62,11 @@
 "]foo[".
 2
 2
-"{haha, hoho, huhu}".
-"{haha, hoho, huhu}".
+"{haha,hoho,huhu}".
+"{haha,hoho,huhu}".
 "{hui->buh}".
 "{hui->buh}".
-"[haha, hoho, huhu]".
-"[haha, hoho, huhu]".
-"]haha, hoho, huhu[".
-"]haha, hoho, huhu[".
+"[haha,hoho,huhu]".
+"[haha,hoho,huhu]".
+"]haha,hoho,huhu[".
+"]haha,hoho,huhu[".

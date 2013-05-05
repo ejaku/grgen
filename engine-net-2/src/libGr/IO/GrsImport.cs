@@ -409,11 +409,8 @@ namespace de.unika.ipd.grGen.libGr
         private void ParseAttributeValue(IGraphElement elem, AttributeType attrType)
         {
             object attributeValue;
-            if(LookaheadToken()==TokenKind.SET)
+            if(attrType.Kind == AttributeKind.SetAttr)
             {
-                if(attrType.Kind != AttributeKind.SetAttr)
-                    throw new Exception("Attribute initialization of set found, but expecting " + attrType.ToString());
-
                 // set<type> { value * , } 
                 Match(TokenKind.SET);
                 Match(TokenKind.LANGLE);
@@ -440,11 +437,8 @@ namespace de.unika.ipd.grGen.libGr
 
                 attributeValue = set;
             }
-            else if(LookaheadToken()==TokenKind.MAP)
+            else if(attrType.Kind == AttributeKind.MapAttr)
             {
-                if(attrType.Kind != AttributeKind.MapAttr)
-                    throw new Exception("Attribute initialization of map found, but expecting " + attrType.ToString());
-
                 // map<type,tgtType> { value -> tgtValue * , } 
                 Match(TokenKind.MAP);
                 Match(TokenKind.LANGLE);
@@ -477,11 +471,8 @@ namespace de.unika.ipd.grGen.libGr
 
                 attributeValue = map;
             }
-            else if(LookaheadToken()==TokenKind.ARRAY)
+            else if(attrType.Kind == AttributeKind.ArrayAttr)
             {
-                if(attrType.Kind != AttributeKind.ArrayAttr)
-                    throw new Exception("Attribute initialization of array found, but expecting " + attrType.ToString());
-
                 // array<type> [ value * , ]
                 Match(TokenKind.ARRAY);
                 Match(TokenKind.LANGLE);
@@ -507,11 +498,8 @@ namespace de.unika.ipd.grGen.libGr
 
                 attributeValue = array;
             }
-            else if(LookaheadToken()==TokenKind.DEQUE)
+            else if(attrType.Kind == AttributeKind.DequeAttr)
             {
-                if(attrType.Kind != AttributeKind.DequeAttr)
-                    throw new Exception("Attribute initialization of deque found, but expecting " + attrType.ToString());
-
                 // deque<type> ] value * , [
                 Match(TokenKind.DEQUE);
                 Match(TokenKind.LANGLE);
@@ -575,7 +563,7 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.DoubleAttr:
                     return ParseDoubleValue();
                 case AttributeKind.ObjectAttr:
-                    return ParseObjectValue();
+                    return ParseObjectValue(attrType);
                 case AttributeKind.GraphAttr:
                     return ParseGraphValue();
                 case AttributeKind.NodeAttr:
@@ -723,12 +711,17 @@ namespace de.unika.ipd.grGen.libGr
                 throw GetSyntaxException("Literal type error", "double number");
         }
 
-        private object ParseObjectValue()
+        private object ParseObjectValue(AttributeType attrType)
         {
-            if(LookaheadToken() == TokenKind.NULL)
-                throw GetSyntaxException("(Non-null) Object attributes unsupported", "null");
-            EatToken();
-            return null;
+            while(Lookahead() == ' ' || Lookahead() == '\t')
+            {
+                EatCharWithoutIngesting();
+            }
+
+            if(model != null)
+                return model.Parse(reader, attrType, graph);
+            else
+                return graph.Model.Parse(reader, attrType, graph);
         }
 
         private IGraph ParseGraphValue()

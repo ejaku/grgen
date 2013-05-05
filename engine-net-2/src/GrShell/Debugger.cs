@@ -802,9 +802,9 @@ namespace de.unika.ipd.grGen.grShell
                     else
                     {
                         if(entry.Key is IGraphElement)
-                            HighlightSingleValue(entry.Key, name + ".Domain -> " + ContainerHelper.ToString(entry.Value, shellProcEnv.Graph), addAnnotation);
+                            HighlightSingleValue(entry.Key, name + ".Domain -> " + EmitHelper.ToString(entry.Value, shellProcEnv.Graph), addAnnotation);
                         if(entry.Value is IGraphElement)
-                            HighlightSingleValue(entry.Value, ContainerHelper.ToString(entry.Key, shellProcEnv.Graph) + " -> " + name + ".Range", addAnnotation);
+                            HighlightSingleValue(entry.Value, EmitHelper.ToString(entry.Key, shellProcEnv.Graph) + " -> " + name + ".Range", addAnnotation);
                     }
                 }
             }
@@ -1694,13 +1694,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        ContainerHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else if(var.Value is IList)
-                        ContainerHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else if(var.Value is IDeque)
-                        ContainerHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else
-                        ContainerHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -1712,13 +1712,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        ContainerHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else if(var.Value is IList)
-                        ContainerHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else if(var.Value is IDeque)
-                        ContainerHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.Graph);
                     else
-                        ContainerHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }

@@ -39,6 +39,7 @@ public class ExternalTypeNode extends InheritanceTypeNode {
 		this.extendUnresolved = ext;
 		becomeParent(this.extendUnresolved);
 		body = new CollectNode<BaseNode>();
+		addCastability(this, BasicTypeNode.objectType);
 	}
 
 	/** returns children of this node */

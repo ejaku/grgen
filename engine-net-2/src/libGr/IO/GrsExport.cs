@@ -95,10 +95,7 @@ namespace de.unika.ipd.grGen.libGr
                     }
 
                     object value = node.GetAttribute(attrType.Name);
-                    // TODO: Add support for null values, as the default initializers could assign non-null values!
-                    if(value != null) {
-                        EmitAttributeInitialization(attrType, value, graph, sw);
-                    }
+                    EmitAttributeInitialization(attrType, value, graph, sw);
                 }
                 sw.WriteLine(")");
                 numNodes++;
@@ -270,16 +267,18 @@ namespace de.unika.ipd.grGen.libGr
             case AttributeKind.DoubleAttr:
                 return ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
             case AttributeKind.ObjectAttr:
-                Console.WriteLine("Warning: Exporting non-null attribute of object type to null");
-                return "null";
+                return graph.Model.Serialize(value, type, graph);
             case AttributeKind.GraphAttr:
-                Console.WriteLine("Warning: Exporting non-null attribute of graph type to null");
+                Console.WriteLine("Warning: Exporting attribute of graph type to null");
                 return "null";
             case AttributeKind.EnumAttr:
                 return type.EnumType.Name + "::" + type.EnumType[(int)value].Name;
             case AttributeKind.NodeAttr:
             case AttributeKind.EdgeAttr:
-                return graph.GetElementName((IGraphElement)value);
+                if(value==null)
+                    throw new Exception("Can't export Node or Edge being null");
+                else
+                    return graph.GetElementName((IGraphElement)value);
             default:
                 throw new Exception("Unsupported attribute kind in export");
             }

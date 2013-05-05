@@ -2517,7 +2517,7 @@ namespace de.unika.ipd.grGen.grShell
                 curShellProcEnv.Graph.GetElementName(elem), elem.Type.Name);
             foreach(AttributeType attrType in elem.Type.AttributeTypes)
                 debugOut.WriteLine(" - {0}::{1} = {2}", attrType.OwnerType.Name,
-                    attrType.Name, elem.GetAttribute(attrType.Name));
+                    attrType.Name, EmitHelper.ToStringAutomatic(elem.GetAttribute(attrType.Name), curShellProcEnv.Graph));
         }
 
         public void ShowElementAttribute(IGraphElement elem, String attributeName)
@@ -2527,78 +2527,9 @@ namespace de.unika.ipd.grGen.grShell
             AttributeType attrType = GetElementAttributeType(elem, attributeName);
             if(attrType == null) return;
 
-            if (attrType.Kind == AttributeKind.MapAttr)
-            {
-                Type keyType, valueType;
-                IDictionary dict = ContainerHelper.GetDictionaryTypes(
-                    elem.GetAttribute(attributeName), out keyType, out valueType);
-                debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"{");
-                bool first = true;
-                foreach(DictionaryEntry entry in dict)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        debugOut.Write(", ");
-                    debugOut.Write(entry.Key + "->" + entry.Value);
-                }
-                debugOut.WriteLine("}\".");
-            }
-            else if (attrType.Kind == AttributeKind.SetAttr)
-            {
-                Type keyType, valueType;
-                IDictionary dict = ContainerHelper.GetDictionaryTypes(
-                    elem.GetAttribute(attributeName), out keyType, out valueType);
-                debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"{");
-                bool first = true;
-                foreach (DictionaryEntry entry in dict)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        debugOut.Write(", ");
-                    debugOut.Write(entry.Key);
-                }
-                debugOut.WriteLine("}\".");
-            }
-            else if (attrType.Kind == AttributeKind.ArrayAttr)
-            {
-                Type valueType;
-                IList array = ContainerHelper.GetListType(
-                    elem.GetAttribute(attributeName), out valueType);
-                debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"[");
-                bool first = true;
-                foreach (Object entry in array)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        debugOut.Write(", ");
-                    debugOut.Write(entry);
-                }
-                debugOut.WriteLine("]\".");
-            }
-            else if (attrType.Kind == AttributeKind.DequeAttr)
-            {
-                Type valueType;
-                IDeque deque = ContainerHelper.GetDequeType(
-                    elem.GetAttribute(attributeName), out valueType);
-                debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"]");
-                bool first = true;
-                foreach (Object entry in deque)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        debugOut.Write(", ");
-                    debugOut.Write(entry);
-                }
-                debugOut.WriteLine("[\".");
-            }
-            else
-            {
-                debugOut.WriteLine("The value of attribute \"" + attributeName + "\" is: \"" + elem.GetAttribute(attributeName) + "\".");
-            }
+            debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"");
+            debugOut.Write(EmitHelper.ToStringAutomatic(elem.GetAttribute(attributeName), curShellProcEnv.Graph));
+            debugOut.WriteLine("\".");
         }
 
         public void ShowVar(String name)
@@ -2610,21 +2541,21 @@ namespace de.unika.ipd.grGen.grShell
                 string content;
                 if(val.GetType().Name=="Dictionary`2")
                 {
-                    ContainerHelper.ToString((IDictionary)val, out type, out content,
+                    EmitHelper.ToString((IDictionary)val, out type, out content,
                         null, curShellProcEnv!=null ? curShellProcEnv.Graph : null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
                 else if(val.GetType().Name == "List`1")
                 {
-                    ContainerHelper.ToString((IList)val, out type, out content,
+                    EmitHelper.ToString((IList)val, out type, out content,
                         null, curShellProcEnv != null ? curShellProcEnv.Graph : null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
                 else if(val.GetType().Name == "Deque`1")
                 {
-                    ContainerHelper.ToString((IDeque)val, out type, out content,
+                    EmitHelper.ToString((IDeque)val, out type, out content,
                         null, curShellProcEnv != null ? curShellProcEnv.Graph : null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
@@ -2643,7 +2574,7 @@ namespace de.unika.ipd.grGen.grShell
                     //ShowElementAttributes((IGraphElement)val);
                     return;
                 }
-                ContainerHelper.ToString(val, out type, out content,
+                EmitHelper.ToString(val, out type, out content,
                     null, curShellProcEnv!=null ? curShellProcEnv.Graph : null);
                 debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                 return;
@@ -4346,6 +4277,8 @@ showavail:
                     curShellProcEnv = new ShellGraphProcessingEnvironment((INamedGraph)graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
                 else // constructor building named graph
                     curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
+                if(InDebugMode)
+                    debugger.ShellProcEnv = curShellProcEnv;
                 INamedGraph importedNamedGraph = (INamedGraph)curShellProcEnv.Graph;
                 if(actions!=null) actions.Graph = importedNamedGraph;
                 debugOut.WriteLine("shell import done after: " + (Environment.TickCount - startTime) + " ms");

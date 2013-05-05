@@ -1351,7 +1351,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(";\n");
             sourceCode.AppendFront("if(" + emitVar + " != null)\n");
             sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
-                    + "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + emitVar + ", graph));\n");
+                    + "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -1443,7 +1443,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(";\n");
             sourceCode.AppendFront("if(" + recordVar + " != null)\n");
             sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
-                    + "GRGEN_LIBGR.ContainerHelper.ToStringNonNull(" + recordVar + ", graph));\n");
+                    + "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + recordVar + ", graph));\n");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()

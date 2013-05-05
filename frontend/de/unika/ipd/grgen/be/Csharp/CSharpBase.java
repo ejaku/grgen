@@ -731,15 +731,15 @@ public abstract class CSharpBase {
 
 			if(typeName == "string") {
 				if(cast.getExpression().getType() instanceof MapType || cast.getExpression().getType() instanceof SetType) {
-					sb.append("GRGEN_LIBGR.ContainerHelper.ToString(");
+					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
 					sb.append(", graph)");
 				} else if(cast.getExpression().getType() instanceof ArrayType) {
-					sb.append("GRGEN_LIBGR.ContainerHelper.ToString(");
+					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
 					sb.append(", graph)");
 				} else if(cast.getExpression().getType() instanceof DequeType) {
-					sb.append("GRGEN_LIBGR.ContainerHelper.ToString(");
+					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
 					sb.append(", graph)");
 				} else {

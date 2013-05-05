@@ -1194,7 +1194,7 @@ namespace de.unika.ipd.grGen.expression
             {
                 if(IsContainer)
                 {
-                    sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ToString(");
+                    sourceCode.Append("GRGEN_LIBGR.EmitHelper.ToString(");
                     Nested.Emit(sourceCode);
                     sourceCode.Append(", graph)");
                 }
