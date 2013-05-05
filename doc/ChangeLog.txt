@@ -1,4 +1,43 @@
-﻿v4.0alpha2 (2013-04-21)
+﻿v4.0alpha3 (2013-05-05)
+ Replaced the CSharpCC generated parser/lexer for grs import by a hand written one
+   yielding a speedup of 5x (esp. no LookaheadSuccess exceptions any more)
+   and allowing to extend the grs importer by user defined functions, enabling:
+
+ The user can defined parse, serialize and emit functions for external objects now
+   they allow to grs export and import types not known to GrGen,
+   and to emit values of types not known to GrGen, esp. in the debugger (incl. yComp)
+  - they are emitted if "emit class;" is specified in the model,
+    and need to be implemented by the user in the external types and functions implementation file
+  - the model interface makes the new functions parse/serialize/emit for object types available,
+    with a dummy implementation forcing objects to null in case "emit class;" is not specified
+  - extended AttributeType with the .NET type, 
+    so it's possible for kind object to determine the real type of the attribute
+
+ It's now possible to match and rewrite in subgraphs
+  - made available by adding support for switching the current graph to a subgraph
+  - in the sequences with an execute sequence in subgraph block ("in" subgraph-var "{" sequence "}"),
+  - or with rule, rule all and sequence calls in method call notation on a subgraph variable 
+    (e.g. (v)=sg.r(v) on "sg:graph=inducedSubgraph(adjacent(node))")
+    giving rise to graph based programming on nested graphs
+    promoting subgraphs to a noteworthy language and data structuring construct
+  - data is strongly encapsulated by this hierarchical graph abstraction,
+    the contents of the graphs are hidden from each other,
+    information can only be shared or exchanged by rules/sequence calls
+    operating on the different subgraphs, with the aforementioned change-focus facilities
+  - this is in contrast to defining "contains" edges to build hierarchical data structures 
+    in an otherwise flat graph
+  - and similar to object-based programming with its data hiding, supporting programming-in-the-large
+   
+ Global var declarations changed to resemble local var or parameter declarations 
+   i.e. ref for containers, var for non-node/edge variables,
+   instead of only always ref, which maybe fits better to semantics but is unintuitive
+ 
+ - Added castability of all external types to type object
+ - Added arcsin, arccos, arctan functions to complement sin, cos, tan
+ - Some smaller bugfixes and polishings,
+   esp. copying of external attributes interface files to parent folder is working now
+
+v4.0alpha2 (2013-04-21)
  Split computation abstraction into functions and procedures
    Functions are not allowed to manipulate the graph, and return exactly one result.
    Procedures may manipulate the graph, and can return 0-k results.
