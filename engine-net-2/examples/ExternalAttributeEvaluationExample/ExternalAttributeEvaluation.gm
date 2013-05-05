@@ -1,8 +1,12 @@
-// we declare two external classes we want to use in our external attribute computations
+// we declare three external classes we want to use in our external attribute computations
 // signature only, external implmentation!
 class Own;
 class OwnPown extends Own;
 class OwnPownHome extends OwnPown;
+
+// we declare that we want to implement parsing, serializing, and debug output generation 
+// of objects of external types or of object type
+emit class;
 
 enum Enu
 {
@@ -39,6 +43,11 @@ blo(Node, Edge) : N;
 har(Own, OwnPown) : OwnPown;
 hur(OwnPown) : boolean;
 hurdur(OwnPownHome) : boolean;
+
+// "constructors" implemented as attribute functions, for filling attributes
+own() : Own;
+ownPown() : OwnPown;
+ownPownHome() : OwnPownHome;
 
 // we declare the external attribute procedures
 // signature only, external implementation!
