@@ -933,6 +933,20 @@
             <param name="name">The name the sequence was defined with.</param>
             <param name="lineNr">The line number the sequence appears on in the source.</param>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SwitchToSubgraphHandler">
+            <summary>
+            Represents a method called directly after graph processing switched to a subgraph.
+            (Graph processing means rule and sequence execution. Not called when the main graph is replaced.)
+            </summary>
+            <param name="graph">The graph switched to.</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ReturnFromSubgraphHandler">
+            <summary>
+            Represents a method called directly after graph processing returned back after a switch.
+            (To the main graph, or a subgraph previously switched to. Graph processing means rule and sequence execution.)
+            </summary>
+            <param name="graph">The graph returned to.</param>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.EnterSequenceHandler">
             <summary>
             Represents a method called directly after a sequence has been entered.
@@ -952,18 +966,19 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment">
             <summary>
-            An environment for the advanced processing of graphs / execution of sequences.
+            An environment for the advanced processing of graphs and the execution of sequences.
+            With global variables, textual output, (sub)graph switching, and transaction management.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment">
             <summary>
             An environment for the execution of actions (without embedded sequences).
-            Holds a refernce to the current graph.
+            Holds a reference to the current graph.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Custom(System.Object[])">
             <summary>
-            Does graph processing environment dependent stuff.
+            Does action execution environment dependent stuff.
             </summary>
             <param name="args">Any kind of paramteres for the stuff to do</param>
         </member>
@@ -1020,6 +1035,17 @@
             <param name="matches">The IMatches object returned by the matcher. The elements may be invalid.</param>
             <param name="special">Whether this is a 'special' match (user defined).</param>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Graph">
+            <summary>
+            Returns the graph currently focused in processing / sequence execution.
+            This may be the initial main graph, or a subgraph switched to, the current top element of the graph usage stack.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Actions">
+            <summary>
+            The actions employed by this graph processing environment
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.PerformanceInfo">
             <summary>
             If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
@@ -1031,16 +1057,6 @@
             <summary>
             The maximum number of matches to be returned for a RuleAll sequence element.
             If it is zero or less, the number of matches is unlimited.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Graph">
-            <summary>
-            Returns the graph currently focused in processing / sequence execution.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Actions">
-            <summary>
-            The actions employed by this graph processing environment
             </summary>
         </member>
         <member name="E:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.OnMatched">
@@ -1064,6 +1080,20 @@
             Note, that the given matches object may contain invalid entries,
             as parts of the match may have been deleted!
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.SwitchToSubgraph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Switches the graph to the given (sub)graph.
+            (One level added to the current graph stack.)
+            </summary>
+            <param name="newGraph">The new graph to use as current graph</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ReturnFromSubgraph">
+            <summary>
+            Returns from the last switch to subgraph.
+            (One level back on the current graph stack.)
+            </summary>
+            <returns>The lastly used (sub)graph, now not used any more</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.CloneGraphVariables(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
@@ -1290,6 +1320,18 @@
         <member name="P:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.CompliantUserProxy">
             <summary>
             Returns a non-interactive user proxy just echoing its inputs.
+            </summary>
+        </member>
+        <member name="E:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.OnSwitchingToSubgraph">
+            <summary>
+            Fired when graph processing (rule and sequence execution) is switched to a (sub)graph.
+            (Not fired when the main graph is replaced by another main graph, or initialized.)
+            </summary>
+        </member>
+        <member name="E:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.OnReturningFromSubgraph">
+            <summary>
+            Fired when graph processing is returning back after a switch.
+            (To the main graph, or a subgraph previously switched to.)
             </summary>
         </member>
         <member name="E:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.OnEntereringSequence">
@@ -1564,6 +1606,82 @@
                 it must be conformant to the model used in the file to be imported.</param>
             <param name="actions">Receives the actions object in case a .grg model is given.</param>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.GRSImport">
+            <summary>
+            Imports graphs from files in GRS format.
+            Implementation note: this is a boring hand written lexer and parser,
+            needed because the lexer/parser generated by CSharpCC that was replaced by it
+            fired a multitude of "LookaheadSuccess"-exceptions, wreaking havoc on performance.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSImport.Import(System.String,System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.BaseActions@)">
+            <summary>
+            Imports the given graph from a file with the given filename.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="importFilename">The filename of the file to be imported.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <param name="modelOverride">The graph model to be used, 
+                it must be conformant to the model used in the file to be imported.</param>
+            <param name="actions">Receives the actions object in case a .grg model is given.</param>
+            <returns>The imported graph. 
+            An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSImport.Import(System.IO.TextReader,System.Int64,System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.BaseActions@)">
+            <summary>
+            Imports the given graph from the given text reader input stream.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="reader">The text reader input stream import source.</param>
+            <param name="fileSize">The size of the input file.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <param name="modelOverride">The graph model to be used, 
+                it must be conformant to the model used in the file to be imported.</param>
+            <param name="actions">Receives the actions object in case a .grg model is given.</param>
+            <returns>The imported graph. 
+            An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSImport.Import(System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.BaseActions@)">
+            <summary>
+            Imports the given graph from a file with the given filename.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="importFilename">The filename of the file to be imported.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <param name="actions">Receives the actions object in case a .grg model is given.</param>
+            <returns>The imported graph. 
+            An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSImport.Import(System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.libGr.BaseActions@)">
+            <summary>
+            Imports the given graph from a file with the given filename.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="importFilename">The filename of the file to be imported.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <param name="graphModel">The graph model to be used.</param>
+            <param name="actions">Receives the actions object in case a .grg model is given.</param>
+            <returns>The imported graph. 
+            An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSImport.Import(System.IO.TextReader,System.Int64,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.libGr.BaseActions@)">
+            <summary>
+            Imports the given graph from the given text reader input stream.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="reader">The text reader input stream import source.</param>
+            <param name="fileSize">The size of the input file.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <param name="graphModel">The graph model to be used.</param>
+            <param name="actions">Receives the actions object in case a .grg model is given.</param>
+            <returns>The imported graph. 
+            An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.InvocationParameterBindings">
             <summary>
             An object representing a rule or sequence or procedure or function invocation.
@@ -1635,7 +1753,12 @@
             The IAction instance to be used
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.IAction,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
+        <member name="F:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.Subgraph">
+            <summary>
+            The subgraph to be switched to for rule execution
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.IAction,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[],de.unika.ipd.grGen.libGr.SequenceVariable)">
             <summary>
             Instantiates a new RuleInvocationParameterBindings object
             </summary>
@@ -1657,7 +1780,12 @@
             The defined sequence to be used
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.SequenceDefinition,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings.Subgraph">
+            <summary>
+            The subgraph to be switched to for sequence execution
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.SequenceDefinition,de.unika.ipd.grGen.libGr.SequenceExpression[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[],de.unika.ipd.grGen.libGr.SequenceVariable)">
             <summary>
             Instantiates a new SequenceInvocationParameterBindings object
             </summary>
@@ -2324,62 +2452,6 @@
             <param name="b">Another Deque of compatible type to <paramref name="a"/>.</param>
             <returns>Boolean result of Deque comparison.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given dictionary
-            </summary>
-            <param name="setmap">The dictionary of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of dictionary</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given List
-            </summary>
-            <param name="array">The List of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of List</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given Deque
-            </summary>
-            <param name="deque">The Deque of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of Deque</returns>
-        </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar value of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of scalar value</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToStringNonNull(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given value, which must be not null (for emit,record)
-            </summary>
-            <param name="value">The value of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of the value</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar value of which to get the string representation</param>
-            <param name="type">The type as string, e.g int,string,Foo </param>
-            <param name="content">The content as string, e.g. 42,"foo",bar } </param>
-            <param name="attrType">The attribute type of the value</param>
-            <param name="graph">The graph with the model and the element names</param>
-        </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object,de.unika.ipd.grGen.libGr.AttributeType@)">
             <summary>
             If the attribute of the given name of the given element is a container attribute
@@ -2392,23 +2464,6 @@
             If the attribute of the given name of the given element is a conatiner attribute
             then return a clone of the given container value, otherwise just return the original value
             </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar of which to get the string representation</param>
-            <param name="attrType">The attribute type</param>
-            <param name="graph">The graph with the model and the element names</param>
-            <returns>String representation of the scalar.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a deque
-            </summary>
-            <param name="value">The value of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of value</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceParserError">
             <summary>
@@ -2473,6 +2528,16 @@
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.FilterError">
             <summary>
             The given filter can't be applied to the given rule 
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.SubgraphTypeError">
+            <summary>
+            The given subgraph is of wrong type
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.SubgraphError">
+            <summary>
+            The construct does not accept a subgraph
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.UnknownPatternElement">
@@ -2938,7 +3003,7 @@
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.Exception">Thrown when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},de.unika.ipd.grGen.libGr.INamedGraph@,de.unika.ipd.grGen.libGr.BaseActions@)">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32,de.unika.ipd.grGen.libGr.INamedGraph@,de.unika.ipd.grGen.libGr.BaseActions@)">
             <summary>
             Creates a new INamedGraph and BaseActions backend instance from the specified specification file.
             If neccessary, any processing steps are performed automatically.
@@ -2947,6 +3012,7 @@
             <param name="graphName">Name of the new graph.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
             <param name="newGraph">Returns the new named graph.</param>
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.Exception">Thrown when something goes wrong.</exception>
@@ -2964,7 +3030,7 @@
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new IGraph backend instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32)">
             <summary>
             Creates a new INamedGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
@@ -2973,6 +3039,7 @@
             <param name="graphName">Name of the new graph.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new INamedGraph backend instance.</returns>
@@ -3126,46 +3193,88 @@
             abstract property, to be overwritten by concrete operator symbol
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.TokenMgrError.LexicalError">
-            Lexical error occured.
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given dictionary
+            </summary>
+            <param name="setmap">The dictionary of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of dictionary</returns>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.TokenMgrError.StaticLexerError">
-            An attempt wass made to create a second instance of a static token manager.
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given List
+            </summary>
+            <param name="array">The List of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of List</returns>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.TokenMgrError.InvalidLexicalState">
-            Tried to change to an invalid lexical state.
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given Deque
+            </summary>
+            <param name="deque">The Deque of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of Deque</returns>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.TokenMgrError.LoopDetected">
-            Detected (and bailed out of) an infinite loop in the token manager.
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar value of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of scalar value</returns>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.TokenMgrError.errorCode">
-            Indicates the reason why the exception is thrown. It will have
-            one of the above 4 values.
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringNonNull(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given value, which must be not null (for emit,record)
+            </summary>
+            <param name="value">The value of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of the value</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.TokenMgrError.AddEscapes(System.String)">
-            Replaces unprintable characters by their espaced (or unicode escaped)
-            equivalents in the given string
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar value of which to get the string representation</param>
+            <param name="type">The type as string, e.g int,string,Foo </param>
+            <param name="content">The content as string, e.g. 42,"foo",bar } </param>
+            <param name="attrType">The attribute type of the value (may be null)</param>
+            <param name="graph">The graph with the model and the element names</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.TokenMgrError.GetLexicalError(System.Boolean,System.Int32,System.Int32,System.Int32,System.String,System.Char)">
-            Returns a detailed message for the Exception when it is thrown by the
-            token manager to indicate a lexical error.
-            Parameters : 
-               EOFSeen     : indicates if EOF caused the lexicl error
-               curLexState : lexical state in which this error occured
-               errorLine   : line number when the error occured
-               errorColumn : column number when the error occured
-               errorAfter  : prefix that was seen before this error occured
-               curchar     : the offending character
-            Note: You can customize the lexical error message by modifying this method.
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar of which to get the string representation</param>
+            <param name="attrType">The attribute type</param>
+            <param name="graph">The graph with the model and the element names</param>
+            <returns>String representation of the scalar.</returns>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.porter.TokenMgrError.Message">
-             You can also modify the body of this method to customize your error messages.
-             For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
-             of end-users concern, so you can return something like : 
-            
-                 "Internal Error : Please file a bug report .... "
-            
-             from this method for such cases in the release version of your parser.
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringObject(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value of attribute kind object,
+            i.e. an externally defined type, maybe registered as external type to GrGen, maybe not, only defined as object
+            </summary>
+            <param name="value">The scalar of which to get the string representation</param>
+            <param name="attrType">The attribute type</param>
+            <param name="graph">The graph with the model and the element names</param>
+            <returns>String representation of the scalar.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a deque
+            </summary>
+            <param name="value">The value of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of value</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.sequenceParser.Token">
             <summary>
@@ -3649,72 +3758,6 @@
             graph needed for node/edge in set/map, otherwise null ok
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.String,System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.BaseActions@)">
-            <summary>
-            Imports the given graph from a file with the given filename.
-            Any errors will be reported by exception.
-            </summary>
-            <param name="importFilename">The filename of the file to be imported.</param>
-            <param name="backend">The backend to use to create the graph.</param>
-            <param name="modelOverride">The graph model to be used, 
-                it must be conformant to the model used in the file to be imported.</param>
-            <param name="actions">Receives the actions object in case a .grg model is given.</param>
-            <returns>The imported graph. 
-            An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
-            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.IO.TextReader,System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.BaseActions@)">
-            <summary>
-            Imports the given graph from the given text reader input stream.
-            Any errors will be reported by exception.
-            </summary>
-            <param name="reader">The text reader input stream import source.</param>
-            <param name="backend">The backend to use to create the graph.</param>
-            <param name="modelOverride">The graph model to be used, 
-                it must be conformant to the model used in the file to be imported.</param>
-            <param name="actions">Receives the actions object in case a .grg model is given.</param>
-            <returns>The imported graph. 
-            An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
-            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.BaseActions@)">
-            <summary>
-            Imports the given graph from a file with the given filename.
-            Any errors will be reported by exception.
-            </summary>
-            <param name="importFilename">The filename of the file to be imported.</param>
-            <param name="backend">The backend to use to create the graph.</param>
-            <param name="actions">Receives the actions object in case a .grg model is given.</param>
-            <returns>The imported graph. 
-            An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
-            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.libGr.BaseActions@)">
-            <summary>
-            Imports the given graph from a file with the given filename.
-            Any errors will be reported by exception.
-            </summary>
-            <param name="importFilename">The filename of the file to be imported.</param>
-            <param name="backend">The backend to use to create the graph.</param>
-            <param name="graphModel">The graph model to be used.</param>
-            <param name="actions">Receives the actions object in case a .grg model is given.</param>
-            <returns>The imported graph. 
-            An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
-            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.IO.TextReader,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.libGr.BaseActions@)">
-            <summary>
-            Imports the given graph from the given text reader input stream.
-            Any errors will be reported by exception.
-            </summary>
-            <param name="reader">The text reader input stream import source.</param>
-            <param name="backend">The backend to use to create the graph.</param>
-            <param name="graphModel">The graph model to be used.</param>
-            <param name="actions">Receives the actions object in case a .grg model is given.</param>
-            <returns>The imported graph. 
-            An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
-            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        </member>
         <member name="T:de.unika.ipd.grGen.libGr.sequenceParser.SimpleCharStream">
             <summary>
             An implementation of interface CharStream, where the stream is assumed to
@@ -4172,6 +4215,31 @@
             A model of a GrGen graph.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.Parse(System.IO.TextReader,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Called during .grs import, at exactly the position in the text reader where the attribute begins.
+            For attribute type object or a user defined type, which is treated as object.
+            The implementation must parse from there on the attribute type requested.
+            It must not parse beyond the serialized representation of the attribute, 
+            i.e. Peek() must return the first character not belonging to the attribute type any more.
+            Returns the parsed object.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.Serialize(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Called during .grs export, the implementation must return a string representation for the attribute.
+            For attribute type object or a user defined type, which is treated as object.
+            The serialized string must be parseable by Parse.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.Emit(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Called during debugging or emit writing, the implementation must return a string representation for the attribute.
+            For attribute type object or a user defined type, which is treated as object.
+            The attribute type may be null.
+            The string is meant for consumption by humans, it does not need to be parseable.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.ModelName">
             <summary>
             The name of this model.
@@ -4303,12 +4371,17 @@
             The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.Type">
+            <summary>
+            The .NET type of the Attribute Type
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeType.annotations">
             <summary>
             The annotations of the attribute
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeType,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeType,System.String,System.Type)">
             <summary>
             Initializes an AttributeType instance.
             </summary>
@@ -4724,6 +4797,23 @@
             <param name="target">The target of the edge.</param>
             <returns>The created IEdge object.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.CreateEdge">
+            <summary>
+            Creates an IEdge object according to this type.
+            ATTENTION: You must call SetSourceAndTarget() before adding an edge created this way to a graph.
+            This is an unsafe function that allows to first set the attributes of an edge, as needed in efficient .grs importing.
+            </summary>
+            <returns>The created IEdge object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.SetSourceAndTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Sets the source and target nodes of the edge after creation without.
+            Must be called before an edge created with CreateEdge() is added to the graph.
+            </summary>
+            <param name="edge">The edge to set the source and target for.</param>
+            <param name="source">The source of the edge.</param>
+            <param name="target">The target of the edge.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.EdgeType.CreateEdgeWithCopyCommons(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge)">
             <summary>
             Creates an IEdge object according to this type and copies all
@@ -4987,68 +5077,6 @@
             <summary>
             Performance optimization: saves us usage of new in implementing the Apply method for returning an array.
             </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.porter.ParseException">
-            <summary>
-            This exception is thrown when parse errors are encountered.
-            </summary>
-            <remarks>
-            You can explicitly create objects of this exception type by
-            calling the method GenerateParseException in the generated
-            parser.
-            <para>
-            You can modify this class to customize your error reporting
-            mechanisms so long as you retain the public fields.
-            </para>
-            </remarks>
-        </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.porter.ParseException.#ctor(de.unika.ipd.grGen.libGr.porter.Token,System.Int32[][],System.String[])" ignoriert -->
-        <member name="M:de.unika.ipd.grGen.libGr.porter.ParseException.#ctor">
-            The following constructors are for use by you for whatever
-            purpose you can think of.  Constructing the exception in this
-            manner makes the exception behave in the normal way - i.e., as
-            documented in the class "Throwable".  The fields "errorToken",
-            "expectedTokenSequences", and "tokenImage" do not contain
-            relevant information.  The JavaCC generated code does not use
-            these constructors.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.ParseException.specialConstructor">
-            This variable determines which constructor was used to create
-            this object and thereby affects the semantics of the
-            "getMessage" method (see below).
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.ParseException.currentToken">
-            This is the last token that has been consumed successfully.  If
-            this object has been created due to a parse error, the token
-            followng this token will (therefore) be the first error token.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.ParseException.expectedTokenSequences">
-            Each entry in this array is an array of integers.  Each array
-            of integers represents a sequence of tokens (by their ordinal
-            values) that is expected at this point of the parse.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.ParseException.tokenImage">
-            This is a reference to the "tokenImage" array of the generated
-            parser within which the parse error occurred.  This array is
-            defined in the generated ...Constants interface.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.ParseException.eol">
-            The end of line string for this machine.
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.ParseException.AddEscapes(System.String)">
-            Used to convert raw characters to their escaped version
-            when these raw version cannot be used as part of an ASCII
-            string literal.
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.porter.ParseException.Message">
-            This method has the standard behavior when this object has been
-            created using the standard constructors.  Otherwise, it uses
-            "currentToken" and "expectedTokenSequences" to generate a parse
-            error message and returns it.  If this object has been created
-            due to a parse error, and you do not catch it (it gets thrown
-            from the parser), then this method is called during the printing
-            of the final stack trace, and hence the correct error message
-            gets displayed.
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.Porter">
             <summary>
@@ -5968,74 +5996,6 @@
             The subclass contains the method implementing the real sequence,
             and ApplyImpl calling that method mapping SequenceInvocationParameterBindings to the exact parameters of that method.
             </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.porter.Token">
-            <summary>
-            Describes the input token stream.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.Token.kind">
-            An integer that describes the kind of this token.  This numbering
-            system is determined by JavaCCParser, and a table of these numbers is
-            stored in the file ...Constants.cs.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.Token.beginLine">
-            beginLine and beginColumn describe the position of the first character
-            of this token; endLine and endColumn describe the position of the
-            last character of this token.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.Token.beginColumn">
-            beginLine and beginColumn describe the position of the first character
-            of this token; endLine and endColumn describe the position of the
-            last character of this token.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.Token.endLine">
-            beginLine and beginColumn describe the position of the first character
-            of this token; endLine and endColumn describe the position of the
-            last character of this token.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.Token.endColumn">
-            beginLine and beginColumn describe the position of the first character
-            of this token; endLine and endColumn describe the position of the
-            last character of this token.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.Token.image">
-            The string image of the token.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.Token.next">
-            A reference to the next regular (non-special) token from the input
-            stream.  If this is the last token from the input stream, or if the
-            token manager has not read tokens beyond this one, this field is
-            set to null.  This is true only if this token is also a regular
-            token.  Otherwise, see below for a description of the contents of
-            this field.
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.porter.Token.specialToken">
-            This field is used to access special tokens that occur prior to this
-            token, but after the immediately preceding regular (non-special) token.
-            If there are no such special tokens, this field is set to null.
-            When there are more than one such special token, this field refers
-            to the last of these special tokens, which in turn refers to the next
-            previous special token through its specialToken field, and so on
-            until the first special token (whose specialToken field is null).
-            The next fields of special tokens refer to other special tokens that
-            immediately follow it (without an intervening regular token).  If there
-            is no such token, this field is null.
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.Token.ToString">
-            Returns the image.
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.Token.NewToken(System.Int32)">
-             Returns a new Token object, by default. However, if you want, you
-             can create and return subclass objects based on the value of ofKind.
-             Simply add the cases to the switch for all those special cases.
-             For example, if you have a subclass of Token called IDToken that
-             you want to create if ofKind is ID, simlpy add something like :
-            
-                case MyParserConstants.ID : return new IDToken();
-            
-             to the following switch statement. Then you can cast matchedToken
-             variable to the appropriate type and use it in your lexical actions.
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IPatternElement">
             <summary>
@@ -7114,17 +7074,6 @@
         <member name="P:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironmentCompiled.Model">
             <summary>
             the model giving access to graph element types for checking
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.porter.SimpleCharStream">
-            <summary>
-            An implementation of interface CharStream, where the stream is assumed to
-            contain only ASCII characters (without unicode processing).
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.porter.SimpleCharStream.AdjustBeginLineColumn(System.Int32,System.Int32)">
-            <summary>
-            Method to adjust line and column numbers for the start of a token.
             </summary>
         </member>
     </members>

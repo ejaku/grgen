@@ -2728,6 +2728,13 @@
             <param name="sourceNode">The source node.</param>
             <param name="targetNode">The target node.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.SetSourceAndTarget(de.unika.ipd.grGen.lgsp.LGSPNode,de.unika.ipd.grGen.lgsp.LGSPNode)">
+            <summary>
+            Sets source and target to the LGSPEdge object instantiated before with source and target being null.
+            </summary>
+            <param name="sourceNode">The source node.</param>
+            <param name="targetNode">The target node.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.Opposite(de.unika.ipd.grGen.libGr.INode)">
             <summary>
             Retrieves the other incident node of this edge.
@@ -4279,7 +4286,7 @@
             Returns the base name of a path name (i.e. no path and no extension).
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,System.Int32,de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
             <summary>
             Creates a new LGSPGraph or LGSPNamedGraph and LGSPActions instance from the specified specification file.
             If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
@@ -4289,6 +4296,7 @@
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
+            <param name="capacity">The initial capacity for the name maps, only used if named (performance optimization, use 0 if unsure).</param>
             <param name="newGraph">Returns the new graph.</param>
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
@@ -4306,19 +4314,20 @@
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateNamedFromSpec(System.String,de.unika.ipd.grGen.lgsp.LGSPNamedGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateNamedFromSpec(System.String,System.Int32,de.unika.ipd.grGen.lgsp.LGSPNamedGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
             <summary>
             Creates a new LGSPNamedGraph and LGSPActions instance from the specified specification file.
             If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
             A name for the graph is automatically generated.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
             <param name="newGraph">Returns the new named graph.</param>
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,System.Int32)">
             <summary>
             Creates a new LGSPGraph or LGSPNamedGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
@@ -4328,6 +4337,7 @@
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new LGSPGraph or LGSPNamedGraph instance.</returns>
@@ -4344,14 +4354,14 @@
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new LGSPGraph instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateNamedFromSpec(System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateNamedFromSpec(System.String,System.Int32)">
             <summary>
             Creates a new LGSPNamedGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
             A name for the graph is automatically generated.
             </summary>
             <param name="gmFilename">Filename of the model specification file (.gm).</param>
-            <param name="newGraph">Returns the new named graph.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new LGSPNamedGraph instance.</returns>
@@ -5707,20 +5717,22 @@
             An implementation of the INamedGraph interface.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,System.Int32)">
             <summary>
             Constructs an LGSPNamedGraph object with the given model and an automatically generated name.
             </summary>
             <param name="grmodel">The graph model.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.Int32)">
             <summary>
             Constructs an LGSPNamedGraph object with the given model and name.
             </summary>
             <param name="grmodel">The graph model.</param>
             <param name="grname">The name for the graph.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPBackend,de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPBackend,de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.String,System.Int32)">
             <summary>
             Constructs an LGSPNamedGraph object.
             Deprecated.
@@ -5729,6 +5741,7 @@
             <param name="grmodel">The graph model.</param>
             <param name="grname">The name for the graph.</param>
             <param name="modelassemblyname">The name of the model assembly.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(System.String)">
             <summary>
@@ -6839,6 +6852,21 @@
         <member name="T:de.unika.ipd.grGen.expression.Tan">
             <summary>
             Class representing expression returning the tangens value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArcSin">
+            <summary>
+            Class representing expression returning the arcus sinus value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArcCos">
+            <summary>
+            Class representing expression returning the arcus cosinus value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArcTan">
+            <summary>
+            Class representing expression returning the arcus tangens value
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Canonize">
