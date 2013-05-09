@@ -109,6 +109,26 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public delegate void SettingAddedElementNamesHandler(String[] namesOfElementsAdded);
 
+    /// <summary>
+    /// Represents a method called, when a visited flag was allocated.
+    /// </summary>
+    /// <param name="visitorID">The id of the visited flag that was allocated.</param>
+    public delegate void VisitedAllocHandler(int visitorID);
+
+    /// <summary>
+    /// Represents a method called, when a visited flag was freed.
+    /// </summary>
+    /// <param name="visitorID">The id of the visited flag that was freed.</param>
+    public delegate void VisitedFreeHandler(int visitorID);
+
+    /// <summary>
+    /// Represents a method called before a visited flag is set to a new value.
+    /// </summary>
+    /// <param name="elem">The graph element of which the specified flag is to be set.</param>
+    /// <param name="visitorID">The id of the visited flag to be set.</param>
+    /// <param name="newValue">The new value.</param>
+    public delegate void SettingVisitedHandler(IGraphElement elem, int visitorID, bool newValue);
+
     #endregion GraphDelegates
 
 
@@ -505,6 +525,21 @@ namespace de.unika.ipd.grGen.libGr
         /// The edge to be redirected is provided to the handler.
         /// </summary>
         event RedirectingEdgeHandler OnRedirectingEdge;
+
+        /// <summary>
+        /// Fired after a visited flag was allocated.
+        /// </summary>
+        event VisitedAllocHandler OnVisitedAlloc;
+
+        /// <summary>
+        /// Fired after a visited flag was freed.
+        /// </summary>
+        event VisitedFreeHandler OnVisitedFree;
+
+        /// <summary>
+        /// Fired before a visited flag is set.
+        /// </summary>
+        event SettingVisitedHandler OnSettingVisited;
 
         /// <summary>
         /// Fired before each rewrite step (also rewrite steps of subpatterns) to indicate the names

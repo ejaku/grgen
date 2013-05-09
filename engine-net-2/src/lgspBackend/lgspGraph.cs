@@ -9,6 +9,7 @@
 //#define OPCOST_WITH_GEO_MEAN
 //#define CHECK_ISOCOMPARE_CANONIZATION_AGREE
 //#define CHECK_RINGLISTS
+//#define CHECK_VISITED_FLAGS_CLEAR_ON_FREE
 
 using System;
 using System.Collections;
@@ -1092,9 +1093,8 @@ namespace de.unika.ipd.grGen.lgsp
             public Dictionary<IGraphElement, bool> VisitedElements;
         }
 
-        int numUsedVisitorIDs = 0;
-        LinkedList<int> freeVisitorIDs = new LinkedList<int>();
-        List<VisitorData> visitorDataList = new List<VisitorData>();
+        List<VisitorData> availableVisitors = new List<VisitorData>();
+        Deque<int> indicesOfFreeVisitors = new Deque<int>();
 
         /// <summary>
         /// Allocates a visited flag on the graph elements.
@@ -1106,23 +1106,20 @@ namespace de.unika.ipd.grGen.lgsp
         public override int AllocateVisitedFlag()
         {
             int newID;
-            if(freeVisitorIDs.Count != 0)
+            if(indicesOfFreeVisitors.Count > 0)
             {
-                newID = freeVisitorIDs.First.Value;
-                freeVisitorIDs.RemoveFirst();
-
-                if(newID >= (int)LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)
-                    if(visitorDataList[newID].VisitedElements.Count > 0)
-                        throw new Exception("Elements are still marked from previous usage!");
+                newID = indicesOfFreeVisitors.Dequeue();
             }
             else
             {
-                newID = numUsedVisitorIDs;
-                if(newID == visitorDataList.Count)
-                    visitorDataList.Add(new VisitorData());
+                availableVisitors.Add(new VisitorData());
+                newID = availableVisitors.Count - 1;
+                if(newID >= (int)LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)
+                    availableVisitors[newID].VisitedElements = new Dictionary<IGraphElement, bool>();
+                else
+                    availableVisitors[newID].NodesMarked = availableVisitors[newID].EdgesMarked = false;
             }
-            numUsedVisitorIDs++;
-
+            VisitedAlloc(newID);
             return newID;
         }
 
@@ -1146,11 +1143,41 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="visitorID">The ID of the visited flag to be freed.</param>
         public override void FreeVisitedFlagNonReset(int visitorID)
         {
-            if(visitorID < (int)LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)
-                freeVisitorIDs.AddFirst(visitorID);
+            if(visitorID < (int)LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)     // id supported by flags?
+            {
+#if CHECK_VISITED_FLAGS_CLEAR_ON_FREE
+                for(int i = 0; i < nodesByTypeHeads.Length; i++)
+                {
+                    for(LGSPNode head = nodesByTypeHeads[i], node = head.lgspTypePrev; node != head; node = node.lgspTypePrev)
+                    {
+                        if((node.lgspFlags & ((uint)LGSPElemFlags.IS_VISITED << visitorID)) == ((uint)LGSPElemFlags.IS_VISITED << visitorID))
+                            throw new Exception("Nodes are still marked on vfree!");
+                    }
+                }
+                for(int i = 0; i < edgesByTypeHeads.Length; i++)
+                {
+                    for(LGSPEdge head = edgesByTypeHeads[i], edge = head.lgspTypePrev; edge != head; edge = edge.lgspTypePrev)
+                    {
+                        if((edge.lgspFlags & ((uint)LGSPElemFlags.IS_VISITED << visitorID)) == ((uint)LGSPElemFlags.IS_VISITED << visitorID))
+                            throw new Exception("Edges are still marked on vfree!");
+                    }
+                }
+#endif
+            }
             else
-                freeVisitorIDs.AddLast(visitorID);
-            numUsedVisitorIDs--;
+            {
+                // the check for the dictionary visited flags is cheap, so we always do this (in contrast to the graph element visited flags, we only check them in case a debug ifdef is set)
+                if(availableVisitors[visitorID].VisitedElements.Count > 0)
+                    throw new Exception("Elements are still marked on vfree!");
+            }
+
+            // prefer graph element visitors over dictionary based visitors
+            if(visitorID < (int)LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)
+                indicesOfFreeVisitors.EnqueueFront(visitorID);
+            else
+                indicesOfFreeVisitors.Enqueue(visitorID);
+
+            VisitedFree(visitorID);
         }
 
         /// <summary>
@@ -1159,32 +1186,44 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="visitorID">The ID of the visited flag.</param>
         public override void ResetVisitedFlag(int visitorID)
         {
-            VisitorData data = visitorDataList[visitorID];
+            VisitorData visitor = availableVisitors[visitorID];
             if(visitorID < (int) LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)     // id supported by flags?
             {
-                if(data.NodesMarked)        // need to clear flag on nodes?
+                uint mask = (uint) LGSPElemFlags.IS_VISITED << visitorID;
+                if(visitor.NodesMarked)        // need to clear flag on nodes?
                 {
                     for(int i = 0; i < nodesByTypeHeads.Length; i++)
                     {
                         for(LGSPNode head = nodesByTypeHeads[i], node = head.lgspTypePrev; node != head; node = node.lgspTypePrev)
-                            node.lgspFlags &= ~((uint) LGSPElemFlags.IS_VISITED << visitorID);
+                        {
+                            if((node.lgspFlags & mask) != 0)
+                                SettingVisited(node, visitorID, false);
+                            node.lgspFlags &= ~mask;
+                        }
                     }
-                    data.NodesMarked = false;
+                    visitor.NodesMarked = false;
                 }
-                if(data.EdgesMarked)        // need to clear flag on nodes?
+                if(visitor.EdgesMarked)        // need to clear flag on edges?
                 {
                     for(int i = 0; i < edgesByTypeHeads.Length; i++)
                     {
                         for(LGSPEdge head = edgesByTypeHeads[i], edge = head.lgspTypePrev; edge != head; edge = edge.lgspTypePrev)
-                            edge.lgspFlags &= ~((uint) LGSPElemFlags.IS_VISITED << visitorID);
+                        {
+                            if((edge.lgspFlags & mask) != 0)
+                                SettingVisited(edge, visitorID, false);
+                            edge.lgspFlags &= ~mask;
+                        }
                     }
-                    data.EdgesMarked = false;
+                    visitor.EdgesMarked = false;
                 }
             }
             else                                                    // no, use hash map
             {
-                if(data.VisitedElements != null) data.VisitedElements.Clear();
-                else data.VisitedElements = new Dictionary<IGraphElement, bool>();
+                foreach(KeyValuePair<IGraphElement, bool> kvp in visitor.VisitedElements)
+                {
+                    SettingVisited(kvp.Key, visitorID, false);
+                }
+                visitor.VisitedElements.Clear();
             }
         }
 
@@ -1196,19 +1235,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="visited">True for visited, false for not visited.</param>
         public override void SetVisited(IGraphElement elem, int visitorID, bool visited)
         {
-            VisitorData data = visitorDataList[visitorID];
-            LGSPNode node = elem as LGSPNode;
+            SettingVisited(elem, visitorID, visited);
+            
+            VisitorData visitor = availableVisitors[visitorID];
             if(visitorID < (int) LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)     // id supported by flags?
             {
-                uint mask = (uint) LGSPElemFlags.IS_VISITED << visitorID;
+                uint mask = (uint)LGSPElemFlags.IS_VISITED << visitorID;
+                LGSPNode node = elem as LGSPNode;
                 if(node != null)
                 {
                     if(visited)
                     {
                         node.lgspFlags |= mask;
-                        data.NodesMarked = true;
+                        visitor.NodesMarked = true;
                     }
-                    else node.lgspFlags &= ~mask;
+                    else
+                        node.lgspFlags &= ~mask;
                 }
                 else
                 {
@@ -1216,18 +1258,18 @@ namespace de.unika.ipd.grGen.lgsp
                     if(visited)
                     {
                         edge.lgspFlags |= mask;
-                        data.EdgesMarked = true;
+                        visitor.EdgesMarked = true;
                     }
-                    else edge.lgspFlags &= ~mask;
+                    else
+                        edge.lgspFlags &= ~mask;
                 }
             }
             else                                                        // no, use hash map
             {
                 if(visited)
-                {
-                    data.VisitedElements[elem] = true;
-                }
-                else data.VisitedElements.Remove(elem);
+                    visitor.VisitedElements[elem] = true;
+                else
+                    visitor.VisitedElements.Remove(elem);
             }
         }
 
@@ -1253,8 +1295,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else                                                        // no, use hash map
             {
-                VisitorData data = visitorDataList[visitorID];
-                return data.VisitedElements.ContainsKey(elem);
+                return availableVisitors[visitorID].VisitedElements.ContainsKey(elem);
             }
         }
 
@@ -1264,10 +1305,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>A dynamic array of the visitor ids allocated.</returns>
         public override List<int> GetAllocatedVisitedFlags()
         {
-            List<int> result = new List<int>(numUsedVisitorIDs);
-            for(int i = 0; result.Count < numUsedVisitorIDs; ++i)
+            List<int> result = new List<int>(availableVisitors.Count - indicesOfFreeVisitors.Count);
+            for(int i = 0; i < availableVisitors.Count; ++i)
             {
-                if(freeVisitorIDs.Contains(i))
+                if(indicesOfFreeVisitors.Contains(i))
                     continue;
 
                 result.Add(i);

@@ -118,6 +118,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public event RedirectingEdgeHandler OnRedirectingEdge;
 
+        public event VisitedAllocHandler OnVisitedAlloc;
+        public event VisitedFreeHandler OnVisitedFree;
+        public event SettingVisitedHandler OnSettingVisited;
+
         public event SettingAddedElementNamesHandler OnSettingAddedNodeNames;
         public event SettingAddedElementNamesHandler OnSettingAddedEdgeNames;
 
@@ -227,6 +231,38 @@ namespace de.unika.ipd.grGen.libGr
         {
             RedirectingEdgeHandler redirectingEdge = OnRedirectingEdge;
             if(redirectingEdge != null) redirectingEdge(edge);
+        }
+
+        /// <summary>
+        /// Fires an OnVisitedAlloc event.
+        /// </summary>
+        /// <param name="visitorID">The allocated visitorID.</param>
+        public void VisitedAlloc(int visitorID)
+        {
+            VisitedAllocHandler visitedAlloc = OnVisitedAlloc;
+            if(visitedAlloc != null) visitedAlloc(visitorID);
+        }
+
+        /// <summary>
+        /// Fires an OnVisitedFree event.
+        /// </summary>
+        /// <param name="visitorID">The freed visitorID.</param>
+        public void VisitedFree(int visitorID)
+        {
+            VisitedFreeHandler visitedFree = OnVisitedFree;
+            if(visitedFree != null) visitedFree(visitorID);
+        }
+
+        /// <summary>
+        /// Fires an OnSettingVisited event.
+        /// </summary>
+        /// <param name="elem">The graph element of which the specified flag is to be set.</param>
+        /// <param name="visitorID">The id of the visited flag to be set.</param>
+        /// <param name="newValue">The new value.</param>
+        public void SettingVisited(IGraphElement elem, int visitorID, bool newValue)
+        {
+            SettingVisitedHandler setVisited = OnSettingVisited;
+            if(setVisited != null) setVisited(elem, visitorID, newValue);
         }
 
         public void SettingAddedNodeNames(String[] addedNodeNames)
