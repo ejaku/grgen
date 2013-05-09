@@ -1247,6 +1247,39 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing multi statement
+    /// </summary>
+    public class MultiStatement : Yielding
+    {
+        public MultiStatement(Yielding[] statements)
+        {
+            Statements = statements;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Yielding[] statementsCopy = new Yielding[Statements.Length];
+            for(int i = 0; i < Statements.Length; ++i)
+                statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            return new MultiStatement(statementsCopy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            foreach(Yielding statement in Statements)
+                statement.Emit(sourceCode);
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(Yielding statement in Statements)
+                yield return statement;
+        }
+
+        Yielding[] Statements;
+    }
+
+    /// <summary>
     /// Class representing a def declaration (variable or graph entity), potentially including initialization
     /// </summary>
     public class DefDeclaration : Yielding
