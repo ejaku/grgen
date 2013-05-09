@@ -62,19 +62,7 @@ public class DefDeclStatementNode extends EvalStatementNode {
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		
-		if(defDeclUnresolved instanceof VarDeclNode) {
-			defDeclVar = (VarDeclNode)defDeclUnresolved;
-		} else if(defDeclUnresolved instanceof SingleNodeConnNode) {
-			SingleNodeConnNode sncn = (SingleNodeConnNode)defDeclUnresolved;
-			defDeclGraphElement = (NodeDeclNode)sncn.nodeUnresolved;
-		} else if(defDeclUnresolved instanceof ConstraintDeclNode) {
-			defDeclGraphElement = (ConstraintDeclNode)defDeclUnresolved;
-		} else {
-			ConnectionNode cn = (ConnectionNode)defDeclUnresolved;
-			defDeclGraphElement = ((EdgeDeclNode)cn.edgeUnresolved);
-		}
-		
+		getDecl();
 		return successfullyResolved;
 	}
 
@@ -87,6 +75,24 @@ public class DefDeclStatementNode extends EvalStatementNode {
 		return true;
 	}
 
+	public DeclNode getDecl() {
+		if(defDeclUnresolved instanceof VarDeclNode) {
+			defDeclVar = (VarDeclNode)defDeclUnresolved;
+			return defDeclVar;
+		} else if(defDeclUnresolved instanceof SingleNodeConnNode) {
+			SingleNodeConnNode sncn = (SingleNodeConnNode)defDeclUnresolved;
+			defDeclGraphElement = (NodeDeclNode)sncn.nodeUnresolved;
+			return defDeclGraphElement;
+		} else if(defDeclUnresolved instanceof ConstraintDeclNode) {
+			defDeclGraphElement = (ConstraintDeclNode)defDeclUnresolved;
+			return defDeclGraphElement;
+		} else {
+			ConnectionNode cn = (ConnectionNode)defDeclUnresolved;
+			defDeclGraphElement = ((EdgeDeclNode)cn.edgeUnresolved);
+			return defDeclGraphElement;
+		}
+	}
+	
 	@Override
 	protected IR constructIR() {
 		// potential initialization is attached to the Var or the GraphEntity

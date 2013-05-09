@@ -1954,6 +1954,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof DoWhileStatement) {
 			genDoWhileStatement(sb, state, (DoWhileStatement) evalStmt);
 		}
+		else if(evalStmt instanceof MultiStatement) {
+			genMultiStatement(sb, state, (MultiStatement) evalStmt);
+		}
 		else if(evalStmt instanceof DefDeclVarStatement) {
 			genDefDeclVarStatement(sb, state, (DefDeclVarStatement) evalStmt);
 		}
@@ -2953,6 +2956,10 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t} while(");
 		genExpression(sb, dws.getConditionExpr(), state);
 		sb.append(");\n");
+	}
+
+	private void genMultiStatement(StringBuffer sb, ModifyGenerationStateConst state, MultiStatement ms) {
+		genEvals(sb, state, ms.getStatements());
 	}
 
 	private void genDefDeclVarStatement(StringBuffer sb, ModifyGenerationStateConst state, DefDeclVarStatement ddvs) {

@@ -82,7 +82,8 @@ public class ReturnAssignmentNode extends EvalStatementNode {
 	protected boolean checkLocal() {
 		// targets is one of AssignNode, AssignVisitedNode, AssignIndexedNode
 		// with QualIdentNode or IdentExprNode as owner/target
-		// and a projection expr node as source -- maybe with a cast prefix after type adjust
+		// or a ConnectionNode or a SingleNodeConnNode or a VarDeclNode
+		// and finally a projection expr node as source -- maybe with a cast prefix after type adjust
 		if(procedure!=null) {
 			if(targets.children.size() != procedure.getNumReturnTypes() && targets.children.size()!=0) {
 				procedure.reportError("Expected " + procedure.getNumReturnTypes() + " procedure return variables, given " + targets.children.size());

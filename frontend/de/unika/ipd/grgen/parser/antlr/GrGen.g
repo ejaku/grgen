@@ -2999,6 +2999,7 @@ options { k = 5; }
 		CollectNode<ExprNode> returnValues = new CollectNode<ExprNode>();
 		CollectNode<ProjectionExprNode> targetProjs = new CollectNode<ProjectionExprNode>();
 		CollectNode<EvalStatementNode> targets = new CollectNode<EvalStatementNode>();
+		MultiStatementNode ms = new MultiStatementNode();
 	}
 
 	: (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[false] SEMI//'false' because this rule is not used for the assignments in enum item decls
@@ -3041,8 +3042,8 @@ options { k = 5; }
 			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, yielded), cat, e, ccat, tgtChanged); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
 	|
-	  dp=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph] SEMI
-			{ res=new DefDeclStatementNode(dp.getCoords(), dp, context); }
+	  de=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph] SEMI
+			{ res=new DefDeclStatementNode(de.getCoords(), de, context); }
 	|
 	  r=RETURN ( retValues=paramExprs[false] { returnValues = retValues; } )? SEMI
 			{ res=new ReturnStatementNode(getCoords(r), returnValues); }
@@ -3072,7 +3073,7 @@ options { k = 5; }
 	  WHILE LPAREN e=expr[false] RPAREN
 			{ res=new DoWhileStatementNode(getCoords(d), cs, e); }
 	|
-	  (l=LPAREN tgts=targets[getCoords(l)] RPAREN ASSIGN { targetProjs = tgts.tgtProjs; targets = tgts.tgts; } )? 
+	  (l=LPAREN tgts=targets[getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = tgts.tgtProjs; targets = tgts.tgts; } )? 
 		(i=IDENT|i=EMIT) params=paramExprs[false] SEMI
 			{ 
 				if(    i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
@@ -3092,19 +3093,29 @@ options { k = 5; }
 				{
 					IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 					ProcedureInvocationNode proc = new ProcedureInvocationNode(procIdent, params, env);
-					res = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
+					ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 					for(ProjectionExprNode proj : targetProjs.getChildren()) {
 						proj.setProcedure(proc);
 					}
+					for(EvalStatementNode eval : targets.getChildren()) {
+						eval.setCoords(getCoords(a));
+					}
+					ms.addStatement(ra);
+					res = ms;
 				}
 				else
 				{
 					IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 					ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, params);
-					res = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
+					ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 					for(ProjectionExprNode proj : targetProjs.getChildren()) {
 						proj.setProcedure(proc);
 					}
+					for(EvalStatementNode eval : targets.getChildren()) {
+						eval.setCoords(getCoords(a));
+					}
+					ms.addStatement(ra);
+					res = ms;
 				}
 			}
 	|
@@ -3112,17 +3123,17 @@ options { k = 5; }
 		{ res = new ExecStatementNode(exec); }
 	;
 
-targets	[Coords coords] returns [ CollectNode<ProjectionExprNode> tgtProjs = new CollectNode<ProjectionExprNode>(), CollectNode<EvalStatementNode> tgts = new CollectNode<EvalStatementNode>() ]
+targets	[Coords coords, MultiStatementNode ms, int context, PatternGraphNode directlyNestingLHSGraph] returns [ CollectNode<ProjectionExprNode> tgtProjs = new CollectNode<ProjectionExprNode>(), CollectNode<EvalStatementNode> tgts = new CollectNode<EvalStatementNode>() ]
 	@init{
 		int index = 0; // index of return target in sequence of returns
 		ProjectionExprNode e = null;
 	}
-	: ( { e = new ProjectionExprNode(coords, index); $tgtProjs.addChild(e); } tgt=assignmentTarget[coords, e, index] { $tgts.addChild(tgt); ++index; } 
-		  ( c=COMMA { e = new ProjectionExprNode(getCoords(c), index); $tgtProjs.addChild(e); } tgt=assignmentTarget[coords, e, index] { $tgts.addChild(tgt); ++index; } )*
+	: ( { e = new ProjectionExprNode(coords, index); $tgtProjs.addChild(e); } tgt=assignmentTarget[coords, e, ms, context, directlyNestingLHSGraph] { $tgts.addChild(tgt); ++index; } 
+		  ( c=COMMA { e = new ProjectionExprNode(getCoords(c), index); $tgtProjs.addChild(e); } tgt=assignmentTarget[coords, e, ms, context, directlyNestingLHSGraph] { $tgts.addChild(tgt); ++index; } )*
 	  )?
 	;
 
-assignmentTarget [ Coords coords, ProjectionExprNode e, int context ] returns [ EvalStatementNode res = null ]
+assignmentTarget [ Coords coords, ProjectionExprNode e, MultiStatementNode ms, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 options { k = 5; }
 	@init{
 		boolean yielded = false;
@@ -3142,8 +3153,15 @@ options { k = 5; }
 	|
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[false] RBRACK
 		{ res = new AssignIndexedNode(coords, new IdentExprNode(variable, yielded), e, idx); }
-	;	
-	
+	|
+	  de=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph]
+		{
+			DefDeclStatementNode tgt = new DefDeclStatementNode(coords, de, context);
+			ms.addStatement(tgt);
+			res = new AssignNode(coords, new IdentExprNode(tgt.getDecl().getIdentNode()), e, context);
+		}
+	;
+
 ifelse [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 	@init{
 		CollectNode<EvalStatementNode> elseRemainder = new CollectNode<EvalStatementNode>();

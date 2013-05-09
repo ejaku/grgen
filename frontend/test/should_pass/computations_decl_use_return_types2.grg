@@ -41,6 +41,12 @@ rule r : (boolean)
 
 			(by, sh, i1, l, f, s, b, enu) = someproc(by, sh, i1, l, f, s, b, enu);
 		}
+
+		eval { 
+			(def var by:byte, def var sh:short, def var i1:int, def var l:long, def var f:float, def var s:string, def var b:boolean, def var enu:Foo) 
+				= someproc(42y, 42s, 42, 0xdeadbeefl, 42.815f, "hello world", true, Foo::bar);
+			sh = by;
+		}
 		
 		return (res);
 	}

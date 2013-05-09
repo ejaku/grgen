@@ -1965,6 +1965,10 @@ public class ActionsGen extends CSharpBase {
 			for(EvalStatement childEvalStmt : ((WhileStatement)evalStmt).getLoopedStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
+		} else if(evalStmt instanceof MultiStatement) {
+			for(EvalStatement childEvalStmt : ((MultiStatement)evalStmt).getStatements()) {
+				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
+			}
 		}
 		return xgrsID;
 	}
@@ -3624,6 +3628,10 @@ public class ActionsGen extends CSharpBase {
 			genDoWhileStatement(sb, (DoWhileStatement) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
+		else if(evalStmt instanceof MultiStatement) {
+			genMultiStatement(sb, (MultiStatement) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
 		else if(evalStmt instanceof DefDeclVarStatement) {
 			genDefDeclVarStatement(sb, (DefDeclVarStatement) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -4106,6 +4114,18 @@ public class ActionsGen extends CSharpBase {
 		sb.append("}");
 		sb.append(",");
 		genExpressionTree(sb, dws.getConditionExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(")");
+	}
+
+	private void genMultiStatement(StringBuffer sb, MultiStatement ms,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.MultiStatement(");
+		sb.append("new GRGEN_EXPR.Yielding[] { ");
+		for(EvalStatement statement : ms.getStatements()) {
+			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+		}
+		sb.append("}");
 		sb.append(")");
 	}
 

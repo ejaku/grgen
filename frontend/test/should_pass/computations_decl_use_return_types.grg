@@ -47,6 +47,15 @@ rule r()
 			(ret4) = proc2(b);
 			(ret5) = proc2(b);
 		}
+		
+		eval {
+			(def ret1:Node) = proc1(bb);
+			(def ret2:B) = proc1(bb);
+			(def ret3:B) = proc2(bb);
+			(def ret4:B) = proc2(b);
+			(def ret5:Node) = proc2(b);
+			ret2 = ret3;
+		}
 	}
 }
 
@@ -96,6 +105,15 @@ rule re()
 			(ret3) = proc2e(ee);
 			(ret4) = proc2e(e);
 			(ret5) = proc2e(e);
+		}
+		
+		eval {
+			(def -ret1:Edge->) = proc1e(ee);
+			(def -ret2:E1->) = proc1e(ee);
+			(def -ret3:E1->) = proc2e(ee);
+			(def -ret4:E1->) = proc2e(e);
+			(def -ret5:Edge->) = proc2e(e);
+			ret2 = ret3;
 		}
 	}
 }
