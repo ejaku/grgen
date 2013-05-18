@@ -216,6 +216,7 @@ TOKEN: {
 |   < VISITED: "visited" >
 |   < YIELD: "yield" >
 |   < HIGHLIGHT: "highlight" >
+|   < COUNT: "count" >
 }
 
 TOKEN: {
@@ -940,7 +941,7 @@ Sequence SimpleSequence():
     }
 |
 	LOOKAHEAD(RuleLookahead())
-	seq=Rule() // accepts variables, rules, and all-bracketed rules
+	seq=Rule() // accepts variables, rules, all-bracketed rules, and counted all-bracketed rules
 	{
 		return seq;
 	}
@@ -1696,6 +1697,8 @@ void RuleLookahead():
 	    ( "$" ("%")? ( Variable() ("," (Variable() | "*"))? )? )? "["
 	|
 	    ( "%" | "?" )* (LOOKAHEAD(2) Word() |  Variable() ".")
+	|
+		"count" "["
 	)
 }
 
@@ -1704,7 +1707,7 @@ Sequence Rule():
 	bool special = false, test = false;
 	String str, filter = null;
 	bool chooseRandSpecified = false, chooseRandSpecified2 = false, choice = false;
-	SequenceVariable varChooseRand = null, varChooseRand2 = null, subgraph = null;
+	SequenceVariable varChooseRand = null, varChooseRand2 = null, subgraph = null, countResult = null;
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();
 }
@@ -1725,6 +1728,20 @@ Sequence Rule():
 
 			return new SequenceRuleAllCall(CreateRuleInvocationParameterBindings(str, argExprs, returnVars, subgraph),
 					special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice, filter);
+		}
+	|
+		"count"
+		"[" ("%" { special = true; } | "?" { test = true; })* 
+		(LOOKAHEAD(2) subgraph=Variable() ".")? str=Word() ("(" (Arguments(argExprs))? ")")?
+			("\\" filter=Word())?
+		"]" "=>" countResult=Variable()
+		{
+			// No variable with this name may exist
+			if(varDecls.Lookup(str)!=null)
+				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
+
+			return new SequenceRuleCountAllCall(CreateRuleInvocationParameterBindings(str, argExprs, returnVars, subgraph),
+					special, test, countResult, filter);
 		}
 	|
 		("%" { special = true; } | "?" { test = true; })*

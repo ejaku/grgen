@@ -1323,6 +1323,29 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing count of instances of an iterated pattern expression
+    /// </summary>
+    public class Count : Expression
+    {
+        public Count(String iterated)
+        {
+            Iterated = iterated;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Count(Iterated + renameSuffix);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("match." + NamesOfEntities.MatchName(Iterated, BuildMatchObjectType.Iteration) + ".Count");
+        }
+
+        String Iterated;
+    }
+
+    /// <summary>
     /// Class representing qualification expression
     /// </summary>
     public class Qualification : Expression

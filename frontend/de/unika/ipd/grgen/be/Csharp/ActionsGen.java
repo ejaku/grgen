@@ -2138,6 +2138,10 @@ public class ActionsGen extends CSharpBase {
 					+ (no.getEntity()==null ? "null" : "\""+formatEntity(no.getEntity(), pathPrefix, alreadyDefinedEntityToName)+"\"")
 					+ ")");
 		}
+		else if(expr instanceof Count) {
+			Count count = (Count) expr;
+			sb.append("new GRGEN_EXPR.Count(\"" + formatIdentifiable(count.getIterated()) + "\")");
+		}
 		else if(expr instanceof Typeof) {
 			Typeof to = (Typeof) expr;
 			sb.append("new GRGEN_EXPR.Typeof(\"" + formatEntity(to.getEntity(), pathPrefix, alreadyDefinedEntityToName) + "\")");

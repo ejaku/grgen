@@ -89,6 +89,11 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 			reportError("error in resolving iteration variable of iterated accumulation yield.");
 			successfullyResolved = false;
 		}
+		
+		if((iterationVariable.context & BaseNode.CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+			reportError("An iterated accumulation loop can only be used within a yield block in the pattern.");
+			successfullyResolved = false;
+		}
 
 		boolean iterationVariableFound = false;
 		for(VarDeclNode var : iterated.getLeft().getDefVariablesToBeYieldedTo().getChildren()) {
@@ -97,6 +102,19 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 				iterationVariableFound = true;
 			}
 		}
+		for(NodeDeclNode node : iterated.getLeft().getNodes()) {
+			if(iterationVariable.toString()==node.toString()) {
+				iterationVariable.typeUnresolved = node.typeUnresolved;
+				iterationVariableFound = true;
+			}
+		}
+		for(EdgeDeclNode edge : iterated.getLeft().getEdges()) {
+			if(iterationVariable.toString()==edge.toString()) {
+				iterationVariable.typeUnresolved = edge.typeUnresolved;
+				iterationVariableFound = true;
+			}
+		}
+
 		if(!iterationVariableFound) {
 			reportError("can't find iteration variable in iterated");
 			successfullyResolved = false;

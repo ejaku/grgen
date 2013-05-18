@@ -2860,7 +2860,8 @@ namespace de.unika.ipd.grGen.grShell
 
         bool ContainsSpecial(Sequence seq)
         {
-            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall) && ((SequenceRuleCall)seq).Special)
+            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall) 
+                && ((SequenceRuleCall)seq).Special)
                 return true;
 
             foreach(Sequence child in seq.Children)
@@ -2987,13 +2988,13 @@ namespace de.unika.ipd.grGen.grShell
             if(cancelSequence)
                 Cancel();
 
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall)
+            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
                 curRule = (SequenceRuleCall) seq;
         }
 
         void DumpOnEntereringSequence(Sequence seq)
         {
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall)
+            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
             {
                 curRule = (SequenceRuleCall) seq;
                 if(curRule.Special)
@@ -3003,7 +3004,7 @@ namespace de.unika.ipd.grGen.grShell
 
         void DumpOnExitingSequence(Sequence seq)
         {
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall)
+            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
             {
                 SequenceRuleCall ruleSeq = (SequenceRuleCall) seq;
                 if(ruleSeq != null && ruleSeq.Special)
