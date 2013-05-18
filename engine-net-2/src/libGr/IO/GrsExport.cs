@@ -67,83 +67,177 @@ namespace de.unika.ipd.grGen.libGr
             ExportYouMustCloseStreamWriter(graph, writer, "");
         }
 
+        public class GraphExportContext
+        {
+            // the name used for export, may be different from the real graph name
+            // here we ensure the uniqueness needed for an export / for getting an importable serialization
+            public static Dictionary<INamedGraph, GraphExportContext> graphToContext = new Dictionary<INamedGraph, GraphExportContext>();
+            public static Dictionary<string, GraphExportContext> nameToContext = new Dictionary<string, GraphExportContext>();
+
+            public GraphExportContext(INamedGraph graph)
+            {
+                this.graph = graph;
+                if(nameToContext.ContainsKey(graph.Name))
+                {
+                    int id = 0;
+                    while(nameToContext.ContainsKey(graph.Name + "_" + id.ToString()))
+                    {
+                        ++id;
+                    }
+                    this.name = graph.Name + "_" + id.ToString();
+                }
+                else
+                    this.name = graph.Name;
+            }
+
+            public INamedGraph graph;
+            public string name;
+
+            public string modelPathPrefix = null; // not null iff this is the main graph
+            public bool nodeOrEdgeUsedInAttribute = false;
+            public bool subgraphUsedInAttribute = false;
+
+            public bool isExported = false;
+        }
+
         /// <summary>
         /// Exports the given graph to the file given by the stream writer in grs format.
         /// Any errors will be reported by exception.
         /// </summary>
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
+        /// <param name="modelPathPrefix">Path to the model.</param>
         public static void ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix)
         {
-            sw.WriteLine("# begin of graph \"{0}\" saved by GrsExport", graph.Name);
+            GraphExportContext mainGraphContext = new GraphExportContext(graph);
+            mainGraphContext.modelPathPrefix = modelPathPrefix;
+            GraphExportContext.graphToContext[mainGraphContext.graph] = mainGraphContext;
+            GraphExportContext.nameToContext[mainGraphContext.name] = mainGraphContext;
+
+            sw.WriteLine("# begin of graph \"{0}\" saved by GrsExport", mainGraphContext.name);
             sw.WriteLine();
 
-            sw.WriteLine("new graph \"" + modelPathPrefix + graph.Model.ModelName + "\" \"" + graph.Name + "\"");
+            bool subgraphAdded = ExportSingleGraph(mainGraphContext, sw);
 
-            bool thereIsANodeOrEdgeValuedContainer = false;
+            if(subgraphAdded)
+            {
+restart:
+                foreach(KeyValuePair<string, GraphExportContext> kvp in GraphExportContext.nameToContext)
+                {
+                    GraphExportContext context = kvp.Value;
+                    if(!context.isExported)
+                    {
+                        subgraphAdded = ExportSingleGraph(context, sw);
+                        if(subgraphAdded)
+                            goto restart;
+                    }
+                }
+
+                foreach(KeyValuePair<string, GraphExportContext> kvp in GraphExportContext.nameToContext)
+                {
+                    GraphExportContext context = kvp.Value;
+                    EmitSubgraphAttributes(context, sw);
+                }
+            }
+
+            sw.WriteLine("# end of graph \"{0}\" saved by GrsExport", mainGraphContext.name);
+            sw.WriteLine();
+        }
+
+        public static bool ExportSingleGraph(GraphExportContext context, StreamWriter sw)
+        {
+            bool subgraphAdded = false;
+
+            if(context.modelPathPrefix != null)
+                sw.WriteLine("new graph \"" + context.modelPathPrefix + context.graph.Model.ModelName + "\" \"" + context.name + "\"");
+            else
+                sw.WriteLine("add new graph \"" + context.name + "\"");
 
             // emit nodes
             int numNodes = 0;
-            foreach (INode node in graph.Nodes)
+            foreach(INode node in context.graph.Nodes)
             {
-                sw.Write("new :{0}($ = \"{1}\"", node.Type.Name, graph.GetElementName(node));
-                foreach (AttributeType attrType in node.Type.AttributeTypes)
+                sw.Write("new :{0}($ = \"{1}\"", node.Type.Name, context.graph.GetElementName(node));
+                foreach(AttributeType attrType in node.Type.AttributeTypes)
                 {
-                    if(IsNodeOrEdgeValuedContainer(attrType)) {
-                        thereIsANodeOrEdgeValuedContainer = true;
+                    if(IsNodeOrEdgeUsedInAttribute(attrType))
+                    {
+                        context.nodeOrEdgeUsedInAttribute = true;
+                        continue;
+                    }
+                    if(IsGraphUsedInAttribute(attrType))
+                    {
+                        context.subgraphUsedInAttribute = true;
+                        subgraphAdded |= AddSubgraphAsNeeded(node, attrType);
                         continue;
                     }
 
                     object value = node.GetAttribute(attrType.Name);
-                    EmitAttributeInitialization(attrType, value, graph, sw);
+                    EmitAttributeInitialization(attrType, value, context.graph, sw);
                 }
                 sw.WriteLine(")");
                 numNodes++;
             }
-            sw.WriteLine("# total number of nodes: {0}", numNodes);
+            if(context.modelPathPrefix != null)
+                sw.WriteLine("# total number of nodes: {0}", numNodes);
+            else
+                sw.WriteLine("# total number of nodes in subgraph {0}: {1}", context.name, numNodes);
             sw.WriteLine();
 
             // emit edges
             int numEdges = 0;
-            foreach (INode node in graph.Nodes)
+            foreach(INode node in context.graph.Nodes)
             {
-                foreach (IEdge edge in node.Outgoing)
+                foreach(IEdge edge in node.Outgoing)
                 {
-                    sw.Write("new @(\"{0}\") - :{1}($ = \"{2}\"", graph.GetElementName(node),
-                        edge.Type.Name, graph.GetElementName(edge));
-                    foreach (AttributeType attrType in edge.Type.AttributeTypes)
+                    sw.Write("new @(\"{0}\") - :{1}($ = \"{2}\"", context.graph.GetElementName(node),
+                        edge.Type.Name, context.graph.GetElementName(edge));
+                    foreach(AttributeType attrType in edge.Type.AttributeTypes)
                     {
-                        if(IsNodeOrEdgeValuedContainer(attrType)) {
-                            thereIsANodeOrEdgeValuedContainer = true;
+                        if(IsNodeOrEdgeUsedInAttribute(attrType))
+                        {
+                            context.nodeOrEdgeUsedInAttribute = true;
+                            continue;
+                        }
+                        if(IsGraphUsedInAttribute(attrType))
+                        {
+                            context.subgraphUsedInAttribute = true;
+                            subgraphAdded |= AddSubgraphAsNeeded(edge, attrType);
                             continue;
                         }
 
                         object value = edge.GetAttribute(attrType.Name);
                         // TODO: Add support for null values, as the default initializers could assign non-null values!
-                        if(value != null) {
-                            EmitAttributeInitialization(attrType, value, graph, sw);
+                        if(value != null)
+                        {
+                            EmitAttributeInitialization(attrType, value, context.graph, sw);
                         }
                     }
-                    sw.WriteLine(") -> @(\"{0}\")", graph.GetElementName(edge.Target));
+                    sw.WriteLine(") -> @(\"{0}\")", context.graph.GetElementName(edge.Target));
                     numEdges++;
                 }
             }
-            sw.WriteLine("# total number of edges: {0}", numEdges);
+            if(context.modelPathPrefix != null)
+                sw.WriteLine("# total number of edges: {0}", numEdges);
+            else
+                sw.WriteLine("# total number of edges in subgraph {0}: {1}", context.name, numEdges);
             sw.WriteLine();
 
-            // emit node/edge valued sets/maps/array
-            if(thereIsANodeOrEdgeValuedContainer)
+            // emit node/edge valued attributes
+            if(context.nodeOrEdgeUsedInAttribute)
             {
-                foreach(INode node in graph.Nodes)
+                foreach(INode node in context.graph.Nodes)
                 {
                     foreach(AttributeType attrType in node.Type.AttributeTypes)
                     {
-                        if(!IsNodeOrEdgeValuedContainer(attrType))
+                        if(!IsNodeOrEdgeUsedInAttribute(attrType))
+                            continue;
+                        if(IsGraphUsedInAttribute(attrType))
                             continue;
 
                         object value = node.GetAttribute(attrType.Name);
-                        sw.Write("{0}.{1} = ", graph.GetElementName(node), attrType.Name);
-                        EmitAttribute(attrType, value, graph, sw);
+                        sw.Write("{0}.{1} = ", context.graph.GetElementName(node), attrType.Name);
+                        EmitAttribute(attrType, value, context.graph, sw);
                         sw.Write("\n");
                     }
 
@@ -151,20 +245,69 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         foreach(AttributeType attrType in edge.Type.AttributeTypes)
                         {
-                            if(!IsNodeOrEdgeValuedContainer(attrType))
+                            if(!IsNodeOrEdgeUsedInAttribute(attrType))
+                                continue;
+                            if(IsGraphUsedInAttribute(attrType))
                                 continue;
 
                             object value = edge.GetAttribute(attrType.Name);
-                            sw.Write("{0}.{1} = ", graph.GetElementName(edge), attrType.Name);
-                            EmitAttribute(attrType, value, graph, sw);
+                            sw.Write("{0}.{1} = ", context.graph.GetElementName(edge), attrType.Name);
+                            EmitAttribute(attrType, value, context.graph, sw);
                             sw.Write("\n");
                         }
                     }
                 }
             }
 
-            sw.WriteLine("# end of graph \"{0}\" saved by GrsExport", graph.Name);
-            sw.WriteLine();
+            context.isExported = true;
+            return subgraphAdded;
+        }
+
+        private static bool AddSubgraphAsNeeded(IGraphElement elem, AttributeType attrType)
+        {
+            INamedGraph graph = (INamedGraph)elem.GetAttribute(attrType.Name);
+            if(!GraphExportContext.graphToContext.ContainsKey(graph))
+            {
+                GraphExportContext subgraphContext = new GraphExportContext(graph);
+                GraphExportContext.graphToContext[graph] = subgraphContext;
+                GraphExportContext.nameToContext[subgraphContext.name] = subgraphContext;
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public static void EmitSubgraphAttributes(GraphExportContext context, StreamWriter sw)
+        {
+            sw.WriteLine("in \"" + context.name + "\"");
+
+            foreach(INode node in context.graph.Nodes)
+            {
+                foreach(AttributeType attrType in node.Type.AttributeTypes)
+                {
+                    if(!IsGraphUsedInAttribute(attrType))
+                        continue;
+
+                    object value = node.GetAttribute(attrType.Name);
+                    sw.Write("{0}.{1} = ", context.graph.GetElementName(node), attrType.Name);
+                    EmitAttribute(attrType, value, context.graph, sw);
+                    sw.Write("\n");
+                }
+
+                foreach(IEdge edge in node.Outgoing)
+                {
+                    foreach(AttributeType attrType in edge.Type.AttributeTypes)
+                    {
+                        if(!IsGraphUsedInAttribute(attrType))
+                            continue;
+
+                        object value = edge.GetAttribute(attrType.Name);
+                        sw.Write("{0}.{1} = ", context.graph.GetElementName(edge), attrType.Name);
+                        EmitAttribute(attrType, value, context.graph, sw);
+                        sw.Write("\n");
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -269,23 +412,29 @@ namespace de.unika.ipd.grGen.libGr
             case AttributeKind.ObjectAttr:
                 return graph.Model.Serialize(value, type, graph);
             case AttributeKind.GraphAttr:
-                Console.WriteLine("Warning: Exporting attribute of graph type to null");
-                return "null";
+                if(value != null)
+                    return "\"" + GraphExportContext.graphToContext[(INamedGraph)value].name + "\"";
+                else
+                    return "null";
             case AttributeKind.EnumAttr:
                 return type.EnumType.Name + "::" + type.EnumType[(int)value].Name;
             case AttributeKind.NodeAttr:
             case AttributeKind.EdgeAttr:
-                if(value==null)
-                    throw new Exception("Can't export Node or Edge being null");
-                else
+                if(value != null)
                     return graph.GetElementName((IGraphElement)value);
+                else
+                    return "null";
             default:
                 throw new Exception("Unsupported attribute kind in export");
             }
         }
 
-        public static bool IsNodeOrEdgeValuedContainer(AttributeType attrType)
+        public static bool IsNodeOrEdgeUsedInAttribute(AttributeType attrType)
         {
+            if(attrType.Kind == AttributeKind.NodeAttr
+                || attrType.Kind == AttributeKind.EdgeAttr)
+                return true;
+
             if(attrType.Kind == AttributeKind.SetAttr
                 || attrType.Kind == AttributeKind.MapAttr
                 || attrType.Kind == AttributeKind.ArrayAttr
@@ -299,6 +448,27 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(attrType.KeyType.Kind == AttributeKind.NodeAttr
                     || attrType.KeyType.Kind == AttributeKind.EdgeAttr)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsGraphUsedInAttribute(AttributeType attrType)
+        {
+            if(attrType.Kind == AttributeKind.GraphAttr)
+                return true;
+
+            if(attrType.Kind == AttributeKind.SetAttr
+                || attrType.Kind == AttributeKind.MapAttr
+                || attrType.Kind == AttributeKind.ArrayAttr
+                || attrType.Kind == AttributeKind.DequeAttr)
+            {
+                if(attrType.ValueType.Kind == AttributeKind.GraphAttr)
+                    return true;
+            }
+            if(attrType.Kind == AttributeKind.MapAttr)
+            {
+                if(attrType.KeyType.Kind == AttributeKind.GraphAttr)
                     return true;
             }
             return false;
