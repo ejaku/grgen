@@ -27,6 +27,9 @@ namespace de.unika.ipd.grGen.lgsp
         private bool paused = false; // only of interest if recording==true
         private bool reuseOptimizationBackup = false; // old value from graph, to be restored after outermost transaction completed
         private bool undoing = false;
+        private bool wasVisitedFreeRecorded = false;
+        private Dictionary<int, bool> visitedAllocationsWhilePaused = new Dictionary<int, bool>();
+        private bool wasGraphChanged = false;
         private LGSPGraphProcessingEnvironment procEnv;
 
 #if LOG_TRANSACTION_HANDLING
@@ -54,6 +57,11 @@ namespace de.unika.ipd.grGen.lgsp
             procEnv.graph.OnRetypingNode += RetypingElement;
             procEnv.graph.OnRetypingEdge += RetypingElement;
             procEnv.graph.OnRedirectingEdge += RedirectingEdge;
+            procEnv.graph.OnVisitedAlloc += VisitedAlloc;
+            procEnv.graph.OnVisitedFree += VisitedFree;
+            procEnv.graph.OnSettingVisited += SettingVisited;
+            procEnv.OnSwitchingToSubgraph += SwitchToGraph;
+            procEnv.OnReturnedFromSubgraph += ReturnFromGraph;
 
             recording = true;
             paused = false;
@@ -72,6 +80,11 @@ namespace de.unika.ipd.grGen.lgsp
             procEnv.graph.OnRetypingNode -= RetypingElement;
             procEnv.graph.OnRetypingEdge -= RetypingElement;
             procEnv.graph.OnRedirectingEdge -= RedirectingEdge;
+            procEnv.graph.OnVisitedAlloc -= VisitedAlloc;
+            procEnv.graph.OnVisitedFree -= VisitedFree;
+            procEnv.graph.OnSettingVisited -= SettingVisited;
+            procEnv.OnSwitchingToSubgraph -= SwitchToGraph;
+            procEnv.OnReturnedFromSubgraph -= ReturnFromGraph;
 
             recording = false;
             procEnv.graph.ReuseOptimization = reuseOptimizationBackup;
@@ -79,9 +92,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public int Start()
         {
-            // TODO: allow transactions within pauses, nesting of pauses with transactions
-            // this requires a stack of transactions; not difficult, but would eat a bit of performance,
-            // so only to be done if there is demand by users (for the majority of tasks it should not be needed)
+            // possible extension: transactions within pauses, nesting of pauses with transactions, would require a stack of transactions
             if(paused)
                 throw new Exception("Transaction handling is currently paused, can't start a transaction!");
 #if LOG_TRANSACTION_HANDLING
@@ -124,6 +135,7 @@ namespace de.unika.ipd.grGen.lgsp
             writer.Flush();
 #endif
             paused = false;
+            visitedAllocationsWhilePaused.Clear();
         }
 
 
@@ -143,11 +155,37 @@ namespace de.unika.ipd.grGen.lgsp
                 procEnv.Recorder.TransactionCommit(transactionID);
 
             // removes rollback information only if the transaction is outermost
-            // otherwise we might need do undo it because a transaction enclosing this transaction failed
+            // otherwise we might need to undo it because a transaction enclosing this transaction failed
             if(transactionID == 0)
             {
+                if(wasVisitedFreeRecorded && undoItems.Count>0)
+                {
+                    if(wasGraphChanged)
+                    {
+                        undoing = true;
+                        procEnv.SwitchToSubgraph(procEnv.Graph);
+                    }
+
+                    LinkedListNode<IUndoItem> curItem = undoItems.Last;
+                    do
+                    {
+                        if(curItem.Value is LGSPUndoVisitedFree)
+                            procEnv.graph.UnreserveVisitedFlag(((LGSPUndoVisitedFree)curItem.Value)._visitorID);
+                        else if(curItem.Value is LGSPUndoGraphChange)
+                            curItem.Value.DoUndo(procEnv);
+                    } while(curItem != undoItems.First);
+                    
+                    if(wasGraphChanged)
+                    {
+                        procEnv.ReturnFromSubgraph();
+                        undoing = false;
+                    }
+                }
+
                 undoItems.Clear();
                 UnsubscribeEvents();
+                wasVisitedFreeRecorded = false;
+                wasGraphChanged = false;
             }
         }
 
@@ -163,6 +201,9 @@ namespace de.unika.ipd.grGen.lgsp
                 procEnv.Recorder.TransactionRollback(transactionID, true);
 
             undoing = true;
+            if(wasGraphChanged)
+                procEnv.SwitchToSubgraph(procEnv.Graph);
+
             while(undoItems.Count > transactionID)
             {
 #if LOG_TRANSACTION_HANDLING
@@ -196,15 +237,43 @@ namespace de.unika.ipd.grGen.lgsp
                 } else if(undoItems.Last.Value is LGSPUndoElemRedirecting) {
                     LGSPUndoElemRedirecting item = (LGSPUndoElemRedirecting)undoItems.Last.Value;
                     writer.WriteLine("RedirectingEdge: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._edge) + " before undoing removal");
+                } else if(undoItems.Last.Value is LGSPUndoVisitedAlloc) {
+                    LGSPUndoVisitedAlloc item = (LGSPUndoVisitedAlloc)undoItems.Last.Value;
+                    writer.WriteLine("VisitedAlloc: " + item._visitorID);
+                } else if(undoItems.Last.Value is LGSPUndoVisitedFree) {
+                    LGSPUndoVisitedFree item = (LGSPUndoVisitedFree)undoItems.Last.Value;
+                    writer.WriteLine("VisitedFree: " + item._visitorID);
+                } else if(undoItems.Last.Value is LGSPUndoSettingVisited) {
+                    LGSPUndoSettingVisited item = (LGSPUndoSettingVisited)undoItems.Last.Value;
+                    writer.WriteLine("SettingVisited: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._elem) + ".visited[" + item._visitorID + "]");
+                } else if(undoItems.Last.Value is LGSPUndoGraphChange) {
+                    LGSPUndoGraphChange item = (LGSPUndoGraphChange)undoItems.Last.Value;
+                    writer.WriteLine("GraphChange: to previous " + item._oldGraph.Name);
                 }
 #endif
+                if(wasGraphChanged) {
+                    if(undoItems.Last.Value is LGSPUndoGraphChange) {
+                        if(undoItems.Last.Previous != null && undoItems.Last.Previous.Value is LGSPUndoGraphChange) {
+                            undoItems.RemoveLast();
+                            continue; // skip graph change without effect to preceeding graph change
+                        }
+                    }
+                }
+
                 undoItems.Last.Value.DoUndo(procEnv);
                 undoItems.RemoveLast();
             }
+
+            if(wasGraphChanged)
+                procEnv.ReturnFromSubgraph();
             undoing = false;
 
             if(transactionID == 0)
+            {
                 UnsubscribeEvents();
+                wasVisitedFreeRecorded = false;
+                wasGraphChanged = false;
+            }
 
             if(procEnv.Recorder != null)
                 procEnv.Recorder.TransactionRollback(transactionID, false);
@@ -283,6 +352,76 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
             if(recording && !paused && !undoing)
                 currentlyRedirectedEdge = edge;
+        }
+
+        public void VisitedAlloc(int visitorID)
+        {
+            if(recording && !paused && !undoing)
+                undoItems.AddLast(new LGSPUndoVisitedAlloc(visitorID));
+            if(paused)
+                visitedAllocationsWhilePaused[visitorID] = true;
+
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "VisitedAlloc: " + visitorID);
+#endif
+        }
+
+        public void VisitedFree(int visitorID)
+        {
+            if(recording && !paused && !undoing)
+            {
+                undoItems.AddLast(new LGSPUndoVisitedFree(visitorID));
+                procEnv.graph.ReserveVisitedFlag(visitorID);
+                wasVisitedFreeRecorded = true;
+            }
+            if(paused && !visitedAllocationsWhilePaused.ContainsKey(visitorID))
+                throw new Exception("A vfree in a transaction pause can only free a visited flag that was allocated during that pause!");
+
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "VisitedFree: " + visitorID);
+#endif
+        }
+
+        public void SettingVisited(IGraphElement elem, int visitorID, bool newValue)
+        {
+            if(recording && !paused && !undoing)
+            {
+                bool oldValue = procEnv.graph.IsVisited(elem, visitorID);
+                if(newValue != oldValue)
+                    undoItems.AddLast(new LGSPUndoSettingVisited(elem, visitorID, oldValue));
+            }
+
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "SettingVisited: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(elem) + ".visited[" + visitorID + "] = " + (newValue ? "true" : "false"));
+#endif
+        }
+
+        public void SwitchToGraph(IGraph newGraph)
+        {
+            IGraph oldGraph = procEnv.graph;
+            if(recording && !undoing)
+            {
+                undoItems.AddLast(new LGSPUndoGraphChange(oldGraph));
+                wasGraphChanged = true;
+            }
+
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "SwitchToGraph: " + newGraph.Name + ", from " + oldGraph.Name);
+#endif
+        }
+
+        public void ReturnFromGraph(IGraph oldGraph)
+        {
+            IGraph newGraph = procEnv.graph;
+            if(recording && !undoing)
+            {
+                undoItems.AddLast(new LGSPUndoGraphChange(oldGraph));
+                wasGraphChanged = true;
+            }
+
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ReturnFromGraph: " + newGraph.Name + ", back from " + oldGraph.Name);
+#endif
         }
 
         public bool IsActive { get { return recording; } }

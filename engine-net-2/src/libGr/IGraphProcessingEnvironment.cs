@@ -14,17 +14,17 @@ namespace de.unika.ipd.grGen.libGr
     #region GraphProcessingDelegates
 
     /// <summary>
-    /// Represents a method called directly after graph processing switched to a subgraph.
+    /// Represents a method called directly before graph processing switches to a subgraph.
     /// (Graph processing means rule and sequence execution. Not called when the main graph is replaced.)
     /// </summary>
-    /// <param name="graph">The graph switched to.</param>
+    /// <param name="graph">The new graph switched to.</param>
     public delegate void SwitchToSubgraphHandler(IGraph graph);
 
     /// <summary>
-    /// Represents a method called directly after graph processing returned back after a switch.
+    /// Represents a method called directly after graph processing returned back (from a previous switch).
     /// (To the main graph, or a subgraph previously switched to. Graph processing means rule and sequence execution.)
     /// </summary>
-    /// <param name="graph">The graph returned to.</param>
+    /// <param name="graph">The old graph returned from.</param>
     public delegate void ReturnFromSubgraphHandler(IGraph graph);
 
 
@@ -313,7 +313,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired when graph processing is returning back after a switch.
         /// (To the main graph, or a subgraph previously switched to.)
         /// </summary>
-        event ReturnFromSubgraphHandler OnReturningFromSubgraph;
+        event ReturnFromSubgraphHandler OnReturnedFromSubgraph;
 
 
         /// <summary>

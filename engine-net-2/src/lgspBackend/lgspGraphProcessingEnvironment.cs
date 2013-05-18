@@ -55,14 +55,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void SwitchToSubgraph(IGraph newGraph)
         {
-            usedGraphs.Push((LGSPGraph)newGraph);
             SwitchingToSubgraph(newGraph);
+            usedGraphs.Push((LGSPGraph)newGraph);
         }
 
         public IGraph ReturnFromSubgraph()
         {
             IGraph oldGraph = usedGraphs.Pop();
-            ReturningFromSubgraph(usedGraphs.Peek());
+            ReturnedFromSubgraph(oldGraph);
             return oldGraph;
         }
 
@@ -666,7 +666,7 @@ namespace de.unika.ipd.grGen.lgsp
         #region Events
 
         public event SwitchToSubgraphHandler OnSwitchingToSubgraph;
-        public event ReturnFromSubgraphHandler OnReturningFromSubgraph;
+        public event ReturnFromSubgraphHandler OnReturnedFromSubgraph;
         
         public event EnterSequenceHandler OnEntereringSequence;
         public event ExitSequenceHandler OnExitingSequence;
@@ -678,9 +678,9 @@ namespace de.unika.ipd.grGen.lgsp
             if(handler != null) handler(graph);
         }
 
-        private void ReturningFromSubgraph(IGraph graph)
+        private void ReturnedFromSubgraph(IGraph graph)
         {
-            ReturnFromSubgraphHandler handler = OnReturningFromSubgraph;
+            ReturnFromSubgraphHandler handler = OnReturnedFromSubgraph;
             if(handler != null) handler(graph);
         }
 

@@ -1078,19 +1078,32 @@ namespace de.unika.ipd.grGen.lgsp
             /// Specifies whether this visitor has already marked any nodes.
             /// This is unused, if the dictionary is used for this visitor ID.
             /// </summary>
-            public bool NodesMarked;
+            public bool NodesMarked = false;
 
             /// <summary>
             /// Specifies whether this visitor has already marked any edges.
             /// This is unused, if the dictionary is used for this visitor ID.
             /// </summary>
-            public bool EdgesMarked;
+            public bool EdgesMarked = false;
 
             /// <summary>
             /// A hash map containing all visited elements (in the keys, the dictionary values are not used).
             /// This is unused (and thus null), if the graph element flags are used for this visitor ID.
             /// </summary>
             public Dictionary<IGraphElement, bool> VisitedElements;
+
+            /// <summary>
+            /// Tells whether this flag was reserved by the transaction manager,
+            /// preventing it from getting handed out in a valloc again
+            /// (because the flag was freed during a transaction,
+            /// and might not be allocatable again during transaction rollback without reservation.)
+            /// </summary>
+            public bool IsReserved = false;
+
+            /// <summary>
+            /// Tells whether the reserved flag is to be unreserved again.
+            /// </summary>
+            public bool ToBeUnreserved = false;
         }
 
         List<VisitorData> availableVisitors = new List<VisitorData>();
@@ -1171,13 +1184,20 @@ namespace de.unika.ipd.grGen.lgsp
                     throw new Exception("Elements are still marked on vfree!");
             }
 
-            // prefer graph element visitors over dictionary based visitors
-            if(visitorID < (int)LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)
-                indicesOfFreeVisitors.EnqueueFront(visitorID);
-            else
-                indicesOfFreeVisitors.Enqueue(visitorID);
+            if(!availableVisitors[visitorID].IsReserved)
+                VisitedFree(visitorID); // the transaction manager may reserve the flag during this notification
 
-            VisitedFree(visitorID);
+            if(!availableVisitors[visitorID].IsReserved || availableVisitors[visitorID].ToBeUnreserved)
+            {
+                // prefer graph element visitors over dictionary based visitors
+                if(visitorID < (int)LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)
+                    indicesOfFreeVisitors.EnqueueFront(visitorID);
+                else
+                    indicesOfFreeVisitors.Enqueue(visitorID);
+
+                availableVisitors[visitorID].IsReserved = false;
+                availableVisitors[visitorID].ToBeUnreserved = false;
+            }
         }
 
         /// <summary>
@@ -1310,10 +1330,50 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(indicesOfFreeVisitors.Contains(i))
                     continue;
+                if(availableVisitors[i].IsReserved)
+                    continue;
 
                 result.Add(i);
             }
             return result;
+        }
+
+        /// <summary>
+        /// Called by the transaction manager just when it gets notified about a vfree.
+        /// The visited flag freed must be reserved until the transaction finished,
+        /// cause otherwise it might be impossible for the transaction manager to roll the vfree back with a valloc;
+        /// that may happen if the flag is handed out again in a succeeding valloc, during a transaction pause.
+        /// </summary>
+        /// <param name="visitorID"></param>
+        public void ReserveVisitedFlag(int visitorID)
+        {
+            availableVisitors[visitorID].IsReserved = true;
+        }
+
+        /// <summary>
+        /// Called by the transaction manager on flags it reserved from getting handed out again during valloc,
+        /// when the transaction finished and it is safe to return those flags again on valloc.
+        /// </summary>
+        /// <param name="visitorID"></param>
+        public void UnreserveVisitedFlag(int visitorID)
+        {
+            availableVisitors[visitorID].ToBeUnreserved = true;
+            FreeVisitedFlagNonReset(visitorID);
+        }
+
+        /// <summary>
+        /// Called by the transaction manager on flags it reserved from getting handed out again during valloc,
+        /// when the transaction is rolled back, and the vfree is undone by a realloc.
+        /// </summary>
+        /// <param name="visitorID"></param>
+        public void ReallocateVisitedFlag(int visitorID)
+        {
+            if(!availableVisitors[visitorID].IsReserved)
+                throw new Exception("Visited flag to reallocate was not reserved!");
+
+            availableVisitors[visitorID].IsReserved = false;
+
+            VisitedAlloc(visitorID);
         }
 
         #endregion Visited flags management

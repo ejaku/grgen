@@ -8,7 +8,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
@@ -505,6 +504,79 @@ namespace de.unika.ipd.grGen.lgsp
         {
             _edge.lgspSource = _source;
             _edge.lgspTarget = _target;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    public class LGSPUndoVisitedAlloc : IUndoItem
+    ////////////////////////////////////////////////////////////////////////////////
+    {
+        public int _visitorID;
+
+        public LGSPUndoVisitedAlloc(int visitorID)
+        {
+            _visitorID = visitorID;
+        }
+
+        public void DoUndo(LGSPGraphProcessingEnvironment procEnv)
+        {
+            procEnv.graph.FreeVisitedFlagNonReset(_visitorID);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    public class LGSPUndoVisitedFree : IUndoItem
+    ////////////////////////////////////////////////////////////////////////////////
+    {
+        public int _visitorID;
+        
+        public LGSPUndoVisitedFree(int visitorID)
+        {
+            _visitorID = visitorID;
+        }
+
+        public void DoUndo(LGSPGraphProcessingEnvironment procEnv)
+        {
+            procEnv.graph.ReallocateVisitedFlag(_visitorID);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    public class LGSPUndoSettingVisited : IUndoItem
+    ////////////////////////////////////////////////////////////////////////////////
+    {
+        public IGraphElement _elem;
+        public int _visitorID;
+        public bool _oldValue;
+        
+        public LGSPUndoSettingVisited(IGraphElement elem, int visitorID, bool oldValue)
+        {
+            _elem = elem;
+            _visitorID = visitorID;
+            _oldValue = oldValue;
+        }
+
+        public void DoUndo(LGSPGraphProcessingEnvironment procEnv)
+        {
+            procEnv.graph.SetVisited(_elem, _visitorID, _oldValue);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    public class LGSPUndoGraphChange : IUndoItem
+    ////////////////////////////////////////////////////////////////////////////////
+    {
+        public IGraph _oldGraph;
+
+        public LGSPUndoGraphChange(IGraph oldGraph)
+        {
+            _oldGraph = oldGraph;
+        }
+
+        public void DoUndo(LGSPGraphProcessingEnvironment procEnv)
+        {
+            procEnv.ReturnFromSubgraph();
+            procEnv.SwitchToSubgraph(_oldGraph);
         }
     }
 }
