@@ -1511,6 +1511,7 @@ namespace de.unika.ipd.grGen.grShell
                 case SequenceType.SequenceCall:
                 case SequenceType.RuleCall:
                 case SequenceType.RuleAllCall:
+                case SequenceType.RuleCountAllCall:
                 case SequenceType.BooleanComputation:
                     {
                         if(context.bpPosCounter >= 0)
@@ -2968,7 +2969,7 @@ namespace de.unika.ipd.grGen.grShell
 
             // Breakpoint reached?
             bool breakpointReached = false;
-            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
+            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall
                 || seq.SequenceType == SequenceType.BooleanComputation || seq.SequenceType == SequenceType.SequenceCall)
                     && ((SequenceSpecial)seq).Special)
             {
@@ -2982,7 +2983,7 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
-                || seq.SequenceType == SequenceType.SequenceCall
+                || seq.SequenceType == SequenceType.RuleCountAllCall || seq.SequenceType == SequenceType.SequenceCall
                 || breakpointReached)
             {
                 ycompClient.UpdateDisplay();

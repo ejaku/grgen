@@ -721,6 +721,10 @@ public abstract class CSharpBase {
 				sb.append("((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(" + formatEntity(no.getEntity()) + ")"); // name of entity
 			}
 		}
+		else if(expr instanceof Count) {
+			Count count = (Count) expr;
+			sb.append("curMatch." + formatIdentifiable(count.getIterated()) + ".Count");
+		}
 		else if(expr instanceof Typeof) {
 			Typeof to = (Typeof) expr;
 			sb.append(formatEntity(to.getEntity()) + ".lgspType");

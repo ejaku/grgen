@@ -2084,6 +2084,11 @@ parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 				callRule[xg, returns]
 				RBRACK {xg.append("]");}
 		| 
+			COUNT {xg.append("count");}
+				LBRACK {xg.append("[");} 
+				callRule[xg, returns]
+				RBRACK {xg.append("]");}
+		|
 			callRule[xg, returns]
 		)
 	;
@@ -3411,6 +3416,7 @@ primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 options { k = 4; }
 	: e=visited { res = e; }
 	| e=nameOf { res = e; }
+	| e=count { res = e; }
 	| e=identExpr { res = e; }
 	| e=globalsAccessExpr { res = e; }
 	| e=constant { res = e; }
@@ -3441,6 +3447,10 @@ visited returns [ VisitedNode res ]
 
 nameOf returns [ ExprNode res = env.initExprNode() ]
 	: n=NAMEOF LPAREN (id=entIdentUse)? RPAREN { res = new NameofNode(getCoords(n), id); }
+	;
+
+count returns [ ExprNode res = env.initExprNode() ]
+	: c=COUNT LPAREN i=IDENT RPAREN	{ res = new CountNode(getCoords(c), new IdentNode(env.occurs(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i)))); }
 	;
 
 typeOf returns [ ExprNode res = env.initExprNode() ]
@@ -3810,6 +3820,7 @@ COPY : 'copy';
 CONNECT : 'connect';
 CONST : 'const';
 CONTINUE : 'continue';
+COUNT : 'count';
 DEF : 'def';
 DELETE : 'delete';
 DIRECTED : 'directed';

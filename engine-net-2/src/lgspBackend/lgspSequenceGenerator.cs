@@ -308,7 +308,8 @@ namespace de.unika.ipd.grGen.lgsp
 
 				case SequenceType.RuleCall:
 				case SequenceType.RuleAllCall:
-				{
+                case SequenceType.RuleCountAllCall:
+                {
 					SequenceRuleCall seqRule = (SequenceRuleCall) seq;
 					String ruleName = seqRule.ParamBindings.Name;
 					if(!knownRules.ContainsKey(ruleName))
@@ -322,6 +323,11 @@ namespace de.unika.ipd.grGen.lgsp
                     for(int i=0; i<seqRule.ParamBindings.ReturnVars.Length; ++i)
                     {
                         EmitVarIfNew(seqRule.ParamBindings.ReturnVars[i], source);
+                    }
+                    if(seq.SequenceType == SequenceType.RuleCountAllCall)
+                    {
+                        SequenceRuleCountAllCall seqCountRuleAll = (SequenceRuleCountAllCall)seqRule;
+                        EmitVarIfNew(seqCountRuleAll.CountResult, source);
                     }
 					break;
 				}
@@ -560,6 +566,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+            if(seqRule is SequenceRuleCountAllCall)
+            {
+                SequenceRuleCountAllCall seqRuleCountAll = (SequenceRuleCountAllCall)seqRule;
+                source.AppendFront(SetVar(seqRuleCountAll.CountResult, matchesName + ".Count"));
+            }
+
             if(seqRule is SequenceRuleAllCall
                 && ((SequenceRuleAllCall)seqRule).ChooseRandom
                 && ((SequenceRuleAllCall)seqRule).MinSpecified)
@@ -595,7 +607,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                 if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
             }
-            else if(!((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
+            else if(seqRule.SequenceType == SequenceType.RuleCountAllCall || !((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
             {
                 // iterate through matches, use Modify on each, fire the next match event after the first
                 String enumeratorName = "enum_" + seqRule.Id;
@@ -685,6 +697,7 @@ namespace de.unika.ipd.grGen.lgsp
 			{
 				case SequenceType.RuleCall:
                 case SequenceType.RuleAllCall:
+                case SequenceType.RuleCountAllCall:
                     EmitRuleOrRuleAllCall((SequenceRuleCall)seq, source);
                     break;
 
@@ -1585,7 +1598,7 @@ namespace de.unika.ipd.grGen.lgsp
                     String matchesName = "matches_" + seqRule.Id;
                     if (seqRule.SequenceType == SequenceType.RuleCall)
                         source.AppendFront(totalMatchToApply + " += " + matchesName + ".Count;\n");
-                    else if (!((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
+                    else if (seqRule.SequenceType == SequenceType.RuleCountAllCall || !((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
                         source.AppendFront("if(" + matchesName + ".Count>0) ++" + totalMatchToApply + ";\n");
                     else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
                         source.AppendFront(totalMatchToApply + " += " + matchesName + ".Count;\n");
@@ -1645,7 +1658,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("++" + curTotalMatch + ";\n");
                     }
                 }
-                else if (!((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
+                else if (seqRule.SequenceType == SequenceType.RuleCountAllCall || !((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
                 {
                     if (seqSome.Random)
                     {
@@ -1670,6 +1683,11 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront(firstRewrite + " = false;\n");
                     source.Unindent();
                     source.AppendFront("}\n");
+                    if(seqRule.SequenceType == SequenceType.RuleCountAllCall)
+                    {
+                        SequenceRuleCountAllCall ruleCountAll = (SequenceRuleCountAllCall)seqRule;
+                        source.AppendFront(SetVar(ruleCountAll.CountResult, matchesName + ".Count"));
+                    }
 
                     if (seqSome.Random)
                     {
