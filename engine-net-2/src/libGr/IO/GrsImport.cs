@@ -47,15 +47,17 @@ namespace de.unika.ipd.grGen.libGr
         DOUBLEQUOTEDTEXT, // "\"" (~["\""])* "\""
         SINGLEQUOTEDTEXT, // "\'" (~["\'"])* "\'"
         IDENT, // LETTER (LETTER | DIGIT)*
-        FALSE, //false
-        GRAPH, //graph
-        NEW, //new
-        NULL, //null
-        TRUE, //true
-        SET, //set
-        MAP, //map
+        ADD, //add
         ARRAY, //array
         DEQUE, //deque
+        FALSE, //false
+        GRAPH, //graph
+        IN, //in
+        MAP, //map
+        NEW, //new
+        NULL, //null
+        SET, //set
+        TRUE, //true
         EOF // end of file
     }
 
@@ -79,6 +81,7 @@ namespace de.unika.ipd.grGen.libGr
         bool tokenFound; // tells whether a token was matched lately, cleared by the parser when asking for the next one to be delivered
         TokenKind tokenKind; // gives the kind of token matched lately
         StringBuilder tokenContent; // the buffer with the token matched lately
+        Dictionary<string, INamedGraph> nameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
 
         /// <summary>
         /// Imports the given graph from a file with the given filename.
@@ -196,6 +199,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(LookaheadToken() == TokenKind.NEW)
                     ParseNewGraphElementCommand();
+                else if(LookaheadToken() == TokenKind.ADD)
+                    ParseNewSubgraphCommand();
+                else if(LookaheadToken() == TokenKind.IN)
+                    ParseSwitchToSubgraph();
                 else if(LookaheadToken() == TokenKind.IDENT)
                     ParseDeferredAttributeAssignment();
                 else
@@ -232,6 +239,20 @@ namespace de.unika.ipd.grGen.libGr
                 else
                     graph = backend.CreateNamedGraph(modelFilename, graphName, capacityStr);
             }
+
+            nameToSubgraph.Add(graph.Name, graph);
+        }
+
+        private void ParseNewSubgraphCommand()
+        {
+            // add new graph graphname
+            Match(TokenKind.ADD);
+            Match(TokenKind.NEW);
+            Match(TokenKind.GRAPH);
+            String graphName = ParseText();
+
+            graph = (INamedGraph)graph.CreateEmptyEquivalent(graphName);
+            nameToSubgraph.Add(graphName, graph);
         }
 
         private void ParseNewGraphElementCommand()
@@ -259,6 +280,12 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
                 throw GetSyntaxException("Syntax error", "@ for nodee start in edge definition or : for node definition");
+        }
+
+        private void ParseSwitchToSubgraph()
+        {
+            Match(TokenKind.IN);
+            graph = ParseGraph();
         }
 
         private void ParseDeferredAttributeAssignment()
@@ -340,6 +367,13 @@ namespace de.unika.ipd.grGen.libGr
             string elemName = ParseText();
             Match(TokenKind.RPARENTHESIS);
             return GetElemByName(elemName);
+        }
+
+        private INamedGraph ParseGraph()
+        {
+            // Text
+            string graphName = ParseText();
+            return GetGraphByName(graphName);
         }
 
         private INode ParseNodeDefinition(out string nodeName)
@@ -1172,13 +1206,17 @@ namespace de.unika.ipd.grGen.libGr
                 EatChar();
             }
 
-            if(tokenContent.Length < 3 || tokenContent.Length > 5)
+            if(tokenContent.Length < 2 || tokenContent.Length > 5)
                 return FoundToken(TokenKind.IDENT);
 
             switch(tokenContent[0])
             {
                 case 'a':
-                    if(tokenContent.Length == 5
+                    if(tokenContent.Length == 3
+                        && tokenContent[1] == 'd'
+                        && tokenContent[2] == 'd')
+                        return FoundToken(TokenKind.ADD);
+                    else if(tokenContent.Length == 5
                         && tokenContent[1] == 'r'
                         && tokenContent[2] == 'r'
                         && tokenContent[3] == 'a'
@@ -1212,6 +1250,12 @@ namespace de.unika.ipd.grGen.libGr
                         && tokenContent[3] == 'p'
                         && tokenContent[4] == 'h')
                         return FoundToken(TokenKind.GRAPH);
+                    else
+                        return FoundToken(TokenKind.IDENT);
+                case 'i':
+                    if(tokenContent.Length == 2
+                        && tokenContent[1] == 'n')
+                        return FoundToken(TokenKind.IN);
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 'm':
@@ -1538,6 +1582,11 @@ namespace de.unika.ipd.grGen.libGr
             IGraphElement elem = graph.GetGraphElement(elemName);
             if(elem == null) throw new Exception("Unknown graph element " + elemName);
             return elem;
+        }
+
+        private INamedGraph GetGraphByName(String graphName)
+        {
+            return nameToSubgraph[graphName];
         }
     }
 }
