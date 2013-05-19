@@ -7,27 +7,26 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-import de.unika.ipd.grgen.ir.*;
+public class InsertProc extends ProcedureInvocationBase {
+	private final Expression graphExpr;
 
-public class Nameof extends Expression {
-	/** The entity whose name we want to know. */
-	private final Expression namedEntity;
-
-	public Nameof(Expression entity, Type type) {
-		super("nameof", type);
-		this.namedEntity = entity;
+	public InsertProc(Expression graphExpr) {
+		super("insert procedure");
+		this.graphExpr = graphExpr;
 	}
 
-	public Expression getNamedEntity() {
-		return namedEntity;
+	public Expression getGraphExpr() {
+		return graphExpr;
+	}
+
+	public ProcedureBase getProcedureBase() {
+		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-
-		if(namedEntity!=null)
-			namedEntity.collectNeededEntities(needs);
+		graphExpr.collectNeededEntities(needs);
 	}
 }
 

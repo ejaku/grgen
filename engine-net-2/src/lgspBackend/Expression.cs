@@ -1297,29 +1297,97 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Nameof : Expression
     {
-        public Nameof(String entity)
+        public Nameof(Expression entity)
         {
             Entity = entity;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Nameof(Entity + renameSuffix);
+            if(Entity != null)
+                return new Nameof(Entity.Copy(renameSuffix));
+            else
+                return new Nameof(null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             if (Entity != null)
             {
-                sourceCode.Append("((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(" + NamesOfEntities.CandidateVariable(Entity) +")");
+                sourceCode.Append("GRGEN_LIBGR.GraphHelper.Nameof(");
+                Entity.Emit(sourceCode);
+                sourceCode.Append(", graph)");
             }
             else
-            {
-                sourceCode.Append("graph.Name");
-            }
+                sourceCode.Append("GRGEN_LIBGR.GraphHelper.Nameof(null, graph)");
         }
 
-        String Entity;
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Entity;
+        }
+
+        Expression Entity;
+    }
+
+    /// <summary>
+    /// Class representing import expression
+    /// </summary>
+    public class ImportExpression : Expression
+    {
+        public ImportExpression(Expression path)
+        {
+            Path = path;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ImportExpression(Path.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Import(");
+            Path.Emit(sourceCode);
+            sourceCode.Append(", graph)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Path;
+        }
+
+        Expression Path;
+    }
+
+    /// <summary>
+    /// Class representing copy expression
+    /// </summary>
+    public class CopyExpression : Expression
+    {
+        public CopyExpression(Expression graph)
+        {
+            Graph = graph;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CopyExpression(Graph.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Copy(");
+            Graph.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Graph;
+        }
+
+        Expression Graph;
     }
 
     /// <summary>

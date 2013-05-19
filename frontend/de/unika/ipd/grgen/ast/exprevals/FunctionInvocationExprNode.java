@@ -426,6 +426,22 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new DefinedSubgraphExprNode(getCoords(), params.get(0));
 		}
+		else if(functionName.equals("import")) {
+			if(params.size() != 1) {
+				reportError("import(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new ImportExprNode(getCoords(), params.get(0));
+		}
+		else if(functionName.equals("copy")) {
+			if(params.size() != 1) {
+				reportError("copy(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new CopyExprNode(getCoords(), params.get(0));
+		}
 		else if(functionName.equals("canonize")) {
 			if(params.size() != 1) {
 				reportError("canonize(.) takes one parameter.");

@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class BaseGraph : IGraph
     {
-        public abstract String Name { get; }
+        public abstract String Name { get; set; }
         public abstract IGraphModel Model { get; }
         public abstract bool ReuseOptimization { get; set; }
         public abstract long ChangesCounter{ get; }
@@ -75,6 +75,7 @@ namespace de.unika.ipd.grGen.libGr
         public abstract void RedirectSourceAndTarget(IEdge edge, INode newSource, INode newTarget, string oldSourceName, string oldTargetName);
 
         public abstract void Custom(params object[] args);
+        public abstract IBackend Backend { get; }
 
         public abstract IGraph Clone(String newName);
         public abstract IGraph CreateEmptyEquivalent(String newName);

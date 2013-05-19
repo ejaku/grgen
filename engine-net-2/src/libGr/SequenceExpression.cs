@@ -45,6 +45,9 @@ namespace de.unika.ipd.grGen.libGr
         IsReachableNodes, IsReachableNodesViaIncoming, IsReachableNodesViaOutgoing,
         IsReachableEdges, IsReachableEdgesViaIncoming, IsReachableEdgesViaOutgoing,
         InducedSubgraph, DefinedSubgraph,
+        Nameof,
+        Import,
+        Copy,
         Canonize,
         FunctionCall
     }
@@ -3146,6 +3149,168 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Graph; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "canonize(" + Graph.Symbol + ")"; } }
+    }
+
+    public class SequenceExpressionNameof : SequenceExpression
+    {
+        public SequenceExpression NamedEntity;
+
+        public SequenceExpressionNameof(SequenceExpression namedEntity)
+            : base(SequenceExpressionType.Nameof)
+        {
+            NamedEntity = namedEntity; // might be null
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "string";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(NamedEntity != null)
+            {
+                base.Check(env); // check children
+
+                if(!TypesHelper.IsSameOrSubtype(NamedEntity.Type(env), "Node", env.Model)
+                    && !TypesHelper.IsSameOrSubtype(NamedEntity.Type(env), "Edge", env.Model)
+                    && !TypesHelper.IsSameOrSubtype(NamedEntity.Type(env), "graph", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "node or edge or graph type", NamedEntity.Type(env));
+                }
+            }
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionNameof copy = (SequenceExpressionNameof)MemberwiseClone();
+            if(NamedEntity != null)
+                copy.NamedEntity = NamedEntity.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(NamedEntity != null)
+                return GraphHelper.Nameof(NamedEntity.Evaluate(procEnv), procEnv.Graph);
+            else
+                return GraphHelper.Nameof(null, procEnv.Graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            if(NamedEntity != null)
+                NamedEntity.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { if(NamedEntity != null) yield return NamedEntity; else yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "nameof(" + (NamedEntity != null ? "..." : "") + ")"; } }
+    }
+
+    public class SequenceExpressionImport : SequenceExpression
+    {
+        public SequenceExpression Path;
+
+        public SequenceExpressionImport(SequenceExpression path)
+            : base(SequenceExpressionType.Import)
+        {
+            Path = path;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Path.Type(env) == "")
+                return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+
+            if(!TypesHelper.IsSameOrSubtype(Path.Type(env), "string", env.Model))
+            {
+                throw new SequenceParserException(Symbol, "string type", Path.Type(env));
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "graph";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionImport copy = (SequenceExpressionImport)MemberwiseClone();
+            copy.Path = Path.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object path = Path.Evaluate(procEnv);
+            return GraphHelper.Import(path, procEnv.Graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            Path.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Path; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "import(" + Path.Symbol + ")"; } }
+    }
+
+    public class SequenceExpressionCopy : SequenceExpression
+    {
+        public SequenceExpression Graph;
+
+        public SequenceExpressionCopy(SequenceExpression graph)
+            : base(SequenceExpressionType.Copy)
+        {
+            Graph = graph;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Graph.Type(env) == "")
+                return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+
+            if(!TypesHelper.IsSameOrSubtype(Graph.Type(env), "graph", env.Model))
+            {
+                throw new SequenceParserException(Symbol, "graph type", Graph.Type(env));
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "graph";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionCopy copy = (SequenceExpressionCopy)MemberwiseClone();
+            copy.Graph = Graph.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object graph = Graph.Evaluate(procEnv);
+            return GraphHelper.Copy((IGraph)graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            Graph.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Graph; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "copy(" + Graph.Symbol + ")"; } }
     }
 
     public class SequenceExpressionFunctionCall : SequenceExpression

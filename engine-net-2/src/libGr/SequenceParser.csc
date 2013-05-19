@@ -1449,9 +1449,6 @@ SequenceComputation ProcedureCall():
 		} else if(procedure=="record") {
 			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 			return new SequenceComputationRecord(getArgument(argExprs, 0));
-		} else if(procedure=="export") {
-			if(argExprs.Count!=1 && argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 1 (name of file only) or 2 (graph to export, name of file) parameters)");
-			return new SequenceComputationExport(getArgument(argExprs, 0), getArgument(argExprs, 1));
 		} else if(procedure=="add") {
 			if(argExprs.Count!=1 && argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 1(for a node) or 3(for an edge) parameters)");
 			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAdd(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2)), returnVars);
@@ -1464,12 +1461,36 @@ SequenceComputation ProcedureCall():
 		} else if(procedure=="retype") {
 			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (graph entity, new type) parameters)");
 			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphRetype(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
+		} else if(procedure=="addCopy") {
+			if(argExprs.Count!=1 && argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 1(for a node) or 3(for an edge) parameters)");
+			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAddCopy(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2)), returnVars);
+		} else if(procedure=="merge") {
+			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (the nodes to merge) parameters)");
+			return new SequenceComputationGraphMerge(getArgument(argExprs, 0), getArgument(argExprs, 1));
+		} else if(procedure=="redirectSource") {
+			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (edge to redirect, new source node) parameters)");
+			return new SequenceComputationGraphRedirectSource(getArgument(argExprs, 0), getArgument(argExprs, 1));
+		} else if(procedure=="redirectTarget") {
+			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (edge to redirect, new target node) parameters)");
+			return new SequenceComputationGraphRedirectTarget(getArgument(argExprs, 0), getArgument(argExprs, 1));
+		} else if(procedure=="redirectSourceAndTarget") {
+			if(argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 3 (edge to redirect, new source node, new target node) parameters)");
+			return new SequenceComputationGraphRedirectSourceAndTarget(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2));
+		} else if(procedure=="insert") {
+			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 (graph to destroyingly insert) parameter)");
+			return new SequenceComputationInsert(getArgument(argExprs, 0));
+		} else if(procedure=="insertCopy") {
+			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (graph and one node to return the clone of) parameters)");
+			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertCopy(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
 		} else if(procedure=="insertInduced") {
 			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of nodes to compute the induced subgraph from which will be cloned and inserted, and one node of the set of which the clone will be returned)");
 			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertInduced(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
 		} else if(procedure=="insertDefined") {
 			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of edges which define the subgraph which will be cloned and inserted, and one edge of the set of which the clone will be returned)");
 			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertDefined(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
+		} else if(procedure=="export") {
+			if(argExprs.Count!=1 && argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 1 (name of file only) or 2 (graph to export, name of file) parameters)");
+			return new SequenceComputationExport(getArgument(argExprs, 0), getArgument(argExprs, 1));
 		} else {
 			if(IsProcedureName(procedure)) {
 				return new SequenceComputationProcedureCall(CreateProcedureInvocationParameterBindings(procedure, argExprs, returnVars));
@@ -1581,6 +1602,15 @@ SequenceExpression FunctionCall():
 		} else if(function=="opposite") {
 			if(argExprs.Count!=2) throw new ParseException("\"" + function + "\" expects 2 parameters (the edge and the node to get the opposite node from)");
 			return new SequenceExpressionOpposite(getArgument(argExprs, 0), getArgument(argExprs, 1));
+		} else if(function=="nameof") {
+			if(argExprs.Count>1) throw new ParseException("\"" + function + "\" expects none (for the name of the current graph) or 1 parameter (for the name of the node/edge/subgraph given as parameter)");
+			return new SequenceExpressionNameof(getArgument(argExprs, 0));
+		} else if(function=="import") {
+			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the path as string to the grs file containing the subgraph to import)");
+			return new SequenceExpressionImport(getArgument(argExprs, 0));
+		} else if(function=="copy") {
+			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the subgraph to copy)");
+			return new SequenceExpressionCopy(getArgument(argExprs, 0));
 		} else if(function=="random") {
 			if(argExprs.Count>1) throw new ParseException("\"" + function + "\" expects none (returns double in [0..1[) or 1 parameter (returns int in [0..parameter[)");
 			return new SequenceExpressionRandom(getArgument(argExprs, 0));

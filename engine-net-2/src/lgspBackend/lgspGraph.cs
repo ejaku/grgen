@@ -347,7 +347,11 @@ namespace de.unika.ipd.grGen.lgsp
 		/// <summary>
 		/// A name associated with the graph.
 		/// </summary>
-        public override String Name { get { return name; } }
+        public override String Name 
+        { 
+            get { return name; }
+            set { name = value; }
+        }
 
 		/// <summary>
 		/// The model associated with the graph.
@@ -2207,6 +2211,17 @@ invalidCommand:
                 + "     used by Actions implementations to optimize the pattern matching\n"
                 + "- optimizereuse: Sets whether deleted elements may be reused in a rewrite\n"
                 + "     (default: true)\n");
+        }
+
+        /// <summary>
+        /// The backend that created the graph
+        /// </summary>
+        public override IBackend Backend
+        {
+            get
+            {
+                return backend;
+            }
         }
 
         /// <summary>

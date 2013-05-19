@@ -81,6 +81,22 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 				return false;
 			}
 		}
+		else if(procedureName.equals("insert")) {
+			if(params.size() != 1) {
+				reportError("insert(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new InsertProcNode(getCoords(), params.get(0));
+		}
+		else if(procedureName.equals("insertCopy")) {
+			if(params.size() != 2) {
+				reportError("insertCopy(.,.) takes two parameters.");
+				return false;
+			}
+			else
+				result = new InsertCopyProcNode(getCoords(), params.get(0), params.get(1));
+		}
 		else if(procedureName.equals("insertInduced")) {
 			if(params.size() != 2) {
 				reportError("insertInduced(.,.) takes two parameters.");
@@ -176,12 +192,32 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 				result = new EmitProcNode(getCoords(), params.get(0));
 			}
 		}
+		else if(procedureName.equals("export")) {
+			if(params.size() == 1) {
+				result = new ExportProcNode(getCoords(), params.get(0), null);
+			} else if(params.size() == 2) {
+				result = new ExportProcNode(getCoords(), params.get(1), params.get(0));
+			} else {
+				reportError(procedureName + "() takes 1 (filepath) or 2 (graph, filepath) parameters.");
+				return false;
+			}
+		}
 		else if(procedureName.equals("highlight")) {
 			HighlightProcNode highlight = new HighlightProcNode(getCoords());
 			for(ExprNode param : params.getChildren()) {
 				highlight.addExpressionToHighlight(param);
 			}
 			result = highlight;
+		}
+		else if(procedureName.equals("addCopy")) {
+			if(params.size() == 1) {
+				result = new GraphAddCopyNodeProcNode(getCoords(), params.get(0));
+			} else if(params.size() == 3) {
+				result = new GraphAddCopyEdgeProcNode(getCoords(), params.get(0), params.get(1), params.get(2));
+			} else {
+				reportError(procedureName + "() takes 1 or 3 parameters.");
+				return false;
+			}
 		}
 		else if(procedureName.equals("merge")) {
 			if(params.size() < 2 || params.size() > 3) {

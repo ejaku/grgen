@@ -3485,6 +3485,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalProc instanceof RecordProc) {
 			genRecordProc(sb, state, (RecordProc) evalProc);
 		}
+		else if(evalProc instanceof ExportProc) {
+			genExportProc(sb, state, (ExportProc) evalProc);
+		}
 		else if(evalProc instanceof GraphAddNodeProc) {
 			genGraphAddNodeProc(sb, state, (GraphAddNodeProc) evalProc);
 		}
@@ -3503,6 +3506,12 @@ public class ModifyGen extends CSharpBase {
 		else if(evalProc instanceof GraphRemoveProc) {
 			genGraphRemoveProc(sb, state, (GraphRemoveProc) evalProc);
 		}
+		else if(evalProc instanceof GraphAddCopyNodeProc) {
+			genGraphAddCopyNodeProc(sb, state, (GraphAddCopyNodeProc) evalProc);
+		}
+		else if(evalProc instanceof GraphAddCopyEdgeProc) {
+			genGraphAddCopyEdgeProc(sb, state, (GraphAddCopyEdgeProc) evalProc);
+		}
 		else if(evalProc instanceof GraphMergeProc) {
 			genGraphMergeProc(sb, state, (GraphMergeProc) evalProc);
 		}
@@ -3514,6 +3523,12 @@ public class ModifyGen extends CSharpBase {
 		}
 		else if(evalProc instanceof GraphRedirectSourceAndTargetProc) {
 			genGraphRedirectSourceAndTargetProc(sb, state, (GraphRedirectSourceAndTargetProc) evalProc);
+		}
+		else if (evalProc instanceof InsertProc) {
+			genInsertProc(sb, state, (InsertProc) evalProc);
+		}
+		else if (evalProc instanceof InsertCopyProc) {
+			genInsertCopyProc(sb, state, (InsertCopyProc) evalProc);
 		}
 		else if (evalProc instanceof InsertInducedSubgraphProc) {
 			genInsertInducedSubgraphProc(sb, state, (InsertInducedSubgraphProc) evalProc);
@@ -3598,6 +3613,20 @@ public class ModifyGen extends CSharpBase {
 				+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + recordVar + ", graph));\n");
 	}
 
+	private void genExportProc(StringBuffer sb, ModifyGenerationStateConst state, ExportProc ep) {
+		if(ep.getGraphExpr()!=null) {
+			sb.append("\t\t\tGRGEN_LIBGR.GraphHelper.Export(");
+			genExpression(sb, ep.getPathExpr(), state);
+			sb.append(", ");
+			genExpression(sb, ep.getGraphExpr(), state);
+			sb.append(");\n");
+		} else {
+			sb.append("\t\t\tGRGEN_LIBGR.GraphHelper.Export(");
+			genExpression(sb, ep.getPathExpr(), state);
+			sb.append(", graph);\n");
+		}
+	}
+
 	private void genGraphAddNodeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphAddNodeProc ganp) {
 		Constant constant = (Constant)ganp.getNodeTypeExpr();
 		sb.append("(" + formatType((Type)constant.getValue()) + ")"
@@ -3656,6 +3685,22 @@ public class ModifyGen extends CSharpBase {
 			genExpression(sb, grp.getEntity(), state);
 			sb.append(");\n");
 		}
+	}
+
+	private void genGraphAddCopyNodeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphAddCopyNodeProc gacnp) {
+		sb.append("GRGEN_LIBGR.GraphHelper.AddCopyOfNode(");
+		genExpression(sb, gacnp.getOldNodeExpr(), state);
+		sb.append(", graph)");
+	}
+
+	private void genGraphAddCopyEdgeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphAddCopyEdgeProc gacep) {
+		sb.append("GRGEN_LIBGR.GraphHelper.AddCopyOfEdge(");
+		genExpression(sb, gacep.getOldEdgeExpr(), state);
+		sb.append(", (INode)");
+		genExpression(sb, gacep.getSourceNodeExpr(), state);
+		sb.append(", (INode)");
+		genExpression(sb, gacep.getTargetNodeExpr(), state);
+		sb.append(", graph)");
 	}
 
 	private void genGraphMergeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphMergeProc gmp) {
@@ -3734,6 +3779,20 @@ public class ModifyGen extends CSharpBase {
 			genExpression(sb, grsatp.getNewTarget(), state);
 			sb.append(");\n");
 		}
+	}
+
+	private void genInsertProc(StringBuffer sb, ModifyGenerationStateConst state, InsertProc ip) {
+		sb.append("\t\t\tGRGEN_LIBGR.GraphHelper.Insert((IGraph)");
+		genExpression(sb, ip.getGraphExpr(), state);
+		sb.append(", graph);\n");
+	}
+
+	private void genInsertCopyProc(StringBuffer sb, ModifyGenerationStateConst state, InsertCopyProc icp) {
+		sb.append("GRGEN_LIBGR.GraphHelper.InsertCopy((IGraph)");
+		genExpression(sb, icp.getGraphExpr(), state);
+		sb.append(", (INode)");
+		genExpression(sb, icp.getNodeExpr(), state);
+		sb.append(", graph)");
 	}
 
 	private void genInsertInducedSubgraphProc(StringBuffer sb, ModifyGenerationStateConst state, InsertInducedSubgraphProc iisp) {
