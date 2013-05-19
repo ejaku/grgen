@@ -140,7 +140,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// A name associated with the graph.
         /// </summary>
-        String Name { get; }
+        String Name { get; set; }
 
         /// <summary>
         /// The model associated with the graph.
@@ -343,6 +343,12 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="args">Any kind of paramteres for the stuff to do</param>
         void Custom(params object[] args);
+
+        /// <summary>
+        /// The backend that created the graph
+        /// </summary>
+        IBackend Backend { get; }
+
 
         /// <summary>
         /// Duplicates a graph.

@@ -11,10 +11,8 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.Nameof;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -26,21 +24,19 @@ public class NameofNode extends ExprNode {
 		setName(NameofNode.class, "nameof");
 	}
 
-	private IdentNode entityUnresolved; // null if name of graph is requested
-	private EdgeDeclNode entityEdgeDecl = null;
-	private NodeDeclNode entityNodeDecl = null;
+	private ExprNode namedEntity; // null if name of main graph is requested
 
-	public NameofNode(Coords coords, IdentNode entity) {
+	public NameofNode(Coords coords, ExprNode namedEntity) {
 		super(coords);
-		this.entityUnresolved = entity;
-		becomeParent(this.entityUnresolved);
+		this.namedEntity = namedEntity;
+		becomeParent(this.namedEntity);
 	}
 
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		if(entityUnresolved!=null) children.add(getValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl));
+		if(namedEntity!=null) children.add(namedEntity);
 		return children;
 	}
 
@@ -48,28 +44,8 @@ public class NameofNode extends ExprNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		if(entityUnresolved!=null) childrenNames.add("entity");
+		if(namedEntity!=null) childrenNames.add("named entity");
 		return childrenNames;
-	}
-
-	private static final DeclarationPairResolver<EdgeDeclNode, NodeDeclNode> entityResolver =
-		new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal() {
-		if(entityUnresolved==null)
-			return true;
-
-		boolean res = fixupDefinition(entityUnresolved, entityUnresolved.getScope());
-
-		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
-		if (resolved != null) {
-			entityEdgeDecl = resolved.fst;
-			entityNodeDecl = resolved.snd;
-		}
-
-		return res && resolved != null;
 	}
 
 	/**
@@ -77,17 +53,30 @@ public class NameofNode extends ExprNode {
 	 */
 	@Override
 	protected boolean checkLocal() {
+		if(namedEntity != null) {
+			if(namedEntity.getType().isEqual(BasicTypeNode.graphType)) {
+				return true;
+			} 
+			if(namedEntity.getType() instanceof EdgeTypeNode) {
+				return true;
+			}
+			if(namedEntity.getType() instanceof NodeTypeNode) {
+				return true;
+			}
+
+			reportError("nameof(.) expects an entity of node or edge or subgraph type");
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		if(entityEdgeDecl==null && entityNodeDecl==null) {
+		if(namedEntity==null) {
 			return new Nameof(null, getType().getType());
 		}
 
-		Entity entity = getValidResolvedVersion(entityEdgeDecl, entityNodeDecl).checkIR(Entity.class);
-		return new Nameof(entity, getType().getType());
+		return new Nameof(namedEntity.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
@@ -96,18 +85,6 @@ public class NameofNode extends ExprNode {
 	}
 	
 	public boolean noDefElementInCondition() {
-		if(entityEdgeDecl!=null) {
-			if(entityEdgeDecl.defEntityToBeYieldedTo) {
-				entityEdgeDecl.reportError("A def entity ("+entityEdgeDecl+") can't be accessed from an if");
-				return false;
-			}
-		}
-		if(entityNodeDecl!=null) {
-			if(entityNodeDecl.defEntityToBeYieldedTo) {
-				entityNodeDecl.reportError("A def variable ("+entityNodeDecl+") can't be accessed from an if");
-				return false;
-			}
-		}
-		return true;
+		return namedEntity.noDefElementInCondition();
 	}
 }

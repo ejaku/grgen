@@ -2134,9 +2134,24 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(expr instanceof Nameof) {
 			Nameof no = (Nameof) expr;
-			sb.append("new GRGEN_EXPR.Nameof("
-					+ (no.getEntity()==null ? "null" : "\""+formatEntity(no.getEntity(), pathPrefix, alreadyDefinedEntityToName)+"\"")
-					+ ")");
+			sb.append("new GRGEN_EXPR.Nameof(");
+			if(no.getNamedEntity()==null)
+				sb.append("null");
+			else
+				genExpressionTree(sb, no.getNamedEntity(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if(expr instanceof ImportExpr) {
+			ImportExpr ie = (ImportExpr) expr;
+			sb.append("new GRGEN_EXPR.ImportExpression(");
+			genExpressionTree(sb, ie.getPathExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if(expr instanceof CopyExpr) {
+			CopyExpr ce = (CopyExpr) expr;
+			sb.append("new GRGEN_EXPR.CopyExpression(");
+			genExpressionTree(sb, ce.getGraphExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
 		}
 		else if(expr instanceof Count) {
 			Count count = (Count) expr;

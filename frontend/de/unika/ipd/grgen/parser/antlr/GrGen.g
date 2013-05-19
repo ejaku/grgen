@@ -1969,7 +1969,7 @@ procedureCall[ExecNode xg]
 
 functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	// built-in function or user defined function, backend has to decide whether the call is valid
-	: i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); } functionCallParameters[xg] RPAREN { xg.append(")"); }
+	: (i=IDENT | i=COPY) LPAREN { xg.append(i.getText()); xg.append("("); } functionCallParameters[xg] RPAREN { xg.append(")"); }
 	;
 
 functionCallParameters[ExecNode xg]
@@ -3079,21 +3079,25 @@ options { k = 5; }
 			{ res=new DoWhileStatementNode(getCoords(d), cs, e); }
 	|
 	  (l=LPAREN tgts=targets[getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = tgts.tgtProjs; targets = tgts.tgts; } )? 
-		(i=IDENT|i=EMIT) params=paramExprs[false] SEMI
+		(i=IDENT | i=EMIT) params=paramExprs[false] SEMI
 			{ 
-				if(    i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
+				if(	i.getText().equals("valloc") && params.getChildren().size()==0
+					|| i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
 					|| i.getText().equals("record") || i.getText().equals("emit") || i.getText().equals("highlight") 
+					|| i.getText().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()==3)
 					|| i.getText().equals("rem") || i.getText().equals("clear")
+					|| i.getText().equals("retype") && params.getChildren().size()==2
+					|| i.getText().equals("addCopy") && (params.getChildren().size()==1 || params.getChildren().size()==3)
 					|| i.getText().equals("merge")
 					|| i.getText().equals("redirectSource") || i.getText().equals("redirectTarget")
 					|| i.getText().equals("redirectSourceAndTarget")
+					|| i.getText().equals("startTransaction") && params.getChildren().size()==0
 					|| i.getText().equals("pauseTransaction") || i.getText().equals("resumeTransaction")
 					|| i.getText().equals("commitTransaction") || i.getText().equals("rollbackTransaction")
+					|| i.getText().equals("insert") && params.getChildren().size()==1
+					|| i.getText().equals("insertCopy") && params.getChildren().size()==2
 					|| (i.getText().equals("insertInduced") || i.getText().equals("insertDefined")) && params.getChildren().size()==2
-					|| i.getText().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()<=3)
-					|| i.getText().equals("retype") && params.getChildren().size()==2
-					|| i.getText().equals("startTransaction") && params.getChildren().size()==0
-					|| i.getText().equals("valloc") && params.getChildren().size()==0
+					|| i.getText().equals("export") && (params.getChildren().size()==1 || params.getChildren().size()==2)
 					)
 				{
 					IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
@@ -3446,7 +3450,7 @@ visited returns [ VisitedNode res ]
 	;
 
 nameOf returns [ ExprNode res = env.initExprNode() ]
-	: n=NAMEOF LPAREN (id=entIdentUse)? RPAREN { res = new NameofNode(getCoords(n), id); }
+	: n=NAMEOF LPAREN (id=expr[false])? RPAREN { res = new NameofNode(getCoords(n), id); }
 	;
 
 count returns [ ExprNode res = env.initExprNode() ]
@@ -3542,32 +3546,36 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 	;
 
 externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: id=funcOrExtFuncIdentUse params=paramExprs[inEnumInit]
+	: (i=IDENT | i=COPY) params=paramExprs[inEnumInit]
 		{
-			if( (id.toString().equals("min") || id.toString().equals("max")) && params.getChildren().size()==2
-				|| (id.toString().equals("sin") || id.toString().equals("cos") || id.toString().equals("tan")) && params.getChildren().size()==1
-				|| (id.toString().equals("arcsin") || id.toString().equals("arccos") || id.toString().equals("arctan")) && params.getChildren().size()==1
-				|| (id.toString().equals("pow") || id.toString().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
-				|| id.toString().equals("abs") && params.getChildren().size()==1
-				|| (id.toString().equals("nodes") || id.toString().equals("edges")) && params.getChildren().size()<=1
-				|| (id.toString().equals("source") || id.toString().equals("target")) && params.getChildren().size()==1
-				|| id.toString().equals("opposite") && params.getChildren().size()==2
-				|| (id.toString().equals("incoming") || id.toString().equals("outgoing") || id.toString().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (id.toString().equals("adjacentIncoming") || id.toString().equals("adjacentOutgoing") || id.toString().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (id.toString().equals("reachableIncoming") || id.toString().equals("reachableOutgoing") || id.toString().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (id.toString().equals("reachableEdgesIncoming") || id.toString().equals("reachableEdgesOutgoing") || id.toString().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
-				|| (id.toString().equals("isIncoming") || id.toString().equals("isOutgoing") || id.toString().equals("isIncident")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (id.toString().equals("isAdjacentIncoming") || id.toString().equals("isAdjacentOutgoing") || id.toString().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (id.toString().equals("isReachableIncoming") || id.toString().equals("isReachableOutgoing") || id.toString().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (id.toString().equals("isReachableEdgesIncoming") || id.toString().equals("isReachableEdgesOutgoing") || id.toString().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
-				|| id.toString().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
-				|| id.toString().equals("canonize") && params.getChildren().size()==1
-				|| (id.toString().equals("inducedSubgraph") || id.toString().equals("definedSubgraph")) && params.getChildren().size()==1
+			if( (i.getText().equals("min") || i.getText().equals("max")) && params.getChildren().size()==2
+				|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
+				|| (i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan")) && params.getChildren().size()==1
+				|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
+				|| i.getText().equals("abs") && params.getChildren().size()==1
+				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
+				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
+				|| i.getText().equals("opposite") && params.getChildren().size()==2
+				|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+				|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+				|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+				|| (i.getText().equals("reachableEdgesIncoming") || i.getText().equals("reachableEdgesOutgoing") || i.getText().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
+				|| (i.getText().equals("isIncoming") || i.getText().equals("isOutgoing") || i.getText().equals("isIncident")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| (i.getText().equals("isAdjacentIncoming") || i.getText().equals("isAdjacentOutgoing") || i.getText().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| (i.getText().equals("isReachableIncoming") || i.getText().equals("isReachableOutgoing") || i.getText().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| (i.getText().equals("isReachableEdgesIncoming") || i.getText().equals("isReachableEdgesOutgoing") || i.getText().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
+				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
+				|| i.getText().equals("canonize") && params.getChildren().size()==1
+				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
+				|| i.getText().equals("import") && params.getChildren().size()==1
+				|| i.getText().equals("copy") && params.getChildren().size()==1
 			  )
 			{
-				res = new FunctionInvocationExprNode(id, params, env);
+				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+				res = new FunctionInvocationExprNode(funcIdent, params, env);
 			} else {
-				res = new FunctionOrExternalFunctionInvocationExprNode(id, params);
+				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+				res = new FunctionOrExternalFunctionInvocationExprNode(funcIdent, params);
 			}
 		}
 	;

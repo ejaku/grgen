@@ -715,11 +715,25 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof Nameof) {
 			Nameof no = (Nameof) expr;
-			if(no.getEntity()==null) {
-				sb.append("graph.Name"); // name of graph
+			if(no.getNamedEntity()==null) {
+				sb.append("GRGEN_LIBGR.GraphHelper.Nameof(null, graph)"); // name of graph
 			} else {
-				sb.append("((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(" + formatEntity(no.getEntity()) + ")"); // name of entity
+            	sb.append("GRGEN_LIBGR.GraphHelper.Nameof(");
+				genExpression(sb, no.getNamedEntity(), modifyGenerationState); // name of entity
+				sb.append(", graph)");
 			}
+		}
+		else if(expr instanceof ImportExpr) {
+			ImportExpr ie = (ImportExpr) expr;
+        	sb.append("GRGEN_LIBGR.GraphHelper.Import(");
+			genExpression(sb, ie.getPathExpr(), modifyGenerationState);
+			sb.append(", graph)");
+		}
+		else if(expr instanceof CopyExpr) {
+			CopyExpr ce = (CopyExpr) expr;
+        	sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
+			genExpression(sb, ce.getGraphExpr(), modifyGenerationState);
+			sb.append(")");
 		}
 		else if(expr instanceof Count) {
 			Count count = (Count) expr;

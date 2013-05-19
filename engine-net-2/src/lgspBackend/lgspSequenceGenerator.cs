@@ -1747,8 +1747,10 @@ namespace de.unika.ipd.grGen.lgsp
 
   		void EmitSequenceComputation(SequenceComputation seqComp, SourceBuilder source)
 		{
-			switch(seqComp.SequenceComputationType)
-			{
+            // take care that the operations returning a value are emitted similarily to expressions,
+            // whereas the operations returning no value are emitted as statements
+            switch(seqComp.SequenceComputationType)
+            {
                 case SequenceComputationType.Then:
                 {
                     SequenceComputationThen seqThen = (SequenceComputationThen)seqComp;
@@ -2540,6 +2542,83 @@ namespace de.unika.ipd.grGen.lgsp
                     string typeExpr = GetSequenceExpression(seqRetype.TypeExpr, source);
                     string elemExpr = GetSequenceExpression(seqRetype.ElemExpr, source);
                     source.Append("GRGEN_LIBGR.GraphHelper.RetypeGraphElement((GRGEN_LIBGR.IGraphElement)" + elemExpr + ", "  + typeExpr + ", graph)");
+                    break;
+                }
+
+                case SequenceComputationType.GraphAddCopy:
+                {
+                    SequenceComputationGraphAddCopy seqAddCopy = (SequenceComputationGraphAddCopy)seqComp;
+                    if(seqAddCopy.ExprSrc == null)
+                    {
+                        string nodeExpr = GetSequenceExpression(seqAddCopy.Expr, source);
+                        source.Append("GRGEN_LIBGR.GraphHelper.AddCopyOfNode(" + nodeExpr + ", graph)");
+                    }
+                    else
+                    {
+                        string edgeExpr = GetSequenceExpression(seqAddCopy.Expr, source);
+                        string srcExpr = GetSequenceExpression(seqAddCopy.ExprSrc, source);
+                        string tgtExpr = GetSequenceExpression(seqAddCopy.ExprDst, source);
+                        source.Append("GRGEN_LIBGR.GraphHelper.AddCopyOfEdge(" + edgeExpr + ", (GRGEN_LIBGR.INode)" + srcExpr + ", (GRGEN_LIBGR.INode)" + tgtExpr + ", graph)");
+                    }
+                    break;
+                }
+
+                case SequenceComputationType.GraphMerge:
+                {
+                    SequenceComputationGraphMerge seqMrg = (SequenceComputationGraphMerge)seqComp;
+                    string tgtNodeExpr = GetSequenceExpression(seqMrg.TargetNodeExpr, source);
+                    string srcNodeExpr = GetSequenceExpression(seqMrg.SourceNodeExpr, source);
+                    source.AppendFrontFormat("graph.Merge((GRGEN_LIBGR.INode){0}, (GRGEN_LIBGR.INode){1}, \"merge\");\n", tgtNodeExpr, srcNodeExpr);
+                    source.AppendFront(SetResultVar(seqMrg, "null"));
+                    break;
+                }
+                
+                case SequenceComputationType.GraphRedirectSource:
+                {
+                    SequenceComputationGraphRedirectSource seqRedir = (SequenceComputationGraphRedirectSource)seqComp;
+                    string edgeExpr = GetSequenceExpression(seqRedir.EdgeExpr, source);
+                    string srcNodeExpr = GetSequenceExpression(seqRedir.SourceNodeExpr, source);
+                    source.AppendFrontFormat("graph.RedirectSource((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, \"old source\");\n", edgeExpr, srcNodeExpr);
+                    source.AppendFront(SetResultVar(seqRedir, "null"));
+                    break;
+                }
+
+                case SequenceComputationType.GraphRedirectTarget:
+                {
+                    SequenceComputationGraphRedirectTarget seqRedir = (SequenceComputationGraphRedirectTarget)seqComp;
+                    string edgeExpr = GetSequenceExpression(seqRedir.EdgeExpr, source);
+                    string tgtNodeExpr = GetSequenceExpression(seqRedir.TargetNodeExpr, source);
+                    source.AppendFrontFormat("graph.RedirectTarget((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, \"old target\");\n", edgeExpr, tgtNodeExpr);
+                    source.AppendFront(SetResultVar(seqRedir, "null"));
+                    break;
+                }
+
+                case SequenceComputationType.GraphRedirectSourceAndTarget:
+                {
+                    SequenceComputationGraphRedirectSourceAndTarget seqRedir = (SequenceComputationGraphRedirectSourceAndTarget)seqComp;
+                    string edgeExpr = GetSequenceExpression(seqRedir.EdgeExpr, source);
+                    string srcNodeExpr = GetSequenceExpression(seqRedir.SourceNodeExpr, source);
+                    string tgtNodeExpr = GetSequenceExpression(seqRedir.TargetNodeExpr, source);
+                    source.AppendFrontFormat("graph.RedirectSourceAndTarget((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, (GRGEN_LIBGR.INode){2}, \"old source\", \"old target\");\n", edgeExpr, srcNodeExpr, tgtNodeExpr);
+                    source.AppendFront(SetResultVar(seqRedir, "null"));
+                    break;
+                }
+
+                case SequenceComputationType.Insert:
+                {
+                    SequenceComputationInsert seqIns = (SequenceComputationInsert)seqComp;
+                    string graphExpr = GetSequenceExpression(seqIns.Graph, source);
+                    source.AppendFrontFormat("GRGEN_LIBGR.GraphHelper.Insert((IGraph){0}, graph);\n", graphExpr);
+                    source.AppendFront(SetResultVar(seqIns, "null"));
+                    break;
+                }
+
+                case SequenceComputationType.InsertCopy:
+                {
+                    SequenceComputationInsertCopy seqInsCopy = (SequenceComputationInsertCopy)seqComp;
+                    string graphExpr = GetSequenceExpression(seqInsCopy.Graph, source);
+                    string rootNodeExpr = GetSequenceExpression(seqInsCopy.RootNode, source);
+                    source.AppendFormat("GRGEN_LIBGR.GraphHelper.InsertCopy((IGraph){0}, (INode){1}, graph)", graphExpr, rootNodeExpr);
                     break;
                 }
 
@@ -3502,6 +3581,27 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionDefinedSubgraph seqDefined = (SequenceExpressionDefinedSubgraph)expr;
                     return "GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
+                }
+
+                case SequenceExpressionType.Nameof:
+                {
+                    SequenceExpressionNameof seqNameof = (SequenceExpressionNameof)expr;
+                    if(seqNameof.NamedEntity != null)
+                        return "GRGEN_LIBGR.GraphHelper.Nameof(" + GetSequenceExpression(seqNameof.NamedEntity, source) + ", graph)";
+                    else
+                        return "GRGEN_LIBGR.GraphHelper.Nameof(null, graph)";
+                }
+
+                case SequenceExpressionType.Import:
+                {
+                    SequenceExpressionImport seqImport = (SequenceExpressionImport)expr;
+                    return "GRGEN_LIBGR.GraphHelper.Import(" + GetSequenceExpression(seqImport.Path, source) + ", graph)";
+                }
+
+                case SequenceExpressionType.Copy:
+                {
+                    SequenceExpressionCopy seqCopy = (SequenceExpressionCopy)expr;
+                    return "GRGEN_LIBGR.GraphHelper.Copy((GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqCopy.Graph, source) + ", graph)";
                 }
 
                 case SequenceExpressionType.Canonize:

@@ -999,6 +999,163 @@ namespace de.unika.ipd.grGen.libGr
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
+        /// Copies the given graph, returns the copy
+        /// </summary>
+        public static IGraph Copy(IGraph sourceGraph)
+        {
+            IGraph targetGraph = sourceGraph.CreateEmptyEquivalent(sourceGraph.Name);
+            if(sourceGraph is INamedGraph)
+                CopyNamed((INamedGraph)sourceGraph, (INamedGraph)targetGraph, null);
+            else
+                CopyUnnamed(sourceGraph, targetGraph, null);
+            return targetGraph;
+        }
+
+        private static INode CopyNamed(INamedGraph sourceGraph, INamedGraph targetGraph, INode rootNode)
+        {
+            Dictionary<INode, INode> originalToCopy = new Dictionary<INode, INode>();
+            foreach(INode node in sourceGraph.Nodes)
+            {
+                INode copy = node.Clone();
+                originalToCopy.Add(node, copy);
+                targetGraph.AddNode(copy, sourceGraph.GetElementName(node));
+            }
+            foreach(IEdge edge in sourceGraph.Edges)
+            {
+                IEdge copy = edge.Clone(originalToCopy[edge.Source], originalToCopy[edge.Target]);
+                targetGraph.AddEdge(copy, sourceGraph.GetElementName(edge));
+            }
+            return rootNode != null ? originalToCopy[rootNode] : null;
+        }
+
+        private static INode CopyUnnamed(IGraph sourceGraph, IGraph targetGraph, INode rootNode)
+        {
+            Dictionary<INode, INode> originalToCopy = new Dictionary<INode, INode>();
+            foreach(INode node in sourceGraph.Nodes)
+            {
+                INode copy = node.Clone();
+                originalToCopy.Add(node, copy);
+                targetGraph.AddNode(copy);
+            }
+            foreach(IEdge edge in sourceGraph.Edges)
+            {
+                IEdge copy = edge.Clone(originalToCopy[edge.Source], originalToCopy[edge.Target]);
+                targetGraph.AddEdge(copy);
+            }
+            return rootNode != null ? originalToCopy[rootNode] : null;
+        }
+
+        /// <summary>
+        /// Inserts a copy of the given subgraph to the graph (disjoint union).
+        /// Returns the copy of the dedicated root node.
+        /// </summary>
+        public static INode InsertCopy(IGraph sourceGraph, INode rootNode, IGraph targetGraph)
+        {
+            return CopyUnnamed(sourceGraph, targetGraph, rootNode);
+        }
+
+        /// <summary>
+        /// Inserts the given subgraph to the graph, destroying the source (destructive disjoint union).
+        /// The elements keep their identity (though not their name).
+        /// </summary>
+        public static void Insert(IGraph sourceGraph, IGraph targetGraph)
+        {
+            sourceGraph.ReuseOptimization = false; // we want to own the elements we remove from the source
+
+            List<IEdge> edges = new List<IEdge>(sourceGraph.NumEdges);
+            foreach(IEdge edge in sourceGraph.Edges)
+            {
+                edges.Add(edge);
+            }
+            foreach(IEdge edge in edges)
+            {
+                sourceGraph.Remove(edge);
+            }
+
+            List<INode> nodes = new List<INode>(sourceGraph.NumNodes);
+            foreach(INode node in sourceGraph.Nodes)
+            {
+                nodes.Add(node);
+            }
+            foreach(INode node in nodes)
+            {
+                sourceGraph.Remove(node);
+                targetGraph.AddNode(node);
+            }
+
+            foreach(IEdge edge in edges)
+            {
+                targetGraph.AddEdge(edge); // edge still has source and target set, and they are the same in the new graph
+            }
+
+            sourceGraph.Name = "ZOMBIE GRAPH - DON'T USE - LET HIM DIE!";
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns the name of the given entity (which might be a node, an edge, or a graph).
+        /// If the entity is null, the name of the graph is returned.
+        /// </summary>
+        public static string Nameof(object entity, IGraph graph)
+        {
+            if(entity is IGraphElement)
+                return ((INamedGraph)graph).GetElementName((IGraphElement)entity);
+            else if(entity is IGraph)
+                return ((IGraph)entity).Name;
+            else
+                return graph.Name;
+        }
+
+        /// <summary>
+        /// Imports and returns the graph within the file specified by its path (model from given graph).
+        /// </summary>
+        public static IGraph Import(object path, IGraph graph)
+        {
+            BaseActions actions;
+            return Porter.Import((string)path, graph.Backend, graph.Model, out actions);
+        }
+
+        /// <summary>
+        /// Exports the graph to the file specified by its path.
+        /// </summary>
+        public static void Export(object path, IGraph graph)
+        {
+            List<string> arguments = new List<string>();
+            arguments.Add(path.ToString());
+            if(graph is INamedGraph)
+                Porter.Export((INamedGraph)graph, arguments);
+            else
+                Porter.Export(graph, arguments);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// creates a node of given type and adds it to the graph, returns it
+        /// type might be a string denoting a NodeType or a NodeType
+        /// </summary>
+        public static INode AddCopyOfNode(object node, IGraph graph)
+        {
+            INode copy = ((INode)node).Clone();
+            graph.AddNode(copy);
+            return copy;
+        }
+
+        /// <summary>
+        /// creates an edge of given type and adds it to the graph between from and to, returns it
+        /// type might be a string denoting an EdgeType or an EdgeType
+        /// </summary>
+        public static IEdge AddCopyOfEdge(object edge, INode src, INode tgt, IGraph graph)
+        {
+            IEdge copy = ((IEdge)edge).Clone(src, tgt);
+            graph.AddEdge(copy);
+            return copy;
+        }
+        
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
         /// creates a node of given type and adds it to the graph, returns it
         /// type might be a string denoting a NodeType or a NodeType
         /// </summary>

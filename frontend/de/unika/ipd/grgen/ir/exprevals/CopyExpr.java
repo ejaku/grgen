@@ -9,25 +9,22 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class Nameof extends Expression {
-	/** The entity whose name we want to know. */
-	private final Expression namedEntity;
+public class CopyExpr extends Expression {
+	private final Expression graphExpr;
 
-	public Nameof(Expression entity, Type type) {
-		super("nameof", type);
-		this.namedEntity = entity;
+	public CopyExpr(Expression graphExpr, Type type) {
+		super("copy expression", type);
+		this.graphExpr = graphExpr;
 	}
 
-	public Expression getNamedEntity() {
-		return namedEntity;
+	public Expression getGraphExpr() {
+		return graphExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
+		graphExpr.collectNeededEntities(needs);
 		needs.needsGraph();
-
-		if(namedEntity!=null)
-			namedEntity.collectNeededEntities(needs);
 	}
 }
 
