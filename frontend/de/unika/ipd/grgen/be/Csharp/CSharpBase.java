@@ -308,6 +308,9 @@ public abstract class CSharpBase {
 			ExternalType extType = (ExternalType) t;
 			return "GRGEN_MODEL." + extType.getIdent();
 		}
+		else if(t instanceof InheritanceType) {
+			return formatElementInterfaceRef(t);
+		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
 	}
 
@@ -1642,9 +1645,9 @@ public abstract class CSharpBase {
 			case Type.IS_EXTERNAL_TYPE:
 				return "GRGEN_MODEL."+type.getIdent();
 			case Type.IS_NODE:
-				return "GRGEN_LIBGR.INode";
+				return formatElementInterfaceRef(type);
 			case Type.IS_EDGE:
-				return "GRGEN_LIBGR.IEdge";
+				return formatElementInterfaceRef(type);
 			default:
 				throw new IllegalArgumentException();
 		}

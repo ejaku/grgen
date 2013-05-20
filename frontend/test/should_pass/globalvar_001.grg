@@ -6,6 +6,8 @@ using model_init;
 var ::g_s:string;
 var ::g_i:int;
 ref ::g_m:map<string,CC>;
+ref ::g_m2:map<CC,string>;
+ref ::g_st:set<CC>;
 ref ::g_ar:array<Node>;
 ref ::g_de:deque<Node>;
 
@@ -112,5 +114,36 @@ rule re
 //		exec ( { ::g_m["Foo"].i1 = ::g_m["Foo"].i2 } ); not supported
 		exec ( { ::g_a.ar[::g_i] = ::g_ar[::g_i] } );
 		exec ( { ::g_a.de[::g_i] = ::g_de[::g_i] } );
+	}
+}
+
+rule fromStorage(var s:string, var i:int, ref m:map<string,CC>, ref ar:array<Node>, ref de:deque<Node>)
+{
+/*
+	:CC{::g_m2};
+	:CC{::g_st};
+	:Node{::g_ar};
+	:Node{::g_de};
+	
+	:Node{::g_n};
+	-:Edge{::g_e}->;
+	:A{::g_a};
+*/
+//	:CC{::g_m[::g_s]};
+//	:Node{::g_ar[::g_i]};
+//	:Node{::g_de[::g_i]};
+
+//	:CC{::g_m[s]};
+//	:Node{::g_ar[i]};
+//	:Node{::g_de[i]};
+
+//	:CC{m[::g_s]};
+//	:Node{ar[::g_i]};
+//	:Node{de[::g_i]};
+	
+//	:Node{::g_a.n};
+//	-:Edge{::g_a.e}->;
+	
+	modify {
 	}
 }

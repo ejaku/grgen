@@ -298,9 +298,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {
 			inhType.addDirectSuperType((InheritanceType)inh.getType());
 		}
-
-		// to check overwriting of attributes
-		inhType.getAllMembers();
     }
 
 	@Override

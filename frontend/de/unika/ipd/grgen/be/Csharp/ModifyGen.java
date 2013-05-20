@@ -2046,6 +2046,8 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t" + varType + varName + " = ");
 		if(targetType instanceof EnumType)
 			sb.append("(int) ");
+		else
+			sb.append("(" + varType + ")");
 		genExpression(sb, expr, state);
 		sb.append(";\n");
 
@@ -2077,6 +2079,10 @@ public class ModifyGen extends CSharpBase {
 				String indexType = formatType(((MapType)target.getType()).getKeyType()) + " ";
 				String indexName = "tempvar_index_" + tmpVarID++;
 				sb.append("\t\t\t" + indexType + indexName + " = ");
+				if(targetType instanceof EnumType)
+					sb.append("(int) ");
+				else
+					sb.append("(" + indexType + ")");
 				genExpression(sb, assIdx.getIndex(), state);
 				sb.append(";\n");
 

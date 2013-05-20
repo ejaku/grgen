@@ -14,10 +14,18 @@ node class A {
 	i2 = i1 * (int)f;
 	b : boolean = true;
 
-    m : map<string, Node>; // todo: can't use CC here cause of internal ordering problems -- solve
+    m : map<string, Node>;
     ar : array<Node>;
     de : deque<Node>;
     se : set<string>;
+    mm : map<CC, EE>;
+	
+	// this is graph programming instead of graph pattern matching -- another tool in the toolbox
+	n:Node;
+	e:Edge;
+	na:A;
+	ncc:CC;
+	ee:EE;
 }
 
 node class B extends A {

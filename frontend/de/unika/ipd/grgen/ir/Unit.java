@@ -181,6 +181,20 @@ public class Unit extends IR {
 		return digest;
 	}
 
+	public void postPatchIR() {
+		// deferred step that has to be done after IR was built
+		// filling in transitive members for inheritance types
+		// can't be called during IR building because of dependencies (node/edge attributes of subtypes)
+		for(Model model : models) {
+			for(InheritanceType type : model.getNodeTypes()) {
+				type.getAllMembers(); // checks overwriting of attributes
+			}
+			for(InheritanceType type : model.getEdgeTypes()) {
+				type.getAllMembers(); // checks overwriting of attributes
+			}
+		}
+	}
+	
 	public void checkForEmptyPatternsInIterateds()
 	{
 		// iterateds don't terminate if they match an empty pattern again and again
