@@ -112,9 +112,9 @@ namespace de.unika.ipd.grGen.grShell
         LinkedList<Sequence> loopList = new LinkedList<Sequence>();
 
         Dictionary<INode, bool> addedNodes = new Dictionary<INode, bool>();
-        LinkedList<String> deletedNodes = new LinkedList<String>();
+        List<String> deletedNodes = new List<String>();
         Dictionary<IEdge, bool> addedEdges = new Dictionary<IEdge, bool>();
-        LinkedList<String> deletedEdges = new LinkedList<String>();
+        List<String> deletedEdges = new List<String>();
         Dictionary<INode, bool> retypedNodes = new Dictionary<INode, bool>();
         Dictionary<IEdge, bool> retypedEdges = new Dictionary<IEdge, bool>();
 
@@ -206,13 +206,13 @@ namespace de.unika.ipd.grGen.grShell
             {
                 if(layoutOptions != null)
                 {
-                    LinkedList<String> illegalOptions = null;
+                    List<String> illegalOptions = null;
                     foreach(KeyValuePair<String, String> option in layoutOptions)
                     {
                         if(!SetLayoutOption(option.Key, option.Value))
                         {
-                            if(illegalOptions == null) illegalOptions = new LinkedList<String>();
-                            illegalOptions.AddLast(option.Key);
+                            if(illegalOptions == null) illegalOptions = new List<String>();
+                            illegalOptions.Add(option.Key);
                         }
                     }
                     if(illegalOptions != null)
@@ -2695,7 +2695,7 @@ namespace de.unika.ipd.grGen.grShell
 
                 String name = ycompClient.Graph.GetElementName(node);
                 ycompClient.RenameNode(name, "zombie_" + name);
-                deletedNodes.AddLast("zombie_" + name);
+                deletedNodes.Add("zombie_" + name);
             }
         }
 
@@ -2716,7 +2716,7 @@ namespace de.unika.ipd.grGen.grShell
 
                 String name = ycompClient.Graph.GetElementName(edge);
                 ycompClient.RenameEdge(name, "zombie_" + name);
-                deletedEdges.AddLast("zombie_" + name);
+                deletedEdges.Add("zombie_" + name);
             }
         }
 

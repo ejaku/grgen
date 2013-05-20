@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPTransactionManager : ITransactionManager
     {
-        private LinkedList<IUndoItem> undoItems = new LinkedList<IUndoItem>();
+        private List<IUndoItem> undoItems = new List<IUndoItem>();
         private IEdge currentlyRedirectedEdge;
         private bool recording = false;
         private bool paused = false; // only of interest if recording==true
@@ -107,7 +107,7 @@ namespace de.unika.ipd.grGen.lgsp
                 SubscribeEvents();
 
             int count = undoItems.Count;
-            undoItems.AddLast(new LGSPUndoTransactionStarted());
+            undoItems.Add(new LGSPUndoTransactionStarted());
             return count;
         }
 
@@ -166,14 +166,14 @@ namespace de.unika.ipd.grGen.lgsp
                         procEnv.SwitchToSubgraph(procEnv.Graph);
                     }
 
-                    LinkedListNode<IUndoItem> curItem = undoItems.Last;
-                    do
+                    for(int i = undoItems.Count - 1; i >= 0; --i)
                     {
-                        if(curItem.Value is LGSPUndoVisitedFree)
-                            procEnv.graph.UnreserveVisitedFlag(((LGSPUndoVisitedFree)curItem.Value)._visitorID);
-                        else if(curItem.Value is LGSPUndoGraphChange)
-                            curItem.Value.DoUndo(procEnv);
-                    } while(curItem != undoItems.First);
+                        IUndoItem curItem = undoItems[i];
+                        if(curItem is LGSPUndoVisitedFree)
+                            procEnv.graph.UnreserveVisitedFlag(((LGSPUndoVisitedFree)curItem)._visitorID);
+                        else if(curItem is LGSPUndoGraphChange)
+                            curItem.DoUndo(procEnv);
+                    }
                     
                     if(wasGraphChanged)
                     {
@@ -206,12 +206,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             while(undoItems.Count > transactionID)
             {
+                IUndoItem lastItem = undoItems[undoItems.Count - 1];
 #if LOG_TRANSACTION_HANDLING
                 writer.Write(new String(' ', transactionLevel) + "rolling back " + undoItems.Count + " - ");
-                if(undoItems.Last.Value is LGSPUndoTransactionStarted) {
+                if(lastItem is LGSPUndoTransactionStarted) {
                     writer.WriteLine("TransactionStarted");
-                } else if(undoItems.Last.Value is LGSPUndoElemAdded) {
-                    LGSPUndoElemAdded item = (LGSPUndoElemAdded)undoItems.Last.Value;
+                } else if(lastItem is LGSPUndoElemAdded) {
+                    LGSPUndoElemAdded item = (LGSPUndoElemAdded)lastItem;
                     if(item._elem is INode) {
                         INode node = (INode)item._elem;
                         writer.WriteLine("ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
@@ -219,8 +220,8 @@ namespace de.unika.ipd.grGen.lgsp
                         IEdge edge = (IEdge)item._elem;
                         writer.WriteLine("ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + " ->" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
                     }
-                } else if(undoItems.Last.Value is LGSPUndoElemRemoved) {
-                    LGSPUndoElemRemoved item = (LGSPUndoElemRemoved)undoItems.Last.Value;
+                } else if(lastItem is LGSPUndoElemRemoved) {
+                    LGSPUndoElemRemoved item = (LGSPUndoElemRemoved)lastItem;
                     if(item._elem is INode) {
                         INode node = (INode)item._elem;
                         writer.WriteLine("RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
@@ -228,40 +229,40 @@ namespace de.unika.ipd.grGen.lgsp
                         IEdge edge = (IEdge)item._elem;
                         writer.WriteLine("RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + "-> " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
                     }
-                } else if(undoItems.Last.Value is LGSPUndoAttributeChanged) {
-                    LGSPUndoAttributeChanged item = (LGSPUndoAttributeChanged)undoItems.Last.Value;
+                } else if(lastItem is LGSPUndoAttributeChanged) {
+                    LGSPUndoAttributeChanged item = (LGSPUndoAttributeChanged)lastItem;
                     writer.WriteLine("ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._elem) + ":" + item._elem.Type.Name + "." + item._attrType.Name);
-                } else if(undoItems.Last.Value is LGSPUndoElemRetyped) {
-                    LGSPUndoElemRetyped item = (LGSPUndoElemRetyped)undoItems.Last.Value;
+                } else if(lastItem is LGSPUndoElemRetyped) {
+                    LGSPUndoElemRetyped item = (LGSPUndoElemRetyped)lastItem;
                     writer.WriteLine("RetypingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._newElem) + ":" + item._newElem.Type.Name + "<" + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._oldElem) + ":" + item._oldElem.Type.Name + ">");
-                } else if(undoItems.Last.Value is LGSPUndoElemRedirecting) {
-                    LGSPUndoElemRedirecting item = (LGSPUndoElemRedirecting)undoItems.Last.Value;
+                } else if(lastItem is LGSPUndoElemRedirecting) {
+                    LGSPUndoElemRedirecting item = (LGSPUndoElemRedirecting)lastItem;
                     writer.WriteLine("RedirectingEdge: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._edge) + " before undoing removal");
-                } else if(undoItems.Last.Value is LGSPUndoVisitedAlloc) {
-                    LGSPUndoVisitedAlloc item = (LGSPUndoVisitedAlloc)undoItems.Last.Value;
+                } else if(lastItem is LGSPUndoVisitedAlloc) {
+                    LGSPUndoVisitedAlloc item = (LGSPUndoVisitedAlloc)lastItem;
                     writer.WriteLine("VisitedAlloc: " + item._visitorID);
-                } else if(undoItems.Last.Value is LGSPUndoVisitedFree) {
-                    LGSPUndoVisitedFree item = (LGSPUndoVisitedFree)undoItems.Last.Value;
+                } else if(lastItem is LGSPUndoVisitedFree) {
+                    LGSPUndoVisitedFree item = (LGSPUndoVisitedFree)lastItem;
                     writer.WriteLine("VisitedFree: " + item._visitorID);
-                } else if(undoItems.Last.Value is LGSPUndoSettingVisited) {
-                    LGSPUndoSettingVisited item = (LGSPUndoSettingVisited)undoItems.Last.Value;
+                } else if(lastItem is LGSPUndoSettingVisited) {
+                    LGSPUndoSettingVisited item = (LGSPUndoSettingVisited)lastItem;
                     writer.WriteLine("SettingVisited: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._elem) + ".visited[" + item._visitorID + "]");
-                } else if(undoItems.Last.Value is LGSPUndoGraphChange) {
-                    LGSPUndoGraphChange item = (LGSPUndoGraphChange)undoItems.Last.Value;
+                } else if(lastItem is LGSPUndoGraphChange) {
+                    LGSPUndoGraphChange item = (LGSPUndoGraphChange)lastItem;
                     writer.WriteLine("GraphChange: to previous " + item._oldGraph.Name);
                 }
 #endif
                 if(wasGraphChanged) {
-                    if(undoItems.Last.Value is LGSPUndoGraphChange) {
-                        if(undoItems.Last.Previous != null && undoItems.Last.Previous.Value is LGSPUndoGraphChange) {
-                            undoItems.RemoveLast();
+                    if(lastItem is LGSPUndoGraphChange) {
+                        if(undoItems.Count - 2 >= 0 && undoItems[undoItems.Count - 2] is LGSPUndoGraphChange) {
+                            undoItems.RemoveAt(undoItems.Count - 1);
                             continue; // skip graph change without effect to preceeding graph change
                         }
                     }
                 }
 
-                undoItems.Last.Value.DoUndo(procEnv);
-                undoItems.RemoveLast();
+                lastItem.DoUndo(procEnv);
+                undoItems.RemoveAt(undoItems.Count - 1);
             }
 
             if(wasGraphChanged)
@@ -290,7 +291,7 @@ namespace de.unika.ipd.grGen.lgsp
         public void ElementAdded(IGraphElement elem)
         {
             if(recording && !paused && !undoing)
-                undoItems.AddLast(new LGSPUndoElemAdded(elem));
+                undoItems.Add(new LGSPUndoElemAdded(elem));
 
 #if LOG_TRANSACTION_HANDLING
             if(elem is INode) {
@@ -316,11 +317,11 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
             if(recording && !paused && !undoing)
             {
-                undoItems.AddLast(new LGSPUndoElemRemoved(elem, procEnv));
+                undoItems.Add(new LGSPUndoElemRemoved(elem, procEnv));
                 if(Object.ReferenceEquals(elem, currentlyRedirectedEdge))
                 {
                     LGSPEdge edge = (LGSPEdge)elem;
-                    undoItems.AddLast(new LGSPUndoElemRedirecting(edge, edge.lgspSource, edge.lgspTarget));
+                    undoItems.Add(new LGSPUndoElemRedirecting(edge, edge.lgspSource, edge.lgspTarget));
                     currentlyRedirectedEdge = null;
                 }
             }
@@ -333,7 +334,7 @@ namespace de.unika.ipd.grGen.lgsp
             writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(elem) + ":" + elem.Type.Name + "." + attrType.Name);
 #endif
             if(recording && !paused && !undoing)
-                undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue));
+                undoItems.Add(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue));
         }
 
         public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
@@ -342,7 +343,7 @@ namespace de.unika.ipd.grGen.lgsp
             writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "RetypingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(newElem) + ":" + newElem.Type.Name + "<" + ((LGSPNamedGraph)procEnv.graph).GetElementName(oldElem) + ":" + oldElem.Type.Name + ">");
 #endif
             if(recording && !paused && !undoing)
-                undoItems.AddLast(new LGSPUndoElemRetyped(oldElem, newElem));
+                undoItems.Add(new LGSPUndoElemRetyped(oldElem, newElem));
         }
 
         public void RedirectingEdge(IEdge edge)
@@ -357,7 +358,7 @@ namespace de.unika.ipd.grGen.lgsp
         public void VisitedAlloc(int visitorID)
         {
             if(recording && !paused && !undoing)
-                undoItems.AddLast(new LGSPUndoVisitedAlloc(visitorID));
+                undoItems.Add(new LGSPUndoVisitedAlloc(visitorID));
             if(paused)
                 visitedAllocationsWhilePaused[visitorID] = true;
 
@@ -370,7 +371,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(recording && !paused && !undoing)
             {
-                undoItems.AddLast(new LGSPUndoVisitedFree(visitorID));
+                undoItems.Add(new LGSPUndoVisitedFree(visitorID));
                 procEnv.graph.ReserveVisitedFlag(visitorID);
                 wasVisitedFreeRecorded = true;
             }
@@ -388,7 +389,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 bool oldValue = procEnv.graph.IsVisited(elem, visitorID);
                 if(newValue != oldValue)
-                    undoItems.AddLast(new LGSPUndoSettingVisited(elem, visitorID, oldValue));
+                    undoItems.Add(new LGSPUndoSettingVisited(elem, visitorID, oldValue));
             }
 
 #if LOG_TRANSACTION_HANDLING
@@ -401,7 +402,7 @@ namespace de.unika.ipd.grGen.lgsp
             IGraph oldGraph = procEnv.graph;
             if(recording && !undoing)
             {
-                undoItems.AddLast(new LGSPUndoGraphChange(oldGraph));
+                undoItems.Add(new LGSPUndoGraphChange(oldGraph));
                 wasGraphChanged = true;
             }
 
@@ -415,7 +416,7 @@ namespace de.unika.ipd.grGen.lgsp
             IGraph newGraph = procEnv.graph;
             if(recording && !undoing)
             {
-                undoItems.AddLast(new LGSPUndoGraphChange(oldGraph));
+                undoItems.Add(new LGSPUndoGraphChange(oldGraph));
                 wasGraphChanged = true;
             }
 
