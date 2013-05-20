@@ -223,7 +223,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 if(!ycompClient.dumpInfo.IsExcludedGraph())
-                    UploadGraph();
+                    UploadGraph(shellProcEnv.Graph);
             }
             catch(OperationCanceledException)
             {
@@ -237,11 +237,11 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// Uploads the graph to YComp, updates the display and makes a synchonisation
         /// </summary>
-        void UploadGraph()
+        void UploadGraph(INamedGraph graph)
         {
-            foreach(INode node in shellProcEnv.Graph.Nodes)
+            foreach(INode node in graph.Nodes)
                 ycompClient.AddNode(node);
-            foreach(IEdge edge in shellProcEnv.Graph.Edges)
+            foreach(IEdge edge in graph.Edges)
                 ycompClient.AddEdge(edge);
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
@@ -351,7 +351,8 @@ namespace de.unika.ipd.grGen.grShell
                 UnregisterLibGrEvents();
                 ycompClient.ClearGraph();
                 shellProcEnv = value;
-                UploadGraph();
+                if(!ycompClient.dumpInfo.IsExcludedGraph())
+                    UploadGraph(shellProcEnv.Graph);
                 RegisterLibGrEvents();
 
                 // TODO: reset any state when inside a rule debugging session
@@ -3074,6 +3075,30 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        /// <summary>
+        /// informs debugger about the change of the graph, so it can switch yComp display to the new one
+        /// called just before switch with the new one, the old one is the current graph
+        /// </summary>
+        void DebugSwitchToGraph(IGraph newGraph)
+        {
+            // potential future extension: display the stack of graphs instead of only the topmost one
+            // with the one at the forefront being the top of the stack; would save clearing and uploading
+            ycompClient.ClearGraph();
+            if(!ycompClient.dumpInfo.IsExcludedGraph())
+                UploadGraph((INamedGraph)newGraph);
+        }
+
+        /// <summary>
+        /// informs debugger about the change of the graph, so it can switch yComp display to the new one
+        /// called just after the switch with the old one, the new one is the current graph
+        /// </summary>
+        void DebugReturnedFromGraph(IGraph oldGraph)
+        {
+            ycompClient.ClearGraph();
+            if(!ycompClient.dumpInfo.IsExcludedGraph())
+                UploadGraph(shellProcEnv.Graph);
+        }
+
         void DebugOnConnectionLost()
         {
             Console.WriteLine("Connection to yComp lost!");
@@ -3103,6 +3128,8 @@ namespace de.unika.ipd.grGen.grShell
             shellProcEnv.ProcEnv.OnEntereringSequence += DebugEnteringSequence;
             shellProcEnv.ProcEnv.OnExitingSequence += DebugExitingSequence;
             shellProcEnv.ProcEnv.OnEndOfIteration += DebugEndOfIteration;
+            shellProcEnv.ProcEnv.OnSwitchingToSubgraph += DebugSwitchToGraph;
+            shellProcEnv.ProcEnv.OnReturnedFromSubgraph += DebugReturnedFromGraph;
         }
 
         /// <summary>
@@ -3128,6 +3155,8 @@ namespace de.unika.ipd.grGen.grShell
             shellProcEnv.ProcEnv.OnEntereringSequence -= DebugEnteringSequence;
             shellProcEnv.ProcEnv.OnExitingSequence -= DebugExitingSequence;
             shellProcEnv.ProcEnv.OnEndOfIteration -= DebugEndOfIteration;
+            shellProcEnv.ProcEnv.OnSwitchingToSubgraph -= DebugSwitchToGraph;
+            shellProcEnv.ProcEnv.OnReturnedFromSubgraph -= DebugReturnedFromGraph;
         }
 
         #endregion Event Handling
