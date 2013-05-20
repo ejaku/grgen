@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun May 05 20:06:33 CEST 2013
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon May 20 22:29:54 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -122,7 +122,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			graph.SettingAddedNodeNames( readZeroRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readZeroRule_addedEdgeNames );
 			{ // eval_0
-			int tempvar_0 = inode_wv.@value;
+			int tempvar_0 = (int )inode_wv.@value;
 			graph.ChangingNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_bp.@value = tempvar_0;
 			}
@@ -422,7 +422,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			graph.SettingAddedNodeNames( readOneRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readOneRule_addedEdgeNames );
 			{ // eval_0
-			int tempvar_0 = inode_wv.@value;
+			int tempvar_0 = (int )inode_wv.@value;
 			graph.ChangingNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_bp.@value = tempvar_0;
 			}

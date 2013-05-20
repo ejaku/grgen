@@ -172,68 +172,59 @@ namespace de.unika.ipd.grGen.expression
 
 	public partial class ExternalFunctions
 	{
-        static GRGEN_MODEL.ExternalAttributeEvaluationGraph graph;
-
-        public static void setGraph(GRGEN_MODEL.ExternalAttributeEvaluationGraph graph_)
-        {
-            graph = graph_;
-        }
-
-        ////////////////////////////////////////////////////////////////////
-
-		public static bool foo(int a, double b, GRGEN_MODEL.ENUM_Enu c, string d)
+        public static bool foo(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, int a, double b, GRGEN_MODEL.ENUM_Enu c, string d)
         {
             return true;
         }
 
-        public static object bar(object a, object b)
+        public static object bar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object a, object b)
         {
             return a ?? b ?? null;
         }
 
-        public static bool isnull(object a)
+        public static bool isnull(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object a)
         {
             return a == null;
         }
 
-        public static bool bla(GRGEN_MODEL.IN a, GRGEN_MODEL.IE b)
+        public static bool bla(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IN a, GRGEN_MODEL.IE b)
         {
             return a.b;
         }
 
-        public static GRGEN_MODEL.IN blo(GRGEN_LIBGR.INode a, GRGEN_LIBGR.IEdge b)
+        public static GRGEN_MODEL.IN blo(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode a, GRGEN_LIBGR.IEdge b)
         {
-            return graph.CreateNodeN();
+            return ((GRGEN_MODEL.ExternalAttributeEvaluationGraph)graph).CreateNodeN();
         }
 
-        public static GRGEN_MODEL.OwnPown har(GRGEN_MODEL.Own a, GRGEN_MODEL.OwnPown b)
+        public static GRGEN_MODEL.OwnPown har(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.Own a, GRGEN_MODEL.OwnPown b)
         {
             return a!=null ? (a.muh() ? (GRGEN_MODEL.OwnPown)a : b) : null;
         }
 
-        public static bool hur(GRGEN_MODEL.OwnPown a)
+        public static bool hur(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.OwnPown a)
         {
             return a!=null ? a.ehe==null : true;
         }
-		
-		public static bool hurdur(GRGEN_MODEL.OwnPownHome a)
+
+        public static bool hurdur(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.OwnPownHome a)
 		{
 			return a!=null ? a.aha==null : true;
 		}
-		
-		public static GRGEN_MODEL.Own own()
+
+        public static GRGEN_MODEL.Own own(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph)
         {
             return new GRGEN_MODEL.Own();
         }
 
-        public static GRGEN_MODEL.OwnPown ownPown()
+        public static GRGEN_MODEL.OwnPown ownPown(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_MODEL.OwnPown op = new GRGEN_MODEL.OwnPown();
             op.ehe = "hahaha";
             return op;
         }
 
-        public static GRGEN_MODEL.OwnPownHome ownPownHome()
+        public static GRGEN_MODEL.OwnPownHome ownPownHome(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_MODEL.OwnPownHome oph = new GRGEN_MODEL.OwnPownHome();
             oph.ehe = "hahaha";

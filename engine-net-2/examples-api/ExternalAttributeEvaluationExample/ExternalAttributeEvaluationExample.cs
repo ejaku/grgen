@@ -33,8 +33,6 @@ namespace EAE
 
             procEnv.PerformanceInfo = new PerformanceInfo();
 
-            de.unika.ipd.grGen.expression.ExternalFunctions.setGraph(graph);
-
             // use graph rewrite sequence
             procEnv.ApplyGraphRewriteSequence("init");
 

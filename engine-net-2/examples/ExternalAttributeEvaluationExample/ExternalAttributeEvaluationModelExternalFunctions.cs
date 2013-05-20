@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalAttributeEvaluation.grg" on Sun May 05 18:06:47 CEST 2013
+// Generated from "ExternalAttributeEvaluation.grg" on Mon May 20 22:27:00 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -70,17 +70,17 @@ namespace de.unika.ipd.grGen.expression
 	{
 		// You must implement the following functions in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
 
-		//public static bool foo(int, double, GRGEN_MODEL.ENUM_Enu, string);
-		//public static object bar(object, object);
-		//public static bool isnull(object);
-		//public static bool bla(GRGEN_MODEL.IN, GRGEN_MODEL.IE);
-		//public static GRGEN_MODEL.IN blo(GRGEN_LIBGR.INode, GRGEN_LIBGR.IEdge);
-		//public static GRGEN_MODEL.OwnPown har(GRGEN_MODEL.Own, GRGEN_MODEL.OwnPown);
-		//public static bool hur(GRGEN_MODEL.OwnPown);
-		//public static bool hurdur(GRGEN_MODEL.OwnPownHome);
-		//public static GRGEN_MODEL.Own own();
-		//public static GRGEN_MODEL.OwnPown ownPown();
-		//public static GRGEN_MODEL.OwnPownHome ownPownHome();
+		//public static bool foo(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, int, double, GRGEN_MODEL.ENUM_Enu, string);
+		//public static object bar(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, object, object);
+		//public static bool isnull(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, object);
+		//public static bool bla(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.IN, GRGEN_MODEL.IE);
+		//public static GRGEN_MODEL.IN blo(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_LIBGR.INode, GRGEN_LIBGR.IEdge);
+		//public static GRGEN_MODEL.OwnPown har(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.Own, GRGEN_MODEL.OwnPown);
+		//public static bool hur(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.OwnPown);
+		//public static bool hurdur(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.OwnPownHome);
+		//public static GRGEN_MODEL.Own own(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph);
+		//public static GRGEN_MODEL.OwnPown ownPown(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph);
+		//public static GRGEN_MODEL.OwnPownHome ownPownHome(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph);
 	}
 }
 

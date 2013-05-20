@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun May 05 20:06:39 CEST 2013
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Mon May 20 22:29:59 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -353,16 +353,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			GRGEN_MODEL.@N node_m = GRGEN_MODEL.@N.CreateNode(graph);
 			graph.SettingAddedEdgeNames( r_addedEdgeNames );
 			{ // eval_0
-			bool tempvar_0 = (GRGEN_EXPR.ExternalFunctions.foo(42, 3.141, GRGEN_MODEL.ENUM_Enu.@hurz, "S21-heiteitei") && GRGEN_EXPR.ExternalFunctions.foo(inode_n.@i, inode_n.@d, inode_n.@enu, inode_n.@s));
+			bool tempvar_0 = (bool )(GRGEN_EXPR.ExternalFunctions.foo(actionEnv, graph, 42, 3.141, GRGEN_MODEL.ENUM_Enu.@hurz, "S21-heiteitei") && GRGEN_EXPR.ExternalFunctions.foo(actionEnv, graph, inode_n.@i, inode_n.@d, inode_n.@enu, inode_n.@s));
 			graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_b, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			node_m.@b = tempvar_0;
-			Object tempvar_1 = GRGEN_EXPR.ExternalFunctions.bar(null, inode_n.@o);
+			Object tempvar_1 = (Object )GRGEN_EXPR.ExternalFunctions.bar(actionEnv, graph, null, inode_n.@o);
 			graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_o, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			node_m.@o = tempvar_1;
-			bool tempvar_2 = GRGEN_EXPR.ExternalFunctions.bla((GRGEN_MODEL.IN)node_m, (GRGEN_MODEL.IE)edge_e);
+			bool tempvar_2 = (bool )GRGEN_EXPR.ExternalFunctions.bla(actionEnv, graph, (GRGEN_MODEL.IN)node_m, (GRGEN_MODEL.IE)edge_e);
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_b, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_2, null);
 			inode_n.@b = tempvar_2;
-			GRGEN_MODEL.OwnPown tempvar_3 = GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)inode_n.@ow, (GRGEN_MODEL.OwnPown)inode_n.@op);
+			GRGEN_MODEL.OwnPown tempvar_3 = (GRGEN_MODEL.OwnPown )GRGEN_EXPR.ExternalFunctions.har(actionEnv, graph, (GRGEN_MODEL.Own)inode_n.@ow, (GRGEN_MODEL.OwnPown)inode_n.@op);
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_op, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_3, null);
 			inode_n.@op = tempvar_3;
 			}
@@ -639,26 +639,26 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			GRGEN_EXPR.ExternalProcedures.fooProc(actionEnv, graph, inode_n.@i, inode_n.@d, inode_n.@enu, inode_n.@s);
 			object outvar_0;
 			GRGEN_EXPR.ExternalProcedures.barProc(actionEnv, graph, null, inode_n.@o, out outvar_0);
-			Object tempvar_1 = outvar_0;
+			Object tempvar_1 = (Object )outvar_0;
 			graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_o, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			node_m.@o = tempvar_1;
 			bool outvar_2;
 			bool outvar_3;
 			GRGEN_EXPR.ExternalProcedures.blaProc(actionEnv, graph, (GRGEN_MODEL.IN)node_m, (GRGEN_MODEL.IE)edge_e, out outvar_2, out outvar_3);
-			bool tempvar_4 = outvar_2;
+			bool tempvar_4 = (bool )outvar_2;
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_b, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_4, null);
 			inode_n.@b = tempvar_4;
-			bool tempvar_5 = outvar_3;
+			bool tempvar_5 = (bool )outvar_3;
 			graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_b, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_5, null);
 			node_m.@b = tempvar_5;
 			GRGEN_MODEL.OwnPown outvar_6;
 			GRGEN_MODEL.Own outvar_7;
 			GRGEN_MODEL.IN outvar_8;
 			GRGEN_EXPR.ExternalProcedures.harProc(actionEnv, graph, (GRGEN_MODEL.Own)inode_n.@ow, (GRGEN_MODEL.OwnPown)inode_n.@op, out outvar_6, out outvar_7, out outvar_8);
-			GRGEN_MODEL.OwnPown tempvar_9 = outvar_6;
+			GRGEN_MODEL.OwnPown tempvar_9 = (GRGEN_MODEL.OwnPown )outvar_6;
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_op, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_9, null);
 			inode_n.@op = tempvar_9;
-			GRGEN_MODEL.Own tempvar_10 = outvar_7;
+			GRGEN_MODEL.Own tempvar_10 = (GRGEN_MODEL.Own )outvar_7;
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_ow, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_10, null);
 			inode_n.@ow = tempvar_10;
 			node_nn = outvar_8;
@@ -1143,19 +1143,19 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
                     continue;
                 }
                 // Condition 
-                if(!((GRGEN_EXPR.ExternalFunctions.hur((GRGEN_MODEL.OwnPown)GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_r_node_n).@ow, (GRGEN_MODEL.OwnPown)GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_r_node_n).@ow, (GRGEN_MODEL.OwnPown)((GRGEN_MODEL.IN)candidate_r_node_n).@op))) && GRGEN_EXPR.ExternalFunctions.hurdur((GRGEN_MODEL.OwnPownHome)((GRGEN_MODEL.IN)candidate_r_node_n).@oh)))) {
+                if(!((GRGEN_EXPR.ExternalFunctions.hur(actionEnv, graph, (GRGEN_MODEL.OwnPown)GRGEN_EXPR.ExternalFunctions.har(actionEnv, graph, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_r_node_n).@ow, (GRGEN_MODEL.OwnPown)GRGEN_EXPR.ExternalFunctions.har(actionEnv, graph, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_r_node_n).@ow, (GRGEN_MODEL.OwnPown)((GRGEN_MODEL.IN)candidate_r_node_n).@op))) && GRGEN_EXPR.ExternalFunctions.hurdur(actionEnv, graph, (GRGEN_MODEL.OwnPownHome)((GRGEN_MODEL.IN)candidate_r_node_n).@oh)))) {
                     continue;
                 }
                 // Condition 
-                if(!(GRGEN_EXPR.ExternalFunctions.bla((GRGEN_MODEL.IN)candidate_r_node_n, (GRGEN_MODEL.IE)candidate_r_edge_e))) {
+                if(!(GRGEN_EXPR.ExternalFunctions.bla(actionEnv, graph, (GRGEN_MODEL.IN)candidate_r_node_n, (GRGEN_MODEL.IE)candidate_r_edge_e))) {
                     continue;
                 }
                 // Condition 
-                if(!(GRGEN_EXPR.ExternalFunctions.isnull(GRGEN_EXPR.ExternalFunctions.bar(null, ((GRGEN_MODEL.IN)candidate_r_node_n).@o)))) {
+                if(!(GRGEN_EXPR.ExternalFunctions.isnull(actionEnv, graph, GRGEN_EXPR.ExternalFunctions.bar(actionEnv, graph, null, ((GRGEN_MODEL.IN)candidate_r_node_n).@o)))) {
                     continue;
                 }
                 // Condition 
-                if(!((GRGEN_EXPR.ExternalFunctions.foo(42, 3.141, GRGEN_MODEL.ENUM_Enu.@hurz, "S21-heiteitei") && GRGEN_EXPR.ExternalFunctions.foo(((GRGEN_MODEL.IN)candidate_r_node_n).@i, ((GRGEN_MODEL.IN)candidate_r_node_n).@d, ((GRGEN_MODEL.IN)candidate_r_node_n).@enu, ((GRGEN_MODEL.IN)candidate_r_node_n).@s)))) {
+                if(!((GRGEN_EXPR.ExternalFunctions.foo(actionEnv, graph, 42, 3.141, GRGEN_MODEL.ENUM_Enu.@hurz, "S21-heiteitei") && GRGEN_EXPR.ExternalFunctions.foo(actionEnv, graph, ((GRGEN_MODEL.IN)candidate_r_node_n).@i, ((GRGEN_MODEL.IN)candidate_r_node_n).@d, ((GRGEN_MODEL.IN)candidate_r_node_n).@enu, ((GRGEN_MODEL.IN)candidate_r_node_n).@s)))) {
                     continue;
                 }
                 Rule_r.Match_r match = matches.GetNextUnfilledPosition();

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun May 05 20:06:50 CEST 2013
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon May 20 22:30:10 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -277,7 +277,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleContainedPackagesOrClasses.Match_MultipleContainedPackagesOrClasses subpattern_mpc = curMatch.@_mpc;
 			graph.SettingAddedNodeNames( MultipleContainedPackagesOrClasses_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@2916,596:603='emithere',<46>,34:3]
+			{ // [@2916,596:603='emithere',<47>,34:3]
 			procEnv.EmitWriter.Write("package ");
 			procEnv.EmitWriter.Write(inode_sub.@name);
 			procEnv.EmitWriter.Write("\n{\n");
@@ -285,7 +285,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			{ // mpc
 			Pattern_MultipleContainedPackagesOrClasses.Instance.MultipleContainedPackagesOrClasses_Modify(actionEnv, subpattern_mpc);
 			}
-			{ // [@2935,652:659='emithere',<46>,36:3]
+			{ // [@2935,652:659='emithere',<47>,36:3]
 			procEnv.EmitWriter.Write("}\n");
 			}
 			graph.SettingAddedEdgeNames( MultipleContainedPackagesOrClasses_iter_0_addedEdgeNames );
@@ -332,7 +332,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleVariables.Match_MultipleVariables subpattern_mv = curMatch.@_mv;
 			graph.SettingAddedNodeNames( MultipleContainedPackagesOrClasses_iter_1_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@2981,798:805='emithere',<46>,46:3]
+			{ // [@2981,798:805='emithere',<47>,46:3]
 			procEnv.EmitWriter.Write("class ");
 			procEnv.EmitWriter.Write(inode_c.@name);
 			procEnv.EmitWriter.Write(" {\n");
@@ -343,7 +343,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			{ // mv
 			Pattern_MultipleVariables.Instance.MultipleVariables_Modify(actionEnv, subpattern_mv);
 			}
-			{ // [@3005,858:865='emithere',<46>,49:3]
+			{ // [@3005,858:865='emithere',<47>,49:3]
 			procEnv.EmitWriter.Write("}\n");
 			}
 			graph.SettingAddedEdgeNames( MultipleContainedPackagesOrClasses_iter_1_addedEdgeNames );
@@ -1088,7 +1088,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IVariable inode_v = curMatch.node_v;
 			graph.SettingAddedNodeNames( MultipleVariables_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3053,1004:1011='emithere',<46>,62:3]
+			{ // [@3053,1004:1011='emithere',<47>,62:3]
 			procEnv.EmitWriter.Write("var ");
 			procEnv.EmitWriter.Write(inode_v.@name);
 			procEnv.EmitWriter.Write(";\n");
@@ -1640,13 +1640,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MethodBodyAndImplementation.Match_MethodBodyAndImplementation subpattern_bi = curMatch.@_bi;
 			graph.SettingAddedNodeNames( MultipleMethodBodies_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3117,1213:1220='emithere',<46>,77:3]
+			{ // [@3117,1213:1220='emithere',<47>,77:3]
 			procEnv.EmitWriter.Write("method body");
 			}
 			{ // bi
 			Pattern_MethodBodyAndImplementation.Instance.MethodBodyAndImplementation_Modify(actionEnv, subpattern_bi);
 			}
-			{ // [@3128,1252:1259='emithere',<46>,79:3]
+			{ // [@3128,1252:1259='emithere',<47>,79:3]
 			procEnv.EmitWriter.Write(";\n");
 			}
 			graph.SettingAddedEdgeNames( MultipleMethodBodies_iter_0_addedEdgeNames );
@@ -2315,13 +2315,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleExpressions.Match_MultipleExpressions subpattern_me = curMatch.@_me;
 			graph.SettingAddedNodeNames( MethodBodyAndImplementation_iter_1_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3219,1658:1665='emithere',<46>,102:3]
+			{ // [@3219,1658:1665='emithere',<47>,102:3]
 			procEnv.EmitWriter.Write(" {");
 			}
 			{ // me
 			Pattern_MultipleExpressions.Instance.MultipleExpressions_Modify(actionEnv, subpattern_me);
 			}
-			{ // [@3230,1688:1695='emithere',<46>,104:3]
+			{ // [@3230,1688:1695='emithere',<47>,104:3]
 			procEnv.EmitWriter.Write("}");
 			}
 			graph.SettingAddedEdgeNames( MethodBodyAndImplementation_iter_1_addedEdgeNames );
@@ -3678,13 +3678,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_ExpressionChain.Match_ExpressionChain subpattern_ec = curMatch.@_ec;
 			graph.SettingAddedNodeNames( MultipleExpressions_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3329,2005:2012='emithere',<46>,130:3]
+			{ // [@3329,2005:2012='emithere',<47>,130:3]
 			procEnv.EmitWriter.Write("exp");
 			}
 			{ // ec
 			Pattern_ExpressionChain.Instance.ExpressionChain_Modify(actionEnv, subpattern_ec);
 			}
-			{ // [@3340,2036:2043='emithere',<46>,132:3]
+			{ // [@3340,2036:2043='emithere',<47>,132:3]
 			procEnv.EmitWriter.Write(" ");
 			}
 			graph.SettingAddedEdgeNames( MultipleExpressions_iter_0_addedEdgeNames );
@@ -3730,13 +3730,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleActualParameters.Match_MultipleActualParameters subpattern__sub0 = curMatch.@__sub0;
 			graph.SettingAddedNodeNames( MultipleExpressions_iter_1_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3385,2189:2196='emithere',<46>,142:3]
+			{ // [@3385,2189:2196='emithere',<47>,142:3]
 			procEnv.EmitWriter.Write("call");
 			}
 			{ // ec
 			Pattern_ExpressionChain.Instance.ExpressionChain_Modify(actionEnv, subpattern_ec);
 			}
-			{ // [@3396,2221:2228='emithere',<46>,144:3]
+			{ // [@3396,2221:2228='emithere',<47>,144:3]
 			procEnv.EmitWriter.Write(" ");
 			}
 			graph.SettingAddedEdgeNames( MultipleExpressions_iter_1_addedEdgeNames );
@@ -4674,7 +4674,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_ExpressionChain.Match_ExpressionChain subpattern_ec = curMatch.@_ec;
 			graph.SettingAddedNodeNames( ExpressionChain_alt_0_ExprAndAgain_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3458,2433:2440='emithere',<46>,159:4]
+			{ // [@3458,2433:2440='emithere',<47>,159:4]
 			procEnv.EmitWriter.Write("--exp");
 			}
 			{ // ec
@@ -4709,7 +4709,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleActualParameters.Match_MultipleActualParameters subpattern__sub0 = curMatch.@__sub0;
 			graph.SettingAddedNodeNames( ExpressionChain_alt_0_CallAndAgain_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@3508,2611:2618='emithere',<46>,169:4]
+			{ // [@3508,2611:2618='emithere',<47>,169:4]
 			procEnv.EmitWriter.Write("--call");
 			}
 			{ // ec
@@ -8786,7 +8786,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			procEnv.EmitWriter.Write("<!DOCTYPE gxl SYSTEM \"http://www.gupro.de/GXL/gxl-1.0.dtd\">");
 			procEnv.EmitWriter.Write("<gxl>");
 			procEnv.EmitWriter.Write("<graph id=\"");
-			procEnv.EmitWriter.Write(graph.Name);
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(null, graph));
 			procEnv.EmitWriter.Write("\" edgeids=\"true\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"javaProgramGraphsSchema\"/>");
 			ApplyXGRS_dumpGxl_0(procEnv, var_v);
@@ -9619,7 +9619,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			string tempvar_node_n_name = inode_n.@name;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Package\"/>");
 			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
@@ -9896,7 +9896,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_isFinal = inode_n.@isFinal;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Class\"/>");
 			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
@@ -10181,7 +10181,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_isAbstract = inode_n.@isAbstract;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Interface\"/>");
 			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
@@ -10464,7 +10464,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_isFinal = inode_n.@isFinal;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Variable\"/>");
 			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
@@ -10751,7 +10751,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_isFinal = inode_n.@isFinal;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Operation\"/>");
 			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
@@ -11035,7 +11035,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"MethodBody\"/>");
 			procEnv.EmitWriter.Write("</node>");
@@ -11306,7 +11306,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_this = inode_n.@this;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Access\"/>");
 			procEnv.EmitWriter.Write("<attr name=\"this\"> <bool>");
@@ -11580,7 +11580,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_this = inode_n.@this;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Update\"/>");
 			procEnv.EmitWriter.Write("<attr name=\"this\"> <bool>");
@@ -11855,7 +11855,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_super = inode_n.@super;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Call\"/>");
 			procEnv.EmitWriter.Write("<attr name=\"this\"> <bool>");
@@ -12130,7 +12130,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Instantiation\"/>");
 			procEnv.EmitWriter.Write("</node>");
@@ -12401,7 +12401,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			string tempvar_node_n_name = inode_n.@name;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Operator\"/>");
 			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
@@ -12673,7 +12673,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Return\"/>");
 			procEnv.EmitWriter.Write("</node>");
@@ -12942,7 +12942,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Block\"/>");
 			procEnv.EmitWriter.Write("</node>");
@@ -13213,7 +13213,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			string tempvar_node_n_value = inode_n.@value;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Literal\"/>");
 			procEnv.EmitWriter.Write("<attr name=\"value\"> <string>");
@@ -13485,7 +13485,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_n));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"Parameter\"/>");
 			procEnv.EmitWriter.Write("</node>");
@@ -13772,11 +13772,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(edge_e));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
 			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_src));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
 			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_tgt));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"belongsTo\"/>");
 			procEnv.EmitWriter.Write("</edge>");
@@ -14075,11 +14075,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(edge_e));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
 			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_src));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
 			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_tgt));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"type\"/>");
 			procEnv.EmitWriter.Write("</edge>");
@@ -14378,11 +14378,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(edge_e));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
 			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_src));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
 			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_tgt));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"extends\"/>");
 			procEnv.EmitWriter.Write("</edge>");
@@ -14681,11 +14681,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(edge_e));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
 			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_src));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
 			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_tgt));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"imports\"/>");
 			procEnv.EmitWriter.Write("</edge>");
@@ -14984,11 +14984,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(edge_e));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
 			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_src));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
 			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_tgt));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"implements\"/>");
 			procEnv.EmitWriter.Write("</edge>");
@@ -15287,11 +15287,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(edge_e));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
 			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_src));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
 			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_tgt));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"parameter\"/>");
 			procEnv.EmitWriter.Write("</edge>");
@@ -15590,11 +15590,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(edge_e));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
 			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_src));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
 			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_tgt));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"binding\"/>");
 			procEnv.EmitWriter.Write("</edge>");
@@ -15893,11 +15893,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(edge_e));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
 			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_src));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
 			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_tgt));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"link\"/>");
 			procEnv.EmitWriter.Write("</edge>");
@@ -16196,11 +16196,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(edge_e));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
 			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_src));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
 			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_tgt));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"expression\"/>");
 			procEnv.EmitWriter.Write("</edge>");
@@ -16499,11 +16499,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(edge_e));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
 			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_src));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
 			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(((GRGEN_LGSP.LGSPNamedGraph)graph).GetElementName(node_tgt));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
 			procEnv.EmitWriter.Write("\">");
 			procEnv.EmitWriter.Write("<type xlink:href=\"actualParameter\"/>");
 			procEnv.EmitWriter.Write("</edge>");
@@ -16869,9 +16869,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPMatchesList<Match_emitSpanningTree_iter_0, IMatch_emitSpanningTree_iter_0> iterated_iter_0 = curMatch._iter_0;
 			graph.SettingAddedNodeNames( emitSpanningTree_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@2859,372:379='emithere',<46>,23:2]
+			{ // [@2859,372:379='emithere',<47>,23:2]
 			procEnv.EmitWriter.Write("// java program ");
-			procEnv.EmitWriter.Write(graph.Name);
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(null, graph));
 			procEnv.EmitWriter.Write("\n");
 			}
 			emitSpanningTree_iter_0_Modify(actionEnv, iterated_iter_0);
@@ -16896,7 +16896,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleContainedPackagesOrClasses.Match_MultipleContainedPackagesOrClasses subpattern_mpc = curMatch.@_mpc;
 			graph.SettingAddedNodeNames( emitSpanningTree_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			{ // [@2826,276:283='emithere',<46>,16:3]
+			{ // [@2826,276:283='emithere',<47>,16:3]
 			procEnv.EmitWriter.Write("package ");
 			procEnv.EmitWriter.Write(inode_p.@name);
 			procEnv.EmitWriter.Write("\n{\n");
@@ -16904,7 +16904,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			{ // mpc
 			Pattern_MultipleContainedPackagesOrClasses.Instance.MultipleContainedPackagesOrClasses_Modify(actionEnv, subpattern_mpc);
 			}
-			{ // [@2845,330:337='emithere',<46>,18:3]
+			{ // [@2845,330:337='emithere',<47>,18:3]
 			procEnv.EmitWriter.Write("}\n");
 			}
 			graph.SettingAddedEdgeNames( emitSpanningTree_iter_0_addedEdgeNames );
@@ -21617,19 +21617,19 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@expression edge__edge4 = GRGEN_MODEL.@expression.CreateEdge(graph, node__node1, node__node2);
 			GRGEN_MODEL.@link edge__edge5 = GRGEN_MODEL.@link.CreateEdge(graph, node__node2, node_v);
 			{ // eval_0
-			string tempvar_0 = var_name;
+			string tempvar_0 = (string )var_name;
 			graph.ChangingNodeAttribute(node_op, GRGEN_MODEL.NodeType_Operation.AttributeType_name, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			node_op.@name = tempvar_0;
-			string tempvar_1 = "public";
+			string tempvar_1 = (string )"public";
 			graph.ChangingNodeAttribute(node_op, GRGEN_MODEL.NodeType_Operation.AttributeType_visibility, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			node_op.@visibility = tempvar_1;
-			bool tempvar_2 = false;
+			bool tempvar_2 = (bool )false;
 			graph.ChangingNodeAttribute(node_op, GRGEN_MODEL.NodeType_Operation.AttributeType_isAbstract, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_2, null);
 			node_op.@isAbstract = tempvar_2;
-			bool tempvar_3 = var_isStatic;
+			bool tempvar_3 = (bool )var_isStatic;
 			graph.ChangingNodeAttribute(node_op, GRGEN_MODEL.NodeType_Operation.AttributeType_isStatic, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_3, null);
 			node_op.@isStatic = tempvar_3;
-			bool tempvar_4 = false;
+			bool tempvar_4 = (bool )false;
 			graph.ChangingNodeAttribute(node_op, GRGEN_MODEL.NodeType_Operation.AttributeType_isFinal, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_4, null);
 			node_op.@isFinal = tempvar_4;
 			}
@@ -21946,19 +21946,19 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@expression edge__edge8 = GRGEN_MODEL.@expression.CreateEdge(graph, node_u, node__node1);
 			GRGEN_MODEL.@link edge__edge9 = GRGEN_MODEL.@link.CreateEdge(graph, node__node1, node_p);
 			{ // eval_0
-			string tempvar_0 = var_name;
+			string tempvar_0 = (string )var_name;
 			graph.ChangingNodeAttribute(node_op, GRGEN_MODEL.NodeType_Operation.AttributeType_name, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			node_op.@name = tempvar_0;
-			string tempvar_1 = "public";
+			string tempvar_1 = (string )"public";
 			graph.ChangingNodeAttribute(node_op, GRGEN_MODEL.NodeType_Operation.AttributeType_visibility, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			node_op.@visibility = tempvar_1;
-			bool tempvar_2 = false;
+			bool tempvar_2 = (bool )false;
 			graph.ChangingNodeAttribute(node_op, GRGEN_MODEL.NodeType_Operation.AttributeType_isAbstract, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_2, null);
 			node_op.@isAbstract = tempvar_2;
-			bool tempvar_3 = var_isStatic;
+			bool tempvar_3 = (bool )var_isStatic;
 			graph.ChangingNodeAttribute(node_op, GRGEN_MODEL.NodeType_Operation.AttributeType_isStatic, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_3, null);
 			node_op.@isStatic = tempvar_3;
-			bool tempvar_4 = false;
+			bool tempvar_4 = (bool )false;
 			graph.ChangingNodeAttribute(node_op, GRGEN_MODEL.NodeType_Operation.AttributeType_isFinal, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_4, null);
 			node_op.@isFinal = tempvar_4;
 			}
@@ -22243,7 +22243,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( changeVisibility_addedNodeNames );
 			graph.SettingAddedEdgeNames( changeVisibility_addedEdgeNames );
 			{ // eval_0
-			string tempvar_0 = "private";
+			string tempvar_0 = (string )"private";
 			graph.ChangingNodeAttribute(node_v, GRGEN_MODEL.NodeType_Variable.AttributeType_visibility, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_v.@visibility = tempvar_0;
 			}
