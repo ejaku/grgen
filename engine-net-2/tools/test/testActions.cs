@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun May 05 20:06:30 CEST 2013
+// Generated from "test.grg" on Mon May 20 22:30:44 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -132,13 +132,13 @@ namespace de.unika.ipd.grGen.Action_test
 			GRGEN_MODEL.ID11_2221 inode_mre = (GRGEN_MODEL.ID11_2221) node_mre;
 			graph.SettingAddedEdgeNames( testRule_addedEdgeNames );
 			{ // eval_0
-			int tempvar_0 = 1234;
+			int tempvar_0 = (int )1234;
 			graph.ChangingNodeAttribute(node_are, GRGEN_MODEL.NodeType_D2211_2222_31.AttributeType_d2211_2222_31, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_are.@d2211_2222_31 = tempvar_0;
-			int tempvar_1 = 5678;
+			int tempvar_1 = (int )5678;
 			graph.ChangingNodeAttribute(node_fre, GRGEN_MODEL.NodeType_D231_4121.AttributeType_d231_4121, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			inode_fre.@d231_4121 = tempvar_1;
-			int tempvar_2 = 9012;
+			int tempvar_2 = (int )9012;
 			graph.ChangingNodeAttribute(node_mre, GRGEN_MODEL.NodeType_D11_2221.AttributeType_d11_2221, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_2, null);
 			inode_mre.@d11_2221 = tempvar_2;
 			}

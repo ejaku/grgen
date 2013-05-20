@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun May 05 20:06:29 CEST 2013
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon May 20 22:29:50 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -421,10 +421,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			graph.SettingAddedNodeNames( TakeFood_addedNodeNames );
 			graph.SettingAddedEdgeNames( TakeFood_addedEdgeNames );
 			{ // eval_0
-			bool tempvar_0 = true;
+			bool tempvar_0 = (bool )true;
 			graph.ChangingNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_curAnt.@hasFood = tempvar_0;
-			int tempvar_1 = (inode_n.@food - 1);
+			int tempvar_1 = (int )(inode_n.@food - 1);
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			inode_n.@food = tempvar_1;
 			}
@@ -727,7 +727,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			graph.SettingAddedEdgeNames( GoHome_addedEdgeNames );
 			GRGEN_MODEL.@AntPosition edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_curAnt, node_new);
 			{ // eval_0
-			int tempvar_0 = (inode_old.@pheromones + 1024);
+			int tempvar_0 = (int )(inode_old.@pheromones + 1024);
 			graph.ChangingNodeAttribute(node_old, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_old.@pheromones = tempvar_0;
 			}
@@ -1027,10 +1027,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			graph.SettingAddedNodeNames( DropFood_addedNodeNames );
 			graph.SettingAddedEdgeNames( DropFood_addedEdgeNames );
 			{ // eval_0
-			bool tempvar_0 = false;
+			bool tempvar_0 = (bool )false;
 			graph.ChangingNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_curAnt.@hasFood = tempvar_0;
-			int tempvar_1 = (inode_hill.@food + 1);
+			int tempvar_1 = (int )(inode_hill.@food + 1);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			inode_hill.@food = tempvar_1;
 			}
@@ -2891,10 +2891,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			graph.SettingAddedNodeNames( GrowFoodIfEqual_addedNodeNames );
 			graph.SettingAddedEdgeNames( GrowFoodIfEqual_addedEdgeNames );
 			{ // eval_0
-			int tempvar_0 = (inode_n.@food + 100);
+			int tempvar_0 = (int )(inode_n.@food + 100);
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_n.@food = tempvar_0;
-			int tempvar_1 = (inode_hill.@foodCountdown + 10);
+			int tempvar_1 = (int )(inode_hill.@foodCountdown + 10);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			inode_hill.@foodCountdown = tempvar_1;
 			}
@@ -3192,7 +3192,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.@GridEdge edge__edge4 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer1, node_outer2);
 			GRGEN_MODEL.@GridEdge edge__edge5 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer2, node_outer3);
 			{ // eval_0
-			int tempvar_0 = (inode_hill.@foodCountdown - 3);
+			int tempvar_0 = (int )(inode_hill.@foodCountdown - 3);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_hill.@foodCountdown = tempvar_0;
 			}
@@ -3558,7 +3558,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			graph.SettingAddedEdgeNames( GrowWorldFirstNotAtCorner_addedEdgeNames );
 			GRGEN_MODEL.@PathToHill edge__edge1 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer, node_cur);
 			{ // eval_0
-			int tempvar_0 = (inode_hill.@foodCountdown - 1);
+			int tempvar_0 = (int )(inode_hill.@foodCountdown - 1);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_hill.@foodCountdown = tempvar_0;
 			}
@@ -3946,7 +3946,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.@GridEdge edge__edge5 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer1, node_outer2);
 			GRGEN_MODEL.@GridEdge edge__edge6 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer2, node_outer3);
 			{ // eval_0
-			int tempvar_0 = (inode_hill.@foodCountdown - 3);
+			int tempvar_0 = (int )(inode_hill.@foodCountdown - 3);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_hill.@foodCountdown = tempvar_0;
 			}
@@ -4540,7 +4540,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.@PathToHill edge__edge1 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer, node_cur);
 			GRGEN_MODEL.@GridEdge edge__edge2 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_curOuter, node_outer);
 			{ // eval_0
-			int tempvar_0 = (inode_hill.@foodCountdown - 1);
+			int tempvar_0 = (int )(inode_hill.@foodCountdown - 1);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_hill.@foodCountdown = tempvar_0;
 			}
@@ -5580,7 +5580,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.@NextAnt edge__edge0 = GRGEN_MODEL.@NextAnt.CreateEdge(graph, node_lastAnt, node_newAnt);
 			GRGEN_MODEL.@AntPosition edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_newAnt, node_hill);
 			{ // eval_0
-			int tempvar_0 = (inode_hill.@food - 1);
+			int tempvar_0 = (int )(inode_hill.@food - 1);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_hill.@food = tempvar_0;
 			}
@@ -5841,7 +5841,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			graph.SettingAddedNodeNames( EvaporateWorld_addedNodeNames );
 			graph.SettingAddedEdgeNames( EvaporateWorld_addedEdgeNames );
 			{ // eval_0
-			int tempvar_0 = ((int) (((double) inode_n.@pheromones) * 0.95));
+			int tempvar_0 = (int )((int) (((double) inode_n.@pheromones) * 0.95));
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_n.@pheromones = tempvar_0;
 			}
