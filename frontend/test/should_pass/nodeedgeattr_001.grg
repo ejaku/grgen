@@ -1,0 +1,35 @@
+using model_init;
+
+rule r
+{
+	n:Node -e:Edge->;
+	na:A;
+	ncc:CC -ee:EE->;
+
+	if { na.n != n; }
+	if { na.e != e; }
+	if { na.na != na; }
+	if { na.ncc != ncc; }
+	if { na.ee != ee; }
+
+	if ( na.m["foo"] == n );
+	if ( na.ar[42] == n );
+	if ( na.de[42] == na );
+	if ( na.mm[ncc] == ee );
+	if ( na.mm[na.ncc] == na.ee );
+		
+	modify {
+		eval { na.n = n; }
+		eval { na.e = e; }
+		eval { na.na = na; }
+		eval { na.ncc = ncc; }
+		eval { na.ee = ee; }
+		
+		eval { na.m["foo"] = n; }
+		eval { na.ar[42] = n; }
+		eval { na.de[42] = na; } 
+		eval { na.mm[ncc] = ee; }
+		eval { na.mm[na.ncc] = na.ee; }
+	}
+}
+

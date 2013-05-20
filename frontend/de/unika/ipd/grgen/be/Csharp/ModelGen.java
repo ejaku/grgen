@@ -607,7 +607,8 @@ public class ModelGen extends CSharpBase {
 					sb.append("0l;\n");
 				} else if(t instanceof BooleanType) {
 					sb.append("false;\n");
-				} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalType || t instanceof GraphType) {
+				} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType 
+						|| t instanceof ExternalType || t instanceof GraphType || t instanceof InheritanceType) {
 					sb.append("null;\n");
 				} else {
 					throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
