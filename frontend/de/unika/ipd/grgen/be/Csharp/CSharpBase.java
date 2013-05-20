@@ -1239,14 +1239,14 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof ExternalFunctionInvocationExpr) {
 			ExternalFunctionInvocationExpr efi = (ExternalFunctionInvocationExpr)expr;
-			sb.append("GRGEN_EXPR.ExternalFunctions." + efi.getExternalFunc().getIdent() + "(");
+			sb.append("GRGEN_EXPR.ExternalFunctions." + efi.getExternalFunc().getIdent() + "(actionEnv, graph");
 			for(int i=0; i<efi.arity(); ++i) {
+				sb.append(", ");
 				Expression argument = efi.getArgument(i);
 				if(argument.getType() instanceof InheritanceType) {
 					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
 				}
 				genExpression(sb, argument, modifyGenerationState);
-				if(i+1 < efi.arity()) sb.append(", ");
 			}
 			sb.append(")");
 		}

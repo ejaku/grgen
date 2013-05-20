@@ -2078,12 +2078,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private void genExternalFunctionHeaders() {
 		for(ExternalFunction ef : model.getExternalFunctions()) {
 			Type returnType = ef.getReturnType();
-			sb.append("\t\t//public static " + formatType(returnType) + " " + ef.getName() + "(");
-			boolean first = true;
+			sb.append("\t\t//public static " + formatType(returnType) + " " + ef.getName() + "(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph");
 			for(Type paramType : ef.getParameterTypes()) {
-				if(!first) sb.append(", ");
+				sb.append(", ");
 				sb.append(formatType(paramType));
-				first = false;
 			}
 			sb.append(");\n");
 		}

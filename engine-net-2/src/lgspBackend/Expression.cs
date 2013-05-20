@@ -3065,13 +3065,14 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_EXPR.ExternalFunctions." + FunctionName + "(");
+            sourceCode.Append("GRGEN_EXPR.ExternalFunctions." + FunctionName + "(actionEnv, graph");
             for(int i=0; i<Arguments.Length; ++i)
             {
+                sourceCode.Append(", ");
                 Expression argument = Arguments[i];
-                if(ArgumentTypes[i]!=null) sourceCode.Append("("+ArgumentTypes[i]+")");
+                if(ArgumentTypes[i]!=null) 
+                    sourceCode.Append("("+ArgumentTypes[i]+")");
                 argument.Emit(sourceCode);
-                if(i+1<Arguments.Length) sourceCode.Append(", ");
             }
             sourceCode.Append(")");
         }
