@@ -57,14 +57,18 @@ namespace de.unika.ipd.grGen.lgsp
         {
             SwitchingToSubgraph(newGraph);
             usedGraphs.Push((LGSPGraph)newGraph);
+            namedGraphOnTop = newGraph as LGSPNamedGraph;
         }
 
         public IGraph ReturnFromSubgraph()
         {
             IGraph oldGraph = usedGraphs.Pop();
+            namedGraphOnTop = usedGraphs.Peek() as LGSPNamedGraph;
             ReturnedFromSubgraph(oldGraph);
             return oldGraph;
         }
+
+        public bool IsInSubgraph { get { return usedGraphs.Count > 1; } }
 
         void RemovingNodeListener(INode node)
         {

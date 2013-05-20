@@ -25,6 +25,8 @@ namespace de.unika.ipd.grGen.lgsp
         private Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
         public LGSPGraph graph { get { return usedGraphs.Peek(); } }
         protected Stack<LGSPGraph> usedGraphs;
+        public LGSPNamedGraph namedGraph { get { return namedGraphOnTop; } }
+        protected LGSPNamedGraph namedGraphOnTop;
         public LGSPActions curActions;
 
 
@@ -33,6 +35,7 @@ namespace de.unika.ipd.grGen.lgsp
             // TODO: evt. IGraph + BaseActions und dann hier cast auf LGSP, mal gucken was an Schnittstelle besser paﬂt
             this.usedGraphs = new Stack<LGSPGraph>();
             this.usedGraphs.Push(graph);
+            this.namedGraphOnTop = graph as LGSPNamedGraph;
             this.curActions = actions;
         }
 
@@ -46,8 +49,14 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     usedGraphs.Clear();
                     usedGraphs.Push((LGSPGraph)value);
+                    namedGraphOnTop = value as LGSPNamedGraph;
                 }
             }
+        }
+
+        public INamedGraph NamedGraph
+        {
+            get { return namedGraph; }
         }
 
         public BaseActions Actions

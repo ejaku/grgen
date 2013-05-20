@@ -303,6 +303,7 @@ TOKEN: {
 |   < IMPORT: "import" >
 |   < INCLUDE: "include" >
 |   < INFOTAG: "infotag" >
+|   < IN: "in" >
 |   < IO: "io" >
 |   < IS: "is" >
 |   < KEEPDEBUG: "keepdebug" >
@@ -1016,7 +1017,7 @@ bool ParseShellCommand():
 
 void ShellCommand():
 {
-	String str1, str2 = null, str3 = null;
+	String str1, str2 = null, str3 = null, graphName = null;
 	IGraphElement elem;
 	object obj, obj2;
 	INode node1, node2;
@@ -1108,6 +1109,16 @@ void ShellCommand():
     }
 |
 	"new" NewCommand()
+|
+	"add" "new" "graph" graphName=WordOrText() LineEnd()
+	{
+		noError = impl.AddNewGraph(graphName);
+	}
+|
+	"in" graphName=WordOrText() LineEnd()
+	{
+		noError = impl.ChangeGraph(graphName);
+	}
 |
 	"node" "type" node1=Node() "is" node2=Node() LineEnd()
 	{

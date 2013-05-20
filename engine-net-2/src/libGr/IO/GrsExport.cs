@@ -71,8 +71,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             // the name used for export, may be different from the real graph name
             // here we ensure the uniqueness needed for an export / for getting an importable serialization
-            public static Dictionary<INamedGraph, GraphExportContext> graphToContext = new Dictionary<INamedGraph, GraphExportContext>();
-            public static Dictionary<string, GraphExportContext> nameToContext = new Dictionary<string, GraphExportContext>();
+            public static Dictionary<INamedGraph, GraphExportContext> graphToContext = null;
+            public static Dictionary<string, GraphExportContext> nameToContext = null;
 
             public GraphExportContext(INamedGraph graph)
             {
@@ -109,6 +109,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="modelPathPrefix">Path to the model.</param>
         public static void ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix)
         {
+            GraphExportContext.graphToContext = new Dictionary<INamedGraph, GraphExportContext>();
+            GraphExportContext.nameToContext = new Dictionary<string, GraphExportContext>();
+
             GraphExportContext mainGraphContext = new GraphExportContext(graph);
             mainGraphContext.modelPathPrefix = modelPathPrefix;
             GraphExportContext.graphToContext[mainGraphContext.graph] = mainGraphContext;
@@ -138,13 +141,18 @@ restart:
                     GraphExportContext context = kvp.Value;
                     EmitSubgraphAttributes(context, sw);
                 }
+
+                sw.WriteLine("in \"" + mainGraphContext.name + "\""); // after import in main graph
             }
 
             sw.WriteLine("# end of graph \"{0}\" saved by GrsExport", mainGraphContext.name);
             sw.WriteLine();
+
+            GraphExportContext.graphToContext = null;
+            GraphExportContext.nameToContext = null;
         }
 
-        public static bool ExportSingleGraph(GraphExportContext context, StreamWriter sw)
+        private static bool ExportSingleGraph(GraphExportContext context, StreamWriter sw)
         {
             bool subgraphAdded = false;
 
@@ -277,7 +285,7 @@ restart:
                 return false;
         }
 
-        public static void EmitSubgraphAttributes(GraphExportContext context, StreamWriter sw)
+        private static void EmitSubgraphAttributes(GraphExportContext context, StreamWriter sw)
         {
             sw.WriteLine("in \"" + context.name + "\"");
 
@@ -412,7 +420,7 @@ restart:
             case AttributeKind.ObjectAttr:
                 return graph.Model.Serialize(value, type, graph);
             case AttributeKind.GraphAttr:
-                if(value != null)
+                if(value != null && GraphExportContext.graphToContext != null)
                     return "\"" + GraphExportContext.graphToContext[(INamedGraph)value].name + "\"";
                 else
                     return "null";
@@ -429,7 +437,7 @@ restart:
             }
         }
 
-        public static bool IsNodeOrEdgeUsedInAttribute(AttributeType attrType)
+        private static bool IsNodeOrEdgeUsedInAttribute(AttributeType attrType)
         {
             if(attrType.Kind == AttributeKind.NodeAttr
                 || attrType.Kind == AttributeKind.EdgeAttr)
@@ -453,7 +461,7 @@ restart:
             return false;
         }
 
-        public static bool IsGraphUsedInAttribute(AttributeType attrType)
+        private static bool IsGraphUsedInAttribute(AttributeType attrType)
         {
             if(attrType.Kind == AttributeKind.GraphAttr)
                 return true;
