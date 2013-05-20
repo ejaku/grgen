@@ -85,6 +85,9 @@ public class NameofNode extends ExprNode {
 	}
 	
 	public boolean noDefElementInCondition() {
-		return namedEntity.noDefElementInCondition();
+		if(namedEntity!=null)
+			return namedEntity.noDefElementInCondition();
+		else
+			return true;
 	}
 }
