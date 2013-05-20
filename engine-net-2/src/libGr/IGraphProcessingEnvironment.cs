@@ -68,16 +68,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The lastly used (sub)graph, now not used any more</returns>
         IGraph ReturnFromSubgraph();
 
+        /// <summary>
+        /// Returns true when graph processings is currently occuring inside a subgraph,
+        /// returns false when the main host graph is currently processed
+        /// (i.e. only one entry on the current graph stack is existing).
+        /// </summary>
+        bool IsInSubgraph { get; }
 
         /// <summary>
-        /// Returns the transaction manager of the graph.
-        /// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
+        /// Returns the transaction manager of the processing environment.
+        /// (Recording and undoing changes in the main graph and all processed subgraphs).
         /// Don't forget to call Commit after a transaction is finished!
         /// </summary>
         ITransactionManager TransactionManager { get; }
 
         /// <summary>
-        /// The recorder of the graph.
+        /// The recorder of the main graph (nested subgraphs are not supported).
         /// Might be null (is set if a named graph is available, then the persistent names are taken from the named graph).
         /// </summary>
         IRecorder Recorder { get; set; }

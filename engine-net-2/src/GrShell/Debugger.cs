@@ -191,7 +191,7 @@ namespace de.unika.ipd.grGen.grShell
 
             try
             {
-                ycompClient = new YCompClient(shellProcEnv.Graph, debugLayout, 20000, ycompPort, 
+                ycompClient = new YCompClient(shellProcEnv.ProcEnv.NamedGraph, debugLayout, 20000, ycompPort, 
                     shellProcEnv.DumpInfo, realizers);
             }
             catch(Exception ex)
@@ -199,7 +199,7 @@ namespace de.unika.ipd.grGen.grShell
                 throw new Exception("Unable to connect to yComp at port " + ycompPort + ": " + ex.Message);
             }
 
-            shellProcEnv.Graph.ReuseOptimization = false;
+            shellProcEnv.ProcEnv.NamedGraph.ReuseOptimization = false;
             NotifyOnConnectionLost = true;
 
             try
@@ -223,7 +223,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 if(!ycompClient.dumpInfo.IsExcludedGraph())
-                    UploadGraph(shellProcEnv.Graph);
+                    UploadGraph(shellProcEnv.ProcEnv.NamedGraph);
             }
             catch(OperationCanceledException)
             {
@@ -299,7 +299,7 @@ namespace de.unika.ipd.grGen.grShell
 
             UnregisterLibGrEvents();
 
-            shellProcEnv.Graph.ReuseOptimization = true;
+            shellProcEnv.ProcEnv.NamedGraph.ReuseOptimization = true;
             ycompClient.Close();
             ycompClient = null;
             viewerProcess.Close();
@@ -352,7 +352,7 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.ClearGraph();
                 shellProcEnv = value;
                 if(!ycompClient.dumpInfo.IsExcludedGraph())
-                    UploadGraph(shellProcEnv.Graph);
+                    UploadGraph(shellProcEnv.ProcEnv.NamedGraph);
                 RegisterLibGrEvents();
 
                 // TODO: reset any state when inside a rule debugging session
@@ -803,9 +803,9 @@ namespace de.unika.ipd.grGen.grShell
                     else
                     {
                         if(entry.Key is IGraphElement)
-                            HighlightSingleValue(entry.Key, name + ".Domain -> " + EmitHelper.ToString(entry.Value, shellProcEnv.Graph), addAnnotation);
+                            HighlightSingleValue(entry.Key, name + ".Domain -> " + EmitHelper.ToString(entry.Value, shellProcEnv.ProcEnv.NamedGraph), addAnnotation);
                         if(entry.Value is IGraphElement)
-                            HighlightSingleValue(entry.Value, EmitHelper.ToString(entry.Key, shellProcEnv.Graph) + " -> " + name + ".Range", addAnnotation);
+                            HighlightSingleValue(entry.Value, EmitHelper.ToString(entry.Key, shellProcEnv.ProcEnv.NamedGraph) + " -> " + name + ".Range", addAnnotation);
                     }
                 }
             }
@@ -861,14 +861,14 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(value is int)
             {
-                List<int> allocatedVisitedFlags = shellProcEnv.Graph.GetAllocatedVisitedFlags();
+                List<int> allocatedVisitedFlags = shellProcEnv.ProcEnv.NamedGraph.GetAllocatedVisitedFlags();
                 if(allocatedVisitedFlags.Contains((int)value))
                 {
-                    foreach(INode node in shellProcEnv.Graph.Nodes)
-                        if(shellProcEnv.Graph.IsVisited(node, (int)value))
+                    foreach(INode node in shellProcEnv.ProcEnv.NamedGraph.Nodes)
+                        if(shellProcEnv.ProcEnv.NamedGraph.IsVisited(node, (int)value))
                             HighlightNode(node, "visited[" + name + "]", addAnnotation);
-                    foreach(IEdge edge in shellProcEnv.Graph.Edges)
-                        if(shellProcEnv.Graph.IsVisited(edge, (int)value))
+                    foreach(IEdge edge in shellProcEnv.ProcEnv.NamedGraph.Edges)
+                        if(shellProcEnv.ProcEnv.NamedGraph.IsVisited(edge, (int)value))
                             HighlightEdge(edge, "visited[" + name + "]", addAnnotation);
                 }
                 else
@@ -1696,13 +1696,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
                     else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
                     else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -1714,13 +1714,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
                     else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
                     else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.Graph);
+                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -1728,7 +1728,7 @@ namespace de.unika.ipd.grGen.grShell
 
         void PrintVisited()
         {
-            List<int> allocatedVisitedFlags = shellProcEnv.Graph.GetAllocatedVisitedFlags();
+            List<int> allocatedVisitedFlags = shellProcEnv.ProcEnv.NamedGraph.GetAllocatedVisitedFlags();
             Console.Write("Allocated visited flags are: ");
             bool first = true;
             foreach(int allocatedVisitedFlag in allocatedVisitedFlags)
@@ -3096,7 +3096,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             ycompClient.ClearGraph();
             if(!ycompClient.dumpInfo.IsExcludedGraph())
-                UploadGraph(shellProcEnv.Graph);
+                UploadGraph(shellProcEnv.ProcEnv.NamedGraph);
         }
 
         void DebugOnConnectionLost()
@@ -3110,17 +3110,17 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         void RegisterLibGrEvents()
         {
-            shellProcEnv.Graph.OnNodeAdded += DebugNodeAdded;
-            shellProcEnv.Graph.OnEdgeAdded += DebugEdgeAdded;
-            shellProcEnv.Graph.OnRemovingNode += DebugDeletingNode;
-            shellProcEnv.Graph.OnRemovingEdge += DebugDeletingEdge;
-            shellProcEnv.Graph.OnClearingGraph += DebugClearingGraph;
-            shellProcEnv.Graph.OnChangingNodeAttribute += DebugChangingNodeAttribute;
-            shellProcEnv.Graph.OnChangingEdgeAttribute += DebugChangingEdgeAttribute;
-            shellProcEnv.Graph.OnRetypingNode += DebugRetypingElement;
-            shellProcEnv.Graph.OnRetypingEdge += DebugRetypingElement;
-            shellProcEnv.Graph.OnSettingAddedNodeNames += DebugSettingAddedNodeNames;
-            shellProcEnv.Graph.OnSettingAddedEdgeNames += DebugSettingAddedEdgeNames;
+            shellProcEnv.ProcEnv.NamedGraph.OnNodeAdded += DebugNodeAdded;
+            shellProcEnv.ProcEnv.NamedGraph.OnEdgeAdded += DebugEdgeAdded;
+            shellProcEnv.ProcEnv.NamedGraph.OnRemovingNode += DebugDeletingNode;
+            shellProcEnv.ProcEnv.NamedGraph.OnRemovingEdge += DebugDeletingEdge;
+            shellProcEnv.ProcEnv.NamedGraph.OnClearingGraph += DebugClearingGraph;
+            shellProcEnv.ProcEnv.NamedGraph.OnChangingNodeAttribute += DebugChangingNodeAttribute;
+            shellProcEnv.ProcEnv.NamedGraph.OnChangingEdgeAttribute += DebugChangingEdgeAttribute;
+            shellProcEnv.ProcEnv.NamedGraph.OnRetypingNode += DebugRetypingElement;
+            shellProcEnv.ProcEnv.NamedGraph.OnRetypingEdge += DebugRetypingElement;
+            shellProcEnv.ProcEnv.NamedGraph.OnSettingAddedNodeNames += DebugSettingAddedNodeNames;
+            shellProcEnv.ProcEnv.NamedGraph.OnSettingAddedEdgeNames += DebugSettingAddedEdgeNames;
 
             shellProcEnv.ProcEnv.OnMatched += DebugMatched;
             shellProcEnv.ProcEnv.OnRewritingNextMatch += DebugNextMatch;
@@ -3137,17 +3137,17 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         void UnregisterLibGrEvents()
         {
-            shellProcEnv.Graph.OnNodeAdded -= DebugNodeAdded;
-            shellProcEnv.Graph.OnEdgeAdded -= DebugEdgeAdded;
-            shellProcEnv.Graph.OnRemovingNode -= DebugDeletingNode;
-            shellProcEnv.Graph.OnRemovingEdge -= DebugDeletingEdge;
-            shellProcEnv.Graph.OnClearingGraph -= DebugClearingGraph;
-            shellProcEnv.Graph.OnChangingNodeAttribute -= DebugChangingNodeAttribute;
-            shellProcEnv.Graph.OnChangingEdgeAttribute -= DebugChangingEdgeAttribute;
-            shellProcEnv.Graph.OnRetypingNode -= DebugRetypingElement;
-            shellProcEnv.Graph.OnRetypingEdge -= DebugRetypingElement;
-            shellProcEnv.Graph.OnSettingAddedNodeNames -= DebugSettingAddedNodeNames;
-            shellProcEnv.Graph.OnSettingAddedEdgeNames -= DebugSettingAddedEdgeNames;
+            shellProcEnv.ProcEnv.NamedGraph.OnNodeAdded -= DebugNodeAdded;
+            shellProcEnv.ProcEnv.NamedGraph.OnEdgeAdded -= DebugEdgeAdded;
+            shellProcEnv.ProcEnv.NamedGraph.OnRemovingNode -= DebugDeletingNode;
+            shellProcEnv.ProcEnv.NamedGraph.OnRemovingEdge -= DebugDeletingEdge;
+            shellProcEnv.ProcEnv.NamedGraph.OnClearingGraph -= DebugClearingGraph;
+            shellProcEnv.ProcEnv.NamedGraph.OnChangingNodeAttribute -= DebugChangingNodeAttribute;
+            shellProcEnv.ProcEnv.NamedGraph.OnChangingEdgeAttribute -= DebugChangingEdgeAttribute;
+            shellProcEnv.ProcEnv.NamedGraph.OnRetypingNode -= DebugRetypingElement;
+            shellProcEnv.ProcEnv.NamedGraph.OnRetypingEdge -= DebugRetypingElement;
+            shellProcEnv.ProcEnv.NamedGraph.OnSettingAddedNodeNames -= DebugSettingAddedNodeNames;
+            shellProcEnv.ProcEnv.NamedGraph.OnSettingAddedEdgeNames -= DebugSettingAddedEdgeNames;
 
             shellProcEnv.ProcEnv.OnMatched -= DebugMatched;
             shellProcEnv.ProcEnv.OnRewritingNextMatch -= DebugNextMatch;

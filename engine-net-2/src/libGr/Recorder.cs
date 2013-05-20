@@ -118,12 +118,17 @@ namespace de.unika.ipd.grGen.libGr
             graph.OnChangingEdgeAttribute += ChangingAttribute;
             graph.OnRetypingNode += RetypingNode;
             graph.OnRetypingEdge += RetypingEdge;
+            graph.OnVisitedAlloc += VisitedAlloc;
+            graph.OnVisitedFree += VisitedFree;
+            graph.OnSettingVisited += SettingVisited;
 
             if(procEnv != null)
             {
                 procEnv.OnFinishing += BeforeFinish;
                 procEnv.OnRewritingNextMatch += RewriteNextMatch;
                 procEnv.OnFinished += AfterFinish;
+                procEnv.OnSwitchingToSubgraph += SwitchToGraph;
+                procEnv.OnReturnedFromSubgraph += ReturnFromGraph;
             }
         }
 
@@ -137,12 +142,17 @@ namespace de.unika.ipd.grGen.libGr
             graph.OnChangingEdgeAttribute -= ChangingAttribute;
             graph.OnRetypingNode -= RetypingNode;
             graph.OnRetypingEdge -= RetypingEdge;
+            graph.OnVisitedAlloc -= VisitedAlloc;
+            graph.OnVisitedFree -= VisitedFree;
+            graph.OnSettingVisited -= SettingVisited;
 
             if(procEnv != null)
             {
                 procEnv.OnFinishing -= BeforeFinish;
                 procEnv.OnRewritingNextMatch += RewriteNextMatch;
                 procEnv.OnFinished -= AfterFinish;
+                procEnv.OnSwitchingToSubgraph -= SwitchToGraph;
+                procEnv.OnReturnedFromSubgraph -= ReturnFromGraph;
             }
         }
 
@@ -188,6 +198,28 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(StreamWriter writer in recordings.Values)
                 writer.WriteLine("delete edge @(\"" + graph.GetElementName(edge) + "\")");
+        }
+
+        /// <summary>
+        /// Event handler for IGraph.OnRetypingNode.
+        /// </summary>
+        /// <param name="oldNode">The node to be retyped.</param>
+        /// <param name="newNode">The new node with the common attributes, but without the correct connections, yet.</param>
+        void RetypingNode(INode oldNode, INode newNode)
+        {
+            foreach(StreamWriter writer in recordings.Values)
+                writer.WriteLine("retype @(\"" + graph.GetElementName(oldNode) + "\")<" + newNode.Type.Name + ">");
+        }
+
+        /// <summary>
+        /// Event handler for IGraph.OnRetypingEdge.
+        /// </summary>
+        /// <param name="oldEdge">The edge to be retyped.</param>
+        /// <param name="newEdge">The new edge with the common attributes, but without the correct connections, yet.</param>
+        void RetypingEdge(IEdge oldEdge, IEdge newEdge)
+        {
+            foreach(StreamWriter writer in recordings.Values)
+                writer.WriteLine("retype -@(\"" + graph.GetElementName(oldEdge) + "\")<" + newEdge.Type.Name + ">->");
         }
 
         /// <summary>
@@ -327,26 +359,24 @@ namespace de.unika.ipd.grGen.libGr
                 }
         }
 
-        /// <summary>
-        /// Event handler for IGraph.OnRetypingNode.
-        /// </summary>
-        /// <param name="oldNode">The node to be retyped.</param>
-        /// <param name="newNode">The new node with the common attributes, but without the correct connections, yet.</param>
-        void RetypingNode(INode oldNode, INode newNode)
+        ////////////////////////////////////////////////////////////////////////
+        
+        public void VisitedAlloc(int visitorID)
         {
             foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("retype @(\"" + graph.GetElementName(oldNode) + "\")<" + newNode.Type.Name + ">");
+                writer.WriteLine("# valloc " + visitorID);
         }
 
-        /// <summary>
-        /// Event handler for IGraph.OnRetypingEdge.
-        /// </summary>
-        /// <param name="oldEdge">The edge to be retyped.</param>
-        /// <param name="newEdge">The new edge with the common attributes, but without the correct connections, yet.</param>
-        void RetypingEdge(IEdge oldEdge, IEdge  newEdge)
+        public void VisitedFree(int visitorID)
         {
             foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("retype -@(\"" + graph.GetElementName(oldEdge) + "\")<" + newEdge.Type.Name + ">->");
+                writer.WriteLine("# vfree " + visitorID);
+        }
+
+        public void SettingVisited(IGraphElement elem, int visitorID, bool newValue)
+        {
+            foreach(StreamWriter writer in recordings.Values)
+                writer.WriteLine("# visited[" + visitorID + "] = " + newValue);
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -367,6 +397,29 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(StreamWriter writer in recordings.Values)
                 writer.WriteLine("# ..rewritten " + matches.Producer.Name);
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+
+        // a record/replay working with subgraphs would require:
+        // - globally uniquely named subgraphs
+        //    (that's only ensured at export time as of now)
+        // - notifications about the creation of new subgraphs 
+        //    (so we can emit add new graph for the ones created after recording start, but not the ones that already existed)
+        // thus we only give some hints on subgraphs in the recordings, rendering them unreplayable
+
+        public void SwitchToGraph(IGraph newGraph)
+        {
+            IGraph oldGraph = procEnv.Graph;
+            foreach(StreamWriter writer in recordings.Values)
+                writer.WriteLine("in \"" + newGraph.Name + "\" # due to switch, before: " + oldGraph.Name);
+        }
+
+        public void ReturnFromGraph(IGraph oldGraph)
+        {
+            IGraph newGraph = procEnv.Graph;
+            foreach(StreamWriter writer in recordings.Values)
+                writer.WriteLine("in \"" + newGraph.Name + "\" # due to return, before: " + oldGraph.Name);
         }
 
         ////////////////////////////////////////////////////////////////////////

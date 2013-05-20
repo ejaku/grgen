@@ -59,6 +59,12 @@ namespace de.unika.ipd.grGen.libGr
         IGraph Graph { get; set; }
 
         /// <summary>
+        /// Returns the named graph currently focused in processing / sequence execution.
+        /// Returns null if this graph is not a named but an unnamed graph.
+        /// </summary>
+        INamedGraph NamedGraph { get; }
+
+        /// <summary>
         /// The actions employed by this graph processing environment
         /// </summary>
         BaseActions Actions { get; set; }
