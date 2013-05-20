@@ -172,28 +172,30 @@ namespace de.unika.ipd.grGen.expression
 
 	public partial class ExternalFunctions
 	{
+        /*
         static GRGEN_MODEL.ExternalAttributeEvaluationGraph graph;
 
         public static void setGraph(GRGEN_MODEL.ExternalAttributeEvaluationGraph graph_)
         {
             graph = graph_;
         }
+        */
 
         ////////////////////////////////////////////////////////////////////
 
-        public static GRGEN_MODEL.Own own()
+        public static GRGEN_MODEL.Own own(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph)
         {
             return new GRGEN_MODEL.Own();
         }
 
-        public static GRGEN_MODEL.OwnPown ownPown()
+        public static GRGEN_MODEL.OwnPown ownPown(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_MODEL.OwnPown op = new GRGEN_MODEL.OwnPown();
             op.ehe = "hahaha";
             return op;
         }
 
-        public static GRGEN_MODEL.OwnPownHome ownPownHome()
+        public static GRGEN_MODEL.OwnPownHome ownPownHome(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_MODEL.OwnPownHome oph = new GRGEN_MODEL.OwnPownHome();
             oph.ehe = "hahaha";
