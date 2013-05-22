@@ -858,9 +858,9 @@ ShellGraphProcessingEnvironment Graph():
 }
 {
     (
-        index=Number() { return impl.GetShellGraph(index); }
+        index=Number() { return impl.GetShellGraphProcEnv(index); }
     |
-	    str=WordOrText() { return impl.GetShellGraph(str); }
+	    str=WordOrText() { return impl.GetShellGraphProcEnv(str); }
 	)
 }
 
@@ -1585,7 +1585,7 @@ void SelectCommand():
 		"graph" shellGraph=Graph() LineEnd()
 		{
 			if(shellGraph == null) noError = false;
-			else impl.SelectGraph(shellGraph);
+			else impl.SelectShellGraphProcEnv(shellGraph);
 		}
 	|
 		"actions" str=Filename() LineEnd()
