@@ -232,8 +232,13 @@ textActions returns [ UnitNode main = null ]
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isEmitClassDefined |= modelChild.IsEmitClassDefined();
 				}
+				boolean isCopyClassDefined = false;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					isCopyClassDefined |= modelChild.IsCopyClassDefined();
+				}
 				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(), 
-						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, isEmitClassDefined);
+						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, 
+						isEmitClassDefined, isCopyClassDefined);
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
@@ -2261,23 +2266,25 @@ textTypes returns [ ModelNode model = null ]
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
 		)?
 		( usingDecl[modelChilds] )?
-		isEmitClassDefined = typeDecls[types, externalFuncs, externalProcs] EOF
+		specialClasses = typeDecls[types, externalFuncs, externalProcs] EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
-			model = new ModelNode(id, types, externalFuncs, externalProcs, modelChilds, isEmitClassDefined);
+			model = new ModelNode(id, types, externalFuncs, externalProcs, modelChilds, specialClasses.isEmitClassDefined, specialClasses.isCopyClassDefined);
 		}
 	;
 
 typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,  CollectNode<IdentNode> externalProcs ]
-	returns [ boolean isEmitClassDefined = false; ]
+	returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false; ]
 	: (
 		type=typeDecl { types.addChild(type); }
 	  |
 		id=funcOrExtFuncIdentDecl params=paramTypes
 		externalFunctionOrProcedureDecl[id, params, externalFuncs, externalProcs]
 	  |
-	    EMIT CLASS SEMI { isEmitClassDefined = true; }
+	    EMIT CLASS SEMI { $isEmitClassDefined = true; }
+	  |
+	    COPY CLASS SEMI { $isCopyClassDefined = true; }
 	  )*
 	;
 

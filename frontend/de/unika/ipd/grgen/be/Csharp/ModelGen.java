@@ -108,11 +108,13 @@ public class ModelGen extends CSharpBase {
 		
 		///////////////////////////////////////////////////////////////////////////////////////////
 		// generate the external functions and types stub file
-		// only if there are external functions or external procedures or external types required or the emit class is to be generated
+		// only if there are external functions or external procedures or external types required 
+		// or the emit class is to be generated or the copy class is to be generated
 		if(model.getExternalTypes().isEmpty() 
 				&& model.getExternalFunctions().isEmpty()
 				&& model.getExternalProcedures().isEmpty()
-				&& !model.isEmitClassDefined())
+				&& !model.isEmitClassDefined()
+				&& !model.isCopyClassDefined())
 			return;
 
 		filename = model.getIdent() + "ModelExternalFunctions.cs";
@@ -141,6 +143,9 @@ public class ModelGen extends CSharpBase {
 
 			if(model.isEmitClassDefined())
 				genEmitterParserClass();
+
+			if(model.isCopyClassDefined())
+				genCopierComparerClass();
 
 			sb.append("}\n");
 		}
@@ -448,6 +453,10 @@ public class ModelGen extends CSharpBase {
 					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
 				routedSB.append("\t\t\t" + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
 						+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
+			} else if(model.isCopyClassDefined()
+					&& (member.getType().classify() == Type.IS_EXTERNAL_TYPE
+							|| member.getType().classify() == Type.IS_OBJECT)) {
+				routedSB.append("\t\t\tAttributeTypeObjectCopierComparer.Copy(" + "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
 			} else {
 				routedSB.append("\t\t\t" + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
 			}
@@ -467,6 +476,11 @@ public class ModelGen extends CSharpBase {
 			if(member.getType() instanceof MapType || member.getType() instanceof SetType 
 					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
 				routedSB.append("\t\t\t\t&& GRGEN_LIBGR.ContainerHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
+						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+			} else if(model.isCopyClassDefined()
+					&& (member.getType().classify() == Type.IS_EXTERNAL_TYPE
+							|| member.getType().classify() == Type.IS_OBJECT)) {
+				routedSB.append("\t\t\t\t&& AttributeTypeObjectCopierComparer.IsEqual(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else {
 				routedSB.append("\t\t\t\t&& " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " == that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");
@@ -2030,6 +2044,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t{\n");
 			sb.append("\t\t// You must implement this class in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n");
 			sb.append("\t}\n");
+			sb.append("\n");
 		}
 	}
 
@@ -2073,6 +2088,41 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t//return \"null\"; // default implementation\n");
 		sb.append("\t\t}\n");
 		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
+	private void genCopierComparerClass() {
+		sb.append("\tpublic partial class AttributeTypeObjectCopierComparer");
+		sb.append("\n");
+		sb.append("\t{\n");
+		sb.append("\t\t// You must implement the following functions in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n");
+		sb.append("\n");
+		sb.append("\t\t// Called during comparison of graph elements, as used from graph isomorphy comparison.\n");
+		sb.append("\t\t// For attribute type object.\n");
+		sb.append("\t\t// If \"copy class\" is not specified, objects are equal if they are identical,\n");
+		sb.append("\t\t// i.e. by-reference-equality (same pointer); all other attribute types are compared by-value.\n");
+		sb.append("\t\t//public static bool IsEqual(object, object);\n");
+		sb.append("\n");
+		sb.append("\t\t// Called when a graph element is cloned/copied.\n");
+		sb.append("\t\t// For attribute type object.\n");
+		sb.append("\t\t// If \"copy class\" is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.\n");
+		sb.append("\t\t// All other attribute types are copied by-value (so changing one later on has no effect on the other).\n");
+		sb.append("\t\t//public static object Copy(object);\n");
+		if(model.getExternalTypes().size() > 0) {
+			sb.append("\n");
+			sb.append("\t\t// The same functions, just for each user defined type.\n");
+			sb.append("\t\t// Those are normally treated as object (if no \"copy class\" is specified),\n");
+			sb.append("\t\t// i.e. equal if identical references, and copy just copies the reference (making them identical).\n");
+			sb.append("\t\t// Here you can overwrite the default reference semantics with value semantics, fitting better to the other attribute types.\n");
+			for(ExternalType et : model.getExternalTypes()) {
+				String typeName = et.getIdent().toString();
+				sb.append("\n");
+				sb.append("\t\t//public static bool IsEqual(" + typeName + ", " + typeName + ");\n");
+				sb.append("\t\t//public static " + typeName + " Copy(" + typeName + ");\n");
+			}
+		}
+		sb.append("\t}\n");
+		sb.append("\n");
 	}
 
 	private void genExternalFunctionHeaders() {

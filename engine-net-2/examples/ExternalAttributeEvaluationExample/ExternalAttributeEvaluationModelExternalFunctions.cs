@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalAttributeEvaluation.grg" on Mon May 20 22:27:00 CEST 2013
+// Generated from "ExternalAttributeEvaluation.grg" on Wed May 22 00:34:09 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -14,14 +14,17 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	{
 		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
 	}
+
 	public partial class OwnPown : Own
 	{
 		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
 	}
+
 	public partial class OwnPownHome : OwnPown
 	{
 		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
 	}
+
 	public partial class AttributeTypeObjectEmitterParser
 	{
 		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
@@ -60,6 +63,35 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			//return "null"; // default implementation
 		}
 	}
+
+	public partial class AttributeTypeObjectCopierComparer
+	{
+		// You must implement the following functions in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
+
+		// Called during comparison of graph elements, as used from graph isomorphy comparison.
+		// For attribute type object.
+		// If "copy class" is not specified, objects are equal if they are identical (i.e. same reference/pointer).
+		//public static bool IsEqual(object, object);
+
+		// Called when a graph element is cloned/copied.
+		// For attribute type object.
+		// If "copy class" is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.
+		//public static object Copy(object);
+
+		// The same functions, just for each user defined type.
+		// Those are normally treated as object (if no "copy class" is specified).
+		// I.e. equal if identical references, and copy just copies the reference (making them identical).
+
+		//public static bool IsEqual(Own, Own);
+		//public static Own Copy(Own);
+
+		//public static bool IsEqual(OwnPown, OwnPown);
+		//public static OwnPown Copy(OwnPown);
+
+		//public static bool IsEqual(OwnPownHome, OwnPownHome);
+		//public static OwnPownHome Copy(OwnPownHome);
+	}
+
 }
 
 namespace de.unika.ipd.grGen.expression

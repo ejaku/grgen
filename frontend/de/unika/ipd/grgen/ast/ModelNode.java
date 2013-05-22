@@ -44,10 +44,12 @@ public class ModelNode extends DeclNode {
 	private CollectNode<IdentNode> externalProcDeclsUnresolved;
 	private ModelTypeNode type;
 	private boolean isEmitClassDefined;
+	private boolean isCopyClassDefined;
 
 	public ModelNode(IdentNode id, CollectNode<IdentNode> decls, 
 			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
-			CollectNode<ModelNode> usedModels, boolean isEmitClassDefined) {
+			CollectNode<ModelNode> usedModels, 
+			boolean isEmitClassDefined, boolean isCopyClassDefined) {
 		super(id, modelType);
 
 		this.declsUnresolved = decls;
@@ -59,6 +61,7 @@ public class ModelNode extends DeclNode {
 		this.usedModels = usedModels;
 		becomeParent(this.usedModels);
 		this.isEmitClassDefined = isEmitClassDefined;
+		this.isCopyClassDefined = isCopyClassDefined;
 	}
 
 	/** returns children of this node */
@@ -124,6 +127,10 @@ public class ModelNode extends DeclNode {
 		return isEmitClassDefined;
 	}
 
+	public boolean IsCopyClassDefined() {
+		return isCopyClassDefined;
+	}
+
 	/**
 	 * Get the IR model node for this AST node.
 	 * @return The model for this AST node.
@@ -140,7 +147,7 @@ public class ModelNode extends DeclNode {
 	@Override
 	protected Model constructIR() {
 		Ident id = ident.checkIR(Ident.class);
-		Model res = new Model(id, isEmitClassDefined);
+		Model res = new Model(id, isEmitClassDefined, isCopyClassDefined);
 		for(ModelNode model : usedModels.getChildren())
 			res.addUsedModel(model.getModel());
 		for(TypeDeclNode typeDecl : decls.getChildren()) {

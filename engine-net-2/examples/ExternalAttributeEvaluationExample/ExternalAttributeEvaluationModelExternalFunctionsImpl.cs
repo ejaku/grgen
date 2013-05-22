@@ -17,11 +17,29 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 
     public partial class OwnPown : Own
     {
+        public OwnPown()
+        {
+        }
+
+        public OwnPown(OwnPown that)
+        {
+            ehe = that.ehe;
+        }
+
         public string ehe;
     }
 	
 	public partial class OwnPownHome : OwnPown
     {
+        public OwnPownHome()
+        {
+        }
+
+        public OwnPownHome(OwnPownHome that)
+        {
+            aha = that.aha;
+        }
+
         public string aha;
     }
 
@@ -162,6 +180,49 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             {
                 return attribute.ToString();
             }
+        }
+    }
+
+    public partial class AttributeTypeObjectCopierComparer
+    {
+        public static bool IsEqual(object this_, object that)
+        {
+            return this_ == that; // equal if identical, default implementation
+        }
+
+        public static object Copy(object that)
+        {
+            return that; // copy reference, default implementation
+        }
+
+        public static bool IsEqual(Own this_, Own that)
+        {
+            return this_ == that; // equal if identical, default implementation
+        }
+
+        public static Own Copy(Own that)
+        {
+            return that; // copy reference, default implementation
+        }
+
+        public static bool IsEqual(OwnPown this_, OwnPown that)
+        {
+            return this_.ehe == that.ehe;
+        }
+
+        public static OwnPown Copy(OwnPown that)
+        {
+            return new OwnPown(that);
+        }
+
+        public static bool IsEqual(OwnPownHome this_, OwnPownHome that)
+        {
+            return this_.ehe == that.ehe && this_.aha == that.aha;
+        }
+
+        public static OwnPownHome Copy(OwnPownHome that)
+        {
+            return new OwnPownHome(that);
         }
     }
 }

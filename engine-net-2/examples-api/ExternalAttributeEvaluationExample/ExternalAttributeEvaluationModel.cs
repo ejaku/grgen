@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Mon May 20 22:29:58 CEST 2013
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Wed May 22 00:34:50 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -203,7 +203,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		{
 			i_M0no_suXx_h4rD = oldElem.i_M0no_suXx_h4rD;
 			s_M0no_suXx_h4rD = oldElem.s_M0no_suXx_h4rD;
-			o_M0no_suXx_h4rD = oldElem.o_M0no_suXx_h4rD;
+			AttributeTypeObjectCopierComparer.Copy(oldElem.o_M0no_suXx_h4rD);
 			b_M0no_suXx_h4rD = oldElem.b_M0no_suXx_h4rD;
 			f_M0no_suXx_h4rD = oldElem.f_M0no_suXx_h4rD;
 			d_M0no_suXx_h4rD = oldElem.d_M0no_suXx_h4rD;
@@ -212,9 +212,9 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			mso_M0no_suXx_h4rD = new Dictionary<string, object>(oldElem.mso_M0no_suXx_h4rD);
 			a_M0no_suXx_h4rD = new List<double>(oldElem.a_M0no_suXx_h4rD);
 			de_M0no_suXx_h4rD = new GRGEN_LIBGR.Deque<double>(oldElem.de_M0no_suXx_h4rD);
-			ow_M0no_suXx_h4rD = oldElem.ow_M0no_suXx_h4rD;
-			op_M0no_suXx_h4rD = oldElem.op_M0no_suXx_h4rD;
-			oh_M0no_suXx_h4rD = oldElem.oh_M0no_suXx_h4rD;
+			AttributeTypeObjectCopierComparer.Copy(oldElem.ow_M0no_suXx_h4rD);
+			AttributeTypeObjectCopierComparer.Copy(oldElem.op_M0no_suXx_h4rD);
+			AttributeTypeObjectCopierComparer.Copy(oldElem.oh_M0no_suXx_h4rD);
 		}
 
 		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
@@ -223,7 +223,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			return true
 				&& i_M0no_suXx_h4rD == that_.i_M0no_suXx_h4rD
 				&& s_M0no_suXx_h4rD == that_.s_M0no_suXx_h4rD
-				&& o_M0no_suXx_h4rD == that_.o_M0no_suXx_h4rD
+				&& AttributeTypeObjectCopierComparer.IsEqual(o_M0no_suXx_h4rD, that_.o_M0no_suXx_h4rD)
 				&& b_M0no_suXx_h4rD == that_.b_M0no_suXx_h4rD
 				&& f_M0no_suXx_h4rD == that_.f_M0no_suXx_h4rD
 				&& d_M0no_suXx_h4rD == that_.d_M0no_suXx_h4rD
@@ -232,9 +232,9 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				&& GRGEN_LIBGR.ContainerHelper.Equal(mso_M0no_suXx_h4rD, that_.mso_M0no_suXx_h4rD)
 				&& GRGEN_LIBGR.ContainerHelper.Equal(a_M0no_suXx_h4rD, that_.a_M0no_suXx_h4rD)
 				&& GRGEN_LIBGR.ContainerHelper.Equal(de_M0no_suXx_h4rD, that_.de_M0no_suXx_h4rD)
-				&& ow_M0no_suXx_h4rD == that_.ow_M0no_suXx_h4rD
-				&& op_M0no_suXx_h4rD == that_.op_M0no_suXx_h4rD
-				&& oh_M0no_suXx_h4rD == that_.oh_M0no_suXx_h4rD
+				&& AttributeTypeObjectCopierComparer.IsEqual(ow_M0no_suXx_h4rD, that_.ow_M0no_suXx_h4rD)
+				&& AttributeTypeObjectCopierComparer.IsEqual(op_M0no_suXx_h4rD, that_.op_M0no_suXx_h4rD)
+				&& AttributeTypeObjectCopierComparer.IsEqual(oh_M0no_suXx_h4rD, that_.oh_M0no_suXx_h4rD)
 			;
 		}
 
