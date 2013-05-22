@@ -1769,24 +1769,27 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 case AttributeKind.ObjectAttr:
                 {
-                    if(valueString != "null")
-                    {
-                        errOut.WriteLine("Attribute \"" + attribute + "\" is an object type attribute!\n"
-                                + "It is not possible to statically assign a value other than null to an object type attribute!");
-                        throw new Exception("Unknown object literal (only null allowed)" + valueString);
-                    }
-                    value = null;
+                    if(valueString == "null")
+                        value = null;
+                    else
+                        value = curShellProcEnv.ProcEnv.Graph.Model.Parse(
+                            new StringReader(valueString), null, curShellProcEnv.ProcEnv.Graph);
                     break;
                 }
                 case AttributeKind.GraphAttr:
                 {
-                    if(valueString != "null")
+                    if(valueString == "null")
+                        value = null;
+                    else
                     {
-                        errOut.WriteLine("Attribute \"" + attribute + "\" is a graph type attribute!\n"
-                                + "It is not possible to statically assign a value other than null to a graph type attribute!");
-                        throw new Exception("Unknown graph literal (only null allowed)" + valueString);
+                        if(!curShellProcEnv.NameToSubgraph.ContainsKey(valueString))
+                        {
+                            errOut.WriteLine("No graph with name {0} known!", valueString);
+                            throw new Exception("Unknown graph literal " + valueString);
+                        }
+                        else
+                            value = curShellProcEnv.NameToSubgraph[valueString];
                     }
-                    value = null;
                     break;
                 }
                 case AttributeKind.NodeAttr:
@@ -1798,10 +1801,10 @@ namespace de.unika.ipd.grGen.grShell
                         else
                             value = GetNodeByName(valueString.Substring(2, valueString.Length - 3));
                     }
+                    else if(valueString == "null")
+                        value = null;
                     else
-                    {
                         value = GetNodeByVar(valueString);
-                    }
                     break;
                 }
                 case AttributeKind.EdgeAttr:
@@ -1813,10 +1816,10 @@ namespace de.unika.ipd.grGen.grShell
                         else
                             value = GetEdgeByName(valueString.Substring(2, valueString.Length - 3));
                     }
+                    else if(valueString == "null")
+                        value = null;
                     else
-                    {
                         value = GetEdgeByVar(valueString);
-                    }
                     break;
                 }
             }
