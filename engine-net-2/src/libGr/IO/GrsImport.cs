@@ -760,10 +760,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private IGraph ParseGraphValue()
         {
-            if(LookaheadToken() == TokenKind.NULL)
-                throw GetSyntaxException("(Non-null) (Sub-)Graph attributes unsupported", "null");
-            EatToken();
-            return null;
+            return ParseGraph();
         }
 
         private INode ParseNodeValue(string typeName)
@@ -1579,6 +1576,9 @@ namespace de.unika.ipd.grGen.libGr
 
         private IGraphElement GetElemByName(String elemName)
         {
+            if(elemName == "null")
+                return null;
+
             IGraphElement elem = graph.GetGraphElement(elemName);
             if(elem == null) throw new Exception("Unknown graph element " + elemName);
             return elem;
@@ -1586,6 +1586,9 @@ namespace de.unika.ipd.grGen.libGr
 
         private INamedGraph GetGraphByName(String graphName)
         {
+            if(graphName == "null")
+                return null;
+
             return nameToSubgraph[graphName];
         }
     }
