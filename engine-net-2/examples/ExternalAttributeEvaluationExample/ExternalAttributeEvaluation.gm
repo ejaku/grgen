@@ -8,6 +8,10 @@ class OwnPownHome extends OwnPown;
 // of objects of external types or of object type
 emit class;
 
+// we declare that we want to implement comparison and copying 
+// of objects of external types or of object type
+copy class;
+
 enum Enu
 {
 	reh, lamm, hurz

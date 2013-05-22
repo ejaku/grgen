@@ -34,12 +34,14 @@ public class Model extends Identifiable {
 	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
 	private Set<ExternalProcedure> externalProcs = new LinkedHashSet<ExternalProcedure>();
 	private boolean isEmitClassDefined;
+	private boolean isCopyClassDefined;
 
 
-	public Model(Ident ident, boolean isEmitClassDefined) {
+	public Model(Ident ident, boolean isEmitClassDefined, boolean isCopyClassDefined) {
 		super("model", ident);
 		
 		this.isEmitClassDefined = isEmitClassDefined;
+		this.isCopyClassDefined = isCopyClassDefined;
 	}
 
 	public void addUsedModel(Model model) {
@@ -104,6 +106,10 @@ public class Model extends Identifiable {
 	
 	public boolean isEmitClassDefined() {
 		return isEmitClassDefined;
+	}
+
+	public boolean isCopyClassDefined() {
+		return isCopyClassDefined;
 	}
 
 	/** Canonicalize the type model. */
