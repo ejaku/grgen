@@ -12,7 +12,7 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
 {
-    public enum LGSPDir { In, Out };
+    public enum LGSPDirection { In, Out };
 
     /// <summary>
     /// </summary>
@@ -215,9 +215,9 @@ namespace de.unika.ipd.grGen.lgsp
                                         {
 #if MONO_MULTIDIMARRAY_WORKAROUND
                                             vstructs[((nodeSuperType.TypeID * dim1size + edgeSuperTypeID) * dim2size + targetSuperTypeID) * 2
-                                                + (int) LGSPDir.Out] += val;
+                                                + (int) LGSPDirection.Out] += val;
 #else
-                                            vstructs[nodeSuperType.TypeID, edgeSuperTypeID, targetSuperTypeID, (int) LGSPDir.Out] += val;
+                                            vstructs[nodeSuperType.TypeID, edgeSuperTypeID, targetSuperTypeID, (int) LGSPDirection.Out] += val;
 #endif
                                         }
                                         outgoingVCount[edgeSuperTypeID, targetSuperTypeID] = 0;
@@ -250,9 +250,9 @@ namespace de.unika.ipd.grGen.lgsp
                                         foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
 #if MONO_MULTIDIMARRAY_WORKAROUND
                                             vstructs[((nodeSuperType.TypeID * dim1size + edgeSuperTypeID) * dim2size + sourceSuperTypeID) * 2
-                                                + (int) LGSPDir.In] += val;
+                                                + (int) LGSPDirection.In] += val;
 #else
-                                            vstructs[nodeSuperType.TypeID, edgeSuperTypeID, sourceSuperTypeID, (int) LGSPDir.In] += val;
+                                            vstructs[nodeSuperType.TypeID, edgeSuperTypeID, sourceSuperTypeID, (int) LGSPDirection.In] += val;
 #endif
                                         incomingVCount[edgeSuperTypeID, sourceSuperTypeID] = 0;
                                     }

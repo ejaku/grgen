@@ -280,7 +280,7 @@ namespace spBench
                     if(edge.target != null) targetTypeID = edge.target.TypeID;
                     else targetTypeID = Graph.Model.NodeModel.RootType.TypeID;
                     splitcost = graph.vstructs[((sourceTypeID * graph.dim1size + edge.TypeID) * graph.dim2size
-                        + targetTypeID) * 2 + (int) LGSPDir.Out];
+                        + targetTypeID) * 2 + (int) LGSPDirection.Out];
                     localcost = graph.edgeCounts[edge.TypeID];
 
                     isPreset = false;
@@ -340,7 +340,7 @@ namespace spBench
                         if(edge.target != null) targetTypeID = edge.target.TypeID;
                         else targetTypeID = graph.Model.NodeModel.RootType.TypeID;
                         float vstructval = graph.vstructs[((edge.source.TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
-                            + targetTypeID) * 2 + (int) LGSPDir.Out];
+                            + targetTypeID) * 2 + (int) LGSPDirection.Out];
                         int numSrcNodes = graph.nodeCounts[edge.source.TypeID];
                         if(numSrcNodes == 0) numSrcNodes = 1;
                         SearchPlanEdge outEdge = new SearchPlanEdge(SearchOperationType.Outgoing, nodeDict[edge.source], nodes[nodesIndex], vstructval / numSrcNodes);
@@ -356,7 +356,7 @@ namespace spBench
                         if(edge.source != null) sourceTypeID = edge.source.TypeID;
                         else sourceTypeID = Graph.Model.NodeModel.RootType.TypeID;
                         float vstructval = graph.vstructs[((edge.target.TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
-                            + sourceTypeID) * 2 + (int) LGSPDir.In];
+                            + sourceTypeID) * 2 + (int) LGSPDirection.In];
                         int numTgtNodes = graph.nodeCounts[edge.target.TypeID];
                         if(numTgtNodes == 0) numTgtNodes = 1;
                         SearchPlanEdge inEdge = new SearchPlanEdge(SearchOperationType.Incoming, nodeDict[edge.target], nodes[nodesIndex], vstructval / numTgtNodes);
@@ -767,7 +767,7 @@ namespace spBench
                         if(numTgtNodes == 0) numTgtNodes = 1;
 
                         float vstructVal = ctx.Graph.vstructs[(((tgt.PatternElement.TypeID * ctx.Graph.dim1size)
-                            + edge.PatternElement.TypeID) * ctx.Graph.dim2size + src.PatternElement.TypeID) * 2 + (int) LGSPDir.In];
+                            + edge.PatternElement.TypeID) * ctx.Graph.dim2size + src.PatternElement.TypeID) * 2 + (int) LGSPDirection.In];
                         if(vstructVal < EPSILON) vstructVal = 1;
 
                         localcost = ctx.Graph.meanInDegree[tgt.PatternElement.TypeID];
@@ -784,7 +784,7 @@ namespace spBench
                         if(numSrcNodes == 0) numSrcNodes = 1;
 
                         float vstructVal = ctx.Graph.vstructs[(((src.PatternElement.TypeID * ctx.Graph.dim1size)
-                            + edge.PatternElement.TypeID) * ctx.Graph.dim2size + tgt.PatternElement.TypeID) * 2 + (int) LGSPDir.Out];
+                            + edge.PatternElement.TypeID) * ctx.Graph.dim2size + tgt.PatternElement.TypeID) * 2 + (int) LGSPDirection.Out];
                         if(vstructVal < EPSILON) vstructVal = 1;
 
                         localcost = ctx.Graph.meanOutDegree[src.PatternElement.TypeID];
@@ -806,7 +806,7 @@ namespace spBench
                             SearchPlanNodeNode tgt = (SearchPlanNodeNode) edge.PatternEdgeTarget;
                             localcost = ctx.Graph.edgeCounts[spnode.PatternElement.TypeID];
                             splitcost = ctx.Graph.vstructs[(((src.PatternElement.TypeID * ctx.Graph.dim1size)
-                                    + edge.PatternElement.TypeID) * ctx.Graph.dim2size + tgt.PatternElement.TypeID) * 2 + (int) LGSPDir.Out];
+                                    + edge.PatternElement.TypeID) * ctx.Graph.dim2size + tgt.PatternElement.TypeID) * 2 + (int) LGSPDirection.Out];
                         }
                         implcost = localcost;
                     }
