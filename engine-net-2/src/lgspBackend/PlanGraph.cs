@@ -55,11 +55,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get
             {
-#if MONO_MULTIDIMARRAY_WORKAROUND
-                return ((PlanPseudoNode) TopSuperNode) ?? this;
-#else
                 return TopSuperNode ?? this;
-#endif
             }
         }
 

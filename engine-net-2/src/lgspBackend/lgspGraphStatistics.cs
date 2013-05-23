@@ -122,28 +122,9 @@ namespace de.unika.ipd.grGen.lgsp
             meanInDegree = new float[numNodeTypes];
             meanOutDegree = new float[numNodeTypes];
 
-#if SCHNELLERER_ANSATZ_NUR_ANGEFANGEN
-            foreach(ITypeFramework edgeType in Model.EdgeModel.Types)
-            {
-                /*                foreach(ITypeFramework superType in nodeType.superOrSameTypes)
-                                    nodeCounts[superType.typeID] += nodesByTypeCounts[nodeType.typeID];*/
-
-                for(LGSPEdge edgeHead = edgesByTypeHeads[edgeType.typeID], edge = edgeHead.typeNext; edge != edgeHead; edge = edge.typeNext)
-                {
-                    ITypeFramework sourceType = edge.source.type;
-                    ITypeFramework targetType = edge.target.type;
-
-#if MONO_MULTIDIMARRAY_WORKAROUND
-                    vstructs[((sourceType.typeID * dim1size + edgeType.typeID) * dim2size + targetType.typeID) * 2 + (int) LGSPDir.Out] += val;
-#else
-                    vstructs[nodeSuperType.TypeID, edgeSuperTypeID, targetSuperTypeID, (int) LGSPDir.Out] += val;
-#endif
-                }
-            }
-#endif
-
             foreach(NodeType nodeType in Model.NodeModel.Types)
             {
+                // Calculate nodeCounts
                 foreach(NodeType superType in nodeType.SuperOrSameTypes)
                     nodeCounts[superType.TypeID] += nodesByTypeCounts[nodeType.TypeID];
 
@@ -290,14 +271,6 @@ namespace de.unika.ipd.grGen.lgsp
                     meanInDegree[nodeType.TypeID] /= numCompatibleNodes;
                 }
             }
-
-
-/*            // Calculate nodeCounts
-            foreach(ITypeFramework nodeType in Model.NodeModel.Types)
-            {
-                foreach(ITypeFramework superType in edgeType.superOrSameTypes)
-                    nodeCounts[superType.typeID] += nodesByTypeCounts[nodeType.typeID];
-            }*/
 
             // Calculate edgeCounts
             foreach(EdgeType edgeType in Model.EdgeModel.Types)
