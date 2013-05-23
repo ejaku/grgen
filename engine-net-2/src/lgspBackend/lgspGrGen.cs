@@ -168,8 +168,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// and edges representing the matching operations to get the elements by.
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
-        private static PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, int index,
-            bool isNegativeOrIndependent, bool isSubpatternLike)
+        private static PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike)
         {
             //
             // If you change this method, chances are high you also want to change GeneratePlanGraph in LGSPMatcherGenerator
@@ -504,8 +503,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i=0; i<patternGraph.schedules.Length; ++i)
             {
                 patternGraph.AdaptToMaybeNull(i);
-                PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, i,
-                    isNegativeOrIndependent, isSubpatternLike);
+                PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, isNegativeOrIndependent, isSubpatternLike);
                 matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
                 SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
                 ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
