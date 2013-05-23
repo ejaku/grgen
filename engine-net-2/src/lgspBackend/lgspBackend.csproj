@@ -71,6 +71,7 @@
     <Compile Include="lgspActionExecutionEnvironment.cs" />
     <Compile Include="lgspDeferredSequencesManager.cs" />
     <Compile Include="lgspGraphProcessingEnvironment.cs" />
+    <Compile Include="lgspGraphStatistics.cs" />
     <Compile Include="lgspGrGen.cs" />
     <Compile Include="lgspActions.cs" />
     <Compile Include="lgspBackend.cs" />
