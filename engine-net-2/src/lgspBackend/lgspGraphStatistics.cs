@@ -6,7 +6,6 @@
  */
 
 #define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
-//#define OPCOST_WITH_GEO_MEAN
 
 using System;
 using de.unika.ipd.grGen.libGr;
@@ -37,10 +36,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// It is null, if no analysis has been executed, yet.
         /// </summary>
         public int[] edgeCounts;
-
-#if OPCOST_WITH_GEO_MEAN
-        public float[] nodeLookupCosts, edgeLookupCosts;
-#endif
 
         /// <summary>
         /// The mean out degree (independent of edge types) of the nodes of a graph for each node type
@@ -80,12 +75,6 @@ namespace de.unika.ipd.grGen.lgsp
                 nodeCounts = (int[])dataSource.nodeCounts.Clone();
             if(dataSource.edgeCounts != null)
                 edgeCounts = (int[])dataSource.edgeCounts.Clone();
-#if OPCOST_WITH_GEO_MEAN
-            if(dataSource.nodeLookupCosts != null)
-                nodeLookupCosts = (float[]) dataSource.nodeLookupCosts.Clone();
-            if(dataSource.edgeLookupCosts != null)
-                edgeLookupCosts = (float[]) dataSource.edgeLookupCosts.Clone();
-#endif
             if(dataSource.meanInDegree != null)
                 meanInDegree = (float[])dataSource.meanInDegree.Clone();
             if(dataSource.meanOutDegree != null)
@@ -100,207 +89,10 @@ namespace de.unika.ipd.grGen.lgsp
             vstructs = null;
             nodeCounts = null;
             edgeCounts = null;
-#if OPCOST_WITH_GEO_MEAN
-            nodeLookupCosts = null;
-            edgeLookupCosts = null;
-#endif
             meanInDegree = null;
             meanOutDegree = null;
         }
 
-#if OPCOST_WITH_GEO_MEAN
-        public void AnalyzeGraph()
-        {
-            if(changesCounterAtLastAnalyze == changesCounter)
-                return;
-            changesCounterAtLastAnalyze = changesCounter;
-
-            int numNodeTypes = Model.NodeModel.Types.Length;
-            int numEdgeTypes = Model.EdgeModel.Types.Length;
-
-            int[,] outgoingVCount = new int[numEdgeTypes, numNodeTypes];
-            int[,] incomingVCount = new int[numEdgeTypes, numNodeTypes];
-
-#if MONO_MULTIDIMARRAY_WORKAROUND
-            dim0size = numNodeTypes;
-            dim1size = numEdgeTypes;
-            dim2size = numNodeTypes;
-            vstructs = new float[numNodeTypes*numEdgeTypes*numNodeTypes*2];
-#else
-            vstructs = new float[numNodeTypes, numEdgeTypes, numNodeTypes, 2];
-#endif
-            nodeCounts = new int[numNodeTypes];
-            edgeCounts = new int[numEdgeTypes];
-            nodeIncomingCount = new float[numNodeTypes];
-            nodeOutgoingCount = new float[numNodeTypes];
-
-            foreach(ITypeFramework nodeType in Model.NodeModel.Types)
-            {
-                foreach(ITypeFramework superType in nodeType.superOrSameTypes)
-                    nodeCounts[superType.typeID] += nodesByTypeCounts[nodeType.typeID];
-
-                for(LGSPNode nodeHead = nodesByTypeHeads[nodeType.typeID], node = nodeHead.typeNext; node != nodeHead; node = node.typeNext)
-                {
-                    //
-                    // count outgoing v structures
-                    //
-
-                    for(int i = 0; i < numEdgeTypes; i++)
-                        for(int j = 0; j < numNodeTypes; j++)
-                            outgoingVCount[i, j] = 0;
-
-                    LGSPEdge outhead = node.outhead;
-                    if(outhead != null)
-                    {
-                        LGSPEdge edge = outhead;
-                        do
-                        {
-                            ITypeFramework targetType = edge.target.type;
-                            nodeOutgoingCount[nodeType.typeID]++;
-                            foreach(ITypeFramework edgeSuperType in edge.type.superOrSameTypes)
-                            {
-                                int superTypeID = edgeSuperType.typeID;
-                                foreach(ITypeFramework targetSuperType in targetType.superOrSameTypes)
-                                {
-                                    outgoingVCount[superTypeID, targetSuperType.typeID]++;
-                                }
-                            }
-                            edge = edge.outNext;
-                        }
-                        while(edge != outhead);
-                    }
-
-                    //
-                    // count incoming v structures
-                    //
-
-                    for(int i = 0; i < numEdgeTypes; i++)
-                        for(int j = 0; j < numNodeTypes; j++)
-                            incomingVCount[i, j] = 0;
-
-                    LGSPEdge inhead = node.inhead;
-                    if(inhead != null)
-                    {
-                        LGSPEdge edge = inhead;
-                        do
-                        {
-                            ITypeFramework sourceType = edge.source.type;
-                            nodeIncomingCount[nodeType.typeID]++;
-                            foreach(ITypeFramework edgeSuperType in edge.type.superOrSameTypes)
-                            {
-                                int superTypeID = edgeSuperType.typeID;
-                                foreach(ITypeFramework sourceSuperType in sourceType.superOrSameTypes)
-                                {
-                                    incomingVCount[superTypeID, sourceSuperType.typeID]++;
-                                }
-                            }
-                            edge = edge.inNext;
-                        }
-                        while(edge != inhead);
-                    }
-
-                    //
-                    // finalize the counting and collect resulting local v-struct info
-                    //
-
-                    if(outhead != null)
-                    {
-                        LGSPEdge edge = outhead;
-                        do
-                        {
-                            ITypeFramework targetType = edge.target.type;
-                            int targetTypeID = targetType.typeID;
-
-                            foreach(ITypeFramework edgeSuperType in edge.type.superOrSameTypes)
-                            {
-                                int edgeSuperTypeID = edgeSuperType.typeID;
-
-                                foreach(ITypeFramework targetSuperType in targetType.superOrSameTypes)
-                                {
-                                    int targetSuperTypeID = targetSuperType.typeID;
-                                    if(outgoingVCount[edgeSuperTypeID, targetSuperTypeID] > 1)
-                                    {
-                                        float val = (float) Math.Log(outgoingVCount[edgeSuperTypeID, targetSuperTypeID]);
-                                        foreach(ITypeFramework nodeSuperType in nodeType.superOrSameTypes)
-                                        {
-#if MONO_MULTIDIMARRAY_WORKAROUND
-                                            vstructs[((nodeSuperType.typeID * dim1size + edgeSuperTypeID) * dim2size + targetSuperTypeID) * 2
-                                                + (int) LGSPDir.Out] += val;
-#else
-                                            vstructs[nodeSuperType.TypeID, edgeSuperTypeID, targetSuperTypeID, (int) LGSPDir.Out] += val;
-#endif
-                                        }
-                                        outgoingVCount[edgeSuperTypeID, targetSuperTypeID] = 0;
-                                    }
-                                }
-                            }
-                            edge = edge.outNext;
-                        }
-                        while(edge != outhead);
-                    }
-
-                    if(inhead != null)
-                    {
-                        LGSPEdge edge = inhead;
-                        do
-                        {
-                            ITypeFramework sourceType = edge.source.type;
-                            int sourceTypeID = sourceType.typeID;
-
-                            foreach(ITypeFramework edgeSuperType in edge.type.superOrSameTypes)
-                            {
-                                int edgeSuperTypeID = edgeSuperType.typeID;
-                                foreach(ITypeFramework sourceSuperType in sourceType.superOrSameTypes)
-                                {
-                                    int sourceSuperTypeID = sourceSuperType.typeID;
-                                    if(incomingVCount[edgeSuperTypeID, sourceSuperTypeID] > 1)
-                                    {
-                                        float val = (float) Math.Log(incomingVCount[edgeSuperTypeID, sourceSuperTypeID]);
-
-                                        foreach(ITypeFramework nodeSuperType in nodeType.superOrSameTypes)
-#if MONO_MULTIDIMARRAY_WORKAROUND
-                                            vstructs[((nodeSuperType.typeID * dim1size + edgeSuperTypeID) * dim2size + sourceSuperTypeID) * 2
-                                                + (int) LGSPDir.In] += val;
-#else
-                                            vstructs[nodeSuperType.TypeID, edgeSuperTypeID, sourceSuperTypeID, (int) LGSPDir.In] += val;
-#endif
-                                        incomingVCount[edgeSuperTypeID, sourceSuperTypeID] = 0;
-                                    }
-                                }
-                            }
-                            edge = edge.inNext;
-                        }
-                        while(edge != inhead);
-                    }
-                }
-            }
-
-            nodeLookupCosts = new float[numNodeTypes];
-            for(int i = 0; i < numNodeTypes; i++)
-            {
-                if(nodeCounts[i] <= 1)
-                    nodeLookupCosts[i] = 0;
-                else
-                    nodeLookupCosts[i] = (float) Math.Log(nodeCounts[i]);
-            }
-
-            // Calculate edgeCounts
-            foreach(ITypeFramework edgeType in Model.EdgeModel.Types)
-            {
-                foreach(ITypeFramework superType in edgeType.superOrSameTypes)
-                    edgeCounts[superType.typeID] += edgesByTypeCounts[edgeType.typeID];
-            }
-
-            edgeLookupCosts = new float[numEdgeTypes];
-            for(int i = 0; i < numEdgeTypes; i++)
-            {
-                if(edgeCounts[i] <= 1)
-                    edgeLookupCosts[i] = 0;
-                else
-                    edgeLookupCosts[i] = (float) Math.Log(edgeCounts[i]);
-            }
-        }
-#else
         /// <summary>
         /// Analyzes the graph.
         /// The calculated data is used to generate good searchplans for the current graph.
@@ -514,6 +306,5 @@ namespace de.unika.ipd.grGen.lgsp
                     edgeCounts[superType.TypeID] += edgesByTypeCounts[edgeType.TypeID];
             }
         }
-#endif
     }
 }

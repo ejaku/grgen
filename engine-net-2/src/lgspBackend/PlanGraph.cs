@@ -320,13 +320,9 @@ namespace de.unika.ipd.grGen.lgsp
             Source = source;
             Target = target;
             Cost = cost;
-#if OPCOST_WITH_GEO_MEAN 
-            mstCost = cost;
-#else
             mstCost = (float)Math.Max(Math.Log(cost), 1);
             //            mstCost = (float) Math.Max(Math.Log(cost), 0.0001);
             //            mstCost = cost;
-#endif
             Type = type;
         }
     }

@@ -5,12 +5,11 @@
  * www.grgen.net
  */
 
-#define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
+#define MONO_MULTIDIMARRAY_WORKAROUND       // must be equally set to the same flag in lgspGraphStatistics.cs!
 //#define NO_EDGE_LOOKUP
 //#define RANDOM_LOOKUP_LIST_START      // currently broken
 //#define DUMP_SCHEDULED_SEARCH_PLAN
 //#define DUMP_SEARCHPROGRAMS
-//#define OPCOST_WITH_GEO_MEAN
 //#define VSTRUCT_VAL_FOR_EDGE_LOOKUP
 
 using System;
@@ -259,31 +258,19 @@ namespace de.unika.ipd.grGen.lgsp
                 SearchOperationType searchOperationType;
                 if(node.DefToBeYieldedTo)
                 {
-#if OPCOST_WITH_GEO_MEAN 
-                    cost = 0;
-#else
                     cost = 1;
-#endif
                     isPreset = true;
                     searchOperationType = SearchOperationType.DefToBeYieldedTo;
                 }
                 else if(node.PointOfDefinition == null)
                 {
-#if OPCOST_WITH_GEO_MEAN 
-                    cost = 0;
-#else
                     cost = 1;
-#endif
                     isPreset = true;
                     searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
                 }
                 else if(node.PointOfDefinition != patternGraph)
                 {
-#if OPCOST_WITH_GEO_MEAN 
-                    cost = 0;
-#else
                     cost = 1;
-#endif
                     isPreset = true;
                     searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
                 }
@@ -291,42 +278,26 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(node.GetPatternElementTheStorageDependsOn() != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
-                        cost = 0;
-#else
                         cost = 1;
-#endif
                         isPreset = false;
                         searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                     }
                     else
                     {
-#if OPCOST_WITH_GEO_MEAN 
-                        cost = 0;
-#else
                         cost = 1;
-#endif
                         isPreset = false;
                         searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
                     }
                 }
                 else if(node.ElementBeforeCasting != null)
                 {
-#if OPCOST_WITH_GEO_MEAN 
-                    cost = 0;
-#else
                     cost = 1;
-#endif
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the element before casting is needed, so there is no lookup like operation
                 }
                 else
                 {
-#if OPCOST_WITH_GEO_MEAN
-                    cost = graph.nodeLookupCosts[node.TypeID];
-#else
                     cost = graph.nodeCounts[node.TypeID];
-#endif
                     isPreset = false;
                     searchOperationType = SearchOperationType.Lookup;
                 }
@@ -353,31 +324,19 @@ namespace de.unika.ipd.grGen.lgsp
                 SearchOperationType searchOperationType;
                 if(edge.DefToBeYieldedTo)
                 {
-#if OPCOST_WITH_GEO_MEAN 
-                    cost = 0;
-#else
                     cost = 1;
-#endif
                     isPreset = true;
                     searchOperationType = SearchOperationType.DefToBeYieldedTo;
                 }
                 else if(edge.PointOfDefinition == null)
                 {
-#if OPCOST_WITH_GEO_MEAN 
-                    cost = 0;
-#else
                     cost = 1;
-#endif
                     isPreset = true;
                     searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
                 }
                 else if (edge.PointOfDefinition != patternGraph)
                 {
-#if OPCOST_WITH_GEO_MEAN 
-                    cost = 0;
-#else
                     cost = 1;
-#endif
                     isPreset = true;
                     searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
                 }
@@ -385,32 +344,20 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(edge.GetPatternElementTheStorageDependsOn() != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
-                        cost = 0;
-#else
                         cost = 1;
-#endif
                         isPreset = false;
                         searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                     }
                     else
                     {
-#if OPCOST_WITH_GEO_MEAN 
-                        cost = 0;
-#else
                         cost = 1;
-#endif
                         isPreset = false;
                         searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
                     }
                 }
                 else if(edge.ElementBeforeCasting != null)
                 {
-#if OPCOST_WITH_GEO_MEAN 
-                    cost = 0;
-#else
                     cost = 1;
-#endif
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the element before casting is needed, so there is no lookup like operation
                 }
@@ -429,8 +376,6 @@ namespace de.unika.ipd.grGen.lgsp
 #else
                     cost = graph.vstructs[sourceTypeID, edge.TypeID, targetTypeID, (int) LGSPDir.Out];
 #endif
-#elif OPCOST_WITH_GEO_MEAN 
-                    cost = graph.edgeLookupCosts[edge.TypeID];
 #else
                     cost = graph.edgeCounts[edge.TypeID];
 #endif
@@ -483,13 +428,8 @@ namespace de.unika.ipd.grGen.lgsp
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
 
-#if OPCOST_WITH_GEO_MEAN 
-                    PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, 0);
-#else
                     PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
                         patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, 1);
-#endif
                     planEdges.Add(implSrcPlanEdge);
                     patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
@@ -501,13 +441,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
-#if OPCOST_WITH_GEO_MEAN 
-                    PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        patternGraph.GetTargetPlusInlined(edge).TempPlanMapping, 0);
-#else
                     PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
                         patternGraph.GetTargetPlusInlined(edge).TempPlanMapping, 1);
-#endif
                     planEdges.Add(implTgtPlanEdge);
                     patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
                 }
@@ -593,51 +528,30 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(node.Storage!=null && node.GetPatternElementTheStorageDependsOn()!=null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
-                        PlanEdge storAccessPlanEdge = new PlanEdge(
-                            node.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
-                            node.GetPatternElementTheStorageDependsOn().TempPlanMapping, node.TempPlanMapping, 0);
-#else
                         PlanEdge storAccessPlanEdge = new PlanEdge(
                             node.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
                             node.GetPatternElementTheStorageDependsOn().TempPlanMapping, node.TempPlanMapping, 1);
-#endif
                         planEdges.Add(storAccessPlanEdge);
                         node.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
                     }
                     else if(node.ElementBeforeCasting != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
-                        PlanEdge castPlanEdge = new PlanEdge(SearchOperationType.Cast,
-                            node.ElementBeforeCasting.TempPlanMapping, node.TempPlanMapping, 0);
-#else
                         PlanEdge castPlanEdge = new PlanEdge(SearchOperationType.Cast,
                             node.ElementBeforeCasting.TempPlanMapping, node.TempPlanMapping, 1);
-#endif
                         planEdges.Add(castPlanEdge);
                         node.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
                     }
                     else if(node.AssignmentSource != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
-                        PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
-                            node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 0);
-#else
                         PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
                             node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 1);
-#endif
                         planEdges.Add(assignPlanEdge);
                         node.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
 
                         if(!node.AssignmentSource.TempPlanMapping.IsPreset)
                         {
-#if OPCOST_WITH_GEO_MEAN 
-                            PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                                node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 0);
-#else
                             PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
                                 node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 1);
-#endif
                             planEdges.Add(assignPlanEdgeOpposite);
                             node.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdgeOpposite);
                         }
@@ -654,51 +568,30 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(edge.Storage!=null && edge.GetPatternElementTheStorageDependsOn()!=null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
-                        PlanEdge storAccessPlanEdge = new PlanEdge(
-                            edge.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
-                            edge.GetPatternElementTheStorageDependsOn().TempPlanMapping, edge.TempPlanMapping, 0);
-#else
                         PlanEdge storAccessPlanEdge = new PlanEdge(
                             edge.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
                             edge.GetPatternElementTheStorageDependsOn().TempPlanMapping, edge.TempPlanMapping, 1);
-#endif
                         planEdges.Add(storAccessPlanEdge);
                         edge.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
                     }
                     else if(edge.ElementBeforeCasting != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
-                        PlanEdge castPlanEdge = new PlanEdge(SearchOperationType.Cast,
-                            edge.ElementBeforeCasting.TempPlanMapping, edge.TempPlanMapping, 0);
-#else
                         PlanEdge castPlanEdge = new PlanEdge(SearchOperationType.Cast,
                             edge.ElementBeforeCasting.TempPlanMapping, edge.TempPlanMapping, 1);
-#endif
                         planEdges.Add(castPlanEdge);
                         edge.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
                     }
                     else if(edge.AssignmentSource != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
-                        PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
-                            edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 0);
-#else
                         PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
                             edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 1);
-#endif
                         planEdges.Add(assignPlanEdge);
                         edge.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
 
                         if(!edge.AssignmentSource.TempPlanMapping.IsPreset)
                         {
-#if OPCOST_WITH_GEO_MEAN 
-                            PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                                edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 0);
-#else
                             PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
                                 edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 1);
-#endif
                             planEdges.Add(assignPlanEdgeOpposite);
                             edge.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
                         }
