@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-#define MONO_MULTIDIMARRAY_WORKAROUND // must be equally set to the same flag in LGSPGraph.cs!
+#define MONO_MULTIDIMARRAY_WORKAROUND // must be equally set to the same flag in LGSPGraphStatistics.cs!
 //#define LOG_ISOMORPHY_CHECKING
 #define COMPILE_MATCHERS
 //#define DUMP_COMPILED_MATCHER
