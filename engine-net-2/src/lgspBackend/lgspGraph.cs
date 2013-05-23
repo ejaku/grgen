@@ -5,8 +5,6 @@
  * www.grgen.net
  */
 
-#define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
-//#define OPCOST_WITH_GEO_MEAN
 //#define CHECK_ISOCOMPARE_CANONIZATION_AGREE
 //#define CHECK_RINGLISTS
 //#define CHECK_VISITED_FLAGS_CLEAR_ON_FREE
@@ -230,30 +228,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SetVariableValue(var.Name, newElem);
             }*/
 
-#if MONO_MULTIDIMARRAY_WORKAROUND
-            dim0size = dataSource.dim0size;
-            dim1size = dataSource.dim1size;
-            dim2size = dataSource.dim2size;
-            if(dataSource.vstructs != null)
-                vstructs = (int[]) dataSource.vstructs.Clone();
-#else
-            if(dataSource.vstructs != null)
-                vstructs = (int[ , , , ]) dataSource.vstructs.Clone();
-#endif
-            if(dataSource.nodeCounts != null)
-                nodeCounts = (int[]) dataSource.nodeCounts.Clone();
-            if(dataSource.edgeCounts != null)
-                edgeCounts = (int[]) dataSource.edgeCounts.Clone();
-#if OPCOST_WITH_GEO_MEAN
-            if(dataSource.nodeLookupCosts != null)
-                nodeLookupCosts = (float[]) dataSource.nodeLookupCosts.Clone();
-            if(dataSource.edgeLookupCosts != null)
-                edgeLookupCosts = (float[]) dataSource.edgeLookupCosts.Clone();
-#endif
-            if(dataSource.meanInDegree != null)
-                meanInDegree = (float[]) dataSource.meanInDegree.Clone();
-            if(dataSource.meanOutDegree != null)
-                meanOutDegree = (float[]) dataSource.meanOutDegree.Clone();
+            Copy(dataSource);
         }
 
         /// <summary>
@@ -290,19 +265,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             edgesByTypeCounts = new int[model.EdgeModel.Types.Length];
 
-            // Reset statistical data
-#if MONO_MULTIDIMARRAY_WORKAROUND
-            dim0size = dim1size = dim2size = 0;
-#endif
-            vstructs = null;
-            nodeCounts = null;
-            edgeCounts = null;
-#if OPCOST_WITH_GEO_MEAN
-            nodeLookupCosts = null;
-            edgeLookupCosts = null;
-#endif
-            meanInDegree = null;
-            meanOutDegree = null;
+            ResetStatisticalData();
         }
 
 		/// <summary>

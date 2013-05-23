@@ -9,9 +9,6 @@
 //#define OPCOST_WITH_GEO_MEAN
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
@@ -19,9 +16,8 @@ namespace de.unika.ipd.grGen.lgsp
     public enum LGSPDir { In, Out };
 
     /// <summary>
-    /// An implementation of the IGraph interface.
     /// </summary>
-    public partial class LGSPGraph : BaseGraph
+    public partial class LGSPGraph
     {
 #if MONO_MULTIDIMARRAY_WORKAROUND
         public int dim0size, dim1size, dim2size;  // dim3size is always 2
@@ -60,6 +56,57 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public float[] meanInDegree;
 
+
+        /// <summary>
+        /// Copy constructor helper.
+        /// </summary>
+        /// <param name="dataSource">The LGSPGraph object to get the data from</param>
+        /// <param name="newName">Name of the copied graph.</param>
+        /// <param name="oldToNewMap">A map of the old elements to the new elements after cloning,
+        /// just forget about it if you don't need it.</param>
+        private void Copy(LGSPGraph dataSource)
+        {
+#if MONO_MULTIDIMARRAY_WORKAROUND
+            dim0size = dataSource.dim0size;
+            dim1size = dataSource.dim1size;
+            dim2size = dataSource.dim2size;
+            if(dataSource.vstructs != null)
+                vstructs = (int[])dataSource.vstructs.Clone();
+#else
+            if(dataSource.vstructs != null)
+                vstructs = (int[ , , , ]) dataSource.vstructs.Clone();
+#endif
+            if(dataSource.nodeCounts != null)
+                nodeCounts = (int[])dataSource.nodeCounts.Clone();
+            if(dataSource.edgeCounts != null)
+                edgeCounts = (int[])dataSource.edgeCounts.Clone();
+#if OPCOST_WITH_GEO_MEAN
+            if(dataSource.nodeLookupCosts != null)
+                nodeLookupCosts = (float[]) dataSource.nodeLookupCosts.Clone();
+            if(dataSource.edgeLookupCosts != null)
+                edgeLookupCosts = (float[]) dataSource.edgeLookupCosts.Clone();
+#endif
+            if(dataSource.meanInDegree != null)
+                meanInDegree = (float[])dataSource.meanInDegree.Clone();
+            if(dataSource.meanOutDegree != null)
+                meanOutDegree = (float[])dataSource.meanOutDegree.Clone();
+        }
+
+        private void ResetStatisticalData()
+        {
+#if MONO_MULTIDIMARRAY_WORKAROUND
+            dim0size = dim1size = dim2size = 0;
+#endif
+            vstructs = null;
+            nodeCounts = null;
+            edgeCounts = null;
+#if OPCOST_WITH_GEO_MEAN
+            nodeLookupCosts = null;
+            edgeLookupCosts = null;
+#endif
+            meanInDegree = null;
+            meanOutDegree = null;
+        }
 
 #if USE_SUB_SUPER_ENUMERATORS
         public void AnalyseGraph()
