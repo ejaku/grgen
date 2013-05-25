@@ -15,8 +15,9 @@ namespace de.unika.ipd.grGen.lgsp
     public enum LGSPDirection { In, Out };
 
     /// <summary>
+    /// A class for analyzing a graph and storing the statistics about the graph
     /// </summary>
-    public partial class LGSPGraph
+    public class LGSPGraphStatistics
     {
 #if MONO_MULTIDIMARRAY_WORKAROUND
         public int dim0size, dim1size, dim2size;  // dim3size is always 2
@@ -59,29 +60,29 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newName">Name of the copied graph.</param>
         /// <param name="oldToNewMap">A map of the old elements to the new elements after cloning,
         /// just forget about it if you don't need it.</param>
-        private void Copy(LGSPGraph dataSource)
+        public void Copy(LGSPGraph dataSource)
         {
 #if MONO_MULTIDIMARRAY_WORKAROUND
-            dim0size = dataSource.dim0size;
-            dim1size = dataSource.dim1size;
-            dim2size = dataSource.dim2size;
-            if(dataSource.vstructs != null)
-                vstructs = (int[])dataSource.vstructs.Clone();
+            dim0size = dataSource.statistics.dim0size;
+            dim1size = dataSource.statistics.dim1size;
+            dim2size = dataSource.statistics.dim2size;
+            if(dataSource.statistics.vstructs != null)
+                vstructs = (int[])dataSource.statistics.vstructs.Clone();
 #else
-            if(dataSource.vstructs != null)
-                vstructs = (int[ , , , ]) dataSource.vstructs.Clone();
+            if(vstructs != null)
+                vstructs = (int[ , , , ]) vstructs.Clone();
 #endif
-            if(dataSource.nodeCounts != null)
-                nodeCounts = (int[])dataSource.nodeCounts.Clone();
-            if(dataSource.edgeCounts != null)
-                edgeCounts = (int[])dataSource.edgeCounts.Clone();
-            if(dataSource.meanInDegree != null)
-                meanInDegree = (float[])dataSource.meanInDegree.Clone();
-            if(dataSource.meanOutDegree != null)
-                meanOutDegree = (float[])dataSource.meanOutDegree.Clone();
+            if(dataSource.statistics.nodeCounts != null)
+                nodeCounts = (int[])dataSource.statistics.nodeCounts.Clone();
+            if(dataSource.statistics.edgeCounts != null)
+                edgeCounts = (int[])dataSource.statistics.edgeCounts.Clone();
+            if(dataSource.statistics.meanInDegree != null)
+                meanInDegree = (float[])dataSource.statistics.meanInDegree.Clone();
+            if(dataSource.statistics.meanOutDegree != null)
+                meanOutDegree = (float[])dataSource.statistics.meanOutDegree.Clone();
         }
 
-        private void ResetStatisticalData()
+        public void ResetStatisticalData()
         {
 #if MONO_MULTIDIMARRAY_WORKAROUND
             dim0size = dim1size = dim2size = 0;
@@ -97,14 +98,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// Analyzes the graph.
         /// The calculated data is used to generate good searchplans for the current graph.
         /// </summary>
-        public void AnalyzeGraph()
+        public void AnalyzeGraph(LGSPGraph graph)
         {
-            if(changesCounterAtLastAnalyze == changesCounter)
-                return;
-            changesCounterAtLastAnalyze = changesCounter;
-
-            int numNodeTypes = Model.NodeModel.Types.Length;
-            int numEdgeTypes = Model.EdgeModel.Types.Length;
+            int numNodeTypes = graph.Model.NodeModel.Types.Length;
+            int numEdgeTypes = graph.Model.EdgeModel.Types.Length;
 
             int[,] outgoingVCount = new int[numEdgeTypes, numNodeTypes];
             int[,] incomingVCount = new int[numEdgeTypes, numNodeTypes];
@@ -122,13 +119,13 @@ namespace de.unika.ipd.grGen.lgsp
             meanInDegree = new float[numNodeTypes];
             meanOutDegree = new float[numNodeTypes];
 
-            foreach(NodeType nodeType in Model.NodeModel.Types)
+            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
             {
                 // Calculate nodeCounts
                 foreach(NodeType superType in nodeType.SuperOrSameTypes)
-                    nodeCounts[superType.TypeID] += nodesByTypeCounts[nodeType.TypeID];
+                    nodeCounts[superType.TypeID] += graph.nodesByTypeCounts[nodeType.TypeID];
 
-                for(LGSPNode nodeHead = nodesByTypeHeads[nodeType.TypeID], node = nodeHead.lgspTypeNext; node != nodeHead; node = node.lgspTypeNext)
+                for(LGSPNode nodeHead = graph.nodesByTypeHeads[nodeType.TypeID], node = nodeHead.lgspTypeNext; node != nodeHead; node = node.lgspTypeNext)
                 {
                     //
                     // count outgoing v structures
@@ -273,10 +270,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // Calculate edgeCounts
-            foreach(EdgeType edgeType in Model.EdgeModel.Types)
+            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
             {
                 foreach(EdgeType superType in edgeType.superOrSameTypes)
-                    edgeCounts[superType.TypeID] += edgesByTypeCounts[edgeType.TypeID];
+                    edgeCounts[superType.TypeID] += graph.edgesByTypeCounts[edgeType.TypeID];
             }
         }
     }
