@@ -20,16 +20,20 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// An implementation of the IGraph interface.
     /// </summary>
-    public partial class LGSPGraph : BaseGraph
+    public class LGSPGraph : BaseGraph
     {
         // counter for ids, used for naming and to determine the age
         private static int graphID = 0;
 
+        protected static String GetNextGraphName() { return "lgspGraph_" + graphID; }
+
         public int GraphID;
         private String name;
+
         internal LGSPBackend backend = null;
         protected IGraphModel model;
         internal String modelAssemblyName;
+
 
         private bool reuseOptimization = true;
 
@@ -46,6 +50,7 @@ namespace de.unika.ipd.grGen.lgsp
             set { reuseOptimization = value; }
         }
 
+        
         long changesCounter = 0;
 
         /// <summary>
@@ -58,7 +63,26 @@ namespace de.unika.ipd.grGen.lgsp
             get { return changesCounter; }
         }
 
+
+        /// <summary>
+        /// Stores the statistics about the last analyze pass of the graph
+        /// </summary>
+        public LGSPGraphStatistics statistics;
+
         public long changesCounterAtLastAnalyze = -1;
+
+        /// <summary>
+        /// Analyzes the graph.
+        /// The calculated data is used to generate good searchplans for the current graph.
+        /// </summary>
+        public void AnalyzeGraph()
+        {
+            if(changesCounterAtLastAnalyze == changesCounter)
+                return;
+            changesCounterAtLastAnalyze = changesCounter;
+
+            statistics.AnalyzeGraph(this);
+        }
 
         /// <summary>
         /// Normally null, contains some data which allows for efficient graph comparison,
@@ -96,8 +120,6 @@ namespace de.unika.ipd.grGen.lgsp
         public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> atNegLevelMatchedElementsGlobal;
 
         public string[] nameOfSingleElementAdded = new string[1];
-
-        protected static String GetNextGraphName() { return "lgspGraph_" + graphID; }
 
 
         /// <summary>
@@ -228,7 +250,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SetVariableValue(var.Name, newElem);
             }*/
 
-            Copy(dataSource);
+            statistics.Copy(dataSource);
         }
 
         /// <summary>
@@ -265,7 +287,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             edgesByTypeCounts = new int[model.EdgeModel.Types.Length];
 
-            ResetStatisticalData();
+            statistics.ResetStatisticalData();
         }
 
 		/// <summary>

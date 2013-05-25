@@ -149,14 +149,14 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // ensure graphs are analyzed
-            if(this_.vstructs == null)
-                this_.AnalyzeGraph();
-            if(that.vstructs == null)
-                that.AnalyzeGraph();
+            if(this_.statistics.vstructs == null)
+                this_.statistics.AnalyzeGraph(this_);
+            if(that.statistics.vstructs == null)
+                that.statistics.AnalyzeGraph(that);
             if(this_.changesCounterAtLastAnalyze != this_.ChangesCounter)
-                this_.AnalyzeGraph();
+                this_.statistics.AnalyzeGraph(this_);
             if(that.changesCounterAtLastAnalyze != that.ChangesCounter)
-                that.AnalyzeGraph();
+                that.statistics.AnalyzeGraph(that);
 
             // compare analyze statistics
             if(!AreVstructsEqual(this_, that))
@@ -355,21 +355,21 @@ namespace de.unika.ipd.grGen.lgsp
                         for(int direction = 0; direction < 2; ++direction)
                         {
 #if MONO_MULTIDIMARRAY_WORKAROUND
-                            int vthis = this_.vstructs[((sourceType * this_.dim1size + edgeType) * this_.dim2size + targetType) * 2 + direction];
-                            int vthat = that.vstructs[((sourceType * this_.dim1size + edgeType) * this_.dim2size + targetType) * 2 + direction];
+                            int vthis = this_.statistics.vstructs[((sourceType * this_.statistics.dim1size + edgeType) * this_.statistics.dim2size + targetType) * 2 + direction];
+                            int vthat = that.statistics.vstructs[((sourceType * this_.statistics.dim1size + edgeType) * this_.statistics.dim2size + targetType) * 2 + direction];
 #else
-                            int vthis = this_.vstructs[sourceType, edgeType, targetType, direction];
-                            int vthat = that.vstructs[sourceType, edgeType, targetType, direction];
+                            int vthis = this_.statistics.vstructs[sourceType, edgeType, targetType, direction];
+                            int vthat = that.statistics.vstructs[sourceType, edgeType, targetType, direction];
 #endif
                             if(this_.Model.EdgeModel.Types[edgeType].Directedness != Directedness.Directed)
                             {
                                 // for not directed edges the direction information is meaningless, even worse: random, so we must merge before comparing
 #if MONO_MULTIDIMARRAY_WORKAROUND
-                                vthis += this_.vstructs[((targetType * this_.dim1size + edgeType) * this_.dim2size + sourceType) * 2 + 1];
-                                vthat += that.vstructs[((targetType * this_.dim1size + edgeType) * this_.dim2size + sourceType) * 2 + 1];
+                                vthis += this_.statistics.vstructs[((targetType * this_.statistics.dim1size + edgeType) * this_.statistics.dim2size + sourceType) * 2 + 1];
+                                vthat += that.statistics.vstructs[((targetType * this_.statistics.dim1size + edgeType) * this_.statistics.dim2size + sourceType) * 2 + 1];
 #else
-                                vthis += this_.vstructs[targetType, edgeType, sourceType, 1];
-                                vthat += that.vstructs[targetType, edgeType, sourceType, 1];
+                                vthis += this_.statistics.vstructs[targetType, edgeType, sourceType, 1];
+                                vthat += that.statistics.vstructs[targetType, edgeType, sourceType, 1];
 #endif
                                 if(vthis != vthat)
                                 {

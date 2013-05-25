@@ -297,7 +297,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    cost = graph.nodeCounts[node.TypeID];
+                    cost = graph.statistics.nodeCounts[node.TypeID];
                     isPreset = false;
                     searchOperationType = SearchOperationType.Lookup;
                 }
@@ -377,7 +377,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cost = graph.vstructs[sourceTypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.Out];
 #endif
 #else
-                    cost = graph.edgeCounts[edge.TypeID];
+                    cost = graph.statistics.edgeCounts[edge.TypeID];
 #endif
 
                     isPreset = false;
@@ -460,20 +460,20 @@ namespace de.unika.ipd.grGen.lgsp
                         else targetTypeID = model.NodeModel.RootType.TypeID;
                         // cost of walking along edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
-                        float normCost = graph.vstructs[((patternGraph.GetSourcePlusInlined(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                        float normCost = graph.statistics.vstructs[((patternGraph.GetSourcePlusInlined(edge).TypeID * graph.statistics.dim1size + edge.TypeID) * graph.statistics.dim2size
                             + targetTypeID) * 2 + (int) LGSPDirection.Out];
                         if (!edge.fixedDirection) {
-                            normCost += graph.vstructs[((patternGraph.GetSourcePlusInlined(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                            normCost += graph.statistics.vstructs[((patternGraph.GetSourcePlusInlined(edge).TypeID * graph.statistics.dim1size + edge.TypeID) * graph.statistics.dim2size
                                 + targetTypeID) * 2 + (int)LGSPDirection.In];
                         }
 #else
-                        float normCost = graph.vstructs[patternGraph.GetSourcePlusInlined(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.Out];
+                        float normCost = graph.statistics.vstructs[patternGraph.GetSourcePlusInlined(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.Out];
                         if (!edge.fixedDirection) {
-                            normCost += graph.vstructs[patternGraph.GetSourcePlusInlined(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.In];
+                            normCost += graph.statistics.vstructs[patternGraph.GetSourcePlusInlined(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.In];
                         }
 #endif
-                        if(graph.nodeCounts[patternGraph.GetSourcePlusInlined(edge).TypeID] != 0)
-                            normCost /= graph.nodeCounts[patternGraph.GetSourcePlusInlined(edge).TypeID];
+                        if(graph.statistics.nodeCounts[patternGraph.GetSourcePlusInlined(edge).TypeID] != 0)
+                            normCost /= graph.statistics.nodeCounts[patternGraph.GetSourcePlusInlined(edge).TypeID];
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Outgoing : SearchOperationType.Incident;
                         PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, 
@@ -490,20 +490,20 @@ namespace de.unika.ipd.grGen.lgsp
                         else sourceTypeID = model.NodeModel.RootType.TypeID;
                         // cost of walking in opposite direction of edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
-                        float revCost = graph.vstructs[((patternGraph.GetTargetPlusInlined(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                        float revCost = graph.statistics.vstructs[((patternGraph.GetTargetPlusInlined(edge).TypeID * graph.statistics.dim1size + edge.TypeID) * graph.statistics.dim2size
                             + sourceTypeID) * 2 + (int) LGSPDirection.In];
                         if (!edge.fixedDirection) {
-                            revCost += graph.vstructs[((patternGraph.GetTargetPlusInlined(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                            revCost += graph.statistics.vstructs[((patternGraph.GetTargetPlusInlined(edge).TypeID * graph.statistics.dim1size + edge.TypeID) * graph.statistics.dim2size
                                 + sourceTypeID) * 2 + (int)LGSPDirection.Out];
                         }
 #else
-                        float revCost = graph.vstructs[patternGraph.GetTargetPlusInlined(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDirection.In];
+                        float revCost = graph.statistics.vstructs[patternGraph.GetTargetPlusInlined(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDirection.In];
                         if (!edge.fixedDirection) {
-                            revCost += graph.vstructs[patternGraph.GetTargetPlusInlined(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDirection.Out];
+                            revCost += graph.statistics.vstructs[patternGraph.GetTargetPlusInlined(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDirection.Out];
                         }
 #endif
-                        if(graph.nodeCounts[patternGraph.GetTargetPlusInlined(edge).TypeID] != 0)
-                            revCost /= graph.nodeCounts[patternGraph.GetTargetPlusInlined(edge).TypeID];
+                        if(graph.statistics.nodeCounts[patternGraph.GetTargetPlusInlined(edge).TypeID] != 0)
+                            revCost /= graph.statistics.nodeCounts[patternGraph.GetTargetPlusInlined(edge).TypeID];
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Incoming : SearchOperationType.Incident;
                         PlanEdge inPlanEdge = new PlanEdge(operation, patternGraph.GetTargetPlusInlined(edge).TempPlanMapping,

@@ -305,7 +305,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 case "gen_searchplan":
                 {
-                    if(graph.edgeCounts == null)
+                    if(graph.statistics.edgeCounts == null)
                         throw new ArgumentException("Graph not analyzed yet!\nPlease execute 'custom graph analyze'!");
                     LGSPAction[] oldActions;
                     if(args.Length == 1)
