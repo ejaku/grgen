@@ -494,16 +494,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Generates scheduled search plans needed for matcher code generation for action compilation
         /// out of static schedule information given by rulePattern elements, 
+        /// or out of statistics stemming from loading previously serialized statistics 
         /// utilizing code of the lgsp matcher generator.
         /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
-        internal static void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPMatcherGenerator matcherGen,
+        internal static void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPGraphStatistics graphStatistics, 
+            LGSPMatcherGenerator matcherGen,
             bool isSubpatternLike, bool isNegativeOrIndependent)
         {
             for(int i=0; i<patternGraph.schedules.Length; ++i)
             {
                 patternGraph.AdaptToMaybeNull(i);
-                PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, isNegativeOrIndependent, isSubpatternLike);
+                PlanGraph planGraph;
+                if(graphStatistics != null)
+                    planGraph = matcherGen.GeneratePlanGraph(graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike);
+                else
+                    planGraph = GenerateStaticPlanGraph(patternGraph, isNegativeOrIndependent, isSubpatternLike);
                 matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
                 SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
                 ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
@@ -514,25 +520,25 @@ namespace de.unika.ipd.grGen.lgsp
 
                 foreach(PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(neg, matcherGen, isSubpatternLike, true);
+                    GenerateScheduledSearchPlans(neg, graphStatistics, matcherGen, isSubpatternLike, true);
                 }
 
                 foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(idpt, matcherGen, isSubpatternLike, true);
+                    GenerateScheduledSearchPlans(idpt, graphStatistics, matcherGen, isSubpatternLike, true);
                 }
 
                 foreach(Alternative alt in patternGraph.alternativesPlusInlined)
                 {
                     foreach(PatternGraph altCase in alt.alternativeCases)
                     {
-                        GenerateScheduledSearchPlans(altCase, matcherGen, true, false);
+                        GenerateScheduledSearchPlans(altCase, graphStatistics, matcherGen, true, false);
                     }
                 }
 
                 foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(iter.iteratedPattern, matcherGen, true, false);
+                    GenerateScheduledSearchPlans(iter.iteratedPattern, graphStatistics, matcherGen, true, false);
                 }
             }
         }
@@ -719,7 +725,7 @@ namespace de.unika.ipd.grGen.lgsp
             private String _externalActionsExtensionOutputFilename;
         }
 
-        ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, String[] externalAssemblies)
+        ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, String statisticsPath, String[] externalAssemblies)
         {
             Console.WriteLine("Building libraries...");
 
@@ -749,7 +755,7 @@ namespace de.unika.ipd.grGen.lgsp
             // get the actions source code
 
             String actionsOutputSource;
-            res = GetActionsSourceCode(cc, model, out actionsOutputSource);
+            res = GetActionsSourceCode(cc, model, statisticsPath, out actionsOutputSource);
             if(res != ErrorType.NoError)
                 return res;
 
@@ -767,13 +773,13 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private ErrorType GetActionsSourceCode(CompileConfiguration cc, IGraphModel model, 
-            out String actionsOutputSource)
+            String statisticsPath, out String actionsOutputSource)
         {
             ErrorType res;
             if((flags & ProcessSpecFlags.UseExistingMask) == ProcessSpecFlags.UseAllGeneratedFiles)
                 res = ReuseExistingActionsSourceCode(cc.actionsOutputFilename, out actionsOutputSource);
             else
-                res = GenerateActionsSourceCode(cc, model, out actionsOutputSource);
+                res = GenerateActionsSourceCode(cc, model, statisticsPath, out actionsOutputSource);
             return res;
         }
 
@@ -850,7 +856,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private ErrorType GenerateActionsSourceCode(CompileConfiguration cc, IGraphModel model,
-            out String actionsOutputSource)
+            String statisticsPath, out String actionsOutputSource)
         {
             ///////////////////////////////////////////////
             // compile the intermediate action files generated by the java frontend
@@ -944,9 +950,18 @@ namespace de.unika.ipd.grGen.lgsp
             if(lastDot == -1) unitName = "";
             else unitName = actionsNamespace.Substring(lastDot + 8);  // skip ".Action_"
 
+            LGSPGraphStatistics graphStatistics = null;
+            if(statisticsPath != null)
+            {
+                Console.WriteLine("Reading graph statistics from {0}", statisticsPath);
+                graphStatistics = new LGSPGraphStatistics(model);
+                graphStatistics.Parse(statisticsPath);
+            }
+
             GenerateAndInsertMatcherSourceCode(model, cc.actionsName, unitName,
                 cc.externalActionsExtensionFilename, ruleAndMatchingPatterns, seqGen,
-                isAutoFilterExisting, isNonAutoFilterExisting, externalSource, source);
+                isAutoFilterExisting, isNonAutoFilterExisting, graphStatistics,
+                externalSource, source);
 
             actionsOutputSource = WriteSourceAndExternalSource(externalSource, source,
                 cc.actionsOutputFilename, cc.externalActionsExtensionOutputFilename);
@@ -1011,6 +1026,7 @@ namespace de.unika.ipd.grGen.lgsp
         private void GenerateAndInsertMatcherSourceCode(IGraphModel model, String actionsName, String unitName,
             string externalActionsExtensionFilename, LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, 
             LGSPSequenceGenerator seqGen, bool isAutoFilterExisting, bool isNonAutoFilterExisting,
+            LGSPGraphStatistics graphStatistics,
             SourceBuilder externalSource, SourceBuilder source)
         {
             // analyze the matching patterns, inline the subpatterns when expected to be benefitial
@@ -1023,8 +1039,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
             {
-                GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen,
-                    !(matchingPattern is LGSPRulePattern), false);
+                GenerateScheduledSearchPlans(matchingPattern.patternGraph, graphStatistics, 
+                    matcherGen, !(matchingPattern is LGSPRulePattern), false);
 
                 matcherGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph);
 
@@ -1721,15 +1737,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="specPath">The path to the rule specification file (.grg).</param>
         /// <param name="destDir">The directory, where the generated libraries are to be placed.</param>
         /// <param name="intermediateDir">A directory, where intermediate files can be placed.</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <param name="externalAssemblies">External assemblies to reference</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        public static void ProcessSpecification(String specPath, String destDir, String intermediateDir, ProcessSpecFlags flags, params String[] externalAssemblies)
+        public static void ProcessSpecification(String specPath, String destDir, String intermediateDir, String statisticsPath, ProcessSpecFlags flags, params String[] externalAssemblies)
         {
             ErrorType ret;
             try
             {
-                ret = new LGSPGrGen(flags).ProcessSpecificationImpl(specPath, destDir, intermediateDir, externalAssemblies);
+                ret = new LGSPGrGen(flags).ProcessSpecificationImpl(specPath, destDir, intermediateDir, statisticsPath, externalAssemblies);
             }
             catch(Exception ex)
             {
@@ -1791,7 +1808,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             try
             {
-                ProcessSpecification(specPath, specDir, dirname, flags, externalAssemblies);
+                ProcessSpecification(specPath, specDir, dirname, null, flags, externalAssemblies);
             }
             finally
             {

@@ -2852,7 +2852,7 @@ exitSecondLoop: ;
             {
                 LGSPMatchingPattern smp = subpatternMatchingPattern.Key;
 
-                LGSPGrGen.GenerateScheduledSearchPlans(smp.patternGraph, this, true, false);
+                LGSPGrGen.GenerateScheduledSearchPlans(smp.patternGraph, null, this, true, false);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
             }
@@ -2860,7 +2860,7 @@ exitSecondLoop: ;
             // build search plans code for actions
             foreach(LGSPAction action in actions)
             {
-                LGSPGrGen.GenerateScheduledSearchPlans(action.rulePattern.patternGraph, this, false, false);
+                LGSPGrGen.GenerateScheduledSearchPlans(action.rulePattern.patternGraph, null, this, false, false);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
             }

@@ -191,10 +191,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="specPath">The path to the rule specification file (.grg).</param>
         /// <param name="destDir">The directory, where the generated libraries are to be placed.</param>
         /// <param name="intermediateDir">A directory, where intermediate files can be placed.</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <param name="externalAssemblies">External assemblies to reference</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        void ProcessSpecification(String specPath, String destDir, String intermediateDir, ProcessSpecFlags flags, params String[] externalAssemblies);
+        void ProcessSpecification(String specPath, String destDir, String intermediateDir, String statisticsPath, ProcessSpecFlags flags, params String[] externalAssemblies);
 
         /// <summary>
         /// Processes the given rule specification file and generates a model and actions library in the same directory as the specification file.
