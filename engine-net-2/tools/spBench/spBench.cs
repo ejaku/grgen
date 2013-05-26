@@ -163,7 +163,7 @@ namespace spBench
             MatchGen = new LGSPMatcherGenerator(graph.Model);
             Action = action;
             PatternGraph = (PatternGraph) action.rulePattern.PatternGraph;
-            SearchPlanGraph = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(graph, PatternGraph, false, false));
+            SearchPlanGraph = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(graph.statistics, PatternGraph, false, false));
 
 //            DumpSearchPlanGraph(GenerateSearchPlanGraphNewCost(graph, (PatternGraph) action.RulePattern.PatternGraph, false), action.Name, "initial");
 
@@ -488,7 +488,7 @@ namespace spBench
             {
                 PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
                 NegPatternGraphs[i] = negPatternGraph;
-                NegSPGraphs[i] = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(Graph, negPatternGraph, true, false));
+                NegSPGraphs[i] = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(Graph.statistics, negPatternGraph, true, false));
                 NegSPGraphs[i].Root.ElementID = i;
                 Dictionary<String, bool> neededElemNames = new Dictionary<String, bool>();
                 foreach(PatternNode node in negPatternGraph.Nodes)
@@ -763,14 +763,14 @@ namespace spBench
                         SearchPlanNodeNode src = (SearchPlanNodeNode) edge.PatternEdgeSource;
                         SearchPlanNodeNode tgt = (SearchPlanNodeNode) op.SourceSPNode;
 
-                        int numTgtNodes = ctx.Graph.nodeCounts[tgt.PatternElement.TypeID];
+                        int numTgtNodes = ctx.Graph.statistics.nodeCounts[tgt.PatternElement.TypeID];
                         if(numTgtNodes == 0) numTgtNodes = 1;
 
-                        float vstructVal = ctx.Graph.vstructs[(((tgt.PatternElement.TypeID * ctx.Graph.dim1size)
-                            + edge.PatternElement.TypeID) * ctx.Graph.dim2size + src.PatternElement.TypeID) * 2 + (int) LGSPDirection.In];
+                        float vstructVal = ctx.Graph.statistics.vstructs[(((tgt.PatternElement.TypeID * ctx.Graph.statistics.dim1size)
+                            + edge.PatternElement.TypeID) * ctx.Graph.statistics.dim2size + src.PatternElement.TypeID) * 2 + (int)LGSPDirection.In];
                         if(vstructVal < EPSILON) vstructVal = 1;
 
-                        localcost = ctx.Graph.meanInDegree[tgt.PatternElement.TypeID];
+                        localcost = ctx.Graph.statistics.meanInDegree[tgt.PatternElement.TypeID];
                         splitcost = vstructVal / numTgtNodes;
                         implcost = splitcost;
                     }
@@ -780,14 +780,14 @@ namespace spBench
                         SearchPlanNodeNode tgt = (SearchPlanNodeNode) edge.PatternEdgeTarget;
                         SearchPlanNodeNode src = (SearchPlanNodeNode) op.SourceSPNode;
 
-                        int numSrcNodes = ctx.Graph.nodeCounts[src.PatternElement.TypeID];
+                        int numSrcNodes = ctx.Graph.statistics.nodeCounts[src.PatternElement.TypeID];
                         if(numSrcNodes == 0) numSrcNodes = 1;
 
-                        float vstructVal = ctx.Graph.vstructs[(((src.PatternElement.TypeID * ctx.Graph.dim1size)
-                            + edge.PatternElement.TypeID) * ctx.Graph.dim2size + tgt.PatternElement.TypeID) * 2 + (int) LGSPDirection.Out];
+                        float vstructVal = ctx.Graph.statistics.vstructs[(((src.PatternElement.TypeID * ctx.Graph.statistics.dim1size)
+                            + edge.PatternElement.TypeID) * ctx.Graph.statistics.dim2size + tgt.PatternElement.TypeID) * 2 + (int)LGSPDirection.Out];
                         if(vstructVal < EPSILON) vstructVal = 1;
 
-                        localcost = ctx.Graph.meanOutDegree[src.PatternElement.TypeID];
+                        localcost = ctx.Graph.statistics.meanOutDegree[src.PatternElement.TypeID];
                         splitcost = vstructVal / numSrcNodes;
                         implcost = splitcost;
                     }
@@ -796,7 +796,7 @@ namespace spBench
                         SearchPlanNode spnode = (SearchPlanNode) op.Element;
                         if(spnode.NodeType == PlanNodeType.Node)
                         {
-                            localcost = ctx.Graph.nodeCounts[spnode.PatternElement.TypeID];
+                            localcost = ctx.Graph.statistics.nodeCounts[spnode.PatternElement.TypeID];
                             splitcost = localcost;
                         }
                         else
@@ -804,9 +804,9 @@ namespace spBench
                             SearchPlanEdgeNode edge = (SearchPlanEdgeNode) spnode;
                             SearchPlanNodeNode src = (SearchPlanNodeNode) edge.PatternEdgeSource;
                             SearchPlanNodeNode tgt = (SearchPlanNodeNode) edge.PatternEdgeTarget;
-                            localcost = ctx.Graph.edgeCounts[spnode.PatternElement.TypeID];
-                            splitcost = ctx.Graph.vstructs[(((src.PatternElement.TypeID * ctx.Graph.dim1size)
-                                    + edge.PatternElement.TypeID) * ctx.Graph.dim2size + tgt.PatternElement.TypeID) * 2 + (int) LGSPDirection.Out];
+                            localcost = ctx.Graph.statistics.edgeCounts[spnode.PatternElement.TypeID];
+                            splitcost = ctx.Graph.statistics.vstructs[(((src.PatternElement.TypeID * ctx.Graph.statistics.dim1size)
+                                    + edge.PatternElement.TypeID) * ctx.Graph.statistics.dim2size + tgt.PatternElement.TypeID) * 2 + (int)LGSPDirection.Out];
                         }
                         implcost = localcost;
                     }
