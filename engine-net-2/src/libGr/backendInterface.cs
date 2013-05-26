@@ -135,12 +135,14 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
         /// <param name="graphName">Name of the new graph.</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
         /// <param name="newGraph">Returns the new graph.</param>
         /// <param name="newActions">Returns the new BaseActions object.</param>
         /// <exception cref="System.Exception">Thrown when something goes wrong.</exception>
-        void CreateFromSpec(String grgFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies,
+        void CreateFromSpec(String grgFilename, String graphName, String statisticsPath,
+            ProcessSpecFlags flags, List<String> externalAssemblies,
             out IGraph newGraph, out BaseActions newActions);
 
         /// <summary>
@@ -149,13 +151,15 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
         /// <param name="graphName">Name of the new graph.</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
         /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         /// <param name="newGraph">Returns the new named graph.</param>
         /// <param name="newActions">Returns the new BaseActions object.</param>
         /// <exception cref="System.Exception">Thrown when something goes wrong.</exception>
-        void CreateNamedFromSpec(String grgFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies, int capacity,
+        void CreateNamedFromSpec(String grgFilename, String graphName, String statisticsPath, 
+            ProcessSpecFlags flags, List<String> externalAssemblies, int capacity,
             out INamedGraph newGraph, out BaseActions newActions);
 
         /// <summary>
@@ -164,12 +168,14 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
         /// <param name="graphName">Name of the new graph.</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
         /// <returns>The new IGraph backend instance.</returns>
-        IGraph CreateFromSpec(String gmFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies);
+        IGraph CreateFromSpec(String gmFilename, String graphName, String statisticsPath,
+            ProcessSpecFlags flags, List<String> externalAssemblies);
 
         /// <summary>
         /// Creates a new INamedGraph instance from the specified specification file.
@@ -177,13 +183,15 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
         /// <param name="graphName">Name of the new graph.</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
         /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
         /// <returns>The new INamedGraph backend instance.</returns>
-        INamedGraph CreateNamedFromSpec(String gmFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies, int capacity);
+        INamedGraph CreateNamedFromSpec(String gmFilename, String graphName, String statisticsPath,
+            ProcessSpecFlags flags, List<String> externalAssemblies, int capacity);
 
         /// <summary>
         /// Processes the given rule specification file and generates a model and actions library.
@@ -195,7 +203,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <param name="externalAssemblies">External assemblies to reference</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        void ProcessSpecification(String specPath, String destDir, String intermediateDir, String statisticsPath, ProcessSpecFlags flags, params String[] externalAssemblies);
+        void ProcessSpecification(String specPath, String destDir, String intermediateDir, String statisticsPath, 
+            ProcessSpecFlags flags, params String[] externalAssemblies);
 
         /// <summary>
         /// Processes the given rule specification file and generates a model and actions library in the same directory as the specification file.

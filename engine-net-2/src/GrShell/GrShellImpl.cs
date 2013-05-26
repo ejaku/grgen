@@ -265,6 +265,7 @@ namespace de.unika.ipd.grGen.grShell
         public IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
 
         List<String> newGraphExternalAssembliesReferenced = new List<String>();
+        String newGraphStatistics = null;
         bool newGraphKeepDebug = false;
         bool newGraphLazyNIC = false;
         bool newGraphNoinline = false;
@@ -1267,6 +1268,17 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
+        public bool NewGraphSetStatistics(String filepath)
+        {
+            if(!File.Exists(filepath))
+            {
+                errOut.WriteLine("Can't find statistics file {0}!", filepath);
+                return false;
+            }
+            newGraphStatistics = filepath;
+            return true;
+        }
+
         public bool NewGraphSetLazyNIC(bool on)
         {
             newGraphLazyNIC = on;
@@ -1338,7 +1350,7 @@ namespace de.unika.ipd.grGen.grShell
                         ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
-                        graph = curGraphBackend.CreateNamedFromSpec(specFilename, graphName, 
+                        graph = curGraphBackend.CreateNamedFromSpec(specFilename, graphName, null,
                             flags, newGraphExternalAssembliesReferenced, 0);
                     }
                     catch(Exception e)
@@ -1369,7 +1381,7 @@ namespace de.unika.ipd.grGen.grShell
                         ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
-                        curGraphBackend.CreateNamedFromSpec(specFilename, graphName, 
+                        curGraphBackend.CreateNamedFromSpec(specFilename, graphName, newGraphStatistics,
                             flags, newGraphExternalAssembliesReferenced, 0,
                             out graph, out actions);
                     }

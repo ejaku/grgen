@@ -1772,9 +1772,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// Processes the given rule specification file and generates a model and actions library in the same directory as the specification file.
         /// </summary>
         /// <param name="specPath">The path to the rule specification file (.grg).</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <param name="externalAssemblies">External assemblies to reference</param>
-        public static void ProcessSpecification(String specPath, ProcessSpecFlags flags, params String[] externalAssemblies)
+        public static void ProcessSpecification(String specPath, String statisticsPath, 
+            ProcessSpecFlags flags, params String[] externalAssemblies)
         {
             specPath = FixDirectorySeparators(specPath);
 
@@ -1808,7 +1810,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             try
             {
-                ProcessSpecification(specPath, specDir, dirname, null, flags, externalAssemblies);
+                ProcessSpecification(specPath, specDir, dirname, statisticsPath, flags, externalAssemblies);
             }
             finally
             {

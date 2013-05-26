@@ -278,6 +278,7 @@ TOKEN: {
 |   < DEBUG: "debug" >
 |   < DEF: "def" >
 |   < DELETE: "delete" >
+|   < DEQUE: "deque" >
 |   < DISABLE: "disable" >
 |   < DUMP: "dump" >
 |   < ECHO: "echo">
@@ -310,6 +311,7 @@ TOKEN: {
 |   < LABELS: "labels" >
 |   < LAYOUT: "layout" >
 |   < LAZYNIC: "lazynic" >
+|   < LINESTYLE: "linestyle" >
 |   < LS: "ls" >
 |   < MAP: "map" >
 |   < MODE: "mode" >
@@ -328,7 +330,6 @@ TOKEN: {
 |   < PARSE: "parse" >
 |   < PARSER: "parser" >
 |   < PWD: "pwd" >
-|   < DEQUE: "deque" >
 |   < QUIT: "quit" >
 |   < RANDOMSEED: "randomseed" >
 |   < RECORD: "record" >
@@ -347,9 +348,9 @@ TOKEN: {
 |   < SILENCE: "silence" >
 |   < SPECIFIED: "specified" >
 |   < START: "start" >
+|   < STATISTICS: "statistics" >
 |   < STRICT: "strict" >
 |   < STOP: "stop" >
-|   < LINESTYLE: "linestyle" >
 |   < SUB: "sub" >
 |   < SUPER: "super" >
 |   < SYNC: "sync" >
@@ -1416,7 +1417,7 @@ void ShellCommand():
 
 void NewCommand():
 {
-	String modelFilename, referencePath, graphName = "DefaultGraph";
+	String modelFilename, path, graphName = "DefaultGraph";
 	INode srcNode, tgtNode;
 	ElementDef elemDef;
 	bool directed, on;
@@ -1429,14 +1430,19 @@ void NewCommand():
 			noError = impl.NewGraph(modelFilename, graphName);
 		}
 	|
-		"add" "reference" referencePath=Filename() LineEnd()
+		"add" "reference" path=Filename() LineEnd()
 		{
-			noError = impl.NewGraphAddReference(referencePath);
+			noError = impl.NewGraphAddReference(path);
 		}
 	|
 		LOOKAHEAD(2) "set" "keepdebug" ("on" { on = true; } | "off" { on = false; }) LineEnd()
 		{
 			noError = impl.NewGraphSetKeepDebug(on);
+		}
+	|
+		LOOKAHEAD(2) "set" "statistics" path=Filename() LineEnd()
+		{
+			noError = impl.NewGraphSetStatistics(path);
 		}
 	|
 		LOOKAHEAD(2) "set" "lazynic" ("on" { on = true; } | "off" { on = false; }) LineEnd()

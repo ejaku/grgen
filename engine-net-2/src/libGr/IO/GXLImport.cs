@@ -130,7 +130,8 @@ namespace de.unika.ipd.grGen.libGr
             String graphname = graphelem.GetAttribute("id");
             if(modelfilename.EndsWith(".grg"))
             {
-                backend.CreateFromSpec(modelfilename, graphname, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), 
+                backend.CreateFromSpec(modelfilename, graphname, null, 
+                    ProcessSpecFlags.UseNoExistingFiles, new List<String>(), 
                     out graph, out actions);
             }
             else

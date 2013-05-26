@@ -160,7 +160,8 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             IGraph graph;
-            backend.CreateFromSpec(grgFilename, "defaultname", ProcessSpecFlags.UseNoExistingFiles, new List<String>(), 
+            backend.CreateFromSpec(grgFilename, "defaultname", null,
+                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), 
                 out graph, out actions);
             return graph;
         }
