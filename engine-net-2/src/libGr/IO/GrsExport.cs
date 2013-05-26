@@ -12,6 +12,41 @@ using System.IO;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    public class GraphExportContext
+    {
+        public GraphExportContext(INamedGraph graph)
+        {
+            this.graph = graph;
+            if(nameToContext.ContainsKey(graph.Name))
+            {
+                int id = 0;
+                while(nameToContext.ContainsKey(graph.Name + "_" + id.ToString()))
+                {
+                    ++id;
+                }
+                this.name = graph.Name + "_" + id.ToString();
+            }
+            else
+                this.name = graph.Name;
+        }
+
+        // the name used for export, may be different from the real graph name
+        // here we ensure the uniqueness needed for an export / for getting an importable serialization
+        // these dictionaries are only filled in the export context of the main graph
+        public Dictionary<INamedGraph, GraphExportContext> graphToContext = new Dictionary<INamedGraph, GraphExportContext>();
+        public Dictionary<string, GraphExportContext> nameToContext = new Dictionary<string, GraphExportContext>();
+
+        public INamedGraph graph;
+        public string name;
+
+        public string modelPathPrefix = null; // not null iff this is the main graph
+        public bool nodeOrEdgeUsedInAttribute = false;
+        public bool subgraphUsedInAttribute = false;
+
+        public bool isExported = false;
+        public bool areGraphAttributesExported = false; // needed due to Recorder
+    }
+
     /// <summary>
     /// Exports graphs to the GRS format.
     /// </summary>
@@ -67,79 +102,44 @@ namespace de.unika.ipd.grGen.libGr
             ExportYouMustCloseStreamWriter(graph, writer, "");
         }
 
-        public class GraphExportContext
-        {
-            // the name used for export, may be different from the real graph name
-            // here we ensure the uniqueness needed for an export / for getting an importable serialization
-            public static Dictionary<INamedGraph, GraphExportContext> graphToContext = null;
-            public static Dictionary<string, GraphExportContext> nameToContext = null;
-
-            public GraphExportContext(INamedGraph graph)
-            {
-                this.graph = graph;
-                if(nameToContext.ContainsKey(graph.Name))
-                {
-                    int id = 0;
-                    while(nameToContext.ContainsKey(graph.Name + "_" + id.ToString()))
-                    {
-                        ++id;
-                    }
-                    this.name = graph.Name + "_" + id.ToString();
-                }
-                else
-                    this.name = graph.Name;
-            }
-
-            public INamedGraph graph;
-            public string name;
-
-            public string modelPathPrefix = null; // not null iff this is the main graph
-            public bool nodeOrEdgeUsedInAttribute = false;
-            public bool subgraphUsedInAttribute = false;
-
-            public bool isExported = false;
-        }
-
         /// <summary>
         /// Exports the given graph to the file given by the stream writer in grs format.
         /// Any errors will be reported by exception.
+        /// Returns the graph export context of the main graph.
         /// </summary>
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
         /// <param name="modelPathPrefix">Path to the model.</param>
-        public static void ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix)
+        public static GraphExportContext ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix)
         {
-            GraphExportContext.graphToContext = new Dictionary<INamedGraph, GraphExportContext>();
-            GraphExportContext.nameToContext = new Dictionary<string, GraphExportContext>();
-
             GraphExportContext mainGraphContext = new GraphExportContext(graph);
+            mainGraphContext.graphToContext[mainGraphContext.graph] = mainGraphContext;
+            mainGraphContext.nameToContext[mainGraphContext.name] = mainGraphContext;
             mainGraphContext.modelPathPrefix = modelPathPrefix;
-            GraphExportContext.graphToContext[mainGraphContext.graph] = mainGraphContext;
-            GraphExportContext.nameToContext[mainGraphContext.name] = mainGraphContext;
 
             sw.WriteLine("# begin of graph \"{0}\" saved by GrsExport", mainGraphContext.name);
             sw.WriteLine();
 
-            bool subgraphAdded = ExportSingleGraph(mainGraphContext, sw);
+            bool subgraphAdded = ExportSingleGraph(mainGraphContext, mainGraphContext, sw);
 
             if(subgraphAdded)
             {
 restart:
-                foreach(KeyValuePair<string, GraphExportContext> kvp in GraphExportContext.nameToContext)
+                foreach(KeyValuePair<string, GraphExportContext> kvp in mainGraphContext.nameToContext)
                 {
                     GraphExportContext context = kvp.Value;
                     if(!context.isExported)
                     {
-                        subgraphAdded = ExportSingleGraph(context, sw);
+                        subgraphAdded = ExportSingleGraph(mainGraphContext, context, sw);
                         if(subgraphAdded)
                             goto restart;
                     }
                 }
 
-                foreach(KeyValuePair<string, GraphExportContext> kvp in GraphExportContext.nameToContext)
+                foreach(KeyValuePair<string, GraphExportContext> kvp in mainGraphContext.nameToContext)
                 {
                     GraphExportContext context = kvp.Value;
-                    EmitSubgraphAttributes(context, sw);
+                    EmitSubgraphAttributes(mainGraphContext, context, sw);
                 }
 
                 sw.WriteLine("in \"" + mainGraphContext.name + "\""); // after import in main graph
@@ -148,11 +148,11 @@ restart:
             sw.WriteLine("# end of graph \"{0}\" saved by GrsExport", mainGraphContext.name);
             sw.WriteLine();
 
-            GraphExportContext.graphToContext = null;
-            GraphExportContext.nameToContext = null;
+            return mainGraphContext;
         }
 
-        private static bool ExportSingleGraph(GraphExportContext context, StreamWriter sw)
+        public static bool ExportSingleGraph(GraphExportContext mainGraphContext, 
+            GraphExportContext context, StreamWriter sw)
         {
             bool subgraphAdded = false;
 
@@ -176,12 +176,12 @@ restart:
                     if(IsGraphUsedInAttribute(attrType))
                     {
                         context.subgraphUsedInAttribute = true;
-                        subgraphAdded |= AddSubgraphAsNeeded(node, attrType);
+                        subgraphAdded |= AddSubgraphAsNeeded(mainGraphContext, node, attrType);
                         continue;
                     }
 
                     object value = node.GetAttribute(attrType.Name);
-                    EmitAttributeInitialization(attrType, value, context.graph, sw);
+                    EmitAttributeInitialization(mainGraphContext, attrType, value, context.graph, sw);
                 }
                 sw.WriteLine(")");
                 numNodes++;
@@ -210,7 +210,7 @@ restart:
                         if(IsGraphUsedInAttribute(attrType))
                         {
                             context.subgraphUsedInAttribute = true;
-                            subgraphAdded |= AddSubgraphAsNeeded(edge, attrType);
+                            subgraphAdded |= AddSubgraphAsNeeded(mainGraphContext, edge, attrType);
                             continue;
                         }
 
@@ -218,7 +218,7 @@ restart:
                         // TODO: Add support for null values, as the default initializers could assign non-null values!
                         if(value != null)
                         {
-                            EmitAttributeInitialization(attrType, value, context.graph, sw);
+                            EmitAttributeInitialization(mainGraphContext, attrType, value, context.graph, sw);
                         }
                     }
                     sw.WriteLine(") -> @(\"{0}\")", context.graph.GetElementName(edge.Target));
@@ -245,7 +245,7 @@ restart:
 
                         object value = node.GetAttribute(attrType.Name);
                         sw.Write("{0}.{1} = ", context.graph.GetElementName(node), attrType.Name);
-                        EmitAttribute(attrType, value, context.graph, sw);
+                        EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
                         sw.Write("\n");
                     }
 
@@ -260,33 +260,104 @@ restart:
 
                             object value = edge.GetAttribute(attrType.Name);
                             sw.Write("{0}.{1} = ", context.graph.GetElementName(edge), attrType.Name);
-                            EmitAttribute(attrType, value, context.graph, sw);
+                            EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
                             sw.Write("\n");
                         }
                     }
                 }
             }
 
+            if(!context.subgraphUsedInAttribute)
+                context.areGraphAttributesExported = true;
             context.isExported = true;
             return subgraphAdded;
         }
 
-        private static bool AddSubgraphAsNeeded(IGraphElement elem, AttributeType attrType)
+        private static bool AddSubgraphAsNeeded(GraphExportContext mainGraphContext,
+            IGraphElement elem, AttributeType attrType)
         {
-            INamedGraph graph = (INamedGraph)elem.GetAttribute(attrType.Name);
-            if(!GraphExportContext.graphToContext.ContainsKey(graph))
+            if(attrType.Kind == AttributeKind.GraphAttr)
+                return AddSubgraphAsNeeded(mainGraphContext, (INamedGraph)elem.GetAttribute(attrType.Name));
+
+            bool graphAdded = false;
+
+            if(attrType.Kind == AttributeKind.SetAttr
+                || attrType.Kind == AttributeKind.MapAttr
+                || attrType.Kind == AttributeKind.ArrayAttr
+                || attrType.Kind == AttributeKind.DequeAttr)
+            {
+                if(attrType.ValueType.Kind == AttributeKind.GraphAttr)
+                {
+                    if(attrType.Kind == AttributeKind.SetAttr)
+                    {
+                        IDictionary set = (IDictionary)elem.GetAttribute(attrType.Name);
+                        foreach(DictionaryEntry entry in set)
+                        {
+                            graphAdded |= AddSubgraphAsNeeded(mainGraphContext, (INamedGraph)entry.Key);
+                        }
+                    }
+                    else if(attrType.Kind == AttributeKind.MapAttr)
+                    {
+                        IDictionary map = (IDictionary)elem.GetAttribute(attrType.Name);
+                        foreach(DictionaryEntry entry in map)
+                        {
+                            graphAdded |= AddSubgraphAsNeeded(mainGraphContext, (INamedGraph)entry.Value);
+                        }
+                    }
+                    else if(attrType.Kind == AttributeKind.ArrayAttr)
+                    {
+                        IList array = (IList)elem.GetAttribute(attrType.Name);
+                        foreach(object entry in array)
+                        {
+                            graphAdded |= AddSubgraphAsNeeded(mainGraphContext, (INamedGraph)entry);
+                        }
+                    }
+                    else if(attrType.Kind == AttributeKind.DequeAttr)
+                    {
+                        IDeque deque = (IDeque)elem.GetAttribute(attrType.Name);
+                        foreach(object entry in deque)
+                        {
+                            graphAdded |= AddSubgraphAsNeeded(mainGraphContext, (INamedGraph)entry);
+                        }
+                    }
+                }
+            }
+
+            if(attrType.Kind == AttributeKind.MapAttr)
+            {
+                if(attrType.KeyType.Kind == AttributeKind.GraphAttr)
+                {
+                    IDictionary map = (IDictionary)elem.GetAttribute(attrType.Name);
+                    foreach(DictionaryEntry entry in map)
+                    {
+                        graphAdded |= AddSubgraphAsNeeded(mainGraphContext, (INamedGraph)entry.Key);
+                    }
+                }
+            }
+
+            return graphAdded;
+        }
+
+        public static bool AddSubgraphAsNeeded(GraphExportContext mainGraphContext, 
+            INamedGraph graph)
+        {
+            if(!mainGraphContext.graphToContext.ContainsKey(graph))
             {
                 GraphExportContext subgraphContext = new GraphExportContext(graph);
-                GraphExportContext.graphToContext[graph] = subgraphContext;
-                GraphExportContext.nameToContext[subgraphContext.name] = subgraphContext;
+                mainGraphContext.graphToContext[graph] = subgraphContext;
+                mainGraphContext.nameToContext[subgraphContext.name] = subgraphContext;
                 return true;
             }
             else
                 return false;
         }
 
-        private static void EmitSubgraphAttributes(GraphExportContext context, StreamWriter sw)
+        public static void EmitSubgraphAttributes(GraphExportContext mainGraphContext,
+            GraphExportContext context, StreamWriter sw)
         {
+            if(context.areGraphAttributesExported)
+                return;
+
             sw.WriteLine("in \"" + context.name + "\"");
 
             foreach(INode node in context.graph.Nodes)
@@ -298,7 +369,7 @@ restart:
 
                     object value = node.GetAttribute(attrType.Name);
                     sw.Write("{0}.{1} = ", context.graph.GetElementName(node), attrType.Name);
-                    EmitAttribute(attrType, value, context.graph, sw);
+                    EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
                     sw.Write("\n");
                 }
 
@@ -311,28 +382,33 @@ restart:
 
                         object value = edge.GetAttribute(attrType.Name);
                         sw.Write("{0}.{1} = ", context.graph.GetElementName(edge), attrType.Name);
-                        EmitAttribute(attrType, value, context.graph, sw);
+                        EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
                         sw.Write("\n");
                     }
                 }
             }
+
+            context.areGraphAttributesExported = true;
         }
 
         /// <summary>
         /// Emits the node/edge attribute initialization code in graph exporting
-        /// for an attribute of the given type with the given value into the stream writer
+        /// for an attribute of the given type with the given value into the stream writer.
         /// </summary>
-        private static void EmitAttributeInitialization(AttributeType attrType, object value, INamedGraph graph, StreamWriter sw)
+        private static void EmitAttributeInitialization(GraphExportContext mainGraphContext,
+            AttributeType attrType, object value, INamedGraph graph, StreamWriter sw)
         {
             sw.Write(", {0} = ", attrType.Name);
-            EmitAttribute(attrType, value, graph, sw);
+            EmitAttribute(mainGraphContext, attrType, value, graph, sw);
         }
 
         /// <summary>
         /// Emits the attribute value as code
         /// for an attribute of the given type with the given value into the stream writer
+        /// Main graph context is needed to get access to the graph -> env dictionary.
         /// </summary>
-        public static void EmitAttribute(AttributeType attrType, object value, INamedGraph graph, StreamWriter sw)
+        public static void EmitAttribute(GraphExportContext mainGraphContext,
+            AttributeType attrType, object value, INamedGraph graph, StreamWriter sw)
         {
             if(attrType.Kind==AttributeKind.SetAttr)
             {
@@ -341,8 +417,8 @@ restart:
                 bool first = true;
                 foreach(DictionaryEntry entry in set)
                 {
-                    if(first) { sw.Write(ToString(entry.Key, attrType.ValueType, graph)); first = false; }
-                    else { sw.Write("," + ToString(entry.Key, attrType.ValueType, graph)); }
+                    if(first) { sw.Write(ToString(mainGraphContext, entry.Key, attrType.ValueType, graph)); first = false; }
+                    else { sw.Write("," + ToString(mainGraphContext, entry.Key, attrType.ValueType, graph)); }
                 }
                 sw.Write("}");
             }
@@ -353,11 +429,11 @@ restart:
                 bool first = true;
                 foreach(DictionaryEntry entry in map)
                 {
-                    if(first) { sw.Write(ToString(entry.Key, attrType.KeyType, graph)
-                        + "->" + ToString(entry.Value, attrType.ValueType, graph)); first = false;
+                    if(first) { sw.Write(ToString(mainGraphContext, entry.Key, attrType.KeyType, graph)
+                        + "->" + ToString(mainGraphContext, entry.Value, attrType.ValueType, graph)); first = false;
                     }
-                    else { sw.Write("," + ToString(entry.Key, attrType.KeyType, graph)
-                        + "->" + ToString(entry.Value, attrType.ValueType, graph)); }
+                    else { sw.Write("," + ToString(mainGraphContext, entry.Key, attrType.KeyType, graph)
+                        + "->" + ToString(mainGraphContext, entry.Value, attrType.ValueType, graph)); }
                 }
                 sw.Write("}");
             }
@@ -368,8 +444,8 @@ restart:
                 bool first = true;
                 foreach(object entry in array)
                 {
-                    if(first) { sw.Write(ToString(entry, attrType.ValueType, graph)); first = false; }
-                    else { sw.Write("," + ToString(entry, attrType.ValueType, graph)); }
+                    if(first) { sw.Write(ToString(mainGraphContext, entry, attrType.ValueType, graph)); first = false; }
+                    else { sw.Write("," + ToString(mainGraphContext, entry, attrType.ValueType, graph)); }
                 }
                 sw.Write("]");
             }
@@ -380,22 +456,24 @@ restart:
                 bool first = true;
                 foreach(object entry in deque)
                 {
-                    if(first) { sw.Write(ToString(entry, attrType.ValueType, graph)); first = false; }
-                    else { sw.Write("," + ToString(entry, attrType.ValueType, graph)); }
+                    if(first) { sw.Write(ToString(mainGraphContext, entry, attrType.ValueType, graph)); first = false; }
+                    else { sw.Write("," + ToString(mainGraphContext, entry, attrType.ValueType, graph)); }
                 }
                 sw.Write("[");
             }
             else
             {
-                sw.Write("{0}", ToString(value, attrType, graph));
+                sw.Write("{0}", ToString(mainGraphContext, value, attrType, graph));
             }
         }
 
         /// <summary>
-        /// type needed for enum, otherwise null ok
-        /// graph needed for node/edge in set/map, otherwise null ok
+        /// Type needed for enum, otherwise null ok.
+        /// Graph needed for node/edge, otherwise null ok.
+        /// Main graph context needed to get access to the graph -> env dictionary for subgraph.
         /// </summary>
-        public static String ToString(object value, AttributeType type, INamedGraph graph)
+        public static String ToString(GraphExportContext mainGraphContext,
+            object value, AttributeType type, INamedGraph graph)
         {
             switch(type.Kind)
             {
@@ -420,8 +498,8 @@ restart:
             case AttributeKind.ObjectAttr:
                 return graph.Model.Serialize(value, type, graph);
             case AttributeKind.GraphAttr:
-                if(value != null && GraphExportContext.graphToContext != null)
-                    return "\"" + GraphExportContext.graphToContext[(INamedGraph)value].name + "\"";
+                if(value != null && mainGraphContext != null && mainGraphContext.graphToContext != null)
+                    return "\"" + mainGraphContext.graphToContext[(INamedGraph)value].name + "\"";
                 else
                     return "null";
             case AttributeKind.EnumAttr:
@@ -461,7 +539,7 @@ restart:
             return false;
         }
 
-        private static bool IsGraphUsedInAttribute(AttributeType attrType)
+        public static bool IsGraphUsedInAttribute(AttributeType attrType)
         {
             if(attrType.Kind == AttributeKind.GraphAttr)
                 return true;

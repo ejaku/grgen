@@ -13,6 +13,21 @@ using System.IO.Compression;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
+    /// A class holding the state/context of a recording session
+    /// </summary>
+    class RecordingState
+    {
+        public RecordingState(StreamWriter writer, GraphExportContext exportContext)
+        {
+            this.writer = writer;
+            this.exportContext = exportContext;
+        }
+
+        public StreamWriter writer;
+        public GraphExportContext exportContext;
+    }
+
+    /// <summary>
     /// A class for recording changes (and their causes) applied to a graph into a file,
     /// so that they can get replayed.
     /// </summary>
@@ -21,8 +36,7 @@ namespace de.unika.ipd.grGen.libGr
         INamedGraph graph = null;
         IGraphProcessingEnvironment procEnv = null;
 
-        private IDictionary<string, StreamWriter> recordings = new Dictionary<string, StreamWriter>();
-        
+        private IDictionary<string, RecordingState> recordings = new Dictionary<string, RecordingState>();
 
         /// <summary>
         /// Create a recorder
@@ -67,9 +81,10 @@ namespace de.unika.ipd.grGen.libGr
                     if(lastIndex==-1) lastIndex = filename.LastIndexOf("\\");
                     pathPrefix = filename.Substring(0, lastIndex+1);
                 }
-                GRSExport.ExportYouMustCloseStreamWriter(graph, writer, pathPrefix);
+                GraphExportContext mainGraphContext = GRSExport.ExportYouMustCloseStreamWriter(graph, writer, pathPrefix);
 
-                recordings.Add(new KeyValuePair<string, StreamWriter>(filename, writer));
+                recordings.Add(new KeyValuePair<string, RecordingState>(filename, 
+                    new RecordingState(writer, mainGraphContext)));
             }
         }
 
@@ -77,7 +92,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(recordings.ContainsKey(filename))
             {
-                recordings[filename].Close();
+                recordings[filename].writer.Close();
                 recordings.Remove(filename);
 
                 if(recordings.Count == 0)
@@ -92,20 +107,20 @@ namespace de.unika.ipd.grGen.libGr
 
         public void Write(string value)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.Write(value);
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.Write(value);
         }
 
         public void WriteLine(string value)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.Write(value + "\n");
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.Write(value + "\n");
         }
 
         public void Flush()
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.Flush();
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.Flush();
         }
 
         private void SubscribeEvents()
@@ -164,8 +179,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="node">The added node.</param>
         void NodeAdded(INode node)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("new :" + node.Type.Name + "($=\"" + graph.GetElementName(node) + "\")");
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("new :" + node.Type.Name + "($=\"" + graph.GetElementName(node) + "\")");
         }
 
         /// <summary>
@@ -174,8 +189,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="edge">The added edge.</param>
         void EdgeAdded(IEdge edge)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("new @(\"" + graph.GetElementName(edge.Source)
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("new @(\"" + graph.GetElementName(edge.Source)
                     + "\") -:" + edge.Type.Name + "($=\"" + graph.GetElementName(edge) + "\")-> @(\""
                     + graph.GetElementName(edge.Target) + "\")");
         }
@@ -186,8 +201,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="node">The node to be deleted.</param>
         void RemovingNode(INode node)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("delete node @(\"" + graph.GetElementName(node) + "\")");
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("delete node @(\"" + graph.GetElementName(node) + "\")");
         }
 
         /// <summary>
@@ -196,8 +211,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="edge">The edge to be deleted.</param>
         void RemovingEdge(IEdge edge)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("delete edge @(\"" + graph.GetElementName(edge) + "\")");
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("delete edge @(\"" + graph.GetElementName(edge) + "\")");
         }
 
         /// <summary>
@@ -207,8 +222,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newNode">The new node with the common attributes, but without the correct connections, yet.</param>
         void RetypingNode(INode oldNode, INode newNode)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("retype @(\"" + graph.GetElementName(oldNode) + "\")<" + newNode.Type.Name + ">");
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("retype @(\"" + graph.GetElementName(oldNode) + "\")<" + newNode.Type.Name + ">");
         }
 
         /// <summary>
@@ -218,8 +233,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newEdge">The new edge with the common attributes, but without the correct connections, yet.</param>
         void RetypingEdge(IEdge oldEdge, IEdge newEdge)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("retype -@(\"" + graph.GetElementName(oldEdge) + "\")<" + newEdge.Type.Name + ">->");
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("retype -@(\"" + graph.GetElementName(oldEdge) + "\")<" + newEdge.Type.Name + ">->");
         }
 
         /// <summary>
@@ -238,60 +253,64 @@ namespace de.unika.ipd.grGen.libGr
         void ChangingAttribute(IGraphElement element, AttributeType attrType,
                 AttributeChangeType changeType, Object newValue, Object keyValue)
         {
-            foreach(StreamWriter writer in recordings.Values)
+            foreach(RecordingState recordingState in recordings.Values)
+            {
+                GraphExportContext exportContext = recordingState.exportContext;
+                AddSubgraphsAsNeeded(exportContext, element, attrType, newValue, recordingState.writer);
+                AddSubgraphsAsNeeded(exportContext, element, attrType, keyValue, recordingState.writer);
                 switch(changeType)
                 {
                 case AttributeChangeType.Assign:
-                    writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name + " = ");
-                    GRSExport.EmitAttribute(attrType, newValue, graph, writer);
-                    writer.WriteLine();
+                    recordingState.writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name + " = ");
+                    GRSExport.EmitAttribute(exportContext, attrType, newValue, graph, recordingState.writer);
+                    recordingState.writer.WriteLine();
                     break;
                 case AttributeChangeType.PutElement:
-                    writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
+                    recordingState.writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
-                        writer.Write(".add(");
-                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
-                        writer.WriteLine(")");
+                        recordingState.writer.Write(".add(");
+                        recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                        recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.MapAttr:
-                        writer.Write(".add(");
-                        writer.Write(GRSExport.ToString(keyValue, attrType.KeyType, graph));
-                        writer.Write(", ");
-                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
-                        writer.WriteLine(")");
+                        recordingState.writer.Write(".add(");
+                        recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, attrType.KeyType, graph));
+                        recordingState.writer.Write(", ");
+                        recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                        recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.ArrayAttr:
                         if(keyValue == null)
                         {
-                            writer.Write(".add(");
-                            writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
-                            writer.WriteLine(")");
+                            recordingState.writer.Write(".add(");
+                            recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                            recordingState.writer.WriteLine(")");
                         }
                         else
                         {
-                            writer.Write(".add(");
-                            writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
-                            writer.Write(", ");
-                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
-                            writer.WriteLine(")");
+                            recordingState.writer.Write(".add(");
+                            recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                            recordingState.writer.Write(", ");
+                            recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                            recordingState.writer.WriteLine(")");
                         }
                         break;
                     case AttributeKind.DequeAttr:
                         if(keyValue == null)
                         {
-                            writer.Write(".add(");
-                            writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
-                            writer.WriteLine(")");
+                            recordingState.writer.Write(".add(");
+                            recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                            recordingState.writer.WriteLine(")");
                         }
                         else
                         {
-                            writer.Write(".add(");
-                            writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
-                            writer.Write(", ");
-                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
-                            writer.WriteLine(")");
+                            recordingState.writer.Write(".add(");
+                            recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                            recordingState.writer.Write(", ");
+                            recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                            recordingState.writer.WriteLine(")");
                         }
                         break;
                     default:
@@ -299,56 +318,56 @@ namespace de.unika.ipd.grGen.libGr
                     }
                     break;
                 case AttributeChangeType.RemoveElement:
-                    writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
+                    recordingState.writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
-                        writer.Write(".rem(");
-                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
-                        writer.WriteLine(")");
+                        recordingState.writer.Write(".rem(");
+                        recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                        recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.MapAttr:
-                        writer.Write(".rem(");
-                        writer.Write(GRSExport.ToString(keyValue, attrType.KeyType, graph));
-                        writer.WriteLine(")");
+                        recordingState.writer.Write(".rem(");
+                        recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, attrType.KeyType, graph));
+                        recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.ArrayAttr:
-                        writer.Write(".rem(");
+                        recordingState.writer.Write(".rem(");
                         if(keyValue!=null)
-                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
-                        writer.WriteLine(")");
+                            recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                        recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.DequeAttr:
-                        writer.Write(".rem(");
+                        recordingState.writer.Write(".rem(");
                         if(keyValue != null)
-                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
-                        writer.WriteLine(")");
+                            recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                        recordingState.writer.WriteLine(")");
                         break;
                     default:
                          throw new Exception("Wrong attribute type for attribute change type");
                     }
                     break;
                 case AttributeChangeType.AssignElement:
-                    writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
+                    recordingState.writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
                     switch(attrType.Kind)
                     {
                     case AttributeKind.ArrayAttr:
-                        writer.Write("[");
-                        writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
-                        writer.Write("] = ");
-                        writer.WriteLine(GRSExport.ToString(newValue, attrType.ValueType, graph));
+                        recordingState.writer.Write("[");
+                        recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                        recordingState.writer.Write("] = ");
+                        recordingState.writer.WriteLine(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
                         break;
                     case AttributeKind.DequeAttr:
-                        writer.Write("[");
-                        writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
-                        writer.Write("] = ");
-                        writer.WriteLine(GRSExport.ToString(newValue, attrType.ValueType, graph));
+                        recordingState.writer.Write("[");
+                        recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                        recordingState.writer.Write("] = ");
+                        recordingState.writer.WriteLine(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
                         break;
                     case AttributeKind.MapAttr:
-                        writer.Write("[");
-                        writer.Write(GRSExport.ToString(keyValue, attrType.KeyType, graph));
-                        writer.Write("] = ");
-                        writer.WriteLine(GRSExport.ToString(newValue, attrType.ValueType, graph));
+                        recordingState.writer.Write("[");
+                        recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, attrType.KeyType, graph));
+                        recordingState.writer.Write("] = ");
+                        recordingState.writer.WriteLine(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
                         break;
                     default:
                          throw new Exception("Wrong attribute type for attribute change type");
@@ -357,93 +376,160 @@ namespace de.unika.ipd.grGen.libGr
                 default:
                     throw new Exception("Unknown attribute change type");
                 }
+            }
+        }
+
+        private bool AddSubgraphsAsNeeded(GraphExportContext exportContext,
+            IGraphElement element, AttributeType attrType, Object value, StreamWriter writer)
+        {
+            if(!GRSExport.IsGraphUsedInAttribute(attrType))
+                return false;
+
+            if(value == null)
+                return false;
+
+            if(!(value is INamedGraph))
+                return false;
+            
+            bool wasAdded = GRSExport.AddSubgraphAsNeeded(exportContext, (INamedGraph)value);
+            if(wasAdded)
+            {
+            restart:
+                foreach(KeyValuePair<string, GraphExportContext> kvp in exportContext.nameToContext)
+                {
+                    GraphExportContext context = kvp.Value;
+                    if(!context.isExported)
+                    {
+                        wasAdded = GRSExport.ExportSingleGraph(exportContext, context, writer);
+                        if(wasAdded)
+                            goto restart;
+                    }
+                }
+                AddGraphAttributes(exportContext, writer);
+                writer.WriteLine("in \"" + exportContext.graphToContext[graph].name + "\" # after emitting new subgraph for attribute");
+                return true;
+            }
+            return false;
+        }
+
+        private static void AddGraphAttributes(GraphExportContext exportContext, StreamWriter writer)
+        {
+            foreach(KeyValuePair<string, GraphExportContext> kvp in exportContext.nameToContext)
+            {
+                GraphExportContext context = kvp.Value;
+                GRSExport.EmitSubgraphAttributes(exportContext, context, writer);
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////
         
         public void VisitedAlloc(int visitorID)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("# valloc " + visitorID);
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("# valloc " + visitorID);
         }
 
         public void VisitedFree(int visitorID)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("# vfree " + visitorID);
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("# vfree " + visitorID);
         }
 
         public void SettingVisited(IGraphElement elem, int visitorID, bool newValue)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("# visited[" + visitorID + "] = " + newValue);
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("# visited[" + visitorID + "] = " + newValue);
         }
 
         ////////////////////////////////////////////////////////////////////////
 
         void BeforeFinish(IMatches matches, bool special)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("# rewriting " + matches.Producer.Name + "..");
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("# rewriting " + matches.Producer.Name + "..");
         }
 
         void RewriteNextMatch()
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("# rewriting next match");
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("# rewriting next match");
         }
 
         void AfterFinish(IMatches matches, bool special)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("# ..rewritten " + matches.Producer.Name);
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("# ..rewritten " + matches.Producer.Name);
         }
 
         ////////////////////////////////////////////////////////////////////////
 
-        // a record/replay working with subgraphs would require:
-        // - globally uniquely named subgraphs
-        //    (that's only ensured at export time as of now)
-        // - notifications about the creation of new subgraphs 
-        //    (so we can emit add new graph for the ones created after recording start, but not the ones that already existed)
-        // thus we only give some hints on subgraphs in the recordings, rendering them unreplayable
-
         public void SwitchToGraph(IGraph newGraph)
         {
             IGraph oldGraph = procEnv.Graph;
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("in \"" + newGraph.Name + "\" # due to switch, before: " + oldGraph.Name);
+
+            foreach(RecordingState recordingState in recordings.Values)
+            {
+                AddSubgraphsAsNeeded((INamedGraph)newGraph, recordingState);
+
+                recordingState.writer.WriteLine("in \"" + recordingState.exportContext.graphToContext[(INamedGraph)newGraph].name + "\" # due to switch, before: " + oldGraph.Name);
+            }
+
+            graph = (INamedGraph)newGraph;
         }
 
         public void ReturnFromGraph(IGraph oldGraph)
         {
-            IGraph newGraph = procEnv.Graph;
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("in \"" + newGraph.Name + "\" # due to return, before: " + oldGraph.Name);
+            INamedGraph newGraph = (INamedGraph)procEnv.Graph;
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("in \"" + recordingState.exportContext.graphToContext[newGraph].name + "\" # due to return, before: " + oldGraph.Name);
+
+            graph = newGraph;
+        }
+
+        private static bool AddSubgraphsAsNeeded(INamedGraph potentialNewGraph, RecordingState recordingState)
+        {
+            bool wasAdded = GRSExport.AddSubgraphAsNeeded(recordingState.exportContext, potentialNewGraph);
+            if(wasAdded)
+            {
+            restart:
+                foreach(KeyValuePair<string, GraphExportContext> kvp in recordingState.exportContext.nameToContext)
+                {
+                    GraphExportContext context = kvp.Value;
+                    if(!context.isExported)
+                    {
+                        wasAdded = GRSExport.ExportSingleGraph(recordingState.exportContext, context, recordingState.writer);
+                        if(wasAdded)
+                            goto restart;
+                    }
+                }
+                AddGraphAttributes(recordingState.exportContext, recordingState.writer);
+                return true;
+            }
+            return false;
         }
 
         ////////////////////////////////////////////////////////////////////////
 
         public void TransactionStart(int transactionID)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("# begin transaction " + transactionID);
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("# begin transaction " + transactionID);
         }
 
         public void TransactionCommit(int transactionID)
         {
-            foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("# commit transaction " + transactionID);
+            foreach(RecordingState recordingState in recordings.Values)
+                recordingState.writer.WriteLine("# commit transaction " + transactionID);
         }
 
         public void TransactionRollback(int transactionID, bool start)
         {
             if(start)
-                foreach(StreamWriter writer in recordings.Values)
-                    writer.WriteLine("# rolling back transaction " + transactionID + "..");
+                foreach(RecordingState recordingState in recordings.Values)
+                    recordingState.writer.WriteLine("# rolling back transaction " + transactionID + "..");
             else
-                foreach(StreamWriter writer in recordings.Values)
-                    writer.WriteLine("# ..rolled back transaction " + transactionID);
+                foreach(RecordingState recordingState in recordings.Values)
+                    recordingState.writer.WriteLine("# ..rolled back transaction " + transactionID);
         }
     }
 }
