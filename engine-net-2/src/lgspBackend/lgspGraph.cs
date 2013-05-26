@@ -81,7 +81,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return;
             changesCounterAtLastAnalyze = changesCounter;
 
-            statistics.AnalyzeGraph(this);
+            statistics.AnalyzeGraph();
         }
 
         /// <summary>
@@ -170,6 +170,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             atNegLevelMatchedElements = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
             atNegLevelMatchedElementsGlobal = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
+
+            statistics = new LGSPGraphStatistics(this);
         }
 
         /// <summary>
@@ -250,6 +252,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SetVariableValue(var.Name, newElem);
             }*/
 
+            statistics = new LGSPGraphStatistics(this);
             statistics.Copy(dataSource);
         }
 
@@ -287,7 +290,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
             edgesByTypeCounts = new int[model.EdgeModel.Types.Length];
 
-            statistics.ResetStatisticalData();
+            if(statistics != null) // may be null when called from Copy/copy-constructor
+               statistics.ResetStatisticalData();
         }
 
 		/// <summary>
