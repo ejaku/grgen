@@ -113,7 +113,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String modelDllFilename;
                 if(MustGenerate(modelFilename, out modelDllFilename))
-                    LGSPGrGen.ProcessSpecification(modelFilename, ProcessSpecFlags.UseNoExistingFiles, new String[0]);
+                    LGSPGrGen.ProcessSpecification(modelFilename, null, ProcessSpecFlags.UseNoExistingFiles, new String[0]);
                 return named ? (LGSPNamedGraph)CreateNamedGraph(modelDllFilename, graphName, parameters) : (LGSPGraph)CreateGraph(modelDllFilename, graphName, parameters);
             }
             else
@@ -593,6 +593,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
         /// <param name="graphName">Name of the new graph.</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
         /// <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
@@ -601,7 +602,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newActions">Returns the new BaseActions object.</param>
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
-        public void CreateFromSpec(String grgFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies, bool named, int capacity,
+        public void CreateFromSpec(String grgFilename, String graphName, String statisticsPath,
+            ProcessSpecFlags flags, List<String> externalAssemblies, bool named, int capacity,
             out LGSPGraph newGraph, out LGSPActions newActions)
         {
             if(!File.Exists(grgFilename))
@@ -611,28 +613,29 @@ namespace de.unika.ipd.grGen.lgsp
             String modelFilename;
 
             if(MustGenerate(grgFilename, out actionsFilename, out modelFilename))
-                LGSPGrGen.ProcessSpecification(grgFilename, flags, externalAssemblies.ToArray());
+                LGSPGrGen.ProcessSpecification(grgFilename, statisticsPath, flags, externalAssemblies.ToArray());
 
             newGraph = named ? (LGSPNamedGraph)CreateNamedGraph(modelFilename, graphName, "capacity=" + capacity.ToString()) : (LGSPGraph)CreateGraph(modelFilename, graphName);
             newActions = LGSPActions.LoadActions(actionsFilename, newGraph);
         }
 
-        public void CreateFromSpec(string grgFilename, string graphName, ProcessSpecFlags flags, List<String> externalAssemblies, 
+        public void CreateFromSpec(string grgFilename, string graphName, String statisticsPath, ProcessSpecFlags flags, List<String> externalAssemblies, 
             out IGraph newGraph, out BaseActions newActions)
         {
             LGSPGraph graph;
             LGSPActions actions;
-            CreateFromSpec(grgFilename, graphName, flags, externalAssemblies, false, 0, out graph, out actions);
+            CreateFromSpec(grgFilename, graphName, statisticsPath, flags, externalAssemblies, false, 0, out graph, out actions);
             newGraph = graph;
             newActions = actions;
         }
 
-        public void CreateNamedFromSpec(string grgFilename, string graphName, ProcessSpecFlags flags, List<String> externalAssemblies, int capacity,
+        public void CreateNamedFromSpec(string grgFilename, string graphName, String statisticsPath, 
+            ProcessSpecFlags flags, List<String> externalAssemblies, int capacity,
             out INamedGraph newGraph, out BaseActions newActions)
         {
             LGSPGraph graph;
             LGSPActions actions;
-            CreateFromSpec(grgFilename, graphName, flags, externalAssemblies, true, capacity, out graph, out actions);
+            CreateFromSpec(grgFilename, graphName, statisticsPath, flags, externalAssemblies, true, capacity, out graph, out actions);
             newGraph = (LGSPNamedGraph)graph;
             newActions = actions;
         }
@@ -643,16 +646,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// A name for the graph is automatically generated.
         /// </summary>
         /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="newGraph">Returns the new graph.</param>
         /// <param name="newActions">Returns the new BaseActions object.</param>
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
-        public void CreateFromSpec(String grgFilename,
+        public void CreateFromSpec(String grgFilename, String statisticsPath,
             out LGSPGraph newGraph, out LGSPActions newActions)
         {
             LGSPGraph graph;
             LGSPActions actions;
-            CreateFromSpec(grgFilename, GetNextGraphName(), ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false, 0,
+            CreateFromSpec(grgFilename, GetNextGraphName(), statisticsPath, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false, 0,
                 out graph, out actions);
             newGraph = graph;
             newActions = actions;
@@ -664,17 +668,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// A name for the graph is automatically generated.
         /// </summary>
         /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         /// <param name="newGraph">Returns the new named graph.</param>
         /// <param name="newActions">Returns the new BaseActions object.</param>
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
-        public void CreateNamedFromSpec(String grgFilename, int capacity,
+        public void CreateNamedFromSpec(String grgFilename, String statisticsPath, int capacity,
             out LGSPNamedGraph newGraph, out LGSPActions newActions)
         {
             LGSPGraph graph;
             LGSPActions actions;
-            CreateFromSpec(grgFilename, GetNextGraphName(), ProcessSpecFlags.UseNoExistingFiles, new List<String>(), true, capacity,
+            CreateFromSpec(grgFilename, GetNextGraphName(), statisticsPath, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), true, capacity,
                 out graph, out actions);
             newGraph = (LGSPNamedGraph)graph;
             newActions = actions;
@@ -686,6 +691,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
         /// <param name="graphName">Name of the new graph.</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
         /// <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
@@ -693,26 +699,29 @@ namespace de.unika.ipd.grGen.lgsp
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
         /// <returns>The new LGSPGraph or LGSPNamedGraph instance.</returns>
-        public LGSPGraph CreateFromSpec(String gmFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies, bool named, int capacity)
+        public LGSPGraph CreateFromSpec(String gmFilename, String graphName, String statisticsPath,
+            ProcessSpecFlags flags, List<String> externalAssemblies, bool named, int capacity)
         {
             if(!File.Exists(gmFilename))
                 throw new FileNotFoundException("The model specification file \"" + gmFilename + "\" does not exist!", gmFilename);
 
             String modelFilename;
             if(MustGenerate(gmFilename, out modelFilename))
-                LGSPGrGen.ProcessSpecification(gmFilename, flags, externalAssemblies.ToArray());
+                LGSPGrGen.ProcessSpecification(gmFilename, statisticsPath, flags, externalAssemblies.ToArray());
 
             return CreateGraph(modelFilename, graphName, named, "capacity=" + capacity.ToString());
         }
 
-        public IGraph CreateFromSpec(String gmFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies)
+        public IGraph CreateFromSpec(String gmFilename, String graphName, String statisticsPath, 
+            ProcessSpecFlags flags, List<String> externalAssemblies)
         {
-            return CreateFromSpec(gmFilename, graphName, flags, externalAssemblies, false, 0);
+            return CreateFromSpec(gmFilename, graphName, statisticsPath, flags, externalAssemblies, false, 0);
         }
 
-        public INamedGraph CreateNamedFromSpec(String gmFilename, String graphName, ProcessSpecFlags flags, List<String> externalAssemblies, int capacity)
+        public INamedGraph CreateNamedFromSpec(String gmFilename, String graphName, String statisticsPath, 
+            ProcessSpecFlags flags, List<String> externalAssemblies, int capacity)
         {
-            return (LGSPNamedGraph)CreateFromSpec(gmFilename, graphName, flags, externalAssemblies, true, capacity);
+            return (LGSPNamedGraph)CreateFromSpec(gmFilename, graphName, statisticsPath, flags, externalAssemblies, true, capacity);
         }
 
         /// <summary>
@@ -727,7 +736,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The new LGSPGraph instance.</returns>
         public LGSPGraph CreateFromSpec(String gmFilename)
         {
-            return CreateFromSpec(gmFilename, GetNextGraphName(), ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false, 0);
+            return CreateFromSpec(gmFilename, GetNextGraphName(), null,
+                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false, 0);
         }
 
         /// <summary>
@@ -742,7 +752,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The new LGSPNamedGraph instance.</returns>
         public LGSPNamedGraph CreateNamedFromSpec(String gmFilename, int capacity)
         {
-            return (LGSPNamedGraph)CreateFromSpec(gmFilename, GetNextGraphName(), ProcessSpecFlags.UseNoExistingFiles, new List<String>(), true, capacity);
+            return (LGSPNamedGraph)CreateFromSpec(gmFilename, GetNextGraphName(), null,
+                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), true, capacity);
         }
 
         /// <summary>
@@ -767,7 +778,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
         public void ProcessSpecification(string specPath)
         {
-            LGSPGrGen.ProcessSpecification(specPath, ProcessSpecFlags.UseNoExistingFiles, new String[0]);
+            LGSPGrGen.ProcessSpecification(specPath, null, ProcessSpecFlags.UseNoExistingFiles, new String[0]);
         }
     }
 }

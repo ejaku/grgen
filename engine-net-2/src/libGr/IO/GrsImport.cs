@@ -234,7 +234,7 @@ namespace de.unika.ipd.grGen.libGr
             else 
             {
                 if(modelFilename.EndsWith(".grg"))
-                    backend.CreateNamedFromSpec(modelFilename, graphName, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), capacity,
+                    backend.CreateNamedFromSpec(modelFilename, graphName, null, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), capacity,
                         out graph, out actions);
                 else
                     graph = backend.CreateNamedGraph(modelFilename, graphName, capacityStr);
