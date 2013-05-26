@@ -150,13 +150,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ensure graphs are analyzed
             if(this_.statistics.vstructs == null)
-                this_.statistics.AnalyzeGraph(this_);
+                this_.statistics.AnalyzeGraph();
             if(that.statistics.vstructs == null)
-                that.statistics.AnalyzeGraph(that);
+                that.statistics.AnalyzeGraph();
             if(this_.changesCounterAtLastAnalyze != this_.ChangesCounter)
-                this_.statistics.AnalyzeGraph(this_);
+                this_.statistics.AnalyzeGraph();
             if(that.changesCounterAtLastAnalyze != that.ChangesCounter)
-                that.statistics.AnalyzeGraph(that);
+                that.statistics.AnalyzeGraph();
 
             // compare analyze statistics
             if(!AreVstructsEqual(this_, that))
