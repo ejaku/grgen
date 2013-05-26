@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPGraphStatistics
     {
-        LGSPGraph graph;
+        public IGraphModel graphModel;
 
 #if MONO_MULTIDIMARRAY_WORKAROUND
         public int dim0size, dim1size, dim2size;  // dim3size is always 2
@@ -71,11 +71,11 @@ namespace de.unika.ipd.grGen.lgsp
 
 
         /// <summary>
-        /// Create the statistics class, binding it to the graph
+        /// Create the statistics class, binding it to the graph model
         /// </summary>
-        public LGSPGraphStatistics(LGSPGraph graph)
+        public LGSPGraphStatistics(IGraphModel graphModel)
         {
-            this.graph = graph;
+            this.graphModel = graphModel;
         }
 
         /// <summary>
@@ -129,8 +129,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// Analyzes the graph.
         /// The calculated data is used to generate good searchplans for the current graph.
         /// </summary>
-        public void AnalyzeGraph()
+        public void AnalyzeGraph(LGSPGraph graph)
         {
+            if(graph.Model != graphModel)
+                throw new Exception("Mismatch between model bound to statistics and model in graph to be analyzed!");
+
             int numNodeTypes = graph.Model.NodeModel.Types.Length;
             int numEdgeTypes = graph.Model.EdgeModel.Types.Length;
 
@@ -315,7 +318,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        void Parse(string path)
+        /// <summary>
+        /// Reads the statistics from the specified file path (inverse of Serialize).
+        /// </summary>
+        public void Parse(string path)
         {
             StreamReader sr = new StreamReader(path);
             while((char)sr.Peek() == 'c')
@@ -480,10 +486,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         int GetNodeTypeIndex(string type)
         {
-            for(int i=0; i<graph.Model.NodeModel.Types.Length; ++i)
+            for(int i=0; i<graphModel.NodeModel.Types.Length; ++i)
             {
-                if(graph.Model.NodeModel.Types[i].Name == type)
-                    return graph.Model.NodeModel.Types[i].TypeID;
+                if(graphModel.NodeModel.Types[i].Name == type)
+                    return graphModel.NodeModel.Types[i].TypeID;
             }
 
             throw new Exception("Unknown node type " + type);
@@ -491,51 +497,54 @@ namespace de.unika.ipd.grGen.lgsp
 
         int GetEdgeTypeIndex(string type)
         {
-            for(int i = 0; i < graph.Model.EdgeModel.Types.Length; ++i)
+            for(int i = 0; i < graphModel.EdgeModel.Types.Length; ++i)
             {
-                if(graph.Model.EdgeModel.Types[i].Name == type)
-                    return graph.Model.EdgeModel.Types[i].TypeID;
+                if(graphModel.EdgeModel.Types[i].Name == type)
+                    return graphModel.EdgeModel.Types[i].TypeID;
             }
 
             throw new Exception("Unknown edge type " + type);
         }
 
-        void Serialize(string path)
+        /// <summary>
+        /// Writes the statistics to the specified file path (inverse of Parse).
+        /// </summary>
+        public void Serialize(string path)
         {
             StreamWriter sw = new StreamWriter(path);
 
-            int numEdgeTypes = graph.Model.EdgeModel.Types.Length;
+            int numEdgeTypes = graphModel.EdgeModel.Types.Length;
 
             // emit node counts
-            for(int i = 0; i < graph.Model.NodeModel.Types.Length; ++i)
-                sw.WriteLine("count node " + graph.Model.NodeModel.Types[i] + " = " + nodeCounts[i].ToString());
+            for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
+                sw.WriteLine("count node " + graphModel.NodeModel.Types[i] + " = " + nodeCounts[i].ToString());
 
             // emit edge counts
-            for(int i = 0; i < graph.Model.EdgeModel.Types.Length; ++i)
-                sw.WriteLine("count edge " + graph.Model.EdgeModel.Types[i] + " = " + edgeCounts[i].ToString());
+            for(int i = 0; i < graphModel.EdgeModel.Types.Length; ++i)
+                sw.WriteLine("count edge " + graphModel.EdgeModel.Types[i] + " = " + edgeCounts[i].ToString());
 
             // emit out counts
-            for(int i = 0; i < graph.Model.NodeModel.Types.Length; ++i)
-                sw.WriteLine("count out " + graph.Model.NodeModel.Types[i] + " = " + outCounts[i].ToString());
+            for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
+                sw.WriteLine("count out " + graphModel.NodeModel.Types[i] + " = " + outCounts[i].ToString());
             
             // emit in counts
-            for(int i = 0; i < graph.Model.NodeModel.Types.Length; ++i)
-                sw.WriteLine("count in " + graph.Model.NodeModel.Types[i] + " = " + inCounts[i].ToString());
+            for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
+                sw.WriteLine("count in " + graphModel.NodeModel.Types[i] + " = " + inCounts[i].ToString());
 
             // emit vstructs
-            for(int i = 0; i < graph.Model.NodeModel.Types.Length; ++i)
+            for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
             {
-                for(int j = 0; j < graph.Model.EdgeModel.Types.Length; ++j)
+                for(int j = 0; j < graphModel.EdgeModel.Types.Length; ++j)
                 {
-                    for(int k = 0; k < graph.Model.NodeModel.Types.Length; ++k)
+                    for(int k = 0; k < graphModel.NodeModel.Types.Length; ++k)
                     {
                         for(int l = 0; l < 1; ++l)
                         {
                             if(l == 0)
-                                sw.WriteLine("vstruct " + graph.Model.NodeModel.Types[i] + " <- " + graph.Model.EdgeModel.Types[j] + " - " + graph.Model.NodeModel.Types[k] + " = " 
+                                sw.WriteLine("vstruct " + graphModel.NodeModel.Types[i] + " <- " + graphModel.EdgeModel.Types[j] + " - " + graphModel.NodeModel.Types[k] + " = " 
                                     + vstructs[((i * dim1size + j) * dim2size + k) * 2 + 0].ToString());
                             else
-                                sw.WriteLine("vstruct " + graph.Model.NodeModel.Types[i] + " - " + graph.Model.EdgeModel.Types[j] + " -> " + graph.Model.NodeModel.Types[k] + " = "
+                                sw.WriteLine("vstruct " + graphModel.NodeModel.Types[i] + " - " + graphModel.EdgeModel.Types[j] + " -> " + graphModel.NodeModel.Types[k] + " = "
                                     + vstructs[((i * dim1size + j) * dim2size + k) * 2 + 1].ToString());
                         }
                     }

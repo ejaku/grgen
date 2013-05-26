@@ -81,7 +81,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return;
             changesCounterAtLastAnalyze = changesCounter;
 
-            statistics.AnalyzeGraph();
+            statistics.AnalyzeGraph(this);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace de.unika.ipd.grGen.lgsp
             atNegLevelMatchedElements = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
             atNegLevelMatchedElementsGlobal = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
 
-            statistics = new LGSPGraphStatistics(this);
+            statistics = new LGSPGraphStatistics(this.Model);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SetVariableValue(var.Name, newElem);
             }*/
 
-            statistics = new LGSPGraphStatistics(this);
+            statistics = new LGSPGraphStatistics(this.Model);
             statistics.Copy(dataSource);
         }
 
@@ -263,6 +263,8 @@ namespace de.unika.ipd.grGen.lgsp
         protected void InitializeGraph(IGraphModel grmodel)
         {
             model = grmodel;
+            if(statistics.graphModel == null)
+                statistics.graphModel = grmodel;
 
             modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
 
@@ -1577,6 +1579,20 @@ namespace de.unika.ipd.grGen.lgsp
                     int startticks = Environment.TickCount;
                     AnalyzeGraph();
                     Console.WriteLine("Graph '{0}' analyzed in {1} ms.", name, Environment.TickCount - startticks);
+                    return;
+                }
+
+                case "statistics":
+                {
+                    if(args.Length != 3 || (string)(args[1]) != "save")
+                        throw new ArgumentException("Usage: statistics save \"<filepath>\"\n"
+                                + "Writes statistics resulting from analysis to file.");
+                    if(statistics.nodeCounts == null)
+                        throw new ArgumentException("The graph is not analyzed yet.");
+
+                    statistics.Serialize((string)args[2]);
+
+                    Console.WriteLine("Statistics about graph written to {0}.", args[2]);
                     return;
                 }
 
