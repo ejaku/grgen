@@ -235,6 +235,12 @@ or configures the generation of the matchers to never inline subpatterns.
 Maps to the \texttt{-keep} and the \texttt{-debug} options or to the \texttt{-lazynic} or to the \texttt{-noinline} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 \begin{rail}
+  'new' 'set' 'statistics' Filename
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{statistics}
+Configures the compilation of the generated assemblies to use the statistics file specified, yielding pattern matchers adapted to the class of graphs described in that file.
+Maps to the \texttt{-statistics} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}, and see \ref{custom} on how to get such statistics).
+
+\begin{rail}
   'show' 'graphs'
 \end{rail}\ixkeyw{show}\ixkeyw{graph}
 Displays a list of currently available graphs.
@@ -255,6 +261,20 @@ Deletes all graph elements of the current working graph resp.\ the graph \emph{G
   'delete' 'graph' Graph
 \end{rail}\ixkeyw{delete}\ixkeyw{graph}
 Deletes the graph \emph{Graph} from the backend storage.
+
+\begin{rail}
+  'add' 'new' 'graph' Text
+\end{rail}\ixkeyw{add}\ixkeyw{new}\ixkeyw{graph}
+Creates a new subgraph of the same model as the current graph.
+Its name is set to \emph{Text}; its unique name as used in exporting or recording may be a variant of this name in case another subgraph of the same name alreay exists.
+After execution this graph is the current subgraph.
+
+\begin{rail}
+  'in' Text
+\end{rail}\ixkeyw{in}
+Switches graph processing to the given subgraph (denoted by its unique name).
+This command as well as the command above are supplied for importing grs files containing subgraph attributes resulting from a grs export or recording.
+Using them directly is discouraged; you would have to ensure unique names in order to use them, a task that is carried out by the exporter remembering the subgraphs already seen.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Validation Commands}
@@ -708,7 +728,14 @@ The \indexed{LGSPBackend} supports the following custom commands:
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{analyze}
 Analyzes\indexmain{analyzing graph} the current working graph.
 The analysis data provides vital information for efficient \indexed{search plan}s.
-Analysis data is available as long as \GrShell\ is running, i.e.\ when the host graph changes, the analysis data is still available but maybe obsolete.
+Analysis data is available as long as \GrShell\ is running, i.e.\ when the host graph is manipulated, the analysis data is still available but outdated (which does not pose an issue unless the graph was changed massively regarding the relative number of elements per type or the connectedness-by-type relation).
+
+\begin{rail}
+  'custom' 'graph' 'statistics' 'save' Filename
+\end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{statistics}\ixkeyw{save}
+Write the statistics of the last analyze to the specified statistics file (the graph must have been analyzed before this command is called).
+This way you can save the statistics of a characteristic graph of your domain and compile pattern matchers well adapted to those class of graphs straight from the beginning, saving you the costs of online analysis and matcher compilation.
+See \ref{grgenoptions} or \ref{graphcommands} for explanations on how to do this.
 
 \begin{rail}
   'custom' 'graph' setmaxmatches Number

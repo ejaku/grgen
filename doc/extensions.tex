@@ -78,7 +78,17 @@ Tells \GrG~that the developer wants to extend grs importing and exporting, as we
 This allows for a tight integration of external types with the built-in functionality;
 it allows to inspect types not defined in \GrG~in the debugger (incl. yComp),
 and it allows to serialize/deserialize of graphs including types not defined in \GrG.
-See \ref{sub:apiextemitparse} for an explanation on what needs to be implement in this case.
+See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented in this case.
+
+%-----------------------------------------------------------------------------------------------
+\section{External Cloning and Comparison}\label{sub:extcopycompare}
+\begin{rail}
+  CopyCompareDeclaration: 'copy' 'class' ';';
+\end{rail}\ixnterm{CopyCompareDeclaration}\ixkeyw{copy}\ixkeyw{class}
+Tells \GrG~that the developer wants to extend graph element copying and graph isomorphy comparison, so that they can handle external types, or the type \texttt{object}.
+This allows for a tight integration of external types with the built-in functionality, 
+and allows to implement value semantics for objects that are normally compared by checking reference identity and cloned by copying the reference.
+See \ref{sub:apiextcopycompare} for an explanation on what needs to be implemented in this case.
 
 %-----------------------------------------------------------------------------------------------
 \section{Shell Commands}

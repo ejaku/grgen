@@ -106,12 +106,13 @@ Figure~\ref{fig:basetypes} shows the edge \indexed{type hierarchy}.
   									 | EnumDeclaration
   									 | ExternalClassDeclaration
   									 | ExternalFunctionDeclaration
-  									 | EmitParseDeclaration);
+  									 | EmitParseDeclaration
+  									 | CopyCompareDeclaration);
 \end{rail}\ixnterm{GraphModel}
 The \indexed{graph model} consists of zero or multiple type declarations.
 Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumDeclaration} defines an enum type to be used as a type for a attributes of nodes or edges.
 Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
-The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, exluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls; the \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values.
+The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, exluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls; the \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values, whereas the \emph{CopyCompareDeclaration} declares that the user defines copy and compare functions for external or object type values.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Enumeration Types}
@@ -278,12 +279,13 @@ Then just do the same, edges are first class citizens.
 
 \begin{rail}
   AttributeDeclaration: 'const'? IdentDecl ':' AttributeType (() | '=' Expression) ';' | AttributeOverwrite ;
-  AttributeType: PrimitiveType | EnumType | GenericType;
+  AttributeType: PrimitiveType | EnumType | ContainerType;
   AttributeOverwrite: Ident '=' Expression
 \end{rail}\ixnterm{AttributeDeclaration}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}\ixkeyw{const}
 Defines a node or edge \indexed{attribute}.
-Possible types are enumeration types (\texttt{enum}) and primitive types or generic types.
-See Section~\ref{sec:builtintypes} for a list of built-in primitive and Section~\ref{sec:builtingenerictypes} for a list of built-in generic types.
+Possible types are enumeration types (\texttt{enum}) and primitive types or container types.
+See Section~\ref{sec:builtintypes} for a list of built-in primitive and Section~\ref{sec:builtingenerictypes} for a list of built-in container types.
+Furthermore, attributes may be of nodes or edge or graph type (directly linking to a node or an edge, or to a subgraph; containers may contain that types, too).
 Optionally attributes may be initialized with a \emph{constant} expression.
 The expression has to be of a compatible type of the declared attribute.
 See Chapter~\ref{cha:typeexpr} for the \GrG\ types and expressions reference.
