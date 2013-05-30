@@ -309,7 +309,8 @@ After we've seen the all the ways to combine expressions, finally we'll have a l
 
 The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex}) of the given graph element as \texttt{string}
 (graphs elements of pure \texttt{LGSPGraph}s bear no name, then the query fails, but normally you are using \texttt{LGSPNamedGraph}s).
-If no graph element is given, the name of the graph is returned.
+Besides nodes or edges, subgraphs may be given, then the name of the subgraph is returned.
+If no argument is given, the name of the graph (the current host graph) is returned.
 
 The \texttt{random} function returns a double random value in between 0.0 and 1.0 if called without an argument,
 or, if an integer argument value is given, an integer random value in between 0 and the value given, excluding the value itself.

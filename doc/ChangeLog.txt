@@ -1,4 +1,110 @@
-﻿v4.0alpha3 (2013-05-05)
+﻿v4.0alpha4 (2013-0?-??)
+ Subgraph support regarding built-in functionality completed:
+ - The debugger now listens to graph switch events and changes display to the new graph focused
+ - GRS export and import are now capable of serializing and parsing nested graphs
+   i.e. attributes which contain/reference subgraphs are now saved and restored again
+   - subgraphs are introduced with an "add new graph <graphname>" command
+   - with an "in <graphname>" command the current graph is set for the following commands
+   - the exporter renames the graphs if needed to enforce unique names
+ - The recorder is now able to record subgraph changes
+   exporting subgraphs (transitively) on first sight, renaming them as needed
+ - GrShell is now able to process the
+   "add new graph <graphname>" command to create a subgraph, and the
+   "in <graphname>" command to switch the current (sub)graph to the graph given
+   assignments to subgraph typed attributes
+   - thus the shell can import GRS exported or recorded graphs including subgraphs now
+   - support limited to level 2 (main host graph plus one subgraph) in contrast to the sequences,
+     more would not be helpful in the shell
+ - Extended transaction handling to cover subgraph switches
+    switching processing to a subgraph and returning processing from a subgraph (as reported by events)
+    is recorded to the undo log now in case a transaction is underway,
+    so the graph change effects are rolled back on the graph that was really changed
+   -> transactions now cover changes in any of the processed graphs/contained subgraphs
+
+ Added operations for working with subgraphs, and closed some gaps in node/edge operations:
+ - In sequence expressions and rule expressions are now available:
+    import(filepath:string) : graph   - for importing a graph stored in a file as subgraph 
+                                        (the main graph is not replaced)
+    copy(original:graph) : graph   - for creating a clone of an original subgraph
+    nameof() : string   - for retrieving the name of the current host graph
+    nameof(entity:node or edge or graph) : string   - for retrieving the name 
+                                                      of a node or edge or subgraph
+ - In sequence computations and rule statements are now available:
+    addCopy(original:node) : (node)   - for adding a clone of the original node to the current graph
+    addCopy(original:edge, src:node, tgt:node) : (edge)   - for adding a clone of the original edge 
+                                                            to the current graph
+    insert(original:graph)   - for inserting a subgraph to the current host graph,
+      i.e. computing a disjoint union of the nodes and edges; 
+      the original graph is destroyed by this (move semantics)
+    insertCopy(original:graph,root:node) : (clone:node)   - for inserting a clone
+      of the original subgraph to the current host graph
+      i.e. computing a disjoint union of the nodes and edges; the original subgraph stays untouched
+    merge(target:node, other:node)   - for merging the other node into the target node
+    redirectSource(edge:edge, newsrc:node)   - for redirecting the edge to the new source
+    redirectTarget(edge:edge, newtgt:node)   - for redirecting the edge to the new target
+    redirectSourceAndTarget(edge:edge, newsrc:node, newtgt:node)   - for redirecting the edge 
+                                                                     to the new source and new target
+    export(filepath:string)   - for exporting the current host graph to a file with the given path
+    export(graph:graph, filepath:string)   - for exporting the given subgraph to a file 
+                                             with the given path
+
+ Variables can now be declared in a return assignment of a procedure call in the rule statements,
+  e.g. (def var visID:int)=valloc()
+
+ Added count operator to sequences and rules
+ - to all-rule calls in sequences: count[r]=>c assigns the count of matches of r to the variable c, and applies r on all the matches
+   with count[?r]=>c the matches are only counted, no rewrites are carried out
+ - to expressions in rule language: count(it) returns the amount of iterated pattern instances found
+   can only be used in yield or eval block (not in if), on named iterateds
+
+ Added graph statistics serialization and parsing
+ - added "custom graph statistics save <filepath>" shell command
+   to write the statistics of the last analyze to the given statistics file
+ - added "-statistics <filepath>" option to grgen compiler command line parameters
+   to read the given statistics file and build matchers optimized for a graph of those statistics
+ - added "new set statistics <filepath>" command to GrShell
+   which does the same as calling the grgen compiler with "-statistics <filepath>"
+   whenever a new graph command is executed with an action filename given,
+   causing a compilation of the actions (thus creating matchers adapted to the statistics)
+
+ Extended transaction handling to cover visited flags
+  visited flag writing, allocation, and freeing (as reported by events)
+  are now recorded to the undo log and undone on rollback
+  (by overwriting with the old value, (reserved) freeing, and reallocation)
+  -> transactions now cover visited flag changes in addition to topology and attributation changes
+
+ The user can define compare and copy functions for external objects now
+ - they allow to compare attribute types not known to GrGen during graph isomorphy checking,
+   (with value semantics, instead of only checking for identical references)
+ - and to copy values of types not known to GrGen, in the copy commands
+   (with value semantics, instead of only copying the references, making objects identical)
+ - they are emitted if "copy class;" is specified in the model,
+   and need to be implemented by the user in the external types and functions implementation file
+
+ The user defined parser for attributes of object or user defined type is used from GrShell now, too
+  insofar as possible, shell parses a single or double quoted text or a word or a number
+  and hands that over then to the user defined parser
+
+ Model generalization: allowed attributes of node or edge type,
+  and allowed attributes of node/edge or container of node/edge type, 
+  to reference subtypes of the type they are contained in
+ 
+ API additions/changes:
+ - external function calls receive the action environment and the graph as first parameters by now
+   so the processing environment is directly available, without the need for static variables manually filled
+   same as for the external procedure calls, and a better fit to potential subgraph switches
+ - added events for visited flag assignment and allocation/freeing
+ - added convenience method for fetching the current graph as named graph
+   to the graph processing environment (returning null if it is in fact no named graph)
+ - allowed to set the name of a graph and to get the backend
+ - graph statistics code is now located in own class LGSPGraphStatistics
+
+ Fixes:
+ - fixed bug in visited flag handling 
+   that showed in case the amount of graph element based visited flags was exhausted
+ - fixed neglectance of containers of subgraphs in grs exporter
+
+v4.0alpha3 (2013-05-05)
  Replaced the CSharpCC generated parser/lexer for grs import by a hand written one
    yielding a speedup of 5x (esp. no LookaheadSuccess exceptions any more)
    and allowing to extend the grs importer by user defined functions, enabling:

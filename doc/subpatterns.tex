@@ -703,8 +703,28 @@ test sumOfWeight(start:Node) : (int,int)
   \end{grgen}
 \end{example}
 
+In case no accumulation is needed but a simple \indexed{count} of the iterated matches is sufficient, one can employ the \texttt{count} operator on an iterated (that must have been named before), as displayed in the following example (the count is only available in a \texttt{yield} or \texttt{eval} block).
 
-\pagebreak
+\begin{example}
+  \begin{grgen}
+test countOfEdges(start:Node) : (int)
+{
+	def var sum:int = 0;
+	
+	iterated it {
+		start -->;
+	} 
+
+	yield {
+	  yield sum = count(it);
+	}
+
+	return (sum);
+}
+  \end{grgen}
+\end{example}
+
+%\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Regular Expression Syntax and Locking}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}

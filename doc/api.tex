@@ -260,10 +260,34 @@ string Emit(object attribute, AttributeType attrType, IGraph graph);
 \end{csharplet}
 
 \texttt{Parse} is called when an attribute of an external or object type is to be imported from a grs file, \texttt{Serialize} is called when an attribute of an external or object type is to be exported to a grs file, and \texttt{Emit} is called when a value of external or object type is to be emitted, or displayed in the debugger, including yComp.
+(The functions are called from GrShell, too, insofar as possible -- the shell parses a single or double quoted text or a word or a number at an attribute position and hands that over then to the user defined parser.)
 They forward the calls to \texttt{ParseImpl}, \texttt{SerializeImpl}, and \texttt{EmitImpl} functions, that need to be implemented in a file named \texttt{FooModelExternal\-FunctionsImpl.cs} located in the folder of the \texttt{FooModelExternalFunctions.cs} file.
 Implementing them is \emph{your} task, in exchange you get a tight integration of your own datatypes into \GrG.
 You may have a look at \texttt{tests/ExternalAttributeEvaluation} or  \texttt{examples\-api/ExternalAttributeEvaluationExample} for an example.
 
+
+\subsection*{External Copying and Comparing}\label{sub:apiextcopycompare}
+If \texttt{copy class;} (see \ref{sub:extcopycompare}) is specified in the model file \texttt{Foo}, \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files,
+containing a partial class \texttt{AttributeTypeObjectCopierComparer} expecting that the following functions are implemented in the same partial class in \texttt{FooModelExternalFunctionsImpl.cs}.
+For every external type defined a further pair of functions with that type used in the input parameters is expected.
+
+\begin{csharplet}
+// Called during comparison of graph elements, as used from graph isomorphy comparison.
+// For attribute type object.
+// If copy class is not specified, objects are equal if they are identical (i.e. same reference/pointer).
+public static bool IsEqual(object, object);
+
+// Called when a graph element is cloned/copied.
+// For attribute type object.
+// If copy class is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.
+public static object Copy(object);
+\end{csharplet}
+
+\texttt{IsEqual} is called when two graphs are compared for isomorphy and the graph elements contain attributes of object or user-defined external types; \texttt{Copy} is called when one of the copy operations offered in the rule language or the computation statements is executed on a node or edge that bears attributs of object or user defined type.
+Implementing them is \emph{your} task, in exchange you get a tight integration of your own datatypes into \GrG.
+You may have a look at \texttt{tests/ExternalAttributeEvaluation} or  \texttt{examples\-api/ExternalAttributeEvaluationExample} for an example.
+
+\subsection*{Further Examples}
 There are further examples available in the \texttt{examples-api} folder of the \GrG-distribution:
 \begin{itemize} 
 \item How to use the graph rewrite sequences offered by the libGr on API level is shown in\\
@@ -454,6 +478,19 @@ event SettingAddedElementNamesHandler OnSettingAddedNodeNames;
 event SettingAddedElementNamesHandler OnSettingAddedEdgeNames;
 \end{csharplet}
 
+The events available which are fired automatically on visited flag changes are:
+
+\begin{csharplet}
+/// Fired after a visited flag was allocated.
+event VisitedAllocHandler OnVisitedAlloc;
+
+/// Fired after a visited flag was freed.
+event VisitedFreeHandler OnVisitedFree;
+
+/// Fired before a visited flag is set.
+event SettingVisitedHandler OnSettingVisited;
+\end{csharplet}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Action Events}\label{sec:actionevent}
 
@@ -492,4 +529,16 @@ event ExitSequenceHandler OnExitingSequence;
 
 // Fired when a sequence iteration is ended.
 event EndOfIterationHandler OnEndOfIteration;
+\end{csharplet}
+
+A special kind of sequence based events are the graph change events, fired when processing enters a subgraph or leaves a subgraph (fired when the subgraph usage stack is altered):
+
+\begin{csharplet}
+/// Fired when graph processing (rule and sequence execution) is switched to a (sub)graph.
+/// (Not fired when the main graph is replaced by another main graph, or initialized.)
+event SwitchToSubgraphHandler OnSwitchingToSubgraph;
+
+/// Fired when graph processing is returning back after a switch.
+/// (To the main graph, or a subgraph previously switched to.)
+event ReturnFromSubgraphHandler OnReturnedFromSubgraph;
 \end{csharplet}
