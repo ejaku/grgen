@@ -1,0 +1,20 @@
+using modtop;
+
+#include "modtestmed.grg"
+
+sequence s
+{
+	balt*
+}
+
+rule tiptop
+{
+	c:Common -e:Edge-> t:Top;
+	
+	modify {
+		delete(e);
+
+		eval { c.name = t.hop; }
+		exec ( bbase(c) || bbase(t) || s );
+	}
+}
