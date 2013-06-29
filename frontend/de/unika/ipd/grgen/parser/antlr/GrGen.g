@@ -200,8 +200,7 @@ textActions returns [ UnitNode main = null ]
 		}
 	}
 
-	: (
-		( a=ACTIONS i=IDENT
+	: ( a=ACTIONS i=IDENT
 			{
 				reportWarning(getCoords(a), "keyword \"actions\" is deprecated");
 				reportWarning(getCoords(i),
@@ -211,9 +210,9 @@ textActions returns [ UnitNode main = null ]
 			( usingDecl[modelChilds]
 			| SEMI
 			)
-		)
-	| usingDecl[modelChilds]
-	)?
+	  )?
+	  
+	( usingDecl[modelChilds] )*
 	
 	( globalVarDecl )*
 
@@ -249,6 +248,7 @@ textActions returns [ UnitNode main = null ]
 	;
 
 usingDecl [ CollectNode<ModelNode> modelChilds ]
+	options { k = 1; }
 	@init{ Collection<String> modelNames = new LinkedList<String>(); }
 
 	: u=USING identList[modelNames]
@@ -2262,11 +2262,13 @@ textTypes returns [ ModelNode model = null ]
 			new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
 	}
 
-	:   ( m=MODEL ignoredToken=IDENT SEMI
-			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
-		)?
-		( usingDecl[modelChilds] )?
-		specialClasses = typeDecls[types, externalFuncs, externalProcs] EOF
+	: ( m=MODEL ignoredToken=IDENT SEMI
+		{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
+	  )?
+
+	( usingDecl[modelChilds] )*
+	
+	specialClasses = typeDecls[types, externalFuncs, externalProcs] EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());

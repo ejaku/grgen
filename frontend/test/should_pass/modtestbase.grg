@@ -1,0 +1,10 @@
+using modbase;
+
+rule bbase(c:Common)
+{
+	if( c.name == "foobar" );
+	
+	modify {
+		delete(c);
+	}
+}

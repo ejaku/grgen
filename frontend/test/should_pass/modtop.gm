@@ -1,0 +1,7 @@
+using modalt1;
+using modalt2;
+
+node class Top extends Foo, Bar
+{
+	hop : string;
+}

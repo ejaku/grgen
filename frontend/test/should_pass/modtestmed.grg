@@ -1,0 +1,21 @@
+using modalt1, modalt2;
+
+#include "modtestbase.grg"
+
+rule balt
+{	
+	alternative {
+		alt1 {
+			modify {
+				f:Foo;
+				exec( bbase(f) );
+			}
+		}
+		alt2 {
+			modify {
+				b:Bar;
+				exec( bbase(b) );
+			}
+		}
+	}
+}
