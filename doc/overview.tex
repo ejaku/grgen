@@ -1,17 +1,7 @@
-\chapter{Introduction}
-\label{chp:intro}
-\pagenumbering{arabic}
+\chapter{Overview}
+\label{chp:overview}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{What Is \GrG?}
-
-{\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a generative programming system for graph rewriting,
-which considerably eases the transformation of complex graph structured data,
-comparable to other programming tools like parser generators which ease the task of formal language recognition,
-or databases which ease the task of persistent data storage and querying.
-
-It is combined from two groups of components:
+\GrG\ is combined from two groups of components:
 The first consists of the compiler \texttt{grgen} -- transforming declarative graph rewrite rule specifications into highly efficient .NET-assemblies --
 and the execution environment \texttt{libGr}, which offer the basic functionality of the system.
 The second consists of the interactive command line \texttt{GrShell} and the graph viewer \texttt{yComp},
@@ -22,126 +12,6 @@ The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reim
 it is open source licensed under LGPL3(\url{www.gnu.org/licenses/lgpl.html}) and available for download at \url{www.grgen.net}.
 Starting as a compiler construction helper tool it has grown into a software development tool for general purpose graph transformation,
 which offers the highest combined speed of development and execution for graph based algorithms through its declarative languages with automatic optimization.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{When to Use \GrG~and When Not}
-You may be interested in using \GrG\ if you have to tackle the task of transforming meshes of massively linked objects, i.e. graph-like data structures,
-as is the case in e.g. model transformation, computer linguistics, or modern compiler construction
-(any time there is more than one relation of interest in between the data entities your algorithm operates upon).
-These tasks are traditionally handled by pointer structures and pointer structure navigation-, search-, and replacement routines written by hand
--- this low-level, pointer-fiddling code can be generated automatically for you by \GrG.
-You specify your transformation task on a higher level of nodes connected by edges, and rewrite rules of patterns to be searched plus modifications to be carried out,
-and then let \GrG\ generate the algorithmic core of your application.
-
-There is nothing to gain from \GrG\ if scalars and lists are sufficient to model your domain,
-which is the case for a lot of tasks in computing indeed;
-but which is not the case for others which would be better modeled with trees and especially graphs,
-but aren't because of the cost of maintaining pointer structures by hand.
-The graph rewrite generator is not the right tool for you if you're searching for a visual environment to teach children programming -- it's a tool for software engineers.
-Neither is it what you need if your graph structured data is to be interactively edited by an end user instead of being automatically transformed by rules (the editor generator DiaGen\cite{diagen} may be of interest in this case).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Features of \GrG}\indexmain{features}
-
-The process of graph rewriting can be divided into four steps:
-Representing a graph according to a model (creating an instance graph),
-searching a pattern aka finding a match,
-performing changes to the matched spot in the host graph,
-and, finally, selecting which rule(s) to apply where next.
-We have organized the presentation of the features of the \GrG\ languages according to this breakdown of graph rewriting:
-
-\begin{itemize}
-  \item The graph model (meta-model) language supports:
-  \begin{itemize}
-    \item Typed nodes and edges, with multiple inheritance on types
-    \item Directed multigraphs (supporting multiple edges of the same type between two nodes)
-    \item Undirected and arbitrarily directed edges
-    \item Node and edge types can be equipped with typed attributes (like structs), of the commonly known elementary types or of some container types
-    \item Connection assertions to restrict the ``shape'' of graphs
-    \item Turing complete language for checking complex conditions
-  \end{itemize}
-
-  \item The pattern language supports:
-  \begin{itemize}
-    \item Plain isomorphic subgraph matching (injective mapping)
-    \item Homomorphic matching for a selectable set of pattern elements, so that they may match (non-injectively) the same graph element
-    \item Type conditions (including instanceof-like type expressions)
-    \item Attribute conditions (e.g. arithmetic-,boolean-,string- or set-expressions on the attributes)
-    \item User-defined functions for complex attribute conditions, and graph querying
-    \item Subgraph extraction and graph comparison operators (graph isomorphism)
-    \item Nested patterns, specifying negative and positive application conditions as well as iterated, optional, or alternative structures
-    \item Subpatterns for pattern reuse, allowing via recursion to match substructures of arbitraty depth (e.g. iterated paths) and breadth (e.g multinodes)
-    \item Parameter passing to rules and subpatterns
-  \end{itemize}
-
-  \item The rewrite language supports:
-  \begin{itemize}
-    \item Keeping, adding and deleting graph elements according to the SPO approach
-    \item Choosing out of three additional rule application semantics: DPO or exact patterns only or induced subgraphs only
-    \item Retyping of nodes/edges (a more general version of casts known from common programming languages)
-    \item Creation of new nodes/edges of only dynamically known types or as exact copies of other nodes/edges
-    \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match
-    \item Attribute re-/calculation (assigning the result of e.g. arithmetic expressions to the attributes)
-    \item User-defined procedures for complex attribute assignments, and graph manipulations
-%	\pagebreak
-    \item A rewrite part for the nested patterns and subpatterns, so that complex structures can not only get matched (parsing), but also get rewritten (transduction)
-    \item Embedded graph rewrite sequences capable of calling other rules (with access to the nodes/edges of the rule)
-    \item Emitting user-defined text to \texttt{stdout} or files during the rewrite steps
-    \item Visited flags and storages to communicate between rule applications using state
-    \item Parameter passing out of rules and subpatterns
-  \end{itemize}
-
-  \item The rule application control language (grs: graph rewrite sequences) supports:
-  \begin{itemize}
-    \item Rule execution
-    \item Logical and sequential connectives
-    \item Decisions and loops for control-flow orchestration of the rule applications
-    \item Variables for data-flow orchestration of the rule applications
-    \item A computations sublanguage offering basic graph querying and manipulation\\
-     --- as well as visited flags and storages management
-    \item Extended control (e.g decisions, transactions, backtracking, indeterministic choice)
-    \item Sequence definitions (for procedural abstraction of rule application strategies)
-    \item These constructs combined allow to easily program unfolding searches or state space enumerations
-  \end{itemize}
-\end{itemize}
-
-\noindent These were the features of the core of \GrG-System,
-the generator \texttt{grgen.exe} and its languages plus its runtime environment \texttt{libGr}.
-In addition, the \GrG\ system offers a shell application, the \GrShell,
-which features commands for
-%\begin{table}[htbp]
-%    \begin{tabularx}{\linewidth}{ll}
-%		\hspace{12mm}-- graph management,\hspace{3cm} & -- graph validation,\\[5pt]
-%		\hspace{12mm}-- graph input and output, & -- graph manipulation,\\[5pt]
-%		\hspace{12mm}-- graph and model queries, & -- graph visualisation,\\[5pt]
-%		\hspace{12mm}-- action execution, & -- \emph{debugging},\\[5pt]
-%		\hspace{12mm}-- backend selection and usage.
-%   \end{tabularx}
-%    \caption{Semantics of pattern modifiers}
-%    \label{tbl:overview:shellcommands}
-%\end{table}
-\begin{itemize}
-	\item graph management
-	\item graph import and export
-	\item graph validation
-	\item direct graph manipulation
-	\item graph change recording and replaying
-	\item graph and model queries
-	\item highly customizable graph visualisation\\(including automagically \emph{nested} graphs keeping large graphs understandable)
-	\item graph rewrite sequence execution
-	\item \emph{debugging} (step-by-step execution of the sequences, highlighting the matches of the rules  in the graph, and their changes to the graph)
-%	\item backend selection and usage
-\end{itemize}
-
-\noindent The debugging and graph visualisation commands are implemented in cooperation with the graph viewer \yComp.
-Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr.
-This way you can build your own algorithmic rule applications in a .NET language of your choice.
-The other way round you can include C\#-code into your specifications by using external types or calling external functions and procedures, as well as sequences.
-
-\pagebreak
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{System Overview}\indexmain{overview, system}
@@ -258,237 +128,6 @@ However, \GrShell\ does not provide the full power of the \LibGr; see also note~
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{What Is Graph Rewriting?}\indexmain{graph rewriting}
-\label{ov:whatsallabout}
-
-The notion of graph rewriting as understood by \GrG\ is a method for declaratively specifying ``changes'' to a graph.
-This is comparable to the well-known term rewriting.
-Normally you use one or more \newterm{graph rewrite rules} to accomplish a certain task.
-\GrG\ implements an SPO-based approach (as default).
-In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$---the \newterm{left hand side}\indexmainsee{LHS}{left hand side} of the rule---is called \newterm{pattern graph} and $R$---the \newterm{right hand side}\indexmainsee{RHS}{right hand side} of the rule---is the \newterm{replacement graph}.
-
-\begin{figure}[htbp]
-	\centering
-  \begin{tikzpicture}
-    \begin{scope}[minimum size=0.5cm]
-      \tikzstyle{every node}=[draw]
-      \node (L)     at (0   ,2.5) {$L$};
-      \node (R)     at (7   ,2.5) {$R$};
-      \node (mL)    at (0   ,0) {};
-      \node (mR)    at (7   ,0) {};
-      \node[text width=2cm,text badly ragged,minimum size=1cm] (H)     at (0   ,0) {$H$};
-      \node[text width=2cm,text badly ragged,minimum size=1cm] (Hs)    at (7   ,0) {$H'$};
-    \end{scope}
-
-    \draw[dotted,->] (L) node[above=0.4cm] {Pattern Graph} -> (mL) node[left,midway]  {Match $m$}   node[below=0.6cm] {Host Graph};
-    \draw[dotted,->] (R) node[above=0.4cm] {Rewrite Graph} -> (mR)                              node[below=0.6cm] {Result Graph};
-
-    \pgfsetshortenstart{0.5cm}
-    \pgfsetshortenend{0.5cm}
-    \draw[thick,->]  (L) -> (R)  node[above,midway] {Preservation Morphism $r$} node[below,midway] {Rule};
-    \draw[thick,->]  (H) -> (Hs) node[below,midway] {Rule Application};
-  \end{tikzpicture}
-  \caption{Basic Idea of Graph Rewriting}
-  \label{figrule}
-\end{figure}
-
-Moreover we need to identify graph elements (nodes or edges) of $L$ and $R$ for preserving them during rewrite.
-This is done by a \newterm{preservation morphism} $r$ mapping elements from $L$ to $R$; the morphism $r$ is injective, but needs to be neither surjective nor total.
-Together with a rule name $p$ we have $p : L \xrightarrow{r} R$.
-
-The transformation is done by \newterm{application}\indexmainsee{rule application}{application} of a rule to a \newterm{host graph} $H$.
-To do so, we have to find an occurrence of the pattern graph in the host graph.
-Mathematically speaking, such a \newterm{match} $m$ is an isomorphism from $L$ to a subgraph of $H$.
-This morphism may not be unique, i.e.\ there may be several matches.
-Afterwards we change the matched \indexed{spot} $m(L)$ of the host graph, such that it becomes an isomorphic subgraph of the replacement graph $R$.
-Elements of $L$ not mapped by $r$ are deleted from $m(L)$ during rewrite.
-Elements of $R$ not in the image of $r$ are inserted into $H$, all others (elements that are mapped by $r$) are retained.
-The outcome of these steps is the resulting graph $H'$. In symbolic language: $H \xRightarrow{m, p} H'$.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{An Example}\indexmain{example}
-\label{ov:example}
-
-We'll have a look at a small example.
-Graph elements (nodes and edges) are labeled with and identifier.
-If a type is necessary then it is stated after a colon.
-We start using a special case to construct our host graph: an \indexed{empty pattern} always produces exactly one\footnote{Because of the uniqueness of the total and totally undefined morphism.} match (independent of the host graph). So we construct an apple by applying
-\[
-  p_0:
-  \begin{array}[c]{c}
-    \emptyset
-  \end{array}
-  \begin{array}[c]{c}
-    \longrightarrow
-  \end{array}
-  \begin{array}[c]{c}
-    \begin{tikzpicture}[show background rectangle]
-      \tikzstyle{every node}=[circle]
-      \node[draw] (n1) at (2.5,5) {};
-      \node[draw] (n2) at (2,4)   {};
-      \node[draw] (n3) at (0,2)   {};
-      \node[draw] (n4) at (2,0)   {};
-      \node[draw] (n5) at (4,2)   {};
-
-    	\draw[-latex] (n2) --                                  (n1) node[left,midway]  {$e_1$};
-    	\draw[-latex] (n2) .. controls +(-1,1) and +(0,1) ..   (n3) node[left,midway]  {$e_2$};
-      \draw[-latex] (n3) .. controls +(0,-1) and +(-1,0) ..  (n4) node[left,midway]  {$e_3$};
-    	\draw[-latex] (n4) .. controls +(1,0)  and +(0,-1) ..  (n5) node[right,midway] {$e_4$};
-      \draw[-latex] (n5) .. controls +(0,1)  and +(1,1) ..   (n2) node[right,midway] {$e_5$};
-    \end{tikzpicture}
-  \end{array}
-\]
-to the empty host graph.
-As the result we get an apple as new host graph $H$.
-Now we want to rewrite our apple with stem to an apple with a leaflet.
-So we apply
-\[
-  p_1:
-  \begin{array}[c]{c}
-    \begin{tikzpicture}[show background rectangle]
-      \tikzstyle{every node}=[circle,minimum size=0.7cm]
-      \node[draw] (a) at (2,5.5)  {a};
-      \node[draw] (b) at (2,4)    {b};
-
-    	\draw[-latex] (b) -- (a) node[left,midway]  {$x$};
-    \end{tikzpicture}
-  \end{array}
-  \begin{array}[c]{c}
-    \longrightarrow
-  \end{array}
-  \begin{array}[c]{c}
-    \begin{tikzpicture}[show background rectangle]
-      \tikzstyle{every node}=[circle,minimum size=0.7cm]
-      \node[draw] (c) at (2,5.5)  {c};
-      \node[draw] (b) at (2,4)    {b};
-
-    	\draw[-latex] (b) .. controls +(-0.7,+0.7) and +(-0.7,-0.7) .. (c) node[left,midway]   {$y$};
-    	\draw[-latex] (b) .. controls +(+0.7,+0.7) and +(+0.7,-0.7) .. (c) node[right,midway]  {$z$};
-    \end{tikzpicture}
-  \end{array}
-\]
-to $H$ and get the new host graph $H_1$, something like this:
-\[
-  \begin{array}[c]{c}
-    \begin{tikzpicture}[show background rectangle]
-      \tikzstyle{every node}=[circle]
-      \node[draw] (n1) at (2.5,5) {};
-      \node[draw] (n2) at (2,4)   {};
-      \node[draw] (n3) at (0,2)   {};
-      \node[draw] (n4) at (2,0)   {};
-      \node[draw] (n5) at (4,2)   {};
-
-    	\draw[-latex] (n2) --                                  (n1) node[left,midway]  {$e_1$};
-    	\draw[-latex] (n2) .. controls +(-1,1) and +(0,1) ..   (n3) node[left,midway]  {$e_2$};
-      \draw[-latex] (n3) .. controls +(0,-1) and +(-1,0) ..  (n4) node[left,midway]  {$e_3$};
-    	\draw[-latex] (n4) .. controls +(1,0)  and +(0,-1) ..  (n5) node[right,midway] {$e_4$};
-      \draw[-latex] (n5) .. controls +(0,1)  and +(1,1) ..   (n2) node[right,midway] {$e_5$};
-    \end{tikzpicture}
-  \end{array}
-  \begin{array}[c]{c}
-    \xRightarrow{\quad p_1 \quad}
-  \end{array}
-  \begin{array}[c]{c}
-    \begin{tikzpicture}[show background rectangle]
-      \tikzstyle{every node}=[circle]
-      \node[draw] (n1) at (2.5,5) {};
-      \node[draw] (n2) at (2,4)   {};
-      \node[draw] (n3) at (0,2)   {};
-      \node[draw] (n4) at (2,0)   {};
-      \node[draw] (n5) at (4,2)   {};
-      \node[draw] (n6) at (0,0.5)   {};
-
-    	\draw[-latex] (n2) --                                  (n1) node[left,midway]  {$e_1$};
-    	\draw[-latex] (n2) .. controls +(-1,1) and +(0,1) ..   (n3) node[left,midway]  {$e_2$};
-      \draw[-latex] (n3) .. controls +(-0.7,-0.7) and +(-0.7,+0.7) .. (n6) node[left,midway]  {$e_6$};
-      \draw[-latex] (n3) .. controls +(+0.7,-0.7) and +(+0.7,+0.7) .. (n6) node[right,midway] {$e_7$};
-    	\draw[-latex] (n4) .. controls +(1,0)  and +(0,-1) ..  (n5) node[right,midway] {$e_4$};
-      \draw[-latex] (n5) .. controls +(0,1)  and +(1,1) ..   (n2) node[right,midway] {$e_5$};
-    \end{tikzpicture}
-  \end{array}
-\]
-What happened?
-\GrG\ has arbitrarily chosen one match out of the set of possible matches, because $x$ matches edge $e_3$ as well as $e_1$.
-A correct solution could make use of edge type information.
-We have to change rule $p_0$ to generate the edge $e_1$ with a special type ``stem''.
-And this time we will even keep the stem.
-So let
-\[
-  p_2:
-  \begin{array}[c]{c}
-    \begin{tikzpicture}[show background rectangle]
-      \tikzstyle{every node}=[circle,minimum size=0.7cm]
-      \node[draw] (a) at (2,5.5)  {a};
-      \node[draw] (b) at (2,4)    {b};
-
-    	\draw[-latex] (b) -- (a) node[left,midway]  {$x:\text{stem}$};
-    \end{tikzpicture}
-  \end{array}
-  \begin{array}[c]{c}
-    \longrightarrow
-  \end{array}
-  \begin{array}[c]{c}
-    \begin{tikzpicture}[show background rectangle]
-      \tikzstyle{every node}=[circle,minimum size=0.7cm]
-      \node[draw] (c) at (2,5.5)  {c};
-      \node[draw] (b) at (2,4)    {b};
-      \node[draw] (a) at (3.5,5.5){a};
-
-    	\draw[-latex] (b) -- (a) node[right,midway]  {$x$};
-    	\draw[-latex] (b) .. controls +(-0.7,+0.7) and +(-0.7,-0.7) .. (c) node[left,midway]   {$y$};
-    	\draw[-latex] (b) .. controls +(+0.7,+0.7) and +(+0.7,-0.7) .. (c) node[above,midway]  {$z$};
-    \end{tikzpicture}
-  \end{array}.
-\]
-If we apply $p_2$ to the modified $H_1$ this leads to
-\[
-  \begin{array}[c]{c}
-    \begin{tikzpicture}[show background rectangle]
-      \tikzstyle{every node}=[circle]
-      \node[draw] (n1) at (2.5,5) {};
-      \node[draw] (n2) at (2,4)   {};
-      \node[draw] (n3) at (0,2)   {};
-      \node[draw] (n4) at (2,0)   {};
-      \node[draw] (n5) at (4,2)   {};
-
-    	\draw[-latex] (n2) --                                  (n1) node[left,pos=0.8]  {$e_1:\text{stem}$};
-    	\draw[-latex] (n2) .. controls +(-1,1) and +(0,1) ..   (n3) node[left,midway]  {$e_2$};
-      \draw[-latex] (n3) .. controls +(0,-1) and +(-1,0) ..  (n4) node[left,midway]  {$e_3$};
-    	\draw[-latex] (n4) .. controls +(1,0)  and +(0,-1) ..  (n5) node[right,midway] {$e_4$};
-      \draw[-latex] (n5) .. controls +(0,1)  and +(1,1) ..   (n2) node[right,midway] {$e_5$};
-    \end{tikzpicture}
-  \end{array}
-  \begin{array}[c]{c}
-    \xRightarrow{\quad p_2 \quad}
-  \end{array}
-  \begin{array}[c]{c}
-    \begin{tikzpicture}[show background rectangle]
-      \tikzstyle{every node}=[circle]
-      \node[draw] (n1) at (3,5) {};
-      \node[draw] (n2) at (2,4)   {};
-      \node[draw] (n3) at (0,2)   {};
-      \node[draw] (n4) at (2,0)   {};
-      \node[draw] (n5) at (4,2)   {};
-      \node[draw] (n6) at (2,5.0)   {};
-
-    	\draw[-latex] (n2) --                                  (n1) node[right,pos=0.6] {$e_1:\text{stem}$};
-    	\draw[-latex] (n2) .. controls +(-1,1) and +(0,1) ..   (n3) node[left,midway]  {$e_2$};
-      \draw[-latex] (n3) .. controls +(0,-1) and +(-1,0) ..  (n4) node[left,midway]  {$e_3$};
-    	\draw[-latex] (n4) .. controls +(1,0)  and +(0,-1) ..  (n5) node[right,midway] {$e_4$};
-      \draw[-latex] (n5) .. controls +(0,1)  and +(1,1) ..   (n2) node[right,midway] {$e_5$};
-    	\draw[-latex] (n2) .. controls +(-0.3,+0.3) and +(-0.3,-0.3) .. (n6) node[left,midway]   {};
-    	\draw[-latex] (n2) .. controls +(+0.3,+0.3) and +(+0.3,-0.3) .. (n6) node[right,midway]  {};
-    \end{tikzpicture}
-  \end{array}.
-\]
-
-
-%\section{What is it good for?}
-%Benefits. When to use graph rewriting. When not. TODO!
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Tools}
 
 All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}.
@@ -555,7 +194,7 @@ you may need to install a JDK to a non system path and add the bin folder of the
 (Normally just installing a JRE is sufficient.)
 \end{note}
 
-\pagebreak
+%\pagebreak
 
 %-----------------------------------------------------------------------------------------------
 \subsection{\texttt{\indexed{GrShell.exe}}}
@@ -613,6 +252,105 @@ It is well integrated and shipped with \GrG, but it's not a part of \GrG.
   Use the rightmost blue play button to start the layout process. Depending on the graph size this may take a while.
   \item[Requires] Java Runtime Environment 1.5 (or above).
 \end{description}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Features of \GrG}\indexmain{features}
+
+The process of graph rewriting can be divided into four steps:
+Representing a graph according to a model (creating an instance graph),
+searching a pattern aka finding a match,
+performing changes to the matched spot in the host graph,
+and, finally, selecting which rule(s) to apply where next.
+We have organized the presentation of the features of the \GrG\ languages according to this breakdown of graph rewriting:
+
+\begin{itemize}
+  \item The graph model (meta-model) language supports:
+  \begin{itemize}
+    \item Typed nodes and edges, with multiple inheritance on types
+    \item Directed multigraphs (supporting multiple edges of the same type between two nodes)
+    \item Undirected and arbitrarily directed edges
+    \item Node and edge types can be equipped with typed attributes (like structs), of the commonly known elementary types or of some container types
+    \item Connection assertions to restrict the ``shape'' of graphs
+    \item Turing complete language for checking complex conditions
+  \end{itemize}
+
+  \item The pattern language supports:
+  \begin{itemize}
+    \item Plain isomorphic subgraph matching (injective mapping)
+    \item Homomorphic matching for a selectable set of pattern elements, so that they may match (non-injectively) the same graph element
+    \item Type conditions (including instanceof-like type expressions)
+    \item Attribute conditions (e.g. arithmetic-,boolean-,string- or set-expressions on the attributes)
+    \item User-defined functions for complex attribute conditions, and graph querying
+    \item Subgraph extraction and graph comparison operators (graph isomorphism)
+    \item Nested patterns, specifying negative and positive application conditions as well as iterated, optional, or alternative structures
+    \item Subpatterns for pattern reuse, allowing via recursion to match substructures of arbitraty depth (e.g. iterated paths) and breadth (e.g multinodes)
+    \item Parameter passing to rules and subpatterns
+  \end{itemize}
+
+  \item The rewrite language supports:
+  \begin{itemize}
+    \item Keeping, adding and deleting graph elements according to the SPO approach
+    \item Choosing out of three additional rule application semantics: DPO or exact patterns only or induced subgraphs only
+    \item Retyping of nodes/edges (a more general version of casts known from common programming languages)
+    \item Creation of new nodes/edges of only dynamically known types or as exact copies of other nodes/edges
+    \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match
+    \item Attribute re-/calculation (assigning the result of e.g. arithmetic expressions to the attributes)
+    \item User-defined procedures for complex attribute assignments, and graph manipulations
+%	\pagebreak
+    \item A rewrite part for the nested patterns and subpatterns, so that complex structures can not only get matched (parsing), but also get rewritten (transduction)
+    \item Embedded graph rewrite sequences capable of calling other rules (with access to the nodes/edges of the rule)
+    \item Emitting user-defined text to \texttt{stdout} or files during the rewrite steps
+    \item Visited flags and storages to communicate between rule applications using state
+    \item Parameter passing out of rules and subpatterns
+  \end{itemize}
+
+  \item The rule application control language (grs: graph rewrite sequences) supports:
+  \begin{itemize}
+    \item Rule execution
+    \item Logical and sequential connectives
+    \item Decisions and loops for control-flow orchestration of the rule applications
+    \item Variables for data-flow orchestration of the rule applications
+    \item A computations sublanguage offering basic graph querying and manipulation\\
+     --- as well as visited flags and storages management
+    \item Extended control (e.g decisions, transactions, backtracking, indeterministic choice)
+    \item Sequence definitions (for procedural abstraction of rule application strategies)
+    \item These constructs combined allow to easily program unfolding searches or state space enumerations
+  \end{itemize}
+\end{itemize}
+
+\noindent These were the features of the core of \GrG-System,
+the generator \texttt{grgen.exe} and its languages plus its runtime environment \texttt{libGr}.
+In addition, the \GrG\ system offers a shell application, the \GrShell,
+which features commands for
+%\begin{table}[htbp]
+%    \begin{tabularx}{\linewidth}{ll}
+%		\hspace{12mm}-- graph management,\hspace{3cm} & -- graph validation,\\[5pt]
+%		\hspace{12mm}-- graph input and output, & -- graph manipulation,\\[5pt]
+%		\hspace{12mm}-- graph and model queries, & -- graph visualisation,\\[5pt]
+%		\hspace{12mm}-- action execution, & -- \emph{debugging},\\[5pt]
+%		\hspace{12mm}-- backend selection and usage.
+%   \end{tabularx}
+%    \caption{Semantics of pattern modifiers}
+%    \label{tbl:overview:shellcommands}
+%\end{table}
+\begin{itemize}
+	\item graph management
+	\item graph import and export
+	\item graph validation
+	\item direct graph manipulation
+	\item graph change recording and replaying
+	\item graph and model queries
+	\item highly customizable graph visualisation\\(including automagically \emph{nested} graphs keeping large graphs understandable)
+	\item graph rewrite sequence execution
+	\item \emph{debugging} (step-by-step execution of the sequences, highlighting the matches of the rules  in the graph, and their changes to the graph)
+%	\item backend selection and usage
+\end{itemize}
+
+\noindent The debugging and graph visualisation commands are implemented in cooperation with the graph viewer \yComp.
+Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr.
+This way you can build your own algorithmic rule applications in a .NET language of your choice.
+The other way round you can include C\#-code into your specifications by using external types or calling external functions and procedures, as well as sequences.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
