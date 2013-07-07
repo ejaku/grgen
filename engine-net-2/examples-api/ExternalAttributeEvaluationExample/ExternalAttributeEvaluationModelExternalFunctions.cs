@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Wed May 22 00:34:50 CEST 2013
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jul 07 20:31:19 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -68,28 +68,40 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	{
 		// You must implement the following functions in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
 
-		// Called during comparison of graph elements, as used from graph isomorphy comparison.
-		// For attribute type object.
-		// If "copy class" is not specified, objects are equal if they are identical (i.e. same reference/pointer).
-		//public static bool IsEqual(object, object);
-
 		// Called when a graph element is cloned/copied.
 		// For attribute type object.
 		// If "copy class" is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.
+		// All other attribute types are copied by-value (so changing one later on has no effect on the other).
 		//public static object Copy(object);
 
+		// Called during comparison of graph elements from graph isomorphy comparison, or attribute comparison.
+		// For attribute type object.
+		// If "== class" is not specified, objects are equal if they are identical,
+		// i.e. by-reference-equality (same pointer); all other attribute types are compared by-value.
+		//public static bool IsEqual(object, object);
+
+		// Called during attribute comparison.
+		// For attribute type object.
+		// If "< class" is not specified, objects can't be compared for ordering, only for equality.
+		//public static bool IsLower(object, object);
+
+
 		// The same functions, just for each user defined type.
-		// Those are normally treated as object (if no "copy class" is specified).
-		// I.e. equal if identical references, and copy just copies the reference (making them identical).
+		// Those are normally treated as object (if no "copy class or == class or < class" is specified),
+		// i.e. equal if identical references, no ordered comparisons available, and copy just copies the reference (making them identical).
+		// Here you can overwrite the default reference semantics with value semantics, fitting better to the other attribute types.
 
-		//public static bool IsEqual(Own, Own);
 		//public static Own Copy(Own);
+		//public static bool IsEqual(Own, Own);
+		//public static bool IsLower(Own, Own);
 
-		//public static bool IsEqual(OwnPown, OwnPown);
 		//public static OwnPown Copy(OwnPown);
+		//public static bool IsEqual(OwnPown, OwnPown);
+		//public static bool IsLower(OwnPown, OwnPown);
 
-		//public static bool IsEqual(OwnPownHome, OwnPownHome);
 		//public static OwnPownHome Copy(OwnPownHome);
+		//public static bool IsEqual(OwnPownHome, OwnPownHome);
+		//public static bool IsLower(OwnPownHome, OwnPownHome);
 	}
 
 }
