@@ -45,3 +45,28 @@ rule rp
 	}
 }
 
+rule testCopy
+{
+	n:N;
+	modify {
+		nn:copy<n>;
+	}
+}
+
+rule testComparison
+{
+	n:N;
+	m:N;
+	if{ n.ow==m.ow; n.ow!=m.ow; n.ow<m.ow; n.ow<=m.ow; n.ow>m.ow; n.ow>=m.ow; }
+	if{ n.op==m.op; n.op!=m.op; n.op<m.op; n.op<=m.op; n.op>m.op; n.op>=m.op; }
+	if{ n.ow==m.op; n.ow!=m.op; n.ow<m.op; n.ow<=m.op; n.ow>m.op; n.ow>=m.op; }
+	
+	modify {
+		eval { 
+			def var b:boolean = n.ow==m.ow ^ n.ow!=m.ow ^ n.ow<m.ow ^ n.ow<=m.ow ^ n.ow>m.ow ^ n.ow>=m.ow;
+			b = n.op==m.op ^ n.op!=m.op ^ n.op<m.op ^ n.op<=m.op ^ n.op>m.op ^ n.op>=m.op;
+			b = n.ow==m.op ^ n.ow!=m.op ^ n.ow<m.op ^ n.ow<=m.op ^ n.ow>m.op ^ n.ow>=m.op;
+		}
+	}
+}
+

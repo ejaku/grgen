@@ -41,6 +41,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
         }
 
         public string aha;
+		public int intval;
     }
 
     public partial class AttributeTypeObjectEmitterParser
@@ -195,24 +196,46 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             return that; // copy reference, default implementation
         }
 
-        public static bool IsEqual(Own this_, Own that)
+		public static bool IsLower(object this_, object that)
         {
-            return this_ == that; // equal if identical, default implementation
+            throw new Exception("not implemented");
         }
 
-        public static Own Copy(Own that)
+        
+		public static Own Copy(Own that)
         {
             return that; // copy reference, default implementation
         }
 
+        public static bool IsEqual(Own this_, Own that)
+        {
+            return this_ == that; // equal if identical, default implementation
+        }
+		
+		public static bool IsLower(Own this_, Own that)
+        {
+            throw new Exception("not implemented");
+        }
+
+        
+		public static OwnPown Copy(OwnPown that)
+        {
+            return new OwnPown(that);
+        }
         public static bool IsEqual(OwnPown this_, OwnPown that)
         {
             return this_.ehe == that.ehe;
         }
 
-        public static OwnPown Copy(OwnPown that)
+		public static bool IsLower(OwnPown this_, OwnPown that)
+		{
+			return this_.ehe.Length < that.ehe.Length;
+		}
+
+		
+        public static OwnPownHome Copy(OwnPownHome that)
         {
-            return new OwnPown(that);
+            return new OwnPownHome(that);
         }
 
         public static bool IsEqual(OwnPownHome this_, OwnPownHome that)
@@ -220,10 +243,10 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             return this_.ehe == that.ehe && this_.aha == that.aha;
         }
 
-        public static OwnPownHome Copy(OwnPownHome that)
-        {
-            return new OwnPownHome(that);
-        }
+		public static bool IsLower(OwnPownHome this_, OwnPownHome that)
+		{
+			return this_.intval < that.intval;
+		}
     }
 }
 
