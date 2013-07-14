@@ -289,29 +289,34 @@ This will save you from the cost of repeated search planning; in addition, often
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Visited Flags} \label{sub:visitedaccess}\indexmain{visited access}
 
-The boolean \texttt{visited} flags may be used for marking already visited graph elements during graph walks or for partitioning a graph.
-They may be queried with a function of the expressions, and set or administered with procedures of the computations.
+The boolean \texttt{visited} flags are available for/in each graph element; 
+they may be used for marking already visited graph elements during graph walks or for partitioning a graph.
+They can be queried with a function of the expressions, can be set with an assignment of the statements, and can be reset, allocated, and deallocated with procedures of the statements.
+The visited flags are stored in some excess bits of the graph elements, if this pool is exceeded they are stored in additional dictionaries, one per visited flag requested.
+This is why the flags must get allocated/deallocated, and all flag related operations require an integer number -- the flag id -- specifying the flag to operate on (with exception of the allocation operation returning this flag id).
+If you try to access a not previously allocated visited flag, an exception is thrown.
 The following syntax diagram gives an extensions to the \emph{Expression} clause of chapter \ref{cha:typeexpr} and an extension to the computation \emph{Statements} of chapter \ref{cha:computations}:
 
 \begin{rail}
 	Expression: VisitedFlag ;
   VisitedAssignment: VisitedFlag '=' BoolExpr ';';
-	VisitedFlag: NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? ;
+	VisitedFlag: NodeOrEdge '.' 'visited' ('[' IntExpr ']')? ;
 \end{rail}\ixnterm{VisitedFlag}\ixnterm{VisitedAssignment}\ixkeyw{visited}
 
-The \texttt{visited} flag expression returns the \texttt{boolean} status of the \indexed{visited flag} of the given number for the given graph element.
-The \texttt{visited} flag assignment sets the status of the \indexed{visited flag} of the given number for the given graph element to the value defined by the \texttt{boolean} expression.
-If no \texttt{int} flag number is given, the default number for the first visited flag of 0 is used.
-
-The visited flags are stored in some excess bits of the graph elements, if this pool is exceeded they are stored in additional dictionaries, one per visited flag requested.
-Due to this flags must get allocated before they are used and deallocated afterwards, and all flag related operations require an integer number -- the flag id -- specifying the flag to operate on (with exception of the allocation operation returning this flag id).
-If you try to access a not previously allocated visited flag, an exception is thrown.
+\begin{description}
+\item[Flag reading:] By \texttt{e.visited[f]} -- the function returns the \texttt{boolean} visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e} (visited flags are normally read by \texttt{if} conditions of the rule language).
+If no \texttt{int} flag number is given, the default number for the first visited flag of 0 is used; it still must have been allocated before.
+\item[Flag assignment:] By \texttt{e.visited[f] = b} -- sets the visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e} to the given boolean value \texttt{b} as computed by an expression
+(visited flags are normally written by \texttt{eval} parts of the rule language).
+If no \texttt{int} flag number is given, the default number for the first visited flag of 0 is used; it still must have been allocated before.
+\end{description}
 
 \begin{rail}
   ProcedureName: 'valloc' | 'vfree' | 'vreset' | 'vfreenonreset';
 \end{rail}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{vreset}\ixkeyw{vfreenonreset}
 
-The operations managing the visited flags are:
+The signatures of the procedures \texttt{valloc}, \texttt{vfree}, \texttt{vreset}, \texttt{vfreenonreset} for managing the visited flags are defined in \ref{procstab}.
+Their semantics are:
 \begin{description}
 \item[Flag allocation:] By \texttt{valloc()}\label{allocvisitflag} -- allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0.
 Afterwards, the visited flag of the id can be read and written by the \texttt{visited}-expression and the \texttt{visited}-assignment.
@@ -323,6 +328,7 @@ This function internally calls a \texttt{vreset} to ensure that no corresponding
 \item[Flag resetting:] By \texttt{vreset} -- resets the visitor flag given by the flag id variable in \emph{all} graph elements.
 \item[Flag deallocation without reset:] With \texttt{vfreenonreset} the space previously allocated for the visited flag is freed, too, but the implicit internal \texttt{vreset(id)} of \texttt{vfree} is not executed. It is your duty to ensure the flag is \texttt{false} in all graph elements -- otherwise after a following allocation elements may start as being marked. This saves us an O(n) operation, but opens the door to nasty bugs if you can't design your algorithm in a way which renders unmarking trivial.
 \end{description}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Processing Environment Procedures}

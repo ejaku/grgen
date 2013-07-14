@@ -1,6 +1,8 @@
+%TODO: durchgehen und alles was hier exklusiv ist in die computation-kapitel aufnehmen
+
 \chapter{Sequence Computations}\indexmain{sequence computations}
 
-In this chapter we'll have a look at sequence computations, which are not concerned with directly controling rules, but with computing values or creating side effects.
+In this chapter we'll have a look at sequence computations, which are not concerned with directly controling rules, but with computing values or causing side effects.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Sequence Computation} \label{sec:seqcomp}
@@ -9,7 +11,7 @@ In this chapter we'll have a look at sequence computations, which are not concer
   RewriteComputationUsage: (percent)? lbrace CompoundComputation rbrace; 
 \end{rail}\ixnterm{RewriteFactor}
 
-The non-computation constructs introduced before are used for executing rules, to determine which rule to execute next depending on success and failure of the previous rule applications, and where to apply it next by transmitting simple valued variables in between the rules.
+The non-computational constructs introduced before are used for executing rules, to determine which rule to execute next depending on success and failure of the previous rule applications, and where to apply it next by transmitting atomic variables of node or edge type in between the rules.
 Sequence computations in contrast are used for manipulating complex valued variables, evaluating computational expressions, or for causing side effects like output or element markings.
 The computation will return a boolean value by comparing the return value of the compound computation to the default value of the corresponding type, and returning false if equal, or true if unequal; a computation without a return value always returns true.
 So just using a boolean variable as computation returns the value of the variable.
@@ -21,7 +23,9 @@ A prepended \texttt{\%} attaches a \indexed{break point} to the computation.
 
 A compound computation consists of a computation followed by an optional list of computations separated by semicolons.
 The computations are executed from left to right;
-the value of the compound computation is the value of the last computation (so you must give an expression there in order to return a value, whereas it is pointless to specify an expression before).
+the value of the compound computation is the value of the last computation.
+So you must give an expression there in order to return a value, 
+whereas it is pointless to specify an expression before.
 
 \begin{rail} 
   Computation:
@@ -32,25 +36,27 @@ the value of the compound computation is the value of the last computation (so y
      SequenceExpression
   ;
 	Assignment:	AssignmentTarget '=' (SequenceExpression | Assignment); 
-	MethodCall: (Variable | GraphElement '.' Attribute) (SingleMethodCall +);
-	SingleMethodCall: '.' MethodName '(' Arguments ')';
-	ProcedureCall: ('(' Variables ')' '=')? ProcedureName '(' Arguments ')';
-	Arguments: (SequenceExpression * ',');
-	Varibales: (Variable + ',');
-\end{rail}\ixnterm{Computation}\label{recstmt}\indexmain{record}\indexmain{emit}
+\end{rail}\ixnterm{Computation}
 
 A variable declaration declares a local variable in the same way as in the sequences.
 An assignment assigns the value of a sequence expression to an assignment target.
 It may be chained; such an assignment chain is executed from right to left, assigning the rightmost value to all the assignment targets given.
 The form of expressions and assignment targets will be specifed below.
 
+\begin{rail} 
+	MethodCall: (Variable | GraphElement '.' Attribute) (SingleMethodCall +);
+	SingleMethodCall: '.' MethodName '(' Arguments ')';
+	ProcedureCall: ('(' Variables ')' '=')? ProcedureName '(' Arguments ')';
+	Arguments: (SequenceExpression * ',');
+	Varibales: (Variable + ',');
+\end{rail}\label{recstmt}\indexmain{record}\indexmain{emit}
+
 A method call executes a (predefined) method on a variable, passing further arguments.
 It may be chained; such a method call chain is executed from left to right. 
 This is possible with storage changing methods which return the variable again, better: which return the then altered variable. 
-They were already explained in \ref{sec:storages}.
 
 A procedure call executes a (built-in or user defined) procedure, passing further arguments.
-In addition to the visited flag functions and procedures which were already explained in more detail in \ref{sec:visited},
+In addition to the graph type based functions and procedures which will be explained in more detail further below,
 \texttt{emit}, \texttt{record}, and \texttt{export} procedure calls can be given here: the emit procedure writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
 The record procedure writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
 The export procedure exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
@@ -82,6 +88,10 @@ A \texttt{yield} assignment writes the rhs variable value to the lhs variable wh
 Yielding is only possible from compiled sequences, it always succeeds.
 Further on, the attributes of graph elements may be written to, the values at given positions of array or deque or map variables may be written to, and the visited status of graph elements may be changed.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sequence Expression} \label{sec:seqexpr}
+
 \begin{rail}
   SequenceExpression:  
     ConditionalSequenceExpression |
@@ -91,7 +101,7 @@ Further on, the attributes of graph elements may be written to, the values at gi
     PrimarySequenceExpression;
 \end{rail}\ixnterm{SequenceExpression}
 
-Sequence expressions are a subset of the expressions introduced in \ref{sub:expr}, containing the boolean and comparison operators, but only a small bit of the other operators.
+Sequence expressions are a subset of the expressions introduced in \ref{sub:expr}, containing the boolean and comparison operators, but only plus and minus as further operators.
 
 \begin{rail}
   ConditionalSequenceExpression: 
@@ -114,7 +124,7 @@ The boolean operators have the same semantics and same priority as in \ref{sub:e
 \end{rail}\ixnterm{RelationalSequenceExpression}
 
 The equality operators work for every type and return whether the values to compare are equal or unequal.
-The relational operators on numerical, graph, and container types work as specified in \ref{sub:expr} and \ref{cha:container}.
+The relational operators work as specified in \ref{sub:expr} for numerical types, in \ref{cha:container} for container types, and \ref{cha:graph} for graph type.
 
 \begin{rail}
   ArithmeticSequenceExpression:
@@ -123,6 +133,8 @@ The relational operators on numerical, graph, and container types work as specif
 
 The arithemtic operator plus is used to denote addition of numerical values or string concatenation,
 the arithemtic operator minus is used to denote subtraction of numerical values.
+No further arithmetic operators are available in the sequence expressions;
+neither are the string methods supported.
 
 \begin{rail}
   PrimarySequenceExpression:
@@ -130,7 +142,7 @@ the arithemtic operator minus is used to denote subtraction of numerical values.
     SpecialSequenceExpression;
 \end{rail}\ixnterm{PrimarySequenceExpression}
 
-The atoms of the expressions are the basic and the special sequence expressions.
+The atoms of the sequence expressions are the basic and the special sequence expressions.
 
 \begin{rail}
   BasicSequenceExpression:
@@ -142,12 +154,12 @@ The atoms of the expressions are the basic and the special sequence expressions.
   ;
 \end{rail}\ixnterm{BasicSequenceExpression}\ixkeyw{def}
 
-The basic sequence expressions are the building blocks of the computation sequences.
+The basic sequence expressions are the foundational value sources.
 A \texttt{def} term is successful iff all the variables are defined (not null).
 The at operator allows to access a graph element by its \indexed{persistent name}.
 The attribute access clause returns the attribute value of the given graph element.
-The variable and literal basic expressions are the same as in the SimpleOrInteractiveExpression;
-this means esp. that a Variable may denote a graph global variable if prefixed with a double colon as in  \ref{sec:simplevarhandling}, here as well as in the AssignmentTarget.
+The variable and literal basic expressions are the same as in the \emph{SimpleOrInteractiveExpression}, cf. \ref{sec:simplevarhandling};
+this means esp. that a Variable may denote a graph global variable if prefixed with a double colon, here as well as in the AssignmentTarget.
 
 \begin{rail}
   SpecialSequenceExpression:
@@ -167,174 +179,65 @@ They were explained in the chapters \ref{cha:container} and \ref{cha:graph}.
 The random value function \texttt{random} behaves like the random function from the expressions, see \ref{sec:primexpr};
 i.e. if noted down with an integer as argument it returns a random integer in between 0 and that upper bound, exclusive; if given without an argument it returns a random double in between 0.0 and 1.0, exclusive.
 
-The graph and subgraph oriented ones can be separated into three groups.
-
-\subsubsection*{Basic Graph Manipulation}
-TODO: reduce to diff compared to chapters before
-
-The first group is built from basic graph manipulation operators used for adding or removing elements:
-
-\begin{description}
-\item[\texttt{add(.)}] creates a node of the given type and adds it to the host graph.
-\item[\texttt{add(.,.,.)}] creates an edge of the given type and adds it to the host graph, starting at the node given as second argument, ending at the node given as third argument.
-\item[\texttt{rem(.)}] removes the given node or edge from the graph.
-\item[\texttt{retpye(.,.)}] retypes the given node or edge to the node or edge type given as second argument.
-\item[\texttt{clear()}] clears the host graph.
-\end{description}
-
-\subsubsection*{Connectedness Queries}
-The second group is built from the operators querying primarily the connectedness of graph elements.
-See \ref{neighbouringelementsfunctions} for more on them; they were moved to an own chapter, because besides being available in the expressions of the sequence computations we take care of here,
-they are available in the expressions of the rules, too.
-
-\subsubsection*{Subgraph Operations}\label{subgraphoperations}
-The third group is defined by functions and procedures that operate on (sub-)graphs:
-It contains functions which allow to compute (node-or-edge) induced subgraphs, and procedures to insert clones of induced subgraphs.
-They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
-
-\begin{description}
-\item[\texttt{inducedSubgraph(.)}] returns the induced subgraph (type: \texttt{graph}) of the host graph for the set of nodes given as argument value.
-\item[\texttt{definedSubgraph(.)}] returns the defined (edge-induced) subgraph (type: \texttt{graph}) of the host graph for the set of edges given as argument value.
-\item[\texttt{insertInduced(.,.)}] adds a clone of the subgraph induced by the set of nodes given as first argument to the host graph, returns the clone of the anchor node given as second argument.
-\item[\texttt{insertDefined(.,.)}] adds a clone of the subgraph defined (edge-induced) by the set of edges given as first argument to the host, returns the clone of the anchor edge given as second argument.
-\end{description}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Visited Flag Handling in the Sequences}\label{sec:visited}
-TODO: reduce to diff compared to chapters before
+\section{Graph and Subgraph Based Queries and Updates}\label{sec:queryupdate}\label{sec:visited}
 
-Visited flags are flags available for/in each graph element which can be set, reset, and queried in the rules and in the sequences and must be allocated and deallocated in the sequences;
-they allow to mark already visited elements during a run over the graph.
-The syntax diagrams given in the Rule Application Control Language chapter \ref{cha:xgrs} already contained the visited flag constructs.
-Here we only give some refinements and explanations of the semantics.
+The graph and subgraph oriented parts of the sequence expressions are built from four groups,
+the procedures for basic graph manipulation, the functions for querying the graph structure, the functions and procedures of the subgraph operations, and the visited flag query, assignment, and procedures.
 
-The visited flags are stored in some excess bits of the graph elements, if this pool is exceeded they are stored in additional dictionaries, one per visited flag requested.
-Due to this flags must get allocated/deallocated, and all flag related operations require an integer number -- the flag id -- specifying the flag to operate on (with exception of the allocation operation returning this flag id).
-The operations always return true as sequence results (with exception of the operation reading the flag, it fails iff the visited flag is not set for the graph element);
-if you try to access a not previously allocated visited flag, an exception is thrown.
+The first group is built from basic graph manipulation operators, as defined in \ref{procstab} and described in \ref{sub:procedures}.
+Elements may be added, removed, or retyped, and nodes may be merged or edges redirected.
+Not available are numerical functions, they are only offered by the computations of the rules. 
 
-\begin{rail}
-  ProcedureName: 'valloc' | 'vfree' | 'vreset' | 'vfreenonreset';
-\end{rail}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{vreset}\ixkeyw{vfreenonreset}
+The second group is built from the operators querying primarily the connectedness of graph elements,
+as defined in \ref{sub:functions}.
+You may ask for one for the nodes or edges of a type.
+You may query for the other for the source or target or opposite node of an edge.
+Furthermore, you may query for adjacent nodes and incident edges,
+maybe even transitively for the reachability.
+Furthermore you may ask with a predicate whether nodes or edges are adjacent or incident to other nodes or edges, maybe even transitively for reachability.
 
-The operations managing the visited flags are:
-\begin{description}
-\item[Flag allocation:] By \texttt{valloc}\label{allocvisitflag} -- allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0.
-Afterwards, the visited flag of the id can be read and written within the rules by the \texttt{visited}-expression and the \texttt{visited}-assignment,
-as well as by the \texttt{visited} flag reading and writing rewrite factors.
-The first visited flags are stored in some excess bits of the graph elements and are thus essentially for free,
-but if this implementation defined space is used up completely, the information is stored in graph element external dictionaries.
-Visited flag allocation is only possible in sequence computations in the form of \texttt{var=valloc()}.
-\item[Flag deallocation:] By \texttt{vfree} -- frees the space previously allocated for the visited flag; afterwards you must not access it anymore.
-The value passed in \texttt{vfree(var)} must be of integer type, stemming from a previous allocation.
-\item[Flag writing:] By \texttt{e.visited[f] = b} -- sets the visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e} to the given boolean value \texttt{b}; visited flags are normally written by \texttt{eval} parts of the rule language.
-\item[Flag reading:] By \texttt{e.visited[f]} -- returns the visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e}; visited flags are normally read by \texttt{if} conditions of the rule language.
-\item[Flag resetting:] By \texttt{vreset} -- resets the visitor flag given by the flag id variable in all graph elements.
-\item[Flag deallocation without reset:] With \texttt{vfreenonreset} the space previously allocated for the visited flag is freed, too, but the implicit internal \texttt{vreset(id)} of \texttt{vfree} is not executed. It is your duty to ensure the flag is \texttt{false} in all graph elements -- otherwise after a following allocation elements may start as being marked. This saves us an O(n) operation, but opens the door to nasty bugs if you can't design your algorithm in a way which renders unmarking trivial.
-\end{description}
+The third group is defined by functions and procedures that operate on (sub-)graphs, as defined in \ref{sub:functions} and \ref{sub:procedures}.
+They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
+You may import, clone, or compute induced subgraphs.
+You may export a subgraph or insert a subgraph into the hostgraph.
+
+The fourth group are the visited flags related operations,
+as described in chapter \ref{sub:visitedaccess}.
+Available is an expression for reading a visited flag, an assignment for writing a visited flag, and procedures for managing the visited flags as defined in \ref{procstab}.
+
+In the sequences only the sequence expressions are available to compute the parameters for the functions and procedures.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Storage Handling in the Sequences}\label{sec:storages}\indexmain{storage}
-TODO: reduce to diff compared to chapters before
-
 Storages are variables of container (set/map/array/deque) type (cf. \ref{sec:builtingenerictypes}) storing nodes or edges.
 They are primarily used in the sequences, from where they are handed in to the rules via \texttt{ref} parameters (but additionally container attributes in graph elements may be used as storages,
 esp. for doing data flow analyses, cf. \ref{subsub:flow}).
-They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the set.
-A difference of storage sets and maps in the sequences to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction, and only empty constructors without initializing elements.
+They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the container.
 The splitting of transformations into passes mediated by container valued global variables allows for subgraph copying without model pollution, cf. \ref{subsub:copystructure}; please have a look at \ref{sub:mergesplit}, \ref{subsub:copystructure} and \ref{subsub:flow} regarding a discussion on when to use which transformation combinators and for storage examples.
-The syntax diagrams given in the Rule Application Control Language chapter \ref{cha:xgrs} already contained the storage constructs.
+They were already defined and described in \ref{cha:container}.
 Here we only give some refinements and explanations of the semantics.
 
-\begin{rail}
-  Type: 'set' '<' Type '>'
-    | 'map' '<' KeyType ',' ValueType '>'
-    | 'array' '<' Type '>'
-    | 'deque' '<' Type '>'
-  ;
-  Literal:
-    'set' '<' Type '>' lbrace rbrace |
-    'map' '<' KeyType ',' ValueType '>' lbrace rbrace |
-    'array' '<' Type '>' '[' ']' |
-    'deque' '<' Type '>' ']' '['
-	;
-\end{rail}\indexmain{map}\indexmain{array}\indexmain{set}\indexmain{deque}%\makeatother
+The methods \texttt{add,rem,clear} are available for all storages and allow to add elements to the container, remove elements from the container, or clear the container.
+Their return value is the changed container, thus they allow to chain method calls on the container.
 
-The Type used in a variable declaration may be set or map or array or deque.
-The Literals used in variable initialization may be empty sets or maps or arrays or deques.
-A container must be created and assigned to a variable before it can be used.
+The methods \texttt{size,empty,peek} in contrast return the size of the container, whether the container is empty, or a certain element from the container and thus can't be chained.
+The indexed query \texttt{v=m[k]} is available on map and array and deque types and returns the element at the specified index,
+the indexed assignment \texttt{a[i]=v} overwrites the element at the specified index.
+Further available are the sequence expression operator \texttt{in} for membership query.
 
-\begin{example}
-\begin{grgen}
-::x=set<NodeTypeA>{}
-y:map<Node,Edge> = map<Node,Edge>{}
-\end{grgen}
-The first line declares or references a global variable \texttt{x} (without static type) and assigns the newly created, empty set of type \texttt{set<NodeTypeA>} to it as value.
-The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} and assigns the newly created, empty map of the same type to it as value.
-\end{example}
+The infix operators, the methods specific to a certain container type (i.e. not available for all container types), and the change assignments in contrast are \emph{not} available in the sequence computations, they are \emph{only} supported by the computations in the rule language .
 
-\begin{rail}
-  MethodName: 'add' | 'rem' | 'clear' | 'size' | 'empty' | 'peek';
-\end{rail}\ixkeyw{add}\ixkeyw{rem}\ixkeyw{clear}\ixkeyw{size}\ixkeyw{empty}\ixkeyw{peek}
-
-\noindent There are several sequence computation operations on set variables available in method call notation, these are:
-
-\begin{description}
-\item[Set addition:] \texttt{s.add(v)} adds the value \texttt{v} to the set \texttt{s}, succeeds always.
-\item[Set removal:] \texttt{s.rem(v)} removes the value \texttt{v} from the set \texttt{s}, succeeds always.
-\item[Set clearing:] \texttt{s.clear()} removes all values from the set \texttt{s}, succeeds always.
-\end{description}
-
-\noindent Very similar operations are available on map variables:
-
-\begin{description}
-\item[Map addition:] \texttt{m.add(k,v)} adds the pair (\texttt{k},\texttt{v}) to the map \texttt{m}, succeeds always.
-\item[Map removal:] \texttt{m.rem(k)} removes the pair (\texttt{k},unknown) from the map \texttt{m}, succeeds always.
-\item[Map clearing:] \texttt{m.clear()} removes all key-value-pairs from the map \texttt{m}, succeeds always.
-\end{description}
-
-\noindent Similar operations are available on array variables:
-
-\begin{description}
-\item[Array addition:] \texttt{a.add(v)} adds the value \texttt{v} to the end of array \texttt{a}, succeeds always.
-\item[Array addition:] \texttt{a.add(v,i)} inserts the value \texttt{v} to the array \texttt{a} at index \texttt{i}, succeeds always.
-\item[Array removal:] \texttt{a.rem()} removes the value at the end of array \texttt{a}, succeeds always.
-\item[Array removal:] \texttt{a.rem(i)} removes the value at index \texttt{i} from the array \texttt{a}, succeeds always.
-\item[Array clearing:] \texttt{a.clear()} removes all values from the array \texttt{a}, succeeds always.
-\end{description}
-
-\noindent Very similar operations are available on deque variables:
-
-\begin{description}
-\item[Deque addition:] \texttt{d.add(v)} adds the value \texttt{v} to the end of deque \texttt{d}, succeeds always.
-\item[Deque addition:] \texttt{d.add(v,i)} inserts the value \texttt{v} to the deque \texttt{d} at index \texttt{i}, succeeds always.
-\item[Deque removal:] \texttt{d.rem()} removes the value at the begin of deque \texttt{d}, succeeds always.
-\item[Deque removal:] \texttt{d.rem(i)} removes the value at index \texttt{i} from the deque \texttt{d}, succeeds always.
-\item[Deque clearing:] \texttt{d.clear()} removes all values from the deque \texttt{d}, succeeds always.
-\end{description}
-
-\noindent There are further operations which are only available in the sequence expressions, too, not only in the sequence computations as the constructs before; but they can't be chained as they don't return the storage and are in that sense terminal:
-
-\begin{description}
-\item[Size assignment:] \texttt{v=w.size()} writes the number of entries in the container \texttt{w} to the variable \texttt{v},\\succeeds always.
-\item[Emptyness assignment:] \texttt{v=w.empty()} writes to the variable \texttt{v} whether the container \texttt{w} is empty, succeeds always.
-\item[Peeking:] \texttt{v=w.peek(i)} writes to the variable \texttt{v} the value at the corresponding position \texttt{i} in the sequence of iteration, succeeds always. For arrays and deques that is the value at the corresponding index. A \texttt{w.peek()} on an array \texttt{w} yields the last element of the array, a \texttt{w.peek()} on a deque \texttt{w} yields the first element of the deque.
-\item[Lookup assignement:] \texttt{v=m[k]} assigns the result of the map lookup or array or deque indexed access to the variable \texttt{v}, succeeds iff \texttt{k} was contained in \texttt{m} (or was a valid index), fails otherwise, not touching the variable \texttt{v}.
-\item[Indexed assignement:] \texttt{a[i]=v} assigns the variable \texttt{v} to the array or deque or map \texttt{a} at the index \texttt{i}, overwriting the old value, succeeds iff \texttt{i} is a valid index into \texttt{a}, fails otherwise.
-\end{description}
-
-\noindent Handling of the storages is completed by the sequence expression operator \texttt{in} for membership query and the sequence loop for storage iteration.
+You may iterate in the sequences with a for loop over the elements contained in a storage.
 
 \begin{rail}
   RewriteFactor:
-    'for' lbrace (Var 'in' SetVar | Var '->' Var 'in' MapVar | Var 'in' ArrayVar | Var '->' Var 'in' ArrayVar) ';' RewriteSequence rbrace
+    'for' lbrace (Var 'in' SetVar | Var '->' Var 'in' MapVar | Var 'in' ArrayVar | Var '->' Var 'in' ArrayVar | Var 'in' DequeVar | Var '->' Var 'in' DequeVar) ';' RewriteSequence rbrace
     ;
 \end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{RewriteFactor}\label{forstorage}
 
-The binary operator \texttt{v in w} checks for container membership; it returns true if \texttt{v} is contained in the set, or the domain of the map, or the array or deque \texttt{w}, otherwise false.
-It is an O(1) operation for sets and maps, and a O(n) operation for arrays or deques.
 The \texttt{for} command iterates over all elements in the set or array or deque, or all key-value pairs in the map or array or deque, and executes for each element / key-value pair the nested graph rewrite sequence; it completes successfully iff all sequences were executed successfully (an empty container causes immediate successful completion); the key in the key-value pair iteration of an array or deque is the integer typed index. (See \ref{forgraphelem} for another version of the \texttt{for} command.)
 
 \begin{example}
@@ -352,6 +255,14 @@ The for loop could be replaced by employing the storage access in the rule const
 The container over which the for loop iterates must stay untouched during iteration.
 \end{warning}
 
+%\begin{example}
+%\begin{grgen}
+%::x=set<NodeTypeA>{}
+%y:map<Node,Edge> = map<Node,Edge>{u->v}
+%\end{grgen}
+%The first line declares or references a global variable \texttt{x} (without static type) and assigns the newly created, empty set of type \texttt{set<NodeTypeA>} to it as value.
+%The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} and assigns the newly created map of the same type containing a key value pair build from u mapping to v, where u is assumed to be a variable of node type and v to be a variable of edge type.
+%\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick Reference Table}
@@ -373,38 +284,21 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \texttt{e op f}	& For \texttt{op} being one of the boolean operators \texttt{||,|,\&,\&\&,\^\ } \\
 \texttt{e op f}	& For \texttt{op} being one of comparison operators \texttt{==,!=,<,<=,>,>=,in} \\
 \texttt{e + f}	& Numerical addition or string concatenation \\
+\texttt{e - f}	& Numerical subtraction \\
 \hline
 \texttt{v} & Variable. Assignment target or expression.\\
 \texttt{v.name} & Attribute of graph element. Assignment target or expression.\\
 \texttt{@(name)} & Return graph element of given name.\\
-\texttt{emit(v)} & Emits value of v to stdout.\\
-\texttt{record(v)} & Records value of v to the replay log.\\
-\texttt{export(filename)} & Exports the current graph to a file with the specified name. \\
-\texttt{export(graph, path)} & Exports the (sub)graph given to the path given.\\
 \texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \texttt{random(upperBound)} & Returns random number from [0;upper bound[, if upper bound is missing from [0.0;1.0[.\\
 \hline
-\texttt{v=valloc()} & Allocates a visited-flag, assigns its id to v.\\
-\texttt{vfree(e)} & Frees the visited-flag given.\\
-\texttt{vreset(e)} & Resets the visited-flag given in all graph elements.\\
-\texttt{u.visited[e]} & Visited flag e of u. Assignment target or expression.\\
+\texttt{function(...)}	& One of the functions for graph querying defined in \ref{funcstab} and explained in \ref{cha:graph}. The numerical functions are \emph{not} available.\\
 \hline
-\texttt{u=set<Node>\{\}}	& Create storage set and assign to \texttt{u}.\\
-\texttt{u.add(e)}	& Add \texttt{e} to storage set \texttt{u}.\\
-\texttt{u.rem(e)}	& Remove \texttt{e} from storage set \texttt{u}.\\
-\texttt{u.clear()}	& Clears the storage set \texttt{u}.\\
-\texttt{u.size()}	& Returns the size of storage set \texttt{u}.\\
-\texttt{u.empty()} & Returns whether storage set \texttt{u} is empty.\\
-\texttt{u=map<N,Edge>\{\}}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
+\texttt{procedure(...)}	& One of the procedures for graph manipulation defined in \ref{procstab} and explained in \ref{cha:graph}.\\
+\hline
+\texttt{u=set<Node>\{\}}	& Example for container constructor, creates storage set and assigns to \texttt{u}.\\
 \texttt{u[e]}	& Target value of \texttt{e} in \texttt{u}. Fails if \texttt{!(e in u)}. Assignment target or expression.\\
-\hline
-\texttt{add(T)}	& Adds a node to the graph.\\
-\texttt{add(T,src,tgt)}	& Adds an edge to the graph.\\
-\texttt{rem(e)}	& Remove the node or edge \texttt{e} from the graph.\\
-\texttt{clear()}	& Clears the graph.\\
-\texttt{incident(n)}	& Returns the set of edges incident to \texttt{n}.\\
-\texttt{adjacent(n)} & Returns the set of nodes adjacent to \texttt{n}.\\
-\texttt{subgraph operations} & The subgraph operations allow to compute an induced or defined subgraph, or allow to replicate an induced or defined subgraph.\\
+\texttt{storage.method(...)}	& One of the methods \texttt{add,rem,clear,size,empty,peek} defined in \ref{cha:container}. The infix operators, methods specific to a certain container type, and change assignments are \emph{not} available.\\
 \hline
 \end{tabularx}
 \end{minipage}\\
