@@ -92,6 +92,7 @@ Set expressions consist of the known mathematical set operations, plus some oper
 
 The binary set operators require the left and right operands to be of identical type \verb#set<T>#.
 The operator \texttt{x in s} denotes set membership $x \in s$, returning whether the set contains the given element, as \texttt{boolean}.
+It is a O(1) operation for sets.
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
 The set only allows for non-indexed iteration.
 
@@ -194,6 +195,7 @@ Map expressions consist of the known mathematical set operations extended to map
 The binary map operators require the left and right operands to be of identical type \verb#map<S,T>#,
 with one exception for map difference, this operator accepts for a left operand of type \verb#map<S,T># a right operand of type \verb#set<S>#, too.
 The operator \texttt{x in m} denotes map domain membership $x \in dom(m)$, returning whether the domain of the map contains the given element, as \texttt{boolean}.
+It is a O(1) operation for maps.
 The operator \texttt{m[x]} denotes map lookup, i.e. it returns the value \texttt{y} which is stored in the map \texttt{m} for the value \texttt{x} (domain value \texttt{x} is mapped by the mapping \texttt{m} to range value \texttt{y}). The value \texttt{x} \emph{must} be in the map, i.e. \texttt{x in m} must hold.
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
 The map only allows for indexed iteration, with the key getting assigned to the index variable and the corresponding value getting assigned to the value variable.
@@ -290,6 +292,7 @@ Array expressions consist of array membership checking, array value lookup, and 
 \end{table}
 
 The operator \texttt{x in a} denotes array value membership, returning whether the array contains the given element, as \texttt{boolean}.
+It is a O(n) operation for arrays.
 The operator \texttt{a[x]} denotes array lookup, i.e. it returns the value \texttt{y} which is stored in the array \texttt{a} at the index \texttt{x}.
 The index \texttt{x} \emph{must} be a valid array index.
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
@@ -376,6 +379,7 @@ Deque expressions consist of deque membership checking, deque value lookup, and 
 \end{table}
 
 The operator \texttt{x in d} denotes deque value membership, returning whether the deque contains the given element, as \texttt{boolean}.
+It is a O(n) operation for deques.
 The operator \texttt{d[x]} denotes deque lookup, i.e. it returns the value \texttt{y} which is stored in the deque \texttt{d} at the index \texttt{x}.
 The index \texttt{x} \emph{must} be a valid deque index.
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
