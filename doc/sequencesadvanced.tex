@@ -189,6 +189,49 @@ the result of the sequence is the result of the chosen subsequence.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Nesting and Graph Oriented Programming}\label{sec:graphnesting}
+
+Graph nesting is possible with nodes or edges of a graph bearing attributes of graph type (cf. \ref{cha:graph}).
+They can then be filled with other graphs, employing the operations in \ref{sec:subgraphop}.
+
+Attributes of graph type are opaque to the processing of the host graph containing them; 
+their only direct usage is comparison, i.e. isomorphy checking against other graphs,
+as needed for state space enumeration (cf. \ref{sec:statespaceenum}),
+in this case only immutable subgraphs are stored.
+
+\begin{rail} 
+  ExtendedControl: 
+    'in' GraphVariable lbrace RewriteSequence rbrace;
+\end{rail}
+
+But they can be opened up and made modifiable by switching the location of processing with the \verb#in g { seq }# sequence.
+Inside the braces is the host graph switched to \texttt{g}, the sequence \texttt{seq} is executed in the host graph switched to, all queries and updates are carried out on the new graph; after executing the construct the old graph that was previously used is made the current host graph again.
+
+\begin{rail}
+  Rule: GraphVariable '.' RuleIdent (() | '(' (Variable+',') ')');
+\end{rail}\ixnterm{Rule}
+
+The rules are always applied on the current host graph without any ability to switch to a subgraph;
+switching the location of processing is only available in the sequences.
+But a simplified and more lightweight version of the full switch is available for single rule calls with \verb#g.r#; so a method call in the sequences denotes in fact a temporary subgraph switch.
+To allow for this is the syntax of rule application extended by the grammar rule above.
+
+The \emph{information hiding} shown by the graph attributes is comparable to the information hiding shown by the objects in \emph{object-oriented programming}, there the attributes but especially the neighbouring elements are only known to the containing object and accessible to the methods of the object.
+In \emph{graph-oriented programming} are the attributes but especially the neighboring elements known to the containing graph, the connecting topology is open for \emph{pattern matching}.
+This crucial difference also defines the main benefit compared to OO, removing it would mean to revert back to OO.
+But this openness might not be needed always for all parts.
+When building a \emph{large system}, you typically only need a certain \emph{layer} to be accessible at a time.
+You may use graph attributes and nested graph in this case,
+utilizing open graph-oriented programming for the parts you need to work globally with pattern matching at a time,
+and closed object-oriented programming for parts you only need to access locally,
+decoupled by explicit move-to-subgraph and return-to-subgraph steps.
+
+You may model containment with edges denoting a containment type pointing to the contained parts instead of attributes of subgraph type
+when the pattern matcher needs overall access to the graph, but there are still some containment or nesting relationships in place.
+You can then still benefit from a hierarchical structure in debugging, utilizing the built-in nesting for visualization capabilities of \GrG (cf. \ref{sub:visual}, the graphs nested in attributes are truly opaque and invisible, only when processing switches to them are they displayed instead of their containing host graph).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick Reference Table}
 
 Table~\ref{seqtab} lists most of the operations of the graph rewrite sequences at a glance.
@@ -202,7 +245,7 @@ Table~\ref{seqtab} lists most of the operations of the graph rewrite sequences a
 \hline
 \texttt{<s>}	& Execute \texttt{s} transactionally (rollback on failure).\\
 \texttt{<<r;;s>>}	& Backtracking: try the matches of rule \texttt{r} until \texttt{s} succeeds.\\
-\texttt{/ s /}	& Pause insetion: execute \texttt{s} outside of the enclosing transactions and sequences, i.e. the changes of \texttt{s} are not rolled back.\\
+\texttt{/ s /}	& Pause insertion: execute \texttt{s} outside of the enclosing transactions and sequences, i.e. the changes of \texttt{s} are not rolled back.\\
 \hline
 \texttt{highlight(vars)} & Highlights the content of the variables in the graph. \\
 \hline
@@ -213,6 +256,8 @@ Table~\ref{seqtab} lists most of the operations of the graph rewrite sequences a
 \texttt{for\{v:match<r> in [?r]; t\}}	& Execute \texttt{t} for every match \texttt{v} from rule \texttt{r}. One \texttt{t} failing pins the execution result to failure.\\
 \texttt{for\{v:T; s\}}	& Execute \texttt{s} for every \texttt{v} of type \texttt{T} available in the graph. One \texttt{s} failing pins the execution result to failure.\\
 \texttt{for\{v in func(w); s\}}	& Execute \texttt{s} for every edge/node incident/adjacent to \texttt{w} . One \texttt{s} failing pins the execution result to failure.\\
+\hline
+\texttt{in g \{s\}}	& Executes \texttt{s} in the graph \texttt{g}.\\
 \hline
 \texttt{\{comp\}}	& An unspecified sequence computation (see table \ref{comptab}).\\
 \hline
