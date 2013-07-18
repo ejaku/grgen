@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Mon May 20 22:30:19 CEST 2013
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Thu Jul 18 15:34:25 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -19859,6 +19859,7 @@ label3: ;
         public IAction_RetypeClassContainment @RetypeClassContainment;
         
         
+        public override string StatisticsPath { get { return null; } }
         public override string Name { get { return "ProgramGraphsOriginalActions"; } }
         public override string ModelMD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
     }

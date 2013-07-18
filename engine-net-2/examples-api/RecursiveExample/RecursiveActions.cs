@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon May 20 22:30:22 CEST 2013
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Thu Jul 18 15:34:28 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -22989,6 +22989,7 @@ label23: ;
         public IAction_reverseChainFromToToCommon @reverseChainFromToToCommon;
         
         
+        public override string StatisticsPath { get { return null; } }
         public override string Name { get { return "RecursiveActions"; } }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
     }

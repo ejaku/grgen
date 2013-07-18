@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon May 20 22:30:10 CEST 2013
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Thu Jul 18 15:34:17 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -62234,6 +62234,7 @@ label44: ;
         public IAction_replaceAccess_Parameter_AccessWithLinkToExpression @replaceAccess_Parameter_AccessWithLinkToExpression;
         
         
+        public override string StatisticsPath { get { return null; } }
         public override string Name { get { return "JavaProgramGraphsActions"; } }
         public override string ModelMD5Hash { get { return "8fd694f4f8cc691f8759cb852bb0c81c"; } }
     }

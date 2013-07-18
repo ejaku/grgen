@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon May 20 22:29:54 CEST 2013
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Jul 18 15:33:58 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -4904,6 +4904,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public IAction_countOnes @countOnes;
         
         
+        public override string StatisticsPath { get { return null; } }
         public override string Name { get { return "Turing3Actions"; } }
         public override string ModelMD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
     }

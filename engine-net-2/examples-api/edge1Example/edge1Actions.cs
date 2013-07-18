@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Mon May 20 22:29:56 CEST 2013
+// Generated from "..\..\tests\edge1\edge1.grg" on Thu Jul 18 15:34:02 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -5721,6 +5721,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         public IAction_findTripleCircle @findTripleCircle;
         
         
+        public override string StatisticsPath { get { return null; } }
         public override string Name { get { return "edge1Actions"; } }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
     }

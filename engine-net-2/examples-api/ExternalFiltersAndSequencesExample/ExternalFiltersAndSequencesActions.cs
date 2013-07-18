@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Mon May 20 22:30:01 CEST 2013
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Thu Jul 18 15:34:07 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -3131,6 +3131,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         public Sequence_counterExample1 @counterExample1;
         public Sequence_counterExample2 @counterExample2;
         
+        public override string StatisticsPath { get { return null; } }
         public override string Name { get { return "ExternalFiltersAndSequencesActions"; } }
         public override string ModelMD5Hash { get { return "645eea4f3e21e49c90ac82a74ce000c7"; } }
     }

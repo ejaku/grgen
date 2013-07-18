@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon May 20 22:29:50 CEST 2013
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Thu Jul 18 15:33:54 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -11304,6 +11304,7 @@ label1: ;
         public IAction_doAntWorld @doAntWorld;
         
         
+        public override string StatisticsPath { get { return null; } }
         public override string Name { get { return "AntWorld_ExtendAtEndOfRound_NoGammelActions"; } }
         public override string ModelMD5Hash { get { return "5efeccfb37eb4c2835fae110fe22d2e7"; } }
     }
