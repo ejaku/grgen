@@ -112,7 +112,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(extension.Equals(".gm", StringComparison.OrdinalIgnoreCase))
             {
                 String modelDllFilename;
-                if(MustGenerate(modelFilename, out modelDllFilename))
+                if(MustGenerate(modelFilename, null, out modelDllFilename))
                     LGSPGrGen.ProcessSpecification(modelFilename, null, ProcessSpecFlags.UseNoExistingFiles, new String[0]);
                 return named ? (LGSPNamedGraph)CreateNamedGraph(modelDllFilename, graphName, parameters) : (LGSPGraph)CreateGraph(modelDllFilename, graphName, parameters);
             }
@@ -372,12 +372,15 @@ namespace de.unika.ipd.grGen.lgsp
             else return "\\" + Convert.ToString(ch, 8);
         }
 
-        private void GetNeededFiles(String basePath, String mainActionsName, ref String mainModelName, String grgFilename,
-            List<String> neededFiles, Dictionary<String, object> processedFiles)
+        // scans through a grg on the search for model usages and rule file inclusions
+        // processedActionFiles are for preventing circular includes, full path
+        // processedModelFiles are for determining the amount of models, getting the name of the one model in case it's only one
+        private void GetNeededFiles(String basePath, String grgFilename, List<String> neededFiles,
+            Dictionary<String, object> processedActionFiles, Dictionary<String, object> processedModelFiles)
         {
-            if(processedFiles.ContainsKey(grgFilename))
+            if(processedActionFiles.ContainsKey(grgFilename))
                 throw new Exception("Circular include detected with file \"" + grgFilename + "\"!");
-            processedFiles[grgFilename] = null;
+            processedActionFiles[grgFilename] = null;
 
             if(!File.Exists(grgFilename))
 				throw new FileNotFoundException("Included file \"" + grgFilename + "\" does not exist!");
@@ -404,30 +407,23 @@ namespace de.unika.ipd.grGen.lgsp
 						String includedGRG = ReadQuotedString(charStream);
 						includedGRG = basePath + FixDirectorySeparators(includedGRG);
 						neededFiles.Add(includedGRG);
-						GetNeededFiles(basePath, mainActionsName, ref mainModelName, includedGRG, neededFiles, processedFiles);
+						GetNeededFiles(basePath, includedGRG, neededFiles, processedActionFiles, processedModelFiles);
 					}
 
                     if(MatchString(charStream, "using"))
                     {
-                        if(mainModelName != null)
-                            throw new Exception("More than one using statement found in '" + grgFilename
-                                + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
-                        bool moreThanOne = false;
                         while(true)
                         {
-                            mainModelName = ReadString(charStream);
-                            neededFiles.Add(basePath + mainModelName + ".gm");
+                            String modelName = ReadString(charStream);
+                            neededFiles.Add(basePath + modelName + ".gm");
+                            GetNeededFiles(basePath, modelName, neededFiles, processedModelFiles);
                             IgnoreSpace(charStream);
                             curChar = charStream.ReadChar();
                             if(curChar == ';') break;
-                            else if(curChar == ',')
-                                moreThanOne = true;
-                            else
+                            if(curChar != ',')
                                 throw new Exception("Parse error: Unexpected token '" + GetPrintable(curChar)
                                     + "' in '" + grgFilename + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
                         }
-                        if(moreThanOne)
-                            mainModelName = mainActionsName;
                     }
                     else if(needSemicolon)
                     {
@@ -435,16 +431,17 @@ namespace de.unika.ipd.grGen.lgsp
                         MatchCharOrThrow(charStream, ';');
                     }
 
-                    // search the rest of the file for include tokens
+                    // search the rest of the file for includes and usings
                     while(true)
                     {
-						curChar = charStream.ReadChar();
-						if(curChar == '#' && MatchString(charStream, "include"))
+                        curChar = charStream.ReadChar();
+						
+                        if(curChar == '#' && MatchString(charStream, "include"))
 						{
 							String includedGRG = ReadQuotedString(charStream);
 							includedGRG = basePath + FixDirectorySeparators(includedGRG);
 							neededFiles.Add(includedGRG);
-                            GetNeededFiles(basePath, mainActionsName, ref mainModelName, includedGRG, neededFiles, processedFiles);
+                            GetNeededFiles(basePath, includedGRG, neededFiles, processedActionFiles, processedModelFiles);
 						}
 						else if(curChar == '\\') charStream.ReadChar();			// skip escape sequences
 						else if(curChar == '/') IgnoreComment(charStream);
@@ -457,6 +454,92 @@ namespace de.unika.ipd.grGen.lgsp
 								else if(curChar == '\\') charStream.ReadChar();		// skip escape sequence
 							}
 						}
+                        else if(curChar == 'u' && MatchString(charStream, "sing"))
+                        {
+                            while(true)
+                            {
+                                String modelName = ReadString(charStream);
+                                neededFiles.Add(basePath + modelName + ".gm");
+                                GetNeededFiles(basePath, modelName, neededFiles, processedModelFiles);
+                                IgnoreSpace(charStream);
+                                curChar = charStream.ReadChar();
+                                if(curChar == ';') break;
+                                if(curChar != ',')
+                                    throw new Exception("Parse error: Unexpected token '" + GetPrintable(curChar)
+                                        + "' in '" + grgFilename + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
+                            }
+                        }
+                    }
+                }
+                catch(IOException)
+                {
+                    // end of file reached
+                }
+            }
+        }
+
+        // scans through a gm on the search for model usages
+        private void GetNeededFiles(String basePath, String modelName, List<String> neededFiles,
+            Dictionary<String, object> processedModelFiles)
+        {
+            processedModelFiles[modelName] = null;
+
+            if(!File.Exists(basePath + modelName + ".gm"))
+                throw new FileNotFoundException("Used model file \"" + modelName + "\" does not exist!");
+
+            using(StreamReader reader = new StreamReader(basePath + modelName + ".gm"))
+            {
+                SimpleCharStream charStream = new SimpleCharStream(reader);
+                char curChar;
+                try
+                {
+                    if(MatchString(charStream, "using"))
+                    {
+                        while(true)
+                        {
+                            String usedModelName = ReadString(charStream);
+                            neededFiles.Add(basePath + usedModelName + ".gm");
+                            GetNeededFiles(basePath, usedModelName, neededFiles, processedModelFiles);
+                            IgnoreSpace(charStream);
+                            curChar = charStream.ReadChar();
+                            if(curChar == ';') break;
+                            if(curChar != ',')
+                                throw new Exception("Parse error: Unexpected token '" + GetPrintable(curChar)
+                                    + "' in '" + basePath + modelName + ".gm" + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
+                        }
+                    }
+
+                    // search the rest of the file for include tokens
+                    while(true)
+                    {
+                        curChar = charStream.ReadChar();
+ 
+                        if(curChar == '\\') charStream.ReadChar();			// skip escape sequences
+                        else if(curChar == '/') IgnoreComment(charStream);
+                        else if(curChar == '"')
+                        {
+                            while(true)
+                            {
+                                curChar = charStream.ReadChar();
+                                if(curChar == '"') break;
+                                else if(curChar == '\\') charStream.ReadChar();		// skip escape sequence
+                            }
+                        }
+                        else if(curChar == 'u' && MatchString(charStream, "sing"))
+                        {
+                            while(true)
+                            {
+                                String usedModelName = ReadString(charStream);
+                                neededFiles.Add(basePath + usedModelName + ".gm");
+                                GetNeededFiles(basePath, usedModelName, neededFiles, processedModelFiles);
+                                IgnoreSpace(charStream);
+                                curChar = charStream.ReadChar();
+                                if(curChar == ';') break;
+                                if(curChar != ',')
+                                    throw new Exception("Parse error: Unexpected token '" + GetPrintable(curChar)
+                                        + "' in '" + basePath + modelName + ".gm" + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
+                            }
+                        }
                     }
                 }
                 catch(IOException)
@@ -537,20 +620,32 @@ namespace de.unika.ipd.grGen.lgsp
             return false;
         }
 
-        private bool MustGenerate(String grgFilename, out String actionsFilename, out String modelFilename)
+        private bool MustGenerate(String grgFilename, String statisticsPath, out String actionsFilename, out String modelFilename)
         {
             String actionsName = GetPathBaseName(grgFilename);
             String actionsDir = GetDir(grgFilename);
 
             // Parse grg file and collect information about the used files and the main graph model
             List<String> neededFilenames = new List<String>();
-            Dictionary<String, object> processedFiles = new Dictionary<String, object>();
-            String mainModelName = null;
-
             neededFilenames.Add(grgFilename);
-            GetNeededFiles(actionsDir, actionsName, ref mainModelName, grgFilename, neededFilenames, processedFiles);
+            if(statisticsPath != null)
+                neededFilenames.Add(statisticsPath);
 
-            if(mainModelName == null) mainModelName = "Std";
+            Dictionary<String, object> processedActionFiles = new Dictionary<String, object>();
+            Dictionary<String, object> processedModelFiles = new Dictionary<String, object>();
+            GetNeededFiles(actionsDir, grgFilename, neededFilenames, processedActionFiles, processedModelFiles);
+
+            String mainModelName;
+            if(processedModelFiles.Count == 0)
+                mainModelName = "Std";
+            else if(processedModelFiles.Count == 1)
+            {
+                Dictionary<string, object>.Enumerator enu = processedModelFiles.GetEnumerator();
+                enu.MoveNext();
+                mainModelName = enu.Current.Key;
+            }
+            else
+                mainModelName = actionsName;
 
             actionsFilename = actionsDir + "lgsp-" + actionsName + "Actions.dll";
             modelFilename = actionsDir + "lgsp-" + mainModelName + "Model.dll";
@@ -559,6 +654,11 @@ namespace de.unika.ipd.grGen.lgsp
             if(!File.Exists(actionsFilename) || !File.Exists(modelFilename))
                 return true;
 
+            if(File.Exists(actionsDir + actionsName + "ActionsExternalFunctionsImpl.cs"))
+                neededFilenames.Add(actionsDir + actionsName + "ActionsExternalFunctionsImpl.cs");
+            if(File.Exists(actionsDir + mainModelName + "ModelExternalFunctionsImpl.cs"))
+                neededFilenames.Add(actionsDir + mainModelName + "ModelExternalFunctionsImpl.cs");
+
             DateTime actionsTime = File.GetLastWriteTime(actionsFilename);
             DateTime modelTime = File.GetLastWriteTime(modelFilename);
             DateTime oldestOutputTime = actionsTime < modelTime ? actionsTime : modelTime;
@@ -566,7 +666,7 @@ namespace de.unika.ipd.grGen.lgsp
             return DepsOlder(oldestOutputTime, neededFilenames);
         }
 
-        private bool MustGenerate(String gmFilename, out String modelFilename)
+        private bool MustGenerate(String gmFilename, String statisticsPath, out String modelFilename)
         {
             String modelName = GetPathBaseName(gmFilename);
             String modelDir = GetDir(gmFilename);
@@ -574,6 +674,11 @@ namespace de.unika.ipd.grGen.lgsp
             // Parse grg file and collect information about the used files and the main graph model
             List<String> neededFilenames = new List<String>();
             neededFilenames.Add(gmFilename);
+            if(statisticsPath != null)
+                neededFilenames.Add(statisticsPath);
+
+            Dictionary<String, object> processedModelFiles = new Dictionary<String, object>();
+            GetNeededFiles(modelDir, modelName, neededFilenames, processedModelFiles);
 
             modelFilename = modelDir + "lgsp-" + modelName + "Model.dll";
 
@@ -581,7 +686,11 @@ namespace de.unika.ipd.grGen.lgsp
             if(!File.Exists(modelFilename))
                 return true;
 
+            if(File.Exists(modelDir + modelName + "ModelExternalFunctionsImpl.cs"))
+                neededFilenames.Add(modelDir + modelName + "ModelExternalFunctionsImpl.cs");
+
             DateTime modelTime = File.GetLastWriteTime(modelFilename);
+
             return DepsOlder(modelTime, neededFilenames);
         }
 
@@ -611,8 +720,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             String actionsFilename;
             String modelFilename;
-
-            if(MustGenerate(grgFilename, out actionsFilename, out modelFilename))
+            if(MustGenerate(grgFilename, statisticsPath, out actionsFilename, out modelFilename))
                 LGSPGrGen.ProcessSpecification(grgFilename, statisticsPath, flags, externalAssemblies.ToArray());
 
             newGraph = named ? (LGSPNamedGraph)CreateNamedGraph(modelFilename, graphName, "capacity=" + capacity.ToString()) : (LGSPGraph)CreateGraph(modelFilename, graphName);
@@ -706,7 +814,7 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new FileNotFoundException("The model specification file \"" + gmFilename + "\" does not exist!", gmFilename);
 
             String modelFilename;
-            if(MustGenerate(gmFilename, out modelFilename))
+            if(MustGenerate(gmFilename, statisticsPath, out modelFilename))
                 LGSPGrGen.ProcessSpecification(gmFilename, statisticsPath, flags, externalAssemblies.ToArray());
 
             return CreateGraph(modelFilename, graphName, named, "capacity=" + capacity.ToString());
