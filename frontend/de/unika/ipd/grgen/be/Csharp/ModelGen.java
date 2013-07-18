@@ -114,7 +114,9 @@ public class ModelGen extends CSharpBase {
 				&& model.getExternalFunctions().isEmpty()
 				&& model.getExternalProcedures().isEmpty()
 				&& !model.isEmitClassDefined()
-				&& !model.isCopyClassDefined())
+				&& !model.isCopyClassDefined()
+				&& !model.isEqualClassDefined()
+				&& !model.isLowerClassDefined())
 			return;
 
 		filename = model.getIdent() + "ModelExternalFunctions.cs";
@@ -144,7 +146,7 @@ public class ModelGen extends CSharpBase {
 			if(model.isEmitClassDefined())
 				genEmitterParserClass();
 
-			if(model.isCopyClassDefined())
+			if(model.isCopyClassDefined() || model.isEqualClassDefined() || model.isLowerClassDefined())
 				genCopierComparerClass();
 
 			sb.append("}\n");
@@ -2097,28 +2099,44 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t{\n");
 		sb.append("\t\t// You must implement the following functions in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n");
 		sb.append("\n");
-		sb.append("\t\t// Called during comparison of graph elements, as used from graph isomorphy comparison.\n");
-		sb.append("\t\t// For attribute type object.\n");
-		sb.append("\t\t// If \"copy class\" is not specified, objects are equal if they are identical,\n");
-		sb.append("\t\t// i.e. by-reference-equality (same pointer); all other attribute types are compared by-value.\n");
-		sb.append("\t\t//public static bool IsEqual(object, object);\n");
-		sb.append("\n");
-		sb.append("\t\t// Called when a graph element is cloned/copied.\n");
-		sb.append("\t\t// For attribute type object.\n");
-		sb.append("\t\t// If \"copy class\" is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.\n");
-		sb.append("\t\t// All other attribute types are copied by-value (so changing one later on has no effect on the other).\n");
-		sb.append("\t\t//public static object Copy(object);\n");
+		if(model.isCopyClassDefined()) {
+			sb.append("\t\t// Called when a graph element is cloned/copied.\n");
+			sb.append("\t\t// For attribute type object.\n");
+			sb.append("\t\t// If \"copy class\" is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.\n");
+			sb.append("\t\t// All other attribute types are copied by-value (so changing one later on has no effect on the other).\n");
+			sb.append("\t\t//public static object Copy(object);\n");
+			sb.append("\n");
+		}
+		if(model.isEqualClassDefined()) {
+			sb.append("\t\t// Called during comparison of graph elements from graph isomorphy comparison, or attribute comparison.\n");
+			sb.append("\t\t// For attribute type object.\n");
+			sb.append("\t\t// If \"== class\" is not specified, objects are equal if they are identical,\n");
+			sb.append("\t\t// i.e. by-reference-equality (same pointer); all other attribute types are compared by-value.\n");
+			sb.append("\t\t//public static bool IsEqual(object, object);\n");
+			sb.append("\n");
+		}
+		if(model.isLowerClassDefined()) {
+			sb.append("\t\t// Called during attribute comparison.\n");
+			sb.append("\t\t// For attribute type object.\n");
+			sb.append("\t\t// If \"< class\" is not specified, objects can't be compared for ordering, only for equality.\n");
+			sb.append("\t\t//public static bool IsLower(object, object);\n");
+			sb.append("\n");
+		}
 		if(model.getExternalTypes().size() > 0) {
 			sb.append("\n");
 			sb.append("\t\t// The same functions, just for each user defined type.\n");
-			sb.append("\t\t// Those are normally treated as object (if no \"copy class\" is specified),\n");
-			sb.append("\t\t// i.e. equal if identical references, and copy just copies the reference (making them identical).\n");
+			sb.append("\t\t// Those are normally treated as object (if no \"copy class or == class or < class\" is specified),\n");
+			sb.append("\t\t// i.e. equal if identical references, no ordered comparisons available, and copy just copies the reference (making them identical).\n");
 			sb.append("\t\t// Here you can overwrite the default reference semantics with value semantics, fitting better to the other attribute types.\n");
 			for(ExternalType et : model.getExternalTypes()) {
 				String typeName = et.getIdent().toString();
 				sb.append("\n");
-				sb.append("\t\t//public static bool IsEqual(" + typeName + ", " + typeName + ");\n");
-				sb.append("\t\t//public static " + typeName + " Copy(" + typeName + ");\n");
+				if(model.isCopyClassDefined())
+					sb.append("\t\t//public static " + typeName + " Copy(" + typeName + ");\n");
+				if(model.isEqualClassDefined())
+					sb.append("\t\t//public static bool IsEqual(" + typeName + ", " + typeName + ");\n");
+				if(model.isLowerClassDefined())
+					sb.append("\t\t//public static bool IsLower(" + typeName + ", " + typeName + ");\n");
 			}
 		}
 		sb.append("\t}\n");

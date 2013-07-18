@@ -316,7 +316,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState();
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
 		for(EvalStatement evalStmt : function.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = function.getIdent().toString();
 			mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -433,7 +433,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState();
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
 		for(EvalStatement evalStmt : procedure.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = procedure.getIdent().toString();
 			mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -2076,6 +2076,18 @@ public class ActionsGen extends CSharpBase {
 				}
 				if(opnd.getType() instanceof GraphType) {
 					opNamePrefix = "GRAPH_";
+				}
+			}
+			if(model.isEqualClassDefined() && (op.getOpCode()==Operator.EQ || op.getOpCode()==Operator.NE)) {
+				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
+				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalType) {
+					opNamePrefix = "EXTERNAL_";
+				}
+			}
+			if(model.isLowerClassDefined() && (op.getOpCode()==Operator.GT || op.getOpCode()==Operator.GE || op.getOpCode()==Operator.LT || op.getOpCode()==Operator.LE)) {
+				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
+				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalType) {
+					opNamePrefix = "EXTERNAL_";
 				}
 			}
 
