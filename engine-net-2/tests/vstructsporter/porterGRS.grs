@@ -1,0 +1,20 @@
+new set statistics "vstructsporter/vstructs"
+
+new graph "vstructsporter/porter"
+
+exec createTestGraph
+
+show num nodes
+show num nodes only SpecialNode
+show num nodes only AnchorNode
+
+show num edges
+
+#used for creating the statistics file
+#custom graph analyze
+#custom graph statistics save "vstructsporter/vstructs"
+custom actions explain matchForPerformance
+
+exec matchForPerformance[1000]
+
+quit
