@@ -136,6 +136,7 @@ public class ModifyGen extends CSharpBase {
 
 		public Map<Expression, String> mapExprToTempVar() { return Collections.unmodifiableMap(mapExprToTempVar); }
 		public boolean useVarForResult() { return useVarForResult; }
+		public Model model() { return model; }
 
 		// --------------------
 
@@ -180,6 +181,7 @@ public class ModifyGen extends CSharpBase {
 
 		public HashMap<Expression, String> mapExprToTempVar = new LinkedHashMap<Expression, String>();
 		public boolean useVarForResult;
+		public Model model;
 
 
 		public void InitNeeds(NeededEntities needs) {
@@ -199,6 +201,10 @@ public class ModifyGen extends CSharpBase {
 				i++;
 			}
 		}
+		
+		public ModifyGenerationState(Model model) {
+			this.model = model;
+		}
 	}
 
 	final List<Entity> emptyParameters = new LinkedList<Entity>();
@@ -209,12 +215,14 @@ public class ModifyGen extends CSharpBase {
 	int tmpVarID;
 	int embeddedComputationXgrsID;
 
+	Model model;
 	SearchPlanBackend2 be;
 	
 	
 	public ModifyGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
 		be = backend;
+		model = be.unit.getActionsGraphModel();
 	}
 
 	//////////////////////////////////
@@ -576,7 +584,7 @@ public class ModifyGen extends CSharpBase {
 		//  - Check returned elements for deletion and retyping due to homomorphy
 		//  - Return
 
-		ModifyGenerationState state = new ModifyGenerationState();
+		ModifyGenerationState state = new ModifyGenerationState(model);
 		ModifyGenerationStateConst stateConst = state;
 
 		collectYieldedElements(task, stateConst, state.yieldedNodes, state.yieldedEdges, state.yieldedVariables);

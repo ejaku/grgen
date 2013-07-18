@@ -283,7 +283,7 @@ public class OperatorSignature extends FunctionSignature {
 		}
 	}
 
-	private static final Evaluator objectEvaluator = new Evaluator() {
+	public static final Evaluator objectEvaluator = new Evaluator() {
 		protected ExprNode eval(Coords coords, OperatorSignature op,
 				ExprNode[] e) throws NotEvaluatableException {
 

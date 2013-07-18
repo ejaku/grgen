@@ -31,6 +31,7 @@ public abstract class CSharpBase {
 	public interface ExpressionGenerationState {
 		Map<Expression, String> mapExprToTempVar();
 		boolean useVarForResult();
+		Model model();
 	}
 
 	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix) {
@@ -505,7 +506,16 @@ public abstract class CSharpBase {
 								sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
-							} else {
+							}
+							else if(modifyGenerationState.model().isEqualClassDefined()
+									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+								sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(",");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else {
 								genBinOpDefault(sb, op, modifyGenerationState);
 							}
 							break;
@@ -539,6 +549,14 @@ public abstract class CSharpBase {
 								sb.append("!((GRGEN_LIBGR.IGraph)");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
 								sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else if(modifyGenerationState.model().isEqualClassDefined()
+									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+								sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(",");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
@@ -582,6 +600,19 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
+							else if(modifyGenerationState.model().isLowerClassDefined()
+									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+								sb.append("(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(",");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+								sb.append("&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(",");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append("))");
+							}
 							else {
 								genBinOpDefault(sb, op, modifyGenerationState);
 							}
@@ -609,6 +640,14 @@ public abstract class CSharpBase {
 								sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
 								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else if(modifyGenerationState.model().isLowerClassDefined()
+									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+								sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(",");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
@@ -642,6 +681,14 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
+							else if(modifyGenerationState.model().isLowerClassDefined()
+									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+								sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(",");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
 							else  {
 								genBinOpDefault(sb, op, modifyGenerationState);
 							}
@@ -671,6 +718,19 @@ public abstract class CSharpBase {
 								sb.append(", ");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
+							}
+							else if(modifyGenerationState.model().isLowerClassDefined()
+									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+								sb.append("(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(",");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+								sb.append("|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(",");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append("))");
 							}
 							else {
 								genBinOpDefault(sb, op, modifyGenerationState);

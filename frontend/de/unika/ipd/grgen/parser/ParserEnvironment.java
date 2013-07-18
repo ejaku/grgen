@@ -113,7 +113,7 @@ public abstract class ParserEnvironment extends Base {
 		CollectNode<IdentNode> stdModelAttrEvalCompChilds = new CollectNode<IdentNode>();
 		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelChilds, 
 				stdModelAttrEvalFuncChilds, stdModelAttrEvalCompChilds, new CollectNode<ModelNode>(), 
-				false, false);
+				false, false, false, false);
 
 		// The node type root
 		nodeRoot = predefineType("Node",

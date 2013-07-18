@@ -235,9 +235,17 @@ textActions returns [ UnitNode main = null ]
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isCopyClassDefined |= modelChild.IsCopyClassDefined();
 				}
+				boolean isEqualClassDefined = false;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					isEqualClassDefined |= modelChild.IsEqualClassDefined();
+				}				
+				boolean isLowerClassDefined = false;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					isLowerClassDefined |= modelChild.IsLowerClassDefined();
+				}				
 				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(), 
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, 
-						isEmitClassDefined, isCopyClassDefined);
+						isEmitClassDefined, isCopyClassDefined, isEqualClassDefined, isLowerClassDefined);
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
@@ -2272,12 +2280,14 @@ textTypes returns [ ModelNode model = null ]
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
-			model = new ModelNode(id, types, externalFuncs, externalProcs, modelChilds, specialClasses.isEmitClassDefined, specialClasses.isCopyClassDefined);
+			model = new ModelNode(id, types, externalFuncs, externalProcs, modelChilds,
+				specialClasses.isEmitClassDefined, specialClasses.isCopyClassDefined, 
+				specialClasses.isEqualClassDefined, specialClasses.isLowerClassDefined);
 		}
 	;
 
 typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,  CollectNode<IdentNode> externalProcs ]
-	returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false; ]
+	returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, boolean isEqualClassDefined = false, boolean isLowerClassDefined = false; ]
 	: (
 		type=typeDecl { types.addChild(type); }
 	  |
@@ -2287,6 +2297,10 @@ typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,
 	    EMIT CLASS SEMI { $isEmitClassDefined = true; }
 	  |
 	    COPY CLASS SEMI { $isCopyClassDefined = true; }
+	  |
+	    EQUAL CLASS SEMI { $isEqualClassDefined = true; }
+	  |
+	    LT CLASS SEMI { $isLowerClassDefined = true; }
 	  )*
 	;
 

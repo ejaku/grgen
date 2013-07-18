@@ -45,11 +45,14 @@ public class ModelNode extends DeclNode {
 	private ModelTypeNode type;
 	private boolean isEmitClassDefined;
 	private boolean isCopyClassDefined;
+	private boolean isEqualClassDefined;
+	private boolean isLowerClassDefined;
 
 	public ModelNode(IdentNode id, CollectNode<IdentNode> decls, 
 			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
 			CollectNode<ModelNode> usedModels, 
-			boolean isEmitClassDefined, boolean isCopyClassDefined) {
+			boolean isEmitClassDefined, boolean isCopyClassDefined,
+			boolean isEqualClassDefined, boolean isLowerClassDefined) {
 		super(id, modelType);
 
 		this.declsUnresolved = decls;
@@ -62,6 +65,8 @@ public class ModelNode extends DeclNode {
 		becomeParent(this.usedModels);
 		this.isEmitClassDefined = isEmitClassDefined;
 		this.isCopyClassDefined = isCopyClassDefined;
+		this.isEqualClassDefined = isEqualClassDefined;
+		this.isLowerClassDefined = isLowerClassDefined;
 	}
 
 	/** returns children of this node */
@@ -102,6 +107,13 @@ public class ModelNode extends DeclNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
+		if(isLowerClassDefined) {
+			OperatorSignature.makeBinOp(OperatorSignature.GE, BasicTypeNode.booleanType, BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
+			OperatorSignature.makeBinOp(OperatorSignature.GT, BasicTypeNode.booleanType, BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
+			OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType, BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
+			OperatorSignature.makeBinOp(OperatorSignature.LT, BasicTypeNode.booleanType, BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
+		}
+		
 		decls = declsResolver.resolve(declsUnresolved, this);
 		externalFuncDecls = externalFunctionsResolver.resolve(externalFuncDeclsUnresolved, this);
 		externalProcDecls = externalProceduresResolver.resolve(externalProcDeclsUnresolved, this);
@@ -120,7 +132,7 @@ public class ModelNode extends DeclNode {
 	 */
 	@Override
 	protected boolean checkLocal() {
-		return checkInhCycleFree();
+		return checkInhCycleFree() && equalityMustBeDefinedIfLowerIsDefined();
 	}
 	
 	public boolean IsEmitClassDefined() {
@@ -129,6 +141,14 @@ public class ModelNode extends DeclNode {
 
 	public boolean IsCopyClassDefined() {
 		return isCopyClassDefined;
+	}
+
+	public boolean IsEqualClassDefined() {
+		return isEqualClassDefined;
+	}
+
+	public boolean IsLowerClassDefined() {
+		return isLowerClassDefined;
 	}
 
 	/**
@@ -147,7 +167,7 @@ public class ModelNode extends DeclNode {
 	@Override
 	protected Model constructIR() {
 		Ident id = ident.checkIR(Ident.class);
-		Model res = new Model(id, isEmitClassDefined, isCopyClassDefined);
+		Model res = new Model(id, isEmitClassDefined, isCopyClassDefined, isEqualClassDefined, isLowerClassDefined);
 		for(ModelNode model : usedModels.getChildren())
 			res.addUsedModel(model.getModel());
 		for(TypeDeclNode typeDecl : decls.getChildren()) {
@@ -216,6 +236,16 @@ public class ModelNode extends DeclNode {
 			boolean isCycleFree = checkInhCycleFree_rec( (InheritanceTypeNode)type, inProgress, done);
 
 			if ( ! isCycleFree ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean equalityMustBeDefinedIfLowerIsDefined() {
+		if(isLowerClassDefined) {
+			if(!isEqualClassDefined) {
+				reportError("A \"< class;\" requires a \"== class;\"");
 				return false;
 			}
 		}
