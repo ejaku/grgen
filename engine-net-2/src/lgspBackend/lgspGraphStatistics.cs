@@ -345,7 +345,7 @@ namespace de.unika.ipd.grGen.lgsp
             meanInDegree = new float[numNodeTypes];
             meanOutDegree = new float[numNodeTypes];
 
-            StreamReader sr = new StreamReader(path);
+            StreamReader sr = new StreamReader(FixDirectorySeparators(path));
             line = 1;
 
             while((char)sr.Peek() == 'c')
@@ -592,6 +592,20 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system
+        /// </summary>
+        /// <param name="path">The original path string potentially with wrong chars</param>
+        /// <returns>The corrected path string</returns>
+        static String FixDirectorySeparators(String path)
+        {
+            if(Path.DirectorySeparatorChar != '\\')
+                path = path.Replace('\\', Path.DirectorySeparatorChar);
+            if(Path.DirectorySeparatorChar != '/')
+                path = path.Replace('/', Path.DirectorySeparatorChar);
+            return path;
         }
     }
 }
