@@ -2831,7 +2831,7 @@ exitSecondLoop: ;
         /// <summary>
         /// Do the static search planning again so we can explain the search plan
         /// </summary>
-        public void FillInStaticSearchPlans(params LGSPAction[] actions)
+        public void FillInStaticSearchPlans(LGSPGraphStatistics graphStatistics, params LGSPAction[] actions)
         {
             if(actions.Length == 0) throw new ArgumentException("No actions provided!");
 
@@ -2852,7 +2852,7 @@ exitSecondLoop: ;
             {
                 LGSPMatchingPattern smp = subpatternMatchingPattern.Key;
 
-                LGSPGrGen.GenerateScheduledSearchPlans(smp.patternGraph, null, this, true, false);
+                LGSPGrGen.GenerateScheduledSearchPlans(smp.patternGraph, graphStatistics, this, true, false);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
             }
@@ -2860,7 +2860,7 @@ exitSecondLoop: ;
             // build search plans code for actions
             foreach(LGSPAction action in actions)
             {
-                LGSPGrGen.GenerateScheduledSearchPlans(action.rulePattern.patternGraph, null, this, false, false);
+                LGSPGrGen.GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graphStatistics, this, false, false);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
             }

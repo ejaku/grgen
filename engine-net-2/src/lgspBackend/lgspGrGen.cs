@@ -960,7 +960,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             GenerateAndInsertMatcherSourceCode(model, cc.actionsName, unitName,
                 cc.externalActionsExtensionFilename, ruleAndMatchingPatterns, seqGen,
-                isAutoFilterExisting, isNonAutoFilterExisting, graphStatistics,
+                isAutoFilterExisting, isNonAutoFilterExisting, 
+                graphStatistics, statisticsPath,
                 externalSource, source);
 
             actionsOutputSource = WriteSourceAndExternalSource(externalSource, source,
@@ -1026,7 +1027,7 @@ namespace de.unika.ipd.grGen.lgsp
         private void GenerateAndInsertMatcherSourceCode(IGraphModel model, String actionsName, String unitName,
             string externalActionsExtensionFilename, LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, 
             LGSPSequenceGenerator seqGen, bool isAutoFilterExisting, bool isNonAutoFilterExisting,
-            LGSPGraphStatistics graphStatistics,
+            LGSPGraphStatistics graphStatistics, string statisticsPath,
             SourceBuilder externalSource, SourceBuilder source)
         {
             // analyze the matching patterns, inline the subpatterns when expected to be benefitial
@@ -1054,7 +1055,7 @@ namespace de.unika.ipd.grGen.lgsp
             // the actions class referencing the generated stuff is generated now into 
             // a source builder which is appended at the end of the other generated stuff
             SourceBuilder endSource = GenerateActionsClass(model, actionsName, unitName,
-                ruleAndMatchingPatterns);
+                statisticsPath, ruleAndMatchingPatterns);
             source.Append(endSource.ToString());
             source.Append("}");
         }
@@ -1172,7 +1173,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private SourceBuilder GenerateActionsClass(IGraphModel model, String actionsName, String unitName,
-            LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns)
+            string statisticsPath, LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns)
         {
             SourceBuilder endSource = new SourceBuilder("\n");
             endSource.Indent();
@@ -1309,6 +1310,8 @@ namespace de.unika.ipd.grGen.lgsp
                 endSource.AppendFrontFormat("public Sequence_{0} @{0};\n", sequence.Name);
             }
             endSource.AppendFront("\n");
+
+            endSource.AppendFront("public override string StatisticsPath { get { return " + (statisticsPath!=null ? "@\"" + statisticsPath + "\"" : "null") + "; } }\n");
 
             endSource.AppendFront("public override string Name { get { return \"" + actionsName + "\"; } }\n");
             endSource.AppendFront("public override string ModelMD5Hash { get { return \"" + model.MD5Hash + "\"; } }\n");

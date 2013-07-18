@@ -222,6 +222,11 @@ namespace de.unika.ipd.grGen.lgsp
         public override IGraph Graph { get { return graph; } set { graph = (LGSPGraph) value; } }
 
         /// <summary>
+        /// The statistics file used for generating the matchers, null if none was used.
+        /// </summary>
+        public abstract string StatisticsPath { get; }
+
+        /// <summary>
         /// Replaces the given action by a new action instance with a search plan adapted
         /// to the current analysis data of the associated graph.
         /// </summary>
@@ -376,8 +381,17 @@ namespace de.unika.ipd.grGen.lgsp
 
                     if(action.patternGraph.schedules[0] == null)
                     {
+                        LGSPGraphStatistics graphStatistics = null;
+                        if(StatisticsPath != null)
+                        {
+                            Console.WriteLine("static search plans from " + StatisticsPath);
+                            graphStatistics = new LGSPGraphStatistics(graph.Model);
+                            graphStatistics.Parse(StatisticsPath);
+                        }
+                        else
+                            Console.WriteLine("static search plans");
                         LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(graph.Model);
-                        matcherGen.FillInStaticSearchPlans(action);
+                        matcherGen.FillInStaticSearchPlans(graphStatistics, action);
                     }
                     SourceBuilder sb = new SourceBuilder();
                     foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern
