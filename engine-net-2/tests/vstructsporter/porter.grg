@@ -1,0 +1,33 @@
+using porter;
+
+// this is a performance test
+// the version with static priority will take a long time with its edge lookup,
+// compared to the vstructs version adapted to the graph, matching from the one special node on
+
+rule createTestGraph
+{
+	modify {
+		a:AnchorNode --> . --> :SpecialNode;
+		exec(createFirstLevel(a)[1000]);
+	}
+}
+
+rule createFirstLevel(a:AnchorNode)
+{
+	modify {
+		a --> next:Node;
+		exec(createSecondLevel(next)[1000]);
+	}
+}
+
+rule createSecondLevel(next:Node)
+{
+	modify {
+		next --> .; // no special node here
+	}
+}
+
+test matchForPerformance
+{
+	:AnchorNode -[prio=1000]:Edge-> . --> :SpecialNode;
+}

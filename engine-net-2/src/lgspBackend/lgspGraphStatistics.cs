@@ -318,12 +318,36 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+
+        // used during parsing of statistics from file, for error output in case of parsing failure
+        private int line;
+
         /// <summary>
         /// Reads the statistics from the specified file path (inverse of Serialize).
         /// </summary>
         public void Parse(string path)
         {
+            int numNodeTypes = graphModel.NodeModel.Types.Length;
+            int numEdgeTypes = graphModel.EdgeModel.Types.Length;
+
+#if MONO_MULTIDIMARRAY_WORKAROUND
+            dim0size = numNodeTypes;
+            dim1size = numEdgeTypes;
+            dim2size = numNodeTypes;
+            vstructs = new int[numNodeTypes * numEdgeTypes * numNodeTypes * 2];
+#else
+            vstructs = new int[numNodeTypes, numEdgeTypes, numNodeTypes, 2];
+#endif
+            nodeCounts = new int[numNodeTypes];
+            edgeCounts = new int[numEdgeTypes];
+            outCounts = new int[numNodeTypes];
+            inCounts = new int[numNodeTypes];
+            meanInDegree = new float[numNodeTypes];
+            meanOutDegree = new float[numNodeTypes];
+
             StreamReader sr = new StreamReader(path);
+            line = 1;
+
             while((char)sr.Peek() == 'c')
             {
                 ParseCount(sr);
@@ -351,7 +375,7 @@ namespace de.unika.ipd.grGen.lgsp
                 Eat(sr, 'n');
                 Eat(sr, 'o');
                 Eat(sr, 'd');
-                Eat(sr, 'd');
+                Eat(sr, 'e');
                 countType = CountType.Node;
             }
             else if((char)sr.Peek() == 'e')
@@ -381,7 +405,7 @@ namespace de.unika.ipd.grGen.lgsp
             Eat(sr, '=');
             Eat(sr, ' ');
             string number = EatNumber(sr);
-            Eat(sr, '\n');
+            EatNewline(sr);
 
             if(countType == CountType.Node)
             {
@@ -445,7 +469,7 @@ namespace de.unika.ipd.grGen.lgsp
             Eat(sr, '=');
             Eat(sr, ' ');
             string number = EatNumber(sr);
-            Eat(sr, '\n');
+            EatNewline(sr);
 
             vstructs[((GetNodeTypeIndex(nodeType) * dim1size + GetEdgeTypeIndex(edgeType)) * dim2size + GetNodeTypeIndex(oppositeNodeType)) * 2 + (int)direction]
                 = Int32.Parse(number);
@@ -454,7 +478,7 @@ namespace de.unika.ipd.grGen.lgsp
         void Eat(StreamReader sr, char expected)
         {
             if(sr.Peek() != expected)
-                throw new Exception("parsing error, expected " + expected + ", but found " + sr.ReadLine());
+                throw new Exception("parsing error, expected " + expected + ", but found \"" + sr.ReadLine() + "\" at line " + line);
             sr.Read();
         }
 
@@ -462,7 +486,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             StringBuilder sb = new StringBuilder();
             if(!char.IsLetter((char)sr.Peek()))
-                throw new Exception("parsing error, expected letter, but found " + sr.ReadLine());
+                throw new Exception("parsing error, expected letter, but found \"" + sr.ReadLine() + "\" at line " + line);
             sb.Append((char)sr.Read());
             while(char.IsLetterOrDigit((char)sr.Peek())) // TODO: is the underscore included?
             {
@@ -475,13 +499,31 @@ namespace de.unika.ipd.grGen.lgsp
         {
             StringBuilder sb = new StringBuilder();
             if(!char.IsNumber((char)sr.Peek()))
-                throw new Exception("parsing error, expected number, but found " + sr.ReadLine());
+                throw new Exception("parsing error, expected number, but found \"" + sr.ReadLine() + "\" at line " + line);
             sb.Append((char)sr.Read());
             while(char.IsNumber((char)sr.Peek()))
             {
                 sb.Append((char)sr.Read());
             }
             return sb.ToString();
+        }
+
+        void EatNewline(StreamReader sr)
+        {
+            if(sr.Peek() == '\r')
+            {
+                sr.Read();
+                ++line;
+                if(sr.Peek() == '\n')
+                    sr.Read();
+            }
+            else if(sr.Peek() == '\n')
+            {
+                sr.Read();
+                ++line;
+            }
+            else
+                throw new Exception("parsing error, expected newline, but found \"" + sr.ReadLine() + "\" at line " + line);
         }
 
         int GetNodeTypeIndex(string type)
@@ -506,46 +548,46 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("Unknown edge type " + type);
         }
 
+
         /// <summary>
         /// Writes the statistics to the specified file path (inverse of Parse).
         /// </summary>
         public void Serialize(string path)
         {
-            StreamWriter sw = new StreamWriter(path);
-
-            int numEdgeTypes = graphModel.EdgeModel.Types.Length;
-
-            // emit node counts
-            for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
-                sw.WriteLine("count node " + graphModel.NodeModel.Types[i] + " = " + nodeCounts[i].ToString());
-
-            // emit edge counts
-            for(int i = 0; i < graphModel.EdgeModel.Types.Length; ++i)
-                sw.WriteLine("count edge " + graphModel.EdgeModel.Types[i] + " = " + edgeCounts[i].ToString());
-
-            // emit out counts
-            for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
-                sw.WriteLine("count out " + graphModel.NodeModel.Types[i] + " = " + outCounts[i].ToString());
-            
-            // emit in counts
-            for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
-                sw.WriteLine("count in " + graphModel.NodeModel.Types[i] + " = " + inCounts[i].ToString());
-
-            // emit vstructs
-            for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
+            using(StreamWriter sw = new StreamWriter(path))
             {
-                for(int j = 0; j < graphModel.EdgeModel.Types.Length; ++j)
+                // emit node counts
+                for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
+                    sw.WriteLine("count node " + graphModel.NodeModel.Types[i] + " = " + nodeCounts[i].ToString());
+
+                // emit edge counts
+                for(int i = 0; i < graphModel.EdgeModel.Types.Length; ++i)
+                    sw.WriteLine("count edge " + graphModel.EdgeModel.Types[i] + " = " + edgeCounts[i].ToString());
+
+                // emit out counts
+                for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
+                    sw.WriteLine("count out " + graphModel.NodeModel.Types[i] + " = " + outCounts[i].ToString());
+
+                // emit in counts
+                for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
+                    sw.WriteLine("count in " + graphModel.NodeModel.Types[i] + " = " + inCounts[i].ToString());
+
+                // emit vstructs
+                for(int i = 0; i < graphModel.NodeModel.Types.Length; ++i)
                 {
-                    for(int k = 0; k < graphModel.NodeModel.Types.Length; ++k)
+                    for(int j = 0; j < graphModel.EdgeModel.Types.Length; ++j)
                     {
-                        for(int l = 0; l < 1; ++l)
+                        for(int k = 0; k < graphModel.NodeModel.Types.Length; ++k)
                         {
-                            if(l == 0)
-                                sw.WriteLine("vstruct " + graphModel.NodeModel.Types[i] + " <- " + graphModel.EdgeModel.Types[j] + " - " + graphModel.NodeModel.Types[k] + " = " 
-                                    + vstructs[((i * dim1size + j) * dim2size + k) * 2 + 0].ToString());
-                            else
-                                sw.WriteLine("vstruct " + graphModel.NodeModel.Types[i] + " - " + graphModel.EdgeModel.Types[j] + " -> " + graphModel.NodeModel.Types[k] + " = "
-                                    + vstructs[((i * dim1size + j) * dim2size + k) * 2 + 1].ToString());
+                            for(int l = 0; l <= 1; ++l)
+                            {
+                                if(l == 0)
+                                    sw.WriteLine("vstruct " + graphModel.NodeModel.Types[i] + " <- " + graphModel.EdgeModel.Types[j] + " - " + graphModel.NodeModel.Types[k] + " = "
+                                        + vstructs[((i * dim1size + j) * dim2size + k) * 2 + 0].ToString());
+                                else
+                                    sw.WriteLine("vstruct " + graphModel.NodeModel.Types[i] + " - " + graphModel.EdgeModel.Types[j] + " -> " + graphModel.NodeModel.Types[k] + " = "
+                                        + vstructs[((i * dim1size + j) * dim2size + k) * 2 + 1].ToString());
+                            }
                         }
                     }
                 }
