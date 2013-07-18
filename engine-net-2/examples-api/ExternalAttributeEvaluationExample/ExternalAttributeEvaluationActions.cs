@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jul 07 20:31:20 CEST 2013
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Thu Jul 18 15:34:04 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -2703,6 +2703,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public IAction_testComparison @testComparison;
         
         
+        public override string StatisticsPath { get { return null; } }
         public override string Name { get { return "ExternalAttributeEvaluationActions"; } }
         public override string ModelMD5Hash { get { return "e608177495bee8e61f32fa984fb2126b"; } }
     }

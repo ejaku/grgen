@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon May 20 22:30:07 CEST 2013
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Thu Jul 18 15:34:13 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -10048,6 +10048,7 @@ maxMatchesIterReached:
         public IAction_spanningTreeIncoming @spanningTreeIncoming;
         
         
+        public override string StatisticsPath { get { return null; } }
         public override string Name { get { return "spanningTreeActions"; } }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
     }

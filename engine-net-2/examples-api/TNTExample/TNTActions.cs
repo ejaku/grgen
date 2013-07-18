@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Mon May 20 22:30:25 CEST 2013
+// Generated from "..\..\tests\TNT\TNT.grg" on Thu Jul 18 15:34:31 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -29565,6 +29565,7 @@ label3: ;
         public IAction_deleteInModifyBenzolRingPattern @deleteInModifyBenzolRingPattern;
         
         
+        public override string StatisticsPath { get { return null; } }
         public override string Name { get { return "TNTActions"; } }
         public override string ModelMD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
     }
