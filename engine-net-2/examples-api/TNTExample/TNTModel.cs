@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Thu Jul 18 15:34:31 CEST 2013
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Jul 21 19:01:18 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -1481,6 +1481,11 @@ namespace de.unika.ipd.grGen.Model_TNT
 	//
 	public sealed class TNTGraphModel : GRGEN_LIBGR.IGraphModel
 	{
+		public TNTGraphModel()
+		{
+			FullyInitializeExternalTypes();
+		}
+
 		private TNTNodeModel nodeModel = new TNTNodeModel();
 		private TNTEdgeModel edgeModel = new TNTEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
@@ -1509,6 +1514,26 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return attribute!=null ? attribute.ToString() : "null";
 		}
 
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public bool IsEqualClassDefined { get { return false; } }
+		public bool IsLowerClassDefined { get { return false; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return this_ == that;
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return this_ == that;
+		}
+
 		public string MD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
 	}
 
@@ -1519,6 +1544,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		public TNTGraph() : base(GetNextGraphName())
 		{
+			FullyInitializeExternalTypes();
 			InitializeGraph(this);
 		}
 
@@ -1595,6 +1621,26 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return attribute!=null ? attribute.ToString() : "null";
 		}
 
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public bool IsEqualClassDefined { get { return false; } }
+		public bool IsLowerClassDefined { get { return false; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return this_ == that;
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return this_ == that;
+		}
+
 		public string MD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
 	}
 
@@ -1605,6 +1651,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		public TNTNamedGraph() : base(GetNextGraphName())
 		{
+			FullyInitializeExternalTypes();
 			InitializeGraph(this);
 		}
 
@@ -1724,6 +1771,26 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return attribute!=null ? attribute.ToString() : "null";
+		}
+
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public bool IsEqualClassDefined { get { return false; } }
+		public bool IsLowerClassDefined { get { return false; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return this_ == that;
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return this_ == that;
 		}
 
 		public string MD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }

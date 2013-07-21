@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Thu Jul 18 15:33:50 CEST 2013
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Jul 21 19:00:33 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -1037,6 +1037,11 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	//
 	public sealed class AlternativesGraphModel : GRGEN_LIBGR.IGraphModel
 	{
+		public AlternativesGraphModel()
+		{
+			FullyInitializeExternalTypes();
+		}
+
 		private AlternativesNodeModel nodeModel = new AlternativesNodeModel();
 		private AlternativesEdgeModel edgeModel = new AlternativesEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
@@ -1065,6 +1070,26 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			return attribute!=null ? attribute.ToString() : "null";
 		}
 
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public bool IsEqualClassDefined { get { return false; } }
+		public bool IsLowerClassDefined { get { return false; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return this_ == that;
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return this_ == that;
+		}
+
 		public string MD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }
 	}
 
@@ -1075,6 +1100,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	{
 		public AlternativesGraph() : base(GetNextGraphName())
 		{
+			FullyInitializeExternalTypes();
 			InitializeGraph(this);
 		}
 
@@ -1136,6 +1162,26 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			return attribute!=null ? attribute.ToString() : "null";
 		}
 
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public bool IsEqualClassDefined { get { return false; } }
+		public bool IsLowerClassDefined { get { return false; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return this_ == that;
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return this_ == that;
+		}
+
 		public string MD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }
 	}
 
@@ -1146,6 +1192,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	{
 		public AlternativesNamedGraph() : base(GetNextGraphName())
 		{
+			FullyInitializeExternalTypes();
 			InitializeGraph(this);
 		}
 
@@ -1235,6 +1282,26 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return attribute!=null ? attribute.ToString() : "null";
+		}
+
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public bool IsEqualClassDefined { get { return false; } }
+		public bool IsLowerClassDefined { get { return false; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return this_ == that;
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return this_ == that;
 		}
 
 		public string MD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }

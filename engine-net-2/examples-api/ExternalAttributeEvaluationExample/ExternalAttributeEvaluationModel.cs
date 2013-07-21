@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Thu Jul 18 15:34:04 CEST 2013
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jul 21 19:00:49 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -1247,6 +1247,11 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	//
 	public sealed class ExternalAttributeEvaluationGraphModel : GRGEN_LIBGR.IGraphModel
 	{
+		public ExternalAttributeEvaluationGraphModel()
+		{
+			FullyInitializeExternalTypes();
+		}
+
 		private ExternalAttributeEvaluationNodeModel nodeModel = new ExternalAttributeEvaluationNodeModel();
 		private ExternalAttributeEvaluationEdgeModel edgeModel = new ExternalAttributeEvaluationEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
@@ -1274,6 +1279,32 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			return AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);
 		}
 
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		public static GRGEN_LIBGR.ExternalType externalType_Own = new GRGEN_LIBGR.ExternalType("Own", typeof(Own));
+		public static GRGEN_LIBGR.ExternalType externalType_OwnPown = new GRGEN_LIBGR.ExternalType("OwnPown", typeof(OwnPown));
+		public static GRGEN_LIBGR.ExternalType externalType_OwnPownHome = new GRGEN_LIBGR.ExternalType("OwnPownHome", typeof(OwnPownHome));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object, externalType_Own, externalType_OwnPown, externalType_OwnPownHome };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+			externalType_Own.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_object } );
+			externalType_OwnPown.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_Own, } );
+			externalType_OwnPownHome.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_OwnPown, } );
+		}
+
+		public bool IsEqualClassDefined { get { return true; } }
+		public bool IsLowerClassDefined { get { return true; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return AttributeTypeObjectCopierComparer.IsEqual(this_, that);
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return AttributeTypeObjectCopierComparer.IsLower(this_, that);
+		}
+
 		public string MD5Hash { get { return "e608177495bee8e61f32fa984fb2126b"; } }
 	}
 
@@ -1284,6 +1315,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	{
 		public ExternalAttributeEvaluationGraph() : base(GetNextGraphName())
 		{
+			FullyInitializeExternalTypes();
 			InitializeGraph(this);
 		}
 
@@ -1339,6 +1371,32 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			return AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);
 		}
 
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		public static GRGEN_LIBGR.ExternalType externalType_Own = new GRGEN_LIBGR.ExternalType("Own", typeof(Own));
+		public static GRGEN_LIBGR.ExternalType externalType_OwnPown = new GRGEN_LIBGR.ExternalType("OwnPown", typeof(OwnPown));
+		public static GRGEN_LIBGR.ExternalType externalType_OwnPownHome = new GRGEN_LIBGR.ExternalType("OwnPownHome", typeof(OwnPownHome));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object, externalType_Own, externalType_OwnPown, externalType_OwnPownHome };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+			externalType_Own.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_object } );
+			externalType_OwnPown.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_Own, } );
+			externalType_OwnPownHome.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_OwnPown, } );
+		}
+
+		public bool IsEqualClassDefined { get { return true; } }
+		public bool IsLowerClassDefined { get { return true; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return AttributeTypeObjectCopierComparer.IsEqual(this_, that);
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return AttributeTypeObjectCopierComparer.IsLower(this_, that);
+		}
+
 		public string MD5Hash { get { return "e608177495bee8e61f32fa984fb2126b"; } }
 	}
 
@@ -1349,6 +1407,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	{
 		public ExternalAttributeEvaluationNamedGraph() : base(GetNextGraphName())
 		{
+			FullyInitializeExternalTypes();
 			InitializeGraph(this);
 		}
 
@@ -1427,6 +1486,32 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);
+		}
+
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		public static GRGEN_LIBGR.ExternalType externalType_Own = new GRGEN_LIBGR.ExternalType("Own", typeof(Own));
+		public static GRGEN_LIBGR.ExternalType externalType_OwnPown = new GRGEN_LIBGR.ExternalType("OwnPown", typeof(OwnPown));
+		public static GRGEN_LIBGR.ExternalType externalType_OwnPownHome = new GRGEN_LIBGR.ExternalType("OwnPownHome", typeof(OwnPownHome));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object, externalType_Own, externalType_OwnPown, externalType_OwnPownHome };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+			externalType_Own.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_object } );
+			externalType_OwnPown.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_Own, } );
+			externalType_OwnPownHome.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_OwnPown, } );
+		}
+
+		public bool IsEqualClassDefined { get { return true; } }
+		public bool IsLowerClassDefined { get { return true; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return AttributeTypeObjectCopierComparer.IsEqual(this_, that);
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return AttributeTypeObjectCopierComparer.IsLower(this_, that);
 		}
 
 		public string MD5Hash { get { return "e608177495bee8e61f32fa984fb2126b"; } }
