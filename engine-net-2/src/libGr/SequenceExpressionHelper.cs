@@ -368,7 +368,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType == "graph")
             {
-                return ((IGraph)leftValue).IsIsomorph((IGraph)rightValue);
+                return GraphHelper.Equal((IGraph)leftValue, (IGraph)rightValue);
             }
             else if(balancedType.StartsWith("set<"))
             {
@@ -427,7 +427,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType == "graph")
             {
-                return "((GRGEN_LIBGR.IGraph)"+leftValue+").IsIsomorph((GRGEN_LIBGR.IGraph)"+rightValue+");";
+                return "GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)" + leftValue + ", (GRGEN_LIBGR.IGraph)" + rightValue + ");";
             }
             else if(balancedType.StartsWith("set<"))
             {
@@ -800,7 +800,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType == "graph")
             {
-                return !((IGraph)leftValue).IsIsomorph((IGraph)rightValue);
+                return !GraphHelper.Equal((IGraph)leftValue, (IGraph)rightValue);
             }
             else if(balancedType.StartsWith("set<"))
             {
@@ -859,7 +859,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(balancedType == "graph")
             {
-                return "!((GRGEN_LIBGR.IGraph)"+leftValue+").IsIsomorph((GRGEN_LIBGR.IGraph)"+rightValue+");";
+                return "!GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)" + leftValue + ", (GRGEN_LIBGR.IGraph)" + rightValue + ");";
             }
             else if(balancedType.StartsWith("set<"))
             {

@@ -1457,5 +1457,16 @@ namespace de.unika.ipd.grGen.libGr
                     yield return reachableEdge;
             }
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        
+        public static bool Equal(IGraph this_, IGraph that)
+        {
+            if(this_ == null && that == null)
+                return true;
+            if(this_ == null || that == null)
+                return false;
+            return this_.IsIsomorph(that);
+        }
     }
 }

@@ -479,10 +479,13 @@ public class ModelGen extends CSharpBase {
 					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
 				routedSB.append("\t\t\t\t&& GRGEN_LIBGR.ContainerHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
-			} else if(model.isCopyClassDefined()
+			} else if(model.isEqualClassDefined()
 					&& (member.getType().classify() == Type.IS_EXTERNAL_TYPE
 							|| member.getType().classify() == Type.IS_OBJECT)) {
 				routedSB.append("\t\t\t\t&& AttributeTypeObjectCopierComparer.IsEqual(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
+						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+			} else if(member.getType().classify() == Type.IS_GRAPH) {
+				routedSB.append("\t\t\t\t&& GRGEN_LIBGR.GraphHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else {
 				routedSB.append("\t\t\t\t&& " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " == that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");
