@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Thu Jul 18 15:34:24 CEST 2013
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Jul 21 19:01:10 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -3320,6 +3320,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	//
 	public sealed class ProgramGraphsOriginalGraphModel : GRGEN_LIBGR.IGraphModel
 	{
+		public ProgramGraphsOriginalGraphModel()
+		{
+			FullyInitializeExternalTypes();
+		}
+
 		private ProgramGraphsOriginalNodeModel nodeModel = new ProgramGraphsOriginalNodeModel();
 		private ProgramGraphsOriginalEdgeModel edgeModel = new ProgramGraphsOriginalEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
@@ -3358,6 +3363,26 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			return attribute!=null ? attribute.ToString() : "null";
 		}
 
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public bool IsEqualClassDefined { get { return false; } }
+		public bool IsLowerClassDefined { get { return false; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return this_ == that;
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return this_ == that;
+		}
+
 		public string MD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
 	}
 
@@ -3368,6 +3393,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 		public ProgramGraphsOriginalGraph() : base(GetNextGraphName())
 		{
+			FullyInitializeExternalTypes();
 			InitializeGraph(this);
 		}
 
@@ -3499,6 +3525,26 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			return attribute!=null ? attribute.ToString() : "null";
 		}
 
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public bool IsEqualClassDefined { get { return false; } }
+		public bool IsLowerClassDefined { get { return false; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return this_ == that;
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return this_ == that;
+		}
+
 		public string MD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
 	}
 
@@ -3509,6 +3555,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 		public ProgramGraphsOriginalNamedGraph() : base(GetNextGraphName())
 		{
+			FullyInitializeExternalTypes();
 			InitializeGraph(this);
 		}
 
@@ -3728,6 +3775,26 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return attribute!=null ? attribute.ToString() : "null";
+		}
+
+		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
+		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+
+		private void FullyInitializeExternalTypes()
+		{
+			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public bool IsEqualClassDefined { get { return false; } }
+		public bool IsLowerClassDefined { get { return false; } }
+		public bool IsEqual(object this_, object that)
+		{
+			return this_ == that;
+		}
+		public bool IsLower(object this_, object that)
+		{
+			return this_ == that;
 		}
 
 		public string MD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
