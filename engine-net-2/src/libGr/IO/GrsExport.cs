@@ -14,13 +14,14 @@ namespace de.unika.ipd.grGen.libGr
 {
     public class GraphExportContext
     {
-        public GraphExportContext(INamedGraph graph)
+        public GraphExportContext(MainGraphExportContext mainGraphContext, INamedGraph graph)
         {
             this.graph = graph;
-            if(nameToContext.ContainsKey(graph.Name))
+            this.mainGraphContext = mainGraphContext ?? (MainGraphExportContext)this;
+            if(this.mainGraphContext.nameToContext.ContainsKey(graph.Name))
             {
                 int id = 0;
-                while(nameToContext.ContainsKey(graph.Name + "_" + id.ToString()))
+                while(this.mainGraphContext.nameToContext.ContainsKey(graph.Name + "_" + id.ToString()))
                 {
                     ++id;
                 }
@@ -30,21 +31,31 @@ namespace de.unika.ipd.grGen.libGr
                 this.name = graph.Name;
         }
 
-        // the name used for export, may be different from the real graph name
-        // here we ensure the uniqueness needed for an export / for getting an importable serialization
-        // these dictionaries are only filled in the export context of the main graph
-        public Dictionary<INamedGraph, GraphExportContext> graphToContext = new Dictionary<INamedGraph, GraphExportContext>();
-        public Dictionary<string, GraphExportContext> nameToContext = new Dictionary<string, GraphExportContext>();
-
         public INamedGraph graph;
         public string name;
 
-        public string modelPathPrefix = null; // not null iff this is the main graph
+        public MainGraphExportContext mainGraphContext = null; // points to the main graph context, points to self in the main graph context
+
+        public string modelPathPrefix = null;
+
         public bool nodeOrEdgeUsedInAttribute = false;
         public bool subgraphUsedInAttribute = false;
 
         public bool isExported = false;
         public bool areGraphAttributesExported = false; // needed due to Recorder
+    }
+
+    public class MainGraphExportContext : GraphExportContext
+    {
+        public MainGraphExportContext(INamedGraph graph)
+            : base(null, graph)
+        {
+        }
+
+        // the name used for export may be different from the real graph name
+        // here we ensure the uniqueness needed for an export / for getting an importable serialization
+        public Dictionary<INamedGraph, GraphExportContext> graphToContext = new Dictionary<INamedGraph, GraphExportContext>();
+        public Dictionary<string, GraphExportContext> nameToContext = new Dictionary<string, GraphExportContext>();
     }
 
     /// <summary>
@@ -110,9 +121,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
         /// <param name="modelPathPrefix">Path to the model.</param>
-        public static GraphExportContext ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix)
+        public static MainGraphExportContext ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix)
         {
-            GraphExportContext mainGraphContext = new GraphExportContext(graph);
+            MainGraphExportContext mainGraphContext = new MainGraphExportContext(graph);
             mainGraphContext.graphToContext[mainGraphContext.graph] = mainGraphContext;
             mainGraphContext.nameToContext[mainGraphContext.name] = mainGraphContext;
             mainGraphContext.modelPathPrefix = modelPathPrefix;
@@ -151,7 +162,7 @@ restart:
             return mainGraphContext;
         }
 
-        public static bool ExportSingleGraph(GraphExportContext mainGraphContext, 
+        public static bool ExportSingleGraph(MainGraphExportContext mainGraphContext, 
             GraphExportContext context, StreamWriter sw)
         {
             bool subgraphAdded = false;
@@ -273,7 +284,7 @@ restart:
             return subgraphAdded;
         }
 
-        private static bool AddSubgraphAsNeeded(GraphExportContext mainGraphContext,
+        private static bool AddSubgraphAsNeeded(MainGraphExportContext mainGraphContext,
             IGraphElement elem, AttributeType attrType)
         {
             if(attrType.Kind == AttributeKind.GraphAttr)
@@ -338,12 +349,12 @@ restart:
             return graphAdded;
         }
 
-        public static bool AddSubgraphAsNeeded(GraphExportContext mainGraphContext, 
+        public static bool AddSubgraphAsNeeded(MainGraphExportContext mainGraphContext, 
             INamedGraph graph)
         {
-            if(!mainGraphContext.graphToContext.ContainsKey(graph))
+            if(graph!=null && !mainGraphContext.graphToContext.ContainsKey(graph))
             {
-                GraphExportContext subgraphContext = new GraphExportContext(graph);
+                GraphExportContext subgraphContext = new GraphExportContext(mainGraphContext, graph);
                 mainGraphContext.graphToContext[graph] = subgraphContext;
                 mainGraphContext.nameToContext[subgraphContext.name] = subgraphContext;
                 return true;
@@ -352,7 +363,7 @@ restart:
                 return false;
         }
 
-        public static void EmitSubgraphAttributes(GraphExportContext mainGraphContext,
+        public static void EmitSubgraphAttributes(MainGraphExportContext mainGraphContext,
             GraphExportContext context, StreamWriter sw)
         {
             if(context.areGraphAttributesExported)
@@ -368,7 +379,7 @@ restart:
                         continue;
 
                     object value = node.GetAttribute(attrType.Name);
-                    sw.Write("{0}.{1} = ", context.graph.GetElementName(node), attrType.Name);
+                    sw.Write("@(\"{0}\").{1} = ", context.graph.GetElementName(node), attrType.Name);
                     EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
                     sw.Write("\n");
                 }
@@ -381,7 +392,7 @@ restart:
                             continue;
 
                         object value = edge.GetAttribute(attrType.Name);
-                        sw.Write("{0}.{1} = ", context.graph.GetElementName(edge), attrType.Name);
+                        sw.Write("@(\"{0}\").{1} = ", context.graph.GetElementName(edge), attrType.Name);
                         EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
                         sw.Write("\n");
                     }
@@ -395,7 +406,7 @@ restart:
         /// Emits the node/edge attribute initialization code in graph exporting
         /// for an attribute of the given type with the given value into the stream writer.
         /// </summary>
-        private static void EmitAttributeInitialization(GraphExportContext mainGraphContext,
+        private static void EmitAttributeInitialization(MainGraphExportContext mainGraphContext,
             AttributeType attrType, object value, INamedGraph graph, StreamWriter sw)
         {
             sw.Write(", {0} = ", attrType.Name);
@@ -407,7 +418,7 @@ restart:
         /// for an attribute of the given type with the given value into the stream writer
         /// Main graph context is needed to get access to the graph -> env dictionary.
         /// </summary>
-        public static void EmitAttribute(GraphExportContext mainGraphContext,
+        public static void EmitAttribute(MainGraphExportContext mainGraphContext,
             AttributeType attrType, object value, INamedGraph graph, StreamWriter sw)
         {
             if(attrType.Kind==AttributeKind.SetAttr)
@@ -472,7 +483,7 @@ restart:
         /// Graph needed for node/edge, otherwise null ok.
         /// Main graph context needed to get access to the graph -> env dictionary for subgraph.
         /// </summary>
-        public static String ToString(GraphExportContext mainGraphContext,
+        public static String ToString(MainGraphExportContext mainGraphContext,
             object value, AttributeType type, INamedGraph graph)
         {
             switch(type.Kind)

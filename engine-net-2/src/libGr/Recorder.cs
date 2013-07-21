@@ -17,14 +17,14 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     class RecordingState
     {
-        public RecordingState(StreamWriter writer, GraphExportContext exportContext)
+        public RecordingState(StreamWriter writer, MainGraphExportContext mainExportContext)
         {
             this.writer = writer;
-            this.exportContext = exportContext;
+            this.mainExportContext = mainExportContext;
         }
 
         public StreamWriter writer;
-        public GraphExportContext exportContext;
+        public MainGraphExportContext mainExportContext;
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(lastIndex==-1) lastIndex = filename.LastIndexOf("\\");
                     pathPrefix = filename.Substring(0, lastIndex+1);
                 }
-                GraphExportContext mainGraphContext = GRSExport.ExportYouMustCloseStreamWriter(graph, writer, pathPrefix);
+                MainGraphExportContext mainGraphContext = GRSExport.ExportYouMustCloseStreamWriter(graph, writer, pathPrefix);
 
                 recordings.Add(new KeyValuePair<string, RecordingState>(filename, 
                     new RecordingState(writer, mainGraphContext)));
@@ -255,14 +255,14 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(RecordingState recordingState in recordings.Values)
             {
-                GraphExportContext exportContext = recordingState.exportContext;
-                AddSubgraphsAsNeeded(exportContext, element, attrType, newValue, recordingState.writer);
-                AddSubgraphsAsNeeded(exportContext, element, attrType, keyValue, recordingState.writer);
+                MainGraphExportContext mainExportContext = recordingState.mainExportContext;
+                AddSubgraphsAsNeeded(mainExportContext, element, attrType, newValue, recordingState.writer);
+                AddSubgraphsAsNeeded(mainExportContext, element, attrType, keyValue, recordingState.writer);
                 switch(changeType)
                 {
                 case AttributeChangeType.Assign:
                     recordingState.writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name + " = ");
-                    GRSExport.EmitAttribute(exportContext, attrType, newValue, graph, recordingState.writer);
+                    GRSExport.EmitAttribute(mainExportContext, attrType, newValue, graph, recordingState.writer);
                     recordingState.writer.WriteLine();
                     break;
                 case AttributeChangeType.PutElement:
@@ -271,29 +271,29 @@ namespace de.unika.ipd.grGen.libGr
                     {
                     case AttributeKind.SetAttr:
                         recordingState.writer.Write(".add(");
-                        recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                         recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.MapAttr:
                         recordingState.writer.Write(".add(");
-                        recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, attrType.KeyType, graph));
+                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, attrType.KeyType, graph));
                         recordingState.writer.Write(", ");
-                        recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                         recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.ArrayAttr:
                         if(keyValue == null)
                         {
                             recordingState.writer.Write(".add(");
-                            recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                             recordingState.writer.WriteLine(")");
                         }
                         else
                         {
                             recordingState.writer.Write(".add(");
-                            recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                             recordingState.writer.Write(", ");
-                            recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                             recordingState.writer.WriteLine(")");
                         }
                         break;
@@ -301,15 +301,15 @@ namespace de.unika.ipd.grGen.libGr
                         if(keyValue == null)
                         {
                             recordingState.writer.Write(".add(");
-                            recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                             recordingState.writer.WriteLine(")");
                         }
                         else
                         {
                             recordingState.writer.Write(".add(");
-                            recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                             recordingState.writer.Write(", ");
-                            recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                             recordingState.writer.WriteLine(")");
                         }
                         break;
@@ -323,24 +323,24 @@ namespace de.unika.ipd.grGen.libGr
                     {
                     case AttributeKind.SetAttr:
                         recordingState.writer.Write(".rem(");
-                        recordingState.writer.Write(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                         recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.MapAttr:
                         recordingState.writer.Write(".rem(");
-                        recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, attrType.KeyType, graph));
+                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, attrType.KeyType, graph));
                         recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.ArrayAttr:
                         recordingState.writer.Write(".rem(");
                         if(keyValue!=null)
-                            recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                         recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.DequeAttr:
                         recordingState.writer.Write(".rem(");
                         if(keyValue != null)
-                            recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                         recordingState.writer.WriteLine(")");
                         break;
                     default:
@@ -353,21 +353,21 @@ namespace de.unika.ipd.grGen.libGr
                     {
                     case AttributeKind.ArrayAttr:
                         recordingState.writer.Write("[");
-                        recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                         recordingState.writer.Write("] = ");
-                        recordingState.writer.WriteLine(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                        recordingState.writer.WriteLine(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                         break;
                     case AttributeKind.DequeAttr:
                         recordingState.writer.Write("[");
-                        recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
                         recordingState.writer.Write("] = ");
-                        recordingState.writer.WriteLine(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                        recordingState.writer.WriteLine(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                         break;
                     case AttributeKind.MapAttr:
                         recordingState.writer.Write("[");
-                        recordingState.writer.Write(GRSExport.ToString(exportContext, keyValue, attrType.KeyType, graph));
+                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, attrType.KeyType, graph));
                         recordingState.writer.Write("] = ");
-                        recordingState.writer.WriteLine(GRSExport.ToString(exportContext, newValue, attrType.ValueType, graph));
+                        recordingState.writer.WriteLine(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                         break;
                     default:
                          throw new Exception("Wrong attribute type for attribute change type");
@@ -379,7 +379,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        private bool AddSubgraphsAsNeeded(GraphExportContext exportContext,
+        private bool AddSubgraphsAsNeeded(MainGraphExportContext mainExportContext,
             IGraphElement element, AttributeType attrType, Object value, StreamWriter writer)
         {
             if(!GRSExport.IsGraphUsedInAttribute(attrType))
@@ -391,33 +391,33 @@ namespace de.unika.ipd.grGen.libGr
             if(!(value is INamedGraph))
                 return false;
             
-            bool wasAdded = GRSExport.AddSubgraphAsNeeded(exportContext, (INamedGraph)value);
+            bool wasAdded = GRSExport.AddSubgraphAsNeeded(mainExportContext, (INamedGraph)value);
             if(wasAdded)
             {
             restart:
-                foreach(KeyValuePair<string, GraphExportContext> kvp in exportContext.nameToContext)
+                foreach(KeyValuePair<string, GraphExportContext> kvp in mainExportContext.nameToContext)
                 {
                     GraphExportContext context = kvp.Value;
                     if(!context.isExported)
                     {
-                        wasAdded = GRSExport.ExportSingleGraph(exportContext, context, writer);
+                        wasAdded = GRSExport.ExportSingleGraph(mainExportContext, context, writer);
                         if(wasAdded)
                             goto restart;
                     }
                 }
-                AddGraphAttributes(exportContext, writer);
-                writer.WriteLine("in \"" + exportContext.graphToContext[graph].name + "\" # after emitting new subgraph for attribute");
+                AddGraphAttributes(mainExportContext, writer);
+                writer.WriteLine("in \"" + mainExportContext.graphToContext[graph].name + "\" # after emitting new subgraph for attribute");
                 return true;
             }
             return false;
         }
 
-        private static void AddGraphAttributes(GraphExportContext exportContext, StreamWriter writer)
+        private static void AddGraphAttributes(MainGraphExportContext mainExportContext, StreamWriter writer)
         {
-            foreach(KeyValuePair<string, GraphExportContext> kvp in exportContext.nameToContext)
+            foreach(KeyValuePair<string, GraphExportContext> kvp in mainExportContext.nameToContext)
             {
                 GraphExportContext context = kvp.Value;
-                GRSExport.EmitSubgraphAttributes(exportContext, context, writer);
+                GRSExport.EmitSubgraphAttributes(mainExportContext, context, writer);
             }
         }
 
@@ -471,7 +471,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 AddSubgraphsAsNeeded((INamedGraph)newGraph, recordingState);
 
-                recordingState.writer.WriteLine("in \"" + recordingState.exportContext.graphToContext[(INamedGraph)newGraph].name + "\" # due to switch, before: " + oldGraph.Name);
+                recordingState.writer.WriteLine("in \"" + recordingState.mainExportContext.graphToContext[(INamedGraph)newGraph].name + "\" # due to switch, before: " + oldGraph.Name);
             }
 
             graph = (INamedGraph)newGraph;
@@ -481,28 +481,28 @@ namespace de.unika.ipd.grGen.libGr
         {
             INamedGraph newGraph = (INamedGraph)procEnv.Graph;
             foreach(RecordingState recordingState in recordings.Values)
-                recordingState.writer.WriteLine("in \"" + recordingState.exportContext.graphToContext[newGraph].name + "\" # due to return, before: " + oldGraph.Name);
+                recordingState.writer.WriteLine("in \"" + recordingState.mainExportContext.graphToContext[newGraph].name + "\" # due to return, before: " + oldGraph.Name);
 
             graph = newGraph;
         }
 
         private static bool AddSubgraphsAsNeeded(INamedGraph potentialNewGraph, RecordingState recordingState)
         {
-            bool wasAdded = GRSExport.AddSubgraphAsNeeded(recordingState.exportContext, potentialNewGraph);
+            bool wasAdded = GRSExport.AddSubgraphAsNeeded(recordingState.mainExportContext, potentialNewGraph);
             if(wasAdded)
             {
             restart:
-                foreach(KeyValuePair<string, GraphExportContext> kvp in recordingState.exportContext.nameToContext)
+                foreach(KeyValuePair<string, GraphExportContext> kvp in recordingState.mainExportContext.nameToContext)
                 {
                     GraphExportContext context = kvp.Value;
                     if(!context.isExported)
                     {
-                        wasAdded = GRSExport.ExportSingleGraph(recordingState.exportContext, context, recordingState.writer);
+                        wasAdded = GRSExport.ExportSingleGraph(recordingState.mainExportContext, context, recordingState.writer);
                         if(wasAdded)
                             goto restart;
                     }
                 }
-                AddGraphAttributes(recordingState.exportContext, recordingState.writer);
+                AddGraphAttributes(recordingState.mainExportContext, recordingState.writer);
                 return true;
             }
             return false;

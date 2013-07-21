@@ -203,7 +203,7 @@ namespace de.unika.ipd.grGen.libGr
                     ParseNewSubgraphCommand();
                 else if(LookaheadToken() == TokenKind.IN)
                     ParseSwitchToSubgraph();
-                else if(LookaheadToken() == TokenKind.IDENT)
+                else if(LookaheadToken() == TokenKind.AT)
                     ParseDeferredAttributeAssignment();
                 else
                     throw GetSyntaxException("syntax error", "new command or deferred attribute assingment");
@@ -371,7 +371,13 @@ namespace de.unika.ipd.grGen.libGr
 
         private INamedGraph ParseGraph()
         {
-            // Text
+            // Text | null
+            if(LookaheadToken() == TokenKind.NULL)
+            {
+                Match(TokenKind.NULL);
+                return null;
+            }
+
             string graphName = ParseText();
             return GetGraphByName(graphName);
         }
