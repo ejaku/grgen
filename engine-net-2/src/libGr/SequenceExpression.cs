@@ -521,7 +521,7 @@ namespace de.unika.ipd.grGen.libGr
 
             try
             {
-                return SequenceExpressionHelper.EqualObjects(leftValue, rightValue, balancedType, leftType, rightType);
+                return SequenceExpressionHelper.EqualObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
             }
             catch(Exception)
             {
@@ -587,7 +587,7 @@ namespace de.unika.ipd.grGen.libGr
 
             try
             {
-                return SequenceExpressionHelper.NotEqualObjects(leftValue, rightValue, balancedType, leftType, rightType);
+                return SequenceExpressionHelper.NotEqualObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
             }
             catch(Exception)
             {
@@ -627,7 +627,7 @@ namespace de.unika.ipd.grGen.libGr
 
             try
             {
-                return SequenceExpressionHelper.LowerObjects(leftValue, rightValue, balancedType, leftType, rightType);
+                return SequenceExpressionHelper.LowerObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
             }
             catch(Exception)
             {
@@ -667,7 +667,7 @@ namespace de.unika.ipd.grGen.libGr
 
             try
             {
-                return SequenceExpressionHelper.LowerEqualObjects(leftValue, rightValue, balancedType, leftType, rightType);
+                return SequenceExpressionHelper.LowerEqualObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
             }
             catch(Exception)
             {
@@ -707,7 +707,7 @@ namespace de.unika.ipd.grGen.libGr
 
             try
             {
-                return SequenceExpressionHelper.GreaterObjects(leftValue, rightValue, balancedType, leftType, rightType);
+                return SequenceExpressionHelper.GreaterObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
             }
             catch(Exception)
             {
@@ -747,7 +747,7 @@ namespace de.unika.ipd.grGen.libGr
 
             try
             {
-                return SequenceExpressionHelper.GreaterEqualObjects(leftValue, rightValue, balancedType, leftType, rightType);
+                return SequenceExpressionHelper.GreaterEqualObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
             }
             catch(Exception)
             {

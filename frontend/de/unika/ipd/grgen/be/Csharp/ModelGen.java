@@ -1843,7 +1843,13 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 		sb.append("\tpublic sealed class " + modelName + "GraphModel : GRGEN_LIBGR.IGraphModel\n");
 		sb.append("\t{\n");
+		sb.append("\t\tpublic " + modelName + "GraphModel()\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tFullyInitializeExternalTypes();\n");
+		sb.append("\t\t}\n\n");
+
 		genGraphModelBody(modelName);
+
 		sb.append("\t}\n");
 		sb.append("\n");
 
@@ -1866,6 +1872,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			+ "\t{\n"
 			+ "\t\tpublic " + modelName + "Graph() : base(GetNextGraphName())\n"
 			+ "\t\t{\n"
+			+ "\t\t\tFullyInitializeExternalTypes();\n"
 			+ "\t\t\tInitializeGraph(this);\n"
 			+ "\t\t}\n\n"
 		);
@@ -1911,6 +1918,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			+ "\t{\n"
 			+ "\t\tpublic " + modelName + "NamedGraph() : base(GetNextGraphName())\n"
 			+ "\t\t{\n"
+			+ "\t\t\tFullyInitializeExternalTypes();\n"
 			+ "\t\t\tInitializeGraph(this);\n"
 			+ "\t\t}\n\n"
 		);
@@ -1956,17 +1964,21 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private void genGraphModelBody(String modelName) {
 		sb.append("\t\tprivate " + modelName + "NodeModel nodeModel = new " + modelName + "NodeModel();\n");
 		sb.append("\t\tprivate " + modelName + "EdgeModel edgeModel = new " + modelName + "EdgeModel();\n");
+
 		genValidate();
 		genEnumAttributeTypeArray();
 		sb.append("\n");
 
 		sb.append("\t\tpublic string ModelName { get { return \"" + modelName + "\"; } }\n");
+		
 		sb.append("\t\tpublic GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }\n");
 		sb.append("\t\tpublic GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }\n");
+		
 		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo "
 				+ "{ get { return validateInfos; } }\n");
 		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes "
 				+ "{ get { return enumAttributeTypes; } }\n\n");
+
 		if(model.isEmitClassDefined()) {
 			sb.append("\t\tpublic object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.append("\t\t{\n");
@@ -1996,6 +2008,61 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t\treturn attribute!=null ? attribute.ToString() : \"null\";\n");
 			sb.append("\t\t}\n\n");
 		}
+		
+		genExternalTypes();
+		sb.append("\t\tpublic GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }\n\n");
+
+		sb.append("\t\tprivate void FullyInitializeExternalTypes()\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\texternalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );\n");
+		for(ExternalType et : model.getExternalTypes()) {
+			sb.append("\t\t\texternalType_" + et.getIdent() + ".InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { ");
+			boolean directSupertypeAvailable = false;
+			for(InheritanceType superType : et.getDirectSuperTypes()) {
+				sb.append("externalType_" + superType.getIdent() + ", ");
+				directSupertypeAvailable = true;
+			}
+			if(!directSupertypeAvailable)
+				sb.append("externalType_object ");
+			sb.append("} );\n");
+		}
+		sb.append("\t\t}\n\n");
+
+		if(model.isEqualClassDefined() && model.isLowerClassDefined()) {
+			sb.append("\t\tpublic bool IsEqualClassDefined { get { return true; } }\n");
+			sb.append("\t\tpublic bool IsLowerClassDefined { get { return true; } }\n");
+			sb.append("\t\tpublic bool IsEqual(object this_, object that)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn AttributeTypeObjectCopierComparer.IsEqual(this_, that);\n");
+			sb.append("\t\t}\n");
+			sb.append("\t\tpublic bool IsLower(object this_, object that)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn AttributeTypeObjectCopierComparer.IsLower(this_, that);\n");
+			sb.append("\t\t}\n\n");
+		} else if(model.isEqualClassDefined()) {
+			sb.append("\t\tpublic bool IsEqualClassDefined { get { return true; } }\n");
+			sb.append("\t\tpublic bool IsLowerClassDefined { get { return false; } }\n");
+			sb.append("\t\tpublic bool IsEqual(object this_, object that)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn AttributeTypeObjectCopierComparer.IsEqual(this_, that);\n");
+			sb.append("\t\t}\n");
+			sb.append("\t\tpublic bool IsLower(object this_, object that)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn this_ == that;\n");
+			sb.append("\t\t}\n\n");
+		} else {
+			sb.append("\t\tpublic bool IsEqualClassDefined { get { return false; } }\n");
+			sb.append("\t\tpublic bool IsLowerClassDefined { get { return false; } }\n");
+			sb.append("\t\tpublic bool IsEqual(object this_, object that)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn this_ == that;\n");
+			sb.append("\t\t}\n");
+			sb.append("\t\tpublic bool IsLower(object this_, object that)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn this_ == that;\n");
+			sb.append("\t\t}\n\n");
+		}
+		
 		sb.append("\t\tpublic string MD5Hash { get { return \"" + be.unit.getTypeDigest() + "\"; } }\n");
 	}
 
@@ -2026,6 +2093,26 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t\tGRGEN_MODEL.Enums.@" + formatIdentifiable(enumt) + ",\n");
 		}
 		sb.append("\t\t};\n");
+	}
+
+	private void genExternalTypes() {
+		sb.append("\t\tpublic static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType(");
+		sb.append("\"object\", ");
+		sb.append("typeof(object)");
+		sb.append(");\n");
+		for(ExternalType et : model.getExternalTypes()) {
+			sb.append("\t\tpublic static GRGEN_LIBGR.ExternalType externalType_" + et.getIdent() + " = new GRGEN_LIBGR.ExternalType(");
+			sb.append("\"" + et.getIdent() + "\", ");
+			sb.append("typeof(" + et.getIdent() + ")");
+			sb.append(");\n");
+		}
+
+		sb.append("\t\tprivate GRGEN_LIBGR.ExternalType[] externalTypes = { ");
+		sb.append("externalType_object");
+		for(ExternalType et : model.getExternalTypes()) {
+			sb.append(", externalType_" + et.getIdent());
+		}
+		sb.append(" };\n");
 	}
 
 	///////////////////////////////

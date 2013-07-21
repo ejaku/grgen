@@ -20,7 +20,7 @@ namespace de.unika.ipd.grGen.libGr
         // with the correct type before it can be casted to the real target type
 
         public static bool EqualObjects(object leftValue, object rightValue, 
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraph graph)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int, node and edges are handled via reference equality
@@ -362,10 +362,6 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return (string)leftValue == (string)rightValue;
             }
-            else if(balancedType == "object")
-            {
-                return (object)leftValue == (object)rightValue;
-            }
             else if(balancedType == "graph")
             {
                 return GraphHelper.Equal((IGraph)leftValue, (IGraph)rightValue);
@@ -386,6 +382,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.EqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            {
+                return graph.Model.IsEqual((object)leftValue, (object)rightValue);
+            }
             else
             {
                 return Object.Equals(leftValue, rightValue);
@@ -393,7 +393,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public static string EqualStatic(string leftValue, string rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraphModel model)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int, node and edges are handled via reference equality
@@ -421,10 +421,6 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "((string)"+leftValue+" == "+"(string)"+rightValue+")";
             }
-            else if(balancedType == "object")
-            {
-                return "((object)"+leftValue+" == "+"(object)"+rightValue+")";
-            }
             else if(balancedType == "graph")
             {
                 return "GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)" + leftValue + ", (GRGEN_LIBGR.IGraph)" + rightValue + ");";
@@ -445,6 +441,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.EqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            {
+                return "graph.Model.IsEqual((object)"+leftValue+", (object)"+rightValue+")";
+            }
             else
             {
                 return "Object.Equals("+leftValue+", "+rightValue+")";
@@ -452,7 +452,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public static bool NotEqualObjects(object leftValue, object rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraph graph)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int, node and edges are handled via reference equality
@@ -794,10 +794,6 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return (string)leftValue != (string)rightValue;
             }
-            else if(balancedType == "object")
-            {
-                return (object)leftValue != (object)rightValue;
-            }
             else if(balancedType == "graph")
             {
                 return !GraphHelper.Equal((IGraph)leftValue, (IGraph)rightValue);
@@ -818,6 +814,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.NotEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            {
+                return !graph.Model.IsEqual((object)leftValue, (object)rightValue);
+            }
             else
             {
                 return !Object.Equals(leftValue, rightValue);
@@ -825,7 +825,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public static string NotEqualStatic(string leftValue, string rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraphModel model)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int, node and edges are handled via reference equality
@@ -853,10 +853,6 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "((string)"+leftValue+" != "+"(string)"+rightValue+")";
             }
-            else if(balancedType == "object")
-            {
-                return "((object)"+leftValue+" != "+"(object)"+rightValue+")";
-            }
             else if(balancedType == "graph")
             {
                 return "!GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)" + leftValue + ", (GRGEN_LIBGR.IGraph)" + rightValue + ");";
@@ -877,6 +873,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.NotEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            {
+                return "!graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + ")";
+            }
             else
             {
                 return "!Object.Equals("+leftValue+", "+rightValue+")";
@@ -884,7 +884,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public static bool LowerObjects(object leftValue, object rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraph graph)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
@@ -1234,12 +1234,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.LessThanIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            {
+                return graph.Model.IsLower((object)leftValue, (object)rightValue);
+            }
 
             throw new Exception("Invalid types for <");
         }
 
         public static string LowerStatic(string leftValue, string rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraphModel model)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
@@ -1275,12 +1279,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.LessThanDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            {
+                return "graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")";
+            }
 
             return null;
         }
 
         public static bool GreaterObjects(object leftValue, object rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraph graph)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
@@ -1630,12 +1638,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.GreaterThanIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            {
+                return !graph.Model.IsLower((object)leftValue, (object)rightValue) && !graph.Model.IsEqual((object)leftValue, (object)rightValue);
+            }
 
             throw new Exception("Invalid types for >");
         }
 
         public static string GreaterStatic(string leftValue, string rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraphModel model)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
@@ -1671,12 +1683,17 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterThanDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            {
+                return "(!graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")"
+                    + " && !graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + "))";
+            }
 
             return null;
         }
 
         public static bool LowerEqualObjects(object leftValue, object rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraph graph)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
@@ -2026,12 +2043,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.LessOrEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            {
+                return graph.Model.IsLower((object)leftValue, (object)rightValue) || graph.Model.IsEqual((object)leftValue, (object)rightValue);
+            }
 
             throw new Exception("Invalid types for <=");
         }
 
         public static string LowerEqualStatic(string leftValue, string rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraphModel model)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
@@ -2067,12 +2088,17 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return "GRGEN_LIBGR.ContainerHelper.LessOrEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            {
+                return "(graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")"
+                    + " || graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + "))";
+            }
 
             return null;
         }
 
         public static bool GreaterEqualObjects(object leftValue, object rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraph graph)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
@@ -2422,12 +2448,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.GreaterOrEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            {
+                return !graph.Model.IsLower((object)leftValue, (object)rightValue);
+            }
 
             throw new Exception("Invalid types for >=");
         }
 
         public static string GreaterEqualStatic(string leftValue, string rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraphModel model)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
@@ -2462,6 +2492,10 @@ namespace de.unika.ipd.grGen.libGr
             else if(balancedType.StartsWith("deque<"))
             {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
+            }
+            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            {
+                return "!graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")";
             }
 
             return null;
@@ -2858,7 +2892,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public static string PlusStatic(string leftValue, string rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraphModel model)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
@@ -3263,7 +3297,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public static string MinusStatic(string leftValue, string rightValue,
-            string balancedType, string leftType, string rightType)
+            string balancedType, string leftType, string rightType, IGraphModel model)
         {
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
@@ -3353,8 +3387,13 @@ namespace de.unika.ipd.grGen.libGr
                             if(result == "") return "";
                             if(result == "-")
                             {
-                                if(left == right) return left;
-                                else return "-";
+                                result = BalanceExternalType(left, right, model);
+                                if(result == "") return "";
+                                if(result == "-")
+                                {
+                                    if(left == right) return left;
+                                    else return "-";
+                                }
                             }
                         }
                     }
@@ -3372,7 +3411,9 @@ namespace de.unika.ipd.grGen.libGr
                         {
                             return left;
                         }
-                        else return "-";
+
+                        result = BalanceExternalType(left, right, model);
+                        return result;
                     }
                     return result;
 
@@ -3523,10 +3564,33 @@ namespace de.unika.ipd.grGen.libGr
             if(left == "" || right == "")
                 return "";
 
-            if(TypesHelper.IsSameOrSubtype(left, right, model))
+            if(TypesHelper.IsSameOrSubtype(left, right, model) && !TypesHelper.IsExternalTypeIncludingObjectType(right, model))
                 return right;
 
-            if(TypesHelper.IsSameOrSubtype(right, left, model))
+            if(TypesHelper.IsSameOrSubtype(right, left, model) && !TypesHelper.IsExternalTypeIncludingObjectType(left, model))
+                return left;
+
+            return "-";
+        }
+
+        /// <summary>
+        /// Returns the types to which the operands must be casted to, 
+        /// assuming an external type equality or ordering operator.
+        /// Returns "" if the type can only be determined at runtime.
+        /// Returns "-" in case of a type error and/or if no operator working on external types can be applied.
+        /// </summary>
+        public static string BalanceExternalType(string left, string right, IGraphModel model)
+        {
+            if(left == right)
+                return left;
+
+            if(left == "" || right == "")
+                return "";
+
+            if(TypesHelper.IsSameOrSubtype(left, right, model) && TypesHelper.IsExternalTypeIncludingObjectType(right, model))
+                return right;
+
+            if(TypesHelper.IsSameOrSubtype(right, left, model) && TypesHelper.IsExternalTypeIncludingObjectType(left, model))
                 return left;
 
             return "-";
