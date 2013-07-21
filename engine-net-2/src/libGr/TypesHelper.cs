@@ -216,7 +216,7 @@ namespace de.unika.ipd.grGen.libGr
                 return Convert.ToInt32((Enum)value) == 0;
             }
 
-            return false; // object or node/edge or dictionary/list type which is not null
+            return false; // object or node/edge or container type that is not null
         }
 
         public static object DefaultValue(String typeName, IGraphModel model)
@@ -524,6 +524,20 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
+            foreach(ExternalType leftExternalType in model.ExternalTypes)
+            {
+                if(leftExternalType.Name == xgrsTypeSameOrSub)
+                {
+                    foreach(ExternalType rightExternalType in model.ExternalTypes)
+                    {
+                        if(rightExternalType.Name == xgrsTypeBase)
+                        {
+                            return leftExternalType.IsA(rightExternalType);
+                        }
+                    }
+                }
+            }
+
             return false;
         }
 
@@ -542,6 +556,17 @@ namespace de.unika.ipd.grGen.libGr
             foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
                 if(enumAttrType.Name == typename)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsExternalTypeIncludingObjectType(string typename, IGraphModel model)
+        {
+            for(int i=0; i<model.ExternalTypes.Length; ++i)
+            {
+                if(model.ExternalTypes[i].Name == typename)
                     return true;
             }
 

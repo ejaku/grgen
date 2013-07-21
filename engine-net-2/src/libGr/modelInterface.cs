@@ -293,6 +293,43 @@ namespace de.unika.ipd.grGen.libGr
         #endregion Emitting and parsing of attributes of object or a user defined type
 
 
+        #region Comparison of attributes of object or user defined type, external types in general
+
+        /// <summary>
+        /// The external types known to this model, it contains always and at least the object type,
+        /// the bottom type of the external attribute types hierarchy.
+        /// </summary>
+        ExternalType[] ExternalTypes { get; }
+
+        /// <summary>
+        /// Tells whether AttributeTypeObjectCopierComparer.IsEqual functions are available,
+        /// for object and external types.
+        /// </summary>
+        bool IsEqualClassDefined { get; }
+
+        /// <summary>
+        /// Tells whether AttributeTypeObjectCopierComparer.IsLower functions are available,
+        /// for object and external types.
+        /// </summary>
+        bool IsLowerClassDefined { get; }
+
+        /// <summary>
+        /// Calls the AttributeTypeObjectCopierComparer.IsEqual function for object type arguments,
+        /// when an attribute of object or external type is compared for equality in the interpreted sequences;
+        /// you may dispatch from there to the type exact comparisons, which are called directly from the compiled sequences.
+        /// </summary>
+        bool IsEqual(object this_, object that);
+
+        /// <summary>
+        /// Calls the AttributeTypeObjectCopierComparer.IsLower function for object type arguments,
+        /// when an attribute of object or external type is compared for ordering in the interpreted sequences;
+        /// you may dispatch from there to the type exact comparisons, which are called directly from the compiled sequences.
+        /// </summary>
+        bool IsLower(object this_, object that);
+
+        #endregion Comparison of attributes of object or user defined type, external types in general
+
+
         /// <summary>
         /// An MD5 hash sum of the model.
         /// </summary>
@@ -333,7 +370,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>The attribute is a double.</summary>
         DoubleAttr,
 
-        /// <summary>The attribute is an object.</summary>
+        /// <summary>The attribute is an object (this includes external attribute types).</summary>
         ObjectAttr,
 
         /// <summary>The attribute is a map.</summary>
@@ -1154,6 +1191,69 @@ namespace de.unika.ipd.grGen.libGr
         public override int GetHashCode()
         {
             return type.GetHashCode();
+        }
+    }
+
+    /// <summary>
+    /// A representation of an external type registered with GrGen.
+    /// The bottom type of the external type hierarchy that is always available is type object.
+    /// </summary>
+    public class ExternalType
+    {
+        public ExternalType(string name, Type type)
+        {
+            Name = name;
+            Type = type;
+        }
+
+        public void InitDirectSupertypes(ExternalType[] directSuperTypes)
+        {
+            this.directSuperTypes = directSuperTypes;
+        }
+
+        /// <summary>
+        /// The name of the type.
+        /// </summary>
+        public readonly String Name;
+
+        /// <summary>
+        /// The .NET type of the type.
+        /// </summary>
+        public readonly Type Type;
+
+        /// <summary>
+        /// Array containing all direct super types of this type, the readonly interface.
+        /// </summary>
+        public ExternalType[] DirectSuperTypes { get { return directSuperTypes; } }
+
+        /// <summary>
+        /// Array containing all direct super types of this type, the real array.
+        /// </summary>
+        private ExternalType[] directSuperTypes;
+
+        /// <summary>
+        /// Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
+        /// or it is a sub type of the given type.
+        /// </summary>
+        /// <param name="that">The type to be compared to.</param>
+        /// <returns>True, if this type is compatible to the given type.</returns>
+        public bool IsA(ExternalType that)
+        {
+            if(this == that)
+                return true;
+            for(int i = 0; i < directSuperTypes.Length; ++i)
+                if(directSuperTypes[i].IsA(that))
+                    return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Returns the name of the type.
+        /// </summary>
+        /// <returns>The name of the type.</returns>
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }
