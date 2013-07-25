@@ -1774,10 +1774,38 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return Nested;
+            if(Nested != null)
+                yield return Nested;
+            else
+                yield break;
         }
 
         Expression Nested;
+    }
+
+    /// <summary>
+    /// Class representing this expression
+    /// </summary>
+    public class This : Expression
+    {
+        public This()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new This();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("graph");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield break;
+        }
     }
 
     /// <summary>

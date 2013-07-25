@@ -2224,6 +2224,9 @@ public class ActionsGen extends CSharpBase {
 				genExpressionTree(sb, re.getNumExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if(expr instanceof ThisExpr) {
+			sb.append("new GRGEN_EXPR.This()");
+		}
 		else if (expr instanceof StringLength) {
 			StringLength strlen = (StringLength) expr;
 			sb.append("new GRGEN_EXPR.StringLength(");
