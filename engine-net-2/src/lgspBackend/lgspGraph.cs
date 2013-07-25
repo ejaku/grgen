@@ -132,6 +132,16 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Constructs an LGSPGraph object with the given model and backend, and an automatically generated name.
+        /// </summary>
+        /// <param name="grmodel">The graph model.</param>
+        /// <param name="lgspBackend">The responsible backend object, needed for import from the sequences.</param>
+        public LGSPGraph(IGraphModel grmodel, LGSPBackend lgspBackend)
+            : this(grmodel, lgspBackend, GetNextGraphName())
+        {
+        }
+        
+        /// <summary>
         /// Constructs an LGSPGraph object with the given model and name.
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
@@ -140,6 +150,18 @@ namespace de.unika.ipd.grGen.lgsp
             : this(grname)
         {
             InitializeGraph(grmodel);
+        }
+
+        /// <summary>
+        /// Constructs an LGSPGraph object with the given model, backend, and name.
+        /// </summary>
+        /// <param name="grmodel">The graph model.</param>
+        /// <param name="lgspBackend">The responsible backend object, needed for import from the sequences.</param>
+        /// <param name="grname">The name for the graph.</param>
+        public LGSPGraph(IGraphModel grmodel, LGSPBackend lgspBackend, String grname)
+            : this(grmodel, grname)
+        {
+            backend = lgspBackend;
         }
 
         /// <summary>
@@ -1646,7 +1668,7 @@ invalidCommand:
         /// <returns>A new empty graph of the same model.</returns>
         public override IGraph CreateEmptyEquivalent(String newName)
         {
-            return new LGSPGraph(this.model, newName);
+            return new LGSPGraph(this.model, this.backend, newName);
         }
 
         /// <summary>

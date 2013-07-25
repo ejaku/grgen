@@ -13,6 +13,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.Reflection;
@@ -150,13 +151,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ensure graphs are analyzed
             if(this_.statistics.vstructs == null)
-                this_.statistics.AnalyzeGraph(this_);
+                this_.AnalyzeGraph();
             if(that.statistics.vstructs == null)
-                that.statistics.AnalyzeGraph(that);
+                that.AnalyzeGraph();
             if(this_.changesCounterAtLastAnalyze != this_.ChangesCounter)
-                this_.statistics.AnalyzeGraph(this_);
+                this_.AnalyzeGraph();
             if(that.changesCounterAtLastAnalyze != that.ChangesCounter)
-                that.statistics.AnalyzeGraph(that);
+                that.AnalyzeGraph();
 
             // compare analyze statistics
             if(!AreVstructsEqual(this_, that))
@@ -425,6 +426,7 @@ namespace de.unika.ipd.grGen.lgsp
             graph.matchingState.interpretationPlan = builder.BuildInterpretationPlan("ComparisonMatcher_" + graph.GraphID);
             ++GraphMatchingState.numInterpretationPlans;
             graph.matchingState.changesCounterAtInterpretationPlanBuilding = graph.changesCounterAtLastAnalyze;
+            Debug.Assert(graph.changesCounterAtLastAnalyze == graph.ChangesCounter);
 
 #if LOG_ISOMORPHY_CHECKING
             SourceBuilder sb = new SourceBuilder();

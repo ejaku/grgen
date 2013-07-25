@@ -217,6 +217,7 @@ TOKEN: {
 |   < YIELD: "yield" >
 |   < HIGHLIGHT: "highlight" >
 |   < COUNT: "count" >
+|   < THIS: "this" >
 }
 
 TOKEN: {
@@ -853,7 +854,7 @@ Sequence SimpleSequence():
 	SequenceComputation comp;
 	int num = 0;
 	double numDouble = 0.0;
-	String str;
+	String str, attrName = null;
 	object constant;
 }
 {
@@ -1078,9 +1079,9 @@ Sequence SimpleSequence():
 		return new SequenceHighlight(str);
 	}
 |
-    "in" toVar=Variable() "{" { varDecls.PushScope(ScopeType.InSubgraph); } seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
+    "in" toVar=VariableUse() ("." attrName=Word())? "{" { varDecls.PushScope(ScopeType.InSubgraph); } seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
     {
-        return new SequenceExecuteInSubgraph(toVar, seq);
+        return new SequenceExecuteInSubgraph(toVar, attrName, seq);
     }
 |
 	("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); } comp=CompoundComputation() { varDecls.PopScope(variableList1); } (";")? "}"
@@ -1376,6 +1377,11 @@ SequenceExpression ExpressionBasic():
 	"@" "(" elemName=Text() ")"
 	{
 		return new SequenceExpressionElementFromGraph(elemName);
+	}
+|
+	"this"
+	{
+		return new SequenceExpressionThis();
 	}
 |
 	"(" expr=Expression() ")"

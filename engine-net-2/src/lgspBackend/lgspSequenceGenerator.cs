@@ -1379,7 +1379,15 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.ExecuteInSubgraph:
                 {
                     SequenceExecuteInSubgraph seqExecInSub = (SequenceExecuteInSubgraph)seq;
-                    source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + GetVar(seqExecInSub.SubgraphVar) + ");\n");
+                    string subgraph;
+                    if(seqExecInSub.AttributeName == null)
+                        subgraph = GetVar(seqExecInSub.SubgraphVar);
+                    else
+                    {
+                        string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqExecInSub.SubgraphVar) + ")";
+                        subgraph = element + ".GetAttribute(\"" + seqExecInSub.AttributeName + "\")";
+                    }
+                    source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + subgraph + ");\n");
                     EmitSequence(seqExecInSub.Seq, source);
                     source.AppendFront("procEnv.ReturnFromSubgraph();\n");
                     source.AppendFront(SetResultVar(seqExecInSub, GetResultVar(seqExecInSub.Seq)));
@@ -3866,6 +3874,12 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionConstant seqConst = (SequenceExpressionConstant)expr;
                     return GetConstant(seqConst.Constant);
+                }
+
+                case SequenceExpressionType.This:
+                {
+                    SequenceExpressionThis seqThis = (SequenceExpressionThis)expr;
+                    return "graph";
                 }
 
                 case SequenceExpressionType.SetConstructor:

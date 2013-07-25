@@ -1942,6 +1942,7 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 			{ res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
 		sel=seqExprSelector[res, xg] { res = sel; }
 	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
+	| THIS { xg.append("this"); }
 	| (functionCall[null]) => functionCall[xg]
 	| (xgrsVarUse[null]) => target=xgrsVarUse[xg]
 			{ res = new IdentExprNode((IdentNode)target); }
@@ -3893,6 +3894,7 @@ RULE : 'rule';
 SEQUENCE : 'sequence';
 SET : 'set';
 TEST : 'test';
+THIS : 'this';
 TRUE : 'true';
 TYPEOF : 'typeof';
 UNDIRECTED : 'undirected';

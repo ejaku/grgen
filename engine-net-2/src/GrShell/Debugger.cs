@@ -231,7 +231,7 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             NotifyOnConnectionLost = false;
-            RegisterLibGrEvents();
+            RegisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace de.unika.ipd.grGen.grShell
             if(ycompClient == null)
                 throw new InvalidOperationException("The debugger has already been closed!");
 
-            UnregisterLibGrEvents();
+            UnregisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
 
             shellProcEnv.ProcEnv.NamedGraph.ReuseOptimization = true;
             ycompClient.Close();
@@ -348,12 +348,12 @@ namespace de.unika.ipd.grGen.grShell
             set
             {
                 // switch to new graph in YComp
-                UnregisterLibGrEvents();
+                UnregisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
                 ycompClient.ClearGraph();
                 shellProcEnv = value;
                 if(!ycompClient.dumpInfo.IsExcludedGraph())
                     UploadGraph(shellProcEnv.ProcEnv.NamedGraph);
-                RegisterLibGrEvents();
+                RegisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
 
                 // TODO: reset any state when inside a rule debugging session
             }
@@ -1282,8 +1282,10 @@ namespace de.unika.ipd.grGen.grShell
                     {
                         SequenceExecuteInSubgraph seqExecInSub = (SequenceExecuteInSubgraph)seq;
                         Console.Write("in ");
-                        Console.Write(seqExecInSub.SubgraphVar);
-                        Console.Write("{");
+                        Console.Write(seqExecInSub.SubgraphVar.Name);
+                        if(seqExecInSub.AttributeName != null)
+                            Console.Write("." + seqExecInSub.AttributeName);
+                        Console.Write(" {");
                         PrintSequence(seqExecInSub.Seq, seq, context);
                         Console.Write("}");
                         break;
@@ -3083,9 +3085,11 @@ namespace de.unika.ipd.grGen.grShell
         {
             // potential future extension: display the stack of graphs instead of only the topmost one
             // with the one at the forefront being the top of the stack; would save clearing and uploading
+            UnregisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
             ycompClient.ClearGraph();
             if(!ycompClient.dumpInfo.IsExcludedGraph())
                 UploadGraph((INamedGraph)newGraph);
+            RegisterLibGrEvents((INamedGraph)newGraph);
         }
 
         /// <summary>
@@ -3094,9 +3098,11 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         void DebugReturnedFromGraph(IGraph oldGraph)
         {
+            UnregisterLibGrEvents((INamedGraph)oldGraph);
             ycompClient.ClearGraph();
             if(!ycompClient.dumpInfo.IsExcludedGraph())
                 UploadGraph(shellProcEnv.ProcEnv.NamedGraph);
+            RegisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
         }
 
         void DebugOnConnectionLost()
@@ -3108,19 +3114,19 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// Registers event handlers for needed LibGr events
         /// </summary>
-        void RegisterLibGrEvents()
+        void RegisterLibGrEvents(INamedGraph graph)
         {
-            shellProcEnv.ProcEnv.NamedGraph.OnNodeAdded += DebugNodeAdded;
-            shellProcEnv.ProcEnv.NamedGraph.OnEdgeAdded += DebugEdgeAdded;
-            shellProcEnv.ProcEnv.NamedGraph.OnRemovingNode += DebugDeletingNode;
-            shellProcEnv.ProcEnv.NamedGraph.OnRemovingEdge += DebugDeletingEdge;
-            shellProcEnv.ProcEnv.NamedGraph.OnClearingGraph += DebugClearingGraph;
-            shellProcEnv.ProcEnv.NamedGraph.OnChangingNodeAttribute += DebugChangingNodeAttribute;
-            shellProcEnv.ProcEnv.NamedGraph.OnChangingEdgeAttribute += DebugChangingEdgeAttribute;
-            shellProcEnv.ProcEnv.NamedGraph.OnRetypingNode += DebugRetypingElement;
-            shellProcEnv.ProcEnv.NamedGraph.OnRetypingEdge += DebugRetypingElement;
-            shellProcEnv.ProcEnv.NamedGraph.OnSettingAddedNodeNames += DebugSettingAddedNodeNames;
-            shellProcEnv.ProcEnv.NamedGraph.OnSettingAddedEdgeNames += DebugSettingAddedEdgeNames;
+            graph.OnNodeAdded += DebugNodeAdded;
+            graph.OnEdgeAdded += DebugEdgeAdded;
+            graph.OnRemovingNode += DebugDeletingNode;
+            graph.OnRemovingEdge += DebugDeletingEdge;
+            graph.OnClearingGraph += DebugClearingGraph;
+            graph.OnChangingNodeAttribute += DebugChangingNodeAttribute;
+            graph.OnChangingEdgeAttribute += DebugChangingEdgeAttribute;
+            graph.OnRetypingNode += DebugRetypingElement;
+            graph.OnRetypingEdge += DebugRetypingElement;
+            graph.OnSettingAddedNodeNames += DebugSettingAddedNodeNames;
+            graph.OnSettingAddedEdgeNames += DebugSettingAddedEdgeNames;
 
             shellProcEnv.ProcEnv.OnMatched += DebugMatched;
             shellProcEnv.ProcEnv.OnRewritingNextMatch += DebugNextMatch;
@@ -3135,19 +3141,19 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// Unregisters the events previously registered with RegisterLibGrEvents()
         /// </summary>
-        void UnregisterLibGrEvents()
+        void UnregisterLibGrEvents(INamedGraph graph)
         {
-            shellProcEnv.ProcEnv.NamedGraph.OnNodeAdded -= DebugNodeAdded;
-            shellProcEnv.ProcEnv.NamedGraph.OnEdgeAdded -= DebugEdgeAdded;
-            shellProcEnv.ProcEnv.NamedGraph.OnRemovingNode -= DebugDeletingNode;
-            shellProcEnv.ProcEnv.NamedGraph.OnRemovingEdge -= DebugDeletingEdge;
-            shellProcEnv.ProcEnv.NamedGraph.OnClearingGraph -= DebugClearingGraph;
-            shellProcEnv.ProcEnv.NamedGraph.OnChangingNodeAttribute -= DebugChangingNodeAttribute;
-            shellProcEnv.ProcEnv.NamedGraph.OnChangingEdgeAttribute -= DebugChangingEdgeAttribute;
-            shellProcEnv.ProcEnv.NamedGraph.OnRetypingNode -= DebugRetypingElement;
-            shellProcEnv.ProcEnv.NamedGraph.OnRetypingEdge -= DebugRetypingElement;
-            shellProcEnv.ProcEnv.NamedGraph.OnSettingAddedNodeNames -= DebugSettingAddedNodeNames;
-            shellProcEnv.ProcEnv.NamedGraph.OnSettingAddedEdgeNames -= DebugSettingAddedEdgeNames;
+            graph.OnNodeAdded -= DebugNodeAdded;
+            graph.OnEdgeAdded -= DebugEdgeAdded;
+            graph.OnRemovingNode -= DebugDeletingNode;
+            graph.OnRemovingEdge -= DebugDeletingEdge;
+            graph.OnClearingGraph -= DebugClearingGraph;
+            graph.OnChangingNodeAttribute -= DebugChangingNodeAttribute;
+            graph.OnChangingEdgeAttribute -= DebugChangingEdgeAttribute;
+            graph.OnRetypingNode -= DebugRetypingElement;
+            graph.OnRetypingEdge -= DebugRetypingElement;
+            graph.OnSettingAddedNodeNames -= DebugSettingAddedNodeNames;
+            graph.OnSettingAddedEdgeNames -= DebugSettingAddedEdgeNames;
 
             shellProcEnv.ProcEnv.OnMatched -= DebugMatched;
             shellProcEnv.ProcEnv.OnRewritingNextMatch -= DebugNextMatch;

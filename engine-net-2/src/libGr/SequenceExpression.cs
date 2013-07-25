@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.libGr
         Not, Cast,
         Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual, StructuralEqual,
         Plus, Minus, // todo: all the other operators and functions/methods from the expressions - as time allows
-        Constant, Variable,
+        Constant, Variable, This,
         SetConstructor, MapConstructor, ArrayConstructor, DequeConstructor,
         Random,
         Def,
@@ -936,6 +936,34 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return Variable.Name; } }
     }
 
+    public class SequenceExpressionThis : SequenceExpression
+    {
+        public SequenceExpressionThis()
+            : base(SequenceExpressionType.This)
+        {
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+                return "graph";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionThis copy = (SequenceExpressionThis)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return procEnv.Graph;
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "this"; } }
+    }
+    
     public abstract class SequenceExpressionContainerConstructor : SequenceExpression
     {
         public String ValueType;
