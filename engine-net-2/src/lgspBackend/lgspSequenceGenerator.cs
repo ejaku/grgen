@@ -1388,8 +1388,10 @@ namespace de.unika.ipd.grGen.lgsp
                         subgraph = element + ".GetAttribute(\"" + seqExecInSub.AttributeName + "\")";
                     }
                     source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + subgraph + ");\n");
+                    source.AppendFront("graph = procEnv.graph;\n");
                     EmitSequence(seqExecInSub.Seq, source);
                     source.AppendFront("procEnv.ReturnFromSubgraph();\n");
+                    source.AppendFront("graph = procEnv.graph;\n");
                     source.AppendFront(SetResultVar(seqExecInSub, GetResultVar(seqExecInSub.Seq)));
                     break;
                 }
@@ -3609,7 +3611,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceExpressionType.Copy:
                 {
                     SequenceExpressionCopy seqCopy = (SequenceExpressionCopy)expr;
-                    return "GRGEN_LIBGR.GraphHelper.Copy((GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqCopy.Graph, source) + ", graph)";
+                    return "GRGEN_LIBGR.GraphHelper.Copy((GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqCopy.Graph, source) + ")";
                 }
 
                 case SequenceExpressionType.Canonize:

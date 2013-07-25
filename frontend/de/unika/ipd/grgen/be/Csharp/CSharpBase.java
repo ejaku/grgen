@@ -870,6 +870,9 @@ public abstract class CSharpBase {
 			}
 			sb.append(")");
 		}
+		else if(expr instanceof ThisExpr) {
+			sb.append("graph");
+		}
 		else if (expr instanceof StringLength) {
 			StringLength strlen = (StringLength) expr;
 			sb.append("(");

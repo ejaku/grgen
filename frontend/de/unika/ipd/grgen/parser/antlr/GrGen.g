@@ -1801,7 +1801,7 @@ options { k = 3; }
 		pushScopeStr["if/then-part", getCoords(s)] { xg.append("; "); } xgrs[xg] popScope
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
 	| FOR l=LBRACE pushScopeStr["for/exec", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] forSeqRemainder[xg, returns]
-	| IN { xg.append("in "); } xgrsVarUse[xg] LBRACE { xg.append("{"); } pushScopeStr["in subgraph sequence", getCoords(l)] xgrs[xg] popScope RBRACE { xg.append("}"); } 
+	| IN { xg.append("in "); } xgrsVarUse[xg] (d=DOT attr=IDENT { xg.append("."+attr.getText()); })? LBRACE { xg.append("{"); } pushScopeStr["in subgraph sequence", getCoords(l)] xgrs[xg] popScope RBRACE { xg.append("}"); } 
 	| LBRACE { xg.append("{"); } pushScopeStr["sequence computation", getCoords(l)] seqCompoundComputation[xg] (SEMI)? popScope RBRACE { xg.append("}"); } 
 	;
 
@@ -3448,6 +3448,7 @@ options { k = 4; }
 	| e=identExpr { res = e; }
 	| e=globalsAccessExpr { res = e; }
 	| e=constant { res = e; }
+	| e=thisExpr { res = e; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
 	| e=initContainerExpr { res = e; }
@@ -3534,6 +3535,10 @@ constant returns [ ExprNode res = env.initExprNode() ]
 		{ res = new BoolConstNode(getCoords(ff), false); }
 	| n=NULL
 		{ res = new NullConstNode(getCoords(n)); }
+	;
+
+thisExpr returns [ ExprNode res = env.initExprNode() ]
+	: t=THIS { res = new ThisExprNode(getCoords(t)); }
 	;
 
 identExpr returns [ ExprNode res = env.initExprNode() ]
