@@ -1,0 +1,3 @@
+dump set node RedGraph color red
+dump set node GreenGraph color green
+dump set node BlueGraph color blue

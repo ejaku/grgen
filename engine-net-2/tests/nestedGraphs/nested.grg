@@ -1,0 +1,39 @@
+using nested;
+
+rule init : (set<Node>)
+{
+	modify {
+		r:RedGraph --> g:GreenGraph --> b:BlueGraph --> r;
+		return(set<Node>{r,g,b});
+	}
+}
+
+test red : (RedGraph)
+{
+	r:RedGraph;
+	return(r);
+}
+
+test green : (GreenGraph)
+{
+	g:GreenGraph;
+	return(g);
+}
+
+test blue : (BlueGraph)
+{
+	b:BlueGraph;
+	return(b);
+}
+
+test blueblue
+{
+	b1:BlueGraph --> b2:BlueGraph;
+}
+
+rule remGreen
+{
+	g:GreenGraph;
+	replace {
+	}
+}
