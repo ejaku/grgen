@@ -38,7 +38,7 @@ this==clone && this==full && this!=initial}
 # set additionally b/red.sub to g/red.sub so they are equal
 exec (r:RedGraph)=red ;> (g:GreenGraph)=green ;> (b:BlueGraph)=blue ;>\
 rsub:graph ;> gsub:graph ;> bsub:graph ;> { rsub=r.sub; gsub=g.sub; bsub=b.sub } ;>\
-attr:graph ;> in gsub { (gg:GreenGraph)=green ;> { rem(gg) } ;> (gr:RedGraph)=red ;> { attr=gr.sub } };>\
+attr:graph ;> in gsub { (gg:GreenGraph)=green ;> { rem(gg) } ;> (gr:RedGraph)=red ;> { attr=gr.sub } } ;>\
 in bsub { (bb:BlueGraph)=blue ;> { (bb2:BlueGraph)=add(BlueGraph); add(Edge, bb, bb2) } ;> blueblue() ;> (br:RedGraph)=red ;> { br.sub=attr } } ;>\
 { export("redgreenbluefull3.grs");\
 rsub != gsub && gsub != bsub && rsub != bsub && this != import("redgreenbluefull2.grs")}
