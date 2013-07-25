@@ -75,12 +75,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Builds a pattern graph out of the graph.
         /// The pattern graph retains links to the original graph elements and uses them for attribute comparison.
-        /// Attention: if you change the elements(/graph) your comparisons will be done against the old structure but the new attributes! 
         /// </summary>
         /// <param name="graph">The graph which is to be transfered into a pattern</param>
-        /// <param name="includingAttributes">Whether the attributes should be included and thus checked</param>
         /// <returns></returns>
-        public PatternGraph BuildPatternGraph(LGSPGraph graph, bool includingAttributes)
+        public PatternGraph BuildPatternGraph(LGSPGraph graph)
         {
             int numNodes = graph.NumNodes;
             int numEdges = graph.NumEdges;
@@ -150,24 +148,20 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < numEdges; ++i)
                 totallyHomEdges[i] = false;
 
-            PatternCondition[] patternConditions = new PatternCondition[0];
-            if(includingAttributes)
+            List<PatternCondition> pcs = new List<PatternCondition>();
+            for(int i = 0; i < numNodes; ++i)
             {
-                List<PatternCondition> pcs = new List<PatternCondition>();
-                for(int i = 0; i < numNodes; ++i)
-                {
-                    if(nodes[i].Type.NumAttributes > 0)
-                        pcs.Add(new PatternCondition(new expression.AreAttributesEqual(correspondingNodes[i], nodes[i]),
-                            new string[] { nodes[i].name }, new string[] { }, new string[] { }, new VarType[] { }));
-                }
-                for(int i = 0; i < numEdges; ++i)
-                {
-                    if(edges[i].Type.NumAttributes > 0)
-                        pcs.Add(new PatternCondition(new expression.AreAttributesEqual(correspondingEdges[i], edges[i]),
-                            new string[] { }, new string[] { edges[i].name }, new string[] { }, new VarType[] { }));
-                }
-                patternConditions = pcs.ToArray();
+                if(nodes[i].Type.NumAttributes > 0)
+                    pcs.Add(new PatternCondition(new expression.AreAttributesEqual(correspondingNodes[i], nodes[i]),
+                        new string[] { nodes[i].name }, new string[] { }, new string[] { }, new VarType[] { }));
             }
+            for(int i = 0; i < numEdges; ++i)
+            {
+                if(edges[i].Type.NumAttributes > 0)
+                    pcs.Add(new PatternCondition(new expression.AreAttributesEqual(correspondingEdges[i], edges[i]),
+                        new string[] { }, new string[] { edges[i].name }, new string[] { }, new VarType[] { }));
+            }
+            PatternCondition[] patternConditions = pcs.ToArray();
 
             PatternGraph patternGraph = new PatternGraph(
                 graph.Name, "",

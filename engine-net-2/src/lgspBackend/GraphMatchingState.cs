@@ -200,7 +200,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool matchedWithThis;
             if(this_.matchingState.compiledMatcher != null)
             {
-                result = this_.matchingState.compiledMatcher.IsIsomorph(this_.matchingState.patternGraph, that);
+                result = this_.matchingState.compiledMatcher.IsIsomorph(this_.matchingState.patternGraph, that, includingAttributes);
                 matchedWithThis = true;
 #if LOG_ISOMORPHY_CHECKING
                 writer.WriteLine("Using compiled interpretation plan of this " + this_.matchingState.compiledMatcher.Name);
@@ -208,7 +208,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(that.matchingState.compiledMatcher != null)
             {
-                result = that.matchingState.compiledMatcher.IsIsomorph(that.matchingState.patternGraph, this_);
+                result = that.matchingState.compiledMatcher.IsIsomorph(that.matchingState.patternGraph, this_, includingAttributes);
                 matchedWithThis = false;
 #if LOG_ISOMORPHY_CHECKING
                 writer.WriteLine("Using compiled interpretation plan of that " + that.matchingState.compiledMatcher.Name);
@@ -216,7 +216,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(this_.matchingState.interpretationPlan != null)
             {
-                result = this_.matchingState.interpretationPlan.Execute(that, null);
+                result = this_.matchingState.interpretationPlan.Execute(that, includingAttributes, null);
                 matchedWithThis = true;
 #if LOG_ISOMORPHY_CHECKING
                 writer.WriteLine("Using interpretation plan of this " + ((InterpretationPlanStart)this_.matchingState.interpretationPlan).ComparisonMatcherName);
@@ -224,7 +224,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(that.matchingState.interpretationPlan != null)
             {
-                result = that.matchingState.interpretationPlan.Execute(this_, null);
+                result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null);
                 matchedWithThis = false;
 #if LOG_ISOMORPHY_CHECKING
                 writer.WriteLine("Using interpretation plan of that " + ((InterpretationPlanStart)that.matchingState.interpretationPlan).ComparisonMatcherName);
@@ -236,14 +236,14 @@ namespace de.unika.ipd.grGen.lgsp
                 // assuming it will survive while the younger one is the candidate for purging
                 if(this_.GraphID < that.GraphID)
                 {
-                    BuildInterpretationPlan(this_, includingAttributes);
-                    result = this_.matchingState.interpretationPlan.Execute(that, null);
+                    BuildInterpretationPlan(this_);
+                    result = this_.matchingState.interpretationPlan.Execute(that, includingAttributes, null);
                     matchedWithThis = true;
                 }
                 else
                 {
-                    BuildInterpretationPlan(that, includingAttributes);
-                    result = that.matchingState.interpretationPlan.Execute(this_, null);
+                    BuildInterpretationPlan(that);
+                    result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null);
                     matchedWithThis = false;
                 }
             }
@@ -413,10 +413,10 @@ namespace de.unika.ipd.grGen.lgsp
             return true;
         }
 
-        private static void BuildInterpretationPlan(LGSPGraph graph, bool includingAttributes)
+        private static void BuildInterpretationPlan(LGSPGraph graph)
         {
             LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(graph.Model);
-            graph.matchingState.patternGraph = matcherGen.BuildPatternGraph(graph, includingAttributes);
+            graph.matchingState.patternGraph = matcherGen.BuildPatternGraph(graph);
             PlanGraph planGraph = matcherGen.GeneratePlanGraph(graph.statistics, graph.matchingState.patternGraph, false, false);
             matcherGen.MarkMinimumSpanningArborescence(planGraph, graph.matchingState.patternGraph.name);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);

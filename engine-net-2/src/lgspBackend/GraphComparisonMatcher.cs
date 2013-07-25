@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Returns whether the graph which resulted in thisPattern is isomorph to the graph given.        
         /// </summary>
-        bool IsIsomorph(PatternGraph thisPattern, LGSPGraph graph);
+        bool IsIsomorph(PatternGraph thisPattern, LGSPGraph graph, bool includingAttributes);
 
         /// <summary>
         /// Returns the name of the compiled matcher, same as the name of the interpretation plan.
