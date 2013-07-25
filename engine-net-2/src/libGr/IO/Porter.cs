@@ -40,15 +40,20 @@ namespace de.unika.ipd.grGen.libGr
                 writer = new StreamWriter(first);
             }
 
-            if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase)) {
-                GXLExport.Export(graph, writer);
-            } else if (first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
-                || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
-                throw new NotSupportedException("File format requires an export of a named graph");
-            else if(first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase))
-                throw new NotSupportedException("File format requires an export of a named graph");
-            else
-                throw new NotSupportedException("File format not supported");
+            using(writer)
+            {
+                if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    GXLExport.Export(graph, writer);
+                }
+                else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
+                    || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
+                    throw new NotSupportedException("File format requires an export of a named graph");
+                else if(first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase))
+                    throw new NotSupportedException("File format requires an export of a named graph");
+                else
+                    throw new NotSupportedException("File format not supported");
+            }
         }
 
         /// <summary>
@@ -79,21 +84,24 @@ namespace de.unika.ipd.grGen.libGr
                 writer = new StreamWriter(first);
             }
 
-            if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
+            using(writer)
             {
-                GXLExport.Export(graph, writer);
+                if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    GXLExport.Export(graph, writer);
+                }
+                else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
+                    || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    GRSExport.Export(graph, writer);
+                }
+                else if(first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    GRGExport.Export(graph, writer);
+                }
+                else
+                    throw new NotSupportedException("File format not supported");
             }
-            else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
-                || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
-            {
-                GRSExport.Export(graph, writer);
-            }
-            else if(first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase))
-            {
-                GRGExport.Export(graph, writer);
-            }
-            else
-                throw new NotSupportedException("File format not supported");
         }
 
         /// <summary>
@@ -124,41 +132,44 @@ namespace de.unika.ipd.grGen.libGr
                 reader = new StreamReader(first);
             }
 
-            if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
-                return GXLImport.Import(reader, ListGet(filenameParameters, 1), backend, out actions);
-            else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
-                        || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
-                return GRSImport.Import(reader, fileSize, ListGet(filenameParameters, 1), backend, out actions);
-            else if(first.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
+            using(reader)
             {
-                List<String> ecores = new List<String>();
-                String grg = null;
-                String xmi = null;
-                bool noPackageNamePrefix = false;
-                foreach(String filename in filenameParameters)
+                if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
+                    return GXLImport.Import(reader, ListGet(filenameParameters, 1), backend, out actions);
+                else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
+                            || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
+                    return GRSImport.Import(reader, fileSize, ListGet(filenameParameters, 1), backend, out actions);
+                else if(first.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    if(filename.EndsWith(".ecore")) ecores.Add(filename);
-                    else if(filename.EndsWith(".grg"))
+                    List<String> ecores = new List<String>();
+                    String grg = null;
+                    String xmi = null;
+                    bool noPackageNamePrefix = false;
+                    foreach(String filename in filenameParameters)
                     {
-                        if(grg != null)
-                            throw new NotSupportedException("Only one .grg file supported");
-                        grg = filename;
+                        if(filename.EndsWith(".ecore")) ecores.Add(filename);
+                        else if(filename.EndsWith(".grg"))
+                        {
+                            if(grg != null)
+                                throw new NotSupportedException("Only one .grg file supported");
+                            grg = filename;
+                        }
+                        else if(filename.EndsWith(".xmi"))
+                        {
+                            if(xmi != null)
+                                throw new NotSupportedException("Only one .xmi file supported");
+                            xmi = filename;
+                        }
+                        else if(filename == "nopackagenameprefix")
+                        {
+                            noPackageNamePrefix = true;
+                        }
                     }
-                    else if(filename.EndsWith(".xmi"))
-                    {
-                        if(xmi != null)
-                            throw new NotSupportedException("Only one .xmi file supported");
-                        xmi = filename;
-                    }
-                    else if(filename == "nopackagenameprefix")
-                    {
-                        noPackageNamePrefix = true;
-                    }
+                    return ECoreImport.Import(backend, ecores, grg, xmi, noPackageNamePrefix, out actions);
                 }
-                return ECoreImport.Import(backend, ecores, grg, xmi, noPackageNamePrefix, out actions);
+                else
+                    throw new NotSupportedException("File format not supported");
             }
-            else
-                throw new NotSupportedException("File format not supported");
         }
 
         /// <summary>
