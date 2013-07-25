@@ -38,6 +38,11 @@ rule remGreen
 	}
 }
 
+sequence remGreenSeq
+{
+	remGreen
+}
+
 rule r1
 {
 	modify {
@@ -129,6 +134,26 @@ rule r6
 			in bsub { remGreen } ;>
 			{ export("redgreenbluefull4C.grs"); 
 			yield result = gsub == bsub && rsub != gsub && rsub != bsub && this != import("redgreenbluefull3C.grs") && this == import("redgreenbluefull4C.grs") }
+		);
+		emit("The value of variable result of type bool is: ");
+		emit( result );
+		emit("\n");
+	}
+}
+
+rule r2special
+{
+	modify {
+		def var result:boolean;
+		exec( (r:RedGraph)=red ;> (g:GreenGraph)=green ;> (b:BlueGraph)=blue ;>
+			rsub:graph ;> gsub:graph ;> bsub:graph ;> { rsub=r.sub; gsub=g.sub; bsub=b.sub } ;>
+			rsub.remGreen() ;>
+			gsub.remGreen() ;>
+			bsub.remGreenSeq() ;>
+			rsub.green() ;>
+			rsub.red() ;>
+			{ export("redbluefullC.grs");
+			yield result = rsub == gsub && gsub == bsub && bsub == rsub }
 		);
 		emit("The value of variable result of type bool is: ");
 		emit( result );
