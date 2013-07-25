@@ -3086,6 +3086,7 @@ namespace de.unika.ipd.grGen.grShell
             // potential future extension: display the stack of graphs instead of only the topmost one
             // with the one at the forefront being the top of the stack; would save clearing and uploading
             UnregisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
+            context.workaround.PrintHighlighted("Entering graph...\n", HighlightingMode.SequenceStart);
             ycompClient.ClearGraph();
             if(!ycompClient.dumpInfo.IsExcludedGraph())
                 UploadGraph((INamedGraph)newGraph);
@@ -3099,6 +3100,7 @@ namespace de.unika.ipd.grGen.grShell
         void DebugReturnedFromGraph(IGraph oldGraph)
         {
             UnregisterLibGrEvents((INamedGraph)oldGraph);
+            context.workaround.PrintHighlighted("...leaving graph\n", HighlightingMode.SequenceStart);
             ycompClient.ClearGraph();
             if(!ycompClient.dumpInfo.IsExcludedGraph())
                 UploadGraph(shellProcEnv.ProcEnv.NamedGraph);

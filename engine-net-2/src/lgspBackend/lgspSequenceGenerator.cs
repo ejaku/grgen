@@ -552,6 +552,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 source.AppendFront(parameterDeclarations + "\n");
                 source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + GetVar(paramBindings.Subgraph) + ");\n");
+                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
 
             source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
@@ -649,7 +650,10 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
 
             if(paramBindings.Subgraph != null)
+            {
                 source.AppendFront("procEnv.ReturnFromSubgraph();\n");
+                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
+            }
         }
 
         void EmitSequenceCall(SequenceSequenceCall seqSeq, SourceBuilder source)
@@ -670,6 +674,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 source.AppendFront(parameterDeclarations + "\n");
                 source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + GetVar(paramBindings.Subgraph) + ");\n");
+                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
 
             if(outParameterDeclarations.Length != 0)
@@ -688,7 +693,10 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
 
             if(paramBindings.Subgraph != null)
+            {
                 source.AppendFront("procEnv.ReturnFromSubgraph();\n");
+                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
+            }
         }
 
 		void EmitSequence(Sequence seq, SourceBuilder source)
@@ -1388,10 +1396,10 @@ namespace de.unika.ipd.grGen.lgsp
                         subgraph = element + ".GetAttribute(\"" + seqExecInSub.AttributeName + "\")";
                     }
                     source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + subgraph + ");\n");
-                    source.AppendFront("graph = procEnv.graph;\n");
+                    source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
                     EmitSequence(seqExecInSub.Seq, source);
                     source.AppendFront("procEnv.ReturnFromSubgraph();\n");
-                    source.AppendFront("graph = procEnv.graph;\n");
+                    source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
                     source.AppendFront(SetResultVar(seqExecInSub, GetResultVar(seqExecInSub.Seq)));
                     break;
                 }
@@ -2529,11 +2537,30 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationGraphRem seqRem = (SequenceComputationGraphRem)seqComp;
                     string remVal = "remval_" + seqRem.Id;
-                    source.AppendFront("object " + remVal + " = " + GetSequenceExpression(seqRem.Expr, source) + ";\n");
-                    source.AppendFront("if(" + remVal + " is GRGEN_LIBGR.IEdge)\n");
-                    source.AppendFront("\tgraph.Remove((GRGEN_LIBGR.IEdge)" + remVal + ");\n");
-                    source.AppendFront("else\n");
-                    source.AppendFront("\t{graph.RemoveEdges((GRGEN_LIBGR.INode)" + remVal + "); graph.Remove((GRGEN_LIBGR.INode)" + remVal + ");}\n");
+                    string seqRemExpr = GetSequenceExpression(seqRem.Expr, source);
+                    if(seqRem.Expr.Type(env) == "")
+                    {
+                        source.AppendFront("GRGEN_LIBGR.IGraphElement " + remVal + " = (GRGEN_LIBGR.IGraphElement)" + seqRemExpr + ";\n");
+                        source.AppendFront("if(" + remVal + " is GRGEN_LIBGR.IEdge)\n");
+                        source.AppendFront("\tgraph.Remove((GRGEN_LIBGR.IEdge)" + remVal + ");\n");
+                        source.AppendFront("else\n");
+                        source.AppendFront("\t{graph.RemoveEdges((GRGEN_LIBGR.INode)" + remVal + "); graph.Remove((GRGEN_LIBGR.INode)" + remVal + ");}\n");
+                    }
+                    else
+                    {
+                        if(TypesHelper.IsSameOrSubtype(seqRem.Expr.Type(env), "Node", model))
+                        {
+                            source.AppendFront("GRGEN_LIBGR.INode " + remVal + " = (GRGEN_LIBGR.INode)" + seqRemExpr + ";\n");
+                            source.AppendFront("graph.RemoveEdges(" + remVal + "); graph.Remove(" + remVal + ");\n");
+                        }
+                        else if(TypesHelper.IsSameOrSubtype(seqRem.Expr.Type(env), "Edge", model))
+                        {
+                            source.AppendFront("GRGEN_LIBGR.IEdge " + remVal + " = (GRGEN_LIBGR.IEdge)" + seqRemExpr + ";\n");
+                            source.AppendFront("\tgraph.Remove(" + remVal + ");\n");
+                        }
+                        else
+                            source.AppendFront("throw new Exception(\"rem() on non-node/edge\");\n");
+                    }
                     source.AppendFront(SetResultVar(seqRem, "null"));
                     break;
                 }
@@ -4447,7 +4474,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)");
             source.AppendFront("{\n");
             source.Indent();
-            source.AppendFront("GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;\n");
+            source.AppendFront("GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
 
             for(int i = 0; i < sequence.Parameters.Length; ++i)
             {
@@ -4463,7 +4490,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             source.AppendFront("if(sequenceInvocation.Subgraph!=null)\n");
-            source.AppendFront("\tprocEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv));\n");
+            source.AppendFront("\t{ procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv)); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }\n");
 
             source.AppendFront("bool result = ApplyXGRS_" + sequence.Name + "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv");
             for(int i = 0; i < sequence.Parameters.Length; ++i)
@@ -4477,7 +4504,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append(");\n");
 
             source.AppendFront("if(sequenceInvocation.Subgraph!=null)\n");
-            source.AppendFront("\tprocEnv.ReturnFromSubgraph();\n");
+            source.AppendFront("\t{ procEnv.ReturnFromSubgraph(); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }\n");
 
             if(sequence.OutParameters.Length > 0)
             {
