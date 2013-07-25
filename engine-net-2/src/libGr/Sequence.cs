@@ -3625,20 +3625,51 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExecuteInSubgraph : SequenceUnary
     {
         public SequenceVariable SubgraphVar;
+        public String AttributeName;
 
-        public SequenceExecuteInSubgraph(SequenceVariable subgraphVar, Sequence seq)
+        public SequenceExecuteInSubgraph(SequenceVariable subgraphVar, String attributeName, Sequence seq)
             : base(seq, SequenceType.ExecuteInSubgraph)
         {
             SubgraphVar = subgraphVar;
+            AttributeName = attributeName;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env);
-            if(!TypesHelper.IsSameOrSubtype(SubgraphVar.Type, "graph", env.Model))
+            if(AttributeName == null)
             {
-                throw new SequenceParserException(Symbol, "graph", SubgraphVar.Type);
+                if(!TypesHelper.IsSameOrSubtype(SubgraphVar.Type, "graph", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "graph", SubgraphVar.Type);
+                }
             }
+            else
+            {
+                if(!TypesHelper.IsSameOrSubtype(CheckAndReturnAttributeType(env), "graph", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "graph", SubgraphVar.Type);
+                }
+            }
+        }
+
+        public string CheckAndReturnAttributeType(SequenceCheckingEnvironment env)
+        {
+            if(SubgraphVar.Type == "")
+                return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SubgraphVar.Type, env.Model);
+            if(nodeOrEdgeType == null)
+            {
+                throw new SequenceParserException(Symbol, "node or edge type", SubgraphVar.Type);
+            }
+            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            if(attributeType == null)
+            {
+                throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
+            }
+
+            return TypesHelper.AttributeTypeToXgrsType(attributeType);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3646,6 +3677,7 @@ namespace de.unika.ipd.grGen.libGr
             SequenceExecuteInSubgraph copy = (SequenceExecuteInSubgraph)MemberwiseClone();
             copy.Seq = Seq.Copy(originalToCopy, procEnv);
             copy.SubgraphVar = SubgraphVar.Copy(originalToCopy, procEnv);
+            copy.AttributeName = AttributeName;
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
@@ -3660,7 +3692,14 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            IGraph subgraph = (IGraph)SubgraphVar.Value;
+            IGraph subgraph;
+            if(AttributeName == null)
+                subgraph = (IGraph)SubgraphVar.Value;
+            else
+            {
+                IGraphElement elem = (IGraphElement)SubgraphVar.Value;
+                subgraph = (IGraph)elem.GetAttribute(AttributeName);
+            }
             procEnv.SwitchToSubgraph(subgraph);
 
             bool res = Seq.Apply(procEnv);
@@ -3671,7 +3710,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "in " + SubgraphVar.Name + "{ }" ; } }
+        public override string Symbol { get { return "in " + (AttributeName != null ? SubgraphVar.Name + AttributeName : SubgraphVar.Name) + "{ ... }" ; } }
     }
 
     public class SequenceBooleanComputation : SequenceSpecial

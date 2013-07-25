@@ -128,6 +128,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Analyzes the graph.
         /// The calculated data is used to generate good searchplans for the current graph.
+        /// To be called from the graph, not directly, to ensure the changes counter is correctly set.
         /// </summary>
         public void AnalyzeGraph(LGSPGraph graph)
         {
