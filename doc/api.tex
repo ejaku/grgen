@@ -267,24 +267,36 @@ You may have a look at \texttt{tests/ExternalAttributeEvaluation} or  \texttt{ex
 
 
 \subsection*{External Copying and Comparing}\label{sub:apiextcopycompare}
-If \texttt{copy class;} (see \ref{sub:extcopycompare}) is specified in the model file \texttt{Foo}, \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files,
-containing a partial class \texttt{AttributeTypeObjectCopierComparer} expecting that the following functions are implemented in the same partial class in \texttt{FooModelExternalFunctionsImpl.cs}.
+If \texttt{copy class;} or \texttt{== class;} or \texttt{< class;} (see \ref{sub:extcopycompare}) are specified in the model file \texttt{Foo},
+\GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files,
+containing a partial class \texttt{AttributeTypeObjectCopierComparer} expecting that the \texttt{Copy} or the \texttt{IsEqual} or the \texttt{IsLower} functions are implemented in the same partial class in \texttt{FooModelExternalFunctionsImpl.cs}.
 For every external type defined a further pair of functions with that type used in the input parameters is expected.
 
 \begin{csharplet}
-// Called during comparison of graph elements, as used from graph isomorphy comparison.
-// For attribute type object.
-// If copy class is not specified, objects are equal if they are identical (i.e. same reference/pointer).
-public static bool IsEqual(object, object);
-
 // Called when a graph element is cloned/copied.
 // For attribute type object.
-// If copy class is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.
+// If "copy class" is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.
+// All other attribute types are copied by-value (so changing one later on has no effect on the other).
 public static object Copy(object);
+
+// Called during comparison of graph elements from graph isomorphy comparison, or attribute comparison.
+// For attribute type object.
+// If "== class" is not specified, objects are equal if they are identical,
+// i.e. by-reference-equality (same pointer); all other attribute types are compared by-value.
+public static bool IsEqual(object, object);
+
+// Called during attribute comparison.
+// For attribute type object.
+// If "< class" is not specified, objects can't be compared for ordering, only for equality.
+public static bool IsLower(object, object);
 \end{csharplet}
 
-\texttt{IsEqual} is called when two graphs are compared for isomorphy and the graph elements contain attributes of object or user-defined external types; \texttt{Copy} is called when one of the copy operations offered in the rule language or the computation statements is executed on a node or edge that bears attributs of object or user defined type.
-Implementing them is \emph{your} task, in exchange you get a tight integration of your own datatypes into \GrG.
+\texttt{Copy} is called when one of the copy operations offered in the rule language or the computation statements is executed on a node or edge that bears attributs of object or user defined type.
+\texttt{IsEqual} is called when two graphs are compared for isomorphy and the graph elements contain attributes of object or user-defined external types, or if attributes of object or user defined type are compared with one of the equality operators.
+\texttt{IsLower} is called when attributes of object or user defined type are compared with one of the relational operators.
+A comparison for \texttt{u<=v} is mapped to an expression \verb#IsLower(u,v) || IsEqual(u,v)#, this is why a \verb#< class;# specification requires a preceeding \verb#== class;# specification.
+
+Implementing those functions is \emph{your} task, in exchange you get a tight integration of your own datatypes into \GrG.
 You may have a look at \texttt{tests/ExternalAttributeEvaluation} or  \texttt{examples\-api/ExternalAttributeEvaluationExample} for an example.
 
 \subsection*{Further Examples}

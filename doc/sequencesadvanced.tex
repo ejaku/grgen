@@ -201,8 +201,8 @@ in this case only immutable subgraphs are stored.
 
 \begin{rail} 
   ExtendedControl: 
-    'in' GraphVariable lbrace RewriteSequence rbrace;
-\end{rail}
+    'in' (GraphVariable | NodeOrEdge '.' Attribute) lbrace RewriteSequence rbrace;
+\end{rail}\ixkeyw{in}
 
 But they can be opened up and made modifiable by switching the location of processing with the \verb#in g { seq }# sequence.
 Inside the braces is the host graph switched to \texttt{g}, the sequence \texttt{seq} is executed in the host graph switched to, all queries and updates are carried out on the new graph; after executing the construct the old graph that was previously used is made the current host graph again.

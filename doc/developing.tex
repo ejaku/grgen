@@ -20,12 +20,12 @@ It can be built with the included \texttt{Makefile} on Linux or the \texttt{Make
 Alternatively you may add the \texttt{de} subfolder and the jars in the \texttt{jars} subfolder to your favourite IDE, but then you must take care of the ANTLR parser generation pre-build-step on your own. 
 The backend is available in the \texttt{engine-net-2} subdirectory. 
 It contains a VisualStudio 2008 solution file containing projects for the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend) and the \texttt{GrShell}.
-Before you can build the solution you must execute \texttt{./src/libGr/genparser.bat}, \texttt{./src/libGr/GRSImporter/genparser.bat} and \texttt{./src/Gr\-Shell/genparser.bat}
-to get the CSharpCC parsers for the rewrite sequences, the GRS importer and the shell generated.
+Before you can build the solution you must execute \texttt{./src/libGr/genparser.bat} and \texttt{./src/Gr\-Shell/genparser.bat}
+to get the CSharpCC parsers for the rewrite sequences and the shell generated.
 Under LINUX you may use \texttt{make\_linux.sh} to get a complete build.
 To get the API examples generated you must execute \texttt{./genlibs.bat}.
 The \texttt{doc} subdirectory contains the sources of the user manual, for building say \texttt{./build\_cygwin.sh grgen} on Windows in \texttt{cygwin-bash} or \texttt{./build grgen} on Linux in \texttt{bash}.
-The \texttt{syntaxhighlighting} subdirectory contains syntax highlighting specifications for the GrGen-files for \texttt{Notepad++} and \texttt{vim}.
+The \texttt{syntaxhighlighting} subdirectory contains syntax highlighting specifications for the GrGen-files for \texttt{Notepad++}, \texttt{vim}, and \texttt{Emacs}.
 
 You can check the result of your build with the test suite we use to check against regressions.
 It is split into syntactic tests in \texttt{frontend/test} checking that example model and rule files can get compiled by \texttt{grgen} (or not compiled, or only compiled emitting warnings) and the resulting code can get compiled by \texttt{csc}.
@@ -579,7 +579,7 @@ The libGr further offers a generic, name string and object based interface to ac
 In addition it offers the rewrite sequence parser which gets generated out of \texttt{SequenceParser.csc},
 building the rewrite sequence AST from the classes in \texttt{Sequence.cs} further utilizing \texttt{SymbolTable.cs}.
 The rewrite sequence classes contain a method \texttt{ApplyImpl(IGraph graph)} which executes them.
-Finally the libGr offers several importers and exporters in the \texttt{src/libGr/IO} and \texttt{src/libGr/GRSImporter} subfolders.
+Finally the libGr offers several importers and exporters in the \texttt{src/libGr/IO} subfolder.
 
 When GrGen rules are matched in the graph and when the graph is changed by rule rewriting then events are fired.
 They allow to to display the matches and changes to the user in the debugger,

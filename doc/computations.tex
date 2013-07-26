@@ -2,10 +2,10 @@
 \label{cha:computations}
 
 In this chapter we'll have a look at the \emph{statements} of the \emph{computations} available in the rule language.
-The \emph{computations} are the superordinate concept, they consist of side-effect free \emph{expressions}, and side-effect causing \emph{statements}.
+The \emph{computations} are the superordinate concept, they consist of side-effect free \emph{expressions} already introduced in \ref{cha:typeexpr}, and side-effect causing \emph{statements}.
 Their corresponding abstractions are the \emph{functions} free of externally visible side-effects, defining an expression drop-in replacement, and the \emph{procedures} that can only be employed from statement context, defining a statement drop-in replacement; we'll visit those abstractions at the end of this chapter.
 
-The most important task of the computations is the \emph{attribute assignment} or evaluation, assigning new values to graph element attributes.
+The most important statement is the \emph{attribute assignment}, which is used for assigning new values computed from expressions to graph element attributes.
 Besides this, further types of assignments are available, and several control flow constructs as known from imperative programming languages of the C-family.
 Furthermore, container methods may be called (more on this in the following chapter \ref{cha:container}), 
 and global graph functions may be called (more on this in the following chapter \ref{cha:graph}).
@@ -210,6 +210,8 @@ table~\ref{funcstab} lists the built-in functions of the rule language at a glan
 \texttt{definedSubgraph(set<Edge>):graph}\\
 \texttt{import(string):graph}\\
 \texttt{copy(graph):graph}\\
+\hline
+\texttt{this:graph}\\
 \hline
 \texttt{min(Number,Number):Number}\\
 \texttt{max(Number,Number):Number}\\

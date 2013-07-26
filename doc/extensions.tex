@@ -83,9 +83,9 @@ See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented
 %-----------------------------------------------------------------------------------------------
 \section{External Cloning and Comparison}\label{sub:extcopycompare}
 \begin{rail}
-  CopyCompareDeclaration: 'copy' 'class' ';';
+  CopyCompareDeclaration: ('copy' 'class' | '=''=' 'class' | '<' 'class') ';';
 \end{rail}\ixnterm{CopyCompareDeclaration}\ixkeyw{copy}\ixkeyw{class}
-Tells \GrG~that the developer wants to extend graph element copying and graph isomorphy comparison, so that they can handle external types, or the type \texttt{object}.
+Tells \GrG~that the developer wants to extend graph element copying or attribute type comparison (with equality esp. being used for graph isomorphy comparison), so that they can handle external types, or the type \texttt{object}.
 This allows for a tight integration of external types with the built-in functionality, 
 and allows to implement value semantics for objects that are normally compared by checking reference identity and cloned by copying the reference.
 See \ref{sub:apiextcopycompare} for an explanation on what needs to be implemented in this case.

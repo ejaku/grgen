@@ -581,7 +581,7 @@ The key ingredients for state space enumeration then are
 	\item The capability to create a copy of a subgraph and insert it into the host graph (see section \ref{subsub:copystructure}, esp. subsection \ref{builtingraphcopying})
 	\item The ability to compare subgraphs (see section \ref{subsub:comparestructure}).
 Implemented in an optimized way with a subgraph attribute in the anchor nodes which contains a copy of the subgraph in the host graph, ready to be compared to the current graph, in order to decide whether that one should be inserted into the state space or purged for being an isomorphic copy of an already available instance. 
-	\item Adjacency and induced functions to compute the subgraphs from the host graph following the \texttt{contains} edges from the anchor nodes (see section \ref{neighbouringelementsfunctions}, Connectedness Queries and section \ref{subgraphoperations}, Subgraph Operations)
+	\item Adjacency and induced functions to compute the subgraphs from the host graph following the \texttt{contains} edges from the anchor nodes (see section \ref{neighbouringelementsfunctions}, Connectedness Queries and section \ref{sec:subgraphop}, Subgraph Operations)
 	\item The \texttt{auto} filters from \ref{sub:extflt} finally allow to optimize performance by filtering symmetric matches stemming from automorphic patterns. This is a lot more efficient than creating states which are for sure isomorphic and filtering them later on by comparison with all the other states.
 \end{itemize}
 

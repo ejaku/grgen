@@ -33,47 +33,44 @@ Thank you for using \GrG.\\[6ex]
 
 \pagebreak
 
+%\medskip
+%\smallskip
+
 \chapter*{Foreword}
 
-Since the last version of this manual which was written for \GrG\ v1.4 a lot has happened,
-as can be seen quite easily in the fact that this manual describes \GrG\ v3.6.
-The porting of C to C\# \cite{Kro:07} allowed for a faster pace of development,
-which yielded alternatives and subpatterns allowing for structural recursion \cite{Jak:08,StructuralRecursion},
-undirected edge support plus fine grain pattern conditions \cite{SABuchwald:2008},
-a data model that is more user friendly at the API, support for visited flags,
-and an prototypical implementation of an embedding of \GrG\ as a domain specific language into C\# \cite{DAMoritz}
--- resulting in \GrG\ v2.0.
-\medskip
-
-Then Dr. Rubino Gei\ss~finished his dissertation \cite{DissRuby} and left; Prof.\ Goos retired.
+Since the preceeding foreword was written a lot has happened: Dr. Rubino Gei\ss~finished his dissertation \cite{DissRuby} and left; Prof.\ Goos retired.
 The succeeding Professor had no commitment to graph rewriting,
-so \GrG\ switched from a university project developed by students in their bachelor/masters thesis's
+so \textsc{GrGen} switched from a university project developed by students and assistants
 to an open source project (which is still hosted at the IPD, reachable from \url{www.grgen.net}).
-\medskip
 
-But development continued:
-With the introduction of generic set and map types in the model language to facilitate uses in computer linguistics
-and in the rule control language to allow for more concise rule combinations.
-With the 2+n pushdown automaton for matching patterns with structural recursion extended
-to handle pattern cardinality specifications and positive applications conditions \cite{ExpressiveConvenientFast:2010}.
-With massive API improvements, now featuring an interface of typed, named entities in addition to the old name string and object based interface.
-With the introduction of importers and exporters for GXL (the quasi standard graph exchange format in graph rewriting --- but only in theory),
-and for GRS, a much easier and less chatty format.\smallskip
+The first steps of development from version 1.4 onwards, at that time still at Karlsruhe University, were the porting of \GrG\ from C to C\# \cite{Kro:07} by Moritz Kroll, which allowed for a faster pace of development,
+and the addition of support for undirected edges and fine grain pattern conditions \cite{SABuchwald:2008} by Sebastian Buchwald.
+Many thanks to them for their work towards the milestone version 2.5 \cite{ExpressiveConvenientFast:2010} and for their continued support. 
 
-Most of these features were introduced due to feedback from users and use cases:\\
+Another first step was the addition of alternative patterns and subpatterns by me in the context of my master's thesis, allowing for structural recursion \cite{Jak:08,StructuralRecursion}. 
+While working on this thesis I fell in love with \GrG.
+It did several things in just the most elegant way possible -- but it had weak spots regarding not-statically-fixed patterns as well as programmability and extensibility.
+People in love do foolish things: after graduating I devoted much of my free time of the upcoming years to continue developing, in order to close the gaps.
+I was dragged along by the feeling that graph rewriting is an underrated \emph{programming paradigm}, just lacking a general-purpose language and a development environment advanced enough to materialize that vision. (Besides programming language design is a highly interesting activity.)
+With version 4.0 of \GrG\ this should have been accomplished.\\[2ex]
+
+%In contrast to the prototypical implementation of an embedding of \GrG\ as a domain specific language into C\# \cite{DAMoritz} that is destroyed as soon as the internals of the hosting compiler change, did I follow the path of extending and generalizing the available languages \cite{ExpressiveConvenientFast:2010}.
+
+%feedback from users and use cases:\\
 We want to thank the organizers of GraBaTs\cite{grabats}, the annual meeting of the graph rewrite tool community,
 which gave us the possibility to ruthlessly steal the best ideas of the competing tools.
 Thanks to Berthold Hoffmann, for his ``french''-courses and the ideas about how to handle program graphs.
 And thanks to several early users giving valuable feedback or even code (\emph{code is of course the best contribution you can give to an open source project}), by name:
-Tom Gelhausen and Bugra Derre (you may have a look at \url{https://svn.ipd.uni-karlsruhe.de/trac/mx/wiki/Home} for their work at the other IPD), Paul Bedaride, Normen Müller, Pieter van Gorp and Nicholas Tung.
-\\[1ex]
+Bugra Derre, Paul Bedaride, Normen Müller, Pieter van Gorp and Nicholas Tung.
+Many thanks to all the others that contributed since then.
+If \emph{you} want to contribute or if you have a question, don't hesitate to contact the \GrG-Team
+via email to \texttt{grgen} at the host given by \texttt{ipd.info.uni-karlsruhe.de}.\\[2ex]
 
-\noindent Regarding questions please contact the \GrG-Team
-via email to \texttt{grgen} at the host given by \texttt{ipd.info.uni-karlsruhe.de}.\\[1ex]
+The rule-and-pattern-based transformation of graph-based representations is a perfect fit for know\-ledge-intensive tasks, for tasks built on models utilizing multiple relations, and for linguistic applications.
+A much better fit than logic or the lambda calculus or relational algebra misused for modelling them, or the cumbersome application of traditional programming.
+Go and build a great graph rewriting based application with \GrG\ for them.\\
+(An AI that enslaves humanity should be within reach and would define a good beginning :).\\[2ex]
 
-\noindent We hope you enjoy using \GrG\ even more than we enjoyed developing it\\ {\small(it was fun but aging projects with code traces from many people are not always nice to work with ;).}
-\\[1ex]
+We wish you a pleasant graph rewriting experience.\\[2ex]
 
-Thank you for using \GrG.\\[2ex]
-
-\noindent Karlsruhe in May 2013, Edgar Jakumeit on behalf of the \GrG-Team
+\noindent Karlsruhe in July 2013, Edgar Jakumeit on behalf of the \GrG-Team
