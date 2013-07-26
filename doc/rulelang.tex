@@ -287,7 +287,7 @@ And some illegal graphlets:\\
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
   RuleSet: FileHeader ((TestDeclaration | RuleDeclaration | SubpatternDeclaration | RewriteSequenceDefinition | ComputationDefinition)+) ;
-  FileHeader: (ModelUsage)? ((RulesInclusion)*()) ((GlobalVarDecl)*());
+  FileHeader: ((ModelUsage)*()) ((RulesInclusion)*()) ((GlobalVarDecl)*());
   ModelUsage: 'using' ((ModelIdent)+',') ';';
   RulesInclusion: '\#include' Filename;
   GlobalVarDecl: '::' IdentDecl ':' NodeType ';' | '-' '::' IdentDecl ':' EdgeType '->' ';' | ('var'|'ref') '::' IdentDecl ':' VarType ';';
@@ -301,9 +301,9 @@ Furthermore, you may declare \indexed{graph global variable}s; this is a pure de
 (Use \texttt{ref} for container types and \texttt{var} for the other (non-node or edge) types.)
 
 In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations.
-There is no built-in conflict resolution mechanism for models like packages or namespaces.
+There is no built-in name conflict resolution mechanism for models like packages or namespaces.
 If necessary you must use prefixes as you might do in C.
-(We doubt that graph rewriting kernels will be combined from the work of \emph{many} programmers or used to built large application suites, so the simple model modularization available as of now should be sufficient or even a better fit for the overwhelming majority of tasks.)
+\footnote{We doubt that graph rewriting kernels will be combined from the work of \emph{many} programmers or used to built large application suites, so the simple model modularization available as of now should be sufficient or even a better fit for the overwhelming majority of tasks.}
 
 \begin{rail}
   TestDeclaration: TestModifier 'test' ActionSignature lbrace Pattern rbrace MatchFilter;

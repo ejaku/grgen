@@ -76,14 +76,16 @@ If you want to learn more about this representation or typical transformations o
 
 The key points here are that
 \begin{enumerate}
-	\item this is a mesh of objects (denoting operations)
-	\item that stand to each other in 3 relations (control flow (red), data flow (brown), and memory flow (blue)), with an \emph{explicit} representation of those as edges \footnote{the edges denote dependencies, their direction is thus reversed compared to the flow}.
+	\item this is a mesh of objects (denoting operations),
+	\item that stand to each other in 3 relations (control flow (red), data flow (brown), and memory flow (blue) \footnote{we use dependencies, i.e. the direction is reversed compared to the flow}), 
+	\item and the major part of the information is encoded in the connection structure (topology),
+	which is explicitely represented with edges.
 \end{enumerate}
 
 You find such representations in other domains than \emph{programming languages} and \emph{compilers}, too.
 \emph{Knowledge} can be \emph{represented} intuitively like this with \emph{semantic nets}, you could use \GrG\ for reasoning over them.
 \emph{Models} as understood by \emph{model driven engineering} are typically graphs, with \GrG\ you can implement a model transformation between models, or into a lower-level program representation.
-When working in \emph{computer linguistics} you may be intersted in modeling an \emph{abstract syntax graph} in \GrG;
+When working in \emph{computational linguistics} you may be intersted in modeling an \emph{abstract syntax graph} in \GrG;
 the recursive and iterated patterns that allow to process tree-like data structures declaratively render \GrG\ an excellent match for such tasks.
 But also in \emph{mechanical engineering} or \emph{architecture} where you need to describe the buildup of the modeled system from components, here you can derive and simulate \emph{blueprints}.
 If you need not only to model one system but want to derive all possible systems to choose from them according to a performance metric, you find support for this with built-in support for a backtracking search through a search space or even the enumeration of a state space with isomorphic state pruning.
@@ -380,6 +382,7 @@ In the true case (\texttt{if \{ c0.value == 1; \}}), the \node{falseEdge} to the
 
 Blocks that become unreachable (without control flow predecessors) will be deleted in a leter step.
 The example displays the effect of another helper rule, removing constants that are not used anymore.
+This is a pretty simple replacement that can be specified without much effort in a traditional programming language, too -- the more complex the patterns, the more do you gain from using \GrG.
 
 \begin{figure}[htbp]
 	\centering

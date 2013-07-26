@@ -107,12 +107,16 @@ Figure~\ref{fig:basetypes} shows the edge \indexed{type hierarchy}.
   									 | ExternalClassDeclaration
   									 | ExternalFunctionDeclaration
   									 | EmitParseDeclaration
-  									 | CopyCompareDeclaration);
+  									 | CopyCompareDeclaration
+  									 | ModelUsage);
 \end{rail}\ixnterm{GraphModel}
 The \indexed{graph model} consists of zero or multiple type declarations.
 Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumDeclaration} defines an enum type to be used as a type for a attributes of nodes or edges.
 Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
+
 The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, exluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls; the \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values, whereas the \emph{CopyCompareDeclaration} declares that the user defines copy and compare functions for external or object type values.
+
+In addition, other models may be used (esp. supplying base classes to extend); this happens in the same way as models are used from the rules, see section \ref{ruledecls} for more on this.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Enumeration Types}

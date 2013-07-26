@@ -78,7 +78,7 @@ Here we start with the most import one, applying rules.
 In section \ref{sec:simplevarhandling} we visit simple variable handling.
 In chapter \ref{cha:transaction} we have a look at advanced control \ref{sec:extctrl} and sequence computations \ref{sec:seqcomp}.
 
-\begin{rail}    
+\begin{rail}
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (RuleModifier Rule | (RandomSelection)? '[' RuleModifier Rule ']' | 'count' '[' RuleModifier Rule ']' '=''>' Variable);
   RandomSelection: dollar (percent)? ( Variable | (Variable ',' (Variable | '*')) )?;
   RuleModifier: (() | percent) (() | '?');
@@ -262,6 +262,7 @@ Table~\ref{seqbasictab} lists the basic operations of the graph rewrite sequence
 \texttt{?\emph{Rule}} & Switches \emph{Rule} to a test. \\
 \texttt{\%\emph{Rule}} & This is the multi-purpose flag when accessed from \LibGr. Also used for graph dumping and break points. \\
 \texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}.\\
+\texttt{count[\emph{a}]=>v} & Rewrite every pattern match produced by the action \emph{a}, and write the count of the matches found to the variable v.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\
 \texttt{v}	& A variable acting as a predicate.\\
