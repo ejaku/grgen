@@ -1,0 +1,58 @@
+using model_init;
+
+padd : (Node,A,Edge,E1)
+{
+	(def nn:Node) = add(Node);
+	(def na:A) = add(A);
+	(def -ee:Edge->) = add(Edge, nn, na);
+	(def -ee1:E1->) = add(E1, na, nn);
+	
+	return(nn,na,ee,ee1);
+}
+
+changeAttributes(na:A, -ee1:E1->)
+{
+	na.s = "Changed!";
+	ee1.i1 = 42;
+	na.na = na;
+	return;
+}
+
+test matchforcopy : (Node,A,Edge,E1)
+{
+	nn:Node\A;
+	na:A;
+	nn -ee:Edge\E1-> na;
+	na -ee1:E1-> nn;
+	return(nn,na,ee,ee1);
+}
+
+paddcopy : (Node,A,Edge,E1)
+{
+	def nn:Node;
+	def na:A;
+	def -ee:Edge->;
+	def -ee1:E1->;
+	exec( (nnt:Node, nat:A, eet:Edge, ee1t:E1)=matchforcopy ;> yield nn=nnt ;> yield na=nat ;> yield ee=eet ;> yield ee1=ee1t );
+
+	(def nnc:Node) = addCopy(nn);
+	(def nac:A) = addCopy(na);
+	(def -eec:Edge->) = addCopy(ee, nnc, nac);
+	(def -ee1c:E1->) = addCopy(ee1, nac, nnc);
+	
+	return(nnc,nac,eec,ee1c);
+}
+
+premedges(-ee:Edge->, -ee1:E1->)
+{
+	rem(ee);
+	rem(ee1);
+	return;
+}
+
+premnodes(nn:Node, na:A)
+{
+	rem(nn);
+	rem(na);
+	return;
+}

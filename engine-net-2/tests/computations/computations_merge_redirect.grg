@@ -1,0 +1,76 @@
+using model_init;
+
+rule init : (A,Edge,Node)
+{
+	modify {
+		n1:A -e:Edge-> n2:Node;
+		return(n1,e,n2);
+	}
+}
+
+rule rclear
+{
+	modify {
+		eval {
+			clear();
+		}
+	}
+}
+
+rule rmerge(n1:A, -e:Edge->, n2:Node)
+{	
+	modify {
+		eval { 
+			merge(n1,n2);
+		}
+	}
+}
+
+test tmerge
+{
+	n1n2:A --> n1n2;
+}
+
+rule rredirectsource(n1:A, -e:Edge->, n2:Node)
+{	
+	modify {
+		eval { 
+			redirectSource(e,n2);
+		}
+	}
+}
+
+test tredirectsource
+{
+	n1:A;
+	n2:Node --> n2;
+}
+
+rule rredirecttarget(n1:A, -e:Edge->, n2:Node)
+{	
+	modify {
+		eval { 
+			redirectTarget(e,n1);
+		}
+	}
+}
+
+test tredirecttarget
+{
+	n1:A --> n1;
+	n2:Node;
+}
+
+rule rredirctsourcetarget(n1:A, -e:Edge->, n2:Node)
+{	
+	modify {
+		eval { 
+			redirectSourceAndTarget(e,n2,n1);
+		}
+	}
+}
+
+test tredirectsourcetarget
+{
+	n1:A <-- n2:Node;
+}

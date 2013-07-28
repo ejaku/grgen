@@ -1,0 +1,27 @@
+using model_init;
+
+padd : (Node,A,Edge,E1)
+{
+	(def nn:Node) = add(Node);
+	(def na:A) = add(A);
+	(def -ee:Edge->) = add(Edge, nn, na);
+	(def -ee1:E1->) = add(E1, na, nn);
+
+	return(nn,na,ee,ee1);
+}
+
+pretypebasic(nn:Node, -ee:Edge->) : (A, E1)
+{
+	(def nnr:A) = retype(nn, A);
+	(def -eer:E1->) = retype(ee, E1);
+
+	return(nnr,eer);
+}
+
+pretype(na:A, -ee1:E1->) : (B, EE)
+{
+	(def nar:B) = retype(na, B);
+	(def -ee1r:EE->) = retype(ee1, EE);
+	
+	return(nar,ee1r);
+}

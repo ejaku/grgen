@@ -1,0 +1,76 @@
+using model_init;
+
+rule radd : (Node,A,Edge,E1)
+{
+	modify {
+		def nn:Node;
+		def na:A;
+		def -ee:Edge->;
+		def -ee1:E1->;
+	
+		eval {
+			(yield nn) = add(Node);
+			(yield na) = add(A);
+			(yield ee) = add(Edge, nn, na);
+			(yield ee1) = add(E1, na, nn);
+		}
+		
+		return(nn,na,ee,ee1);
+	}
+}
+
+rule changeAttributes(na:A, -ee1:E1->)
+{
+	modify {
+		eval {
+			na.s = "Changed!";
+			ee1.i1 = 42;
+			na.na = na;
+		}
+	}
+}
+
+rule raddcopy : (Node,A,Edge,E1)
+{
+	nn:Node\A;
+	na:A;
+	nn -ee:Edge\E1-> na;
+	na -ee1:E1-> nn;
+	
+	modify {
+		def nnc:Node;
+		def nac:A;
+		def -eec:Edge->;
+		def -ee1c:E1->;
+	
+		eval {
+			(yield nnc) = addCopy(nn);
+			(yield nac) = addCopy(na);
+			(yield eec) = addCopy(ee, nnc, nac);
+			(yield ee1c) = addCopy(ee1, nac, nnc);
+		}
+		
+		return(nnc,nac,eec,ee1c);
+	}
+}
+
+rule rremedges(-ee:Edge->, -ee1:E1->)
+{
+	modify {
+		eval { 
+			rem(ee);
+			rem(ee1);
+		}
+	}
+}
+
+rule rremnodes(nn:Node, na:A)
+{
+	modify {
+		eval { 
+			rem(nn);
+			rem(na);
+		}
+	}
+}
+
