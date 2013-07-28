@@ -813,7 +813,7 @@ public class ActionsGen extends CSharpBase {
 
 	private void genLocalContainersInitializations(StringBuffer sb, PatternGraph pattern, PatternGraph directlyNestingLHSPattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
 		for(Variable var : pattern.getVars()) {
 			if(var.initialization!=null) {
 				if(var.directlyNestingLHSGraph==directlyNestingLHSPattern) {
@@ -826,7 +826,7 @@ public class ActionsGen extends CSharpBase {
 
 	private void genLocalContainersConditions(StringBuffer sb, PatternGraph pattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
 		for(Expression expr : pattern.getConditions()) {
 			expr.collectNeededEntities(needs);
 		}
@@ -835,7 +835,7 @@ public class ActionsGen extends CSharpBase {
 
 	private void genLocalContainersEvals(StringBuffer sb, Collection<EvalStatement> evals, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
 		for(EvalStatement eval : evals) {
 			if(eval instanceof AssignmentIndexed) { // must come before Assignment
 				AssignmentIndexed assignment = (AssignmentIndexed)eval;
@@ -893,7 +893,7 @@ public class ActionsGen extends CSharpBase {
 	// type collision with the method below cause java can't distinguish List<Expression> from List<ImperativeStmt>
 	private void genLocalContainersReturns(StringBuffer sb, List<Expression> returns, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
 		for(Expression expr : returns) {
 			expr.collectNeededEntities(needs);
 		}
@@ -903,7 +903,7 @@ public class ActionsGen extends CSharpBase {
 	private void genLocalContainersImperativeStatements(StringBuffer sb, List<ImperativeStmt> istmts, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
 		for(ImperativeStmt istmt : istmts) {
 			if(istmt instanceof Emit) {
 				Emit emit = (Emit) istmt;
@@ -1498,7 +1498,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\"" + formatIdentifiable(sub) + "\", ");
 			sb.append("Pattern_"+ sub.getSubpatternAction().getIdent().toString() + ".Instance, \n");
 			sb.append("\t\t\t\tnew GRGEN_EXPR.Expression[] {\n");
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false);
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
 			for(Expression expr : sub.getSubpatternConnections()) {
 				expr.collectNeededEntities(needs);
 				sb.append("\t\t\t\t\t");
@@ -1534,7 +1534,7 @@ public class ActionsGen extends CSharpBase {
 
 		int i = 0;
 		for(Expression expr : pattern.getConditions()) {
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false);
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
 			expr.collectNeededEntities(needs);
 			sb.append("\t\t\tGRGEN_LGSP.PatternCondition " + pathPrefixForElements+"cond_"+i
 					+ " = new GRGEN_LGSP.PatternCondition(\n"
@@ -1566,7 +1566,7 @@ public class ActionsGen extends CSharpBase {
 			
 			sb.append("\t\t\t}, \n");
 
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false);
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
 			yields.collectNeededEntities(needs);
 			sb.append("\t\t\t\tnew string[] ");
 			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);

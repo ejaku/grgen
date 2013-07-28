@@ -791,12 +791,24 @@ deque_init_loop:
 			return;
 		sb.append(indentString + "// explicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
 
+		// emit all initializations in base classes of members that are used for init'ing other members,
+		// i.e. prevent optimization of using only the closest initialization
+		// TODO: generalize to all types in between type and target type
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, false, false, true);
+		for(MemberInit memberInit : type.getMemberInits()) {
+			memberInit.getExpression().collectNeededEntities(needs);
+		}
+		for(MemberInit memberInit : targetType.getMemberInits()) {
+			memberInit.getExpression().collectNeededEntities(needs);
+		}
+		
 		// init members of primitive value with explicit initialization
 		for(MemberInit memberInit : type.getMemberInits()) {
 			Entity member = memberInit.getMember();
 			if(memberInit.getMember().isConst())
 				continue;
-			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
+			if(!needs.members.contains(member) 
+					&& !generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
 				continue;
 
 			String attrName = formatIdentifiable(memberInit.getMember());

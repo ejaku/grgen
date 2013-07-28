@@ -598,7 +598,7 @@ public class PatternGraphNode extends GraphNode {
 						assert(false);
 					}
 				} else {
-					NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false);
+					NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
 					e.collectNeededEntities(needs);
 					for(Variable neededVariable : needs.variables) {
 						if(!gr.hasVar(neededVariable)) {
@@ -624,7 +624,7 @@ public class PatternGraphNode extends GraphNode {
 						assert(false);
 					}
 				} else {
-					NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false);
+					NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
 					e.collectNeededEntities(needs);
 					for(Variable neededVariable : needs.variables) {
 						if(!gr.hasVar(neededVariable)) {
@@ -684,7 +684,7 @@ public class PatternGraphNode extends GraphNode {
 
 		// add Condition elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the condition)
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
 		for(Expression cond : gr.getConditions()) {
 			cond.collectNeededEntities(needs);
 		}
@@ -692,7 +692,7 @@ public class PatternGraphNode extends GraphNode {
 
 		// add Yielded elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the yield)
-		needs = new NeededEntities(true, true, true, false, false, true, false);
+		needs = new NeededEntities(true, true, true, false, false, true, false, false);
 		for(EvalStatements yield : gr.getYields()) {
 			yield.collectNeededEntities(needs);
 		}

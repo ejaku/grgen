@@ -387,7 +387,7 @@ public class GraphNode extends BaseNode {
 							assert(false);
 						}
 					} else {
-						NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false);
+						NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
 						e.collectNeededEntities(needs);
 						for(Variable neededVariable : needs.variables) {
 							if(!gr.hasVar(neededVariable)) {
@@ -401,7 +401,7 @@ public class GraphNode extends BaseNode {
 
 		// add emithere elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the emithere)
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
 		for(OrderedReplacements ors : gr.getOrderedReplacements()) {
 			for(OrderedReplacement orderedRepl : ors.orderedReplacements) {
 				if(orderedRepl instanceof Emit) {

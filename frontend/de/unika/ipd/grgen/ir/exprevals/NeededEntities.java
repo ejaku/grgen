@@ -33,10 +33,12 @@ public class NeededEntities {
 	 *      in the attrNodes and attrEdges sets.
 	 * @param collectContainerExprs Specifies, whether map, set, array, deque expressions shall be collected.
 	 * @param collectComputationContext Specifies, whether entities declared in computation context shall be collected.
+	 * @param collectMembers Specifies, whether entities referenced in member expressions 
+	 *      of member initializations in the model shall be collected.
 	 */
 	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars,
 			boolean collectAllEntities, boolean collectAllAttributes, boolean collectContainerExprs,
-			boolean collectComputationContext) {
+			boolean collectComputationContext, boolean collectMembers) {
 		if(collectNodes)       nodes     = new LinkedHashSet<Node>();
 		if(collectEdges)       edges     = new LinkedHashSet<Edge>();
 		if(collectVars)        variables = new LinkedHashSet<Variable>();
@@ -49,6 +51,9 @@ public class NeededEntities {
 		if(collectContainerExprs) {
 			this.collectContainerExprs = true;
 			containerExprs = new LinkedHashSet<Expression>();
+		}
+		if(collectMembers) {
+			members = new LinkedHashSet<Entity>();
 		}
 		this.collectComputationContext = collectComputationContext;
 	}
@@ -79,6 +84,11 @@ public class NeededEntities {
 	public HashSet<Entity> entities;
 
 	/**
+	 * The members needed (from member expressions for member initialization).
+	 */
+	public HashSet<Entity> members;
+
+	/**
 	 * The graph entities needed for attributes mapped to the according attributes.
 	 */
 	public HashMap<GraphEntity, HashSet<Entity>> attrEntityMap;
@@ -94,12 +104,13 @@ public class NeededEntities {
 	public HashSet<Edge> attrEdges;
 
 	/**
-	 * Specifies whether map and set expressions should be collected.
+	 * Specifies whether container expressions should be collected.
+	 * Needs to temporarily set to false, that's why nulling containerExprs is not sufficient.
 	 */
 	public boolean collectContainerExprs;
 
 	/**
-	 * The map and set expressions.
+	 * The container expressions.
 	 */
 	public HashSet<Expression> containerExprs;
 
@@ -201,6 +212,15 @@ public class NeededEntities {
 	public void add(Expression expr) {
 		if(collectContainerExprs)
 			containerExprs.add(expr);
+	}
+
+	/**
+	 * Adds a member expression.
+	 * @param expr The member expressions.
+	 */
+	public void add(MemberExpression expr) {
+		if(members != null)
+			members.add(expr.getMember());
 	}
 
 	public void needsGraph() {
