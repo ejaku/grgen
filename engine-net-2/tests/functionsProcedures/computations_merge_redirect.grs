@@ -1,0 +1,63 @@
+new graph "functionsProcedures/computations_merge_redirect"
+
+exec {pclear()}
+exec {(::n1,::e,::n2)=pinit()}
+show num nodes
+show num nodes A
+show num edges
+
+exec {pmerge(::n1, ::e, ::n2)}
+exec tmerge
+show num nodes
+show num nodes A
+show num edges
+
+exec {pclear()}
+show num nodes
+show num nodes A
+show num edges
+
+exec {(::n1,::e,::n2)=pinit()}
+show num nodes
+show num nodes A
+show num edges
+
+exec {predirectsource(::n1, ::e, ::n2)}
+exec tredirectsource
+show num nodes
+show num nodes A
+show num edges
+
+exec {pclear()}
+show num nodes
+show num nodes A
+show num edges
+
+exec {(::n1,::e,::n2)=pinit()}
+show num nodes
+show num nodes A
+show num edges
+
+exec {predirecttarget(::n1, ::e, ::n2)}
+exec tredirecttarget
+show num nodes
+show num nodes A
+show num edges
+
+exec {pclear()}
+show num nodes
+show num nodes A
+show num edges
+
+exec {(::n1,::e,::n2)=pinit()}
+show num nodes
+show num nodes A
+show num edges
+
+exec {predirctsourcetarget(::n1, ::e, ::n2)}
+exec tredirectsourcetarget
+show num nodes
+show num nodes A
+show num edges
+
+quit

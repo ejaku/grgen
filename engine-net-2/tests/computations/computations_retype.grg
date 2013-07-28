@@ -1,0 +1,50 @@
+using model_init;
+
+rule radd : (Node,A,Edge,E1)
+{
+	modify {
+		def nn:Node;
+		def na:A;
+		def -ee:Edge->;
+		def -ee1:E1->;
+	
+		eval {
+			(yield nn) = add(Node);
+			(yield na) = add(A);
+			(yield ee) = add(Edge, nn, na);
+			(yield ee1) = add(E1, na, nn);
+		}
+		
+		return(nn,na,ee,ee1);
+	}
+}
+
+rule rretypebasic(nn:Node, -ee:Edge->) : (A, E1)
+{
+	modify {		
+		def nnr:A;
+		def -eer:E1->;
+
+		eval { 
+			(yield nnr) = retype(nn, A);
+			(yield eer) = retype(ee, E1);
+		}
+		
+		return(nnr,eer);
+	}
+}
+
+rule rretype(na:A, -ee1:E1->) : (B, EE)
+{
+	modify {		
+		def nar:B;
+		def -ee1r:EE->;
+
+		eval { 
+			(yield nar) = retype(na, B);
+			(yield ee1r) = retype(ee1, EE);
+		}
+		
+		return(nar,ee1r);
+	}
+}

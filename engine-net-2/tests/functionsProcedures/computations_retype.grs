@@ -1,0 +1,30 @@
+new graph "functionsProcedures/computations_retype"
+
+exec {(::nn,::na,::ee,::ee1)=padd()}
+
+show num nodes
+show num nodes A
+show num nodes B
+show num edges
+show num edges E1
+show num edges EE
+
+exec {pretypebasic(::nn, ::ee)}
+
+show num nodes
+show num nodes A
+show num nodes B
+show num edges
+show num edges E1
+show num edges EE
+
+exec {pretype(::na, ::ee1)}
+
+show num nodes
+show num nodes A
+show num nodes B
+show num edges
+show num edges E1
+show num edges EE
+
+quit

@@ -1,0 +1,56 @@
+new graph "computations/computations_addrem"
+
+exec (::nn,::na,::ee,::ee1)=radd()
+
+show num nodes
+show num nodes A
+show num edges
+show num edges E1
+
+show node na
+show edge ee1
+
+exec changeAttributes(::na, ::ee1)
+
+show node na
+show edge ee1
+
+exec (::nnc,::nac,::eec,::ee1c)=raddcopy()
+
+show node nac
+show edge ee1c
+
+show num nodes
+show num nodes A
+show num edges
+show num edges E1
+
+exec rremedges(::ee, ::ee1)
+
+show num nodes
+show num nodes A
+show num edges
+show num edges E1
+
+exec rremnodes(::nn, ::na)
+
+show num nodes
+show num nodes A
+show num edges
+show num edges E1
+
+exec rremedges(::eec, ::ee1c)
+
+show num nodes
+show num nodes A
+show num edges
+show num edges E1
+
+exec rremnodes(::nnc, ::nac)
+
+show num nodes
+show num nodes A
+show num edges
+show num edges E1
+
+exit
