@@ -296,7 +296,9 @@ public class ActionsGen extends CSharpBase {
 			genLocalContainersEvals(sb, function.getComputationStatements(), staticInitializers,
 					pathPrefixForElements, alreadyDefinedEntityToName);
 		}
-		
+
+		genStaticConstructor(sb, "Functions", staticInitializers);
+
 		sb.append("\t}\n");
 		sb.append("\n");
 		
@@ -399,7 +401,9 @@ public class ActionsGen extends CSharpBase {
 			genLocalContainersEvals(sb, procedure.getComputationStatements(), staticInitializers,
 					pathPrefixForElements, alreadyDefinedEntityToName);
 		}
-		
+
+		genStaticConstructor(sb, "Procedures", staticInitializers);
+
 		sb.append("#if INITIAL_WARMUP\t\t// GrGen procedure exec section:\n");
 		for(Procedure procedure : be.unit.getProcedures()) {
 			genImperativeStatements(sb, procedure);
@@ -434,6 +438,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append(")\n");
 		sb.append("\t\t{\n");
 		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
+		mgFuncComp.initEvalGen();
 		for(EvalStatement evalStmt : procedure.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = procedure.getIdent().toString();
 			mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
