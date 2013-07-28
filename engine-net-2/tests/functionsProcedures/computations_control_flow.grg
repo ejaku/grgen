@@ -1,0 +1,148 @@
+ref ::a:array<int>;
+var ::restg:int;
+var ::resrg:int;
+
+tifelse(var x:int) : string
+{
+	def var res:string;
+		
+	if(x==1) {
+		res = "a";
+	} else if(x==2) {
+		res = "ab";
+	} else {
+		res = "abc";
+	}
+		
+	return (res);
+}
+
+rifelse(var x:int) : (string)
+{
+	def var res:string;
+	
+	if(x==1) {
+		res = "a";
+	} else if(x==2) {
+		res = "ab";
+	} else {
+		res = "abc";
+	}
+	
+	return (res);
+}
+
+sequence sifelse(x:int)
+{
+	{ ::rest = tifelse(x); (::resr) = rifelse(x) } 
+}
+
+twhile : int
+{
+	def var res:int = 0;
+	
+	while(res < 42) {
+		res = res + 1;
+	}
+	
+	return (res);
+}
+
+rwhile : (int)
+{	
+	def var res:int = 0;
+	
+	while(res < 42) {
+		res = res + 1;
+	}
+	
+	return (res);
+}
+
+sequence swhile
+{
+	{ ::rest = twhile(); (::resr) = rwhile() } 
+}
+
+tdowhile : int
+{
+	do {
+		::restg = ::restg + 1;
+	} while(::restg < 42)
+	
+	return (::restg);
+}
+
+rdowhile
+{	
+	do {
+		::resrg = ::resrg + 1;
+	} while(::resrg < 42)	
+	return;
+}
+
+sequence sdowhile
+{
+	{ dummy:int = tdowhile(); rdowhile() } 
+}
+
+tbreakcontinue(var initval:int, var initval2:int) : int
+{
+	def var res:int = 0;
+	
+	def ref d:deque<int> = deque<int>] 0,1,2,3,4,5,6,7,8,9,10,11 [;
+	def ref d2:deque<int> = deque<int>] 12,13,initval,initval2 [;
+	for(i:int in d) {
+		if(i % 2 == 0) {
+			continue;
+		}
+		::a.add(i);
+	}
+	for(i:int in d2) {
+		if(i % 2 == 0) {
+			continue;
+		}
+		::a.add(i);
+	}
+	while(true) {
+		res = res + 1; 
+		if(res==42) {
+			break;
+		}
+	}
+	
+	return (res);
+}
+
+rbreakcontinue(var initval:int, var initval2:int) : (int)
+{	
+	def var res:int = 0;
+	
+	def ref d:deque<int> = deque<int>] 0,1,2,3,4,5,6,7,8,9,10,11 [;
+	def ref d2:deque<int> = deque<int>] 12,13,initval,initval2 [;
+	for(i:int in d) {
+		if(i % 2 == 1) {
+			continue;
+		}
+		::a.add(i);
+	}
+	for(i:int in d2) {
+		if(i % 2 == 1) {
+			continue;
+		}
+		::a.add(i);
+	}
+	while(true) {
+		res = res + 1; 
+		if(res==42) {
+			break;
+		}
+	}
+	
+	return (res);
+}
+
+sequence sbreakcontinue
+{
+	{ ::rest = tbreakcontinue(14,15); (::resr) = rbreakcontinue(14,15); } 
+}

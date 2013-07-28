@@ -1,0 +1,11 @@
+new graph "computations/computations_break_continue"
+
+exec ::arr = array<int>[] ;> (::res)=t(::arr)
+show var arr
+show var res
+
+exec ::arr = array<int>[] ;> (::res)=r(::arr)
+show var arr
+show var res
+
+quit

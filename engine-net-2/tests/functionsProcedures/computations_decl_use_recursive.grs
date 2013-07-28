@@ -1,0 +1,11 @@
+new graph "functionsProcedures/computations_decl_use_recursive"
+
+exec (::res)=t
+show var res
+exec (::res)=tyield 
+show var res
+exec (::res)=r
+show var res
+exec (::res)=s
+show var res
+exit

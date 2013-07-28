@@ -1,0 +1,17 @@
+new graph "computations/computations_if_else"
+
+exec (::res)=t(1)
+show var res
+exec (::res)=t(2)
+show var res
+exec (::res)=t(3)
+show var res
+
+exec (::res)=r(1)
+show var res
+exec (::res)=r(2)
+show var res
+exec (::res)=r(3)
+show var res
+
+quit
