@@ -1,0 +1,34 @@
+test t : (int)
+{
+	return(number(3));
+}
+
+test tyield : (int)
+{
+	def var num:int;
+	yield {
+		yield num = number(3);
+	}
+	return(num);
+}
+
+rule r : (int)
+{
+	modify {
+		return(number(3));
+	}
+}
+
+sequence s : (res:int)
+{
+	{ res = number(3) }
+}
+
+number(var x:int) : int
+{
+	if(x<=1) {
+		return(1);
+	} else {
+		return(1 + number(x - 1));
+	}
+}

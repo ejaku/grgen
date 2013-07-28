@@ -1,0 +1,7 @@
+new graph "functionsProcedures/computations_decl_use_recursive_procedure"
+
+exec (::res)=r
+show var res
+exec (::res)=s
+show var res
+exit

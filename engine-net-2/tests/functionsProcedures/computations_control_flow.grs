@@ -1,0 +1,28 @@
+new graph "functionsProcedures/computations_control_flow"
+
+exec sifelse(1)
+show var rest
+show var resr
+
+exec sifelse(2)
+show var rest
+show var resr
+
+exec sifelse(3)
+show var rest
+show var resr
+
+exec swhile
+show var rest
+show var resr
+
+exec ::restg = 0 ;> ::resrg = 0 ;> sdowhile
+show var restg
+show var resrg
+
+exec ::a=array<int>[] ;> sbreakcontinue
+show var a
+show var rest
+show var resr
+
+exit

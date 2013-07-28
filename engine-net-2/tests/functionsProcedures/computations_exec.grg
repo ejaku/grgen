@@ -1,0 +1,82 @@
+rule r : (int)
+{
+	modify {
+		def var res:int;
+		eval {
+			(yield res) = number(3);
+		}
+		return(res);
+	}
+}
+
+sequence s : (res:int)
+{
+	{ (res)=number(3) }
+}
+ 
+number(var x:int) : (int)
+{
+	if(x<=1) {
+	    def var res:int;
+		exec( (tmp:int)=foo ;> yield res=tmp );
+		return(res);
+	} else {
+	    def var res:int;
+		(res) = number(x - 1);
+		return(1 + res);
+	}
+}
+
+rule foo : (int)
+{
+	start:Node --> . --> . --> start;
+	modify {
+		def var res:int;
+		start --> .;
+		exec( (tmp:int) = bar ;> yield res = tmp );
+		return(4*res);
+	}
+}
+
+rule bar : (int)
+{
+	.;
+	
+	modify {
+		def var res:int;
+		exec( { (tmp:int) = baz(); yield res = tmp; } );
+		return (res);
+	}
+}
+
+baz : (int)
+{
+	def var res:int;
+	exec( (tmp:int) = qux ;> yield res = tmp );
+	def var res2:int;
+	exec( (tmp:int) = qux ;> yield res2 = tmp );
+	def var ressum:int = res + res2;
+	return(ressum);
+}
+
+test qux : (int)
+{
+	return( two() + three() );
+}
+
+two : int
+{
+	return(2);
+}
+
+three : int
+{
+	return(3);
+}
+
+rule init
+{
+	modify {
+		start:Node --> . --> . --> start;
+	}
+}

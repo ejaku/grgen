@@ -1,0 +1,47 @@
+test t(ref a:array<int>) : (int)
+{
+	def var res:int = 0;
+	
+	yield {
+		def ref d:deque<int> = deque<int>] 0,1,2,3,4,5,6,7,8,9,10,11 [;
+		for(i:int in d) {
+			if(i % 2 == 0) {
+				continue;
+			}
+			a.add(i);
+		}
+		while(true) {
+			yield res = res + 1; 
+			if(res==42) {
+				break;
+			}
+		}
+	}
+	
+	return (res);
+}
+
+rule r(ref a:array<int>) : (int)
+{	
+	modify {
+		def var res:int = 0;
+		
+		eval { 
+			def ref d:deque<int> = deque<int>] 0,1,2,3,4,5,6,7,8,9,10,11 [;
+			for(i:int in d) {
+				if(i % 2 == 0) {
+					continue;
+				}
+				a.add(i);
+			}
+			while(true) {
+				yield res = res + 1; 
+				if(res==42) {
+					break;
+				}
+			}
+		}
+		
+		return (res);
+	}
+}

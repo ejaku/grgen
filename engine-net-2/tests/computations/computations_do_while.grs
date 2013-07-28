@@ -1,0 +1,9 @@
+new graph "computations/computations_do_while"
+
+exec (::res)=t
+show var res
+
+exec (::res)=r
+show var res
+
+quit

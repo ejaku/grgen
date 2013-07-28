@@ -1,0 +1,28 @@
+new graph "functionsProcedures/computations_exec"
+
+show num nodes
+show num edges
+
+exec (::res)=r
+show var res
+exec (::res)=s
+show var res
+
+exec init
+
+show num nodes
+show num edges
+
+exec (::res)=r
+show var res
+
+show num nodes
+show num edges
+
+exec (::res)=s
+show var res
+
+show num nodes
+show num edges
+
+exit

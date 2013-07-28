@@ -1,0 +1,35 @@
+test t(var x:int) : (string)
+{
+	def var res:string;
+		
+	yield {
+		if(x==1) {
+			yield res = "a";
+		} else if(x==2) {
+			yield res = "ab";
+		} else {
+			yield res = "abc";
+		}
+	}
+		
+	return (res);
+}
+
+rule r(var x:int) : (string)
+{
+	modify {
+		def var res:string;
+		
+		eval { 
+			if(x==1) {
+				yield res = "a";
+			} else if(x==2) {
+				yield res = "ab";
+			} else {
+				yield res = "abc";
+			}
+		}
+		
+		return (res);
+	}
+}
