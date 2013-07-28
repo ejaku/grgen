@@ -1815,7 +1815,7 @@ public class ModifyGen extends CSharpBase {
 	// Eval part generation //
 	//////////////////////////
 
-	private void initEvalGen() {
+	public void initEvalGen() {
 		// init eval statement generation state
 		tmpVarID = 0;
 		embeddedComputationXgrsID = 0;
@@ -2708,7 +2708,7 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sbtmp, mvri.getKeyExpr(), state);
 		String keyExprStr = sbtmp.toString();
 
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		sb.append(".Remove(");
 		if(mvri.getKeyExpr() instanceof GraphEntityExpression)
 			sb.append("(" + formatElementInterfaceRef(mvri.getKeyExpr().getType()) + ")(" + keyExprStr + ")");
@@ -2722,7 +2722,7 @@ public class ModifyGen extends CSharpBase {
 	private void genMapVarClear(StringBuffer sb, ModifyGenerationStateConst state, MapVarClear mvc) {
 		Variable target = mvc.getTarget();
 
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		sb.append(".Clear();\n");
 		
 		assert mvc.getNext()==null;
@@ -2738,7 +2738,7 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sbtmp, mvai.getKeyExpr(), state);
 		String keyExprStr = sbtmp.toString();
 
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		sb.append("[");
 		if(mvai.getKeyExpr() instanceof GraphEntityExpression)
 			sb.append("(" + formatElementInterfaceRef(mvai.getKeyExpr().getType()) + ")(" + keyExprStr + ")");
@@ -2761,7 +2761,7 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sbtmp, svri.getValueExpr(), state);
 		String valueExprStr = sbtmp.toString();
 
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		sb.append(".Remove(");
 		if(svri.getValueExpr() instanceof GraphEntityExpression)
 			sb.append("(" + formatElementInterfaceRef(svri.getValueExpr().getType()) + ")(" + valueExprStr + ")");
@@ -2775,7 +2775,7 @@ public class ModifyGen extends CSharpBase {
 	private void genSetVarClear(StringBuffer sb, ModifyGenerationStateConst state, SetVarClear svc) {
 		Variable target = svc.getTarget();
 
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		sb.append(".Clear();\n");
 		
 		assert svc.getNext()==null;
@@ -2788,7 +2788,7 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sbtmp, svai.getValueExpr(), state);
 		String valueExprStr = sbtmp.toString();
 
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		sb.append("[");
 		if(svai.getValueExpr() instanceof GraphEntityExpression)
 			sb.append("(" + formatElementInterfaceRef(svai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
@@ -2809,7 +2809,7 @@ public class ModifyGen extends CSharpBase {
 			indexStr = sbtmp.toString();
 		}
 
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		sb.append(".RemoveAt(");
 
 		if(avri.getIndexExpr()!=null) {
@@ -2827,7 +2827,7 @@ public class ModifyGen extends CSharpBase {
 	private void genArrayVarClear(StringBuffer sb, ModifyGenerationStateConst state, ArrayVarClear avc) {
 		Variable target = avc.getTarget();
 
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		sb.append(".Clear();\n");
 		
 		assert avc.getNext()==null;
@@ -2847,8 +2847,7 @@ public class ModifyGen extends CSharpBase {
 			indexExprStr = sbtmp.toString();
 		}
 
-		sb.append("\t\t\t");
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		if(avai.getIndexExpr()==null) {
 			sb.append(".Add(");
 		} else {
@@ -2875,8 +2874,7 @@ public class ModifyGen extends CSharpBase {
 			indexStr = sbtmp.toString();
 		}
 
-		sb.append("\t\t\tvar_" + target.getIdent());
-
+		genVar(sb, target, state);
 		if(dvri.getIndexExpr()!=null) {
 			sb.append(".DequeueAt(" + indexStr + ");\n");
 		} else {
@@ -2889,7 +2887,7 @@ public class ModifyGen extends CSharpBase {
 	private void genDequeVarClear(StringBuffer sb, ModifyGenerationStateConst state, DequeVarClear dvc) {
 		Variable target = dvc.getTarget();
 
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		sb.append(".Clear();\n");
 		
 		assert dvc.getNext()==null;
@@ -2909,8 +2907,7 @@ public class ModifyGen extends CSharpBase {
 			indexExprStr = sbtmp.toString();
 		}
 
-		sb.append("\t\t\t");
-		sb.append("\t\t\tvar_" + target.getIdent());
+		genVar(sb, target, state);
 		if(dvai.getIndexExpr()==null) {
 			sb.append(".Enqueue(");
 		} else {
@@ -2925,6 +2922,14 @@ public class ModifyGen extends CSharpBase {
 		sb.append(");\n");
 
 		assert dvai.getNext()==null;
+	}
+
+	private void genVar(StringBuffer sb, Variable var, ModifyGenerationStateConst state) {
+		if(!Expression.isGlobalVariable(var)) {
+			sb.append("\t\t\tvar_" + var.getIdent());
+		} else {
+			sb.append(formatGlobalVariableRead(var));
+		}
 	}
 
 	private void genReturnStatement(StringBuffer sb, ModifyGenerationStateConst state, ReturnStatement rs) {
@@ -2984,6 +2989,8 @@ public class ModifyGen extends CSharpBase {
 			sb.append("(" + formatType(var.getType()) + ")(");
 			genExpression(sb, var.initialization, state);		
 			sb.append(")");
+		} else {
+			sb.append(" = " + getInitializationValue(var.getType()));
 		}
 		sb.append(";\n");
 	}
