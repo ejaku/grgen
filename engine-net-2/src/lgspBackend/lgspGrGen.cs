@@ -1294,6 +1294,16 @@ namespace de.unika.ipd.grGen.lgsp
                 endSource.AppendFrontFormat("@{0} = Sequence_{0}.Instance;\n", sequence.Name);
             }
 
+            foreach(FunctionInfo function in ruleAndMatchingPatterns.Functions)
+            {
+                endSource.AppendFrontFormat("namesToFunctionDefinitions.Add(\"{0}\", FunctionInfo_{0}.Instance);\n", function.name);
+            }
+
+            foreach(ProcedureInfo procedure in ruleAndMatchingPatterns.Procedures)
+            {
+                endSource.AppendFrontFormat("namesToProcedureDefinitions.Add(\"{0}\", ProcedureInfo_{0}.Instance);\n", procedure.name);
+            }
+
             endSource.Unindent();
             endSource.AppendFront("}\n");
             endSource.AppendFront("\n");

@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using de.unika.ipd.grGen.libGr.sequenceParser;
 
 namespace de.unika.ipd.grGen.libGr
@@ -132,7 +133,7 @@ namespace de.unika.ipd.grGen.libGr
 
         #region Functions handling
 
-        private Dictionary<String, FunctionInfo> namesToFunctionDefinitions = new Dictionary<string, FunctionInfo>();
+        protected Dictionary<String, FunctionInfo> namesToFunctionDefinitions = new Dictionary<string, FunctionInfo>();
 
         /// <summary>
         /// Retrieve a function definition.
@@ -158,11 +159,29 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public string FunctionNames
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                bool first = true;
+                foreach(string name in namesToFunctionDefinitions.Keys)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(name);
+                }
+                return sb.ToString();
+            }
+        }
+
         #endregion Functions handling
 
         #region Procedure handling
 
-        private Dictionary<String, ProcedureInfo> namesToProcedureDefinitions = new Dictionary<string, ProcedureInfo>();
+        protected Dictionary<String, ProcedureInfo> namesToProcedureDefinitions = new Dictionary<string, ProcedureInfo>();
 
         /// <summary>
         /// Retrieve a procedure definition.
@@ -185,6 +204,24 @@ namespace de.unika.ipd.grGen.libGr
             {
                 foreach(ProcedureInfo procedureDef in namesToProcedureDefinitions.Values)
                     yield return procedureDef;
+            }
+        }
+
+        public string ProcedureNames
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                bool first = true;
+                foreach(string name in namesToProcedureDefinitions.Keys)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(name);
+                }
+                return sb.ToString();
             }
         }
 

@@ -31,5 +31,6 @@ public class MemberExpression extends Expression {
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
 	}
 }

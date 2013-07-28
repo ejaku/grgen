@@ -7,6 +7,7 @@ PARSER_BEGIN(SequenceParser)
 	namespace de.unika.ipd.grGen.libGr.sequenceParser;
 	using System;
 	using System.IO;
+	using System.Text;
 	using System.Collections;
 	using System.Collections.Generic;
 	using de.unika.ipd.grGen.libGr;
@@ -1501,7 +1502,7 @@ SequenceComputation ProcedureCall():
 			if(IsProcedureName(procedure)) {
 				return new SequenceComputationProcedureCall(CreateProcedureInvocationParameterBindings(procedure, argExprs, returnVars));
 			} else {
-				throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|export|add|rem|clear|retype|insertInduced|insertDefined)");
+				throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|export|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + GetProcedureNames() + ")");
 			}
 		}
     }
@@ -1630,7 +1631,7 @@ SequenceExpression FunctionCall():
 				if(function=="valloc" || function=="add" || function=="retype" || function=="insertInduced" || function=="insertDefined") {
 					throw new ParseException("\"" + function + "\" is a procedure, call with (var)=" + function + "();");
 				} else {
-					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|inducedSubgraph|definedSubgraph|source|target|random|canonize) or one of the functions defined in the .grg");
+					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|source|target|opposite|nameof|import|copy|random|canonize or one of the functions defined in the .grg:" + GetFunctionNames() + ")");
 				}
 			}
 		}
@@ -1925,6 +1926,26 @@ bool IsFunctionName(String functionName)
 }
 
 CSHARPCODE
+string GetFunctionNames()
+{
+	if(actions != null) {
+		return actions.FunctionNames;
+	} else {
+		StringBuilder sb = new StringBuilder();
+		bool first = true;
+		foreach(String funcName in functionNames)
+		{
+			if(first)
+				first = false;
+			else
+				sb.Append(",");
+			sb.Append(funcName);
+		}
+		return sb.ToString();
+	}
+}
+
+CSHARPCODE
 bool IsProcedureName(String procedureName)
 {
 	if(actions != null) {
@@ -1934,6 +1955,26 @@ bool IsProcedureName(String procedureName)
 			if(procName == procedureName)
 				return true;
 		return false;
+	}
+}
+
+CSHARPCODE
+string GetProcedureNames()
+{
+	if(actions != null) {
+		return actions.ProcedureNames;
+	} else {
+		StringBuilder sb = new StringBuilder();
+		bool first = true;
+		foreach(String procName in procedureNames)
+		{
+			if(first)
+				first = false;
+			else
+				sb.Append(",");
+			sb.Append(procName);
+		}
+		return sb.ToString();
 	}
 }
 

@@ -113,7 +113,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 							res = false;
 						}
 					} else {
-						if(last!=null)
+						if(last!=null && last.getCoords().hasLocation())
 							last.reportError("function must end with a return statement");
 						else
 							root.reportError("function must end with a return statement");
@@ -129,7 +129,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 							res = false;
 						}
 					} else {
-						if(last!=null)
+						if(last!=null && last.getCoords().hasLocation())
 							last.reportError("procedure must end with a return statement");
 						else
 							root.reportError("procedure must end with a return statement");

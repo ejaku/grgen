@@ -599,7 +599,7 @@ public class ModifyGen extends CSharpBase {
 
 		collectElementsAccessedByInterface(task, state.accessViaInterface);
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false);
 		collectElementsAndAttributesNeededByImperativeStatements(task, needs);
 		collectElementsAndAttributesNeededByReturns(task, needs);
 		collectElementsNeededBySubpatternCreation(task, needs);
@@ -1179,10 +1179,12 @@ public class ModifyGen extends CSharpBase {
 					for(Entity neededEntity : exec.getNeededEntities(false)) {
 						if(neededEntity.isDefToBeYieldedTo()) {
 							sb.append("\t\t\t" + formatEntity(neededEntity) + " = ");
-							if(neededEntity instanceof Node) {
-								sb.append("(GRGEN_LGSP.LGSPNode)");
-							} else if(neededEntity instanceof Edge) {
-								sb.append("(GRGEN_LGSP.LGSPEdge)");
+							if((neededEntity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION) {
+								if(neededEntity instanceof Node) {
+									sb.append("(GRGEN_LGSP.LGSPNode)");
+								} else if(neededEntity instanceof Edge) {
+									sb.append("(GRGEN_LGSP.LGSPEdge)");
+								}
 							}
 							sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID + ";\n");
 						}
@@ -1505,7 +1507,7 @@ public class ModifyGen extends CSharpBase {
 					sb.append("\t\t\tPattern_" + formatIdentifiable(subRule)
 							+ ".Instance." + formatIdentifiable(subRule) +
 							"_Modify(actionEnv, subpattern_" + subName);
-					NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false);
+					NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false);
 					List<Entity> replParameters = subRule.getRight().getReplParameters();
 					for(int i=0; i<subRep.getReplConnections().size(); ++i) {
 						Expression expr = subRep.getReplConnections().get(i);
@@ -2196,6 +2198,12 @@ public class ModifyGen extends CSharpBase {
 		if(!Expression.isGlobalVariable(target)) {
 			sb.append(formatEntity(target));
 			sb.append(" = ");
+			if((target.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION) {
+				if(target instanceof Node)
+					sb.append("(GRGEN_LGSP.LGSPNode)");
+				else
+					sb.append("(GRGEN_LGSP.LGSPEdge)");
+			}
 			genExpression(sb, expr, state);
 			sb.append(";\n");
 		} else {
@@ -3003,6 +3011,8 @@ public class ModifyGen extends CSharpBase {
 			sb.append("(" + formatType(graphEntity.getType()) + ")(");
 			genExpression(sb, graphEntity.initialization, state);		
 			sb.append(")");
+		} else {
+			sb.append(" = " + getInitializationValue(graphEntity.getType()));
 		}
 		sb.append(";\n");
 	}
@@ -3405,10 +3415,12 @@ public class ModifyGen extends CSharpBase {
 		for(Entity neededEntity : exec.getNeededEntities(true)) {
 			if(neededEntity.isDefToBeYieldedTo()) {
 				sb.append("\t\t\t" + formatEntity(neededEntity) + " = ");
-				if(neededEntity instanceof Node) {
-					sb.append("(GRGEN_LGSP.LGSPNode)");
-				} else if(neededEntity instanceof Edge) {
-					sb.append("(GRGEN_LGSP.LGSPEdge)");
+				if((neededEntity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION) {
+					if(neededEntity instanceof Node) {
+						sb.append("(GRGEN_LGSP.LGSPNode)");
+					} else if(neededEntity instanceof Edge) {
+						sb.append("(GRGEN_LGSP.LGSPEdge)");
+					}
 				}
 				sb.append("tmp_" + formatEntity(neededEntity) + "_" + embeddedComputationXgrsID + ";\n");
 			}
@@ -3709,17 +3721,19 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genGraphAddCopyNodeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphAddCopyNodeProc gacnp) {
+		sb.append("(" + formatType(gacnp.getOldNodeExpr().getType()) + ")");
 		sb.append("GRGEN_LIBGR.GraphHelper.AddCopyOfNode(");
 		genExpression(sb, gacnp.getOldNodeExpr(), state);
 		sb.append(", graph)");
 	}
 
 	private void genGraphAddCopyEdgeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphAddCopyEdgeProc gacep) {
+		sb.append("(" + formatType(gacep.getOldEdgeExpr().getType()) + ")");
 		sb.append("GRGEN_LIBGR.GraphHelper.AddCopyOfEdge(");
 		genExpression(sb, gacep.getOldEdgeExpr(), state);
-		sb.append(", (INode)");
+		sb.append(", (GRGEN_LIBGR.INode)");
 		genExpression(sb, gacep.getSourceNodeExpr(), state);
-		sb.append(", (INode)");
+		sb.append(", (GRGEN_LIBGR.INode)");
 		genExpression(sb, gacep.getTargetNodeExpr(), state);
 		sb.append(", graph)");
 	}

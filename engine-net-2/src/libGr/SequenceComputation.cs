@@ -2065,6 +2065,11 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             ProcedureInfo procedureDef = ParamBindings.ProcedureDef;
+            for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
+            {
+                if(ParamBindings.ArgumentExpressions[i] != null)
+                    ParamBindings.Arguments[i] = ParamBindings.ArgumentExpressions[i].Evaluate(procEnv);
+            }
             object[] resultVars = procedureDef.Apply(procEnv, procEnv.Graph, ParamBindings);
             if(ParamBindings.ReturnVars.Length>0)
             {
