@@ -6,9 +6,9 @@ def stateStepIsoCheckInsertInduced(gr:Graph, level:int) { false }
 def stateStepIsoCheckInsertInduced(gr:Graph, level:int) {\
 	if{{level < ::stopLevel};\
 		sub:graph ;> ngr:Graph ;> adj:set<Node>\
-		;> << insertRed(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph; {sub!=others.sub}} && / {(ngr)=insertInduced(adj, gr)} && linkRed(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInduced(ngr, level+1) >>\
-		;> << insertGreen(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph; {sub!=others.sub}} && / {(ngr)=insertInduced(adj, gr)} && linkGreen(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInduced(ngr, level+1) >>\
-		;> << insertBlue(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph; {sub!=others.sub}} && / {(ngr)=insertInduced(adj, gr)} && linkBlue(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInduced(ngr, level+1) >>;\
+		;> << insertRed(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / {(ngr)=insertInduced(adj, gr)} && linkRed(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInduced(ngr, level+1) >>\
+		;> << insertGreen(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / {(ngr)=insertInduced(adj, gr)} && linkGreen(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInduced(ngr, level+1) >>\
+		;> << insertBlue(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / {(ngr)=insertInduced(adj, gr)} && linkBlue(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertInduced(ngr, level+1) >>;\
 		false}\
 }
 

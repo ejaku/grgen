@@ -53,7 +53,7 @@ show node n2
 show node n3
 show node n4
 
-exec for{n:WalkOrder; {n.num = -1}}
+exec for{n:WalkOrder in nodes(WalkOrder); {n.num = -1}}
 
 exec DepthFirst(::n1)
 
@@ -62,7 +62,7 @@ show node n2
 show node n3
 show node n4
 
-exec for{n:WalkOrder; {n.num = -1}}
+exec for{n:WalkOrder in nodes(WalkOrder); {n.num = -1}}
 
 exec vis:int ;> {(vis)=valloc()} ;> (urgs:int)=DepthFirstCall(::n1, 0, vis) ;> {vfree(vis)}
 
