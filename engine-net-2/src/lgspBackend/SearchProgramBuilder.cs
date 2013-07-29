@@ -3083,7 +3083,7 @@ namespace de.unika.ipd.grGen.lgsp
                         YieldAssignment assignment = new YieldAssignment(
                             targetName,
                             isVariable,
-                            TypesHelper.TypeName(patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i]),
+                            patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i] is VarType ? TypesHelper.TypeName(patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i]) : patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i].IsNodeType ? "GRGEN_LGSP.LGSPNode" : "GRGEN_LGSP.LGSPEdge",
                             isVariable ? (Expression)new VariableExpression(elem.Name) : (Expression)new GraphEntityExpression(elem.Name)
                         );
 
