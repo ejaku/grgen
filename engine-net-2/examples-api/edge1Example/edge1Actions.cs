@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Sun Jul 21 19:00:46 CEST 2013
+// Generated from "..\..\tests\edge1\edge1.grg" on Mon Jul 29 10:33:43 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -2940,10 +2940,18 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 	public class Functions
 	{
+
+		static Functions() {
+		}
+
 	}
 
 	public class Procedures
 	{
+
+		static Procedures() {
+		}
+
 	}
 
 	public class edge1_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns

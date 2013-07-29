@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Jul 21 19:00:38 CEST 2013
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon Jul 29 10:33:38 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -6633,10 +6633,18 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 
 	public class Functions
 	{
+
+		static Functions() {
+		}
+
 	}
 
 	public class Procedures
 	{
+
+		static Procedures() {
+		}
+
 	}
 
 	public class AntWorld_ExtendAtEndOfRound_NoGammel_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Jul 21 19:00:58 CEST 2013
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon Jul 29 10:33:52 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -639,8 +639,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			GRGEN_LGSP.PatternNode SpanningTreeAccumulation_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeAccumulation_node_root", "root", SpanningTreeAccumulation_node_root_AllowedTypes, SpanningTreeAccumulation_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
 			GRGEN_LGSP.PatternYielding SpanningTreeAccumulation_yield_0 = new GRGEN_LGSP.PatternYielding("yield_0",
  			new GRGEN_EXPR.Yielding[] {
- 				new GRGEN_EXPR.IteratedAccumulationYield("SpanningTreeAccumulation_var_next", "next", "it", new GRGEN_EXPR.Yielding[] { 				new GRGEN_EXPR.YieldAssignment("SpanningTreeAccumulation_var_cnt", true, new GRGEN_EXPR.ADD(new GRGEN_EXPR.VariableExpression("SpanningTreeAccumulation_var_cnt"), new GRGEN_EXPR.Constant("1"))), }),
-				new GRGEN_EXPR.YieldAssignment("SpanningTreeAccumulation_var_cnt", true, new GRGEN_EXPR.Count("it")),
+ 				new GRGEN_EXPR.IteratedAccumulationYield("SpanningTreeAccumulation_var_next", "next", "it", new GRGEN_EXPR.Yielding[] { 				new GRGEN_EXPR.YieldAssignment("SpanningTreeAccumulation_var_cnt", true, "int", new GRGEN_EXPR.ADD(new GRGEN_EXPR.VariableExpression("SpanningTreeAccumulation_var_cnt"), new GRGEN_EXPR.Constant("1"))), }),
+				new GRGEN_EXPR.YieldAssignment("SpanningTreeAccumulation_var_cnt", true, "int", new GRGEN_EXPR.Count("it")),
 			}, 
 				new string[] {  }, new string[] {  }, new string[] { "SpanningTreeAccumulation_var_cnt" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			bool[,] SpanningTreeAccumulation_it_isNodeHomomorphicGlobal = new bool[2, 2] {
@@ -5033,10 +5033,18 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 	public class Functions
 	{
+
+		static Functions() {
+		}
+
 	}
 
 	public class Procedures
 	{
+
+		static Procedures() {
+		}
+
 	}
 
 	public class spanningTree_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
@@ -5626,9 +5634,9 @@ maxMatchesIterReached:
                     }
                     { // yield_0
                         foreach(Pattern_SpanningTreeAccumulation.Match_SpanningTreeAccumulation_it iteratedMatch in match._it) {
-                            var_SpanningTreeAccumulation_var_cnt = (var_SpanningTreeAccumulation_var_cnt + 1);
+                            var_SpanningTreeAccumulation_var_cnt = (int)(var_SpanningTreeAccumulation_var_cnt + 1);
                         }
-                        var_SpanningTreeAccumulation_var_cnt = match.it.Count;
+                        var_SpanningTreeAccumulation_var_cnt = (int)match.it.Count;
                     }
                     match._var_cnt = var_SpanningTreeAccumulation_var_cnt;
                     currentFoundPartialMatch.Push(match);

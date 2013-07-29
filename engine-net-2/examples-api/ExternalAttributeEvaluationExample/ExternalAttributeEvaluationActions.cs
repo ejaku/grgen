@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jul 21 19:00:49 CEST 2013
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Mon Jul 29 10:33:45 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -634,7 +634,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			GRGEN_MODEL.@N node_m = GRGEN_MODEL.@N.CreateNode(graph);
 			graph.SettingAddedEdgeNames( rp_addedEdgeNames );
 			{ // eval_0
-			GRGEN_MODEL.IN node_nn;
+			GRGEN_MODEL.IN node_nn = null;
 			GRGEN_EXPR.ExternalProcedures.fooProc(actionEnv, graph, 42, 3.141, GRGEN_MODEL.ENUM_Enu.@hurz, "S21-heiteitei");
 			GRGEN_EXPR.ExternalProcedures.fooProc(actionEnv, graph, inode_n.@i, inode_n.@d, inode_n.@enu, inode_n.@s);
 			object outvar_0;
@@ -1408,10 +1408,18 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 	public class Functions
 	{
+
+		static Functions() {
+		}
+
 	}
 
 	public class Procedures
 	{
+
+		static Procedures() {
+		}
+
 	}
 
 	public class ExternalAttributeEvaluation_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns

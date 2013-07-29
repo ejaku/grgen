@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Jul 21 19:00:41 CEST 2013
+// Generated from "test.grg" on Mon Jul 29 10:30:41 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -336,10 +336,18 @@ namespace de.unika.ipd.grGen.Action_test
 
 	public class Functions
 	{
+
+		static Functions() {
+		}
+
 	}
 
 	public class Procedures
 	{
+
+		static Procedures() {
+		}
+
 	}
 
 	public class test_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns

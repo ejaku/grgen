@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Jul 21 19:01:14 CEST 2013
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon Jul 29 10:31:21 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -12109,10 +12109,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public class Functions
 	{
+
+		static Functions() {
+		}
+
 	}
 
 	public class Procedures
 	{
+
+		static Procedures() {
+		}
+
 	}
 
 	public class Recursive_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns

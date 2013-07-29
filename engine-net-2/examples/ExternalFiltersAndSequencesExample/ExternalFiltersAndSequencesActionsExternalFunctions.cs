@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalFiltersAndSequences.grg" on 20.04.2013 12:34:36 Mitteleuropäische Zeit
+// Generated from "ExternalFiltersAndSequences.grg" on 29.07.2013 03:09:41 Mitteleuropäische Zeit
 using System;
 using System.Collections.Generic;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -130,7 +130,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         }
 
         public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)        {
-            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;
+            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;
             int var_v1 = (int)sequenceInvocation.ArgumentExpressions[0].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             double var_v2 = (double)sequenceInvocation.ArgumentExpressions[1].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             GRGEN_MODEL.ENUM_Enu var_v3 = (GRGEN_MODEL.ENUM_Enu)sequenceInvocation.ArgumentExpressions[2].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
@@ -141,7 +141,11 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
             GRGEN_MODEL.ENUM_Enu var_r3 = (GRGEN_MODEL.ENUM_Enu)0;
             string var_r4 = "";
             bool var_r5 = false;
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv)); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             bool result = ApplyXGRS_foo((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, var_v1, var_v2, var_v3, var_v4, var_v5, ref var_r1, ref var_r2, ref var_r3, ref var_r4, ref var_r5);
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.ReturnFromSubgraph(); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             if(result) {
                 sequenceInvocation.ReturnVars[0].SetVariableValue(var_r1, procEnv);
                 sequenceInvocation.ReturnVars[1].SetVariableValue(var_r2, procEnv);
@@ -170,11 +174,15 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         }
 
         public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)        {
-            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;
+            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;
             object var_v1 = (object)sequenceInvocation.ArgumentExpressions[0].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             object var_v2 = (object)sequenceInvocation.ArgumentExpressions[1].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             object var_r1 = null;
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv)); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             bool result = ApplyXGRS_bar((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, var_v1, var_v2, ref var_r1);
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.ReturnFromSubgraph(); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             if(result) {
                 sequenceInvocation.ReturnVars[0].SetVariableValue(var_r1, procEnv);
             }
@@ -195,9 +203,13 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         }
 
         public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)        {
-            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;
+            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;
             object var_v1 = (object)sequenceInvocation.ArgumentExpressions[0].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv)); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             bool result = ApplyXGRS_isnull((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, var_v1);
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.ReturnFromSubgraph(); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             return result;
         }
     }
@@ -221,12 +233,16 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         }
 
         public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)        {
-            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;
+            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;
             GRGEN_MODEL.IN var_v1 = (GRGEN_MODEL.IN)sequenceInvocation.ArgumentExpressions[0].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             GRGEN_MODEL.IE var_v2 = (GRGEN_MODEL.IE)sequenceInvocation.ArgumentExpressions[1].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             GRGEN_MODEL.IN var_r1 = null;
             GRGEN_MODEL.IE var_r2 = null;
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv)); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             bool result = ApplyXGRS_bla((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, var_v1, var_v2, ref var_r1, ref var_r2);
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.ReturnFromSubgraph(); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             if(result) {
                 sequenceInvocation.ReturnVars[0].SetVariableValue(var_r1, procEnv);
                 sequenceInvocation.ReturnVars[1].SetVariableValue(var_r2, procEnv);
@@ -254,12 +270,16 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         }
 
         public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)        {
-            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;
+            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;
             GRGEN_LIBGR.INode var_v1 = (GRGEN_LIBGR.INode)sequenceInvocation.ArgumentExpressions[0].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             GRGEN_LIBGR.IEdge var_v2 = (GRGEN_LIBGR.IEdge)sequenceInvocation.ArgumentExpressions[1].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             GRGEN_LIBGR.INode var_r1 = null;
             GRGEN_LIBGR.IEdge var_r2 = null;
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv)); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             bool result = ApplyXGRS_blo((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, var_v1, var_v2, ref var_r1, ref var_r2);
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.ReturnFromSubgraph(); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             if(result) {
                 sequenceInvocation.ReturnVars[0].SetVariableValue(var_r1, procEnv);
                 sequenceInvocation.ReturnVars[1].SetVariableValue(var_r2, procEnv);
@@ -285,11 +305,15 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         }
 
         public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)        {
-            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;
+            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;
             GRGEN_LIBGR.INode var_n1 = (GRGEN_LIBGR.INode)sequenceInvocation.ArgumentExpressions[0].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             GRGEN_LIBGR.INode var_n2 = (GRGEN_LIBGR.INode)sequenceInvocation.ArgumentExpressions[1].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             GRGEN_LIBGR.IEdge var_e = null;
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv)); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             bool result = ApplyXGRS_createEdge((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv, var_n1, var_n2, ref var_e);
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.ReturnFromSubgraph(); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             if(result) {
                 sequenceInvocation.ReturnVars[0].SetVariableValue(var_e, procEnv);
             }
@@ -310,8 +334,12 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         }
 
         public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)        {
-            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv).graph;
+            GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv)); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             bool result = ApplyXGRS_huh((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
+            if(sequenceInvocation.Subgraph!=null)
+            	{ procEnv.ReturnFromSubgraph(); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }
             return result;
         }
     }
