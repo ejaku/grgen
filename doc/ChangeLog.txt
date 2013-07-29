@@ -1,6 +1,7 @@
-﻿v4.0alpha4 (2013-0?-??)
+﻿v4.0 (2013-07-29)
  Subgraph support regarding built-in functionality completed:
- - The debugger now listens to graph switch events and changes display to the new graph focused
+ - The debugger now listens to graph switch events,
+   prints out notifications on a switch and changes display to the new graph focused
  - GRS export and import are now capable of serializing and parsing nested graphs
    i.e. attributes which contain/reference subgraphs are now saved and restored again
    - subgraphs are introduced with an "add new graph <graphname>" command
@@ -15,6 +16,8 @@
    - thus the shell can import GRS exported or recorded graphs including subgraphs now
    - support limited to level 2 (main host graph plus one subgraph) in contrast to the sequences,
      more would not be helpful in the shell
+ - Extended graph isomorphy checking to attributes of graph type, comparing them for isomorphy, too
+    generalizing equality comparison from flat to nested graphs
  - Extended transaction handling to cover subgraph switches
     switching processing to a subgraph and returning processing from a subgraph (as reported by events)
     is recorded to the undo log now in case a transaction is underway,
@@ -47,16 +50,27 @@
     export(filepath:string)   - for exporting the current host graph to a file with the given path
     export(graph:graph, filepath:string)   - for exporting the given subgraph to a file 
                                              with the given path
+ - In sequence expressions and rule expressions is now available:
+    this expression, used as a readonly variable of type graph, for accessing the current graph 
+	(by default the host graph, or the most current subgraph switched to)	
+ - The sequence in graph { seq } was extended to allow to relocate to a subgraph attribute,
+    with syntax in element.attr { seq } (attr must be an attribute of type graph contained in element)
+ 
+ Replaced for(x:T) graph lookup loop by for(x:T in nodes(T)) or for(x:T in edges(T)) 
+
+ The functions returning a set of graph elements now yield always set<Node> or set<Edge>,
+  irrespective of the concrete type queried.
 
  Variables can now be declared in a return assignment of a procedure call in the rule statements,
   e.g. (def var visID:int)=valloc()
 
  Added count operator to sequences and rules
- - to all-rule calls in sequences: count[r]=>c assigns the count of matches of r to the variable c, and applies r on all the matches
+ - to all-rule calls in sequences: count[r]=>c assigns the count of matches of r to the variable c,
+   and applies r on all the matches
    with count[?r]=>c the matches are only counted, no rewrites are carried out
  - to expressions in rule language: count(it) returns the amount of iterated pattern instances found
    can only be used in yield or eval block (not in if), on named iterateds
-
+   
  Added graph statistics serialization and parsing
  - added "custom graph statistics save <filepath>" shell command
    to write the statistics of the last analyze to the given statistics file
@@ -73,21 +87,36 @@
   (by overwriting with the old value, (reserved) freeing, and reallocation)
   -> transactions now cover visited flag changes in addition to topology and attributation changes
 
- The user can define compare and copy functions for external objects now
- - they allow to compare attribute types not known to GrGen during graph isomorphy checking,
+ The user can define compare and copy functions for external objects (plus type object) now
+ - they allow to compare attribute types not known to GrGen, during graph isomorphy checking,
+   and in the expressions of the rule language and the sequences
    (with value semantics, instead of only checking for identical references)
  - and to copy values of types not known to GrGen, in the copy commands
    (with value semantics, instead of only copying the references, making objects identical)
- - they are emitted if "copy class;" is specified in the model,
-   and need to be implemented by the user in the external types and functions implementation file
+ - == and != in the expressions of the rule language and the sequences, as well as graph isomorphy checking,
+   are overwritten if "== class;" is specified in the model, to use IsEqual
+ - <,<=,>,>= in the expressions of the rule language and the sequences 
+   are overwritten if "< class;" (requiring "== class;") is specified in the model, to use IsLower (and IsEqual)
+ - copy and addCopy in the patterns of the rule language and the procedures of the rule language and the sequences
+   are overwritten if "copy class;" is specified in the model, to use Copy
+ - they need to be implemented by the user in the external types and functions implementation file
 
  The user defined parser for attributes of object or user defined type is used from GrShell now, too
   insofar as possible, shell parses a single or double quoted text or a word or a number
   and hands that over then to the user defined parser
 
- Model generalization: allowed attributes of node or edge type,
-  and allowed attributes of node/edge or container of node/edge type, 
-  to reference subtypes of the type they are contained in
+ Model generalization: 
+ - allowed attributes of node or edge type,
+   and allowed attributes of node/edge or container of node/edge type, 
+   to reference subtypes of the type they are contained in
+ - multiple using statements may now be given in a rule file, 
+   as well as in a model file -- so transitive using is supported by now
+
+ The compiler driver checking if a recompilation is needed now takes into account:
+ - whether an external functions implementation file of the model is newer than the compiled binaries
+ - whether an external functions implementation file of the actions is newer than the compiled binaries
+ - whether the graph statistics file to be used for generating the actions is newer than the compiled binaries
+ - whether nested or multiple used model files are newer than the compiled binaries
  
  API additions/changes:
  - external function calls receive the action environment and the graph as first parameters by now
@@ -98,15 +127,32 @@
    to the graph processing environment (returning null if it is in fact no named graph)
  - allowed to set the name of a graph and to get the backend
  - graph statistics code is now located in own class LGSPGraphStatistics
+ - the available external types are now given in the XGraphModel
 
  Fixes:
  - fixed bug in visited flag handling 
    that showed in case the amount of graph element based visited flags was exhausted
  - fixed neglectance of containers of subgraphs in grs exporter
+ - fixed bug with == and ~~, only the operator used first was applied for a graph,
+   irrespective of the operator really requested
+ - fixed bugs in compiled sequence regarding: in graph { sequence }, graph.rule(), 
+    copy(subgraph), and the ==, !=, ~~ operators
+ - fixed performance bug regarding graph comparisons with changes counter not written correctly
+ - fixed for function loops and some set returning functions
+ - fixed assignments in evals/yields
+ - some more just forgotten
 
+ Some improvements in the user manual:
+ - reduced the sequence computations chapter to a diff 
+   against the graph type chapter and the container type chapter
+ - added section on Graph Nesting and Graph Oriented Programming
+ - revised the Introduction and the Overview
+ - multiple improvements in various other sections
+
+ 
 v4.0alpha3 (2013-05-05)
  Replaced the CSharpCC generated parser/lexer for grs import by a hand written one
-   yielding a speedup of 5x (esp. no LookaheadSuccess exceptions any more)
+   yielding a speedup of 5x (esp. no LookaheadSuccess exceptions any more) for M$ .NET
    and allowing to extend the grs importer by user defined functions, enabling:
 
  The user can defined parse, serialize and emit functions for external objects now
@@ -143,6 +189,7 @@ v4.0alpha3 (2013-05-05)
  - Some smaller bugfixes and polishings,
    esp. copying of external attributes interface files to parent folder is working now
 
+   
 v4.0alpha2 (2013-04-21)
  Split computation abstraction into functions and procedures
    Functions are not allowed to manipulate the graph, and return exactly one result.
@@ -207,6 +254,7 @@ v4.0alpha2 (2013-04-21)
   - some error message improvements
   - added checks for correct usage of return, break, continue
 
+  
 v4.0alpha (2013-03-29)
  Extended attribute evaluations to general computations 
  -- with general control flow constructs:
