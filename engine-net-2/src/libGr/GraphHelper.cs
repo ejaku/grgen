@@ -17,7 +17,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns the nodes in the graph of the type given, as set
         /// </summary>
-        public static IDictionary<INode, SetValueType> Nodes(IGraph graph, NodeType nodeType)
+        public static Dictionary<INode, SetValueType> Nodes(IGraph graph, NodeType nodeType)
         {
             Dictionary<INode, SetValueType> nodesSet = new Dictionary<INode, SetValueType>();
             foreach(INode node in graph.GetCompatibleNodes(nodeType))
@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns the edges in the graph of the type given, as set
         /// </summary>
-        public static IDictionary<IEdge, SetValueType> Edges(IGraph graph, EdgeType edgeType)
+        public static Dictionary<IEdge, SetValueType> Edges(IGraph graph, EdgeType edgeType)
         {
             Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
             foreach(IEdge edge in graph.GetCompatibleEdges(edgeType))
@@ -45,7 +45,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of nodes adjacent to the start node, under the type constraints given
         /// </summary>
-        public static IDictionary<INode, SetValueType> Adjacent(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        public static Dictionary<INode, SetValueType> Adjacent(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
         {
             Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode,SetValueType>();
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
@@ -68,7 +68,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of nodes adjacent to the start node via outgoing edges, under the type constraints given
         /// </summary>
-        public static IDictionary<INode, SetValueType> AdjacentOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        public static Dictionary<INode, SetValueType> AdjacentOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
         {
             Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>();
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
@@ -84,7 +84,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of nodes adjacent to the start node via incoming edges, under the type constraints given
         /// </summary>
-        public static IDictionary<INode, SetValueType> AdjacentIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        public static Dictionary<INode, SetValueType> AdjacentIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
         {
             Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>();
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
@@ -102,7 +102,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of edges incident to the start node, under the type constraints given
         /// </summary>
-        public static IDictionary<IEdge, SetValueType> Incident(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        public static Dictionary<IEdge, SetValueType> Incident(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
         {
             Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
@@ -125,7 +125,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of edges outgoing from the start node, under the type constraints given
         /// </summary>
-        public static IDictionary<IEdge, SetValueType> Outgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        public static Dictionary<IEdge, SetValueType> Outgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
         {
             Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
@@ -141,7 +141,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of edges incoming to the start node, under the type constraints given
         /// </summary>
-        public static IDictionary<IEdge, SetValueType> Incoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        public static Dictionary<IEdge, SetValueType> Incoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
         {
             Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
@@ -159,7 +159,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of nodes reachable from the start node, under the type constraints given
         /// </summary>
-        public static IDictionary<INode, SetValueType> Reachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        public static Dictionary<INode, SetValueType> Reachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
         {
             Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>();
             Reachable(startNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet);
@@ -196,7 +196,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of nodes reachable from the start node via outgoing edges, under the type constraints given
         /// </summary>
-        public static IDictionary<INode, SetValueType> ReachableOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        public static Dictionary<INode, SetValueType> ReachableOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
         {
             Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>();
             ReachableOutgoing(startNode, outgoingEdgeType, targetNodeType, targetNodesSet);
@@ -223,7 +223,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of nodes reachable from the start node via incoming edges, under the type constraints given
         /// </summary>
-        public static IDictionary<INode, SetValueType> ReachableIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        public static Dictionary<INode, SetValueType> ReachableIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
         {
             Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>();
             ReachableIncoming(startNode, incomingEdgeType, sourceNodeType, sourceNodesSet);
@@ -252,7 +252,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of edges reachable from the start node, under the type constraints given
         /// </summary>
-        public static IDictionary<IEdge, SetValueType> ReachableEdges(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        public static Dictionary<IEdge, SetValueType> ReachableEdges(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
         {
             int flag = graph.AllocateVisitedFlag();
             Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
@@ -299,7 +299,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of outgoing edges reachable from the start node, under the type constraints given
         /// </summary>
-        public static IDictionary<IEdge, SetValueType> ReachableEdgesOutgoing(IGraph graph, INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        public static Dictionary<IEdge, SetValueType> ReachableEdgesOutgoing(IGraph graph, INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
         {
             int flag = graph.AllocateVisitedFlag();
             Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
@@ -335,7 +335,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns set of incoming edges reachable from the start node, under the type constraints given
         /// </summary>
-        public static IDictionary<IEdge, SetValueType> ReachableEdgesIncoming(IGraph graph, INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        public static Dictionary<IEdge, SetValueType> ReachableEdgesIncoming(IGraph graph, INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
         {
             int flag = graph.AllocateVisitedFlag();
             Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
@@ -794,7 +794,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IGraph InducedSubgraph(IDictionary<INode, SetValueType> nodeSet, IGraph graph)
         {
             IGraph inducedGraph = graph.CreateEmptyEquivalent("induced_from_" + graph.Name);
-            IDictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(nodeSet.Count);
+            Dictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(nodeSet.Count);
             foreach(KeyValuePair<INode, SetValueType> nodeEntry in nodeSet)
             {
                 INode node = nodeEntry.Key;
@@ -829,7 +829,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IGraph DefinedSubgraph(IDictionary<IEdge, SetValueType> edgeSet, IGraph graph)
         {
             IGraph definedGraph = graph.CreateEmptyEquivalent("defined_from_" + graph.Name);
-            IDictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count*2);
+            Dictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count*2);
             foreach(KeyValuePair<IEdge, SetValueType> edgeEntry in edgeSet)
             {
                 IEdge edge = edgeEntry.Key;
@@ -871,7 +871,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static INode InsertInduced(IDictionary<INode, SetValueType> nodeSet, INode rootNode, IGraph graph)
         {
-            IDictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(nodeSet.Count+1);
+            Dictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(nodeSet.Count+1);
             foreach(KeyValuePair<INode, SetValueType> nodeEntry in nodeSet)
             {
                 INode node = nodeEntry.Key;
@@ -930,7 +930,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static IEdge InsertDefined(IDictionary<IEdge, SetValueType> edgeSet, IEdge rootEdge, IGraph graph)
         {
-            IDictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count*2 + 1);
+            Dictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count*2 + 1);
             foreach(KeyValuePair<IEdge, SetValueType> edgeEntry in edgeSet)
             {
                 IEdge edge = edgeEntry.Key;

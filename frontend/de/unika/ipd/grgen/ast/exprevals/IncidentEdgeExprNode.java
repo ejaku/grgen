@@ -28,6 +28,7 @@ public class IncidentEdgeExprNode extends ExprNode {
 	private ExprNode startNodeExpr;
 	private ExprNode incidentTypeExpr;
 	private ExprNode adjacentTypeExpr;
+	private IdentNode resultEdgeType;
 
 	private int direction;
 	
@@ -38,7 +39,8 @@ public class IncidentEdgeExprNode extends ExprNode {
 	public IncidentEdgeExprNode(Coords coords,
 			ExprNode startNodeExpr,
 			ExprNode incidentTypeExpr, int direction,
-			ExprNode adjacentTypeExpr) {
+			ExprNode adjacentTypeExpr,
+			IdentNode resultEdgeType) {
 		super(coords);
 		this.startNodeExpr = startNodeExpr;
 		becomeParent(this.startNodeExpr);
@@ -47,6 +49,7 @@ public class IncidentEdgeExprNode extends ExprNode {
 		this.direction = direction;
 		this.adjacentTypeExpr = adjacentTypeExpr;
 		becomeParent(this.adjacentTypeExpr);
+		this.resultEdgeType = resultEdgeType;
 	}
 
 	/** returns children of this node */
@@ -104,6 +107,6 @@ public class IncidentEdgeExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(((DeclaredTypeNode)incidentTypeExpr.getType()).getIdentNode());
+		return SetTypeNode.getSetType(resultEdgeType);
 	}
 }

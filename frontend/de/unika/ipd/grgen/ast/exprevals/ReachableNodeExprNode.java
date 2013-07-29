@@ -28,6 +28,7 @@ public class ReachableNodeExprNode extends ExprNode {
 	private ExprNode startNodeExpr;
 	private ExprNode incidentTypeExpr;
 	private ExprNode adjacentTypeExpr;
+	private IdentNode resultNodeType;
 
 	private int direction;
 	
@@ -38,7 +39,8 @@ public class ReachableNodeExprNode extends ExprNode {
 	public ReachableNodeExprNode(Coords coords,
 			ExprNode startNodeExpr,
 			ExprNode incidentTypeExpr, int direction,
-			ExprNode adjacentTypeExpr) {
+			ExprNode adjacentTypeExpr,
+			IdentNode resultNodeType) {
 		super(coords);
 		this.startNodeExpr = startNodeExpr;
 		becomeParent(this.startNodeExpr);
@@ -47,6 +49,7 @@ public class ReachableNodeExprNode extends ExprNode {
 		this.direction = direction;
 		this.adjacentTypeExpr = adjacentTypeExpr;
 		becomeParent(this.adjacentTypeExpr);
+		this.resultNodeType = resultNodeType;
 	}
 
 	/** returns children of this node */
@@ -104,6 +107,6 @@ public class ReachableNodeExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(((DeclaredTypeNode)adjacentTypeExpr.getType()).getIdentNode());
+		return SetTypeNode.getSetType(resultNodeType);
 	}
 }

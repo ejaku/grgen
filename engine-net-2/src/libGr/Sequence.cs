@@ -2953,17 +2953,21 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "for{" + Var.Name + " in " + FunctionSymbol + "(" + Expr.Symbol + (IncidentEdgeType != null ? "," + IncidentEdgeType.Symbol : "") + (AdjacentNodeType != null ? "," + AdjacentNodeType.Symbol : "") + ")" + "; ...}"; } }
     }
 
+    // only quick-fix adaptation to syntax for{x:T in nodes(Type)} / for{x:T in edges(Type)}
+    // TODO: full adaptation, with optional type
     public class SequenceForLookup : SequenceUnary
     {
         public SequenceVariable Var;
+        public SequenceExpression Expr;
 
         public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
 
-        public SequenceForLookup(SequenceVariable var, Sequence seq,
+        public SequenceForLookup(SequenceVariable var, SequenceExpression expr, Sequence seq,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
             : base(seq, SequenceType.ForLookup)
         {
             Var = var;
+            Expr = expr;
             VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
         }
 
@@ -2973,6 +2977,8 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(Var.Name, "a node or edge type", "statically unknown type");
             if(TypesHelper.GetNodeOrEdgeType(Var.Type, env.Model) == null)
                 throw new SequenceParserException(Var.Name, "a node or edge type", Var.Type);
+            if(TypesHelper.GetNodeOrEdgeType(Expr.Type(env), env.Model) == null)
+                throw new SequenceParserException(Expr.Symbol, "a node or edge type", Expr.Type(env));
             base.Check(env);
         }
 
@@ -2980,6 +2986,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceForLookup copy = (SequenceForLookup)MemberwiseClone();
             copy.Var = Var.Copy(originalToCopy, procEnv);
+            copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
             copy.Seq = Seq.Copy(originalToCopy, procEnv);
             copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
             foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
@@ -3026,6 +3033,7 @@ namespace de.unika.ipd.grGen.libGr
             List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             Var.GetLocalVariables(variables);
+            Expr.GetLocalVariables(variables, containerConstructors);
             if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
@@ -3035,7 +3043,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "for{" + Var.Name + "; ...}"; } }
+        public override string Symbol { get { return "for{" + Var.Name + "in nodes/edges; ...}"; } }
     }
 
     public class SequenceForMatch : SequenceUnary

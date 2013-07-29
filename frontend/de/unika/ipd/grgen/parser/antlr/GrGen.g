@@ -1812,7 +1812,9 @@ options { k = 3; }
 	| IN { xg.append(" in "); } { input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
 			|| input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing")
 			|| input.LT(1).getText().equals("reachable") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing")
-			|| input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing") }?
+			|| input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing") 
+			|| input.LT(1).getText().equals("nodes") || input.LT(1).getText().equals("edges")
+		 }?
 			i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); }
 			expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] (COMMA { xg.append(","); } expr3=seqExpression[xg])? )?
 			RPAREN { xg.append(")"); }
@@ -3260,22 +3262,22 @@ options { k = *; }
 			{ input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
 			  || input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing")
 			  || input.LT(1).getText().equals("reachable") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing")
-			  || input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableEdgesIncoming") || input.LT(1).getText().equals("reachableEdgesOutgoing") }?
+			  || input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableEdgesIncoming") || input.LT(1).getText().equals("reachableEdgesOutgoing")
+			  || input.LT(1).getText().equals("nodes") || input.LT(1).getText().equals("edges")
+			  }?
 			function=externalFunctionInvocationExpr[false] RPAREN
 		LBRACE
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
 		RBRACE popScope
 		{
 			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
-			res = new ForFunctionNode(f, iterVar, (FunctionInvocationExprNode)function, cs);
-		}
-	| variable=entIdentDecl COLON type=typeIdentUse RPAREN 
-		LBRACE 
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
-		RBRACE popScope
-		{
-			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
-			res = new ForLookupNode(f, iterVar, cs);
+			if(((FunctionInvocationExprNode)function).functionIdent.toString().equals("nodes")
+				|| ((FunctionInvocationExprNode)function).functionIdent.toString().equals("edges"))
+				res = new ForLookupNode(f, iterVar, cs);
+			else
+				res = new ForFunctionNode(f, iterVar, (FunctionInvocationExprNode)function, cs);
+		    // only quick-fix adaptation to syntax for{x:T in nodes(Type)} / for{x:T in edges(Type)}
+			// TODO: full adaptation, with variable being potentially of a supertype of the queried type
 		}
 	;
 

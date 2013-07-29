@@ -26,11 +26,13 @@ public class EdgesExprNode extends ExprNode {
 	}
 
 	private ExprNode edgeType;
+	private IdentNode resultEdgeType;
 	
-	public EdgesExprNode(Coords coords, ExprNode edgeType) {
+	public EdgesExprNode(Coords coords, ExprNode edgeType, IdentNode resultEdgeType) {
 		super(coords);
 		this.edgeType = edgeType;
 		becomeParent(this.edgeType);
+		this.resultEdgeType = resultEdgeType;
 	}
 
 	/** returns children of this node */
@@ -72,6 +74,6 @@ public class EdgesExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(((DeclaredTypeNode)edgeType.getType()).getIdentNode());
+		return SetTypeNode.getSetType(resultEdgeType);
 	}	
 }
