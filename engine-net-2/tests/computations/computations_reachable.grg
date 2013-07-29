@@ -1,0 +1,136 @@
+using model_init;
+
+rule init : (A, A, A, A, A, Node, Node, Node)
+{
+	modify {
+		start1:A -:EE-> a1:A -:EE-> middle1:A -:EE-> a2:A -:EE-> end1:A;
+		start1b:A -:EE-> middle1;
+		middle1 -:EE-> end1b:A;
+		a1 --> a2; // bypass middle
+		start2:Node --> . --> middle2:Node <-- . <-- end2:Node;
+
+		return(start1, start1b, middle1, end1, end1b, start2, middle2, end2);
+	}
+}
+
+rule link(middle1:A, middle2:Node)
+{
+	modify {
+		middle1 --> middle2;
+		middle2 --> middle1;
+	}
+}
+
+rule unlink(middle1:A, middle2:Node)
+{
+	middle1 -l1:Edge-> middle2;
+	middle2 -l2:Edge-> middle1;
+	
+	modify {
+		delete(l1);
+		delete(l2);
+	}
+}
+
+test t(start1:A, middle1:A, end1:A, start2:Node, end2:Node)
+{
+	if { reachable(start1).size() > reachable(start2).size(); }
+	if { isReachableOutgoing(start1, end1, EE) && isReachable(start2, end2); }
+	if { !isReachableOutgoing(start1, end2, EE) && !isReachable(start2, end1); }
+}
+
+rule r(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node>, ref rrs1:set<Node>, ref rrm1:set<Node>, ref rrs2:set<Node>, ref rre2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : (boolean,boolean,boolean,boolean)
+{
+	def var isR11:boolean;
+	def var isR12:boolean;
+	yield {
+		def ref _rs1:set<Node> = reachableOutgoing(start1, EE);
+		def ref _rm1:set<Node> = reachable(middle1);
+		def ref _rs2:set<Node> = reachableOutgoing(start2);
+		def ref _re2:set<Node> = reachableOutgoing(end2);
+		for(el:Node in _rs1) {
+			rs1.add(el);
+		}
+		for(el:Node in _rm1) {
+			rm1.add(el);
+		}
+		for(el:Node in _rs2) {
+			rs2.add(el);
+		}
+		for(el:Node in _re2) {
+			re2.add(el);
+		}
+		yield isR11 = isReachableOutgoing(start1, end1, EE);
+		yield isR12 = isReachable(start1, end2);
+	}
+	
+	modify {
+		def var iisR11:boolean;
+		def var iisR12:boolean;
+		eval {
+			def ref _rs1:set<Node> = reachableOutgoing(start1, EE);
+			def ref _rm1:set<Node> = reachable(middle1);
+			def ref _rs2:set<Node> = reachableOutgoing(start2);
+			def ref _re2:set<Node> = reachableOutgoing(end2);
+			for(el:Node in _rs1) {
+				rrs1.add(el);
+			}
+			for(el:Node in _rm1) {
+				rrm1.add(el);
+			}
+			for(el:Node in _rs2) {
+				rrs2.add(el);
+			}
+			for(el:Node in _re2) {
+				rre2.add(el);
+			}
+			yield iisR11 = isReachableOutgoing(start1, end1, EE);
+			yield iisR12 = isReachable(start1, end2);
+		}
+		return(isR11, isR12, iisR11, iisR12);
+	}
+}
+
+rule rloop(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node>, ref rrs1:set<Node>, ref rrm1:set<Node>, ref rrs2:set<Node>, ref rre2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : (boolean,boolean,boolean,boolean)
+{
+	def var isR11:boolean;
+	def var isR12:boolean;
+	yield {
+		for(el:Node in reachableOutgoing(start1, EE)) {
+			rs1.add(el);
+		}
+		for(el:Node in reachable(middle1)) {
+			rm1.add(el);
+		}
+		for(el:Node in reachableOutgoing(start2)) {
+			rs2.add(el);
+		}
+		for(el:Node in reachableOutgoing(end2)) {
+			re2.add(el);
+		}
+		yield isR11 = isReachableOutgoing(start1, end1, EE);
+		yield isR12 = isReachable(start1, end2);
+	}
+	
+	modify {
+		def var iisR11:boolean;
+		def var iisR12:boolean;
+		eval {
+			for(el:Node in reachableOutgoing(start1, EE)) {
+				rrs1.add(el);
+			}
+			for(el:Node in reachable(middle1)) {
+				rrm1.add(el);
+			}
+			for(el:Node in reachableOutgoing(start2)) {
+				rrs2.add(el);
+			}
+			for(el:Node in reachableOutgoing(end2)) {
+				rre2.add(el);
+			}
+			yield iisR11 = isReachableOutgoing(start1, end1, EE);
+			yield iisR12 = isReachable(start1, end2);
+		}
+		return(isR11, isR12, iisR11, iisR12);
+	}
+}

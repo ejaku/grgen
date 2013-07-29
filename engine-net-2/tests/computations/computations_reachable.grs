@@ -1,0 +1,43 @@
+new graph "computations/computations_reachable"
+
+exec (::start1, ::start1b, ::middle1, ::end1, ::end1b, ::start2, ::middle2, ::end2)=init
+
+exec t(::start1, ::middle1, ::end1, ::start2, ::end2)
+exec ::rs1=set<Node>{} ;> ::rm1=set<Node>{} ;> ::rs2=set<Node>{} ;> ::re2=set<Node>{} ;> ::rrs1=set<Node>{} ;> ::rrm1=set<Node>{} ;> ::rrs2=set<Node>{}  ;> ::rre2=set<Node>{}
+exec (::isR11, ::isR12, ::iisR11, ::iisR12)=r(::rs1, ::rm1, ::rs2, ::re2, ::rrs1, ::rrm1, ::rrs2, ::rre2, ::start1, ::middle1, ::end1, ::start2, ::end2)
+
+show var rs1
+show var rrs1
+show var rm1
+show var rrm1
+show var rs2
+show var rrs2
+show var re2
+show var rre2
+
+show var isR11
+show var iisR11
+show var isR12
+show var iisR12
+
+exec link(::middle1, ::middle2)
+
+exec t(::start1, ::middle1, ::end1, ::start2, ::end2)
+exec ::rs1=set<Node>{} ;> ::rm1=set<Node>{} ;> ::rs2=set<Node>{} ;> ::re2=set<Node>{} ;> ::rrs1=set<Node>{} ;> ::rrm1=set<Node>{} ;> ::rrs2=set<Node>{}  ;> ::rre2=set<Node>{}
+exec (::isR11, ::isR12, ::iisR11, ::iisR12)=r(::rs1, ::rm1, ::rs2, ::re2, ::rrs1, ::rrm1, ::rrs2, ::rre2, ::start1, ::middle1, ::end1, ::start2, ::end2)
+
+show var rs1
+show var rrs1
+show var rm1
+show var rrm1
+show var rs2
+show var rrs2
+show var re2
+show var rre2
+
+show var isR11
+show var iisR11
+show var isR12
+show var iisR12
+
+quit
