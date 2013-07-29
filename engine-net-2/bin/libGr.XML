@@ -744,6 +744,51 @@
             the root edge is processed as if it was in the given edge set even if it isn't
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Copy(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Copies the given graph, returns the copy
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InsertCopy(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Inserts a copy of the given subgraph to the graph (disjoint union).
+            Returns the copy of the dedicated root node.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Insert(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Inserts the given subgraph to the graph, destroying the source (destructive disjoint union).
+            The elements keep their identity (though not their name).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Nameof(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns the name of the given entity (which might be a node, an edge, or a graph).
+            If the entity is null, the name of the graph is returned.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Import(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Imports and returns the graph within the file specified by its path (model from given graph).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Export(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Exports the graph to the file specified by its path.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AddCopyOfNode(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            creates a node of given type and adds it to the graph, returns it
+            type might be a string denoting a NodeType or a NodeType
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AddCopyOfEdge(System.Object,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            creates an edge of given type and adds it to the graph between from and to, returns it
+            type might be a string denoting an EdgeType or an EdgeType
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AddNodeOfType(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             creates a node of given type and adds it to the graph, returns it
@@ -935,17 +980,17 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SwitchToSubgraphHandler">
             <summary>
-            Represents a method called directly after graph processing switched to a subgraph.
+            Represents a method called directly before graph processing switches to a subgraph.
             (Graph processing means rule and sequence execution. Not called when the main graph is replaced.)
             </summary>
-            <param name="graph">The graph switched to.</param>
+            <param name="graph">The new graph switched to.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ReturnFromSubgraphHandler">
             <summary>
-            Represents a method called directly after graph processing returned back after a switch.
+            Represents a method called directly after graph processing returned back (from a previous switch).
             (To the main graph, or a subgraph previously switched to. Graph processing means rule and sequence execution.)
             </summary>
-            <param name="graph">The graph returned to.</param>
+            <param name="graph">The old graph returned from.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.EnterSequenceHandler">
             <summary>
@@ -1039,6 +1084,12 @@
             <summary>
             Returns the graph currently focused in processing / sequence execution.
             This may be the initial main graph, or a subgraph switched to, the current top element of the graph usage stack.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.NamedGraph">
+            <summary>
+            Returns the named graph currently focused in processing / sequence execution.
+            Returns null if this graph is not a named but an unnamed graph.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Actions">
@@ -1281,16 +1332,23 @@
             This informs the debugger about the end of a loop iteration, so it can display the state at the end of the iteration.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.IsInSubgraph">
+            <summary>
+            Returns true when graph processings is currently occuring inside a subgraph,
+            returns false when the main host graph is currently processed
+            (i.e. only one entry on the current graph stack is existing).
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.TransactionManager">
             <summary>
-            Returns the transaction manager of the graph.
-            For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
+            Returns the transaction manager of the processing environment.
+            (Recording and undoing changes in the main graph and all processed subgraphs).
             Don't forget to call Commit after a transaction is finished!
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.Recorder">
             <summary>
-            The recorder of the graph.
+            The recorder of the main graph (nested subgraphs are not supported).
             Might be null (is set if a named graph is available, then the persistent names are taken from the named graph).
             </summary>
         </member>
@@ -1328,7 +1386,7 @@
             (Not fired when the main graph is replaced by another main graph, or initialized.)
             </summary>
         </member>
-        <member name="E:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.OnReturningFromSubgraph">
+        <member name="E:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.OnReturnedFromSubgraph">
             <summary>
             Fired when graph processing is returning back after a switch.
             (To the main graph, or a subgraph previously switched to.)
@@ -1417,6 +1475,11 @@
         <member name="M:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution.Highlight(System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.String})">
             <summary>
             highlights the values in the graphs if debugging is active (annotating them with the source names)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.RecordingState">
+            <summary>
+            A class holding the state/context of a recording session
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.Recorder">
@@ -1527,6 +1590,20 @@
             </summary>
             <param name="edge">The edge to be deleted.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RetypingNode(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Event handler for IGraph.OnRetypingNode.
+            </summary>
+            <param name="oldNode">The node to be retyped.</param>
+            <param name="newNode">The new node with the common attributes, but without the correct connections, yet.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RetypingEdge(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IEdge)">
+            <summary>
+            Event handler for IGraph.OnRetypingEdge.
+            </summary>
+            <param name="oldEdge">The edge to be retyped.</param>
+            <param name="newEdge">The new edge with the common attributes, but without the correct connections, yet.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.Recorder.ChangingAttribute(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object)">
             <summary>
             Event handler for IGraph.OnChangingNodeAttribute and IGraph.OnChangingEdgeAttribute.
@@ -1541,20 +1618,6 @@
                                    Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
             <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
                                    The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RetypingNode(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
-            <summary>
-            Event handler for IGraph.OnRetypingNode.
-            </summary>
-            <param name="oldNode">The node to be retyped.</param>
-            <param name="newNode">The new node with the common attributes, but without the correct connections, yet.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RetypingEdge(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IEdge)">
-            <summary>
-            Event handler for IGraph.OnRetypingEdge.
-            </summary>
-            <param name="oldEdge">The edge to be retyped.</param>
-            <param name="newEdge">The new edge with the common attributes, but without the correct connections, yet.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.GXLImport">
             <summary>
@@ -2990,26 +3053,28 @@
             <param name="parameters">Backend specific parameters.</param>
             <returns>The new INamedGraph backend instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},de.unika.ipd.grGen.libGr.IGraph@,de.unika.ipd.grGen.libGr.BaseActions@)">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},de.unika.ipd.grGen.libGr.IGraph@,de.unika.ipd.grGen.libGr.BaseActions@)">
             <summary>
             Creates a new IGraph and BaseActions backend instance from the specified specification file.
             If neccessary, any processing steps are performed automatically.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
             <param name="graphName">Name of the new graph.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="newGraph">Returns the new graph.</param>
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.Exception">Thrown when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32,de.unika.ipd.grGen.libGr.INamedGraph@,de.unika.ipd.grGen.libGr.BaseActions@)">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32,de.unika.ipd.grGen.libGr.INamedGraph@,de.unika.ipd.grGen.libGr.BaseActions@)">
             <summary>
             Creates a new INamedGraph and BaseActions backend instance from the specified specification file.
             If neccessary, any processing steps are performed automatically.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
             <param name="graphName">Name of the new graph.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
@@ -3017,26 +3082,28 @@
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.Exception">Thrown when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String})">
             <summary>
             Creates a new IGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="gmFilename">Filename of the model specification file (.gm).</param>
             <param name="graphName">Name of the new graph.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new IGraph backend instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32)">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32)">
             <summary>
             Creates a new INamedGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="gmFilename">Filename of the model specification file (.gm).</param>
             <param name="graphName">Name of the new graph.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
@@ -3044,13 +3111,14 @@
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new INamedGraph backend instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.ProcessSpecification(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.ProcessSpecification(System.String,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
             <summary>
             Processes the given rule specification file and generates a model and actions library.
             </summary>
             <param name="specPath">The path to the rule specification file (.grg).</param>
             <param name="destDir">The directory, where the generated libraries are to be placed.</param>
             <param name="intermediateDir">A directory, where intermediate files can be placed.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed.</param>
             <param name="externalAssemblies">External assemblies to reference</param>
             <exception cref="T:System.Exception">Thrown, when an error occurred.</exception>
@@ -3388,6 +3456,14 @@
             assuming the graph element (in)equality operator.
             Returns "" if the type can only be determined at runtime.
             Returns "-" in case of a type error and/or if no operator working on strings can be applied.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpressionHelper.BalanceExternalType(System.String,System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Returns the types to which the operands must be casted to, 
+            assuming an external type equality or ordering operator.
+            Returns "" if the type can only be determined at runtime.
+            Returns "-" in case of a type error and/or if no operator working on external types can be applied.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IDeque">
@@ -4240,6 +4316,20 @@
             The string is meant for consumption by humans, it does not need to be parseable.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.IsEqual(System.Object,System.Object)">
+            <summary>
+            Calls the AttributeTypeObjectCopierComparer.IsEqual function for object type arguments,
+            when an attribute of object or external type is compared for equality in the interpreted sequences;
+            you may dispatch from there to the type exact comparisons, which are called directly from the compiled sequences.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.IsLower(System.Object,System.Object)">
+            <summary>
+            Calls the AttributeTypeObjectCopierComparer.IsLower function for object type arguments,
+            when an attribute of object or external type is compared for ordering in the interpreted sequences;
+            you may dispatch from there to the type exact comparisons, which are called directly from the compiled sequences.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.ModelName">
             <summary>
             The name of this model.
@@ -4263,6 +4353,24 @@
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.ValidateInfo">
             <summary>
             Enumerates all ValidateInfo objects describing constraints on the graph structure.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.ExternalTypes">
+            <summary>
+            The external types known to this model, it contains always and at least the object type,
+            the bottom type of the external attribute types hierarchy.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.IsEqualClassDefined">
+            <summary>
+            Tells whether AttributeTypeObjectCopierComparer.IsEqual functions are available,
+            for object and external types.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.IsLowerClassDefined">
+            <summary>
+            Tells whether AttributeTypeObjectCopierComparer.IsLower functions are available,
+            for object and external types.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.MD5Hash">
@@ -4303,7 +4411,7 @@
             <summary>The attribute is a double.</summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.ObjectAttr">
-            <summary>The attribute is an object.</summary>
+            <summary>The attribute is an object (this includes external attribute types).</summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.MapAttr">
             <summary>The attribute is a map.</summary>
@@ -4947,6 +5055,46 @@
             The .NET type of the variable.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ExternalType">
+            <summary>
+            A representation of an external type registered with GrGen.
+            The bottom type of the external type hierarchy that is always available is type object.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ExternalType.Name">
+            <summary>
+            The name of the type.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ExternalType.Type">
+            <summary>
+            The .NET type of the type.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ExternalType.directSuperTypes">
+            <summary>
+            Array containing all direct super types of this type, the real array.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ExternalType.IsA(de.unika.ipd.grGen.libGr.ExternalType)">
+            <summary>
+            Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
+            or it is a sub type of the given type.
+            </summary>
+            <param name="that">The type to be compared to.</param>
+            <returns>True, if this type is compatible to the given type.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ExternalType.ToString">
+            <summary>
+            Returns the name of the type.
+            </summary>
+            <returns>The name of the type.</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ExternalType.DirectSuperTypes">
+            <summary>
+            Array containing all direct super types of this type, the readonly interface.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.BaseActions">
             <summary>
             A container of rules.
@@ -5566,6 +5714,11 @@
             Enumerates all edges in the graph.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraph.Backend">
+            <summary>
+            The backend that created the graph
+            </summary>
+        </member>
         <member name="E:de.unika.ipd.grGen.libGr.IGraph.OnNodeAdded">
             <summary>
             Fired after a node has been added
@@ -5632,6 +5785,21 @@
             <summary>
             Fired before an edge is redirected (causing removal then adding again).
             The edge to be redirected is provided to the handler.
+            </summary>
+        </member>
+        <member name="E:de.unika.ipd.grGen.libGr.IGraph.OnVisitedAlloc">
+            <summary>
+            Fired after a visited flag was allocated.
+            </summary>
+        </member>
+        <member name="E:de.unika.ipd.grGen.libGr.IGraph.OnVisitedFree">
+            <summary>
+            Fired after a visited flag was freed.
+            </summary>
+        </member>
+        <member name="E:de.unika.ipd.grGen.libGr.IGraph.OnSettingVisited">
+            <summary>
+            Fired before a visited flag is set.
             </summary>
         </member>
         <member name="E:de.unika.ipd.grGen.libGr.IGraph.OnSettingAddedNodeNames">
@@ -5701,6 +5869,26 @@
             </summary>
             <param name="oldEdge">The edge to be retyped.</param>
             <param name="newEdge">The new edge with the common attributes, but not fully connected with the incident nodes, yet.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.VisitedAlloc(System.Int32)">
+            <summary>
+            Fires an OnVisitedAlloc event.
+            </summary>
+            <param name="visitorID">The allocated visitorID.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.VisitedFree(System.Int32)">
+            <summary>
+            Fires an OnVisitedFree event.
+            </summary>
+            <param name="visitorID">The freed visitorID.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.SettingVisited(de.unika.ipd.grGen.libGr.IGraphElement,System.Int32,System.Boolean)">
+            <summary>
+            Fires an OnSettingVisited event.
+            </summary>
+            <param name="elem">The graph element of which the specified flag is to be set.</param>
+            <param name="visitorID">The id of the visited flag to be set.</param>
+            <param name="newValue">The new value.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.GetNodeType(System.String)">
             <summary>
@@ -6361,6 +6549,26 @@
             Delegate-type called shortly before elements are added to the graph, with the names of the elements added.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.VisitedAllocHandler">
+            <summary>
+            Represents a method called, when a visited flag was allocated.
+            </summary>
+            <param name="visitorID">The id of the visited flag that was allocated.</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.VisitedFreeHandler">
+            <summary>
+            Represents a method called, when a visited flag was freed.
+            </summary>
+            <param name="visitorID">The id of the visited flag that was freed.</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SettingVisitedHandler">
+            <summary>
+            Represents a method called before a visited flag is set to a new value.
+            </summary>
+            <param name="elem">The graph element of which the specified flag is to be set.</param>
+            <param name="visitorID">The id of the visited flag to be set.</param>
+            <param name="newValue">The new value.</param>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.FunctionInfo">
             <summary>
             A description of a GrGen attribute evaluation function.
@@ -6943,26 +7151,30 @@
             <summary>
             Exports the given graph to the file given by the stream writer in grs format.
             Any errors will be reported by exception.
+            Returns the graph export context of the main graph.
             </summary>
             <param name="graph">The graph to export. Must be a named graph.</param>
             <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
+            <param name="modelPathPrefix">Path to the model.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.MainGraphExportContext,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter)">
             <summary>
             Emits the node/edge attribute initialization code in graph exporting
-            for an attribute of the given type with the given value into the stream writer
+            for an attribute of the given type with the given value into the stream writer.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttribute(de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttribute(de.unika.ipd.grGen.libGr.MainGraphExportContext,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter)">
             <summary>
             Emits the attribute value as code
             for an attribute of the given type with the given value into the stream writer
+            Main graph context is needed to get access to the graph -> env dictionary.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.INamedGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.ToString(de.unika.ipd.grGen.libGr.MainGraphExportContext,System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.INamedGraph)">
             <summary>
-            type needed for enum, otherwise null ok
-            graph needed for node/edge in set/map, otherwise null ok
+            Type needed for enum, otherwise null ok.
+            Graph needed for node/edge, otherwise null ok.
+            Main graph context needed to get access to the graph -> env dictionary for subgraph.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ECoreImport">

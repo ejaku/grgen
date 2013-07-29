@@ -670,11 +670,12 @@
             to be implemented by concrete subclasses
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Execute(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Collections.Generic.List{de.unika.ipd.grGen.lgsp.FoundMatch})">
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Execute(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Boolean,System.Collections.Generic.List{de.unika.ipd.grGen.lgsp.FoundMatch})">
             <summary>
             Executes the interpretation plan (starting with this operation)
             </summary>
             <param name="graph">The graph over which the plan is to be interpreted</param>
+            <param name="includingAttributes">Whether to check for isomorphy including attributes or without them (== vs ~~)</param>
             <param name="matches">If not null, the list is filled with the matches; only in this case are all matches iterated</param>
             <returns>true if execution succeeded, i.e. a match was found; false otherwise</returns>
         </member>
@@ -1281,17 +1282,15 @@
             </summary>
             <param name="model">The model for which the matcher functions shall be generated.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.BuildPatternGraph(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.BuildPatternGraph(de.unika.ipd.grGen.lgsp.LGSPGraph)">
             <summary>
             Builds a pattern graph out of the graph.
             The pattern graph retains links to the original graph elements and uses them for attribute comparison.
-            Attention: if you change the elements(/graph) your comparisons will be done against the old structure but the new attributes! 
             </summary>
             <param name="graph">The graph which is to be transfered into a pattern</param>
-            <param name="includingAttributes">Whether the attributes should be included and thus checked</param>
             <returns></returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GeneratePlanGraph(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GeneratePlanGraph(de.unika.ipd.grGen.lgsp.LGSPGraphStatistics,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
             <summary>
             Generate plan graph for given pattern graph with costs from the analyzed host graph.
             Plan graph contains nodes representing the pattern elements (nodes and edges)
@@ -1475,7 +1474,7 @@
             <param name="action">Needed for the rule pattern and the name</param>
             <param name="sourceOutputFilename">null if no output file needed</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.FillInStaticSearchPlans(de.unika.ipd.grGen.lgsp.LGSPAction[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.FillInStaticSearchPlans(de.unika.ipd.grGen.lgsp.LGSPGraphStatistics,de.unika.ipd.grGen.lgsp.LGSPAction[])">
             <summary>
             Do the static search planning again so we can explain the search plan
             </summary>
@@ -1667,7 +1666,7 @@
             Interface implemented by the compiled graph matchers
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.GraphComparisonMatcher.IsIsomorph(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.GraphComparisonMatcher.IsIsomorph(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraph,System.Boolean)">
             <summary>
             Returns whether the graph which resulted in thisPattern is isomorph to the graph given.        
             </summary>
@@ -1682,36 +1681,21 @@
             An implementation of the IGraph interface.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.statistics">
+            <summary>
+            Stores the statistics about the last analyze pass of the graph
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AnalyzeGraph">
+            <summary>
+            Analyzes the graph.
+            The calculated data is used to generate good searchplans for the current graph.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.matchingState">
             <summary>
             Normally null, contains some data which allows for efficient graph comparison,
             in case this is a constant graph which was used for isomorphy checking
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.nodeCounts">
-            <summary>
-            The number of compatible nodes in the graph for each type at the time of the last analysis.
-            It is null, if no analysis has been executed, yet.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.edgeCounts">
-            <summary>
-            The number of compatible edges in the graph for each type at the time of the last analysis.
-            It is null, if no analysis has been executed, yet.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.meanOutDegree">
-            <summary>
-            The mean out degree (independent of edge types) of the nodes of a graph for each node type
-            at the time of the last analysis.
-            It is null, if no analysis has been executed, yet.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.meanInDegree">
-            <summary>
-            The mean in degree (independent of edge types) of the nodes of a graph for each node type
-            at the time of the last analysis.
-            It is null, if no analysis has been executed, yet.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.nodesByTypeHeads">
@@ -1740,11 +1724,26 @@
             </summary>
             <param name="grmodel">The graph model.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPBackend)">
+            <summary>
+            Constructs an LGSPGraph object with the given model and backend, and an automatically generated name.
+            </summary>
+            <param name="grmodel">The graph model.</param>
+            <param name="lgspBackend">The responsible backend object, needed for import from the sequences.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,System.String)">
             <summary>
             Constructs an LGSPGraph object with the given model and name.
             </summary>
             <param name="grmodel">The graph model.</param>
+            <param name="grname">The name for the graph.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPBackend,System.String)">
+            <summary>
+            Constructs an LGSPGraph object with the given model, backend, and name.
+            </summary>
+            <param name="grmodel">The graph model.</param>
+            <param name="lgspBackend">The responsible backend object, needed for import from the sequences.</param>
             <param name="grname">The name for the graph.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPBackend,de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.String)">
@@ -2082,11 +2081,28 @@
             </summary>
             <returns>A dynamic array of the visitor ids allocated.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.AnalyzeGraph">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.ReserveVisitedFlag(System.Int32)">
             <summary>
-            Analyzes the graph.
-            The calculated data is used to generate good searchplans for the current graph.
+            Called by the transaction manager just when it gets notified about a vfree.
+            The visited flag freed must be reserved until the transaction finished,
+            cause otherwise it might be impossible for the transaction manager to roll the vfree back with a valloc;
+            that may happen if the flag is handed out again in a succeeding valloc, during a transaction pause.
             </summary>
+            <param name="visitorID"></param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.UnreserveVisitedFlag(System.Int32)">
+            <summary>
+            Called by the transaction manager on flags it reserved from getting handed out again during valloc,
+            when the transaction finished and it is safe to return those flags again on valloc.
+            </summary>
+            <param name="visitorID"></param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.ReallocateVisitedFlag(System.Int32)">
+            <summary>
+            Called by the transaction manager on flags it reserved from getting handed out again during valloc,
+            when the transaction is rolled back, and the vfree is undone by a realloc.
+            </summary>
+            <param name="visitorID"></param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CheckEmptyFlags">
             <summary>
@@ -2200,6 +2216,11 @@
             The model associated with the graph.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Backend">
+            <summary>
+            The backend that created the graph
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.VisitorData.NodesMarked">
             <summary>
             Specifies whether this visitor has already marked any nodes.
@@ -2216,6 +2237,19 @@
             <summary>
             A hash map containing all visited elements (in the keys, the dictionary values are not used).
             This is unused (and thus null), if the graph element flags are used for this visitor ID.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.VisitorData.IsReserved">
+            <summary>
+            Tells whether this flag was reserved by the transaction manager,
+            preventing it from getting handed out in a valloc again
+            (because the flag was freed during a transaction,
+            and might not be allocatable again during transaction rollback without reservation.)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.VisitorData.ToBeUnreserved">
+            <summary>
+            Tells whether the reserved flag is to be unreserved again.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Yielding">
@@ -2374,6 +2408,11 @@
         <member name="T:de.unika.ipd.grGen.expression.DoWhileStatement">
             <summary>
             Class representing do while statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.MultiStatement">
+            <summary>
+            Class representing multi statement
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.DefDeclaration">
@@ -2952,6 +2991,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPActions.Graph">
             <summary>
             The associated graph.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPActions.StatisticsPath">
+            <summary>
+            The statistics file used for generating the matchers, null if none was used.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPActions.Actions">
@@ -4286,13 +4330,14 @@
             Returns the base name of a path name (i.e. no path and no extension).
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,System.Int32,de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,System.Int32,de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
             <summary>
             Creates a new LGSPGraph or LGSPNamedGraph and LGSPActions instance from the specified specification file.
             If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
             <param name="graphName">Name of the new graph.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
@@ -4302,38 +4347,41 @@
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
             <summary>
             Creates a new LGSPGraph and LGSPActions instance from the specified specification file.
             If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
             A name for the graph is automatically generated.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="newGraph">Returns the new graph.</param>
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateNamedFromSpec(System.String,System.Int32,de.unika.ipd.grGen.lgsp.LGSPNamedGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateNamedFromSpec(System.String,System.String,System.Int32,de.unika.ipd.grGen.lgsp.LGSPNamedGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
             <summary>
             Creates a new LGSPNamedGraph and LGSPActions instance from the specified specification file.
             If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
             A name for the graph is automatically generated.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
             <param name="newGraph">Returns the new named graph.</param>
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,System.Int32)">
             <summary>
             Creates a new LGSPGraph or LGSPNamedGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="gmFilename">Filename of the model specification file (.gm).</param>
             <param name="graphName">Name of the new graph.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
@@ -4366,13 +4414,14 @@
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new LGSPNamedGraph instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.ProcessSpecification(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.ProcessSpecification(System.String,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
             <summary>
             Processes the given rule specification file and generates a model and actions library.
             </summary>
             <param name="specPath">The path to the rule specification file (.grg).</param>
             <param name="destDir">The directory, where the generated libraries are to be placed.</param>
             <param name="intermediateDir">A directory, where intermediate files can be placed.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed.</param>
             <param name="externalAssemblies">External assemblies to reference</param>
             <exception cref="T:System.Exception">Thrown, when an error occurred.</exception>
@@ -5719,16 +5768,33 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,System.Int32)">
             <summary>
-            Constructs an LGSPNamedGraph object with the given model and an automatically generated name.
+            Constructs an LGSPNamedGraph object with the given model and capacity, and an automatically generated name.
             </summary>
             <param name="grmodel">The graph model.</param>
             <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPBackend,System.Int32)">
             <summary>
-            Constructs an LGSPNamedGraph object with the given model and name.
+            Constructs an LGSPNamedGraph object with the given model, backend, and capacity, and an automatically generated name.
             </summary>
             <param name="grmodel">The graph model.</param>
+            <param name="backend">The backend.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.Int32)">
+            <summary>
+            Constructs an LGSPNamedGraph object with the given model, name, and capacity.
+            </summary>
+            <param name="grmodel">The graph model.</param>
+            <param name="grname">The name for the graph.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPBackend,System.String,System.Int32)">
+            <summary>
+            Constructs an LGSPNamedGraph object with the given model, backend, name, and capacity.
+            </summary>
+            <param name="grmodel">The graph model.</param>
+            <param name="backend">The backend.</param>
             <param name="grname">The name for the graph.</param>
             <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         </member>
@@ -6094,7 +6160,7 @@
             <param name="path">The original path string potentially with wrong chars</param>
             <returns>The corrected path string</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateStaticPlanGraph(de.unika.ipd.grGen.lgsp.PatternGraph,System.Int32,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateStaticPlanGraph(de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
             <summary>
             Generate plan graph for given pattern graph with costs from initial static schedule handed in with graph elements.
             Plan graph contains nodes representing the pattern elements (nodes and edges)
@@ -6102,32 +6168,116 @@
             Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateScheduledSearchPlans(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateScheduledSearchPlans(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraphStatistics,de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator,System.Boolean,System.Boolean)">
             <summary>
             Generates scheduled search plans needed for matcher code generation for action compilation
             out of static schedule information given by rulePattern elements, 
+            or out of statistics stemming from loading previously serialized statistics 
             utilizing code of the lgsp matcher generator.
             The scheduled search plans are added to the main and the nested pattern graphs.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.ProcessSpecification(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.ProcessSpecification(System.String,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
             <summary>
             Processes the given rule specification file and generates a model and actions library.
             </summary>
             <param name="specPath">The path to the rule specification file (.grg).</param>
             <param name="destDir">The directory, where the generated libraries are to be placed.</param>
             <param name="intermediateDir">A directory, where intermediate files can be placed.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed.</param>
             <param name="externalAssemblies">External assemblies to reference</param>
             <exception cref="T:System.Exception">Thrown, when an error occurred.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.ProcessSpecification(System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.ProcessSpecification(System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
             <summary>
             Processes the given rule specification file and generates a model and actions library in the same directory as the specification file.
             </summary>
             <param name="specPath">The path to the rule specification file (.grg).</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed.</param>
             <param name="externalAssemblies">External assemblies to reference</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics">
+            <summary>
+            A class for analyzing a graph and storing the statistics about the graph
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.nodeCounts">
+            <summary>
+            The number of compatible nodes in the graph for each type at the time of the last analysis.
+            It is null, if no analysis has been executed, yet.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.edgeCounts">
+            <summary>
+            The number of compatible edges in the graph for each type at the time of the last analysis.
+            It is null, if no analysis has been executed, yet.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.outCounts">
+            <summary>
+            The number of edges going out for each node type at the time of the last analysis.
+            It is null, if no analysis has been executed, yet.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.inCounts">
+            <summary>
+            The number of edges coming in for each node type at the time of the last analysis.
+            It is null, if no analysis has been executed, yet.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.meanOutDegree">
+            <summary>
+            The mean out degree (independent of edge types) of the nodes of a graph for each node type
+            at the time of the last analysis.
+            It is null, if no analysis has been executed, yet.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.meanInDegree">
+            <summary>
+            The mean in degree (independent of edge types) of the nodes of a graph for each node type
+            at the time of the last analysis.
+            It is null, if no analysis has been executed, yet.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.#ctor(de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Create the statistics class, binding it to the graph model
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.Copy(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Copy constructor helper.
+            </summary>
+            <param name="dataSource">The LGSPGraph object to get the data from</param>
+            <param name="newName">Name of the copied graph.</param>
+            <param name="oldToNewMap">A map of the old elements to the new elements after cloning,
+            just forget about it if you don't need it.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.AnalyzeGraph(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Analyzes the graph.
+            The calculated data is used to generate good searchplans for the current graph.
+            To be called from the graph, not directly, to ensure the changes counter is correctly set.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.Parse(System.String)">
+            <summary>
+            Reads the statistics from the specified file path (inverse of Serialize).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.Serialize(System.String)">
+            <summary>
+            Writes the statistics to the specified file path (inverse of Parse).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.FixDirectorySeparators(System.String)">
+            <summary>
+            Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system
+            </summary>
+            <param name="path">The original path string potentially with wrong chars</param>
+            <returns>The corrected path string</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Expression">
             <summary>
@@ -6225,6 +6375,36 @@
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.GE">
+            <summary>
+            Class representing a greater than or equal comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EXTERNAL_EQ">
+            <summary>
+            Class representing an equality comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EXTERNAL_NE">
+            <summary>
+            Class representing an inequality comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EXTERNAL_LT">
+            <summary>
+            Class representing a less than comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EXTERNAL_LE">
+            <summary>
+            Class representing a less than or equal comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EXTERNAL_GT">
+            <summary>
+            Class representing a greater than comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EXTERNAL_GE">
             <summary>
             Class representing a greater than or equal comparison.
             </summary>
@@ -6429,6 +6609,21 @@
             Class representing nameof expression
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.ImportExpression">
+            <summary>
+            Class representing import expression
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CopyExpression">
+            <summary>
+            Class representing copy expression
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Count">
+            <summary>
+            Class representing count of instances of an iterated pattern expression
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Qualification">
             <summary>
             Class representing qualification expression
@@ -6462,6 +6657,11 @@
         <member name="T:de.unika.ipd.grGen.expression.Random">
             <summary>
             Class representing random expression
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.This">
+            <summary>
+            Class representing this expression
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.StringLength">
