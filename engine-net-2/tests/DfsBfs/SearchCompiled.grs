@@ -17,7 +17,7 @@ show node n2
 show node n3
 show node n4
 
-exec for{n:WalkOrder; {n.num = -1}}
+exec for{n:WalkOrder in nodes(WalkOrder); {n.num = -1}}
 
 exec DepthFirstCompiled(::n1)
 
@@ -26,7 +26,7 @@ show node n2
 show node n3
 show node n4
 
-exec for{n:WalkOrder; {n.num = -1}}
+exec for{n:WalkOrder in nodes(WalkOrder); {n.num = -1}}
 
 exec vis:int ;> {(vis)=valloc()} ;> (urgs:int)=DepthFirstCallCompiled(::n1, 0, vis) ;> {vfree(vis)}
 

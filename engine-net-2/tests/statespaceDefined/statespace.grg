@@ -164,17 +164,17 @@ sequence copyAndLinkBlueCompiled(gr:Graph) : (ngr:Graph) {
 sequence stateStepIsoCheckDefinedCompiled(gr:Graph, level:int) {
 	if{{level < ::stopLevel};
 		sub:graph ;> ngr:Graph
-		;> << insertRed(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkRedCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefinedCompiled(ngr, level+1) >>
-		;> << insertGreen(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkGreenCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefinedCompiled(ngr, level+1) >>
-		;> << insertBlue(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph; {sub!=others.sub}} && / (ngr)=copyAndLinkBlueCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefinedCompiled(ngr, level+1) >>;
+		;> << insertRed(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / (ngr)=copyAndLinkRedCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefinedCompiled(ngr, level+1) >>
+		;> << insertGreen(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / (ngr)=copyAndLinkGreenCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefinedCompiled(ngr, level+1) >>
+		;> << insertBlue(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / (ngr)=copyAndLinkBlueCompiled(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefinedCompiled(ngr, level+1) >>;
 		false}
 }
 
 sequence stateStepIsoCheckInsertDefinedCompiled(gr:Graph, level:int) {
 	if{{level < ::stopLevel};
 		sub:graph ;> ngr:Graph ;> inc:set<Edge>
-		;> << insertRed(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph; {sub!=others.sub}} && / {(tmp:Edge)=insertDefined(inc, inc.peek(0)); ngr=(Graph)source(tmp)} && linkRed(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefinedCompiled(ngr, level+1) >>
-		;> << insertGreen(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph; {sub!=others.sub}} && / {(tmp:Edge)=insertDefined(inc, inc.peek(0)); ngr=(Graph)source(tmp)} && linkGreen(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefinedCompiled(ngr, level+1) >>
-		;> << insertBlue(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph; {sub!=others.sub}} && / {(tmp:Edge)=insertDefined(inc, inc.peek(0)); ngr=(Graph)source(tmp)} && linkBlue(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefinedCompiled(ngr, level+1) >>;
+		;> << insertRed(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / {(tmp:Edge)=insertDefined(inc, inc.peek(0)); ngr=(Graph)source(tmp)} && linkRed(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefinedCompiled(ngr, level+1) >>
+		;> << insertGreen(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / {(tmp:Edge)=insertDefined(inc, inc.peek(0)); ngr=(Graph)source(tmp)} && linkGreen(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefinedCompiled(ngr, level+1) >>
+		;> << insertBlue(gr) ;; {inc=incident(gr, contains); sub=definedSubgraph(inc)} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / {(tmp:Edge)=insertDefined(inc, inc.peek(0)); ngr=(Graph)source(tmp)} && linkBlue(gr,ngr) && {ngr.sub=sub} / && stateStepIsoCheckInsertDefinedCompiled(ngr, level+1) >>;
 		false}
 }

@@ -8,20 +8,20 @@ foo(start:Node) : int
 	def tmpNode_:A;
 	def -tmpEdge_:EE->;
 
-	for(n:Node) {
+	for(n:Node in nodes(Node)) {
 		res = res + 1;
 		tmpNode = n;
 	}
-	for(e:Edge) {
+	for(e:Edge in edges(Edge)) {
 		res = res + 1;
 		tmpEdge = e;
 	}
 
-	for(n:A) {
+	for(n:A in nodes(A)) {
 		res = res + 1;
 		tmpNode_ = n;
 	}
-	for(e:EE) {
+	for(e:EE in edges(EE)) {
 		res = res + 1;
 		tmpEdge_ = e;
 	}
@@ -93,20 +93,20 @@ test t() : (int)
 	
 	independent {
 		yield {
-			for(n:Node) {
+			for(n:Node in nodes(Node)) {
 				yield res = res + 1;
 				yield tmpNode = n;
 			}
-			for(e:Edge) {
+			for(e:Edge in edges(Edge)) {
 				yield res = res + 1;
 				yield tmpEdge = e;
 			}
 
-			for(n:A) {
+			for(n:A in nodes(A)) {
 				yield res = res + 1;
 				yield tmpNode_ = n;
 			}
-			for(e:EE) {
+			for(e:EE in edges(EE)) {
 				yield res = res + 1;
 				yield tmpEdge_ = e;
 			}
@@ -180,20 +180,20 @@ rule r() : (int)
 		def -tmpEdge_:Edge->;
 		
 		eval { 
-			for(n:Node) {
+			for(n:Node in nodes(Node)) {
 				yield res = res + 1;
 				yield tmpNode = n;
 			}
-			for(e:Edge) {
+			for(e:Edge in edges(Edge)) {
 				yield res = res + 1;
 				yield tmpEdge = e;
 			}
 
-			for(n:A) {
+			for(n:A in nodes(A)) {
 				yield res = res + 1;
 				yield tmpNode_ = n;
 			}
-			for(e:EE) {
+			for(e:EE in edges(EE)) {
 				yield res = res + 1;
 				yield tmpEdge_ = e;
 			}
