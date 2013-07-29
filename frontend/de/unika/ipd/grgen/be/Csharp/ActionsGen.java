@@ -3716,6 +3716,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.YieldAssignment(");
 		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", true, ");
+		sb.append("\"" + formatType(target.getType()) + "\", ");
 		genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(")");
 	}
@@ -3742,6 +3743,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.YieldAssignment(");
 		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", false, ");
+		sb.append("\"" + (target instanceof Node ? "GRGEN_LGSP.LGSPNode" : "GRGEN_LGSP.LGSPEdge") + "\", ");
 		genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(")");
 	}
@@ -4054,7 +4056,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.ForLookup(");
 		sb.append("\"" + formatEntity(iterationVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
 		sb.append("\"" + formatIdentifiable(iterationVar) + "\", ");
-		sb.append("\"" + formatElementClassRef(iterationVarType) + "\", ");
+		sb.append("\"" + formatElementInterfaceRef(iterationVarType) + "\", ");
 		sb.append(iterationVarType instanceof NodeType ? "true, " : "false, ");
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
 		for(EvalStatement statement : fl.getLoopedStatements()) {
@@ -4073,7 +4075,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.ForFunction(");
 		sb.append("\"" + formatEntity(iterationVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
 		sb.append("\"" + formatIdentifiable(iterationVar) + "\", ");
-		sb.append("\"" + formatElementClassRef(iterationVarType) + "\", ");
+		sb.append("\"" + formatElementInterfaceRef(iterationVarType) + "\", ");
 		if(ff.getFunction() instanceof AdjacentNodeExpr) {
 			AdjacentNodeExpr adjacentExpr = (AdjacentNodeExpr)ff.getFunction();
 			StringBuffer sbtmp = new StringBuffer();

@@ -1059,6 +1059,10 @@ Sequence SimpleSequence():
 				return new SequenceForReachable(fromVar, SequenceType.ForReachableEdgesViaIncoming, expr, expr2, expr3, seq, variableList1);
 			} else if(str=="reachableEdgesOutgoing") {
 				return new SequenceForReachable(fromVar, SequenceType.ForReachableEdgesViaOutgoing, expr, expr2, expr3, seq, variableList1);
+			} else if(str=="nodes") {
+				return new SequenceForLookup(fromVar, expr, seq, variableList1);
+			} else if(str=="edges") {
+				return new SequenceForLookup(fromVar, expr, seq, variableList1);
 			}
 		}
 	|
@@ -1066,12 +1070,6 @@ Sequence SimpleSequence():
 			{ varDecls.PopScope(variableList1); } "}"
 		{
 			return new SequenceForContainer(fromVar, fromVar2, fromVar3, seq, variableList1);
-		}
-	|
-		";" seq=RewriteSequence()
-			{ varDecls.PopScope(variableList1); } "}"
-		{
-			return new SequenceForLookup(fromVar, seq, variableList1);
 		}
 	)
 |

@@ -3083,6 +3083,7 @@ namespace de.unika.ipd.grGen.lgsp
                         YieldAssignment assignment = new YieldAssignment(
                             targetName,
                             isVariable,
+                            TypesHelper.TypeName(patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i]),
                             isVariable ? (Expression)new VariableExpression(elem.Name) : (Expression)new GraphEntityExpression(elem.Name)
                         );
 

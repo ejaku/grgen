@@ -39,22 +39,24 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class YieldAssignment : Yielding
     {
-        public YieldAssignment(String left, bool isVar, Expression right)
+        public YieldAssignment(String left, bool isVar, String targetType, Expression right)
         {
             Left = left;
             IsVar = isVar;
+            TargetType = targetType;
             Right = right;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new YieldAssignment(Left + renameSuffix, IsVar, Right.Copy(renameSuffix));
+            return new YieldAssignment(Left + renameSuffix, IsVar, TargetType, Right.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(IsVar ? NamesOfEntities.Variable(Left) : NamesOfEntities.CandidateVariable(Left));
             sourceCode.Append(" = ");
+            sourceCode.Append("(" + TargetType + ")");
             Right.Emit(sourceCode);
             sourceCode.Append(";\n");
         }
@@ -66,6 +68,7 @@ namespace de.unika.ipd.grGen.expression
 
         String Left;
         bool IsVar;
+        String TargetType;
         Expression Right;
     }
 
@@ -881,16 +884,14 @@ namespace de.unika.ipd.grGen.expression
                 adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 adjacent.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
                 adjacent.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Opposite(node_{2});\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
@@ -901,16 +902,14 @@ namespace de.unika.ipd.grGen.expression
                 adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 adjacent.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
                 adjacent.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Source;\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
@@ -921,16 +920,14 @@ namespace de.unika.ipd.grGen.expression
                 adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 adjacent.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
                 adjacent.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Target;\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
@@ -941,16 +938,14 @@ namespace de.unika.ipd.grGen.expression
                 incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 incident.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
                 incident.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
@@ -961,16 +956,14 @@ namespace de.unika.ipd.grGen.expression
                 incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 incident.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
                 incident.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
@@ -981,16 +974,14 @@ namespace de.unika.ipd.grGen.expression
                 incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 incident.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
                 incident.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model)))\n");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("\tcontinue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
@@ -1001,12 +992,10 @@ namespace de.unika.ipd.grGen.expression
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.Reachable(node_{0}, ", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 reachable.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append(", ");
                 sourceCode.Append("graph))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1019,12 +1008,10 @@ namespace de.unika.ipd.grGen.expression
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.ReachableIncoming(node_{0}, ", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 reachable.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append(", ");
                 sourceCode.Append("graph))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1033,13 +1020,14 @@ namespace de.unika.ipd.grGen.expression
             else if(AdjacentIncidentReachable is ReachableOutgoing)
             {
                 ReachableOutgoing reachable = (ReachableOutgoing)AdjacentIncidentReachable;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.ReachableOutgoing(node_{0}, ", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 reachable.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append(", ");
                 sourceCode.Append("graph))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1048,13 +1036,14 @@ namespace de.unika.ipd.grGen.expression
             else if(AdjacentIncidentReachable is ReachableEdges)
             {
                 ReachableEdges reachable = (ReachableEdges)AdjacentIncidentReachable;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdges(node_{0}, ", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 reachable.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append(", ");
                 sourceCode.Append("graph))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1063,13 +1052,14 @@ namespace de.unika.ipd.grGen.expression
             else if(AdjacentIncidentReachable is ReachableEdgesIncoming)
             {
                 ReachableEdgesIncoming reachable = (ReachableEdgesIncoming)AdjacentIncidentReachable;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming(node_{0}, ", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 reachable.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append(", ");
                 sourceCode.Append("graph))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1078,13 +1068,14 @@ namespace de.unika.ipd.grGen.expression
             else if(AdjacentIncidentReachable is ReachableEdgesOutgoing)
             {
                 ReachableEdgesOutgoing reachable = (ReachableEdgesOutgoing)AdjacentIncidentReachable;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
                 sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing(node_{0}, ", id);
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetEdgeType(\"");
                 reachable.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
-                sourceCode.Append("GRGEN_LIBGR.TypesHelper.GetNodeType(\"");
+                sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
-                sourceCode.Append("\", graph.Model), ");
+                sourceCode.Append(", ");
                 sourceCode.Append("graph))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();

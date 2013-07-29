@@ -3375,6 +3375,11 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             FunctionInfo funcDef = ParamBindings.FunctionDef;
+            for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
+            {
+                if(ParamBindings.ArgumentExpressions[i] != null)
+                    ParamBindings.Arguments[i] = ParamBindings.ArgumentExpressions[i].Evaluate(procEnv);
+            }
             object res = funcDef.Apply(procEnv, procEnv.Graph, ParamBindings);
             return res;
         }
