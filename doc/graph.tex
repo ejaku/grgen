@@ -6,9 +6,9 @@
 \section{Built-In Types}
 \label{sec:builtingenerictypes}
 Besides the types already introduced, \GrG\ offers supports for a \texttt{\indexed{graph}} type.
-If used explicitely, it denotes a subgraph of the host graph, which can be used for storing and comparing subgraphs of the current host graph (after subgraph extraction no further graph operations are possible (unless the API is used), because of the "there is only a single host graph"-design of GrGen).
+If used explicitly, it denotes a subgraph of the host graph, which can be used for storing and comparing subgraphs of the current host graph (after subgraph extraction no further graph operations are possible (unless the API is used), because of the "there is only a single host graph"-design of GrGen).
 
-But more important are the large number of global functions (with call syntax as already inroduced in \ref{sec:primexpr}) and global procedures (with call syntax as already inroduced in \ref{sec:proccall}) that implicitely operate on the single host graph (and thus on the graph type).
+But more important are the large number of global functions (with call syntax as already introduced in \ref{sec:primexpr}) and global procedures (with call syntax as already introduced in \ref{sec:proccall}) that implicitly operate on the single host graph (and thus on the graph type).
 There are update functions available that allow to manipulate the graph available with \texttt{add}, \texttt{rem} and \texttt{retype}.
 The host graph may be queried for all \texttt{nodes} or \texttt{edges} of a given type.
 An edge may be queried for its \texttt{source} and \texttt{target} elements,
@@ -106,7 +106,7 @@ NeighbourhoodFunctionCall:
 
 The neighbourhood query function can be used in three possible ways: 
 \begin{description}
-	\item[Set functions:] The neighbourhood function returns a set of neighbouring entities of the start node. It builds a set that is likely thrown away thereafter, so esp. for large sets this functions is less efficent than the other versions.
+	\item[Set functions:] The neighbourhood function returns a set of neighbouring entities of the start node. It builds a set that is likely thrown away thereafter, so esp. for large sets this functions is less efficient than the other versions.
 \begin{rail}
 Expression:
   FunctionName '(' StartNodeExpr ')' ;
@@ -217,9 +217,9 @@ rule bar {
     }
 }
 \end{grgen}
-Some fabricated example showing how to use the \texttt{isReachableOutgoing} function to check for an \indexed{iterated path} between the \texttt{src} and \texttt{target} nodes, how to check for loops by interesecting the sets of nodes reachable by outgoing edges from a node and reachable by incoming edges to a node, and how to iterate with one loop over all edges reachable in either way from a node.
+Some fabricated example showing how to use the \texttt{isReachableOutgoing} function to check for an \indexed{iterated path} between the \texttt{src} and \texttt{target} nodes, how to check for loops by intersecting the sets of nodes reachable by outgoing edges from a node and reachable by incoming edges to a node, and how to iterate with one loop over all edges reachable in either way from a node.
 
-The isReachable functions give the most efficient and most convenient way to check for an iterated path in GrGen, if you need more elaborate checking than constraining the edge type to one type and the taget node type to one type you need to program the iterated path with subpattern recursion.
+The isReachable functions give the most efficient and most convenient way to check for an iterated path in GrGen, if you need more elaborate checking than constraining the edge type to one type and the target node type to one type you need to program the iterated path with subpattern recursion.
 
 The reachable iteration is the most concise way to note down a depth first walk over a graph, visiting all elements reachable from a source node on.
 \end{example}
@@ -277,7 +277,7 @@ Here we extend the relational expressions already introduced in \ref{sec:relatio
 The \texttt{graph} type support the \texttt{==}, the \texttt{!=}, and the \texttt{\textasciitilde\textasciitilde} operators;
 on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}) or not, including the attributes, or whether the (sub)graphs are isomorphic disregarding the attributes.
 
-These operators consist just of two charactes, but don't underestimate their impact on performance:
+These operators consist just of two characters, but don't underestimate their impact on performance:
 they do graph isomorphy checking, which is expensive.
 They are implemented in an early out style, i.e. the more different the graphs are, the earlier does the check return with the result they are not isomorphic.
 But if the graphs you are checking are isomorphic (which will happen easily if you use automorphic patterns), then you have to pay the full price for isomorphy checking; if this occurs often, your solution may become prohibitively costly (including an external graph canonization library or the \texttt{canonize} function may be of interest in that case).
@@ -340,7 +340,7 @@ This function internally calls a \texttt{vreset} to ensure that no corresponding
 \subsection{Transaction Handling}\label{sub:transaction}
 
 In addition to the procedures implemented directly in the graph, there are transaction manager procedures available, implemented in the graph processing environment.
-While a transaction is underway, an undo log is filled with commands to undo the changes that occured in the graph in the meantime.
+While a transaction is underway, an undo log is filled with commands to undo the changes that occurred in the graph in the meantime.
 Those transaction handling procedures are:
 
 \begin{description}

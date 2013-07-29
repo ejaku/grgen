@@ -21,7 +21,7 @@ Subpattern declarations define a subpattern type denoting the specified shape in
 the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
 So they are only syntactically the same as test/rule-parameters (which are members of the pattern part).
 A further difference is the lack of ReturnTypes; they are not actions, just a helper in constructing complex patterns.
-In order to get values out they employ the language construct of def entites which are yielded to (cf. \ref{sec:localvarorderedevalyield} later in this chapter).
+In order to get values out they employ the language construct of def entities which are yielded to (cf. \ref{sec:localvarorderedevalyield} later in this chapter).
 Subpatterns can receive additional rewrite parameters in contrast to the actions; they can be used to hand in nodes which are created in the rewrite part of the action or subpattern which contains the subpattern entity.
 (The nested body will be explained in Section~\ref{sec:subrule}.)
 
@@ -163,7 +163,7 @@ pattern IteratedPath(begin:Assign, end:Assign)
 }
   \end{grgen}
 
-This is once more a fabricated example, for an iterated path from a source node to a distinctive target node, and an example for the interplay of subpatterns and positive application conditions to chech complex conditions independent from the pattern already matched.
+This is once more a fabricated example, for an iterated path from a source node to a distinctive target node, and an example for the interplay of subpatterns and positive application conditions to check complex conditions independent from the pattern already matched.
 Here, three nodes \texttt{a1},\texttt{a2},\texttt{a3} of type \texttt{Assign} forming a list connected by edges are searched, and if found, \texttt{a2} gets deleted, but only if there is an iterated path of directed edges from \texttt{a1} to \texttt{a3}.
 The path may contain the host graph node matched to \texttt{a2} again.
 Without the \texttt{independent} this would not be possible, as all pattern elements -- including the ones originating from subpatterns -- get matched isomorphically. 
@@ -180,7 +180,7 @@ built up in a structured way from simple, connected pieces (as e.g. abstract syn
 
 \begin{note}
 If you are working with hierarchic structures like that, 
-you might be interested in the capablities of GrShell/yComp for nested layout
+you might be interested in the capabilities of GrShell/yComp for nested layout
 as described and shown in \ref{sub:visual}/\ref{note:visual}).
 \end{note}
 
@@ -339,7 +339,7 @@ In addition to the fine-grain dependent replacement, subpatterns may get deleted
 \end{rail}\ixkeyw{SubpatternOccurence}\ixkeyw{delete}
 
 In modify mode, they are kept by default, but deleted if the name of the declared subpattern entity is mentioned within a delete statement.
-In replace mode, they are deleted by default, but kept if the name of the declared subpattern entity is mentioned (using occurence, same as with nodes or edges).
+In replace mode, they are deleted by default, but kept if the name of the declared subpattern entity is mentioned (using occurrence, same as with nodes or edges).
 
 \begin{example}
   \begin{grgen}
@@ -436,7 +436,7 @@ Normally the rewrite order is as given in table \ref{table:executionorderrewriti
   \label{table:executionorderrewriting}
 \end{table}
 
-So first the subpatterns rewrites, then the iterated rewrites, then the alternative rewrits are executed, and finally the local eval statements (computations).
+So first the subpatterns rewrites, then the iterated rewrites, then the alternative rewrites are executed, and finally the local eval statements (computations).
 This might be sufficient in some cases, but in other cases when you want to compute an attributation over a tree/a graph, you want to have local computations influenced by attributes in nested/called children or its siblings, and attributes in nested/called children influenced by its parents or siblings.
 So we need a language device which allows us to intermingle attribute computations in between the rewrite part executions of nested patterns and subpattern rewrite calls.
 And a language device which allows us to give the execution oder of the alternative and iterated statements relative to the subpattern rewrite calls and attribute evaluations.
@@ -494,11 +494,11 @@ rule R {
 
 \begin{note}
 For rewriting the execution order of the parts can be defined, to allow programming attribute evaluation orders of interest, defining when to descend into which part and defining glueing/local computations in between.
-(A depth first run with a defined order in between the siblings, comparable to an LAG/RAG run in compiler construction, but with an explicitely defined sequence of children visits, instead of a temperal succession implicitely induced by the syntactical left-to-right ordering).
+(A depth first run with a defined order in between the siblings, comparable to an LAG/RAG run in compiler construction, but with an explicitly defined sequence of children visits, instead of a temporal succession implicitly induced by the syntactical left-to-right ordering).
 In contrast to rewriting, the \emph{matching} order of the pattern parts can \emph{not} be defined, to allow the compiler/the runtime to use the evaluation order it estimates to be the best.
-So we can't access attributes from sibling elements, we can only compute attributes top down from local elements or elments handed in on matching, and later on bottom up from local elements or elements bubbleing up at match object tree construction.
-Top down attribute evaluation operates on the already matched elements and attribute values or the ones received as inputs, which are handed down implicitely into nested patterns or explicitely via subpattern parameters into subpattern instances. (A depth first run too, but without a defined order in between the siblings, comparable to an IAG run in compiler construction for computing inherited attributes during matching while descending).
-Bottom up attribute evalutaion operates on the matched elements and attribute values locally available or the ones received into def elements yielded implicitely upwards from the nested patterns or explicitely accumulating iterated results or with assigning out parameters of subpatterns. (The same depth first run, but with attributes computed while ascending, comparable to an SAG run in compiler construction for computing synthesized attributes.)
+So we can't access attributes from sibling elements, we can only compute attributes top down from local elements or elements handed in on matching, and later on bottom up from local elements or elements bubbling up at match object tree construction.
+Top down attribute evaluation operates on the already matched elements and attribute values or the ones received as inputs, which are handed down implicitly into nested patterns or explicitly via subpattern parameters into subpattern instances. (A depth first run too, but without a defined order in between the siblings, comparable to an IAG run in compiler construction for computing inherited attributes during matching while descending).
+Bottom up attribute evaluation operates on the matched elements and attribute values locally available or the ones received into def elements yielded implicitly upwards from the nested patterns or explicitly accumulating iterated results or with assigning out parameters of subpatterns. (The same depth first run, but with attributes computed while ascending, comparable to an SAG run in compiler construction for computing synthesized attributes.)
 \end{note}
 
 \subsection*{Yielding Outwards During Rewriting}\label{sub:yield} 
@@ -584,7 +584,7 @@ rule outCount(head:Node) : (int)
 
 \subsection*{Yielding Outwards During Match Object Construction} 
 
-Bubbeling up the elements from nested patterns and called patterns during rewriting might be too late or inconvenient.
+Bubbling up the elements from nested patterns and called patterns during rewriting might be too late or inconvenient.
 Luckily it can be done before, at the end pattern matching when the match object tree gets constructed.
 
 As for RHS yielding the targets of the yielding must be nodes, edges, or variables declared with the \texttt{def} keyword prepended, marking them as output entities; but this time in the pattern part.
@@ -735,7 +735,7 @@ there is a more lightweight syntax resembling regular expressions;
 using it together with the subpatterns gives graph rewrite specifications which look like EBNF-grammars with embedded actions. 
 Exceeding the more verbose syntax they offer constructs for matching the pattern a bounded number of times (same notation as the one for the bounded iteration in the xgrs).
 %Table \ref{keywordregexpsyntax} lists the corresponding (/equivalent) language constructs; 
-%Example \ref{introexampleregexp} is a version of the introductionary example \ref{introexample} modified to use the new syntax. commented out to get better layout
+%Example \ref{introexampleregexp} is a version of the introductory example \ref{introexample} modified to use the new syntax. commented out to get better layout
 
 \begin{table}[htbp]
   \centering

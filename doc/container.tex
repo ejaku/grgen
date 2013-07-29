@@ -96,7 +96,7 @@ It is a O(1) operation for sets.
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
 The set only allows for non-indexed iteration.
 
-The relational expressions (already introduced in \ref{sec:relational}) used to compare enitites of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compset}:
+The relational expressions (already introduced in \ref{sec:relational}) used to compare entities of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compset}:
 Some set \texttt{A} is a subset of \texttt{B} iff all elements in \texttt{A} are contained in \texttt{B}, too.
 
 \begin{table}[htbp]
@@ -200,7 +200,7 @@ The operator \texttt{m[x]} denotes map lookup, i.e. it returns the value \texttt
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
 The map only allows for indexed iteration, with the key getting assigned to the index variable and the corresponding value getting assigned to the value variable.
 
-The relational expressions (already introduced in \ref{sec:relational}) used to compare enitites of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compmap}:
+The relational expressions (already introduced in \ref{sec:relational}) used to compare entities of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compmap}:
 A map \texttt{A} is a submap of \texttt{B} iff all key-value pairs of \texttt{A} are contained in \texttt{B}, too. If they have a key in common but map to a different value, they count as not identical.
 
 \begin{table}[htbp]
@@ -298,7 +298,7 @@ The index \texttt{x} \emph{must} be a valid array index.
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
 The array allows for non-indexed as well as indexed iteration; if non-indexed iteration is used the array values are iterated over, if indexed iteration is used the index is assigned to the index variable and the corrsponding value is assigned to the value variable. 
 
-The relational expressions (already introduced in \ref{sec:relational}) used to compare enitites of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{comparray}:
+The relational expressions (already introduced in \ref{sec:relational}) used to compare entities of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{comparray}:
 An array \texttt{A} is a subarray of \texttt{B} iff it is smaller or equal in size and the values at each common index are identical (lexicographic order as for strings).
 
 \begin{table}[htbp]
@@ -383,7 +383,7 @@ It is a O(n) operation for deques.
 The operator \texttt{d[x]} denotes deque lookup, i.e. it returns the value \texttt{y} which is stored in the deque \texttt{d} at the index \texttt{x}.
 The index \texttt{x} \emph{must} be a valid deque index.
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
-The deque allows for non-indexed as well as indexed iteration; if non-indexed iteration is used the deque values are iterated over, if indexed iteration is used the index is assigned to the index variable and the corrsponding value is assigned to the value variable. 
+The deque allows for non-indexed as well as indexed iteration; if non-indexed iteration is used the deque values are iterated over, if indexed iteration is used the index is assigned to the index variable and the corresponding value is assigned to the value variable. 
 
 The relational expressions (already introduced in \ref{sec:relational}) used to compare enitites of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compdeque}:
 A deque \texttt{A} is a subdeque of \texttt{B} iff it is smaller or equal in size and the values at each common index are identical (lexicographic order as for strings).
@@ -459,7 +459,7 @@ test neighbour(ref startCities:set<City>) : City
 
 \begin{example}
 Queries for the neighbour of the neighbour of a city matched.
-With the first neigbouring relation queried from the storagemap assumed to contain the neighbouring relation of some cities of interest, and the second neighbouring relation queried from the graph.
+With the first neighboring relation queried from the storagemap assumed to contain the neighbouring relation of some cities of interest, and the second neighbouring relation queried from the graph.
 \begin{grgen}
 test neighbourneighbour(ref neighbours:map<City, City>) : City
 {

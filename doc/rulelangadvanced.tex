@@ -46,7 +46,7 @@ By default \GrG\ performs rewriting according to \indexmain{SPO}SPO semantics as
 This behaviour can be changed with \newterm{pattern modifiers} and \newterm{rule modifiers} (and the other advanced rewrite constructs introduced in the following sections which spoil the theoretical foundation but are highly useful in practice).
 Such modifiers add certain conditions to the applicability of a pattern.
 The idea is to match only parts of the host graph that look more or less exactly like the pattern.
-The level of ``exactness'' depends on the choosen modifier.
+The level of ``exactness'' depends on the chosen modifier.
 A pattern modifier in front of the \texttt{rule}/\texttt{test}-keyword is equivalent to one modifier-statement inside the pattern containing all the specified nodes (including anonymous nodes).
 Table \ref{tbl:rules:patternmodifiers} lists the pattern modifiers with their semantics, table \ref{tbl:rules:rulemodifiers} lists the rule only modifiers with their semantics.
 Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
@@ -54,7 +54,7 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
 \begin{table}[htbp]
     \begin{tabularx}{\linewidth}{l|X}
         \bf Modifier & \bf Meaning \\\hline
-        \texttt{exact} & Switches to the most restricitive mode. An exactly-matched node is matched, if all its incident edges in the host graph are specified in the pattern.\\
+        \texttt{exact} & Switches to the most restrictive mode. An exactly-matched node is matched, if all its incident edges in the host graph are specified in the pattern.\\
         \texttt{induced} & Switches to the induced-mode, where nodes contained in the same \texttt{induced} statement require their induced subgraph within the host graph to be specified, in order to be matched. In particular this means that in general \texttt{induced(a,b,c)} differs from \texttt{induced(a,b); induced(b,c)}.\\
     \end{tabularx}
     \caption{Semantics of pattern modifiers}
@@ -321,7 +321,7 @@ which internally redirects edges.
 \end{rail}\ixnterm{Merging}
 
 \indexmain{merge}Merging enables us to fuse several nodes into one node.
-Syntactically it is given by a retyping clause which not only mentiones the original node inside angle brackets, but several original nodes.
+Syntactically it is given by a retyping clause which not only mentions the original node inside angle brackets, but several original nodes.
 Semantically the first node in the clause is retyped, then all edges of the other original nodes are redirected to the retyped node, and finally the other original nodes are deleted.
 As the type of the merging clause can be set to \texttt{typeof(first original node)}, a pure merging without retyping can be achieved.
 
