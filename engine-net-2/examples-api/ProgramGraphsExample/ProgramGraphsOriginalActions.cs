@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Jul 21 19:01:10 CEST 2013
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Mon Jul 29 10:31:16 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -10680,10 +10680,18 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 	public class Functions
 	{
+
+		static Functions() {
+		}
+
 	}
 
 	public class Procedures
 	{
+
+		static Procedures() {
+		}
+
 	}
 
 	public class ProgramGraphsOriginal_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
