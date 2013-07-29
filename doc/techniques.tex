@@ -8,7 +8,7 @@ but these would need so much customization to be useful in the different situati
 that we decided against dedicated operators;
 instead it is on you to program the version you need yourself by combining language constructs and rules.
 
-%TODO: discuss declarative rule and pattern based versus imperative compuation, container, sequence based.
+%TODO: discuss declarative rule and pattern based versus imperative computation, container, sequence based.
 
 There are two-and-a-half means available in the \GrG-rule language to build combined, complex rules:
 \begin{description}
@@ -46,7 +46,7 @@ Splitting a node \texttt{m} off from a node \texttt{n} means creating a node \te
 
 In both cases there are a lot of different ways how to handle the operation exactly:
 Maybe only incoming or only outgoing edges, or only edges of a certain type \texttt{T} or only edges not of type \texttt{T}; maybe the node \texttt{n} is to be retyped, maybe the edges are to be retyped.
-But common is the transferring of edges; this can be handled succintly by an \texttt{iterated} statement and the \texttt{copy} operator.
+But common is the transferring of edges; this can be handled succinctly by an \texttt{iterated} statement and the \texttt{copy} operator.
 In case the node opposite to an edge may be incident to several such edges, one must use an \texttt{exec} instead (or the \texttt{independent} operator \ref{rule:homspec}), as every iteration locks the matched entities, so they can't get matched twice. Not needing the opposite node one could simply leave it unmentioned in the pattern, only referencing node \texttt{n} or \texttt{m} and the edge, but unfortunately we need the opposite node so we can connect the edge copy to it.
 
 \begin{note}
@@ -54,7 +54,7 @@ In case a simple node merging without edge retyping is sufficient the retype'n'm
 \end{note}
 
 Now we'll have a look at an example for node merging: T1-T2 analysis from compiler construction is used to find out whether a control flow graph of a subroutine is reducible, i.e. all loops are natural loops. All loops being natural loops is a very useful property for many analyses and optimizations. The analysis is split into two steps, T1 removes reflexive edges, T2 merges a control flow successor into its predecessor iff there is only one predecessor available. These two steps are iterated until the entire graph is collapsed into one node which means the control flow is reducible, or execution gets stuck before, in which case the control flow graph is irreducible.
-The analysis is defined on simple graphs, i.e. if two control flow edges between two basic block nodes appear because of merging they are seen as one, i.e. they are automatically fused into one. As \GrG~is built on multigraphs we have to explicitely do the edge fusion in a further step T3.
+The analysis is defined on simple graphs, i.e. if two control flow edges between two basic block nodes appear because of merging they are seen as one, i.e. they are automatically fused into one. As \GrG~is built on multigraphs we have to explicitly do the edge fusion in a further step T3.
 
 First let us have a look at T1 and T3, which are rather boring ... ehm, straight forward:
 
@@ -192,7 +192,7 @@ The examples given can be found in the \texttt{tests/mergeSplit/} directory incl
 \section{Node Replacement Grammars}\indexmain{node replacement grammar}\indexmainsee{edNCE}{node replacement grammar}
 With node replacement grammars we mean edNCE grammars \cite{NodeReplacement}, which stands for edge label directed node controlled embedding. In this context free graph grammar formalism, every rule describes how a node with a nonterminal type is replaced by a subgraph containing terminal and nonterminal nodes and terminal edges. The nodes in the instantiated graph get connected to the nodes that were adjacent to the initial nonterminal node, by connection instructions which tell which edges of what direction and what type are to be created for which original edges of what direction and what type, going to a node of what type.
 
-This kind of grammars can be encoded in \GrG~by rules with a left hand side consisting of a node with a type denoting a nonterminal and iterateds matching the edges and opposite nodes it is connected to of interest; "of interest" amounts to the type and direction of the edges and the type of the opposite node. The right hand side deletes the original node (thus implicitely the incident edges), creates the replacement subgraph, and tells in the rewrite part of the iterateds what new edges of what directedness and type are to be created, from the newly created nodes to the nodes adjacent to the original node. (Multiple edges between two nodes are not allowed in the node replacement formalism, in case you want to handle them you've to use \texttt{exec} as shown in the merge/split example above.)
+This kind of grammars can be encoded in \GrG~by rules with a left hand side consisting of a node with a type denoting a nonterminal and iterateds matching the edges and opposite nodes it is connected to of interest; "of interest" amounts to the type and direction of the edges and the type of the opposite node. The right hand side deletes the original node (thus implicitly the incident edges), creates the replacement subgraph, and tells in the rewrite part of the iterateds what new edges of what directedness and type are to be created, from the newly created nodes to the nodes adjacent to the original node. (Multiple edges between two nodes are not allowed in the node replacement formalism, in case you want to handle them you've to use \texttt{exec} as shown in the merge/split example above.)
 
 The following example directly follows this encoding:
 
@@ -230,7 +230,7 @@ rule example
     \end{grgen}
   \end{example}
 
-As another example for node replacement grammars we encode the two rules needed for the generation of the completely connected graphs (cliques) in two \GrG~rules. The first replaces the nonterminal node by a new nonterminal node linked to a new terminal node, connecting both new nodes to all the nodes the original nonterminal node was adjacent to. The second replaces the nonterminal node by a terminal node, connecting the new terminal node to all the nodes the original nonterminal node was adjacent to. This "we want to preserve the original edges" can be handled more succintly and efficiently by retyping which we gladly use instead of the iteration.
+As another example for node replacement grammars we encode the two rules needed for the generation of the completely connected graphs (cliques) in two \GrG~rules. The first replaces the nonterminal node by a new nonterminal node linked to a new terminal node, connecting both new nodes to all the nodes the original nonterminal node was adjacent to. The second replaces the nonterminal node by a terminal node, connecting the new terminal node to all the nodes the original nonterminal node was adjacent to. This "we want to preserve the original edges" can be handled more succinctly and efficiently by retyping which we gladly use instead of the iteration.
 
   \begin{example}
     \begin{grgen}
@@ -272,11 +272,11 @@ The examples can be found in the \texttt{tests/nodeReplacementGrammar} directory
 This is in contrast to \emph{transformation} tools, which are used for specifying mappings in between \emph{two} (or more) graphs. (Graphs are typically called models in this kind of tools. Don't confuse this with the notion of graph model in \GrG as introduced in chapter \ref{chapmodellang}. In model transformation parlance our graph model denotes a meta model, with a model adhering to a meta model, which in turn adheres to a meta meta model, climbing a ladder of bullshit abstraction leading right into the land of the hot-air merchants, eh, real software engineers.))
 The graph model might be a union of multiple graph models, and the graph may consist of multiple unconnected components, so you don't loose anything regarding expressiveness here.
 
-What you loose is the automatic construction of the \indexed{tracebility} links which allow to retrieve the source node from a mapped node or the mapped node from a source node, which is normally carried out by a real transformation tool in the background.
+What you loose is the automatic construction of the \indexed{traceability} links which allow to retrieve the source node from a mapped node or the mapped node from a source node, which is normally carried out by a real transformation tool in the background.
 And there are no built-in annotations by which you specify the model in which to match the elements.
 But again neither means a loss in expressiveness.
 
-You can construct the tracebality links on your own.
+You can construct the traceability links on your own.
 Either by using simple edges between the nodes (this is not possible in a transformation tool as edges can only exist within a graph/model).
 Or by using maps of node type to node type (or from edge type to edge type) which you must fill manually:
 when you map a source node to a target node (i.e. for a matched source node you create a target node), you fill a global map from source to target nodes with this pair, and/or a global map from target to source nodes.
@@ -365,7 +365,7 @@ Here too one could constrain the subgraph copied by filtering certain edges.
 In case of undirected edges one would have to prevent that edges get copied twice (once for every incident node). This would require a visited flag for marking the already copied edges or a storage receiving them, queried in the edge copying pattern and set/filled in the edge copying rewrite part.
 
   \begin{example}
-The example shows very generally how a subgraph reachable from a root node by incident edges can get copied, collecting and copying the nodes along a \indexed{spanning tree} from the root node on, then copying the edges in between the nodes in a second run afterwards. The edges get connected to the correct node copies via a mapping from the old to the new nodes remembered in a storage-map (\indexed{tracebility} map).
+The example shows very generally how a subgraph reachable from a root node by incident edges can get copied, collecting and copying the nodes along a \indexed{spanning tree} from the root node on, then copying the edges in between the nodes in a second run afterwards. The edges get connected to the correct node copies via a mapping from the old to the new nodes remembered in a storage-map (\indexed{traceability} map).
     \begin{grgen}
 pattern CopySubgraph(root:Node, ref oldToNew:map<Node, Node>)
 {
@@ -463,7 +463,7 @@ The analysis works by keeping a global todo-set \verb#todo# containing all the n
 because the information in one of their successors changed;
 this set is initialized with all nodes available using the sequence \verb#[addAllNodesToWorkset(todo)]#).
 
-From then on in each iteration step a node \verb#n# is removed with \verb#(n)=pickAndRemove(todo)#, until the todo-set becomes empty, signaling the termination of the analysis; the node is processed by determining its successors \verb#[successors(n, succs)]#, adding the reachability information available in each successor to \verb#n# controled by the sequence\\
+From then on in each iteration step a node \verb#n# is removed with \verb#(n)=pickAndRemove(todo)#, until the todo-set becomes empty, signaling the termination of the analysis; the node is processed by determining its successors \verb#[successors(n, succs)]#, adding the reachability information available in each successor to \verb#n# controlled by the sequence\\
 \verb#for{s in succs; (changed)=propagateBackwards(n,s,changed)}#.\\
 If the information in \verb#n# changed due to this, the predecessors of the node are added to the workset via \verb#if{changed;[addPredecessors(n,todo)]}#.
 

@@ -2,7 +2,7 @@
 
 \chapter{Sequence Computations}\indexmain{sequence computations}
 
-In this chapter we'll have a look at sequence computations, which are not concerned with directly controling rules, but with computing values or causing side effects.
+In this chapter we'll have a look at sequence computations, which are not concerned with directly controlling rules, but with computing values or causing side effects.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Sequence Computation} \label{sec:seqcomp}
@@ -41,7 +41,7 @@ whereas it is pointless to specify an expression before.
 A variable declaration declares a local variable in the same way as in the sequences.
 An assignment assigns the value of a sequence expression to an assignment target.
 It may be chained; such an assignment chain is executed from right to left, assigning the rightmost value to all the assignment targets given.
-The form of expressions and assignment targets will be specifed below.
+The form of expressions and assignment targets will be specified below.
 
 \begin{rail} 
 	MethodCall: (Variable | GraphElement '.' Attribute) (SingleMethodCall +);
@@ -65,7 +65,7 @@ Having it available in the sequences allows for programmed exporting, and export
 
 Furthermore, a function \texttt{canonize(g:graph):string} is available,
 which is intended to provide a canonical string representation for any graph, but currently does not work for all graphs.
-The function currently uses the SMILES\cite{SMILES} method of producing an equitable partition of graph nodes, not a canonical order; while not offering full fledged graph conanization this algorithm is sufficient for many purposes. 
+The function currently uses the SMILES\cite{SMILES} method of producing an equitable partition of graph nodes, not a canonical order; while not offering full fledged graph canonization this algorithm is sufficient for many purposes. 
 It allows to reduce graph comparisons to string comparisons, at the price of computing the Weininger algorithm for equitable partitions of nodes.
 
 Besides those predefined procedures (and functions), you may call user procedures (and functions), defined in the rules file; cf. \ref{sub:compdef}.
@@ -131,8 +131,8 @@ The relational operators work as specified in \ref{sub:expr} for numerical types
     SequenceExpression ('+' | '-') SequenceExpression;
 \end{rail}\ixnterm{ArithmeticSequenceExpression}
 
-The arithemtic operator plus is used to denote addition of numerical values or string concatenation,
-the arithemtic operator minus is used to denote subtraction of numerical values.
+The arithmetic operator plus is used to denote addition of numerical values or string concatenation,
+the arithmetic operator minus is used to denote subtraction of numerical values.
 No further arithmetic operators are available in the sequence expressions;
 neither are the string methods supported.
 
@@ -243,12 +243,12 @@ The \texttt{for} command iterates over all elements in the set or array or deque
 \begin{example}
 The following XGRS is a typical storage usage.
 First an empty set \texttt{x} is created, which gets populated by an rule \texttt{t} executed iteratedly, returning a node which is written to the set.
-Then another rule is executed iteratedly for every member of the set doing the main work, and finally the set gets cleared to prevent memory leaks or later mistakes.
+Then another rule is executed iterated for every member of the set doing the main work, and finally the set gets cleared to prevent memory leaks or later mistakes.
 If the graph should stay untouched during set filling you may need \texttt{visited} flags to prevent endless looping.
 \verb#x=set<Node>{} ;> ( (v)=t() && {x.add(v)} )+ && for{v in x; r(v)} <; {x.clear()}#
 Handing in the storage to the rule, and using the set \texttt{add} method as introduced down below in \ref{sct:imperative} within the rule to fill the storage, allows to shorten the sequence to:\\
 \verb#x=set<Node>{} ;> ( t(x) )+ && for{v in x; r(v)} <; {x.clear()}#\\
-The for loop could be replaced by employing the storage access in the rule construct, cf. \ref{sub:storageaccess}; this would be especially benefitial if the rule \texttt{r} inside the for loop would have to change the storage \texttt{x}, which would corrupt the iteration/enumeration variable.
+The for loop could be replaced by employing the storage access in the rule construct, cf. \ref{sub:storageaccess}; this would be especially beneficial if the rule \texttt{r} inside the for loop would have to change the storage \texttt{x}, which would corrupt the iteration/enumeration variable.
 \end{example}
 
 \begin{warning}

@@ -133,11 +133,11 @@ It consists of a call stack, containing the subpattern instances found with the 
 A simulation of this machine, i.e. the matching process of a pattern using subpatterns is shown on the following pages.
 
 Alternatives are handled like a subpattern with several possible patterns which are tried out, the first one matching is accepted.
-Iterateds are handled like subpatterns whose tasks are not removed when they get matched, but only if matching failed or the maximum amount of matches was reached. In case of a failure the minimum required amount of matches is inspected, if the amount of found matches is larger or equal then matching partially succeeds and continues with the next open task (or plain succeeds if there are no open tasks left), otherwise matching of the given partial match failes causing matching to backtrack (to the previous decision point of influence).
+Iterateds are handled like subpatterns whose tasks are not removed when they get matched, but only if matching failed or the maximum amount of matches was reached. In case of a failure the minimum required amount of matches is inspected, if the amount of found matches is larger or equal then matching partially succeeds and continues with the next open task (or plain succeeds if there are no open tasks left), otherwise matching of the given partial match fails causing matching to backtrack (to the previous decision point of influence).
 
 The advantages of this design linearizing the pattern tree on the call stack are the rather low usage of heap memory, the ability to reuse the match programs for the patterns as introduced in the previous section, and the ability to find all matches (the $n$ in $2+n$ pushdown machine stands for the number of matches found).
 
-Rewriting is carried out by a depth-first traversal of the match object tree, creating new elements before decending, evaluating attributes and deleting old elements before ascending. For each pattern piece match the modification specified in the rewrite part is carried out, i.e. the overall rewrite gets combined from the rewrites of the pattern pieces (cf. table \ref{table:executionorderrewriting} for the order of rewriting).
+Rewriting is carried out by a depth-first traversal of the match object tree, creating new elements before descending, evaluating attributes and deleting old elements before ascending. For each pattern piece match the modification specified in the rewrite part is carried out, i.e. the overall rewrite gets combined from the rewrites of the pattern pieces (cf. table \ref{table:executionorderrewriting} for the order of rewriting).
 
 The subpattern usage parameters are computed during matching from matched elements and call expressions (inherited attribution), LHS yielding is carried out after the match was found during match object building within yield statements (synthesized attribution), RHS yielding is carried out during match object tree rewriting within eval statements (left attribution, with a user defined left-relation).
 
@@ -365,7 +365,7 @@ a target matching operation \texttt{tgt(e3,v3:C)} is not used because \texttt{v3
 Furthermore it contains exact locations where to continue at, which might be different than the directly preceding search operation (because that one does not define a choice point of influence).
 
 A remark on isomorphy handling: As a consequence of the simple loop based graph element binding to pattern elements, without an explicit check all pattern elements could get matched completely homomorphically to each other (due to the loops starting with the same elements, the homomorphic matches \emph{are} normally the first to be found).
-To ensure that two pattern elements are not bound to the same graph element, flags contained in the graph elments are set when a graph element is bound to a pattern variable and reset when the binding is given up again (one flag for each negative/independent nesting level, until the implementation defined limit of flags available in the graph elements is reached, then a list of dictionaries is used); the flags are checked then in the following, nested matching operations. An iso-check scheduling pass ensures that checks are only inserted if the elements must be isomorphic and their types do not already ensure that they can't get matched to the same elements.
+To ensure that two pattern elements are not bound to the same graph element, flags contained in the graph elements are set when a graph element is bound to a pattern variable and reset when the binding is given up again (one flag for each negative/independent nesting level, until the implementation defined limit of flags available in the graph elements is reached, then a list of dictionaries is used); the flags are checked then in the following, nested matching operations. An iso-check scheduling pass ensures that checks are only inserted if the elements must be isomorphic and their types do not already ensure that they can't get matched to the same elements.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -393,7 +393,7 @@ Finally an intermediate representation is built from the abstract syntax tree by
 The IR classes given in the \texttt{ir} folder can be seen as more lightweight AST classes; their name is often the same as for their corresponding AST classes, but without the \texttt{Node}-suffix which is appended to all AST classes.
 The most interesting classes are \texttt{Rule} used for rules, alternative cases and iterateds, as well as \texttt{PatternGraph} used for all pattern graphs including negatives and independents;
 several data flow analyses are contained in \texttt{PatternGraph}, some covering the nesting of patterns, some being even global.
-A particularily interesting one is \texttt{ensure\-Directly\-Nesting\-Pattern\-Contains\-All\-Non\-Local\-Elements\-Of\-Nested\-Pattern} which ensures that, from a pattern which contains a certain entity the first time, up to every pattern that references this entity, all intermediate patterns contain that entity, too.
+A particularly interesting one is \texttt{ensure\-Directly\-Nesting\-Pattern\-Contains\-All\-Non\-Local\-Elements\-Of\-Nested\-Pattern} which ensures that, from a pattern which contains a certain entity the first time, up to every pattern that references this entity, all intermediate patterns contain that entity, too.
 
 This is done in a recursive walk over the nested patterns in the IR-structure. 
 Each pattern receives the set of already known elements as parameter,
@@ -496,10 +496,10 @@ The processing is done in several passes in \texttt{lgsp\-Matcher\-Generator.cs}
   \label{figbackendcodegen1}
 \end{figure}
 
-First the subpattern usages are inlined when \indexed{inlining} is assumed to be benefitial; this allows the programmer to extract common patterns into subpatterns increasing readability and modularity without loosing performance (but as of now only one level of inlining is supported, so beware of too much subpattern extraction, especially if the containing pattern would get disconnected by this). 
+First the subpattern usages are inlined when \indexed{inlining} is assumed to be beneficial; this allows the programmer to extract common patterns into subpatterns increasing readability and modularity without loosing performance (but as of now only one level of inlining is supported, so beware of too much subpattern extraction, especially if the containing pattern would get disconnected by this). 
 After (and partly before) this pattern rewriting the patterns and their relations are analyzed by the \texttt{PatternGraphAnalyzer} -- the analyze results are used for emitting better code later on (choosing more efficient but more limited implementations for language features which are not sufficient in the general case but are so for the specification at hand).
 Then a \texttt{PlanGraph} is created from the \texttt{PatternGraph} and data from analyzing the host graph (for generating the initial matcher some default data given from the frontend is used).
-A mimimum spanning arborescence is computed defining a hopefully optimal set of operations for matching the pattern (the hopes are founded, see \cite{BKG:07}).
+A minimum spanning arborescence is computed defining a hopefully optimal set of operations for matching the pattern (the hopes are founded, see \cite{BKG:07}).
 A \texttt{SearchPlanGraph} is built from the arborescence marked in the \texttt{PlanGraph} and used thereafter for scheduling the operations into a \texttt{ScheduledSearchPlan}, which gets completed by \texttt{Append\-Homomorphy\-Information} with isomorphy checking information.
 The \texttt{ScheduledSearchPlan} is then stored in the \texttt{PatternGraph} it was computed from.
 
@@ -558,7 +558,7 @@ The higher levels of code generation are in large parts independent from nested 
 Only on the level of search programs it becomes visible,  
 with an \texttt{Initialize\-Subpattern\-Matching}-search program operation at the begin of a search program
 and a \texttt{Finalize\-Subpattern\-Matching}-search program operation at the end of a search program;
-but mainly with a call to \texttt{build\-Match\-Complete} when the end of the schedule is reached during search program builing.
+but mainly with a call to \texttt{build\-Match\-Complete} when the end of the schedule is reached during search program building.
 This corresponds to the innermost location in the search program,
 the location at which during execution the local pattern was just found;
 now the control code is inserted by \texttt{insert\-Push\-Subpattern\-Tasks},
@@ -611,7 +611,7 @@ The most important point to understand when optimizing for speed is that the exp
 A corollary from what you've seen especially in section \ref{searchplanning} is: \emph{Use types!}\\
 The more fine grain a graph is typed, the better are the statistics regarding the splitting structures (V-Structures) and the number of elements of a certain type, yielding better search plans evading splitting structures and employing least-cost lookups, pruning non-matches earlier in the search.
 Even if only the initial static schedules are used which do not know about the splitting factors or the type weights, fine grain types cause a quicker search pruning with the type checks.
-You may improve the static schedules by explicitely giving search priorities.
+You may improve the static schedules by explicitly giving search priorities.
 Using fine-grain types is easy in GrGen, for multiple inheritance on node and edge types (cf. \ref{nodeandedgetypes}) is supported.
 
 \begin{warning}

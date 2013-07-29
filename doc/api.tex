@@ -291,10 +291,10 @@ public static bool IsEqual(object, object);
 public static bool IsLower(object, object);
 \end{csharplet}
 
-\texttt{Copy} is called when one of the copy operations offered in the rule language or the computation statements is executed on a node or edge that bears attributs of object or user defined type.
+\texttt{Copy} is called when one of the copy operations offered in the rule language or the computation statements is executed on a node or edge that bears attributes of object or user defined type.
 \texttt{IsEqual} is called when two graphs are compared for isomorphy and the graph elements contain attributes of object or user-defined external types, or if attributes of object or user defined type are compared with one of the equality operators.
 \texttt{IsLower} is called when attributes of object or user defined type are compared with one of the relational operators.
-A comparison for \texttt{u<=v} is mapped to an expression \verb#IsLower(u,v) || IsEqual(u,v)#, this is why a \verb#< class;# specification requires a preceeding \verb#== class;# specification.
+A comparison for \texttt{u<=v} is mapped to an expression \verb#IsLower(u,v) || IsEqual(u,v)#, this is why a \verb#< class;# specification requires a preceding \verb#== class;# specification.
 
 Implementing those functions is \emph{your} task, in exchange you get a tight integration of your own datatypes into \GrG.
 You may have a look at \texttt{tests/ExternalAttributeEvaluation} or  \texttt{examples\-api/ExternalAttributeEvaluationExample} for an example.
@@ -350,7 +350,7 @@ b = bla;
 For a model file \texttt{Foo} which contains external functions (cf. \ref{sub:extfct}) and/or classes (cf. \ref{sub:extcls}), \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files, which contains
 \begin{itemize}
 	\item within the model namespace public partial classes named as given in the external class declaration,
-inherting from each other as stated in the external class declarations.
+inheriting from each other as stated in the external class declarations.
 	\item within the \texttt{de.unika.ipd.grGen.expression} namespace a public partial class named \texttt{ExternalFunctions} with a body of comments giving the expected function and procedure prototypes.
 \end{itemize}
 

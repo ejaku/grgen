@@ -224,7 +224,7 @@ For further information about the \GrShell\ language see Chapter~\ref{chapgrshel
 \label{sct:API}
 The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}.
 See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_4_0/};
-a short introduction is given in chaper \ref{cha:api}.
+a short introduction is given in chapter \ref{cha:api}.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{\texttt{lgspBackend.dll}}
@@ -284,7 +284,7 @@ We have organized the presentation of the features of the \GrG\ languages accord
     \item User-defined functions for complex attribute conditions, and graph querying
     \item Subgraph extraction and graph comparison operators (graph isomorphism)
     \item Nested patterns, specifying negative and positive application conditions as well as iterated, optional, or alternative structures
-    \item Subpatterns for pattern reuse, allowing via recursion to match substructures of arbitraty depth (e.g. iterated paths) and breadth (e.g multinodes)
+    \item Subpatterns for pattern reuse, allowing via recursion to match substructures of arbitrary depth (e.g. iterated paths) and breadth (e.g multinodes)
     \item Parameter passing to rules and subpatterns
   \end{itemize}
 
@@ -361,7 +361,7 @@ The development goals of \GrG\ were
 \begin{description}
 
 \item[Expressiveness]
-is achieved by powerful and declarative specification languages for pattern matching and rewriting by rewrite rules, builing upon a rich graph model language.
+is achieved by powerful and declarative specification languages for pattern matching and rewriting by rewrite rules, building upon a rich graph model language.
 In addition to the unmatched expressiveness of the basic actions,
 the rule language now offers nested and subpatterns which allow to handle substructures of arbitrary depth and arbitrary breadth declaratively within the rules,
 by now even surpassing the capabilities of the VIATRA2\cite{viatra2,recursiveviatra} graph rewriting tool, the strongest competitor in rule expressiveness.
@@ -371,7 +371,7 @@ You may have a look at the GrGen.NET solution of the Hello World! case \cite{Hel
 
 \item[Performance]
 i.e. high speed at modest memory consumption, is needed to tackle real world problems.
-It is achieved by typing, easening the life of the programmer by eliminating large classes or errors as well as speeding up the pattern matcher,
+It is achieved by typing, easing the life of the programmer by eliminating large classes or errors as well as speeding up the pattern matcher,
 by the generative approach compiling the rules into executable code,
 and by the heuristic optimizations of search state space stepping and the host graph sensitive search plans.
 In order to accelerate the matching step, we internally introduce \newterm{search plan}s
@@ -391,7 +391,7 @@ As we know that even the best designed language is not self explaining we put an
 
 \item[Development Convenience]
 is gained by interactive and graphical debugging of the rule application, capable of visualizing the matched pattern, the rewrite which will be applied, and the currently active rule out of the rewrite sequence.
-A further point easening development is the application programming interface of the generated code,
+A further point easing development is the application programming interface of the generated code,
 which offers access to named, statically typed entities, catching most errors before runtime and allowing the code completion mechanisms of modern IDEs to excel.
 In addition a generic interface operating on name strings and .NET objects is available for applications where the rules may change at runtime (as e.g. the \GrShell).
 There's one convenience not offered you might expect: a visual rule language and an editor.
@@ -411,7 +411,7 @@ The formal semantics are not as complete as for the graph programming language G
 --- the convenience at using the language had priority over the convenience at reasoning formally about the language.
 
 \item[Platform Independence]
-is achived by using languages compiled to byte code for virtual machines backed by large, standardized libraries, specifically: Java and C\#.
+is achieved by using languages compiled to byte code for virtual machines backed by large, standardized libraries, specifically: Java and C\#.
 This should prevent the fate of the grandfather of all graph rewrite systems, PROGRES\cite{schuerr99progres},
 which achieved a high level of sophistication, but is difficult to run by now, or simply: outdated.
 

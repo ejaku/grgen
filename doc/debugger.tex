@@ -1,7 +1,7 @@
 \chapter{Visualization and Debugging}\indexmain{Debugger}
 \label{chapdebugger}
 
-This chapter gives an introduction into the visualization capabilites of yComp and into the graphical debugger of \GrG, which is offered by \GrShell\ in combination with yComp.
+This chapter gives an introduction into the visualization capabilities of yComp and into the graphical debugger of \GrG, which is offered by \GrShell\ in combination with yComp.
 
 Other commands of use for debugging were already introduced in the shell chapter:
 \verb#show var <Variable># to print the content of a variable (but pressing the \texttt{v} key in the shell debugger is a lot more convenient) and \verb#show <GraphElement>.<AttributeName># to print the content of an attribute (but searching with \texttt{Ctrl-f} or \texttt{/} in yComp for the persistent name or an attribute value, hovering over the then highlighted graph element is more convenient, again); furthermore \verb#record# and \verb#replay# are interesting when you are debugging a transformation where you are choosing from the available matches by hand and want to try other paths later by choosing differently on a previous match: they allow you to save and restore graph states of interest, and to inspect the sequence of changes which lead to them in the \texttt{.grs}.
@@ -77,7 +77,7 @@ The \texttt{EdgeType} constrains the type of the edges which cause grouping, the
 Only apply group commands on a graph if they indeed lead to a containment tree of groups.
 If the group commands would lead to a directed acyclic or even cyclic containment graph, the results are undefined.
 You may get duplicate edges (and nodes); the implementation is free to choose indeterministically between the possible nestings -- it may even grow an arm and stab you in your back.
-(A conflict resultion heuristic used is to give the earlier executed \texttt{add group} command priority.
+(A conflict resolution heuristic used is to give the earlier executed \texttt{add group} command priority.
 But this mechanism is incomplete -- you'd better refine your groups or change the model in that case.
 Using a model separating edges denoting direct containment from cross-linking edges by type is normally the better design, even disregarding visual node nesting.)
 \end{warning}
@@ -211,7 +211,7 @@ Same as \texttt{exec SimpleRewriteSequence} in the previous chapter, but allows 
 \section{Using the Debugger}
 
 The debugging process follows of a series of debug situations,
-which result from a user selection of the underlying execution situations accoring to interest.
+which result from a user selection of the underlying execution situations according to interest.
 During each debugging step the debugger\indexmain{debugger} -- which is a part of the \GrShell~--
 prints the debugged sequence with the currently focused/active rule highlighted yellow.
 What will be shown from executing this rule depends on the commands chosen by the user;
@@ -230,7 +230,7 @@ A run is shown in the following example \ref{ex:debug}.
 
 \pagebreak %manual break to get two pages with halfway broken layout instead of one with deeply broken
 
-In addition to the commands for actively stepping or skipping through the sequence exection,
+In addition to the commands for actively stepping or skipping through the sequence execution,
 there are breakpoints and choicepoints available (toggled with the \texttt{b} and \texttt{c} commands)
 which are only processed when they are reached, but on the other hand are also processed if a user command would skip them.
 The \indexed{break point}s halt execution, focus the reached sequence, and cause the debugger to wait for further commands

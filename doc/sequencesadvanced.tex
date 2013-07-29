@@ -71,7 +71,7 @@ When you are interested in finding all states which satisfy your requirements, o
 
 The backtracking construct encodes a single decision point of a search, splitting into breadth along the different choices available at that point, and further continuing the search in the sequence.
 When this point of splitting into breadth is contained in a sequence,
-and this sequence calls itself again recursively on each branch of the descision taken,
+and this sequence calls itself again recursively on each branch of the decision taken,
 you get a recursion which is able to search into depth,
 continuing decision making on the resulting graph of the previous decision. 
 
@@ -114,20 +114,19 @@ So these constructs are not horribly inefficient, but they do have their price -
 \begin{rail}
   ExtendedControl:
     'for' lbrace Variable ':' Type\\
-    (';' |
-    'in' Function '(' Parameters ')' ';' |
+    ('in' Function '(' Parameters ')' ';' |
     'in' '[' '?' r ']' ';')\\
     RewriteSequence rbrace
     ;
 \end{rail}\ixkeyw{for}\label{forgraphelem}\label{forincidentadjacent}\label{formatch}
 
-The \texttt{for} loop without containment is iterating over all the elements in the current host graph which are compatible to the type given.
+The \texttt{for} loop over the \emph{Functions} \texttt{nodes} or \texttt{edges} are iterating over all the elements in the current host graph which are compatible to the type given.
 The iteration variable is bound to the currently enumerated graph element, then the sequence in the body is executed.
-The type of the iteration variable must be statically known to be of a node or edge type.
 
 If you iterate a node type from a graph, you may be interested in iterating its incident edges or its adjacent nodes.
 This can be achieved with a for neighbouring elements loop, which binds the iteration variable to an edge in case the \emph{Function} is one of \texttt{incoming}, \texttt{outgoing}, or \texttt{incident}. 
 Or which binds the iteration variable to a node in case the \emph{Function} is one of \texttt{adjacentIncoming}, \texttt{adjacentOutgoing}, or \texttt{adjacent}.
+Moreover, you may iterate with \texttt{reachableIncoming}, \texttt{reachableOutgoing}, and \texttt{reachable} the nodes reachable from a starting node, or with \texttt{reachableEdgesIncoming}, \texttt{reachableEdgesOutgoing}, and \texttt{reachableEdges} the edges reachable from a starting node.
 The admissible \emph{Parameters} are the source node, or the source node plus the incident edge type, or the source node plus the incident edge type, plus the adjacent node type ---
 that's the same as for the sequence expression functions explained in \ref{neighbouringelementsfunctions}/Connectedness queries.
 In contrast to these set returning functions, this loop contained functions enumerate nodes/edges multiple times in case of reflexive or multi edges.

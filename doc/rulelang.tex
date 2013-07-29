@@ -154,7 +154,7 @@ If an edge type is specified (through the \emph{EdgeRefinement} clause), this ty
 	\end{tabularx}
 \end{center}
 As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes.
-Accidentally ``\indexed{redirecting}'' an edge is prevented by compiler checks (you must explicitely use the \emph{Redirect} clause to achieve this):
+Accidentally ``\indexed{redirecting}'' an edge is prevented by compiler checks (you must explicitly use the \emph{Redirect} clause to achieve this):
 The graphlets
 \begin{grgenlet}
 -e:Edge-> .;
@@ -347,8 +347,8 @@ This way it is possible to specify \emph{where} a rule should be applied.
 \end{rail}\ixnterm{Parameter}\ixnterm{InputTypeSpecification}\ixkeyw{null}\ixkeyw{var}\ixkeyw{ref}
 
 Within a rule, graph element parameters are treated as graph elements of the pattern - just predefined.
-But in contrast to pervious versions it is the task of the user to ensure the elements handed in satisfy the interface, i.e. parameters must not be null and must be of the type specified or a subtype of the type specified.
-If you need more flexibility and want to call the rule with parameters not fullfilling the interface you can append an input type specification to the relevant parameters, which consists of the type to accept at the action interface, or null, or both, enclosed in left and right angles.
+But in contrast to previous versions it is the task of the user to ensure the elements handed in satisfy the interface, i.e. parameters must not be null and must be of the type specified or a subtype of the type specified.
+If you need more flexibility and want to call the rule with parameters not fulfilling the interface you can append an input type specification to the relevant parameters, which consists of the type to accept at the action interface, or null, or both, enclosed in left and right angles.
 If the input type specification type is given, but the more specific pattern element type is not satisfied, matching simply fails.
 If null is declared in the input type specification and given at runtime, the element is searched in the host graph.
 Don't use null parameters unless you need them, because every null parameter doubles the number of matcher routines which get generated.
@@ -516,7 +516,7 @@ Thus we got a specification mode requesting homomorphic matching with additional
 requesting isomorphic matching with additional homomorphy exception.
 It is recommended to \emph{not} use the \texttt{independent} operator, it it potentially dangerous allowing to carry out conflicting rewrites, with an element \texttt{a} to be deleted, element \texttt{b} to be kept, and element \texttt{c} to be retyped, all mapping to the same graph element (you will experience funny effects and/or crashes in this case; the \texttt{hom} operator offers some static checks against this).
 The operator is available as a last resort for some situations in matching complex structures with iterated and subpatterns, 
-in which it is unfeasible or not possible to explicitely give elements the pattern element may be homomorphic to,
+in which it is unfeasible or not possible to explicitly give elements the pattern element may be homomorphic to,
 because they were matched in a pattern at an arbitrary distance in the derivation path which only dynamically called the pattern of interest,
 i.e. they can't be referenced by name, cf. \ref{locking}.
 
@@ -592,7 +592,7 @@ Additionally this mode supports the \texttt{delete} operator that deletes every 
 Deletion takes place after all other rewrite operations. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
 
 \begin{note}
-In general modify mode should be prefered as it allows to read the rewrite part as a diff of the changes to be made to the pattern part, whereas replace mode requires comparing the LHS and RHS pattern while reading to find out about the changes.
+In general modify mode should be preferred as it allows to read the rewrite part as a diff of the changes to be made to the pattern part, whereas replace mode requires comparing the LHS and RHS pattern while reading to find out about the changes.
 Only if most of the pattern is to be deleted replace mode is advantageous, pinpointing what should stay.
 (Furthermore it might be simpler to generate code for, just dumping both patterns.)
 \end{note}

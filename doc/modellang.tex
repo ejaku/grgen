@@ -85,7 +85,7 @@ All edges have the abstract (see Section~\ref{typedecl}), attribute-less, built-
 The \texttt{AEdge} has two non-abstract built-in children: \texttt{\indexed{UEdge}} as base type for undirected edges and \texttt{\indexed{Edge}} as base type for directed edges.
 The direction for \texttt{AEdge} and its anchestors that do not inherit from \texttt{Edge} or \texttt{UEdge} is undefined or \newterm{arbitrary}.
 Because there is the ``magic of direction'' linked to the edge base types, its recommended to use the keywords \texttt{directed}, \texttt{undirected}, and \texttt{arbitrary} in order to specify inheritance (see Section~\ref{typedecl}).
-As soon as you decided for directed or undirected edge classes within your type hierarchie, you are not able to let anchestor classes inherited from a contradicting base type, of course.
+As soon as you decided for directed or undirected edge classes within your type hierarchy, you are not able to let ancestor classes inherited from a contradicting base type, of course.
 That is, no edge may be directed \emph{and} undirected.
 This is an exception of the concept multi-inheritance.
 Figure~\ref{fig:basetypes} shows the edge \indexed{type hierarchy}.
@@ -114,7 +114,7 @@ The \indexed{graph model} consists of zero or multiple type declarations.
 Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumDeclaration} defines an enum type to be used as a type for a attributes of nodes or edges.
 Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
 
-The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, exluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls; the \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values, whereas the \emph{CopyCompareDeclaration} declares that the user defines copy and compare functions for external or object type values.
+The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, excluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls; the \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values, whereas the \emph{CopyCompareDeclaration} declares that the user defines copy and compare functions for external or object type values.
 
 In addition, other models may be used (esp. supplying base classes to extend); this happens in the same way as models are used from the rules, see section \ref{ruledecls} for more on this.
 
@@ -180,7 +180,7 @@ The keywords \texttt{arbitrary}, \texttt{directed}, and \texttt{undirected} spec
 An \texttt{arbitrary} edge inherits from \texttt{AEdge}, it is always abstract and neither directed nor undirected.
 A \texttt{directed} edge inherits from \texttt{Edge}.
 An \texttt{undirected} edge inherits from \texttt{UEdge}.
-If you do not specify any of those keywords, a \texttt{directed} edge is choosen by default.
+If you do not specify any of those keywords, a \texttt{directed} edge is chosen by default.
 See also Section~\ref{sct:basetypes}
 
 \begin{rail}

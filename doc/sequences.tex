@@ -6,7 +6,7 @@ They are available
 \begin{itemize}
 \item as an imperative enhancement to the rule set language.
 \item for controlled rule application within the \GrShell.
-\item for controlled rule application on the API level out of user programms.
+\item for controlled rule application on the API level out of user programs.
 \end{itemize}
 
 If they appear in rules, they get compiled, otherwise they get interpreted.
@@ -29,8 +29,8 @@ A variable is an arbitrary identifier which can hold a graph element or a value 
 There are two kinds of variables available in \GrG,
 i) graph global variables\indexmain{graph global variable}\indexmainsee{variable}{graph global variable} and 
 ii) sequence local variables\indexmain{sequence local variable}\indexmainsee{variable}{sequence local variable}.
-A variable is alive from its first declaration on: graph global variables are implicitely declared upon first usage of their name,
-sequence local variables are explicitely declared with a typed variable declaration of the form \texttt{name:type}.
+A variable is alive from its first declaration on: graph global variables are implicitly declared upon first usage of their name,
+sequence local variables are explicitly declared with a typed variable declaration of the form \texttt{name:type}.
 Graph global variables must be prefixed with a double colon ::, local variables are referenced just with their name.
 Graph global variables are untyped; their values are typed, though, so type errors cause an exception at runtime.
 They belong to and are stored in the graph processing environment -- if you save the graph in \GrShell\ 
@@ -40,7 +40,7 @@ thus saving one from debugging problems due to zombie elements (you may use the 
 Sequence local variables are typed, so type errors are caught at compile time (parsing time for the interpreted sequences); 
 an assignment of an untyped variable to a typed variable is checked at runtime.
 They belong to the sequence they appear in, their life ends when the sequence finishes execution 
-(so there is no persistency available for them as for the graph global variables; neither do they get nulled on element deletion as the graph does not know about them). 
+(so there is no persistence available for them as for the graph global variables; neither do they get nulled on element deletion as the graph does not know about them). 
 
 If used in some rule, i.e. within an \texttt{exec}, named graph elements of the enclosing rule are available as read-only variables.
 
@@ -102,7 +102,7 @@ Application will succeed or fail depending on the result of the body of the sequ
 In case of success, the output variables of the sequence definition are written to the destination variables of the assignment. In case of failure, no assignment takes place, so sequence calls behave the same as rule calls.
 The break point \texttt{\%} can be applied to a sequence call, but neither the \texttt{?} operator nor all braces (\texttt{[]}).
 
-The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application:
+The square braces (\texttt{[]}) introduce a special kind of multiple rule application:
 Every pattern match produced by the rule will be rewritten;
 if at least one was found, rule application will succeed, otherwise it will fail. 
 Attention: This \indexed{all bracketing} is \textbf{not} equal to \texttt{Rule*}.
@@ -145,7 +145,7 @@ The sequence \verb#$[t]# determines all matches of the parameterless rule \textt
 
 A graph rewrite sequence consists of several rewrite terms linked by operators.
 Table \ref{tbl:sequ:op} gives the priorities and semantics of the operators, priorities in ascending order.
-Forcing execution order against the priorities can be achived by parentheses.
+Forcing execution order against the priorities can be achieved by parentheses.
 The modifier \texttt{\$} changes the semantics of the following operator to randomly execute the left or the right operand first (i.e. flags the operator to act commutative);
 usually operands are executed / evaluated from left to right if not altered by bracketing.
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
@@ -194,7 +194,7 @@ These \indexed{sequence constant}s being one of the boolean literals \texttt{tru
 
 Variables can hold graph elements, or values of value/attribute types, including booleans.
 The typed explicit declaration (which may be given at an assignment, rendering that assignment into an initialization) introduces a sequence local variable, the name alone references a sequence local variable.
-A global variable is accessed with the double colon prefix, it gets implicitely declared if not existing yet (you can't declare a graph global variable).
+A global variable is accessed with the double colon prefix, it gets implicitly declared if not existing yet (you can't declare a graph global variable).
 The random number assignment \texttt{v=\$(42)} assigns an integer random number in between 0 and 41 (42 excluded) to the variable \texttt{v}. 
 The random number assignment \texttt{v=\$(1.0)} assigns a double random number in between 0.0 and 1.0 exclusive to the variable \texttt{v} (here you can't change the upper bound as with the integer assignment). 
 Appending a \texttt{\%} changes random selection to user selection (defining a \indexed{choice point}).
