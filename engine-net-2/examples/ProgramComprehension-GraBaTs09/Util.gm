@@ -1,5 +1,5 @@
 node class HelperNode {
-	count:int;
+	count_:int;
 	name:string;
 	operator:string;
 	const operatorMap:map<dom_AssignmentOperatorKind, string> = {

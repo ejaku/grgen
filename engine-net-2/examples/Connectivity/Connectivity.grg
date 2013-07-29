@@ -68,7 +68,7 @@ dpo rule reduceComponent {
 		delete(x);
 
 		eval {
-			y.count = x.count + y.count;
+			y.count_ = x.count_ + y.count_;
 		}
 	}
 }
@@ -83,7 +83,7 @@ rule breakCycle {
 		delete(x);
 
 		eval {
-			y.count = x.count + y.count;
+			y.count_ = x.count_ + y.count_;
 		}
 	}
 }
@@ -92,6 +92,6 @@ exact rule reportSize {
 	x:CountNode;
 
 	replace {
-		emit("size=", x.count, "\n");
+		emit("size=", x.count_, "\n");
 	}
 }

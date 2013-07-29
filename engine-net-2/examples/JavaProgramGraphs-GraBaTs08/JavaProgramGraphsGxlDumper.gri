@@ -140,7 +140,7 @@ rule dumpNodeAccess(var v:int)
 
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Access\"/>",
-			"<attr name=\"this\"> <bool>", n.this, "</bool> </attr>",
+			"<attr name=\"this\"> <bool>", n.this_, "</bool> </attr>",
 			"</node>");
 	}
 }
@@ -156,7 +156,7 @@ rule dumpNodeUpdate(var v:int)
 
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Update\"/>",
-			"<attr name=\"this\"> <bool>", n.this, "</bool> </attr>",
+			"<attr name=\"this\"> <bool>", n.this_, "</bool> </attr>",
 			"</node>");
 	}
 }
@@ -172,7 +172,7 @@ rule dumpNodeCall(var v:int)
 
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Call\"/>",
-			"<attr name=\"this\"> <bool>", n.this, "</bool> </attr>",
+			"<attr name=\"this\"> <bool>", n.this_, "</bool> </attr>",
 			"<attr name=\"super\"> <bool>", n.super, "</bool> </attr>",
 			"</node>");
 	}

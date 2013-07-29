@@ -44,17 +44,17 @@ node class Expression
 
 node class Access extends Expression
 {
-	this:boolean;
+	this_:boolean;
 }
 
 node class Update extends Expression
 {
-	this:boolean;
+	this_:boolean;
 }
 
 node class Call extends Expression
 {
-	this:boolean;
+	this_:boolean;
 	super:boolean;
 }
 
