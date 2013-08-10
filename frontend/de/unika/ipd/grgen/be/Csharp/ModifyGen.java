@@ -1976,9 +1976,6 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof ContainerAccumulationYield) {
 			genContainerAccumulationYield(sb, state, (ContainerAccumulationYield) evalStmt);
 		}
-		else if(evalStmt instanceof ForLookup) {
-			genForLookup(sb, state, (ForLookup) evalStmt);
-		}
 		else if(evalStmt instanceof ForFunction) {
 			genForFunction(sb, state, (ForFunction) evalStmt);
 		}
@@ -3135,27 +3132,6 @@ public class ModifyGen extends CSharpBase {
         }
 	}
 
-	private void genForLookup(StringBuffer sb, ModifyGenerationStateConst state, ForLookup fl) {
-    	String id = Integer.toString(tmpVarID++);
-
-        if(fl.getIterationVar().getType() instanceof NodeType)
-        {
-        	sb.append("\t\t\tforeach(GRGEN_LIBGR.INode node_" + id + " in graph.GetCompatibleNodes(GRGEN_LIBGR.TypesHelper.GetNodeType(\""+formatIdentifiable(fl.getIterationVar().getType())+"\", graph.Model)))\n");
-        	sb.append("\t\t\t{\n");
-            sb.append("\t\t\t" + formatElementInterfaceRef(fl.getIterationVar().getType()) + " " + formatEntity(fl.getIterationVar()) + " = " + "(" + formatElementInterfaceRef(fl.getIterationVar().getType()) + ")node_" + id + ";\n");
-        }
-        else
-        {
-        	sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in graph.GetCompatibleEdges(GRGEN_LIBGR.TypesHelper.GetEdgeType(\""+formatIdentifiable(fl.getIterationVar().getType())+"\", graph.Model)))\n");
-        	sb.append("\t\t\t{\n");
-            sb.append("\t\t\t" + formatElementInterfaceRef(fl.getIterationVar().getType()) + " " + formatEntity(fl.getIterationVar()) + " = " + "(" + formatElementInterfaceRef(fl.getIterationVar().getType()) + ")edge_" + id + ";\n");
-        }
-
-		genEvals(sb, state, fl.getLoopedStatements());
-        
-        sb.append("\t\t\t}\n");
-	}
-
 	private void genForFunction(StringBuffer sb, ModifyGenerationStateConst state, ForFunction ff) {
     	String id = Integer.toString(tmpVarID++);
     	
@@ -3350,6 +3326,22 @@ public class ModifyGen extends CSharpBase {
 		        sb.append("\t\t\t{\n");
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
+		}
+		else if(ff.getFunction() instanceof NodesExpr) {
+            NodesExpr nodes = (NodesExpr)ff.getFunction();
+        	sb.append("\t\t\tforeach(GRGEN_LIBGR.INode node_" + id + " in graph.GetCompatibleNodes(");
+			genExpression(sb, nodes.getNodeTypeExpr(), state);	        
+        	sb.append("))\n");
+        	sb.append("\t\t\t{\n");
+            sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = " + "(" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")node_" + id + ";\n");
+		}
+		else if(ff.getFunction() instanceof EdgesExpr) {
+            EdgesExpr edges = (EdgesExpr)ff.getFunction();
+        	sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in graph.GetCompatibleEdges(");
+			genExpression(sb, edges.getEdgeTypeExpr(), state);	        
+        	sb.append("))\n");
+        	sb.append("\t\t\t{\n");
+            sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = " + "(" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 		}
 
 		genEvals(sb, state, ff.getLoopedStatements());

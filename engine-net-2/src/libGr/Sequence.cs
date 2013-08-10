@@ -29,11 +29,12 @@ namespace de.unika.ipd.grGen.libGr
         LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll,
         WeightedOne, SomeFromSet,
         IfThenElse, IfThen,
-        ForContainer, ForLookup, ForMatch,
+        ForContainer, ForMatch,
         ForIncidentEdges, ForIncomingEdges, ForOutgoingEdges,
         ForAdjacentNodes, ForAdjacentNodesViaIncoming, ForAdjacentNodesViaOutgoing, // nur wenn verfügbar
         ForReachableNodes, ForReachableNodesViaIncoming, ForReachableNodesViaOutgoing,
         ForReachableEdges, ForReachableEdgesViaIncoming, ForReachableEdgesViaOutgoing,
+        ForNodes, ForEdges,
         Transaction, Backtrack, Pause,
         IterationMin, IterationMinMax,
         RuleCall, RuleAllCall, RuleCountAllCall,
@@ -2411,65 +2412,84 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "for{"+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+" in "+Container.Name+"; ...}"; } }
     }
 
-    public class SequenceForAdjacentIncident : SequenceUnary
+    public class SequenceForFunction : SequenceUnary
     {
         public SequenceVariable Var;
-        public SequenceExpression Expr;
-        public SequenceExpression IncidentEdgeType;
-        public SequenceExpression AdjacentNodeType;
+        public List<SequenceExpression> ArgExprs;
 
         public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
 
-        public SequenceForAdjacentIncident(SequenceVariable var, SequenceType sequenceType,
-            SequenceExpression expr, SequenceExpression incidentEdgeType, SequenceExpression adjacentNodeType,
-            Sequence seq, List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+        public SequenceForFunction(SequenceVariable var, SequenceType sequenceType,
+            List<SequenceExpression> argExprs, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
             : base(seq, sequenceType)
         {
             Var = var;
-            Expr = expr;
-            IncidentEdgeType = incidentEdgeType;
-            AdjacentNodeType = adjacentNodeType;
+            ArgExprs = argExprs;
             VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            if(Expr == null || (AdjacentNodeType!=null && IncidentEdgeType==null))
-                throw new Exception("\"" + FunctionSymbol + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
-            if(SequenceType == SequenceType.ForAdjacentNodes
-                || SequenceType == SequenceType.ForAdjacentNodesViaIncoming
-                || SequenceType == SequenceType.ForAdjacentNodesViaOutgoing)
+            if(SequenceType == SequenceType.ForNodes || SequenceType == SequenceType.ForEdges)
             {
-                if(!TypesHelper.IsSameOrSubtype(Var.Type, "Node", env.Model))
-                    throw new SequenceParserException(Var.Name, "a node type", Var.Type);
-            }
-            if(SequenceType == SequenceType.ForIncidentEdges
-                || SequenceType == SequenceType.ForIncomingEdges
-                || SequenceType == SequenceType.ForOutgoingEdges)
-            {
-                if(!TypesHelper.IsSameOrSubtype(Var.Type, "Edge", env.Model))
-                    throw new SequenceParserException(Var.Name, "an edge type", Var.Type);
-            }
-            if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), "Node", env.Model))
-                throw new SequenceParserException(Expr.Symbol, "a node type", Expr.Type(env));
-            if(IncidentEdgeType != null && IncidentEdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(IncidentEdgeType.Type(env) == "string")
+                if(ArgExprs.Count > 2)
+                    throw new Exception("\"" + FunctionSymbol + "\" expects 0 (root node/edge type preset) or 1 (node type/edge type) parameters)");
+
+                if(SequenceType == SequenceType.ForNodes)
                 {
-                    if(IncidentEdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)IncidentEdgeType).Constant;
+                    if(!TypesHelper.IsSameOrSubtype(Var.Type, "Node", env.Model))
+                        throw new SequenceParserException(Var.Name, "a node type", Var.Type);
+                    //if(Expr != null && TypesHelper.GetNodeType(Expr.Type(env), env.Model) == null)
+                    //    throw new SequenceParserException(Expr.Symbol, "a node type", Expr.Type(env));
                 }
-                else
+                if(SequenceType == SequenceType.ForEdges)
                 {
-                    typeString = IncidentEdgeType.Type(env);
-                }
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                {
-                    throw new SequenceParserException(Symbol + ", second argument", "edge type or string denoting edge type", typeString);
+                    if(!TypesHelper.IsSameOrSubtype(Var.Type, "Edge", env.Model))
+                        throw new SequenceParserException(Var.Name, "an edge type", Var.Type);
+                    //if(Expr != null && TypesHelper.GetEdgeType(Expr.Type(env), env.Model) == null)
+                    //    throw new SequenceParserException(Expr.Symbol, "an edge type", Expr.Type(env));
                 }
             }
+            else
+            {
+                if(ArgExprs.Count < 1 || ArgExprs.Count > 3)
+                    throw new Exception("\"" + FunctionSymbol + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+
+                if(SequenceType == SequenceType.ForAdjacentNodes
+                    || SequenceType == SequenceType.ForAdjacentNodesViaIncoming
+                    || SequenceType == SequenceType.ForAdjacentNodesViaOutgoing
+                    || SequenceType == SequenceType.ForReachableNodes
+                    || SequenceType == SequenceType.ForReachableNodesViaIncoming
+                    || SequenceType == SequenceType.ForReachableNodesViaOutgoing)
+                {
+                    if(!TypesHelper.IsSameOrSubtype(Var.Type, "Node", env.Model))
+                        throw new SequenceParserException(Var.Name, "a node type", Var.Type);
+                }
+                if(SequenceType == SequenceType.ForIncidentEdges
+                    || SequenceType == SequenceType.ForIncomingEdges
+                    || SequenceType == SequenceType.ForOutgoingEdges
+                    || SequenceType == SequenceType.ForReachableEdges
+                    || SequenceType == SequenceType.ForReachableEdgesViaIncoming
+                    || SequenceType == SequenceType.ForReachableEdgesViaOutgoing)
+                {
+                    if(!TypesHelper.IsSameOrSubtype(Var.Type, "Edge", env.Model))
+                        throw new SequenceParserException(Var.Name, "an edge type", Var.Type);
+                }
+
+                SequenceExpression Expr = ArgExprs[0];
+                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), "Node", env.Model))
+                    throw new SequenceParserException(Expr.Symbol, "a node type", Expr.Type(env));
+
+                CheckEdgeType(env, ArgExprs.Count >= 2 ? ArgExprs[1] : null, ", second argument");
+                CheckNodeType(env, ArgExprs.Count >= 3 ? ArgExprs[2] : null, ", third argument");
+            }
+
+            base.Check(env);
+        }
+
+        private void CheckNodeType(SequenceCheckingEnvironment env, SequenceExpression AdjacentNodeType, String whichArgument)
+        {
             if(AdjacentNodeType != null && AdjacentNodeType.Type(env) != "")
             {
                 string typeString = null;
@@ -2485,21 +2505,40 @@ namespace de.unika.ipd.grGen.libGr
                 NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
                 if(nodeType == null && typeString != null)
                 {
-                    throw new SequenceParserException(Symbol + ", third argument", "node type or string denoting node type", typeString);
+                    throw new SequenceParserException(Symbol + whichArgument, "node type or string denoting node type", typeString);
                 }
-            } 
-            base.Check(env);
+            }
+        }
+
+        private void CheckEdgeType(SequenceCheckingEnvironment env, SequenceExpression IncidentEdgeType, String whichArgument)
+        {
+            if(IncidentEdgeType != null && IncidentEdgeType.Type(env) != "")
+            {
+                string typeString = null;
+                if(IncidentEdgeType.Type(env) == "string")
+                {
+                    if(IncidentEdgeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)IncidentEdgeType).Constant;
+                }
+                else
+                {
+                    typeString = IncidentEdgeType.Type(env);
+                }
+                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
+                if(edgeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + whichArgument, "edge type or string denoting edge type", typeString);
+                }
+            }
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            SequenceForAdjacentIncident copy = (SequenceForAdjacentIncident)MemberwiseClone();
+            SequenceForFunction copy = (SequenceForFunction)MemberwiseClone();
             copy.Var = Var.Copy(originalToCopy, procEnv);
-            copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
-            if(copy.IncidentEdgeType!=null)
-                copy.IncidentEdgeType = IncidentEdgeType.CopyExpression(originalToCopy, procEnv);
-            if(copy.AdjacentNodeType!=null)
-                copy.AdjacentNodeType = AdjacentNodeType.CopyExpression(originalToCopy, procEnv);
+            copy.ArgExprs = new List<SequenceExpression>();
+            foreach(SequenceExpression seqExpr in ArgExprs)
+                copy.ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
             copy.Seq = Seq.Copy(originalToCopy, procEnv);
             copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
             foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
@@ -2510,10 +2549,13 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
+            if(SequenceType==SequenceType.ForNodes || SequenceType==SequenceType.ForEdges)
+                return ApplyImplNodesEdges(procEnv);
+
             bool res = true;
-            INode node = (INode)Expr.Evaluate(procEnv);
-            EdgeType edgeType = GetEdgeType(procEnv);
-            NodeType nodeType = GetNodeType(procEnv);
+            INode node = (INode)ArgExprs[0].Evaluate(procEnv);
+            EdgeType edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 2 ? ArgExprs[1] : null);
+            NodeType nodeType = GetNodeType(procEnv, ArgExprs.Count >= 3 ? ArgExprs[2] : null);
 
             switch(SequenceType)
             {
@@ -2613,190 +2655,6 @@ namespace de.unika.ipd.grGen.libGr
                     }
                     break;
                 }
-            }
-
-            procEnv.EndOfIteration(false, this);
-            return res;
-        }
-
-        private EdgeType GetEdgeType(IGraphProcessingEnvironment procEnv)
-        {
-            EdgeType edgeType = null;
-            if(IncidentEdgeType != null)
-            {
-                object tmp = IncidentEdgeType.Evaluate(procEnv);
-                if(tmp is string) edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType) edgeType = (EdgeType)tmp;
-                if(edgeType == null) throw new Exception("edge type argument to " + FunctionSymbol + " iteration is not an edge type");
-            }
-            else
-            {
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            }
-            return edgeType;
-        }
-
-        private NodeType GetNodeType(IGraphProcessingEnvironment procEnv)
-        {
-            NodeType nodeType = null;
-            if(AdjacentNodeType != null)
-            {
-                object tmp = AdjacentNodeType.Evaluate(procEnv);
-                if(tmp is string) nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType) nodeType = (NodeType)tmp;
-                if(nodeType == null) throw new Exception("node type argument to " + FunctionSymbol + " iteration is not a node type");
-            }
-            else
-            {
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
-            }
-            return nodeType;
-        }
-
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
-        {
-            Var.GetLocalVariables(variables);
-            Expr.GetLocalVariables(variables, containerConstructors);
-            if(IncidentEdgeType != null)
-                IncidentEdgeType.GetLocalVariables(variables, containerConstructors);
-            if(AdjacentNodeType != null)
-                AdjacentNodeType.GetLocalVariables(variables, containerConstructors);
-            if(Seq.GetLocalVariables(variables, containerConstructors, target))
-                return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
-                variables.Remove(seqVar);
-            variables.Remove(Var);
-            return this == target;
-        }
-
-        public string FunctionSymbol
-        {
-            get
-            {
-                switch(SequenceType)
-                {
-                case SequenceType.ForAdjacentNodes: return "adjacent";
-                case SequenceType.ForAdjacentNodesViaIncoming: return "adjacentIncoming";
-                case SequenceType.ForAdjacentNodesViaOutgoing: return "adjacentOutgoing";
-                case SequenceType.ForIncidentEdges: return "incident";
-                case SequenceType.ForIncomingEdges: return "incoming";
-                case SequenceType.ForOutgoingEdges: return "outgoing";
-                default: return "INTERNAL FAILURE!";
-                }
-            }
-        }
-
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "for{" + Var.Name + " in " + FunctionSymbol + "(" + Expr.Symbol + (IncidentEdgeType != null ? "," + IncidentEdgeType.Symbol : "") + (AdjacentNodeType != null ? "," + AdjacentNodeType.Symbol : "") + ")" + "; ...}"; } }
-    }
-
-    public class SequenceForReachable : SequenceUnary
-    {
-        public SequenceVariable Var;
-        public SequenceExpression Expr;
-        public SequenceExpression IncidentEdgeType;
-        public SequenceExpression AdjacentNodeType;
-
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
-
-        public SequenceForReachable(SequenceVariable var, SequenceType sequenceType,
-            SequenceExpression expr, SequenceExpression incidentEdgeType, SequenceExpression adjacentNodeType,
-            Sequence seq, List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
-            : base(seq, sequenceType)
-        {
-            Var = var;
-            Expr = expr;
-            IncidentEdgeType = incidentEdgeType;
-            AdjacentNodeType = adjacentNodeType;
-            VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            if(Expr == null || (AdjacentNodeType!=null && IncidentEdgeType==null))
-                throw new Exception("\"" + FunctionSymbol + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
-            if(SequenceType == SequenceType.ForReachableNodes
-                || SequenceType == SequenceType.ForReachableNodesViaIncoming
-                || SequenceType == SequenceType.ForReachableNodesViaOutgoing)
-            {
-                if(!TypesHelper.IsSameOrSubtype(Var.Type, "Node", env.Model))
-                    throw new SequenceParserException(Var.Name, "a node type", Var.Type);
-            }
-            if(SequenceType == SequenceType.ForReachableEdges
-                || SequenceType == SequenceType.ForReachableEdgesViaIncoming
-                || SequenceType == SequenceType.ForReachableEdgesViaOutgoing)
-            {
-                if(!TypesHelper.IsSameOrSubtype(Var.Type, "Edge", env.Model))
-                    throw new SequenceParserException(Var.Name, "an edge type", Var.Type);
-            }
-            if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), "Node", env.Model))
-                throw new SequenceParserException(Expr.Symbol, "a node type", Expr.Type(env));
-            if(IncidentEdgeType != null && IncidentEdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(IncidentEdgeType.Type(env) == "string")
-                {
-                    if(IncidentEdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)IncidentEdgeType).Constant;
-                }
-                else
-                {
-                    typeString = IncidentEdgeType.Type(env);
-                }
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                {
-                    throw new SequenceParserException(Symbol + ", second argument", "edge type or string denoting edge type", typeString);
-                }
-            }
-            if(AdjacentNodeType != null && AdjacentNodeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(AdjacentNodeType.Type(env) == "string")
-                {
-                    if(AdjacentNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)AdjacentNodeType).Constant;
-                }
-                else
-                {
-                    typeString = AdjacentNodeType.Type(env);
-                }
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                {
-                    throw new SequenceParserException(Symbol + ", third argument", "node type or string denoting node type", typeString);
-                }
-            } 
-            base.Check(env);
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-        {
-            SequenceForReachable copy = (SequenceForReachable)MemberwiseClone();
-            copy.Var = Var.Copy(originalToCopy, procEnv);
-            copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
-            if(copy.IncidentEdgeType!=null)
-                copy.IncidentEdgeType = IncidentEdgeType.CopyExpression(originalToCopy, procEnv);
-            if(copy.AdjacentNodeType!=null)
-                copy.AdjacentNodeType = AdjacentNodeType.CopyExpression(originalToCopy, procEnv);
-            copy.Seq = Seq.Copy(originalToCopy, procEnv);
-            copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
-            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
-                copy.VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
-        {
-            bool res = true;
-            INode node = (INode)Expr.Evaluate(procEnv);
-            EdgeType edgeType = GetEdgeType(procEnv);
-            NodeType nodeType = GetNodeType(procEnv);
-
-            switch(SequenceType)
-            {
                 case SequenceType.ForReachableNodes:
                 {
                     bool first = true;
@@ -2881,7 +2739,47 @@ namespace de.unika.ipd.grGen.libGr
             return res;
         }
 
-        private EdgeType GetEdgeType(IGraphProcessingEnvironment procEnv)
+        protected bool ApplyImplNodesEdges(IGraphProcessingEnvironment procEnv)
+        {
+            bool res = true;
+
+            switch(SequenceType)
+            {
+                case SequenceType.ForNodes:
+                {
+                    NodeType nodeType = GetNodeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
+                    bool first = true;
+                    foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
+                    {
+                        if(!first) procEnv.EndOfIteration(true, this);
+                        Var.SetVariableValue(node, procEnv);
+                        Seq.ResetExecutionState();
+                        res &= Seq.Apply(procEnv);
+                        first = false;
+                    }
+                    break;
+                }
+                case SequenceType.ForEdges:
+                {
+                    EdgeType edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
+                    bool first = true;
+                    foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
+                    {
+                        if(!first) procEnv.EndOfIteration(true, this);
+                        Var.SetVariableValue(edge, procEnv);
+                        Seq.ResetExecutionState();
+                        res &= Seq.Apply(procEnv);
+                        first = false;
+                    }
+                    break;
+                }
+            }
+
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        private EdgeType GetEdgeType(IGraphProcessingEnvironment procEnv, SequenceExpression IncidentEdgeType)
         {
             EdgeType edgeType = null;
             if(IncidentEdgeType != null)
@@ -2898,7 +2796,7 @@ namespace de.unika.ipd.grGen.libGr
             return edgeType;
         }
 
-        private NodeType GetNodeType(IGraphProcessingEnvironment procEnv)
+        private NodeType GetNodeType(IGraphProcessingEnvironment procEnv, SequenceExpression AdjacentNodeType)
         {
             NodeType nodeType = null;
             if(AdjacentNodeType != null)
@@ -2919,11 +2817,8 @@ namespace de.unika.ipd.grGen.libGr
             List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             Var.GetLocalVariables(variables);
-            Expr.GetLocalVariables(variables, containerConstructors);
-            if(IncidentEdgeType != null)
-                IncidentEdgeType.GetLocalVariables(variables, containerConstructors);
-            if(AdjacentNodeType != null)
-                AdjacentNodeType.GetLocalVariables(variables, containerConstructors);
+            foreach(SequenceExpression seqExpr in ArgExprs)
+                seqExpr.GetLocalVariables(variables, containerConstructors);
             if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
@@ -2938,112 +2833,49 @@ namespace de.unika.ipd.grGen.libGr
             {
                 switch(SequenceType)
                 {
-                case SequenceType.ForAdjacentNodes: return "reachable";
-                case SequenceType.ForAdjacentNodesViaIncoming: return "reachableIncoming";
-                case SequenceType.ForAdjacentNodesViaOutgoing: return "reachableOutgoing";
-                case SequenceType.ForIncidentEdges: return "reachableEdges";
-                case SequenceType.ForIncomingEdges: return "reachableEdgesIncoming";
-                case SequenceType.ForOutgoingEdges: return "reachableEdgesOutgoing";
+                case SequenceType.ForAdjacentNodes: return "adjacent";
+                case SequenceType.ForAdjacentNodesViaIncoming: return "adjacentIncoming";
+                case SequenceType.ForAdjacentNodesViaOutgoing: return "adjacentOutgoing";
+                case SequenceType.ForIncidentEdges: return "incident";
+                case SequenceType.ForIncomingEdges: return "incoming";
+                case SequenceType.ForOutgoingEdges: return "outgoing";
+                case SequenceType.ForReachableNodes: return "reachable";
+                case SequenceType.ForReachableNodesViaIncoming: return "reachableIncoming";
+                case SequenceType.ForReachableNodesViaOutgoing: return "reachableOutgoing";
+                case SequenceType.ForReachableEdges: return "reachableEdges";
+                case SequenceType.ForReachableEdgesViaIncoming: return "reachableEdgesIncoming";
+                case SequenceType.ForReachableEdgesViaOutgoing: return "reachableEdgesOutgoing";
+                case SequenceType.ForNodes: return "nodes";
+                case SequenceType.ForEdges: return "edges";
                 default: return "INTERNAL FAILURE!";
                 }
             }
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "for{" + Var.Name + " in " + FunctionSymbol + "(" + Expr.Symbol + (IncidentEdgeType != null ? "," + IncidentEdgeType.Symbol : "") + (AdjacentNodeType != null ? "," + AdjacentNodeType.Symbol : "") + ")" + "; ...}"; } }
-    }
-
-    // only quick-fix adaptation to syntax for{x:T in nodes(Type)} / for{x:T in edges(Type)}
-    // TODO: full adaptation, with optional type
-    public class SequenceForLookup : SequenceUnary
-    {
-        public SequenceVariable Var;
-        public SequenceExpression Expr;
-
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
-
-        public SequenceForLookup(SequenceVariable var, SequenceExpression expr, Sequence seq,
-            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
-            : base(seq, SequenceType.ForLookup)
+        public override string Symbol
         {
-            Var = var;
-            Expr = expr;
-            VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            if(Var.Type == "")
-                throw new SequenceParserException(Var.Name, "a node or edge type", "statically unknown type");
-            if(TypesHelper.GetNodeOrEdgeType(Var.Type, env.Model) == null)
-                throw new SequenceParserException(Var.Name, "a node or edge type", Var.Type);
-            if(TypesHelper.GetNodeOrEdgeType(Expr.Type(env), env.Model) == null)
-                throw new SequenceParserException(Expr.Symbol, "a node or edge type", Expr.Type(env));
-            base.Check(env);
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-        {
-            SequenceForLookup copy = (SequenceForLookup)MemberwiseClone();
-            copy.Var = Var.Copy(originalToCopy, procEnv);
-            copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
-            copy.Seq = Seq.Copy(originalToCopy, procEnv);
-            copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
-            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
-                copy.VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
-        {
-            bool res = true;
-            NodeType nodeType = TypesHelper.GetNodeType(Var.Type, procEnv.Graph.Model);
-            if(nodeType != null)
+            get
             {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("for{");
+                sb.Append(Var.Name);
+                sb.Append(" in ");
+                sb.Append(FunctionSymbol);
+                sb.Append("(");
                 bool first = true;
-                foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
+                foreach(SequenceExpression seqExpr in ArgExprs)
                 {
-                    if(!first) procEnv.EndOfIteration(true, this);
-                    Var.SetVariableValue(node, procEnv);
-                    Seq.ResetExecutionState();
-                    res &= Seq.Apply(procEnv);
-                    first = false;
+                    if(!first)
+                        sb.Append(", ");
+                    else
+                        first = false;
+                    sb.Append(seqExpr.Symbol);
                 }
-                procEnv.EndOfIteration(false, this);
+                sb.Append("); ...}");
+                return sb.ToString();
             }
-            else
-            {
-                EdgeType edgeType = TypesHelper.GetEdgeType(Var.Type, procEnv.Graph.Model);
-                bool first = true;
-                foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
-                {
-                    if(!first) procEnv.EndOfIteration(true, this);
-                    Var.SetVariableValue(edge, procEnv);
-                    Seq.ResetExecutionState();
-                    res &= Seq.Apply(procEnv);
-                    first = false;
-                }
-                procEnv.EndOfIteration(false, this);
-            }
-            return res;
         }
-
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
-        {
-            Var.GetLocalVariables(variables);
-            Expr.GetLocalVariables(variables, containerConstructors);
-            if(Seq.GetLocalVariables(variables, containerConstructors, target))
-                return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
-                variables.Remove(seqVar);
-            variables.Remove(Var);
-            return this == target;
-        }
-
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "for{" + Var.Name + "in nodes/edges; ...}"; } }
     }
 
     public class SequenceForMatch : SequenceUnary

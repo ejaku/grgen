@@ -72,9 +72,6 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 			} else if(eval instanceof ForFunctionNode) {
 				ForFunctionNode ffn = (ForFunctionNode)eval;
 				res &= checkStatements(isLHS, root, ffn, ffn.loopedStatements, false);
-			} else if(eval instanceof ForLookupNode) {
-				ForLookupNode fln = (ForLookupNode)eval;
-				res &= checkStatements(isLHS, root, fln, fln.loopedStatements, false);
 			} else if(eval instanceof ContainerAccumulationYieldNode) {
 				ContainerAccumulationYieldNode cayn = (ContainerAccumulationYieldNode)eval;
 				res &= checkStatements(isLHS, root, cayn, cayn.accumulationStatements, false);
