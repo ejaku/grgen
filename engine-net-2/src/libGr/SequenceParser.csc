@@ -850,6 +850,7 @@ Sequence SimpleSequence():
 	List<SequenceVariable> variableList2 = new List<SequenceVariable>();
 	List<Sequence> sequences = new List<Sequence>();
 	List<Double> numbers = new List<Double>();
+	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
 	SequenceExpression expr, expr2 = null, expr3 = null;
 	SequenceComputation comp;
@@ -1032,37 +1033,37 @@ Sequence SimpleSequence():
 			return new SequenceForMatch(fromVar, seq, seq2, variableList1);
 		}
 	|
-		LOOKAHEAD(3) "in" str=Word() "(" expr=Expression() ("," expr2=Expression() ("," expr3=Expression())? )? ")" ";" seq=RewriteSequence()
+		LOOKAHEAD(3) "in" str=Word() "(" (Arguments(argExprs))? ")" ";" seq=RewriteSequence()
 			{ varDecls.PopScope(variableList1); } "}"
 		{
 			if(str=="adjacent") {
-				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForAdjacentNodes, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForAdjacentNodes, argExprs, seq, variableList1);
 			} else if(str=="adjacentIncoming") {
-				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForAdjacentNodesViaIncoming, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForAdjacentNodesViaIncoming, argExprs, seq, variableList1);
 			} else if(str=="adjacentOutgoing") {
-				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForAdjacentNodesViaOutgoing, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForAdjacentNodesViaOutgoing, argExprs, seq, variableList1);
 			} else if(str=="incident") {
-				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForIncidentEdges, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForIncidentEdges, argExprs, seq, variableList1);
 			} else if(str=="incoming") {
-				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForIncomingEdges, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForIncomingEdges, argExprs, seq, variableList1);
 			} else if(str=="outgoing") {
-				return new SequenceForAdjacentIncident(fromVar, SequenceType.ForOutgoingEdges, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForOutgoingEdges, argExprs, seq, variableList1);
 			} else if(str=="reachable") {
-				return new SequenceForReachable(fromVar, SequenceType.ForReachableNodes, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForReachableNodes, argExprs, seq, variableList1);
 			} else if(str=="reachableIncoming") {
-				return new SequenceForReachable(fromVar, SequenceType.ForReachableNodesViaIncoming, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForReachableNodesViaIncoming, argExprs, seq, variableList1);
 			} else if(str=="reachableOutgoing") {
-				return new SequenceForReachable(fromVar, SequenceType.ForReachableNodesViaOutgoing, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForReachableNodesViaOutgoing, argExprs, seq, variableList1);
 			} else if(str=="reachableEdges") {
-				return new SequenceForReachable(fromVar, SequenceType.ForReachableEdges, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForReachableEdges, argExprs, seq, variableList1);
 			} else if(str=="reachableEdgesIncoming") {
-				return new SequenceForReachable(fromVar, SequenceType.ForReachableEdgesViaIncoming, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForReachableEdgesViaIncoming, argExprs, seq, variableList1);
 			} else if(str=="reachableEdgesOutgoing") {
-				return new SequenceForReachable(fromVar, SequenceType.ForReachableEdgesViaOutgoing, expr, expr2, expr3, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForReachableEdgesViaOutgoing, argExprs, seq, variableList1);
 			} else if(str=="nodes") {
-				return new SequenceForLookup(fromVar, expr, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForNodes, argExprs, seq, variableList1);
 			} else if(str=="edges") {
-				return new SequenceForLookup(fromVar, expr, seq, variableList1);
+				return new SequenceForFunction(fromVar, SequenceType.ForEdges, argExprs, seq, variableList1);
 			}
 		}
 	|

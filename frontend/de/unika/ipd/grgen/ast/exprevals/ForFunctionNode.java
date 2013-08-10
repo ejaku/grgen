@@ -75,7 +75,7 @@ public class ForFunctionNode extends EvalStatementNode {
 		if(iterationVariableUnresolved instanceof VarDeclNode) {
 			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
 		} else {
-			reportError("error in resolving iteration variable of container accumulation yield.");
+			reportError("error in resolving iteration variable of for function loop.");
 			successfullyResolved = false;
 		}
 
@@ -87,6 +87,13 @@ public class ForFunctionNode extends EvalStatementNode {
 
 	@Override
 	protected boolean checkLocal() {
+		if(!(iterationVariable.getDeclType() instanceof NodeTypeNode)
+			&& !(iterationVariable.getDeclType() instanceof EdgeTypeNode))
+		{
+			reportError("iteration variable of for function loop must be of node or edge type.");
+			return false;
+		}
+
 		if(function.getResult() instanceof IncidentEdgeExprNode) {
 			return true;
 		} else if(function.getResult() instanceof AdjacentNodeExprNode){
@@ -95,7 +102,12 @@ public class ForFunctionNode extends EvalStatementNode {
 			return true;
 		} else if(function.getResult() instanceof ReachableNodeExprNode){
 			return true;
+		} else if(function.getResult() instanceof NodesExprNode) {
+			return true;
+		} else if(function.getResult() instanceof EdgesExprNode) {
+			return true;
 		} else {
+			reportError("unkonwn function in for function loop.");
 			return false;
 		}
 	}

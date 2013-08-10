@@ -1256,12 +1256,26 @@ namespace de.unika.ipd.grGen.grShell
                         Console.Write("}");
                         break;
                     }
-                case SequenceType.ForLookup:
+                case SequenceType.ForAdjacentNodes:
+                case SequenceType.ForAdjacentNodesViaIncoming:
+                case SequenceType.ForAdjacentNodesViaOutgoing:
+                case SequenceType.ForIncidentEdges:
+                case SequenceType.ForIncomingEdges:
+                case SequenceType.ForOutgoingEdges:
+                case SequenceType.ForReachableNodes:
+                case SequenceType.ForReachableNodesViaIncoming:
+                case SequenceType.ForReachableNodesViaOutgoing:
+                case SequenceType.ForReachableEdges:
+                case SequenceType.ForReachableEdgesViaIncoming:
+                case SequenceType.ForReachableEdgesViaOutgoing:
+                case SequenceType.ForNodes:
+                case SequenceType.ForEdges:
                     {
-                        SequenceForLookup seqFor = (SequenceForLookup)seq;
+                        SequenceForFunction seqFor = (SequenceForFunction)seq;
                         Console.Write("for{");
                         Console.Write(seqFor.Var.Name);
-                        Console.Write("; ");
+                        Console.Write(" in ");
+                        Console.Write(seqFor.FunctionSymbol + ";");
                         PrintSequence(seqFor.Seq, seq, context);
                         Console.Write("}");
                         break;
@@ -2956,7 +2970,20 @@ namespace de.unika.ipd.grGen.grShell
             if(seq.SequenceType == SequenceType.IterationMin
                 || seq.SequenceType == SequenceType.IterationMinMax
                 || seq.SequenceType == SequenceType.ForContainer
-                || seq.SequenceType == SequenceType.ForLookup
+                || seq.SequenceType == SequenceType.ForAdjacentNodes
+                || seq.SequenceType == SequenceType.ForAdjacentNodesViaIncoming
+                || seq.SequenceType == SequenceType.ForAdjacentNodesViaOutgoing
+                || seq.SequenceType == SequenceType.ForIncidentEdges
+                || seq.SequenceType == SequenceType.ForIncomingEdges
+                || seq.SequenceType == SequenceType.ForOutgoingEdges
+                || seq.SequenceType == SequenceType.ForReachableNodes
+                || seq.SequenceType == SequenceType.ForReachableNodesViaIncoming
+                || seq.SequenceType == SequenceType.ForReachableNodesViaOutgoing
+                || seq.SequenceType == SequenceType.ForReachableEdges
+                || seq.SequenceType == SequenceType.ForReachableEdgesViaIncoming
+                || seq.SequenceType == SequenceType.ForReachableEdgesViaOutgoing
+                || seq.SequenceType == SequenceType.ForNodes
+                || seq.SequenceType == SequenceType.ForEdges
                 || seq.SequenceType == SequenceType.ForMatch
                 || seq.SequenceType == SequenceType.Backtrack)
             {
@@ -3012,7 +3039,20 @@ namespace de.unika.ipd.grGen.grShell
             if(seq.SequenceType == SequenceType.IterationMin
                 || seq.SequenceType == SequenceType.IterationMinMax
                 || seq.SequenceType == SequenceType.ForContainer
-                || seq.SequenceType == SequenceType.ForLookup
+                || seq.SequenceType == SequenceType.ForAdjacentNodes
+                || seq.SequenceType == SequenceType.ForAdjacentNodesViaIncoming
+                || seq.SequenceType == SequenceType.ForAdjacentNodesViaOutgoing
+                || seq.SequenceType == SequenceType.ForIncidentEdges
+                || seq.SequenceType == SequenceType.ForIncomingEdges
+                || seq.SequenceType == SequenceType.ForOutgoingEdges
+                || seq.SequenceType == SequenceType.ForReachableNodes
+                || seq.SequenceType == SequenceType.ForReachableNodesViaIncoming
+                || seq.SequenceType == SequenceType.ForReachableNodesViaOutgoing
+                || seq.SequenceType == SequenceType.ForReachableEdges
+                || seq.SequenceType == SequenceType.ForReachableEdgesViaIncoming
+                || seq.SequenceType == SequenceType.ForReachableEdgesViaOutgoing
+                || seq.SequenceType == SequenceType.ForNodes
+                || seq.SequenceType == SequenceType.ForEdges
                 || seq.SequenceType == SequenceType.ForMatch
                 || seq.SequenceType == SequenceType.Backtrack)
             {

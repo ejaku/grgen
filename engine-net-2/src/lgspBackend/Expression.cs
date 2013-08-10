@@ -3292,7 +3292,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
-        Expression NodeType;
+        public Expression NodeType;
     }
 
     /// <summary>
@@ -3317,7 +3317,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
-        Expression EdgeType;
+        public Expression EdgeType;
     }
 
     /// <summary>

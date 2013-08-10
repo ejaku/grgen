@@ -3271,13 +3271,7 @@ options { k = *; }
 		RBRACE popScope
 		{
 			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
-			if(((FunctionInvocationExprNode)function).functionIdent.toString().equals("nodes")
-				|| ((FunctionInvocationExprNode)function).functionIdent.toString().equals("edges"))
-				res = new ForLookupNode(f, iterVar, cs);
-			else
-				res = new ForFunctionNode(f, iterVar, (FunctionInvocationExprNode)function, cs);
-		    // only quick-fix adaptation to syntax for{x:T in nodes(Type)} / for{x:T in edges(Type)}
-			// TODO: full adaptation, with variable being potentially of a supertype of the queried type
+			res = new ForFunctionNode(f, iterVar, (FunctionInvocationExprNode)function, cs);
 		}
 	;
 

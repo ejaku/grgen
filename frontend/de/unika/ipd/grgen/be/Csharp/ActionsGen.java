@@ -1962,10 +1962,6 @@ public class ActionsGen extends CSharpBase {
 			for(EvalStatement childEvalStmt : ((ForFunction)evalStmt).getLoopedStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
-		} else if(evalStmt instanceof ForLookup) {
-			for(EvalStatement childEvalStmt : ((ForLookup)evalStmt).getLoopedStatements()) {
-				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
-			}
 		} else if(evalStmt instanceof WhileStatement) {
 			for(EvalStatement childEvalStmt : ((WhileStatement)evalStmt).getLoopedStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
@@ -3647,10 +3643,6 @@ public class ActionsGen extends CSharpBase {
 			genContainerAccumulationYield(sb, (ContainerAccumulationYield) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
-		else if(evalStmt instanceof ForLookup) {
-			genForLookup(sb, (ForLookup) evalStmt,
-					className, pathPrefix, alreadyDefinedEntityToName);
-		}
 		else if(evalStmt instanceof ForFunction) {
 			genForFunction(sb, (ForFunction) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -4048,25 +4040,6 @@ public class ActionsGen extends CSharpBase {
 		sb.append(")");
 	}
 
-	private void genForLookup(StringBuffer sb, ForLookup fl,
-			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
-		Variable iterationVar = fl.getIterationVar();
-		Type iterationVarType = iterationVar.getType();
-
-		sb.append("\t\t\t\tnew GRGEN_EXPR.ForLookup(");
-		sb.append("\"" + formatEntity(iterationVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
-		sb.append("\"" + formatIdentifiable(iterationVar) + "\", ");
-		sb.append("\"" + formatElementInterfaceRef(iterationVarType) + "\", ");
-		sb.append(iterationVarType instanceof NodeType ? "true, " : "false, ");
-		sb.append("new GRGEN_EXPR.Yielding[] { ");
-		for(EvalStatement statement : fl.getLoopedStatements()) {
-			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(", ");
-		}
-		sb.append("}");
-		sb.append(")");
-	}
-
 	private void genForFunction(StringBuffer sb, ForFunction ff,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		Variable iterationVar = ff.getIterationVar();
@@ -4095,6 +4068,16 @@ public class ActionsGen extends CSharpBase {
 			ReachableEdgeExpr reachableExpr = (ReachableEdgeExpr)ff.getFunction();
 			StringBuffer sbtmp = new StringBuffer();
 			genExpressionTree(sbtmp, reachableExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof NodesExpr) {
+			NodesExpr nodesExpr = (NodesExpr)ff.getFunction();
+			StringBuffer sbtmp = new StringBuffer();
+			genExpressionTree(sbtmp, nodesExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof EdgesExpr) {
+			EdgesExpr edgesExpr = (EdgesExpr)ff.getFunction();
+			StringBuffer sbtmp = new StringBuffer();
+			genExpressionTree(sbtmp, edgesExpr, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(sbtmp.toString() + ", ");
 		}
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
