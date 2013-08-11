@@ -82,7 +82,7 @@ rule rplus(var one:int, var two:int) : (int, int)
 	}
 }
 
-/*sequence s : (output:int, outputput:int, poutput:int, poutputput:int)
+sequence s : (output:int, outputput:int, poutput:int, poutputput:int)
 {
 	(output,outputput)=r ;> (poutput,poutputput)=rplus(one(), two())
-}*/
+}

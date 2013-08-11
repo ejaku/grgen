@@ -1948,7 +1948,8 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 		sel=seqExprSelector[res, xg] { res = sel; }
 	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
 	| THIS { xg.append("this"); }
-	| (functionCall[null]) => functionCall[xg]
+	| (functionCall[null]) => fc=functionCall[xg]
+			 { res = fc; }
 	| (xgrsVarUse[null]) => target=xgrsVarUse[xg]
 			{ res = new IdentExprNode((IdentNode)target); }
 		sel=seqExprSelector[res, xg] { res = sel; }
@@ -1988,11 +1989,42 @@ procedureCall[ExecNode xg]
 
 functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	// built-in function or user defined function, backend has to decide whether the call is valid
-	: (i=IDENT | i=COPY) LPAREN { xg.append(i.getText()); xg.append("("); } functionCallParameters[xg] RPAREN { xg.append(")"); }
+	: (i=IDENT | i=COPY) LPAREN { xg.append(i.getText()); xg.append("("); } params=functionCallParameters[xg] RPAREN { xg.append(")"); }
+		{
+			if( (i.getText().equals("min") || i.getText().equals("max")) && params.getChildren().size()==2
+				|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
+				|| (i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan")) && params.getChildren().size()==1
+				|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
+				|| i.getText().equals("abs") && params.getChildren().size()==1
+				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
+				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
+				|| i.getText().equals("opposite") && params.getChildren().size()==2
+				|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+				|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+				|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
+				|| (i.getText().equals("reachableEdgesIncoming") || i.getText().equals("reachableEdgesOutgoing") || i.getText().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
+				|| (i.getText().equals("isIncoming") || i.getText().equals("isOutgoing") || i.getText().equals("isIncident")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| (i.getText().equals("isAdjacentIncoming") || i.getText().equals("isAdjacentOutgoing") || i.getText().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| (i.getText().equals("isReachableIncoming") || i.getText().equals("isReachableOutgoing") || i.getText().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| (i.getText().equals("isReachableEdgesIncoming") || i.getText().equals("isReachableEdgesOutgoing") || i.getText().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
+				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
+				|| i.getText().equals("canonize") && params.getChildren().size()==1
+				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
+				|| i.getText().equals("import") && params.getChildren().size()==1
+				|| i.getText().equals("copy") && params.getChildren().size()==1
+			  )
+			{
+				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+				res = new FunctionInvocationExprNode(funcIdent, params, env);
+			} else {
+				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+				res = new FunctionOrExternalFunctionInvocationExprNode(funcIdent, params);
+			}
+		}
 	;
 
-functionCallParameters[ExecNode xg]
-	: (fromExpr=seqExpression[xg] (COMMA { xg.append(","); } fromExpr2=seqExpression[xg] )* )?
+functionCallParameters[ExecNode xg] returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
+	: (fromExpr=seqExpression[xg] { params.addChild(fromExpr); } (COMMA { xg.append(","); } fromExpr2=seqExpression[xg] { params.addChild(fromExpr2); } )* )?
 	;
 	
 methodCall[ExecNode xg]
