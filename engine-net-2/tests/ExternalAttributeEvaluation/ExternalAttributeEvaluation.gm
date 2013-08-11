@@ -19,6 +19,6 @@ node class N
 	oh:OwnPownHome; // attributes of type externally defined
 }
 
-own() : Own;
-ownPown() : OwnPown;
-ownPownHome() : OwnPownHome;
+function own() : Own;
+function ownPown() : OwnPown;
+function ownPownHome() : OwnPownHome;

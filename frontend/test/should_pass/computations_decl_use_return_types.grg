@@ -1,21 +1,21 @@
 using model_init;
 
-func1(bb:BB) : B
+function func1(bb:BB) : B
 {
 	return(bb);
 }
 
-func2(b:B) : B
+function func2(b:B) : B
 {
 	return(b);
 }
 
-proc1(bb:BB) : (B)
+procedure proc1(bb:BB) : (B)
 {
 	return(bb);
 }
 
-proc2(b:B) : (B)
+procedure proc2(b:B) : (B)
 {
 	return(b);
 }
@@ -59,22 +59,22 @@ rule r()
 	}
 }
 
-func1e(-ee:EE->) : E1
+function func1e(-ee:EE->) : E1
 {
 	return(ee);
 }
 
-func2e(-e:E1->) : E1
+function func2e(-e:E1->) : E1
 {
 	return(e);
 }
 
-proc1e(-ee:EE->) : (E1)
+procedure proc1e(-ee:EE->) : (E1)
 {
 	return(ee);
 }
 
-proc2e(-e:E1->) : (E1)
+procedure proc2e(-e:E1->) : (E1)
 {
 	return(e);
 }

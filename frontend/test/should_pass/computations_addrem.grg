@@ -1,6 +1,6 @@
 using model_init;
 
-foo() : (set<Node>)
+procedure foo() : (set<Node>)
 {
 	def res1:Node;
 	(res1) = add(Node);

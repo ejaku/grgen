@@ -2,7 +2,7 @@ test t()
 {
 }
 
-bar() : int
+function bar() : int
 {
 	exec( t() ); // no exec in function
 	return(42);

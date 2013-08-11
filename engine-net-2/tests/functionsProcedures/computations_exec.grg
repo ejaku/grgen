@@ -14,7 +14,7 @@ sequence s : (res:int)
 	{ (res)=number(3) }
 }
  
-number(var x:int) : (int)
+procedure number(var x:int) : (int)
 {
 	if(x<=1) {
 	    def var res:int;
@@ -49,7 +49,7 @@ rule bar : (int)
 	}
 }
 
-baz : (int)
+procedure baz : (int)
 {
 	def var res:int;
 	exec( (tmp:int) = qux ;> yield res = tmp );
@@ -64,12 +64,12 @@ test qux : (int)
 	return( two() + three() );
 }
 
-two : int
+function two : int
 {
 	return(2);
 }
 
-three : int
+function three : int
 {
 	return(3);
 }

@@ -2,7 +2,7 @@ ref ::a:array<int>;
 var ::restg:int;
 var ::resrg:int;
 
-tifelse(var x:int) : string
+function tifelse(var x:int) : string
 {
 	def var res:string;
 		
@@ -17,7 +17,7 @@ tifelse(var x:int) : string
 	return (res);
 }
 
-rifelse(var x:int) : (string)
+procedure rifelse(var x:int) : (string)
 {
 	def var res:string;
 	
@@ -37,7 +37,7 @@ sequence sifelse(x:int)
 	{ ::rest = tifelse(x); (::resr) = rifelse(x) } 
 }
 
-twhile : int
+function twhile : int
 {
 	def var res:int = 0;
 	
@@ -48,7 +48,7 @@ twhile : int
 	return (res);
 }
 
-rwhile : (int)
+procedure rwhile : (int)
 {	
 	def var res:int = 0;
 	
@@ -64,7 +64,7 @@ sequence swhile
 	{ ::rest = twhile(); (::resr) = rwhile() } 
 }
 
-tdowhile : int
+function tdowhile : int
 {
 	do {
 		::restg = ::restg + 1;
@@ -73,7 +73,7 @@ tdowhile : int
 	return (::restg);
 }
 
-rdowhile
+procedure rdowhile
 {	
 	do {
 		::resrg = ::resrg + 1;
@@ -86,7 +86,7 @@ sequence sdowhile
 	{ dummy:int = tdowhile(); rdowhile() } 
 }
 
-tbreakcontinue(var initval:int, var initval2:int) : int
+function tbreakcontinue(var initval:int, var initval2:int) : int
 {
 	def var res:int = 0;
 	
@@ -114,7 +114,7 @@ tbreakcontinue(var initval:int, var initval2:int) : int
 	return (res);
 }
 
-rbreakcontinue(var initval:int, var initval2:int) : (int)
+procedure rbreakcontinue(var initval:int, var initval2:int) : (int)
 {	
 	def var res:int = 0;
 	

@@ -1,4 +1,4 @@
-number(var x:int) : int
+function number(var x:int) : int
 {
 	def var res:int = 0;
 	if(x==1) {

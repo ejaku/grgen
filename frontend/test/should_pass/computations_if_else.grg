@@ -1,4 +1,4 @@
-number(var x:int) : int
+function number(var x:int) : int
 {
 	if(x==1) {
 		return(1);

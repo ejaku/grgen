@@ -1,9 +1,9 @@
-foo()
+procedure foo()
 {
 	return;
 }
 
-bar() : int
+function bar() : int
 {
 	foo();
 	return(42);

@@ -1,11 +1,11 @@
 using model_init;
 
-some(var by:byte, var sh:short, var i1:int, var l:long, var f:float, var s:string, var b:boolean, var enu:Foo) : boolean
+function some(var by:byte, var sh:short, var i1:int, var l:long, var f:float, var s:string, var b:boolean, var enu:Foo) : boolean
 {
 	return(true);
 }
 
-someproc(var by:byte, var sh:short, var i1:int, var l:long, var f:float, var s:string, var b:boolean, var enu:Foo) 
+procedure someproc(var by:byte, var sh:short, var i1:int, var l:long, var f:float, var s:string, var b:boolean, var enu:Foo) 
 	: (byte, short, int, long, float, string, boolean, Foo)
 {
 	return(by, sh, i1, l, f, s, b, enu);

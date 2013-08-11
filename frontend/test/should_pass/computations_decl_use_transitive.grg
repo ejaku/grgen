@@ -1,14 +1,14 @@
-one() : int
+function one() : int
 {
 	return(1);
 }
 
-three() : int
+function three() : int
 {
 	return(two() + one());
 }
 
-two() : int
+function two() : int
 {
 	return(one() + one());
 }

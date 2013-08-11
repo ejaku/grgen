@@ -1,6 +1,6 @@
 var ::glob:int;
 
-onetwo() : (int, int)
+procedure onetwo() : (int, int)
 {
 	if(::glob==42) {
 		return(1,2);

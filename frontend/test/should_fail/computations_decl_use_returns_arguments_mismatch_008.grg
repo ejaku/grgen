@@ -1,6 +1,6 @@
 using model_init;
 
-proc() : (boolean)
+procedure proc() : (boolean)
 {
 	return;
 }

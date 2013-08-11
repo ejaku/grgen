@@ -1,4 +1,4 @@
-some(var in1:int, in2:Node, -in3:Edge->) : int
+function some(var in1:int, in2:Node, -in3:Edge->) : int
 {
 	def res2:Node = in2;
 	in2.visited[in1] = false;

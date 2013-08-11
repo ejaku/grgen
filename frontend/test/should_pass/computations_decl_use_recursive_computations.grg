@@ -9,7 +9,7 @@ rule t : (int)
 	}
 }
 
-number(var x:int) : (int)
+procedure number(var x:int) : (int)
 {
 	if(x<=1) {
 		return(1);

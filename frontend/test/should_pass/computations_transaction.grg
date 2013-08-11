@@ -1,4 +1,4 @@
-foo
+procedure foo
 {
 	def var transactionId:int;
 	(transactionId) = startTransaction();

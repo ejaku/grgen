@@ -1,4 +1,4 @@
-some(var in1:int, in2:Node, -in3:Edge->, ref in4:array<int>) : int
+function some(var in1:int, in2:Node, -in3:Edge->, ref in4:array<int>) : int
 {
 	def var res1:int = in1;
 	def res2:Node = in2;

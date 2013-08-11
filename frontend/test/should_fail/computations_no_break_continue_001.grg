@@ -1,4 +1,4 @@
-muh()
+procedure muh()
 {
 	continue;
 	return;

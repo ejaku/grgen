@@ -1,9 +1,9 @@
-some(n:Node, var id:int) : boolean
+function some(n:Node, var id:int) : boolean
 {
 	return(!n.visited[id]);
 }
 
-someMore(n:Node) : (int)
+procedure someMore(n:Node) : (int)
 {
 	def var id:int;
 	(id) = valloc();

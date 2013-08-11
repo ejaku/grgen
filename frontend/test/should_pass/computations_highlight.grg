@@ -1,12 +1,12 @@
 using model_init;
 
-foo(n:Node) : string
+function foo(n:Node) : string
 {
 	highlight(42, n, "bar");
 	return("muh");
 }
 
-bar(n:Node) : (string)
+procedure bar(n:Node) : (string)
 {
 	highlight(42, n, "foo");
 	return("muh");

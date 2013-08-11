@@ -1,4 +1,4 @@
-loopdown(var input:int) : int
+function loopdown(var input:int) : int
 {
 	if(input > 1) {
 		return(loopdown(input - 1));
@@ -7,7 +7,7 @@ loopdown(var input:int) : int
 	}
 }
 
-foo() : int
+function foo() : int
 {
 	def var res:int = 42;
 	res = loopdown(res);

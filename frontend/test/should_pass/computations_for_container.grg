@@ -1,4 +1,4 @@
-foo(ref s:set<Node>) : int
+function foo(ref s:set<Node>) : int
 {
 	def ref a:array<Node> = array<Node>[];
 	def var res:int = 0;

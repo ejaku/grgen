@@ -1,6 +1,6 @@
 using model_init;
 
-proc(b:Node) : (B)
+procedure proc(b:Node) : (B)
 {
 	return(b);
 }

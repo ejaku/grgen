@@ -44,28 +44,28 @@ edge class E;
 
 // we declare the external attribute functions
 // signature only, external implementation!
-foo(int, double, Enu, string) : boolean;
-bar(object, object) : object;
-isnull(object) : boolean;
-bla(N, E) : boolean;
-blo(Node, Edge) : N;
-har(Own, OwnPown) : OwnPown;
-hur(OwnPown) : boolean;
-hurdur(OwnPownHome) : boolean;
+function foo(int, double, Enu, string) : boolean;
+function bar(object, object) : object;
+function isnull(object) : boolean;
+function bla(N, E) : boolean;
+function blo(Node, Edge) : N;
+function har(Own, OwnPown) : OwnPown;
+function hur(OwnPown) : boolean;
+function hurdur(OwnPownHome) : boolean;
 
 // "constructors" implemented as attribute functions, for filling attributes
-own() : Own;
-ownPown() : OwnPown;
-ownPownHome() : OwnPownHome;
+function own() : Own;
+function ownPown() : OwnPown;
+function ownPownHome() : OwnPownHome;
 
 // we declare the external attribute procedures
 // signature only, external implementation!
-fooProc(int, double, Enu, string);
-barProc(object, object) : (object);
-isnullProc(object) : (boolean);
-blaProc(N, E) : (boolean, boolean);
-bloProc(Node, Edge) : (N);
-harProc(Own, OwnPown) : (OwnPown, Own, N);
-hurProc(OwnPown);
-hurdurProc(OwnPownHome);
+procedure fooProc(int, double, Enu, string);
+procedure barProc(object, object) : (object);
+procedure isnullProc(object) : (boolean);
+procedure blaProc(N, E) : (boolean, boolean);
+procedure bloProc(Node, Edge) : (N);
+procedure harProc(Own, OwnPown) : (OwnPown, Own, N);
+procedure hurProc(OwnPown);
+procedure hurdurProc(OwnPownHome);
 

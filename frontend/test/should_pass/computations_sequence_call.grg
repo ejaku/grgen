@@ -28,7 +28,7 @@ rule r(var n:int) : (int)
 	}
 }
 
-foo(var x:int, y:Node, -z:Edge->, y2:A, -z2:E1->) : (int)
+procedure foo(var x:int, y:Node, -z:Edge->, y2:A, -z2:E1->) : (int)
 {
 	if(x<=1) {
 		return(1);
@@ -43,7 +43,7 @@ foo(var x:int, y:Node, -z:Edge->, y2:A, -z2:E1->) : (int)
 	}
 }
 
-bar() : int
+function bar() : int
 {
 	return(42);
 }

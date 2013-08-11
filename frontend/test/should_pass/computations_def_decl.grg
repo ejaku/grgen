@@ -1,4 +1,4 @@
-one() : int
+function one() : int
 {
 	def var res:int;
 	res = 1;

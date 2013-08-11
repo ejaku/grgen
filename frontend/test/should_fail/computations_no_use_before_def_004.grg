@@ -1,4 +1,4 @@
-muh() : (int)
+procedure muh() : (int)
 {
 	def var res:int;
 	res = 1;

@@ -1,4 +1,4 @@
-foo(var x:int) : (int)
+procedure foo(var x:int) : (int)
 {
 	while(x==1)
 		return(1);

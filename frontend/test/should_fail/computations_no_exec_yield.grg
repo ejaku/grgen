@@ -7,7 +7,7 @@ rule r(var n:int) : (int)
 	}
 }
 
-foo() : (int)
+procedure foo() : (int)
 {
 	return(1);
 }

@@ -1,4 +1,4 @@
-one() : int
+function one() : int
 {
 	def var temp1:int = 0;
 	def var temp2:int = temp1 + 1;
