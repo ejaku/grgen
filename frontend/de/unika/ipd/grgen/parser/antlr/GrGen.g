@@ -387,6 +387,7 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 		ExecNode exec = null;
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 		TestDeclNode actionDecl = null;
+		boolean withFuncProc = false;
 	}
 
 	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
@@ -457,11 +458,11 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
 			sequenceChilds.addChild(id);
 		}
-	| id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
-		functionOrProcedureDecl[id, params, functionChilds, procedureChilds]
+	| (FUNCTION { withFuncProc = true; } | PROCEDURE { withFuncProc = true; })? id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
+		functionOrProcedureDecl[withFuncProc, id, params, functionChilds, procedureChilds]
 	;
 
-functionOrProcedureDecl[IdentNode id, CollectNode<BaseNode> params,
+functionOrProcedureDecl[boolean withFuncProc, IdentNode id, CollectNode<BaseNode> params,
 							CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> procedureChilds]
 	@init{
 		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
@@ -474,6 +475,7 @@ functionOrProcedureDecl[IdentNode id, CollectNode<BaseNode> params,
 		{
 			id.setDecl(new FunctionDeclNode(id, evals, params, retType));
 			functionChilds.addChild(id);
+			if(!withFuncProc) reportWarning(id.getCoords(), "use function keyword to declare function");
 		}
 	| (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)?
 		LBRACE
@@ -482,6 +484,7 @@ functionOrProcedureDecl[IdentNode id, CollectNode<BaseNode> params,
 		{
 			id.setDecl(new ProcedureDeclNode(id, evals, params, returnTypes));
 			procedureChilds.addChild(id);
+			if(!withFuncProc) reportWarning(id.getCoords(), "use procedure keyword to declare procedure");
 		}
 	;
 	
@@ -2291,11 +2294,15 @@ textTypes returns [ ModelNode model = null ]
 
 typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,  CollectNode<IdentNode> externalProcs ]
 	returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, boolean isEqualClassDefined = false, boolean isLowerClassDefined = false; ]
+	@init {
+		boolean withFuncProc = false;
+	}
+	
 	: (
 		type=typeDecl { types.addChild(type); }
 	  |
-		id=funcOrExtFuncIdentDecl params=paramTypes
-		externalFunctionOrProcedureDecl[id, params, externalFuncs, externalProcs]
+		(FUNCTION { withFuncProc = true; } | PROCEDURE { withFuncProc = true; })? id=funcOrExtFuncIdentDecl params=paramTypes
+		externalFunctionOrProcedureDecl[withFuncProc, id, params, externalFuncs, externalProcs]
 	  |
 	    EMIT CLASS SEMI { $isEmitClassDefined = true; }
 	  |
@@ -2307,7 +2314,7 @@ typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,
 	  )*
 	;
 
-externalFunctionOrProcedureDecl [ IdentNode id, CollectNode<BaseNode> params,
+externalFunctionOrProcedureDecl [ boolean withFuncProc, IdentNode id, CollectNode<BaseNode> params,
 									CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs ]
 									returns [ IdentNode res = env.getDummyIdent() ]
 	@init{
@@ -2317,11 +2324,13 @@ externalFunctionOrProcedureDecl [ IdentNode id, CollectNode<BaseNode> params,
 		{
 			id.setDecl(new ExternalFunctionDeclNode(id, params, ret));
 			externalFuncs.addChild(id);
+			if(!withFuncProc) reportWarning(id.getCoords(), "use function keyword to declare function");
 		}
 	| (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
 		{
 			id.setDecl(new ExternalProcedureDeclNode(id, params, returnTypes));
 			externalProcs.addChild(id);
+			if(!withFuncProc) reportWarning(id.getCoords(), "use procedure keyword to declare procedure");
 		}
 	;
 
@@ -3870,6 +3879,7 @@ EXEC : 'exec';
 EXTENDS : 'extends';
 FALSE : 'false';
 FOR : 'for';
+FUNCTION : 'function';
 HOM : 'hom';
 IF : 'if';
 IN : 'in';
@@ -3888,6 +3898,7 @@ NULL : 'null';
 OPTIONAL : 'optional';
 PATTERN : 'pattern';
 PATTERNPATH : 'patternpath';
+PROCEDURE : 'procedure';
 DEQUE : 'deque';
 REPLACE : 'replace';
 RETURN : 'return';
