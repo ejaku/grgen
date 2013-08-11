@@ -269,6 +269,14 @@ namespace de.unika.ipd.grGen.lgsp
             return null;
         }
 
+        public bool IsRefEntityExisting()
+        {
+            for(int i = 0; i < variables.Length; ++i)
+                if(TypesHelper.IsRefType(variables[i].type))
+                    return true;
+            return false;
+        }
+
         /// <summary>
         /// Contains the source node of the pattern edges in this graph if specified.
         /// </summary>

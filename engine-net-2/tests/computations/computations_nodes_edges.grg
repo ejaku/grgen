@@ -1,0 +1,90 @@
+using model_init;
+
+rule init
+{
+	modify {
+		a1:A -e:EE-> a2:A --> .;
+	}
+}
+
+rule r(ref n:set<Node>, ref a:set<Node>, ref e:set<Edge>, ref nn:set<Node>, ref aa:set<Node>, ref ee:set<Edge>) : (int,int,int,int)
+{
+	if { nodes().size() > nodes(A).size(); }
+	if { edges().size() > edges(EE).size(); }
+	
+	def var countA:int;
+	def var countEE:int;
+	yield {
+		def ref _n:set<Node> = nodes();
+		def ref _a:set<Node> = nodes(A);
+		def ref _e:set<Edge> = edges();
+		for(el:Node in _n) {
+			n.add(el);
+		}
+		for(el:Node in _a) {
+			a.add(el);
+		}
+		for(el:Edge in _e) {
+			e.add(el);
+		}
+		yield countA = nodes(A).size();
+		yield countEE = edges(EE).size();
+	}
+	
+	modify {
+		def var ccountA:int;
+		def var ccountEE:int;
+		eval {
+			def ref _n:set<Node> = nodes();
+			def ref _a:set<Node> = nodes(A);
+			def ref _e:set<Edge> = edges();
+			for(el:Node in _n) {
+				nn.add(el);
+			}
+			for(el:Node in _a) {
+				aa.add(el);
+			}
+			for(el:Edge in _e) {
+				ee.add(el);
+			}
+			yield ccountA = nodes(A).size();
+			yield ccountEE = edges(EE).size();
+		}
+		return(countA, countEE, ccountA, ccountEE);
+	}
+}
+
+rule rloop(ref n:set<Node>, ref a:set<A>, ref e:set<Edge>, ref ee:set<EE>, ref nn:set<Node>, ref aa:set<A>, ref eee:set<Edge>, ref eeee:set<EE>)
+{	
+	yield {
+		for(el:Node in nodes()) {
+			n.add(el);
+		}
+		for(el:A in nodes(A)) {
+			a.add(el);
+		}
+		for(el:Edge in edges()) {
+			e.add(el);
+		}
+		for(el:EE in edges(EE)) {
+			ee.add(el);
+		}
+	}
+	
+	modify {
+		eval {
+			for(el:Node in nodes()) {
+				nn.add(el);
+			}
+			for(el:A in nodes(A)) {
+				aa.add(el);
+			}
+			for(el:Edge in edges()) {
+				eee.add(el);
+			}
+			for(el:EE in edges(EE)) {
+				eeee.add(el);
+			}
+		}
+	}
+}

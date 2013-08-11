@@ -2813,9 +2813,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // we only have to take care of yielding in case of normal and independent matches 
-            // and if we contain a def entity (and if we are not in the defElements pass)
+            // and if we contain a def entity (and if we are not in the defElements pass), or if we contain a ref entity (that may be yielded to instead)
             if(matchObjectType != MatchObjectType.Patternpath
-                && patternGraph.isDefEntityExistingPlusInlined)
+                && (patternGraph.isDefEntityExistingPlusInlined || patternGraph.IsRefEntityExisting()))
             {
                 // first compute the yieldings which were inlined from subpatterns to us
                 insertionPoint = insertYields(insertionPoint, patternGraph, matchObjectName, true);

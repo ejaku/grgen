@@ -121,6 +121,11 @@ namespace de.unika.ipd.grGen.libGr
             return type.Name;
         }
 
+        public static bool IsRefType(VarType varType)
+        {
+            return varType.Type.IsGenericType;
+        }
+
         private static String DotNetTypeToXgrsType(String typeName)
         {
             switch (typeName)
