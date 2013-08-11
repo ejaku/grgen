@@ -1,0 +1,38 @@
+new graph "computations/computations_nodes_edges"
+
+exec init
+
+exec ::n=set<Node>{} ;> ::a=set<Node>{} ;> ::e=set<Edge>{} ;>\
+     ::nn=set<Node>{} ;> ::aa=set<Node>{} ;> ::ee=set<Edge>{} ;>\
+	 (::countA, ::countEE, ::ccountA, ::ccountEE)=r(::n, ::a, ::e, ::nn, ::aa, ::ee)
+
+show var n
+show var a
+show var e
+show var nn
+show var aa
+show var ee
+show var countA
+show var countEE
+show var ccountA
+show var ccountEE
+
+show num nodes
+show num nodes A
+show num edges
+show num edges EE
+
+exec ::n=set<Node>{} ;> ::a=set<A>{} ;> ::e=set<Edge>{} ;> ::ee=set<EE>{} ;>\
+     ::nn=set<Node>{} ;> ::aa=set<A>{} ;> ::eee=set<Edge>{} ;> ::eeee=set<EE>{} ;>\
+	 rloop(::n, ::a, ::e, ::ee, ::nn, ::aa, ::eee, ::eeee)
+
+show var n
+show var a
+show var e
+show var ee
+show var nn
+show var aa
+show var eee
+show var eeee
+
+exit
