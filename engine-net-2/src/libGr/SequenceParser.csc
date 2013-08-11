@@ -196,7 +196,16 @@ TOKEN: {
 |   < PERCENT: "%" >
 |   < QUESTIONMARK: "?" >
 |	< AT : "@" >
-|   < DEF: "def" >
+|   < ARROW: "->" >
+|   < DOT: "." >
+|   < THENLEFT: "<;" >
+|   < THENRIGHT: ";>" >
+|   < SEMI: ";" >
+|   < DOUBLESEMI: ";;" >
+}
+
+TOKEN: {
+    < DEF: "def" >
 |   < TRUE: "true" >
 |   < FALSE: "false" >
 |   < NULL: "null" >
@@ -205,15 +214,9 @@ TOKEN: {
 |   < ARRAY: "array" >
 |   < DEQUE: "deque" >
 |   < MATCH: "match" >
-|   < ARROW: "->" >
 |   < FOR: "for" >
 |   < IF: "if" >
 |   < IN: "in" >
-|   < DOT: "." >
-|   < THENLEFT: "<;" >
-|   < THENRIGHT: ";>" >
-|   < SEMI: ";" >
-|   < DOUBLESEMI: ";;" >
 |   < VISITED: "visited" >
 |   < YIELD: "yield" >
 |   < HIGHLIGHT: "highlight" >
