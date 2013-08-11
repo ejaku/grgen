@@ -142,7 +142,7 @@ On the other hand we consider pure functional programming not a help but a burde
 
 \begin{rail} 
   FunctionDefinition: 
-	Name '(' Parameters ')' ':' ReturnType \\
+	'function' Name '(' Parameters ')' ':' ReturnType \\
 	lbrace (Statement+) rbrace;
   Parameters: (Parameter * ',');
   Parameter: IdentDecl ':' NodeType |
@@ -244,12 +244,12 @@ so in a procedure definition you are free to call other procedures (self-defined
 
 \begin{rail} 
   ProcedureDefinition: 
-	Name '(' Parameters ')' ReturnTypes \\
+	'procedure' Name '(' Parameters ')' ReturnTypes \\
 	lbrace (Statement+) rbrace;
   ReturnTypes: (':' '(' (ReturnType + ',') ')' )?;
 \end{rail}\ixnterm{ProcedureDefinition}\ixnterm{Parameter}\ixkeyw{var}\ixkeyw{ref}
 
-Please note the syntactic difference distinguishing the procedures from the functions: the return types are enclosed in parenthesis (or omitted altogether).
+Please note the syntactic difference distinguishing the procedures from the functions (besides the different keyword): the return types are enclosed in parenthesis (or omitted altogether).
 The computation definition may return between zero and $k$ values.
 It must be always ended with a return statement; the type of the return values must be compatible to the return types specified in the computation definition.
 (A return statement must not occur outside of a computation definition.)
