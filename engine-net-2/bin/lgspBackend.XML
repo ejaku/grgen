@@ -2385,14 +2385,9 @@
             Class representing an container accumulation yield, accumulating the values in a container with chosen statements
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.ForLookup">
-            <summary>
-            Class representing a lookup of entities of given type in the graph
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.expression.ForFunction">
             <summary>
-            Class representing an iteration over helper function results (incident/adjacent stuff)
+            Class representing an iteration over helper function results (nodes/edgse/incident/adjacent/reachable stuff)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ConditionStatement">
