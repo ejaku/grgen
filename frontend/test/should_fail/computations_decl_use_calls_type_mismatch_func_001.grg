@@ -1,6 +1,6 @@
 using model_init;
 
-func(b:B) : Node
+function func(b:B) : Node
 {
 	return(b);
 }

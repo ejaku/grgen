@@ -1,9 +1,9 @@
-proc(var b:boolean) : (boolean)
+procedure proc(var b:boolean) : (boolean)
 {
 	return(b);
 }
 
-call()
+procedure call()
 {
 	def var b:boolean;
 	(b) = proc();

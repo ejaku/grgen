@@ -1,6 +1,6 @@
 var ::glob:int;
 
-one() : int
+function one() : int
 {
 	def var x:int = 42;
 }

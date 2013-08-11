@@ -1,4 +1,4 @@
-muh(var x:int) : int
+function muh(var x:int) : int
 {
 	else {
 		return(0);

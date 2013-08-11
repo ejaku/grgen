@@ -1,6 +1,6 @@
 var ::glob:int;
 
-one() : (int)
+procedure one() : (int)
 {
 	def var x:int = 42;
 	return(x);

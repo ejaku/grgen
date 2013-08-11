@@ -1,6 +1,6 @@
 using model_init;
 
-some(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : boolean
+function some(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : boolean
 {
 	m.add("foo",n);
 	ar.add(n);
@@ -10,7 +10,7 @@ some(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>
 	return(!m.empty() && !ar.empty() && !de.empty() && !se.empty());
 }
 
-some2(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : boolean
+function some2(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : boolean
 {
 	m.add("foo",n);
 	ar.add(n);

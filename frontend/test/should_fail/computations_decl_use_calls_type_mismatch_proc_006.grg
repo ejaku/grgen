@@ -1,6 +1,6 @@
 using model_init;
 
-proc(var d:double) : (double)
+procedure proc(var d:double) : (double)
 {
 	return(d);
 }

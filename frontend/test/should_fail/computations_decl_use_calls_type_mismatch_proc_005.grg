@@ -1,6 +1,6 @@
 using model_init;
 
-proc(var i:int) : (int)
+procedure proc(var i:int) : (int)
 {
 	return(i);
 }

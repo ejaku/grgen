@@ -1,9 +1,9 @@
-one() : (int)
+procedure one() : (int)
 {
 	return(1);
 }
 
-three() : (int)
+procedure three() : (int)
 {
 	def var res1:int;
 	(res1) = one();
@@ -12,7 +12,7 @@ three() : (int)
 	return(res1 + res2);
 }
 
-two() : (int)
+procedure two() : (int)
 {
 	def var res:int;
 	(res) = one();

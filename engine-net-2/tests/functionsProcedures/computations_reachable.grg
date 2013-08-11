@@ -32,7 +32,7 @@ rule unlink(middle1:A, middle2:Node)
 	}
 }
 
-f(start1:A, middle1:A, end1:A, start2:Node, end2:Node) : boolean
+function f(start1:A, middle1:A, end1:A, start2:Node, end2:Node) : boolean
 {
 	if(reachable(start1).size() <= reachable(start2).size()) {
 		return(false);
@@ -43,7 +43,7 @@ f(start1:A, middle1:A, end1:A, start2:Node, end2:Node) : boolean
 	return(!isReachableOutgoing(start1, end2, EE) && !isReachable(start2, end1));
 }
 
-ff(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : boolean
+function ff(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : boolean
 {
 	def ref _rs1:set<Node> = reachableOutgoing(start1, EE);
 	def ref _rm1:set<Node> = reachable(middle1);
@@ -64,7 +64,7 @@ ff(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node>, s
 	return(isReachable(start1, end2));
 }
 
-ffloop(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : boolean
+function ffloop(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : boolean
 {
 	for(el:Node in reachableOutgoing(start1, EE)) {
 		rs1.add(el);
@@ -81,8 +81,8 @@ ffloop(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node
 	return(isReachable(start1, end2));
 }
 
-p(ref rrs1:set<Node>, ref rrm1:set<Node>, ref rrs2:set<Node>, ref rre2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : (boolean,boolean)
-{	
+procedure p(ref rrs1:set<Node>, ref rrm1:set<Node>, ref rrs2:set<Node>, ref rre2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : (boolean,boolean)
+{
 	def ref _rs1:set<Node> = reachableOutgoing(start1, EE);
 	def ref _rm1:set<Node> = reachable(middle1);
 	def ref _rs2:set<Node> = reachableOutgoing(start2);
@@ -104,7 +104,7 @@ p(ref rrs1:set<Node>, ref rrm1:set<Node>, ref rrs2:set<Node>, ref rre2:set<Node>
 	return(iisR11, iisR12);
 }
 
-ploop(ref rrs1:set<Node>, ref rrm1:set<Node>, ref rrs2:set<Node>, ref rre2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : (boolean,boolean)
+procedure ploop(ref rrs1:set<Node>, ref rrm1:set<Node>, ref rrs2:set<Node>, ref rre2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : (boolean,boolean)
 {	
 	for(el:Node in reachableOutgoing(start1, EE)) {
 		rrs1.add(el);

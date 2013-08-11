@@ -1,6 +1,6 @@
 using model_init;
 
-func(var d:double) : double
+function func(var d:double) : double
 {
 	return(d);
 }

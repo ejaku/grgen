@@ -1,14 +1,14 @@
-one() : int
+function one() : int
 {
 	return(1);
 }
 
-two() : int
+function two() : int
 {
 	return(2);
 }
 
-three(var v:int) : int
+function three(var v:int) : int
 {
 	if(v==3) {
 		return(v);

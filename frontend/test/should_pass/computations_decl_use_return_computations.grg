@@ -1,24 +1,24 @@
-none()
+procedure none()
 {
 	return;
 }
 
-nonetoo : ()
+procedure nonetoo : ()
 {
 	return;
 }
 
-one() : (int)
+procedure one() : (int)
 {
 	return(1);
 }
 
-onetwo() : (int, int)
+procedure onetwo() : (int, int)
 {
 	return(1, 2);
 }
 
-three(var v:int) : (int)
+procedure three(var v:int) : (int)
 {
 	if(v==3) {
 		return(v);
@@ -30,7 +30,7 @@ three(var v:int) : (int)
 	}
 }
 
-einszweipolizei() : (int, int, int)
+procedure einszweipolizei() : (int, int, int)
 {
 	one();
 	onetwo();

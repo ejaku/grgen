@@ -1,6 +1,6 @@
 using model_init;
 
-pinit : (A,Edge,Node)
+procedure pinit : (A,Edge,Node)
 {
 	(def n1:A) = add(A);
 	(def n2:Node) = add(Node);
@@ -8,13 +8,13 @@ pinit : (A,Edge,Node)
 	return(n1,e,n2);
 }
 
-pclear
+procedure pclear
 {
 	clear();
 	return;
 }
 
-pmerge(n1:A, -e:Edge->, n2:Node)
+procedure pmerge(n1:A, -e:Edge->, n2:Node)
 {	
 	merge(n1,n2);
 	return;
@@ -25,7 +25,7 @@ test tmerge
 	n1n2:A --> n1n2;
 }
 
-predirectsource(n1:A, -e:Edge->, n2:Node)
+procedure predirectsource(n1:A, -e:Edge->, n2:Node)
 {	
 	redirectSource(e,n2);
 	return;
@@ -37,7 +37,7 @@ test tredirectsource
 	n2:Node --> n2;
 }
 
-predirecttarget(n1:A, -e:Edge->, n2:Node)
+procedure predirecttarget(n1:A, -e:Edge->, n2:Node)
 {	
 	redirectTarget(e,n1);
 	return;
@@ -49,7 +49,7 @@ test tredirecttarget
 	n2:Node;
 }
 
-predirctsourcetarget(n1:A, -e:Edge->, n2:Node)
+procedure predirctsourcetarget(n1:A, -e:Edge->, n2:Node)
 {	
 	redirectSourceAndTarget(e,n2,n1);
 	return;

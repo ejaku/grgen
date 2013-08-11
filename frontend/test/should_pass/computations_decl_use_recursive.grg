@@ -3,7 +3,7 @@ test t : (int)
 	return(number(3));
 }
 
-number(var x:int) : int
+function number(var x:int) : int
 {
 	if(x<=1) {
 		return(1);

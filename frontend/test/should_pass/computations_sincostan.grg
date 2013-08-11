@@ -1,4 +1,4 @@
-foo() : double
+function foo() : double
 {
 	def var temp1:double = sin(0.0);
 	def var temp2:double = cos(0.0);

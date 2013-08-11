@@ -1,6 +1,6 @@
 var ::glob:int;
 
-two() : int
+function two() : int
 {
 	if(::glob==42) {
 	} else {

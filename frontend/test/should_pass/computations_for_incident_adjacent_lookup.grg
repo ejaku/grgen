@@ -1,6 +1,6 @@
 using model_init;
 
-foo(start:Node) : int
+function foo(start:Node) : int
 {
 	def var res:int = 0;
 	def tmpNode:Node;

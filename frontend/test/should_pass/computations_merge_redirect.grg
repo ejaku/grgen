@@ -1,4 +1,4 @@
-foo(n1:Node, n2:Node, -e:Edge->) : (string)
+procedure foo(n1:Node, n2:Node, -e:Edge->) : (string)
 {
 	def var s:string = "hokus pokus";
 	merge(n1,n2);

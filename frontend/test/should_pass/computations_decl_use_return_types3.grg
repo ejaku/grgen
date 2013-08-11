@@ -1,11 +1,11 @@
 using model_init;
 
-some(ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : boolean
+function some(ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : boolean
 {
 	return(true);
 }
 
-someproc(ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) 
+procedure someproc(ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) 
  : (map<string, Node>, array<Node>, deque<E1>, set<string>)
 {
 	return(m, ar, de, se);

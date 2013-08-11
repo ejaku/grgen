@@ -1,4 +1,4 @@
-foo(ref m:map<int,Node>) : int
+function foo(ref m:map<int,Node>) : int
 {
 	def ref d:deque<Node> = deque<Node>][;
 	def var res:int = 0;

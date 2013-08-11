@@ -1,6 +1,6 @@
 using model_init;
 
-some(n:A, -e:E1->) : boolean
+function some(n:A, -e:E1->) : boolean
 {
 	def var by:byte = (byte)42;
 	def var sh:short = (short)42;

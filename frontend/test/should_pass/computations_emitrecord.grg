@@ -1,6 +1,6 @@
 using model_init;
 
-foo(n:Node) : string
+function foo(n:Node) : string
 {
 	emit("bar");
 	emit(42);
@@ -8,7 +8,7 @@ foo(n:Node) : string
 	return("muh");
 }
 
-bar(n:Node) : (string)
+procedure bar(n:Node) : (string)
 {
 	emit("bar");
 	emit(42);

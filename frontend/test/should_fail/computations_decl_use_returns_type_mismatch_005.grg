@@ -1,6 +1,6 @@
 using model_init;
 
-proc(-e:Edge->) : (E1)
+procedure proc(-e:Edge->) : (E1)
 {
 	return(e);
 }

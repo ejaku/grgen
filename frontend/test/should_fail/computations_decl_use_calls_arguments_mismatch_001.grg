@@ -1,9 +1,9 @@
-func(var b:boolean) : boolean
+function func(var b:boolean) : boolean
 {
 	return(b);
 }
 
-call()
+procedure call()
 {
 	def var b:boolean;
 	b = func();

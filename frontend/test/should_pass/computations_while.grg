@@ -1,4 +1,4 @@
-foo() : int
+function foo() : int
 {
 	def var res:int = 42;
 	while(res > 1) {

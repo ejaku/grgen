@@ -1,6 +1,6 @@
 using model_init;
 
-func(-e:E1->) : Edge
+function func(-e:E1->) : Edge
 {
 	return(e);
 }

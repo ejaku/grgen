@@ -1,6 +1,6 @@
 using model_init;
 
-func() : boolean
+function func() : boolean
 {
 	return;
 }

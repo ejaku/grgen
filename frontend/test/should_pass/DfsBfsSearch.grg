@@ -3,7 +3,7 @@ using DfsBfsSearchModel;
 var ::foundInCall:boolean;
 var ::ctr:int;
 
-earlyOutCondition() : boolean
+function earlyOutCondition() : boolean
 {
 	ctr = ctr + 1;
 	if(ctr%2 == 0) {
@@ -13,13 +13,13 @@ earlyOutCondition() : boolean
 	}
 }
 
-foundCondition() : boolean
+function foundCondition() : boolean
 {
 	return(false);
 }
 
 // bfs with a queue (could assign bfs number when putting to queue, saving the visited flag)
-BreadthFirstSearch(root:WalkOrder) : (boolean)
+procedure BreadthFirstSearch(root:WalkOrder) : (boolean)
 {
 	def ref d:deque<WalkOrder> = deque<WalkOrder>][;
 	def var vis:int;
@@ -60,7 +60,7 @@ BreadthFirstSearch(root:WalkOrder) : (boolean)
 }
 
 // dfs with a stack (must assign dfs number when removing from stack, so we need a visited flag or an O(n) search on the stack)
-DepthFirstSearch(root:WalkOrder) : (boolean)
+procedure DepthFirstSearch(root:WalkOrder) : (boolean)
 {
 	def ref a:array<WalkOrder> = array<WalkOrder>[];
 	def var vis:int;
@@ -101,7 +101,7 @@ DepthFirstSearch(root:WalkOrder) : (boolean)
 }
 
 // dfs with implicit call stack (could replace visited flag by checking num for != -1)
-DepthFirstSearchCall(root:WalkOrder, var num:int, var vis:int) : (int)
+procedure DepthFirstSearchCall(root:WalkOrder, var num:int, var vis:int) : (int)
 {
 	root.visited[vis] = true;
 	root.num = num;

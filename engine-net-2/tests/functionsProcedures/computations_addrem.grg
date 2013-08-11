@@ -1,6 +1,6 @@
 using model_init;
 
-padd : (Node,A,Edge,E1)
+procedure padd : (Node,A,Edge,E1)
 {
 	(def nn:Node) = add(Node);
 	(def na:A) = add(A);
@@ -10,7 +10,7 @@ padd : (Node,A,Edge,E1)
 	return(nn,na,ee,ee1);
 }
 
-changeAttributes(na:A, -ee1:E1->)
+procedure changeAttributes(na:A, -ee1:E1->)
 {
 	na.s = "Changed!";
 	ee1.i1 = 42;
@@ -27,7 +27,7 @@ test matchforcopy : (Node,A,Edge,E1)
 	return(nn,na,ee,ee1);
 }
 
-paddcopy : (Node,A,Edge,E1)
+procedure paddcopy : (Node,A,Edge,E1)
 {
 	def nn:Node;
 	def na:A;
@@ -43,14 +43,14 @@ paddcopy : (Node,A,Edge,E1)
 	return(nnc,nac,eec,ee1c);
 }
 
-premedges(-ee:Edge->, -ee1:E1->)
+procedure premedges(-ee:Edge->, -ee1:E1->)
 {
 	rem(ee);
 	rem(ee1);
 	return;
 }
 
-premnodes(nn:Node, na:A)
+procedure premnodes(nn:Node, na:A)
 {
 	rem(nn);
 	rem(na);

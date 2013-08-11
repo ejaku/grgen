@@ -1,4 +1,4 @@
-foo() : boolean
+function foo() : boolean
 {
 	if(true) {
 		break;

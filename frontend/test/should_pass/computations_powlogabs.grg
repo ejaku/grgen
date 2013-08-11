@@ -1,4 +1,4 @@
-foo() : double
+function foo() : double
 {
 	def var temp1:double = pow(1.0, 1.0);
 	def var temp1b:double = pow(1.0);

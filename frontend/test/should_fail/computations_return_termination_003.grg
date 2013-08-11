@@ -1,6 +1,6 @@
 var ::glob:int;
 
-none()
+procedure none()
 {
 	def var x:int = 42;
 }
