@@ -15,7 +15,7 @@ Registers a new attribute type with \GrG. You may declare the base types of the 
 %-----------------------------------------------------------------------------------------------
 \section{External Function Types}\label{sub:extfct}
 \begin{rail}
-  ExternalFunctionDeclaration: IdentDecl '(' ( () | (Type + ',') ) ')' ':' Type ';';
+  ExternalFunctionDeclaration: 'function' IdentDecl '(' ( () | (Type + ',') ) ')' ':' Type ';';
 \end{rail}\ixnterm{ExternalFunctionDeclaration}
 Registers an \indexed{external function} with \GrG~to be used in attribute computations.
 An external function declaration specifies the expected input types and the output type. The function must be implemented externally, see \ref{sub:extclsfctimpl}.
@@ -25,7 +25,7 @@ You may extend \GrG~with external functions if the built-in attribute computatio
 %-----------------------------------------------------------------------------------------------
 \section{External Procedure Types}\label{sub:extproc}
 \begin{rail}
-  ExternalProcedureDeclaration: IdentDecl '(' ( () | (Type + ',') ) ')' ( ':' '(' (Type + ',') ')' )? ';';
+  ExternalProcedureDeclaration: 'procedure' IdentDecl '(' ( () | (Type + ',') ) ')' \\ ( ':' '(' (Type + ',') ')' )? ';';
 \end{rail}\ixnterm{ExternalProcedureDeclaration}
 Registers an \indexed{external procedure} with \GrG~to be used in attribute computations.
 An external procedure declaration specifies the expected input types and the output types. The procedure must be implemented externally, see \ref{sub:extclsfctimpl}.

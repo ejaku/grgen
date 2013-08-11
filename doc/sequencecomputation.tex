@@ -12,7 +12,7 @@ In this chapter we'll have a look at sequence computations, which are not concer
 \end{rail}\ixnterm{RewriteFactor}
 
 The non-computational constructs introduced before are used for executing rules, to determine which rule to execute next depending on success and failure of the previous rule applications, and where to apply it next by transmitting atomic variables of node or edge type in between the rules.
-Sequence computations in contrast are used for manipulating complex valued variables, evaluating computational expressions, or for causing side effects like output or element markings.
+Sequence computations in contrast are used for manipulating container variables, evaluating computational expressions, or for causing side effects like output or element markings.
 The computation will return a boolean value by comparing the return value of the compound computation to the default value of the corresponding type, and returning false if equal, or true if unequal; a computation without a return value always returns true.
 So just using a boolean variable as computation returns the value of the variable.
 A prepended \texttt{\%} attaches a \indexed{break point} to the computation.

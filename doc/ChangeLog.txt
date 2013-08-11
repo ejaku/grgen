@@ -1,4 +1,16 @@
-﻿v4.0 (2013-07-29)
+﻿v4.0.1 (2013-08-12)
+ More consistent and easier readable function/procedure definitions:
+ - function or external function declarations must start with the "function" keyword now
+ - procedure or external procedure declarations must start with the "procedure" keyword now
+
+ Bugfixes:
+ - completed support for the for(x:T in nodes(S)/edges(S)) loop,
+   esp. handling of S != T, missing support for for-function loops in the debugger 
+ - fixed bug regarding function calls in execs in the rules
+ - fixed bug regarding omission of execution of yielding statements
+   when only ref containers are used
+
+v4.0 (2013-07-29)
  Subgraph support regarding built-in functionality completed:
  - The debugger now listens to graph switch events,
    prints out notifications on a switch and changes display to the new graph focused
