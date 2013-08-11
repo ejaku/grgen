@@ -2284,8 +2284,8 @@ textTypes returns [ ModelNode model = null ]
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
 			model = new ModelNode(id, types, externalFuncs, externalProcs, modelChilds,
-				specialClasses.isEmitClassDefined, specialClasses.isCopyClassDefined, 
-				specialClasses.isEqualClassDefined, specialClasses.isLowerClassDefined);
+				$specialClasses.isEmitClassDefined, $specialClasses.isCopyClassDefined, 
+				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined);
 		}
 	;
 
@@ -3061,7 +3061,7 @@ options { k = 5; }
 	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
 			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
-		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )? SEMI
+		e=expr[false] ( at=assignTo { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
 			{ res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged); }
 			{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
@@ -3069,7 +3069,7 @@ options { k = 5; }
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
 			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
-		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )? SEMI
+		e=expr[false] ( at=assignTo { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
 			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, yielded), cat, e, ccat, tgtChanged); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
 	|
@@ -3104,7 +3104,7 @@ options { k = 5; }
 	  WHILE LPAREN e=expr[false] RPAREN
 			{ res=new DoWhileStatementNode(getCoords(d), cs, e); }
 	|
-	  (l=LPAREN tgts=targets[getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = tgts.tgtProjs; targets = tgts.tgts; } )? 
+	  (l=LPAREN tgts=targets[getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
 		(i=IDENT | i=EMIT) params=paramExprs[false] SEMI
 			{ 
 				if(	i.getText().equals("valloc") && params.getChildren().size()==0
