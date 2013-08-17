@@ -389,9 +389,9 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
-            sourceCode.Append(".Add(");
+            sourceCode.Append("[");
             Right.Emit(sourceCode);
-            sourceCode.Append(", null)");
+            sourceCode.Append("] = null");
             sourceCode.Append(";\n");
         }
     }
@@ -415,11 +415,10 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
-            sourceCode.Append(".Add(");
+            sourceCode.Append("[");
             Right.Emit(sourceCode);
-            sourceCode.Append(", ");
+            sourceCode.Append("] = ");
             Value.Emit(sourceCode);
-            sourceCode.Append(")");
             sourceCode.Append(";\n");
         }
 
