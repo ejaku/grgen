@@ -1,0 +1,75 @@
+new graph "computations/computations_adjacent"
+
+exec (::start, ::left, ::leftEdge, ::right, ::rightEdge, ::start2)=init
+
+exec tadj(::start)
+exec ::adj=set<Node>{} ;> ::adjEE=set<Node>{} ;> ::adjEEA=set<Node>{} ;> ::adjOut=set<Node>{} ;> ::adjOutEE=set<Node>{} ;> ::adjInEdgeA=set<Node>{} ;> ::adjInEEA=set<Node>{}\
+;> ::aadj=set<Node>{} ;> ::aadjEE=set<Node>{} ;> ::aadjEEA=set<Node>{} ;> ::aadjOut=set<Node>{} ;> ::aadjOutEE=set<Node>{} ;> ::aadjInEdgeA=set<Node>{} ;> ::aadjInEEA=set<Node>{}\
+;> ::adj2=set<Node>{} ;> ::adjInc2=set<Node>{} ;> ::adjOut2=set<Node>{} ;> ::aadj2=set<Node>{} ;> ::aadjInc2=set<Node>{} ;> ::aadjOut2=set<Node>{} 
+
+exec (::isAdjOut, ::isAdjIn, ::isAdj, ::iisAdjOut, ::iisAdjIn, ::iisAdj)=radjloop(::adj, ::adjEE, ::adjEEA, ::adjOut, ::adjOutEE, ::adjInEdgeA, ::adjInEEA, ::aadj, ::aadjEE, ::aadjEEA, ::aadjOut, ::aadjOutEE, ::aadjInEdgeA, ::aadjInEEA, ::adj2, ::adjInc2, ::adjOut2, ::aadj2, ::aadjInc2, ::aadjOut2, ::start, ::left, ::right, ::start2)
+show var adj
+show var adjEE
+show var adjEEA
+show var adjOut
+show var adjOutEE
+show var adjInEdgeA
+show var adjInEEA
+show var aadj
+show var aadjEE
+show var aadjEEA
+show var aadjOut
+show var aadjOutEE
+show var aadjInEdgeA
+show var aadjInEEA
+show var adj2
+show var adjInc2
+show var adjOut2
+show var aadj2
+show var aadjInc2
+show var aadjOut2
+
+show var isAdjOut
+show var isAdjIn
+show var isAdj
+show var iisAdjOut
+show var iisAdjIn
+show var iisAdj
+
+exec link(::start, ::start2)
+
+exec tadj(::start)
+exec ::adj=set<Node>{} ;> ::adjEE=set<Node>{} ;> ::adjEEA=set<Node>{} ;> ::adjOut=set<Node>{} ;> ::adjOutEE=set<Node>{} ;> ::adjInEdgeA=set<Node>{} ;> ::adjInEEA=set<Node>{}\
+;> ::aadj=set<Node>{} ;> ::aadjEE=set<Node>{} ;> ::aadjEEA=set<Node>{} ;> ::aadjOut=set<Node>{} ;> ::aadjOutEE=set<Node>{} ;> ::aadjInEdgeA=set<Node>{} ;> ::aadjInEEA=set<Node>{}\
+;> ::adj2=set<Node>{} ;> ::adjInc2=set<Node>{} ;> ::adjOut2=set<Node>{} ;> ::aadj2=set<Node>{} ;> ::aadjInc2=set<Node>{} ;> ::aadjOut2=set<Node>{} 
+exec (::isAdjOut, ::isAdjIn, ::isAdj, ::iisAdjOut, ::iisAdjIn, ::iisAdj)=radjloop(::adj, ::adjEE, ::adjEEA, ::adjOut, ::adjOutEE, ::adjInEdgeA, ::adjInEEA, ::aadj, ::aadjEE, ::aadjEEA, ::aadjOut, ::aadjOutEE, ::aadjInEdgeA, ::aadjInEEA, ::adj2, ::adjInc2, ::adjOut2, ::aadj2, ::aadjInc2, ::aadjOut2, ::start, ::left, ::right, ::start2)
+
+show var adj
+show var adjEE
+show var adjEEA
+show var adjOut
+show var adjOutEE
+show var adjInEdgeA
+show var adjInEEA
+show var aadj
+show var aadjEE
+show var aadjEEA
+show var aadjOut
+show var aadjOutEE
+show var aadjInEdgeA
+show var aadjInEEA
+show var adj2
+show var adjInc2
+show var adjOut2
+show var aadj2
+show var aadjInc2
+show var aadjOut2
+
+show var isAdjOut
+show var isAdjIn
+show var isAdj
+show var iisAdjOut
+show var iisAdjIn
+show var iisAdj
+
+quit

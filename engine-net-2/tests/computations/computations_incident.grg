@@ -1,0 +1,234 @@
+using model_init;
+
+rule init : (A, A, Edge, A, Edge, Node, Edge)
+{
+	modify {
+		start:A --> :A;
+		start -rightEdge:EE-> right:A -:EE-> :A;
+		start -:EE-> .;
+		. --> :A --> start;
+		left:A -leftEdge:EE-> start;
+		:Node -:EE-> start; 
+
+		start2:Node -selfEdge:Edge-> start2;
+		
+		return(start, left, leftEdge, right, rightEdge, start2, selfEdge);
+	}
+}
+
+rule link(start:A, start2:Node) : (Edge)
+{
+	modify {
+		start -e:Edge-> start2;
+		return(e);
+	}
+}
+
+rule unlink(start:A, start2:Node)
+{
+	start -e:Edge-> start2;
+	modify {
+		delete(e);
+	}
+}
+
+test tinc(start:A, start2:Node)
+{
+	if { incident(start).size() == outgoing(start).size() + incoming(start).size(); }
+	if { outgoing(start).size() == outgoing(start, EE).size() + outgoing(start, EE, A).size(); }
+	if { incoming(start).size() == incoming(start, EE).size() + incoming(start, EE, A).size(); }
+}
+
+rule rinc(ref inc:set<Edge>, ref incEE:set<Edge>, ref incEEA:set<Edge>, ref incOut:set<Edge>, ref incOutEE:set<Edge>, ref incInEdgeA:set<Edge>, ref incInEEA:set<Edge>,
+			ref iinc:set<Edge>, ref iincEE:set<Edge>, ref iincEEA:set<Edge>, ref iincOut:set<Edge>, ref iincOutEE:set<Edge>, ref iincInEdgeA:set<Edge>, ref iincInEEA:set<Edge>,
+			ref inc2:set<Edge>, ref incInc2:set<Edge>, ref incOut2:set<Edge>, ref iinc2:set<Edge>, ref iincInc2:set<Edge>, ref iincOut2:set<Edge>,
+			start:A, -leftEdge:Edge->, -rightEdge:Edge->, start2:Node, -start2Edge:Edge->) : (boolean,boolean,boolean,boolean,boolean,boolean)
+{
+	def var isincOut:boolean;
+	def var isincIn:boolean;
+	def var isinc:boolean;
+	yield {
+		def ref _inc:set<Edge> = incident(start);
+		def ref _incEE:set<Edge> = incident(start,EE);
+		def ref _incEEA:set<Edge> = incident(start,EE,A);
+		def ref _incOut:set<Edge> = outgoing(start);
+		def ref _incOutEE:set<Edge> = outgoing(start,EE);
+		def ref _incInEdgeA:set<Edge> = incoming(start,Edge,A);
+		def ref _incInEEA:set<Edge> = incoming(start,EE,A);
+		def ref _inc2:set<Edge> = incident(start2);
+		def ref _incInc2:set<Edge> = incoming(start2);
+		def ref _incOut2:set<Edge> = outgoing(start2);
+		for(el:Edge in _inc) {
+			inc.add(el);
+		}
+		for(el:Edge in _incEE) {
+			incEE.add(el);
+		}
+		for(el:Edge in _incEEA) {
+			incEEA.add(el);
+		}
+		for(el:Edge in _incOut) {
+			incOut.add(el);
+		}
+		for(el:Edge in _incOutEE) {
+			incOutEE.add(el);
+		}
+		for(el:Edge in _incInEdgeA) {
+			incInEdgeA.add(el);
+		}
+		for(el:Edge in _incInEEA) {
+			incInEEA.add(el);
+		}
+		for(el:Edge in _inc2) {
+			inc2.add(el);
+		}
+		for(el:Edge in _incInc2) {
+			incInc2.add(el);
+		}
+		for(el:Edge in _incOut2) {
+			incOut2.add(el);
+		}
+		yield isincOut = isOutgoing(start, rightEdge, EE);
+		yield isincIn = isIncoming(start, leftEdge, EE);
+		yield isinc = isIncident(start, start2Edge);
+	}
+	
+	modify {
+		def var iisincOut:boolean;
+		def var iisincIn:boolean;
+		def var iisinc:boolean;
+		eval {
+			def ref _iinc:set<Edge> = incident(start);
+			def ref _iincEE:set<Edge> = incident(start,EE);
+			def ref _iincEEA:set<Edge> = incident(start,EE,A);
+			def ref _iincOut:set<Edge> = outgoing(start);
+			def ref _iincOutEE:set<Edge> = outgoing(start,EE);
+			def ref _iincInEdgeA:set<Edge> = incoming(start,Edge,A);
+			def ref _iincInEEA:set<Edge> = incoming(start,EE,A);
+			def ref _iinc2:set<Edge> = incident(start2);
+			def ref _iincInc2:set<Edge> = incoming(start2);
+			def ref _iincOut2:set<Edge> = outgoing(start2);
+			for(el:Edge in _iinc) {
+				iinc.add(el);
+			}
+			for(el:Edge in _iincEE) {
+				iincEE.add(el);
+			}
+			for(el:Edge in _iincEEA) {
+				iincEEA.add(el);
+			}
+			for(el:Edge in _iincOut) {
+				iincOut.add(el);
+			}
+			for(el:Edge in _iincOutEE) {
+				iincOutEE.add(el);
+			}
+			for(el:Edge in _iincInEdgeA) {
+				iincInEdgeA.add(el);
+			}
+			for(el:Edge in _iincInEEA) {
+				iincInEEA.add(el);
+			}
+			for(el:Edge in _iinc2) {
+				iinc2.add(el);
+			}
+			for(el:Edge in _iincInc2) {
+				iincInc2.add(el);
+			}
+			for(el:Edge in _iincOut2) {
+				iincOut2.add(el);
+			}
+			yield iisincOut = isOutgoing(start, rightEdge, EE);
+			yield iisincIn = isIncoming(start, leftEdge, EE);
+			yield iisinc = isIncident(start, start2Edge);
+		}
+		return(isincOut, isincIn, isinc, iisincOut, iisincIn, iisinc);
+	}
+}
+
+rule rincloop(ref inc:set<Edge>, ref incEE:set<Edge>, ref incEEA:set<Edge>, ref incOut:set<Edge>, ref incOutEE:set<Edge>, ref incInEdgeA:set<Edge>, ref incInEEA:set<Edge>,
+			ref iinc:set<Edge>, ref iincEE:set<Edge>, ref iincEEA:set<Edge>, ref iincOut:set<Edge>, ref iincOutEE:set<Edge>, ref iincInEdgeA:set<Edge>, ref iincInEEA:set<Edge>,
+			ref inc2:set<Edge>, ref incInc2:set<Edge>, ref incOut2:set<Edge>, ref iinc2:set<Edge>, ref iincInc2:set<Edge>, ref iincOut2:set<Edge>,
+			start:A, -leftEdge:Edge->, -rightEdge:Edge->, start2:Node, -start2Edge:Edge->) : (boolean,boolean,boolean,boolean,boolean,boolean)
+{
+	def var isincOut:boolean;
+	def var isincIn:boolean;
+	def var isinc:boolean;
+	yield {
+		for(el:Edge in incident(start)) {
+			inc.add(el);
+		}
+		for(el:Edge in incident(start,EE)) {
+			incEE.add(el);
+		}
+		for(el:Edge in incident(start,EE,A)) {
+			incEEA.add(el);
+		}
+		for(el:Edge in outgoing(start)) {
+			incOut.add(el);
+		}
+		for(el:Edge in outgoing(start,EE)) {
+			incOutEE.add(el);
+		}
+		for(el:Edge in incoming(start,Edge,A)) {
+			incInEdgeA.add(el);
+		}
+		for(el:Edge in incoming(start,EE,A)) {
+			incInEEA.add(el);
+		}
+		for(el:Edge in incident(start2)) {
+			inc2.add(el);
+		}
+		for(el:Edge in incoming(start2)) {
+			incInc2.add(el);
+		}
+		for(el:Edge in outgoing(start2)) {
+			incOut2.add(el);
+		}
+		yield isincOut = isOutgoing(start, rightEdge, EE);
+		yield isincIn = isIncoming(start, leftEdge, EE);
+		yield isinc = isIncident(start, start2Edge);
+	}
+	
+	modify {
+		def var iisincOut:boolean;
+		def var iisincIn:boolean;
+		def var iisinc:boolean;
+		eval {
+			for(el:Edge in incident(start)) {
+				iinc.add(el);
+			}
+			for(el:Edge in incident(start,EE)) {
+				iincEE.add(el);
+			}
+			for(el:Edge in incident(start,EE,A)) {
+				iincEEA.add(el);
+			}
+			for(el:Edge in outgoing(start)) {
+				iincOut.add(el);
+			}
+			for(el:Edge in outgoing(start,EE)) {
+				iincOutEE.add(el);
+			}
+			for(el:Edge in incoming(start,Edge,A)) {
+				iincInEdgeA.add(el);
+			}
+			for(el:Edge in incoming(start,EE,A)) {
+				iincInEEA.add(el);
+			}
+			for(el:Edge in incident(start2)) {
+				iinc2.add(el);
+			}
+			for(el:Edge in incoming(start2)) {
+				iincInc2.add(el);
+			}
+			for(el:Edge in outgoing(start2)) {
+				iincOut2.add(el);
+			}
+			yield iisincOut = isOutgoing(start, rightEdge, EE);
+			yield iisincIn = isIncoming(start, leftEdge, EE);
+			yield iisinc = isIncident(start, start2Edge);
+		}
+		return(isincOut, isincIn, isinc, iisincOut, iisincIn, iisinc);
+	}
+}

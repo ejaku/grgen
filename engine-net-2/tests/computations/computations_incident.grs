@@ -1,0 +1,75 @@
+new graph "computations/computations_incident"
+
+exec (::start, ::left, ::leftEdge, ::right, ::rightEdge, ::start2, ::start2Edge)=init
+
+exec tinc(::start, ::start2)
+exec ::inc=set<Edge>{} ;> ::incEE=set<Edge>{} ;> ::incEEA=set<Edge>{} ;> ::incOut=set<Edge>{} ;> ::incOutEE=set<Edge>{} ;> ::incInEdgeA=set<Edge>{} ;> ::incInEEA=set<Edge>{}\
+;> ::iinc=set<Edge>{} ;> ::iincEE=set<Edge>{} ;> ::iincEEA=set<Edge>{} ;> ::iincOut=set<Edge>{} ;> ::iincOutEE=set<Edge>{} ;> ::iincInEdgeA=set<Edge>{} ;> ::iincInEEA=set<Edge>{}\
+;> ::inc2=set<Edge>{} ;> ::incInc2=set<Edge>{} ;> ::incOut2=set<Edge>{} ;> ::iinc2=set<Edge>{} ;> ::iincInc2=set<Edge>{} ;> ::iincOut2=set<Edge>{} 
+
+exec (::isIncOut, ::isIncIn, ::isInc, ::iisIncOut, ::iisIncIn, ::iisInc)=rinc(::inc, ::incEE, ::incEEA, ::incOut, ::incOutEE, ::incInEdgeA, ::incInEEA, ::iinc, ::iincEE, ::iincEEA, ::iincOut, ::iincOutEE, ::iincInEdgeA, ::iincInEEA, ::inc2, ::incInc2, ::incOut2, ::iinc2, ::iincInc2, ::iincOut2, ::start, ::leftEdge, ::rightEdge, ::start2, ::start2Edge)
+show var inc
+show var incEE
+show var incEEA
+show var incOut
+show var incOutEE
+show var incInEdgeA
+show var incInEEA
+show var iinc
+show var iincEE
+show var iincEEA
+show var iincOut
+show var iincOutEE
+show var iincInEdgeA
+show var iincInEEA
+show var inc2
+show var incInc2
+show var incOut2
+show var iinc2
+show var iincInc2
+show var iincOut2
+
+show var isIncOut
+show var isIncIn
+show var isInc
+show var iisIncOut
+show var iisIncIn
+show var iisInc
+
+exec (::start2Edge)=link(::start, ::start2)
+
+exec tinc(::start, ::start2)
+exec ::inc=set<Edge>{} ;> ::incEE=set<Edge>{} ;> ::incEEA=set<Edge>{} ;> ::incOut=set<Edge>{} ;> ::incOutEE=set<Edge>{} ;> ::incInEdgeA=set<Edge>{} ;> ::incInEEA=set<Edge>{}\
+;> ::iinc=set<Edge>{} ;> ::iincEE=set<Edge>{} ;> ::iincEEA=set<Edge>{} ;> ::iincOut=set<Edge>{} ;> ::iincOutEE=set<Edge>{} ;> ::iincInEdgeA=set<Edge>{} ;> ::iincInEEA=set<Edge>{}\
+;> ::inc2=set<Edge>{} ;> ::incInc2=set<Edge>{} ;> ::incOut2=set<Edge>{} ;> ::iinc2=set<Edge>{} ;> ::iincInc2=set<Edge>{} ;> ::iincOut2=set<Edge>{} 
+exec (::isIncOut, ::isIncIn, ::isInc, ::iisIncOut, ::iisIncIn, ::iisInc)=rinc(::inc, ::incEE, ::incEEA, ::incOut, ::incOutEE, ::incInEdgeA, ::incInEEA, ::iinc, ::iincEE, ::iincEEA, ::iincOut, ::iincOutEE, ::iincInEdgeA, ::iincInEEA, ::inc2, ::incInc2, ::incOut2, ::iinc2, ::iincInc2, ::iincOut2, ::start, ::leftEdge, ::rightEdge, ::start2, ::start2Edge)
+
+show var inc
+show var incEE
+show var incEEA
+show var incOut
+show var incOutEE
+show var incInEdgeA
+show var incInEEA
+show var iinc
+show var iincEE
+show var iincEEA
+show var iincOut
+show var iincOutEE
+show var iincInEdgeA
+show var iincInEEA
+show var inc2
+show var incInc2
+show var incOut2
+show var iinc2
+show var iincInc2
+show var iincOut2
+
+show var isIncOut
+show var isIncIn
+show var isInc
+show var iisIncOut
+show var iisIncIn
+show var iisInc
+
+quit
