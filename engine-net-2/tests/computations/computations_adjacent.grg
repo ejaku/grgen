@@ -1,0 +1,235 @@
+using model_init;
+
+rule init : (A, A, Edge, A, Edge, Node)
+{
+	modify {
+		start:A --> :A;
+		start -rightEdge:EE-> right:A -:EE-> :A;
+		start -:EE-> .;
+		. --> :A --> start;
+		left:A -leftEdge:EE-> start;
+		:Node -:EE-> start; 
+
+		start2:Node --> start2;
+		
+		return(start, left, leftEdge, right, rightEdge, start2);
+	}
+}
+
+rule link(start:A, start2:Node) : (Edge)
+{
+	modify {
+		start -e:Edge-> start2;
+		return(e);
+	}
+}
+
+rule unlink(start:A, start2:Node)
+{
+	start -e:Edge-> start2;
+	modify {
+		delete(e);
+	}
+}
+
+test tadj(start:A)
+{
+	if { adjacent(start).size() == adjacentOutgoing(start).size() + adjacentIncoming(start).size(); }
+	if { adjacentOutgoing(start).size() == adjacentOutgoing(start, EE).size() + adjacentOutgoing(start, EE, A).size(); }
+	if { adjacentIncoming(start).size() == adjacentIncoming(start, EE).size() + adjacentIncoming(start, EE, A).size(); }
+}
+
+rule radj(ref adj:set<Node>, ref adjEE:set<Node>, ref adjEEA:set<Node>, ref adjOut:set<Node>, ref adjOutEE:set<Node>, ref adjInEdgeA:set<Node>, ref adjInEEA:set<Node>,
+			ref aadj:set<Node>, ref aadjEE:set<Node>, ref aadjEEA:set<Node>, ref aadjOut:set<Node>, ref aadjOutEE:set<Node>, ref aadjInEdgeA:set<Node>, ref aadjInEEA:set<Node>,
+			ref adj2:set<Node>, ref adjInc2:set<Node>, ref adjOut2:set<Node>, ref aadj2:set<Node>, ref aadjInc2:set<Node>, ref aadjOut2:set<Node>,
+			start:A, left:A, right:A, start2:Node) : (boolean,boolean,boolean,boolean,boolean,boolean)
+{
+	def var isAdjOut:boolean;
+	def var isAdjIn:boolean;
+	def var isAdj:boolean;
+	yield {
+		def ref _adj:set<Node> = adjacent(start);
+		def ref _adjEE:set<Node> = adjacent(start,EE);
+		def ref _adjEEA:set<Node> = adjacent(start,EE,A);
+		def ref _adjOut:set<Node> = adjacentOutgoing(start);
+		def ref _adjOutEE:set<Node> = adjacentOutgoing(start,EE);
+		def ref _adjInEdgeA:set<Node> = adjacentIncoming(start,Edge,A);
+		def ref _adjInEEA:set<Node> = adjacentIncoming(start,EE,A);
+		def ref _adj2:set<Node> = adjacent(start2);
+		def ref _adjInc2:set<Node> = adjacentIncoming(start2);
+		def ref _adjOut2:set<Node> = adjacentOutgoing(start2);
+		for(el:Node in _adj) {
+			adj.add(el);
+		}
+		for(el:Node in _adjEE) {
+			adjEE.add(el);
+		}
+		for(el:Node in _adjEEA) {
+			adjEEA.add(el);
+		}
+		for(el:Node in _adjOut) {
+			adjOut.add(el);
+		}
+		for(el:Node in _adjOutEE) {
+			adjOutEE.add(el);
+		}
+		for(el:Node in _adjInEdgeA) {
+			adjInEdgeA.add(el);
+		}
+		for(el:Node in _adjInEEA) {
+			adjInEEA.add(el);
+		}
+		for(el:Node in _adj2) {
+			adj2.add(el);
+		}
+		for(el:Node in _adjInc2) {
+			adjInc2.add(el);
+		}
+		for(el:Node in _adjOut2) {
+			adjOut2.add(el);
+		}
+		yield isAdjOut = isAdjacentOutgoing(start, right, EE);
+		yield isAdjIn = isAdjacentIncoming(start, left, EE);
+		yield isAdj = isAdjacent(start, start2);
+	}
+	
+	modify {
+		def var iisAdjOut:boolean;
+		def var iisAdjIn:boolean;
+		def var iisAdj:boolean;
+		eval {
+			def ref _aadj:set<Node> = adjacent(start);
+			def ref _aadjEE:set<Node> = adjacent(start,EE);
+			def ref _aadjEEA:set<Node> = adjacent(start,EE,A);
+			def ref _aadjOut:set<Node> = adjacentOutgoing(start);
+			def ref _aadjOutEE:set<Node> = adjacentOutgoing(start,EE);
+			def ref _aadjInEdgeA:set<Node> = adjacentIncoming(start,Edge,A);
+			def ref _aadjInEEA:set<Node> = adjacentIncoming(start,EE,A);
+			def ref _aadj2:set<Node> = adjacent(start2);
+			def ref _aadjInc2:set<Node> = adjacentIncoming(start2);
+			def ref _aadjOut2:set<Node> = adjacentOutgoing(start2);
+			for(el:Node in _aadj) {
+				aadj.add(el);
+			}
+			for(el:Node in _aadjEE) {
+				aadjEE.add(el);
+			}
+			for(el:Node in _aadjEEA) {
+				aadjEEA.add(el);
+			}
+			for(el:Node in _aadjOut) {
+				aadjOut.add(el);
+			}
+			for(el:Node in _aadjOutEE) {
+				aadjOutEE.add(el);
+			}
+			for(el:Node in _aadjInEdgeA) {
+				aadjInEdgeA.add(el);
+			}
+			for(el:Node in _aadjInEEA) {
+				aadjInEEA.add(el);
+			}
+			for(el:Node in _aadj2) {
+				aadj2.add(el);
+			}
+			for(el:Node in _aadjInc2) {
+				aadjInc2.add(el);
+			}
+			for(el:Node in _aadjOut2) {
+				aadjOut2.add(el);
+			}
+			yield iisAdjOut = isAdjacentOutgoing(start, right, EE);
+			yield iisAdjIn = isAdjacentIncoming(start, left, EE);
+			yield iisAdj = isAdjacent(start, start2);
+		}
+		return(isAdjOut, isAdjIn, isAdj, iisAdjOut, iisAdjIn, iisAdj);
+	}
+}
+
+rule radjloop(ref adj:set<Node>, ref adjEE:set<Node>, ref adjEEA:set<Node>, ref adjOut:set<Node>, ref adjOutEE:set<Node>, ref adjInEdgeA:set<Node>, ref adjInEEA:set<Node>,
+			ref aadj:set<Node>, ref aadjEE:set<Node>, ref aadjEEA:set<Node>, ref aadjOut:set<Node>, ref aadjOutEE:set<Node>, ref aadjInEdgeA:set<Node>, ref aadjInEEA:set<Node>,
+			ref adj2:set<Node>, ref adjInc2:set<Node>, ref adjOut2:set<Node>, ref aadj2:set<Node>, ref aadjInc2:set<Node>, ref aadjOut2:set<Node>,
+			start:A, left:A, right:A, start2:Node) : (boolean,boolean,boolean,boolean,boolean,boolean)
+{
+	def var isAdjOut:boolean;
+	def var isAdjIn:boolean;
+	def var isAdj:boolean;
+	yield {
+		for(el:Node in adjacent(start)) {
+			adj.add(el);
+		}
+		for(el:Node in adjacent(start,EE)) {
+			adjEE.add(el);
+		}
+		for(el:Node in adjacent(start,EE,A)) {
+			adjEEA.add(el);
+		}
+		for(el:Node in adjacentOutgoing(start)) {
+			adjOut.add(el);
+		}
+		for(el:Node in adjacentOutgoing(start,EE)) {
+			adjOutEE.add(el);
+		}
+		for(el:Node in adjacentIncoming(start,Edge,A)) {
+			adjInEdgeA.add(el);
+		}
+		for(el:Node in adjacentIncoming(start,EE,A)) {
+			adjInEEA.add(el);
+		}
+		for(el:Node in adjacent(start2)) {
+			adj2.add(el);
+		}
+		for(el:Node in adjacentIncoming(start2)) {
+			adjInc2.add(el);
+		}
+		for(el:Node in adjacentOutgoing(start2)) {
+			adjOut2.add(el);
+		}
+		yield isAdjOut = isAdjacentOutgoing(start, right, EE);
+		yield isAdjIn = isAdjacentIncoming(start, left, EE);
+		yield isAdj = isAdjacent(start, start2);
+	}
+	
+	modify {
+		def var iisAdjOut:boolean;
+		def var iisAdjIn:boolean;
+		def var iisAdj:boolean;
+		eval {
+			for(el:Node in adjacent(start)) {
+				aadj.add(el);
+			}
+			for(el:Node in adjacent(start,EE)) {
+				aadjEE.add(el);
+			}
+			for(el:Node in adjacent(start,EE,A)) {
+				aadjEEA.add(el);
+			}
+			for(el:Node in adjacentOutgoing(start)) {
+				aadjOut.add(el);
+			}
+			for(el:Node in adjacentOutgoing(start,EE)) {
+				aadjOutEE.add(el);
+			}
+			for(el:Node in adjacentIncoming(start,Edge,A)) {
+				aadjInEdgeA.add(el);
+			}
+			for(el:Node in adjacentIncoming(start,EE,A)) {
+				aadjInEEA.add(el);
+			}
+			for(el:Node in adjacent(start2)) {
+				aadj2.add(el);
+			}
+			for(el:Node in adjacentIncoming(start2)) {
+				aadjInc2.add(el);
+			}
+			for(el:Node in adjacentOutgoing(start2)) {
+				aadjOut2.add(el);
+			}
+			yield iisAdjOut = isAdjacentOutgoing(start, right, EE);
+			yield iisAdjIn = isAdjacentIncoming(start, left, EE);
+			yield iisAdj = isAdjacent(start, start2);
+		}
+		return(isAdjOut, isAdjIn, isAdj, iisAdjOut, iisAdjIn, iisAdj);
+	}
+}
+
